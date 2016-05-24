@@ -1,10 +1,13 @@
+import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
+
+
 const darkColor = '#2e4048';
 const midColor = '#43565e';
 
-export default class BackgroundRenderer {
+export default class BackgroundRenderer extends BasicRenderer {
 
-  constructor(buffer, height) {
-    this.buffer = buffer;
+  constructor(backBuffer, scale, height) {
+    super(backBuffer, scale);
 
     this.height = height;
     this.width = 0;
@@ -15,14 +18,15 @@ export default class BackgroundRenderer {
   }
 
   draw() {
-    const buffer = this.buffer;
+    const buffer = this.backBuffer;
+    const width = this.width;
 
     buffer.fillStyle = darkColor;
-    buffer.fillRect(0, 0, this.width, this.height);
+    buffer.fillRect(0, 0, width, this.height);
 
     buffer.fillStyle = midColor;
-    buffer.fillRect(0, 40, this.width, 40);
-    buffer.fillRect(0, 81, this.width, 40);
-    buffer.fillRect(0, 122, this.width, 40);
+    buffer.fillRect(0, 40, width, 40);
+    buffer.fillRect(0, 81, width, 40);
+    buffer.fillRect(0, 122, width, 40);
   }
 }

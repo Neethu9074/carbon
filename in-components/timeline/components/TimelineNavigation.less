@@ -9,10 +9,15 @@
   width: @width;
   min-width: @width;
   padding: 0 15px;
+  position: relative;
 
   &__icon-zoom {
     color: @light;
     font-size: 1.8rem;
+
+    &:hover {
+      color: #fff;
+    }
   }
 
   &__slider {
@@ -26,7 +31,7 @@
     }
 
     &::-webkit-slider-runnable-track {
-      height: 2px;
+      height: 4px;
       cursor: pointer;
       background: @dark;
     }

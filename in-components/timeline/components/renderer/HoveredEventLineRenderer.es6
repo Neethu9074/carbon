@@ -1,14 +1,15 @@
+import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import {getColorForEventAtFocusedMoment} from 'in-stores/events';
 import * as issueTracker from 'in-services/issueTracker';
 
 
-export default class HoveredEventLineRenderer {
+export default class HoveredEventLineRenderer extends BasicRenderer {
 
-  constructor(buffer, scale) {
+  constructor(backBuffer, scale) {
+    super(backBuffer, scale);
+
     this.highlightedEvent = null;
-    this.buffer = buffer;
-    this.scale = scale;
     this.y = 0;
 
     this.focusedMoment = null;
@@ -44,13 +45,16 @@ export default class HoveredEventLineRenderer {
       this.scale.getRange(this.scale.getDomainTo()) :
       this.scale.getRange(event.get('end'));
 
-    this.buffer.globalAlpha = 0.2;
-    this.buffer.fillStyle = getColorForEventAtFocusedMoment(event, this.focusedMoment);
-    this.buffer.fillRect(x, this.y, to - x, 40);
-    this.buffer.globalAlpha = 1;
+    const buffer = this.backBuffer;
+    buffer.globalAlpha = 0.2;
+    buffer.fillStyle = getColorForEventAtFocusedMoment(event, this.focusedMoment);
+    buffer.fillRect(x, this.y, to - x, 40);
+    buffer.globalAlpha = 1;
   }
 
   dispose() {
+    super.dispose();
+
     this.focusedMomentSubscription.dispose();
   }
 }

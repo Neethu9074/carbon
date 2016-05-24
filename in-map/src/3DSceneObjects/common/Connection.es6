@@ -4,7 +4,7 @@ import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/physical/
 import eventBus from 'in-map/eventbus';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import SceneObjectWithSnapshot from './SceneObjectWithSnapshot';
+import SceneObject from './SceneObject';
 
 
 // this global array stores all connections to get a quick access to it when
@@ -16,7 +16,7 @@ export const DIRECTIONS = {
   OUT: 'out'
 };
 
-export default class Connection extends SceneObjectWithSnapshot {
+export default class Connection extends SceneObject {
 
   constructor({parent, entity, sourceNode, destinationNode, direction}) {
     super({parent, id: entity.get('id')});
@@ -54,11 +54,6 @@ export default class Connection extends SceneObjectWithSnapshot {
 
     // calculating the path
     let path = this.path = this.calculatePath(fromPos, toPos);
-    if (!path) {
-      // the path is undefined if fromPos === toPos
-      return [];
-    }
-
     this.calculateCollisionMesh(path);
 
     // postproduct the begining and the end lines to attach to the box's edges
@@ -73,8 +68,6 @@ export default class Connection extends SceneObjectWithSnapshot {
     }
     return flatPath;
   }
-
-  onSnapshotUpdated() {}
 
   getTooltipLine() {
     return renderConnectionLine(this);

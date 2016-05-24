@@ -13,11 +13,9 @@ export default class GroundLineMeshComponent extends LineMeshComponent {
 
   positionChanged(pos) {
     super.positionChanged({
-      newPosition: {
-        x: pos.newPosition.x - 0.5,
-        y: pos.newPosition.y,
-        z: pos.newPosition.z + 0.5
-      }
+      x: pos.x - 0.5,
+      y: pos.y,
+      z: pos.z + 0.5
     });
   }
 

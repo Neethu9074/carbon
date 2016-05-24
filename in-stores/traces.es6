@@ -1,10 +1,10 @@
 import {combineLatest} from 'reactive-observables';
 
 import createTotalTraceCountObservable from 'in-services/subscription/totalTraceCount';
-import {mutateUrl, navigationParameters} from 'in-stores/navigation';
+import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import createTracesObservable from 'in-services/subscription/traces';
 import createTraceObservable from 'in-services/subscription/trace';
-import {createStore, createTrackingStore} from 'in-stores/store';
+import {createTrackingStore} from 'in-stores/store';
 import {timeframe as timeframe$, focusedMoment$} from 'in-stores/timeline';
 import {alwaysNull} from 'in-services/fixedStreams';
 
@@ -27,11 +27,19 @@ export function getTraces(maxTimestamp, minTimestamp, sortByField, sortMode) {
  * Selected trace and trace id
  * ############################
  */
-const selectedTraceIdStore = createStore({
+const selectedTraceId$ = createTrackingStore({
   name: 'selectedTraceId',
-  initialValue: null
-});
-export const selectedTraceId = selectedTraceIdStore.observable.distinct();
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('traceId' in query) {
+        return decodeURIComponent(query.traceId);
+      }
+      return null;
+    })
+    .distinct()
+}).observable;
+export const selectedTraceId = selectedTraceId$;
 
 export const selectedTrace = createTrackingStore({
   name: 'selectedTrace',
@@ -70,11 +78,20 @@ export function clearTraceSelection() {
  * Selected span and span id
  * ############################
  */
-const selectedSpanIdStore = createStore({
+export const selectedSpanId$ = createTrackingStore({
   name: 'selectedSpanId',
-  initialValue: null
-});
-export const selectedSpanId$ = selectedSpanIdStore.observable.distinct();
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('spanId' in query) {
+        return decodeURIComponent(query.spanId);
+      }
+
+      return null;
+    })
+    .distinct()
+}).observable;
+
 
 export const selectedSpan$ = createTrackingStore({
   name: 'selectedSpan',
@@ -114,26 +131,3 @@ export function setSelectedSpanId(id) {
     });
   }
 }
-
-
-/**
- * ############################
- * Handling URI changes
- * ############################
- */
-navigationParameters.subscribe(navParams => {
-  const query = navParams.query;
-  if ('traceId' in query) {
-    const traceId = decodeURIComponent(query.traceId);
-    selectedTraceIdStore.applyStateMutation(() => traceId);
-  } else {
-    selectedTraceIdStore.applyStateMutation(() => null);
-  }
-
-  if ('spanId' in query) {
-    const spanId = decodeURIComponent(query.spanId);
-    selectedSpanIdStore.applyStateMutation(() => spanId);
-  } else {
-    selectedSpanIdStore.applyStateMutation(() => null);
-  }
-});

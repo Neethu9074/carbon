@@ -8,6 +8,7 @@ import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {activeMetric} from 'in-services/stores/metrics';
+import {clearSelectedEvent} from 'in-stores/events';
 import * as snapshotStore from 'in-stores/snapshot';
 import * as tracking from 'in-services/tracking';
 import {theme} from 'in-services/theme';
@@ -19,6 +20,7 @@ import './lib/ShaderPass';
 import './lib/RenderPass';
 import './lib/Octree';
 
+import FadeByDistanceSingleMeshFactory from './SingleMeshFactory/FadeByDistanceSingleMeshFactory';
 import SingleMeshGlyphPointsFactory from './SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
@@ -30,7 +32,6 @@ import * as time from './timeCalculations';
 import * as stores from './mapStores';
 
 
-const MAX_NODE_OPACITY = 0.6;
 let currentMetrics;
 
 export default class Scene {
@@ -140,28 +141,28 @@ export default class Scene {
 
     this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
 
-    this.groundSingleMeshFactory = new SingleMeshFactory({scene});
-    this.groundSingleMeshFactory.material.transparent = true;
-    this.groundSingleMeshFactory.material.opacity = 0.3;
+    this.groundSMF = new SingleMeshFactory({scene});
+    this.groundSMF.material.transparent = true;
+    this.groundSMF.material.opacity = 0.3;
 
-    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
+    this.highlightingSMF = new FadeByDistanceSingleMeshFactory({scene, renderOrder: 3});
 
-    this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
+    this.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory({scene, renderOrder: 3});
 
-    this.solidSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
-    this.solidSingleMeshFactory.material.opacity = 0.3;
+    this.solidSMF = new SingleMeshFactory({scene, renderOrder: 3});
+    this.solidSMF.material.opacity = 0.3;
 
-    this.layerSingleMeshFactory = new SingleMeshFactory({scene});
-    this.layerSingleMeshFactory.material.opacity = 0.3;
-    this.layerSingleMeshFactory.material.transparent = false;
-    this.layerSingleMeshFactory.material.color = new THREE.Color(0.85, 0.85, 0.85);
+    this.layerSMF = new SingleMeshFactory({scene});
+    this.layerSMF.material.opacity = 0.3;
+    this.layerSMF.material.transparent = false;
+    this.layerSMF.material.color = new THREE.Color(0.85, 0.85, 0.85);
 
-    this.lineFactory = new SingleMeshLineFactory({scene});
+    this.lineSMF = new SingleMeshLineFactory({scene});
 
     this.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory({scene});
 
-    this.baselineFactory = new SingleMeshLineFactory({scene});
-    this.baselineFactory.material.transparent = true;
+    this.baselineSMF = new SingleMeshLineFactory({scene});
+    this.baselineSMF.material.transparent = true;
 
     this.metricUpdateInterval = setInterval(() => {
       if (currentMetrics) {
@@ -171,14 +172,15 @@ export default class Scene {
   }
 
   updateFactories() {
-    this.highlightingSingleMeshFactory.rebuild();
     this.singleMeshGlyphPointsFactory.rebuild();
-    this.groundSingleMeshFactory.rebuild();
     this.singleMeshMetricFactory.rebuild();
-    this.layerSingleMeshFactory.rebuild();
-    this.solidSingleMeshFactory.rebuild();
-    this.singleMeshFactory.rebuild();
-    this.lineFactory.rebuild();
+    this.solidSMF.rebuild();
+    this.fadeByDistanceSMF.rebuild();
+    this.highlightingSMF.rebuild();
+    this.baselineSMF.rebuild();
+    this.groundSMF.rebuild();
+    this.layerSMF.rebuild();
+    this.lineSMF.rebuild();
 
     for (let i = this.octrees.length - 1; i >= 0; i--) {
       const octree = this.octrees[i];
@@ -286,22 +288,6 @@ export default class Scene {
     }
   }
 
-  updateMaterialsByZoomLevel(zoomLevel) {
-    const maxZoomIn = 60;
-    const maxZoomOut = 250;
-
-    // [1 - max out, 0 - max in]
-    let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
-    normedZoomLevel = Math.min(MAX_NODE_OPACITY, Math.max(0.1, normedZoomLevel));
-
-    this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
-
-    // if there is no cube isSelected, fade all cubes by distance
-    if (!this.hullsAreInactive) {
-      this.singleMeshFactory.material.opacity = normedZoomLevel;
-    }
-  }
-
   render() {
     const camera = this.mapHandler.getCurrentCamera();
 
@@ -326,21 +312,19 @@ export default class Scene {
 
   hideHulls() {
     this.hullsAreInactive = true;
-    this.singleMeshFactory.material.opacity = 0.3;
-    this.layerSingleMeshFactory.material.transparent = true;
-    this.layerSingleMeshFactory.material.depthWrite = false;
-    this.baselineFactory.material.opacity = 0.3;
-    this.solidSingleMeshFactory.material.transparent = true;
+    this.layerSMF.material.transparent = true;
+    this.layerSMF.material.depthWrite = false;
+    this.baselineSMF.material.opacity = 0.3;
+    this.solidSMF.material.transparent = true;
   }
 
   showHulls() {
     if (!currentMetrics) {
       this.hullsAreInactive = false;
-      this.layerSingleMeshFactory.material.transparent = false;
-      this.layerSingleMeshFactory.material.depthWrite = true;
-      this.baselineFactory.material.opacity = 1;
-      this.solidSingleMeshFactory.material.transparent = false;
-      this.updateMaterialsByZoomLevel(this.mapHandler.getCurrentZoomLevel());
+      this.layerSMF.material.transparent = false;
+      this.layerSMF.material.depthWrite = true;
+      this.baselineSMF.material.opacity = 1;
+      this.solidSMF.material.transparent = false;
     }
   }
 
@@ -442,9 +426,6 @@ export default class Scene {
   onZoom(event) {
     const zoomLevel = event.zoomLevel;
 
-    // update the opacity for the 3D elements
-    this.updateMaterialsByZoomLevel(zoomLevel);
-
     if (this.mapHandler) {
       this.mapHandler.onZoom(zoomLevel);
     }
@@ -469,6 +450,7 @@ export default class Scene {
   resetClicked() {
     clearSelectedSnapshotId();
     clearSelectedIncident();
+    clearSelectedEvent();
   }
 
   // is called by map
@@ -477,6 +459,7 @@ export default class Scene {
   clearStores() {
     clearSelectedSnapshotId();
     clearSelectedIncident();
+    clearSelectedEvent();
     stores.longClickedSceneObject.emit(null);
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);

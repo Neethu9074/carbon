@@ -15,7 +15,7 @@ export const TooltipShape = rpt.shape({
     y: rpt.number
   }),
   align: rpt.shape({
-    horizontal: rpt.oneOf(['left', 'right', 'auto']),
+    horizontal: rpt.oneOf(['left', 'right', 'middle', 'auto']),
     vertical: rpt.oneOf(['top', 'bottom', 'middle', 'auto'])
   })
 });

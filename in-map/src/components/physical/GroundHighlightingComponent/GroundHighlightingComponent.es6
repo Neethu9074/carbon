@@ -51,7 +51,7 @@ export default class GroundHighlightingComponent extends Component {
   }
 
 
-  positionChanged({newPosition}) {
+  positionChanged(newPosition) {
     this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
     this.needsUpdate = true;
   }
@@ -97,11 +97,11 @@ export default class GroundHighlightingComponent extends Component {
   }
 
   show() {
-    this.sceneObject.scene.groundSingleMeshFactory.addFragment(this.fragment);
+    this.sceneObject.scene.groundSMF.addFragment(this.fragment);
   }
 
   hide() {
-    this.sceneObject.scene.groundSingleMeshFactory.removeFragment(this.id);
+    this.sceneObject.scene.groundSMF.removeFragment(this.id);
   }
 
   dispose() {

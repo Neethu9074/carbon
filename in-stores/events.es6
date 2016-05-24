@@ -3,6 +3,7 @@ import {sortedIndexBy} from 'lodash';
 import Immutable from 'immutable';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import getOpenEvents from 'in-services/subscription/newOpenEvents';
 import {
@@ -17,6 +18,9 @@ import getEvents from 'in-services/subscription/events';
 import {theme} from 'in-services/theme';
 
 
+const maxDataRetrieval = 1000 * 60 * 60 * 24 * 31; // one month
+
+
 export const retrievedEvents$ = createTrackingStore({
   name: 'retrievedEvents',
     observable: timeframe$
@@ -24,7 +28,9 @@ export const retrievedEvents$ = createTrackingStore({
       return getEvents({
         // Increase amount of retrieved data to ensure smooth vertical scrolling.
         to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
-        windowSize: timeframe.windowSize * 2
+
+        // load at most one month worth of data
+        windowSize: Math.min(timeframe.windowSize * 2, maxDataRetrieval)
       });
     })
     .merge(
@@ -46,22 +52,38 @@ export const retrievedEvents$ = createTrackingStore({
 
 
 export const eventsInTimeframe$ = combineLatest([
-    // TODO improve perf by subscribing to timeframe first and only subscribe to serverTime
-    // when this is actually necessary
-    to$.throttle(10000),
+    timeframe$.flatMap(timeframe => {
+      if (timeframe.to == null) {
+        return to$.throttle(10000);
+      }
+      return to$;
+    }),
     from$,
     retrievedEvents$
   ])
   .map(([to, from, events]) => {
-    // TODO improve perf by doing a binary search for from, to and get a subarray
+    // TODO improve perf by doing a binary search for from
     return {
-      issues: events.issues.filter(filter),
-      changes: events.changes.filter(filter),
-      incidents: events.incidents.filter(filter)
+      issues: filter(events.issues),
+      changes: filter(events.changes),
+      incidents: filter(events.incidents)
     };
 
-    function filter(event) {
-      return event.start >= from && event.start <= to;
+    function filter(eventsToFiler) {
+      const result = [];
+
+      for (let i = 0, len = eventsToFiler.length; i < len; i++) {
+        const event = eventsToFiler[i];
+        if (event.start < from) {
+          continue;
+        } else if (event.start > to) {
+          break;
+        }
+
+        result.push(event);
+      }
+
+      return result;
     }
   });
 
@@ -295,10 +317,45 @@ export const highlightedEvent$ = highlightedEvent.observable.distinct();
 
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);
-
   if (event) {
     setHighlightedEntityId(event.get('snapshotId'));
   } else {
     clearHighlightedEntityId();
   }
 }
+
+export function selectEvent(event) {
+  if (event) {
+    mutateUrl(navParams => {
+      delete navParams.query.snapshotId;
+      navParams.query.eventId = encodeURIComponent(event.get('id'));
+      return navParams;
+    });
+  } else {
+    mutateUrl(navParams => {
+      delete navParams.query.eventId;
+      return navParams;
+    });
+  }
+}
+
+export function clearSelectedEvent() {
+  mutateUrl(navParams => {
+    delete navParams.query.eventId;
+    return navParams;
+  });
+}
+
+
+export const selectedEventId$ = createTrackingStore({
+  name: 'selectedEventId',
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('eventId' in query) {
+        return decodeURIComponent(query.eventId);
+      }
+      return null;
+    })
+    .distinct()
+}).observable;

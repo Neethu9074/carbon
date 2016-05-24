@@ -1,7 +1,6 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import helpify from 'in-hoc/helpify';
+import {showHelp} from 'in-stores/navigation';
 
 import './HelpLink.less';
 
@@ -9,30 +8,21 @@ import './HelpLink.less';
 const block = 'in-help-link';
 const rpt = React.PropTypes;
 
-const HelpLink = React.createClass({
-  mixins: [PureRenderMixin],
+export default function HelpLink({helpId, children}) {
+  return (
+    <a href='#'
+       onClick={(e) => {
+         e.preventDefault();
+         showHelp(helpId);
+       }}
+       className={block}
+       title='Open help information'>
+      {children}
+    </a>
+  );
+}
 
-  propTypes: {
-    showHelp: rpt.func.isRequired,
-    helpId: rpt.string.isRequired,
-    children: rpt.any.isRequired
-  },
-
-  render() {
-    return (
-      <a href='#'
-         onClick={this.showHelp}
-         className={block}
-         title='Open help information'>
-        {this.props.children}
-      </a>
-    );
-  },
-
-  showHelp(e) {
-    e.preventDefault();
-    this.props.showHelp(this.props.helpId);
-  }
-});
-
-export default helpify(HelpLink);
+HelpLink.propTypes = {
+  helpId: rpt.string.isRequired,
+  children: rpt.any.isRequired
+};

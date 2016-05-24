@@ -91,7 +91,7 @@ const Settings = React.createClass({
               <Slider onChange={(e) => setIn(['map', 'scrollSpeed'], e.target.value)}
                       min={0.1}
                       max={20}
-                      defaultValue={this.state.speedSliderValue}/>
+                      value={this.state.speedSliderValue}/>
             </SettingEntry.Content>
           </SettingEntry>
 
@@ -99,7 +99,7 @@ const Settings = React.createClass({
             <SettingEntry.Header text={'Antialias'} />
             <SettingEntry.Content>
               <ComboBox onChange={this.antialiasChanged}
-                        defaultValue={this.state.antialiasValue}>
+                        value={this.state.antialiasValue}>
                 {'off'}
                 {'browserAA'}
                 {'FXAA'}
@@ -112,7 +112,7 @@ const Settings = React.createClass({
               <SettingEntry.Header text={'Theme (requires browser refresh)'} />
               <SettingEntry.Content>
                 <ComboBox onChange={e => setActiveTheme(e.target.value)}
-                          defaultValue={this.state.activeTheme}>
+                          value={this.state.activeTheme}>
                   {availableThemes.toArray()}
                 </ComboBox>
               </SettingEntry.Content>

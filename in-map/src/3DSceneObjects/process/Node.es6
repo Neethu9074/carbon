@@ -89,7 +89,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory: this.scene.solidSingleMeshFactory
+      factory: this.scene.solidSMF
     });
 
     // add the collision component to handle the collision box
@@ -111,7 +111,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory: this.scene.solidSingleMeshFactory
+      factory: this.scene.solidSMF
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
 
@@ -185,7 +185,7 @@ export default class Node extends SceneObjectWithSnapshot {
     // TODO: if expanded, add to scene
   }
 
-  positionChanged({newPosition}) {
+  positionChanged(newPosition) {
     this.label.getComponent('position').setPosition(newPosition.x - 0.5, newPosition.y + 0.5, newPosition.z + 0.5);
     super.setScreenPositionAnchor(newPosition.x + 0.5, newPosition.y + 0.3, newPosition.z);
   }

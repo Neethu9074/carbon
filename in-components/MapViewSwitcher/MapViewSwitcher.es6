@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {goToTraceView, goToMap} from 'in-stores/navigation';
+import {navigationParameters$, goToTraceView, goToMap} from 'in-stores/navigation';
 import {isInternalEnvironment} from 'in-services/config';
 import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
@@ -12,14 +12,15 @@ import './MapViewSwitcher.less';
 const block = 'in-map-view-switcher';
 
 export default connectTo({
-    activeView: viewStore.view
+    activeView: viewStore.view,
+    navigationParameters: navigationParameters$
   },
   React.createClass({
   displayName: 'MapViewSwitcher',
 
   propTypes: {
     activeView: React.PropTypes.string.isRequired,
-    activePath: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+    navigationParameters: React.PropTypes.object.isRequired
   },
 
   render() {
@@ -37,8 +38,7 @@ export default connectTo({
   },
 
   renderViewItem(viewKey, label) {
-    const active = this.props.activePath.length === 1 &&
-      this.props.activePath[0] === 'map' &&
+    const active = this.props.navigationParameters.pathname === '/' &&
       this.props.activeView === viewKey;
     return this.renderItem(
       label,
@@ -70,7 +70,7 @@ export default connectTo({
     return this.renderItem(
       'Trace',
       goToTraceView,
-      this.props.activePath[1] === 'traces'
+      this.props.navigationParameters.pathname === '/traces'
     );
   }
 }));

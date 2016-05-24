@@ -26,7 +26,7 @@ describe('3D map', () => {
     'in-sdk/power': {
       getPower: (snapshot) => snapshot.get('_testPower')
     }
-  });
+  }).default;
 
 
   beforeEach(() => {

@@ -109,7 +109,13 @@ const highlightedMomentStore = createStore({
 export const highlightedMoment$ = highlightedMomentStore.observable;
 
 export function setHighlightedMoment(t) {
-  highlightedMomentStore.applyStateMutation(() => t);
+  highlightedMomentStore.applyStateMutation(() => {
+    // discard all decimal places
+    let moment = parseInt(t, 10);
+    // floor to second
+    moment = moment - moment % 1000;
+    return moment;
+  });
 }
 
 export function clearHighlightedMoment() {

@@ -1,6 +1,7 @@
 import * as ro from 'reactive-observables';
 
 import CombinedEventsRenderer from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
+import HighlightedMomentRenderer from 'in-components/timeline/components/renderer/HighlightedMomentRenderer';
 import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
 import MarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';
 import FocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
@@ -55,11 +56,12 @@ export default function createTimelineRenderer({container, canvas}) {
   });
 
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
-  const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
-  const eventsGraphRenderer = new EventsGraphRenderer(backBuffer, height);
   const focusedMomentRenderer = new FocusedMomentRenderer(backBuffer, scale);
+  const highlightedMomentRenderer = new HighlightedMomentRenderer(backBuffer, scale);
   const markedIncidentRenderer = new MarkedIncidentRenderer(backBuffer, scale);
   const combinedEventsRenderer = new CombinedEventsRenderer(backBuffer, scale);
+  const backgroundRenderer = new BackgroundRenderer(backBuffer, scale, height);
+  const eventsGraphRenderer = new EventsGraphRenderer(backBuffer, scale, height);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
@@ -144,6 +146,7 @@ export default function createTimelineRenderer({container, canvas}) {
     }
 
     focusedMomentRenderer.draw();
+    highlightedMomentRenderer.draw();
 
     // copy backbuffer to screenbuffer
     screenBuffer.drawImage(backBufferCanvas, 0, 0, width, height);
@@ -154,6 +157,7 @@ export default function createTimelineRenderer({container, canvas}) {
 
     realtimeUpdateEvents.dispose();
     highlightedEventIdSubscription.dispose();
+    highlightedMomentRenderer.dispose();
     realtimeDrawSubscription.dispose();
     hoveredEventLineRenderer.dispose();
     markedIncidentRenderer.dispose();

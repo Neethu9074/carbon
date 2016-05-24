@@ -1,4 +1,5 @@
 import createEventObservable from 'in-services/subscription/event';
+import {selectEvent as selectEventInStore} from 'in-stores/events';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {setSelectedIncident} from 'in-stores/incident';
@@ -83,6 +84,8 @@ export function getEventType(event) {
 
 
 export function selectEvent(event) {
+  selectEventInStore(event);
+
   if (getEventType(event) === EVENT_TYPES.INCIDENT) {
     setSelectedIncident(event.get('id'), event.get('start'));
   } else {

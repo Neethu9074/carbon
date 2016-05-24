@@ -1,12 +1,12 @@
-import EventRenderer from 'in-components/timeline/components/renderer/eventRenderer/EventRenderer';
+import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
 import * as issueTracker from 'in-services/issueTracker';
 import icons from 'in-components/timeline/icons/icons';
 
 
-export default class IssueRenderer extends EventRenderer {
+export default class IssueRenderer extends BasicEventRenderer {
 
-  constructor(buffer, scale, iconSize) {
-    super(buffer, scale, 81, iconSize);
+  constructor(backBuffer, scale, iconSize) {
+    super(backBuffer, scale, 81, iconSize);
   }
 
   draw(issue, isHighlighted) {

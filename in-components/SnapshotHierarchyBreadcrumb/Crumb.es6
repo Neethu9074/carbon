@@ -41,7 +41,11 @@ export default getSnapshot(
     const tooltip = `${getSingular(snapshot.get('plugin'))}: ${getLabel(snapshot)}`;
 
     return (
-      <Tooltip content={tooltip}>
+      <Tooltip content={tooltip}
+               align={{
+                 vertical: 'bottom',
+                 horizontal: 'middle'
+               }}>
         <li className={className}
             onClick={this.onCrumbClicked}>
 

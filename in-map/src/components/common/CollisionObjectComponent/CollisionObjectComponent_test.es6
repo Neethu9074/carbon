@@ -43,7 +43,7 @@ describe('3D map', () => {
     });
 
     it('dont call external method until time event was handled', () => {
-      component.positionChanged({newPosition: {x: 1, y: 2, z: 3}});
+      component.positionChanged({x: 1, y: 2, z: 3});
       component.sizeChanged({x: 4, y: 5, z: 6});
       expect(collisionObject.position.x).to.equal(0);
       expect(collisionObject.position.y).to.equal(0);
@@ -59,7 +59,7 @@ describe('3D map', () => {
     });
 
     it('should keep the old state on multiple updates of different properties', () => {
-      component.positionChanged({newPosition: {x: 1, y: 2, z: 3}});
+      component.positionChanged({x: 1, y: 2, z: 3});
       expect(collisionObject.position.x).to.equal(0);
       expect(collisionObject.position.y).to.equal(0);
       expect(collisionObject.position.z).to.equal(0);

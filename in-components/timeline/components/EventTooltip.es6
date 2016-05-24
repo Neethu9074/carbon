@@ -29,7 +29,10 @@ export default connectTo({
     ],
 
     propTypes: {
-      highlightedEventScreenPosition: rpt.object,
+      highlightedEventScreenPosition: rpt.shape({
+        x: rpt.number.isRequired,
+        y: rpt.number.isRequired
+      }),
       highlightedEvent: irpt.map
     },
 

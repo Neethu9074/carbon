@@ -13,10 +13,10 @@ describe('3D map', () => {
 
   const CameraController = proxyquire(
     './CameraController', {
-      '../common/MouseControlsModule': class {},
-      '../common/TouchControlsModule': class {}
+      '../common/MouseControlsModule': {default: class {}},
+      '../common/TouchControlsModule': {default: class {}}
     }
-  );
+  ).default;
 
   beforeEach(() => {
     scene = {

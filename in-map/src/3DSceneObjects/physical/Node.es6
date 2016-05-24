@@ -28,7 +28,6 @@ import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjec
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import MetricHandler from 'in-map/src/3DSceneObjects/physical/MetricHandler';
 import Label from 'in-map/src/3DSceneObjects/physical/Label';
-import ConnectionGrid from 'in-map/src/ConnectionGrid';
 
 
 export default class Node extends SceneObjectWithSnapshot {
@@ -135,14 +134,14 @@ export default class Node extends SceneObjectWithSnapshot {
     components.mesh = new MeshComponent({
       sceneObject,
       contentProvider: new CMCM({contentProvider: pcm}),
-      factory: this.scene.singleMeshFactory
+      factory: this.scene.fadeByDistanceSMF
     });
 
     // add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
       sceneObject,
       contentProvider: new CMCM({contentProvider: pcm}),
-      factory: this.scene.highlightingSingleMeshFactory
+      factory: this.scene.highlightingSMF
     });
     components.solidMesh.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
@@ -152,7 +151,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     components.ground = new GroundMeshComponent({
       sceneObject,
-      factory: this.scene.groundSingleMeshFactory,
+      factory: this.scene.groundSMF,
       contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
@@ -163,7 +162,7 @@ export default class Node extends SceneObjectWithSnapshot {
     });
     components.groundLine = new GroundLineMeshComponent({
       sceneObject,
-      factory: this.scene.baselineFactory,
+      factory: this.scene.baselineSMF,
       contentProvider: new PCM({
         contentProvider: new SCM({
           contentProvider: new FCP()
@@ -179,16 +178,24 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   registerEvents() {
-    this.addSubscription(eventBus.on('endUpdate').subscribe(data => this.update(data)));
+    this.addSubscriptions([
+      eventBus.on('endUpdate').subscribe(data => this.update(data)),
 
-    this.addSubscription(activeMetric.subscribe(metric => {
-      this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE,
-                                            metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON);
-    }));
+      activeMetric.subscribe(metric => {
+        this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE,
+          metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON);
+        }),
 
-    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
-    this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
-    this.addSubscription(this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)));
+        this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
+        this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
+        this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)),
+
+        eventBus.on('flyToEntityId').subscribe(id => {
+          if (this.id === id) {
+            eventBus.emit('flyToEntity', this);
+          }
+        })
+    ]);
   }
 
   getTooltip() {
@@ -245,11 +252,8 @@ export default class Node extends SceneObjectWithSnapshot {
     super.setScreenPositionAnchor(pos.x - 0.2, pos.y + this.height + 0.75, pos.z + 0.25);
   }
 
-  positionChanged({newPosition, oldPosition}) {
+  positionChanged(newPosition) {
     this.label.getComponent('position').setPosition(newPosition.x, newPosition.y + this.height + 0.2, newPosition.z);
-
-    ConnectionGrid.clearPosition(oldPosition);
-    ConnectionGrid.blockPosition(newPosition);
     this.updateScreenAnchorPosition();
   }
 

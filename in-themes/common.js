@@ -27,6 +27,7 @@ module.exports = {
     menuPopup: zIndex++,
     toast: zIndex++,
     tooltips: zIndex++,
+    temporaryNotification: zIndex++,
     tour: {
       inputBlocker: zIndex++,
       fragment: zIndex++,

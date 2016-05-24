@@ -6,10 +6,10 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import * as navigation from 'in-stores/navigation';
 import * as tracking from 'in-services/tracking';
-import helpify from 'in-hoc/helpify';
-import enhance from 'in-hoc/enhance';
-import eventBus from 'in-map/eventbus';
+import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
+import eventBus from 'in-map/eventbus';
+import connectTo from 'in-hoc/connectTo';
 
 import Scene from './Scene';
 
@@ -19,7 +19,9 @@ import './index.less';
 const rpt = React.PropTypes;
 const block = 'in-map';
 
-export default helpify(enhance(React.createClass({
+export default connectTo({
+    antialias: getIn(['map', 'antialias'])
+  }, React.createClass({
 
   displayName: 'map',
 
@@ -29,16 +31,7 @@ export default helpify(enhance(React.createClass({
   ],
 
   propTypes: {
-    antialias: rpt.string.isRequired,
-    showHelp: rpt.func.isRequired
-  },
-
-  statics: {
-    createObservables() {
-      return {
-        antialias: getIn(['map', 'antialias'])
-      };
-    }
+    antialias: rpt.string.isRequired
   },
 
   getInitialState() {
@@ -53,7 +46,7 @@ export default helpify(enhance(React.createClass({
     this.setState({isWebGLSupported: supportsWebGL});
 
     if (!supportsWebGL) {
-      this.props.showHelp(203889331);
+      showHelp(203889331);
     }
   },
 
@@ -101,7 +94,7 @@ export default helpify(enhance(React.createClass({
   },
 
   onPlusClicked() {
-    this.props.showHelp(203906681);
+    showHelp(203906681);
   },
 
   openDashboard(id) {
@@ -144,4 +137,4 @@ export default helpify(enhance(React.createClass({
     }
     return context;
   }
-})));
+}));

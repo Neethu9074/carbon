@@ -36,7 +36,7 @@ export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints})
       }
 
       if (seriesEndIndex == null) {
-        seriesEndIndex = dataColumns.length - 1;
+        seriesEndIndex = dataColumns.length;
       }
 
       // going right to left to draw the bottom line
