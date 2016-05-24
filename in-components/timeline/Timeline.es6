@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import TimelineCanvasReactWrapper from 'in-components/timeline/components/TimelineCanvasReactWrapper';
+import TimelineTimeframeMarker from 'in-components/timeline/components/TimelineTimeframeMarker';
 import TimelineNavigation from 'in-components/timeline/components/TimelineNavigation';
 import TimelineMenu from 'in-components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-components/timeline/components/EventTooltip';
@@ -37,7 +38,10 @@ export default connectTo({
             <TimelineMenu />
             <TimelineCanvasReactWrapper />
           </div>
-          <TimelineNavigation />
+          <div className={block + '__bottom'}>
+            <TimelineNavigation />
+            <TimelineTimeframeMarker />
+          </div>
         </div>
       );
     },
