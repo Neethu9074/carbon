@@ -1,5 +1,5 @@
 /* eslint-env mocha, node */
-/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-expressions no-unused-vars*/
 import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -15,6 +15,9 @@ describe('3D map', () => {
 
   beforeEach(() => {
     sceneObject = {
+      stateMachine: {
+        changeStateProperty: sinon.stub()
+      },
       eventEmitter: new RoEmitter(),
       positionChanged: sinon.stub(),
       scene: {

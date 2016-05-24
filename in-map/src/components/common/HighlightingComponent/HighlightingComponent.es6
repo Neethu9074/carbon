@@ -35,7 +35,6 @@ export default class BaseHighlightingComponent extends Component {
     this.addSubscription('sizeChanged', this.sizeChanged);
 
     this.highlightingSubscription = combineLatest([highlightedEntityId$, highlightedEntityIds$])
-      .nextFrame()
       .subscribe(([highlightedId, highlightedIds]) => {
         const isHighlighted = sceneObject.id === highlightedId || highlightedIds.indexOf(sceneObject.id) !== -1;
         const propertyValue = isHighlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
