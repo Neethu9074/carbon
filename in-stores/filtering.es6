@@ -34,7 +34,7 @@ export const filteredTags$ = filters$.map(filters => {
     .map(f => f.getIn(['options', 'tag']));
 });
 
-export const getFilterableTags = focusedMoment$.flatMap(createFilterableTagsObservable);
+export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
 
 export function addTagFilter(tag) {
   filtersStore.applyStateMutation(filters => {
