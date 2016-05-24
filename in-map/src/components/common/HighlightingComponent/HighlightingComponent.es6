@@ -1,3 +1,8 @@
+import {combineLatest} from 'reactive-observables';
+
+import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
+import {highlightedEntityIds$} from 'in-stores/highlightedEntityIds';
+
 import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import LCP from 'in-map/src/SingleMeshFactory/ContentProvider/LineContentProvider';
@@ -5,7 +10,6 @@ import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine'
 
 import Component from '../Component';
 import XYZ from '../XYZ';
-
 
 export default class BaseHighlightingComponent extends Component {
 
@@ -29,6 +33,14 @@ export default class BaseHighlightingComponent extends Component {
     this.initialized();
     this.addSubscription('positionChanged', this.positionChanged);
     this.addSubscription('sizeChanged', this.sizeChanged);
+
+    this.highlightingSubscription = combineLatest([highlightedEntityId$, highlightedEntityIds$])
+      .nextFrame()
+      .subscribe(([highlightedId, highlightedIds]) => {
+        const isHighlighted = sceneObject.id === highlightedId || highlightedIds.indexOf(sceneObject.id) !== -1;
+        const propertyValue = isHighlighted  ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+        sceneObject.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, propertyValue);
+      });
   }
 
   setStartingStateProperties() {
@@ -81,6 +93,7 @@ export default class BaseHighlightingComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.highlightingSubscription.dispose();
     this.hide();
 
     this.positionToSet.dispose();
