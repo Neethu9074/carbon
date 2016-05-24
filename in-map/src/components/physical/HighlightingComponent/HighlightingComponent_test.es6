@@ -39,7 +39,7 @@ describe('3D map', () => {
       component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
       expect(sceneObject.scene.lineSMF.addFragment.callCount).to.equal(1);
-      component.positionChanged({newPosition: {x: 1, y: 2, z: 3}});
+      component.positionChanged({x: 1, y: 2, z: 3});
       expect(sceneObject.scene.lineSMF.addFragment.callCount).to.equal(1);
       component.sizeChanged(4, 5, 6);
       expect(sceneObject.scene.lineSMF.addFragment.callCount).to.equal(1);
@@ -50,12 +50,12 @@ describe('3D map', () => {
     it('should do force update even if there is no change', () => {
       component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
-      component.positionChanged({newPosition: {x: 1, y: 2, z: 3}});
+      component.positionChanged({x: 1, y: 2, z: 3});
       expect(sceneObject.scene.lineSMF.addFragment.callCount).to.equal(1);
       component.handleComponentTimeEvent();
       expect(sceneObject.scene.lineSMF.addFragment.callCount).to.equal(2);
 
-      component.positionChanged({newPosition: {x: 1, y: 2, z: 3}});
+      component.positionChanged({x: 1, y: 2, z: 3});
       expect(sceneObject.scene.lineSMF.addFragment.callCount).to.equal(2);
       component.handleComponentTimeEvent();
       expect(sceneObject.scene.lineSMF.addFragment.callCount).to.equal(3);

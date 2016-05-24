@@ -33,7 +33,7 @@ export default class CollisionObjectComponent extends Component {
   }
 
 
-  positionChanged({newPosition}) {
+  positionChanged(newPosition) {
     this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
     this.needsUpdate = true;
   }

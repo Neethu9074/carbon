@@ -185,7 +185,7 @@ export default class Node extends SceneObjectWithSnapshot {
     // TODO: if expanded, add to scene
   }
 
-  positionChanged({newPosition}) {
+  positionChanged(newPosition) {
     this.label.getComponent('position').setPosition(newPosition.x - 0.5, newPosition.y + 0.5, newPosition.z + 0.5);
     super.setScreenPositionAnchor(newPosition.x + 0.5, newPosition.y + 0.3, newPosition.z);
   }

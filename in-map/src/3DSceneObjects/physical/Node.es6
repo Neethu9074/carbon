@@ -28,7 +28,6 @@ import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjec
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import MetricHandler from 'in-map/src/3DSceneObjects/physical/MetricHandler';
 import Label from 'in-map/src/3DSceneObjects/physical/Label';
-import ConnectionGrid from 'in-map/src/ConnectionGrid';
 
 
 export default class Node extends SceneObjectWithSnapshot {
@@ -245,11 +244,8 @@ export default class Node extends SceneObjectWithSnapshot {
     super.setScreenPositionAnchor(pos.x - 0.2, pos.y + this.height + 0.75, pos.z + 0.25);
   }
 
-  positionChanged({newPosition, oldPosition}) {
+  positionChanged(newPosition) {
     this.label.getComponent('position').setPosition(newPosition.x, newPosition.y + this.height + 0.2, newPosition.z);
-
-    ConnectionGrid.clearPosition(oldPosition);
-    ConnectionGrid.blockPosition(newPosition);
     this.updateScreenAnchorPosition();
   }
 

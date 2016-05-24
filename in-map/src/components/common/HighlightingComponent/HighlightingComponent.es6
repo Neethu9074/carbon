@@ -38,7 +38,7 @@ export default class BaseHighlightingComponent extends Component {
       .nextFrame()
       .subscribe(([highlightedId, highlightedIds]) => {
         const isHighlighted = sceneObject.id === highlightedId || highlightedIds.indexOf(sceneObject.id) !== -1;
-        const propertyValue = isHighlighted  ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+        const propertyValue = isHighlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
         sceneObject.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, propertyValue);
       });
   }
@@ -56,7 +56,7 @@ export default class BaseHighlightingComponent extends Component {
   }
 
 
-  positionChanged({newPosition}) {
+  positionChanged(newPosition) {
     this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
     this.needsUpdate = true;
   }
