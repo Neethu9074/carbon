@@ -4,6 +4,7 @@ import createFilterableTagsObservable from 'in-services/subscription/filterableT
 import {emptySet, emptyMap} from 'in-services/fixedImmutables';
 import {on, emit} from 'in-services/persistentConnection';
 import {getIn as getSetting} from 'in-services/settings';
+import {focusedMoment$} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 
 // The filter types as defined in the backend.
@@ -33,7 +34,7 @@ export const filteredTags$ = filters$.map(filters => {
     .map(f => f.getIn(['options', 'tag']));
 });
 
-export const getFilterableTags = createFilterableTagsObservable;
+export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
 
 export function addTagFilter(tag) {
   filtersStore.applyStateMutation(filters => {
