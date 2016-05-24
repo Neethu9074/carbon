@@ -21,6 +21,7 @@ import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseE
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
+import eventBus from 'in-map/eventbus';
 
 
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
@@ -134,6 +135,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const eventAtCursor = getEventAtXY(e.offsetX, e.offsetY);
     if (eventAtCursor) {
       selectEvent(eventAtCursor);
+      eventBus.emit('flyToEntityId', eventAtCursor.getIn(['problem', 'snapshotId']));
     } else {
       // if there is no event and the user clicked, set the focused moment to the time at pixel clicked
       setFocusedMoment(scale.getDomain(e.offsetX));

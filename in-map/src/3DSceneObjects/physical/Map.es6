@@ -7,6 +7,7 @@ import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
 import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
+import eventBus from 'in-map/eventbus';
 
 
 export default class Map extends BaseMap {
@@ -21,6 +22,10 @@ export default class Map extends BaseMap {
 
   registerEvents() {
     super.registerEvents();
+
+    this.addSubscription(eventBus.on('flyToEntity').subscribe(entity => {
+      this.controller.flyToObject(entity);
+    }));
   }
 
   getGroundPlane() {

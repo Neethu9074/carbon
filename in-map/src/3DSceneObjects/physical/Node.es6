@@ -178,16 +178,24 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   registerEvents() {
-    this.addSubscription(eventBus.on('endUpdate').subscribe(data => this.update(data)));
+    this.addSubscriptions([
+      eventBus.on('endUpdate').subscribe(data => this.update(data)),
 
-    this.addSubscription(activeMetric.subscribe(metric => {
-      this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE,
-                                            metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON);
-    }));
+      activeMetric.subscribe(metric => {
+        this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE,
+          metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON);
+        }),
 
-    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
-    this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
-    this.addSubscription(this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)));
+        this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
+        this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
+        this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)),
+
+        eventBus.on('flyToEntityId').subscribe(id => {
+          if (this.id === id) {
+            eventBus.emit('flyToEntity', this);
+          }
+        })
+    ]);
   }
 
   getTooltip() {
