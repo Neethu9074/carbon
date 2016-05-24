@@ -200,7 +200,7 @@ export default connectTo(
                                 y1={{
                                   metrics: dbKeysMetrics(dbNames),
                                   labels: dbKeysLabels(dbNames),
-                                  type: 'stackedArea'
+                                  type: 'line'
                                 }}/>
             </DashboardSection>
           : null}
@@ -225,7 +225,7 @@ export default connectTo(
                                  'Used rss',
                                  'Used lua'
                                ],
-                               type: 'stackedArea'
+                               type: 'line'
                              }}/>
           </DashboardSection>
           <DashboardSection title='Connections'>
