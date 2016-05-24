@@ -16,6 +16,8 @@ import Mtd from 'in-components/Mtd';
 
 const chartHeight = 200;
 
+const rateFormatter = d => withSiPrefixThreeDecimalPlaces(d) + ' / sec';
+
 const DropwizardDashboard = React.createClass({
     mixins: [PureRenderMixin],
 
@@ -138,7 +140,7 @@ const DropwizardDashboard = React.createClass({
                                    left: 90
                                  }}
                                  y1={{
-                                   formatter: withSiPrefixThreeDecimalPlaces,
+                                   formatter: rateFormatter,
                                    metrics: ['metrics.meters.' + this.state.selectedMetricMeter],
                                    labels: [this.state.selectedMetricMeter + ' rate'],
                                    type: 'line'
@@ -164,7 +166,7 @@ const DropwizardDashboard = React.createClass({
                       </td>
                       <Mtd metric={'metrics.meters.' + meter}
                            snapshot={snapshot}
-                           formatter={withSiPrefixThreeDecimalPlaces} />
+                           formatter={rateFormatter} />
                     </tr>
                   )}
                 </tbody>
