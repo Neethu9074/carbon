@@ -171,7 +171,7 @@ export default React.createClass({
         </DashboardSection>
         {indices ?
           <DashboardSection title='Indices'>
-            <ResponsiveTable clickable={true}>
+            <ResponsiveTable>
               <thead>
               <tr>
                 <th>Index</th>
