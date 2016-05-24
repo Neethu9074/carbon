@@ -3,7 +3,7 @@ import React from 'react';
 
 import {
   timeframe$,
-  MAX_ZOOM_LEVEL
+  MIN_ZOOM_LEVEL
 } from 'in-components/timeline/timelineStore';
 import {timeframeShape} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
@@ -34,7 +34,7 @@ export default connectTo({
         return null;
       }
 
-      const width = (timeframe.windowSize / (MAX_ZOOM_LEVEL))  * 100 + '%';
+      const width = (timeframe.windowSize / (MIN_ZOOM_LEVEL))  * 100 + '%';
       const right = 0 + 'px';
 
       return (
