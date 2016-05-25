@@ -5,6 +5,7 @@ import React from 'react';
 import SidebarHeadingSnapshotMetadata from 'in-components/sidebars/components/SidebarHeadingSnapshotMetadata';
 import SidebarHeadingNavigation from 'in-components/sidebars/components/SidebarHeadingNavigation';
 import SidebarDetailList from 'in-components/sidebars/components/SidebarDetailList';
+import FocusButton from 'in-components/sidebars/Map/components/FocusButton';
 import SidebarTabs from 'in-components/sidebars/components/SidebarTabs';
 import getSelectedSnapshot from 'in-hoc/getSelectedSnapshot';
 import eventBus from 'in-map/eventbus';
@@ -23,8 +24,8 @@ export default getSelectedSnapshot(React.createClass({
 
   propTypes: {
     snapshotId: React.PropTypes.string,
-    snapshot: irpt.map,
-    parentCoordinates: irpt.list
+    parentCoordinates: irpt.list,
+    snapshot: irpt.map
   },
 
   getInitialState() {
@@ -63,8 +64,10 @@ export default getSelectedSnapshot(React.createClass({
         <SidebarHeadingNavigation snapshot={snapshot}
                                   className={block + '__heading-navigation'}>
           <SidebarHeadingNavigation.ViewDashboardButton snapshot={snapshot}/>
-          <SidebarHeadingNavigation.FocusButton onClick={() => eventBus.emit('focusEntityId', snapshot.get('id'))}/>
         </SidebarHeadingNavigation>
+
+        <FocusButton className={block + '__focus-button'}
+                     onClick={() => eventBus.emit('focusEntityId', snapshot.get('id'))}/>
 
         <SidebarHeadingSnapshotMetadata snapshot={snapshot}
                                         className={block + '__heading'}/>
