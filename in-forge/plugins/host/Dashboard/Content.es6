@@ -10,21 +10,15 @@ import {
   percentageTwoDecimalPlaces,
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  bytesPerSecondZeroDecimalPlaces,
-  kiloBytesZeroDecimalPlaces,
-  kiloBytesTwoDecimalPlaces,
-  withSiMultiplyPrefixZeroDecimalPlaces,
-  withSiMultiplyPrefixThreeDecimalPlaces
+  bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import {getMaxValue} from 'in-sdk/metrics';
-
+import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 import {getRawPayload} from 'in-stores/snapshot';
-import HelpLink from 'in-components/HelpLink';
 import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
 
@@ -53,7 +47,6 @@ export default connectTo(
 
     getInitialState() {
       return {
-        filesystemName: null,
         interfaceName: null,
         cpuNo: null
       };
@@ -63,11 +56,9 @@ export default connectTo(
       const timeframe = this.props.timeframe;
       const snapshot = this.props.snapshot;
 
-      const filesystemName = this.state.filesystemName;
       const interfaceName = this.state.interfaceName;
       const cpuNo = this.state.cpuNo;
 
-      const filesystems = snapshot.getIn(['data', 'filesystems']);
       const interfaces = snapshot.getIn(['data', 'interfaces']);
       const cpuCount = snapshot.getIn(['data', 'cpu.count']);
       const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
@@ -245,7 +236,11 @@ export default connectTo(
             </DashboardSection>
           : null}
 
-          { this.renderFileSystems(filesystemName, snapshot, timeframe, filesystems) }
+          <DashboardSection title='Filesystems'>
+            <FilesystemsTable snapshot={snapshot}
+                              timeframe={timeframe}/>
+          </DashboardSection>
+
 
           { interfaces ?
             <DashboardSection title='Network Interfaces'>
@@ -449,12 +444,6 @@ export default connectTo(
       });
     },
 
-    selectFilesystem(fs) {
-      this.setState({
-        filesystemName: fs
-      });
-    },
-
     selectInterface(iface) {
       this.setState({
         interfaceName: iface
@@ -463,167 +452,6 @@ export default connectTo(
 
     isWindows() {
       return !!this.props.snapshot.getIn(['data', 'os.name'], '').match(/windows/i);
-    },
-
-    renderFileSystems(filesystemName, snapshot, timeframe, filesystems) {
-      return (
-              <DashboardSection title='Filesystems'>
-                  {filesystemName ? this.renderFileSystemsCharts(filesystemName, snapshot, timeframe) : null}
-                  {this.renderFileSystemsTable(filesystemName, filesystems, snapshot)}
-                </DashboardSection>
-              );
-    },
-
-    renderFileSystemsCharts(filesystemName, snapshot, timeframe) {
-      return (
-                        <div>
-                          {this.isWindows() ?
-                            <ChartWithLegend snapshot={snapshot}
-                                             timeframe={timeframe}
-                                             height={chartHeight}
-                                             margins={{
-                                               left: 80,
-                                               right: 80
-                                             }}
-
-                                             y1={{
-                                               min: 0,
-                                               max: getMaxValue(
-                                                 'fs.' + filesystemName + '.free',
-                                                 snapshot
-                                               ),
-                                               formatter: kiloBytesZeroDecimalPlaces,
-                                               tooltipFormatter: kiloBytesTwoDecimalPlaces,
-                                               metrics: [
-                                                 'fs.' + filesystemName + '.free',
-                                                 'fs.' + filesystemName + '.leaked'
-                                               ],
-                                               labels: ['Free', 'Leaked'],
-                                               type: 'line'
-                                             }}/> :
-                            <ChartWithLegend snapshot={snapshot}
-                                             timeframe={timeframe}
-                                             height={chartHeight}
-                                             margins={{
-                                               left: 80,
-                                               right: 80
-                                             }}
-
-                                             y1={{
-                                               min: 0,
-                                               max: getMaxValue(
-                                                 'fs.' + filesystemName + '.free',
-                                                 snapshot
-                                               ),
-                                               formatter: kiloBytesZeroDecimalPlaces,
-                                               tooltipFormatter: kiloBytesTwoDecimalPlaces,
-                                               metrics: [
-                                                 'fs.' + filesystemName + '.free',
-                                                 'fs.' + filesystemName + '.leaked'
-                                               ],
-                                               labels: ['Free', 'Leaked'],
-                                               type: 'line'
-                                             }}
-
-                                             y2={{
-                                               min: 0,
-                                               max: getMaxValue(
-                                                 'fs.' + filesystemName + '.ifree',
-                                                 snapshot
-                                               ),
-                                               metrics: [
-                                                 'fs.' + filesystemName + '.ifree'
-                                               ],
-                                               labels: ['iFree'],
-                                               type: 'line',
-                                               formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                                               tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
-                                             }}/>
-                            }
-
-                            <ChartWithLegend snapshot={snapshot}
-                                   timeframe={timeframe}
-                                   height={chartHeight}
-                                   margins={{
-                                     left: 80,
-                                     right: 80
-                                   }}
-
-                                   y1={{
-                                     min: 0,
-                                     formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                                     tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
-                                     metrics: [
-                                       'fs.' + filesystemName + '.reads',
-                                       'fs.' + filesystemName + '.writes'
-                                     ],
-                                     labels: ['Reads', 'Writes'],
-                                     type: 'line'
-                                   }}
-
-                                   y2={{
-                                     min: 0,
-                                     formatter: kiloBytesZeroDecimalPlaces,
-                                     tooltipFormatter: kiloBytesTwoDecimalPlaces,
-                                     metrics: [
-                                       'fs.' + filesystemName + '.readBytes',
-                                       'fs.' + filesystemName + '.writeBytes'
-                                     ],
-                                     labels: ['Read', 'Write'],
-                                     type: 'line'
-                                   }}/>
-                          </div>
-                        );
-    },
-
-    renderFileSystemsTable(filesystemName, filesystems, snapshot) {
-      return (
-                      <ResponsiveTable clickable={true}>
-                          <thead>
-                            <tr>
-                              <th>Device</th>
-                              {!this.isWindows() ? <th>Mount</th> : null}
-                              <th>Options</th>
-                              <th>Type</th>
-                              <th>Capacity</th>
-                              <th>Free</th>
-                              <th>
-                                <HelpLink helpId='203876231'>
-                                  Leaked
-                                </HelpLink>
-                              </th>
-                              {!this.isWindows() ? <th>iFree</th> : null}
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {filesystems.map((data, name) =>
-                              <tr key={name}
-                                  onClick={() => this.selectFilesystem(name)}
-                                  className={classnames({
-                                    'active': name === filesystemName
-                                  })}>
-                                <td>{name}</td>
-                                {!this.isWindows() ? <td>{data.get('mount')}</td> : null}
-                                <td>{data.get('options')}</td>
-                                <td>{data.get('systype')}</td>
-                                <td>{kiloBytesTwoDecimalPlaces(data.get('capacity'))}</td>
-                                <Mtd metric={'fs.' + name + '.free'}
-                                     snapshot={snapshot}
-                                     formatter={kiloBytesTwoDecimalPlaces} />
-                                <Mtd metric={'fs.' + name + '.leaked'}
-                                     snapshot={snapshot}
-                                     formatter={kiloBytesTwoDecimalPlaces} />
-                                {!this.isWindows() ?
-                                  <Mtd metric={'fs.' + name + '.ifree'}
-                                       snapshot={snapshot}
-                                       formatter={withSiMultiplyPrefixZeroDecimalPlaces} /> : null
-                                }
-                              </tr>
-                            ).valueSeq()}
-                          </tbody>
-                        </ResponsiveTable>
-                      );
     }
   })
 );
