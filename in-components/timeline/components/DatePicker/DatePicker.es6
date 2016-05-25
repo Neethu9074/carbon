@@ -83,13 +83,13 @@ export default connectTo({
             <TextInput heading={'Date'}
                        value={this.props.dateString}
                        isValid={this.props.dateIsValid}
-                       validationMessage={'please enter a date in the form: ' + dateFormat}
+                       validationMessage={'please enter a present date in the form: ' + dateFormat}
                        onChange={setDateString} />
 
             <TextInput heading={'Time'}
                        value={this.props.timeString}
                        isValid={this.props.timeIsValid}
-                       validationMessage={'please enter a time in the form: ' + timeFormat}
+                       validationMessage={'please enter a present time in the form: ' + timeFormat}
                        onChange={setTimeString} />
           </div>
 
