@@ -1,3 +1,7 @@
+// We are generally trying to avoid specificities above 1 class selector, but doing this for
+// tables would be really painful. Instead, we have strict selectors in place to protect
+// ourselves from specificity wars.
+
 .in-responsive-table {
   @light: #eef2f4;
   @mid: #b5bfc3;
@@ -8,31 +12,31 @@
 
   border-spacing: 0 2px;
 
-  th, td {
+  & > thead > tr > th, & > tbody > tr > td {
     padding: 7px;
     color: @dark;
   }
 
-  th {
+  & > thead > tr > th {
     font-size: 11px;
     text-align: left;
     text-transform: uppercase;
   }
 
-  td {
+  & > tbody > tr > td {
     font-size: 14px;
   }
 
-  tr.active td {
+  & > tbody > tr.active td {
     background: @mid;
   }
 
-  tr:hover td {
+  & > tbody > tr:hover td {
     background: @mid;
   }
 
   &__clickable {
-    td {
+     & > tbody > tr > td {
       background: @light;
       cursor: pointer;
     }
