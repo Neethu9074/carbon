@@ -1,5 +1,6 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import {getTickPositions} from 'in-charts/timeAxis';
+import {formatDateTime} from 'in-services/formatters/date';
 
 
 const font = '12px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
@@ -8,12 +9,14 @@ const darkColor = 'rgba(46, 64, 72, 1)';
 const lightColor = '#80939c';
 const midColor = '#43565e';
 
+const edgeWidth = 250;
+
 export default class TimeAxisRenderer extends BasicRenderer {
 
   constructor(backBuffer, scale) {
     super(backBuffer, scale);
 
-    this.leftGradient = this.backBuffer.createLinearGradient(0, 0, 100, 0);
+    this.leftGradient = this.backBuffer.createLinearGradient(0, 0, edgeWidth, 0);
     this.leftGradient.addColorStop(0, darkColor);
     this.leftGradient.addColorStop(0.5, darkColor);
     this.leftGradient.addColorStop(1, darkColorTransparent);
@@ -39,14 +42,28 @@ export default class TimeAxisRenderer extends BasicRenderer {
     }
 
     buffer.fillStyle = this.leftGradient;
-    buffer.fillRect(0, 0, 100, 40);
+    buffer.fillRect(0, 0, edgeWidth, 40);
 
-    const rightGradient = this.backBuffer.createLinearGradient(scale.getRangeTo() - 100, 0, scale.getRangeTo(), 0);
+    // draw the stand and end time of the time window
+    const rightGradient = this.backBuffer.createLinearGradient(
+      scale.getRangeTo() - edgeWidth,
+      0,
+      scale.getRangeTo(),
+      0
+    );
     rightGradient.addColorStop(0, darkColorTransparent);
     rightGradient.addColorStop(0.5, darkColor);
     rightGradient.addColorStop(1, darkColor);
     buffer.fillStyle = rightGradient;
-    buffer.fillRect(scale.getRangeTo() - 100, 0, 100, 40);
+    buffer.fillRect(scale.getRangeTo() - edgeWidth, 0, edgeWidth + 20, 40);
+
+    // start
+    buffer.fillStyle = lightColor;
+    buffer.font = font;
+    buffer.fillText(formatDateTime(scale.getDomainFrom()), 10, 28);
+    buffer.textAlign = 'right';
+    buffer.fillText(formatDateTime(scale.getDomainTo()), scale.getRangeTo() - 10, 28);
+    buffer.textAlign = 'left';
   }
 
   dispose() {

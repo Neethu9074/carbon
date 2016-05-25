@@ -3,7 +3,7 @@ import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {tagsFilter$} from 'in-components/Filterbar/filterBarStores_tmp';
-import {$filterableTags} from 'in-stores/filtering';
+import {filterableTags$} from 'in-stores/filtering';
 import connectTo from 'in-hoc/connectTo';
 
 import Tag from '../Tag';
@@ -11,7 +11,7 @@ import Tag from '../Tag';
 import './TagListAll.less';
 
 export default connectTo({
-    tags: $filterableTags,
+    tags: filterableTags$,
     tagsFilter: tagsFilter$
   }, React.createClass({
   displayName: 'TagListAll',
