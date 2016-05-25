@@ -3,6 +3,7 @@ import THREE from 'three';
 import TooltipLayer from 'in-map/src/2DSceneObjects/tooltips/physical/Layer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {theme} from 'in-services/theme';
+import eventBus from 'in-map/eventbus';
 
 import HighlightingComponent from '../../components/physical/HighlightingComponent';
 import CollisionComponent from '../../components/common/CollisionObjectComponent';
@@ -30,14 +31,7 @@ export default class Layer extends SceneObjectWithSnapshot {
     this.snapshot = undefined;
     this.tooltip = new TooltipLayer(this);
 
-    zoomLevel.subscribe(newLevel => {
-      this.currentZoomLevel = newLevel;
-      const activateCollisions = (newLevel === level.nearest && this.isActive()) ?
-        PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.components.collision.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, activateCollisions);
-    });
-
-    this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
+    this.registerEvents();
   }
 
   onHighlightEnter() {
@@ -120,6 +114,25 @@ export default class Layer extends SceneObjectWithSnapshot {
     // add the highlight component to handle the highlight of a node
     // this is different to solidMesh since the highlight is like a mouseOver effect
     components.highlight = new HighlightingComponent({sceneObject: this});
+  }
+
+  registerEvents() {
+    this.addSubscriptions([
+      zoomLevel.subscribe(newLevel => {
+        this.currentZoomLevel = newLevel;
+        const activateCollisions = (newLevel === level.nearest && this.isActive()) ?
+        PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+        this.components.collision.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, activateCollisions);
+      }),
+
+      this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
+
+      eventBus.on('focusEntityId').subscribe(id => {
+        if (this.id === id) {
+          eventBus.emit('flyToEntity', this);
+        }
+      })
+    ]);
   }
 
   getTooltip() {

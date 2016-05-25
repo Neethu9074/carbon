@@ -8,11 +8,13 @@ import * as navigation from 'in-stores/navigation';
 import * as tracking from 'in-services/tracking';
 import {getClassName} from 'in-services/react';
 import Button from 'in-components/Button';
+import Icon from 'in-components/Icon';
 
 import './SidebarHeadingNavigation.less';
 
 
 const block = 'in-sidebar-heading-navigation';
+const rpt = React.PropTypes;
 
 const SidebarHeadingNavigation = React.createClass({
   mixins: [
@@ -20,8 +22,8 @@ const SidebarHeadingNavigation = React.createClass({
   ],
 
   propTypes: {
-    className: React.PropTypes.string,
-    children: React.PropTypes.object
+    className: rpt.string,
+    children: rpt.any
   },
 
   render() {
@@ -72,3 +74,22 @@ const BackToMap = React.createClass({
   }
 });
 SidebarHeadingNavigation.BackToMap = BackToMap;
+
+const FocusButton = React.createClass({
+  mixins: [PureRenderMixin],
+
+  propTypes: {
+    onClick: rpt.func.isRequired
+  },
+
+  render() {
+    return (
+      <Button className={block + '__button'}
+              onClick={this.props.onClick}>
+        <Icon className={block + '__icon'}
+              type={'zoom_large'}/>
+      </Button>
+    );
+  }
+});
+SidebarHeadingNavigation.FocusButton = FocusButton;

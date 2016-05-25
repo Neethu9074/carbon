@@ -190,7 +190,7 @@ export default class Node extends SceneObjectWithSnapshot {
         this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
         this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)),
 
-        eventBus.on('flyToEntityId').subscribe(id => {
+        eventBus.on('focusEntityId').subscribe(id => {
           if (this.id === id) {
             eventBus.emit('flyToEntity', this);
           }

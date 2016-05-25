@@ -7,6 +7,7 @@ import SidebarHeadingNavigation from 'in-components/sidebars/components/SidebarH
 import SidebarDetailList from 'in-components/sidebars/components/SidebarDetailList';
 import SidebarTabs from 'in-components/sidebars/components/SidebarTabs';
 import getSelectedSnapshot from 'in-hoc/getSelectedSnapshot';
+import eventBus from 'in-map/eventbus';
 
 import 'in-components/sidebars/Map/SidebarMap.less';
 
@@ -62,6 +63,7 @@ export default getSelectedSnapshot(React.createClass({
         <SidebarHeadingNavigation snapshot={snapshot}
                                   className={block + '__heading-navigation'}>
           <SidebarHeadingNavigation.ViewDashboardButton snapshot={snapshot}/>
+          <SidebarHeadingNavigation.FocusButton onClick={() => eventBus.emit('focusEntityId', snapshot.get('id'))}/>
         </SidebarHeadingNavigation>
 
         <SidebarHeadingSnapshotMetadata snapshot={snapshot}
