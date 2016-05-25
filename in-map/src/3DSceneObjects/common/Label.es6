@@ -24,7 +24,7 @@ export default class Label extends SceneObjectWithSnapshot {
     this.factory.addFragment(this.fragment);
   }
 
-  positionChanged({newPosition}) {
+  positionChanged(newPosition) {
     this.positionHandler.position.x = newPosition.x;
     this.positionHandler.position.y = newPosition.y;
     this.positionHandler.position.z = newPosition.z;

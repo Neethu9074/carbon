@@ -11,15 +11,12 @@ import Dashboard from './components/Dashboard';
 import App from './components/App';
 
 export default (
-  <Route name='map' path='/' handler={App}>
-    <Route handler={Dashboard}
-           path='dashboard'
-           name='dashboard'/>
-    <Route handler={TraceView}
-           path='traces'
-           name='traces'/>
-    <Route handler={TableView}
-           path='table'
-           name='table'/>
+  <Route path='/' component={App}>
+    <Route component={Dashboard}
+           path='dashboard' />
+    <Route component={TraceView}
+           path='traces' />
+    <Route component={TableView}
+           path='table' />
   </Route>
 );

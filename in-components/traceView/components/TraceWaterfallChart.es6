@@ -38,7 +38,9 @@ const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
            onClick={onClick}>
         <div className={block + '__span-block'}>
         </div>
-        {msZeroDecimalPlaces(span.get('duration'))}: {getLabel(span)}
+        <span>
+          {msZeroDecimalPlaces(span.get('duration'))}: {getLabel(span)}
+        </span>
       </div>
 
       {span.get('childSpans').toArray().map(childSpan =>

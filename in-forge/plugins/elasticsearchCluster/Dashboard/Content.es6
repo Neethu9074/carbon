@@ -6,14 +6,18 @@ import {
   withSiPrefixZeroDecimalPlaces,
   withSiPrefixThreeDecimalPlaces,
   twoDecimalPlaces,
+  withSiMultiplyPrefixZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
   msTwoDecimalPlaces,
   msZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import ClusterNodesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/ClusterNodesTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import ResponsiveTable from 'in-components/ResponsiveTable';
 import DashboardSection from 'in-components/DashboardSection';
 import {timeframeShape} from 'in-stores/timeline';
 import {Row, Col} from 'in-components/Grid/Grid';
+import Mtd from 'in-components/Mtd';
 
 import ClusterSummary from '../ClusterSummary.es6';
 
@@ -34,6 +38,7 @@ export default React.createClass({
   render() {
     const snapshot = this.props.snapshot;
     const timeframe = this.props.timeframe;
+    const indices = snapshot.getIn(['data', 'index_names']);
 
     return (
       <div>
@@ -164,6 +169,45 @@ export default React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
+        {indices ?
+          <DashboardSection title='Indices'>
+            <ResponsiveTable>
+              <thead>
+              <tr>
+                <th>Index</th>
+                <th># of shards</th>
+                <th># of replicas</th>
+                <th>Documents</th>
+                <th>Deleted</th>
+                <th>Size</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              {indices.map((name) =>
+                  <tr key={name}>
+                    <td>{name}</td>
+                    <Mtd metric={'index.' + name + '.number_of_shards'}
+                         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
+                         snapshot={snapshot}/>
+                    <Mtd metric={'index.' + name + '.number_of_replicas'}
+                         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
+                         snapshot={snapshot}/>
+                    <Mtd metric={'index.' + name + '.document_count'}
+                         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
+                         snapshot={snapshot}/>
+                    <Mtd metric={'index.' + name + '.deleted_count'}
+                         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
+                         snapshot={snapshot}/>
+                    <Mtd metric={'index.' + name + '.size'}
+                         snapshot={snapshot}
+                         formatter={bytesTwoDecimalPlaces}/>
+                  </tr>
+              ).valueSeq()}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+        : null}
 
         <DashboardSection title='Cluster Nodes'>
           <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}

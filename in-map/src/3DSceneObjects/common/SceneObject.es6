@@ -22,6 +22,8 @@ export default class SceneObject extends Subscriber {
     this.eventEmitter = new RoEmitter(id);
     this.addSubscription(currentScene.subscribe(scene => this.scene = scene));
 
+    this.stateMachine = new StateMachine(this);
+
     this.initComponents();
 
     this.screenPositionAnchor = this.getComponent('position').getPosition().clone();
@@ -29,7 +31,6 @@ export default class SceneObject extends Subscriber {
 
     this.init();
 
-    this.stateMachine = new StateMachine(this);
     this.stateMachine.initialized();
 
     this.addSubscriptions([

@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const Handlebars = require('handlebars');
 const fs = require('fs');

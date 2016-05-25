@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp */
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import 'react-day-picker/lib/style.css';
 import React from 'react';
 
 import './TextInput.less';
@@ -26,25 +25,27 @@ export default React.createClass({
   },
 
   render() {
-    const inputClassName = block + '__input' +
-                      (this.props.isValid ? '' : ' ' + block + '__input--invalid');
+    const props = this.props;
+
+    const inputClassName =
+      block + '__input' + (props.isValid ? '' : ' ' + block + '__input--invalid');
 
     return (
       <div className={block}>
-        {this.props.isValid ?
+        {props.isValid ?
           null :
           <div className={block + '__validation-panel'}>
-            {this.props.validationMessage}
+            {props.validationMessage}
           </div>
         }
         <span className={block + '__heading'}>
-          {this.props.heading}
+          {props.heading}
         </span>
         <br/>
         <input type='text'
                className={inputClassName}
-               value={this.props.value}
-               onChange={e => this.props.onChange(e.target.value)}/>
+               value={props.value}
+               onChange={e => props.onChange(e.target.value)}/>
       </div>
     );
   }

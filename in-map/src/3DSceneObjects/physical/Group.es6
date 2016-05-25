@@ -78,7 +78,7 @@ export default class Group extends SceneObjectWithSnapshot {
     // add the mesh component to handle visual representation of the node
     components.mesh = new LineMeshComponent({
       sceneObject,
-      factory: this.scene.lineFactory,
+      factory: this.scene.lineSMF,
       contentProvider: new PCM({
         contentProvider: new SCM({
           contentProvider: new FCP()

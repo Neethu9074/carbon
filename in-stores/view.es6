@@ -3,8 +3,8 @@ import * as ro from 'reactive-observables';
 import createIsMonitoringObservable from 'in-services/subscription/isMonitoring';
 import createViewStructureObservable from 'in-services/subscription/view';
 
-import {mutateUrl, navigationParameters} from 'in-stores/navigation';
-import {createStore, createTrackingStore} from 'in-stores/store';
+import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
+import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
 
 export const types = {
@@ -12,12 +12,26 @@ export const types = {
   physical: 'PHYSICAL'
 };
 
-const store = createStore({
+const store = createTrackingStore({
   name: 'view',
-  initialValue: types.physical
-});
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('view' in query) {
+        const view = decodeURIComponent(query.view);
+        if (isValidView(view)) {
+          return view;
+        }
 
-export const view = store.observable.distinct();
+        return types.physical;
+      }
+
+      return types.physical;
+    })
+    .distinct()
+});
+export const view = store.observable;
+
 export const viewStructure = createTrackingStore({
   name: 'viewStructure',
   observable: ro.combineLatest([view, focusedMoment$])
@@ -31,30 +45,6 @@ export const isMonitoring = createTrackingStore({
   name: 'isMonitoring',
   observable: createIsMonitoringObservable()
 }).observable.distinct();
-
-
-if (window.location.hash) {
-  const match = window.location.hash.match(/(\?|&)view=([^&]+)(&|$)/i);
-  if (match && isValidView(match[2])) {
-    const initialView = match[2];
-    setView(initialView);
-    store.applyStateMutation(() => initialView);
-  } else {
-    setView(types.physical);
-  }
-}
-
-
-navigationParameters.subscribe(navParams => {
-  const query = navParams.query;
-  if ('view' in query) {
-    if (isValidView(query.view)) {
-      store.applyStateMutation(() => query.view);
-    } else {
-      store.applyStateMutation(() => types.physical);
-    }
-  }
-});
 
 
 export function setView(newActiveView) {

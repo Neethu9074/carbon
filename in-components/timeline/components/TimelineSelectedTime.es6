@@ -3,8 +3,8 @@ import React from 'react';
 
 import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
 import {formatDate, formatTime} from 'in-services/formatters/date';
-import connectTo from 'in-hoc/connectTo';
 import {resolvedFocusedMoment$} from 'in-stores/timeline';
+import connectTo from 'in-hoc/connectTo';
 
 import './TimelineSelectedTime.less';
 
@@ -36,6 +36,7 @@ export default connectTo({
           <span className={block + '__date'}>
             {formatDate(focusedMoment)}
           </span>
+          &nbsp;
           <span className={block + '__time'}>
             {formatTime(focusedMoment)}
           </span>

@@ -1,6 +1,5 @@
 import createSubscription from 'in-services/subscription/subscription';
 
-
 export default createSubscription(
   // event ID
   'subscribe-highlighted-map-entity',

@@ -4,6 +4,7 @@ import React from 'react';
 
 import {getTenantsWithUnits} from 'in-services/tenants';
 import {isDemoEnvironment} from 'in-services/config';
+import {alwaysNull} from 'in-services/fixedStreams';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 
@@ -16,22 +17,16 @@ import './AccountMenu.less';
 
 const block = 'in-account';
 
-export default connectTo(
-  () => {
-    if (isDemoEnvironment()) {
-      return {};
-    }
-
-    return {
-      tenantUnitStructure: getTenantsWithUnits().map(tenantUnits => {
-        return Object.keys(tenantUnits).map(tenantName => {
-          return {
-            name: tenantName,
-            tenantUnits: tenantUnits[tenantName].map(unit => unit.name)
-          };
-        });
-      })
-    };
+export default connectTo({
+  tenantUnitStructure: isDemoEnvironment() ? alwaysNull : getTenantsWithUnits()
+    .map(tenantUnits => {
+      return Object.keys(tenantUnits).map(tenantName => {
+        return {
+          name: tenantName,
+          tenantUnits: tenantUnits[tenantName].map(unit => unit.name)
+        };
+      });
+    })
   }, React.createClass({
 
   displayName: 'AccountMenu',

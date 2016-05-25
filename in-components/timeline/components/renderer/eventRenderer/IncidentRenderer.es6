@@ -1,11 +1,11 @@
-import EventRenderer from 'in-components/timeline/components/renderer/eventRenderer/EventRenderer';
+import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
 import icons from 'in-components/timeline/icons/icons';
 
 
-export default class IncidentRenderer extends EventRenderer {
+export default class IncidentRenderer extends BasicEventRenderer {
 
-  constructor(buffer, scale, iconSize) {
-    super(buffer, scale, 40, iconSize);
+  constructor(backBuffer, scale, iconSize) {
+    super(backBuffer, scale, 40, iconSize);
   }
 
   draw(incident, isHighlighted) {

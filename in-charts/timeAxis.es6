@@ -1,6 +1,6 @@
 export function getTickPositions(scale, {stepSize, ceilToNearestStep}) {
   // special case: Trace with 0 time.
-  if (scale.getDomainFrom() === scale.getDomainTo()) {
+  if (scale.getDomainFrom() >= scale.getDomainTo()) {
     return [{
       range: scale.getRangeFrom(),
       domain: scale.getDomainFrom()

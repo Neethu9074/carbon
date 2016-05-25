@@ -65,7 +65,7 @@ export function getMetricsForTimeframe(opts) {
 
 const rollupDurationThresholds = [
   {
-    availableFor: 1000 * 60 * 10, // 10m
+    availableFor: 1000 * 60 * 10 + 3000, // 10m + 3s (to give it some slack when deactivating live mode)
     rollup: null, // 1s
     label: '1s'
   },

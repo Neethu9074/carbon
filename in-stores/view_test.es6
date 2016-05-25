@@ -31,16 +31,6 @@ describe('stores.view', () => {
       expect(onNext).to.have.been.calledWith(mod.types.physical);
     });
 
-    it('should use the process view as initial view if specified', () => {
-      setHash('#/?view=PROCESS');
-      loadModule();
-
-      mod.view.subscribe(onNext);
-
-      expect(onNext).to.have.callCount(1);
-      expect(onNext).to.have.been.calledWith(mod.types.process);
-    });
-
     it('should use the physical view if URL defined view does not exist', () => {
       setHash('#/?view=undefinedView');
       loadModule();
@@ -49,16 +39,6 @@ describe('stores.view', () => {
 
       expect(onNext).to.have.callCount(1);
       expect(onNext).to.have.been.calledWith(mod.types.physical);
-    });
-
-    it('should use the process view if defined with multiple other parameters', () => {
-      setHash('#/?sPlugin=foo&view=PROCESS&sHostId=bar');
-      loadModule();
-
-      mod.view.subscribe(onNext);
-
-      expect(onNext).to.have.callCount(1);
-      expect(onNext).to.have.been.calledWith(mod.types.process);
     });
   });
 

@@ -32,8 +32,13 @@ describe('in-stores/metric', () => {
         .to.equal(null);
     });
 
-    it('should define no rollup size for exactly 10 minutes', () => {
+    it('should define no rollup size for 10 minutes', () => {
       expect(metricStore.getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10)))
+        .to.equal(null);
+    });
+
+    it('should define no rollup size for 10 minutes and a small room for error', () => {
+      expect(metricStore.getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10 + 50)))
         .to.equal(null);
     });
 

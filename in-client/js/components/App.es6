@@ -1,28 +1,24 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {RouteHandler, Navigation} from 'react-router';
 import React from 'react';
 
+import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
-import SidebarIncidents from 'in-components/SidebarIncidents';
+import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
+import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
+import SidebarIncidents from 'in-components/sidebars/Incident';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
-import RegisterForBeta from 'in-components/RegisterForBeta';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
-import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
-import SidebarMap from 'in-components/SidebarMap';
+import SidebarMap from 'in-components/sidebars/Map';
 import Lettering from 'in-components/Lettering';
 import Filterbar from 'in-components/Filterbar';
 import {isMonitoring} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
-import helpify from 'in-hoc/helpify';
 import Map from 'in-map';
 
-import NavigationAdapter from './NavigationAdapter';
 import ConnectionStatus from './ConnectionStatus';
-import HelpDialog from './HelpDialog';
-import DemoDialog from './DemoDialog';
 import Settings from './Settings';
 
 import {
@@ -38,7 +34,6 @@ import './App.less';
 const rpt = React.PropTypes;
 
 export default
-  helpify(
   connectTo({
     notMonitoringDialogShown: notMonitoringDialogShown$,
     showSettings: showSettings$,
@@ -49,17 +44,14 @@ export default
     displayName: 'App',
 
     mixins: [
-      PureRenderMixin,
-      Navigation
+      PureRenderMixin
     ],
 
     propTypes: {
-      closeHelpIfOpen: rpt.func.isRequired,
       notMonitoringDialogShown: rpt.bool,
-      showHelp: rpt.func.isRequired,
-      state: rpt.object.isRequired,
       showSettings: rpt.bool,
-      isMonitoring: rpt.bool
+      isMonitoring: rpt.bool,
+      children: rpt.any
     },
 
     componentWillMount() {
@@ -73,23 +65,20 @@ export default
     showNotMonitoringDialogIfNecessary(props) {
       if (props.isMonitoring === false && props.notMonitoringDialogShown === false) {
         notMonitoringWasShown();
-        props.showHelp(203860032);
+        showHelp(203860032);
       } else if (props.isMonitoring) {
-        props.closeHelpIfOpen(203860032);
+        closeHelpIfOpen(203860032);
       }
     },
 
     render() {
-      const activePath = this.props.state.routes.map(route => route.name);
-      const hasChildren = this.props.state.routes.length > 1;
+      const hasChildren = this.props.children;
 
       return (
         <div>
-          <NavigationAdapter />
-
           {this.props.showSettings ? <Settings showMenu={setSettingsVisibility}/> : null }
 
-          <MapViewSwitcher activePath={activePath} />
+          <MapViewSwitcher />
 
           <Lettering className='in-root-lettering'/>
           <AccountMenu showMenu={setSettingsVisibility}
@@ -104,20 +93,17 @@ export default
           </section>
 
           <Timeline />
-          <RouteHandler />
-          {isDemoEnvironment() ?
-            <RegisterForBeta />
-          : null}
 
-          {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
+          {this.props.children}
 
-          {isDemoEnvironment() ? <DemoDialog /> : null}
 
           <MessageDialog />
+          <HelpPresenter />
           <TooltipPresenter />
           <ConnectionStatus />
+          <TemporaryNotificationPresenter />
         </div>
       );
     }
   })
-));
+);

@@ -1,5 +1,4 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {Navigation, State} from 'react-router';
 import React from 'react';
 
 import NotificationDialog from 'in-components/NotificationDialog';
@@ -18,11 +17,7 @@ export default
 
     displayName: 'MessageDialog',
 
-    mixins: [
-      PureRenderMixin,
-      Navigation,
-      State
-    ],
+    mixins: [PureRenderMixin],
 
     propTypes: {
       message: rpt.object

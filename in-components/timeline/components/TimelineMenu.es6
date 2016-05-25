@@ -5,8 +5,9 @@ import {
   isCollapsed$,
   toggleMenu,
   showTimeSelector$,
-  hideTimeSelector
+  toggleShowTimeSelector
 } from 'in-components/timeline/timelineStore';
+import {serverTime$} from 'in-stores/serverTime';
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
@@ -54,7 +55,7 @@ export default connectTo({
           <div className={block + '__heading'}>
             {this.props.showTimeSelector ?
               <DatePicker applyDate={this.applyDate}
-                          onClose={hideTimeSelector}/>
+                          onClose={toggleShowTimeSelector}/>
                : null
              }
             <TimelineSelectedTime/>
@@ -80,11 +81,13 @@ export default connectTo({
 
     applyDate(date) {
       if (this.props.timeframe) {
-        const focusedMoment = Date.parse(date);
-        if (focusedMoment) {
-          setFocusedMoment(focusedMoment);
-          setTo(focusedMoment + this.props.timeframe.windowSize / 2);
-        }
+        serverTime$.once(serverTime => {
+          const focusedMoment = Math.min(serverTime, Date.parse(date));
+          if (focusedMoment) {
+            setFocusedMoment(focusedMoment);
+            setTo(focusedMoment + this.props.timeframe.windowSize / 2);
+          }
+        });
       }
     }
   })

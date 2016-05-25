@@ -8,12 +8,13 @@ export default createSubscription(
   'subscribe-filterable-tags',
 
   // getID
-  () => '',
+  time => time,
 
   // data to be send for subscription
-  (subscriptionId) => {
+  (subscriptionId, time) => {
     return {
-      subscriptionId
+      subscriptionId,
+      time
     };
   },
 

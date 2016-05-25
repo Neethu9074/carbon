@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {selectedIncident} from 'in-stores/incident';
+import {selectedIncident$} from 'in-stores/incident';
 
 export default function getSelectedIncident(ComposedComponent) {
   return React.createClass({
@@ -14,7 +14,7 @@ export default function getSelectedIncident(ComposedComponent) {
     },
 
     componentWillMount() {
-      this.subscription = selectedIncident.subscribe(incident =>
+      this.subscription = selectedIncident$.subscribe(incident =>
         this.setState({
           incident
         }));

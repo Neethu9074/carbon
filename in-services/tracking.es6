@@ -23,11 +23,7 @@ addEvent('navigateToAWiredComponentFromTheDashboard', 'dashboard', 'navigate to 
 addEvent('antialiasWasChosenInSettings', 'setting', 'change anti alias');
 
 
-// track for local and demo environments. Customer environments are not yet supported.
-// Need to figure out how to use multiple domains with a single tracking ID.
-const shouldTrack = window.location.href.indexOf('local-instana.instana.io') !== -1 ||
-  window.location.href.indexOf('demo.instana.io') !== -1;
-if (shouldTrack) {
+if (config.analyticsTrackingId) {
   installTracking();
 }
 
@@ -62,7 +58,7 @@ function installTracking() {
 
 function addEvent(name, category, action) {
   events[name] = function trackEvent() {
-    if (shouldTrack) {
+    if (config.analyticsTrackingId) {
       ga('send', 'event', category, action);
     }
   };

@@ -136,7 +136,7 @@ export default class MetricComponent extends Component {
   positionChanged(event) {
     // route to local emitter
     this.eventEmitter.emit('positionChanged', event);
-    this.positionToSet.set(event.newPosition.x, event.newPosition.y, event.newPosition.z);
+    this.positionToSet.set(event.x, event.y, event.z);
     this.needsUpdate = true;
   }
 

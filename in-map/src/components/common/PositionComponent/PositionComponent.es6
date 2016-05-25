@@ -9,7 +9,6 @@ export default class PositionComponent extends Component {
     super(sceneObject, '_position');
 
     this.position = new THREE.Vector3(0, 0, 0);
-    this.oldPosition = new THREE.Vector3(0, 0, 0);
     this.initialized();
   }
 
@@ -19,21 +18,14 @@ export default class PositionComponent extends Component {
       return;
     }
 
-    this.oldPosition.set(pos.x, pos.y, pos.z);
     pos.set(x, y, z);
-
     this.needsUpdate = true;
   }
 
   update() {
-    const oldPosition = this.oldPosition;
     const newPosition = this.position;
+    this.emit('positionChanged', newPosition);
 
-    this.emit('positionChanged', {
-      newPosition,
-      oldPosition
-    });
-    oldPosition.set(newPosition.x, newPosition.y, newPosition.z);
     this.needsUpdate = false;
   }
 

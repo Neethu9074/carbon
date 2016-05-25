@@ -25,7 +25,6 @@ import TextInput from './TextInput';
 import './DatePicker.less';
 
 
-const MAX_MILLIS_FOR_CLICK = 300;
 const block = 'in-date-picker';
 const rpt = React.PropTypes;
 
@@ -57,17 +56,11 @@ export default connectTo({
     },
 
     componentDidMount() {
-      this.downTime = 0;
-      this.upTime = 0;
       this.onMouseUp = throttleNextFrame(this.onMouseUp);
-      this.onMouseDown = throttleNextFrame(this.onMouseDown);
-
       window.addEventListener('mouseup', this.onMouseUp, false);
-      window.addEventListener('mousedown', this.onMouseDown, false);
     },
 
     componentWillUnmount() {
-      window.removeEventListener('mousedown', this.onMouseDown, false);
       window.removeEventListener('mouseup', this.onMouseUp, false);
     },
 
@@ -90,21 +83,19 @@ export default connectTo({
             <TextInput heading={'Date'}
                        value={this.props.dateString}
                        isValid={this.props.dateIsValid}
-                       validationMessage={'please enter a date in the form: ' + dateFormat}
+                       validationMessage={'please enter a present date in the form: ' + dateFormat}
                        onChange={setDateString} />
 
             <TextInput heading={'Time'}
                        value={this.props.timeString}
                        isValid={this.props.timeIsValid}
-                       validationMessage={'please enter a time in the form: ' + timeFormat}
+                       validationMessage={'please enter a present time in the form: ' + timeFormat}
                        onChange={setTimeString} />
           </div>
 
           <DayPicker initialMonth={date}
                      modifiers={{
-                       isSelected: day => {
-                         return dateUtils.isSameDay(day, date);
-                       }
+                       isSelected: day => dateUtils.isSameDay(day, date)
                      }}
                      onDayClick={(e, day) => setDateString(formatDate(day))}/>
         </div>
@@ -135,23 +126,12 @@ export default connectTo({
         return;
       }
 
-      this.upTime = Date.now();
-
-      const delta = this.upTime - this.downTime;
-      if (delta > MAX_MILLIS_FOR_CLICK) {
-        return;
-      }
-
       const rect = this.refs.timepicker.getBoundingClientRect();
       if (e.clientX > rect.right || e.clientX < rect.left ||
           e.clientY < rect.top || e.clientY > rect.bottom) {
         // the click was donw outside this component so close it
         this.props.onClose();
       }
-    },
-
-    onMouseDown() {
-      this.downTime = Date.now();
     }
   })
 );

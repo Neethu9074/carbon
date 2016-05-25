@@ -37,7 +37,7 @@ const timeFormats = [
     ceilToNearestStep: composeCeil(ceilToFullSecond)
   },
   {
-    maxMillis: 1000 * 60 * 10,
+    maxMillis: 1000 * 60 * 11,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60,
@@ -48,7 +48,7 @@ const timeFormats = [
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 5,
-    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFiveMinuteStep)
   },
   {
     maxMillis: 1000 * 60 * 60 * 12,
@@ -59,19 +59,24 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 60 * 60 * 24,
-    formatter: formatTime,
+    formatter: formatDateTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60 * 2,
-    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToTwoHourStep)
+  },
+  {
+    maxMillis: 1000 * 60 * 60 * 24 * 14,
+    formatter: formatDate,
+    relativeFormatter: msZeroDecimalPlaces,
+    stepSize: 1000 * 60 * 60 * 24,
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToFullDay)
   },
   {
     maxMillis: Number.MAX_VALUE,
-    formatter(date) {
-      return `${formatDate(date)} ${formatTime(date)}`;
-    },
+    formatter: formatDate,
     relativeFormatter: msZeroDecimalPlaces,
-    stepSize: 1000 * 60 * 60 * 24,
-    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
+    stepSize: 1000 * 60 * 60 * 24 * 7,
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToFullDay, ceilToStartOfWeek)
   }
 ];
 
@@ -101,6 +106,17 @@ function formatTime(millis) {
   const hours = ensureTwoChars(date.getHours());
   const minutes = ensureTwoChars(date.getMinutes());
   return `${hours}:${minutes}`;
+}
+
+
+function formatDateTime(millis) {
+  const date = new Date(millis);
+  const year = date.getFullYear();
+  const month = ensureTwoChars(date.getMonth() + 1);
+  const day = ensureTwoChars(date.getDate());
+  const hours = ensureTwoChars(date.getHours());
+  const minutes = ensureTwoChars(date.getMinutes());
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
 
@@ -166,9 +182,45 @@ function ceilToFullMinute(date) {
 }
 
 
+function ceilToFiveMinuteStep(date) {
+  const minutes = date.getMinutes();
+  const remainder = minutes % 5;
+  if (remainder !== 0) {
+    date.setMinutes(minutes + 5 - remainder);
+  }
+}
+
+
 function ceilToFullHour(date) {
   const minutes = date.getMinutes();
   if (minutes > 0) {
     date.setMinutes(minutes + 60 - minutes);
+  }
+}
+
+
+function ceilToTwoHourStep(date) {
+  const hours = date.getHours();
+  const remainder = hours % 2;
+  if (remainder !== 0) {
+    date.setHours(hours + 2 - remainder);
+  }
+}
+
+
+function ceilToFullDay(date) {
+  const hours = date.getHours();
+  if (hours > 0) {
+    date.setHours(hours + 24 - hours);
+  }
+}
+
+
+function ceilToStartOfWeek(date) {
+  // Caution: Deliberately chosen getDay and getDate. There is no setDay in the Date
+  // API.
+  const daysOfWeek = date.getDay();
+  if (daysOfWeek > 0) {
+    date.setDate(date.getDate() + 7 - daysOfWeek);
   }
 }

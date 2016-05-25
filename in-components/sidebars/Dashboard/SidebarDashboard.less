@@ -1,0 +1,14 @@
+@import "~in-themes/active.less";
+
+.in-sidebar-dashboard {
+  @sidebarWidth: @sidebar__width * 1px;
+
+  z-index: @z-index__sidebar;
+  height: 100%;
+  max-width: @sidebarWidth;
+  min-width: @sidebarWidth;
+
+  &__detail-list {
+    max-height: ~"calc(100% - 185px)";
+  }
+}

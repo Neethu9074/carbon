@@ -24,9 +24,10 @@ chai.use(require('sinon-chai'));
 });
 
 // support ES6
-require('babel/register')({
+require('babel-core/register')({
   only: /es6/,
-  ignore: '^$'
+  ignore: '^$',
+  presets: ['es2015', 'react', 'stage-2']
 });
 
 // Ensuring a browser environment is simulated before React is loaded to avoid

@@ -1,6 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import HighlightedMomentIndicator from 'in-components/timeline/components/HighlightedMomentIndicator';
+import {parseLong} from 'in-services/formatters/string';
 import {
   timeframe$,
   setWindowSize,
@@ -14,8 +16,8 @@ import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
 
-
-const step = (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) / 100; // 100 steps
+const stepCount = 15;
+const step = (MIN_ZOOM_LEVEL - MAX_ZOOM_LEVEL) / stepCount;
 const block = 'in-timeline-navigation';
 
 export default connectTo({
@@ -42,24 +44,27 @@ export default connectTo({
         <div className={block}>
           <Icon type={'zoom_small'}
                 className={block + '__icon-zoom'}
-                onClick={this.zoomIn}/>
+                onClick={this.zoomOut}/>
 
+          {/* MIN / MAX is turned upside down 'cause highest zoom level = smallest number */}
           <Slider onChange={this.onZoomChanged}
-                  min={MIN_ZOOM_LEVEL}
-                  max={MAX_ZOOM_LEVEL}
+                  min={MAX_ZOOM_LEVEL}
+                  max={MIN_ZOOM_LEVEL}
                   step={step}
-                  value={MAX_ZOOM_LEVEL - timeframe.windowSize}
+                  value={MAX_ZOOM_LEVEL + MIN_ZOOM_LEVEL - timeframe.windowSize}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
                 className={block + '__icon-zoom'}
-                onClick={this.zoomOut}/>
+                onClick={this.zoomIn}/>
+
+          <HighlightedMomentIndicator />
         </div>
       );
     },
 
     onZoomChanged(e) {
-      setWindowSize(e.target.value * 1); // as number
+      setWindowSize(MAX_ZOOM_LEVEL + MIN_ZOOM_LEVEL - parseLong(e.target.value));
     },
 
     zoomOut() {

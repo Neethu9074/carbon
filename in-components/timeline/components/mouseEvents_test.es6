@@ -32,7 +32,7 @@ describe('mouseEvents', () => {
     'in-stores/events': {
       eventsInTimeframe$: create().startWith(null)
     }
-  });
+  }).default;
 
   beforeEach(() => {
     mouseEvents = createMouseEvents();

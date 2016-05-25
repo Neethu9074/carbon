@@ -8,7 +8,8 @@ import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   msZeroDecimalPlaces,
-  msTwoDecimalPlaces
+  msTwoDecimalPlaces,
+  percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-components/DashboardSection';
@@ -61,7 +62,7 @@ const KafkaDashboard = React.createClass({
                  height={chartHeight}
                  margins={{
                    left: 80,
-                   right: 40
+                   right: 80
                  }}
                  y1={{
                    formatter: zeroDecimalPlaces,
@@ -154,8 +155,8 @@ const KafkaDashboard = React.createClass({
                    left: 80
                  }}
                  y1={{
-                   formatter: twoDecimalPlaces,
-                   tooltipFormatter: twoDecimalPlaces,
+                   formatter: percentageZeroDecimalPlaces,
+                   tooltipFormatter: percentageZeroDecimalPlaces,
                    metrics: [
                      'broker.networkProcessorIdle',
                      'broker.requestHandlerIdle'

@@ -1,7 +1,6 @@
 import THREE from 'three';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import ConnectionGrid from '../../ConnectionGrid';
 import BaseConnection from '../common/Connection';
 import {DIRECTIONS} from '../common/Connection';
 
@@ -44,33 +43,42 @@ export default class Connection extends BaseConnection {
   }
 
   updateGeometry() {
-    this.geometry.addAttribute('position',
-      new THREE.BufferAttribute(
-        new Float32Array(this.getLineVertices(this.sourceNode, this.destinationNode)), 3));
+    const vertices = new Float32Array(this.getLineVertices(this.sourceNode, this.destinationNode));
 
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
     this.geometry.attributes.position.needsUpdate = true;
   }
 
   calculatePath(fromPos, toPos) {
-    const path = ConnectionGrid.getPath({
-      fromX: fromPos.x,
-      fromY: -fromPos.z, // connectionGrid uses positive z space, so invert
-      toX: toPos.x,
-      toY: -toPos.z
-    });
+    // connectionGrid uses positive z space, so invert
+    return this.getPath(fromPos.x, -fromPos.z, toPos.x, -toPos.z);
+  }
 
-    if (!path) {
-      return undefined;
+  getPath(fromX, fromY, toX, toY) {
+    fromX -= 0.5;
+    fromY -= 0.5;
+    toX -= 0.5;
+    toY -= 0.5;
+
+    const p0 = { x: fromX, y: 0, z: -fromY };
+    const p4 = { x: toX, y: 0, z: -toY };
+
+    if (toX > fromX) {
+      toX -= 1;
+    } else {
+      toX += 1;
+    }
+    if (toY > fromY) {
+      fromY += 1;
+    } else {
+      fromY -= 1;
     }
 
-    const preparedPath = [];
-    for (let i = 0; i < path.length - 1; i++) {
-      const current = path[i].position;
-      const next = path[i + 1].position;
-      preparedPath.push({x: current.x - 0.5, y: current.z, z: -current.y + 0.5});
-      preparedPath.push({x: next.x - 0.5, y: next.z, z: -next.y + 0.5});
-    }
-    return preparedPath;
+    const p1 = { x: fromX, y: 0, z: -fromY };
+    const p2 = { x: fromX + (toX - fromX), y: 0, z: -fromY };
+    const p3 = { x: toX, y: 0, z: -toY };
+
+    return [p0, p1, p1, p2, p2, p3, p3, p4];
   }
 
   postProPath(path) {

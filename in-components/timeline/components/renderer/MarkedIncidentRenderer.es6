@@ -1,15 +1,15 @@
+import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import {selectedIncidentId$} from 'in-stores/incident';
 
 
 const white = '#ffffff';
 
-export default class MarkedIncidentRenderer {
+export default class MarkedIncidentRenderer extends BasicRenderer {
 
-  constructor(buffer, scale) {
+  constructor(backBuffer, scale) {
+    super(backBuffer, scale);
+
     this.selectedIncidentId = null;
-    this.buffer = buffer;
-    this.scale = scale;
-
     this.selectedIncidentSubscription = selectedIncidentId$.subscribe(si => this.selectedIncidentId = si);
   }
 
@@ -41,13 +41,16 @@ export default class MarkedIncidentRenderer {
       this.scale.getRange(this.scale.getDomainTo()) :
       this.scale.getRange(match.get('end'));
 
-    this.buffer.globalAlpha = 0.2;
-    this.buffer.fillStyle = white;
-    this.buffer.fillRect(x, 40, to - x, 122);
-    this.buffer.globalAlpha = 1;
+    const buffer = this.backBuffer;
+    buffer.globalAlpha = 0.2;
+    buffer.fillStyle = white;
+    buffer.fillRect(x, 80, to - x, 122);
+    buffer.globalAlpha = 1;
   }
 
   dispose() {
+    super.dispose();
+
     this.selectedIncidentSubscription.dispose();
   }
 }

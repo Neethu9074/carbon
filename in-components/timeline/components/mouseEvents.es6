@@ -7,12 +7,18 @@ import {
   isCollapsed$,
   to$,
   setTimeFrame,
+  timeframe$,
   getValidWindowSize
 } from 'in-components/timeline/timelineStore';
+import {
+  setTo as setGlobalTo,
+  lockFocusedMoment as lockGlobalFousedMoment,
+  setHighlightedMoment,
+  clearHighlightedMoment
+} from 'in-stores/timeline';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
-import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 
@@ -20,7 +26,7 @@ import {serverTime$} from 'in-stores/serverTime';
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
-  const minPixelToMoveForDragDetection = 5;
+  const minPixelToMoveForDragDetection = 20;
 
   let isFocusedMomentPanning = false;
   let xPositionOnMouseDown = null;
@@ -32,6 +38,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let serverTime = Number.MAX_VALUE;
   const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time);
+
+  let timeframe;
+  const timeframeSubscription = timeframe$.subscribe(_timeframe => timeframe = _timeframe);
 
   let focusedMomentXPosition;
   const focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(newX => focusedMomentXPosition = newX);
@@ -53,6 +62,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     setHighlightedEvent(null);
 
     xPositionOnMouseDown = null;
+
+    clearHighlightedMoment();
 
     if (isPanning) {
       onPanEnd();
@@ -97,7 +108,16 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     newTimeFrame.to = Math.max(0, newTimeFrame.to);
 
     if (newTimeFrame.to >= serverTime) {
-      newTimeFrame.to = null;
+      // Only keep live when currently live. Clamp to servertime otherwise
+      if (timeframe.to == null) {
+        newTimeFrame.to = null;
+      } else {
+        newTimeFrame.to = serverTime;
+      }
+    } else {
+      // lock the global focused moment if the timeframe was limited to the past
+      // multi locking is checked by lockGlobalFousedMoment implementation
+      lockGlobalFousedMoment();
     }
 
     return newTimeFrame;
@@ -136,7 +156,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     }
 
     xPositionOnMouseDown = null;
-    isFocusedMomentPanning = false;
     onPanEnd();
   }
 
@@ -148,6 +167,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
         onPanStart(x);
       }
     }
+
+    setHighlightedMoment(scale.getDomain(x));
 
     // don't try to calculate mouseover if the user is panning or there are no events
     if (isPanning || !categorizedEvents) {
@@ -203,10 +224,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onPanEnd() {
-    if (!isFocusedMomentPanning && !focusedMoment) {
+    if (isPanning && !isFocusedMomentPanning && !focusedMoment) {
       const timeToSet = scale.getDomainTo();
       // if the user panns to the right border (servertime) set to live mode again
-      setGlobalTo(timeToSet >= serverTime ? null : timeToSet);
+      setGlobalTo(Math.min(timeToSet, serverTime));
     }
 
     isFocusedMomentPanning = false;
@@ -261,6 +282,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     mouseLeaveSubscription.dispose();
     mouseDownSubscription.dispose();
     mouseMoveSubscription.dispose();
+    timeframeSubscription.dispose();
     mouseUpSubscription.dispose();
     eventsSubscription.dispose();
     scrollSubscription.dispose();
