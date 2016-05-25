@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {isWindows} from 'in-forge/plugins/host/hostUtils';
@@ -19,15 +20,17 @@ export default function FilesystemsTable({snapshot, timeframe}) {
   const filesystems = snapshot.getIn(['data', 'filesystems'], emptyList);
 
   return (
-    <ExpandableTable data={filesystems}
-                     getKey={getKey}
-                     createHeader={createHeader}
-                     createRow={createRow}
-                     context={{
-                       snapshot,
-                       timeframe
-                     }}
-                     createDetails={createDetails} />
+    <DashboardSection title='Filesystems'>
+      <ExpandableTable data={filesystems}
+                       getKey={getKey}
+                       createHeader={createHeader}
+                       createRow={createRow}
+                       context={{
+                         snapshot,
+                         timeframe
+                       }}
+                       createDetails={createDetails} />
+    </DashboardSection>
   );
 }
 

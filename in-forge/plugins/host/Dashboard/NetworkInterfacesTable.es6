@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
@@ -17,15 +18,17 @@ export default function NetworkInterfacesTable({snapshot, timeframe}) {
   const interfaces = snapshot.getIn(['data', 'interfaces'], emptyList);
 
   return (
-    <ExpandableTable data={interfaces}
-                     getKey={getKey}
-                     createHeader={createHeader}
-                     createRow={createRow}
-                     context={{
-                       snapshot,
-                       timeframe
-                     }}
-                     createDetails={createDetails} />
+    <DashboardSection title='Network Interfaces'>
+      <ExpandableTable data={interfaces}
+                       getKey={getKey}
+                       createHeader={createHeader}
+                       createRow={createRow}
+                       context={{
+                         snapshot,
+                         timeframe
+                       }}
+                       createDetails={createDetails} />
+    </DashboardSection>
   );
 }
 

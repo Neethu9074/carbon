@@ -1,6 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import Immutable from 'immutable';
 import React from 'react';
 
 import {
@@ -12,14 +11,13 @@ import {
 } from 'in-services/formatters/number';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
+import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 import {getRawPayload} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Mtd from 'in-components/Mtd';
 
 
 const chartHeight = 200;
@@ -44,22 +42,10 @@ export default connectTo(
       processes: irpt.list
     },
 
-    getInitialState() {
-      return {
-        cpuNo: null
-      };
-    },
-
     render() {
       const timeframe = this.props.timeframe;
       const snapshot = this.props.snapshot;
-
-      const cpuNo = this.state.cpuNo;
-
-      const cpuCount = snapshot.getIn(['data', 'cpu.count']);
       const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
-
-      const cpus = Immutable.Range(1, cpuCount + 1);
 
       return (
         <div>
@@ -113,80 +99,7 @@ export default connectTo(
             </DashboardSection>
           : null}
 
-          {cpuCount > 1 ?
-
-          <DashboardSection title='Individual CPU Usage'>
-            {cpuNo ?
-              <div>
-                <ChartWithLegend snapshot={snapshot}
-                       timeframe={timeframe}
-                       height={chartHeight}
-                       margins={{
-                         left: 60
-                       }}
-                       y1={{
-                         min: 0,
-                         max: 1,
-                         formatter: percentageZeroDecimalPlaces,
-                         metrics: [
-                           'cpus.' + cpuNo + '.user',
-                           'cpus.' + cpuNo + '.sys',
-                           'cpus.' + cpuNo + '.wait',
-                           'cpus.' + cpuNo + '.nice',
-                           'cpus.' + cpuNo + '.steal'
-                         ],
-                         labels: [
-                           'User',
-                           'System',
-                           'Wait',
-                           'Nice',
-                           'Steal'
-                         ],
-                         type: 'stackedArea'
-                       }}/>
-              </div>
-            : null}
-            <ResponsiveTable clickable={true}>
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>User</th>
-                  <th>System</th>
-                  <th>Wait</th>
-                  <th>Nice</th>
-                  <th>Steal</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {cpus.map((index) =>
-                  <tr key={'cpu-' + index}
-                      onClick={() => this.selectCpu(index)}
-                      className={classnames({
-                        'active': name === cpuNo
-                      })}>
-                    <td>CPU {index}</td>
-                    <Mtd metric={'cpus.' + index + '.user'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'cpus.' + index + '.sys'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'cpus.' + index + '.wait'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'cpus.' + index + '.nice'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'cpus.' + index + '.steal'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                  </tr>
-                ).valueSeq()}
-              </tbody>
-            </ResponsiveTable>
-          </DashboardSection>
-          : null}
+          <CpuTable snapshot={snapshot} timeframe={timeframe} />
 
           <DashboardSection title='Memory Free'>
             <ChartWithLegend snapshot={snapshot}
@@ -232,16 +145,9 @@ export default connectTo(
             </DashboardSection>
           : null}
 
-          <DashboardSection title='Filesystems'>
-            <FilesystemsTable snapshot={snapshot}
-                              timeframe={timeframe}/>
-          </DashboardSection>
+          <FilesystemsTable snapshot={snapshot} timeframe={timeframe}/>
 
-
-          <DashboardSection title='Network Interfaces'>
-            <NetworkInterfacesTable snapshot={snapshot}
-                                    timeframe={timeframe} />
-          </DashboardSection>
+          <NetworkInterfacesTable snapshot={snapshot} timeframe={timeframe} />
 
           <DashboardSection title='TCP Activity'>
             <ChartWithLegend snapshot={snapshot}
