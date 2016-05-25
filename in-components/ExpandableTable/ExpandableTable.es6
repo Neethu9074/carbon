@@ -40,27 +40,13 @@ export default React.createClass({
 
     return (
       <table className={classes}>
-        <thead>
-          {this.createHeader()}
-        </thead>
+        {this.props.createHeader(this.props.context)}
 
         <tbody>
           {this.flatMapRows(this.createRow)}
         </tbody>
       </table>
     );
-  },
-
-
-  createHeader() {
-    // create row this way to avoid usage of child element arrays (which would result in
-    // warnings due to missing key props).
-    let rowArgs = [
-      'tr',
-      null
-    ];
-    rowArgs = rowArgs.concat(this.props.createHeader(this.props.context));
-    return React.createElement.apply(React, rowArgs);
   },
 
 

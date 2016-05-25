@@ -38,20 +38,24 @@ function getKey(filesystem, name) {
 
 
 function createHeader(context) {
-  return ([
-    <th>Device</th>,
-    !isWindows(context.snapshot) ? <th>Mount</th> : null,
-    <th>Options</th>,
-    <th>Type</th>,
-    <th>Capacity</th>,
-    <th>Free</th>,
-    <th>
-      <HelpLink helpId='203876231'>
-        Leaked
-      </HelpLink>
-    </th>,
-    !isWindows(context.snapshot) ? <th>iFree</th> : null
-  ]);
+  return (
+    <thead>
+      <tr>
+        <th>Device</th>
+        {!isWindows(context.snapshot) ? <th>Mount</th> : null}
+        <th>Options</th>
+        <th>Type</th>
+        <th>Capacity</th>
+        <th>Free</th>
+        <th>
+          <HelpLink helpId='203876231'>
+            Leaked
+          </HelpLink>
+        </th>
+        {!isWindows(context.snapshot) ? <th>iFree</th> : null}
+      </tr>
+    </thead>
+  );
 }
 
 
