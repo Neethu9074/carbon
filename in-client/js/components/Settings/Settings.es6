@@ -102,7 +102,6 @@ const Settings = React.createClass({
                         value={this.state.antialiasValue}>
                 {'off'}
                 {'browserAA'}
-                {'FXAA'}
               </ComboBox>
             </SettingEntry.Content>
           </SettingEntry>

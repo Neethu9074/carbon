@@ -14,10 +14,6 @@ import * as tracking from 'in-services/tracking';
 import {theme} from 'in-services/theme';
 import eventBus from 'in-map/eventbus';
 
-import './lib/EffectComposer';
-import './lib/ShaderExtras';
-import './lib/ShaderPass';
-import './lib/RenderPass';
 import './lib/Octree';
 
 import FadeByDistanceSingleMeshFactory from './SingleMeshFactory/FadeByDistanceSingleMeshFactory';
@@ -62,7 +58,6 @@ export default class Scene {
       height: this.height,
       width: this.width
     });
-    this.setupFXAARenderPass();
 
     this.adaptiveDetailHandler = new Handler.AdaptiveDetailHandler(this);
 
@@ -113,28 +108,6 @@ export default class Scene {
     renderer.autoUpdateObjects = false;
   }
 
-  setupFXAARenderPass() {
-    if (this.antialias !== 'FXAA') {
-      return;
-    }
-
-    const height = this.height;
-    const width = this.width;
-
-    const renderTarget = this.renderTarget = new THREE.WebGLRenderTarget(width, height, {
-      minFilter: THREE.LinearFilter
-    });
-
-    const effectFXAA = this.fxaaEffect = new THREE.ShaderPass(THREE.ShaderExtras.fxaa);
-    effectFXAA.uniforms.resolution.value.set(1 / width, 1 / height);
-    effectFXAA.renderToScreen = true;
-
-    const composer = new THREE.EffectComposer(this.webGLRenderer, renderTarget);
-    composer.addPass(new THREE.RenderPass(this.scene, this.mapHandler.getCurrentCamera()));
-    composer.addPass(effectFXAA);
-
-    this.composer = composer;
-  }
 
   setupFactories() {
     const scene = this;
@@ -291,11 +264,7 @@ export default class Scene {
   render() {
     const camera = this.mapHandler.getCurrentCamera();
 
-    if (this.antialias === 'FXAA') {
-      this.composer.render();
-    } else {
-      this.webGLRenderer.render(this.scene, camera);
-    }
+    this.webGLRenderer.render(this.scene, camera);
 
     // reset the flag to disable rendering if there is no update
     this.shouldRenderScene = false;
@@ -411,11 +380,6 @@ export default class Scene {
     this.canvas.height = height;
     this.canvas.width = width;
 
-    if (this.fxaaEffect) {
-      this.fxaaEffect.uniforms.resolution.value.set(1 / width, 1 / height);
-      this.renderTarget.setSize(width, height);
-      this.composer.setSize(width, height);
-    }
     this.webGLRenderer.setSize(width, height);
     this.mapHandler.onWindowResize(width, height);
 
