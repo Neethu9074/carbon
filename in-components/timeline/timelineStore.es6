@@ -59,6 +59,11 @@ export function setTimeFrame(windowSize, to) {
   timeframeStore.applyStateMutation(() => createTimeframe(getValidWindowSize(windowSize), to));
 }
 
+export function moveTimeFrame(windowSizeToMove) {
+  timeframeStore.applyStateMutation(prevTimeFrame =>
+    createTimeframe(prevTimeFrame.windowSize, prevTimeFrame.to - windowSizeToMove));
+}
+
 export function setTo(to) {
   timeframeStore.applyStateMutation(prevTimeFrame => createTimeframe(prevTimeFrame.windowSize, to));
 }
