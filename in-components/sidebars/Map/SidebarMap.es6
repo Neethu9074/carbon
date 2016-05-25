@@ -6,6 +6,7 @@ import SidebarHeadingSnapshotMetadata from 'in-components/sidebars/components/Si
 import SidebarHeadingNavigation from 'in-components/sidebars/components/SidebarHeadingNavigation';
 import SidebarDetailList from 'in-components/sidebars/components/SidebarDetailList';
 import FocusButton from 'in-components/sidebars/Map/components/FocusButton';
+import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import SidebarTabs from 'in-components/sidebars/components/SidebarTabs';
 import getSelectedSnapshot from 'in-hoc/getSelectedSnapshot';
 import eventBus from 'in-map/eventbus';
@@ -67,7 +68,7 @@ export default getSelectedSnapshot(React.createClass({
         </SidebarHeadingNavigation>
 
         <FocusButton className={block + '__focus-button'}
-                     onClick={() => eventBus.emit('focusEntityId', snapshot.get('id'))}/>
+                     onClick={() => this.focusSnapshotId(snapshot.get('id'))}/>
 
         <SidebarHeadingSnapshotMetadata snapshot={snapshot}
                                         className={block + '__heading'}/>
@@ -77,5 +78,12 @@ export default getSelectedSnapshot(React.createClass({
                            style={{ maxHeight: this.state.windowHeight }}/>
       </div>
     );
+  },
+
+  focusSnapshotId() {
+    selectedSnapshotIdForHighlightingInMap
+      .once(highlightedId => {
+        eventBus.emit('focusEntityId', highlightedId);
+      });
   }
 }));
