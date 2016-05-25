@@ -9,7 +9,7 @@ import * as timelineStore from 'in-stores/timeline';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/sidebars/incident/components/RecentEventsCounter.less';
+import 'in-components/sidebars/Incident/components/RecentEventsCounter.less';
 
 
 const block = 'in-sidebar-incident-recent-events-counter';

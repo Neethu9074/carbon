@@ -4,7 +4,7 @@ import React from 'react';
 
 import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 
-import Event from 'in-components/sidebars/incident/components/Event';
+import Event from 'in-components/sidebars/Incident/components/Event';
 
 
 export default getEventsWithinTimerange(

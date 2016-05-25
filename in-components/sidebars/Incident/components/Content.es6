@@ -2,9 +2,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import EventList from 'in-components/sidebars/incident/components//EventList';
+import EventList from 'in-components/sidebars/Incident/components//EventList';
 
-import 'in-components/sidebars/incident/components/Content.less';
+import 'in-components/sidebars/Incident/components/Content.less';
 
 
 const block = 'in-sidebar-incident-content';

@@ -2,11 +2,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import Content from 'in-components/sidebars/incident/components/Content';
-import Header from 'in-components/sidebars/incident/components/Header';
+import Content from 'in-components/sidebars/Incident/components/Content';
+import Header from 'in-components/sidebars/Incident/components/Header';
 import getSelectedIncident from 'in-hoc/getSelectedIncident';
 
-import 'in-components/sidebars/incident/SidebarIncidents.less';
+import 'in-components/sidebars/Incident/SidebarIncidents.less';
 
 
 const block = 'in-sidebar-incidents';
