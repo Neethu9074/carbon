@@ -5,9 +5,8 @@ import React from 'react';
 import HealthIconListing from 'in-components/HealthIconListing';
 import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
+import ZoneTag from 'in-components/ZoneTag';
 import {getLabel} from 'in-sdk/snapshot';
-
-import ZoneTag from '../ZoneTag';
 
 import './SidebarHeadingSnapshotMetadata.less';
 

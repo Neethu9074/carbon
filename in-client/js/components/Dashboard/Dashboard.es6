@@ -2,8 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import SidebarDashboard from 'in-components/sidebars/Dashboard';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import SidebarDashboard from 'in-components/SidebarDashboard';
 import getForgeComponent from 'in-services/getForgeComponent';
 import {selectedSnapshot} from 'in-stores/snapshot';
 import * as timelineStore from 'in-stores/timeline';

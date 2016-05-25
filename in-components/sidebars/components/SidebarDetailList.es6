@@ -4,10 +4,10 @@ import React from 'react';
 
 import getForgeComponent from 'in-services/getForgeComponent';
 import {getClassName} from 'in-services/react';
-
-import Jail from '../Jail';
+import Jail from 'in-components/Jail';
 
 import './SidebarDetailList.less';
+
 
 const block = 'in-sidebar-detail-list';
 

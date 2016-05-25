@@ -2,11 +2,12 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';
-import SidebarHeadingNavigation from '../SidebarHeadingNavigation';
-import SidebarDetailList from '../SidebarDetailList';
+import SidebarHeadingSnapshotMetadata from 'in-components/sidebars/components/SidebarHeadingSnapshotMetadata';
+import SidebarHeadingNavigation from 'in-components/sidebars/components/SidebarHeadingNavigation';
+import SidebarDetailList from 'in-components/sidebars/components/SidebarDetailList';
 
-import './SidebarDashboard.less';
+import 'in-components/sidebars/Dashboard/SidebarDashboard.less';
+
 
 const block = 'in-sidebar-dashboard';
 

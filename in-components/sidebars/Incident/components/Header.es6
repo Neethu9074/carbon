@@ -4,12 +4,11 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
+import RecentEventsCounter from 'in-components/sidebars/incident/components/RecentEventsCounter';
 import {formatDateTime} from 'in-services/formatters/date';
 import Icon from 'in-components/Icon';
 
-import RecentEventsCounter from './RecentEventsCounter';
-
-import './Header.less';
+import 'in-components/sidebars/incident/components/Header.less';
 
 
 const block = 'in-sidebar-incident-header';

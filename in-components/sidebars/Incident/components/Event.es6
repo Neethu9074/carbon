@@ -4,7 +4,7 @@ import React from 'react';
 
 import EventDescription from 'in-components/EventDescription';
 
-import './Event.less';
+import 'in-components/sidebars/incident/components/Event.less';
 
 
 const block = 'in-sidebar-incident-event';
