@@ -55,7 +55,7 @@ export default class TimeAxisRenderer extends BasicRenderer {
     rightGradient.addColorStop(0.5, darkColor);
     rightGradient.addColorStop(1, darkColor);
     buffer.fillStyle = rightGradient;
-    buffer.fillRect(scale.getRangeTo() - edgeWidth, 0, edgeWidth, 40);
+    buffer.fillRect(scale.getRangeTo() - edgeWidth, 0, edgeWidth + 20, 40);
 
     // start
     buffer.fillStyle = lightColor;
