@@ -1,7 +1,6 @@
 import React from 'react';
 
 import ServletsInWebAppTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ServletsInWebAppTable';
-import {milliSecondsFormatter} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
@@ -55,7 +54,7 @@ function createRow(webApp, webAppContext, context) {
     <td>{webAppContext}</td>,
     <td>{webApp.get('name')}</td>,
     <td>{webApp.get('session-timeout')}</td>,
-    <Mtd metric={'sessions.' + name}
+    <Mtd metric={'sessions.' + webAppContext}
          snapshot={context.snapshot} />
   ]);
 }
@@ -65,36 +64,8 @@ function createDetails(webApp, webAppContext, context) {
   return (
     <div>
       <ServletsInWebAppTable webAppContext={webAppContext}
-                             snapshot={context.snapshot} />
-
-      <ChartWithLegend snapshot={context.snapshot}
-             timeframe={context.timeframe}
-             height={200}
-             margins={{
-               left: 80,
-               right: 40
-             }}
-             y1={{
-               formatter: milliSecondsFormatter,
-               metrics: [
-                 'servlets.' + webAppContext + '.time'
-               ],
-               labels: [
-                 'Average Response Time'
-               ],
-               type: 'line'
-             }}
-             y2={{
-               metrics: [
-                 'servlets.' + webAppContext + '.inv',
-                 'servlets.' + webAppContext + '.errors'
-               ],
-               labels: [
-                 'Request Count',
-                 'Errors'
-               ],
-               type: 'line'
-             }}/>
+                             snapshot={context.snapshot}
+                             timeframe={context.timeframe} />
 
       <ChartWithLegend snapshot={context.snapshot}
              timeframe={context.timeframe}
