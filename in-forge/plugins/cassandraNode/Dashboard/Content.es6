@@ -3,24 +3,19 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 import d3 from 'd3';
 
-import {
-  bytesZeroDecimalPlaces,
-  timeByMicroTwoDecimalPlaces} from 'in-services/formatters/number';
+import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
 import {capitalize} from 'in-services/formatters/string';
-import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 
 import DashboardSection from 'in-components/DashboardSection';
-import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import Mtd from 'in-components/Mtd';
 
 
 const chartHeight = 200;
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
 const muSecondsToMillisFormatter = muSeconds => +(Math.round(muSeconds / 1000.0 + 'e+2')  + 'e-2') + ' ms';
-const muSecondsFormatter = muSeconds => muSeconds + ' µs';
+
 
 const CassandraDashboard = React.createClass({
   mixins: [PureRenderMixin],
@@ -30,18 +25,9 @@ const CassandraDashboard = React.createClass({
     timeframe: timeframeShape
   },
 
-  getInitialState() {
-    return {
-      selectedKeyspace: null
-    };
-  },
-
   render() {
-    const selectedKeyspace = this.state.selectedKeyspace;
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
-
-    const keyspaces = snapshot.get('data').get('keyspaces').sort();
 
     return (
       <div>
@@ -154,85 +140,7 @@ const CassandraDashboard = React.createClass({
                            }}/>
         </DashboardSection>
 
-        <DashboardSection title={selectedKeyspace ?
-          'Keyspaces (' + selectedKeyspace + ')' : 'Keyspaces' }>
-          {selectedKeyspace ?
-            <div>
-              <ChartWithLegend snapshot={snapshot}
-                     timeframe={timeframe}
-                     height={chartHeight}
-                     margins={{
-                       left: 80,
-                       right: 80
-                     }}
-                     y1={{
-                       min: 0,
-                       formatter: timeByMicroTwoDecimalPlaces,
-                       metrics: [
-                         'keyspace.' + selectedKeyspace + '.readLatency',
-                         'keyspace.' + selectedKeyspace + '.writeLatency'
-                       ],
-                       labels: [
-                         'Average Read Latency',
-                         'Average Write Latency'
-                       ],
-                       type: 'line'
-                     }}
-                     y2={{
-                       min: 0,
-                       metrics: [
-                         'keyspace.' + selectedKeyspace + '.reads',
-                         'keyspace.' + selectedKeyspace + '.writes'
-                       ],
-                       labels: [
-                         'Reads',
-                         'Writes'
-                       ],
-                       type: 'line'
-                     }} />
-            </div>
-          : null}
-          <ResponsiveTable clickable={true}>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Reads</th>
-                <th>Avg. Read Latency</th>
-                <th>Writes</th>
-                <th>Avg. Write Latency</th>
-                <th>SSTables</th>
-                <th>Disk Space</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {keyspaces.map(keyspaceName =>
-                <tr key={keyspaceName}
-                    onClick={() => this.selectKeyspace(keyspaceName)}
-                    className={classnames({
-                      'active': keyspaceName === selectedKeyspace
-                    })}>
-                  <td>{keyspaceName}</td>
-                  <Mtd metric={'keyspace.' + keyspaceName + '.reads'}
-                       snapshot={snapshot} />
-                  <Mtd metric={'keyspace.' + keyspaceName + '.readLatency'}
-                      snapshot={snapshot}
-                      formatter={muSecondsFormatter} />
-                  <Mtd metric={'keyspace.' + keyspaceName + '.writes'}
-                       snapshot={snapshot} />
-                  <Mtd metric={'keyspace.' + keyspaceName + '.writeLatency'}
-                      snapshot={snapshot}
-                      formatter={muSecondsFormatter} />
-                  <Mtd metric={'keyspace.' + keyspaceName + '.ssTables'}
-                       snapshot={snapshot} />
-                  <Mtd metric={'keyspace.' + keyspaceName + '.diskSize'}
-                       snapshot={snapshot}
-                       formatter={bytesZeroDecimalPlaces} />
-                </tr>
-              ).valueSeq()}
-            </tbody>
-          </ResponsiveTable>
-        </DashboardSection>
+        <KeyspacesTable snapshot={snapshot} timeframe={timeframe} />
 
         <DashboardSection title='Pending Compactions'>
           <ChartWithLegend snapshot={snapshot}
