@@ -21,17 +21,15 @@
 
   td {
     font-size: 14px;
+    background: @light;
   }
 
-  tr.active td, tr:hover td {
+  tr.active > td, tr:hover > td {
     background: @mid;
   }
 
-  &__clickable {
-    td {
-      background: @light;
-      cursor: pointer;
-    }
+  &__clickable > tbody > tr > td {
+    cursor: pointer;
   }
 
   // increase specificity to overwrite rules seen above

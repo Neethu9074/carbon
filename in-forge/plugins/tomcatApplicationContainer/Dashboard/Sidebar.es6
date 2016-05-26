@@ -33,7 +33,8 @@ const TomcatSidebar = React.createClass({
             <Collapsible.Header>Webapps</Collapsible.Header>
             <Collapsible.Content>
               {webapps.map((data, name) =>
-                <Collapsible initiallyOpen={false}>
+                <Collapsible initiallyOpen={false}
+                             key={name}>
                   <Collapsible.Header>{data.get('name')}</Collapsible.Header>
                   <Collapsible.Content>
                     <DescriptionList>
@@ -55,7 +56,8 @@ const TomcatSidebar = React.createClass({
             <Collapsible.Header>Connectors</Collapsible.Header>
             <Collapsible.Content>
               {connectors.map((data, name) =>
-                <Collapsible initiallyOpen={false}>
+                <Collapsible initiallyOpen={false}
+                             key={name}>
                   <Collapsible.Header>{name}</Collapsible.Header>
                   <Collapsible.Content>
                     <DescriptionList>
