@@ -32,10 +32,44 @@ const MySqlDashboard = React.createClass({
                            }}
                            y1={{
                              metrics: [
-                               'status.CONNECTIONS'
+                               'status.QUERIES'
                              ],
                              labels: [
-                               'Connections'
+                               'Queries'
+                             ],
+                             type: 'line'
+                           }}
+                           y2={{
+                             metrics: [
+                               'status.COM_SELECT',
+                               'status.COM_UPDATE',
+                               'status.COM_INSERT',
+                               'status.COM_DELETE'
+                             ],
+                             labels: [
+                               'SELECTS',
+                               'UPDATES',
+                               'INSERTS',
+                               'DELETES'
+                             ],
+                             type: 'line'
+                         }}/>
+          <ChartWithLegend snapshot={snapshot}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             metrics: [
+                               'status.CONNECTIONS',
+                               'status.MAX_USED_CONNECTIONS',
+                               'status.ABORTED_CONNECTS'
+                             ],
+                             labels: [
+                               'Connections',
+                               'Max used connections',
+                               'Aborted connects'
                              ],
                              type: 'line'
                          }}/>
@@ -49,10 +83,12 @@ const MySqlDashboard = React.createClass({
                            }}
                            y1={{
                              metrics: [
-                               'status.SLOW_QUERIES'
+                               'status.SLOW_QUERIES',
+                               'status.COM_SHOW_ERRORS'
                              ],
                              labels: [
-                               'Slow Queries'
+                               'Slow Queries',
+                               'Errors'
                              ],
                              type: 'line'
                          }}/>
