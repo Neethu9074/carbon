@@ -2,6 +2,11 @@ const Handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 
+Handlebars.registerPartial('errorPage', fs.readFileSync(
+  path.join(__dirname, 'templates', '_errorPage.hbs'),
+  {encoding: 'utf8'}
+));
+
 const template403 = getCompiledTemplate('403.hbs');
 const template404 = getCompiledTemplate('404.hbs');
 const template500 = getCompiledTemplate('500.hbs');
