@@ -83,13 +83,13 @@ export default connectTo({
             <TextInput heading={'Date'}
                        value={this.props.dateString}
                        isValid={this.props.dateIsValid}
-                       validationMessage={'please enter a present date in the form: ' + dateFormat}
+                       validationMessage={'Please enter a date that is not in the future (' + dateFormat + ')'}
                        onChange={setDateString} />
 
             <TextInput heading={'Time'}
                        value={this.props.timeString}
                        isValid={this.props.timeIsValid}
-                       validationMessage={'please enter a present time in the form: ' + timeFormat}
+                       validationMessage={'Please enter a time that is not in the future (' + timeFormat + ')'}
                        onChange={setTimeString} />
           </div>
 

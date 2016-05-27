@@ -69,7 +69,9 @@ export function setTimeString(newTime) {
 }
 
 export function reset() {
-  const date = new Date();
-  setDateString(formatDate(date.getTime()));
-  setTimeString(formatTime(date.getTime()));
+  serverTime$.once(timestamp => {
+    const date = new Date(timestamp);
+    setDateString(formatDate(date.getTime()));
+    setTimeString(formatTime(date.getTime()));
+  });
 }
