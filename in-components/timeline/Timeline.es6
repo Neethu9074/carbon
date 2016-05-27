@@ -1,6 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import SelectedWindowSizePresenter from 'in-components/timeline/components/SelectedWindowSizePresenter';
 import TimelineCanvasReactWrapper from 'in-components/timeline/components/TimelineCanvasReactWrapper';
 import TimelineTimeframeMarker from 'in-components/timeline/components/TimelineTimeframeMarker';
 import TimelineNavigation from 'in-components/timeline/components/TimelineNavigation';
@@ -42,6 +43,7 @@ export default connectTo({
             <TimelineNavigation />
             <TimelineTimeframeMarker />
           </div>
+          <SelectedWindowSizePresenter />
         </div>
       );
     },
