@@ -3,17 +3,14 @@ import React from 'react';
 
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import NotificationCounter from 'in-components/NotificationCounter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
 import SidebarIncidents from 'in-components/sidebars/Incident';
-import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
-import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/sidebars/Map';
-import Lettering from 'in-components/Lettering';
 import Filterbar from 'in-components/Filterbar';
+import AppHeader from 'in-components/AppHeader';
 import {isMonitoring} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import Map from 'in-map';
@@ -78,12 +75,7 @@ export default
         <div>
           {this.props.showSettings ? <Settings showMenu={setSettingsVisibility}/> : null }
 
-          <MapViewSwitcher />
-
-          <Lettering className='in-root-lettering'/>
-          <AccountMenu showMenu={setSettingsVisibility}
-                       className={'in-root-menu'}/>
-          <NotificationCounter className={'in-root-notification-counter'}/>
+          <AppHeader showSettingsMenu={setSettingsVisibility}/>
 
           <section style={{display: hasChildren ? 'none' : 'block'}}>
             <Map />

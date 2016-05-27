@@ -1,13 +1,13 @@
 @import "~in-themes/active.less";
 
-.in-notificationcenter {
+.in-notificationcenter-flyout {
   @notification-center-width: 23rem;
   @transition-easing: ease-in-out;
   @transition-duration: .5s;
 
   width: @notification-center-width;
   background: @notification-center__background;
-  border-radius: 5px;
+  border-radius:  0 0 0 5px;
 
   padding: 1.25rem;
   width: 21rem;
@@ -31,22 +31,5 @@
       cursor: pointer;
       color: white;
     }
-  }
-
-  &:before {
-    content: ' ';
-    position: absolute;
-
-    margin-top: -30px;
-    margin-left: ~'calc(100% - 40px)';
-
-    padding: 0;
-
-    border: 7px solid;
-    border-color:
-      transparent
-      transparent
-      @notification-center__background
-      @notification-center__background;
   }
 }

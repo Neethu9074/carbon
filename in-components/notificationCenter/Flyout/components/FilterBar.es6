@@ -11,8 +11,8 @@ import {
   event$,
   selectedEventList$,
   EVENT_LISTS
-} from './notificationCenterFlyoutStores';
-import Filter from './Filter';
+} from 'in-components/notificationCenter/Flyout/flyoutStore';
+import Filter from 'in-components/notificationCenter/Flyout/components/Filter';
 
 import './FilterBar.less';
 

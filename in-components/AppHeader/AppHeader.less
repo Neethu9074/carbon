@@ -1,0 +1,26 @@
+@import "~in-themes/active.less";
+
+.in-app-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+
+  display: flex;
+  justify-content: space-between;
+
+  background: #0e1518;
+  z-index: @z-index__header;
+
+  &__lettering {
+    margin: 15px 0 0 20px;
+  }
+
+  &__menu {
+    display: flex;
+    justify-content: space-between;;
+    align-items: center;
+    width: 250px;
+  }
+}

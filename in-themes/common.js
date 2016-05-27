@@ -9,13 +9,11 @@ module.exports = {
   zIndex: {
     map: zIndex++,
     stickyNotes: zIndex++,
-    lettering: zIndex++,
     feedbackBadge: zIndex++,
     notificationCenter: zIndex++,
     sidebar: zIndex++,
     sidebarControls: zIndex++,
     search: zIndex++,
-    header: zIndex++,
     betaRegistration: zIndex++,
     traceView: zIndex++,
     tableView: zIndex++,
@@ -23,6 +21,7 @@ module.exports = {
     dashboard: zIndex++,
     dashboardHeader: zIndex++,
     footer: zIndex++,
+    header: zIndex++,
     flyOutNotifications: zIndex++,
     timepicker: zIndex++,
     menuPopup: zIndex++,
@@ -36,7 +35,6 @@ module.exports = {
       dialog: zIndex++
     },
     backdrop: zIndex++,
-    accountMenu: zIndex++,
     dialog: zIndex++,
     demoSignIn: zIndex++
   }

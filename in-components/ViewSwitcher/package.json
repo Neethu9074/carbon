@@ -1,0 +1,6 @@
+{
+  "name": "ViewSwitcher",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ViewSwitcher.es6"
+}

@@ -1,31 +1,29 @@
 import React from 'react';
 
+import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
-import NotificationCenterFlyout from '../NotificationCenterFlyout';
-
-import './NotificationCounter.less';
+import './HeaderModule.less';
 
 
-const block = 'in-notification-counter';
+const block = 'in-notificationcenter-header-module';
 
 export default connectTo({
     openIssues: openEventsAtServerTime$.map(events => events.issues)
   },
   React.createClass({
 
-    displayName: 'NotificationCounter',
+    displayName: 'HeaderModule',
 
     mixins: [
       SubscriptionMixin
     ],
 
     propTypes: {
-      className: React.PropTypes.string,
       openIssues: React.PropTypes.array
     },
 
@@ -56,7 +54,7 @@ export default connectTo({
 
     render() {
       const events = this.props.openIssues || emptyArray;
-      const showNC = this.state.showNotificationCenter;
+      const showNotificationCenter = this.state.showNotificationCenter;
 
       let maxSeverity = 0;
       let count = 0;
@@ -68,21 +66,32 @@ export default connectTo({
         }
       });
 
-      const color = theme.health[maxSeverity];
+      const color = maxSeverity > 0 ? theme.health[maxSeverity] : '#172429';
 
       return (
-        <div className={this.props.className}>
-          <div className={block}
-               style={{background: color}}
+        <div className={block}
+             style={{background: color}}>
+
+          <div className={block + '__label'}>
+            <span className={block + '__label__title'}>
+              Event Center
+            </span>
+            <br />
+            <span>
+              {count + ' Events'}
+            </span>
+          </div>
+
+          <div className={block + '__counter'}
                onClick={this.toggleNotificationCenter}>
             {count}
           </div>
 
-          {showNC ?
+          {showNotificationCenter ?
             <div className={block + '__notification-center'}>
               <NotificationCenterFlyout toggleNotificationCenter={this.toggleNotificationCenter}
                                         style={{ maxHeight: this.state.windowHeight }}
-                                        open={showNC}/>
+                                        open={showNotificationCenter}/>
             </div>
           : null}
         </div>

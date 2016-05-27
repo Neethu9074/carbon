@@ -5,10 +5,7 @@ import moment from 'moment';
 
 import connectTo from 'in-hoc/connectTo';
 
-import {
-  event$,
-  selectedNotificationFilter
-} from 'in-components/NotificationCenterFlyout/notificationCenterFlyoutStores';
+import {event$, selectedNotificationFilter} from 'in-components/notificationCenter/Flyout/flyoutStore';
 import EventDescription from 'in-components/EventDescription';
 
 import './EventItemList.less';

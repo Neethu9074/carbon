@@ -1,19 +1,19 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import EventListSwitcher from 'in-components/NotificationCenterFlyout/EventListSwitcher';
-import EventItemList from 'in-components/NotificationCenterFlyout/EventItemList';
-import FilterBar from 'in-components/NotificationCenterFlyout/FilterBar';
+import EventListSwitcher from 'in-components/notificationCenter/Flyout/components/EventListSwitcher';
+import EventItemList from 'in-components/notificationCenter/Flyout/components/EventItemList';
+import FilterBar from 'in-components/notificationCenter/Flyout/components/FilterBar';
 
-import './NotificationCenterFlyout.less';
+import './Flyout.less';
 
 
-const block = 'in-notificationcenter';
+const block = 'in-notificationcenter-flyout';
 const rpt = React.PropTypes;
 
 export default React.createClass({
 
-  displayName: 'NotificationCenterFlyout',
+  displayName: 'Flyout',
 
   mixins: [
     PureRenderMixin

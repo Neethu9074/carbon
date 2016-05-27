@@ -1,0 +1,6 @@
+{
+  "name": "HeaderModule",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HeaderModule.es6"
+}
