@@ -1,6 +1,6 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
+import {formatDateTime} from 'in-services/formatters/date';
 import {getTickPositions} from 'in-charts/timeAxis';
-import {formatDate, formatTime} from 'in-services/formatters/date';
 
 
 const font = '12px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
@@ -9,7 +9,7 @@ const darkColor = 'rgba(46, 64, 72, 1)';
 const lightColor = '#80939c';
 const midColor = '#43565e';
 
-const edgeWidth = 170;
+const edgeWidth = 250;
 
 export default class TimeAxisRenderer extends BasicRenderer {
 
@@ -60,11 +60,9 @@ export default class TimeAxisRenderer extends BasicRenderer {
     // start
     buffer.fillStyle = lightColor;
     buffer.font = font;
-    buffer.fillText(formatDate(scale.getDomainFrom()), 10, 18);
-    buffer.fillText(formatTime(scale.getDomainFrom()), 10, 32);
+    buffer.fillText(formatDateTime(scale.getDomainFrom()), 10, 28);
     buffer.textAlign = 'right';
-    buffer.fillText(formatDate(scale.getDomainFrom()), scale.getRangeTo() - 10, 18);
-    buffer.fillText(formatTime(scale.getDomainFrom()), scale.getRangeTo() - 10, 32);
+    buffer.fillText(formatDateTime(scale.getDomainTo()), scale.getRangeTo() - 10, 28);
     buffer.textAlign = 'left';
   }
 
