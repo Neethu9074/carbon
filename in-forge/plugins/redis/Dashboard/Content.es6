@@ -8,21 +8,19 @@ import {
   bytesTwoDecimalPlaces,
   zeroDecimalPlaces,
   msZeroDecimalPlaces,
-  withSiPrefixThreeDecimalPlaces,
   muSecondsZeroDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
   kiloBytesTwoDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
+import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
-import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 import {getRawPayload} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Mtd from 'in-components/Mtd';
 
 
 const chartHeight = 200;
@@ -59,10 +57,6 @@ function dbKeysLabels(dbNames) {
   return labels;
 }
 
-function monitorMetrics(monitor) {
-  return monitor ? monitor.toArray() : [];
-}
-
 function pubSubMetrics(channelNames) {
   return channelNames.map(name => 'pubsub_subscribers.' + name);
 }
@@ -93,7 +87,6 @@ export default connectTo(
       const snapshot = this.props.snapshot;
       const data = snapshot.get('data');
       const latencyThreshold = snapshot.getIn(['data', 'latency_monitor_threshold']);
-      const monitor = data.get('monitor');
       const dbNames = data.get('dbs', emptyList).toArray();
       const channelNames = data.get('channels', emptyList).toArray();
       const role = data.get('role');
@@ -332,49 +325,8 @@ export default connectTo(
               </DashboardSection>
           : null}
 
-          {monitor ?
-            <DashboardSection title='Custom Monitors'>
-              {this.state.selectedMonitorMetric ?
-                <ChartWithLegend snapshot={snapshot}
-                                 timeframe={timeframe}
-                                 height={chartHeight}
-                                 margins={{
-                                   left: 90
-                                 }}
-                                 y1={{
-                                   formatter: withSiPrefixThreeDecimalPlaces,
-                                   metrics: ['monitor.' + this.state.selectedMonitorMetric],
-                                   labels: [this.state.selectedMonitorMetric],
-                                   type: 'line'
-                                 }}/>
-              : null}
-              <ResponsiveTable clickable={true}>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {monitorMetrics(monitor).map(monitorMetric =>
-                    <tr key={monitorMetric}
-                        onClick={() => this.setState({selectedMonitorMetric: monitorMetric})}
-                        className={classnames({
-                          'active': monitorMetric === this.state.selectedMonitorMetric
-                        })}>
-                      <td>
-                        {monitorMetric}
-                      </td>
-                      <Mtd metric={'monitor.' + monitorMetric}
-                           snapshot={snapshot}
-                           formatter={withSiPrefixThreeDecimalPlaces} />
-                    </tr>
-                  )}
-                </tbody>
-              </ResponsiveTable>
-            </DashboardSection>
-          : null}
+          <CustomMonitorsTable snapshot={snapshot}
+                               timeframe={timeframe} />
 
         </div>
       );
