@@ -421,7 +421,7 @@ const RabbitMqDashboard = React.createClass({
             <ResponsiveTable clickable={true}>
               <thead>
                 <tr>
-                  <th>Node</th>
+                  <th>Queue</th>
                 </tr>
               </thead>
 
