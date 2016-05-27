@@ -22,7 +22,7 @@ export default class FadeByDistanceSingleMeshFactory extends ASingleMeshFactory 
       vertexShader: vertexShader,
       side: THREE.DoubleSide,
       transparent: true,
-      depthTest: false
+      depthWrite: true
     });
   }
 }
