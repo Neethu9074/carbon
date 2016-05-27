@@ -23,7 +23,7 @@ const Sidebar = React.createClass({
             <HttpdInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <RunningComponentsList snapshot={this.props.snapshot} />
+        <RunningComponentsList snapshotId={this.props.snapshot.get('id')} />
       </div>
     );
   }
