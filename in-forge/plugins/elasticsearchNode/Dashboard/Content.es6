@@ -2,19 +2,14 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import ResponsiveTable from 'in-components/ResponsiveTable';
-
+import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 import {
   zeroDecimalPlaces,
-  withSiMultiplyPrefixZeroDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces
+  withSiMultiplyPrefixZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
 
 
 const chartHeight = 200;
@@ -27,18 +22,9 @@ const ElasticsearchDashboard = React.createClass({
     timeframe: timeframeShape
   },
 
-  getInitialState() {
-    return {
-      indexName: null
-    };
-  },
-
   render() {
     const timeframe = this.props.timeframe;
-    const indexName = this.state.indexName;
     const snapshot = this.props.snapshot;
-
-    const indices = snapshot.getIn(['data', 'index.names']);
 
     return (
       <div>
@@ -64,78 +50,9 @@ const ElasticsearchDashboard = React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
-        {indices ?
-          <DashboardSection title='Indices'>
-            {indexName ?
-              <div>
-                <ChartWithLegend snapshot={snapshot}
-                                 timeframe={timeframe}
-                                 height={chartHeight}
-                                 margins={{
-                                   left: 80,
-                                   right: 80
-                                 }}
 
-                                 y1={{
-                                   metrics: [
-                                     'index.' + indexName + '.document_count',
-                                     'index.' + indexName + '.deleted_count'
-                                   ],
-                                   labels: [
-                                     'Documents',
-                                     'Deletions'
-                                   ],
-                                   formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                                   tooltipFormatter: zeroDecimalPlaces,
-                                   type: 'line'
-                                 }}
-                                 y2={{
-                                   metrics: [
-                                     'index.' + indexName + '.size'
-                                   ],
-                                   labels: [
-                                     'Size'
-                                   ],
-                                   formatter: bytesZeroDecimalPlaces,
-                                   tooltipFormatter: bytesTwoDecimalPlaces,
-                                   type: 'line'
-                                  }}/>
-              </div>
-              : null}
-
-            <ResponsiveTable clickable={true}>
-              <thead>
-              <tr>
-                <th>Index</th>
-                <th>Documents</th>
-                <th>Deleted</th>
-                <th>Size</th>
-              </tr>
-              </thead>
-
-              <tbody>
-              {indices.map((name) =>
-                  <tr key={name}
-                      onClick={() => this.selectIndex(name)}
-                      className={classnames({
-                        'active': name === indexName
-                      })}>
-                    <td>{name}</td>
-                    <Mtd metric={'index.' + name + '.document_count'}
-                         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-                         snapshot={snapshot}/>
-                    <Mtd metric={'index.' + name + '.deleted_count'}
-                         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-                         snapshot={snapshot}/>
-                    <Mtd metric={'index.' + name + '.size'}
-                         snapshot={snapshot}
-                         formatter={bytesTwoDecimalPlaces}/>
-                  </tr>
-              ).valueSeq()}
-              </tbody>
-            </ResponsiveTable>
-          </DashboardSection>
-        : null}
+        <IndicesTable snapshot={snapshot}
+                      timeframe={timeframe} />
 
         <DashboardSection title='Refresh and Flush'>
           <ChartWithLegend snapshot={snapshot}
@@ -194,12 +111,6 @@ const ElasticsearchDashboard = React.createClass({
         </DashboardSection>
       </div>
     );
-  },
-
-  selectIndex(index) {
-    this.setState({
-      indexName: index
-    });
   }
 });
 
