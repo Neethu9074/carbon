@@ -5,6 +5,7 @@ const path = require('path');
 const uuid = require('node-uuid');
 const sendRequest = require('request');
 
+const errorPages = require('./errorPages.js');
 const serverConfig = require('./serverConfig.js');
 const clientConfig = require('./assets/config.json');
 const checkSumMod = require('./checksum');
@@ -59,7 +60,7 @@ router.get('/', (req, res) => {
   askUiBackendWhetherTheRequestIsAuthorized(req, (err, status) => {
     if (err) {
       console.error('Failed to communicate with the UI-backend:', err);
-      res.status(500).send('Sorry, our internal communication failed :(.');
+      errorPages.send500(req, res);
       return;
     }
 
@@ -72,12 +73,11 @@ router.get('/', (req, res) => {
       );
       return;
     } else if (status === 403) {
-      res.status(403).send('Access denied!');
+      errorPages.send403(req, res);
       return;
     } else if (status < 200 || status > 299) {
       console.error('Undefined state: Server returned unknown status code ' + status);
-      res.status(500).send('Sorry, we received something that we do not understand. This is a ' +
-        'failure on our side and we are sorry for that :(.');
+      errorPages.send500(req, res);
       return;
     }
 
