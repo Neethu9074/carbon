@@ -37,6 +37,13 @@ module.exports = {
     tenantUnit: 'drivenow',
     groundskeeperDomain: 'instana.io'
   },
+  sigil66: {
+    uiBackendUrl: 'https://sigil66.instana.io/api/data/',
+    groundskeeperUrl: 'https://sigil66.instana.io',
+    tenant: 'sigil66',
+    tenantUnit: 'sigil66',
+    groundskeeperDomain: 'instana.io'
+  },
   timocom: {
     uiBackendUrl: 'https://timocom.instana.io/api/data/',
     groundskeeperUrl: 'https://timocom.instana.io',

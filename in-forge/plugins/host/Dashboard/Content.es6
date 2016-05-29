@@ -21,6 +21,7 @@ import {getMaxValue} from 'in-sdk/metrics';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {emptyList} from 'in-services/fixedImmutables';
 import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 import {getRawPayload} from 'in-stores/snapshot';
@@ -67,9 +68,9 @@ export default connectTo(
       const interfaceName = this.state.interfaceName;
       const cpuNo = this.state.cpuNo;
 
-      const filesystems = snapshot.getIn(['data', 'filesystems']);
-      const interfaces = snapshot.getIn(['data', 'interfaces']);
-      const cpuCount = snapshot.getIn(['data', 'cpu.count']);
+      const filesystems = snapshot.getIn(['data', 'filesystems'], emptyList);
+      const interfaces = snapshot.getIn(['data', 'interfaces'], emptyList);
+      const cpuCount = snapshot.getIn(['data', 'cpu.count'], 1);
       const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
 
       const cpus = Immutable.Range(1, cpuCount + 1);
