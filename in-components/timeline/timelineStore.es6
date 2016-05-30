@@ -149,6 +149,16 @@ focusedMoment$
   .debounce(1000)
   .subscribe(setGlobalFocusedMoment);
 
+export function fixFocusedMomentIfNotFixed() {
+  combineLatest([to$, focusedMoment$])
+    .once(e => {
+      const to = e[0];
+      if (to && !e[1]) {
+        setFocusedMoment(to);
+      }
+    });
+}
+
 
 const focusedMomentXPosition = createStore({
   name: 'focusedMomentXPositionStore',

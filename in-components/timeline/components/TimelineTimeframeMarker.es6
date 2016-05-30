@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {timeframe$, setTo, timelineScale$} from 'in-components/timeline/timelineStore';
+import {timeframe$, setTo, timelineScale$, fixFocusedMomentIfNotFixed} from 'in-components/timeline/timelineStore';
 import {bigBangTimestamp$, timeframeShape} from 'in-stores/timeline';
 import {onMove, onUp} from 'in-services/reactiveMouseEvents';
 import {serverTime$} from 'in-stores/serverTime';
@@ -15,8 +15,8 @@ const block = 'in-timeline-timeframe-marker';
 const rpt = React.PropTypes;
 
 export default connectTo({
-    bigBangTimestamp: bigBangTimestamp$,
     serverTime: serverTime$.throttle(10000),
+    bigBangTimestamp: bigBangTimestamp$,
     scale: timelineScale$,
     timeframe: timeframe$
   },
@@ -28,8 +28,8 @@ export default connectTo({
       PureRenderMixin
     ],
 
-    subscription: null,
     lastXPosition: null,
+    subscription: null,
 
     propTypes: {
       bigBangTimestamp: rpt.number,
@@ -60,14 +60,13 @@ export default connectTo({
         return null;
       }
 
-      const to = timeframe.to ? timeframe.to : serverTime;
-
       const scale = createScale();
       scale.setDomainFrom(bigBangTimestamp);
       scale.setDomainTo(serverTime);
       scale.setRangeFrom(0);
       scale.setRangeTo(100);
 
+      const to = timeframe.to ? timeframe.to : serverTime;
       const left = Math.max(0, scale.getRange(to - timeframe.windowSize));
       const width = Math.min(100, scale.getRange(to) - left);
 
@@ -89,6 +88,8 @@ export default connectTo({
         this.mouseMoved(this.lastXPosition - e.screenX);
         this.lastXPosition = e.screenX;
       });
+
+      fixFocusedMomentIfNotFixed();
     },
 
     mouseMoved(deltaX) {

@@ -8,7 +8,8 @@ import {
   to$,
   setTimeFrame,
   timeframe$,
-  getValidWindowSize
+  getValidWindowSize,
+  fixFocusedMomentIfNotFixed
 } from 'in-components/timeline/timelineStore';
 import {
   setTo as setGlobalTo,
@@ -196,9 +197,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     // set focued moment to the right edge if the user panned away from servertime
     // otherwhise set it to null, so return to livemode again
-    if (currentTo && !focusedMoment) {
-      setFocusedMoment(currentTo);
-    }
+    fixFocusedMomentIfNotFixed();
 
     isPanning = true;
     lastXPosOnPan = x;
