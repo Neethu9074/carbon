@@ -94,7 +94,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     setTimeFrame(
       newTimeFrame.windowSize,
-      Math.max(bigBangTimestamp + newTimeFrame.windowSize, newTimeFrame.to)
+      Math.min(serverTime, Math.max(bigBangTimestamp + newTimeFrame.windowSize, newTimeFrame.to))
     );
   });
 
