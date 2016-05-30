@@ -1,37 +1,11 @@
 /* global ga:false */
 
-import config from './config';
+import config from 'in-services/config';
 
-// please refer to the Google Analytics guidelines about good categories
-// and actions:
-// https://support.google.com/analytics/answer/1033068
-export const events = {};
-addEvent('clickOnServerIn3DMap', 'map', 'click on node');
-addEvent('clickOnServerInSidebar', 'map sidebar', 'click on node');
-addEvent('openingADashboardUsingTheSidebar', 'map sidebar', 'open dashboard');
-addEvent('openingADashboardUsingTheMap', 'map', 'open dashboard');
-addEvent('showMetricIn3dMap', 'map', 'show metrics');
-addEvent('clickOnConnectionBetweenCubes', 'map', 'click on connection');
-addEvent('changingTimeWindowUsingTimeline', 'timeline', 'change time window');
-addEvent('clickOnUnMonitoredIn3dMap', 'map', 'click on unmonitored host');
-addEvent('startATour', 'tour', 'start');
-addEvent('finishATour', 'tour', 'finish');
-addEvent('skipATour', 'tour', 'skip');
-addEvent('nextStepInTour', 'tour', 'next');
-addEvent('previousStepInTour', 'tour', 'prev');
-addEvent('navigateToAWiredComponentFromTheDashboard', 'dashboard', 'navigate to wired component');
-addEvent('antialiasWasChosenInSettings', 'setting', 'change anti alias');
-
-
-if (config.analyticsTrackingId) {
-  installTracking();
-}
-
-
-export function identify() {
-  // currently unsupported by Google Analytics API. Will keep this for now
-  // as our sales portal will probably require this functionality.
-  // push('identify', {'email': window.instana.user.email});
+export function init() {
+  if (config.analyticsTrackingId) {
+    installTracking();
+  }
 }
 
 
@@ -53,13 +27,4 @@ function installTracking() {
   ga('create', config.analyticsTrackingId, 'auto');
   ga('send', 'pageview');
   /*eslint-enable*/
-}
-
-
-function addEvent(name, category, action) {
-  events[name] = function trackEvent() {
-    if (config.analyticsTrackingId) {
-      ga('send', 'event', category, action);
-    }
-  };
 }

@@ -10,7 +10,6 @@ import {clearSelectedIncident} from 'in-stores/incident';
 import {activeMetric} from 'in-services/stores/metrics';
 import {clearSelectedEvent} from 'in-stores/events';
 import * as snapshotStore from 'in-stores/snapshot';
-import * as tracking from 'in-services/tracking';
 import {theme} from 'in-services/theme';
 import eventBus from 'in-map/eventbus';
 
@@ -406,8 +405,6 @@ export default class Scene {
     // dont reset the click if you clicken on connections
     } else if (hoveredConnections.length === 0) {
       this.resetClicked();
-    } else {
-      tracking.events.clickOnConnectionBetweenCubes();
     }
   }
 
