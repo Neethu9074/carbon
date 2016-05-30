@@ -4,7 +4,6 @@ import {getTickPositions} from 'in-charts/timeAxis';
 
 
 const font = '12px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
-const boldFont = 'bold ' + font;
 const darkColorTransparent = 'rgba(46, 64, 72, 0)';
 const darkColor = 'rgba(46, 64, 72, 1)';
 const lightColor = '#80939c';
@@ -59,15 +58,12 @@ export default class TimeAxisRenderer extends BasicRenderer {
     buffer.fillRect(scale.getRangeTo() - edgeWidth, 0, edgeWidth + 20, 40);
 
     // start
-    buffer.fillStyle = lightColor;
+    buffer.fillStyle = '#6b8088';
     buffer.font = font;
     buffer.fillText(formatDate(scale.getDomainFrom()), 0, 17);
-    buffer.font = boldFont;
     buffer.fillText(formatTime(scale.getDomainFrom()), 0, 32);
     buffer.textAlign = 'right';
-    buffer.font = font;
     buffer.fillText(formatDate(scale.getDomainTo()), scale.getRangeTo() - 10, 17);
-    buffer.font = boldFont;
     buffer.fillText(formatTime(scale.getDomainTo()), scale.getRangeTo() - 10, 32);
     buffer.textAlign = 'left';
   }

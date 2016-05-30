@@ -66,16 +66,19 @@ export default connectTo({
       scale.setRangeFrom(0);
       scale.setRangeTo(100);
 
+      // min-width 1%, but clamp to left and right
       const to = timeframe.to ? timeframe.to : serverTime;
+      const right = Math.min(100, scale.getRange(to));
       const left = Math.max(0, scale.getRange(to - timeframe.windowSize));
-      const width = Math.min(100, scale.getRange(to) - left);
+      const width = Math.max(1, right - left);
+      const leftWidthAdjusted = Math.max(0, right - width);
 
       return (
         <div className={block}>
           <div className={block + '__marker'}
                onMouseDown={this.onMouseDown}
                style={{
-                 left: left + '%',
+                 left: leftWidthAdjusted + '%',
                  width: width + '%'
                }}/>
         </div>
