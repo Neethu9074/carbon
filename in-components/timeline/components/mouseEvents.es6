@@ -109,7 +109,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     const deltaWindowSizes = oldWindowSize - newWindowSize;
     newTimeFrame.to -= deltaWindowSizes * (1 - normalizedMouseXPosition);
-    newTimeFrame.to = Math.max(0, newTimeFrame.to);
+    newTimeFrame.to = Math.max(bigBangTimestamp, newTimeFrame.to);
 
     if (newTimeFrame.to >= serverTime) {
       // Only keep live when currently live. Clamp to servertime otherwise
