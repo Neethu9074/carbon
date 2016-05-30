@@ -1,0 +1,97 @@
+import React from 'react';
+
+import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import DashboardSection from 'in-components/DashboardSection';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import ExpandableTable from 'in-components/ExpandableTable';
+import {emptyList} from 'in-services/fixedImmutables';
+import Mtd from 'in-components/Mtd';
+
+
+export default function ConnectorsTable({snapshot, timeframe}) {
+  const connectors = snapshot.getIn(['data', 'connectors'], emptyList);
+
+  if (connectors.size === 0) {
+    return null;
+  }
+
+  return (
+    <DashboardSection title='Connectors'>
+      <ExpandableTable data={connectors}
+                       getKey={getKey}
+                       createHeader={createHeader}
+                       createRow={createRow}
+                       context={{
+                         snapshot,
+                         timeframe
+                       }}
+                       createDetails={createDetails} />
+    </DashboardSection>
+  );
+}
+
+
+function getKey(indexName) {
+  return indexName;
+}
+
+
+function createHeader() {
+  return (
+    <thead>
+      <tr>
+        <th>Connector</th>
+        <th>Average Response Time</th>
+        <th>Requests</th>
+        <th>Errors</th>
+      </tr>
+    </thead>
+  );
+}
+
+
+function createRow(connectorName, i, context) {
+  return ([
+    <td>{connectorName}</td>,
+
+    <Mtd metric={'connectors.' + connectorName + '.avgResponseTime'}
+         snapshot={context.snapshot} />,
+    <Mtd metric={'connectors.' + connectorName + '.requests'}
+         snapshot={context.snapshot} />,
+    <Mtd metric={'connectors.' + connectorName + '.errors'}
+         snapshot={context.snapshot} />
+  ]);
+}
+
+
+function createDetails(connectorName, i, context) {
+  return (
+    <ChartWithLegend snapshot={context.snapshot}
+           timeframe={context.timeframe}
+           height={200}
+           margins={{
+             left: 80
+           }}
+           y1={{
+             formatter: msZeroDecimalPlaces,
+             metrics: [
+               'connectors.' + connectorName + '.avgResponseTime'
+             ],
+             labels: [
+               'Average Response Time'
+             ],
+             type: 'line'
+           }}
+           y2={{
+             metrics: [
+               'connectors.' + connectorName + '.requests',
+               'connectors.' + connectorName + '.errors'
+             ],
+             labels: [
+               'Requests',
+               'Errors'
+             ],
+             type: 'line'
+           }}/>
+  );
+}

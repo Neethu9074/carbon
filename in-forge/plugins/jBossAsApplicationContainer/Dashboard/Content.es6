@@ -2,15 +2,15 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {
-  msZeroDecimalPlaces
-} from 'in-services/formatters/number';
-
-import {timeframeShape} from 'in-stores/timeline';
+import DeploymentsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/DeploymentsTable';
+import ConnectorsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ConnectorsTable';
+import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ResponsiveTable from 'in-components/ResponsiveTable';
+import {timeframeShape} from 'in-stores/timeline';
 import Mtd from 'in-components/Mtd';
+
 
 const chartHeight = 200;
 
@@ -90,10 +90,8 @@ const JBossAsDashboard = React.createClass({
     const state = this.state;
     const props = this.props;
     const snapshot = props.snapshot;
+    const timeframe = props.timeframe;
     const servlets = snapshot.getIn(['data', 'servlets']);
-    const deployments = snapshot.getIn(['data', 'deployments']);
-    const connectors = snapshot.getIn(['data', 'connectors']);
-    const isEAP = snapshot.getIn(['data', 'serverInfo', 'productName']) === 'EAP';
     return (
       <div>
         { servlets && servlets.size > 0 ?
@@ -141,102 +139,13 @@ const JBossAsDashboard = React.createClass({
             </ResponsiveTable>
           </DashboardSection>
         : null}
-        { deployments && isEAP ?
-          <DashboardSection title={'Sessions' +
-            (state.deployment ? '(' + state.deployment + ')' : '')}>
-            {state.deployment ?
-              <ChartWithLegend snapshot={snapshot}
-                     timeframe={props.timeframe}
-                     height={chartHeight}
-                     margins={{
-                       left: 80
-                     }}
-                     y1={{
-                       metrics: [
-                         'sessions.' + state.deployment + '.activeSessions'
-                       ],
-                       labels: [
-                         'Active Sessions'
-                       ],
-                       type: 'line'
-                     }}/>
-            : null}
-            <ResponsiveTable clickable={true}>
-              <thead>
-                <tr>
-                  <th>Deployment</th>
-                  <th>Active Sessions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {deployments.map((data, name) =>
-                  <tr key={name} onClick={() => this.selectDeployment(name)}>
-                    <td>{name}</td>
-                    <Mtd metric={'sessions.' + name + '.activeSessions'}
-                         snapshot={snapshot} />
-                  </tr>
-                ).valueSeq()}
-              </tbody>
-            </ResponsiveTable>
-          </DashboardSection>
-        : null}
-        { connectors && connectors.size > 0 ?
-          <DashboardSection title={'Connectors' +
-            (state.connector ? '(' + state.connector + ')' : '')}>
-            {state.connector ?
-              <ChartWithLegend snapshot={snapshot}
-                     timeframe={props.timeframe}
-                     height={chartHeight}
-                     margins={{
-                       left: 80
-                     }}
-                     y1={{
-                       formatter: msZeroDecimalPlaces,
-                       metrics: [
-                         'connectors.' + state.connector + '.avgResponseTime'
-                       ],
-                       labels: [
-                         'Average Response Time'
-                       ],
-                       type: 'line'
-                     }}
-                     y2={{
-                       metrics: [
-                         'connectors.' + state.connector + '.requests',
-                         'connectors.' + state.connector + '.errors'
-                       ],
-                       labels: [
-                         'Requests',
-                         'Errors'
-                       ],
-                       type: 'line'
-                     }}/>
-            : null}
-            <ResponsiveTable clickable={true}>
-              <thead>
-                <tr>
-                  <th>Connector</th>
-                  <th>Average Response Time</th>
-                  <th>Requests</th>
-                  <th>Errors</th>
-                </tr>
-              </thead>
-              <tbody>
-                {connectors.map(name =>
-                  <tr key={name} onClick={() => this.selectConnector(name)}>
-                    <td>{name}</td>
-                    <Mtd metric={'connectors.' + name + '.avgResponseTime'}
-                         snapshot={snapshot} />
-                    <Mtd metric={'connectors.' + name + '.requests'}
-                         snapshot={snapshot} />
-                    <Mtd metric={'connectors.' + name + '.errors'}
-                         snapshot={snapshot} />
-                  </tr>
-                ).valueSeq()}
-              </tbody>
-            </ResponsiveTable>
-          </DashboardSection>
-        : null}
+
+
+        <DeploymentsTable snapshot={snapshot}
+                          timeframe={timeframe} />
+
+        <ConnectorsTable snapshot={snapshot}
+                         timeframe={timeframe} />
       </div>
     );
   }
