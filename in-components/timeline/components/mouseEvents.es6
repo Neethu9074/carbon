@@ -21,6 +21,7 @@ import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-store
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {selectEvent} from 'in-services/issueTracker';
+import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 
 
@@ -39,6 +40,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let serverTime = Number.MAX_VALUE;
   const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time);
+
+  let bigBangTimestamp = 0;
+  const bigBangTimestampSubscription = bigBangTimestamp$.subscribe(time => bigBangTimestamp = time);
 
   let timeframe;
   const timeframeSubscription = timeframe$.subscribe(_timeframe => timeframe = _timeframe);
@@ -207,15 +211,17 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const pixelPanned = lastXPosOnPan - x;
 
     if (isFocusedMomentPanning) {
-      // min, because it's not allowed to scroll to future times
-      const newTimestamp = Math.max(0, Math.min(serverTime, scale.getDomain(lastXPosOnPan + pixelPanned)));
+      const newTimestamp = Math.max(bigBangTimestamp, // minimum is the big bang time
+                           Math.min(serverTime,       // maximum is servertime
+                                                      // because it's not allowed to scroll to future times
+                            scale.getDomain(lastXPosOnPan + pixelPanned)));
       setFocusedMoment(newTimestamp);
 
     } else {
       setCursor(CURSOR_TYPES.HORIZONTAL_MOVE); // add visual scroll effect to support UX
 
-      // min, because it's not allowed to scroll to future times
-      const newTimestamp = Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned));
+      const newTimestamp = Math.max(bigBangTimestamp,
+                           Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned)));
       setTo(newTimestamp);
     }
 
@@ -275,6 +281,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   function dispose() {
     focusedMomentXPositionSubscription.dispose();
+    bigBangTimestampSubscription.dispose();
     focusedMomentSubscription.dispose();
     isCollapsedSubscription.dispose();
     serverTimeSubscription.dispose();
