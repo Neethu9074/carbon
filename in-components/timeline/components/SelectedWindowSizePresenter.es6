@@ -59,7 +59,9 @@ export default connectTo({
                      style={{
                        opacity: config.style.opacity
                      }}>
-                  Selected time window: {moment.duration(config.data).humanize()}
+                  <div className={block + '__time'}>
+                    {moment.duration(config.data).humanize()}
+                  </div>
                 </div>
               );
             })}
