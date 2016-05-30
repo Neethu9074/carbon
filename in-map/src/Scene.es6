@@ -5,7 +5,6 @@ import TooltipHandler from 'in-map/src/2DSceneObjects/tooltips/TooltipHandler';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
-import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {activeMetric} from 'in-services/stores/metrics';
 import {clearSelectedEvent} from 'in-stores/events';
@@ -197,8 +196,13 @@ export default class Scene {
     this.subscriptions.push(time.addTimeEventListener(this.updateFactories.bind(this)));
 
     // if something is highlighted, change cursor to pointer
-    this.subscriptions.push(highlightedEntityId.subscribe(highlightedId =>
-      setCursor(highlightedId ? CURSOR_TYPES.POINTER : CURSOR_TYPES.DEFAULT)));
+    this.subscriptions.push(highlightedEntityId.subscribe(highlightedId => {
+      if (highlightedId) {
+        this.parent.style.cursor = 'pointer';
+      } else {
+        this.parent.style.cursor = 'auto';
+      }
+    }));
 
     if (__DEV__) {
       setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);
