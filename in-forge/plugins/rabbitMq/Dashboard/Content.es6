@@ -12,7 +12,7 @@ import {Row, Col} from 'in-components/Grid';
 import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  percentageZeroDecimalPlaces
+  twoDecimalPlaces
 } from 'in-services/formatters/number';
 
 const chartHeight = 200;
@@ -95,9 +95,7 @@ const RabbitMqDashboard = React.createClass({
                         'Acknowledge rate'
                       ],
                       type: 'line',
-                      min: 0,
-                      max: 1,
-                      formatter: percentageZeroDecimalPlaces
+                      formatter: twoDecimalPlaces
                     }}/>
             </Col>
           </Row>
@@ -143,9 +141,7 @@ const RabbitMqDashboard = React.createClass({
                         'Messages total rate'
                       ],
                       type: 'line',
-                      min: 0,
-                      max: 1,
-                      formatter: percentageZeroDecimalPlaces
+                      formatter: twoDecimalPlaces
                     }}/>
             </Col>
           </Row>
@@ -322,7 +318,7 @@ const RabbitMqDashboard = React.createClass({
                             type: 'line',
                             min: 0,
                             max: 1,
-                            formatter: percentageZeroDecimalPlaces
+                            formatter: twoDecimalPlaces
                           }}/>
                   </Col>
                 </Row>
@@ -371,7 +367,7 @@ const RabbitMqDashboard = React.createClass({
                             type: 'line',
                             min: 0,
                             max: 1,
-                            formatter: percentageZeroDecimalPlaces
+                            formatter: twoDecimalPlaces
                           }}/>
                   </Col>
                 </Row>
