@@ -14,15 +14,15 @@ const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlace
 const queriesFormatter = d => d < 0 ? 'No activity' : zeroDecimalPlaces(d);
 
 export default function DatabasesTable({snapshot, timeframe}) {
-  const heapSpaces = snapshot.getIn(['data', 'dbs'], emptyList).sort();
+  const databases = snapshot.getIn(['data', 'dbs'], emptyList).sort();
 
-  if (heapSpaces.size === 0) {
+  if (databases.size === 0) {
     return null;
   }
 
   return (
     <DashboardSection title='Databases'>
-      <ExpandableTable data={heapSpaces}
+      <ExpandableTable data={databases}
                        getKey={getKey}
                        createHeader={createHeader}
                        createRow={createRow}
