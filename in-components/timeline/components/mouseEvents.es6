@@ -223,7 +223,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     } else {
       canvas.style.cursor = 'ew-resize';
 
-      const newTimestamp = Math.max(bigBangTimestamp,
+      const newTimestamp = Math.max(bigBangTimestamp + timeframe.windowSize,
                            Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned)));
       setTo(newTimestamp);
     }
