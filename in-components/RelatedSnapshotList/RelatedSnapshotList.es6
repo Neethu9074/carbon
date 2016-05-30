@@ -5,7 +5,6 @@ import React from 'react';
 
 import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import * as tracking from 'in-services/tracking';
 import {getPlural} from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
@@ -87,7 +86,6 @@ export default connectTo(
   },
 
   select(snapshot) {
-    tracking.events.navigateToAWiredComponentFromTheDashboard();
     setSelectedSnapshotId(snapshot.get('id'));
   },
 

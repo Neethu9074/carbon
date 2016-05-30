@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import * as navigation from 'in-stores/navigation';
-import * as tracking from 'in-services/tracking';
 import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
 import eventBus from 'in-map/eventbus';
@@ -98,7 +97,6 @@ export default connectTo({
   },
 
   openDashboard(id) {
-    tracking.events.openingADashboardUsingTheMap();
     setSelectedSnapshotId(id);
     navigation.goToDashboard();
   },

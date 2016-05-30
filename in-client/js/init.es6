@@ -54,10 +54,7 @@ subscriptonManager.init();
 timeOffsetStore.init();
 filteringStore.init();
 messageStore.init();
-
-if (window.instana.user) {
-  tracking.identify();
-}
+tracking.init();
 
 ReactDOM.render((
   <Router history={hashHistory}>
