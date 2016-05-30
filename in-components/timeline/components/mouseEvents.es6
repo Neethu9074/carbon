@@ -19,7 +19,6 @@ import {
 } from 'in-stores/timeline';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
-import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 
@@ -179,7 +178,11 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const eventAtCursor = getEventAtXY(x, y);
 
     // add a hand cursor to support UX and tell the user that he can interact with the canvas at this point
-    setCursor(eventAtCursor || isCursorOnFocusedMoment(x, y) ? CURSOR_TYPES.POINTER : CURSOR_TYPES.DEFAULT);
+    if (eventAtCursor || isCursorOnFocusedMoment(x, y)) {
+      canvas.style.cursor = 'pointer';
+    } else {
+      canvas.style.cursor = 'auto';
+    }
 
     setHighlightedEvent(eventAtCursor);
     setHighlightedEventScreenPosition(eventAtCursor ? {
@@ -212,7 +215,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
       setFocusedMoment(newTimestamp);
 
     } else {
-      setCursor(CURSOR_TYPES.HORIZONTAL_MOVE); // add visual scroll effect to support UX
+      canvas.style.cursor = 'ew-resize';
 
       // min, because it's not allowed to scroll to future times
       const newTimestamp = Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned));
@@ -234,7 +237,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     realtimeDrawStream.emit(changeSignal);
 
-    setCursor(CURSOR_TYPES.DEFAULT);
+    canvas.style.cursor = 'auto';
   }
 
   function getEventAtXY(x, y) {
