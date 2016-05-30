@@ -69,8 +69,8 @@ function createDetails(gauge, index, context) {
                      }}
                      y1={{
                        formatter: withSiPrefixThreeDecimalPlaces,
-                       metrics: ['metrics.gauges.' + this.state.selectedMetricGauge],
-                       labels: [this.state.selectedMetricGauge],
+                       metrics: ['metrics.gauges.' + gauge],
+                       labels: [gauge],
                        type: 'line'
                      }}/>
   );
