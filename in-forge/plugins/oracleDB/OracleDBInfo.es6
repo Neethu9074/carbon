@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
-import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 const OracleDBInfo = React.createClass({
@@ -21,7 +21,7 @@ const OracleDBInfo = React.createClass({
           {data.get('version')}
         </DescriptionItem>
         <DescriptionItem title='Started At'>
-          {moment(data.get('startedAt')).format()}
+          {formatDateTime(data.get('startedAt'))}
         </DescriptionItem>
       </DescriptionList>
     );

@@ -1,6 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import moment from 'moment';
 import React from 'react';
 
 import {
@@ -17,6 +16,7 @@ import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitors
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {formatDateTime} from 'in-services/formatters/date';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 import {getRawPayload} from 'in-stores/snapshot';
@@ -295,7 +295,7 @@ export default connectTo(
                   .map(slog =>
                     <tr key={slog.get('id')}>
                       <td>{slog.get('id')}</td>
-                      <td>{moment(slog.get('timestamp')).format()}</td>
+                      <td>{formatDateTime(slog.get('timestamp'))}</td>
                       <td>{muSecondsZeroDecimalPlaces(slog.get('duration'))} </td>
                       <td>{slog.get('args').join(' ')}</td>
                     </tr>

@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
-import moment from 'moment';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-components/Collapsible';
 
@@ -35,7 +35,7 @@ const PhpFpmInfo = React.createClass({
                   </DescriptionItem>
                   {data.get('worker_pool.' + pool + '.start_time') !== null ?
                     <DescriptionItem title='Start Time'>
-                      {moment.unix(data.get('worker_pool.' + pool + '.start_time')).format()}
+                      {formatDateTime(data.get('worker_pool.' + pool + '.start_time'))}
                     </DescriptionItem>
                     : null}
                 </DescriptionList>
