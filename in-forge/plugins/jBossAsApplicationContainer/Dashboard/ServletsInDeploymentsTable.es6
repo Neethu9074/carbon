@@ -4,12 +4,12 @@ import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {emptyList} from 'in-services/fixedImmutables';
+import {emptyMap} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
 
 export default function ServletsTable({deploymentContext, snapshot, timeframe}) {
-  const servlets = snapshot.getIn(['data', 'servlets'], emptyList).sort();
+  const servlets = snapshot.getIn(['data', 'servlets', deploymentContext], emptyMap).sort();
 
   if (servlets.size === 0) {
     return null;
