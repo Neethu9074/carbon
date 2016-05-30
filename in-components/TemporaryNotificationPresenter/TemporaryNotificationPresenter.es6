@@ -55,7 +55,9 @@ export default connectTo({
                        opacity: config.style.opacity
                      }}
                      onClick={clearTemporaryNotification}>
-                  {config.data}
+                  <div className={block + '__content'}>
+                    {config.data}
+                  </div>
                 </div>
               );
             })}
