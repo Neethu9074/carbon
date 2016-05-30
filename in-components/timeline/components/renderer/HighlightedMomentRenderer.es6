@@ -8,9 +8,7 @@ export default class HighlightedMomentRenderer extends BasicRenderer {
     super(backBuffer, scale);
 
     this.highlightedMoment = null;
-    this.subscription = highlightedMoment$.subscribe(highlightedMoment =>
-      this.highlightedMoment = highlightedMoment
-    );
+    this.subscription = highlightedMoment$.subscribe(highlightedMoment => this.highlightedMoment = highlightedMoment);
   }
 
   draw() {
@@ -27,6 +25,7 @@ export default class HighlightedMomentRenderer extends BasicRenderer {
 
   dispose() {
     super.dispose();
+
     this.subscription.dispose();
   }
 }

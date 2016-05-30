@@ -1,11 +1,19 @@
 .in-highlighted-moment-indicator {
-  width: 150px;
   position: absolute;
-  top: 0.5rem;
-  margin-left: 250px;
+  bottom: 148px;
+
+  margin-left: 100%;
   font-size: 0.75rem;
   white-space: nowrap;
   text-align: center;
+
+  padding: 5px 10px;
+  background: rgba(31, 46, 51, 0.9);
+  border-radius: 3px;
+
+  &__collapsed {
+    bottom: 65px;
+  }
 
   &__date {
     color: #669FA3;
