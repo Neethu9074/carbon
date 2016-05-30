@@ -66,8 +66,7 @@ exports.writeDevModeConfig = function writeDevModeConfig(environment, envConfig)
     tenantUnit: envConfig.tenantUnit,
     environment: 'internal',
     groundskeeperDomain: envConfig.groundskeeperDomain,
-    analyticsTrackingId: 'UA-66215232-4',
-    trackJsToken: '0315443a6b65452eade90391de67a1b6'
+    analyticsTrackingId: 'UA-66215232-4'
   };
   fs.writeFileSync(
     path.join(paths.assetDir, 'config.json'),

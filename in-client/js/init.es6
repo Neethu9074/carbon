@@ -14,7 +14,6 @@ import * as persistentConnection from 'in-services/persistentConnection';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
 import * as tracking from 'in-services/tracking';
-import * as trackjs from 'in-services/trackjs';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -56,7 +55,6 @@ timeOffsetStore.init();
 filteringStore.init();
 messageStore.init();
 tracking.init();
-trackjs.init();
 
 ReactDOM.render((
   <Router history={hashHistory}>
