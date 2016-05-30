@@ -92,7 +92,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
                                                  oldWindowSize,
                                                  normalizedMouseXPosition);
 
-    setTimeFrame(newTimeFrame.windowSize, newTimeFrame.to);
+    setTimeFrame(
+      newTimeFrame.windowSize,
+      Math.max(bigBangTimestamp + newTimeFrame.windowSize, newTimeFrame.to)
+    );
   });
 
   function getNewTimeframeByScroll(scrollDirection, scrollSpeed, oldWindowSize, normalizedMouseXPosition) {
@@ -109,7 +112,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     const deltaWindowSizes = oldWindowSize - newWindowSize;
     newTimeFrame.to -= deltaWindowSizes * (1 - normalizedMouseXPosition);
-    newTimeFrame.to = Math.max(bigBangTimestamp, newTimeFrame.to);
+    newTimeFrame.to = Math.max(0, newTimeFrame.to);
 
     if (newTimeFrame.to >= serverTime) {
       // Only keep live when currently live. Clamp to servertime otherwise
