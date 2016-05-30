@@ -10,7 +10,7 @@ import {
 import Mtd from 'in-components/Mtd';
 
 
-export default function FrontendsTable({snapshot, timeframe}) {
+export default function BackendsTable({snapshot, timeframe}) {
   const backends = snapshot.getIn(['data', 'backends'], emptyList);
 
   if (backends.size === 0) {
