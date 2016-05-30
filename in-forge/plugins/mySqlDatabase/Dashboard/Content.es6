@@ -32,37 +32,75 @@ const MySqlDashboard = React.createClass({
                            }}
                            y1={{
                              metrics: [
-                               'status.CONNECTIONS'
+                               'status.CONNECTIONS',
+                               'status.MAX_USED_CONNECTIONS',
+                               'status.ABORTED_CONNECTS'
                              ],
                              labels: [
-                               'Connections'
+                               'Connections',
+                               'Max used connections',
+                               'Aborted connects'
                              ],
                              type: 'line'
                          }}/>
         </DashboardSection>
-        <DashboardSection title='Slow Queries'>
+        <DashboardSection title='Queries'>
           <ChartWithLegend snapshot={snapshot}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
-                             left: 80
+                             left: 80,
+                             right: 60
                            }}
                            y1={{
                              metrics: [
-                               'status.SLOW_QUERIES'
+                               'status.QUERIES'
                              ],
                              labels: [
-                               'Slow Queries'
+                               'Queries'
                              ],
                              type: 'line'
-                         }}/>
+                           }}
+                           y2={{
+                             metrics: [
+                               'status.COM_SELECT',
+                               'status.COM_UPDATE',
+                               'status.COM_INSERT',
+                               'status.COM_DELETE'
+                             ],
+                             labels: [
+                               'SELECTS',
+                               'UPDATES',
+                               'INSERTS',
+                               'DELETES'
+                             ],
+                             type: 'line'
+                           }}/>
+            <ChartWithLegend snapshot={snapshot}
+                             timeframe={timeframe}
+                             height={chartHeight}
+                             margins={{
+                               left: 80
+                             }}
+                             y1={{
+                               metrics: [
+                                 'status.SLOW_QUERIES',
+                                 'status.COM_SHOW_ERRORS'
+                               ],
+                               labels: [
+                                 'Slow Queries',
+                                 'Errors'
+                               ],
+                               type: 'line'
+                           }}/>
         </DashboardSection>
         <DashboardSection title='Key Access'>
           <ChartWithLegend snapshot={snapshot}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
-                             left: 80
+                             left: 80,
+                             right: 60
                            }}
                            y1={{
                              metrics: [
