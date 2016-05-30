@@ -19,7 +19,7 @@ export default class HighlightedMomentRenderer extends BasicRenderer {
     const buffer = this.backBuffer;
     const x = this.scale.getRange(this.highlightedMoment);
 
-    buffer.fillStyle = '#669FA3';
+    buffer.fillStyle = '#92A5AE';
     buffer.fillRect(x, 40, 1, 122);
   }
 
