@@ -2,6 +2,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
+import {formatDateTime} from 'in-services/formatters/date';
+
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 const MySqlInfo = React.createClass({
@@ -23,6 +25,15 @@ const MySqlInfo = React.createClass({
         </DescriptionItem>
         <DescriptionItem title='Version'>
           {this.getVersion(data)}
+        </DescriptionItem>
+        <DescriptionItem title='Started At'>
+          {formatDateTime(data.get('startedAt'))}
+        </DescriptionItem>
+        <DescriptionItem title='Role'>
+          {data.get('role')}
+        </DescriptionItem>
+        <DescriptionItem title='Replication Group Name'>
+          {data.get('replicationGroup')}
         </DescriptionItem>
       </DescriptionList>
     );
