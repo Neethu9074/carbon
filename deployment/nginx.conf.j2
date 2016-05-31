@@ -209,6 +209,7 @@ http {
     location /notifications/ {
       proxy_pass             https://instana.github.io/ui-notifications/content/;
       proxy_cache            off;
+      proxy_hide_header      Cache-Control;
       add_header             Cache-Control "private, no-cache, no-store, must-revalidate, max-age=0";
     }
 
