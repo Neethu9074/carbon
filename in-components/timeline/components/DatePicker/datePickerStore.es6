@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import moment from 'moment';
 
 import {timeFormat, formatTime, dateFormat, formatDate} from 'in-services/formatters/date';
+import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
 
@@ -17,14 +18,17 @@ const dateIsValid = createStore({
   initialValue: false
 });
 export const dateIsValid$ =
-  combineLatest([dateIsValid.observable, serverTime$, dateString$])
+  combineLatest([dateIsValid.observable, serverTime$, dateString$, bigBangTimestamp$])
   .map(props => {
     const isValid = props[0];
     const serverTime = props[1];
     const dateAsString = props[2];
+    const bigBangTimestamp = props[3];
 
     // is the string itself is valid, but the date is in the future -> invalid
-    if (isValid && moment(dateAsString, dateFormat).valueOf() > serverTime) {
+    const dateAsTimestamp = moment(dateAsString, dateFormat).valueOf();
+    const bigBangAsDateTimestamp = moment(formatDate(bigBangTimestamp), dateFormat).valueOf();
+    if ((isValid && dateAsTimestamp > serverTime) || dateAsTimestamp < bigBangAsDateTimestamp) {
       return false;
     }
 
@@ -56,7 +60,8 @@ export const timeIsValid$ =
     const timeAsString = props[2];
 
     // is the string itself is valid, but the time is in the future -> invalid
-    if (isValid && moment(timeAsString, timeFormat).valueOf() > serverTime) {
+    const timeAsTimestamp = moment(timeAsString, timeFormat).valueOf();
+    if ((isValid && timeAsTimestamp > serverTime)) {
       return false;
     }
 
