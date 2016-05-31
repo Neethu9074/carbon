@@ -92,10 +92,11 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
                                                  oldWindowSize,
                                                  normalizedMouseXPosition);
 
-    setTimeFrame(
-      newTimeFrame.windowSize,
-      Math.min(serverTime, Math.max(bigBangTimestamp + newTimeFrame.windowSize, newTimeFrame.to))
-    );
+    const to = newTimeFrame.to ?
+      Math.max(bigBangTimestamp + newTimeFrame.windowSize, newTimeFrame.to) :
+      newTimeFrame.to;
+
+    setTimeFrame(newTimeFrame.windowSize, to);
   });
 
   function getNewTimeframeByScroll(scrollDirection, scrollSpeed, oldWindowSize, normalizedMouseXPosition) {
