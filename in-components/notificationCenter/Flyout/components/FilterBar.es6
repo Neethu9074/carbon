@@ -2,10 +2,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
-import {emptyArray} from 'in-services/fixedObjects';
-import connectTo from 'in-hoc/connectTo';
-
 import {
   FILTER_TYPES,
   event$,
@@ -13,6 +9,9 @@ import {
   EVENT_LISTS
 } from 'in-components/notificationCenter/Flyout/flyoutStore';
 import Filter from 'in-components/notificationCenter/Flyout/components/Filter';
+import {emptyArray} from 'in-services/fixedObjects';
+import {countEvents} from 'in-stores/events';
+import connectTo from 'in-hoc/connectTo';
 
 import './FilterBar.less';
 
@@ -37,7 +36,7 @@ export default connectTo({
     },
 
     render() {
-      const counter = this.getEventsCounter();
+      const counter = countEvents(this.props.allEvents || emptyArray);
 
       return (
         <div className={block}>
@@ -59,36 +58,6 @@ export default connectTo({
           : null}
         </div>
       );
-    },
-
-    getEventsCounter() {
-      const counter = {
-        warning: 0,
-        danger: 0,
-        change: 0,
-        incident: 0
-      };
-
-      const allEvents = this.props.allEvents || emptyArray;
-      allEvents.forEach(event => {
-        switch (getEventType(event)) {
-          case EVENT_TYPES.ISSUE_WARNING:
-            counter.warning++;
-            break;
-          case EVENT_TYPES.ISSUE_CRITICAL:
-            counter.danger++;
-            break;
-          case EVENT_TYPES.CHANGE:
-            counter.change++;
-            break;
-          case EVENT_TYPES.INCIDENT:
-            counter.incident++;
-            break;
-          default:
-        }
-      });
-
-      return counter;
     }
   })
 );

@@ -3,16 +3,12 @@ import {sortedIndexBy} from 'lodash';
 import Immutable from 'immutable';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {focusedMoment$, timeframe$, to$, from$} from 'in-stores/timeline';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
-import getOpenEvents from 'in-services/subscription/newOpenEvents';
-import {
-  focusedMoment$,
-  timeframe$,
-  to$,
-  from$
-} from 'in-stores/timeline';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import getOpenEvents from 'in-services/subscription/newOpenEvents';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import getEvents from 'in-services/subscription/events';
 import {theme} from 'in-services/theme';
@@ -359,3 +355,33 @@ export const selectedEventId$ = createTrackingStore({
     })
     .distinct()
 }).observable;
+
+
+export function countEvents(events) {
+  const counter = {
+    warning: 0,
+    danger: 0,
+    change: 0,
+    incident: 0
+  };
+
+  events.forEach(event => {
+    switch (getEventType(event)) {
+      case EVENT_TYPES.ISSUE_WARNING:
+        counter.warning++;
+        break;
+      case EVENT_TYPES.ISSUE_CRITICAL:
+        counter.danger++;
+        break;
+      case EVENT_TYPES.CHANGE:
+        counter.change++;
+        break;
+      case EVENT_TYPES.INCIDENT:
+        counter.incident++;
+        break;
+      default:
+    }
+  });
+
+  return counter;
+}

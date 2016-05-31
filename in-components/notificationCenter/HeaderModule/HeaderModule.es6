@@ -5,6 +5,7 @@ import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import {emptyArray} from 'in-services/fixedObjects';
+import {countEvents} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -70,21 +71,24 @@ export default connectTo({
         }
       });
 
-      const color = maxSeverity > 0 ? theme.health[maxSeverity] : '#172429';
+      const background = maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
+      const counter = countEvents(events);
 
       return (
         <div className={block}
-             style={{background: color}}>
+             style={{background}}
+             onClick={toggleMenu}>
 
-          {count + ' Events'}
+          {counter.incident}
+          {this.icon('incidents')}
 
-          <div className={block + '__counter'}
-               onClick={toggleMenu}>
-            {count}
-          </div>
+          {counter.danger}
+          {this.icon('critical')}
 
-          <Icon type={showNotificationCenter ? 'open' : 'close'}
-                className={block + '__icon'} />
+          {counter.warning}
+          {this.icon('warning')}
+
+          {this.icon(showNotificationCenter ? 'open' : 'close')}
 
           {showNotificationCenter ?
             <div className={block + '__notification-center'}>
@@ -94,6 +98,13 @@ export default connectTo({
             </div>
           : null}
         </div>
+      );
+    },
+
+    icon(type) {
+      return (
+        <Icon type={type}
+              className={block + '__icon'} />
       );
     }
   })
