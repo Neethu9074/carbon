@@ -6,6 +6,7 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
 import SidebarIncidents from 'in-components/sidebars/Incident';
+import MaintenanceNote from 'in-components/MaintenanceNote';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import SidebarMap from 'in-components/sidebars/Map';
@@ -93,6 +94,7 @@ export default
           <HelpPresenter />
           <TooltipPresenter />
           <ConnectionStatus />
+          <MaintenanceNote />
           <TemporaryNotificationPresenter />
         </div>
       );

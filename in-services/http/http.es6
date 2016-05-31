@@ -3,7 +3,7 @@ import {create} from 'reactive-observables';
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';
 
-export default function({method, url, queryParams, data, timeout = 5000}) {
+export default function({method, url, queryParams, data, timeout = 5000, responseType = 'json'}) {
   url = formatUrl(url, queryParams);
 
   return create({
@@ -12,7 +12,7 @@ export default function({method, url, queryParams, data, timeout = 5000}) {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
       xhr.timeout = timeout;
-      xhr.responseType = 'json';
+      xhr.responseType = responseType;
       xhr.ontimeout = () => {
         observable.emitError(new HttpRequestTimeoutError());
       };

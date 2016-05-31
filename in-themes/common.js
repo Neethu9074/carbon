@@ -28,6 +28,7 @@ module.exports = {
     toast: zIndex++,
     tooltips: zIndex++,
     temporaryNotification: zIndex++,
+    maintenanceNote: zIndex++,
     backdrop: zIndex++,
     dialog: zIndex++,
     demoSignIn: zIndex++
