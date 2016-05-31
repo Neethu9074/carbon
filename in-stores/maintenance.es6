@@ -13,7 +13,7 @@ const store = createStore({
 export const maintenanceMessage$ = store.observable.distinct();
 
 retrieveLatestMessage();
-setInterval(retrieveLatestMessage, 1000 * 60 * 30);
+setInterval(retrieveLatestMessage, 1000 * 60 * 10);
 
 function retrieveLatestMessage() {
   const observable = http({
