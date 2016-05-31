@@ -208,6 +208,11 @@ http {
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
+    location /notifications/ {
+      proxy_pass             https://instana.github.io/ui-notifications/content/;
+      add_header             Cache-Control "private, no-cache, no-store, must-revalidate, max-age=0";
+    }
+
     error_page               500 502 503 504 /50x.html;
     location = /50x.html {
       root                   html;
