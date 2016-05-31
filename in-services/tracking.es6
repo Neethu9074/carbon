@@ -3,7 +3,7 @@
 import config from 'in-services/config';
 
 export function init() {
-  if (config.analyticsTrackingId) {
+  if (config.analyticsTrackingId && window.instana.user.email.indexOf('@instana.com') === -1) {
     installTracking();
   }
 }
