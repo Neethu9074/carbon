@@ -3,6 +3,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import ConnectorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ConnectorsTable';
+import DataSourcesTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/DataSourcesTable';
+import ExecutorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ExecutorsTable';
 import WebAppsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/WebAppsTable';
 import {timeframeShape} from 'in-stores/timeline';
 
@@ -26,6 +28,11 @@ const TomcatDashboard = React.createClass({
 
         <ConnectorsTable snapshot={snapshot}
                          timeframe={timeframe} />
+        <ExecutorsTable snapshot={snapshot}
+                        timeframe={timeframe} />
+
+        <DataSourcesTable snapshot={snapshot}
+                          timeframe={timeframe} />
       </div>
     );
   }
