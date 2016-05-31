@@ -1,19 +1,23 @@
 import React from 'react';
 
+import {isOpen$, toggleMenu} from 'in-components/notificationCenter/notificationCenterStore';
 import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
+import Icon from 'in-components/Icon';
 
 import './HeaderModule.less';
 
 
 const block = 'in-notificationcenter-header-module';
+const rpt = React.PropTypes;
 
 export default connectTo({
-    openIssues: openEventsAtServerTime$.map(events => events.issues)
+    openIssues: openEventsAtServerTime$.map(events => events.issues),
+    showNotificationCenter: isOpen$
   },
   React.createClass({
 
@@ -24,12 +28,12 @@ export default connectTo({
     ],
 
     propTypes: {
-      openIssues: React.PropTypes.array
+      showNotificationCenter: rpt.bool,
+      openIssues: rpt.array
     },
 
     getInitialState() {
       return {
-        showNotificationCenter: false,
         windowHeight: this.getWindowHeight()
       };
     },
@@ -54,7 +58,7 @@ export default connectTo({
 
     render() {
       const events = this.props.openIssues || emptyArray;
-      const showNotificationCenter = this.state.showNotificationCenter;
+      const showNotificationCenter = this.props.showNotificationCenter;
 
       let maxSeverity = 0;
       let count = 0;
@@ -72,36 +76,25 @@ export default connectTo({
         <div className={block}
              style={{background: color}}>
 
-          <div className={block + '__label'}>
-            <span className={block + '__label__title'}>
-              Event Center
-            </span>
-            <br />
-            <span>
-              {count + ' Events'}
-            </span>
-          </div>
+          {count + ' Events'}
 
           <div className={block + '__counter'}
-               onClick={this.toggleNotificationCenter}>
+               onClick={toggleMenu}>
             {count}
           </div>
 
+          <Icon type={showNotificationCenter ? 'open' : 'close'}
+                className={block + '__icon'} />
+
           {showNotificationCenter ?
             <div className={block + '__notification-center'}>
-              <NotificationCenterFlyout toggleNotificationCenter={this.toggleNotificationCenter}
+              <NotificationCenterFlyout toggleNotificationCenter={toggleMenu}
                                         style={{ maxHeight: this.state.windowHeight }}
-                                        open={showNotificationCenter}/>
+                                        open={showNotificationCenter} />
             </div>
           : null}
         </div>
       );
-    },
-
-    toggleNotificationCenter() {
-      this.setState({
-        showNotificationCenter: !this.state.showNotificationCenter
-      });
     }
   })
 );
