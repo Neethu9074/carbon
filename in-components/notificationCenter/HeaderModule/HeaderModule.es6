@@ -1,37 +1,39 @@
 import React from 'react';
 
+import {isOpen$, toggleMenu} from 'in-components/notificationCenter/notificationCenterStore';
+import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
+import Icon from 'in-components/Icon';
 
-import NotificationCenterFlyout from '../NotificationCenterFlyout';
-
-import './NotificationCounter.less';
+import './HeaderModule.less';
 
 
-const block = 'in-notification-counter';
+const block = 'in-notificationcenter-header-module';
+const rpt = React.PropTypes;
 
 export default connectTo({
-    openIssues: openEventsAtServerTime$.map(events => events.issues)
+    openIssues: openEventsAtServerTime$.map(events => events.issues),
+    showNotificationCenter: isOpen$
   },
   React.createClass({
 
-    displayName: 'NotificationCounter',
+    displayName: 'HeaderModule',
 
     mixins: [
       SubscriptionMixin
     ],
 
     propTypes: {
-      className: React.PropTypes.string,
-      openIssues: React.PropTypes.array
+      showNotificationCenter: rpt.bool,
+      openIssues: rpt.array
     },
 
     getInitialState() {
       return {
-        showNotificationCenter: false,
         windowHeight: this.getWindowHeight()
       };
     },
@@ -56,7 +58,7 @@ export default connectTo({
 
     render() {
       const events = this.props.openIssues || emptyArray;
-      const showNC = this.state.showNotificationCenter;
+      const showNotificationCenter = this.props.showNotificationCenter;
 
       let maxSeverity = 0;
       let count = 0;
@@ -68,31 +70,31 @@ export default connectTo({
         }
       });
 
-      const color = theme.health[maxSeverity];
+      const color = maxSeverity > 0 ? theme.health[maxSeverity] : '#172429';
 
       return (
-        <div className={this.props.className}>
-          <div className={block}
-               style={{background: color}}
-               onClick={this.toggleNotificationCenter}>
+        <div className={block}
+             style={{background: color}}>
+
+          {count + ' Events'}
+
+          <div className={block + '__counter'}
+               onClick={toggleMenu}>
             {count}
           </div>
 
-          {showNC ?
+          <Icon type={showNotificationCenter ? 'open' : 'close'}
+                className={block + '__icon'} />
+
+          {showNotificationCenter ?
             <div className={block + '__notification-center'}>
-              <NotificationCenterFlyout toggleNotificationCenter={this.toggleNotificationCenter}
+              <NotificationCenterFlyout toggleNotificationCenter={toggleMenu}
                                         style={{ maxHeight: this.state.windowHeight }}
-                                        open={showNC}/>
+                                        open={showNotificationCenter} />
             </div>
           : null}
         </div>
       );
-    },
-
-    toggleNotificationCenter() {
-      this.setState({
-        showNotificationCenter: !this.state.showNotificationCenter
-      });
     }
   })
 );

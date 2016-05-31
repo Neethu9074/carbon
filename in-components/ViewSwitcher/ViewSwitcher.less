@@ -1,0 +1,23 @@
+@import "~in-themes/active.less";
+
+.in-view-switcher {
+  &__item {
+    padding: 15px 15px 18px;
+
+    font-size: 12px;
+    text-transform: capitalize;
+
+    background: #172429;
+    color: #6B8088;
+
+    transition: color 0.25s ease-in-out;
+    cursor: pointer;
+    float: left;
+
+    &:hover, &__active {
+      color: white;
+      padding-bottom: 14px;
+      border-bottom: 4px solid #9fffff;
+    }
+  }
+}

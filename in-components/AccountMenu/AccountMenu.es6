@@ -2,20 +2,21 @@ import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {isOpen$, toggleMenu, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
+import MenuHeader from 'in-components/AccountMenu/MenuHeader';
+import MenuFooter from 'in-components/AccountMenu/MenuFooter';
+import stanPath from 'in-components/AccountMenu/stan.png';
 import {getTenantsWithUnits} from 'in-services/tenants';
 import {isDemoEnvironment} from 'in-services/config';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 
-import MenuHeader from './MenuHeader';
-import MenuFooter from './MenuFooter';
+import 'in-components/AccountMenu/AccountMenu.less';
 
-import stanPath from './stan.png';
-
-import './AccountMenu.less';
 
 const block = 'in-account';
+const rpt = React.PropTypes;
 
 export default connectTo({
   tenantUnitStructure: isDemoEnvironment() ? alwaysNull : getTenantsWithUnits()
@@ -26,7 +27,8 @@ export default connectTo({
           tenantUnits: tenantUnits[tenantName].map(unit => unit.name)
         };
       });
-    })
+    }),
+    isOpen: isOpen$
   }, React.createClass({
 
   displayName: 'AccountMenu',
@@ -36,69 +38,48 @@ export default connectTo({
   ],
 
   propTypes: {
-    tenantUnitStructure: React.PropTypes.any,
-    className: React.PropTypes.string,
-    showMenu: React.PropTypes.func
+    tenantUnitStructure: rpt.any,
+    className: rpt.string,
+    showMenu: rpt.func,
+    isOpen: rpt.bool
   },
 
-  getInitialState() {
-    return {
-      open: false,
-      showSettings: false
-    };
-  },
-
-  toggle() {
-    this.setState({
-      open: !this.state.open
-    });
-  },
-
-  showMenu() {
-    this.setState({open: false});
+  showSettings() {
+    closeMenu();
     this.props.showMenu(true);
   },
 
   renderMenu() {
-    if (!this.state.open) {
+    if (!this.props.isOpen) {
       return null;
     }
 
+    const isDemo = isDemoEnvironment();
     return (
       <div className={block + '__menu'}>
 
-        {!isDemoEnvironment() ?
-          <div>
-            <MenuHeader />
+        {!isDemo ? <MenuHeader /> : null}
+        {!isDemo ?
+          <div className={block + '__tenants'}>
+            Tenants
+          </div> :
+          null
+        }
+        {!isDemo ? <TenantSwitcher tenants={this.props.tenantUnitStructure}/> : null}
 
-            <div className={block + '__tenants'}>
-              Tenants
-            </div>
-
-            <TenantSwitcher tenants={this.props.tenantUnitStructure}/>
-          </div>
-        : null}
-
-        <MenuFooter onClick={this.showMenu}/>
+        <MenuFooter onClick={this.showSettings}/>
       </div>
     );
   },
 
   render() {
-    let className = block + '__toggle-button';
-    if (this.state.open) {
-      className += '--opened';
-    }
-
     return (
       <div className={getClassName(this, block)}>
         {this.renderMenu()}
 
-        <div className={className}
-             onClick={this.toggle}>
-          <img className={block + '__icon'} src={stanPath}/>
-        </div>
-
+          <img className={block + '__icon'}
+               src={stanPath}
+               onClick={toggleMenu} />
       </div>
     );
   }

@@ -4,7 +4,10 @@ import React from 'react';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
-import {setSelectedNotificationFilter, selectedNotificationFilter} from './notificationCenterFlyoutStores';
+import {
+  setSelectedNotificationFilter,
+  selectedNotificationFilter
+} from 'in-components/notificationCenter/Flyout/flyoutStore';
 
 import './Filter.less';
 

@@ -1,0 +1,38 @@
+@import "~in-themes/active.less";
+
+.in-notificationcenter-header-module {
+  position: relative;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 15px;
+  width: 170px;
+  height: 26px;
+
+  font-size: 12px;
+
+  &__counter {
+    padding: 6px 12px;
+    background: #0e1518;
+    border-radius: 4px;
+
+    transition: background 0.25s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      background: #8198a1;
+    }
+  }
+
+  &__icon {
+    font-size: 2rem;
+  }
+
+  &__notification-center {
+    position: absolute;
+    top: 50px;
+    right: 0;
+  }
+}

@@ -1,14 +1,14 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import connectTo from 'in-hoc/connectTo';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import {
   EVENT_LISTS,
   selectedEventList$,
   setSelectedList
-} from './notificationCenterFlyoutStores';
+} from 'in-components/notificationCenter/Flyout/flyoutStore';
 
 import './EventListSwitcher.less';
 

@@ -1,36 +1,19 @@
-@import "~in-themes/active.less";
 @import "~instana-ui-theme/components/TenantSwitcher/TenantSwitcher.less";
+@import "~in-themes/active.less";
 
 .in-account {
   white-space: nowrap;
+  height: 34px;
 
   &__menu {
     position: absolute;
+    top: ~'calc(100% - 10px)';
+    right: 200px;
 
-    top: 100%;
-    right: -5px;
     margin-top: 10px;
     padding: 20px;
     width: 250px;
-
     background: @menu__background;
-
-    &:before {
-      content: ' ';
-      position: absolute;
-
-      top: -11px;
-      right: 20px;
-
-      padding: 0;
-
-      border: 6px solid;
-      border-color:
-        transparent
-        @menu__background
-        @menu__background
-        transparent;
-    }
   }
 
   &__tenants {
@@ -38,22 +21,11 @@
     margin-bottom: 20px;
   }
 
-  &__toggle-button, &__toggle-button--opened {
-    height: 32px;
-    &:hover {
-      .in-account-menu__icon {
-        opacity: 1;
-      }
-    }
-  }
-
   &__icon {
-    padding: 4px;
-    width: 24px;
+    width: 34px;
     background: white;
     border-radius: 50%;
     opacity: 0.65;
-    transition: opacity 0.25s ease-in-out;
     cursor: pointer;
   }
 }

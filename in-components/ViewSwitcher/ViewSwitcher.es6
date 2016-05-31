@@ -7,16 +7,16 @@ import * as viewStore from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import eventBus from 'in-map/eventbus';
 
-import './MapViewSwitcher.less';
+import './ViewSwitcher.less';
 
-const block = 'in-map-view-switcher';
+const block = 'in-view-switcher';
 
 export default connectTo({
     activeView: viewStore.view,
     navigationParameters: navigationParameters$
   },
   React.createClass({
-  displayName: 'MapViewSwitcher',
+  displayName: 'ViewSwitcher',
 
   propTypes: {
     activeView: React.PropTypes.string.isRequired,
@@ -26,12 +26,10 @@ export default connectTo({
   render() {
     return (
       <div className={block}>
-        <div className={block + '__item-wrapper'}>
-          {this.renderViewItem(views.physical, 'Physical')}
-          {isInternalEnvironment() ? this.renderViewItem(views.process, 'Process') : null}
-          {isInternalEnvironment() ? this.renderTableViewItem() : null}
-          {this.renderTraceViewItem()}
-        </div>
+        {this.renderViewItem(views.physical, 'Physical')}
+        {isInternalEnvironment() ? this.renderViewItem(views.process, 'Process') : null}
+        {isInternalEnvironment() ? this.renderTableViewItem() : null}
+        {this.renderTraceViewItem()}
       </div>
     );
   },
