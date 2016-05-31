@@ -214,6 +214,9 @@ module.exports = defaultsDeep({
     height: 110,
     heightOpen: 192
   },
+  header: {
+    height: 40
+  },
   map: {
     colors: {
       cubeColorFalloffValues: {

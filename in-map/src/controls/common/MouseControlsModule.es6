@@ -23,7 +23,7 @@ export default class MouseControlModule extends Module {
         e.preventDefault();
 
         const roundedX = e.clientX | 0;
-        const roundedY = (e.clientY | 0) + theme.footer.height;
+        const roundedY = (e.clientY | 0) - theme.header.height;
         if (this.lastMousePosition.x !== roundedX ||
           this.lastMousePosition.y !== roundedY) {
             this.lastMousePosition.x = roundedX;
