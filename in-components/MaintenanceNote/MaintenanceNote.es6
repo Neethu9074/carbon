@@ -1,7 +1,9 @@
 import React from 'react';
 
-import {maintenanceMessage$} from 'in-stores/maintenance';
+import {maintenanceMessage$, markAsRead} from 'in-stores/maintenance';
+import {toHtml} from 'in-services/formatters/markdown';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import './MaintenanceNote.less';
 
@@ -14,10 +16,13 @@ export default connectTo({
       return null;
     }
 
-    // TODO markdown
     return (
-      <div className={block}>
-        {maintenanceMessage}
+      <div className={block}
+           onClick={markAsRead}>
+        <Icon type='server'
+              className={block + '__icon'}/>
+        <div className={block + '__text'}
+             dangerouslySetInnerHTML={{__html: toHtml(maintenanceMessage)}} />
       </div>
     );
   });

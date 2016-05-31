@@ -13,7 +13,7 @@ const store = createStore({
 export const maintenanceMessage$ = store.observable.distinct();
 
 retrieveLatestMessage();
-setInterval(retrieveLatestMessage, 1000 * 60 * 5);
+setInterval(retrieveLatestMessage, 1000 * 60 * 30);
 
 function retrieveLatestMessage() {
   const observable = http({
@@ -34,4 +34,9 @@ function retrieveLatestMessage() {
   observable.errors().once(err => {
     logger.warn('Failed to retrieve maintenance document', err);
   });
+}
+
+
+export function markAsRead() {
+  store.applyStateMutation(() => null);
 }
