@@ -109,6 +109,72 @@ const ElasticsearchDashboard = React.createClass({
                              type: 'stackedArea'
                            }}/>
         </DashboardSection>
+        <DashboardSection title='Active Threads'>
+          <ChartWithLegend snapshot={snapshot}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           maergins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'threads.search_active',
+                               'threads.index_active',
+                               'threads.bulk_active',
+                               'threads.merge_active',
+                               'threads.flush_active',
+                               'threads.get_active',
+                               'threads.management_active',
+                               'threads.refresh_active'
+                             ],
+                             labels: [
+                               'Search',
+                               'Index',
+                               'Bulk',
+                               'Merge',
+                               'Flush',
+                               'Get',
+                               'Management',
+                               'Refresh'
+                             ],
+                             formatter: zeroDecimalPlaces,
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
+        <DashboardSection title='Queued Threads'>
+          <ChartWithLegend snapshot={snapshot}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           maergins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'threads.search_queue',
+                               'threads.index_queue',
+                               'threads.bulk_queue',
+                               'threads.merge_queue',
+                               'threads.flush_queue',
+                               'threads.get_queue',
+                               'threads.management_queue',
+                               'threads.refresh_queue'
+                             ],
+                             labels: [
+                               'Search',
+                               'Index',
+                               'Bulk',
+                               'Merge',
+                               'Flush',
+                               'Get',
+                               'Management',
+                               'Refresh'
+                             ],
+                             formatter: zeroDecimalPlaces,
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
       </div>
     );
   }
