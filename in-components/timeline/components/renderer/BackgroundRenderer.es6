@@ -1,8 +1,6 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
+import {darkColor, midColor} from 'in-components/timeline/timelineConfig';
 
-
-const darkColor = '#2e4048';
-const midColor = '#43565e';
 
 export default class BackgroundRenderer extends BasicRenderer {
 
