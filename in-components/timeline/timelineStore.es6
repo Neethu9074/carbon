@@ -4,7 +4,8 @@ import {
   timeframe$ as globalTimeframe$,
   setTimeframe as setGlobalTimeframe,
   focusedMoment$ as globalFocusedMoment$,
-  setFocusedMoment as setGlobalFocusedMoment
+  setFocusedMoment as setGlobalFocusedMoment,
+  bigBangTimestamp$
 } from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
@@ -13,6 +14,17 @@ import {createStore} from 'in-stores/store';
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 10; // 10 minutes
 
+let maxAvailableWindowSize = MAX_ZOOM_LEVEL;
+
+export function init() {
+  combineLatest([bigBangTimestamp$, serverTime$])
+  .subscribe(props => {
+    const bigBangTimestamp = props[0];
+    const serverTime = props[1];
+
+    maxAvailableWindowSize = serverTime - bigBangTimestamp;
+  });
+}
 
 const isCollapsed = createStore({
   name: 'isTimelineCollapsedStore',
@@ -79,8 +91,10 @@ function createTimeframe(windowSize, to) {
   };
 }
 
-
 export function getValidWindowSize(windowSize) {
+  if (maxAvailableWindowSize) {
+    return Math.min(Math.max(MAX_ZOOM_LEVEL, Math.min(MIN_ZOOM_LEVEL, windowSize)), maxAvailableWindowSize);
+  }
   return Math.max(MAX_ZOOM_LEVEL, Math.min(MIN_ZOOM_LEVEL, windowSize));
 }
 
