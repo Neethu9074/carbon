@@ -5,12 +5,12 @@ import React from 'react';
 import {isOpen$, toggleMenu, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
 import MenuHeader from 'in-components/AccountMenu/MenuHeader';
 import MenuFooter from 'in-components/AccountMenu/MenuFooter';
-import stanPath from 'in-components/AccountMenu/stan.png';
 import {getTenantsWithUnits} from 'in-services/tenants';
 import {isDemoEnvironment} from 'in-services/config';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import 'in-components/AccountMenu/AccountMenu.less';
 
@@ -57,7 +57,6 @@ export default connectTo({
     const isDemo = isDemoEnvironment();
     return (
       <div className={block + '__menu'}>
-
         {!isDemo ? <MenuHeader /> : null}
         {!isDemo ?
           <div className={block + '__tenants'}>
@@ -77,9 +76,9 @@ export default connectTo({
       <div className={getClassName(this, block)}>
         {this.renderMenu()}
 
-          <img className={block + '__icon'}
-               src={stanPath}
-               onClick={toggleMenu} />
+        <Icon type='profile'
+              className={block + '__icon'}
+              onClick={toggleMenu} />
       </div>
     );
   }
