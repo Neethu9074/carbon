@@ -43,8 +43,6 @@ http {
     server                   {{UI_TRACKER_PORT_8484_TCP_ADDR}}:{{UI_TRACKER_PORT_8484_TCP_PORT}};
   }
 
-{% if OPERATION_MODE != "on-prem" %}
-
   server {
     listen                   80;
     return                   301 https://$host$request_uri;
@@ -53,13 +51,6 @@ http {
 
   server {
     listen                   443 ssl http2;
-
-{% else %}
-
-  server {
-    listen                   80 http2;
-
-{% endif %}
 
     server_name              {{PUBLIC_DOMAIN}};
 
