@@ -5,9 +5,7 @@ import React from 'react';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import DashboardSection from 'in-components/DashboardSection';
-import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 import {Row, Col} from 'in-components/Grid';
 
@@ -35,36 +33,12 @@ const RabbitMqDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
-    const data = snapshot.get('data');
-    const channelNames = data.get('channels', emptyList).toArray();
-    channelNames.sort();
 
     return (
       <div>
         <DashboardSection title='Messages'>
           <Row>
-            <Col cols={6}>
-              <ChartWithLegend  snapshot={snapshot}
-                    timeframe={timeframe}
-                    height={chartHeight}
-                    margins={{
-                      left: 80
-                    }}
-                    y1={{
-                      metrics: [
-                        'overview.publish',
-                        'overview.deliver',
-                        'overview.ack'
-                      ],
-                      labels: [
-                        'Published messages',
-                        'Delivered messages',
-                        'Acknowledged messages'
-                      ],
-                      type: 'line'
-                    }}/>
-            </Col>
-            <Col cols={6}>
+            <Col cols={12}>
               <ChartWithLegend  snapshot={snapshot}
                     timeframe={timeframe}
                     height={chartHeight}
@@ -78,9 +52,9 @@ const RabbitMqDashboard = React.createClass({
                         'overview.ack_rate'
                       ],
                       labels: [
-                        'Publish rate',
-                        'Deliver rate',
-                        'Acknowledge rate'
+                        'Published per 5 seconds',
+                        'Delivered per 5 seconds',
+                        'Acknowledged per 5 seconds'
                       ],
                       type: 'line',
                       formatter: twoDecimalPlaces
@@ -160,25 +134,6 @@ const RabbitMqDashboard = React.createClass({
 
         <QueuesTable snapshot={snapshot}
                      timeframe={timeframe} />
-
-        {channelNames && channelNames.length > 0 ?
-          <DashboardSection title='Channels'>
-            <ResponsiveTable>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                {channelNames.map(channelName =>
-                  <tr key={channelName}>
-                    <td>{channelName}</td>
-                  </tr>
-                )}
-              </tbody>
-            </ResponsiveTable>
-          </DashboardSection>
-        : null}
 
     </div>
   );
