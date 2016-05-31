@@ -5,7 +5,6 @@ import React from 'react';
 
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import * as navigation from 'in-stores/navigation';
-import * as tracking from 'in-services/tracking';
 import {getClassName} from 'in-services/react';
 import Button from 'in-components/Button';
 
@@ -53,7 +52,6 @@ const ViewDashboardButton = React.createClass({
   },
 
   openDashboard() {
-    tracking.events.openingADashboardUsingTheSidebar();
     setSelectedSnapshotId(this.props.snapshot.get('id'));
     navigation.goToDashboard();
   }

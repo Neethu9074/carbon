@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import moment from 'moment';
 import React from 'react';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 const HAProxyInfo = React.createClass({
@@ -24,7 +24,7 @@ const HAProxyInfo = React.createClass({
           {data.get('info.name')}
         </DescriptionItem>
         <DescriptionItem title='Started at'>
-          {moment(data.get('info.startedAt')).format()}
+          {formatDateTime(data.get('info.startedAt'))}
         </DescriptionItem>
         <DescriptionItem title='Max Memory'>
           {data.get('info.memmax')}

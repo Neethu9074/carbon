@@ -28,12 +28,6 @@ module.exports = {
     toast: zIndex++,
     tooltips: zIndex++,
     temporaryNotification: zIndex++,
-    tour: {
-      inputBlocker: zIndex++,
-      fragment: zIndex++,
-      overlay: zIndex++,
-      dialog: zIndex++
-    },
     backdrop: zIndex++,
     dialog: zIndex++,
     demoSignIn: zIndex++

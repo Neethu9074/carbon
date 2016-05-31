@@ -2,6 +2,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
+import {formatDateTime} from 'in-services/formatters/date';
+
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 const MariaDbInfo = React.createClass({
@@ -13,6 +15,7 @@ const MariaDbInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
+    const startedAt = data.get('startedAt');
     return (
       <DescriptionList>
         <DescriptionItem title='Process ID'>
@@ -23,6 +26,14 @@ const MariaDbInfo = React.createClass({
         </DescriptionItem>
         <DescriptionItem title='Version'>
           {this.getVersion(data)}
+        </DescriptionItem>
+        <DescriptionItem title='Started At'>
+          {startedAt != null ?
+            formatDateTime(startedAt)
+          : null}
+        </DescriptionItem>
+        <DescriptionItem title='Role'>
+          {data.get('role')}
         </DescriptionItem>
       </DescriptionList>
     );

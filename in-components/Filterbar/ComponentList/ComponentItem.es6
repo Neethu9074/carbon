@@ -6,7 +6,6 @@ import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stor
 import getHighlightedState from 'in-hoc/getHighlightedState';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import HealthIcon from 'in-components/HealthIcon';
-import * as tracking from 'in-services/tracking';
 import getSnapshot from 'in-hoc/getSnapshot';
 import {getLabel} from 'in-sdk/snapshot';
 
@@ -50,7 +49,6 @@ export default getSnapshot(
   },
 
   onClick() {
-    tracking.events.clickOnServerInSidebar();
     setSelectedSnapshotId(this.props.snapshotId);
   },
 

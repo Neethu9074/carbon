@@ -33,5 +33,6 @@ export const plugins = {
   genericHardware: 'genericHardware',
   genericZone: 'genericZone',
   unmonitoredHost: 'unmonitoredHost',
-  haproxy: 'hAProxy'
+  haproxy: 'hAProxy',
+  oracledb: 'oracleDB'
 };

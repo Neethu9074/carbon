@@ -1,8 +1,9 @@
 import {create} from 'reactive-observables';
 import React from 'react';
 
+import getBigBangTimestamp from 'in-services/subscription/bigBangTimestamp';
+import {createStore, createTrackingStore} from 'in-stores/store';
 import {serverTime$} from 'in-stores/serverTime';
-import {createStore} from 'in-stores/store';
 
 
 // An object of the following structure
@@ -121,3 +122,11 @@ export function setHighlightedMoment(t) {
 export function clearHighlightedMoment() {
   highlightedMomentStore.applyStateMutation(() => null);
 }
+
+
+export const bigBangTimestamp = createTrackingStore({
+  name: 'bigBangTimestamp',
+  observable: getBigBangTimestamp()
+}).observable;
+
+export const bigBangTimestamp$ = bigBangTimestamp;

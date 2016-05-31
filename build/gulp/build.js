@@ -174,8 +174,7 @@ gulp.task('writeTryBuildServerConfigFile', () => {
 
 gulp.task('startTryBuildServer', () => {
   execSync(
-    '"' + path.join(paths.binDir, 'babel-node') +
-    '" "' +
+    'node "' +
     path.join(paths.targetDir, 'index.js') +
     '"',
     {

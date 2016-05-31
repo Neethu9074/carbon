@@ -1,19 +1,19 @@
 .in-timeline-navigation {
   @dark: #384b53;
   @light: #92a5ae;
-  @width: 220px;
+  @width: 234px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: @width;
   min-width: @width;
-  padding: 0 15px;
+  padding: 0 15px 0 1px;
   position: relative;
 
   &__icon-zoom {
     color: @light;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 
     &:hover {
       color: #fff;
@@ -30,40 +30,52 @@
       outline: none;
     }
 
-    &::-webkit-slider-runnable-track {
-      height: 4px;
-      cursor: pointer;
-      background: @dark;
-    }
-
     &::-webkit-slider-thumb {
       height: 14px;
       width: 4px;
       border-radius: 2px;
-      background: @light;
+      background: #6b8088;
       cursor: pointer;
       -webkit-appearance: none;
       margin-top: -6px;
+
+      &:hover {
+        background: #92a5ae;
+      }
     }
 
     &::-moz-range-thumb{
       height: 14px;
       width: 2px;
       border-radius: 2px;
-      background: @light;
+      background: #6b8088;
       cursor: pointer;
+
+      &:hover {
+        background: #92a5ae;
+      }
     }
 
     &::-ms-thumb {
       height: 14px;
       width: 5px;
       border-radius: 2px;
-      background: @light;
+      background: #6b8088;
       cursor: pointer;
+
+      &:hover {
+        background: #92a5ae;
+      }
     }
 
     &::-moz-range-track {
       height: 2px;
+      cursor: pointer;
+      background: @dark;
+    }
+
+    &::-webkit-slider-runnable-track {
+      height: 4px;
       cursor: pointer;
       background: @dark;
     }

@@ -1,6 +1,10 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
+import {formatDate, formatTime} from 'in-services/formatters/date';
+import {font} from 'in-components/timeline/timelineConfig';
 import {highlightedMoment$} from 'in-stores/timeline';
 
+
+const width = 140;
 
 export default class HighlightedMomentRenderer extends BasicRenderer {
 
@@ -8,31 +12,43 @@ export default class HighlightedMomentRenderer extends BasicRenderer {
     super(backBuffer, scale);
 
     this.highlightedMoment = null;
-    this.subscription = highlightedMoment$.subscribe(highlightedMoment =>
-      this.highlightedMoment = highlightedMoment
-    );
+    this.subscription = highlightedMoment$.subscribe(highlightedMoment => this.highlightedMoment = highlightedMoment);
   }
 
   draw() {
+    const highlightedMoment = this.highlightedMoment;
     if (!this.highlightedMoment) {
       return;
     }
 
     const buffer = this.backBuffer;
-    const x = this.scale.getRange(this.highlightedMoment);
+    const scale = this.scale;
+    let x = this.scale.getRange(highlightedMoment);
 
-    // buffer.strokeStyle = '#ff0000';
-    buffer.strokeStyle = '#669FA3';
-    buffer.lineWidth = 1;
-    buffer.beginPath();
-    buffer.moveTo(x, 40);
-    buffer.lineTo(x, 162);
-    buffer.closePath();
-    buffer.stroke();
+    buffer.fillStyle = '#92A5AE';
+    buffer.fillRect(x, 40, 1, 122);
+
+    if (x > scale.getRangeTo() * 0.8) {
+      x -= width / 2;
+    } else if (x < scale.getRangeTo() * 0.2) {
+      x += width / 2;
+    }
+
+    buffer.fillStyle = '#172429';
+    buffer.globalAlpha = 0.8;
+    buffer.fillRect(x - width / 2, 20, width, 25);
+    buffer.globalAlpha = 1;
+
+    buffer.font = font;
+    buffer.fillStyle = '#4c595f';
+    buffer.fillText(formatDate(highlightedMoment), x - 57, 37);
+    buffer.fillStyle = '#fff';
+    buffer.fillText(formatTime(highlightedMoment), x + 10, 37);
   }
 
   dispose() {
     super.dispose();
+
     this.subscription.dispose();
   }
 }

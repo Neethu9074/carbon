@@ -5,7 +5,6 @@ import {activeTheme as activeThemeObservable, availableThemes, setActiveTheme} f
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
 import {askPermission} from 'in-services/notification';
-import * as tracking from 'in-services/tracking';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
 import Button from 'in-components/Button';
@@ -162,9 +161,6 @@ const Settings = React.createClass({
 
     // sets AA true if on value other than 'none' was chosen
     setIn(['map', 'antialias'], value);
-
-    // track the event
-    tracking.events.antialiasWasChosenInSettings();
   },
 
   closeSettings() {

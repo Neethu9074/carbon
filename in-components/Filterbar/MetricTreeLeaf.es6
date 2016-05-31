@@ -3,7 +3,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as metricsStore from 'in-services/stores/metrics';
-import * as tracking from 'in-services/tracking';
 
 import './MetricTreeLeaf.less';
 
@@ -30,7 +29,6 @@ const MetricTreeLeaf = React.createClass({
   },
 
   onClickMetric() {
-    tracking.events.showMetricIn3dMap();
     metricsStore.setActiveMetric(this.props.metricObject);
   },
 

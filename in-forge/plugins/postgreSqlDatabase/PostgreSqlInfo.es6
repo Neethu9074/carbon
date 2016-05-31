@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
-import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 const PostgreSqlInfo = React.createClass({
@@ -26,9 +26,11 @@ const PostgreSqlInfo = React.createClass({
         <DescriptionItem title='Version'>
           {data.get('variables.VERSION')}
         </DescriptionItem>
-        <DescriptionItem title='Started At'>
-          {moment(data.get('variables.started_at')).format()}
-        </DescriptionItem>
+        {data.get('variables.started_at') !== null ?
+          <DescriptionItem title='Started At'>
+            {formatDateTime(data.get('variables.started_at'))}
+          </DescriptionItem>
+        : null}
       </DescriptionList>
     );
   }});

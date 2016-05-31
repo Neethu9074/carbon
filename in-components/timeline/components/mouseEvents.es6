@@ -8,7 +8,8 @@ import {
   to$,
   setTimeFrame,
   timeframe$,
-  getValidWindowSize
+  getValidWindowSize,
+  fixFocusedMomentIfNotFixed
 } from 'in-components/timeline/timelineStore';
 import {
   setTo as setGlobalTo,
@@ -18,8 +19,8 @@ import {
 } from 'in-stores/timeline';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
-import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {selectEvent} from 'in-services/issueTracker';
+import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 
 
@@ -38,6 +39,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let serverTime = Number.MAX_VALUE;
   const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time);
+
+  let bigBangTimestamp = 0;
+  const bigBangTimestampSubscription = bigBangTimestamp$.subscribe(time => bigBangTimestamp = time);
 
   let timeframe;
   const timeframeSubscription = timeframe$.subscribe(_timeframe => timeframe = _timeframe);
@@ -88,7 +92,11 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
                                                  oldWindowSize,
                                                  normalizedMouseXPosition);
 
-    setTimeFrame(newTimeFrame.windowSize, newTimeFrame.to);
+    const to = newTimeFrame.to ?
+      Math.max(bigBangTimestamp + newTimeFrame.windowSize, newTimeFrame.to) :
+      newTimeFrame.to;
+
+    setTimeFrame(newTimeFrame.windowSize, to);
   });
 
   function getNewTimeframeByScroll(scrollDirection, scrollSpeed, oldWindowSize, normalizedMouseXPosition) {
@@ -178,7 +186,11 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const eventAtCursor = getEventAtXY(x, y);
 
     // add a hand cursor to support UX and tell the user that he can interact with the canvas at this point
-    setCursor(eventAtCursor || isCursorOnFocusedMoment(x, y) ? CURSOR_TYPES.POINTER : CURSOR_TYPES.DEFAULT);
+    if (eventAtCursor || isCursorOnFocusedMoment(x, y)) {
+      canvas.style.cursor = 'pointer';
+    } else {
+      canvas.style.cursor = 'auto';
+    }
 
     setHighlightedEvent(eventAtCursor);
     setHighlightedEventScreenPosition(eventAtCursor ? {
@@ -196,9 +208,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     // set focued moment to the right edge if the user panned away from servertime
     // otherwhise set it to null, so return to livemode again
-    if (currentTo && !focusedMoment) {
-      setFocusedMoment(currentTo);
-    }
+    fixFocusedMomentIfNotFixed();
 
     isPanning = true;
     lastXPosOnPan = x;
@@ -208,15 +218,17 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const pixelPanned = lastXPosOnPan - x;
 
     if (isFocusedMomentPanning) {
-      // min, because it's not allowed to scroll to future times
-      const newTimestamp = Math.max(0, Math.min(serverTime, scale.getDomain(lastXPosOnPan + pixelPanned)));
+      const newTimestamp = Math.max(bigBangTimestamp, // minimum is the big bang time
+                           Math.min(serverTime,       // maximum is servertime
+                                                      // because it's not allowed to scroll to future times
+                            scale.getDomain(lastXPosOnPan + pixelPanned)));
       setFocusedMoment(newTimestamp);
 
     } else {
-      setCursor(CURSOR_TYPES.HORIZONTAL_MOVE); // add visual scroll effect to support UX
+      canvas.style.cursor = 'ew-resize';
 
-      // min, because it's not allowed to scroll to future times
-      const newTimestamp = Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned));
+      const newTimestamp = Math.max(bigBangTimestamp + timeframe.windowSize,
+                           Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned)));
       setTo(newTimestamp);
     }
 
@@ -235,7 +247,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     realtimeDrawStream.emit(changeSignal);
 
-    setCursor(CURSOR_TYPES.DEFAULT);
+    canvas.style.cursor = 'auto';
   }
 
   function getEventAtXY(x, y) {
@@ -276,6 +288,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   function dispose() {
     focusedMomentXPositionSubscription.dispose();
+    bigBangTimestampSubscription.dispose();
     focusedMomentSubscription.dispose();
     isCollapsedSubscription.dispose();
     serverTimeSubscription.dispose();

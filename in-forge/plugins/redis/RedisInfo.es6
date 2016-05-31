@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import moment from 'moment';
 import React from 'react';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import MetricValue from 'in-components/MetricValue';
 
@@ -38,7 +38,7 @@ export default React.createClass({
           {data.get('port')}
         </DescriptionItem>
         <DescriptionItem title='Started At'>
-            {moment(data.get('started_at')).format()}
+          {formatDateTime(data.get('started_at'))}
         </DescriptionItem>
         <DescriptionItem title='Role'>
             {role}

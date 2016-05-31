@@ -13,6 +13,7 @@ describe('mouseEvents', () => {
   const MAX_ZOOM_LEVEL = 1000;
   const toMock = create();
   const serverTimeMock = create();
+  const bigBangTimestampMock = create();
 
   createMouseEvents = proxyquire('in-components/timeline/components/mouseEvents', {
     'in-components/timeline/timelineStore': {
@@ -31,6 +32,9 @@ describe('mouseEvents', () => {
     },
     'in-stores/events': {
       eventsInTimeframe$: create().startWith(null)
+    },
+    'in-stores/timeline': {
+      bigBangTimestamp$: bigBangTimestampMock
     }
   }).default;
 

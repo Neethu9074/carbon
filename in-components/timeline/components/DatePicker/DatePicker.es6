@@ -7,6 +7,8 @@ import React from 'react';
 
 import {timeFormat, dateFormat, formatDate} from 'in-services/formatters/date';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
+import {bigBangTimestamp$} from 'in-stores/timeline';
+import {serverTime$} from 'in-stores/serverTime';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -29,6 +31,9 @@ const block = 'in-date-picker';
 const rpt = React.PropTypes;
 
 export default connectTo({
+    bigBangTimestamp: bigBangTimestamp$,
+    serverTime: serverTime$,
+
     dateIsValid: dateIsValid$,
     timeIsValid: timeIsValid$,
     dateString: dateString$,
@@ -45,6 +50,8 @@ export default connectTo({
     propTypes: {
       applyDate: rpt.func.isRequired,
       onClose: rpt.func.isRequired,
+      bigBangTimestamp: rpt.number,
+      serverTime: rpt.number,
       dateString: rpt.string,
       timeString: rpt.string,
       dateIsValid: rpt.bool,
@@ -66,6 +73,12 @@ export default connectTo({
 
     render() {
       const date = this.getMergedDate();
+      const bigBangTimestamp = this.props.bigBangTimestamp;
+      const serverTime = this.props.serverTime;
+
+      if (!bigBangTimestamp || !serverTime) {
+        return null;
+      }
 
       return (
         <div className={block}
@@ -95,7 +108,11 @@ export default connectTo({
 
           <DayPicker initialMonth={date}
                      modifiers={{
-                       isSelected: day => dateUtils.isSameDay(day, date)
+                       selected: day => dateUtils.isSameDay(day, date),
+                       inactive: day => !dateUtils.isDayInRange(day, {
+                         from: new Date(bigBangTimestamp),
+                         to: new Date(serverTime)
+                       })
                      }}
                      onDayClick={(e, day) => setDateString(formatDate(day))}/>
         </div>

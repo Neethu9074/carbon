@@ -11,6 +11,7 @@ import React from 'react';
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
 import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
 import * as persistentConnection from 'in-services/persistentConnection';
+import * as timelineStore from 'in-components/timeline/timelineStore';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
 import * as tracking from 'in-services/tracking';
@@ -53,11 +54,9 @@ persistentConnection.init();
 subscriptonManager.init();
 timeOffsetStore.init();
 filteringStore.init();
+timelineStore.init();
 messageStore.init();
-
-if (window.instana.user) {
-  tracking.identify();
-}
+tracking.init();
 
 ReactDOM.render((
   <Router history={hashHistory}>

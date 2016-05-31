@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import moment from 'moment';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 const DockerInfo = React.createClass({
@@ -29,7 +29,7 @@ const DockerInfo = React.createClass({
           {data.get('Command')}
         </DescriptionItem>
         <DescriptionItem title='Created'>
-          {moment(createdMillis).format()}
+          {formatDateTime(createdMillis)}
         </DescriptionItem>
         <DescriptionItem title='Id'>
           {data.get('Id').substring(0, 20)}{'…'}
