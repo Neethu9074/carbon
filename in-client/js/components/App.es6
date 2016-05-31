@@ -7,6 +7,7 @@ import NotificationCounter from 'in-components/NotificationCounter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
 import SidebarIncidents from 'in-components/sidebars/Incident';
+import MaintenanceNote from 'in-components/MaintenanceNote';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
@@ -101,6 +102,7 @@ export default
           <HelpPresenter />
           <TooltipPresenter />
           <ConnectionStatus />
+          <MaintenanceNote />
           <TemporaryNotificationPresenter />
         </div>
       );

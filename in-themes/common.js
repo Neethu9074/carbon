@@ -29,6 +29,7 @@ module.exports = {
     toast: zIndex++,
     tooltips: zIndex++,
     temporaryNotification: zIndex++,
+    maintenanceNote: zIndex++,
     backdrop: zIndex++,
     accountMenu: zIndex++,
     dialog: zIndex++,

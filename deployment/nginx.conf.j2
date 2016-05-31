@@ -136,6 +136,7 @@ http {
 
     location / {
       proxy_pass             http://localNodeInstance;
+      proxy_cache            off;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -189,6 +190,7 @@ http {
 
     location /assets/ {
       proxy_pass             http://groundskeeper/assets/;
+      proxy_cache            off;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -210,6 +212,7 @@ http {
 
     location /notifications/ {
       proxy_pass             https://instana.github.io/ui-notifications/content/;
+      proxy_cache            off;
       add_header             Cache-Control "private, no-cache, no-store, must-revalidate, max-age=0";
     }
 
