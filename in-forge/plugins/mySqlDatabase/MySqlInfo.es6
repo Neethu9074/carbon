@@ -40,13 +40,8 @@ const MySqlInfo = React.createClass({
   },
 
   getVersion(data) {
-    const variables = data.get('variables');
-    if (!variables) {
-      return null;
-    }
-
-    const version = variables.get('VERSION');
-    const comment = variables.get('VERSION_COMMENTS');
+    const version = data.get('variables.VERSION');
+    const comment = data.get('variables.VERSION_COMMENT');
 
     if (version && comment) {
       return (
