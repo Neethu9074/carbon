@@ -32,7 +32,7 @@ export default React.createClass({
         <ViewSwitcher />
 
         <div className={block + '__menu'}>
-          <AccountMenu showMenu={this.props.showSettingsMenu} />
+          <AccountMenu showMenu={this.props.showSettingsMenu}/>
           <NotificationCenterHeaderModule />
         </div>
       </div>

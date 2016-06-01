@@ -1,3 +1,4 @@
+import {closeMenu as closeAccountMenu} from 'in-components/AccountMenu/accountMenuStore';
 import {createStore} from 'in-stores/store';
 
 
@@ -8,5 +9,14 @@ const isOpen = createStore({
 export const isOpen$ = isOpen.observable;
 
 export function toggleMenu() {
-  isOpen.applyStateMutation(oldValue => !oldValue);
+  isOpen.applyStateMutation(oldValue => {
+    if (!oldValue) {
+      closeAccountMenu();
+    }
+    return !oldValue;
+  });
+}
+
+export function closeMenu() {
+  isOpen.applyStateMutation(() => false);
 }
