@@ -4533,6 +4533,11 @@
       "from": "map-obj@>=1.0.1 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/map-obj/-/map-obj-1.0.1.tgz"
     },
+    "markdown-it-link-target": {
+      "version": "1.0.1",
+      "from": "markdown-it-link-target@1.0.1",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/markdown-it-link-target/-/markdown-it-link-target-1.0.1.tgz"
+    },
     "markdown-it": {
       "version": "6.0.0",
       "from": "markdown-it@6.0.0",
