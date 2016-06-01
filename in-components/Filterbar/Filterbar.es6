@@ -1,6 +1,9 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
+import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import connectTo from 'in-hoc/connectTo';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
 import ComponentList from './ComponentList';
@@ -13,18 +16,23 @@ import './Filterbar.less';
 
 const block = 'in-filterbar';
 
-const Filterbar = React.createClass({
+export default connectTo({
+    isCollapsed: isCollapsed$
+  }, React.createClass({
+  displayName: 'Filterbar',
+
+  mixins: [PureRenderMixin],
+
+  propTypes: {
+    isCollapsed: React.PropTypes.bool.isRequired
+  },
+
   getInitialState() {
     return { activeControl: null };
   },
 
-  shouldComponentUpdate(newProps, newState) {
-    return this.state.activeControl !== newState.activeControl;
-  },
-
   render() {
     const open = !!this.state.activeControl;
-
     return (
       <div className={block}>
         <Controls className={classnames({
@@ -35,7 +43,8 @@ const Filterbar = React.createClass({
                   onChangeActiveControl={this.onChangeActiveControl} />
         <div className={classnames({
           [block + '__content']: true,
-          [block + '__content--open']: open
+          [block + '__content--open']: open,
+          [block + '__content--timeline-expanded']: !this.props.isCollapsed
         })}>
           <CloseFilterbarButton closeFilterbar={this.closeFilterbar} />
           {this.renderContent()}
@@ -78,6 +87,4 @@ const Filterbar = React.createClass({
       activeControl: null
     });
   }
-});
-
-export default Filterbar;
+}));
