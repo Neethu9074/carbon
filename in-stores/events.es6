@@ -44,7 +44,11 @@ export const retrievedEvents$ = createTrackingStore({
       changes: [],
       incidents: []
     })
-}).observable;
+}).observable.startWith({
+  issues: [],
+  changes: [],
+  incidents: []
+});
 
 
 export const eventsInTimeframe$ = combineLatest([

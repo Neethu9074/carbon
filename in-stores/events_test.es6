@@ -85,7 +85,7 @@ describe('in-stores/events', () => {
 
       mod.retrievedEvents$.subscribe(subscriber);
 
-      const result = subscriber.getCall(0).args[0].issues;
+      const result = subscriber.getCall(1).args[0].issues;
       expect(result.length).to.equal(1);
       expect(result[0].time).to.equal(10);
       expect(result[0].get('id')).to.equal('foo');
@@ -342,8 +342,8 @@ describe('in-stores/events', () => {
         'state': 'closed'
       }]));
 
-      expect(subscriber.callCount).to.equal(3);
-      const result = subscriber.getCall(2).args[0];
+      expect(subscriber.callCount).to.equal(4);
+      const result = subscriber.getCall(3).args[0];
       expect(result.issues.length).to.equal(1);
       expect(result.issues[0].get('id')).to.equal('foo');
     });
@@ -372,8 +372,8 @@ describe('in-stores/events', () => {
         'state': 'closed'
       }]));
 
-      expect(subscriber.callCount).to.equal(3);
-      const result = subscriber.getCall(2).args[0];
+      expect(subscriber.callCount).to.equal(4);
+      const result = subscriber.getCall(3).args[0];
       expect(result.issues.length).to.equal(1);
       expect(result.issues[0].get('id')).to.equal('foo');
     });
@@ -398,8 +398,8 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      expect(subscriber.callCount).to.equal(3);
-      const result = subscriber.getCall(2).args[0];
+      expect(subscriber.callCount).to.equal(4);
+      const result = subscriber.getCall(3).args[0];
       expect(result.issues.length).to.equal(1);
       expect(result.issues[0].get('id')).to.equal('foo');
     });
@@ -437,8 +437,8 @@ describe('in-stores/events', () => {
         snapshotId: 'watAnderes'
       }]));
 
-      expect(subscriber.callCount).to.equal(4);
-      const result = subscriber.getCall(3).args[0];
+      expect(subscriber.callCount).to.equal(5);
+      const result = subscriber.getCall(4).args[0];
       expect(result.size).to.equal(2);
       expect(result.getIn([0, 'id'])).to.equal('foo2');
       expect(result.getIn([1, 'id'])).to.equal('foo');
@@ -474,8 +474,8 @@ describe('in-stores/events', () => {
         snapshotId: 'watAnderes'
       }]));
 
-      expect(subscriber.callCount).to.equal(4);
-      const result = subscriber.getCall(3).args[0];
+      expect(subscriber.callCount).to.equal(5);
+      const result = subscriber.getCall(4).args[0];
       expect(result.size).to.equal(1);
       expect(result.getIn([0, 'id'])).to.equal('foo');
     });
@@ -574,7 +574,7 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      const result = subscriber.getCall(1).args[0];
+      const result = subscriber.getCall(2).args[0];
 
       expect(mod.getNearestEvent(result.issues, 90).get('id')).to.equal('foo');
     });
@@ -609,7 +609,7 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      const result = subscriber.getCall(1).args[0];
+      const result = subscriber.getCall(2).args[0];
 
       expect(mod.getNearestEvent(result.issues, 0).get('id')).to.equal('foo');
       expect(mod.getNearestEvent(result.issues, 10).get('id')).to.equal('foo');
@@ -642,7 +642,7 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      const issues = subscriber.getCall(1).args[0].issues;
+      const issues = subscriber.getCall(2).args[0].issues;
 
       expect(mod.getNearestEvent(issues, 10, 5).get('id')).to.equal('foo');
       expect(mod.getNearestEvent(issues, 10, 4)).to.equal(null);

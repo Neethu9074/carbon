@@ -2,10 +2,10 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
-import {formatDateTime} from 'in-services/formatters/date';
-import {Row, Col} from 'in-components/Grid/Grid';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
+import {formatDateTime} from 'in-services/formatters/date';
 import * as issueTracker from 'in-services/issueTracker';
+import {Row, Col} from 'in-components/Grid/Grid';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';

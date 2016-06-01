@@ -3,9 +3,8 @@ import React from 'react';
 import {isOpen$, toggleMenu} from 'in-components/notificationCenter/notificationCenterStore';
 import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {openEventsAtServerTime$} from 'in-stores/events';
-import {emptyArray} from 'in-services/fixedObjects';
-import {countEvents} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -17,7 +16,7 @@ const block = 'in-notificationcenter-header-module';
 const rpt = React.PropTypes;
 
 export default connectTo({
-    openIssues: openEventsAtServerTime$.map(events => events.issues),
+    openEventsAtServerTime: openEventsAtServerTime$,
     showNotificationCenter: isOpen$
   },
   React.createClass({
@@ -29,8 +28,8 @@ export default connectTo({
     ],
 
     propTypes: {
-      showNotificationCenter: rpt.bool,
-      openIssues: rpt.array
+      openEventsAtServerTime: rpt.object,
+      showNotificationCenter: rpt.bool
     },
 
     getInitialState() {
@@ -58,21 +57,14 @@ export default connectTo({
     },
 
     render() {
-      const events = this.props.openIssues || emptyArray;
+      const events = this.props.openEventsAtServerTime;
       const showNotificationCenter = this.props.showNotificationCenter;
 
       let maxSeverity = 0;
-      let count = 0;
-      events.forEach(event => {
-        count++;
-        const severity = event.getIn(['problem', 'severity']);
-        if (severity > maxSeverity) {
-          maxSeverity = severity;
-        }
-      });
+      maxSeverity = this.getSeverity(maxSeverity, events.incidents);
+      maxSeverity = this.getSeverity(maxSeverity, events.issues);
 
       const background = maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
-      const counter = countEvents(events);
 
       return (
         <div className={block}>
@@ -81,13 +73,13 @@ export default connectTo({
                onClick={toggleMenu}
                style={{background}}>
             {this.icon('incidents')}
-            {counter.incident}
+            {events.incidents.length}
 
             {this.icon('critical')}
-            {counter.danger}
+            {events.issues.filter(issue => getEventType(issue) === EVENT_TYPES.ISSUE_CRITICAL).length}
 
             {this.icon('warning')}
-            {counter.warning}
+            {events.issues.filter(issue => getEventType(issue) === EVENT_TYPES.ISSUE_WARNING).length}
 
             {this.icon(showNotificationCenter ? 'open' : 'close')}
           </div>
@@ -101,6 +93,16 @@ export default connectTo({
           : null}
         </div>
       );
+    },
+
+    getSeverity(maxSeverity, events) {
+      events.forEach(event => {
+        const severity = event.getIn(['problem', 'severity']);
+        if (severity > maxSeverity) {
+          maxSeverity = severity;
+        }
+      });
+      return maxSeverity;
     },
 
     icon(type) {
