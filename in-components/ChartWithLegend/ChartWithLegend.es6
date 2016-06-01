@@ -1,9 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {timeframeShape} from 'in-stores/timeline';
 import {currentRollup$} from 'in-stores/metric';
+import connectTo from 'in-hoc/connectTo';
 
 import ChartLegend from '../ChartLegend';
 import Chart from '../Chart';
@@ -13,10 +13,14 @@ import './ChartWithLegend.less';
 const rpt = React.PropTypes;
 const block = 'in-chart-with-legend';
 
-const ChartWithLegend = React.createClass({
-  mixins: [SubscriptionMixin],
+export default connectTo({
+    currentRollup: currentRollup$
+  }, React.createClass({
+  displayName: 'ChartWithLegend',
 
   propTypes: {
+    currentRollup: rpt.string.isRequired,
+
     height: rpt.number.isRequired,
     margins: rpt.object,
 
@@ -27,25 +31,11 @@ const ChartWithLegend = React.createClass({
     y2: rpt.object
   },
 
-  getInitialState() {
-    return {
-      rollup: 1
-    };
-  },
-
-  componentDidMount() {
-    this.addSubscription(
-      currentRollup$.subscribe(rollup => {
-        this.setState({ rollup });
-      })
-    );
-  },
-
   render() {
     return (
       <div className={block}>
           <div className={block + '__rollup-indicator'}>
-            {'Rollup ' + this.state.rollup}
+            Rollup {this.props.currentRollup}
           </div>
 
         <ChartLegend snapshot={this.props.snapshot}
@@ -61,6 +51,4 @@ const ChartWithLegend = React.createClass({
       </div>
     );
   }
-});
-
-export default ChartWithLegend;
+}));
