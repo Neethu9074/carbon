@@ -79,14 +79,14 @@ export default connectTo({
              style={{background}}
              onClick={toggleMenu}>
 
-          {counter.incident}
           {this.icon('incidents')}
+          {counter.incident}
 
-          {counter.danger}
           {this.icon('critical')}
+          {counter.danger}
 
-          {counter.warning}
           {this.icon('warning')}
+          {counter.warning}
 
           {this.icon(showNotificationCenter ? 'open' : 'close')}
 
