@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {isOpen$, toggleMenu} from 'in-components/notificationCenter/notificationCenterStore';
-import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
+import {toggleMenu} from 'in-components/notificationCenter/notificationCenterStore';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {openEventsAtServerTime$} from 'in-stores/events';
@@ -16,8 +15,7 @@ const block = 'in-notificationcenter-header-module';
 const rpt = React.PropTypes;
 
 export default connectTo({
-    openEventsAtServerTime: openEventsAtServerTime$,
-    showNotificationCenter: isOpen$
+    openEventsAtServerTime: openEventsAtServerTime$
   },
   React.createClass({
 
@@ -28,18 +26,7 @@ export default connectTo({
     ],
 
     propTypes: {
-      openEventsAtServerTime: rpt.object,
-      showNotificationCenter: rpt.bool
-    },
-
-    getInitialState() {
-      return {
-        windowHeight: this.getWindowHeight()
-      };
-    },
-
-    handleResize() {
-      this.setState({ windowHeight: this.getWindowHeight() });
+      openEventsAtServerTime: rpt.object
     },
 
     getWindowHeight() {
@@ -48,17 +35,8 @@ export default connectTo({
       return Math.max(100, window.innerHeight - 430);
     },
 
-    componentDidMount() {
-      window.addEventListener('resize', this.handleResize);
-    },
-
-    componentWillUnmount() {
-      window.removeEventListener('resize', this.handleResize);
-    },
-
     render() {
       const events = this.props.openEventsAtServerTime;
-      const showNotificationCenter = this.props.showNotificationCenter;
 
       let maxSeverity = 0;
       maxSeverity = this.getSeverity(maxSeverity, events.incidents);
@@ -67,30 +45,17 @@ export default connectTo({
       const background = maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
 
       return (
-        <div className={block}>
+        <div className={block}
+             onClick={toggleMenu}
+             style={{background}}>
+          {this.icon('incidents')}
+          {events.incidents.length}
 
-          <div className={block + '__header-wrapper'}
-               onClick={toggleMenu}
-               style={{background}}>
-            {this.icon('incidents')}
-            {events.incidents.length}
+          {this.icon('critical')}
+          {events.issues.filter(issue => getEventType(issue) === EVENT_TYPES.ISSUE_CRITICAL).length}
 
-            {this.icon('critical')}
-            {events.issues.filter(issue => getEventType(issue) === EVENT_TYPES.ISSUE_CRITICAL).length}
-
-            {this.icon('warning')}
-            {events.issues.filter(issue => getEventType(issue) === EVENT_TYPES.ISSUE_WARNING).length}
-
-            {this.icon(showNotificationCenter ? 'open' : 'close')}
-          </div>
-
-          {showNotificationCenter ?
-            <div className={block + '__notification-center'}>
-              <NotificationCenterFlyout toggleNotificationCenter={toggleMenu}
-                                        style={{ maxHeight: this.state.windowHeight }}
-                                        open={showNotificationCenter} />
-            </div>
-          : null}
+          {this.icon('warning')}
+          {events.issues.filter(issue => getEventType(issue) === EVENT_TYPES.ISSUE_WARNING).length}
         </div>
       );
     },

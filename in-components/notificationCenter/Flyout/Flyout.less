@@ -5,12 +5,22 @@
   @transition-easing: ease-in-out;
   @transition-duration: .5s;
 
-  width: @notification-center-width;
-  background: @notification-center__background;
+  position: absolute;
+  top: 40px;;
+  bottom: @footer__height * 1px;
+  right: 0;
 
   padding: 1.25rem;
   width: 21rem;
+  background: @notification-center__background;
+  color: white;
   z-index: @z-index__notification-center;
+
+  transition: bottom 0.25s ease-in-out;
+
+  &--open {
+    bottom: @footer__height-open * 1px;
+  }
 
   &__header {
     display: flex;

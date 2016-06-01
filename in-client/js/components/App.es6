@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
+import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
@@ -83,6 +84,7 @@ export default
             <Filterbar />
             <SidebarIncidents />
             <SidebarMap />
+            <NotificationCenterFlyout />
           </section>
 
           <Timeline />
