@@ -18,7 +18,7 @@ setInterval(retrieveLatestMessage, 1000 * 60 * 10);
 function retrieveLatestMessage() {
   const observable = http({
     method: 'GET',
-    url: '/notifications/maintenance.md',
+    url: '/notifications/maintenance.md?cacheBust=' + Date.now(),
     responseType: 'text'
   });
 

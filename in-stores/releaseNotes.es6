@@ -47,7 +47,7 @@ setInterval(retrieveLatestReleaseNotes, 1000 * 60 * 10);
 function retrieveLatestReleaseNotes() {
   const observable = http({
     method: 'GET',
-    url: '/notifications/release-notes.md',
+    url: '/notifications/release-notes.md?cacheBust=' + Date.now(),
     responseType: 'text'
   });
 
