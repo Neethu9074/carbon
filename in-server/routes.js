@@ -137,7 +137,7 @@ function askUiBackendWhetherTheRequestIsAuthorized(req, cb) {
     headers: {
       'Cookie': 'in-token=' + req.cookies['in-token']
     },
-    timeout: 1000 * 5
+    timeout: 5000
   }, (error, response) => {
     if (error) {
       cb(error, null, null);
