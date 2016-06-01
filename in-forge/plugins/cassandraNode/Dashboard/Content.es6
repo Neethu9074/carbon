@@ -32,7 +32,7 @@ const CassandraDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Requests'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -55,7 +55,7 @@ const CassandraDashboard = React.createClass({
         {['read', 'write'].map(op =>
           <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'}
                             key={op}>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
                              height={chartHeight}
                              margins={{
@@ -84,7 +84,7 @@ const CassandraDashboard = React.createClass({
         {['pending', 'blocked'].map(stage =>
           <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'}
                             key={stage}>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
                              height={chartHeight}
                              margins={{
@@ -114,7 +114,7 @@ const CassandraDashboard = React.createClass({
         )}
 
         <DashboardSection title='Dropped Messages'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -143,7 +143,7 @@ const CassandraDashboard = React.createClass({
         <KeyspacesTable snapshot={snapshot} timeframe={timeframe} />
 
         <DashboardSection title='Pending Compactions'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -162,7 +162,7 @@ const CassandraDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Cache Hits'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -187,7 +187,7 @@ const CassandraDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Bloom Filter'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{

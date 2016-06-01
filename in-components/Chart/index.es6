@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import {isEqual, merge} from 'lodash';
 import React from 'react';
 
@@ -22,7 +21,7 @@ const ChartWrapper = React.createClass({
 
     timeframe: timeframeShape,
 
-    snapshot: irpt.map.isRequired,
+    snapshotId: rpt.string.isRequired,
     y1: rpt.object.isRequired,
     y2: rpt.object
   },
@@ -62,7 +61,7 @@ const ChartWrapper = React.createClass({
   createDataSources(axis) {
     return axis.metrics.map(metric =>
       getMetricsForTimeframe({
-        snapshotId: this.props.snapshot.get('id'),
+        snapshotId: this.props.snapshotId,
         timeframe: this.props.timeframe,
         metric
       })
@@ -79,7 +78,7 @@ const ChartWrapper = React.createClass({
 
   componentDidUpdate(prevProps) {
     // isEqual should ignore datasources and labels
-    if (this.props.snapshot.get('id') !== prevProps.snapshot.get('id') ||
+    if (this.props.snapshotId !== prevProps.snapshotId ||
         this.props.timeframe.windowSize !== prevProps.timeframe.windowSize ||
         this.props.timeframe.to !== prevProps.timeframe.to ||
         !this.isAxisEqual(this.props.y1, prevProps.y1) ||

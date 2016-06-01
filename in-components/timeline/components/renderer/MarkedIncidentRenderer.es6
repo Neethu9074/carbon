@@ -38,7 +38,7 @@ export default class MarkedIncidentRenderer extends BasicRenderer {
     }
 
     const to = match.get('state') === 'open' ?
-      this.scale.getRange(this.scale.getDomainTo()) :
+      this.backBuffer.canvas.width :
       this.scale.getRange(match.get('end'));
 
     const buffer = this.backBuffer;

@@ -26,18 +26,17 @@ const NotificationDialog = React.createClass({
 
     return (
       <Dialog className={block}
-              onClose={this.props.onClose}>
+              onClose={this.props.onClose}
+              childrenOutsideOfContentFlow={closeButtonVisible === undefined || closeButtonVisible ?
+                <Button className={block + '__button-close'}
+                        onClick={this.props.onClose}>
+                  <Icon type={'delete'} className={block + '__button-close__icon'}/>
+                </Button>
+              : null}>
 
         <h1 className={block + '__header'}>{this.props.title}</h1>
 
         {this.props.children}
-
-        {closeButtonVisible === undefined || closeButtonVisible ?
-          <Button className={block + '__button-close'}
-                  onClick={this.props.onClose}>
-            <Icon type={'delete'} className={block + '__button-close__icon'}/>
-          </Button>
-        : null}
       </Dialog>
     );
   }

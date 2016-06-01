@@ -47,4 +47,10 @@ and a paragraph of text`;
 
     expect(toHtml(markdown)).to.equal(html);
   });
+
+  it('should set link target to _blank', () => {
+    const markdown = `[foo](/bar)`;
+    const html = `<p><a href="/bar" target="_blank">foo</a></p>\n`;
+    expect(toHtml(markdown)).to.equal(html);
+  });
 });

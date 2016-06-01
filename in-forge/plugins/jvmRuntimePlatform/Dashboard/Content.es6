@@ -34,7 +34,7 @@ export default React.createClass({
     return (
       <div>
         <DashboardSection title='Threads'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -64,7 +64,7 @@ export default React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Memory'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -90,7 +90,7 @@ export default React.createClass({
 
         {collectors ?
           <DashboardSection title='Garbage Collection'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                    timeframe={timeframe}
                    height={chartHeight}
                    margins={{

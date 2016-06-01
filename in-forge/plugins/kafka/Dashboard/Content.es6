@@ -34,7 +34,7 @@ const KafkaDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Broker Traffic'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -57,7 +57,7 @@ const KafkaDashboard = React.createClass({
                  }}/>
         </DashboardSection>
         <DashboardSection title='Request Latency vs Throughput'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -96,7 +96,7 @@ const KafkaDashboard = React.createClass({
                  }}/>
         </DashboardSection>
         <DashboardSection title='Broker Failures'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -117,7 +117,7 @@ const KafkaDashboard = React.createClass({
                  }}/>
         </DashboardSection>
         <DashboardSection title='Broker state metrics'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -148,7 +148,7 @@ const KafkaDashboard = React.createClass({
                  }}/>
         </DashboardSection>
         <DashboardSection title='Average Idle Time Percentage'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -169,7 +169,7 @@ const KafkaDashboard = React.createClass({
                  }}/>
         </DashboardSection>
         <DashboardSection title='Partitions'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -188,7 +188,7 @@ const KafkaDashboard = React.createClass({
                  }}/>
         </DashboardSection>
         <DashboardSection title='Broker Messages In'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -207,7 +207,7 @@ const KafkaDashboard = React.createClass({
                  }}/>
         </DashboardSection>
         <DashboardSection title='Log Flushing'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{

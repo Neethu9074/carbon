@@ -36,7 +36,7 @@ export default React.createClass({
               {this.renderGcMetrics()}
             </Col>
             <Col cols={6}>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={150}
                                margins={{
@@ -71,7 +71,7 @@ export default React.createClass({
   renderGcMetrics() {
     if (this.props.snapshot.getIn(['data', 'gc.statsSupported'])) {
       return (
-        <ChartWithLegend snapshot={this.props.snapshot}
+        <ChartWithLegend snapshot={this.props.snapshot.get('id')}
                          timeframe={this.props.timeframe}
                          height={150}
                          margins={{
@@ -113,7 +113,7 @@ export default React.createClass({
     }
 
     return (
-      <ChartWithLegend snapshot={this.props.snapshot}
+      <ChartWithLegend snapshot={this.props.snapshot.get('id')}
                        timeframe={this.props.timeframe}
                        height={150}
                        margins={{
@@ -141,7 +141,7 @@ export default React.createClass({
   renderEventLoopMetrics() {
     if (this.props.snapshot.getIn(['data', 'libuv.statsSupported'])) {
       return (
-        <ChartWithLegend snapshot={this.props.snapshot}
+        <ChartWithLegend snapshot={this.props.snapshot.get('id')}
                          timeframe={this.props.timeframe}
                          height={150}
                          margins={{
@@ -179,7 +179,7 @@ export default React.createClass({
     }
 
     return (
-      <ChartWithLegend snapshot={this.props.snapshot}
+      <ChartWithLegend snapshot={this.props.snapshot.get('id')}
                        timeframe={this.props.timeframe}
                        height={150}
                        margins={{

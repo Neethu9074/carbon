@@ -16,7 +16,9 @@ const Dialog = React.createClass({
   propTypes: {
     className: rpt.string,
     onClose: rpt.func,
-    children: rpt.any
+    children: rpt.any,
+
+    childrenOutsideOfContentFlow: rpt.any
   },
 
   componentDidMount() {
@@ -33,8 +35,11 @@ const Dialog = React.createClass({
   render() {
     return (
       <section className={getClassName(this, block)}>
-        <div className={getClassName(this, block, '__content')}>
-          {this.props.children}
+        <div className={getClassName(this, block, '__child-wrapper')}>
+          {this.props.childrenOutsideOfContentFlow}
+          <div className={getClassName(this, block, '__content')}>
+            {this.props.children}
+          </div>
         </div>
       </section>
     );

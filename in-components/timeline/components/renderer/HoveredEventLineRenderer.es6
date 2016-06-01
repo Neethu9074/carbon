@@ -42,7 +42,7 @@ export default class HoveredEventLineRenderer extends BasicRenderer {
     }
 
     const to = event.get('state') === 'open' ?
-      this.scale.getRange(this.scale.getDomainTo()) :
+      this.backBuffer.canvas.width :
       this.scale.getRange(event.get('end'));
 
     const buffer = this.backBuffer;

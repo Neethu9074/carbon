@@ -22,7 +22,7 @@ const NginxDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Requests'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={200}
                  margins={{
@@ -41,7 +41,7 @@ const NginxDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Connections'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={200}
                  margins={{

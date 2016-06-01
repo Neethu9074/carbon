@@ -24,7 +24,7 @@ const MySqlDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Clients'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -45,7 +45,7 @@ const MySqlDashboard = React.createClass({
                          }}/>
         </DashboardSection>
         <DashboardSection title='Queries'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -76,7 +76,7 @@ const MySqlDashboard = React.createClass({
                              ],
                              type: 'line'
                            }}/>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
                              height={chartHeight}
                              margins={{
@@ -95,7 +95,7 @@ const MySqlDashboard = React.createClass({
                            }}/>
         </DashboardSection>
         <DashboardSection title='Key Access'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{

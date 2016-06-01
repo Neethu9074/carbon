@@ -71,7 +71,7 @@ function createDetails(servlet, servletIndex, context) {
   const servletKey = context.webAppContext + '.' + servlet;
 
   return (
-    <ChartWithLegend snapshot={context.snapshot}
+    <ChartWithLegend snapshot={context.snapshot.get('id')}
            timeframe={context.timeframe}
            height={200}
            margins={{

@@ -63,7 +63,7 @@ function createRow(datasource, name, context) {
 
 function createDetails(connector, name, context) {
   return (
-    <ChartWithLegend snapshot={context.snapshot}
+    <ChartWithLegend snapshot={context.snapshot.get('id')}
            timeframe={context.timeframe}
            height={200}
            margins={{

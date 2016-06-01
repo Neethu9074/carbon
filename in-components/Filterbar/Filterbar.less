@@ -24,7 +24,7 @@
     box-sizing: border-box;
 
     z-index: @z-index__sidebar;
-    transition: right @transition-duration @transition-easing;
+    transition: bottom 0.25s ease-in-out, right @transition-duration @transition-easing;
 
     background: @filterbar__background;
     overflow-x: hidden;
@@ -32,6 +32,10 @@
 
     &--open {
       right: 0;
+    }
+
+    &--timeline-expanded {
+      bottom: @footer__height-open * 1px;
     }
   }
 }

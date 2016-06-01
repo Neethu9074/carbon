@@ -19,12 +19,20 @@
     color: black;
   }
 
-  &__content {
+  &__child-wrapper {
+    max-height: 50%;
+    height: 50%;
     position: relative;
+  }
+
+  &__content {
     background: @help-dialog__background;
-    border-radius: 13px;
-    padding: 50px;
+    border-radius: 0.9rem;
+    padding: 3rem;
     color: @help-dialog__text;
+    overflow-y: auto;
+    max-height: 100%;
+    box-sizing: border-box;
   }
 
   &__info-icon {
@@ -42,6 +50,9 @@
 
     // this avoids the browser outline which looks ugly here and is not needed
     outline: 0;
+
+    // position above popup
+    z-index: 1;
 
     &:hover {
       cursor: pointer;

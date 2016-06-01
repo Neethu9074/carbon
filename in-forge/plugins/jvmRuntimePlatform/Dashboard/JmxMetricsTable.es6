@@ -62,7 +62,7 @@ function createRow(jmxMetric, i, context) {
 
 function createDetails(jmxMetric, i, context) {
   return (
-    <ChartWithLegend snapshot={context.snapshot}
+    <ChartWithLegend snapshot={context.snapshot.get('id')}
                      timeframe={context.timeframe}
                      height={200}
                      margins={{

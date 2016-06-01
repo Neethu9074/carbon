@@ -95,7 +95,7 @@ export default connectTo(
         <div>
           {latencyThreshold > 0 ?
             <DashboardSection title='Latency'>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -116,7 +116,7 @@ export default connectTo(
           : null }
 
           <DashboardSection title='Throughput'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
                              height={chartHeight}
                              margins={{
@@ -135,7 +135,7 @@ export default connectTo(
           </DashboardSection>
 
           <DashboardSection title='Key Hits/Misses'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                             timeframe={timeframe}
                             height={chartHeight}
                             margins={{
@@ -163,7 +163,7 @@ export default connectTo(
                             }}/>
           </DashboardSection>
           <DashboardSection title='Key Expired/Evicted'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                             timeframe={timeframe}
                             height={chartHeight}
                             margins={{
@@ -184,7 +184,7 @@ export default connectTo(
           </DashboardSection>
           {dbNames && dbNames.length > 0 ?
             <DashboardSection title='Database'>
-                <ChartWithLegend snapshot={snapshot}
+                <ChartWithLegend snapshotId={snapshot.get('id')}
                                 timeframe={timeframe}
                                 height={chartHeight}
                                 margins={{
@@ -198,7 +198,7 @@ export default connectTo(
             </DashboardSection>
           : null}
           <DashboardSection title='Memory'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
                              height={chartHeight}
                              margins={{
@@ -237,7 +237,7 @@ export default connectTo(
           </DashboardSection>
           {channelNames && channelNames.length > 0 ?
             <DashboardSection title='Pub/Sub'>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -256,7 +256,7 @@ export default connectTo(
             </DashboardSection>
           : null}
           <DashboardSection title='Persistence'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
                              height={chartHeight}
                              margins={{
@@ -307,7 +307,7 @@ export default connectTo(
 
           {role === 'slave' ?
             <DashboardSection title='Bytes left before syncing is complete'>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                             timeframe={timeframe}
                             height={chartHeight}
                             margins={{

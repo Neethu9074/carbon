@@ -29,7 +29,7 @@ const ProcessDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Memory'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -52,7 +52,7 @@ const ProcessDashboard = React.createClass({
                  }}/>
         </DashboardSection>
         <DashboardSection title='CPU Usage'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{

@@ -24,7 +24,7 @@ const JiraDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Traffic'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -50,7 +50,7 @@ const JiraDashboard = React.createClass({
                            }}/>
         </DashboardSection>
         <DashboardSection title='DB Pool'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
