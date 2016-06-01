@@ -23,7 +23,7 @@ const MsSqlDashboard = React.createClass({
     return (
       <div>
       <DashboardSection title='Wait-Times (ms) on server'>
-        <ChartWithLegend snapshot={snapshot}
+        <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={chartHeight}
                          margins={{
@@ -48,7 +48,7 @@ const MsSqlDashboard = React.createClass({
                        }}/>
       </DashboardSection>
       <DashboardSection title='Connections & Users'>
-        <ChartWithLegend snapshot={snapshot}
+        <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={chartHeight}
                          margins={{

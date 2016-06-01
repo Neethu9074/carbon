@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {timeframeShape} from 'in-stores/timeline';
@@ -26,9 +25,16 @@ export default connectTo({
 
     timeframe: timeframeShape,
 
-    snapshot: irpt.map.isRequired,
+    snapshotId: rpt.string.isRequired,
     y1: rpt.object.isRequired,
     y2: rpt.object
+  },
+
+  getInitialState() {
+    return {
+      filteredY1Dataseries: [],
+      filteredY2Dataseries: []
+    };
   },
 
   render() {
@@ -38,11 +44,11 @@ export default connectTo({
             Rollup {this.props.currentRollup}
           </div>
 
-        <ChartLegend snapshot={this.props.snapshot}
+        <ChartLegend snapshotId={this.props.snapshotId}
                      y1={this.props.y1}
                      y2={this.props.y2} />
 
-        <Chart snapshot={this.props.snapshot}
+        <Chart snapshotId={this.props.snapshotId}
                timeframe={this.props.timeframe}
                height={this.props.height}
                y1={this.props.y1}

@@ -77,7 +77,7 @@ function createRow(keyspace, index, context) {
 
 function createDetails(keyspace, index, context) {
   return (
-    <ChartWithLegend snapshot={context.snapshot}
+    <ChartWithLegend snapshot={context.snapshot.get('id')}
            timeframe={context.timeframe}
            height={200}
            margins={{

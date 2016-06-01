@@ -75,7 +75,7 @@ function createRow(heapSpace, i, context) {
 
 function createDetails(name, i, context) {
   return (
-    <ChartWithLegend snapshot={context.snapshot}
+    <ChartWithLegend snapshot={context.snapshot.get('id')}
                      timeframe={context.timeframe}
                      height={200}
                      margins={{

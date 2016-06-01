@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import MetricValue from 'in-components/MetricValue';
@@ -17,7 +16,7 @@ const axisConfigShape = rpt.shape({
 
 const ChartLegend = React.createClass({
   propTypes: {
-    snapshot: irpt.map.isRequired,
+    snapshotId: rpt.string.isRequired,
     y1: axisConfigShape.isRequired,
     y2: axisConfigShape
   },
@@ -45,7 +44,7 @@ const ChartLegend = React.createClass({
               {axis.labels[i]}
             </dt>
             <dt className={block + '__metric-value'}>
-              <MetricValue snapshotId={this.props.snapshot.get('id')}
+              <MetricValue snapshotId={this.props.snapshotId}
                            metric={metric}
                            formatter={axis.formatter}
                            initialValue='?' />

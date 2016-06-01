@@ -46,7 +46,7 @@ export default React.createClass({
         <ClusterSummary snapshot={snapshot}/>
         </DashboardSection>
         <DashboardSection title='Search Performance vs. Throughput'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={200}
                            margins={{
@@ -82,7 +82,7 @@ export default React.createClass({
         <Row>
           <Col cols={6}>
             <DashboardSection title='Indices'>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -104,7 +104,7 @@ export default React.createClass({
           </Col>
           <Col cols={6}>
             <DashboardSection title='Shards'>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -135,7 +135,7 @@ export default React.createClass({
         </Row>
 
         <DashboardSection title='Documents'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={200}
                            margins={{

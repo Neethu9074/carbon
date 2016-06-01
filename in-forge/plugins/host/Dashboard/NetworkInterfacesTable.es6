@@ -113,7 +113,7 @@ function createRow(filesystem, name, context) {
 
 function createDetails(filesystem, name, context) {
   return (
-    <ChartWithLegend snapshot={context.snapshot}
+    <ChartWithLegend snapshot={context.snapshot.get('id')}
            timeframe={context.timeframe}
            height={200}
            margins={{

@@ -24,7 +24,7 @@ const MariaDbDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Clients'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -41,7 +41,7 @@ const MariaDbDashboard = React.createClass({
                          }}/>
         </DashboardSection>
         <DashboardSection title='Slow Queries'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -58,7 +58,7 @@ const MariaDbDashboard = React.createClass({
                          }}/>
         </DashboardSection>
         <DashboardSection title='Key Access'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -89,7 +89,7 @@ const MariaDbDashboard = React.createClass({
                            />
         </DashboardSection>
         <DashboardSection title='Aria Engine Properties'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{

@@ -73,7 +73,7 @@ function formatMax(bytes) {
 
 function createDetails(pool, poolName, context) {
   return (
-    <ChartWithLegend snapshot={context.snapshot}
+    <ChartWithLegend snapshot={context.snapshot.get('id')}
            timeframe={context.timeframe}
            height={200}
            margins={{

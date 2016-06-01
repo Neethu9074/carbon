@@ -24,7 +24,7 @@ const OracleDBDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Reads'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{

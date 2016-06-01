@@ -50,7 +50,7 @@ export default connectTo(
       return (
         <div>
           <DashboardSection title='CPU Usage'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                    timeframe={timeframe}
                    height={chartHeight}
                    margins={{
@@ -80,7 +80,7 @@ export default connectTo(
 
           {!this.isWindows() ?
             <DashboardSection title='CPU Load'>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                 timeframe={timeframe}
                 height={chartHeight}
                 margins={{
@@ -102,7 +102,7 @@ export default connectTo(
           <CpuTable snapshot={snapshot} timeframe={timeframe} />
 
           <DashboardSection title='Memory Free'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                    timeframe={timeframe}
                    height={chartHeight}
                    margins={{
@@ -123,7 +123,7 @@ export default connectTo(
 
           {swapTotal > 0 ?
             <DashboardSection title='Swap Activity'>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                      timeframe={timeframe}
                      height={chartHeight}
                      margins={{
@@ -150,7 +150,7 @@ export default connectTo(
           <NetworkInterfacesTable snapshot={snapshot} timeframe={timeframe} />
 
           <DashboardSection title='TCP Activity'>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
                              height={chartHeight}
                              y1={{

@@ -32,7 +32,7 @@ const MongoDBDashboard = React.createClass({
       <div>
         {dbs ?
         <DashboardSection title='Database Size'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -54,7 +54,7 @@ const MongoDBDashboard = React.createClass({
         : null}
 
         <DashboardSection title='Document Counter'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -78,7 +78,7 @@ const MongoDBDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Clients'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{

@@ -29,7 +29,7 @@ const ElasticsearchDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Total Documents'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -55,7 +55,7 @@ const ElasticsearchDashboard = React.createClass({
                       timeframe={timeframe} />
 
         <DashboardSection title='Refresh and Flush'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -90,7 +90,7 @@ const ElasticsearchDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Lucene Segments'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -110,7 +110,7 @@ const ElasticsearchDashboard = React.createClass({
                            }}/>
         </DashboardSection>
         <DashboardSection title='Active Threads'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            maergins={{
@@ -143,7 +143,7 @@ const ElasticsearchDashboard = React.createClass({
                            }}/>
         </DashboardSection>
         <DashboardSection title='Queued Threads'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            maergins={{

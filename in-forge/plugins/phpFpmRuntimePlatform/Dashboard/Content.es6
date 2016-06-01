@@ -33,7 +33,7 @@ const PhpFpmDashboard = React.createClass({
         {pools.map(pool =>
           <div key={pool}>
             <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -73,7 +73,7 @@ const PhpFpmDashboard = React.createClass({
                                }}/>
             </DashboardSection>
             <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -113,7 +113,7 @@ const PhpFpmDashboard = React.createClass({
                                }}/>
             </DashboardSection>
             <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{

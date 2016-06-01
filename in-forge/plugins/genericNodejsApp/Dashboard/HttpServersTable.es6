@@ -97,7 +97,7 @@ function createRow(server, key, context) {
 
 function createDetails(server, key, context) {
   return (
-    <ChartWithLegend snapshot={context.snapshot}
+    <ChartWithLegend snapshot={context.snapshot.get('id')}
            timeframe={context.timeframe}
            height={150}
            margins={{

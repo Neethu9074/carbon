@@ -24,7 +24,7 @@ const HttpdDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Traffic'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
@@ -51,7 +51,7 @@ const HttpdDashboard = React.createClass({
                  />
         </DashboardSection>
         <DashboardSection title='Worker'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{

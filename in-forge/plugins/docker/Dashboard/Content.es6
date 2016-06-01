@@ -30,7 +30,7 @@ const DockerDashboard = React.createClass({
     return (
       <div>
         <DashboardSection title='Memory'>
-          <ChartWithLegend snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={chartHeight}
                            margins={{
@@ -58,7 +58,7 @@ const DockerDashboard = React.createClass({
         { hasNetworkMetrics ?
         <DashboardSection title='Network'>
           <div>
-            <ChartWithLegend snapshot={snapshot}
+            <ChartWithLegend snapshotId={snapshot.get('id')}
                    timeframe={timeframe}
                    height={chartHeight}
                    margins={{
