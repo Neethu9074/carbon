@@ -71,3 +71,8 @@ export function markAsRead() {
     readReleaseNotesStore.applyStateMutation(() => hashCode(releaseNotes));
   });
 }
+
+
+export function showReleaseNotes() {
+  readReleaseNotesStore.applyStateMutation(() => 0);
+}
