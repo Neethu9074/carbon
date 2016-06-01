@@ -75,20 +75,22 @@ export default connectTo({
       const counter = countEvents(events);
 
       return (
-        <div className={block}
-             style={{background}}
-             onClick={toggleMenu}>
+        <div className={block}>
 
-          {this.icon('incidents')}
-          {counter.incident}
+          <div className={block + '__header-wrapper'}
+               onClick={toggleMenu}
+               style={{background}}>
+            {this.icon('incidents')}
+            {counter.incident}
 
-          {this.icon('critical')}
-          {counter.danger}
+            {this.icon('critical')}
+            {counter.danger}
 
-          {this.icon('warning')}
-          {counter.warning}
+            {this.icon('warning')}
+            {counter.warning}
 
-          {this.icon(showNotificationCenter ? 'open' : 'close')}
+            {this.icon(showNotificationCenter ? 'open' : 'close')}
+          </div>
 
           {showNotificationCenter ?
             <div className={block + '__notification-center'}>
