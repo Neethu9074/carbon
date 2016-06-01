@@ -4,6 +4,7 @@ import React from 'react';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
+import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
 import SidebarIncidents from 'in-components/sidebars/Incident';
 import MaintenanceNote from 'in-components/MaintenanceNote';
@@ -89,7 +90,7 @@ export default
 
           {this.props.children}
 
-
+          <ReleaseNotesDialog />
           <MessageDialog />
           <HelpPresenter />
           <TooltipPresenter />
