@@ -15,14 +15,16 @@ export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 10; // 10 minutes
 
 let maxAvailableWindowSize = MAX_ZOOM_LEVEL;
+let currentBigBangTimestamp;
+let currentServerTime;
 
 export function init() {
   combineLatest([bigBangTimestamp$, serverTime$])
   .subscribe(props => {
-    const bigBangTimestamp = props[0];
-    const serverTime = props[1];
+    currentBigBangTimestamp = props[0];
+    currentServerTime = props[1];
 
-    maxAvailableWindowSize = serverTime - bigBangTimestamp;
+    maxAvailableWindowSize = currentServerTime - currentBigBangTimestamp;
   });
 }
 
@@ -80,8 +82,22 @@ export function setTo(to) {
   timeframeStore.applyStateMutation(prevTimeFrame => createTimeframe(prevTimeFrame.windowSize, to));
 }
 
+export function getTimeframeToSet(prevTimeFrame, windowSize) {
+  const newTimeframe = createTimeframe(getValidWindowSize(windowSize), prevTimeFrame.to);
+
+  if (newTimeframe.to && newTimeframe.to - newTimeframe.windowSize < currentBigBangTimestamp) {
+    const deltaSizes = currentBigBangTimestamp - (newTimeframe.to - newTimeframe.windowSize);
+
+    newTimeframe.to += deltaSizes;
+    newTimeframe.to = Math.min(currentServerTime, newTimeframe.to);
+    newTimeframe.windowSize = Math.min(MIN_ZOOM_LEVEL, newTimeframe.windowSize);
+  }
+
+  return newTimeframe;
+}
+
 export function setWindowSize(windowSize) {
-  timeframeStore.applyStateMutation(prevTimeFrame => createTimeframe(getValidWindowSize(windowSize), prevTimeFrame.to));
+  timeframeStore.applyStateMutation(prevTimeFrame => getTimeframeToSet(prevTimeFrame, windowSize));
 }
 
 function createTimeframe(windowSize, to) {
