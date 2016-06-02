@@ -23,27 +23,6 @@ const MySqlDashboard = React.createClass({
 
     return (
       <div>
-        <DashboardSection title='Clients'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: [
-                               'status.CONNECTIONS',
-                               'status.MAX_USED_CONNECTIONS',
-                               'status.ABORTED_CONNECTS'
-                             ],
-                             labels: [
-                               'Connections',
-                               'Max used connections',
-                               'Aborted connects'
-                             ],
-                             type: 'line'
-                         }}/>
-        </DashboardSection>
         <DashboardSection title='Queries'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
@@ -66,13 +45,15 @@ const MySqlDashboard = React.createClass({
                                'status.COM_SELECT',
                                'status.COM_UPDATE',
                                'status.COM_INSERT',
-                               'status.COM_DELETE'
+                               'status.COM_DELETE',
+                               'status.COM_OTHER'
                              ],
                              labels: [
                                'SELECTS',
                                'UPDATES',
                                'INSERTS',
-                               'DELETES'
+                               'DELETES',
+                               'OTHER'
                              ],
                              type: 'line'
                            }}/>
@@ -93,6 +74,27 @@ const MySqlDashboard = React.createClass({
                                ],
                                type: 'line'
                            }}/>
+        </DashboardSection>
+        <DashboardSection title='Clients'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             metrics: [
+                               'status.CONNECTIONS',
+                               'status.MAX_USED_CONNECTIONS',
+                               'status.ABORTED_CONNECTS'
+                             ],
+                             labels: [
+                               'Connections',
+                               'Max used connections',
+                               'Aborted connects'
+                             ],
+                             type: 'line'
+                         }}/>
         </DashboardSection>
         <DashboardSection title='Key Access'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
