@@ -85,9 +85,9 @@ export default
             <Filterbar />
             <SidebarIncidents />
             <SidebarMap />
-            <NotificationCenterFlyout />
           </section>
 
+          <NotificationCenterFlyout />
           <Timeline />
 
           {this.props.children}
