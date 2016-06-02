@@ -11,7 +11,7 @@ import Mtd from 'in-components/Mtd';
 
 const rateFormatter = d => withSiPrefixThreeDecimalPlaces(d) + ' / sec';
 
-export default function CountersTable({snapshot, timeframe}) {
+export default function MetersTable({snapshot, timeframe}) {
   const meters = snapshot.getIn(['data', 'metrics.meters'], emptyList);
 
   if (meters.size === 0) {
