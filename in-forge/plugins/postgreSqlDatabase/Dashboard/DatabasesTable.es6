@@ -64,7 +64,7 @@ function createDetails(db, i, context) {
     <div>
       <Row>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                            timeframe={context.timeframe}
                            height={150}
                            margins={{
@@ -82,7 +82,7 @@ function createDetails(db, i, context) {
                              type: 'line'
                            }}/>
 
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                            timeframe={context.timeframe}
                            height={150}
                            margins={{
@@ -103,7 +103,7 @@ function createDetails(db, i, context) {
                            }}/>
         </Col>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                            timeframe={context.timeframe}
                            height={150}
                            margins={{
@@ -127,7 +127,7 @@ function createDetails(db, i, context) {
                              type: 'line'
                            }}/>
 
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                            timeframe={context.timeframe}
                            height={150}
                            margins={{
@@ -148,7 +148,7 @@ function createDetails(db, i, context) {
       </Row>
       <Row>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                           timeframe={context.timeframe}
                           height={150}
                           margins={{
@@ -166,7 +166,7 @@ function createDetails(db, i, context) {
                             type: 'line'
                           }}/>
 
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                           timeframe={context.timeframe}
                           height={150}
                           margins={{
@@ -185,7 +185,7 @@ function createDetails(db, i, context) {
                           }}/>
         </Col>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                           timeframe={context.timeframe}
                           height={150}
                           margins={{
@@ -204,7 +204,7 @@ function createDetails(db, i, context) {
                             formatter: hitRateFormatter
                           }}/>
 
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                           timeframe={context.timeframe}
                           height={150}
                           margins={{

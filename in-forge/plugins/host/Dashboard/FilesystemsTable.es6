@@ -97,7 +97,7 @@ function createDetails(filesystem, name, context) {
   return (
     <div>
       {isWindows(context.snapshot) ?
-        <ChartWithLegend snapshot={context.snapshot.get('id')}
+        <ChartWithLegend snapshotId={context.snapshot.get('id')}
                          timeframe={context.timeframe}
                          height={200}
                          margins={{
@@ -123,7 +123,7 @@ function createDetails(filesystem, name, context) {
 
         :
 
-        <ChartWithLegend snapshot={context.snapshot.get('id')}
+        <ChartWithLegend snapshotId={context.snapshot.get('id')}
                          timeframe={context.timeframe}
                          height={200}
                          margins={{
@@ -163,7 +163,7 @@ function createDetails(filesystem, name, context) {
                          }}/>
         }
 
-        <ChartWithLegend snapshot={context.snapshot.get('id')}
+        <ChartWithLegend snapshotId={context.snapshot.get('id')}
                timeframe={context.timeframe}
                height={200}
                margins={{

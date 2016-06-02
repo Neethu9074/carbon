@@ -62,7 +62,7 @@ function createDetails(queueName, i, context) {
     <div>
       <Row>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                 timeframe={context.timeframe}
                 height={150}
                 margins={{
@@ -83,7 +83,7 @@ function createDetails(queueName, i, context) {
                 }}/>
         </Col>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                 timeframe={context.timeframe}
                 height={150}
                 margins={{
@@ -110,7 +110,7 @@ function createDetails(queueName, i, context) {
 
       <Row>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                 timeframe={context.timeframe}
                 height={150}
                 margins={{
@@ -131,7 +131,7 @@ function createDetails(queueName, i, context) {
                 }}/>
         </Col>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                 timeframe={context.timeframe}
                 height={150}
                 margins={{
@@ -158,7 +158,7 @@ function createDetails(queueName, i, context) {
 
       <Row>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                 timeframe={context.timeframe}
                 height={150}
                 margins={{
@@ -175,7 +175,7 @@ function createDetails(queueName, i, context) {
                 }}/>
         </Col>
         <Col cols={6}>
-          <ChartWithLegend snapshot={context.snapshot.get('id')}
+          <ChartWithLegend snapshotId={context.snapshot.get('id')}
                 timeframe={context.timeframe}
                 height={150}
                 margins={{

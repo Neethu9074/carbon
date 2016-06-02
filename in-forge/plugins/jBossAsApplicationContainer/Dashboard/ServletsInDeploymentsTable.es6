@@ -66,7 +66,7 @@ function createRow(servletName, servletIndex, context) {
 
 function createDetails(servlet, servletIndex, context) {
   return (
-    <ChartWithLegend snapshot={context.snapshot.get('id')}
+    <ChartWithLegend snapshotId={context.snapshot.get('id')}
            timeframe={context.timeframe}
            height={200}
            margins={{

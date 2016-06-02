@@ -1,5 +1,6 @@
 import React from 'react';
 
+import createDataSeriesFilterStore from 'in-components/ChartWithLegend/dataseriesFilterStore';
 import {timeframeShape} from 'in-stores/timeline';
 import {currentRollup$} from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
@@ -32,8 +33,7 @@ export default connectTo({
 
   getInitialState() {
     return {
-      filteredY1Dataseries: [],
-      filteredY2Dataseries: []
+      filterStore: createDataSeriesFilterStore()
     };
   },
 
@@ -46,14 +46,16 @@ export default connectTo({
 
         <ChartLegend snapshotId={this.props.snapshotId}
                      y1={this.props.y1}
-                     y2={this.props.y2} />
+                     y2={this.props.y2}
+                     filterStore={this.state.filterStore} />
 
         <Chart snapshotId={this.props.snapshotId}
                timeframe={this.props.timeframe}
                height={this.props.height}
                y1={this.props.y1}
                y2={this.props.y2}
-               margins={this.props.margins} />
+               margins={this.props.margins}
+               filterStore={this.state.filterStore} />
       </div>
     );
   }
