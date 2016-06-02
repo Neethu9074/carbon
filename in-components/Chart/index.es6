@@ -1,6 +1,7 @@
 import {isEqual, merge} from 'lodash';
 import React from 'react';
 
+import {filterStoreShape} from 'in-components/ChartWithLegend/dataseriesFilterStore';
 import {getMetricsForTimeframe} from 'in-stores/metric';
 import {timeframeShape} from 'in-stores/timeline';
 
@@ -23,7 +24,8 @@ const ChartWrapper = React.createClass({
 
     snapshotId: rpt.string.isRequired,
     y1: rpt.object.isRequired,
-    y2: rpt.object
+    y2: rpt.object,
+    filterStore: filterStoreShape.isRequired
   },
 
   getInitialState() {

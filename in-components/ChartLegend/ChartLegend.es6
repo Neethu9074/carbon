@@ -1,6 +1,9 @@
 import React from 'react';
 
+import {filterStoreShape} from 'in-components/ChartWithLegend/dataseriesFilterStore';
+import classnames from 'in-services/util/classnames';
 import MetricValue from 'in-components/MetricValue';
+import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
 import './ChartLegend.less';
@@ -14,11 +17,19 @@ const axisConfigShape = rpt.shape({
   formatter: rpt.func
 });
 
-const ChartLegend = React.createClass({
+export default connectTo(props => {
+    return {
+      activeFilters: props.filterStore.activeFilters$
+    };
+  }, React.createClass({
+  displayName: 'ChartLegend',
+
   propTypes: {
     snapshotId: rpt.string.isRequired,
     y1: axisConfigShape.isRequired,
-    y2: axisConfigShape
+    y2: axisConfigShape,
+    filterStore: filterStoreShape.isRequired,
+    activeFilters: rpt.object.isRequired
   },
 
   render() {
@@ -37,23 +48,25 @@ const ChartLegend = React.createClass({
     return (
       <dl className={classname + ' ' + classname + '--' + modifier}>
         {axis.metrics.map((metric, i) =>
-          <div className={block + '__metric'}
-               key={metric}>
+          <div className={classnames({
+                 [block + '__metric']: true,
+                 [block + '__metric--disabled']: this.props.activeFilters[metric]
+               })}
+               key={metric}
+               onClick={() => this.props.filterStore.toggleFilter(metric)}>
             <dt className={block + '__metric-label'}
                 style={{color: theme.chart.strokeColors[themeMetricOffset + i]}}>
               {axis.labels[i]}
             </dt>
-            <dt className={block + '__metric-value'}>
+            <dd className={block + '__metric-value'}>
               <MetricValue snapshotId={this.props.snapshotId}
                            metric={metric}
                            formatter={axis.formatter}
                            initialValue='?' />
-            </dt>
+            </dd>
           </div>
         )}
       </dl>
     );
   }
-});
-
-export default ChartLegend;
+}));

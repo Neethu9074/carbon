@@ -1,4 +1,14 @@
+import React from 'react';
+
 import {create} from 'reactive-observables';
+
+const rpt = React.PropTypes;
+
+export const filterStoreShape = rpt.shape({
+  activeFilters$: rpt.object.isRequired,
+  toggleFilter: rpt.func.isRequired
+});
+
 
 export default function createDataSeriesFilterStore() {
   const filterChanges$ = create();
