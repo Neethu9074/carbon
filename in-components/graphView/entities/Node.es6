@@ -1,3 +1,5 @@
+import {getSnapshot} from 'in-stores/snapshot';
+
 export default class Node {
 
   constructor(snapshotId, springyGraph, springyNode) {
@@ -5,6 +7,11 @@ export default class Node {
     this.springyGraph = springyGraph;
     this.springyNode = springyNode;
     this.edgeCount = 0;
+
+    this.snapshotSubscription = getSnapshot(snapshotId)
+      .subscribe(snapshot => {
+        this.snapshot = snapshot;
+      });
   }
 
   increaseEdgeCount() {
@@ -24,7 +31,7 @@ export default class Node {
   }
 
   dispose() {
-    // TODO dispose snapshot subscription
+    this.snapshotSubscription.dispose();
   }
 
 }
