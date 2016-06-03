@@ -5,18 +5,19 @@ import BackgroundScene from 'in-components/graphView/components/BackgroundScene'
 import GraphScene from 'in-components/graphView/components/GraphScene';
 import Graph from 'in-components/graphView/entities/Graph';
 
+
 export default function createUniverseRenderer({container, canvas}) {
   const changeSignal = true;
   const changes = ro.create();
   const renderSubscription = changes
-    .throttle(1000)
-    .subscribe(render);
+    .debounce(1000)
+    .subscribe(update);
 
   const renderer = new THREE.WebGLRenderer({canvas});
   renderer.autoClear = false;
 
   const backgroundScene = new BackgroundScene();
-  const graphScene = new GraphScene();
+  const graphScene = new GraphScene(renderer);
   const graph = new Graph();
 
   const resizeSubscription = ro.on(window, 'resize')
@@ -25,6 +26,7 @@ export default function createUniverseRenderer({container, canvas}) {
 
   // initial resize
   resize();
+  realtimeUpdate();
 
   return {
     canvas,
@@ -44,11 +46,17 @@ export default function createUniverseRenderer({container, canvas}) {
     changes.emit(changeSignal);
   }
 
-  function render() {
-    graphScene.update(graph);
+  function realtimeUpdate() {
+    requestAnimationFrame(realtimeUpdate);
+
+    graphScene.realtimeUpdate();
 
     backgroundScene.render(renderer);
     graphScene.render(renderer);
+  }
+
+  function update() {
+    graphScene.update(graph);
 
     changes.emit(changeSignal);
   }
