@@ -7,6 +7,7 @@ import EdgesGeometry from 'in-components/graphView/components/EdgesGeometry';
 export default class GraphScene {
   constructor() {
     this.camera = new THREE.PerspectiveCamera(75, 1, 1, 1000);
+    this.camera.position.z = 100;
     const scene = this.scene = new THREE.Scene();
 
     this.nodesGeometry = new NodesGeometry();

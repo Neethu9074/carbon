@@ -9,7 +9,8 @@ export default class NodesGeometry {
 
     const material = this.material = new THREE.LineBasicMaterial({
       color: 0xBBBBBB,
-      linewidth: 2
+      transparent: true,
+      opacity: 0.1
     });
 
     const mesh = this.mesh = new THREE.LineSegments(geometry, material);
@@ -24,7 +25,6 @@ export default class NodesGeometry {
       const to = edge.to.springyNode.position;
 
       vertices.push(from.x, from.y, from.z, to.x, to.y, to.z);
-      console.log(from.x, from.y, from.z, to.x, to.y, to.z);
     });
 
     this.geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));

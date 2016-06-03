@@ -9,7 +9,7 @@ export default function createUniverseRenderer({container, canvas}) {
   const changeSignal = true;
   const changes = ro.create();
   const renderSubscription = changes
-    .debounce(300)
+    .throttle(1000)
     .subscribe(render);
 
   const renderer = new THREE.WebGLRenderer({canvas});
@@ -18,7 +18,6 @@ export default function createUniverseRenderer({container, canvas}) {
   const backgroundScene = new BackgroundScene();
   const graphScene = new GraphScene();
   const graph = new Graph();
-
 
   const resizeSubscription = ro.on(window, 'resize')
     .debounce(500)
