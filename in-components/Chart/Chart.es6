@@ -3,6 +3,7 @@ import {isEqual, merge} from 'lodash';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import {filterStoreShape} from 'in-components/ChartWithLegend/dataseriesFilterStore';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getDefaultMetricRollupDuration} from 'in-stores/metric';
 import {timeframeShape} from 'in-stores/timeline';
@@ -23,6 +24,7 @@ const Chart = React.createClass({
   propTypes: {
     height: rpt.number.isRequired,
     margins: rpt.object,
+    filterStore: filterStoreShape.isRequired,
 
     timeframe: timeframeShape,
 
@@ -77,6 +79,7 @@ const Chart = React.createClass({
       container: ReactDOM.findDOMNode(this),
       height: this.props.height,
       margins,
+      filterStore: this.props.filterStore,
       y1: this.extendAxisConfig('y1'),
       windowSize: this.props.timeframe.windowSize,
       rollupMillis: getDefaultMetricRollupDuration(this.props.timeframe) || 1000

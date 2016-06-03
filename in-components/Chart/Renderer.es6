@@ -29,13 +29,15 @@ export default class Renderer {
         rollupMillis,
         margins,
         y1,
-        y2
+        y2,
+        filterStore
       }) {
     this.margins = margins;
     this.container = container;
     this.windowSize = windowSize;
     this.tween = null;
     this.rollupMillis = rollupMillis;
+    this.filters = [];
 
     this.x = d3.time.scale();
     this.x.axis = d3.svg.axis()
@@ -123,7 +125,24 @@ export default class Renderer {
         this.chartContentContainer.style.display = 'block';
       });
 
+    this.filterSubscription = filterStore.activeFilters$.subscribe(filters => {
+      this.filters = filters;
+      this.forceRepaint();
+    });
+
     this.rendering = false;
+  }
+
+  forceRepaint() {
+    this.stopAnimations();
+    this.rendering = false;
+
+    // initiate a complete redrawn when there data has been processed and
+    // painted before
+    if (this.y1.data.getDataColumns().length > 0 &&
+        (!this.y2 || this.y2.data.getDataColumns().length > 0)) {
+      this.renderBigUpdate();
+    }
   }
 
   onFocusChange(newHighlightedMoment) {
@@ -472,7 +491,8 @@ export default class Renderer {
       x: this.x,
       y: this.y1,
       maxDistanceBetweenPoints,
-      rollUpInMillis: this.rollupMillis
+      rollUpInMillis: this.rollupMillis,
+      filters: this.filters
     });
 
     if (this.y2) {
@@ -483,7 +503,8 @@ export default class Renderer {
         x: this.x,
         y: this.y2,
         maxDistanceBetweenPoints,
-        rollUpInMillis: this.rollupMillis
+        rollUpInMillis: this.rollupMillis,
+        filters: this.filters
       });
     }
   }
@@ -682,15 +703,7 @@ export default class Renderer {
 
   onResize({height}) {
     this.setDimensions({width: this.width, height});
-    this.stopAnimations();
-    this.rendering = false;
-
-    // initiate a complete redrawn when there data has been processed and
-    // painted before
-    if (this.y1.data.getDataColumns().length > 0 &&
-        (!this.y2 || this.y2.data.getDataColumns().length > 0)) {
-      this.renderBigUpdate();
-    }
+    this.forceRepaint();
   }
 
   setDimensions({width, height}) {
@@ -775,6 +788,7 @@ export default class Renderer {
     this.container.removeChild(this.chartContentContainer);
     this.highlightedMomentSubscription.dispose();
     this.resizeSubscription.dispose();
+    this.filterSubscription.dispose();
     this.stopAnimations();
   }
 

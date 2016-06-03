@@ -1,4 +1,4 @@
-export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints}) {
+export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints, filters}) {
   let currentRenderIndex = 0;
   const end = dataColumns.length - 1;
   while (currentRenderIndex < end) {
@@ -51,7 +51,9 @@ export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints})
 
       ctx.closePath();
       ctx.fillStyle = s.color;
-      ctx.fill();
+      if (!filters[s.label]) {
+        ctx.fill();
+      }
       endIndex = seriesEndIndex;
     });
 

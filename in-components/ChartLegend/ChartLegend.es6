@@ -50,10 +50,10 @@ export default connectTo(props => {
         {axis.metrics.map((metric, i) =>
           <div className={classnames({
                  [block + '__metric']: true,
-                 [block + '__metric--disabled']: this.props.activeFilters[metric]
+                 [block + '__metric--disabled']: this.props.activeFilters[axis.labels[i]]
                })}
                key={metric}
-               onClick={() => this.props.filterStore.toggleFilter(metric)}>
+               onClick={() => this.props.filterStore.toggleFilter(axis.labels[i])}>
             <dt className={block + '__metric-label'}
                 style={{color: theme.chart.strokeColors[themeMetricOffset + i]}}>
               {axis.labels[i]}

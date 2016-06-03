@@ -1,7 +1,11 @@
 const CIRCLE_ARC = 2 * Math.PI;
 
-export function draw({dataColumns, ctx, series, x, y}) {
+export function draw({dataColumns, ctx, series, x, y, filters}) {
   series.forEach((s, seriesIndex) => {
+    if (filters[s.label]) {
+      return;
+    }
+
     ctx.lineWidth = 1;
     ctx.strokeStyle = s.color;
 

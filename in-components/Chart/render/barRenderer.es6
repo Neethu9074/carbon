@@ -1,5 +1,8 @@
-export function draw({dataColumns, ctx, series, x, y, rollUpInMillis}) {
+export function draw({dataColumns, ctx, series, x, y, rollUpInMillis, filters}) {
   series.forEach((s, seriesIndex) => {
+    if (filters[s.label]) {
+      return;
+    }
     ctx.lineWidth = 2;
     ctx.fillStyle = s.color;
 

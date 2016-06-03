@@ -129,6 +129,7 @@ const ChartWrapper = React.createClass({
       <Chart height={this.props.height}
              margins={this.props.margins}
              timeframe={this.props.timeframe}
+             filterStore={this.props.filterStore}
              y1={y1}
              y2={y2} />
     );

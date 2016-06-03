@@ -1,5 +1,9 @@
-export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints}) {
+export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints, filters}) {
   series.forEach((s, seriesIndex) => {
+    if (filters[s.label]) {
+      return;
+    }
+
     ctx.beginPath();
 
     let previousX = Number.MAX_VALUE * -1;
