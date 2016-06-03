@@ -7,6 +7,7 @@ import {focusedMoment$} from 'in-stores/timeline';
 export default class Graph {
   constructor() {
     this.springyGraph = new Springy.Graph();
+    this.springyLayout = new Springy.Layout.ForceDirected(this.springyGraph, 400.0, 400.0, 0.5);
 
     // maps node id => node instance
     this.nodes = {};
@@ -16,8 +17,8 @@ export default class Graph {
 
     this.graphSubscription = focusedMoment$.flatMap(getGraph)
       .subscribe(this.processEdgeModifications.bind(this));
-  }
 
+  }
 
   processEdgeModifications(edgeModifications) {
     // maps node id => node instance
@@ -75,6 +76,9 @@ export default class Graph {
         delete this.nodes[snapshotId];
       }
     });
+
+    // start another layouting run
+    // this.springyLayout.start();
   }
 
   getOrCreateNode(snapshotId) {
