@@ -54,6 +54,15 @@ export default class BaseGeometry {
     this.geometry.attributes.color.needsUpdate = true;
   }
 
+  setUVs(uvs) {
+    if (uvs.length === 0) {
+      uvs = this.emptyVertices;
+    }
+
+    this.geometry.addAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), 2));
+    this.geometry.attributes.uv.needsUpdate = true;
+  }
+
   renderableGeometry() {
     return this.mesh;
   }

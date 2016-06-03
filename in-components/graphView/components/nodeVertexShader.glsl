@@ -6,9 +6,11 @@ uniform mat4 modelViewMatrix;
 
 attribute vec3 position;
 attribute vec3 color;
+attribute vec2 uv;
 
 varying float fDistance;
 varying vec3 vColor;
+varying vec2 vUv;
 
 uniform float time;
 
@@ -122,6 +124,7 @@ float rand(vec2 co){
 }
 
 void main() {
+  vUv = uv;
   vColor = color;
 
   vec3 normal = vec3(rand(vec2(1.0, 1.0)), rand(vec2(1.0, 1.0)), 1.0);

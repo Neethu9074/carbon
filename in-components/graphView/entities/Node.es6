@@ -20,6 +20,7 @@ export default class Node {
         this.color = colorPool.getColorRGB(snapshot.get('plugin'));
         this.label = getLabel(snapshot);
         this.icon = getIcon(snapshot);
+        this.plugin = snapshot.get('plugin');
       });
   }
 

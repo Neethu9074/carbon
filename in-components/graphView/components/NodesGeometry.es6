@@ -1,5 +1,6 @@
 import THREE from 'three';
 
+import {glyphTexture, config} from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory/pluginIconsGlyphTexture';
 import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
 import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
@@ -11,6 +12,8 @@ export default class NodesGeometry extends BaseGeometry {
     super();
 
     this.setColors([]);
+    this.material.uniforms.texture = { type: 't', value: glyphTexture };
+    this.material.uniforms.numColumns = { type: 'f', value: config.numElementsPerColumn };
   }
 
   getShader() {
@@ -28,6 +31,8 @@ export default class NodesGeometry extends BaseGeometry {
 
     const vertices = [];
     const colors = [];
+    const uvCoords = [];
+    const textureWidth = config.numElementsPerColumn * config.iconWidth;
 
     let i = 0;
     let i2 = 0;
@@ -42,9 +47,20 @@ export default class NodesGeometry extends BaseGeometry {
       colors[i2++] = color.r;
       colors[i2++] = color.g;
       colors[i2++] = color.b;
+
+      const xy = config.LUT[node.plugin];
+      if (!xy) {
+        // use right bottom UV coords to show nothing but emptiness
+        uvCoords.push(0);
+        uvCoords.push(0);
+      } else {
+        uvCoords.push(xy.x / textureWidth);
+        uvCoords.push(xy.y / textureWidth);
+      }
     });
 
     this.setVertices(vertices);
     this.setColors(colors);
+    this.setUVs(uvCoords);
   }
 }
