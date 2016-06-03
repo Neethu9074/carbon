@@ -1,6 +1,6 @@
 import THREE from 'three';
 
-import galaxyImagePath from 'in-components/graphView/components/galaxy.jpg';
+import galaxyImagePath from 'in-components/graphView/components/background.jpg';
 
 
 export default class BackgroundScene {
@@ -28,8 +28,9 @@ export default class BackgroundScene {
     const manager = new THREE.LoadingManager();
     const texture = new THREE.Texture();
     new THREE.ImageLoader(manager).load( galaxyImagePath, image => {
-      texture.image = image;
+      texture.minFilter = THREE.LinearFilter;
       texture.needsUpdate = true;
+      texture.image = image;
     });
       material.map = texture;
   }
