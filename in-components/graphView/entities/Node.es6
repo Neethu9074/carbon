@@ -1,3 +1,9 @@
+import {getColorPool} from 'in-services/util/ColorGenerator';
+import {getSnapshot} from 'in-stores/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
+
+const colorPool = getColorPool('plugins');
+
 export default class Node {
 
   constructor(snapshotId, springyGraph, springyNode) {
@@ -5,6 +11,15 @@ export default class Node {
     this.springyGraph = springyGraph;
     this.springyNode = springyNode;
     this.edgeCount = 0;
+    this.color = 'rgb(255, 0, 0)';
+    this.label = snapshotId;
+
+    this.snapshotSubscription = getSnapshot(snapshotId)
+      .subscribe(snapshot => {
+        this.snapshot = snapshot;
+        this.color = colorPool.getColorRGB(snapshot.get('plugin'));
+        this.label = getLabel(snapshot);
+      });
   }
 
   increaseEdgeCount() {
@@ -24,7 +39,7 @@ export default class Node {
   }
 
   dispose() {
-    // TODO dispose snapshot subscription
+    this.snapshotSubscription.dispose();
   }
 
 }

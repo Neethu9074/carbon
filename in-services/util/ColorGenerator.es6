@@ -135,6 +135,7 @@ function createColorPool(nameOfPool, numColors = 10) {
 }
 
 // create default color pools
+createColorPool('plugins', 50);
 createColorPool('groups', 20);
 createColorPool('tags', 100);
 createColorPool('processes', 100);
