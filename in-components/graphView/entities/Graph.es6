@@ -2,7 +2,7 @@ import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
 import getGraph from 'in-services/subscription/graph';
-import focusedMoment$ from 'in-stores/timeline';
+import {focusedMoment$} from 'in-stores/timeline';
 
 export default class Graph {
   constructor() {
@@ -15,7 +15,7 @@ export default class Graph {
     this.edges = {};
 
     this.graphSubscription = focusedMoment$.flatMap(getGraph)
-      .subscribe(edgeModifications => this.processEdgeModifications(edgeModifications));
+      .subscribe(this.processEdgeModifications.bind(this));
   }
 
 

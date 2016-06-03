@@ -1,5 +1,3 @@
-import Vector from 'in-components/graphView/entities/Vector';
-
 export default class Node {
 
   constructor(snapshotId, springyGraph, springyNode) {
@@ -7,7 +5,6 @@ export default class Node {
     this.springyGraph = springyGraph;
     this.springyNode = springyNode;
     this.edgeCount = 0;
-    this.position = Vector.random();
   }
 
   increaseEdgeCount() {
