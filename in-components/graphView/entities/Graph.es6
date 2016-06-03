@@ -1,7 +1,8 @@
 import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
-import getGraph from 'in-services/subscription/graph';
+// import getGraph from 'in-services/subscription/graph';
+import getGraphUniverse from 'in-services/subscription/graphUniverse';
 import {focusedMoment$} from 'in-stores/timeline';
 
 export default class Graph {
@@ -15,11 +16,15 @@ export default class Graph {
     // maps edge id => edge instance
     this.edges = {};
 
-    this.graphSubscription = focusedMoment$.flatMap(focusedMoment => {
-        return getGraph(focusedMoment)
-          .throttle(60000);
-      })
-      .subscribe(this.processEdgeModifications.bind(this));
+    // this.graphSubscription = focusedMoment$.flatMap(focusedMoment => {
+    //     return getGraph(focusedMoment)
+    //       .throttle(60000);
+    //   })
+    //   .subscribe(this.processEdgeModifications.bind(this));
+
+    this.graphSubscription = focusedMoment$
+      .flatMap(getGraphUniverse)
+      .subscribe(this.processGraphRetrieval.bind(this));
 
   }
 
@@ -70,17 +75,25 @@ export default class Graph {
     });
 
 
-    // remove all nodes which are no longer involved in any connections
-    Object.keys(modifiedNodes).forEach(snapshotId => {
-      const node = modifiedNodes[snapshotId];
+    this.removeUnusedNodes();
+    this.restartLayoutProcess();
+  }
+
+
+  removeUnusedNodes() {
+    Object.keys(this.nodes).forEach(snapshotId => {
+      const node = this.nodes[snapshotId];
+
       if (node.getEdgeCount() === 0) {
         node.remove();
         node.dispose();
         delete this.nodes[snapshotId];
       }
     });
+  }
 
 
+  restartLayoutProcess() {
     console.log(
       '(Re-) starting layout with %s nodes and %s edges',
       Object.keys(this.nodes).length,
@@ -89,6 +102,56 @@ export default class Graph {
     // start another layouting run
     this.springyLayout.start();
   }
+
+
+  processGraphRetrieval(graph) {
+    console.log('Got graph', graph);
+    const edgesToRemove = Object.keys(this.edges)
+      .reduce((agg, edgeId) => {
+        agg[edgeId] = true;
+        return agg;
+      }, {});
+
+    graph.forEach(newEdge => {
+      const edgeId = newEdge.id;
+      edgesToRemove[edgeId] = false;
+
+      if (this.edges[edgeId]) {
+        // nothing to do, edge already exists
+        return;
+      }
+
+      const fromNode = this.getOrCreateNode(newEdge.from);
+      const toNode = this.getOrCreateNode(newEdge.to);
+      const springyEdge = this.springyGraph.newEdge(fromNode.springyNode, toNode.springyNode);
+
+      this.edges[edgeId] = new Edge(
+        edgeId,
+        fromNode,
+        toNode,
+        newEdge.relation,
+        this.springyGraph,
+        springyEdge
+      );
+      fromNode.increaseEdgeCount();
+      toNode.increaseEdgeCount();
+    });
+
+    Object.keys(edgesToRemove).forEach(edgeId => {
+      if (edgesToRemove[edgeId] === true && this.edges[edgeId]) {
+        const edge = this.edges[edgeId];
+        edge.from.decreaseEdgeCounter();
+        edge.to.decreaseEdgeCounter();
+        edge.remove();
+        edge.dispose();
+        delete this.edges[edgeId];
+      }
+    });
+
+    this.removeUnusedNodes();
+    this.restartLayoutProcess();
+  }
+
 
   getOrCreateNode(snapshotId) {
     let existingNode = this.nodes[snapshotId];
