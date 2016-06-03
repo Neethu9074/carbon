@@ -8,6 +8,8 @@ import {Tabs, Tab} from 'in-components/Tabs';
 
 import './TraceDetailView.less';
 
+const block = 'in-trace-detail-view';
+
 export default React.createClass({
   displayName: 'TraceDetailView',
 
@@ -15,10 +17,14 @@ export default React.createClass({
     return (
       <Tabs collapsible={false}>
         <Tab title='Tree'>
-          <div className='in-trace-detail-view'>
+          {/* Firefox treats absolutely positioned elements to be part of the flexbox flow. */}
+          <div className={block + '__wrapper'}>
             <FullscreenButton onClick={() => toggleFullscreenComponent('detailView')} />
-            <TraceDetails />
-            <SpanDetails />
+
+            <div className={block}>
+              <TraceDetails />
+              <SpanDetails />
+            </div>
           </div>
         </Tab>
       </Tabs>
