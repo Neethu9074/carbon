@@ -1,7 +1,5 @@
 import * as ro from 'reactive-observables';
-
-import BackgroundRenderer from 'in-components/graphView/components/renderer/BackgroundRenderer';
-import {updateCanvasDimensions} from 'in-charts/canvas';
+import THREE from 'three';
 
 
 export default function createUniverseRenderer({container, canvas}) {
@@ -14,12 +12,15 @@ export default function createUniverseRenderer({container, canvas}) {
     .debounce(300)
     .subscribe(render);
 
-  const backBufferCanvas = document.createElement('canvas');
-  const backBuffer = backBufferCanvas.getContext('2d');
-  const screenBufferCanvas = canvas;
-  const screenBuffer = screenBufferCanvas.getContext('2d');
+  const renderer = new THREE.WebGLRenderer({canvas});
+  renderer.setClearColor(new THREE.Color(0xff0000));
+  // objects organize matrix update by themselves
+  renderer.autoUpdateObjects = false;
 
-  const backgroundRenderer = new BackgroundRenderer(backBuffer);
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera( 45, width / height, 1, 1000 );
+  scene.add(camera);
 
   const resizeSubscription = ro.on(window, 'resize')
     .debounce(500)
@@ -29,7 +30,7 @@ export default function createUniverseRenderer({container, canvas}) {
   resize();
 
   return {
-    canvas: screenBufferCanvas,
+    canvas,
     dispose
   };
 
@@ -37,23 +38,21 @@ export default function createUniverseRenderer({container, canvas}) {
     width = container.clientWidth;
     height = container.clientHeight;
 
-    updateCanvasDimensions(screenBufferCanvas, screenBuffer, width, height);
-    updateCanvasDimensions(backBufferCanvas, backBuffer, width, height);
+    canvas.height = height;
+    canvas.width = width;
+
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
 
     changes.emit(changeSignal);
   }
 
   function render() {
-    backgroundRenderer.draw(width, height);
-
-    // copy backbuffer to screenbuffer
-    screenBuffer.drawImage(backBufferCanvas, 0, 0, width, height);
+    renderer.render(scene, camera);
   }
 
   function dispose() {
     resizeSubscription.dispose();
     renderSubscription.dispose();
-
-    backgroundRenderer.dispose();
   }
 }
