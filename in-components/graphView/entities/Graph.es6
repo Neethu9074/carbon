@@ -41,6 +41,8 @@ export default class Graph {
           toNode,
           edgeModification.relation
         );
+        fromNode.increaseEdgeCount();
+        toNode.increaseEdgeCount();
       } else {
         const edge = this.edges[edgeId];
 
@@ -52,6 +54,8 @@ export default class Graph {
         edge.remove();
         edge.dispose();
         delete this.edges[edgeId];
+        fromNode.decreaseEdgeCount();
+        toNode.decreaseEdgeCount();
       }
     });
 
