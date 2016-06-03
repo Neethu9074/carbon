@@ -1,29 +1,27 @@
 import THREE from 'three';
 
+import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
 
-const emptyVertices = [0, 0, 0, 0, 0, 0];
 
-export default class NodesGeometry {
+export default class NodesGeometry extends BaseGeometry {
 
   constructor() {
-    const geometry = this.geometry = new THREE.BufferGeometry();
-    geometry.dynamic = true;
+    super();
+  }
 
-    const material = this.material = new THREE.LineBasicMaterial({
+  getMaterial() {
+    return new THREE.LineBasicMaterial({
       transparent: true,
-      color: 0xBBBBBB,
       opacity: 0.1
     });
+  }
 
-    const mesh = this.mesh = new THREE.LineSegments(geometry, material);
-    mesh.frustumCulled = false;
-
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(emptyVertices), 3));
-    this.geometry.attributes.position.needsUpdate = true;
+  getMesh(geometry, material) {
+    return new THREE.LineSegments(geometry, material);
   }
 
   update(graph) {
-    let vertices = [];
+    const vertices = [];
 
     let i = 0;
     graph.eachEdge(edge => {
@@ -38,22 +36,6 @@ export default class NodesGeometry {
       vertices[i++] = to.z;
     });
 
-    if (vertices.length === 0) {
-      vertices = emptyVertices;
-    }
-
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
-    this.geometry.attributes.position.needsUpdate = true;
-  }
-
-  renderableGeometry() {
-    return this.mesh;
-  }
-
-  dispose() {
-    this.geometry.dispose();
-    this.material.dispose();
-
-    // TODO: dispose rest
+    this.setVertices(vertices);
   }
 }

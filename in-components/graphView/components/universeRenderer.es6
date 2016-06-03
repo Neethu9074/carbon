@@ -9,7 +9,7 @@ import Graph from 'in-components/graphView/entities/Graph';
 export default function createUniverseRenderer({container, canvas}) {
   const changeSignal = true;
   const changes = ro.create();
-  const renderSubscription = changes
+  const updateSubscription = changes
     .debounce(1000)
     .subscribe(update);
 
@@ -63,7 +63,7 @@ export default function createUniverseRenderer({container, canvas}) {
 
   function dispose() {
     resizeSubscription.dispose();
-    renderSubscription.dispose();
+    updateSubscription.dispose();
     backgroundScene.dispose();
     graphScene.dispose();
     graph.dispose();

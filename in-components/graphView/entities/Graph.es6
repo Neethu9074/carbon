@@ -99,6 +99,10 @@ export default class Graph {
     Object.keys(this.edges).forEach(edgeId => fn(this.edges[edgeId]));
   }
 
+  eachNode(fn) {
+    Object.keys(this.nodes).forEach(nodeId => fn(this.nodes[nodeId]));
+  }
+
   dispose() {
     this.graphSubscription.dispose();
     Object.keys(this.nodes).forEach(nodeId => this.nodes[nodeId].dispose());

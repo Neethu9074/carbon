@@ -2,44 +2,40 @@ import THREE from 'three';
 
 import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
+import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
 
 
-export default class NodesGeometry {
+export default class NodesGeometry extends BaseGeometry {
 
   constructor() {
-    const geometry = this.geometry = new THREE.BufferGeometry();
-    geometry.dynamic = true;
+    super();
+  }
 
-    const material = this.material = new THREE.RawShaderMaterial({
+  getMaterial() {
+    return new THREE.RawShaderMaterial({
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
+      transparent: true,
       depthTest: false
     });
-
-    const mesh = this.mesh = new THREE.Mesh(geometry, material);
-    mesh.rotationAutoUpdate = false;
-    mesh.matrixAutoUpdate = false;
-    mesh.frustumCulled = false;
-
-    this.update();
   }
 
-  update() {
-    const vertices = [
-      0, 0, -4,
-      0, 0, 4
-    ];
-
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
-    this.geometry.attributes.position.needsUpdate = true;
+  getMesh(geometry, material) {
+    return new THREE.Points(geometry, material);
   }
 
-  renderableGeometry() {
-    return this.mesh;
-  }
+  update(graph) {
+    const vertices = [];
 
-  dispose() {
-    this.geometry.dispose();
-    this.material.dispose();
+    let i = 0;
+    graph.eachNode(node => {
+      const pos = node.springyNode.position;
+
+      vertices[i++] = pos.x;
+      vertices[i++] = pos.y;
+      vertices[i++] = pos.z;
+    });
+
+    this.setVertices(vertices);
   }
 }

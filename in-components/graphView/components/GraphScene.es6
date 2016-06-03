@@ -34,6 +34,7 @@ export default class GraphScene {
 
   update(graph) {
     this.edgesGeometry.update(graph);
+    this.nodesGeometry.update(graph);
   }
 
   realtimeUpdate() {
