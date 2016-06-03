@@ -1,5 +1,6 @@
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 
 const colorPool = getColorPool('plugins');
 
@@ -11,11 +12,13 @@ export default class Node {
     this.springyNode = springyNode;
     this.edgeCount = 0;
     this.color = 'rgb(255, 0, 0)';
+    this.label = snapshotId;
 
     this.snapshotSubscription = getSnapshot(snapshotId)
       .subscribe(snapshot => {
         this.snapshot = snapshot;
         this.color = colorPool.getColorRGB(snapshot.get('plugin'));
+        this.label = getLabel(snapshot);
       });
   }
 
