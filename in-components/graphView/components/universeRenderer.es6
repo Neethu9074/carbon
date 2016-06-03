@@ -2,12 +2,10 @@ import * as ro from 'reactive-observables';
 import THREE from 'three';
 
 import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
+import GraphScene from 'in-components/graphView/components/GraphScene';
 import Graph from 'in-components/graphView/entities/Graph';
 
 export default function createUniverseRenderer({container, canvas}) {
-  let height;
-  let width;
-
   const changeSignal = true;
   const changes = ro.create();
   const renderSubscription = changes
@@ -15,14 +13,12 @@ export default function createUniverseRenderer({container, canvas}) {
     .subscribe(render);
 
   const renderer = new THREE.WebGLRenderer({canvas});
-  renderer.autoUpdateObjects = false; // objects organize matrix update by themselves
   renderer.autoClear = false;
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera( 45, width / height, 1, 1000 );
-  scene.add(camera);
-
   const backgroundScene = new BackgroundScene();
+  const graphScene = new GraphScene();
+  const graph = new Graph();
+
 
   const resizeSubscription = ro.on(window, 'resize')
     .debounce(500)
@@ -31,34 +27,38 @@ export default function createUniverseRenderer({container, canvas}) {
   // initial resize
   resize();
 
-  const graph = new Graph();
-
   return {
     canvas,
     dispose
   };
 
   function resize() {
-    width = container.clientWidth;
-    height = container.clientHeight;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
     canvas.height = height;
     canvas.width = width;
 
     renderer.setSize(width, height);
-    camera.aspect = width / height;
+    graphScene.resize(width, height);
 
     changes.emit(changeSignal);
   }
 
   function render() {
+    graphScene.update(graph);
+
     backgroundScene.render(renderer);
-    renderer.render(scene, camera);
+    graphScene.render(renderer);
+
+    changes.emit(changeSignal);
   }
 
   function dispose() {
     resizeSubscription.dispose();
     renderSubscription.dispose();
+    backgroundScene.dispose();
+    graphScene.dispose();
     graph.dispose();
   }
 }

@@ -9,7 +9,8 @@ export default class BackgroundScene {
     this.backgroundScene = new THREE.Scene();
 
     const material = new THREE.MeshBasicMaterial({
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      depthWrite: false
     });
 
     const plane = this.plane = new THREE.Mesh(
@@ -37,5 +38,9 @@ export default class BackgroundScene {
 
   render(renderer) {
     renderer.render(this.backgroundScene, this.backgroundCamera);
+  }
+
+  dispose() {
+    // TODO
   }
 }
