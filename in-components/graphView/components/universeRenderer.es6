@@ -1,6 +1,7 @@
 import * as ro from 'reactive-observables';
 import THREE from 'three';
 
+import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
 import Graph from 'in-components/graphView/entities/Graph';
 
 export default function createUniverseRenderer({container, canvas}) {
@@ -14,14 +15,14 @@ export default function createUniverseRenderer({container, canvas}) {
     .subscribe(render);
 
   const renderer = new THREE.WebGLRenderer({canvas});
-  renderer.setClearColor(new THREE.Color(0xff0000));
-  // objects organize matrix update by themselves
-  renderer.autoUpdateObjects = false;
+  renderer.autoUpdateObjects = false; // objects organize matrix update by themselves
+  renderer.autoClear = false;
 
   const scene = new THREE.Scene();
-
   const camera = new THREE.PerspectiveCamera( 45, width / height, 1, 1000 );
   scene.add(camera);
+
+  const backgroundScene = new BackgroundScene();
 
   const resizeSubscription = ro.on(window, 'resize')
     .debounce(500)
@@ -51,6 +52,7 @@ export default function createUniverseRenderer({container, canvas}) {
   }
 
   function render() {
+    backgroundScene.render(renderer);
     renderer.render(scene, camera);
   }
 
