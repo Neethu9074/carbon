@@ -11,30 +11,17 @@ export default class NodesGeometry extends BaseGeometry {
     super();
 
     this.setColors([]);
-    this.start = Date.now();
   }
 
-  getMaterial() {
-    return new THREE.RawShaderMaterial({
-      fragmentShader: fragmentShader,
-      vertexShader: vertexShader,
-      transparent: true,
-      depthTest: false,
-      uniforms: {
-        time: {
-          type: 'f',
-          value: 0.0
-        }
-      }
-    });
+  getShader() {
+    return {
+      vertexShader,
+      fragmentShader
+    };
   }
 
   getMesh(geometry, material) {
     return new THREE.Points(geometry, material);
-  }
-
-  update() {
-    this.material.uniforms.time.value = 0.000025 * (Date.now() - this.start);
   }
 
   updateGeometry(graph) {

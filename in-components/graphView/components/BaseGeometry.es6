@@ -9,13 +9,31 @@ export default class BaseGeometry {
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
 
-    const material = this.material = this.getMaterial();
+    const shader = this.getShader();
+    const material = this.material = new THREE.RawShaderMaterial({
+      fragmentShader: shader.fragmentShader,
+      vertexShader: shader.vertexShader,
+      transparent: true,
+      depthWrite: false,
+      uniforms: {
+        time: {
+          type: 'f',
+          value: 0.0
+        }
+      }
+    });
+
+    this.start = Date.now();
 
     const mesh = this.mesh = this.getMesh(geometry, material);
     mesh.frustumCulled = false;
 
     this.geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(this.emptyVertices), 3));
     this.geometry.attributes.position.needsUpdate = true;
+  }
+
+  update() {
+    this.material.uniforms.time.value = 0.000025 * (Date.now() - this.start);
   }
 
   setVertices(vertices) {

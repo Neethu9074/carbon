@@ -1,5 +1,7 @@
 import THREE from 'three';
 
+import fragmentShader from 'in-components/graphView/components/edgeFragmentShader.glsl';
+import vertexShader from 'in-components/graphView/components/edgeVertexShader.glsl';
 import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
 
 
@@ -9,18 +11,16 @@ export default class NodesGeometry extends BaseGeometry {
     super();
   }
 
-  getMaterial() {
-    return new THREE.LineBasicMaterial({
-      transparent: true,
-      opacity: 0.1
-    });
+  getShader() {
+    return {
+      vertexShader,
+      fragmentShader
+    };
   }
 
   getMesh(geometry, material) {
     return new THREE.LineSegments(geometry, material);
   }
-
-  update() {}
 
   updateGeometry(graph) {
     const vertices = [];

@@ -8,7 +8,6 @@ attribute vec3 position;
 attribute vec3 color;
 
 varying float fDistance;
-varying vec3 vColor;
 
 uniform float time;
 
@@ -122,8 +121,6 @@ float rand(vec2 co){
 }
 
 void main() {
-  vColor = color;
-
   vec3 normal = vec3(rand(vec2(1.0, 1.0)), rand(vec2(1.0, 1.0)), 1.0);
   float noise = 0.02 *  -.10 * turbulence( .5 * normal + time );
   float b = 1.0 * pnoise( 0.05 * position + vec3( 2.0 * time ), vec3( 100.0 ) );
@@ -135,12 +132,5 @@ void main() {
 
   fDistance = length( mvPosition.xyz );
 
-  float pointSize = 100.0 / fDistance;
-
-  if (pointSize <= 2.0) {
-    pointSize = 0.0;
-  }
-
-  gl_PointSize = pointSize;
   gl_Position = projectionMatrix * mvPosition;
 }
