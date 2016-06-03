@@ -1,6 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import Universe from 'in-components/graphView/components/Universe';
+
 import './GraphView.less';
 
 
@@ -17,6 +19,7 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
+        <Universe className={block + '__universe'}/>
       </div>
     );
   }
