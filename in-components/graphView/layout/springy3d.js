@@ -520,7 +520,7 @@
       if (t._stop || t.totalEnergy() < t.minEnergyThreshold) {
         t._started = false;
         if (onRenderStop !== undefined) { onRenderStop(); }
-      } else if (iterationCount < 1) {
+      } else if (iterationCount < 10) {
         Springy.requestAnimationFrame(step);
       }
     });

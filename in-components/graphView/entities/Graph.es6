@@ -8,7 +8,7 @@ import {focusedMoment$} from 'in-stores/timeline';
 export default class Graph {
   constructor() {
     this.springyGraph = new Springy.Graph();
-    this.springyLayout = new Springy.Layout.ForceDirected(this.springyGraph, 400.0, 400.0, 0.5);
+    this.springyLayout = new Springy.Layout.ForceDirected(this.springyGraph, 100.0, 200.0, 0.5);
 
     // maps node id => node instance
     this.nodes = {};
