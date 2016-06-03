@@ -2,8 +2,12 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {
+  msZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
 
@@ -20,6 +24,8 @@ const MySqlDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
+    const data = snapshot.get('data');
+    const waitNames = data.get('wait_event_names', emptyList).toArray().sort();
 
     return (
       <div>
@@ -94,6 +100,38 @@ const MySqlDashboard = React.createClass({
                                'Aborted connects'
                              ],
                              type: 'line'
+                         }}/>
+        </DashboardSection>
+        <DashboardSection title='Latency'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             metrics: [
+                               'status.DB_QUERY_LATENCY'
+                             ],
+                             labels: [
+                               'Query Latency'
+                             ],
+                             type: 'line',
+                             formatter: msZeroDecimalPlaces
+                         }}/>
+        </DashboardSection>
+        <DashboardSection title='Wait Events'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             metrics: waitNames.map(name => 'wait.' + name),
+                             labels: waitNames.map(name => name),
+                             type: 'line',
+                             formatter: msZeroDecimalPlaces
                          }}/>
         </DashboardSection>
         <DashboardSection title='Key Access'>
