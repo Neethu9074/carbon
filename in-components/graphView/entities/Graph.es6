@@ -15,7 +15,10 @@ export default class Graph {
     // maps edge id => edge instance
     this.edges = {};
 
-    this.graphSubscription = focusedMoment$.flatMap(getGraph)
+    this.graphSubscription = focusedMoment$.flatMap(focusedMoment => {
+        return getGraph(focusedMoment)
+          .throttle(60000);
+      })
       .subscribe(this.processEdgeModifications.bind(this));
 
   }
@@ -78,7 +81,7 @@ export default class Graph {
     });
 
     // start another layouting run
-    // this.springyLayout.start();
+    this.springyLayout.start();
   }
 
   getOrCreateNode(snapshotId) {

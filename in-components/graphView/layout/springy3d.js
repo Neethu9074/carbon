@@ -59,6 +59,7 @@
   var Node = Springy.Node = function(id, data) {
     this.id = id;
     this.data = (data !== undefined) ? data : {};
+    this.position = Vector.random();
 
   // Data fields used by layout algorithm in this file:
   // this.data.mass
@@ -462,6 +463,7 @@
       // Same question as above; along with updateVelocity, is this all of
       // your integration code?
       point.p = point.p.add(point.v.multiply(timestep));
+      node.position = point.p;
     });
   };
 
@@ -502,7 +504,11 @@
     if (onRenderStart !== undefined) { onRenderStart(); }
 
     Springy.requestAnimationFrame(function step() {
+      console.log('tick');
+      console.time('Graph layout');
       t.tick(0.03);
+      console.timeEnd('Graph layout');
+      console.log('Tick done');
 
       if (render !== undefined) {
         render();
@@ -513,7 +519,7 @@
         t._started = false;
         if (onRenderStop !== undefined) { onRenderStop(); }
       } else {
-        Springy.requestAnimationFrame(step);
+        // Springy.requestAnimationFrame(step);
       }
     });
   };
@@ -617,8 +623,8 @@
   Layout.ForceDirected.Point = function(position, mass) {
     this.p = position; // position
     this.m = mass; // mass
-    this.v = new Vector(0, 0); // velocity
-    this.a = new Vector(0, 0); // acceleration
+    this.v = new Vector(0, 0, 0); // velocity
+    this.a = new Vector(0, 0, 0); // acceleration
   };
 
   Layout.ForceDirected.Point.prototype.applyForce = function(force) {
