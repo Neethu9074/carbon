@@ -56,7 +56,7 @@ export default function createUniverseRenderer({container, canvas}) {
   }
 
   function update() {
-    graphScene.update(graph);
+    graphScene.updateGeometry(graph);
 
     changes.emit(changeSignal);
   }

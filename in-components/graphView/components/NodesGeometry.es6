@@ -9,6 +9,9 @@ export default class NodesGeometry extends BaseGeometry {
 
   constructor() {
     super();
+
+    this.setColors([]);
+    this.start = Date.now();
   }
 
   getMaterial() {
@@ -16,7 +19,13 @@ export default class NodesGeometry extends BaseGeometry {
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
       transparent: true,
-      depthTest: false
+      depthTest: false,
+      uniforms: {
+        time: {
+          type: 'f',
+          value: 0.0
+        }
+      }
     });
   }
 
@@ -24,18 +33,31 @@ export default class NodesGeometry extends BaseGeometry {
     return new THREE.Points(geometry, material);
   }
 
-  update(graph) {
+  update() {
+    this.material.uniforms.time.value = 0.000025 * (Date.now() - this.start);
+  }
+
+  updateGeometry(graph) {
+
     const vertices = [];
+    const colors = [];
 
     let i = 0;
+    let i2 = 0;
     graph.eachNode(node => {
       const pos = node.springyNode.position;
+      const color = node.color;
 
       vertices[i++] = pos.x;
       vertices[i++] = pos.y;
       vertices[i++] = pos.z;
+
+      colors[i2++] = color.r;
+      colors[i2++] = color.g;
+      colors[i2++] = color.b;
     });
 
     this.setVertices(vertices);
+    this.setColors(colors);
   }
 }

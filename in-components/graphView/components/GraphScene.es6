@@ -32,12 +32,14 @@ export default class GraphScene {
     renderer.render(this.scene, this.camera);
   }
 
-  update(graph) {
-    this.edgesGeometry.update(graph);
-    this.nodesGeometry.update(graph);
+  updateGeometry(graph) {
+    this.edgesGeometry.updateGeometry(graph);
+    this.nodesGeometry.updateGeometry(graph);
   }
 
   realtimeUpdate() {
+    this.edgesGeometry.update();
+    this.nodesGeometry.update();
     this.controls.update();
   }
 
