@@ -80,6 +80,12 @@ export default class Graph {
       }
     });
 
+
+    console.log(
+      '(Re-) starting layout with %s nodes and %s edges',
+      Object.keys(this.nodes).length,
+      Object.keys(this.edges).length
+    );
     // start another layouting run
     this.springyLayout.start();
   }

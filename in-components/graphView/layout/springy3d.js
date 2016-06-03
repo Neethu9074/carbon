@@ -500,11 +500,13 @@
     if (this._started) return;
     this._started = true;
     this._stop = false;
+    let iterationCount = 0;
 
     if (onRenderStart !== undefined) { onRenderStart(); }
 
     Springy.requestAnimationFrame(function step() {
-      console.log('tick');
+      iterationCount++;
+      console.log('tick #', iterationCount);
       console.time('Graph layout');
       t.tick(0.03);
       console.timeEnd('Graph layout');
@@ -518,8 +520,8 @@
       if (t._stop || t.totalEnergy() < t.minEnergyThreshold) {
         t._started = false;
         if (onRenderStop !== undefined) { onRenderStop(); }
-      } else {
-        // Springy.requestAnimationFrame(step);
+      } else if (iterationCount < 1) {
+        Springy.requestAnimationFrame(step);
       }
     });
   };
