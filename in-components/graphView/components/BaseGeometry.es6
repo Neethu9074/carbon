@@ -27,6 +27,15 @@ export default class BaseGeometry {
     this.geometry.attributes.position.needsUpdate = true;
   }
 
+  setColors(colors) {
+    if (colors.length === 0) {
+      colors = this.emptyVertices;
+    }
+
+    this.geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+    this.geometry.attributes.color.needsUpdate = true;
+  }
+
   renderableGeometry() {
     return this.mesh;
   }

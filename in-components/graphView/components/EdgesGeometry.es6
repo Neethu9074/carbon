@@ -20,7 +20,9 @@ export default class NodesGeometry extends BaseGeometry {
     return new THREE.LineSegments(geometry, material);
   }
 
-  update(graph) {
+  update() {}
+
+  updateGeometry(graph) {
     const vertices = [];
 
     let i = 0;
