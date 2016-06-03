@@ -28,7 +28,6 @@ export default class NodesGeometry extends BaseGeometry {
   }
 
   updateGeometry(graph) {
-
     const vertices = [];
     const colors = [];
     const uvCoords = [];

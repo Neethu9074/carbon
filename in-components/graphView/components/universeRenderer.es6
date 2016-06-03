@@ -13,7 +13,10 @@ export default function createUniverseRenderer({container, canvas}) {
     .debounce(1000)
     .subscribe(update);
 
-  const renderer = new THREE.WebGLRenderer({canvas});
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true
+  });
   renderer.autoClear = false;
 
   const backgroundScene = new BackgroundScene();
