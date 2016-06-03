@@ -517,10 +517,10 @@
       }
 
       // stop simulation when energy of the system goes below a threshold
-      if (t._stop || t.totalEnergy() < t.minEnergyThreshold) {
+      if (t._stop || t.totalEnergy() < t.minEnergyThreshold || iterationCount > 10) {
         t._started = false;
         if (onRenderStop !== undefined) { onRenderStop(); }
-      } else if (iterationCount < 10) {
+      } else {
         Springy.requestAnimationFrame(step);
       }
     });
