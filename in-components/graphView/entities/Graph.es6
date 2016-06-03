@@ -105,7 +105,6 @@ export default class Graph {
 
 
   processGraphRetrieval(graph) {
-    console.log('Got graph', graph);
     const edgesToRemove = Object.keys(this.edges)
       .reduce((agg, edgeId) => {
         agg[edgeId] = true;
@@ -140,8 +139,8 @@ export default class Graph {
     Object.keys(edgesToRemove).forEach(edgeId => {
       if (edgesToRemove[edgeId] === true && this.edges[edgeId]) {
         const edge = this.edges[edgeId];
-        edge.from.decreaseEdgeCounter();
-        edge.to.decreaseEdgeCounter();
+        edge.from.decreaseEdgeCount();
+        edge.to.decreaseEdgeCount();
         edge.remove();
         edge.dispose();
         delete this.edges[edgeId];
