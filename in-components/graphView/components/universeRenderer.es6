@@ -2,7 +2,7 @@ import * as ro from 'reactive-observables';
 import THREE from 'three';
 
 import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
-
+import Graph from 'in-components/graphView/entities/Graph';
 
 export default function createUniverseRenderer({container, canvas}) {
   let height;
@@ -31,6 +31,8 @@ export default function createUniverseRenderer({container, canvas}) {
   // initial resize
   resize();
 
+  const graph = new Graph();
+
   return {
     canvas,
     dispose
@@ -57,5 +59,6 @@ export default function createUniverseRenderer({container, canvas}) {
   function dispose() {
     resizeSubscription.dispose();
     renderSubscription.dispose();
+    graph.dispose();
   }
 }

@@ -1,14 +1,16 @@
 export default class Edge {
 
-  constructor(edgeId, from, to, relation) {
+  constructor(edgeId, from, to, relation, springyGraph, springyEdge) {
     this.edgeId = edgeId;
     this.from = from;
     this.to = to;
     this.relation = relation;
+    this.springyGraph = springyGraph;
+    this.springyEdge = springyEdge;
   }
 
   remove() {
-    // TODO remove from canvas
+    this.springyGraph.removeEdge(this.springyEdge);
   }
 
   dispose() {

@@ -1,11 +1,10 @@
-import Vector from 'in-components/graphView/entities/Vector';
-
 export default class Node {
 
-  constructor(snapshotId) {
+  constructor(snapshotId, springyGraph, springyNode) {
     this.snapshotId = snapshotId;
+    this.springyGraph = springyGraph;
+    this.springyNode = springyNode;
     this.edgeCount = 0;
-    this.position = Vector.random();
   }
 
   increaseEdgeCount() {
@@ -21,7 +20,7 @@ export default class Node {
   }
 
   remove() {
-    // TODO remove from canvas
+    this.springyGraph.removeNode(this.springyNode);
   }
 
   dispose() {

@@ -23,14 +23,16 @@ export default class Vector {
   }
 
   subtract(v2) {
-    return new Vector(this.x - v2.x,
+    return new Vector(
+      this.x - v2.x,
       this.y - v2.y,
       this.z - v2.z
     );
   }
 
   multiply(n) {
-    return new Vector(this.x * n,
+    return new Vector(
+      this.x * n,
       this.y * n,
       this.z * n
     );

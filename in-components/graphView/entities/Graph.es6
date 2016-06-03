@@ -1,10 +1,13 @@
+import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
 import getGraph from 'in-services/subscription/graph';
-import focusedMoment$ from 'in-stores/timeline';
+import {focusedMoment$} from 'in-stores/timeline';
 
 export default class Graph {
   constructor() {
+    this.springyGraph = new Springy.Graph();
+
     // maps node id => node instance
     this.nodes = {};
 
@@ -12,7 +15,7 @@ export default class Graph {
     this.edges = {};
 
     this.graphSubscription = focusedMoment$.flatMap(getGraph)
-      .subscribe(edgeModifications => this.processEdgeModifications(edgeModifications));
+      .subscribe(this.processEdgeModifications.bind(this));
   }
 
 
@@ -35,11 +38,14 @@ export default class Graph {
           return;
         }
 
+        const springyEdge = this.springyGraph.newEdge(fromNode.springyNode, toNode.springyNode);
         this.edges[edgeId] = new Edge(
           edgeId,
           fromNode,
           toNode,
-          edgeModification.relation
+          edgeModification.relation,
+          this.springyGraph,
+          springyEdge
         );
         fromNode.increaseEdgeCount();
         toNode.increaseEdgeCount();
@@ -77,7 +83,8 @@ export default class Graph {
       return existingNode;
     }
 
-    existingNode = this.nodes[snapshotId] = new Node(snapshotId);
+    const springyNode = this.springyGraph.newNode({label: snapshotId});
+    existingNode = this.nodes[snapshotId] = new Node(snapshotId, this.springyGraph, springyNode);
     return existingNode;
   }
 
