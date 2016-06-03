@@ -7,13 +7,19 @@
   right: 0;
   bottom: @footer__height * 1px;
 
-  z-index: @z-index__table-view;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  overflow-x: hidden;
-
+  padding: 5rem 1rem 1rem;
   background: #EEF2F4;
   font-size: 0.75rem;
   color: black;
+  overflow-x: hidden;
+  z-index: @z-index__table-view;
 
-  padding: 5rem 1rem 1rem;
+  &__universe {
+    width: 50%;
+    height: 50%;
+  }
 }
