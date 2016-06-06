@@ -33,7 +33,7 @@ export default React.createClass({
   render() {
     return (
       <div className={getClassName(this, block)}>
-        <Menu />
+        <Menu showSettings={this.showSettings}/>
 
         <Icon type='profile'
               className={block + '__icon'}

@@ -1,8 +1,8 @@
 import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
-// import getGraph from 'in-services/subscription/graph';
-import getGraphUniverse from 'in-services/subscription/graphUniverse';
+import getGraph from 'in-services/subscription/graph';
+// import getGraphUniverse from 'in-services/subscription/graphUniverse';
 import {focusedMoment$} from 'in-stores/timeline';
 
 export default class Graph {
@@ -16,15 +16,15 @@ export default class Graph {
     // maps edge id => edge instance
     this.edges = {};
 
-    // this.graphSubscription = focusedMoment$.flatMap(focusedMoment => {
-    //     return getGraph(focusedMoment)
-    //       .throttle(60000);
-    //   })
-    //   .once(this.processEdgeModifications.bind(this));
+    this.graphSubscription = focusedMoment$.flatMap(focusedMoment => {
+        return getGraph(focusedMoment)
+          .throttle(60000);
+      })
+      .once(this.processEdgeModifications.bind(this));
 
-    this.graphSubscription = focusedMoment$
-      .flatMap(getGraphUniverse)
-      .once(this.processGraphRetrieval.bind(this));
+    // this.graphSubscription = focusedMoment$
+    //   .flatMap(getGraphUniverse)
+    //   .once(this.processGraphRetrieval.bind(this));
 
   }
 
