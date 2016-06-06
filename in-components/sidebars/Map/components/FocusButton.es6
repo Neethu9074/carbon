@@ -42,7 +42,6 @@ export default connectTo({
 
       // or historic
       (focusedMoment != null &&
-        snapshot.get('from') < focusedMoment &&
         (snapshot.get('to') == null || snapshot.get('to') > focusedMoment));
 
     let classes = getClassName(this, block);
