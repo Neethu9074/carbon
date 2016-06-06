@@ -213,9 +213,30 @@ http {
       add_header             Cache-Control "private, no-cache, no-store, must-revalidate, max-age=0";
     }
 
+{% if OPERATION_MODE != "on-prem" %}
+
+    location /secured/ {
+      limit_req              zone=onePerSecond burst=10;
+
+      proxy_pass             http://groundskeeper/secured/;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /ump/ {
+      proxy_pass             http://groundskeeper/ump/;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+{% endif %}
+
     error_page               500 502 503 504 /50x.html;
     location = /50x.html {
       root                   html;
     }
   }
 }
+
