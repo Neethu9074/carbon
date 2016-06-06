@@ -7,6 +7,7 @@ import Graph from 'in-components/graphView/entities/Graph';
 
 
 export default function createUniverseRenderer({container, canvas}) {
+  let isRunning = true;
   const changeSignal = true;
   const changes = ro.create();
   const updateSubscription = changes
@@ -50,7 +51,9 @@ export default function createUniverseRenderer({container, canvas}) {
   }
 
   function realtimeUpdate() {
-    requestAnimationFrame(realtimeUpdate);
+    if (isRunning) {
+      requestAnimationFrame(realtimeUpdate);
+    }
 
     graphScene.realtimeUpdate();
 
@@ -65,6 +68,8 @@ export default function createUniverseRenderer({container, canvas}) {
   }
 
   function dispose() {
+    isRunning = false;
+
     resizeSubscription.dispose();
     updateSubscription.dispose();
     backgroundScene.dispose();
