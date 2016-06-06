@@ -36,6 +36,7 @@ export default connectTo({
     ],
 
     propTypes: {
+      showSettings: rpt.func.isRequired,
       tenantUnitStructure: rpt.any,
       isOpen: rpt.bool
     },
@@ -58,7 +59,7 @@ export default connectTo({
           }
           {!isDemo ? <TenantSwitcher tenants={this.props.tenantUnitStructure}/> : null}
 
-          <MenuFooter onClick={this.showSettings}/>
+          <MenuFooter onClick={this.props.showSettings}/>
         </div>
       );
     }
