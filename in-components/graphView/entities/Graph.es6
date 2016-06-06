@@ -20,11 +20,11 @@ export default class Graph {
     //     return getGraph(focusedMoment)
     //       .throttle(60000);
     //   })
-    //   .subscribe(this.processEdgeModifications.bind(this));
+    //   .once(this.processEdgeModifications.bind(this));
 
     this.graphSubscription = focusedMoment$
       .flatMap(getGraphUniverse)
-      .subscribe(this.processGraphRetrieval.bind(this));
+      .once(this.processGraphRetrieval.bind(this));
 
   }
 

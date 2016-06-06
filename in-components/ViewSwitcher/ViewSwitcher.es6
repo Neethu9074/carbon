@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {navigationParameters$, goToTraceView, goToTable, goToMap, goToGraph} from 'in-stores/navigation';
+import {navigationParameters$, goToTraceView, goToTable, goToMap} from 'in-stores/navigation';
 import {isInternalEnvironment} from 'in-services/config';
 import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
@@ -29,7 +29,6 @@ export default connectTo({
         {this.renderViewItem(views.physical, 'Physical')}
         {isInternalEnvironment() ? this.renderViewItem(views.process, 'Process') : null}
         {isInternalEnvironment() ? this.renderTableViewItem() : null}
-        {isInternalEnvironment() ? this.renderUniverseViewItem() : null}
         {this.renderTraceViewItem()}
       </div>
     );
@@ -77,14 +76,6 @@ export default connectTo({
       'Table',
       goToTable,
       this.props.navigationParameters.pathname === '/table'
-    );
-  },
-
-  renderUniverseViewItem() {
-    return this.renderItem(
-      'Graph',
-      goToGraph,
-      this.props.navigationParameters.pathname === '/graph'
     );
   }
 }));
