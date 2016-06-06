@@ -70,6 +70,13 @@ export function goToTable() {
   });
 }
 
+export function goToGraph() {
+  mutateUrl(navParams => {
+    navParams.pathname = 'graph';
+    return navParams;
+  });
+}
+
 
 export function goToTraceView() {
   mutateUrl(navParams => {

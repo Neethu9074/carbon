@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {isWebGLSupported} from 'in-services/util/webGL';
 import * as navigation from 'in-stores/navigation';
 import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
@@ -41,7 +42,7 @@ export default connectTo({
   },
 
   componentWillMount() {
-    const supportsWebGL = this.isWebGLSupported();
+    const supportsWebGL = isWebGLSupported();
     this.setState({isWebGLSupported: supportsWebGL});
 
     if (!supportsWebGL) {
@@ -99,40 +100,5 @@ export default connectTo({
   openDashboard(id) {
     setSelectedSnapshotId(id);
     navigation.goToDashboard();
-  },
-
-  // https://www.khronos.org/webgl/wiki/FAQ
-  // it is recommended that you check for success or failure to initialize.
-  // if WebGL fails to initialize it is recommended you distinguish between failure
-  // because the browser doesn't support WebGL and failure for some other reason.
-  // if the browser does not support WebGL then the map will not be rendered.
-  // you can determine if the browser supports WebGL by checking for the existence of WebGLRenderingContext.
-  isWebGLSupported() {
-    if (window.WebGLRenderingContext) {
-      // browser supports WebGL but if the canvas.getContext('webgl') returns null
-      // then WebGL failed for some reason other than user's browser (no GPU, out of memory, etc...)
-      const canvas = document.createElement('canvas');
-      if (canvas && this.getWebGLCanvasContext(canvas)) {
-        // browser supports WebGL and initialization worked.
-        return true;
-      }
-    }
-    return false;
-  },
-
-  getWebGLCanvasContext(canvas) {
-    const names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
-    let context = null;
-    for (let ii = 0; ii < names.length; ++ii) {
-      try {
-        context = canvas.getContext(names[ii]);
-      } catch (e) {
-        continue;
-      }
-      if (context) {
-        break;
-      }
-    }
-    return context;
   }
 }));
