@@ -10,6 +10,7 @@ export default function createControls(canvas, camera, {
   startingWorldDistance = 300,
   startingZoomDistance = 30,
   cameraMoveSpeed = 10,
+  zoomSpeed = 1,
   pixelToAngleRation = 1 * RAD2DEG // 10 pixels = 1 degree
 }) {
 
@@ -61,14 +62,14 @@ export default function createControls(canvas, camera, {
   function update() {
     const dt = time.getDeltaTime();
 
-    const direction = targetPosition.sub(poi.position).normalize();
-    poi.position.add(direction.clone().multiplyScalar(dt * cameraMoveSpeed));
+    const direction = targetPosition.sub(poi.position);
+    poi.position.add(direction.multiplyScalar(dt * cameraMoveSpeed));
 
     poi.rotation.y += (targetRotationX - poi.rotation.y) * dt * 10;
     poi.updateMatrixWorld();
 
     const deltaZoomDistance = targetZoomDistance - camera.position.z;
-    camera.translateZ(deltaZoomDistance * dt * cameraMoveSpeed);
+    camera.translateZ(deltaZoomDistance * dt * zoomSpeed);
     camera.updateMatrixWorld();
   }
 

@@ -22,7 +22,8 @@ export default class GraphScene {
       {
         cameraMoveSpeed: 1,
         startingWorldDistance: 0,
-        startingZoomDistance: 30
+        startingZoomDistance: 30,
+        zoomSpeed: 5
       }
     );
   }

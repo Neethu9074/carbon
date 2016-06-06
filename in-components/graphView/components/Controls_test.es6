@@ -92,7 +92,7 @@ describe.only('controls', () => {
     controls.update();
 
     // dt is 0.5 and speed = 1, so the new pos should be 299
-    expect(controls.poi.position.z).to.equal(299.5);
+    expect(controls.poi.position.z).to.equal(150);
   });
 
   it('should zoom out when zoom is called', () => {
