@@ -62,10 +62,6 @@ describe('controls', () => {
     camera = new THREE.PerspectiveCamera(75, 1, 1, 1000);
   });
 
-  afterEach(() => {
-    controls.dispose();
-  });
-
   it('should setup events', () => {
     controls = createControls(null, camera, {});
 
@@ -74,6 +70,8 @@ describe('controls', () => {
     expect(onMouseDown === undefined).to.equal(false);
     expect(onMouseMove === undefined).to.equal(false);
     expect(onMouseUp === undefined).to.equal(false);
+
+    controls.dispose();
   });
 
   it('should start with parameters if given', () => {
@@ -81,6 +79,8 @@ describe('controls', () => {
 
     expect(camera.position.z).to.equal(30);
     expect(controls.poi.position.z).to.equal(300);
+
+    controls.dispose();
   });
 
   it('should fly to position when update is called', () => {
@@ -93,6 +93,8 @@ describe('controls', () => {
 
     // dt is 0.5 and speed = 1, so the new pos should be 299
     expect(controls.poi.position.z).to.equal(150);
+
+    controls.dispose();
   });
 
   it('should zoom out when zoom is called', () => {
@@ -106,6 +108,8 @@ describe('controls', () => {
     controls.update();
 
     expect(camera.position.z).to.equal(30.5);
+
+    controls.dispose();
   });
 
   it('should zoom out when zoom is called', () => {
@@ -119,5 +123,7 @@ describe('controls', () => {
 
     const deltaY = controls.poi.rotation.toVector3().y - (5 * Math.PI / 180);
     expect(deltaY < 0.000001).to.equal(true);
+
+    controls.dispose();
   });
 });
