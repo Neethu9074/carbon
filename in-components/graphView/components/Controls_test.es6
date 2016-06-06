@@ -6,7 +6,7 @@ import THREE from 'three';
 import sinon from 'sinon';
 
 
-describe.only('controls', () => {
+describe('controls', () => {
   let createControls;
   let controls;
 
