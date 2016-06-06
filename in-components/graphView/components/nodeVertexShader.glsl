@@ -129,7 +129,7 @@ void main() {
 
   vec3 normal = vec3(rand(vec2(1.0, 1.0)), rand(vec2(1.0, 1.0)), 1.0);
   float noise = 0.02 *  -.10 * turbulence( .5 * normal + time );
-  float b = 1.0 * pnoise( 0.05 * position + vec3( 2.0 * time ), vec3( 100.0 ) );
+  float b = 0.5 * pnoise( 0.05 * position + vec3( 2.0 * time ), vec3( 10.0 ) );
   float displacement = - noise + b;
 
   vec3 newPosition = position + normal * displacement;
