@@ -1,3 +1,4 @@
+import {combineLatest} from 'reactive-observables';
 import {createLogger} from 'instalog';
 
 import {createStore} from 'in-stores/store';
@@ -5,12 +6,25 @@ import http from 'in-services/http';
 
 const logger = createLogger('in-stores/maintenance');
 
+const readStateStore = createStore({
+  name: 'maintenanceMessageRead',
+  initialValue: false
+});
+
 const store = createStore({
   name: 'maintenanceMessage',
   initialValue: null
 });
 
-export const maintenanceMessage$ = store.observable.distinct();
+export const maintenanceMessage$ = combineLatest([readStateStore.observable, store.observable])
+  .map(([readState, maintenanceMessage]) => {
+    if (readState) {
+      return null;
+    }
+
+    return maintenanceMessage;
+  })
+  .distinct();
 
 retrieveLatestMessage();
 setInterval(retrieveLatestMessage, 1000 * 60 * 10);
@@ -38,5 +52,5 @@ function retrieveLatestMessage() {
 
 
 export function markAsRead() {
-  store.applyStateMutation(() => null);
+  readStateStore.applyStateMutation(() => true);
 }
