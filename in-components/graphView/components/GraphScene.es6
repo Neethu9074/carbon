@@ -20,7 +20,7 @@ export default class GraphScene {
       renderer.domElement,
       this.camera,
       {
-        cameraMoveSpeed: 1,
+        cameraMoveSpeed: 4,
         startingWorldDistance: 0,
         startingZoomDistance: 30,
         zoomSpeed: 5

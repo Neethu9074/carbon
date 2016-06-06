@@ -4,19 +4,21 @@ import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseE
 import * as time from 'in-map/src/timeCalculations';
 
 
-const RAD2DEG = Math.PI / 180;
+const RAD_2_DEG = Math.PI / 180;
 
 export default function createControls(canvas, camera, {
   startingWorldDistance = 300,
   startingZoomDistance = 30,
   cameraMoveSpeed = 10,
   zoomSpeed = 1,
-  pixelToAngleRation = 1 * RAD2DEG // 10 pixels = 1 degree
+  pixelToAngleRation = RAD_2_DEG
 }) {
 
   const targetPosition = new THREE.Vector3(0, 0, 0);
   let targetRotationX = 0;
   let targetRotationY = 0;
+  let currentRotationX = 0;
+  let currentRotationY = 0;
   let targetZoomDistance = startingZoomDistance;
 
   const poi = new THREE.Object3D();
@@ -46,10 +48,10 @@ export default function createControls(canvas, camera, {
 
   function onMouseMove(event) {
     if (isPanning) {
-      targetRotationX = poi.rotation.y;
-      targetRotationY = poi.rotation.y;
-      targetRotationX -= event.movementX * pixelToAngleRation;
-      targetRotationY -= event.movementY * pixelToAngleRation;
+      targetRotationX = currentRotationX;
+      targetRotationY = currentRotationY;
+      targetRotationX -= event.movementY * pixelToAngleRation;
+      targetRotationY -= event.movementX * pixelToAngleRation;
     }
   }
 
@@ -65,7 +67,17 @@ export default function createControls(canvas, camera, {
     const direction = targetPosition.sub(poi.position);
     poi.position.add(direction.multiplyScalar(dt * cameraMoveSpeed));
 
-    poi.rotation.y += (targetRotationX - poi.rotation.y) * dt * 10;
+    const deltaX = (targetRotationX - currentRotationX) * dt * cameraMoveSpeed;
+    const deltaY = (targetRotationY - currentRotationY) * dt * cameraMoveSpeed;
+    const rotatedX = deltaX;
+    const rotatedY = deltaY;
+
+    poi.rotateX(rotatedX);
+    poi.rotateY(rotatedY);
+
+    currentRotationX += rotatedX;
+    currentRotationY += rotatedY;
+
     poi.updateMatrixWorld();
 
     const deltaZoomDistance = targetZoomDistance - camera.position.z;
