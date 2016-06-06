@@ -213,7 +213,7 @@ http {
       add_header             Cache-Control "private, no-cache, no-store, must-revalidate, max-age=0";
     }
 
-{% if OPERATION_MODE != "on-prem" %}
+{% if OPERATION_MODE == "on-prem" %}
 
     location /secured/ {
       limit_req              zone=onePerSecond burst=10;
