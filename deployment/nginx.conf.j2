@@ -170,7 +170,7 @@ http {
     }
 
     location /auth/signOut {
-      proxy_pass             http://groundskeeper/signOut;
+      proxy_pass             http://groundskeeper/signOut{% if OPERATION_MODE == "on-prem" %}?returnUrl={{ INSTANA_HOSTNAME }}{% endif %};
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
