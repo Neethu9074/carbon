@@ -24,7 +24,7 @@ export function getMapStatistics(scene) {
   const allDetailSec = detailLevels.low + detailLevels.mid + detailLevels.max;
   window.instana.dev.mapStatistics = () => {
     const factories = {};
-    Object.keys(map.factories).map(key => {
+    Object.keys(map.factories || []).map(key => {
       const factory = map.factories[key];
       factories[key] = factory.numberUpdates | 0;
     });

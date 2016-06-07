@@ -56,7 +56,8 @@ export default getEventsWithinTimerange(
         <div className={block + '__suggestion'}
              dangerouslySetInnerHTML={{__html: toHtml(firstEvent.getIn(['problem', 'fixSuggestion']))}} />
 
-        <SnapshotDescription snapshotId={firstEvent.getIn(['problem', 'snapshotId'], '')} />
+        <SnapshotDescription snapshotId={firstEvent.getIn(['problem', 'snapshotId'], '')}
+                             time={firstEvent.get('start')}/>
       </div>
     );
   }

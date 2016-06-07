@@ -88,10 +88,14 @@ export function clearSelectedSnapshotId() {
 }
 
 
-export function getSnapshot(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment =>
-    createSnapshotObservable({snapshotId, time: focusedMoment})
-  );
+export function getSnapshot(snapshotId, time) {
+  if (time === undefined) {
+    return focusedMoment$.flatMap(focusedMoment =>
+      createSnapshotObservable({snapshotId, time: focusedMoment})
+    );
+  }
+
+  return createSnapshotObservable({snapshotId, time});
 }
 
 
