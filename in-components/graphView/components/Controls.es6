@@ -10,8 +10,7 @@ export default function createControls(canvas, camera, {
   startingWorldDistance = 300,
   startingZoomDistance = 30,
   cameraMoveSpeed = 10,
-  zoomSpeed = 1,
-  pixelToAngleRation = RAD_2_DEG
+  zoomSpeed = 1
 }) {
 
   const targetPosition = new THREE.Vector3(0, 0, 0);
@@ -24,7 +23,7 @@ export default function createControls(canvas, camera, {
   const poi = new THREE.Object3D();
   poi.position.set(0, 0, startingWorldDistance);
   poi.add(camera);
-  camera.translateZ(30);
+  camera.translateZ(startingZoomDistance);
 
   let isPanning = false;
 
@@ -50,8 +49,8 @@ export default function createControls(canvas, camera, {
     if (isPanning) {
       targetRotationX = currentRotationX;
       targetRotationY = currentRotationY;
-      targetRotationX -= event.movementY * pixelToAngleRation;
-      targetRotationY -= event.movementX * pixelToAngleRation;
+      targetRotationX -= event.movementY * RAD_2_DEG;
+      targetRotationY -= event.movementX * RAD_2_DEG;
     }
   }
 
@@ -82,7 +81,6 @@ export default function createControls(canvas, camera, {
 
     const deltaZoomDistance = targetZoomDistance - camera.position.z;
     camera.translateZ(deltaZoomDistance * dt * zoomSpeed);
-    camera.updateMatrixWorld();
   }
 
   return {

@@ -3,7 +3,6 @@ import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import THREE from 'three';
-import sinon from 'sinon';
 
 
 describe('controls', () => {
@@ -19,18 +18,13 @@ describe('controls', () => {
   let camera;
 
   const cameraTestConfig = {
-    cameraMoveSpeed: 1,
     startingWorldDistance: 300,
-    startingZoomDistance: 30
+    startingZoomDistance: 30,
+    cameraMoveSpeed: 1,
+    zoomSpeed: 2
   };
 
   beforeEach(() => {
-    onMouseLeave = sinon.stub();
-    onMouseWheel = sinon.stub();
-    onMouseDown = sinon.stub();
-    onMouseMove = sinon.stub();
-    onMouseUp = sinon.stub();
-
     createControls = proxyquire('in-components/graphView/components/Controls', {
       'in-map/src/timeCalculations': {
         getDeltaTime: () => 0.5
@@ -102,17 +96,18 @@ describe('controls', () => {
     expect(camera.position.z).to.equal(30);
 
     onMouseWheel.emit({
-      scrollSpeed: 1,
+      scrollSpeed: 10,
       scrollDirection: 1
     });
     controls.update();
 
-    expect(camera.position.z).to.equal(30.5);
+    // the speed is 2 and dt is 0.5, so it should be at the goal in one update
+    expect(camera.position.z).to.equal(40);
 
     controls.dispose();
   });
 
-  it('should zoom out when zoom is called', () => {
+  it('should rotate when panning', () => {
     controls = createControls(null, camera, cameraTestConfig);
     expect(camera.position.z).to.equal(30);
 
