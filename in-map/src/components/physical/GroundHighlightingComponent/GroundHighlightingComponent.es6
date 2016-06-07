@@ -97,11 +97,11 @@ export default class GroundHighlightingComponent extends Component {
   }
 
   show() {
-    this.sceneObject.scene.groundSMF.addFragment(this.fragment);
+    this.sceneObject.getFactory('groundSMF').addFragment(this.fragment);
   }
 
   hide() {
-    this.sceneObject.scene.groundSMF.removeFragment(this.id);
+    this.sceneObject.getFactory('groundSMF').removeFragment(this.id);
   }
 
   dispose() {

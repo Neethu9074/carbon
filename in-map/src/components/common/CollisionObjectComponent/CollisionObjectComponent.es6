@@ -16,7 +16,7 @@ export default class CollisionObjectComponent extends Component {
     collisionObject.isEnabled = true;
     this.collisionObject = collisionObject;
 
-    sceneObject.scene.addCollisionObject(collisionObject, layer);
+    sceneObject.addCollisionObject(collisionObject, layer);
 
     this.initialized();
 
@@ -53,9 +53,8 @@ export default class CollisionObjectComponent extends Component {
     object.updateMatrix();
     object.updateMatrixWorld();
 
-    const scene = this.sceneObject.scene;
-    scene.removeCollisionObject(this.collisionObject, this.layer);
-    scene.addCollisionObject(this.collisionObject, this.layer);
+    this.sceneObject.removeCollisionObject(this.collisionObject, this.layer);
+    this.sceneObject.addCollisionObject(this.collisionObject, this.layer);
 
     this.needsUpdate = false;
   }
@@ -64,7 +63,7 @@ export default class CollisionObjectComponent extends Component {
     super.dispose();
 
     this.collisionObject.isEnabled = false;
-    this.sceneObject.scene.removeCollisionObject(this.collisionObject, this.layer);
+    this.sceneObject.removeCollisionObject(this.collisionObject, this.layer);
 
     this.positionToSet.dispose();
     this.scaleToSet.dispose();

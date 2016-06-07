@@ -82,11 +82,11 @@ export default class BaseHighlightingComponent extends Component {
   }
 
   show() {
-    this.sceneObject.scene.lineSMF.addFragment(this.fragment);
+    this.sceneObject.getFactory('lineSMF').addFragment(this.fragment);
   }
 
   hide() {
-    this.sceneObject.scene.lineSMF.removeFragment(this.id);
+    this.sceneObject.getFactory('lineSMF').removeFragment(this.id);
   }
 
   dispose() {

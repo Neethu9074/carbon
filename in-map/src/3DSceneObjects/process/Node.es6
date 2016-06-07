@@ -76,6 +76,7 @@ export default class Node extends SceneObjectWithSnapshot {
   initComponents() {
     super.initComponents();
 
+    const factory = this.getFactory('solidSMF');
     const components = this.components;
     const sceneObject = this;
 
@@ -89,7 +90,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory: this.scene.solidSMF
+      factory
     });
 
     // add the collision component to handle the collision box
@@ -111,7 +112,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory: this.scene.solidSMF
+      factory
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
 

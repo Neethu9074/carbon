@@ -17,7 +17,7 @@ describe('3D map', () => {
     sceneObject = {
       eventEmitter: new RoEmitter(),
       positionChanged: sinon.stub(),
-      scene: {renderScene: sinon.stub()}
+      renderScene: sinon.stub()
     };
     sceneObject.eventEmitter.on('positionChanged').subscribe(positionChanged);
     component = new PositionComponent({sceneObject});

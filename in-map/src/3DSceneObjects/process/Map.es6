@@ -1,10 +1,12 @@
+import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
+import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
+import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
 import CameraController from 'in-map/src/controls/process/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/process/GroundPlane';
+import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
+import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
+import Node from 'in-map/src/3DSceneObjects/process/Node';
 import {find} from 'in-services/arrayUtils';
-
-import BaseMap from '../common/Map';
-import Layouter from './Layouter';
-import Node from './Node';
 
 
 export default class Map extends BaseMap {
@@ -17,6 +19,19 @@ export default class Map extends BaseMap {
 
   init() {
     this.nodes = [];
+  }
+
+  setupFactories() {
+    const factories = this.factories;
+    const scene = this.parent;
+
+    factories.solidSMF = new SingleMeshFactory({scene});
+    factories.solidSMF.material.transparent = false;
+    factories.solidSMF.material.opacity = 0.3;
+
+    factories.lineSMF = new SingleMeshLineFactory({scene});
+
+    factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory({scene});
   }
 
   getGroundPlane() {

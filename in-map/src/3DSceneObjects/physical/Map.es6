@@ -1,12 +1,20 @@
-import {find, remove} from 'lodash';
+import {remove} from 'lodash';
+import THREE from 'three';
 
-import CameraController from 'in-map/src/controls/physical/CameraController';
-
+import FadeByDistanceSingleMeshFactory from 'in-map/src/SingleMeshFactory/FadeByDistanceSingleMeshFactory';
+import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
+import SingleMeshMetricFactory from 'in-map/src/SingleMeshFactory/SingleMeshMetricFactory';
+import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import {getAllNodes, getAllGroups} from 'in-map/src/3DSceneObjects/physical/mapUtils';
+import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
+import CameraController from 'in-map/src/controls/physical/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
 import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
+import {activeMetric} from 'in-services/stores/metrics';
+import * as snapshotStore from 'in-stores/snapshot';
+import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/eventbus';
 
 
@@ -17,15 +25,64 @@ export default class Map extends BaseMap {
   }
 
   init() {
+    this.activeMetric = null;
     this.groups = [];
+  }
+
+  setupFactories() {
+    const factories = this.factories;
+    const scene = this.parent;
+
+    factories.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
+
+    factories.groundSMF = new SingleMeshFactory({scene});
+    factories.groundSMF.material.transparent = true;
+    factories.groundSMF.material.opacity = 0.3;
+
+    factories.highlightingSMF = new FadeByDistanceSingleMeshFactory({scene, renderOrder: 3});
+
+    factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory({scene, renderOrder: 3});
+
+    factories.solidSMF = new SingleMeshFactory({scene, renderOrder: 3});
+    factories.solidSMF.material.opacity = 0.3;
+
+    factories.layerSMF = new SingleMeshFactory({scene});
+    factories.layerSMF.material.opacity = 0.3;
+    factories.layerSMF.material.transparent = false;
+    factories.layerSMF.material.color = new THREE.Color(0.85, 0.85, 0.85);
+
+    factories.lineSMF = new SingleMeshLineFactory({scene});
+
+    factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory({scene});
+
+    factories.baselineSMF = new SingleMeshLineFactory({scene});
+    factories.baselineSMF.material.transparent = true;
   }
 
   registerEvents() {
     super.registerEvents();
 
-    this.addSubscription(eventBus.on('flyToEntity').subscribe(entity => {
-      this.controller.flyToObject(entity);
-    }));
+    this.addSubscriptions([
+      eventBus.on('flyToEntity').subscribe(entity => this.controller.flyToObject(entity)),
+
+      activeMetric.subscribe(metric => {
+        if (metric) {
+          this.activeMetric = metric.get('metrics');
+          this.hideHulls();
+        } else {
+          this.activeMetric = null;
+          this.showHulls();
+        }
+      }),
+
+      snapshotStore.selectedSnapshotId.subscribe(selectedId => selectedId ? this.hideHulls() : this.showHulls())
+    ]);
+
+    this.metricUpdateInterval = setInterval(() => {
+      if (this.activeMetric) {
+        this.factories.singleMeshMetricFactory.updateHeights();
+      }
+    }, 1000);
   }
 
   getGroundPlane() {
@@ -61,6 +118,24 @@ export default class Map extends BaseMap {
     super.onInventoryUpdated(inventory);
     this.removeVanishedHosts(inventory);
     this.layoutNeedsUpdate();
+  }
+
+  hideHulls() {
+    const factories = this.factories;
+    factories.layerSMF.material.transparent = true;
+    factories.layerSMF.material.depthWrite = false;
+    factories.baselineSMF.material.opacity = 0.3;
+    factories.solidSMF.material.transparent = true;
+  }
+
+  showHulls() {
+    if (!this.activeMetric) {
+      const factories = this.factories;
+      factories.layerSMF.material.transparent = false;
+      factories.layerSMF.material.depthWrite = true;
+      factories.baselineSMF.material.opacity = 1;
+      factories.solidSMF.material.transparent = false;
+    }
   }
 
   getOrCreateGroup(groupEntity) {
@@ -136,7 +211,13 @@ export default class Map extends BaseMap {
   }
 
   dispose() {
+    // make shure that there is no update incoming until disposing
+    clearInterval(this.metricUpdateInterval);
+    this.metricUpdateInterval = null;
+
     super.dispose();
+
+    this.activeMetric = null;
 
     // groups are disposing themselves if there is no cube inside anymore
     this.groups = [];

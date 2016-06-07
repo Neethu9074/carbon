@@ -26,16 +26,26 @@ describe('3D map', () => {
     global.window.location.href = 'https://test-instana.instana.io';
     sceneObject = {eventEmitter: new RoEmitter()};
 
-    currentScene.emit({
-      addCollisionObject: sinon.stub(),
-      layerSMF: {
-        addFragment: sinon.stub(),
-        removeFragment: sinon.stub()
-      },
-      highlightingSMF: {
-        addFragment: sinon.stub(),
-        removeFragment: sinon.stub()
+    const layerSMF = {
+      addFragment: sinon.stub(),
+      removeFragment: sinon.stub()
+    };
+
+    const highlightingSMF = {
+      addFragment: sinon.stub(),
+      removeFragment: sinon.stub()
+    };
+
+    sceneObject.getFactory = name => {
+      if (name === 'layerSMF') {
+        return layerSMF;
+      } else if (name === 'highlightingSMF') {
+        return highlightingSMF;
       }
+    };
+
+    currentScene.emit({
+      addCollisionObject: sinon.stub()
     });
 
     const LayerComponent = proxyquire('./LayerComponent.es6', {

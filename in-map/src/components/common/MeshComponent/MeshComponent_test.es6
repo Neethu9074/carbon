@@ -15,7 +15,7 @@ describe('3D map', () => {
     sceneObject = {
       eventEmitter: new RoEmitter(),
       positionChanged: sinon.stub(),
-      scene: { renderScene: sinon.stub() }
+      renderScene: sinon.stub()
     };
     component = new MeshComponent({
       sceneObject,

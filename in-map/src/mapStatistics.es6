@@ -23,6 +23,12 @@ export function getMapStatistics(scene) {
 
   const allDetailSec = detailLevels.low + detailLevels.mid + detailLevels.max;
   window.instana.dev.mapStatistics = () => {
+    const factories = {};
+    Object.keys(map.factories).map(key => {
+      const factory = map.factories[key];
+      factories[key] = factory.numberUpdates | 0;
+    });
+
     return {
       seconds: time.getBigBangTime() | 0,
       renderStats: {
@@ -43,12 +49,7 @@ export function getMapStatistics(scene) {
         '#groups': getAllGroups(map).length,
         '#nodes': getAllNodes(map).length,
         '#layer': getAllLayer(map).length,
-        factories: {
-          highlight: scene.highlightingSMF.numberUpdates | 0,
-          metrics: scene.singleMeshMetricFactory.numberUpdates | 0,
-          ground: scene.groundSMF.numberUpdates | 0,
-          layer: scene.layerSMF.numberUpdates | 0
-        },
+        factories,
         details: {
           low: String(((detailLevels.low / allDetailSec) * 100) | 0) + '%',
           mid: String(((detailLevels.mid / allDetailSec) * 100) | 0) + '%',

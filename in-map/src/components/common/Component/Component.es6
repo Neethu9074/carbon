@@ -54,7 +54,7 @@ export default class Component extends Subscriber {
   handleComponentTimeEvent() {
     if (this.needsUpdate) {
       this.update();
-      this.sceneObject.scene.renderScene();
+      this.sceneObject.renderScene();
     }
   }
 
