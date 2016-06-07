@@ -22,6 +22,13 @@ export default class Connection extends BaseConnection {
     );
   }
 
+  init() {
+    this.lineSMF = this.parent.getFactory('lineSMF');
+    this.solidSMF = this.parent.getFactory('solidSMF');
+
+    super.init();
+  }
+
   setupGeometry() {
     this.lineFragment = {
       id: this.id,
@@ -42,13 +49,13 @@ export default class Connection extends BaseConnection {
 
   updateGeometry() {
     this.lineFragment.contentProvider.setLines(this.getLineVertices(this.sourceNode, this.destinationNode));
-    this.scene.lineSMF.addFragment(this.lineFragment);
+    this.lineSMF.addFragment(this.lineFragment);
 
     const from = this.direction === DIRECTIONS.OUT ? this.sourceNode : this.destinationNode;
     const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
     this.arrowFragment.contentProvider.setFromTo(from.getComponent('position').getPosition().clone(),
                                                  to.getComponent('position').getPosition().clone());
-    this.scene.solidSMF.addFragment(this.arrowFragment);
+    this.solidSMF.addFragment(this.arrowFragment);
   }
 
   calculatePath(fromPos, toPos) {
@@ -80,8 +87,8 @@ export default class Connection extends BaseConnection {
     this.arrowFragment.contentProvider.setColor(color);
 
     // refreshes the fragment
-    this.scene.lineSMF.addFragment(this.lineFragment);
-    this.scene.solidSMF.addFragment(this.arrowFragment);
+    this.lineSMF.addFragment(this.lineFragment);
+    this.solidSMF.addFragment(this.arrowFragment);
   }
 
   getTooltipLine() {
@@ -90,8 +97,8 @@ export default class Connection extends BaseConnection {
 
   dispose() {
     // remove fragment first to save the id
-    this.scene.lineSMF.removeFragment(this.id);
-    this.scene.solidSMF.removeFragment(this.id);
+    this.lineSMF.removeFragment(this.id);
+    this.solidSMF.removeFragment(this.id);
 
     super.dispose();
 

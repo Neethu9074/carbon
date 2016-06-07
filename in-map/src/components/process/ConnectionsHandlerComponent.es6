@@ -24,6 +24,10 @@ export default class ConnectionsHandlerComponent extends BaseConnectionsHandlerC
     return new Connection(config);
   }
 
+  getFactory(name) {
+    return this.sceneObject.getFactory(name);
+  }
+
   setupBubbles() {
     const connections = this.connections;
     connections.forEach(connection => {
