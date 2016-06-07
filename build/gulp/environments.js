@@ -8,6 +8,13 @@ module.exports = {
     tenantUnit: 'test',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
+  nightly: {
+    uiBackendUrl: 'https://nightly-instana.instana.io/api/data/',
+    groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'nightly',
+    groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+  },
   local: {
     uiBackendUrl: 'http://localhost:8082/',
     groundskeeperUrl: 'http://localhost:8280',
