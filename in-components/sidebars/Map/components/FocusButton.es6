@@ -67,7 +67,11 @@ export default connectTo({
     }
 
     return (
-      <Tooltip content={tooltip}>
+      <Tooltip content={this.wrapTooltipElement(tooltip)}
+               align={{
+                 horizontal: 'right',
+                 vertical: 'middle'
+               }}>
         <Icon className={classes}
               type='relocate' />
       </Tooltip>
@@ -79,5 +83,13 @@ export default connectTo({
       .once(highlightedId => {
         eventBus.emit('focusEntityId', highlightedId);
       });
+  },
+
+  wrapTooltipElement(txt) {
+    return (
+      <span className={block + '__tooltip'}>
+        {txt}
+      </span>
+    );
   }
 }));
