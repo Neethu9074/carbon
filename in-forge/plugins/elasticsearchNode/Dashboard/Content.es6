@@ -11,6 +11,7 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+import NodeSummary from '../NodeSummary.es6';
 
 const chartHeight = 200;
 
@@ -28,6 +29,9 @@ const ElasticsearchDashboard = React.createClass({
 
     return (
       <div>
+      <DashboardSection title='Summary'>
+      <NodeSummary snapshot={snapshot}/>
+      </DashboardSection>
         <DashboardSection title='Total Documents'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
