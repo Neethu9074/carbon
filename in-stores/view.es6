@@ -1,6 +1,5 @@
 import * as ro from 'reactive-observables';
 
-import createIsMonitoringObservable from 'in-services/subscription/isMonitoring';
 import {getProcessViewStructureObservable} from 'in-stores/processViewDummyData';
 import createViewStructureObservable from 'in-services/subscription/view';
 
@@ -44,12 +43,6 @@ export const viewStructure = createTrackingStore({
       return createViewStructureObservable({viewType, time: focusedMoment});
     })
 }).observable;
-
-
-export const isMonitoring = createTrackingStore({
-  name: 'isMonitoring',
-  observable: createIsMonitoringObservable()
-}).observable.distinct();
 
 
 export function setView(newActiveView) {
