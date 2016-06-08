@@ -1,72 +1,42 @@
-import irpt from 'react-immutable-proptypes';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {KpiSummary, KpiHeading, KpiKeyValue} from 'in-components/KpiSummary';
 import MetricValue from 'in-components/MetricValue';
-
 import {
   withSiPrefixZeroDecimalPlaces,
   withSiPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
 
-import './NodeSummary.less';
+export default function NodeSummary({snapshot}) {
+  const snapshotId = snapshot.get('id');
 
-const block = 'in-es-node-summary';
+  return (
+    <KpiSummary>
+      <KpiHeading>{snapshot.getIn(['data', 'node.name'])}</KpiHeading>
 
-export default React.createClass({
+      <KpiKeyValue label='Indices'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='indices_count'
+                     formatter={withSiPrefixZeroDecimalPlaces} />
+      </KpiKeyValue>
 
-  displayName: '',
+      <KpiKeyValue label='Active Shards'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='shards.node_active_shards'
+                     formatter={withSiPrefixZeroDecimalPlaces} />
+      </KpiKeyValue>
 
-  mixins: [
-    PureRenderMixin
-  ],
+      <KpiKeyValue label='Documents'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='indices.document_count'
+                     formatter={withSiPrefixThreeDecimalPlaces} />
+      </KpiKeyValue>
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-
-    const data = this.props.snapshot.get('data');
-    const snapshotId = this.props.snapshot.get('id');
-
-    return (
-      <table>
-        <tr>
-          <td className={block + '-name'}><span>{data.get('node.name')}</span></td>
-          <td  className={block + '-cell'}>
-            <span className={block + '-heading'}>Indices</span>
-            <br/>
-            <MetricValue snapshotId={snapshotId}
-                         metric='indices_count'
-                         formatter={withSiPrefixZeroDecimalPlaces}
-                         className={block + '-value'}/>
-          </td>
-          <td className={block + '-cell'}>
-            <span className={block + '-heading'}>Active Shards</span>
-            <br/>
-            <MetricValue snapshotId={snapshotId}
-                         metric='shards.node_active_shards'
-                         formatter={withSiPrefixZeroDecimalPlaces}
-                         className={block + '-value'}/>
-          </td>
-          <td className={block + '-cell'}>
-            <span className={block + '-heading'}>Documents</span>
-            <br/>
-            <MetricValue snapshotId={snapshotId}
-                         metric='indices.document_count'
-                         formatter={withSiPrefixThreeDecimalPlaces}
-                         className={block + '-value'}/>
-          </td>
-          <td className={block + '-cell'}>
-            <span className={block + '-heading'}>Size of Store</span>
-            <br/>
-            <MetricValue snapshotId={snapshotId}
-                         metric='indices.store_size'
-                         formatter={withSiPrefixThreeDecimalPlaces}
-                         className={block + '-value'}/>
-          </td>
-        </tr>
-      </table>
-    );
-  }});
+      <KpiKeyValue label='Size of Store'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='indices.store_size'
+                     formatter={withSiPrefixThreeDecimalPlaces} />
+      </KpiKeyValue>
+    </KpiSummary>
+  );
+}

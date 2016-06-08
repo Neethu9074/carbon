@@ -1,0 +1,6 @@
+{
+  "name": "KpiSummary",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./KpiSummary.es6"
+}

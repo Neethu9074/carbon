@@ -1,80 +1,49 @@
-import irpt from 'react-immutable-proptypes';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {KpiSummary, KpiHeading, KpiKeyValue} from 'in-components/KpiSummary';
 import MetricValue from 'in-components/MetricValue';
-
 import {
   withSiPrefixZeroDecimalPlaces,
   withSiPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
 
-import './ClusterSummary.less';
 
-const block = 'in-es-cluster-summary';
+export default function ClusterSummary({snapshot}) {
+  const snapshotId = snapshot.get('id');
 
-export default React.createClass({
+  return (
+    <KpiSummary>
+      <KpiHeading>{snapshot.getIn(['data', 'groupId'])}</KpiHeading>
 
-  displayName: '',
+      <KpiKeyValue label='Nodes'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='node_count'
+                     formatter={withSiPrefixZeroDecimalPlaces} />
+      </KpiKeyValue>
 
-  mixins: [
-    PureRenderMixin
-  ],
+      <KpiKeyValue label='Indices'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='indices_count'
+                     formatter={withSiPrefixZeroDecimalPlaces} />
+      </KpiKeyValue>
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+      <KpiKeyValue label='Active Shards'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='active_shards_count'
+                     formatter={withSiPrefixZeroDecimalPlaces} />
+      </KpiKeyValue>
 
-  render() {
+      <KpiKeyValue label='Documents'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='document_count'
+                     formatter={withSiPrefixThreeDecimalPlaces} />
+      </KpiKeyValue>
 
-    const data = this.props.snapshot.get('data');
-    const snapshotId = this.props.snapshot.get('id');
-
-    return (
-      <table>
-        <tr>
-          <td className={block + '-name'}><span>{data.get('groupId')}</span></td>
-          <td className={block + '-cell'}>
-            <span className={block + '-heading'}>Nodes</span>
-                  <br/>
-                  <MetricValue snapshotId={snapshotId}
-                               metric='node_count'
-                               formatter={withSiPrefixZeroDecimalPlaces}
-                               className={block + '-value'}/>
-          </td>
-          <td  className={block + '-cell'}>
-            <span className={block + '-heading'}>Indices</span>
-            <br/>
-            <MetricValue snapshotId={snapshotId}
-                         metric='indices_count'
-                         formatter={withSiPrefixZeroDecimalPlaces}
-                         className={block + '-value'}/>
-          </td>
-          <td className={block + '-cell'}>
-            <span className={block + '-heading'}>Active Shards</span>
-            <br/>
-            <MetricValue snapshotId={snapshotId}
-                         metric='active_shards_count'
-                         formatter={withSiPrefixZeroDecimalPlaces}
-                         className={block + '-value'}/>
-          </td>
-          <td className={block + '-cell'}>
-            <span className={block + '-heading'}>Documents</span>
-            <br/>
-            <MetricValue snapshotId={snapshotId}
-                         metric='document_count'
-                         formatter={withSiPrefixThreeDecimalPlaces}
-                         className={block + '-value'}/>
-          </td>
-          <td className={block + '-cell'}>
-            <span className={block + '-heading'}>Size of Store</span>
-            <br/>
-            <MetricValue snapshotId={snapshotId}
-                         metric='store_size'
-                         formatter={withSiPrefixThreeDecimalPlaces}
-                         className={block + '-value'}/>
-          </td>
-        </tr>
-      </table>
-    );
-  }});
+      <KpiKeyValue label='Size of Store'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='store_size'
+                     formatter={withSiPrefixThreeDecimalPlaces} />
+      </KpiKeyValue>
+    </KpiSummary>
+  );
+}
