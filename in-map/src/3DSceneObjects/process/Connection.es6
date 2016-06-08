@@ -23,6 +23,7 @@ export default class Connection extends BaseConnection {
     );
 
     this.bubbles = new Bubbles(this);
+    this.bubbles.startAnimation();
   }
 
   init() {
@@ -30,14 +31,6 @@ export default class Connection extends BaseConnection {
     this.solidSMF = this.parent.getFactory('solidSMF');
 
     super.init();
-  }
-
-  startAnimation() {
-    this.bubbles.startAnimation();
-  }
-
-  stopAnimation() {
-    this.bubbles.stopAnimation();
   }
 
   setupGeometry() {

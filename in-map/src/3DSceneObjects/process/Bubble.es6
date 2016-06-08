@@ -5,7 +5,7 @@ import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
 
 
-const BUBBLE_SIZE = 0.15;
+const BUBBLE_SIZE = 0.1;
 const BUBBLE_DETAILS = 10;
 const WHITE_COLOR = {r: 1, g: 1, b: 1};
 
