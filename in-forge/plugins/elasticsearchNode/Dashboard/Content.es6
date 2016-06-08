@@ -146,6 +146,31 @@ const ElasticsearchDashboard = React.createClass({
                              type: 'stackedArea'
                            }}/>
         </DashboardSection>
+        <DashboardSection title='Rejected Threads'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           maergins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'threads.search_rejected',
+                               'threads.index_rejected',
+                               'threads.bulk_rejected',
+                               'threads.get_rejected'
+                             ],
+                             labels: [
+                               'Search',
+                               'Index',
+                               'Bulk',
+                               'Get'
+                             ],
+                             formatter: zeroDecimalPlaces,
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
         <DashboardSection title='Queued Threads'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
