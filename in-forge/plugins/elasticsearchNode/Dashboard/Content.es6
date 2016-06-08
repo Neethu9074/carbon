@@ -29,9 +29,10 @@ const ElasticsearchDashboard = React.createClass({
 
     return (
       <div>
-      <DashboardSection title='Summary'>
-      <NodeSummary snapshot={snapshot}/>
-      </DashboardSection>
+        <DashboardSection title='Summary'>
+          <NodeSummary snapshot={snapshot}/>
+        </DashboardSection>
+
         <DashboardSection title='Total Documents'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}

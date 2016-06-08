@@ -1,7 +1,7 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {closeMenu} from 'in-components/AccountMenu/accountMenuStore';
+import {setSettingsVisibility} from 'in-stores/settings/visibility';
 import {isProductionEnvironment} from 'in-services/config';
 import {showReleaseNotes} from 'in-stores/releaseNotes';
 
@@ -9,48 +9,40 @@ import './MenuFooter.less';
 
 const block = 'in-menu-footer';
 
-const MenuFooter = React.createClass({
-  mixins: [
-    PureRenderMixin
-  ],
+export default function MenuFooter() {
+  return (
+    <div className={block}>
 
-  propTypes: {
-    onClick: React.PropTypes.func
-  },
-
-  render() {
-
-    return (
-      <div className={block}>
-
-        <div onClick={this.props.onClick}
-             className={block + '__settings'}>
-          Settings
-        </div>
-
-        <div onClick={this.onClickReleaseNotes}
-             className={block + '__release-notes'}>
-          Release Notes
-        </div>
-
-
-        {isProductionEnvironment() ?
-          <form action='/auth/signOut' method='post'>
-            <button type='submit'
-                    className={block + '__signout'}>
-              Logout
-            </button>
-          </form>
-        : null}
-
+      <div onClick={onClickSettings}
+           className={block + '__settings'}>
+        Settings
       </div>
-    );
-  },
 
-  onClickReleaseNotes() {
-    showReleaseNotes();
-    closeMenu();
-  }
-});
+      <div onClick={onClickReleaseNotes}
+           className={block + '__release-notes'}>
+        Release Notes
+      </div>
 
-export default MenuFooter;
+
+      {isProductionEnvironment() ?
+        <form action='/auth/signOut' method='post'>
+          <button type='submit'
+                  className={block + '__signout'}>
+            Logout
+          </button>
+        </form>
+      : null}
+
+    </div>
+  );
+}
+
+function onClickReleaseNotes() {
+  showReleaseNotes();
+  closeMenu();
+}
+
+function onClickSettings() {
+  setSettingsVisibility(true);
+  closeMenu();
+}

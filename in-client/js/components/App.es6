@@ -8,25 +8,19 @@ import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
 import SidebarIncidents from 'in-components/sidebars/Incident';
+import ConnectionStatus from 'in-components/ConnectionStatus';
 import MaintenanceNote from 'in-components/MaintenanceNote';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import SidebarMap from 'in-components/sidebars/Map';
 import Filterbar from 'in-components/Filterbar';
 import AppHeader from 'in-components/AppHeader';
+import Settings from 'in-components/Settings';
 import {isMonitoring} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import Map from 'in-map';
 
-import ConnectionStatus from './ConnectionStatus';
-import Settings from './Settings';
-
-import {
-  notMonitoringDialogShown$,
-  setSettingsVisibility,
-  notMonitoringWasShown,
-  showSettings$
-} from './appStores';
+import {notMonitoringDialogShown$, notMonitoringWasShown} from './appStores';
 
 import './App.less';
 
@@ -36,7 +30,6 @@ const rpt = React.PropTypes;
 export default
   connectTo({
     notMonitoringDialogShown: notMonitoringDialogShown$,
-    showSettings: showSettings$,
     isMonitoring
   },
   React.createClass({
@@ -49,7 +42,6 @@ export default
 
     propTypes: {
       notMonitoringDialogShown: rpt.bool,
-      showSettings: rpt.bool,
       isMonitoring: rpt.bool,
       children: rpt.any
     },
@@ -76,9 +68,7 @@ export default
 
       return (
         <div>
-          {this.props.showSettings ? <Settings showMenu={setSettingsVisibility}/> : null }
-
-          <AppHeader showSettingsMenu={setSettingsVisibility}/>
+          <AppHeader />
 
           <section style={{display: hasChildren ? 'none' : 'block'}}>
             <Map />
@@ -92,6 +82,7 @@ export default
 
           {this.props.children}
 
+          <Settings />
           <ReleaseNotesDialog />
           <MessageDialog />
           <HelpPresenter />
