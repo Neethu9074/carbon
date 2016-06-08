@@ -1,17 +1,25 @@
 /* eslint-disable complexity */
 
+import {nodes$} from 'in-map/src/3DSceneObjects/process/processViewStores';
+
+
 export default class FruchtermanReingoldLayout {
 
-  constructor() {
+  constructor(map) {
     this.iterations =  1000;
     this.gravity =  200;
     this.speed =  0.1;
+    this.map = map;
+
+    this.nodesSubscription = nodes$
+      .debounce(100)
+      .subscribe(() => this.applyLayout());
   }
 
-  applyLayout(map) {
-    const sigmaGraph = this.buildSigmaGraphStructure(map);
+  applyLayout() {
+    const sigmaGraph = this.buildSigmaGraphStructure(this.map);
     this.start(sigmaGraph);
-    this.applyPositionUpdate(map, sigmaGraph);
+    this.applyPositionUpdate(this.map, sigmaGraph);
   }
 
   buildSigmaGraphStructure(map) {
@@ -188,5 +196,10 @@ export default class FruchtermanReingoldLayout {
 
       node.inNode.getComponent('position').setPosition(node.fr_x * 2, 0, node.fr_y * 2);
     });
+  }
+
+  dispose() {
+    this.nodesSubscription.dispose();
+    this.nodesSubscription = null;
   }
 }

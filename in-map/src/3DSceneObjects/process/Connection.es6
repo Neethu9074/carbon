@@ -16,11 +16,16 @@ export default class Connection extends BaseConnection {
   constructor(params) {
     super(params);
 
-    // subscribe to both snapshots to caluclate the color gradient between source and destination
-    this.addSubscription(
-       combineLatest([getSnapshot(this.sourceNode.id), getSnapshot(this.destinationNode.id)])
-      .subscribe(snapshots => this.setColorFromSnapshots(snapshots[0], snapshots[1]))
-    );
+    this.addSubscriptions([
+      // subscribe to both snapshots to caluclate the color gradient between source and destination
+      combineLatest([getSnapshot(this.sourceNode.id), getSnapshot(this.destinationNode.id)])
+        .subscribe(snapshots => this.setColorFromSnapshots(snapshots[0], snapshots[1])),
+
+      combineLatest([
+        this.sourceNode.eventEmitter.on('positionChanged'),
+        this.destinationNode.eventEmitter.on('positionChanged')
+      ]).subscribe(() => this.updateGeometry())
+    ]);
 
     this.bubbles = new Bubbles(this);
     this.bubbles.startAnimation();

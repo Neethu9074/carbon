@@ -17,7 +17,7 @@ export default class Map extends BaseMap {
   constructor({parent}) {
     super({parent, id: 'ProcessMap'});
 
-    this.layouter = new Layouter();
+    this.layouter = new Layouter(this);
   }
 
   init() {
@@ -97,7 +97,6 @@ export default class Map extends BaseMap {
     });
 
     this.removeUnusedNodes();
-    this.layoutNeedsUpdate();
   }
 
   removeUnusedNodes() {
@@ -143,9 +142,7 @@ export default class Map extends BaseMap {
     parent.nodes.forEach(child => this.getNodes(child, nodes));
   }
 
-  applyLayout() {
-    this.layouter.applyLayout(this);
-  }
+  applyLayout() {}
 
   removeChild() {
     // not needed to implement this because nodes and connections are removed in different ways
@@ -153,12 +150,14 @@ export default class Map extends BaseMap {
   }
 
   dispose() {
+    this.layouter.dispose();
+    this.layouter = null;
+
     this.forEachConnection(connection => connection.dispose());
     this.edges = null;
 
     super.dispose();
 
-    this.layouter = null;
     this.nodes = null;
   }
 }

@@ -1,7 +1,7 @@
 import * as ro from 'reactive-observables';
 
 import {selectedSnapshotId, getHighlightedMapEntity} from 'in-stores/snapshot';
-import {createStore, createTrackingStore} from 'in-stores/store';
+import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 
@@ -27,25 +27,3 @@ export const selectedSnapshotIdForHighlightingInMap = createTrackingStore({
       return getHighlightedMapEntity(snapshotId);
     })
 }).observable;
-
-
-const processViewNodes = createStore({
-  name: 'processViewNodeIdsStore',
-  initialValue: {}
-});
-
-export const processViewNodes$ = processViewNodes.observable;
-
-export function addNode(node) {
-  processViewNodes.applyStateMutation(nodes => {
-    nodes[node.id] = node;
-    return nodes;
-  });
-}
-
-export function removeNode(node) {
-  processViewNodes.applyStateMutation(nodes => {
-    nodes[node.id] = undefined;
-    return nodes;
-  });
-}

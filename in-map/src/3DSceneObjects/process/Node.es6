@@ -18,8 +18,8 @@ import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentPro
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import {addNode, removeNode} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import {addNode, removeNode} from 'in-map/src/mapStores';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 
 
@@ -155,19 +155,11 @@ export default class Node extends SceneObjectWithSnapshot {
         entity
       };
     });
-
-    this.layoutNeedsUpdate();
   }
 
   collapse() {
     this.nodes.forEach(node => node.dispose());
     this.nodes = [];
-
-    this.layoutNeedsUpdate();
-  }
-
-  layoutNeedsUpdate() {
-    this.parent.layoutNeedsUpdate();
   }
 
   setChildren(entities) {

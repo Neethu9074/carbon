@@ -1,8 +1,8 @@
 import immutable from 'immutable';
 
+import {nodes$} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Connection from 'in-map/src/3DSceneObjects/process/Connection';
-import {processViewNodes$} from 'in-map/src/mapStores';
 
 
 export default class Edge {
@@ -14,7 +14,7 @@ export default class Edge {
     this.sourceNode = edge.get('from');
     this.destinationNode = edge.get('to');
 
-    this.visibleSubscription = processViewNodes$.subscribe(currentVisibleNodeIds =>
+    this.visibleSubscription = nodes$.subscribe(currentVisibleNodeIds =>
       this.setVisible(currentVisibleNodeIds[this.sourceNode], currentVisibleNodeIds[this.destinationNode]));
   }
 
