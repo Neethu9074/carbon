@@ -26,6 +26,15 @@ export default class Connection extends BaseConnection {
     this.bubbles.startAnimation();
   }
 
+  onSelectedEnter() {
+    console.log('onSelectedEnter');
+  }
+
+  onSelectedLeave() {
+    console.log('onSelectedLeave');
+  }
+
+
   init() {
     this.lineSMF = this.parent.getFactory('lineSMF');
     this.solidSMF = this.parent.getFactory('solidSMF');

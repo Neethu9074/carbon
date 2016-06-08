@@ -72,7 +72,9 @@ export default class RaycasterModule extends Module {
       if (hoveredConnections.length > 0) {
         currentTooltip.emit(this.connectionTooltip);
         this.connectionTooltip.setHovered(hoveredConnections);
+        setHighlightedEntityId(hoveredConnections[0].id);
       } else {
+        clearHighlightedEntityId();
         currentTooltip.emit(null);
       }
     }

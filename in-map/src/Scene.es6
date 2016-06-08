@@ -319,6 +319,8 @@ export default class Scene {
     // dont reset the click if you clicken on connections
     } else if (hoveredConnections.length === 0) {
       this.resetClicked();
+    } else {
+      setSelectedSnapshotId(hoveredConnections[0].id);
     }
   }
 

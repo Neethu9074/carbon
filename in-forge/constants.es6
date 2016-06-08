@@ -40,5 +40,6 @@ export const plugins = {
   dummyJavaApp: 'dummyJavaApp',
   dummyMysqlSchema: 'dummyMysqlSchema',
   dummyMysqlDb: 'dummyMysqlDb',
-  dummyTomcat: 'dummyTomcat'
+  dummyTomcat: 'dummyTomcat',
+  dummyConnection: 'dummyConnection'
 };

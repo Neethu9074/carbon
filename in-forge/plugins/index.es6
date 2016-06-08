@@ -44,3 +44,4 @@ import './dummyJavaApp';
 import './dummyMysqlSchema';
 import './dummyMysqlDb';
 import './dummyTomcat';
+import './dummyConnection';

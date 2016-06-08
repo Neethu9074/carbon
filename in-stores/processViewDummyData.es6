@@ -25,7 +25,7 @@ function edge(from, to, rel) {
     to: 'process-view__' + to,
     relation: rel,
     type: 'add',
-    id: from + ',' + to + ',' + rel
+    id: 'process-view-connection:' + from + ',' + to + ',' + rel
   };
 }
 
@@ -65,6 +65,8 @@ export function getPlugin(snapshotId) {
     return 'dummyMysqlDb';
   } else if (snapshotId.indexOf('tomcat') !== -1) {
     return 'dummyTomcat';
+  } else if (snapshotId.indexOf('connection') !== -1) {
+    return 'dummyConnection';
   }
 
   throw new Error(`Could not identify plugin for snapshot id ${snapshotId}`);
