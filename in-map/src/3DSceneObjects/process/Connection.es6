@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
+import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
 
@@ -20,6 +21,8 @@ export default class Connection extends BaseConnection {
        combineLatest([getSnapshot(this.sourceNode.id), getSnapshot(this.destinationNode.id)])
       .subscribe(snapshots => this.setColorFromSnapshots(snapshots[0], snapshots[1]))
     );
+
+    this.bubbles = new Bubbles(this);
   }
 
   init() {
@@ -27,6 +30,14 @@ export default class Connection extends BaseConnection {
     this.solidSMF = this.parent.getFactory('solidSMF');
 
     super.init();
+  }
+
+  startAnimation() {
+    this.bubbles.startAnimation();
+  }
+
+  stopAnimation() {
+    this.bubbles.stopAnimation();
   }
 
   setupGeometry() {
@@ -101,6 +112,9 @@ export default class Connection extends BaseConnection {
     this.solidSMF.removeFragment(this.id);
 
     super.dispose();
+
+    this.bubbles.dispose();
+    this.bubbles = null;
 
     this.lineFragment = null;
   }

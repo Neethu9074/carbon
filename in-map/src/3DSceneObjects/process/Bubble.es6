@@ -5,15 +5,15 @@ import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
 
 
-const BUBBLE_SIZE = 0.1;
+const BUBBLE_SIZE = 0.15;
+const BUBBLE_DETAILS = 10;
 const WHITE_COLOR = {r: 1, g: 1, b: 1};
 
 export default class Bubble {
 
-  constructor({scene, from, to}) {
+  constructor({from, to}) {
     this.to = to;
     this.from = from;
-    this.scene = scene;
 
     // the default color if on of the snapshots can't be found
     this.fromColor = this.toColor = WHITE_COLOR;
@@ -25,16 +25,19 @@ export default class Bubble {
     const fromPos = from.getComponent('position').getPosition();
 
     this.bubble = new THREE.Mesh(
-      new THREE.SphereGeometry(BUBBLE_SIZE, 10, 10),
+      new THREE.SphereGeometry(BUBBLE_SIZE, BUBBLE_DETAILS, BUBBLE_DETAILS),
       new THREE.MeshBasicMaterial());
     this.bubble.position.set(fromPos.x - 0.5, fromPos.y, fromPos.z + 0.5);
-    this.scene.addSceneObject(this.bubble);
   }
 
   setColorFromSnapshots(fromSnapshot, toSnapshot) {
     const colorPool = getColorPool('processes');
     this.fromColor = colorPool.getColorRGB(fromSnapshot.get('plugin'));
     this.toColor = colorPool.getColorRGB(toSnapshot.get('plugin'));
+  }
+
+  getSceneObject() {
+    return this.bubble;
   }
 
   update(v) {
@@ -45,6 +48,7 @@ export default class Bubble {
     const dir = toPos.sub(fromPos);
 
     const newPos = fromPos.add(dir.multiplyScalar(v));
+
     this.bubble.position.set(newPos.x - 0.5, newPos.y, newPos.z + 0.5);
     this.bubble.material.color.setRGB(
       this.fromColor.r + ((this.toColor.r - this.fromColor.r) * v),
@@ -54,8 +58,6 @@ export default class Bubble {
   }
 
   dispose() {
-    this.scene.removeSceneObject(this.bubble);
-
     this.snapshotSubscriptions.dispose();
     this.snapshotSubscriptions = null;
 

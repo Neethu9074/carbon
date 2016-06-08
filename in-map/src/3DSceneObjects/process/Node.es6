@@ -42,34 +42,35 @@ export default class Node extends SceneObjectWithSnapshot {
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
   }
 
+  onInitialEnter() {
+    this.getComponent('connectionsHandler').setAnimating(false);
+  }
+
   onHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    this.getComponent('connectionsHandler').startAnimation();
+    this.getComponent('connectionsHandler').setAnimating(true);
   }
 
   onHighlightLeave() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.getComponent('connectionsHandler').stopAnimation();
   }
 
   onSelectedEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    this.getComponent('connectionsHandler').startAnimation();
+    this.getComponent('connectionsHandler').setAnimating(true);
   }
 
   onSelectedLeave() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.getComponent('connectionsHandler').stopAnimation();
   }
 
   onSelectedHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    this.getComponent('connectionsHandler').startAnimation();
+    this.getComponent('connectionsHandler').setAnimating(true);
   }
 
   onSelectedHighlightLeave() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.getComponent('connectionsHandler').stopAnimation();
   }
 
 
@@ -181,7 +182,6 @@ export default class Node extends SceneObjectWithSnapshot {
       }
       this.stickyNote.setNumChildren(entities.size);
     }
-
 
     // TODO: if expanded, add to scene
   }
