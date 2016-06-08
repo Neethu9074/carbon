@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import {getDummySnapshot} from 'in-stores/processViewDummyData';
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
@@ -89,6 +90,11 @@ export function clearSelectedSnapshotId() {
 
 
 export function getSnapshot(snapshotId, time) {
+  // TODO TEMPORARY HACK FOR PROCESS VIEW
+  if (snapshotId.indexOf('process-view') === 0) {
+    return getDummySnapshot(snapshotId);
+  }
+
   if (time === undefined) {
     return focusedMoment$.flatMap(focusedMoment =>
       createSnapshotObservable({snapshotId, time: focusedMoment})

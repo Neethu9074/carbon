@@ -37,3 +37,10 @@ import './genericZone';
 import './unmonitoredHost';
 import './hAProxy';
 import './oracleDB';
+
+
+// TODO TEMPORARY HACK FOR PROCESS VIEW
+import './dummyJavaApp';
+import './dummyMysqlSchema';
+import './dummyMysqlDb';
+import './dummyTomcat';

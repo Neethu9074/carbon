@@ -1,6 +1,7 @@
 import * as ro from 'reactive-observables';
 
 import createIsMonitoringObservable from 'in-services/subscription/isMonitoring';
+import {getProcessViewStructureObservable} from 'in-stores/processViewDummyData';
 import createViewStructureObservable from 'in-services/subscription/view';
 
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
@@ -36,6 +37,10 @@ export const viewStructure = createTrackingStore({
   name: 'viewStructure',
   observable: ro.combineLatest([view, focusedMoment$])
     .flatMap(([viewType, focusedMoment]) => {
+      // TODO TEMPORARY HACK FOR PROCESS VIEW
+      if (viewType === types.process) {
+        return getProcessViewStructureObservable();
+      }
       return createViewStructureObservable({viewType, time: focusedMoment});
     })
 }).observable;
