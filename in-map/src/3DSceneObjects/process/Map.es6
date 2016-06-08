@@ -170,10 +170,10 @@ export default class Map extends BaseMap {
   }
 
   dispose() {
-    super.dispose();
-
     this.forEachConnection(connection => connection.dispose());
     this.connections = null;
+
+    super.dispose();
 
     this.layouter = null;
     this.nodes = null;
