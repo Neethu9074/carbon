@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import Collapsible from 'in-components/Collapsible';
+import KeyValuePopup from 'in-components/KeyValuePopup';
 import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import SpringbootInfo from '../SpringbootInfo';
@@ -16,16 +17,33 @@ const SpringbootSidebar = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
+    const data = this.props.snapshot.get('data');
+    const applicationConfig = data.get('applicationConfig');
+    const ports = data.get('ports');
 
     return (
       <div>
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Spring Boot</Collapsible.Header>
+          <Collapsible.Header>Application Info</Collapsible.Header>
           <Collapsible.Content>
-            <SpringbootInfo snapshot={snapshot} />
+            <SpringbootInfo snapshot={snapshot}/>
+            <KeyValuePopup header='Ports'
+                           data={ports}/>
           </Collapsible.Content>
         </Collapsible>
-        <RunningComponentsList snapshotId={snapshot.get('id')} />
+
+        { applicationConfig ?
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Application Config</Collapsible.Header>
+            <Collapsible.Content>
+              {applicationConfig.map((applicationConfigData, applicationConfigPath) =>
+                  <KeyValuePopup key={applicationConfigPath} header={applicationConfigPath}
+                                 data={applicationConfigData}/>
+              ).valueSeq().toArray()}
+            </Collapsible.Content>
+          </Collapsible>
+          : null }
+        <RunningComponentsList snapshotId={snapshot.get('id')}/>
       </div>
     );
   }
