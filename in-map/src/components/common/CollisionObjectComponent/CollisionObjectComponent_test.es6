@@ -17,15 +17,15 @@ describe('3D map', () => {
       eventEmitter: new RoEmitter(),
       positionChanged: sinon.stub(),
       scene: {
-        addCollisionObject: sinon.stub(),
-        removeCollisionObject: sinon.stub(),
         octrees: [
           {rebuild: sinon.stub()},
           {rebuild: sinon.stub()},
           {rebuild: sinon.stub()}
-        ],
-        renderScene: sinon.stub()
-      }
+        ]
+      },
+      removeCollisionObject: sinon.stub(),
+      addCollisionObject: sinon.stub(),
+      renderScene: sinon.stub()
     };
     collisionObject = new THREE.Mesh(new THREE.BoxGeometry());
     component = new CollisionObjectComponent({
@@ -39,7 +39,7 @@ describe('3D map', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);
-      expect(sceneObject.scene.addCollisionObject.callCount).to.equal(1);
+      expect(sceneObject.addCollisionObject.callCount).to.equal(1);
     });
 
     it('dont call external method until time event was handled', () => {

@@ -1,17 +1,12 @@
-import {find} from 'in-services/arrayUtils';
-
-
 /* eslint-disable complexity */
-const settings = {
-  autoArea: true,
-  area: 1,
-  gravity: 200,
-  speed: 0.1,
-  iterations: 1000
-};
 
 export default class FruchtermanReingoldLayout {
-  constructor() {}
+
+  constructor() {
+    this.iterations =  1000;
+    this.gravity =  200;
+    this.speed =  0.1;
+  }
 
   applyLayout(map) {
     const sigmaGraph = this.buildSigmaGraphStructure(map);
@@ -43,12 +38,17 @@ export default class FruchtermanReingoldLayout {
     let edgeIdCounter = 0;
     graph.nodes.forEach(source => {
       source.inNode.getComponent('connectionsHandler').getOutgoingConnections().forEach(edge => {
-        if (find(graph.nodes, node => node.id === edge.get('sourceId')) &&
-            find(graph.nodes, node => node.id === edge.get('destinationId'))) {
+        const sourceId = edge.get('sourceId');
+        const sourceNode = graph.nodeMap[sourceId];
+
+        const destinationId = edge.get('destinationId');
+        const destinationNode = graph.nodeMap[destinationId];
+
+        if (sourceNode && destinationNode) {
           graph.edges.push({
             id: edgeIdCounter++,
-            source: edge.get('sourceId'),
-            target: edge.get('destinationId')
+            source: sourceId,
+            target: destinationId
           });
         }
       });
@@ -72,7 +72,7 @@ export default class FruchtermanReingoldLayout {
   }
 
   go(graph) {
-    for (let i = 0; i < settings.iterations; i++) {
+    for (let i = 0; i < this.iterations; i++) {
       this.atomicGo(graph);
     }
   }
@@ -95,7 +95,7 @@ export default class FruchtermanReingoldLayout {
     // TODO changed
     const area = (nodesCount * nodesCount);
 
-    const maxDisplace = Math.sqrt(area) / 10;
+    const maxDisplace = nodesCount / 10;
     const k = Math.sqrt(area / (1 + nodesCount));
 
     for (i = 0; i < nodesCount; i++) {
@@ -164,13 +164,13 @@ export default class FruchtermanReingoldLayout {
 
       // Gravity
       d = Math.sqrt(n.fr_x * n.fr_x + n.fr_y * n.fr_y);
-      gf = 0.01 * k * settings.gravity * d;
+      gf = 0.01 * k * this.gravity * d;
       n.fr.dx -= gf * n.fr_x / d;
       n.fr.dy -= gf * n.fr_y / d;
 
       // Speed
-      n.fr.dx *= settings.speed;
-      n.fr.dy *= settings.speed;
+      n.fr.dx *= this.speed;
+      n.fr.dy *= this.speed;
 
       // Apply computed displacement
       if (!n.fixed) {
@@ -179,7 +179,7 @@ export default class FruchtermanReingoldLayout {
         dist = Math.sqrt(xDist * xDist + yDist * yDist);
 
         if (dist > 0) {
-          limitedDist = Math.min(maxDisplace * settings.speed, dist);
+          limitedDist = Math.min(maxDisplace * this.speed, dist);
           n.fr_x += xDist / dist * limitedDist;
           n.fr_y += yDist / dist * limitedDist;
         }
@@ -196,5 +196,4 @@ export default class FruchtermanReingoldLayout {
       node.inNode.getComponent('position').setPosition(node.fr_x * 2, 0, node.fr_y * 2);
     });
   }
-
 }

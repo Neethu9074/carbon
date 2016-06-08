@@ -11,7 +11,7 @@ export default class LineMeshComponent extends Component {
     this.contentProvider = contentProvider;
     this.fragment = {id: this.id, contentProvider};
     this.factory = factory;
-    this.highlightingSMF = sceneObject.scene.lineSMF;
+    this.highlightingSMF = sceneObject.getFactory('lineSMF');
 
     this.positionToSet = new XYZ(-1000, 0, 0);
     this.scaleToSet = new XYZ(1, 1, 1);

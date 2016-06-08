@@ -2,13 +2,12 @@ import THREE from 'three';
 
 import NodesGeometry from 'in-components/graphView/components/NodesGeometry';
 import EdgesGeometry from 'in-components/graphView/components/EdgesGeometry';
-import 'in-components/graphView/components/OrbitControls';
+import createControls from 'in-components/graphView/components/Controls';
 
 
 export default class GraphScene {
   constructor(renderer) {
     this.camera = new THREE.PerspectiveCamera(75, 1, 1, 1000);
-    this.camera.position.z = 30;
     const scene = this.scene = new THREE.Scene();
 
     this.nodesGeometry = new NodesGeometry();
@@ -17,10 +16,16 @@ export default class GraphScene {
     this.edgesGeometry = new EdgesGeometry();
     scene.add(this.edgesGeometry.renderableGeometry());
 
-    const controls = this.controls = new THREE.OrbitControls(this.camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.enableZoom = true;
+    this.controls = createControls(
+      renderer.domElement,
+      this.camera,
+      {
+        cameraMoveSpeed: 4,
+        startingWorldDistance: 0,
+        startingZoomDistance: 30,
+        zoomSpeed: 5
+      }
+    );
   }
 
   resize(width, height) {
@@ -44,9 +49,8 @@ export default class GraphScene {
   }
 
   dispose() {
+    this.controls.dispose();
     this.nodesGeometry.dispose();
     this.edgesGeometry.dispose();
-
-    // TODO dispose controls
   }
 }

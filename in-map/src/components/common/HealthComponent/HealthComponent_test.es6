@@ -35,7 +35,7 @@ describe('3D map', () => {
       }
     };
     sceneObject = {
-      scene: {renderScene: sinon.stub()},
+      renderScene: sinon.stub(),
       eventEmitter: new RoEmitter()
     };
     component = new HealthComponent({sceneObject});

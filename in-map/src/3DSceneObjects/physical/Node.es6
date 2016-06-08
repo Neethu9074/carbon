@@ -134,14 +134,14 @@ export default class Node extends SceneObjectWithSnapshot {
     components.mesh = new MeshComponent({
       sceneObject,
       contentProvider: new CMCM({contentProvider: pcm}),
-      factory: this.scene.fadeByDistanceSMF
+      factory: this.getFactory('fadeByDistanceSMF')
     });
 
     // add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
       sceneObject,
       contentProvider: new CMCM({contentProvider: pcm}),
-      factory: this.scene.highlightingSMF
+      factory: this.getFactory('highlightingSMF')
     });
     components.solidMesh.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
@@ -151,7 +151,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     components.ground = new GroundMeshComponent({
       sceneObject,
-      factory: this.scene.groundSMF,
+      factory: this.getFactory('groundSMF'),
       contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
@@ -162,7 +162,7 @@ export default class Node extends SceneObjectWithSnapshot {
     });
     components.groundLine = new GroundLineMeshComponent({
       sceneObject,
-      factory: this.scene.baselineSMF,
+      factory: this.getFactory('baselineSMF'),
       contentProvider: new PCM({
         contentProvider: new SCM({
           contentProvider: new FCP()

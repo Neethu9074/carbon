@@ -1,11 +1,10 @@
 import {remove, find} from 'lodash';
 
-import {viewStructure} from 'in-stores/view';
-import eventBus from 'in-map/eventbus';
-
 import OrthographicCamera from 'in-map/src/3DSceneObjects/common/OrthographicCamera';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import * as time from 'in-map/src/timeCalculations';
+import {viewStructure} from 'in-stores/view';
+import eventBus from 'in-map/eventbus';
 
 
 export default class Map extends SceneObject {
@@ -30,6 +29,22 @@ export default class Map extends SceneObject {
   onZoom() { throw new Error('PLEASE OVERRIDE METHOD'); }
   init() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
+  initComponents() {
+    // setup the factories before any component has a chance to run into undefined factory
+    this.factories = {};
+    this.setupFactories();
+
+    super.initComponents();
+  }
+
+  getFactory(name) {
+    return this.factories[name];
+  }
+
+  getFactories() {
+    return Object.keys(this.factories).map(key => this.factories[key]);
+  }
+
   handleTimeEvent() {
     // if the flag was set to recalculate the layouting
     if (this.refreshLayout) {
@@ -39,6 +54,8 @@ export default class Map extends SceneObject {
       this.scene.renderScene();
       this.refreshLayout = false;
     }
+
+    this.getFactories().forEach(factory => factory.rebuild());
   }
 
   registerEvents() {
@@ -121,6 +138,8 @@ export default class Map extends SceneObject {
 
     this.groundPlane.dispose();
     this.groundPlane = null;
+
+    this.getFactories().forEach(factory => factory.dispose());
 
     this.refreshLayout = null;
     this.parent = null;

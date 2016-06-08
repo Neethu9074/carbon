@@ -73,6 +73,10 @@ export default class SceneObject extends Subscriber {
     return this.components[name];
   }
 
+  getFactory(name) {
+    return this.parent.getFactory(name);
+  }
+
   forEachComponent(fn) {
     Object.keys(this.components).forEach(key => fn(this.components[key]));
   }

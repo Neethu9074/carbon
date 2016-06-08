@@ -51,6 +51,10 @@ export default class LayerComponent extends Component {
     }
   }
 
+  getFactory(name) {
+    return this.sceneObject.getFactory(name);
+  }
+
   removedVanishedLayer(presentLayer) {
     const removedLayer = [];
 

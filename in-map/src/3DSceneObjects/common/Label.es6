@@ -6,7 +6,7 @@ export default class Label extends SceneObjectWithSnapshot {
   constructor({id, parent, iconSize = 1}) {
     super({parent, id: id + '_label', snapshotId: id});
 
-    this.factory = this.scene.singleMeshGlyphPointsFactory;
+    this.factory = parent.getFactory('singleMeshGlyphPointsFactory');
     this.fragment = this.getFragment(iconSize);
     this.positionHandler = this.getPositionHandler();
 

@@ -23,10 +23,8 @@ export default class MetricComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject, '_metric_pillar');
 
-    const scene = this.scene = sceneObject.scene;
-
     this.tooltip = new TooltipMetric(sceneObject);
-    this.factory = scene.singleMeshMetricFactory;
+    this.factory = sceneObject.getFactory('singleMeshMetricFactory');
     this.numSlices = 1;
     this.positionToSet = new XYZ(-1000, 0, 0);
 
@@ -82,6 +80,18 @@ export default class MetricComponent extends Component {
 
   getTooltip() {
     return this.tooltip;
+  }
+
+  addCollisionObject(obj, layer) {
+    this.sceneObject.addCollisionObject(obj, layer);
+  }
+
+  removeCollisionObject(obj, layer) {
+    this.sceneObject.removeCollisionObject(obj, layer);
+  }
+
+  renderScene() {
+    this.sceneObject.renderScene();
   }
 
   setupFragment() {

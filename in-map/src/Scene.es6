@@ -8,17 +8,11 @@ import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {activeMetric} from 'in-services/stores/metrics';
 import {clearSelectedEvent} from 'in-stores/events';
-import * as snapshotStore from 'in-stores/snapshot';
 import {theme} from 'in-services/theme';
 import eventBus from 'in-map/eventbus';
 
 import './lib/Octree';
 
-import FadeByDistanceSingleMeshFactory from './SingleMeshFactory/FadeByDistanceSingleMeshFactory';
-import SingleMeshGlyphPointsFactory from './SingleMeshFactory/SingleMeshGlyphPointsFactory';
-import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
-import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
-import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import MapHandler from './3DSceneObjects/common/MapHandler';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
@@ -47,7 +41,6 @@ export default class Scene {
 
     // this is the main scene for all scene objects like nodes or metrics
     this.scene = new THREE.Scene();
-    this.setupFactories();
 
     this.setupCanvas();
     this.setupRenderer();
@@ -106,53 +99,7 @@ export default class Scene {
     renderer.autoUpdateObjects = false;
   }
 
-
-  setupFactories() {
-    const scene = this;
-
-    this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
-
-    this.groundSMF = new SingleMeshFactory({scene});
-    this.groundSMF.material.transparent = true;
-    this.groundSMF.material.opacity = 0.3;
-
-    this.highlightingSMF = new FadeByDistanceSingleMeshFactory({scene, renderOrder: 3});
-
-    this.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory({scene, renderOrder: 3});
-
-    this.solidSMF = new SingleMeshFactory({scene, renderOrder: 3});
-    this.solidSMF.material.opacity = 0.3;
-
-    this.layerSMF = new SingleMeshFactory({scene});
-    this.layerSMF.material.opacity = 0.3;
-    this.layerSMF.material.transparent = false;
-    this.layerSMF.material.color = new THREE.Color(0.85, 0.85, 0.85);
-
-    this.lineSMF = new SingleMeshLineFactory({scene});
-
-    this.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory({scene});
-
-    this.baselineSMF = new SingleMeshLineFactory({scene});
-    this.baselineSMF.material.transparent = true;
-
-    this.metricUpdateInterval = setInterval(() => {
-      if (currentMetrics) {
-        this.updateMetricHeights();
-      }
-    }, 1000);
-  }
-
-  updateFactories() {
-    this.singleMeshGlyphPointsFactory.rebuild();
-    this.singleMeshMetricFactory.rebuild();
-    this.solidSMF.rebuild();
-    this.fadeByDistanceSMF.rebuild();
-    this.highlightingSMF.rebuild();
-    this.baselineSMF.rebuild();
-    this.groundSMF.rebuild();
-    this.layerSMF.rebuild();
-    this.lineSMF.rebuild();
-
+  updateOctrees() {
     for (let i = this.octrees.length - 1; i >= 0; i--) {
       const octree = this.octrees[i];
       if (octree) {
@@ -175,25 +122,14 @@ export default class Scene {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
         this.resetClicked();
-        this.hideHulls();
-
       } else {
         currentMetrics = undefined;
         this.hideMetrics();
-        this.showHulls();
-      }
-    }));
-
-    this.subscriptions.push(snapshotStore.selectedSnapshotId.subscribe(selectedId => {
-      if (selectedId) {
-        this.hideHulls();
-      } else {
-        this.showHulls();
       }
     }));
 
     this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => activeMetric.emit(null)));
-    this.subscriptions.push(time.addTimeEventListener(this.updateFactories.bind(this)));
+    this.subscriptions.push(time.addTimeEventListener(this.updateOctrees.bind(this)));
 
     // if something is highlighted, change cursor to pointer
     this.subscriptions.push(highlightedEntityId.subscribe(highlightedId => {
@@ -258,12 +194,6 @@ export default class Scene {
     this.render();
   }
 
-  updateMetricHeights() {
-    if (currentMetrics) {
-      this.singleMeshMetricFactory.updateHeights();
-    }
-  }
-
   render() {
     const camera = this.mapHandler.getCurrentCamera();
 
@@ -282,24 +212,6 @@ export default class Scene {
     this.shouldRenderScene = true;
   }
 
-  hideHulls() {
-    this.hullsAreInactive = true;
-    this.layerSMF.material.transparent = true;
-    this.layerSMF.material.depthWrite = false;
-    this.baselineSMF.material.opacity = 0.3;
-    this.solidSMF.material.transparent = true;
-  }
-
-  showHulls() {
-    if (!currentMetrics) {
-      this.hullsAreInactive = false;
-      this.layerSMF.material.transparent = false;
-      this.layerSMF.material.depthWrite = true;
-      this.baselineSMF.material.opacity = 1;
-      this.solidSMF.material.transparent = false;
-    }
-  }
-
   showMetrics() {
     this.renderScene();
   }
@@ -311,8 +223,6 @@ export default class Scene {
       this.hideMetricsOnZoomOut = false;
     }
 
-    // set this to undefined will not trigger any factory to update heights
-    this.activeMetricFactory = undefined;
     this.renderScene();
   }
 
@@ -441,10 +351,6 @@ export default class Scene {
 
     // reset the time and clear all listeners
     time.reset();
-
-    // make shure that there is no update incoming until disposing
-    clearInterval(this.metricUpdateInterval);
-    this.metricUpdateInterval = null;
 
     // dispose all subscriptions
     this.subscriptions.forEach(sub => sub.dispose());
