@@ -9,6 +9,7 @@ import logging from 'instalog';
 import React from 'react';
 
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
+import * as notMonitoringPresenter from 'in-services/notMonitoringDialogPresenter';
 import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
 import * as persistentConnection from 'in-services/persistentConnection';
 import * as timelineStore from 'in-components/timeline/timelineStore';
@@ -57,6 +58,7 @@ filteringStore.init();
 timelineStore.init();
 messageStore.init();
 tracking.init();
+notMonitoringPresenter.init();
 
 ReactDOM.render((
   <Router history={hashHistory}>
