@@ -43,8 +43,9 @@ export default React.createClass({
     return (
       <div>
         <DashboardSection title='Summary'>
-        <ClusterSummary snapshot={snapshot}/>
+          <ClusterSummary snapshot={snapshot}/>
         </DashboardSection>
+
         <DashboardSection title='Search Performance vs. Throughput'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
@@ -169,22 +170,23 @@ export default React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
+
         {indices ?
-          <DashboardSection title='Indices'>
+          <DashboardSection title='Index Details'>
             <ResponsiveTable>
               <thead>
-              <tr>
-                <th>Index</th>
-                <th># of shards</th>
-                <th># of replicas</th>
-                <th>Documents</th>
-                <th>Deleted</th>
-                <th>Size</th>
-              </tr>
+                <tr>
+                  <th>Index</th>
+                  <th># of shards</th>
+                  <th># of replicas</th>
+                  <th>Documents</th>
+                  <th>Deleted</th>
+                  <th>Size</th>
+                </tr>
               </thead>
 
               <tbody>
-              {indices.map((name) =>
+                {indices.map((name) =>
                   <tr key={name}>
                     <td>{name}</td>
                     <Mtd metric={'index.' + name + '.number_of_shards'}
@@ -203,7 +205,7 @@ export default React.createClass({
                          snapshot={snapshot}
                          formatter={bytesTwoDecimalPlaces}/>
                   </tr>
-              ).valueSeq()}
+                ).valueSeq()}
               </tbody>
             </ResponsiveTable>
           </DashboardSection>
