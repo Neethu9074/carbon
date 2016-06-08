@@ -10,20 +10,18 @@ import ResponsiveTable from 'in-components/ResponsiveTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import HealthInfoBar from 'in-components/HealthInfoBar';
 import SnapshotLink from 'in-components/SnapshotLink';
-import {timeframeShape} from 'in-stores/timeline';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
 
-const rpt = React.PropTypes;
 
-const ClusterNodesTable = connectTo(
+export default connectTo(
   props => {
     return {
       clusterNodes: getClusterMembers(props.clusterSnapshotId)
         // Always start with an empty set to avoid inconsistent view,
         // displaying running components for a previously selected snapshot.
-        .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(getSnapshot)))
+        .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id))))
         .throttle(1000)
     };
   }, function ClusterNodesTable({clusterNodes, timeframe}) {
@@ -100,11 +98,3 @@ const ClusterNodesTable = connectTo(
     );
   }
 );
-
-export default ClusterNodesTable;
-
-ClusterNodesTable.PropTypes = {
-  clusterSnapshotId: rpt.string.isRequired,
-  timeframe: timeframeShape.isRequired,
-  clusterNodes: rpt.array.isRequired
-};
