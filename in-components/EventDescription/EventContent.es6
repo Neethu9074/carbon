@@ -34,7 +34,8 @@ export default React.createClass({
         <div className={block + '__suggestion'}
              dangerouslySetInnerHTML={{__html: toHtml(event.getIn(['problem', 'fixSuggestion']))}} />
 
-        <SnapshotDescription snapshotId={snapshotId} />
+        <SnapshotDescription snapshotId={snapshotId}
+                             time={event.get('start')} />
       </div>
     );
   }

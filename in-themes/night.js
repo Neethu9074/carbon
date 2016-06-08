@@ -62,7 +62,7 @@ module.exports = defaultsDeep({
       textHighlight: white,
       backgroundHighlight: grey5
     },
-    dockerLabels: {
+    keyValuePopup: {
       width: '600px',
       border: grey0,
       title: grey4,

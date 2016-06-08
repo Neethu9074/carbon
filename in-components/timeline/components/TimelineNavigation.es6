@@ -15,7 +15,7 @@ import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
 
-const stepCount = 15;
+const stepCount = 30;
 const step = (MIN_ZOOM_LEVEL - MAX_ZOOM_LEVEL) / stepCount;
 const block = 'in-timeline-navigation';
 

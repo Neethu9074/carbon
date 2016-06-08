@@ -3,10 +3,9 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RunningComponentsList from 'in-components/RunningComponentsList';
+import KeyValuePopup from 'in-components/KeyValuePopup';
 import Collapsible from 'in-components/Collapsible';
-import PopUpable from 'in-components/PopUpable';
 
-import DockerLabels from '../DockerLabels';
 import DockerInfo from '../DockerInfo';
 
 const Sidebar = React.createClass({
@@ -28,16 +27,9 @@ const Sidebar = React.createClass({
           </Collapsible.Header>
           <Collapsible.Content>
             <DockerInfo snapshot={snapshot} />
-            {labels && labels.size > 0 ?
-              <PopUpable>
-              <PopUpable.Header>
-              Container Labels
-              </PopUpable.Header>
-              <PopUpable.Content>
-              <DockerLabels labels={labels}/>
-              </PopUpable.Content>
-              </PopUpable>
-              : null}
+
+            <KeyValuePopup header='Container Labels'
+                           data={labels} />
           </Collapsible.Content>
         </Collapsible>
 
