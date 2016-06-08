@@ -4,8 +4,7 @@ import {toggleMenu} from 'in-components/AccountMenu/accountMenuStore';
 import Menu from 'in-components/AccountMenu/components/Menu';
 import Icon from 'in-components/Icon';
 
-import 'in-components/AccountMenu/AccountMenu.less';
-
+import './AccountMenu.less';
 
 const block = 'in-account';
 
