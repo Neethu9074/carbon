@@ -34,5 +34,11 @@ export const plugins = {
   genericZone: 'genericZone',
   unmonitoredHost: 'unmonitoredHost',
   haproxy: 'hAProxy',
-  oracledb: 'oracleDB'
+  oracledb: 'oracleDB',
+
+  // TODO TEMPORARY HACK FOR PROCESS VIEW
+  dummyJavaApp: 'dummyJavaApp',
+  dummyMysqlSchema: 'dummyMysqlSchema',
+  dummyMysqlDb: 'dummyMysqlDb',
+  dummyTomcat: 'dummyTomcat'
 };

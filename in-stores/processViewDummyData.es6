@@ -20,16 +20,56 @@ const processView$ = create()
   .freeze();
 
 
+function edge(from, to, rel) {
+  return {
+    from: 'process-view__' + from,
+    to: 'process-view__' + to,
+    relation: rel,
+    type: 'add'
+  };
+}
+
+
 export function getProcessViewStructureObservable() {
   return processView$;
 }
 
 
-function edge(from, to, rel) {
-  return {
-    from,
-    to,
-    relation: rel,
-    type: 'add'
-  };
+export function getDummySnapshot(snapshotId) {
+  return create()
+    .emit(Immutable.fromJS({
+      from: 0,
+      to: null,
+      id: snapshotId,
+      plugin: getPlugin(snapshotId),
+      entityId: {
+        host: 'abc',
+        pluginId: 'def',
+        steadyId: 'ghi'
+      },
+      processorTags: [],
+      data: {
+        label: getLabel(snapshotId)
+      }
+    }))
+    .freeze();
+}
+
+
+export function getPlugin(snapshotId) {
+  if (snapshotId.indexOf('app') !== -1) {
+    return 'dummyJavaApp';
+  } else if (snapshotId.indexOf('schema') !== -1) {
+    return 'dummyMysqlSchema';
+  } else if (snapshotId.indexOf('mysql') !== -1) {
+    return 'dummyMysqlDb';
+  } else if (snapshotId.indexOf('tomcat') !== -1) {
+    return 'dummyTomcat';
+  }
+
+  throw new Error(`Could not identify plugin for snapshot id ${snapshotId}`);
+}
+
+export function getLabel(snapshotId) {
+  return snapshotId.replace('process-view__', '').replace(/-/g, ' ');
 }
