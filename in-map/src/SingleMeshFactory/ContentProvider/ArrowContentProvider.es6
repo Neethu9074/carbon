@@ -27,16 +27,17 @@ export default class ArrowContentProvider extends ContentProvider {
   // at the second position. The up vector is (0, 1, 0), so only x and z coords are used.
   // the arrow is 0.5 units long and 0.3 unit width
   setFromTo(fromPos, toPos) {
-    fromPos.x -= 0.5;
-    fromPos.z += 0.5;
-    toPos.x -= 0.5;
-    toPos.z += 0.5;
+    const offset = 0.5;
+    fromPos.x -= offset;
+    fromPos.z += offset;
+    toPos.x -= offset;
+    toPos.z += offset;
     const direction = new THREE.Vector3(toPos.x - fromPos.x,
                                         0,
                                         toPos.z - fromPos.z);
 
     direction.normalize();
-    toPos.sub(direction.clone().multiplyScalar(0.5));
+    toPos.sub(direction.clone().multiplyScalar(0.42));
 
     direction.multiplyScalar(ARROW_LENGTH);
     const arrowStart = toPos.sub(direction);

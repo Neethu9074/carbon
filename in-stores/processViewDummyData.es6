@@ -6,7 +6,6 @@ const processView$ = create()
   .emit(Immutable.fromJS([
     edge('customer-app', 'customer-schema', 'to'),
     edge('tracking-app', 'customer-app', 'to'),
-    edge('customer-app', 'shipping-app', 'to'),
     edge('shipping-app', 'customer-app', 'to'),
     edge('tomcat-1', 'tracking-app', 'of'),
     edge('tomcat-2', 'tracking-app', 'of'),
@@ -25,7 +24,8 @@ function edge(from, to, rel) {
     from: 'process-view__' + from,
     to: 'process-view__' + to,
     relation: rel,
-    type: 'add'
+    type: 'add',
+    id: from + ',' + to + ',' + rel
   };
 }
 

@@ -14,6 +14,7 @@ import Group from 'in-map/src/3DSceneObjects/physical/Group';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 import {activeMetric} from 'in-services/stores/metrics';
 import * as snapshotStore from 'in-stores/snapshot';
+import {viewStructure} from 'in-stores/view';
 import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/eventbus';
 
@@ -63,6 +64,8 @@ export default class Map extends BaseMap {
     super.registerEvents();
 
     this.addSubscriptions([
+      viewStructure.subscribe(structures => this.onInventoryUpdate(structures)),
+
       eventBus.on('flyToEntity').subscribe(entity => this.controller.flyToObject(entity)),
 
       activeMetric.subscribe(metric => {
@@ -114,10 +117,32 @@ export default class Map extends BaseMap {
     hosts.forEach(host => this.addHostToGroup(host, group));
   }
 
-  onInventoryUpdated(inventory) {
-    super.onInventoryUpdated(inventory);
+  onInventoryUpdate(rootNode) {
+    const inventory = rootNode.get('children');
+    inventory.forEach(entity => this.addEntity(entity));
+
+    this.onInventoryUpdated(inventory);
+
     this.removeVanishedHosts(inventory);
     this.layoutNeedsUpdate();
+  }
+
+  onInventoryUpdated(inventory) {
+    const allNodes = this.getAllNodes();
+
+    // add connections later because all nodes need to be there
+    inventory.forEach(entity => {
+      const entityId = entity.get('id');
+      const matchedNode = find(allNodes, n => n.id === entityId);
+
+      if (matchedNode) {
+        matchedNode.setChildren(entity.get('children'));
+
+        const connectionsHandler = matchedNode.getComponent('connectionsHandler');
+        connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
+        connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
+      }
+    });
   }
 
   hideHulls() {

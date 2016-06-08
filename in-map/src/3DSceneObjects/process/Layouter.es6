@@ -22,12 +22,13 @@ export default class FruchtermanReingoldLayout {
     };
 
     const allNodes = map.getAllNodes();
+    let posOffet = 0;
     allNodes.forEach((node) => {
       const pos = node.getComponent('position').getPosition();
       const sigmaNode = {
         id: node.id,
-        x: pos.x + Math.random(),
-        y: pos.z + Math.random(),
+        x: pos.x + posOffet++,
+        y: pos.z + posOffet++,
         size: 1,
         inNode: node
       };
@@ -36,21 +37,11 @@ export default class FruchtermanReingoldLayout {
     });
 
     let edgeIdCounter = 0;
-    graph.nodes.forEach(source => {
-      source.inNode.getComponent('connectionsHandler').getOutgoingConnections().forEach(edge => {
-        const sourceId = edge.get('sourceId');
-        const sourceNode = graph.nodeMap[sourceId];
-
-        const destinationId = edge.get('destinationId');
-        const destinationNode = graph.nodeMap[destinationId];
-
-        if (sourceNode && destinationNode) {
-          graph.edges.push({
-            id: edgeIdCounter++,
-            source: sourceId,
-            target: destinationId
-          });
-        }
+    map.forEachConnection(connection => {
+      graph.edges.push({
+        id: edgeIdCounter++,
+        source: connection.sourceNode.id,
+        target: connection.destinationNode.id
       });
     });
 

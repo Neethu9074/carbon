@@ -1,14 +1,14 @@
 import {combineLatest} from 'reactive-observables';
 
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
+import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
+import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
 import ACP from '../../SingleMeshFactory/ContentProvider/ArrowContentProvider';
-import BaseConnection from '../common/Connection';
-import {DIRECTIONS} from '../common/Connection';
 
 
 export default class Connection extends BaseConnection {

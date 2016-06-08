@@ -5,7 +5,6 @@ import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-map/eventbus';
 
-import ConnectionsHandlerComponent from 'in-map/src/components/process/ConnectionsHandlerComponent';
 import HighlightingComponent from 'in-map/src/components/process/HighlightingComponent';
 import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
 import TopMeshComponent from 'in-map/src/components/process/TopMeshComponent';
@@ -31,24 +30,20 @@ export default class Node extends SceneObjectWithSnapshot {
     this.nodes = [];
     this.children = [];
     this.isExpanded = false;
+    this.edgeCount = 0;
 
     this.tooltip = new TooltipNode(this);
     this.label = new Label({
       id: this.id,
       parent: this,
-      iconSize: 3
+      iconSize: 2.5
     });
 
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
   }
 
-  onInitialEnter() {
-    this.getComponent('connectionsHandler').setAnimating(false);
-  }
-
   onHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    this.getComponent('connectionsHandler').setAnimating(true);
   }
 
   onHighlightLeave() {
@@ -57,7 +52,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onSelectedEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    this.getComponent('connectionsHandler').setAnimating(true);
   }
 
   onSelectedLeave() {
@@ -66,7 +60,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onSelectedHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    this.getComponent('connectionsHandler').setAnimating(true);
   }
 
   onSelectedHighlightLeave() {
@@ -116,13 +109,22 @@ export default class Node extends SceneObjectWithSnapshot {
       factory
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
-
-    components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject});
-    components.connectionsHandler.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onSnapshotUpdated(snapshot) {
     this.components.mesh.colorChanged(getColorPool('processes').getColorRGB(snapshot.get('plugin')));
+  }
+
+  increaseEdgeCount() {
+    this.edgeCount++;
+  }
+
+  decreaseEdgeCount() {
+    this.edgeCount--;
+  }
+
+  getEdgeCount() {
+    return this.edgeCount;
   }
 
   getTooltip() {
@@ -145,17 +147,6 @@ export default class Node extends SceneObjectWithSnapshot {
         sceneNode: newNode,
         entity
       };
-    });
-
-    // first create all nodes after that the connections!
-    Object.keys(nodeEntityMap).forEach((id) => {
-      const entity = nodeEntityMap[id].entity;
-      const sceneNode = nodeEntityMap[id].sceneNode;
-
-      sceneNode.setChildren(entity.get('children'));
-      const connectionsHandler = sceneNode.getComponent('connectionsHandler');
-      connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
-      connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
     });
 
     this.layoutNeedsUpdate();

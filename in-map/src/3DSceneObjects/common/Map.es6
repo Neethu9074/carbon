@@ -1,9 +1,6 @@
-import {remove, find} from 'lodash';
-
 import OrthographicCamera from 'in-map/src/3DSceneObjects/common/OrthographicCamera';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import * as time from 'in-map/src/timeCalculations';
-import {viewStructure} from 'in-stores/view';
 import eventBus from 'in-map/eventbus';
 
 
@@ -59,13 +56,6 @@ export default class Map extends SceneObject {
   }
 
   registerEvents() {
-    // the problem here is a race condition. If the view changes, this logic will dispose the current
-    // map and create a new one based on views type. This new map will subscribe to viewStructure and
-    // get the cached structure which is the old one, because it wasn't updated yet. After the MapHandler was
-    // told about the new view, the viewStructure will change but it is to late since the map already got
-    // the old data. To avoid that, we need a debounce on viewStrcture subscription
-    // this.addSubscription(viewStructure.debounce(500).subscribe(structures => this.onInventoryUpdate(structures)));
-    this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
     this.addSubscription(time.addTimeEventListener(this.handleTimeEvent.bind(this)));
   }
 
@@ -75,40 +65,8 @@ export default class Map extends SceneObject {
     }
   }
 
-  onInventoryUpdate(rootNode) {
-    const inventory = rootNode.get('children');
-
-    inventory.forEach(entity => this.addEntity(entity));
-    this.onInventoryUpdated(inventory);
-  }
-
-  onInventoryUpdated(inventory) {
-    const allNodes = this.getAllNodes();
-
-    // add connections later because all nodes need to be there
-    inventory.forEach(entity => {
-      const entityId = entity.get('id');
-      const matchedNode = find(allNodes, n => n.id === entityId);
-
-      if (matchedNode) {
-        matchedNode.setChildren(entity.get('children'));
-
-        const connectionsHandler = matchedNode.getComponent('connectionsHandler');
-        connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
-        connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
-      }
-    });
-
-    this.layoutNeedsUpdate();
-  }
-
   layoutNeedsUpdate() {
     this.refreshLayout = true;
-  }
-
-  // is called from group if it has no nodes anymore
-  removeChild(child) {
-    remove(this.groups, group => group.id === child.id);
   }
 
   findNodeById(id) {
