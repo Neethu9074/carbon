@@ -4,23 +4,34 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import * as timelineStore from 'in-stores/timeline';
 import getZone from 'in-hoc/getZone';
+import connectTo from 'in-hoc/connectTo';
 
-export default getZone(React.createClass({
+import SparkChartsSection from './Sidebar/SparkChartsSection';
+
+export default getZone(connectTo({
+    timeframe: timelineStore.timeframe
+  },
+  React.createClass({
+
   displayName: 'ElasticsearchInfo',
 
   mixins: [PureRenderMixin],
 
   propTypes: {
+    timeframe: timelineStore.timeframeShape,
     snapshot: irpt.map.isRequired,
     zoneSnapshot: irpt.map
   },
 
   render() {
+    const snapshotId = this.props.snapshot.get('id');
     const clusterId = this.props.zoneSnapshot ? this.props.zoneSnapshot.get('id') : undefined;
     const data = this.props.snapshot.get('data');
 
     return (
+      <div>
       <DescriptionList>
         <DescriptionItem title='Version'>
           {data.get('version')}
@@ -55,6 +66,9 @@ export default getZone(React.createClass({
           {data.get('log.dir')}
         </DescriptionItem>
       </DescriptionList>
+      <SparkChartsSection snapshotId={snapshotId}
+                          timeframe={this.props.timeframe}/>
+      </div>
     );
   }
-}));
+})));
