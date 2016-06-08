@@ -11,6 +11,7 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+import NodeSummary from '../NodeSummary.es6';
 
 const chartHeight = 200;
 
@@ -28,6 +29,9 @@ const ElasticsearchDashboard = React.createClass({
 
     return (
       <div>
+      <DashboardSection title='Summary'>
+      <NodeSummary snapshot={snapshot}/>
+      </DashboardSection>
         <DashboardSection title='Total Documents'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
@@ -137,6 +141,31 @@ const ElasticsearchDashboard = React.createClass({
                                'Get',
                                'Management',
                                'Refresh'
+                             ],
+                             formatter: zeroDecimalPlaces,
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
+        <DashboardSection title='Rejected Threads'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           maergins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'threads.search_rejected',
+                               'threads.index_rejected',
+                               'threads.bulk_rejected',
+                               'threads.get_rejected'
+                             ],
+                             labels: [
+                               'Search',
+                               'Index',
+                               'Bulk',
+                               'Get'
                              ],
                              formatter: zeroDecimalPlaces,
                              type: 'stackedArea'
