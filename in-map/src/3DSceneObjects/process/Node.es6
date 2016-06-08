@@ -19,6 +19,7 @@ import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentPro
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import {addNode, removeNode} from 'in-map/src/mapStores';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 
 
@@ -29,6 +30,10 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.nodes = [];
     this.children = [];
+
+    // maps edge id => edge instance
+    this.connections = {};
+
     this.isExpanded = false;
     this.edgeCount = 0;
 
@@ -40,6 +45,8 @@ export default class Node extends SceneObjectWithSnapshot {
     });
 
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
+
+    addNode(this);
   }
 
   onHighlightEnter() {
@@ -193,6 +200,8 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   dispose() {
+    removeNode(this);
+
     super.dispose();
 
     this.label.dispose();
@@ -214,5 +223,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.nodes = null;
     this.children = null;
     this.isExpanded = null;
+    this.connections = null;
   }
 }

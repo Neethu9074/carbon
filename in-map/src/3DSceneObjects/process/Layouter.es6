@@ -37,12 +37,14 @@ export default class FruchtermanReingoldLayout {
     });
 
     let edgeIdCounter = 0;
-    map.forEachConnection(connection => {
-      graph.edges.push({
-        id: edgeIdCounter++,
-        source: connection.sourceNode.id,
-        target: connection.destinationNode.id
-      });
+    map.forEachConnection(edge => {
+      if (edge.connection) {
+        graph.edges.push({
+          id: edgeIdCounter++,
+          source: edge.connection.sourceNode.id,
+          target: edge.connection.destinationNode.id
+        });
+      }
     });
 
     return graph;

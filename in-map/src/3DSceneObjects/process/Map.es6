@@ -5,11 +5,10 @@ import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFa
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
 import CameraController from 'in-map/src/controls/process/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/process/GroundPlane';
-import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
-import Connection from 'in-map/src/3DSceneObjects/process/Connection';
 import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
+import Edge from 'in-map/src/3DSceneObjects/process/Edge';
 import {viewStructure} from 'in-stores/view';
 
 
@@ -22,11 +21,8 @@ export default class Map extends BaseMap {
   }
 
   init() {
-    // maps node id => node instance
     this.nodes = {};
-
-    // maps edge id => edge instance
-    this.connections = {};
+    this.edges = {};
   }
 
   registerEvents() {
@@ -63,11 +59,7 @@ export default class Map extends BaseMap {
     });
   }
 
-  onInventoryUpdate(edges) {
-    this.processEdgeModifications(edges);
-  }
-
-  processEdgeModifications(edgeModifications) {
+  onInventoryUpdate(edgeModifications) {
     // maps node id => node instance used to remove unused nodes from the graph
     const modifiedNodes = {};
 
@@ -80,32 +72,23 @@ export default class Map extends BaseMap {
 
       if (edgeModification.get('type') === 'add') {
         // nothing to do, we already know about this edge
-        if (this.connections[edgeId]) {
+        if (this.edges[edgeId]) {
           return;
         }
 
-        this.connections[edgeId] = new Connection({
-          parent: this,
-          entity: immutable.fromJS({
-            id: edgeId,
-            plugin: 'connection'
-          }),
-          sourceNode: fromNode,
-          destinationNode: toNode,
-          direction: DIRECTIONS.OUT
-        });
+        this.edges[edgeId] = new Edge(edgeModification, this);
 
         fromNode.increaseEdgeCount();
         toNode.increaseEdgeCount();
       } else {
-        const edge = this.connections[edgeId];
+        const edge = this.edges[edgeId];
 
         // nothing to do, we never knew about this edge
         if (!edge) {
           return;
         }
 
-        this.connections[edgeId] = undefined;
+        this.edges[edgeId] = undefined;
         edge.dispose();
 
         fromNode.decreaseEdgeCount();
@@ -146,7 +129,7 @@ export default class Map extends BaseMap {
   onZoom() {}
 
   forEachConnection(callback) {
-    return Object.keys(this.connections).forEach(id => callback(this.connections[id]));
+    return Object.keys(this.edges).forEach(id => callback(this.edges[id]));
   }
 
   getAllNodes() {
@@ -171,7 +154,7 @@ export default class Map extends BaseMap {
 
   dispose() {
     this.forEachConnection(connection => connection.dispose());
-    this.connections = null;
+    this.edges = null;
 
     super.dispose();
 
