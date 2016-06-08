@@ -1,5 +1,4 @@
 import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import MenuHeader from 'in-components/AccountMenu/components/MenuHeader';
@@ -14,7 +13,6 @@ import './Menu.less';
 
 
 const block = 'in-account-menu';
-const rpt = React.PropTypes;
 
 export default connectTo({
     tenantUnitStructure: isDemoEnvironment() ? alwaysNull : getTenantsWithUnits()
@@ -27,41 +25,25 @@ export default connectTo({
         });
       }),
     isOpen: isOpen$
-  }, React.createClass({
-
-    displayName: 'Menu',
-
-    mixins: [
-      PureRenderMixin
-    ],
-
-    propTypes: {
-      showSettings: rpt.func.isRequired,
-      tenantUnitStructure: rpt.any,
-      isOpen: rpt.bool
-    },
-
-    render() {
-      if (!this.props.isOpen) {
-        return null;
-      }
-
-      const isDemo = isDemoEnvironment();
-      return (
-        <div className={block}
-             ref='timepicker'>
-          {!isDemo ? <MenuHeader /> : null}
-          {!isDemo ?
-            <div className={block + '__tenants'}>
-              Tenants
-            </div> :
-            null
-          }
-          {!isDemo ? <TenantSwitcher tenants={this.props.tenantUnitStructure}/> : null}
-
-          <MenuFooter onClick={this.props.showSettings}/>
-        </div>
-      );
+  }, function Menu({tenantUnitStructure, isOpen}) {
+    if (!isOpen) {
+      return null;
     }
-  })
+
+    const isDemo = isDemoEnvironment();
+    return (
+      <div className={block}>
+        {!isDemo ? <MenuHeader /> : null}
+        {!isDemo ?
+          <div className={block + '__tenants'}>
+            Tenants
+          </div> :
+          null
+        }
+        {!isDemo ? <TenantSwitcher tenants={tenantUnitStructure}/> : null}
+
+        <MenuFooter />
+      </div>
+    );
+  }
 );

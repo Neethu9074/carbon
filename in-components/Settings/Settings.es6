@@ -2,7 +2,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import {activeTheme as activeThemeObservable, availableThemes, setActiveTheme} from 'in-services/theme';
+import {showSettings$, setSettingsVisibility} from 'in-stores/settings/visibility';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import SettingEntry from 'in-components/Settings/SettingEntry';
 import {setIn, settingsStore} from 'in-services/settings';
 import {askPermission} from 'in-services/notification';
 import CheckBox from 'in-components/CheckBox';
@@ -10,22 +12,25 @@ import ComboBox from 'in-components/ComboBox';
 import Button from 'in-components/Button';
 import Slider from 'in-components/Slider';
 import Dialog from 'in-components/Dialog';
+import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
-
-import SettingEntry from './SettingEntry';
 
 import './Settings.less';
 
 const block = 'in-settings';
 
-const Settings = React.createClass({
+export default connectTo({
+    showSettings: showSettings$
+  }, React.createClass({
+  displayName: 'Settings',
+
   mixins: [
     PureRenderMixin,
     SubscriptionMixin
   ],
 
   propTypes: {
-    showMenu: React.PropTypes.func.isRequired
+    showSettings: React.PropTypes.bool.isRequired
   },
 
   getInitialState() {
@@ -61,6 +66,10 @@ const Settings = React.createClass({
   },
 
   render() {
+    if (!this.props.showSettings) {
+      return null;
+    }
+
     return (
       <Dialog onClose={this.closeSettings}
               className={block + '__dialog'}>
@@ -164,7 +173,7 @@ const Settings = React.createClass({
   },
 
   closeSettings() {
-    this.props.showMenu(false);
+    setSettingsVisibility(false);
   },
 
   toggleUnmonitoredNodes() {
@@ -188,6 +197,4 @@ const Settings = React.createClass({
   toggleExperimentalFeatures() {
     setIn(['experiments'], !this.state.experiments);
   }
-});
-
-export default Settings;
+}));

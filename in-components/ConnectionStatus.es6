@@ -3,7 +3,9 @@ import React from 'react';
 import * as connection from 'in-services/persistentConnection';
 import Toast from 'in-components/Toast';
 
-const ConnectionStatus = React.createClass({
+export default React.createClass({
+  displayName: 'ConnectionStatus',
+
   getInitialState() {
     return {
       systemMessage: null
@@ -40,5 +42,3 @@ const ConnectionStatus = React.createClass({
     );
   }
 });
-
-export default ConnectionStatus;
