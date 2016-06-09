@@ -56,7 +56,7 @@ export function getDummySnapshot(snapshotId) {
 }
 
 
-export function getPlugin(snapshotId) {
+function getPlugin(snapshotId) {
   if (snapshotId.indexOf('app') !== -1) {
     return 'dummyJavaApp';
   } else if (snapshotId.indexOf('schema') !== -1) {
@@ -72,6 +72,22 @@ export function getPlugin(snapshotId) {
   throw new Error(`Could not identify plugin for snapshot id ${snapshotId}`);
 }
 
-export function getLabel(snapshotId) {
+function getLabel(snapshotId) {
   return snapshotId.replace('process-view__', '').replace(/-/g, ' ');
+}
+
+
+export function getDummyMetric() {
+  let intervalHandle;
+  return create({
+    start(observable) {
+      intervalHandle = setInterval(() => {
+        observable.emit((Math.random() * 1000) | 0);
+      }, 1000);
+    },
+
+    stop() {
+      clearInterval(intervalHandle);
+    }
+  });
 }

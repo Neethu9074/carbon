@@ -1,3 +1,4 @@
+import {getDummyMetric} from 'in-stores/processViewDummyData';
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import {timeframe$} from 'in-stores/timeline';
@@ -9,6 +10,11 @@ const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 const defaultAggregation = 'mean';
 
 export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
+  // TODO TEMPORARY HACK FOR PROCESS VIEW
+  if (snapshotId.indexOf('process-view') === 0) {
+    return getDummyMetric(snapshotId, metric);
+  }
+
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe);
   }
