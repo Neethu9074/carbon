@@ -95,18 +95,18 @@ describe('GraphToProcessViewHandler', () => {
     ]));
 
     // 1 level: b, e, g
-    expect(graphToProcessViewHandler.getParentNodeFor('b')).to.equal(undefined);
-    expect(graphToProcessViewHandler.getParentNodeFor('e')).to.equal(undefined);
-    expect(graphToProcessViewHandler.getParentNodeFor('g')).to.equal(undefined);
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('b')).to.deep.equal([]);
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('e')).to.deep.equal([]);
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('g')).to.deep.equal([]);
 
     // 2 level: a, c, d, f
-    expect(graphToProcessViewHandler.getParentNodeFor('a')).to.equal('b');
-    expect(graphToProcessViewHandler.getParentNodeFor('c')).to.equal('b');
-    expect(graphToProcessViewHandler.getParentNodeFor('d')).to.equal('e');
-    expect(graphToProcessViewHandler.getParentNodeFor('f')).to.equal('e');
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('a')).to.deep.equal(['b']);
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('c')).to.deep.equal(['b']);
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('d')).to.deep.equal(['e']);
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('f')).to.deep.equal(['e']);
 
     // 3 level: h
-    expect(graphToProcessViewHandler.getParentNodeFor('h')).to.equal('d');
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('h')).to.deep.equal(['d']);
   });
 
   it('should update LUT', () => {
@@ -124,7 +124,7 @@ describe('GraphToProcessViewHandler', () => {
     ]));
 
     // 2 level: a, c, d, f
-    expect(graphToProcessViewHandler.getParentNodeFor('a')).to.equal(undefined);
+    expect(graphToProcessViewHandler.getParentNodeIdsFor('a')).to.deep.equal([]);
   });
 
   it('should call nodes or subNodes based on hierarchy', () => {
@@ -146,19 +146,19 @@ describe('GraphToProcessViewHandler', () => {
     expect(client.createSubNode.callCount).to.equal(5);
 
     expect(client.createSubNode.getCall(0).args[0]).to.equal('a');
-    expect(client.createSubNode.getCall(0).args[1]).to.equal('b');
+    expect(client.createSubNode.getCall(0).args[1]).to.deep.equal(['b']);
 
     expect(client.createSubNode.getCall(1).args[0]).to.equal('c');
-    expect(client.createSubNode.getCall(1).args[1]).to.equal('b');
+    expect(client.createSubNode.getCall(1).args[1]).to.deep.equal(['b']);
 
     expect(client.createSubNode.getCall(2).args[0]).to.equal('d');
-    expect(client.createSubNode.getCall(2).args[1]).to.equal('e');
+    expect(client.createSubNode.getCall(2).args[1]).to.deep.equal(['e']);
 
     expect(client.createSubNode.getCall(3).args[0]).to.equal('h');
-    expect(client.createSubNode.getCall(3).args[1]).to.equal('d');
+    expect(client.createSubNode.getCall(3).args[1]).to.deep.equal(['d']);
 
     expect(client.createSubNode.getCall(4).args[0]).to.equal('f');
-    expect(client.createSubNode.getCall(4).args[1]).to.equal('e');
+    expect(client.createSubNode.getCall(4).args[1]).to.deep.equal(['e']);
   });
 
   function edge(from, to, relation, type = 'add') {

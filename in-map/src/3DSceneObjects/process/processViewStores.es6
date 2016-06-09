@@ -43,3 +43,25 @@ export function removeEdge(node) {
     return edgeMap;
   });
 }
+
+
+const expandedNodeIds = createStore({
+  name: 'processViewExpandedNodeIdsStore',
+  initialValue: {}
+});
+
+export const expandedNodeIds$ = expandedNodeIds.observable;
+
+export function addExpandedNodeId(id) {
+  expandedNodeIds.applyStateMutation(nodeMap => {
+    nodeMap[id] = id;
+    return nodeMap;
+  });
+}
+
+export function removeExpandedNodeId(id) {
+  expandedNodeIds.applyStateMutation(nodeMap => {
+    delete nodeMap[id];
+    return nodeMap;
+  });
+}

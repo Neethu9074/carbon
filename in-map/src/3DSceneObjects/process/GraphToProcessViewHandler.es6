@@ -1,3 +1,6 @@
+import {remove} from 'lodash';
+
+import {emptyArray} from 'in-services/fixedObjects';
 import {viewStructure} from 'in-stores/view';
 
 
@@ -27,9 +30,14 @@ export default class GraphToProcessViewAdapter {
       const to = edgeModification.get('to');
 
       if (edgeModification.get('relation') === OF) {
-        this.parentLUT[from] = edgeModification.get('type') === ADD ?
-          to :
-          undefined;
+        if (edgeModification.get('type') === ADD) {
+          if (!this.parentLUT[from]) {
+            this.parentLUT[from] = [];
+          }
+          this.parentLUT[from].push(to);
+        } else {
+          remove(this.parentLUT[from], id => id === to);
+        }
       }
     });
 
@@ -89,17 +97,17 @@ export default class GraphToProcessViewAdapter {
 
     existingNode = this.nodes[snapshotId] = this.createNode(snapshotId);
 
-    const parentNodeId = this.getParentNodeFor(snapshotId);
-    if (!parentNodeId) {
+    const parentNodeIds = this.getParentNodeIdsFor(snapshotId);
+    if (parentNodeIds.length === 0) {
       this.client.createNode(snapshotId);
     } else {
-      this.client.createSubNode(snapshotId, parentNodeId);
+      this.client.createSubNode(snapshotId, parentNodeIds);
     }
     return existingNode;
   }
 
-  getParentNodeFor(nodeId) {
-    return this.parentLUT[nodeId];
+  getParentNodeIdsFor(nodeId) {
+    return this.parentLUT[nodeId] ? this.parentLUT[nodeId] : emptyArray;
   }
 
   createNode(id) {

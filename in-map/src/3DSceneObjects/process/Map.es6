@@ -1,15 +1,13 @@
-import immutable from 'immutable';
-
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import GraphToProcessViewHandler from 'in-map/src/3DSceneObjects/process/GraphToProcessViewHandler';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
 import CameraController from 'in-map/src/controls/process/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/process/GroundPlane';
+import EdgeSpawner from 'in-map/src/3DSceneObjects/process/EdgeSpawner';
+import NodeSpawner from 'in-map/src/3DSceneObjects/process/NodeSpawner';
 import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
-import Node from 'in-map/src/3DSceneObjects/process/Node';
-import Edge from 'in-map/src/3DSceneObjects/process/Edge';
 
 
 export default class Map extends BaseMap {
@@ -54,30 +52,21 @@ export default class Map extends BaseMap {
   }
 
   createEdge(id, entity) {
-    this.edges[id] = new Edge(entity, this);
+    this.edges[id] = new EdgeSpawner(entity, this);
   }
 
   createNode(id) {
     if (this.nodes[id]) {
-      return;
+      return this.nodes[id];
     }
-    this.nodes[id] = new Node({
-      parent: this,
-      entity: immutable.fromJS({
-        id,
-        plugin: 'node'
-      })
-    });
+    const newNode = new NodeSpawner(id, this);
+    this.nodes[id] = newNode;
+    return newNode;
   }
 
-  createSubNode(id, parentId) {
-    if (!this.nodes[parentId]) {
-      this.createNode(parentId);
-    }
-    this.nodes[parentId].addChild(immutable.fromJS({
-      id,
-      plugin: 'node'
-    }));
+  createSubNode(id, parentIds) {
+    this.nodes[id] = new NodeSpawner(id, this, parentIds);
+    parentIds.forEach(parentId => this.createNode(parentId).addChild(id));
   }
 
   removeEdge(id) {

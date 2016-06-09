@@ -1,5 +1,11 @@
 import THREE from 'three';
 
+import {
+  addExpandedNodeId,
+  removeExpandedNodeId,
+  addNode,
+  removeNode
+} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/process/Cluster';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import {getColorPool} from 'in-services/util/ColorGenerator';
@@ -18,7 +24,6 @@ import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentPro
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
-import {addNode, removeNode} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 
@@ -29,7 +34,6 @@ export default class Node extends SceneObjectWithSnapshot {
     super({parent, id: entity.get('id')});
 
     this.nodes = [];
-    this.children = [];
 
     // maps edge id => edge instance
     this.connections = {};
@@ -139,44 +143,32 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   expand() {
-    const nodeEntityMap = {};
-
-    this.children.forEach(entity => {
-      const newNode = new Node({
-        parent: this,
-        entity
-      });
-      this.nodes.push(newNode);
-
-      // store the nodes in a temp map to get access to the entity object later
-      // entity is immutable so use it as key
-      nodeEntityMap[entity.get('id')] = {
-        sceneNode: newNode,
-        entity
-      };
-    });
+    Object.keys(this.childIds).forEach(id => addExpandedNodeId(id));
   }
 
   collapse() {
-    this.nodes.forEach(node => node.dispose());
-    this.nodes = [];
+    Object.keys(this.childIds).forEach(id => removeExpandedNodeId(id));
   }
 
-  addChild(entity) {
-    this.children.push(entity);
+  setChildIds(childIds) {
+    this.childIds = childIds;
+    const numChildren = Object.keys(childIds).length;
+    if (numChildren === 0) {
+      return;
+    }
 
     if (!this.stickyNote) {
       this.stickyNote = new StickyNote(this);
       this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
     }
-    this.stickyNote.setNumChildren(this.children.length);
+    this.stickyNote.setNumChildren(numChildren);
 
     // TODO: if expanded, add to scene
   }
 
   positionChanged(newPosition) {
     this.label.getComponent('position').setPosition(newPosition.x - 0.5, newPosition.y + 0.5, newPosition.z + 0.5);
-    super.setScreenPositionAnchor(newPosition.x + 0.5, newPosition.y + 0.3, newPosition.z);
+    super.setScreenPositionAnchor(newPosition.x + 0.25, newPosition.y + 0.3, newPosition.z);
   }
 
   update() {

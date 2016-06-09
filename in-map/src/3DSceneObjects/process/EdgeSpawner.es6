@@ -5,7 +5,7 @@ import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Connection from 'in-map/src/3DSceneObjects/process/Connection';
 
 
-export default class Edge {
+export default class EdgeSpawner {
 
   constructor(edge, map) {
     this.parent = map;
@@ -19,9 +19,8 @@ export default class Edge {
   }
 
   setVisible(sourceNode, destinationNode) {
+    this.disposeConnection();
     if (sourceNode && destinationNode) {
-      this.disposeConnection();
-
       this.connection = new Connection({
         parent: this.parent,
         entity: immutable.fromJS({
@@ -32,8 +31,6 @@ export default class Edge {
         destinationNode,
         direction: DIRECTIONS.OUT
       });
-    } else {
-      this.disposeConnection();
     }
   }
 
