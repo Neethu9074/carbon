@@ -5,7 +5,6 @@ const nodes = createStore({
   name: 'processViewNodesStore',
   initialValue: {}
 });
-
 export const nodes$ = nodes.observable;
 
 export function addNode(node) {
@@ -27,7 +26,6 @@ const edges = createStore({
   name: 'processViewEdgesStore',
   initialValue: {}
 });
-
 export const edges$ = edges.observable;
 
 export function addEdge(node) {
@@ -45,23 +43,32 @@ export function removeEdge(node) {
 }
 
 
-const expandedNodeIds = createStore({
+const nodeIdVoting = createStore({
   name: 'processViewExpandedNodeIdsStore',
   initialValue: {}
 });
+export const nodeIdVoting$ = nodeIdVoting.observable;
 
-export const expandedNodeIds$ = expandedNodeIds.observable;
-
-export function addExpandedNodeId(id) {
-  expandedNodeIds.applyStateMutation(nodeMap => {
-    nodeMap[id] = id;
+export function voteUp(id) {
+  nodeIdVoting.applyStateMutation(nodeMap => {
+    if (!nodeMap[id]) {
+      nodeMap[id] = 0;
+    }
+    nodeMap[id]++;
     return nodeMap;
   });
 }
 
-export function removeExpandedNodeId(id) {
-  expandedNodeIds.applyStateMutation(nodeMap => {
-    delete nodeMap[id];
+export function voteDown(id) {
+  nodeIdVoting.applyStateMutation(nodeMap => {
+    if (!nodeMap[id]) {
+      return nodeMap;
+    }
+
+    nodeMap[id]--;
+    if (nodeMap[id] === 0) {
+      delete nodeMap[id];
+    }
     return nodeMap;
   });
 }

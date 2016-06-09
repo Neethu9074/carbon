@@ -1,6 +1,6 @@
 import immutable from 'immutable';
 
-import {addExpandedNodeId, expandedNodeIds$} from 'in-map/src/3DSceneObjects/process/processViewStores';
+import {voteUp, nodeIdVoting$} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 import {emptyArray} from 'in-services/fixedObjects';
 
@@ -15,11 +15,11 @@ export default class NodeSpawner {
     this.nodesParents = nodesParents || emptyArray;
 
     if (this.nodesParents.length === 0) {
-      addExpandedNodeId(id);
+      voteUp(id);
     }
 
-    this.visibleSubscription = expandedNodeIds$.subscribe(nodeMap => {
-      nodeMap[id] ?
+    this.visibleSubscription = nodeIdVoting$.subscribe(nodeMap => {
+      nodeMap[id] > 0 ?
         this.setVisible(true) :
         this.setVisible(false);
     });

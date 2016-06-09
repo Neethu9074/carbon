@@ -82,14 +82,7 @@ export default class Map extends BaseMap {
   onZoom() {}
 
   getAllNodes() {
-    const nodes = [];
-    Object.keys(this.nodes).forEach(snapshotId => this.getNodes(this.nodes[snapshotId], nodes));
-    return nodes;
-  }
-
-  getNodes(parent, nodes) {
-    nodes.push(parent);
-    parent.nodes.forEach(child => this.getNodes(child, nodes));
+    return Object.keys(this.nodes).map(snapshotId => this.nodes[snapshotId]);
   }
 
   applyLayout() {}

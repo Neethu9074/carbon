@@ -1,8 +1,8 @@
 import THREE from 'three';
 
 import {
-  addExpandedNodeId,
-  removeExpandedNodeId,
+  voteUp,
+  voteDown,
   addNode,
   removeNode
 } from 'in-map/src/3DSceneObjects/process/processViewStores';
@@ -32,11 +32,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
-
-    this.nodes = [];
-
-    // maps edge id => edge instance
-    this.connections = {};
 
     this.isExpanded = false;
     this.edgeCount = 0;
@@ -143,11 +138,11 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   expand() {
-    Object.keys(this.childIds).forEach(id => addExpandedNodeId(id));
+    Object.keys(this.childIds).forEach(id => voteUp(id));
   }
 
   collapse() {
-    Object.keys(this.childIds).forEach(id => removeExpandedNodeId(id));
+    Object.keys(this.childIds).forEach(id => voteDown(id));
   }
 
   setChildIds(childIds) {
@@ -204,6 +199,5 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.children = null;
     this.isExpanded = null;
-    this.connections = null;
   }
 }
