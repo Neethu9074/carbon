@@ -222,13 +222,13 @@ export default connectTo(
                              }}/>
           </DashboardSection>
           <DashboardSection title='Connections'>
-             <ChartWithLegend snapshot = {snapshot}
-                              timeframe = {timeframe}
-                              height = {chartHeight}
-                              margins = {{
+             <ChartWithLegend snapshotId={snapshot.get('id')}
+                              timeframe={timeframe}
+                              height={chartHeight}
+                              margins={{
                                 left: 80
                               }}
-                              y1 = {{
+                              y1={{
                                 min: 0,
                                 metrics: getConnectionMetricsForRole(role),
                                 labels: getConnectionLabelsForRole(role),

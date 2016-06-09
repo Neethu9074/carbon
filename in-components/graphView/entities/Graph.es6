@@ -103,7 +103,7 @@ export default class Graph {
       Object.keys(this.edges).length
     );
     // start another layouting run
-    this.springyLayout.start(1, () => {}, markAsFinished);
+    this.springyLayout.start(3, () => {}, markAsFinished);
   }
 
 
