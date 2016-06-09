@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+
+import {markAsFinished} from 'in-components/graphView/graphViewStore';
 import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
@@ -100,7 +103,7 @@ export default class Graph {
       Object.keys(this.edges).length
     );
     // start another layouting run
-    this.springyLayout.start();
+    this.springyLayout.start(1, () => {}, markAsFinished);
   }
 
 

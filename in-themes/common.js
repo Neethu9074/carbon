@@ -23,6 +23,7 @@ module.exports = {
     footer: zIndex++,
     header: zIndex++,
     timepicker: zIndex++,
+    graphView: zIndex++,
     menuPopup: zIndex++,
     toast: zIndex++,
     tooltips: zIndex++,

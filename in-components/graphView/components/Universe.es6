@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import createUniverseRenderer from 'in-components/graphView/components/universeRenderer';
+import {markAsLoading, markAsFinished} from 'in-components/graphView/graphViewStore';
 import {isWebGLSupported} from 'in-services/util/webGL';
 import {getClassName} from 'in-services/react';
 
@@ -24,6 +25,7 @@ export default React.createClass({
   },
 
   componentDidMount() {
+    markAsLoading();
     if (isWebGLSupported(this.refs.canvas)) {
       this.renderer = createUniverseRenderer({
         container: this.refs.container,
@@ -33,6 +35,7 @@ export default React.createClass({
   },
 
   componentWillUnmount() {
+    markAsFinished();
     if (this.renderer) {
       this.renderer.dispose();
     }
