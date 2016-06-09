@@ -8,6 +8,7 @@ import {
   closeMenu
 } from 'in-components/AccountMenu/accountMenuStore';
 import {goToGraph} from 'in-stores/navigation';
+import {isOnPremise} from 'in-services/config';
 import {config} from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -51,11 +52,15 @@ export default connectTo({
            onClick={closeAndCall(() => setSettingsVisibility(true))}>
           Settings
         </a>
-        <a className={block + '__link'}
-           href='#'
-           onClick={closeAndCall(showReleaseNotes)}>
-          Release Notes
-        </a>
+
+        {!isOnPremise() ?
+          <a className={block + '__link'}
+             href='#'
+             onClick={closeAndCall(showReleaseNotes)}>
+            Release Notes
+          </a>
+        : null}
+
         <a className={block + '__link'}
            href='#'
            onClick={closeAndCall(goToGraph)}>
