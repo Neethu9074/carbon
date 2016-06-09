@@ -41,7 +41,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.label = new Label({
       id: this.id,
       parent: this,
-      iconSize: 2.5
+      iconSize: 2
     });
 
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));

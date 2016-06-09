@@ -19,7 +19,7 @@ export default class Bubbles {
     this.speedMetric = getLiveMetrics({snapshotId: connection.id}).subscribe(value =>
       this.animationController.setTimeToAnimate(1500 + value * 0.5));
 
-    this.setupBubbles();
+    // this.setupBubbles();
   }
 
   setupBubbles() {
@@ -32,13 +32,13 @@ export default class Bubbles {
   }
 
   startAnimation() {
-    this.bubbles.forEach(bubble => this.connection.scene.addSceneObject(bubble.getSceneObject()));
-    this.animationController.start();
+    // this.bubbles.forEach(bubble => this.connection.scene.addSceneObject(bubble.getSceneObject()));
+    // this.animationController.start();
   }
 
   stopAnimation() {
-    this.animationController.stop();
-    this.bubbles.forEach(bubble => this.connection.scene.removeSceneObject(bubble.getSceneObject()));
+    // this.animationController.stop();
+    // this.bubbles.forEach(bubble => this.connection.scene.removeSceneObject(bubble.getSceneObject()));
   }
 
   updateAnimation(v) {
