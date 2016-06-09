@@ -494,7 +494,7 @@
    * Start simulation if it's not running already.
    * In case it's running then the call is ignored, and none of the callbacks passed is ever executed.
    */
-  Layout.ForceDirected.prototype.start = function(render, onRenderStop, onRenderStart) {
+  Layout.ForceDirected.prototype.start = function(maxIterationCount, render, onRenderStop, onRenderStart) {
     var t = this;
 
     if (this._started) return;
@@ -517,7 +517,7 @@
       }
 
       // stop simulation when energy of the system goes below a threshold
-      if (t._stop || t.totalEnergy() < t.minEnergyThreshold || iterationCount > 2) {
+      if (t._stop || t.totalEnergy() < t.minEnergyThreshold || iterationCount >= maxIterationCount) {
         t._started = false;
         if (onRenderStop !== undefined) { onRenderStop(); }
       } else {

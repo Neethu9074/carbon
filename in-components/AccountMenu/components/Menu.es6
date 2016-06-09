@@ -1,49 +1,90 @@
-import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
 import React from 'react';
 
-import MenuHeader from 'in-components/AccountMenu/components/MenuHeader';
-import MenuFooter from 'in-components/AccountMenu/components/MenuFooter';
-import {isOpen$} from 'in-components/AccountMenu/accountMenuStore';
-import {getTenantsWithUnits} from 'in-services/tenants';
-import {isDemoEnvironment} from 'in-services/config';
-import {alwaysNull} from 'in-services/fixedStreams';
+import TenantUnitSwitcher from 'in-components/AccountMenu/components/TenantUnitSwitcher';
+import {setSettingsVisibility} from 'in-stores/settings/visibility';
+import {showReleaseNotes} from 'in-stores/releaseNotes';
+import {
+  isOpen$,
+  closeMenu
+} from 'in-components/AccountMenu/accountMenuStore';
+import {goToGraph} from 'in-stores/navigation';
+import {config} from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import './Menu.less';
 
-
 const block = 'in-account-menu';
+const umpLink = `https://${config.groundskeeperDomain}/ump/${config.tenant}/${config.tenantUnit}`;
 
 export default connectTo({
-    tenantUnitStructure: isDemoEnvironment() ? alwaysNull : getTenantsWithUnits()
-      .map(tenantUnits => {
-        return Object.keys(tenantUnits).map(tenantName => {
-          return {
-            name: tenantName,
-            tenantUnits: tenantUnits[tenantName].map(unit => unit.name)
-          };
-        });
-      }),
     isOpen: isOpen$
-  }, function Menu({tenantUnitStructure, isOpen}) {
+  }, function Menu({isOpen}) {
     if (!isOpen) {
       return null;
     }
 
-    const isDemo = isDemoEnvironment();
     return (
-      <div className={block}>
-        {!isDemo ? <MenuHeader /> : null}
-        {!isDemo ?
-          <div className={block + '__tenants'}>
-            Tenants
-          </div> :
-          null
-        }
-        {!isDemo ? <TenantSwitcher tenants={tenantUnitStructure}/> : null}
+      <section className={block}>
+        <p className={block + '__account-name'}>
+          Signed in as {window.instana.user.fullName}
+        </p>
 
-        <MenuFooter />
-      </div>
+        <a href={umpLink}
+           target='_blank'
+           className={block + '__account-menu-link'}
+           onClick={closeMenu}>
+          Account Menu
+
+          <Icon type='right'
+                className={block + '__account-menu-arrow'}/>
+        </a>
+
+        <Separator />
+
+        <TenantUnitSwitcher />
+
+        <Separator />
+
+        <a className={block + '__link'}
+           href='#'
+           onClick={closeAndCall(() => setSettingsVisibility(true))}>
+          Settings
+        </a>
+        <a className={block + '__link'}
+           href='#'
+           onClick={closeAndCall(showReleaseNotes)}>
+          Release Notes
+        </a>
+        <a className={block + '__link'}
+           href='#'
+           onClick={closeAndCall(goToGraph)}>
+          Graph Showcase
+        </a>
+
+        <Separator />
+
+        <form action='/auth/signOut' method='post'>
+          <button type='submit'
+                  className={block + '__signout'}>
+            Sign Out
+          </button>
+        </form>
+      </section>
     );
   }
 );
+
+
+function Separator() {
+  return <div className={block + '__separator'} />;
+}
+
+
+function closeAndCall(fn) {
+  return e => {
+    e.preventDefault();
+    closeMenu();
+    fn();
+  };
+}

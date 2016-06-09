@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 import {createLogger} from 'instalog';
 
+import {isOnPremise} from 'in-services/config';
 import {createStore} from 'in-stores/store';
 import http from 'in-services/http';
 
@@ -26,8 +27,10 @@ export const maintenanceMessage$ = combineLatest([readStateStore.observable, sto
   })
   .distinct();
 
-retrieveLatestMessage();
-setInterval(retrieveLatestMessage, 1000 * 60 * 10);
+if (!isOnPremise()) {
+  retrieveLatestMessage();
+  setInterval(retrieveLatestMessage, 1000 * 60 * 10);
+}
 
 function retrieveLatestMessage() {
   const observable = http({

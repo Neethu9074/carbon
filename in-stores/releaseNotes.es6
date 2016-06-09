@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import {createLogger} from 'instalog';
 
 import {hashCode} from 'in-services/formatters/string';
+import {isOnPremise} from 'in-services/config';
 import {createStore} from 'in-stores/store';
 import http from 'in-services/http';
 
@@ -41,8 +42,10 @@ export const releaseNotes$ = combineLatest([
     return currentReleaseNotes;
   });
 
-retrieveLatestReleaseNotes();
-setInterval(retrieveLatestReleaseNotes, 1000 * 60 * 10);
+if (!isOnPremise()) {
+  retrieveLatestReleaseNotes();
+  setInterval(retrieveLatestReleaseNotes, 1000 * 60 * 10);
+}
 
 function retrieveLatestReleaseNotes() {
   const observable = http({

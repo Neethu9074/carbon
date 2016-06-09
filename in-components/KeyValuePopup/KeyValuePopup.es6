@@ -17,7 +17,7 @@ export default function KeyValuePopup({header, data}) {
         {header}
       </PopUpable.Header>
       <PopUpable.Content>
-        {data.map((v, k) =>
+        {data.sortBy((v, k) => k).map((v, k) =>
           <div key={k}
                className={block + '__item'}>
             <dt className={block + '__title'}>
