@@ -10,7 +10,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
-const verPatt = new RegExp(/([5-9]+\.[6-9]+)\..*/);
+const verPatt = /([5-9]+\.[6-9]+)\..*/;
 const chartHeight = 200;
 
 const MySqlDashboard = React.createClass({
