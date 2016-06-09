@@ -25,8 +25,9 @@ export default class Bubble {
     const fromPos = from.getComponent('position').getPosition();
 
     this.bubble = new THREE.Mesh(
-      new THREE.SphereGeometry(BUBBLE_SIZE, BUBBLE_DETAILS, BUBBLE_DETAILS),
+      new THREE.SphereGeometry(1, BUBBLE_DETAILS, BUBBLE_DETAILS),
       new THREE.MeshBasicMaterial());
+    this.setBubbleSize(BUBBLE_SIZE);
     this.bubble.position.set(fromPos.x - 0.5, fromPos.y, fromPos.z + 0.5);
   }
 
@@ -34,6 +35,10 @@ export default class Bubble {
     const colorPool = getColorPool('processes');
     this.fromColor = colorPool.getColorRGB(fromSnapshot.get('plugin'));
     this.toColor = colorPool.getColorRGB(toSnapshot.get('plugin'));
+  }
+
+  setBubbleSize(size) {
+    this.bubble.scale.set(size, size, size);
   }
 
   getSceneObject() {

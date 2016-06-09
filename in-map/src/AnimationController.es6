@@ -20,7 +20,7 @@ export default class AnimationController {
   }
 
   setTimeToAnimate(value) {
-    this.animation.setAnimationTime(500 + value / 2);
+    this.animation.setAnimationTime(250 + value * 0.75);
   }
 
   setupAnimation() {
