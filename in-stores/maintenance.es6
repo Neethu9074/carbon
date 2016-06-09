@@ -1,11 +1,8 @@
 import {combineLatest} from 'reactive-observables';
-import {createLogger} from 'instalog';
 
 import {isOnPremise} from 'in-services/config';
 import {createStore} from 'in-stores/store';
 import http from 'in-services/http';
-
-const logger = createLogger('in-stores/maintenance');
 
 const readStateStore = createStore({
   name: 'maintenanceMessageRead',
@@ -48,8 +45,9 @@ function retrieveLatestMessage() {
     }
   });
 
-  observable.errors().once(err => {
-    logger.warn('Failed to retrieve maintenance document', err);
+  observable.errors().once(() => {
+    // ignore HTTP errors as the system will self heal and there is no reason to notify
+    // us about these types of errors.
   });
 }
 
