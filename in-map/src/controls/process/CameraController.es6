@@ -80,7 +80,6 @@ export default class CameraController extends BaseCameraController {
   }
 
   onAnimationStop() {
-    this.animationController.stop();
     const cache = this.toRoll;
     this.toRoll = this.fromRoll;
     this.fromRoll = cache;

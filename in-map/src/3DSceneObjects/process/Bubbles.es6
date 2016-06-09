@@ -1,6 +1,7 @@
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import AnimationController from 'in-map/src/AnimationController';
 import Bubble from 'in-map/src/3DSceneObjects/process/Bubble';
+import {getLiveMetrics} from 'in-stores/metric';
 
 
 export default class Bubbles {
@@ -13,6 +14,10 @@ export default class Bubbles {
       onUpdate: this.updateAnimation.bind(this),
       timeToAnimate: 2000,
       repeat: true
+    });
+
+    this.metrics = getLiveMetrics({snapshotId: connection.id}).subscribe(value => {
+      this.animationController.setTimeToAnimate(value);
     });
 
     this.setupBubbles();
@@ -43,6 +48,8 @@ export default class Bubbles {
   }
 
   dispose() {
+    this.metrics.dispose();
+
     this.animationController.dispose();
     this.stopAnimation();
 

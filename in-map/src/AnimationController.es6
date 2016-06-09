@@ -1,48 +1,47 @@
-import TWEEN from 'tween.js';
+import {Animation, CubicEasing} from 'koijs';
 
 import * as time from 'in-map/src/timeCalculations';
 import eventBus from 'in-map/eventbus';
 
 
+const easing = new CubicEasing('inOut');
+
 export default class AnimationController {
 
   constructor({onUpdate, onStop, timeToAnimate, repeat = false}) {
-    this.onUpdate = onUpdate;
-    this.onStop = onStop;
-    this.timeToAnimate = timeToAnimate;
     this.repeat = repeat;
+    this.onStop = onStop;
+    this.onUpdate = onUpdate;
+    this.timeToAnimate = timeToAnimate;
 
     this.setupAnimation();
 
     this.updateSubscription = eventBus.on('beginUpdate').subscribe(() => this.update());
   }
 
+  setTimeToAnimate(value) {
+    this.animation.setAnimationTime(500 + value / 2);
+  }
+
   setupAnimation() {
-    const from = {v: 0.0}; // 0%
-    const to = {v: 1.0}; // 100%
-
-    this.animationInProgress = false;
-
-    // updating from 0 to 1 in 500 ms
-    const animation = new TWEEN.Tween(from).to(to, this.timeToAnimate);
-    animation.easing(TWEEN.Easing.Cubic.InOut);
-    animation.onUpdate(this.onUpdate);
-    animation.onComplete(() => {
-      this.onStop();
+    const animation = new Animation({
+      from: {v: 0.0}, // 0%
+      to: {v: 1.0},   // 100%,
+      easing,
+      autoUpdate: false,
+      animationTime: this.timeToAnimate,
+      repeating: this.repeat ? Infinity : null
     });
-
-    if (this.repeat) {
-      animation.repeat(Infinity);
+    animation.onUpdate(progress => this.onUpdate(progress.v));
+    if (this.onStop) {
+      animation.onStop(() => this.onStop());
     }
 
+    this.animationInProgress = false;
     this.animation = animation;
-    this.animation.stop();
   }
 
   start() {
-    // first stop to reset to-value
-    this.animation.stop();
-
     this.animationInProgress = true;
     this.animation.start();
   }
@@ -54,7 +53,7 @@ export default class AnimationController {
 
   update() {
     if (this.animationInProgress) {
-      this.animation.update(time.getNow());
+      this.animation.updater.update(time.getDeltaTime() * 1000);
     }
   }
 

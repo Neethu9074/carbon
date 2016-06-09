@@ -40,6 +40,7 @@
     "instalog": "^1.0.0",
     "instana-ui-theme": "^1.8.0",
     "invariant": "^2.0.0",
+    "koijs": "^0.2.0",
     "lodash": "^4.0.0",
     "markdown-it": "6.0.0",
     "markdown-it-link-target": "1.0.1",
