@@ -17,3 +17,7 @@ export function isDemoEnvironment() {
 export function isInternalEnvironment() {
   return theConfig.environment === 'internal';
 }
+
+export function isOnPremise() {
+  return theConfig.operationMode === 'on-prem';
+}
