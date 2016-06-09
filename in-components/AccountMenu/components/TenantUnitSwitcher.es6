@@ -88,7 +88,7 @@ function Tenant({tenant, expandedTenant, toggleTenant}) {
          })}>
         {tenant.name} ({tenant.units.length})
 
-        <Icon type={tenant.name === expandedTenant ? 'down' : 'right'}
+        <Icon type={tenant.name === expandedTenant ? 'close' : 'open'}
               className={block + '__tenant-name-arrow'}/>
       </a>
 
