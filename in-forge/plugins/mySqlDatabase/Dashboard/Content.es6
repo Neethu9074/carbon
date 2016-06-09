@@ -10,7 +10,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
-
+const verPatt = /([5-9]+\.[6-9]+)\..*/;
 const chartHeight = 200;
 
 const MySqlDashboard = React.createClass({
@@ -25,6 +25,7 @@ const MySqlDashboard = React.createClass({
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
     const data = snapshot.get('data');
+    const version = data.get('variables.VERSION');
     const waitNames = data.get('wait_event_names', emptyList).toArray().sort();
 
     return (
@@ -102,38 +103,42 @@ const MySqlDashboard = React.createClass({
                              type: 'line'
                          }}/>
         </DashboardSection>
-        <DashboardSection title='Latency'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: [
-                               'status.DB_QUERY_LATENCY'
-                             ],
-                             labels: [
-                               'Query Latency'
-                             ],
-                             type: 'line',
-                             formatter: msZeroDecimalPlaces
-                         }}/>
-        </DashboardSection>
-        <DashboardSection title='Wait Events'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: waitNames.map(name => 'wait.' + name),
-                             labels: waitNames.map(name => name),
-                             type: 'line',
-                             formatter: msZeroDecimalPlaces
-                         }}/>
-        </DashboardSection>
+        {verPatt.test(version) ?
+          <DashboardSection title='Latency'>
+            <ChartWithLegend snapshotId={snapshot.get('id')}
+                             timeframe={timeframe}
+                             height={chartHeight}
+                             margins={{
+                               left: 80
+                             }}
+                             y1={{
+                               metrics: [
+                                 'status.DB_QUERY_LATENCY'
+                               ],
+                               labels: [
+                                 'Query Latency'
+                               ],
+                               type: 'line',
+                               formatter: msZeroDecimalPlaces
+                           }}/>
+          </DashboardSection>
+        : null }
+        {verPatt.test(version) && waitNames && waitNames.length > 0 ?
+          <DashboardSection title='Wait Events'>
+            <ChartWithLegend snapshotId={snapshot.get('id')}
+                             timeframe={timeframe}
+                             height={chartHeight}
+                             margins={{
+                               left: 80
+                             }}
+                             y1={{
+                               metrics: waitNames.map(name => 'wait.' + name),
+                               labels: waitNames,
+                               type: 'line',
+                               formatter: msZeroDecimalPlaces
+                           }}/>
+          </DashboardSection>
+        : null }
         <DashboardSection title='Key Access'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
