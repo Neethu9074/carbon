@@ -32,6 +32,11 @@
       "from": "alphanum-sort@>=1.0.1 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/alphanum-sort/-/alphanum-sort-1.0.2.tgz"
     },
+    "koijs": {
+      "version": "0.2.0",
+      "from": "koijs@>=0.2.0 <1.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/koijs/-/koijs-0.2.0.tgz"
+    },
     "alter": {
       "version": "0.2.0",
       "from": "alter@>=0.2.0 <0.3.0",
