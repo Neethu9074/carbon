@@ -8,6 +8,7 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
@@ -25,7 +26,17 @@ const DockerDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
+    const dockerVersion = snapshot.get('docker_version');
     const hasNetworkMetrics = snapshot.get('NetworkMode', '') === 'bridge';
+
+    if (dockerVersion === '1.11.0' || dockerVersion === '1.11.1') {
+      return (
+        <DashboardNotification type='info'>
+          Due to a regression in Docker 1.11.0 and 1.11.1, no metrics can be collected.
+          This has been fixed by Docker in 1.12.0 and 1.11.2.
+        </DashboardNotification>
+      );
+    }
 
     return (
       <div>
