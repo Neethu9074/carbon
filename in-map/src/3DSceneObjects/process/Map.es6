@@ -1,6 +1,7 @@
 import immutable from 'immutable';
 
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
+import GraphToProcessViewHandler from 'in-map/src/3DSceneObjects/process/GraphToProcessViewHandler';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
 import CameraController from 'in-map/src/controls/process/CameraController';
@@ -9,7 +10,6 @@ import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 import Edge from 'in-map/src/3DSceneObjects/process/Edge';
-import {viewStructure} from 'in-stores/view';
 
 
 export default class Map extends BaseMap {
@@ -17,19 +17,13 @@ export default class Map extends BaseMap {
   constructor({parent}) {
     super({parent, id: 'ProcessMap'});
 
-    this.layouter = new Layouter(this);
-  }
-
-  init() {
-    this.nodes = {};
     this.edges = {};
+    this.nodes = {};
+    this.layouter = new Layouter(this);
+    this.graphToProcessViewAdapter = new GraphToProcessViewHandler(this);
   }
 
-  registerEvents() {
-    super.registerEvents();
-
-    this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
-  }
+  init() {}
 
   setupFactories() {
     const factories = this.factories;
@@ -59,77 +53,44 @@ export default class Map extends BaseMap {
     });
   }
 
-  onInventoryUpdate(edgeModifications) {
-    // maps node id => node instance used to remove unused nodes from the graph
-    const modifiedNodes = {};
-
-    edgeModifications.forEach(edgeModification => {
-      const edgeId = edgeModification.get('id');
-      const fromNode = this.getOrCreateNode(edgeModification.get('from'));
-      modifiedNodes[fromNode.id] = fromNode;
-      const toNode = this.getOrCreateNode(edgeModification.get('to'));
-      modifiedNodes[toNode.id] = toNode;
-
-      if (edgeModification.get('type') === 'add') {
-        // nothing to do, we already know about this edge
-        if (this.edges[edgeId]) {
-          return;
-        }
-
-        this.edges[edgeId] = new Edge(edgeModification, this);
-
-        fromNode.increaseEdgeCount();
-        toNode.increaseEdgeCount();
-      } else {
-        const edge = this.edges[edgeId];
-
-        // nothing to do, we never knew about this edge
-        if (!edge) {
-          return;
-        }
-
-        this.edges[edgeId] = undefined;
-        edge.dispose();
-
-        fromNode.decreaseEdgeCount();
-        toNode.decreaseEdgeCount();
-      }
-    });
-
-    this.removeUnusedNodes();
+  createEdge(id, entity) {
+    this.edges[id] = new Edge(entity, this);
   }
 
-  removeUnusedNodes() {
-    Object.keys(this.nodes).forEach(snapshotId => {
-      const node = this.nodes[snapshotId];
-
-      if (node.getEdgeCount() === 0) {
-        this.nodes[snapshotId] = undefined;
-        node.dispose();
-      }
-    });
-  }
-
-  getOrCreateNode(snapshotId) {
-    let existingNode = this.nodes[snapshotId];
-    if (existingNode) {
-      return existingNode;
+  createNode(id) {
+    if (this.nodes[id]) {
+      return;
     }
-
-    existingNode = this.nodes[snapshotId] = new Node({
-      parent: this, entity: immutable.fromJS({
-        id: snapshotId,
+    this.nodes[id] = new Node({
+      parent: this,
+      entity: immutable.fromJS({
+        id,
         plugin: 'node'
       })
     });
-    return existingNode;
+  }
+
+  createSubNode(id, parentId) {
+    if (!this.nodes[parentId]) {
+      this.createNode(parentId);
+    }
+    this.nodes[parentId].addChild(immutable.fromJS({
+      id,
+      plugin: 'node'
+    }));
+  }
+
+  removeEdge(id) {
+    this.edges[id].dispose();
+    delete this.edges[id];
+  }
+
+  removeNode(id) {
+    this.nodes[id].dispose();
+    delete this.nodes[id];
   }
 
   onZoom() {}
-
-  forEachConnection(callback) {
-    return Object.keys(this.edges).forEach(id => callback(this.edges[id]));
-  }
 
   getAllNodes() {
     const nodes = [];
@@ -150,10 +111,12 @@ export default class Map extends BaseMap {
   }
 
   dispose() {
+    this.graphToProcessViewAdapter.dispose();
+
     this.layouter.dispose();
     this.layouter = null;
 
-    this.forEachConnection(connection => connection.dispose());
+    Object.keys(this.edges).forEach(id => this.edges[id].dispose());
     this.edges = null;
 
     super.dispose();

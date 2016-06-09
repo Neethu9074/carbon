@@ -17,7 +17,29 @@ export function addNode(node) {
 
 export function removeNode(node) {
   nodes.applyStateMutation(nodeMap => {
-    nodeMap[node.id] = undefined;
+    delete nodeMap[node.id];
     return nodeMap;
+  });
+}
+
+
+const edges = createStore({
+  name: 'processViewEdgesStore',
+  initialValue: {}
+});
+
+export const edges$ = edges.observable;
+
+export function addEdge(node) {
+  edges.applyStateMutation(edgeMap => {
+    edgeMap[node.id] = node;
+    return edgeMap;
+  });
+}
+
+export function removeEdge(node) {
+  edges.applyStateMutation(edgeMap => {
+    delete edgeMap[node.id];
+    return edgeMap;
   });
 }

@@ -41,6 +41,7 @@ export default class Edge {
     if (this.connection) {
       this.connection.dispose();
     }
+    this.connection = undefined;
   }
 
   dispose() {

@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
+import {combineLatest} from 'reactive-observables';
 
-import {nodes$} from 'in-map/src/3DSceneObjects/process/processViewStores';
+import {edges$, nodes$} from 'in-map/src/3DSceneObjects/process/processViewStores';
 
 
 export default class FruchtermanReingoldLayout {
@@ -11,26 +12,26 @@ export default class FruchtermanReingoldLayout {
     this.speed =  0.1;
     this.map = map;
 
-    this.nodesSubscription = nodes$
+    this.nodesSubscription = combineLatest([nodes$, edges$])
       .debounce(100)
-      .subscribe(() => this.applyLayout());
+      .subscribe(props => this.applyLayout(props[0], props[1]));
   }
 
-  applyLayout() {
-    const sigmaGraph = this.buildSigmaGraphStructure(this.map);
+  applyLayout(nodeMap, edgesMap) {
+    const sigmaGraph = this.buildSigmaGraphStructure(edgesMap, nodeMap);
     this.start(sigmaGraph);
-    this.applyPositionUpdate(this.map, sigmaGraph);
+    this.applyPositionUpdate(sigmaGraph);
   }
 
-  buildSigmaGraphStructure(map) {
+  buildSigmaGraphStructure(edges, nodes) {
     const graph = {
       nodes: [],
       nodeMap: {},
       edges: []
     };
 
-    const allNodes = map.getAllNodes();
     let posOffet = 0;
+    const allNodes = Object.keys(nodes).map(key => nodes[key]);
     allNodes.forEach((node) => {
       const pos = node.getComponent('position').getPosition();
       const sigmaNode = {
@@ -45,14 +46,13 @@ export default class FruchtermanReingoldLayout {
     });
 
     let edgeIdCounter = 0;
-    map.forEachConnection(edge => {
-      if (edge.connection) {
-        graph.edges.push({
-          id: edgeIdCounter++,
-          source: edge.connection.sourceNode.id,
-          target: edge.connection.destinationNode.id
-        });
-      }
+    const allEdges = Object.keys(edges).map(key => edges[key]);
+    allEdges.forEach(edge => {
+      graph.edges.push({
+        id: edgeIdCounter++,
+        source: edge.sourceNode.id,
+        target: edge.destinationNode.id
+      });
     });
 
     return graph;
@@ -188,7 +188,7 @@ export default class FruchtermanReingoldLayout {
     }
   }
 
-  applyPositionUpdate(map, graph) {
+  applyPositionUpdate(graph) {
     graph.nodes.forEach(node => {
       if (node.isDisposed) {
         return;

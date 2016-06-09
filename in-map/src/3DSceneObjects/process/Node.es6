@@ -162,16 +162,14 @@ export default class Node extends SceneObjectWithSnapshot {
     this.nodes = [];
   }
 
-  setChildren(entities) {
-    this.children = entities;
+  addChild(entity) {
+    this.children.push(entity);
 
-    if (entities.size > 0) {
-      if (!this.stickyNote) {
-        this.stickyNote = new StickyNote(this);
-        this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
-      }
-      this.stickyNote.setNumChildren(entities.size);
+    if (!this.stickyNote) {
+      this.stickyNote = new StickyNote(this);
+      this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
     }
+    this.stickyNote.setNumChildren(this.children.length);
 
     // TODO: if expanded, add to scene
   }
@@ -212,7 +210,6 @@ export default class Node extends SceneObjectWithSnapshot {
       this.tooltip = null;
     }
 
-    this.nodes = null;
     this.children = null;
     this.isExpanded = null;
     this.connections = null;

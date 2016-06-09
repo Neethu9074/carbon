@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
+import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
@@ -29,6 +30,8 @@ export default class Connection extends BaseConnection {
 
     this.bubbles = new Bubbles(this);
     this.bubbles.startAnimation();
+
+    addEdge(this);
   }
 
   onSelectedEnter() {
@@ -114,9 +117,13 @@ export default class Connection extends BaseConnection {
   }
 
   dispose() {
+    removeEdge(this);
+
     // remove fragment first to save the id
     this.lineSMF.removeFragment(this.id);
     this.solidSMF.removeFragment(this.id);
+    this.lineSMF = null;
+    this.solidSMF = null;
 
     super.dispose();
 
