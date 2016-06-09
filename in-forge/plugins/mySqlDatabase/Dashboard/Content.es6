@@ -10,13 +10,8 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
-
+const verPatt = new RegExp(/([5-9]+\.[6-9]+)\..*/);
 const chartHeight = 200;
-
-function perfDataAvailable(version) {
-  const patt = new RegExp('([5-9]+\.[6-9]+)\..*');
-  return patt.test(version);
-}
 
 const MySqlDashboard = React.createClass({
   mixins: [PureRenderMixin],
@@ -108,7 +103,7 @@ const MySqlDashboard = React.createClass({
                              type: 'line'
                          }}/>
         </DashboardSection>
-        {perfDataAvailable(version) ?
+        {verPatt.test(version) ?
           <DashboardSection title='Latency'>
             <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
@@ -128,7 +123,7 @@ const MySqlDashboard = React.createClass({
                            }}/>
           </DashboardSection>
         : null }
-        {perfDataAvailable(version) && waitNames && waitNames.length > 0 ?
+        {verPatt.test(version) && waitNames && waitNames.length > 0 ?
           <DashboardSection title='Wait Events'>
             <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
@@ -138,7 +133,7 @@ const MySqlDashboard = React.createClass({
                              }}
                              y1={{
                                metrics: waitNames.map(name => 'wait.' + name),
-                               labels: waitNames.map(name => name),
+                               labels: waitNames,
                                type: 'line',
                                formatter: msZeroDecimalPlaces
                            }}/>
