@@ -38,6 +38,7 @@ export default class Bubble {
   }
 
   setBubbleSize(size) {
+    size = Math.max(0.05, size);
     this.bubble.scale.set(size, size, size);
   }
 

@@ -12,8 +12,8 @@ const PLANE_VERTICES = [
 // initialize an array with 1 values [1, 1, 1, 1, ...]
 const DEFAULT_COLOR = Array.apply(null, Array(PLANE_VERTICES.length)).map(() => 1);
 
-const ARROW_LENGTH = 0.5;
-const ARROW_WIDTH = 0.3;
+const ARROW_LENGTH = 0.3;
+const ARROW_WIDTH = 0.15;
 
 export default class ArrowContentProvider extends ContentProvider {
   constructor() {

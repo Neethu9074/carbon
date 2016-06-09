@@ -19,9 +19,6 @@ export default class Bubbles {
     this.speedMetric = getLiveMetrics({snapshotId: connection.id}).subscribe(value =>
       this.animationController.setTimeToAnimate(1500 + value * 0.5));
 
-    this.sizeMetric = getLiveMetrics({snapshotId: connection.id}).subscribe(value =>
-      this.bubbles.forEach(bubble => bubble.setBubbleSize(value / 3000)));
-
     this.setupBubbles();
   }
 
@@ -51,7 +48,6 @@ export default class Bubbles {
 
   dispose() {
     this.speedMetric.dispose();
-    this.sizeMetric.dispose();
 
     this.animationController.dispose();
     this.stopAnimation();
