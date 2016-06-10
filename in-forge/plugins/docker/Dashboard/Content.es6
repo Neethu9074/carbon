@@ -26,8 +26,8 @@ const DockerDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
-    const dockerVersion = snapshot.get('docker_version');
-    const hasNetworkMetrics = snapshot.get('NetworkMode', '') === 'bridge';
+    const dockerVersion = snapshot.getIn(['data', 'docker_version']);
+    const hasNetworkMetrics = snapshot.getIn(['data', 'NetworkMode'], '') === 'bridge';
 
     if (dockerVersion === '1.11.0' || dockerVersion === '1.11.1') {
       return (
