@@ -19,7 +19,6 @@ const SpringbootSidebar = React.createClass({
     const snapshot = this.props.snapshot;
     const data = this.props.snapshot.get('data');
     const applicationConfig = data.get('applicationConfig');
-    const ports = data.get('ports');
 
     return (
       <div>
@@ -27,8 +26,6 @@ const SpringbootSidebar = React.createClass({
           <Collapsible.Header>Application Info</Collapsible.Header>
           <Collapsible.Content>
             <SpringbootInfo snapshot={snapshot}/>
-            <KeyValuePopup header='Ports'
-                           data={ports}/>
           </Collapsible.Content>
         </Collapsible>
 

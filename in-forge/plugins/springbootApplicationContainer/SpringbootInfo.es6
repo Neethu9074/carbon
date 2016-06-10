@@ -16,6 +16,7 @@ const SpringbootInfo = React.createClass({
   render() {
     const data = this.props.snapshot.get('data');
     const startedAt = data.get('startedAt');
+    const ports = data.get('ports');
 
     return (
       <DescriptionList>
@@ -35,6 +36,9 @@ const SpringbootInfo = React.createClass({
         </DescriptionItem>
         <DescriptionItem title='Status'>
           {data.get('status')}
+        </DescriptionItem>
+        <DescriptionItem title='Port'>
+          {ports ? ports.valueSeq().join(', ') : null}
         </DescriptionItem>
       </DescriptionList>
     );
