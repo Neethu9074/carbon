@@ -168,6 +168,8 @@ export default class Node extends SceneObjectWithSnapshot {
       this.stickyNote = new StickyNoteCluster(this);
     }
 
+    this.stickyNote.setNumChildren(Object.keys(childIds).length);
+
     // TODO: if expanded, add to scene
   }
 

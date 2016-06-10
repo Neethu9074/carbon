@@ -3,12 +3,24 @@
 .in-sticky-note-process-cluster {
   position: absolute;
   top: 0;
+  color: #333333;
 
   &__content {
-    border-radius: 50%;
-    margin-left: -50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 4px;
+    padding: 5px;
+    max-height: 20px;
+    max-width: 43px;
+
     margin-top: -50%;
+  }
+
+  &__icon {
     font-size: 2rem;
-    color: white;
+    color: #333333;
+    max-width: 33px;
   }
 }
