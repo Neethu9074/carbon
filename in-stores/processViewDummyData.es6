@@ -82,7 +82,7 @@ export function getDummyMetric() {
   return create({
     start(observable) {
       intervalHandle = setInterval(() => {
-        observable.emit((Math.random() * 1000) | 0);
+        observable.emit((Math.random() * 100) | 0);
       }, 1000);
     },
 
