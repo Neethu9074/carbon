@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import MetricList from 'in-map/src/2DSceneObjects/stickyNotes/process/Metric/MetricList';
+import MetricList from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric/MetricList';
 import {nodeMetricsAreActive$} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import getSnapshot from 'in-hoc/getSnapshot';
