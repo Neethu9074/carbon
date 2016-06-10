@@ -19,6 +19,8 @@ export default class Connection extends BaseConnection {
   constructor(params) {
     super(params);
 
+    this.stickyNoteMetric = new StickyNoteMetric(this);
+
     this.addSubscriptions([
       // subscribe to both snapshots to caluclate the color gradient between source and destination
       combineLatest([getSnapshot(this.sourceNode.id), getSnapshot(this.destinationNode.id)])
@@ -31,8 +33,6 @@ export default class Connection extends BaseConnection {
 
       eventBus.on('endUpdate').subscribe(this.update.bind(this))
     ]);
-
-    this.stickyNoteMetric = new StickyNoteMetric(this);
 
     this.bubbles = new Bubbles(this);
     this.bubbles.startAnimation();

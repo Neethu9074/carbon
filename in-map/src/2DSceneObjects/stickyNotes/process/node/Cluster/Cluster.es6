@@ -21,7 +21,6 @@ const ProcessCluster = getSnapshot(React.createClass({
   ],
 
   propTypes: {
-    numChildren: rpt.number.isRequired,
     snapshotId: rpt.string.isRequired,
     collapse: rpt.func.isRequired,
     expand: rpt.func.isRequired
@@ -56,6 +55,8 @@ const ProcessCluster = getSnapshot(React.createClass({
 export default class StickyNoteProcessCluster extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: block});
+
+    this.render();
   }
 
   render() {
