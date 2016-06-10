@@ -30,8 +30,8 @@ import Label from 'in-map/src/3DSceneObjects/process/Label';
 
 export default class Node extends SceneObjectWithSnapshot {
 
-  constructor({parent, entity}) {
-    super({parent, id: entity.get('id')});
+  constructor({parent, entity, additionalParams}) {
+    super({parent, id: entity.get('id'), additionalParams});
 
     this.isExpanded = false;
     this.edgeCount = 0;
@@ -44,6 +44,7 @@ export default class Node extends SceneObjectWithSnapshot {
     });
 
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
+    this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });
 
     addNode(this);
   }
@@ -73,7 +74,11 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
 
-  initComponents() {
+  init(additionalParams) {
+    this.height = additionalParams.height;
+  }
+
+  initComponents(additionalParams) {
     super.initComponents();
 
     const factory = this.getFactory('solidSMF');
@@ -112,7 +117,8 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory
+      factory,
+      height: additionalParams.height
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
   }
@@ -161,9 +167,9 @@ export default class Node extends SceneObjectWithSnapshot {
     // TODO: if expanded, add to scene
   }
 
-  positionChanged(newPosition) {
-    this.label.getComponent('position').setPosition(newPosition.x - 0.5, newPosition.y + 0.5, newPosition.z + 0.5);
-    super.setScreenPositionAnchor(newPosition.x + 0.25, newPosition.y + 0.3, newPosition.z);
+  positionChanged(newPos) {
+    this.label.getComponent('position').setPosition(newPos.x - 0.5, newPos.y + this.height, newPos.z + 0.5);
+    this.setScreenPositionAnchor(newPos.x + 0.25, newPos.y + this.height, newPos.z);
   }
 
   update() {
@@ -197,6 +203,7 @@ export default class Node extends SceneObjectWithSnapshot {
       this.tooltip = null;
     }
 
+    this.height = null;
     this.children = null;
     this.isExpanded = null;
   }

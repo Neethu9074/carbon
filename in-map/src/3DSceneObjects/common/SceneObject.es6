@@ -13,7 +13,7 @@ import {StateMachine} from '../../StateMachine/StateMachine';
 
 export default class SceneObject extends Subscriber {
 
-  constructor({parent, id}) {
+  constructor({parent, id, additionalParams}) {
     super();
 
     this.id = id;
@@ -24,12 +24,12 @@ export default class SceneObject extends Subscriber {
 
     this.stateMachine = new StateMachine(this);
 
-    this.initComponents();
+    this.initComponents(additionalParams);
 
     this.screenPositionAnchor = this.getComponent('position').getPosition().clone();
     this.screenPosition = {x: 0, y: 0};
 
-    this.init();
+    this.init(additionalParams);
 
     this.stateMachine.initialized();
 

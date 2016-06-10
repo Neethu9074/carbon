@@ -4,8 +4,8 @@ import SceneObject from './SceneObject';
 
 export default class SceneObjectWithSnapshot extends SceneObject {
 
-  constructor({parent, id, snapshotId}) {
-    super({parent, id});
+  constructor({parent, id, snapshotId, additionalParams}) {
+    super({parent, id, additionalParams});
 
     snapshotId = snapshotId || id;
     this.addSubscription(getSnapshot(snapshotId)
