@@ -61,27 +61,23 @@ function createRow(db) {
 function createDetails(db, i, context) {
   return (
     <div>
-      <Row>
-        <Col cols={12}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                           timeframe={context.timeframe}
-                           height={150}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             metrics: [
-                               'databases.' + db + '.avg_query_latency'
-                             ],
-                             labels: [
-                               'Query Latency'
-                             ],
-                             type: 'line',
-                             formatter: msZeroDecimalPlaces
-                         }}/>
-        </Col>
-      </Row>
+      <ChartWithLegend snapshotId={context.snapshot.get('id')}
+                       timeframe={context.timeframe}
+                       height={150}
+                       margins={{
+                         left: 80
+                       }}
+                       y1={{
+                         min: 0,
+                         metrics: [
+                           'databases.' + db + '.avg_query_latency'
+                         ],
+                         labels: [
+                           'Query Latency'
+                         ],
+                         type: 'line',
+                         formatter: msZeroDecimalPlaces
+                     }}/>
       <Row>
         <Col cols={6}>
           <ChartWithLegend snapshotId={context.snapshot.get('id')}
