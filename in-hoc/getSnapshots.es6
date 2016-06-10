@@ -50,10 +50,11 @@ export default function getSnapshots(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotIds) {
-        this.subscription = combineLatest(snapshotIds.map(loadSnapshot))
-          .subscribe(snapshots => this.setState({
-            snapshots
-          }));
+        this.subscription = combineLatest(snapshotIds.map(id => loadSnapshot(id)))
+          .subscribe(snapshots => {
+            this.setState({snapshots});
+          }
+        );
       }
     },
 
