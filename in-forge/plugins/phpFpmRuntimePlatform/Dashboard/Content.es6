@@ -36,8 +36,8 @@ const PhpFpmDashboard = React.createClass({
                               snapshot={snapshot}
                               timeframe={timeframe} pool={pool}/>
          : <DashboardNotification key={pool} type='info'>
-            In order to monitor the worker pool {pool}, you need to enable
-            <code>pm.status_path</code> in your PHP-FPM config.
+            In order to monitor the worker pool {pool}, you need to
+            enable <code>pm.status_path</code> in your PHP-FPM config.
          </DashboardNotification>
         )}
       </div>
