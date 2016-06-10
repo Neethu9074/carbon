@@ -4,6 +4,7 @@ import React from 'react';
 
 import DeployedUnitList from 'in-components/DeployedUnitList';
 import TagListSnapshot from 'in-components/TagListSnapshot';
+import KeyValuePopup from 'in-components/KeyValuePopup';
 import Collapsible from 'in-components/Collapsible';
 
 import NodeJsAppInfo from '../NodeJsAppInfo';
@@ -26,6 +27,9 @@ const NodejsDashboardSidebar = React.createClass({
             <NodeJsAppInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
+
+        <KeyValuePopup header='Dependencies'
+                       data={this.props.snapshot.getIn(['data', 'dependencies'])} />
 
         <TagListSnapshot snapshot={snapshot} />
         <DeployedUnitList snapshotId={snapshot.get('id')} />
