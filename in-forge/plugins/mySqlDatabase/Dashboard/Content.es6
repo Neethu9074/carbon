@@ -91,6 +91,27 @@ const MySqlDashboard = React.createClass({
                                type: 'line'
                            }}/>
         </DashboardSection>
+        {perfDataAvailable(version) ?
+          <DashboardSection title='Latency'>
+            <ChartWithLegend snapshotId={snapshot.get('id')}
+                             timeframe={timeframe}
+                             height={chartHeight}
+                             margins={{
+                               left: 80
+                             }}
+                             y1={{
+                               min: 0,
+                               metrics: [
+                                 'status.DB_QUERY_LATENCY'
+                               ],
+                               labels: [
+                                 'avg. Query Latency'
+                               ],
+                               type: 'line',
+                               formatter: msZeroDecimalPlaces
+                           }}/>
+          </DashboardSection>
+        : null }
         <DashboardSection title='Clients'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
@@ -113,27 +134,6 @@ const MySqlDashboard = React.createClass({
                              type: 'line'
                          }}/>
         </DashboardSection>
-        {perfDataAvailable(version) ?
-          <DashboardSection title='Latency'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               metrics: [
-                                 'status.DB_QUERY_LATENCY'
-                               ],
-                               labels: [
-                                 'Query Latency'
-                               ],
-                               type: 'line',
-                               formatter: msZeroDecimalPlaces
-                           }}/>
-          </DashboardSection>
-        : null }
         {perfDataAvailable(version) && waitNames && waitNames.length > 0 ?
           <DashboardSection title='Wait Events'>
             <ChartWithLegend snapshotId={snapshot.get('id')}
