@@ -37,10 +37,7 @@ export default class NodeSpawner {
         entity: immutable.fromJS({
           id: this.id,
           plugin: 'node'
-        }),
-        additionalParams: {
-          height: this.nodesParents.length === 0 ? 0.5 : 0.2
-        }
+        })
       });
       this.node.setChildIds(this.chidlIds);
     }

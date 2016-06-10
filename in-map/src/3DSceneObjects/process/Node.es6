@@ -30,8 +30,8 @@ import Label from 'in-map/src/3DSceneObjects/process/Label';
 
 export default class Node extends SceneObjectWithSnapshot {
 
-  constructor({parent, entity, additionalParams}) {
-    super({parent, id: entity.get('id'), additionalParams});
+  constructor({parent, entity}) {
+    super({parent, id: entity.get('id')});
 
     this.isExpanded = false;
     this.edgeCount = 0;
@@ -74,11 +74,11 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
 
-  init(additionalParams) {
-    this.height = additionalParams.height;
+  init() {
+    this.height = 0.25;
   }
 
-  initComponents(additionalParams) {
+  initComponents() {
     super.initComponents();
 
     const factory = this.getFactory('solidSMF');
@@ -117,8 +117,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory,
-      height: additionalParams.height
+      factory
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
   }
