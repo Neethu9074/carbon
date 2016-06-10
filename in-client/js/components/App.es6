@@ -3,7 +3,6 @@ import React from 'react';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import ProcessMetricsSwitch from 'in-components/ProcessMetricSwitch';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import SidebarIncidents from 'in-components/sidebars/Incident';
@@ -25,7 +24,6 @@ export default function App({children = null}) {
   return (
     <div>
       <AppHeader />
-      <ProcessMetricsSwitch />
 
       <section style={{display: hasChildren ? 'none' : 'block'}}>
         <Map />

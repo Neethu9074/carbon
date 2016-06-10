@@ -8,6 +8,7 @@ import {
   toggleConnectionMetrics
 } from 'in-map/src/3DSceneObjects/process/processViewStores';
 import {isInternalEnvironment} from 'in-services/config';
+import {view, types} from 'in-stores/view';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -19,7 +20,8 @@ const rpt = React.PropTypes;
 
 export default connectTo({
   nodeMetricsAreActive: nodeMetricsAreActive$,
-  connectionMetricsAreActive: connectionMetricsAreActive$
+  connectionMetricsAreActive: connectionMetricsAreActive$,
+  view
   }, React.createClass({
 
     displayName: 'ProcessMetricSwitch',
@@ -30,11 +32,12 @@ export default connectTo({
 
     propTypes: {
       connectionMetricsAreActive: rpt.bool,
-      nodeMetricsAreActive: rpt.bool
+      nodeMetricsAreActive: rpt.bool,
+      view: rpt.string
     },
 
     render() {
-      if (!isInternalEnvironment()) {
+      if (!isInternalEnvironment() || this.props.view !== types.process) {
         return null;
       }
 
@@ -43,9 +46,7 @@ export default connectTo({
           <Button onClick={toggleNodeMetrics}>
             {this.props.nodeMetricsAreActive ? 'node metrics off' : 'node metrics on'}
           </Button>
-
           <br />
-
           <Button onClick={toggleConnectionMetrics}>
             {this.props.connectionMetricsAreActive ? 'connections metrics off' : 'connections metrics on'}
           </Button>
