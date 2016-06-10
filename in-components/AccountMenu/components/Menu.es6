@@ -35,7 +35,7 @@ export default connectTo({
            target='_blank'
            className={block + '__account-menu-link'}
            onClick={closeMenu}>
-          Account Menu
+          Usermanagement Portal
 
           <Icon type='right'
                 className={block + '__account-menu-arrow'}/>
