@@ -5,6 +5,8 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
 import {Row, Col} from 'in-components/Grid';
+import Mtd from 'in-components/Mtd';
+
 import {
   zeroDecimalPlaces,
   msZeroDecimalPlaces
@@ -20,7 +22,7 @@ export default function DatabasesTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Databases'>
+    <DashboardSection title='Schema(s)'>
       <ExpandableTable data={databases}
                        getKey={getKey}
                        createHeader={createHeader}
@@ -34,29 +36,31 @@ export default function DatabasesTable({snapshot, timeframe}) {
   );
 }
 
-
 function getKey(db) {
   return db;
 }
-
 
 function createHeader() {
   return (
     <thead>
       <tr>
-        <th>Database</th>
+        <th>Schema</th>
+        <th>Queries</th>
+        <th>Avg. Query Latency</th>
       </tr>
     </thead>
   );
 }
 
-
-function createRow(db) {
+function createRow(db, index, context) {
   return ([
-    <td>{db}</td>
+    <td>{db}</td>,
+    <Mtd metric={'databases.' + db + '.queries'}
+         snapshot={context.snapshot} />,
+    <Mtd metric={'databases.' + db + '.avg_query_latency'}
+         snapshot={context.snapshot} />
   ]);
 }
-
 
 function createDetails(db, i, context) {
   return (
@@ -73,7 +77,7 @@ function createDetails(db, i, context) {
                            'databases.' + db + '.avg_query_latency'
                          ],
                          labels: [
-                           'Query Latency'
+                           'avg. Query Latency'
                          ],
                          type: 'line',
                          formatter: msZeroDecimalPlaces
