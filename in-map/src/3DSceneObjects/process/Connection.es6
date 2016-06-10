@@ -1,12 +1,14 @@
 import {combineLatest} from 'reactive-observables';
 
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
+import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
 import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
+import eventBus from 'in-map/eventbus';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
 import ACP from '../../SingleMeshFactory/ContentProvider/ArrowContentProvider';
@@ -25,8 +27,12 @@ export default class Connection extends BaseConnection {
       combineLatest([
         this.sourceNode.eventEmitter.on('positionChanged'),
         this.destinationNode.eventEmitter.on('positionChanged')
-      ]).subscribe(() => this.updateGeometry())
+      ]).subscribe(() => this.positionChanged()),
+
+      eventBus.on('endUpdate').subscribe(this.update.bind(this))
     ]);
+
+    this.stickyNoteMetric = new StickyNoteMetric(this);
 
     this.bubbles = new Bubbles(this);
     this.bubbles.startAnimation();
@@ -116,8 +122,31 @@ export default class Connection extends BaseConnection {
     return renderConnectionLine(this);
   }
 
+  positionChanged() {
+    this.updateGeometry();
+
+    const from = this.direction === DIRECTIONS.OUT ? this.sourceNode : this.destinationNode;
+    const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
+    const fromPos = from.getComponent('position').getPosition().clone();
+    const toPos = to.getComponent('position').getPosition().clone();
+
+    const pos = fromPos.add(toPos.sub(fromPos).multiplyScalar(0.5));
+
+    this.setScreenPositionAnchor(pos.x - 0.5, 0, pos.z + 0.5);
+  }
+
+  update() {
+    this.updateScreenPosition();
+
+    this.isInView() ?
+      this.stickyNoteMetric.update() :
+      this.stickyNoteMetric.hide();
+  }
+
   dispose() {
     removeEdge(this);
+
+    this.stickyNoteMetric.dispose();
 
     // remove fragment first to save the id
     this.lineSMF.removeFragment(this.id);

@@ -6,7 +6,8 @@ import {
   addNode,
   removeNode
 } from 'in-map/src/3DSceneObjects/process/processViewStores';
-import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/process/Cluster';
+import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
+import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-map/eventbus';
@@ -43,7 +44,13 @@ export default class Node extends SceneObjectWithSnapshot {
       iconSize: 2
     });
 
-    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
+    this.stickyNoteMetric = new StickyNoteMetric(this);
+
+    this.addSubscriptions([
+      eventBus.on('endUpdate').subscribe(this.update.bind(this)),
+      this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this))
+    ]);
+
     this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });
 
     addNode(this);
@@ -158,26 +165,30 @@ export default class Node extends SceneObjectWithSnapshot {
     }
 
     if (!this.stickyNote) {
-      this.stickyNote = new StickyNote(this);
-      this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
+      this.stickyNote = new StickyNoteCluster(this);
     }
-    this.stickyNote.setNumChildren(numChildren);
 
     // TODO: if expanded, add to scene
   }
 
   positionChanged(newPos) {
     this.label.getComponent('position').setPosition(newPos.x - 0.5, newPos.y + this.height, newPos.z + 0.5);
-    this.setScreenPositionAnchor(newPos.x + 0.25, newPos.y + this.height, newPos.z);
+    this.setScreenPositionAnchor(newPos.x + 0.2, newPos.y + this.height, newPos.z + 0.5);
   }
 
   update() {
     this.updateScreenPosition();
 
     if (this.isInView()) {
-      this.stickyNote.update();
+      if (this.stickyNote) {
+        this.stickyNote.update();
+      }
+      this.stickyNoteMetric.update();
     } else {
-      this.stickyNote.hide();
+      if (this.stickyNote) {
+        this.stickyNote.hide();
+      }
+      this.stickyNoteMetric.hide();
     }
   }
 
@@ -188,6 +199,8 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.label.dispose();
     this.label = null;
+
+    this.stickyNoteMetric.dispose();
 
     if (this.stickyNote) {
       this.stickyNote.dispose();

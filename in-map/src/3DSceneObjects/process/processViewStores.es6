@@ -72,3 +72,25 @@ export function voteDown(id) {
     return nodeMap;
   });
 }
+
+
+const nodeMetricsAreActive = createStore({
+  name: 'nodeMetricsAreActiveStore',
+  initialValue: false
+});
+export const nodeMetricsAreActive$ = nodeMetricsAreActive.observable;
+
+export function toggleNodeMetrics() {
+  nodeMetricsAreActive.applyStateMutation(oldValue => !oldValue);
+}
+
+
+const connectionMetricsAreActive = createStore({
+  name: 'connectionMetricsAreActiveStore',
+  initialValue: false
+});
+export const connectionMetricsAreActive$ = connectionMetricsAreActive.observable;
+
+export function toggleConnectionMetrics() {
+  connectionMetricsAreActive.applyStateMutation(oldValue => !oldValue);
+}
