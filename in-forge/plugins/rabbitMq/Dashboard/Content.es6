@@ -33,13 +33,14 @@ const RabbitMqDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
+    const snapshotId = snapshot.get('id');
 
     return (
       <div>
         <DashboardSection title='Messages'>
           <Row>
             <Col cols={12}>
-              <ChartWithLegend  snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshotId}
                     timeframe={timeframe}
                     height={chartHeight}
                     margins={{
@@ -64,7 +65,7 @@ const RabbitMqDashboard = React.createClass({
 
           <Row>
             <Col cols={6}>
-              <ChartWithLegend  snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshotId}
                     timeframe={timeframe}
                     height={chartHeight}
                     margins={{
@@ -85,7 +86,7 @@ const RabbitMqDashboard = React.createClass({
                     }}/>
             </Col>
             <Col cols={6}>
-              <ChartWithLegend  snapshot={snapshot}
+              <ChartWithLegend snapshotId={snapshotId}
                     timeframe={timeframe}
                     height={chartHeight}
                     margins={{
@@ -110,7 +111,7 @@ const RabbitMqDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Overview'>
-          <ChartWithLegend  snapshot={snapshot}
+          <ChartWithLegend snapshotId={snapshotId}
                 timeframe={timeframe}
                 height={chartHeight}
                 margins={{
