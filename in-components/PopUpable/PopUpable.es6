@@ -19,7 +19,8 @@ const PopUpable = React.createClass({
 
   propTypes: {
     children: rpt.array.isRequired,
-    className: rpt.string
+    className: rpt.string,
+    onClose: rpt.func
   },
 
   getInitialState() {
@@ -63,6 +64,9 @@ const PopUpable = React.createClass({
   },
 
   toggle() {
+    if (this.state.open && this.props.onClose) {
+      this.props.onClose();
+    }
     this.setState({ open: !this.state.open });
   }
 });
