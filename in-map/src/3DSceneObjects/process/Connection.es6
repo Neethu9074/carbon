@@ -34,11 +34,11 @@ export default class Connection extends BaseConnection {
 
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
-      this.eventEmitter.on('screenPositionChanged').subscribe(screenPosition => {
+      this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition => {
         this.stickyNoteMetric.setScreenPosition(screenPosition);
       }),
 
-      this.eventEmitter.on('isVisibleChanged').distinct().subscribe(isVisible =>
+      this.eventEmitter.on('isVisibleChanged_screenPosition').distinct().subscribe(isVisible =>
         isVisible ?
           this.stickyNoteMetric.show() :
           this.stickyNoteMetric.hide()

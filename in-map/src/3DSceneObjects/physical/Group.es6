@@ -25,9 +25,10 @@ export default class Group extends SceneObjectWithSnapshot {
     this.addSubscriptions([
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
-      this.eventEmitter.on('screenPositionChanged').subscribe(screenPosition => this.stickyNote.update(screenPosition)),
+      this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition =>
+        this.stickyNote.update(screenPosition)),
 
-      this.eventEmitter.on('isVisibleChanged').distinct().subscribe(isVisible =>
+      this.eventEmitter.on('isVisibleChanged_screenPosition').distinct().subscribe(isVisible =>
         isVisible ?
           this.stickyNote.show() :
           this.stickyNote.hide()

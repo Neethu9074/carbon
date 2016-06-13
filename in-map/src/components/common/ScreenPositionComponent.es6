@@ -10,6 +10,8 @@ export default class ScreenPositionComponent extends Component {
     this.scene = sceneObject.scene;
     this.screenPositionAnchor = new THREE.Vector3();
     this.screenPosition = {x: 0, y: 0};
+    this.screenPositionChangedKey = 'screenPositionChanged' + id;
+    this.isVisibleChangedKey = 'isVisibleChanged' + id;
 
     this.initialized();
   }
@@ -53,9 +55,9 @@ export default class ScreenPositionComponent extends Component {
   update() {
     const isInView = this.isInView();
     if (isInView) {
-      this.emit('screenPositionChanged', this.screenPosition);
+      this.emit(this.screenPositionChangedKey, this.screenPosition);
     }
-    this.emit('isVisibleChanged', this.isInView());
+    this.emit(this.isVisibleChangedKey, this.isInView());
     this.needsUpdate = false;
   }
 
@@ -70,7 +72,9 @@ export default class ScreenPositionComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.screenPositionChangedKey = null;
     this.screenPositionAnchor = null;
+    this.isVisibleChangedKey = null;
     this.screenPosition = null;
     this.camera = null;
     this.scene = null;

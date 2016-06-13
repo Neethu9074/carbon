@@ -199,7 +199,7 @@ export default class Node extends SceneObjectWithSnapshot {
           }
         }),
 
-        this.eventEmitter.on('isVisibleChanged').distinct().subscribe(isVisible =>
+        this.eventEmitter.on('isVisibleChanged_screenPosition').distinct().subscribe(isVisible =>
           this.metricHandler.setStateForMetricActivity({isOutOfView: !isVisible}))
     ]);
   }

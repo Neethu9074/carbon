@@ -48,23 +48,30 @@ export default class Node extends SceneObjectWithSnapshot {
     this.stickyNoteMetric = new StickyNoteMetric(this);
 
     this.addSubscriptions([
-      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
+      eventBus.on('endUpdate').subscribe(() => {
+        this.getComponent('screenPositionCluster').updateScreenPosition();
+        this.getComponent('screenPositionMetric').updateScreenPosition();
+      }),
 
       this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
 
-      this.eventEmitter.on('screenPositionChanged').subscribe(screenPosition => {
+      this.eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition => {
         if (this.stickyNote) {
           this.stickyNote.setScreenPosition(screenPosition);
         }
-        this.stickyNoteMetric.setScreenPosition(screenPosition);
       }),
 
-      this.eventEmitter.on('isVisibleChanged').distinct().subscribe(isVisible => {
+      this.eventEmitter.on('isVisibleChanged_screenPositionCluster').distinct().subscribe(isVisible => {
         if (this.stickyNote) {
           isVisible ? this.stickyNote.show() : this.stickyNote.hide();
         }
-        isVisible ? this.stickyNoteMetric.show() : this.stickyNoteMetric.hide();
-      })
+      }),
+
+      this.eventEmitter.on('screenPositionChanged_screenPositionMetric').subscribe(screenPosition =>
+        this.stickyNoteMetric.setScreenPosition(screenPosition)),
+
+      this.eventEmitter.on('isVisibleChanged_screenPositionMetric').distinct().subscribe(isVisible =>
+        isVisible ? this.stickyNoteMetric.show() : this.stickyNote.hide())
     ]);
 
     this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });
@@ -144,7 +151,15 @@ export default class Node extends SceneObjectWithSnapshot {
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
 
-    components.screenPosition = new ScreenPositionComponent({sceneObject: this.parent, id: '_screenPosition'});
+    components.screenPositionCluster = new ScreenPositionComponent({
+      sceneObject: this,
+      id: '_screenPositionCluster'
+    });
+
+    components.screenPositionMetric = new ScreenPositionComponent({
+      sceneObject: this,
+      id: '_screenPositionMetric'
+    });
   }
 
   onSnapshotUpdated(snapshot) {
@@ -193,9 +208,14 @@ export default class Node extends SceneObjectWithSnapshot {
 
   positionChanged(newPos) {
     this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height / 2, newPos.z + 0.5);
-    this.getComponent('screenPosition').set3DPositionToProject(newPos.x - 0.2,
-                                                               newPos.y + this.height + 0.75,
-                                                               newPos.z + 0.25);
+
+    this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
+                                                                      newPos.y,
+                                                                      newPos.z + 0.8);
+
+    this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x + 0.2,
+                                                                     this.height * 0.8,
+                                                                     newPos.z - 0.2);
   }
 
   dispose() {
