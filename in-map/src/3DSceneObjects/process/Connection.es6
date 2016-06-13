@@ -3,6 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
 import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
+import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
@@ -31,11 +32,20 @@ export default class Connection extends BaseConnection {
         this.destinationNode.eventEmitter.on('positionChanged')
       ]).subscribe(() => this.positionChanged()),
 
-      eventBus.on('endUpdate').subscribe(this.update.bind(this))
+      eventBus.on('endUpdate').subscribe(this.update.bind(this)),
+      eventBus.on('beginUpdate').subscribe(() => this.particleEmitter.update())
     ]);
 
     this.bubbles = new Bubbles(this);
     this.bubbles.startAnimation();
+
+    this.particleEmitter = new ParticleEmitter({
+      id: this.id + '__particleEmitter',
+      parent: this
+    });
+    this.particleEmitter.setPostition(this.sourceNode.getComponent('position').getPosition());
+    this.particleEmitter.lookAt(this.destinationNode.getComponent('position').getPosition());
+    this.particleEmitter.start();
 
     addEdge(this);
   }
@@ -133,6 +143,9 @@ export default class Connection extends BaseConnection {
     const pos = fromPos.add(toPos.sub(fromPos).multiplyScalar(0.5));
 
     this.setScreenPositionAnchor(pos.x - 0.5, 0, pos.z + 0.5);
+
+    this.particleEmitter.setPostition(fromPos);
+    this.particleEmitter.lookAt(toPos);
   }
 
   update() {
