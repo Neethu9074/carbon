@@ -23,7 +23,6 @@ export default class Map extends SceneObject {
 
   getGroundPlane() { throw new Error('PLEASE OVERRIDE METHOD'); }
   getController() { throw new Error('PLEASE OVERRIDE METHOD'); }
-  onZoom() { throw new Error('PLEASE OVERRIDE METHOD'); }
   init() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
   initComponents() {
@@ -67,6 +66,12 @@ export default class Map extends SceneObject {
 
   layoutNeedsUpdate() {
     this.refreshLayout = true;
+  }
+
+  onZoom(zoomLevel) {
+    if (this.groundPlane) {
+      this.groundPlane.onZoom(zoomLevel);
+    }
   }
 
   findNodeById(id) {

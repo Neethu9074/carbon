@@ -126,6 +126,8 @@ export default class CameraController extends BaseCameraController {
 
     this.targetCameraZPosition = this.zoomLevel / 2.5;
     this.targetCameraFrustumSize = this.zoomLevel / 20;
+
+    this.scene.onZoom({zoomLevel: this.zoomLevel});
   }
 
   onDoubleClicked() {

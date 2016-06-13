@@ -53,8 +53,8 @@ export default class MapHandler {
     return camera;
   }
 
-  onZoom() {
-    this.doIfPresent(map => map.onZoom());
+  onZoom(zoomLevel) {
+    this.doIfPresent(map => map.onZoom(zoomLevel));
   }
 
   doIfPresent(action) {

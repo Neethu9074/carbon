@@ -79,8 +79,6 @@ export default class Map extends BaseMap {
     delete this.nodes[id];
   }
 
-  onZoom() {}
-
   getAllNodes() {
     return Object.keys(this.nodes).map(snapshotId => this.nodes[snapshotId]);
   }
