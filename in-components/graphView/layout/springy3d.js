@@ -500,7 +500,7 @@
     if (this._started) return;
     this._started = true;
     this._stop = false;
-    let iterationCount = 0;
+    var iterationCount = 0;
 
     if (onRenderStart !== undefined) { onRenderStart(); }
 
