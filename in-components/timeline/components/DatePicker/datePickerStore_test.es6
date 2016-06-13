@@ -11,9 +11,7 @@ import {resetStoreRegistry} from 'in-stores/store';
 // 2016-06-13 07:09:25.102Z
 const initialServerTime = 1465801765102;
 
-// import {serverTime$} from 'in-stores/serverTime';
-
-describe.skip('in-components/timeline/components/DatePicker/datePickerStore', () => {
+describe('in-components/timeline/components/DatePicker/datePickerStore', () => {
 
   let bigBangTimestamp$;
   let serverTime$;
@@ -59,7 +57,7 @@ describe.skip('in-components/timeline/components/DatePicker/datePickerStore', ()
     it('should be invalid when time is in the future', () => {
       mod.setTimeString('11:30:00');
       subscribe();
-      expect(dateValidSubscriber).to.have.been.calledWith(false);
+      expect(dateValidSubscriber).to.have.been.calledWith(true);
       expect(timeValidSubscriber).to.have.been.calledWith(false);
     });
 
@@ -76,7 +74,7 @@ describe.skip('in-components/timeline/components/DatePicker/datePickerStore', ()
       mod.setTimeString('11:30:00');
       subscribe();
       expect(dateValidSubscriber).to.have.been.calledWith(false);
-      expect(timeValidSubscriber).to.have.been.calledWith(true);
+      expect(timeValidSubscriber).to.have.been.calledWith(false);
     });
 
     it('should be invalid when the time format is wrong', () => {
@@ -88,8 +86,8 @@ describe.skip('in-components/timeline/components/DatePicker/datePickerStore', ()
     });
 
     function subscribe() {
-      mod.dateIsValid$.subscribe(dateValidSubscriber);
-      mod.timeIsValid$.subscribe(timeValidSubscriber);
+      mod.isDateTimeValid$.map(dateTime => dateTime.date).subscribe(dateValidSubscriber);
+      mod.isDateTimeValid$.map(dateTime => dateTime.time).subscribe(timeValidSubscriber);
     }
   });
 });

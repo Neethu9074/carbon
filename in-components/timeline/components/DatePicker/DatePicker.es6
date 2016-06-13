@@ -16,8 +16,7 @@ import Icon from 'in-components/Icon';
 import {
   dateString$,
   timeString$,
-  dateIsValid$,
-  timeIsValid$,
+  isDateTimeValid$,
   setDateString,
   setTimeString,
   reset
@@ -34,8 +33,7 @@ export default connectTo({
     bigBangTimestamp: bigBangTimestamp$,
     serverTime: serverTime$,
 
-    dateIsValid: dateIsValid$,
-    timeIsValid: timeIsValid$,
+    isDateTimeValid: isDateTimeValid$,
     dateString: dateString$,
     timeString: timeString$
   },
@@ -51,11 +49,13 @@ export default connectTo({
       applyDate: rpt.func.isRequired,
       onClose: rpt.func.isRequired,
       bigBangTimestamp: rpt.number,
+      isDateTimeValid: rpt.shape({
+        date: rpt.bool.isRequired,
+        time: rpt.bool.isRequired
+      }),
       serverTime: rpt.number,
       dateString: rpt.string,
-      timeString: rpt.string,
-      dateIsValid: rpt.bool,
-      timeIsValid: rpt.bool
+      timeString: rpt.string
     },
 
     componentWillMount() {
@@ -69,6 +69,12 @@ export default connectTo({
 
     componentWillUnmount() {
       window.removeEventListener('mouseup', this.onMouseUp, false);
+    },
+
+    getInitialState() {
+      return {
+        month: new Date()
+      };
     },
 
     render() {
@@ -95,18 +101,18 @@ export default connectTo({
           <div className={block + '__inputs'}>
             <TextInput heading={'Date'}
                        value={this.props.dateString}
-                       isValid={this.props.dateIsValid}
+                       isValid={this.props.isDateTimeValid.date}
                        validationMessage={'Please enter a date that is not in the future (' + dateFormat + ')'}
                        onChange={setDateString} />
 
             <TextInput heading={'Time'}
                        value={this.props.timeString}
-                       isValid={this.props.timeIsValid}
+                       isValid={this.props.isDateTimeValid.time}
                        validationMessage={'Please enter a time that is not in the future (' + timeFormat + ')'}
                        onChange={setTimeString} />
           </div>
 
-          <DayPicker initialMonth={date}
+          <DayPicker initialMonth={this.state.month}
                      modifiers={{
                        selected: day => dateUtils.isSameDay(day, date),
                        inactive: day => !dateUtils.isDayInRange(day, {
@@ -120,7 +126,7 @@ export default connectTo({
     },
 
     getMergedDate() {
-      if (!this.props.dateIsValid  || !this.props.timeIsValid) {
+      if (!this.props.isDateTimeValid.date  || !this.props.isDateTimeValid.time) {
         return undefined;
       }
 
