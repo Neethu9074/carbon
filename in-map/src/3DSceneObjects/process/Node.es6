@@ -41,7 +41,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.label = new Label({
       id: this.id,
       parent: this,
-      iconSize: 2
+      iconSize: 2.5
     });
 
     this.stickyNoteMetric = new StickyNoteMetric(this);
@@ -82,7 +82,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
 
   init() {
-    this.height = 0.25;
+    this.height = 0.5;
   }
 
   initComponents() {
@@ -174,7 +174,7 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   positionChanged(newPos) {
-    this.label.getComponent('position').setPosition(newPos.x - 0.5, newPos.y + this.height, newPos.z + 0.5);
+    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height / 2, newPos.z + 0.5);
     this.setScreenPositionAnchor(newPos.x + 0.2, newPos.y + this.height, newPos.z + 0.5);
   }
 

@@ -37,7 +37,7 @@ export default class ArrowContentProvider extends ContentProvider {
                                         toPos.z - fromPos.z);
 
     direction.normalize();
-    toPos.sub(direction.clone().multiplyScalar(0.42));
+    toPos.sub(direction.clone().multiplyScalar(0.5));
 
     direction.multiplyScalar(ARROW_LENGTH);
     const arrowStart = toPos.sub(direction);
