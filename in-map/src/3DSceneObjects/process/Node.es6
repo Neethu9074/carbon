@@ -82,7 +82,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
 
   init() {
-    this.height = 0.5;
+    this.height = 1;
   }
 
   initComponents() {
