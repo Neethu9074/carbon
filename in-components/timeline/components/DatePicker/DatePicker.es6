@@ -107,13 +107,15 @@ export default connectTo({
             <TextInput heading={'Date'}
                        value={this.props.dateString}
                        isValid={this.props.isDateTimeValid.date}
-                       validationMessage={'Please enter a date that is not in the future (' + dateFormat + ')'}
+                       validationMessage={'Please enter a date within the monitored time range ' +
+                                          'in the format (' + dateFormat + ')'}
                        onChange={setDateString} />
 
             <TextInput heading={'Time'}
                        value={this.props.timeString}
                        isValid={this.props.isDateTimeValid.time}
-                       validationMessage={'Please enter a time that is not in the future (' + timeFormat + ')'}
+                       validationMessage={'Please enter a time within the monitored time range ' +
+                                          'in the format (' + timeFormat + ')'}
                        onChange={setTimeString} />
           </div>
 
