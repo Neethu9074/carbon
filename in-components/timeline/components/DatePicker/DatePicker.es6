@@ -78,6 +78,11 @@ export default connectTo({
     },
 
     render() {
+      const isDateTimeValid = this.props.isDateTimeValid;
+      if (!isDateTimeValid) {
+        return null;
+      }
+
       const date = this.getMergedDate();
       const bigBangTimestamp = this.props.bigBangTimestamp;
       const serverTime = this.props.serverTime;
