@@ -24,7 +24,7 @@ export default class MetricHandler {
       if (metric) {
         this.currentMetric = metric.get('metrics');
 
-        if (this.canShowMetrics) {
+        if (!this.isOutOfView) {
           this.subscribeToCurrentMetric();
           this.client.showMetrics(this.currentMetric);
         }
@@ -36,21 +36,17 @@ export default class MetricHandler {
   }
 
   setStateForMetricActivity({isOutOfView}) {
-    if (isOutOfView !== undefined) {
-      this.isOutOfView = isOutOfView;
+    this.isOutOfView = isOutOfView;
+
+    if (!this.currentMetric) {
+      return;
     }
 
-    if (!this.isOutOfView && this.currentMetric) {
-      if (!this.canShowMetrics) {
-        this.canShowMetrics = true;
-        this.resumeMetrics();
-        this.client.showMetrics();
-      }
+    if (isOutOfView) {
+      this.pauseMetrics();
     } else {
-      if (this.canShowMetrics) {
-        this.canShowMetrics = false;
-        this.pauseMetrics();
-      }
+      this.resumeMetrics();
+      this.client.showMetrics();
     }
   }
 

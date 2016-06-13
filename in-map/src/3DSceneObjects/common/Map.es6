@@ -14,11 +14,12 @@ export default class Map extends SceneObject {
     this.groups = [];
 
     this.init();
-    this.registerEvents();
 
     this.camera = new OrthographicCamera({ scene: parent });
     this.controller = this.getController(parent.canvas);
     this.groundPlane = this.getGroundPlane();
+
+    this.registerEvents();
   }
 
   getGroundPlane() { throw new Error('PLEASE OVERRIDE METHOD'); }

@@ -44,7 +44,7 @@ const ProcessCluster = getSnapshot(React.createClass({
       <div className={block + '__content'}
            style={{backgroundColor: color}}>
         {this.props.numChildren}
-        <Icon type={this.state.expanded ? 'timeline_close' : 'timeline_open'}
+        <Icon type={this.state.expanded ? 'right' : 'down'}
               className={block + '__icon'}
               onClick={this.onClick} />
       </div>

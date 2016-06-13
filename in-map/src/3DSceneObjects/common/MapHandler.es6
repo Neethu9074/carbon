@@ -7,6 +7,12 @@ import ProcessMap from '../process/Map';
 export default class MapHandler {
 
   constructor({scene}) {
+    this.scene = scene;
+  }
+
+  subscribe() {
+    const scene = this.scene;
+
     this.viewSubscription = view.subscribe(v => {
       this.doIfPresent(map => map.dispose());
       scene.renderScene();

@@ -7,6 +7,7 @@ import eventBus from 'in-map/eventbus';
 
 import ConnectionsHandlerComponent from 'in-map/src/components/physical/ConnectionsHandlerComponent';
 import GroundLineMeshComponent from 'in-map/src/components/physical/GroundLineMeshComponent';
+import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import HighlightingComponent from 'in-map/src/components/physical/HighlightingComponent';
 import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
 import GroundMeshComponent from 'in-map/src/components/physical/GroundMeshComponent';
@@ -175,11 +176,13 @@ export default class Node extends SceneObjectWithSnapshot {
     components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject});
 
     components.power = new PowerComponent({sceneObject});
+
+    components.screenPosition = new ScreenPositionComponent({sceneObject, id: '_screenPosition'});
   }
 
   registerEvents() {
     this.addSubscriptions([
-      eventBus.on('endUpdate').subscribe(data => this.update(data)),
+      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
       activeMetric.subscribe(metric => {
         this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE,
@@ -194,7 +197,10 @@ export default class Node extends SceneObjectWithSnapshot {
           if (this.id === id) {
             eventBus.emit('flyToEntity', this);
           }
-        })
+        }),
+
+        this.eventEmitter.on('isVisibleChanged').distinct().subscribe(isVisible =>
+          this.metricHandler.setStateForMetricActivity({isOutOfView: !isVisible}))
     ]);
   }
 
@@ -233,28 +239,21 @@ export default class Node extends SceneObjectWithSnapshot {
     this.getComponent('metric').setValues(values);
   }
 
-  update() {
-    this.updateScreenPosition();
-
-    if (this.metricHandler) {
-      this.metricHandler.setStateForMetricActivity({ isOutOfView: !this.isInView() });
-    }
-  }
-
   onSnapshotUpdated() {
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
   }
 
-  updateScreenAnchorPosition() {
-    const pos = this.getComponent('position').getPosition();
-    super.setScreenPositionAnchor(pos.x - 0.2, pos.y + this.height + 0.75, pos.z + 0.25);
-  }
-
   positionChanged(newPosition) {
     this.label.getComponent('position').setPosition(newPosition.x, newPosition.y + this.height + 0.2, newPosition.z);
-    this.updateScreenAnchorPosition();
+
+    this.updateScreenPosition();
+  }
+
+  updateScreenPosition() {
+    const pos = this.getComponent('position').getPosition();
+    this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.2, pos.y + this.height + 0.75, pos.z + 0.25);
   }
 
   setPower(power) {
@@ -265,7 +264,7 @@ export default class Node extends SceneObjectWithSnapshot {
     const pos = this.getComponent('position').getPosition();
     this.label.getComponent('position').setPosition(pos.x, pos.y + this.height + 0.2, pos.z);
 
-    this.updateScreenAnchorPosition();
+    this.updateScreenPosition();
   }
 
   healthChanged(maxSeverity) {

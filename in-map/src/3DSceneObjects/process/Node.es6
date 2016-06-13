@@ -12,6 +12,7 @@ import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-map/eventbus';
 
+import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import HighlightingComponent from 'in-map/src/components/process/HighlightingComponent';
 import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
 import TopMeshComponent from 'in-map/src/components/process/TopMeshComponent';
@@ -47,8 +48,23 @@ export default class Node extends SceneObjectWithSnapshot {
     this.stickyNoteMetric = new StickyNoteMetric(this);
 
     this.addSubscriptions([
-      eventBus.on('endUpdate').subscribe(this.update.bind(this)),
-      this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this))
+      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
+
+      this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
+
+      this.eventEmitter.on('screenPositionChanged').subscribe(screenPosition => {
+        if (this.stickyNote) {
+          this.stickyNote.setScreenPosition(screenPosition);
+        }
+        this.stickyNoteMetric.setScreenPosition(screenPosition);
+      }),
+
+      this.eventEmitter.on('isVisibleChanged').distinct().subscribe(isVisible => {
+        if (this.stickyNote) {
+          isVisible ? this.stickyNote.show() : this.stickyNote.hide();
+        }
+        isVisible ? this.stickyNoteMetric.show() : this.stickyNoteMetric.hide();
+      })
     ]);
 
     this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });
@@ -112,7 +128,7 @@ export default class Node extends SceneObjectWithSnapshot {
       layer: 2
     });
 
-    components.highlight = new HighlightingComponent({sceneObject: this});
+    components.highlight = new HighlightingComponent({sceneObject});
 
     // the topping of the cylinder
     components.topMesh = new TopMeshComponent({
@@ -124,9 +140,11 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory
+      factory: this.getFactory('topMeshSMF')
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
+
+    components.screenPosition = new ScreenPositionComponent({sceneObject: this.parent, id: '_screenPosition'});
   }
 
   onSnapshotUpdated(snapshot) {
@@ -175,23 +193,9 @@ export default class Node extends SceneObjectWithSnapshot {
 
   positionChanged(newPos) {
     this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height / 2, newPos.z + 0.5);
-    this.setScreenPositionAnchor(newPos.x + 0.2, newPos.y + this.height, newPos.z + 0.5);
-  }
-
-  update() {
-    this.updateScreenPosition();
-
-    if (this.isInView()) {
-      if (this.stickyNote) {
-        this.stickyNote.update();
-      }
-      this.stickyNoteMetric.update();
-    } else {
-      if (this.stickyNote) {
-        this.stickyNote.hide();
-      }
-      this.stickyNoteMetric.hide();
-    }
+    this.getComponent('screenPosition').set3DPositionToProject(newPos.x - 0.2,
+                                                               newPos.y + this.height + 0.75,
+                                                               newPos.z + 0.25);
   }
 
   dispose() {

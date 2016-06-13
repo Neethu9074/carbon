@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
+import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
@@ -31,7 +32,17 @@ export default class Connection extends BaseConnection {
         this.destinationNode.eventEmitter.on('positionChanged')
       ]).subscribe(() => this.positionChanged()),
 
-      eventBus.on('endUpdate').subscribe(this.update.bind(this))
+      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
+
+      this.eventEmitter.on('screenPositionChanged').subscribe(screenPosition => {
+        this.stickyNoteMetric.setScreenPosition(screenPosition);
+      }),
+
+      this.eventEmitter.on('isVisibleChanged').distinct().subscribe(isVisible =>
+        isVisible ?
+          this.stickyNoteMetric.show() :
+          this.stickyNoteMetric.hide()
+      )
     ]);
 
     this.bubbles = new Bubbles(this);
@@ -54,6 +65,12 @@ export default class Connection extends BaseConnection {
     this.solidSMF = this.parent.getFactory('solidSMF');
 
     super.init();
+  }
+
+  initComponents() {
+    super.initComponents();
+
+    this.components.screenPosition = new ScreenPositionComponent({sceneObject: this, id: '_screenPosition'});
   }
 
   setupGeometry() {
@@ -129,18 +146,9 @@ export default class Connection extends BaseConnection {
     const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
     const fromPos = from.getComponent('position').getPosition().clone();
     const toPos = to.getComponent('position').getPosition().clone();
-
     const pos = fromPos.add(toPos.sub(fromPos).multiplyScalar(0.5));
 
-    this.setScreenPositionAnchor(pos.x - 0.5, 0, pos.z + 0.5);
-  }
-
-  update() {
-    this.updateScreenPosition();
-
-    this.isInView() ?
-      this.stickyNoteMetric.update() :
-      this.stickyNoteMetric.hide();
+    this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.5, 0, pos.z + 0.5);
   }
 
   dispose() {
