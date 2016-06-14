@@ -28,7 +28,6 @@ const Controls = React.createClass({
 
           {this.renderControlIcon('metrics', 'metrics', 'Show metrics.', true)}
           {this.renderControlIcon('tags', 'tags', 'Show tags.', true)}
-          {this.renderControlIcon('zones', 'components', 'Show list of components.', true)}
 
           {__DEV__ ?
             this.renderControlIcon('system', 'mapStats', 'Show map rendering stats.', true)
