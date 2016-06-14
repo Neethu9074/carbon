@@ -3,31 +3,26 @@ import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription(
   // event ID
-  'subscribe-historic-metric',
+  'subscribe-historic-metric-single',
 
   getId,
 
   // data to be send for subscription
-  (subscriptionId, {snapshotId, metric, timeframe, aggregation, rollup}) => {
+  (subscriptionId, {snapshotId, metric, time, aggregation, rollup}) => {
     return {
       subscriptionId,
       aggregation,
       snapshotId,
-      timeframe,
+      time,
       metric,
       rollup
     };
   },
 
   // data transformation on onData
-  dataPoints => {
-    for (let i = 0, len = dataPoints.length; i < len; i++) {
-      dataPoints[i].time = dataPoints[i][0];
-    }
-    return dataPoints;
-  }
+  v => v
 );
 
-function getId({snapshotId, metric, timeframe, aggregation, rollup}) {
-  return snapshotId + metric + timeframe.windowSize + timeframe.to + aggregation + rollup;
+function getId({snapshotId, metric, time, aggregation, rollup}) {
+  return snapshotId + metric + time + aggregation + rollup;
 }
