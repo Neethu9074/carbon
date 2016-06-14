@@ -9,12 +9,12 @@ import {
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
-import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-map/eventbus';
 
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
+import {getColor} from 'in-sdk/color/color';
 
 
 export default class Node extends SceneObjectWithSnapshot {
@@ -120,7 +120,7 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   onSnapshotUpdated(snapshot) {
-    this.components.mesh.colorChanged(getColorPool('processes').getColorRGB(snapshot.get('plugin')));
+    this.components.mesh.colorChanged(getColor(snapshot));
   }
 
   increaseEdgeCount() {

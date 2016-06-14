@@ -7,8 +7,8 @@ import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processView
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
-import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
+import {getColor} from 'in-sdk/color/color';
 import eventBus from 'in-map/eventbus';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
@@ -111,9 +111,8 @@ export default class Connection extends BaseConnection {
   }
 
   setColorFromSnapshots(sourceSnapshot, destinationSnapshot) {
-    const colorPool = getColorPool('processes');
-    const sourceColor = colorPool.getColorRGB(sourceSnapshot.get('plugin'));
-    const destinationColor = colorPool.getColorRGB(destinationSnapshot.get('plugin'));
+    const sourceColor = getColor(sourceSnapshot);
+    const destinationColor = getColor(destinationSnapshot);
 
     // since process connections are straight lines, we just need 2 * 3 floats for the gradient
     // + 4 * 3 colors for the arrow
