@@ -122,7 +122,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
 
   init() {
-    this.height = 1;
+    this.height = 0.5;
   }
 
   initComponents() {
@@ -224,14 +224,14 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   positionChanged(newPos) {
-    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height / 2, newPos.z + 0.5);
+    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height, newPos.z + 0.5);
 
     this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
                                                                       newPos.y,
                                                                       newPos.z + 0.8);
 
     this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x,
-                                                                     this.height * 0.5,
+                                                                     this.height,
                                                                      newPos.z);
   }
 
