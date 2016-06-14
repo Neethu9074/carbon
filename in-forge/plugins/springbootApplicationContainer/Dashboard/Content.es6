@@ -27,7 +27,8 @@ const SpringbootDashboard = React.createClass({
     const allStatusCodes = snapshot.getIn(['data', 'allStatusCodes'], emptyList).sort();
     const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
     const statusCodeRequestMetrics = allStatusCodes.map(statusCode => 'statusCode.' + statusCode).toArray();
-    const statusCodeRequestLabels = allStatusCodes.map(statusCode => 'Request Count[' + statusCode + ']').toArray();
+    const statusCodeRequestLabels = allStatusCodes
+      .map(statusCode => 'Requests with Status Code ' + statusCode).toArray();
     return (
       <div>
         {allStatusCodes.size > 0 ?
@@ -37,7 +38,8 @@ const SpringbootDashboard = React.createClass({
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
-                                 left: 80
+                                 left: 80,
+                                 right: 80
                                }}
                                y1={{
                                  metrics: statusCodeRequestMetrics,
@@ -49,7 +51,7 @@ const SpringbootDashboard = React.createClass({
                                   'requests'
                                  ],
                                  labels: [
-                                  'Total Request Count'
+                                  'All Requests'
                                  ],
                                  type: 'line'
                                }}/>

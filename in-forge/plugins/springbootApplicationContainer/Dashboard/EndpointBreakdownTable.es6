@@ -63,14 +63,16 @@ function createRow(statusCodes, endpoint, context) {
 function createDetails(statusCodes, endpoint, context) {
   const statusCodeRequestMetrics = statusCodes.map(statusCode => 'counter.status.' + statusCode + '.' + endpoint)
     .toArray();
-  const statusCodeRequestLabels = statusCodes.map(statusCode => 'Request Count[' + statusCode + ']').toArray();
+  const statusCodeRequestLabels = statusCodes
+    .map(statusCode => 'Requests with Status Code ' + statusCode).toArray();
   return (
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
                        key={endpoint}
              height={200}
              margins={{
-               left: 80
+               left: 80,
+               right: 80
              }}
              y1={{
                metrics: statusCodeRequestMetrics,
