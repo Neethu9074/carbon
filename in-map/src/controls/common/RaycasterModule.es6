@@ -41,6 +41,13 @@ export default class RaycasterModule extends Module {
         this.handleRayCasting();
       }),
 
+      this.eventEmitter.on('onMouseLeave')
+      .subscribe(() => {
+        this.cursorPosition.x = Infinity;
+        this.cursorPosition.y = Infinity;
+        this.handleRayCasting();
+      }),
+
       tooltipStore.activeTooltip.subscribe(tooltip => this.tooltip2DIsActive = tooltip ? true : false),
 
       this.eventEmitter.on('onZoom').subscribe(this.handleRayCasting.bind(this)),
