@@ -7,6 +7,7 @@ import MouseControlsModule from '../common/MouseControlsModule';
 import TouchControlsModule from '../common/TouchControlsModule';
 import BaseCameraController from '../common/CameraController';
 import RaycasterModule from '../common/RaycasterModule';
+import {setupStates} from '../common/States/index';
 
 
 export default class CameraController extends BaseCameraController {
@@ -23,6 +24,8 @@ export default class CameraController extends BaseCameraController {
     this.init(scene, map);
 
     this.setZoomLevel(260);
+    this.states = setupStates(this);
+    this.state = this.states.mid;
     this.setupEvents();
 
     const eventEmitter = this.eventEmitter;
@@ -65,6 +68,15 @@ export default class CameraController extends BaseCameraController {
       .clone()
       .sub(new THREE.Vector3())
       .normalize();
+  }
+
+  switchStateIfNext(zoomLevel) {
+    const next = this.state.getNext(zoomLevel);
+    if (next) {
+      this.state.leave();
+      this.state = next;
+      this.state.enter();
+    }
   }
 
   initZoomField() {
@@ -218,6 +230,7 @@ export default class CameraController extends BaseCameraController {
     const delta = this.targetZoomLevel - this.zoomLevel;
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
+    this.switchStateIfNext(this.zoomLevel);
 
     // get the position of the point in world space where the mouse is pointing at
     // and before the camera zoomed in
@@ -277,6 +290,8 @@ export default class CameraController extends BaseCameraController {
     this.zoomLevel = null;
     this.zoomSpeed = null;
     this.camera = null;
+    this.states = null;
+    this.state = null;
     this.scene = null;
     this.map = null;
   }
