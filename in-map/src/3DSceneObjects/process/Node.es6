@@ -80,6 +80,9 @@ export default class Node extends SceneObjectWithSnapshot {
         if (props[0] && props[1]) {
           if (!this.stickyNoteMetric) {
             this.stickyNoteMetric = new StickyNoteMetric(this);
+
+            // force screen position update
+            this.getComponent('screenPositionMetric').updateScreenPosition(true);
           }
         } else if (this.stickyNoteMetric) {
           this.stickyNoteMetric.dispose();

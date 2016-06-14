@@ -1,9 +1,9 @@
 import {combineLatest} from 'reactive-observables';
 
+import {addEdge, removeEdge, connectionMetricsAreActive$} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
@@ -20,8 +20,6 @@ export default class Connection extends BaseConnection {
   constructor(params) {
     super(params);
 
-    this.stickyNoteMetric = new StickyNoteMetric(this);
-
     this.addSubscriptions([
       // subscribe to both snapshots to caluclate the color gradient between source and destination
       combineLatest([getSnapshot(this.sourceNode.id), getSnapshot(this.destinationNode.id)])
@@ -35,14 +33,27 @@ export default class Connection extends BaseConnection {
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
       this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition => {
-        this.stickyNoteMetric.setScreenPosition(screenPosition);
+        if (this.stickyNoteMetric) {
+          this.stickyNoteMetric.setScreenPosition(screenPosition);
+        }
       }),
 
-      this.eventEmitter.on('isVisibleChanged_screenPosition').distinct().subscribe(isVisible =>
-        isVisible ?
-          this.stickyNoteMetric.show() :
-          this.stickyNoteMetric.hide()
-      )
+      combineLatest([
+        this.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
+        connectionMetricsAreActive$
+      ]).subscribe(props => {
+        if (props[0] && props[1]) {
+          if (!this.stickyNoteMetric) {
+            this.stickyNoteMetric = new StickyNoteMetric(this);
+
+            // force screen position update
+            this.getComponent('screenPosition').updateScreenPosition(true);
+          }
+        } else if (this.stickyNoteMetric) {
+          this.stickyNoteMetric.dispose();
+          this.stickyNoteMetric = null;
+        }
+      })
     ]);
 
     this.bubbles = new Bubbles(this);
@@ -172,7 +183,10 @@ export default class Connection extends BaseConnection {
   dispose() {
     removeEdge(this);
 
-    this.stickyNoteMetric.dispose();
+    if (this.stickyNoteMetric) {
+      this.stickyNoteMetric.dispose();
+      this.stickyNoteMetric = null;
+    }
 
     // remove fragment first to save the id
     this.lineSMF.removeFragment(this.id);

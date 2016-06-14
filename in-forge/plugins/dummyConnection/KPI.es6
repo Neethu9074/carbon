@@ -18,10 +18,10 @@ export default React.createClass({
     return (
       <KPIList snapshot={this.props.snapshot}
                kpis={[
-                 'calls',
+                 'errors',
                  'latency',
-                 'sessions',
-                 'errors'
+                 'calls',
+                 'sessions'
                ]}/>
     );
   }

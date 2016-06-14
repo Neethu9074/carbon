@@ -20,7 +20,7 @@ export default class ScreenPositionComponent extends Component {
     this.screenPositionAnchor.set(x, y, z);
   }
 
-  updateScreenPosition() {
+  updateScreenPosition(force = false) {
     if (!this.camera) {
       this.camera = this.scene.mapHandler.getCurrentCamera();
       // double check for lazy camera
@@ -41,7 +41,7 @@ export default class ScreenPositionComponent extends Component {
     screenPosition.x = (screenPosition.x + 1) / 2 * width;
     screenPosition.y = -(screenPosition.y - 1) / 2 * height;
 
-    if (this.screenPosition.x !== screenPosition.x || this.screenPosition.y !== screenPosition.y) {
+    if (force || (this.screenPosition.x !== screenPosition.x || this.screenPosition.y !== screenPosition.y)) {
       this.screenPosition.x = screenPosition.x;
       this.screenPosition.y = screenPosition.y;
 
@@ -57,6 +57,7 @@ export default class ScreenPositionComponent extends Component {
     if (isInView) {
       this.emit(this.screenPositionChangedKey, this.screenPosition);
     }
+
     this.emit(this.isVisibleChangedKey, this.isInView());
     this.needsUpdate = false;
   }
