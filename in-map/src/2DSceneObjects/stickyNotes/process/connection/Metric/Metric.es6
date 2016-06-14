@@ -29,8 +29,10 @@ const ProcessCluster = getSnapshot(React.createClass({
     }
 
     return (
-      <Jail component={this.getForgeSpecificComponent('KPI')}
-            props={{snapshot}}/>
+      <div className={block + '__wrapper'}>
+        <Jail component={this.getForgeSpecificComponent('KPI')}
+              props={{snapshot}}/>
+      </div>
     );
   },
 

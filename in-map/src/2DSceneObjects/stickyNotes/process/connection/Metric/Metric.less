@@ -3,9 +3,14 @@
 .in-sticky-connection-process-metric {
   position: absolute;
   top: calc(0 - 25px);
-  left: calc(0 - 100px);
+  left: 0;
 
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  padding: 7px 7px 7px 15px;
+  &__wrapper {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 7px 7px 7px 15px;
+
+    margin: 0 50% 0 -50%;
+    height: 37px;
+  }
 }
