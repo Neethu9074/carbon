@@ -2,11 +2,12 @@ import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import MetricList from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric/MetricList';
 import {nodeMetricsAreActive$} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
+import getForgeComponent from 'in-services/getForgeComponent';
 import getSnapshot from 'in-hoc/getSnapshot';
 import connectTo from 'in-hoc/connectTo';
+import Jail from 'in-components/Jail';
 
 import './Metric.less';
 
@@ -16,7 +17,7 @@ const block = 'in-sticky-note-process-metric';
 
 const ProcessCluster = connectTo({
   nodeMetricsAreActive: nodeMetricsAreActive$
-}, getSnapshot(React.createClass({
+  }, getSnapshot(React.createClass({
 
     displayName: 'process metric sticky',
 
@@ -34,10 +35,14 @@ const ProcessCluster = connectTo({
       }
 
       return (
-        <div>
-          <MetricList snapshot={snapshot}/>
-        </div>
+        <Jail component={this.getForgeSpecificComponent('KPI')}
+              props={{snapshot}}/>
       );
+    },
+
+    getForgeSpecificComponent(name) {
+      const plugin = this.props.snapshot.get('plugin');
+      return getForgeComponent('./' + plugin + '/' + name + '.es6');
     }
   }))
 );

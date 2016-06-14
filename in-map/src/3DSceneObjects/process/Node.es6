@@ -213,9 +213,9 @@ export default class Node extends SceneObjectWithSnapshot {
                                                                       newPos.y,
                                                                       newPos.z + 0.8);
 
-    this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x + 0.2,
-                                                                     this.height * 0.8,
-                                                                     newPos.z - 0.2);
+    this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x,
+                                                                     this.height * 0.5,
+                                                                     newPos.z);
   }
 
   dispose() {
