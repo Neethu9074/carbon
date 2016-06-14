@@ -19,15 +19,19 @@
     }
   }
 
-  &::after {
+  &::before {
     position: absolute;
     content: " ";
     left: 0;
     right: 0;
     border-top: 1px solid #6B8088;
+
+    .in-browser-ff & {
+      margin-top: -19px;
+    }
   }
 
-  &--first-child::after {
+  &--first-child::before {
     display: none;
   }
 

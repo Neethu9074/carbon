@@ -14,6 +14,7 @@ import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
 import * as persistentConnection from 'in-services/persistentConnection';
 import * as tableViewStore from 'in-components/tableView/tableViewStore';
 import * as timelineStore from 'in-components/timeline/timelineStore';
+import * as browserIdentification from 'in-services/browser';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
 import * as tracking from 'in-services/tracking';
@@ -52,6 +53,7 @@ if (__DEV__) {
 }
 
 // kick of the init process
+browserIdentification.init();
 persistentConnection.init();
 subscriptonManager.init();
 timeOffsetStore.init();
