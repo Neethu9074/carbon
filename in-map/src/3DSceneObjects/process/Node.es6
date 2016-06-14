@@ -111,7 +111,7 @@ export default class Node extends SceneObjectWithSnapshot {
   initComponents() {
     super.initComponents();
 
-    const factory = this.getFactory('solidSMF');
+    const factory = this.getFactory('transparentSMF');
     const components = this.components;
     const sceneObject = this;
 
@@ -147,7 +147,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory: this.getFactory('topMeshSMF')
+      factory: this.getFactory('solidSMF')
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
 

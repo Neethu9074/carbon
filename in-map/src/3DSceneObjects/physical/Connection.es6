@@ -106,20 +106,6 @@ export default class Connection extends BaseConnection {
     return this.addArrowToDestination(path);
   }
 
-  getDirectionForPoints(a, b) {
-    a.z = a.z || 0;
-    b.z = b.z || 0;
-    const dir = {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
-
-    // normalize them
-    const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
-    dir.x /= (length);
-    dir.y /= (length);
-    dir.z /= (length);
-
-    return dir;
-  }
-
   addArrowToDestination(path) {
     const from = this.direction === DIRECTIONS.IN ? 0 : path.length - 1;
     const to = this.direction === DIRECTIONS.IN ? 1 : path.length - 2;

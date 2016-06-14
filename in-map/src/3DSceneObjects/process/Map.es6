@@ -28,12 +28,12 @@ export default class Map extends BaseMap {
     const factories = this.factories;
     const scene = this.parent;
 
-    factories.solidSMF = new SingleMeshFactory({scene});
-    factories.solidSMF.material.transparent = true;
-    factories.solidSMF.material.opacity = 0.8;
+    factories.transparentSMF = new SingleMeshFactory({scene});
+    factories.transparentSMF.material.transparent = true;
+    factories.transparentSMF.material.opacity = 0.8;
 
-    factories.topMeshSMF = new SingleMeshFactory({scene});
-    factories.topMeshSMF.material.transparent = false;
+    factories.solidSMF = new SingleMeshFactory({scene});
+    factories.solidSMF.material.transparent = false;
 
     factories.lineSMF = new SingleMeshLineFactory({scene});
 

@@ -113,6 +113,24 @@ export default class Connection extends BaseConnection {
   }
 
   postProPath(path) {
+    const first = path[0];
+    const second = path[1];
+    const dirFirstToSecond = this.getDirectionForPoints(first, second);
+    const dirlastToBeforeLast = this.getDirectionForPoints(second, first);
+
+    // caps the first and last line of the connection. nodes have a size of 1 and
+    // normally the connection goes from center (0.5, 0.5) to center. with this
+    // capping it begins on the edge of the first and ends on the edge of the
+    // last node. to get the right of the four possible we need the direction
+    // directions are normalized so you can multiply with 0.5
+    first.x += dirFirstToSecond.x * 0.5;
+    first.y += dirFirstToSecond.y * 0.5;
+    first.z += dirFirstToSecond.z * 0.5;
+
+    second.x += dirlastToBeforeLast.x * 0.5;
+    second.y += dirlastToBeforeLast.y * 0.5;
+    second.z += dirlastToBeforeLast.z * 0.5;
+
     return path;
   }
 

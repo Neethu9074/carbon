@@ -69,6 +69,20 @@ export default class Connection extends SceneObject {
     return flatPath;
   }
 
+  getDirectionForPoints(a, b) {
+    a.z = a.z || 0;
+    b.z = b.z || 0;
+    const dir = {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
+
+    // normalize them
+    const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
+    dir.x /= (length);
+    dir.y /= (length);
+    dir.z /= (length);
+
+    return dir;
+  }
+
   getTooltipLine() {
     return renderConnectionLine(this);
   }
