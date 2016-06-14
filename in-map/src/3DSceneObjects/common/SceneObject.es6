@@ -147,6 +147,10 @@ export default class SceneObject extends Subscriber {
     return this.scene.getHtmlContainer();
   }
 
+  onZoomLevel() {
+    return this.parent.onZoomLevel();
+  }
+
   removeChild() {}
 
   dispose() {

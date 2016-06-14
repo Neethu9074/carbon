@@ -5,8 +5,7 @@ import {
   voteUp,
   voteDown,
   addNode,
-  removeNode,
-  nodeMetricsAreActive$
+  removeNode
 } from 'in-map/src/3DSceneObjects/process/processViewStores';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric';
@@ -75,9 +74,12 @@ export default class Node extends SceneObjectWithSnapshot {
 
       combineLatest([
         this.eventEmitter.on('isVisibleChanged_screenPositionMetric').distinct(),
-        nodeMetricsAreActive$
+        parent.onZoomLevel()
       ]).subscribe(props => {
-        if (props[0] && props[1]) {
+        const isVisible = props[0];
+        const zoomLevel = props[1];
+
+        if (isVisible && zoomLevel < 500) {
           if (!this.stickyNoteMetric) {
             this.stickyNoteMetric = new StickyNoteMetric(this);
 

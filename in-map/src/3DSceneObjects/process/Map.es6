@@ -87,7 +87,9 @@ export default class Map extends BaseMap {
     return Object.keys(this.nodes).map(snapshotId => this.nodes[snapshotId]);
   }
 
-  applyLayout() {}
+  onZoomLevel() {
+    return this.controller.eventEmitter.on('onZoomLevelChange');
+  }
 
   removeChild() {
     // not needed to implement this because nodes and connections are removed in different ways

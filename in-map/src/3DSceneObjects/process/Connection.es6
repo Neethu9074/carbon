@@ -1,9 +1,9 @@
 import {combineLatest} from 'reactive-observables';
 
-import {addEdge, removeEdge, connectionMetricsAreActive$} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
+import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
@@ -40,9 +40,12 @@ export default class Connection extends BaseConnection {
 
       combineLatest([
         this.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
-        connectionMetricsAreActive$
+        this.parent.onZoomLevel()
       ]).subscribe(props => {
-        if (props[0] && props[1]) {
+        const isVisible = props[0];
+        const zoomLevel = props[1];
+
+        if (isVisible && zoomLevel < 250) {
           if (!this.stickyNoteMetric) {
             this.stickyNoteMetric = new StickyNoteMetric(this);
 
