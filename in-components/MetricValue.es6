@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {getLiveMetrics} from 'in-stores/metric';
+import {getMetricForFocusedMoment} from 'in-stores/metric';
 
 const rpt = React.PropTypes;
 export default React.createClass({
@@ -28,7 +28,7 @@ export default React.createClass({
       return props.createMetricValueStream();
     }
 
-    return getLiveMetrics({
+    return getMetricForFocusedMoment({
       snapshotId: props.snapshotId,
       metric: props.metric
     });
