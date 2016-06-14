@@ -5,6 +5,7 @@ import React from 'react';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import getForgeComponent from 'in-services/getForgeComponent';
 import getSnapshot from 'in-hoc/getSnapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import Jail from 'in-components/Jail';
 
 import './Metric.less';
@@ -29,8 +30,13 @@ const ProcessCluster = getSnapshot(React.createClass({
     }
 
     return (
-      <Jail component={this.getForgeSpecificComponent('KPI')}
-            props={{snapshot}}/>
+      <div>
+        <span className={block + '__label'}>
+          {getLabel(snapshot)}
+        </span>
+        <Jail component={this.getForgeSpecificComponent('KPI')}
+              props={{snapshot}}/>
+      </div>
     );
   },
 
