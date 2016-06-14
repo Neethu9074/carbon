@@ -1,10 +1,12 @@
+import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
 import {
   voteUp,
   voteDown,
   addNode,
-  removeNode
+  removeNode,
+  nodeMetricsAreActive$
 } from 'in-map/src/3DSceneObjects/process/processViewStores';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric';
@@ -45,8 +47,6 @@ export default class Node extends SceneObjectWithSnapshot {
       iconSize: 2.5
     });
 
-    this.stickyNoteMetric = new StickyNoteMetric(this);
-
     this.addSubscriptions([
       eventBus.on('endUpdate').subscribe(() => {
         this.getComponent('screenPositionCluster').updateScreenPosition();
@@ -67,11 +67,25 @@ export default class Node extends SceneObjectWithSnapshot {
         }
       }),
 
-      this.eventEmitter.on('screenPositionChanged_screenPositionMetric').subscribe(screenPosition =>
-        this.stickyNoteMetric.setScreenPosition(screenPosition)),
+      this.eventEmitter.on('screenPositionChanged_screenPositionMetric').subscribe(screenPosition => {
+        if (this.stickyNoteMetric) {
+          this.stickyNoteMetric.setScreenPosition(screenPosition);
+        }
+      }),
 
-      this.eventEmitter.on('isVisibleChanged_screenPositionMetric').distinct().subscribe(isVisible =>
-        isVisible ? this.stickyNoteMetric.show() : this.stickyNote.hide())
+      combineLatest([
+        this.eventEmitter.on('isVisibleChanged_screenPositionMetric').distinct(),
+        nodeMetricsAreActive$
+      ]).subscribe(props => {
+        if (props[0] && props[1]) {
+          if (!this.stickyNoteMetric) {
+            this.stickyNoteMetric = new StickyNoteMetric(this);
+          }
+        } else if (this.stickyNoteMetric) {
+          this.stickyNoteMetric.dispose();
+          this.stickyNoteMetric = null;
+        }
+      })
     ]);
 
     this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });
@@ -226,7 +240,10 @@ export default class Node extends SceneObjectWithSnapshot {
     this.label.dispose();
     this.label = null;
 
-    this.stickyNoteMetric.dispose();
+    if (this.stickyNoteMetric) {
+      this.stickyNoteMetric.dispose();
+      this.stickyNoteMetric = null;
+    }
 
     if (this.stickyNote) {
       this.stickyNote.dispose();
