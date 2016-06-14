@@ -11,18 +11,24 @@ export default React.createClass({
   displayName: 'KPIList',
 
   propTypes: {
+    formatters: rpt.array.isRequired,
     snapshot: irpt.map.isRequired,
-    kpis: rpt.array.isRequired
+    metrics: rpt.array.isRequired,
+    labels: rpt.array.isRequired
   },
 
   render() {
-    const kpis = this.props.kpis;
+    const formatters = this.props.formatters;
+    const metrics = this.props.metrics;
+    const labels = this.props.labels;
 
     return (
       <div>
-        {kpis.map(metric => <KPI key={metric}
-                                 metric={metric}
-                                 snapshot={this.props.snapshot}/>)}
+        {metrics.map((metric, index) => <KPI key={labels[index]}
+                                             metric={metric}
+                                             label={labels[index]}
+                                             formatter={formatters[index]}
+                                             snapshot={this.props.snapshot}/>)}
       </div>
     );
   }

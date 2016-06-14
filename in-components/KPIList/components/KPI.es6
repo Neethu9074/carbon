@@ -13,8 +13,10 @@ export default React.createClass({
   displayName: 'KPI',
 
   propTypes: {
+    formatter: rpt.func.isRequired,
     snapshot: irpt.map.isRequired,
-    metric: rpt.string.isRequired
+    metric: rpt.string.isRequired,
+    label: rpt.string.isRequired
   },
 
   getInitialState() {
@@ -24,8 +26,8 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.metricSubscription = getLiveMetrics({snapshotId: this.props.snapshot.get('id')})
-                                .subscribe(value => this.setState({value}));
+    this.metricSubscription = getLiveMetrics({snapshotId: this.props.snapshot.get('id')}).subscribe(value =>
+      this.setState({value}));
   },
 
   componentWillUnmount() {
@@ -33,15 +35,13 @@ export default React.createClass({
   },
 
   render() {
-    const metric = this.props.metric;
-
     return (
       <div className={block}>
         <div className={block + '__value'}>
-          {this.state.value}
+          {this.props.formatter(this.state.value)}
         </div>
         <span className={block + '__label'}>
-          {metric}
+          {this.props.label}
         </span>
       </div>
     );
