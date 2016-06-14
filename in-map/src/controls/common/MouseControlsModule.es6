@@ -16,7 +16,7 @@ export default class MouseControlModule extends Module {
   }
 
   setupEvents() {
-    const div = this.scene.parent;
+    const div = this.scene.canvas;
 
     this.addSubscriptions([
       onMove(div, e  => {
