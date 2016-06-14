@@ -12,7 +12,6 @@ import {getSnapshot} from 'in-stores/snapshot';
 import eventBus from 'in-map/eventbus';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
-import ACP from '../../SingleMeshFactory/ContentProvider/ArrowContentProvider';
 
 
 export default class Connection extends BaseConnection {
@@ -76,7 +75,6 @@ export default class Connection extends BaseConnection {
 
   init() {
     this.lineSMF = this.parent.getFactory('lineSMF');
-    this.solidSMF = this.parent.getFactory('solidSMF');
 
     super.init();
   }
@@ -95,25 +93,11 @@ export default class Connection extends BaseConnection {
     // the default color must be set to get a working shader. It's black so you can
     // see if there is a snapshot missing
     this.lineFragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
-
-    this.arrowFragment = {
-      id: this.id,
-      contentProvider: new ACP()
-    };
-    // the default color must be set to get a working shader. It's black so you can
-    // see if there is a snapshot missing
-    this.arrowFragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
   }
 
   updateGeometry() {
     this.lineFragment.contentProvider.setLines(this.getLineVertices(this.sourceNode, this.destinationNode));
     this.lineSMF.addFragment(this.lineFragment);
-
-    const from = this.direction === DIRECTIONS.OUT ? this.sourceNode : this.destinationNode;
-    const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
-    this.arrowFragment.contentProvider.setFromTo(from.getComponent('position').getPosition().clone(),
-                                                 to.getComponent('position').getPosition().clone());
-    this.solidSMF.addFragment(this.arrowFragment);
   }
 
   calculatePath(fromPos, toPos) {
@@ -126,45 +110,24 @@ export default class Connection extends BaseConnection {
     return [fromPos, toPos];
   }
 
-  postProPath(path) {
-    const first = path[0];
-    const second = path[1];
-    const dirFirstToSecond = this.getDirectionForPoints(first, second);
-    const dirlastToBeforeLast = this.getDirectionForPoints(second, first);
-
-    // caps the first and last line of the connection. nodes have a size of 1 and
-    // normally the connection goes from center (0.5, 0.5) to center. with this
-    // capping it begins on the edge of the first and ends on the edge of the
-    // last node. to get the right of the four possible we need the direction
-    // directions are normalized so you can multiply with 0.5
-    first.x += dirFirstToSecond.x * 0.5;
-    first.y += dirFirstToSecond.y * 0.5;
-    first.z += dirFirstToSecond.z * 0.5;
-
-    second.x += dirlastToBeforeLast.x * 0.5;
-    second.y += dirlastToBeforeLast.y * 0.5;
-    second.z += dirlastToBeforeLast.z * 0.5;
-
-    return path;
-  }
-
   setColorFromSnapshots(sourceSnapshot, destinationSnapshot) {
     const colorPool = getColorPool('processes');
     const sourceColor = colorPool.getColorRGB(sourceSnapshot.get('plugin'));
     const destinationColor = colorPool.getColorRGB(destinationSnapshot.get('plugin'));
 
     // since process connections are straight lines, we just need 2 * 3 floats for the gradient
+    // + 4 * 3 colors for the arrow
     this.lineFragment.contentProvider.setColor([
       sourceColor.r, sourceColor.g, sourceColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b,
       destinationColor.r, destinationColor.g, destinationColor.b
     ]);
 
-    const color = this.direction === DIRECTIONS.OUT ? destinationColor : sourceColor;
-    this.arrowFragment.contentProvider.setColor(color);
-
     // refreshes the fragment
     this.lineSMF.addFragment(this.lineFragment);
-    this.solidSMF.addFragment(this.arrowFragment);
   }
 
   getTooltipLine() {
@@ -193,9 +156,7 @@ export default class Connection extends BaseConnection {
 
     // remove fragment first to save the id
     this.lineSMF.removeFragment(this.id);
-    this.solidSMF.removeFragment(this.id);
     this.lineSMF = null;
-    this.solidSMF = null;
 
     super.dispose();
 
