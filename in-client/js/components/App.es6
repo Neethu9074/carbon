@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
+import TableViewToggleButton from 'in-components/tableView/TableViewToggleButton';
 import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
@@ -8,6 +9,7 @@ import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import SidebarIncidents from 'in-components/sidebars/Incident';
 import ConnectionStatus from 'in-components/ConnectionStatus';
 import MaintenanceNote from 'in-components/MaintenanceNote';
+import TableView from 'in-components/tableView/TableView';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import SidebarMap from 'in-components/sidebars/Map';
@@ -27,9 +29,11 @@ export default function App({children = null}) {
 
       <section style={{display: hasChildren ? 'none' : 'block'}}>
         <Map />
+        <TableView />
         <Filterbar />
         <SidebarIncidents />
         <SidebarMap />
+        <TableViewToggleButton />
       </section>
 
       <NotificationCenterFlyout />

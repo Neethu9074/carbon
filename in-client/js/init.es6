@@ -12,6 +12,7 @@ import * as subscriptonManager from 'in-services/subscription/subscriptionManage
 import * as notMonitoringPresenter from 'in-services/notMonitoringDialogPresenter';
 import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
 import * as persistentConnection from 'in-services/persistentConnection';
+import * as tableViewStore from 'in-components/tableView/tableViewStore';
 import * as timelineStore from 'in-components/timeline/timelineStore';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
@@ -59,6 +60,7 @@ timelineStore.init();
 messageStore.init();
 tracking.init();
 notMonitoringPresenter.init();
+tableViewStore.init();
 
 ReactDOM.render((
   <Router history={hashHistory}>
