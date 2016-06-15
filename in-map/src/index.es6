@@ -2,7 +2,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ProcessMetricsSwitch from 'in-components/ProcessMetricSwitch';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {isWebGLSupported} from 'in-services/util/webGL';
@@ -76,11 +75,7 @@ export default connectTo({
     // else show a notification with a zendesk help text.
     // if this dialog was closed show nothing but the deepest darkness.
     if (this.state.isWebGLSupported) {
-      return (
-        <div className={block} ref='parent'>
-          <ProcessMetricsSwitch />
-        </div>
-      );
+      return <div className={block} ref='parent' />;
     }
     return null;
   },

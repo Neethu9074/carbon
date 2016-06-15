@@ -103,12 +103,6 @@ export default class Map extends BaseMap {
     });
   }
 
-  onZoom(zoomLevel) {
-    if (this.groundPlane) {
-      this.groundPlane.onZoom(zoomLevel);
-    }
-  }
-
   // is called if new data is available and parsed in BaseMap
   addEntity(groupEntity) {
     const group = this.getOrCreateGroup(groupEntity);

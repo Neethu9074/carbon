@@ -25,10 +25,6 @@ export default class SceneObject extends Subscriber {
     this.stateMachine = new StateMachine(this);
 
     this.initComponents();
-
-    this.screenPositionAnchor = this.getComponent('position').getPosition().clone();
-    this.screenPosition = {x: 0, y: 0};
-
     this.init();
 
     this.stateMachine.initialized();
@@ -118,10 +114,6 @@ export default class SceneObject extends Subscriber {
     return this.stateMachine.stateProperties.active === PROPERTY_VALUES.ON;
   }
 
-  setScreenPositionAnchor(x, y, z) {
-    this.screenPositionAnchor.set(x, y, z);
-  }
-
   addSceneObject(obj) {
     this.scene.addSceneObject(obj);
   }
@@ -155,34 +147,8 @@ export default class SceneObject extends Subscriber {
     return this.scene.getHtmlContainer();
   }
 
-  updateScreenPosition() {
-    const scene = this.scene;
-    if (scene.mapHandler) {
-      const camera = scene.mapHandler.getCurrentCamera();
-      if (!camera) {
-        return;
-      }
-
-      const width = scene.width;
-      const height = scene.height;
-      const screenPosition = this.screenPositionAnchor
-      .clone()
-      .applyProjection(camera.projection);
-
-      screenPosition.x = (screenPosition.x + 1) / 2 * width;
-      screenPosition.y = -(screenPosition.y - 1) / 2 * height;
-
-      this.screenPosition.x = screenPosition.x;
-      this.screenPosition.y = screenPosition.y;
-    }
-  }
-
-  isInView() {
-    const screenPos = this.screenPosition;
-    const scene = this.scene;
-
-    return (screenPos.x > 0 && screenPos.x <= scene.width &&
-            screenPos.y > 0 && screenPos.y <= scene.height);
+  onZoomLevel() {
+    return this.parent.onZoomLevel();
   }
 
   removeChild() {}

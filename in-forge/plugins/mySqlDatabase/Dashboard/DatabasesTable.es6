@@ -124,7 +124,7 @@ function createDetails(db, i, context) {
                                'INSERTS',
                                'DELETES'
                              ],
-                             type: 'line'
+                             type: 'stackedArea'
                            }}/>
 
         </Col>

@@ -70,6 +70,15 @@ export default class CameraController extends BaseCameraController {
       .normalize();
   }
 
+  switchStateIfNext(zoomLevel) {
+    const next = this.state.getNext(zoomLevel);
+    if (next) {
+      this.state.leave();
+      this.state = next;
+      this.state.enter();
+    }
+  }
+
   initZoomField() {
     // zoom fields
     this.maxZoomOut = 1800;
@@ -156,15 +165,6 @@ export default class CameraController extends BaseCameraController {
     }, 500);
   }
 
-  switchStateIfNext() {
-    const next = this.state.getNext(this.zoomLevel);
-    if (next) {
-      this.state.leave();
-      this.state = next;
-      this.state.enter();
-    }
-  }
-
   setZoomLevel(zL) {
     const min = this.maxZoomOut;
     const max = this.maxZoomIn;
@@ -222,15 +222,6 @@ export default class CameraController extends BaseCameraController {
     cam.getPosition().sub(delta);
     cam.updateMatrix();
     this.scene.renderScene();
-  }
-
-  switchStateIfNext(zoomLevel) {
-    const next = this.state.getNext(zoomLevel);
-    if (next) {
-      this.state.leave();
-      this.state = next;
-      this.state.enter();
-    }
   }
 
   updateZoomLevel(dT) {

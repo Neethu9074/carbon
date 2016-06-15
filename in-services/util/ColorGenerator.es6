@@ -132,10 +132,12 @@ function createColorPool(nameOfPool, numColors = 10) {
     getColorHex: getColor,
     getColorRGB: tag => hexToRGBNormalized(getColor(tag))
   };
+
+  return colorPools[nameOfPool];
 }
 
 // create default color pools
-createColorPool('plugins', 50);
-createColorPool('groups', 20);
-createColorPool('tags', 100);
-createColorPool('processes', 100);
+export const pluginsColorPool = createColorPool('plugins', 50);
+export const groupsColorPool = createColorPool('groups', 20);
+export const tagsColorPool = createColorPool('tags', 100);
+export const processesColorPool = createColorPool('processes', 100);

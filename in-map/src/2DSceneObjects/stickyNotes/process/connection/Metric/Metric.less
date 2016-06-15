@@ -1,6 +1,16 @@
 @import "~in-themes/active.less";
 
-.in-sticky-note-process-connection-metric {
+.in-sticky-connection-process-metric {
   position: absolute;
-  top: 0;
+  top: calc(0 - 25px);
+  left: 0;
+
+  &__wrapper {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 7px 7px 7px 15px;
+
+    margin: 0 50% 0 -50%;
+    height: 25px;
+  }
 }

@@ -1,29 +1,64 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
-import React from 'react';
+import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
+import {emptySet} from 'in-services/fixedImmutables';
+import {createTrackingStore, createStore} from 'in-stores/store';
+import {view$, types} from 'in-stores/view';
 
-import getViewStructure from 'in-hoc/getViewStructure';
+export const isTableVisible$ = createTrackingStore({
+  name: 'tableView/isOpen',
+  observable: navigationParameters$
+    .map(params => 'tableView' in params.query)
+    .distinct()
+}).observable;
 
-import './TableView.less';
 
-
-const block = 'in-table-view';
-
-export default getViewStructure(
-  React.createClass({
-    displayName: 'TableView',
-
-    mixins: [PureRenderMixin],
-
-    propTypes: {
-      viewStructure: irpt.map
-    },
-
-    render() {
-      return (
-        <div className={block}>
-        </div>
-      );
+export function toggleTableViewVisibility() {
+  mutateUrl(params => {
+    if ('tableView' in params.query) {
+      delete params.query;
+    } else {
+      params.query.tableView = 'true';
     }
-  })
-);
+    return params;
+  });
+}
+
+
+export function closeTableView() {
+  mutateUrl(params => {
+    delete params.query.tableView;
+    return params;
+  });
+}
+
+
+const expandedSnapshotIdsStore = createStore({
+  name: 'tableView/expandedSnapshotIds',
+  initialValue: emptySet
+});
+
+export const expandedSnapshotIds$ = expandedSnapshotIdsStore.observable;
+
+export function addExpandedSnapshotIds(snapshotIds) {
+  expandedSnapshotIdsStore.applyStateMutation(prev => prev.union(snapshotIds));
+}
+
+export function removeExpandedSnapshotIds(snapshotIds) {
+  expandedSnapshotIdsStore.applyStateMutation(prev => prev.subtract(snapshotIds));
+}
+
+export function toggledExpandedSnapshotId(snapshotId) {
+  expandedSnapshotIdsStore.applyStateMutation(prev => {
+    if (prev.contains(snapshotId)) {
+      return prev.delete(snapshotId);
+    }
+    return prev.add(snapshotId);
+  });
+}
+
+export function init() {
+  view$.subscribe(view => {
+    if (view !== types.physical) {
+      closeTableView();
+    }
+  });
+}

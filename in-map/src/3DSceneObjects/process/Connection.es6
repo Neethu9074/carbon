@@ -2,25 +2,23 @@ import {combineLatest} from 'reactive-observables';
 
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
+import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
-import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
+import {getColor} from 'in-sdk/color/color';
 import eventBus from 'in-map/eventbus';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
-import ACP from '../../SingleMeshFactory/ContentProvider/ArrowContentProvider';
 
 
 export default class Connection extends BaseConnection {
 
   constructor(params) {
     super(params);
-
-    this.stickyNoteMetric = new StickyNoteMetric(this);
 
     this.addSubscriptions([
       // subscribe to both snapshots to caluclate the color gradient between source and destination
@@ -32,8 +30,34 @@ export default class Connection extends BaseConnection {
         this.destinationNode.eventEmitter.on('positionChanged')
       ]).subscribe(() => this.positionChanged()),
 
-      eventBus.on('endUpdate').subscribe(this.update.bind(this)),
-      eventBus.on('beginUpdate').subscribe(() => this.particleEmitter.update())
+      eventBus.on('beginUpdate').subscribe(() => this.particleEmitter.update()),
+      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
+
+      this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition => {
+        if (this.stickyNoteMetric) {
+          this.stickyNoteMetric.setScreenPosition(screenPosition);
+        }
+      }),
+
+      combineLatest([
+        this.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
+        this.parent.onZoomLevel()
+      ]).subscribe(props => {
+        const isVisible = props[0];
+        const zoomLevel = props[1];
+
+        if (isVisible && zoomLevel < 250) {
+          if (!this.stickyNoteMetric) {
+            this.stickyNoteMetric = new StickyNoteMetric(this);
+
+            // force screen position update
+            this.getComponent('screenPosition').updateScreenPosition(true);
+          }
+        } else if (this.stickyNoteMetric) {
+          this.stickyNoteMetric.dispose();
+          this.stickyNoteMetric = null;
+        }
+      })
     ]);
 
     this.bubbles = new Bubbles(this);
@@ -61,9 +85,14 @@ export default class Connection extends BaseConnection {
 
   init() {
     this.lineSMF = this.parent.getFactory('lineSMF');
-    this.solidSMF = this.parent.getFactory('solidSMF');
 
     super.init();
+  }
+
+  initComponents() {
+    super.initComponents();
+
+    this.components.screenPosition = new ScreenPositionComponent({sceneObject: this, id: '_screenPosition'});
   }
 
   setupGeometry() {
@@ -74,25 +103,11 @@ export default class Connection extends BaseConnection {
     // the default color must be set to get a working shader. It's black so you can
     // see if there is a snapshot missing
     this.lineFragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
-
-    this.arrowFragment = {
-      id: this.id,
-      contentProvider: new ACP()
-    };
-    // the default color must be set to get a working shader. It's black so you can
-    // see if there is a snapshot missing
-    this.arrowFragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
   }
 
   updateGeometry() {
     this.lineFragment.contentProvider.setLines(this.getLineVertices(this.sourceNode, this.destinationNode));
     this.lineSMF.addFragment(this.lineFragment);
-
-    const from = this.direction === DIRECTIONS.OUT ? this.sourceNode : this.destinationNode;
-    const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
-    this.arrowFragment.contentProvider.setFromTo(from.getComponent('position').getPosition().clone(),
-                                                 to.getComponent('position').getPosition().clone());
-    this.solidSMF.addFragment(this.arrowFragment);
   }
 
   calculatePath(fromPos, toPos) {
@@ -105,27 +120,23 @@ export default class Connection extends BaseConnection {
     return [fromPos, toPos];
   }
 
-  postProPath(path) {
-    return path;
-  }
-
   setColorFromSnapshots(sourceSnapshot, destinationSnapshot) {
-    const colorPool = getColorPool('processes');
-    const sourceColor = colorPool.getColorRGB(sourceSnapshot.get('plugin'));
-    const destinationColor = colorPool.getColorRGB(destinationSnapshot.get('plugin'));
+    const sourceColor = getColor(sourceSnapshot);
+    const destinationColor = getColor(destinationSnapshot);
 
     // since process connections are straight lines, we just need 2 * 3 floats for the gradient
+    // + 4 * 3 colors for the arrow
     this.lineFragment.contentProvider.setColor([
       sourceColor.r, sourceColor.g, sourceColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b,
       destinationColor.r, destinationColor.g, destinationColor.b
     ]);
 
-    const color = this.direction === DIRECTIONS.OUT ? destinationColor : sourceColor;
-    this.arrowFragment.contentProvider.setColor(color);
-
     // refreshes the fragment
     this.lineSMF.addFragment(this.lineFragment);
-    this.solidSMF.addFragment(this.arrowFragment);
   }
 
   getTooltipLine() {
@@ -139,33 +150,25 @@ export default class Connection extends BaseConnection {
     const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
     const fromPos = from.getComponent('position').getPosition().clone();
     const toPos = to.getComponent('position').getPosition().clone();
-
     const pos = fromPos.add(toPos.sub(fromPos).multiplyScalar(0.5));
 
-    this.setScreenPositionAnchor(pos.x - 0.5, 0, pos.z + 0.5);
+    this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.5, 0, pos.z + 0.5);
 
     this.particleEmitter.setPostition(fromPos);
     this.particleEmitter.lookAt(toPos);
   }
 
-  update() {
-    this.updateScreenPosition();
-
-    this.isInView() ?
-      this.stickyNoteMetric.update() :
-      this.stickyNoteMetric.hide();
-  }
-
   dispose() {
     removeEdge(this);
 
-    this.stickyNoteMetric.dispose();
+    if (this.stickyNoteMetric) {
+      this.stickyNoteMetric.dispose();
+      this.stickyNoteMetric = null;
+    }
 
     // remove fragment first to save the id
     this.lineSMF.removeFragment(this.id);
-    this.solidSMF.removeFragment(this.id);
     this.lineSMF = null;
-    this.solidSMF = null;
 
     super.dispose();
 

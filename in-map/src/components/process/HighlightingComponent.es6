@@ -17,23 +17,65 @@ export default class HighlightingComponent extends BaseHighlightingComponent {
     const lineScaleZ = (2 * margin + scale.z);
 
     this.lineContentProvider.setLines([
-      fromX + lineScaleX * -0.433, 0, fromZ + lineScaleZ * 0.25,
-      fromX + lineScaleX * 0, 0, fromZ + lineScaleZ * 0.5,
+      fromX + lineScaleX * 0.476, 0, fromZ + lineScaleZ * -0.155,
+      fromX + lineScaleX * 0.405, 0, fromZ + lineScaleZ * -0.294,
 
-      fromX, 0, fromZ + lineScaleZ * 0.5,
-      fromX + lineScaleX * 0.433, 0, fromZ + lineScaleZ * 0.25,
+      fromX + lineScaleX * 0.405, 0, fromZ + lineScaleZ * -0.294,
+      fromX + lineScaleX * 0.294, 0, fromZ + lineScaleZ * -0.405,
 
-      fromX + lineScaleX * 0.433, 0, fromZ + lineScaleZ * 0.25,
-      fromX + lineScaleX * 0.433, 0, fromZ + lineScaleZ * -0.25,
+      fromX + lineScaleX * 0.294, 0, fromZ + lineScaleZ * -0.405,
+      fromX + lineScaleX * 0.155, 0, fromZ + lineScaleZ * -0.476,
 
-      fromX + lineScaleX * 0.433, 0, fromZ + lineScaleZ * -0.25,
-      fromX, 0, fromZ + lineScaleZ * -0.5,
+      fromX + lineScaleX * 0.155, 0, fromZ + lineScaleZ * -0.476,
+      fromX + lineScaleX * 0.000, 0, fromZ + lineScaleZ * -0.500,
 
-      fromX, 0, fromZ + lineScaleZ * -0.5,
-      fromX + lineScaleX * -0.433, 0, fromZ + lineScaleZ * -0.25,
+      fromX + lineScaleX * 0.000, 0, fromZ + lineScaleZ * -0.500,
+      fromX + lineScaleX * -0.155, 0, fromZ + lineScaleZ * -0.476,
 
-      fromX + lineScaleX * -0.433, 0, fromZ + lineScaleZ * -0.25,
-      fromX + lineScaleX * -0.433, 0, fromZ + lineScaleZ * 0.25
+      fromX + lineScaleX * -0.155, 0, fromZ + lineScaleZ * -0.476,
+      fromX + lineScaleX * -0.294, 0, fromZ + lineScaleZ * -0.405,
+
+      fromX + lineScaleX * -0.294, 0, fromZ + lineScaleZ * -0.405,
+      fromX + lineScaleX * -0.405, 0, fromZ + lineScaleZ * -0.294,
+
+      fromX + lineScaleX * -0.405, 0, fromZ + lineScaleZ * -0.294,
+      fromX + lineScaleX * -0.476, 0, fromZ + lineScaleZ * -0.155,
+
+      fromX + lineScaleX * -0.476, 0, fromZ + lineScaleZ * -0.155,
+      fromX + lineScaleX * -0.500, 0, fromZ + lineScaleZ * 0.000,
+
+      fromX + lineScaleX * -0.500, 0, fromZ + lineScaleZ * 0.000,
+      fromX + lineScaleX * -0.476, 0, fromZ + lineScaleZ * 0.155,
+
+      fromX + lineScaleX * -0.476, 0, fromZ + lineScaleZ * 0.155,
+      fromX + lineScaleX * -0.405, 0, fromZ + lineScaleZ * 0.294,
+
+      fromX + lineScaleX * -0.405, 0, fromZ + lineScaleZ * 0.294,
+      fromX + lineScaleX * -0.294, 0, fromZ + lineScaleZ * 0.405,
+
+      fromX + lineScaleX * -0.294, 0, fromZ + lineScaleZ * 0.405,
+      fromX + lineScaleX * -0.155, 0, fromZ + lineScaleZ * 0.476,
+
+      fromX + lineScaleX * -0.155, 0, fromZ + lineScaleZ * 0.476,
+      fromX + lineScaleX * -0.000, 0, fromZ + lineScaleZ * 0.500,
+
+      fromX + lineScaleX * -0.000, 0, fromZ + lineScaleZ * 0.500,
+      fromX + lineScaleX * 0.155, 0, fromZ + lineScaleZ * 0.476,
+
+      fromX + lineScaleX * 0.155, 0, fromZ + lineScaleZ * 0.476,
+      fromX + lineScaleX * 0.294, 0, fromZ + lineScaleZ * 0.405,
+
+      fromX + lineScaleX * 0.294, 0, fromZ + lineScaleZ * 0.405,
+      fromX + lineScaleX * 0.405, 0, fromZ + lineScaleZ * 0.294,
+
+      fromX + lineScaleX * 0.405, 0, fromZ + lineScaleZ * 0.294,
+      fromX + lineScaleX * 0.476, 0, fromZ + lineScaleZ * 0.155,
+
+      fromX + lineScaleX * 0.476, 0, fromZ + lineScaleZ * 0.155,
+      fromX + lineScaleX * 0.500, 0, fromZ + lineScaleZ * 0.000,
+
+      fromX + lineScaleX * 0.500, 0, fromZ + lineScaleZ * 0.000,
+      fromX + lineScaleX * 0.476, 0, fromZ + lineScaleZ * -0.155
     ]);
   }
 }

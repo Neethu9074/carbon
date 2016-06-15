@@ -1,4 +1,4 @@
-import {onWheel, onMove} from 'in-services/reactiveMouseEvents';
+import {onWheel, onMove, onLeave} from 'in-services/reactiveMouseEvents';
 import {cursorPosition} from 'in-map/src/mapStores';
 import {theme} from 'in-services/theme';
 
@@ -16,10 +16,10 @@ export default class MouseControlModule extends Module {
   }
 
   setupEvents() {
-    const div = this.scene.parent;
+    const canvas = this.scene.canvas;
 
     this.addSubscriptions([
-      onMove(div, e  => {
+      onMove(canvas, e  => {
         e.preventDefault();
 
         const roundedX = e.clientX | 0;
@@ -34,7 +34,7 @@ export default class MouseControlModule extends Module {
           }
         }),
 
-      onWheel(div, event => {
+      onWheel(canvas, event => {
         const deltaY = event.rawEvent.deltaY;
 
         // Because we listen to onwheel, the e.deltaY "should be" in a range of
@@ -51,7 +51,9 @@ export default class MouseControlModule extends Module {
         const zoom = Math.max(-50, Math.min(50, Math.abs(deltaY / 4) | 0));
 
         this.eventEmitter.emit('onZoom', -zoom * event.scrollSpeed * event.scrollDirection);
-      })
+      }),
+
+      onLeave(canvas, () => this.eventEmitter.emit('onMouseLeave'))
     ]);
   }
 

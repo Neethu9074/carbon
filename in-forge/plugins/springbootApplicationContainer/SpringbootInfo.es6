@@ -40,6 +40,9 @@ const SpringbootInfo = React.createClass({
         <DescriptionItem title='Port'>
           {ports ? ports.valueSeq().join(', ') : null}
         </DescriptionItem>
+        <DescriptionItem title='HTTP Sessions Max'>
+          {data.get('httpsessionsMax')}
+        </DescriptionItem>
       </DescriptionList>
     );
   }

@@ -57,7 +57,9 @@ export function getDummySnapshot(snapshotId) {
 
 
 function getPlugin(snapshotId) {
-  if (snapshotId.indexOf('app') !== -1) {
+  if (snapshotId.indexOf('connection') !== -1) {
+    return 'dummyConnection';
+  } else if (snapshotId.indexOf('app') !== -1) {
     return 'dummyJavaApp';
   } else if (snapshotId.indexOf('schema') !== -1) {
     return 'dummyMysqlSchema';
@@ -65,8 +67,6 @@ function getPlugin(snapshotId) {
     return 'dummyMysqlDb';
   } else if (snapshotId.indexOf('tomcat') !== -1) {
     return 'dummyTomcat';
-  } else if (snapshotId.indexOf('connection') !== -1) {
-    return 'dummyConnection';
   }
 
   throw new Error(`Could not identify plugin for snapshot id ${snapshotId}`);
@@ -82,7 +82,7 @@ export function getDummyMetric() {
   return create({
     start(observable) {
       intervalHandle = setInterval(() => {
-        observable.emit((Math.random() * 100) | 0);
+        observable.emit([Date.now(), (Math.random() * 100) | 0]);
       }, 1000);
     },
 

@@ -49,6 +49,7 @@ export default class Scene {
       height: this.height,
       width: this.width
     });
+    this.mapHandler.subscribe();
 
     this.adaptiveDetailHandler = new Handler.AdaptiveDetailHandler(this);
 

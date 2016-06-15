@@ -17,9 +17,10 @@ const Icon = React.createClass({
   },
 
   render() {
-    const className = getClassName(this, 'icon icon-' + this.props.type);
+    let className = getClassName(this, 'icon icon-' + this.props.type);
 
     if (this.props.onClick) {
+      className += ' icon--clickable';
       return (
         <button type='button'
                 className={className}

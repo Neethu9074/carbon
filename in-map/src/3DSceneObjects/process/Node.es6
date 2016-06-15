@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {combineLatest} from 'reactive-observables';
 
 import {
   voteUp,
@@ -7,26 +7,12 @@ import {
   removeNode
 } from 'in-map/src/3DSceneObjects/process/processViewStores';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
-import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
-import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-map/eventbus';
 
-import HighlightingComponent from 'in-map/src/components/process/HighlightingComponent';
-import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
-import TopMeshComponent from 'in-map/src/components/process/TopMeshComponent';
-import MeshComponent from 'in-map/src/components/common/MeshComponent';
-
-import CMCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import CPCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderPlaneContentProvider';
-import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentProvider';
-
-import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import Label from 'in-map/src/3DSceneObjects/process/Label';
+import {getColor} from 'in-sdk/color/color';
 
 
 export default class Node extends SceneObjectWithSnapshot {
@@ -38,17 +24,42 @@ export default class Node extends SceneObjectWithSnapshot {
     this.edgeCount = 0;
 
     this.tooltip = new TooltipNode(this);
-    this.label = new Label({
-      id: this.id,
-      parent: this,
-      iconSize: 2
-    });
-
-    this.stickyNoteMetric = new StickyNoteMetric(this);
 
     this.addSubscriptions([
-      eventBus.on('endUpdate').subscribe(this.update.bind(this)),
-      this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this))
+      eventBus.on('endUpdate').subscribe(() => {
+        this.getComponent('screenPositionCluster').updateScreenPosition();
+        this.getComponent('screenPositionMetric').updateScreenPosition();
+      }),
+
+      this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
+
+      this.eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition => {
+        if (this.stickyNote) {
+          this.stickyNote.setScreenPosition(screenPosition);
+        }
+      }),
+
+      this.eventEmitter.on('isVisibleChanged_screenPositionCluster').distinct().subscribe(isVisible => {
+        if (this.stickyNote) {
+          isVisible ? this.stickyNote.show() : this.stickyNote.hide();
+        }
+      }),
+
+      this.eventEmitter.on('screenPositionChanged_screenPositionMetric').subscribe(screenPosition => {
+        if (this.stickyNoteMetric) {
+          this.stickyNoteMetric.setScreenPosition(screenPosition);
+        }
+      }),
+
+      combineLatest([
+        this.eventEmitter.on('isVisibleChanged_screenPositionMetric').distinct(),
+        parent.onZoomLevel()
+      ]).subscribe(props =>
+        // isVisible && zoomLevel < 500
+        (props[0] && props[1] < 500) ?
+          this.getOrCreateMetricSticky() :
+          this.disposeMetricSticky()
+      )
     ]);
 
     this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });
@@ -82,55 +93,35 @@ export default class Node extends SceneObjectWithSnapshot {
 
 
   init() {
-    this.height = 0.25;
+    this.height = 0.5;
   }
 
   initComponents() {
     super.initComponents();
 
-    const factory = this.getFactory('solidSMF');
-    const components = this.components;
-    const sceneObject = this;
+    this.addComponents(this.components);
+  }
 
-    // add the mesh component to handle visual representation of the entity
-    components.mesh = new MeshComponent({
-      sceneObject,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new CCP()
-          })
-        })
-      }),
-      factory
-    });
+  getOrCreateMetricSticky() {
+    if (!this.stickyNoteMetric) {
+      this.stickyNoteMetric = this.createMetricSticky();
 
-    // add the collision component to handle the collision box
-    components.collision = new CollisionComponent({
-      sceneObject,
-      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
-      layer: 2
-    });
+      // force screen position update
+      this.getComponent('screenPositionMetric').updateScreenPosition(true);
+    }
+  }
 
-    components.highlight = new HighlightingComponent({sceneObject: this});
+  createMetricSticky() {}
 
-    // the topping of the cylinder
-    components.topMesh = new TopMeshComponent({
-      sceneObject,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new CPCP()
-          })
-        })
-      }),
-      factory
-    });
-    components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
+  disposeMetricSticky() {
+    if (this.stickyNoteMetric) {
+      this.stickyNoteMetric.dispose();
+      this.stickyNoteMetric = null;
+    }
   }
 
   onSnapshotUpdated(snapshot) {
-    this.components.mesh.colorChanged(getColorPool('processes').getColorRGB(snapshot.get('plugin')));
+    this.components.mesh.colorChanged(getColor(snapshot));
   }
 
   increaseEdgeCount() {
@@ -174,24 +165,13 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   positionChanged(newPos) {
-    this.label.getComponent('position').setPosition(newPos.x - 0.5, newPos.y + this.height, newPos.z + 0.5);
-    this.setScreenPositionAnchor(newPos.x + 0.2, newPos.y + this.height, newPos.z + 0.5);
-  }
+    this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
+                                                                      newPos.y,
+                                                                      newPos.z + 0.8);
 
-  update() {
-    this.updateScreenPosition();
-
-    if (this.isInView()) {
-      if (this.stickyNote) {
-        this.stickyNote.update();
-      }
-      this.stickyNoteMetric.update();
-    } else {
-      if (this.stickyNote) {
-        this.stickyNote.hide();
-      }
-      this.stickyNoteMetric.hide();
-    }
+    this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x,
+                                                                     this.height,
+                                                                     newPos.z);
   }
 
   dispose() {
@@ -199,10 +179,10 @@ export default class Node extends SceneObjectWithSnapshot {
 
     super.dispose();
 
-    this.label.dispose();
-    this.label = null;
-
-    this.stickyNoteMetric.dispose();
+    if (this.stickyNoteMetric) {
+      this.stickyNoteMetric.dispose();
+      this.stickyNoteMetric = null;
+    }
 
     if (this.stickyNote) {
       this.stickyNote.dispose();
