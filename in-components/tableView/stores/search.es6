@@ -22,6 +22,19 @@ export function setQuery(query) {
   queryStore.applyStateMutation(() => query);
 }
 
+export const queryParts$ = query$
+  .debounce(process.env.IS_TEST ? 0 : 100)
+  .map(query => {
+    query = query.trim();
+    return query.split(' ')
+      .filter(p => p.length > 2)
+      .map(p => p.toLowerCase());
+  });
+
+
+export const isQueryActive$ = queryParts$
+  .map(queryParts => queryParts.length > 0);
+
 
 export const snapshotIdsInPhysicalView$ = physicalViewStructure$
   .throttle(10000)
@@ -51,16 +64,10 @@ const getSearchableData = memoize(
       .map(([snapshot, healthInfo]) => {
         return {
           id: snapshotId,
-          label: snapshot ? getLabel(snapshot) : '',
-          pluginName: snapshot ? getSingular(snapshot.get('plugin')) : '',
+          label: snapshot ? getLabel(snapshot).toLowerCase() : '',
+          pluginName: snapshot ? getSingular(snapshot.get('plugin')).toLowerCase() : '',
           maxSeverity: healthInfo ? healthInfo.get('maxSeverity', 0) : -1
         };
-      })
-      .startWith({
-        id: snapshotId,
-        label: '',
-        pluginName: '',
-        maxSeverity: -1
       });
   },
 
@@ -71,3 +78,39 @@ const getSearchableData = memoize(
 export const searchablePhysicalViewData$ = snapshotIdsInPhysicalView$
   .flatMap(snapshotIds => combineLatest(snapshotIds.map(getSearchableData)))
   .throttle(process.env.IS_TEST ? 5000 : 0);
+
+
+export const snapshotIdsInPhysicalViewMatchingQuery$ = combineLatest([
+    queryParts$,
+    isQueryActive$,
+    searchablePhysicalViewData$
+  ]).map(([queryParts, isQueryActive, searchableData]) => {
+    const matchingIds = [];
+
+    if (!isQueryActive) {
+      return matchingIds;
+    }
+
+    for (let i = 0, len = searchableData.length; i < len; i++) {
+      const data = searchableData[i];
+      if (isMatch(data, queryParts)) {
+        matchingIds.push(data.id);
+      }
+    }
+
+    return matchingIds;
+  });
+
+
+function isMatch(viewData, queryParts) {
+  for (let i = 0, len = queryParts.length; i < len; i++) {
+    const part = queryParts[i];
+    if (viewData.label.indexOf(part) !== -1) {
+      return true;
+    } else if (viewData.pluginName.indexOf(part) !== -1) {
+      return true;
+    }
+  }
+
+  return false;
+}
