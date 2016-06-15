@@ -53,11 +53,11 @@ const ProcessCluster = getSnapshot(React.createClass({
       <div className={block + '__content'}
            style={{backgroundColor}}
            onMouseEnter={() => this.setState({highlighted: true})}
-           onMouseLeave={() => this.setState({highlighted: false})}>
+           onMouseLeave={() => this.setState({highlighted: false})}
+           onClick={this.onClick}>
         {this.props.numChildren}
         <Icon type={this.state.expanded ? 'open' : 'close'}
-              className={block + '__icon'}
-              onClick={this.onClick} />
+              className={block + '__icon'}/>
       </div>
     );
   },
