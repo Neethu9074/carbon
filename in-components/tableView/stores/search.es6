@@ -1,3 +1,5 @@
+/* global process:false */
+
 import {combineLatest} from 'reactive-observables';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -46,14 +48,16 @@ const getSearchableData = memoize(
         getSnapshot(snapshotId).startWith(null),
         getHealthInfoAtFocusedMoment(snapshotId).startWith(null)
       ])
-      .map((snapshot, healthInfo) => {
+      .map(([snapshot, healthInfo]) => {
         return {
+          id: snapshotId,
           label: snapshot ? getLabel(snapshot) : '',
           pluginName: snapshot ? getSingular(snapshot.get('plugin')) : '',
           maxSeverity: healthInfo ? healthInfo.get('maxSeverity', 0) : -1
         };
       })
       .startWith({
+        id: snapshotId,
         label: '',
         pluginName: '',
         maxSeverity: -1
@@ -65,4 +69,5 @@ const getSearchableData = memoize(
 
 
 export const searchablePhysicalViewData$ = snapshotIdsInPhysicalView$
-  .flatMap(snapshotIds => combineLatest(snapshotIds.map(getSearchableData)));
+  .flatMap(snapshotIds => combineLatest(snapshotIds.map(getSearchableData)))
+  .throttle(process.env.IS_TEST ? 5000 : 0);
