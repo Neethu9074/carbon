@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {toggleTableViewVisibility, isTableVisible$} from 'in-components/tableView/tableViewStore';
+import {toggleTableViewVisibility, isTableVisible$} from 'in-components/tableView/stores/visibility';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import {isInternalEnvironment} from 'in-services/config';
 import {view$, types} from 'in-stores/view';

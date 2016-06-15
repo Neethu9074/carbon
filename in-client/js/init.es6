@@ -8,11 +8,11 @@ import ReactDOM from 'react-dom';
 import logging from 'instalog';
 import React from 'react';
 
+import * as tableViewVisibilityStore from 'in-components/tableView/stores/visibility';
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
 import * as notMonitoringPresenter from 'in-services/notMonitoringDialogPresenter';
 import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
 import * as persistentConnection from 'in-services/persistentConnection';
-import * as tableViewStore from 'in-components/tableView/tableViewStore';
 import * as timelineStore from 'in-components/timeline/timelineStore';
 import * as browserIdentification from 'in-services/browser';
 import * as timeOffsetStore from 'in-stores/timeOffset';
@@ -62,7 +62,7 @@ timelineStore.init();
 messageStore.init();
 tracking.init();
 notMonitoringPresenter.init();
-tableViewStore.init();
+tableViewVisibilityStore.init();
 
 ReactDOM.render((
   <Router history={hashHistory}>

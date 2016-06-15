@@ -2,7 +2,7 @@ import React from 'react';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {toggledExpandedSnapshotId} from 'in-components/tableView/tableViewStore';
+import {toggledExpandedSnapshotId} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
 import {groupsColorPool} from 'in-services/util/ColorGenerator';
 import Entry from 'in-components/tableView/components/Entry';

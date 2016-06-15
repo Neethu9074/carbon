@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PhysicalTableViewContent from 'in-components/tableView/components/PhysicalTableViewContent';
-import {isTableVisible$} from 'in-components/tableView/tableViewStore';
+import {isTableVisible$} from 'in-components/tableView/stores/visibility';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 import {view$, types} from 'in-stores/view';

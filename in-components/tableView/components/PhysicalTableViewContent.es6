@@ -2,7 +2,7 @@ import React from 'react';
 
 import PhysicalSummary from 'in-components/tableView/components/PhysicalSummary';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
-import {expandedSnapshotIds$} from 'in-components/tableView/tableViewStore';
+import {expandedSnapshotIds$} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
 import ZoneEntry from 'in-components/tableView/components/ZoneEntry';
 import {selectedSnapshotId$} from 'in-stores/snapshot';
