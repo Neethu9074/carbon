@@ -1,4 +1,4 @@
-import StickyNoteProcessMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Metric';
+import StickyNoteProcessMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric';
 import {getLabel} from 'in-sdk/snapshot';
 
 

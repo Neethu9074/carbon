@@ -1,6 +1,6 @@
 import React from 'react';
 
-import StickyNoteProcessMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Metric';
+import StickyNoteProcessMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric';
 import {getIcon, getLabel} from 'in-sdk/snapshot';
 
 import 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Physical/PhysicalMetric.less';
