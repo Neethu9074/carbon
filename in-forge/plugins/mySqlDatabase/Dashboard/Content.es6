@@ -14,6 +14,8 @@ import {timeframeShape} from 'in-stores/timeline';
 const verPatt = /([5-9]+\.[6-9]+\.([0-9]+)).*/;
 const chartHeight = 200;
 
+const msFormatter = d => d < 0 ? 'No activity' : msZeroDecimalPlaces(d);
+
 function perfDataAvailable(version) {
   return verPatt.test(version) && parseInt(verPatt.exec(version)[2], 10) > 9;
 }
@@ -147,7 +149,7 @@ const MySqlDashboard = React.createClass({
                                metrics: waitNames.map(name => 'wait.' + name),
                                labels: waitNames,
                                type: 'line',
-                               formatter: msZeroDecimalPlaces
+                               formatter: msFormatter
                            }}/>
           </DashboardSection>
         : null }
