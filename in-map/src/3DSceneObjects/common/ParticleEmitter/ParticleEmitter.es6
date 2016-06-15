@@ -1,3 +1,4 @@
+import * as ro from 'reactive-observables';
 import THREE from 'three';
 
 import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
@@ -64,6 +65,19 @@ export default class ParticleEmitter extends SceneObject {
     const mesh = this.mesh = new THREE.Points(geometry, material);
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
+
+    let wordsWritten = '';
+    this.startSubscription = ro.on(window, 'keydown').subscribe(event => {
+      wordsWritten += String.fromCharCode(event.keyCode);
+      wordsWritten = wordsWritten.substring(wordsWritten.length - 9, 10);
+
+      if (wordsWritten.toLowerCase() === 'particles') {
+        console.log('FIRE SOME AWESOME PARTICLES');
+        this.start();
+        this.startSubscription.dispose();
+        this.startSubscription = null;
+      }
+    });
   }
 
   setPostition(newPosition) {
@@ -118,5 +132,10 @@ export default class ParticleEmitter extends SceneObject {
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
     this.mesh = null;
+
+    if (this.startSubscription) {
+      this.startSubscription.dispose();
+      this.startSubscription = null;
+    }
   }
 }

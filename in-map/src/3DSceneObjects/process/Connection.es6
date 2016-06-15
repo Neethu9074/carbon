@@ -59,7 +59,6 @@ export default class Connection extends BaseConnection {
     this.particleEmitter.setPostition(this.sourceNode.getComponent('position').getPosition());
     this.particleEmitter.lookAt(this.destinationNode.getComponent('position').getPosition());
     this.particleEmitter.updateVertices();
-    this.particleEmitter.start();
 
     addEdge(this);
   }
