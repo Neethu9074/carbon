@@ -2,6 +2,7 @@ import THREE from 'three';
 
 import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
+import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import AnimationController from 'in-map/src/AnimationController';
 
@@ -15,7 +16,7 @@ export default class ParticleEmitter extends SceneObject {
 
     this.animationController = new AnimationController({
       onUpdate: this.animationControllerUpdateCallback.bind(this),
-      timeToAnimate: 2000,
+      timeToAnimate: 5000,
       repeat: true
     });
 
@@ -28,6 +29,14 @@ export default class ParticleEmitter extends SceneObject {
     geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(this.vertices), 3));
     geometry.attributes.position.needsUpdate = true;
 
+    const texture = new THREE.Texture();
+    texture.minFilter = THREE.LinearFilter;
+    texture.generateMipmaps = false;
+    texture.flipY = false;
+    const manager = new THREE.LoadingManager();
+    const img = new THREE.ImageLoader(manager).load(pointShape, () => texture.needsUpdate = true);
+    texture.image = img;
+
     const material = this.material = new THREE.RawShaderMaterial({
       fragmentShader,
       vertexShader,
@@ -35,13 +44,14 @@ export default class ParticleEmitter extends SceneObject {
       depthWrite: false,
       side: THREE.DoubleSide,
       uniforms: {
+        texture: { type: 't', value: texture },
         progress: {
           type: 'f',
           value: 0.0
         },
         color: {
           type: 'v3',
-          value: {x: 1.0, y: 0.0, z: 0.0}
+          value: {x: Math.random(), y: Math.random(), z: Math.random()}
         },
         distance: {
           type: 'f',
