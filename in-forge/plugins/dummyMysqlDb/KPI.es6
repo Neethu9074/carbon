@@ -30,15 +30,15 @@ export default React.createClass({
                  'METRIC_NAME_HERE'
                ]}
                labels={[
-                 'errors',
-                 'latency',
                  'calls/s',
+                 'latency',
+                 'errors',
                  'sessions'
                ]}
                formatters={[
-                 percentageTwoDecimalPlaces,
-                 msZeroDecimalPlaces,
                  zeroDecimalPlaces,
+                 msZeroDecimalPlaces,
+                 percentageTwoDecimalPlaces,
                  zeroDecimalPlaces
                ]}/>
     );

@@ -16,7 +16,7 @@ export default class StickyNoteProcessMetricCluster extends StickyNoteProcessMet
 
   getHeading(snapshot) {
     return (
-      <div>
+      <div className={block + '__wrapper'}>
         <img src={getIcon(snapshot)}
               className={block + '__icon'}/>
         {getLabel(snapshot)}
