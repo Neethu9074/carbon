@@ -25,7 +25,7 @@ export default class CameraController extends BaseCameraController {
 
     // this is an abstract zoomLevel, needed to store calculte the frustum size of
     // of the camera and the distance to the POI
-    this.zoomLevel = 350;
+    this.zoomLevel = 500;
 
     // this is the speed te camera will move to the new pos on drag
     this.cameraMoveSpeed = 0.02;
@@ -122,7 +122,7 @@ export default class CameraController extends BaseCameraController {
 
   onZoom(delta) {
     this.zoomLevel -= delta;
-    this.zoomLevel = Math.min(Math.max(this.zoomLevel, 200), 1500);
+    this.zoomLevel = Math.min(Math.max(this.zoomLevel, 350), 1500);
 
     this.targetCameraZPosition = this.zoomLevel / 2.5;
     this.targetCameraFrustumSize = this.zoomLevel / 20;

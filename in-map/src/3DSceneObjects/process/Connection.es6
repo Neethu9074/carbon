@@ -40,7 +40,7 @@ export default class Connection extends BaseConnection {
         const isVisible = props[0];
         const zoomLevel = props[1];
 
-        if (isVisible && zoomLevel < 250) {
+        if (isVisible && zoomLevel < 400) {
           if (!this.stickyNoteMetric) {
             this.stickyNoteMetric = new StickyNoteMetric(this);
 
