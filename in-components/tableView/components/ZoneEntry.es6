@@ -2,7 +2,7 @@ import React from 'react';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {toggledExpandedSnapshotId} from 'in-components/tableView/stores/expandedIds';
+import {toggleExpandedSnapshotId} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
 import {groupsColorPool} from 'in-services/util/ColorGenerator';
 import Entry from 'in-components/tableView/components/Entry';
@@ -43,7 +43,7 @@ export default function ZoneEntry({snapshot, structure, highlightedSnapshotId, s
               className={block + '__toggle'}
               onClick={e => {
                 e.stopPropagation();
-                toggledExpandedSnapshotId(snapshot.get('id'));
+                toggleExpandedSnapshotId(snapshot.get('id'));
               }}/>
 
         <span className={block + '__label'}

@@ -16,11 +16,15 @@ export function removeExpandedSnapshotIds(snapshotIds) {
   expandedSnapshotIdsStore.applyStateMutation(prev => prev.subtract(snapshotIds));
 }
 
-export function toggledExpandedSnapshotId(snapshotId) {
+export function toggleExpandedSnapshotId(snapshotId) {
   expandedSnapshotIdsStore.applyStateMutation(prev => {
     if (prev.contains(snapshotId)) {
       return prev.delete(snapshotId);
     }
     return prev.add(snapshotId);
   });
+}
+
+export function collapseAll() {
+  expandedSnapshotIdsStore.applyStateMutation(() => emptySet);
 }
