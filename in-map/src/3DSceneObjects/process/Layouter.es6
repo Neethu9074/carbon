@@ -8,7 +8,7 @@ export default class FruchtermanReingoldLayout {
 
   constructor(map) {
     this.iterations =  1000;
-    this.gravity =  50;
+    this.gravity =  1;
     this.speed =  0.1;
     this.map = map;
 

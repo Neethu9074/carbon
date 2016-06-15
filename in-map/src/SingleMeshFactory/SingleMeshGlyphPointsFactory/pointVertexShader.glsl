@@ -20,7 +20,7 @@ void main() {
 
   float pointSize = pointSize * ( 1500.0 / length( mvPosition.xyz ) );
 
-  if (pointSize < 20.0) {
+  if (pointSize < 10.0) {
     pointSize = 0.0;
   }
   gl_PointSize = pointSize;

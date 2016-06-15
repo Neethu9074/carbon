@@ -49,8 +49,8 @@ export default class Bubbles {
   dispose() {
     this.speedMetric.dispose();
 
-    this.animationController.dispose();
     this.stopAnimation();
+    this.animationController.dispose();
 
     this.bubbles.forEach(bubble => bubble.dispose());
     this.bubbles = [];
