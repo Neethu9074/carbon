@@ -13,7 +13,7 @@ import CPCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderPlaneCont
 import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
-import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Cluster';
+import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Cluster';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 

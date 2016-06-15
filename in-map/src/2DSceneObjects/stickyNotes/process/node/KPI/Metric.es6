@@ -7,7 +7,7 @@ import getForgeComponent from 'in-services/getForgeComponent';
 import getSnapshot from 'in-hoc/getSnapshot';
 import Jail from 'in-components/Jail';
 
-import 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Metric.less';
+import 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Metric.less';
 
 
 const rpt = React.PropTypes;

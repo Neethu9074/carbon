@@ -11,7 +11,7 @@ import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator
 import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
-import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Physical';
+import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Physical';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
 
