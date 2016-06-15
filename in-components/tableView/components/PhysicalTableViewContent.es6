@@ -5,8 +5,9 @@ import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import {expandedSnapshotIds$} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
 import ZoneEntry from 'in-components/tableView/components/ZoneEntry';
-import {selectedSnapshotId$} from 'in-stores/snapshot';
+import Search from 'in-components/tableView/components/Search';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import {selectedSnapshotId$} from 'in-stores/snapshot';
 import {physicalViewStructure$} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 
@@ -33,7 +34,10 @@ export default connectTo({
 
     return (
       <div className={block}>
-        <PhysicalSummary zones={children} />
+        <div className={block + '__header'}>
+          <PhysicalSummary zones={children} />
+          <Search />
+        </div>
 
         <ChildList Component={ZoneEntry}
                    children={children}
