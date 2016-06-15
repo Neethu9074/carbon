@@ -1,3 +1,6 @@
+import Immutable from 'immutable';
+
+import {queryParts$, snapshotIdsInPhysicalView$} from 'in-components/tableView/stores/search';
 import {emptySet} from 'in-services/fixedImmutables';
 import {createStore} from 'in-stores/store';
 
@@ -27,4 +30,16 @@ export function toggleExpandedSnapshotId(snapshotId) {
 
 export function collapseAll() {
   expandedSnapshotIdsStore.applyStateMutation(() => emptySet);
+}
+
+export function expandAll() {
+  snapshotIdsInPhysicalView$.once(snapshotIds => {
+    expandedSnapshotIdsStore.applyStateMutation(() => Immutable.Set(snapshotIds));
+  });
+}
+
+export function init() {
+  queryParts$.subscribe(() => {
+    collapseAll();
+  });
 }

@@ -11,6 +11,7 @@ import React from 'react';
 import * as tableViewVisibilityStore from 'in-components/tableView/stores/visibility';
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
 import * as notMonitoringPresenter from 'in-services/notMonitoringDialogPresenter';
+import * as expandedIdsStore from 'in-components/tableView/stores/expandedIds';
 import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
 import * as persistentConnection from 'in-services/persistentConnection';
 import * as timelineStore from 'in-components/timeline/timelineStore';
@@ -63,6 +64,7 @@ messageStore.init();
 tracking.init();
 notMonitoringPresenter.init();
 tableViewVisibilityStore.init();
+expandedIdsStore.init();
 
 ReactDOM.render((
   <Router history={hashHistory}>
