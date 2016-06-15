@@ -7,7 +7,6 @@ import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processView
 // import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
-// import Bubbles from 'in-map/src/3DSceneObjects/process/Bubbles';
 import eventBus from 'in-map/eventbus';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
@@ -54,9 +53,6 @@ export default class Connection extends BaseConnection {
       })
     ]);
 
-    // this.bubbles = new Bubbles(this);
-    // this.bubbles.startAnimation();
-    //
     // this.particleEmitter = new ParticleEmitter({
     //   id: this.id + '__particleEmitter',
     //   parent: this
@@ -156,9 +152,6 @@ export default class Connection extends BaseConnection {
 
     // this.particleEmitter.dispose();
     // this.particleEmitter = null;
-    //
-    // this.bubbles.dispose();
-    // this.bubbles = null;
 
     this.lineFragment = null;
   }
