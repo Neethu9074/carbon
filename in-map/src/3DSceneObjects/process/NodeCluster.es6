@@ -13,6 +13,8 @@ import CPCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderPlaneCont
 import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
+import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Cluster';
+import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
 
@@ -20,6 +22,16 @@ export default class NodeCluster extends Node {
 
   constructor(props) {
     super(props);
+  }
+
+  init() {
+    super.init();
+
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      iconSize: 2.5
+    });
   }
 
   addComponents(components) {
@@ -77,5 +89,16 @@ export default class NodeCluster extends Node {
     super.positionChanged(newPos);
 
     this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height, newPos.z + 0.5);
+  }
+
+  createMetricSticky() {
+    return new StickyNoteMetric(this);
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.label.dispose();
+    this.label = null;
   }
 }

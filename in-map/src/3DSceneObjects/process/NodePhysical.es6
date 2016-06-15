@@ -11,6 +11,7 @@ import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator
 import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
+import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Physical';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
 
@@ -57,9 +58,7 @@ export default class NodePhysical extends Node {
     });
   }
 
-  positionChanged(newPos) {
-    super.positionChanged(newPos);
-
-    this.label.getComponent('position').setPosition(newPos.x + 0.3, this.height / 2, newPos.z + 1);
+  createMetricSticky() {
+    return new StickyNoteMetric(this);
   }
 }

@@ -5,21 +5,21 @@ import React from 'react';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import getForgeComponent from 'in-services/getForgeComponent';
 import getSnapshot from 'in-hoc/getSnapshot';
-import {getLabel} from 'in-sdk/snapshot';
 import Jail from 'in-components/Jail';
 
-import './Metric.less';
+import 'in-map/src/2DSceneObjects/stickyNotes/process/node/metric/Metric.less';
 
 
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-process-metric';
 
-const ProcessCluster = getSnapshot(React.createClass({
+const Metric = getSnapshot(React.createClass({
 
   displayName: 'process node metric sticky',
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
+    getHeading: rpt.func.isRequired,
     snapshot: irpt.map
   },
 
@@ -31,11 +31,13 @@ const ProcessCluster = getSnapshot(React.createClass({
 
     return (
       <div>
-        <div className={block + '__label'}>
-          {getLabel(snapshot)}
+        <div className={block + '__heading'}>
+          {this.props.getHeading(snapshot)}
         </div>
-        <Jail component={this.getForgeSpecificComponent('KPI')}
-              props={{snapshot}}/>
+        <div className={block + '__metrics'}>
+          <Jail component={this.getForgeSpecificComponent('KPI')}
+                props={{snapshot}}/>
+        </div>
       </div>
     );
   },
@@ -46,6 +48,7 @@ const ProcessCluster = getSnapshot(React.createClass({
   }
 }));
 
+
 export default class StickyNoteProcessMetric extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: block});
@@ -55,7 +58,8 @@ export default class StickyNoteProcessMetric extends StickyNote {
 
   render() {
     ReactDOM.render(
-      <ProcessCluster snapshotId={this.parent.id}/>,
+      <Metric snapshotId={this.parent.id}
+              getHeading={this.getHeading}/>,
       this.container
     );
   }

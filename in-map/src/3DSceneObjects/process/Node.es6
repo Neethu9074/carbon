@@ -7,13 +7,11 @@ import {
   removeNode
 } from 'in-map/src/3DSceneObjects/process/processViewStores';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
-import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Metric';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import eventBus from 'in-map/eventbus';
 
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import Label from 'in-map/src/3DSceneObjects/process/Label';
 import {getColor} from 'in-sdk/color/color';
 
 
@@ -26,11 +24,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.edgeCount = 0;
 
     this.tooltip = new TooltipNode(this);
-    this.label = new Label({
-      id: this.id,
-      parent: this,
-      iconSize: 2.5
-    });
 
     this.addSubscriptions([
       eventBus.on('endUpdate').subscribe(() => {
@@ -61,22 +54,12 @@ export default class Node extends SceneObjectWithSnapshot {
       combineLatest([
         this.eventEmitter.on('isVisibleChanged_screenPositionMetric').distinct(),
         parent.onZoomLevel()
-      ]).subscribe(props => {
-        const isVisible = props[0];
-        const zoomLevel = props[1];
-
-        if (isVisible && zoomLevel < 500) {
-          if (!this.stickyNoteMetric) {
-            this.stickyNoteMetric = new StickyNoteMetric(this);
-
-            // force screen position update
-            this.getComponent('screenPositionMetric').updateScreenPosition(true);
-          }
-        } else if (this.stickyNoteMetric) {
-          this.stickyNoteMetric.dispose();
-          this.stickyNoteMetric = null;
-        }
-      })
+      ]).subscribe(props =>
+        // isVisible && zoomLevel < 500
+        (props[0] && props[1] < 500) ?
+          this.getOrCreateMetricSticky() :
+          this.disposeMetricSticky()
+      )
     ]);
 
     this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });
@@ -117,6 +100,24 @@ export default class Node extends SceneObjectWithSnapshot {
     super.initComponents();
 
     this.addComponents(this.components);
+  }
+
+  getOrCreateMetricSticky() {
+    if (!this.stickyNoteMetric) {
+      this.stickyNoteMetric = this.createMetricSticky();
+
+      // force screen position update
+      this.getComponent('screenPositionMetric').updateScreenPosition(true);
+    }
+  }
+
+  createMetricSticky() {}
+
+  disposeMetricSticky() {
+    if (this.stickyNoteMetric) {
+      this.stickyNoteMetric.dispose();
+      this.stickyNoteMetric = null;
+    }
   }
 
   onSnapshotUpdated(snapshot) {
@@ -177,9 +178,6 @@ export default class Node extends SceneObjectWithSnapshot {
     removeNode(this);
 
     super.dispose();
-
-    this.label.dispose();
-    this.label = null;
 
     if (this.stickyNoteMetric) {
       this.stickyNoteMetric.dispose();
