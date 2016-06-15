@@ -55,7 +55,7 @@ export default connectTo(props => {
       filledChildren
     };
   }, function ChildList({filledChildren, Component, highlightedSnapshotId, selectedSnapshotId,
-      indent, root, expandedSnapshotIds}) {
+      indent, root, expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
     if (!filledChildren) {
       return <LoadingIndicator />;
     } else if (filledChildren.length === 0) {
@@ -72,19 +72,48 @@ export default connectTo(props => {
       classes += ' ' + block + '--root';
     }
 
+    let addedChildren = 0;
     return (
       <div className={classes}>
-        {filledChildren.map((child, i) =>
-          <Component snapshot={child.snapshot}
-                     structure={child.structure}
-                     key={child.snapshot.get('id')}
-                     highlightedSnapshotId={highlightedSnapshotId}
-                     selectedSnapshotId={selectedSnapshotId}
-                     firstChild={root === true && i === 0}
-                     root={root}
-                     expandedSnapshotIds={expandedSnapshotIds}/>
-        )}
+        {filledChildren.map(child => {
+          if (!isFilterActive ||
+              shouldBeDisplayedBecauseItMatchesFilter(child.structure, snapshotIdsMatchingFilter)) {
+            addedChildren++;
+            return (
+              <Component snapshot={child.snapshot}
+                         structure={child.structure}
+                         key={child.snapshot.get('id')}
+                         highlightedSnapshotId={highlightedSnapshotId}
+                         selectedSnapshotId={selectedSnapshotId}
+                         firstChild={root === true && addedChildren === 1}
+                         root={root}
+                         expandedSnapshotIds={expandedSnapshotIds}
+                         isFilterActive={isFilterActive}
+                         snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
+            );
+          }
+          return null;
+        })}
       </div>
     );
   }
 );
+
+
+function shouldBeDisplayedBecauseItMatchesFilter(structure, snapshotIds) {
+  if (snapshotIds.indexOf(structure.get('id')) !== -1) {
+    return true;
+  }
+
+  const structuresToCheck = [structure];
+  while (structuresToCheck.length !== 0) {
+    const structureToCheck = structuresToCheck.shift();
+    if (snapshotIds.indexOf(structureToCheck.get('id')) !== -1) {
+      return true;
+    }
+
+    structuresToCheck.push.apply(structuresToCheck, structureToCheck.get('children').toArray());
+  }
+
+  return false;
+}

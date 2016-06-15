@@ -36,11 +36,6 @@
       border-radius: 4px 0 0 0;
     }
 
-    &:last-child {
-      border-bottom: 1px solid transparent;
-      border-radius: 0 0 0 4px;
-    }
-
     &--enabled {
       background: @filterbar__controls__background__regular;
 
@@ -60,7 +55,13 @@
     }
 
     &--start-of-group {
+      border-top-left-radius: 4px;
       margin-top: 1rem;
+    }
+
+    &--end-of-group {
+      border-bottom: 1px solid transparent;
+      border-bottom-left-radius: 4px;
     }
   }
 
