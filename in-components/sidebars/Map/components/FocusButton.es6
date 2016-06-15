@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
+import {closeTableView} from 'in-components/tableView/stores/visibility';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
 import {getClassName} from 'in-services/react';
@@ -79,6 +80,7 @@ export default connectTo({
   },
 
   focusSnapshotId() {
+    closeTableView();
     selectedSnapshotIdForHighlightingInMap
       .once(highlightedId => {
         eventBus.emit('focusEntityId', highlightedId);
