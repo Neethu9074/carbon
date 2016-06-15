@@ -91,11 +91,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
-
-  init() {
-    this.height = 0.5;
-  }
-
   initComponents() {
     super.initComponents();
 

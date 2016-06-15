@@ -25,7 +25,7 @@ export default class NodeCluster extends Node {
   }
 
   init() {
-    super.init();
+    this.height = 0.5;
 
     this.label = new Label({
       id: this.id,

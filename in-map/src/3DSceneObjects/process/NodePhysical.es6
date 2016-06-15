@@ -21,6 +21,10 @@ export default class NodePhysical extends Node {
     super(props);
   }
 
+  init() {
+    this.height = 0.7;
+  }
+
   addComponents(components) {
     const factory = this.getFactory('solidSMF');
     const sceneObject = this;
