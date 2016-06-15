@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PhysicalTableViewContent from 'in-components/tableView/components/PhysicalTableViewContent';
+import {isOpen$ as isSidebarOpen$} from 'in-components/sidebars/Map/sidebarStore';
 import {isTableVisible$} from 'in-components/tableView/stores/visibility';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
@@ -13,8 +14,9 @@ const block = 'in-table-view';
 export default connectTo({
     isTableVisible: isTableVisible$,
     isCollapsed: isCollapsed$,
-    view: view$
-  }, function TableView({isTableVisible, isCollapsed, view}) {
+    view: view$,
+    isSidebarOpen: isSidebarOpen$
+  }, function TableView({isTableVisible, isCollapsed, view, isSidebarOpen}) {
     if (!isTableVisible) {
       return null;
     }
@@ -23,6 +25,10 @@ export default connectTo({
 
     if (!isCollapsed) {
       classes += ' ' + block + '--timeline-expanded';
+    }
+
+    if (isSidebarOpen) {
+      classes += ' ' + block + '--sidebar-open';
     }
 
     let content;
