@@ -4,7 +4,7 @@ import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/C
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
-// import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
+import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import eventBus from 'in-map/eventbus';
@@ -23,7 +23,6 @@ export default class Connection extends BaseConnection {
         this.destinationNode.eventEmitter.on('positionChanged')
       ]).subscribe(() => this.positionChanged()),
 
-      // eventBus.on('beginUpdate').subscribe(() => this.particleEmitter.update()),
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
       this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition => {
@@ -53,13 +52,14 @@ export default class Connection extends BaseConnection {
       })
     ]);
 
-    // this.particleEmitter = new ParticleEmitter({
-    //   id: this.id + '__particleEmitter',
-    //   parent: this
-    // });
-    // this.particleEmitter.setPostition(this.sourceNode.getComponent('position').getPosition());
-    // this.particleEmitter.lookAt(this.destinationNode.getComponent('position').getPosition());
-    // this.particleEmitter.start();
+    this.particleEmitter = new ParticleEmitter({
+      id: this.id + '__particleEmitter',
+      parent: this
+    });
+    this.particleEmitter.setPostition(this.sourceNode.getComponent('position').getPosition());
+    this.particleEmitter.lookAt(this.destinationNode.getComponent('position').getPosition());
+    this.particleEmitter.updateVertices();
+    this.particleEmitter.start();
 
     addEdge(this);
   }
@@ -127,13 +127,16 @@ export default class Connection extends BaseConnection {
     const from = this.direction === DIRECTIONS.OUT ? this.sourceNode : this.destinationNode;
     const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
     const fromPos = from.getComponent('position').getPosition().clone();
+    this.particleEmitter.setPostition(fromPos);
+
     const toPos = to.getComponent('position').getPosition().clone();
+    this.particleEmitter.lookAt(toPos);
+
     const pos = fromPos.add(toPos.sub(fromPos).multiplyScalar(0.5));
 
     this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.5, 0, pos.z + 0.5);
 
-    // this.particleEmitter.setPostition(fromPos);
-    // this.particleEmitter.lookAt(toPos);
+    this.particleEmitter.updateVertices();
   }
 
   dispose() {
@@ -150,8 +153,8 @@ export default class Connection extends BaseConnection {
 
     super.dispose();
 
-    // this.particleEmitter.dispose();
-    // this.particleEmitter = null;
+    this.particleEmitter.dispose();
+    this.particleEmitter = null;
 
     this.lineFragment = null;
   }

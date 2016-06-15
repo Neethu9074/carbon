@@ -4,7 +4,6 @@ import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/sha
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import AnimationController from 'in-map/src/AnimationController';
-import {getDeltaTime} from 'in-map/src/timeCalculations';
 
 
 export default class ParticleEmitter extends SceneObject {
@@ -12,14 +11,17 @@ export default class ParticleEmitter extends SceneObject {
   constructor({parent, id}) {
     super({parent, id});
 
+    this.isRunning = false;
+
     this.animationController = new AnimationController({
       onUpdate: this.animationControllerUpdateCallback.bind(this),
       timeToAnimate: 2000,
       repeat: true
     });
 
-    this.isRunning = false;
-    this.vertices = [];
+    this.vertices = [
+      0, 0, 0
+    ];
 
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
@@ -31,11 +33,8 @@ export default class ParticleEmitter extends SceneObject {
       vertexShader,
       transparent: true,
       depthWrite: false,
+      side: THREE.DoubleSide,
       uniforms: {
-        time: {
-          type: 'f',
-          value: 0.0
-        },
         progress: {
           type: 'f',
           value: 0.0
@@ -43,22 +42,32 @@ export default class ParticleEmitter extends SceneObject {
         color: {
           type: 'v3',
           value: {x: 1.0, y: 0.0, z: 0.0}
+        },
+        distance: {
+          type: 'f',
+          value: 1.0
         }
       }
     });
 
     // a global mesh that stores global geometry
-    const mesh = this.mesh = new THREE.Mesh(geometry, material);
+    const mesh = this.mesh = new THREE.Points(geometry, material);
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
   }
 
   setPostition(newPosition) {
-    this.mesh.position.copy(newPosition);
+    this.mesh.position.set(newPosition.x - 0.5, newPosition.y, newPosition.z + 0.5);
   }
 
   lookAt(target) {
-    this.mesh.lookAt(target);
+    const targetPosition = new THREE.Vector3(target.x - 0.5, target.y, target.z + 0.5);
+    this.mesh.lookAt(targetPosition);
+    this.material.uniforms.distance.value = targetPosition.sub(this.mesh.position).length();
+  }
+
+  updateVertices() {
+    this.mesh.updateMatrix();
   }
 
   start() {
@@ -66,13 +75,15 @@ export default class ParticleEmitter extends SceneObject {
       return;
     }
 
-    this.scene.removeSceneObject(this.mesh);
+    this.scene.addSceneObject(this.mesh);
     this.animationController.start();
 
     this.isRunning = true;
   }
 
-  animationControllerUpdateCallback() {
+  animationControllerUpdateCallback(progress) {
+    this.material.uniforms.progress.value = progress;
+    this.scene.renderScene();
   }
 
   stop() {
@@ -83,12 +94,6 @@ export default class ParticleEmitter extends SceneObject {
     this.scene.removeSceneObject(this.mesh);
     this.animationController.stop();
     this.isRunning = false;
-  }
-
-  update(progress) {
-    const dt = getDeltaTime();
-    this.material.uniforms.time.value = dt;
-    this.material.uniforms.progress.value = progress;
   }
 
   dispose() {
