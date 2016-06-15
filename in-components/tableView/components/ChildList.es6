@@ -55,7 +55,7 @@ export default connectTo(props => {
       filledChildren
     };
   }, function ChildList({filledChildren, Component, highlightedSnapshotId, selectedSnapshotId,
-      indent, root, expandedSnapshotIds}) {
+      indent, root, expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
     if (!filledChildren) {
       return <LoadingIndicator />;
     } else if (filledChildren.length === 0) {
@@ -82,7 +82,9 @@ export default connectTo(props => {
                      selectedSnapshotId={selectedSnapshotId}
                      firstChild={root === true && i === 0}
                      root={root}
-                     expandedSnapshotIds={expandedSnapshotIds}/>
+                     expandedSnapshotIds={expandedSnapshotIds}
+                     isFilterActive={isFilterActive}
+                     snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
         )}
       </div>
     );

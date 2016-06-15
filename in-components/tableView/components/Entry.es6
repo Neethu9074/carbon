@@ -13,7 +13,7 @@ import './Entry.less';
 const block = 'in-table-view-entry';
 
 export default function Entry({snapshot, structure, highlightedSnapshotId, selectedSnapshotId,
-    firstChild, root, expandedSnapshotIds}) {
+    firstChild, root, expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
   let classes = block;
 
   if (highlightedSnapshotId === snapshot.get('id')) {
@@ -75,7 +75,9 @@ export default function Entry({snapshot, structure, highlightedSnapshotId, selec
                    highlightedSnapshotId={highlightedSnapshotId}
                    selectedSnapshotId={selectedSnapshotId}
                    indent={true}
-                   expandedSnapshotIds={expandedSnapshotIds}/>
+                   expandedSnapshotIds={expandedSnapshotIds}
+                   isFilterActive={isFilterActive}
+                   snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
       : null}
     </div>
   );

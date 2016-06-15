@@ -32,7 +32,7 @@ export const queryParts$ = query$
   });
 
 
-export const isQueryActive$ = queryParts$
+export const isFilterActive$ = queryParts$
   .map(queryParts => queryParts.length > 0);
 
 
@@ -80,9 +80,9 @@ export const searchablePhysicalViewData$ = snapshotIdsInPhysicalView$
   .throttle(process.env.IS_TEST ? 5000 : 0);
 
 
-export const snapshotIdsInPhysicalViewMatchingQuery$ = combineLatest([
+export const snapshotIdsInPhysicalViewMatchingFilter$ = combineLatest([
     queryParts$,
-    isQueryActive$,
+    isFilterActive$,
     searchablePhysicalViewData$
   ]).map(([queryParts, isQueryActive, searchableData]) => {
     const matchingIds = [];

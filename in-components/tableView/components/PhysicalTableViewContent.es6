@@ -9,6 +9,10 @@ import Search from 'in-components/tableView/components/Search';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {selectedSnapshotId$} from 'in-stores/snapshot';
 import {physicalViewStructure$} from 'in-stores/view';
+import {
+  isFilterActive$,
+  snapshotIdsInPhysicalViewMatchingFilter$
+} from 'in-components/tableView/stores/search';
 import connectTo from 'in-hoc/connectTo';
 
 import './PhysicalTableViewContent.less';
@@ -21,9 +25,11 @@ export default connectTo({
     highlightedSnapshotId: highlightedEntityId$,
     selectedSnapshotId: selectedSnapshotId$,
     viewStructure: physicalViewStructure$,
-    expandedSnapshotIds: expandedSnapshotIds$
+    expandedSnapshotIds: expandedSnapshotIds$,
+    isFilterActive: isFilterActive$,
+    snapshotIdsMatchingFilter: snapshotIdsInPhysicalViewMatchingFilter$
   }, function PhysicalTableViewContent({viewStructure, highlightedSnapshotId, selectedSnapshotId,
-      expandedSnapshotIds}) {
+      expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
     if (!viewStructure) {
       return <LoadingIndicator />;
     }
@@ -45,7 +51,9 @@ export default connectTo({
                    selectedSnapshotId={selectedSnapshotId}
                    indent={false}
                    ignorePluginWhileSorting={true}
-                   expandedSnapshotIds={expandedSnapshotIds} />
+                   expandedSnapshotIds={expandedSnapshotIds}
+                   isFilterActive={isFilterActive}
+                   snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
       </div>
     );
   }

@@ -14,7 +14,7 @@ import './ZoneEntry.less';
 const block = 'in-table-view-zone-entry';
 
 export default function ZoneEntry({snapshot, structure, highlightedSnapshotId, selectedSnapshotId,
-    expandedSnapshotIds}) {
+    expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
   let classes = block;
 
   if (highlightedSnapshotId === snapshot.get('id')) {
@@ -65,7 +65,9 @@ export default function ZoneEntry({snapshot, structure, highlightedSnapshotId, s
                    selectedSnapshotId={selectedSnapshotId}
                    indent={false}
                    root={true}
-                   expandedSnapshotIds={expandedSnapshotIds}/>
+                   expandedSnapshotIds={expandedSnapshotIds}
+                   isFilterActive={isFilterActive}
+                   snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
       : null}
     </div>
   );

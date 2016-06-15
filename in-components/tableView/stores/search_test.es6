@@ -112,54 +112,54 @@ describe('in-components/tableView/stores/search', () => {
   });
 
 
-  describe('isQueryActive$', () => {
+  describe('isFilterActive$', () => {
     it('must not be active initially', () => {
       doImport(true);
-      mod.isQueryActive$.subscribe(onNext);
+      mod.isFilterActive$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.equal(false);
     });
 
     it('must not be active when there is no query part with at least three characters', () => {
       doImport(true);
       mod.setQuery('a bc d');
-      mod.isQueryActive$.subscribe(onNext);
+      mod.isFilterActive$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.equal(false);
     });
 
     it('must be active when there is at least one sufficiently long term', () => {
       doImport(true);
       mod.setQuery('a bcd e');
-      mod.isQueryActive$.subscribe(onNext);
+      mod.isFilterActive$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.equal(true);
     });
   });
 
 
-  describe('snapshotIdsInPhysicalViewMatchingQuery$', () => {
+  describe('snapshotIdsInPhysicalViewMatchingFilter$', () => {
     it('must list no snapshot IDs when filtering is not active', () => {
       doImport(true);
-      mod.snapshotIdsInPhysicalViewMatchingQuery$.subscribe(onNext);
+      mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.deep.equal([]);
     });
 
     it('must include only snapshots matching the query for labels', () => {
       doImport(true);
       mod.setQuery('label-a');
-      mod.snapshotIdsInPhysicalViewMatchingQuery$.subscribe(onNext);
+      mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.deep.equal(['a']);
     });
 
     it('must include only snapshots matching the query for plugins', () => {
       doImport(true);
       mod.setQuery('plugin-b');
-      mod.snapshotIdsInPhysicalViewMatchingQuery$.subscribe(onNext);
+      mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.deep.equal(['b']);
     });
 
     it('must match multiple plugins', () => {
       doImport(true);
       mod.setQuery('plugin');
-      mod.snapshotIdsInPhysicalViewMatchingQuery$.subscribe(onNext);
+      mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.deep.equal(['a', 'b', 'c']);
     });
   });
