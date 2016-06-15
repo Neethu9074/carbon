@@ -43,7 +43,7 @@ const rollupDurationThresholds = [
 export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
   // TODO TEMPORARY HACK FOR PROCESS VIEW
   if (snapshotId.indexOf('process-view') === 0) {
-    return getDummyMetric();
+    return getDummyMetric(metric);
   }
 
   if (rollup === undefined) {

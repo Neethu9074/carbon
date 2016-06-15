@@ -77,12 +77,19 @@ function getLabel(snapshotId) {
 }
 
 
-export function getDummyMetric() {
+export function getDummyMetric(metric) {
+  let generateMetric = () => (Math.random() * 100) | 0;
+  if (metric === 'errors') {
+    generateMetric = () => Math.random() / 5;
+  } else if (metric === 'sessions') {
+    generateMetric = () => 500 * Math.random() | 0;
+  }
+
   let intervalHandle;
   return create({
     start(observable) {
       intervalHandle = setInterval(() => {
-        observable.emit([Date.now(), (Math.random() * 100) | 0]);
+        observable.emit([Date.now(), generateMetric()]);
       }, 1000);
     },
 

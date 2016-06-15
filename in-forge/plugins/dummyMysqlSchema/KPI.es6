@@ -26,8 +26,8 @@ export default React.createClass({
                metrics={[
                  'METRIC_NAME_HERE',
                  'METRIC_NAME_HERE',
-                 'METRIC_NAME_HERE',
-                 'METRIC_NAME_HERE'
+                 'errors',
+                 'sessions'
                ]}
                labels={[
                  'calls/s',
