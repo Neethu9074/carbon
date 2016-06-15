@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import * as expandedIds from './expandedIds';
 
-describe('in-components/tableView/stores/search', () => {
+describe('in-components/tableView/stores/expandedIds', () => {
   let onNext;
 
   beforeEach(() => {
