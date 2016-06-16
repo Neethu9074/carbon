@@ -5,7 +5,7 @@ import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot
 import {toggleExpandedSnapshotId} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import HealthBar from 'in-components/HealthBar';
+import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import Icon from 'in-components/Icon';
 
 import './Entry.less';
@@ -65,8 +65,8 @@ export default function Entry({snapshot, structure, highlightedSnapshotId, selec
           {getLabel(snapshot)}
         </span>
 
-        <HealthBar snapshotId={snapshot.get('id')}
-                   className={block + '__health'} />
+        <AnnotatedHealthBar snapshotId={snapshot.get('id')}
+                            className={block + '__health'} />
       </div>
 
       {hasChildren && isExpanded ?
