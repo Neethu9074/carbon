@@ -49,6 +49,14 @@ export default class ConnectionWithKPI extends Connection {
     });
   }
 
+  getColor() {
+    return {
+      r: 0.73,
+      g: 0.73,
+      b: 0.73
+    };
+  }
+
   positionChanged() {
     super.positionChanged();
 

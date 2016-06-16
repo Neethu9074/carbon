@@ -53,16 +53,23 @@ export default class Connection extends BaseConnection {
       id: this.id,
       contentProvider: new CLCP()
     };
-    // the default color must be set to get a working shader. It's black so you can
-    // see if there is a snapshot missing
+    // the default color must be set to get a working shader. It's black so you can see if there is a snapshot missing
+    const {r, g, b} = this.getColor();
     this.lineFragment.contentProvider.setColor([
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73
+      r, g, b,
+      r, g, b,
+      r, g, b,
+      r, g, b,
+      r, g, b,
+      r, g, b
     ]);
+  }
+  getColor() {
+    return {
+      r: 0.5,
+      g: 0.5,
+      b: 0.5
+    };
   }
 
   updateGeometry() {
