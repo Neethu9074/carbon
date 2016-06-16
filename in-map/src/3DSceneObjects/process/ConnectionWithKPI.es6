@@ -11,6 +11,8 @@ export default class ConnectionWithKPI extends Connection {
   constructor(params) {
     super(params);
 
+    this.withArrows = true;
+
     this.addSubscriptions([
       this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition => {
         if (this.stickyNoteMetric) {

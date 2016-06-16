@@ -155,8 +155,6 @@ export default class Node extends SceneObjectWithSnapshot {
     }
 
     this.stickyNote.setNumChildren(Object.keys(childIds).length);
-
-    // TODO: if expanded, add to scene
   }
 
   positionChanged(newPos) {

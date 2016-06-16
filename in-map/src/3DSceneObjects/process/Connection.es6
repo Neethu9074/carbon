@@ -18,6 +18,8 @@ export default class Connection extends BaseConnection {
   constructor(params) {
     super(params);
 
+    this.withArrows = false;
+
     this.addSubscriptions([
       combineLatest([
         this.sourceNode.eventEmitter.on('positionChanged'),
@@ -68,7 +70,7 @@ export default class Connection extends BaseConnection {
       baseColor, baseColor, baseColor,
       baseColor, baseColor, baseColor
     ];
-    for (let i = 0; i < NUM_LINES; i++) {
+    for (let i = 0; i <= NUM_LINES; i++) {
       colors.push(baseColor, baseColor, baseColor, baseColor, baseColor, baseColor);
     }
     return colors;

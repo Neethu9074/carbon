@@ -21,6 +21,7 @@ export default class Connection extends SceneObject {
   constructor({parent, entity, sourceNode, destinationNode, direction}) {
     super({parent, id: entity.get('id')});
 
+    this.withArrows = true;
     this.direction = direction;
     this.sourceNode = sourceNode;
     this.destinationNode = destinationNode;
@@ -79,7 +80,10 @@ export default class Connection extends SceneObject {
     last.y += dirlastToBeforeLast.y * 0.5;
     last.z += dirlastToBeforeLast.z * 0.5;
 
-    return this.addArrowToDestination(path);
+    if (this.withArrows) {
+      return this.addArrowToDestination(path);
+    }
+    return path;
   }
 
   addArrowToDestination(path) {
