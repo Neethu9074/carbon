@@ -1,7 +1,8 @@
-import {remove, find} from 'lodash';
+import {remove} from 'lodash';
 
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/physical/Group';
 import {getColorPool} from 'in-services/util/ColorGenerator';
+import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/eventbus';
 
 import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
