@@ -26,7 +26,9 @@ import './Entry.less';
 
 const block = 'in-table-view-entry';
 
-export default connectTo(props => {
+// deliberately giving it a name and assigning it to a variable to support recursive
+// references
+const Entry = connectTo(props => {
     const snapshotId = props.snapshot.get('id');
     return {
       isHighlighted: highlightedEntityId$
@@ -39,7 +41,7 @@ export default connectTo(props => {
         .map(expandedIds => expandedIds.contains(snapshotId))
         .distinct()
     };
-  }, function Entry({snapshot, structure, isHighlighted, isSelected,
+  }, function EntryComponent({snapshot, structure, isHighlighted, isSelected,
       isFilterActive, snapshotIdsMatchingFilter, isExpanded, firstChild, root}) {
     let classes = block;
 
@@ -106,3 +108,5 @@ export default connectTo(props => {
     );
   }
 );
+
+export default Entry;
