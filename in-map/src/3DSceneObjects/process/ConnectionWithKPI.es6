@@ -49,12 +49,25 @@ export default class ConnectionWithKPI extends Connection {
     });
   }
 
-  getColor() {
-    return {
-      r: 0.73,
-      g: 0.73,
-      b: 0.73
-    };
+  getColors() {
+    return [
+      0.73, 0.73, 0.73,
+      0.73, 0.73, 0.73,
+      0.73, 0.73, 0.73,
+      0.73, 0.73, 0.73,
+      0.73, 0.73, 0.73,
+      0.73, 0.73, 0.73
+    ];
+  }
+
+  calculatePath(fromPos, toPos) {
+    // move the path a little so that the source/target position is in the middle of the geometry
+    fromPos.x -= 0.5;
+    fromPos.z += 0.5;
+    toPos.x -= 0.5;
+    toPos.z += 0.5;
+
+    return [fromPos, toPos];
   }
 
   positionChanged() {

@@ -3,12 +3,15 @@ import {combineLatest} from 'reactive-observables';
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
+import {getPartsForCount} from 'in-map/src/3DSceneObjects/process/dashedLineHelper';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import eventBus from 'in-map/eventbus';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
 
+
+const NUM_LINES = 10;
 
 export default class Connection extends BaseConnection {
 
@@ -54,22 +57,21 @@ export default class Connection extends BaseConnection {
       contentProvider: new CLCP()
     };
     // the default color must be set to get a working shader. It's black so you can see if there is a snapshot missing
-    const {r, g, b} = this.getColor();
-    this.lineFragment.contentProvider.setColor([
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b
-    ]);
+    this.lineFragment.contentProvider.setColor(this.getColors());
   }
-  getColor() {
-    return {
-      r: 0.5,
-      g: 0.5,
-      b: 0.5
-    };
+
+  getColors() {
+    const baseColor = 0.73;
+    const colors = [
+      baseColor, baseColor, baseColor,
+      baseColor, baseColor, baseColor,
+      baseColor, baseColor, baseColor,
+      baseColor, baseColor, baseColor
+    ];
+    for (let i = 0; i < NUM_LINES; i++) {
+      colors.push(baseColor, baseColor, baseColor, baseColor, baseColor, baseColor);
+    }
+    return colors;
   }
 
   updateGeometry() {
@@ -84,7 +86,30 @@ export default class Connection extends BaseConnection {
     toPos.x -= 0.5;
     toPos.z += 0.5;
 
-    return [fromPos, toPos];
+    const lines = [];
+    const parts = getPartsForCount(NUM_LINES);
+    const direction = {
+      x: toPos.x - fromPos.x,
+      y: toPos.y - fromPos.y,
+      z: toPos.z - fromPos.z
+    };
+    for (let i = 0; i < parts.length; i += 2) {
+      const from = parts[i];
+      const to = parts[i + 1];
+
+      lines.push({
+        x: fromPos.x + direction.x * from,
+        y: fromPos.y + direction.y * from,
+        z: fromPos.z + direction.z * from
+      });
+      lines.push({
+        x: fromPos.x + direction.x * to,
+        y: fromPos.y + direction.y * to,
+        z: fromPos.z + direction.z * to
+      });
+    }
+
+    return lines;
   }
 
   getTooltipLine() {
