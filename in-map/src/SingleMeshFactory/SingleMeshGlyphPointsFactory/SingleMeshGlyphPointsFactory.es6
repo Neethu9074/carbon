@@ -25,7 +25,7 @@ export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
       uniforms: {
         texture: { type: 't', value: glyphTexture },
         numColumns: { type: 'f', value: config.numElementsPerColumn },
-        aspect: { type: 'f', value: 1 }
+        ratio: { type: 'f', value: window.devicePixelRatio > 1 ? 0.667 : 1 }
       }
     });
   }
