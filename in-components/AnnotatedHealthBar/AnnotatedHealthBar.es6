@@ -42,7 +42,7 @@ export default connectTo(props => {
                    }>
             <span className={block + '__counter'}
                   style={{
-                    color: maxSeverity < 0.6 ? '#000' : '#fff',
+                    color: maxSeverity < 6 ? '#000' : '#fff',
                     backgroundColor: color
                   }}>
               {numberOfOpenIssues}

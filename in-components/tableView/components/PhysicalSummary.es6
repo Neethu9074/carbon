@@ -11,7 +11,7 @@ export default function PhysicalSummary({zones}) {
 
   return (
     <p className={block}>
-      You are monitoring <em>{hostCount} Hosts</em> in <em>{zones.length} Zones</em>.
+      You are monitoring <em>{hostCount} Hosts</em> in <em>{zones.length} Zones</em>
     </p>
   );
 }

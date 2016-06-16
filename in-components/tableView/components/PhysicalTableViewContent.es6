@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ExpandCollapseAll from 'in-components/tableView/components/ExpandCollapseAll';
 import PhysicalSummary from 'in-components/tableView/components/PhysicalSummary';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import {expandedSnapshotIds$} from 'in-components/tableView/stores/expandedIds';
@@ -41,7 +42,10 @@ export default connectTo({
     return (
       <div className={block}>
         <div className={block + '__header'}>
-          <PhysicalSummary zones={children} />
+          <div className={block + '__header-left'}>
+            <PhysicalSummary zones={children} />
+            <ExpandCollapseAll />
+          </div>
           <Search />
         </div>
 
