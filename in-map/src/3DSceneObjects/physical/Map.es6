@@ -227,7 +227,6 @@ export default class Map extends BaseMap {
   }
 
   firstLayoutDone(x, z) {
-    console.log(x, z);
     this.controller.flyToPosition(x, z);
   }
 
