@@ -39,7 +39,12 @@ export function expandAll() {
 }
 
 export function init() {
-  queryParts$.subscribe(() => {
-    collapseAll();
-  });
+  queryParts$
+    .subscribe(parts => {
+      if (parts.length === 0) {
+        collapseAll();
+      } else {
+        expandAll();
+      }
+    });
 }
