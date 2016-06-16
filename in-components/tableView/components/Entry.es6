@@ -2,7 +2,7 @@ import React from 'react';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {toggledExpandedSnapshotId} from 'in-components/tableView/tableViewStore';
+import {toggleExpandedSnapshotId} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import HealthBar from 'in-components/HealthBar';
@@ -13,7 +13,7 @@ import './Entry.less';
 const block = 'in-table-view-entry';
 
 export default function Entry({snapshot, structure, highlightedSnapshotId, selectedSnapshotId,
-    firstChild, root, expandedSnapshotIds}) {
+    firstChild, root, expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
   let classes = block;
 
   if (highlightedSnapshotId === snapshot.get('id')) {
@@ -54,7 +54,7 @@ export default function Entry({snapshot, structure, highlightedSnapshotId, selec
               }}
               onClick={e => {
                 e.stopPropagation();
-                toggledExpandedSnapshotId(snapshot.get('id'));
+                toggleExpandedSnapshotId(snapshot.get('id'));
               }}/>
 
         <img src={getIcon(snapshot)}
@@ -75,7 +75,9 @@ export default function Entry({snapshot, structure, highlightedSnapshotId, selec
                    highlightedSnapshotId={highlightedSnapshotId}
                    selectedSnapshotId={selectedSnapshotId}
                    indent={true}
-                   expandedSnapshotIds={expandedSnapshotIds}/>
+                   expandedSnapshotIds={expandedSnapshotIds}
+                   isFilterActive={isFilterActive}
+                   snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
       : null}
     </div>
   );

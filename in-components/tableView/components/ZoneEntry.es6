@@ -2,7 +2,7 @@ import React from 'react';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {toggledExpandedSnapshotId} from 'in-components/tableView/tableViewStore';
+import {toggleExpandedSnapshotId} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
 import {groupsColorPool} from 'in-services/util/ColorGenerator';
 import Entry from 'in-components/tableView/components/Entry';
@@ -14,7 +14,7 @@ import './ZoneEntry.less';
 const block = 'in-table-view-zone-entry';
 
 export default function ZoneEntry({snapshot, structure, highlightedSnapshotId, selectedSnapshotId,
-    expandedSnapshotIds}) {
+    expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
   let classes = block;
 
   if (highlightedSnapshotId === snapshot.get('id')) {
@@ -43,7 +43,7 @@ export default function ZoneEntry({snapshot, structure, highlightedSnapshotId, s
               className={block + '__toggle'}
               onClick={e => {
                 e.stopPropagation();
-                toggledExpandedSnapshotId(snapshot.get('id'));
+                toggleExpandedSnapshotId(snapshot.get('id'));
               }}/>
 
         <span className={block + '__label'}
@@ -65,7 +65,9 @@ export default function ZoneEntry({snapshot, structure, highlightedSnapshotId, s
                    selectedSnapshotId={selectedSnapshotId}
                    indent={false}
                    root={true}
-                   expandedSnapshotIds={expandedSnapshotIds}/>
+                   expandedSnapshotIds={expandedSnapshotIds}
+                   isFilterActive={isFilterActive}
+                   snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
       : null}
     </div>
   );

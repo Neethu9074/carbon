@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
-import TableViewToggleButton from 'in-components/tableView/TableViewToggleButton';
 import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
@@ -33,7 +32,6 @@ export default function App({children = null}) {
         <Filterbar />
         <SidebarIncidents />
         <SidebarMap />
-        <TableViewToggleButton />
       </section>
 
       <NotificationCenterFlyout />

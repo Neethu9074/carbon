@@ -8046,8 +8046,8 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-router/-/react-router-2.4.1.tgz"
     },
     "reactive-observables": {
-      "version": "1.26.0",
-      "from": "reactive-observables@>=1.26.0 <2.0.0"
+      "version": "1.27.0",
+      "from": "reactive-observables@>=1.27.0 <2.0.0"
     },
     "read": {
       "version": "1.0.7",
@@ -8895,9 +8895,9 @@
       "resolved": "https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz"
     },
     "three": {
-      "version": "0.78",
-      "from": "three@>=0.78 <0.79.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/three/-/three-0.78.tgz"
+      "version": "0.78.0",
+      "from": "three@>=0.78.0 <0.79.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/three/-/three-0.78.0.tgz"
     },
     "through": {
       "version": "2.3.8",
