@@ -3,7 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import HealthInfoBar from 'in-components/HealthInfoBar';
+import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import Collapsible from 'in-components/Collapsible';
 import * as timelineStore from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
@@ -36,7 +36,7 @@ export default connectTo({
             <Collapsible.Header>Elasticsearch Cluster</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                {this.item('Health', <HealthInfoBar snapshotId={snapshotId}/>)}
+                {this.item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
                 {this.item('Name', data.get('groupId'))}
                 {this.item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
               </DescriptionList>
