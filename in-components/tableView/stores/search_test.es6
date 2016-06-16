@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/* global global:false */
 
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
@@ -15,6 +16,7 @@ describe('in-components/tableView/stores/search', () => {
 
   beforeEach(() => {
     resetStoreRegistry();
+    global.requestAnimationFrame = fn => fn();
 
     physicalViewStructure$ = create()
       .emit(Immutable.fromJS({

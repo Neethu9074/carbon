@@ -1,84 +1,108 @@
+/* eslint-disable react/prop-types */
+
 import React from 'react';
 
-import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {toggleExpandedSnapshotId} from 'in-components/tableView/stores/expandedIds';
+import {
+  toggleExpandedSnapshotId,
+  expandedSnapshotIds$
+} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
+import {
+  highlightedEntityId$,
+  setHighlightedEntityId,
+  clearHighlightedEntityId
+} from 'in-services/stores/highlightedEntityId';
+import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
+import {
+  setSelectedSnapshotId,
+  clearSelectedSnapshotId,
+  selectedSnapshotId$
+} from 'in-stores/snapshot';
 
 import './Entry.less';
 
 const block = 'in-table-view-entry';
 
-export default function Entry({snapshot, structure, highlightedSnapshotId, selectedSnapshotId,
-    firstChild, root, expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
-  let classes = block;
+export default connectTo(props => {
+    const snapshotId = props.snapshot.get('id');
+    return {
+      isHighlighted: highlightedEntityId$
+        .map(highlightedEntityId => highlightedEntityId === snapshotId)
+        .distinct(),
+      isSelected: selectedSnapshotId$
+        .map(selectedSnapshotId => selectedSnapshotId === snapshotId)
+        .distinct(),
+      isExpanded: expandedSnapshotIds$
+        .map(expandedIds => expandedIds.contains(snapshotId))
+        .distinct()
+    };
+  }, function Entry({snapshot, structure, isHighlighted, isSelected,
+      isFilterActive, snapshotIdsMatchingFilter, isExpanded, firstChild, root}) {
+    let classes = block;
 
-  if (highlightedSnapshotId === snapshot.get('id')) {
-    classes += ' ' + block + '--highlighted';
-  }
+    if (isHighlighted) {
+      classes += ' ' + block + '--highlighted';
+    }
 
-  if (selectedSnapshotId === snapshot.get('id')) {
-    classes += ' ' + block + '--selected';
-  }
+    if (isSelected) {
+      classes += ' ' + block + '--selected';
+    }
 
-  if (firstChild) {
-    classes += ' ' + block + '--first-child';
-  }
+    if (firstChild) {
+      classes += ' ' + block + '--first-child';
+    }
 
-  if (root) {
-    classes += ' ' + block + '--root';
-  }
+    if (root) {
+      classes += ' ' + block + '--root';
+    }
 
-  const hasChildren = structure.get('children').size > 0;
-  const isExpanded = expandedSnapshotIds.contains(snapshot.get('id'));
+    const hasChildren = structure.get('children').size > 0;
 
-  return (
-    <div>
-      <div className={classes}
-           onClick={() => {
-             if (selectedSnapshotId === snapshot.get('id')) {
-               clearSelectedSnapshotId();
-             } else {
-               setSelectedSnapshotId(snapshot.get('id'));
-             }
-           }}
-           onMouseEnter={() => setHighlightedEntityId(snapshot.get('id'))}
-           onMouseLeave={clearHighlightedEntityId}>
-        <Icon type={isExpanded ? 'close' : 'open'}
-              className={block + '__toggle'}
-              style={{
-                visibility: hasChildren ? 'visible' : 'hidden'
-              }}
-              onClick={e => {
-                e.stopPropagation();
-                toggleExpandedSnapshotId(snapshot.get('id'));
-              }}/>
+    return (
+      <div>
+        <div className={classes}
+             onClick={() => {
+               if (isSelected) {
+                 clearSelectedSnapshotId();
+               } else {
+                 setSelectedSnapshotId(snapshot.get('id'));
+               }
+             }}
+             onMouseEnter={() => setHighlightedEntityId(snapshot.get('id'))}
+             onMouseLeave={clearHighlightedEntityId}>
+          <Icon type={isExpanded ? 'close' : 'open'}
+                className={block + '__toggle'}
+                style={{
+                  visibility: hasChildren ? 'visible' : 'hidden'
+                }}
+                onClick={e => {
+                  e.stopPropagation();
+                  toggleExpandedSnapshotId(snapshot.get('id'));
+                }}/>
 
-        <img src={getIcon(snapshot)}
-             alt='Icon depicting this type of plugin.'
-             className={block + '__icon'} />
+          <img src={getIcon(snapshot)}
+               alt='Icon depicting this type of plugin.'
+               className={block + '__icon'} />
 
-        <span className={block + '__label'}>
-          {getLabel(snapshot)}
-        </span>
+          <span className={block + '__label'}>
+            {getLabel(snapshot)}
+          </span>
 
-        <AnnotatedHealthBar snapshotId={snapshot.get('id')}
-                            className={block + '__health'} />
+          <AnnotatedHealthBar snapshotId={snapshot.get('id')}
+                              className={block + '__health'} />
+        </div>
+
+        {hasChildren && isExpanded ?
+          <ChildList Component={Entry}
+                     children={structure.get('children').toArray()}
+                     indent={true}
+                     isFilterActive={isFilterActive}
+                     snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
+        : null}
       </div>
-
-      {hasChildren && isExpanded ?
-        <ChildList Component={Entry}
-                   children={structure.get('children').toArray()}
-                   highlightedSnapshotId={highlightedSnapshotId}
-                   selectedSnapshotId={selectedSnapshotId}
-                   indent={true}
-                   expandedSnapshotIds={expandedSnapshotIds}
-                   isFilterActive={isFilterActive}
-                   snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
-      : null}
-    </div>
-  );
-}
+    );
+  }
+);

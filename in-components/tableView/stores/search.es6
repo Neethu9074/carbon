@@ -37,7 +37,8 @@ export const isFilterActive$ = queryParts$
 
 
 export const snapshotIdsInPhysicalView$ = physicalViewStructure$
-  .throttle(10000)
+  .nextFrame()
+  .throttle(process.env.IS_TEST ? 0 : 60000)
   .map(viewStructure => {
     const snapshotIds = {};
     const structuresToAnalyzeForSnapshots = viewStructure.get('children').toArray();
@@ -77,7 +78,8 @@ const getSearchableData = memoize(
 
 export const searchablePhysicalViewData$ = snapshotIdsInPhysicalView$
   .flatMap(snapshotIds => combineLatest(snapshotIds.map(getSearchableData)))
-  .throttle(process.env.IS_TEST ? 5000 : 0);
+  .nextFrame()
+  .throttle(process.env.IS_TEST ? 0 : 60000);
 
 
 export const snapshotIdsInPhysicalViewMatchingFilter$ = combineLatest([

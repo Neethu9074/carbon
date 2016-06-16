@@ -1,14 +1,13 @@
+/* global process:false */
+
 import React from 'react';
 
 import ExpandCollapseAll from 'in-components/tableView/components/ExpandCollapseAll';
 import PhysicalSummary from 'in-components/tableView/components/PhysicalSummary';
-import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
-import {expandedSnapshotIds$} from 'in-components/tableView/stores/expandedIds';
 import ChildList from 'in-components/tableView/components/ChildList';
 import ZoneEntry from 'in-components/tableView/components/ZoneEntry';
 import Search from 'in-components/tableView/components/Search';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {selectedSnapshotId$} from 'in-stores/snapshot';
 import {physicalViewStructure$} from 'in-stores/view';
 import {
   isFilterActive$,
@@ -23,14 +22,11 @@ const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
 const block = 'in-table-view-physical';
 
 export default connectTo({
-    highlightedSnapshotId: highlightedEntityId$,
-    selectedSnapshotId: selectedSnapshotId$,
     viewStructure: physicalViewStructure$,
-    expandedSnapshotIds: expandedSnapshotIds$,
     isFilterActive: isFilterActive$,
     snapshotIdsMatchingFilter: snapshotIdsInPhysicalViewMatchingFilter$
-  }, function PhysicalTableViewContent({viewStructure, highlightedSnapshotId, selectedSnapshotId,
-      expandedSnapshotIds, isFilterActive, snapshotIdsMatchingFilter}) {
+  }, function PhysicalTableViewContent({viewStructure,
+      isFilterActive, snapshotIdsMatchingFilter}) {
     if (!viewStructure) {
       return <LoadingIndicator />;
     }
@@ -51,11 +47,8 @@ export default connectTo({
 
         <ChildList Component={ZoneEntry}
                    children={children}
-                   highlightedSnapshotId={highlightedSnapshotId}
-                   selectedSnapshotId={selectedSnapshotId}
                    indent={false}
                    ignorePluginWhileSorting={true}
-                   expandedSnapshotIds={expandedSnapshotIds}
                    isFilterActive={isFilterActive}
                    snapshotIdsMatchingFilter={snapshotIdsMatchingFilter} />
       </div>
