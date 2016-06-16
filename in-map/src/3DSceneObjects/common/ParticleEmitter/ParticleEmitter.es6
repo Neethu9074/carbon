@@ -17,11 +17,11 @@ export default class ParticleEmitter extends SceneObject {
   constructor({parent, id, config = {}}) {
     super({parent, id});
 
-    this.maxParticles = config.particlesPerSecond || 5;
-    this.particlesPerSecond = config.particlesPerSecond || 1;
+    this.particlesPerSecond = config.particlesPerSecond || 10;
+    this.maxParticles = config.maxParticles || 50;
     this.timeToLife = config.timeToLife || 5;
-
     this.secToNextParticle = 1 / this.particlesPerSecond;
+
     this.isRunning = false;
 
     this.animationController = new AnimationController({
@@ -30,22 +30,18 @@ export default class ParticleEmitter extends SceneObject {
       repeat: true
     });
 
-    this.vertices = [
-      1, 0, 0,
-      2, 0, 0,
-      3, 0, 0,
-      4, 0, 0,
-      5, 0, 0
-    ];
-    for (let i = 0; i < this.maxParticles * 3; i++) {
-      // this.vertices[i] = 100000;
+    this.arrayCusor = 0;
+    this.progresses = new Float32Array(this.maxParticles);
+    this.vertices = new Float32Array(this.maxParticles * 3);
+    for (let i = 0; i < this.vertices.length; i++) {
+      this.vertices[i] = 100000;
     }
 
     this.particles = [];
 
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
-    this.verticesNeedUpdate();
+    this.positionNeedsUpdate();
 
     const texture = new THREE.Texture();
     texture.minFilter = THREE.LinearFilter;
@@ -74,6 +70,7 @@ export default class ParticleEmitter extends SceneObject {
     const mesh = this.mesh = new THREE.Points(geometry, material);
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
 
     let wordsWritten = '';
     this.startSubscription = ro.on(window, 'keydown').subscribe(event => {
@@ -90,12 +87,15 @@ export default class ParticleEmitter extends SceneObject {
   }
 
   setPosition(newPosition) {
-    this.mesh.position.set(newPosition.x - 0.5, newPosition.y + 2, newPosition.z + 0.5);
+    this.mesh.position.set(newPosition.x - 0.5, newPosition.y, newPosition.z + 0.5);
   }
 
   lookAt(target) {
     const targetPosition = new THREE.Vector3(target.x - 0.5, target.y, target.z + 0.5);
     this.mesh.lookAt(targetPosition);
+
+    const distance = targetPosition.sub(this.mesh.position).length();
+    this.mesh.scale.set(1, 1, distance);
   }
 
   updateVertices() {
@@ -119,19 +119,13 @@ export default class ParticleEmitter extends SceneObject {
   update() {
     const dt = getDeltaTime();
 
-    // remove old particles
     for (let i = 0, length = this.particles.length; i < length; i++) {
-      this.particles[i].timeLived += dt;
+      const particle = this.particles[i];
+      particle.timeLived += dt;
+      this.progresses[particle.index] = particle.timeLived / this.timeToLife;
     }
-    remove(this.particles, (particle, i) => {
-      const isOldEnoughToGetRemoved = particle.timeLived >= this.timeToLife;
-
-      if (isOldEnoughToGetRemoved) {
-        console.log('remove particle at', i);
-      }
-
-      return isOldEnoughToGetRemoved;
-    });
+    // remove old particles
+    remove(this.particles, particle => particle.timeLived >= this.timeToLife);
 
     // spawn new particles
     let numParticlesToSpawn = this.timeElapsedSinceLastSpawn / this.secToNextParticle;
@@ -144,19 +138,41 @@ export default class ParticleEmitter extends SceneObject {
       }
     }
 
+    this.progressNeedsUpdate();
     this.timeElapsedSinceLastSpawn += dt;
   }
 
   spawnParticle() {
     const position = getPositionForParticle();
-    this.particles.push({timeLived: 0}) * 3;
+    const particle = {timeLived: 0};
+    this.particles.push(particle);
 
-    console.log('spawn particle at', position);
+    this.arrayCusor++;
+    if (this.arrayCusor >= this.maxParticles) {
+      this.arrayCusor -= this.maxParticles;
+    }
+    const newIndex = this.arrayCusor;
+    particle.index = newIndex;
+
+    // console.log('spawn particle at', index);
+    this.vertices[newIndex * 3] = position.x;
+    this.vertices[newIndex * 3 + 1] = position.y;
+    this.vertices[newIndex * 3 + 2] = position.z;
+
+    this.progresses[newIndex] = 0;
+
+    this.positionNeedsUpdate();
   }
 
-  verticesNeedUpdate() {
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(this.vertices), 3));
+  positionNeedsUpdate() {
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.attributes.position.needsUpdate = true;
+
+  }
+
+  progressNeedsUpdate() {
+    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
+    this.geometry.attributes.progress.needsUpdate = true;
   }
 
   animationControllerUpdateCallback() {
@@ -181,6 +197,7 @@ export default class ParticleEmitter extends SceneObject {
     this.stop();
     this.animationController.dispose();
 
+    this.progresses = null;
     this.isRunning = null;
     this.particles = null;
     this.vertices = null;

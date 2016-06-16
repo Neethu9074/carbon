@@ -1,7 +1,9 @@
 export default function getPositionForParticle() {
+  const size = 0.2;
+
   return {
-    x: 0,
-    y: 0,
+    x: (Math.random() * size) - (size / 2),
+    y: (Math.random() * size) - (size / 2),
     z: 0
   };
 }
