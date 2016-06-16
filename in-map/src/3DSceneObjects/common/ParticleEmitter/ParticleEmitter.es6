@@ -72,6 +72,9 @@ export default class ParticleEmitter extends SceneObject {
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
 
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
+    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
+
     let wordsWritten = '';
     this.startSubscription = ro.on(window, 'keydown').subscribe(event => {
       wordsWritten += String.fromCharCode(event.keyCode);
@@ -167,7 +170,6 @@ export default class ParticleEmitter extends SceneObject {
   positionNeedsUpdate() {
     this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.attributes.position.needsUpdate = true;
-
   }
 
   progressNeedsUpdate() {
