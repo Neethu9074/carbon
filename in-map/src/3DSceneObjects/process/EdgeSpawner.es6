@@ -1,6 +1,9 @@
 import immutable from 'immutable';
 
+import ConnectionWithKPI from 'in-map/src/3DSceneObjects/process/ConnectionWithKPI';
 import {nodes$} from 'in-map/src/3DSceneObjects/process/processViewStores';
+import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
+import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Connection from 'in-map/src/3DSceneObjects/process/Connection';
 
@@ -21,7 +24,7 @@ export default class EdgeSpawner {
   setVisible(sourceNode, destinationNode) {
     this.disposeConnection();
     if (sourceNode && destinationNode) {
-      this.connection = new Connection({
+      const config = {
         parent: this.parent,
         entity: immutable.fromJS({
           id: this.edgeId,
@@ -30,7 +33,14 @@ export default class EdgeSpawner {
         sourceNode,
         destinationNode,
         direction: DIRECTIONS.OUT
-      });
+      };
+
+      if ((sourceNode instanceof NodeCluster && destinationNode instanceof NodeCluster) ||
+          (sourceNode instanceof NodePhysical && destinationNode instanceof NodePhysical)) {
+        this.connection = new ConnectionWithKPI(config);
+      } else {
+        this.connection = new Connection(config);
+      }
     }
   }
 

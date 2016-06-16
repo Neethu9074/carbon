@@ -1,10 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
-import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
-import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import eventBus from 'in-map/eventbus';
@@ -23,42 +21,8 @@ export default class Connection extends BaseConnection {
         this.destinationNode.eventEmitter.on('positionChanged')
       ]).subscribe(() => this.positionChanged()),
 
-      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
-
-      this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition => {
-        if (this.stickyNoteMetric) {
-          this.stickyNoteMetric.setScreenPosition(screenPosition);
-        }
-      }),
-
-      combineLatest([
-        this.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
-        this.parent.onZoomLevel()
-      ]).subscribe(props => {
-        const isVisible = props[0];
-        const zoomLevel = props[1];
-
-        if (isVisible && zoomLevel < 400) {
-          if (!this.stickyNoteMetric) {
-            this.stickyNoteMetric = new StickyNoteMetric(this);
-
-            // force screen position update
-            this.getComponent('screenPosition').updateScreenPosition(true);
-          }
-        } else if (this.stickyNoteMetric) {
-          this.stickyNoteMetric.dispose();
-          this.stickyNoteMetric = null;
-        }
-      })
+      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition())
     ]);
-
-    this.particleEmitter = new ParticleEmitter({
-      id: this.id + '__particleEmitter',
-      parent: this
-    });
-    this.particleEmitter.setPostition(this.sourceNode.getComponent('position').getPosition());
-    this.particleEmitter.lookAt(this.destinationNode.getComponent('position').getPosition());
-    this.particleEmitter.updateVertices();
 
     addEdge(this);
   }
@@ -126,35 +90,20 @@ export default class Connection extends BaseConnection {
     const from = this.direction === DIRECTIONS.OUT ? this.sourceNode : this.destinationNode;
     const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
     const fromPos = from.getComponent('position').getPosition().clone();
-    this.particleEmitter.setPostition(fromPos);
-
     const toPos = to.getComponent('position').getPosition().clone();
-    this.particleEmitter.lookAt(toPos);
-
     const pos = fromPos.add(toPos.sub(fromPos).multiplyScalar(0.5));
 
     this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.5, 0, pos.z + 0.5);
-
-    this.particleEmitter.updateVertices();
   }
 
   dispose() {
     removeEdge(this);
-
-    if (this.stickyNoteMetric) {
-      this.stickyNoteMetric.dispose();
-      this.stickyNoteMetric = null;
-    }
 
     // remove fragment first to save the id
     this.lineSMF.removeFragment(this.id);
     this.lineSMF = null;
 
     super.dispose();
-
-    this.particleEmitter.dispose();
-    this.particleEmitter = null;
-
     this.lineFragment = null;
   }
 }

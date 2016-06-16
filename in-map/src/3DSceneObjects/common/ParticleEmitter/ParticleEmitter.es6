@@ -89,7 +89,7 @@ export default class ParticleEmitter extends SceneObject {
     });
   }
 
-  setPostition(newPosition) {
+  setPosition(newPosition) {
     this.mesh.position.set(newPosition.x - 0.5, newPosition.y + 2, newPosition.z + 0.5);
   }
 
