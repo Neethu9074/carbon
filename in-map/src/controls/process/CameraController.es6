@@ -122,7 +122,7 @@ export default class CameraController extends BaseCameraController {
 
   onZoom(delta) {
     this.zoomLevel -= delta;
-    this.zoomLevel = Math.min(Math.max(this.zoomLevel, 350), 1500);
+    this.zoomLevel = Math.min(Math.max(this.zoomLevel, 200), 1800);
 
     this.targetCameraZPosition = this.zoomLevel / 2.5;
     this.targetCameraFrustumSize = this.zoomLevel / 20;
