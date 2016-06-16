@@ -23,7 +23,7 @@ export default class CameraController extends BaseCameraController {
 
     this.init(scene, map);
 
-    this.setZoomLevel(260);
+    this.setZoomLevel(500);
     this.states = setupStates(this);
     this.state = this.states.mid;
     this.setupEvents();

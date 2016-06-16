@@ -28,6 +28,7 @@ export default class Map extends BaseMap {
   init() {
     this.activeMetric = null;
     this.groups = [];
+    this.layouter = new Layouter();
   }
 
   setupFactories() {
@@ -225,8 +226,13 @@ export default class Map extends BaseMap {
     }
   }
 
+  firstLayoutDone(x, z) {
+    console.log(x, z);
+    this.controller.flyToPosition(x, z);
+  }
+
   applyLayout() {
-    new Layouter().applyLayout(this);
+    this.layouter.applyLayout(this);
   }
 
   dispose() {
