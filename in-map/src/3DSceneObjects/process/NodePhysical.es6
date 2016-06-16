@@ -1,7 +1,7 @@
 import THREE from 'three';
 
+import HighlightingComponent from 'in-map/src/components/process/HighlightingComponentForCubes';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import HighlightingComponent from 'in-map/src/components/process/HighlightingComponent';
 import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
 import MeshComponent from 'in-map/src/components/common/MeshComponent';
 

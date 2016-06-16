@@ -1,18 +1,12 @@
 import {combineLatest} from 'reactive-observables';
 
-import {
-  voteUp,
-  voteDown,
-  addNode,
-  removeNode
-} from 'in-map/src/3DSceneObjects/process/processViewStores';
-import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
-import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
-import eventBus from 'in-map/eventbus';
-
+import {voteUp, voteDown, addNode, removeNode} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import {getColor} from 'in-sdk/color/color';
+import eventBus from 'in-map/eventbus';
 
 
 export default class Node extends SceneObjectWithSnapshot {

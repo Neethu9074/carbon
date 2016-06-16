@@ -52,13 +52,14 @@ export default class ConnectionWithKPI extends Connection {
   }
 
   getColors() {
+    const baseColor = 0.73;
     return [
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73,
-      0.73, 0.73, 0.73
+      baseColor, baseColor, baseColor,
+      baseColor, baseColor, baseColor,
+      baseColor, baseColor, baseColor,
+      baseColor, baseColor, baseColor,
+      baseColor, baseColor, baseColor,
+      baseColor, baseColor, baseColor
     ];
   }
 

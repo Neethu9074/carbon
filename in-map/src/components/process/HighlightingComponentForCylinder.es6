@@ -1,7 +1,7 @@
 import BaseHighlightingComponent from '../common/HighlightingComponent';
 
 
-export default class HighlightingComponent extends BaseHighlightingComponent {
+export default class HighlightingComponentForCylinder extends BaseHighlightingComponent {
 
   constructor(config) {
     super(config);
