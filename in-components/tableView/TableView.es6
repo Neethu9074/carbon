@@ -4,8 +4,9 @@ import PhysicalTableViewContent from 'in-components/tableView/components/Physica
 import {isOpen$ as isSidebarOpen$} from 'in-components/sidebars/Map/sidebarStore';
 import {isTableVisible$} from 'in-components/tableView/stores/visibility';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
-import connectTo from 'in-hoc/connectTo';
+import {clearSelectedSnapshotId} from 'in-stores/snapshot';
 import {view$, types} from 'in-stores/view';
+import connectTo from 'in-hoc/connectTo';
 
 import './TableView.less';
 
@@ -39,7 +40,8 @@ export default connectTo({
     }
 
     return (
-      <div className={classes}>
+      <div className={classes}
+           onClick={clearSelectedSnapshotId}>
         {content}
       </div>
     );

@@ -15,7 +15,8 @@ export default connectTo({
              value={query}
              onChange={e => setQuery(e.target.value)}
              className={block}
-             placeholder='Search…'/>
+             placeholder='Search…'
+             onClick={e => e.stopPropagation()}/>
     );
   }
 );

@@ -9,9 +9,9 @@ import {groupsColorPool} from 'in-services/util/ColorGenerator';
 import Entry from 'in-components/tableView/components/Entry';
 import {getLabel} from 'in-sdk/snapshot';
 import {
-highlightedEntityId$,
-setHighlightedEntityId,
-clearHighlightedEntityId
+  highlightedEntityId$,
+  setHighlightedEntityId,
+  clearHighlightedEntityId
 } from 'in-services/stores/highlightedEntityId';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -53,12 +53,13 @@ export default connectTo(props => {
     return (
       <div>
         <div className={classes}
-             onClick={() => {
+             onClick={e => {
                if (isSelected) {
                  clearSelectedSnapshotId();
                } else {
                  setSelectedSnapshotId(snapshot.get('id'));
                }
+               e.stopPropagation();
              }}
              onMouseEnter={() => setHighlightedEntityId(snapshot.get('id'))}
              onMouseLeave={clearHighlightedEntityId}>

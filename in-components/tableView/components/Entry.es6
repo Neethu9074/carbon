@@ -64,12 +64,13 @@ const Entry = connectTo(props => {
     return (
       <div>
         <div className={classes}
-             onClick={() => {
+             onClick={e => {
                if (isSelected) {
                  clearSelectedSnapshotId();
                } else {
                  setSelectedSnapshotId(snapshot.get('id'));
                }
+               e.stopPropagation();
              }}
              onMouseEnter={() => setHighlightedEntityId(snapshot.get('id'))}
              onMouseLeave={clearHighlightedEntityId}>

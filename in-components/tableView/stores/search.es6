@@ -23,7 +23,7 @@ export function setQuery(query) {
 }
 
 export const queryParts$ = query$
-  .debounce(process.env.IS_TEST ? 0 : 100)
+  .debounce(process.env.IS_TEST ? 0 : 200)
   .map(query => {
     query = query.trim();
     return query.split(' ')
