@@ -4,12 +4,12 @@ import React from 'react';
 
 import {timeframeShape} from 'in-stores/timeline';
 import {capitalize} from 'in-services/formatters/string';
+import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 const chartHeight = 200;
-const muSecondsToMillisFormatter = muSeconds => +(Math.round(muSeconds / 1000.0 + 'e+2')  + 'e-2') + ' ms';
 export default React.createClass({
 
   displayName: 'CassandraClusterDashboard',
@@ -43,7 +43,7 @@ export default React.createClass({
                                'Read',
                                'Write'
                              ],
-                             type: 'line'
+                             type: 'stackedArea'
                            }}/>
         </DashboardSection>
 
@@ -54,11 +54,11 @@ export default React.createClass({
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
-                               left: 80
-                             }}
+                                left: 80
+                               }}
                                y1={{
                                min: 0,
-                               formatter: muSecondsToMillisFormatter,
+                               formatter: muSecondsToMillisZeroDecimalPlaces,
                                metrics: [
                                  'clientrequests.' + op + '.mean',
                                  'clientrequests.' + op + '.50',
