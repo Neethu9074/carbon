@@ -101,18 +101,17 @@ export const searchablePhysicalViewData$ = snapshotIdsInPhysicalView$
 export const snapshotIdsInPhysicalViewMatchingFilter$ = combineLatest([
     queryParts$,
     severity$,
-    isFilterActive$,
     searchablePhysicalViewData$
-  ]).map(([queryParts, severity, isFilterActive, searchableData]) => {
+  ]).map(([queryParts, severity, searchableData]) => {
     const matchingIds = [];
-
-    if (!isFilterActive) {
-      return matchingIds;
-    }
+    const queryFilterActive = queryParts.length > 0;
+    const severityFilterActive = severity > 0;
 
     for (let i = 0, len = searchableData.length; i < len; i++) {
       const data = searchableData[i];
-      if (isMatch(data, queryParts, severity)) {
+      const queryMatch = !queryFilterActive || isMatch(data, queryParts);
+      const severityMatch = !severityFilterActive || data.maxSeverity >= severity;
+      if (queryMatch && severityMatch) {
         matchingIds.push(data.id);
       }
     }
@@ -121,11 +120,7 @@ export const snapshotIdsInPhysicalViewMatchingFilter$ = combineLatest([
   });
 
 
-function isMatch(viewData, queryParts, severity) {
-  if (severity > 0 && viewData.maxSeverity >= severity) {
-    return true;
-  }
-
+function isMatch(viewData, queryParts) {
   for (let i = 0, len = queryParts.length; i < len; i++) {
     const part = queryParts[i];
     if (viewData.label.indexOf(part) !== -1) {
