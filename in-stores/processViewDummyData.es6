@@ -98,3 +98,26 @@ export function getDummyMetric(metric) {
     }
   });
 }
+
+export function getDummyHistoricMetrics(metric, timeframe) {
+  let generateMetric = () => (Math.random() * 100) | 0;
+  if (metric === 'errors') {
+    generateMetric = () => Math.random() / 5;
+  } else if (metric === 'sessions') {
+    generateMetric = () => 500 * Math.random() | 0;
+  }
+
+  const from = Date.now() - timeframe.windowSize;
+  const numMetrics = 10;
+  const metrics = [];
+
+  for (let i = 0; i < numMetrics; i++) {
+    const array = [from + (timeframe.windowSize * (i / numMetrics)), generateMetric()];
+    array.time = array[0];
+    metrics.push(array);
+  }
+
+  return create()
+         .emit(metrics)
+         .freeze();
+}
