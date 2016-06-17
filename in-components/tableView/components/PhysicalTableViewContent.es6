@@ -4,6 +4,7 @@ import React from 'react';
 
 import ExpandCollapseAll from 'in-components/tableView/components/ExpandCollapseAll';
 import PhysicalSummary from 'in-components/tableView/components/PhysicalSummary';
+import HealthSlider from 'in-components/tableView/components/HealthSlider';
 import ChildList from 'in-components/tableView/components/ChildList';
 import ZoneEntry from 'in-components/tableView/components/ZoneEntry';
 import Search from 'in-components/tableView/components/Search';
@@ -42,7 +43,11 @@ export default connectTo({
             <PhysicalSummary zones={children} />
             <ExpandCollapseAll />
           </div>
-          <Search />
+
+          <div className={block + '__header-left'}>
+            <HealthSlider />
+            <Search />
+          </div>
         </div>
 
         <ChildList Component={ZoneEntry}

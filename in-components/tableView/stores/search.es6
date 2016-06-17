@@ -12,7 +12,7 @@ import {getLabel} from 'in-sdk/snapshot';
 
 
 const queryStore = createStore({
-  name: 'tableView/search',
+  name: 'tableView/query',
   initialValue: ''
 });
 
@@ -32,8 +32,24 @@ export const queryParts$ = query$
   });
 
 
-export const isFilterActive$ = queryParts$
-  .map(queryParts => queryParts.length > 0);
+const severityStore = createStore({
+  name: 'tableView/severity',
+  initialValue: 0
+});
+
+export const severity$ = severityStore.observable.distinct();
+
+export function setSeverity(severity) {
+  severityStore.applyStateMutation(() => severity);
+}
+
+
+export const isFilterActive$ = combineLatest([
+    queryParts$,
+    severity$
+  ])
+  .map(([queryParts, severity]) => queryParts.length > 0 || severity > 0)
+  .distinct();
 
 
 export const snapshotIdsInPhysicalView$ = physicalViewStructure$
@@ -84,18 +100,19 @@ export const searchablePhysicalViewData$ = snapshotIdsInPhysicalView$
 
 export const snapshotIdsInPhysicalViewMatchingFilter$ = combineLatest([
     queryParts$,
+    severity$,
     isFilterActive$,
     searchablePhysicalViewData$
-  ]).map(([queryParts, isQueryActive, searchableData]) => {
+  ]).map(([queryParts, severity, isFilterActive, searchableData]) => {
     const matchingIds = [];
 
-    if (!isQueryActive) {
+    if (!isFilterActive) {
       return matchingIds;
     }
 
     for (let i = 0, len = searchableData.length; i < len; i++) {
       const data = searchableData[i];
-      if (isMatch(data, queryParts)) {
+      if (isMatch(data, queryParts, severity)) {
         matchingIds.push(data.id);
       }
     }
@@ -104,7 +121,11 @@ export const snapshotIdsInPhysicalViewMatchingFilter$ = combineLatest([
   });
 
 
-function isMatch(viewData, queryParts) {
+function isMatch(viewData, queryParts, severity) {
+  if (severity > 0 && viewData.maxSeverity >= severity) {
+    return true;
+  }
+
   for (let i = 0, len = queryParts.length; i < len; i++) {
     const part = queryParts[i];
     if (viewData.label.indexOf(part) !== -1) {
