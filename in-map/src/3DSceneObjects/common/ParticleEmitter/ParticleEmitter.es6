@@ -2,7 +2,7 @@ import * as ro from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
-import getPositionForParticle from 'in-map/src/3DSceneObjects/common/ParticleEmitter/CubicalSpawnPositionGenerator';
+import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEmitter/SpiralSpawnPositionGenerator';
 import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
 import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
@@ -22,6 +22,8 @@ export default class ParticleEmitter extends SceneObject {
     this.secToNextParticle = 1 / this.particlesPerSecond;
 
     this.isRunning = false;
+
+    this.positionGenerationStrategy = createPositionGenerator();
 
     this.arrayCusor = 0;
     this.progresses = new Float32Array(this.maxParticles);
@@ -134,7 +136,7 @@ export default class ParticleEmitter extends SceneObject {
   }
 
   spawnParticle() {
-    const position = getPositionForParticle();
+    const position = this.positionGenerationStrategy.getPositionForParticle();
     const particle = {timeLived: 0};
     this.particles.push(particle);
 
@@ -181,6 +183,7 @@ export default class ParticleEmitter extends SceneObject {
   dispose() {
     super.dispose();
 
+    this.positionGenerationStrategy = null;
     this.progresses = null;
     this.isRunning = null;
     this.particles = null;
