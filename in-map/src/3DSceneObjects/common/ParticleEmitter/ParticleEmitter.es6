@@ -7,7 +7,6 @@ import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/sha
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
 import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
-import AnimationController from 'in-map/src/AnimationController';
 import {getDeltaTime} from 'in-map/src/timeCalculations';
 import eventBus from 'in-map/eventbus';
 
@@ -23,12 +22,6 @@ export default class ParticleEmitter extends SceneObject {
     this.secToNextParticle = 1 / this.particlesPerSecond;
 
     this.isRunning = false;
-
-    this.animationController = new AnimationController({
-      onUpdate: this.animationControllerUpdateCallback.bind(this),
-      timeToAnimate: this.timeToLife * 1000,
-      repeat: true
-    });
 
     this.arrayCusor = 0;
     this.progresses = new Float32Array(this.maxParticles);
@@ -107,7 +100,6 @@ export default class ParticleEmitter extends SceneObject {
     }
 
     this.scene.addSceneObject(this.mesh);
-    this.animationController.start();
 
     this.timeElapsedSinceLastSpawn = 0;
     this.updateSubscription = eventBus.on('beginUpdate').subscribe(() => this.update());
@@ -171,9 +163,7 @@ export default class ParticleEmitter extends SceneObject {
   progressNeedsUpdate() {
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
     this.geometry.attributes.progress.needsUpdate = true;
-  }
 
-  animationControllerUpdateCallback() {
     this.scene.renderScene();
   }
 
@@ -185,15 +175,11 @@ export default class ParticleEmitter extends SceneObject {
     this.updateSubscription.dispose();
 
     this.scene.removeSceneObject(this.mesh);
-    this.animationController.stop();
     this.isRunning = false;
   }
 
   dispose() {
     super.dispose();
-
-    this.stop();
-    this.animationController.dispose();
 
     this.progresses = null;
     this.isRunning = null;
