@@ -1,12 +1,10 @@
 import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import ConnectionTooltip from 'in-map/src/2DSceneObjects/tooltips/common/Connection';
 import {ALL_CONNECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {tooltipForSceneObject} from 'in-map/src/mapStores';
 import {emptyArray} from 'in-services/fixedObjects';
-import {currentTooltip} from 'in-map/src/mapStores';
 
 import Module from './Module';
 
@@ -26,8 +24,6 @@ export default class RaycasterModule extends Module {
     this.cursorForRay = new THREE.Vector2();
 
     this.cursorPosition = { x: 0, y: 0 };
-
-    this.connectionTooltip = new ConnectionTooltip(scene, []);
 
     this.setupEvents();
   }
@@ -60,7 +56,7 @@ export default class RaycasterModule extends Module {
 
   handleRayCasting() {
     if (this.tooltip2DIsActive) {
-      currentTooltip.emit(null);
+      this.eventEmitter.emit('clearConnectionTooltip', null);
       this.hittenObject = null;
       return;
     }
@@ -77,12 +73,11 @@ export default class RaycasterModule extends Module {
         clearHighlightedEntityId();
       }
       if (hoveredConnections.length > 0) {
-        currentTooltip.emit(this.connectionTooltip);
-        this.connectionTooltip.setHovered(hoveredConnections);
+        this.eventEmitter.emit('setConnectionTooltip', hoveredConnections);
         setHighlightedEntityId(hoveredConnections[0].id);
       } else {
         clearHighlightedEntityId();
-        currentTooltip.emit(null);
+        this.eventEmitter.emit('clearConnectionTooltip', null);
       }
     }
   }
@@ -126,9 +121,6 @@ export default class RaycasterModule extends Module {
 
   dispose() {
     super.dispose();
-
-    this.connectionTooltip.dispose();
-    this.connectionTooltip = null;
 
     this.cursorPosition = null;
     this.cursorForRay = null;

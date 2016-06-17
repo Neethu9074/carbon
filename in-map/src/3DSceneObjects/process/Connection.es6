@@ -1,6 +1,5 @@
 import {combineLatest} from 'reactive-observables';
 
-import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import {getPartsForCount} from 'in-map/src/3DSceneObjects/process/dashedLineHelper';
@@ -112,10 +111,6 @@ export default class Connection extends BaseConnection {
     }
 
     return lines;
-  }
-
-  getTooltipLine() {
-    return renderConnectionLine(this);
   }
 
   positionChanged() {
