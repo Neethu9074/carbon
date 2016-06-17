@@ -58,11 +58,7 @@ export default class ParticleEmitter extends SceneObject {
       depthWrite: false,
       side: THREE.DoubleSide,
       uniforms: {
-        texture: { type: 't', value: texture },
-        color: {
-          type: 'v3',
-          value: {x: Math.random(), y: Math.random(), z: Math.random()}
-        }
+        texture: { type: 't', value: texture }
       }
     });
 
