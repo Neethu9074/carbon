@@ -138,10 +138,10 @@ describe('in-components/tableView/stores/search', () => {
 
 
   describe('snapshotIdsInPhysicalViewMatchingFilter$', () => {
-    it('must list no snapshot IDs when filtering is not active', () => {
+    it('must list all snapshot IDs when filtering is not active', () => {
       doImport(true);
       mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
-      expect(getLastCallValue(onNext)).to.deep.equal([]);
+      expect(getLastCallValue(onNext)).to.deep.equal(['a', 'b', 'c']);
     });
 
     it('must include only snapshots matching the query for labels', () => {

@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-import {queryParts$, snapshotIdsInPhysicalView$} from 'in-components/tableView/stores/search';
+import {isFilterActive$, snapshotIdsInPhysicalView$} from 'in-components/tableView/stores/search';
 import {emptySet} from 'in-services/fixedImmutables';
 import {createStore} from 'in-stores/store';
 
@@ -39,12 +39,12 @@ export function expandAll() {
 }
 
 export function init() {
-  queryParts$
-    .subscribe(parts => {
-      if (parts.length === 0) {
-        collapseAll();
-      } else {
+  isFilterActive$
+    .subscribe(active => {
+      if (active) {
         expandAll();
+      } else {
+        collapseAll();
       }
     });
 }
