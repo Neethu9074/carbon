@@ -5,10 +5,16 @@ import React from 'react';
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {Row, Col} from 'in-components/Grid/Grid';
 import {timeframeShape} from 'in-stores/timeline';
 import {
   zeroDecimalPlaces,
-  withSiMultiplyPrefixZeroDecimalPlaces
+  withSiMultiplyPrefixZeroDecimalPlaces,
+  msTwoDecimalPlaces,
+  msZeroDecimalPlaces,
+  withSiPrefixZeroDecimalPlaces,
+  twoDecimalPlaces,
+  withSiPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
 
 import NodeSummary from '../NodeSummary.es6';
@@ -33,25 +39,121 @@ const ElasticsearchDashboard = React.createClass({
           <NodeSummary snapshot={snapshot}/>
         </DashboardSection>
 
-        <DashboardSection title='Total Documents'>
+        <DashboardSection title='Search Performance vs. Throughput'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
-                           height={chartHeight}
+                           height={200}
                            margins={{
-                             left: 80
+                             left: 80,
+                             right: 80
                            }}
                            y1={{
                              min: 0,
+                             formatter: msZeroDecimalPlaces,
+                             tooltipFormatter: msTwoDecimalPlaces,
                              metrics: [
-                               'indices.document_count',
+                               'indices.query_latency'
+                             ],
+                             labels: [
+                               'Latency'
+                             ],
+                             type: 'line'
+                           }}
+                           y2={{
+                             min: 0,
+                             formatter: withSiPrefixZeroDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'indices.query_count'
+                             ],
+                             labels: [
+                               'Number Of Queries'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+
+        <Row>
+          <Col cols={6}>
+            <DashboardSection title='Indices'>
+              <ChartWithLegend snapshotId={snapshot.get('id')}
+                               timeframe={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 80
+                               }}
+                               y1={{
+                                 min: 0,
+                                 formatter: withSiPrefixZeroDecimalPlaces,
+                                 tooltipFormatter: twoDecimalPlaces,
+                                 metrics: [
+                                   'indices_count'
+                                 ],
+                                 labels: [
+                                   'Indices'
+                                 ],
+                                 type: 'line'
+                               }}/>
+            </DashboardSection>
+          </Col>
+          <Col cols={6}>
+            <DashboardSection title='Shards'>
+              <ChartWithLegend snapshotId={snapshot.get('id')}
+                               timeframe={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 80
+                               }}
+                               y1={{
+                                 min: 0,
+                                 formatter: withSiPrefixThreeDecimalPlaces,
+                                 tooltipFormatter: twoDecimalPlaces,
+                                 metrics: [
+                                   'shards.node_active_shards',
+                                   'shards.node_active_primary_shards'
+                                 ],
+                                 labels: [
+                                   'Active',
+                                   'Active Primary'
+                                 ],
+                                 type: 'line'
+                               }}/>
+            </DashboardSection>
+          </Col>
+        </Row>
+
+        <DashboardSection title='Documents'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={200}
+                           margins={{
+                             left: 80,
+                             right: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: withSiPrefixThreeDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'indices.document_count'
+                             ],
+                             labels: [
+                               'Overall Documents'
+                             ],
+                             type: 'line'
+                           }}
+                           y2={{
+                             min: 0,
+                             formatter: withSiPrefixThreeDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'indices.index_count',
                                'indices.deleted_count'
                              ],
                              labels: [
-                               'Documents',
-                               'Deleted'
+                               'Added',
+                               'Removed'
                              ],
-                             formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                             tooltipFormatter: zeroDecimalPlaces,
                              type: 'line'
                            }}/>
         </DashboardSection>
