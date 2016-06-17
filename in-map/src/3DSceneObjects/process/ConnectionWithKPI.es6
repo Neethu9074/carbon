@@ -81,8 +81,7 @@ export default class ConnectionWithKPI extends Connection {
     const fromPos = from.getComponent('position').getPosition();
     const toPos = to.getComponent('position').getPosition();
 
-    this.particleEmitter.setPosition(fromPos);
-    this.particleEmitter.lookAt(toPos);
+    this.particleEmitter.setFromAndTo(fromPos, toPos);
     this.particleEmitter.updateVertices();
   }
 

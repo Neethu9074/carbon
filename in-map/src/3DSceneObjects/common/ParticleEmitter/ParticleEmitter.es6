@@ -80,16 +80,18 @@ export default class ParticleEmitter extends SceneObject {
     });
   }
 
-  setPosition(newPosition) {
-    this.mesh.position.set(newPosition.x - 0.5, newPosition.y, newPosition.z + 0.5);
-  }
+  setFromAndTo(fromPos, toPos) {
+    this.mesh.position.set(fromPos.x - 0.5, fromPos.y, fromPos.z + 0.5);
 
-  lookAt(target) {
-    const targetPosition = new THREE.Vector3(target.x - 0.5, target.y, target.z + 0.5);
+    const targetPosition = new THREE.Vector3(toPos.x - 0.5, toPos.y, toPos.z + 0.5);
     this.mesh.lookAt(targetPosition);
 
-    const distance = targetPosition.sub(this.mesh.position).length();
-    this.mesh.scale.set(1, 1, distance);
+    const direction = targetPosition.sub(this.mesh.position);
+    // -1 because we want the particles to break on the border of the nodes. For that we translate the particles
+    // 0.5 to direction and cap them 0.5 before end which results in scale.z - 1
+    this.mesh.scale.set(1, 1, direction.length() - 1);
+
+    this.mesh.position.add(direction.normalize().multiplyScalar(0.5));
   }
 
   updateVertices() {

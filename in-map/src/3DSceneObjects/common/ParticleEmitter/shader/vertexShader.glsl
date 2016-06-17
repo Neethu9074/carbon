@@ -8,7 +8,10 @@ attribute vec3 position;
 attribute float progress;
 
 void main() {
-  vec4 mvPosition = modelViewMatrix * vec4( vec3( position.x, position.y, position.z + progress ), 1.0 );
+  vec4 mvPosition = modelViewMatrix * vec4( vec3( position.x,
+                                                  position.y,
+                                                  position.z + progress ),
+                                            1.0 );
 
   float pointSize = 1.0 * ( 1500.0 / length( mvPosition.xyz ) );
 
