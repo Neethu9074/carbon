@@ -3,7 +3,6 @@ precision mediump int;
 
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
-uniform float ratio;
 
 attribute float pointSize;
 attribute vec3 position;
@@ -23,6 +22,6 @@ void main() {
   if (pointSize < 10.0) {
     pointSize = 0.0;
   }
-  gl_PointSize = pointSize * ratio;
+  gl_PointSize = pointSize;
   gl_Position = projectionMatrix * mvPosition;
 }
