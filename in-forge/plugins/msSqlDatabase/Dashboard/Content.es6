@@ -4,6 +4,8 @@ import React from 'react';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import ResponsiveTable from 'in-components/ResponsiveTable';
+import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
 
@@ -19,6 +21,7 @@ const MsSqlDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
+    const allDatabases = snapshot.getIn(['data', 'databases'], emptyList).toArray();
 
     return (
       <div>
@@ -56,15 +59,27 @@ const MsSqlDashboard = React.createClass({
                          }}
                          y1={{
                            metrics: [
-                             'perfcounters.sqlserver:general statistics\\logins\/sec',
-                             'perfcounters.sqlserver:general statistics\\user connections'
+                             'perfcounters.sqlserver:general statistics\\\\user connections'
                            ],
                            labels: [
-                             'Logins/sec.',
                              'Connections'
                            ],
                            type: 'line'
                        }}/>
+      </DashboardSection>
+      <DashboardSection title='Databases'>
+      <ResponsiveTable>
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            allDatabases.map(database => <tr><td>{database}</td></tr>)
+          }
+        </tbody>
+      </ResponsiveTable>
       </DashboardSection>
       </div>
     );
