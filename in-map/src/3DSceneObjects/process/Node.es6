@@ -5,6 +5,7 @@ import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjec
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
+import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
 import {getColor} from 'in-sdk/color/color';
 import eventBus from 'in-map/eventbus';
 
@@ -23,6 +24,19 @@ export default class Node extends SceneObjectWithSnapshot {
       eventBus.on('endUpdate').subscribe(() => {
         this.getComponent('screenPositionCluster').updateScreenPosition();
         this.getComponent('screenPositionMetric').updateScreenPosition();
+      }),
+
+      eventBus.on('dragObjectStart').subscribe(id => {
+        if (this.id === id) {
+          this.dragGhost = new DragGhost(this);
+        }
+      }),
+
+      eventBus.on('dragObjectStop').subscribe(() => {
+        if (this.dragGhost) {
+          this.dragGhost.dispose();
+          this.dragGhost = null;
+        }
       }),
 
       this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),

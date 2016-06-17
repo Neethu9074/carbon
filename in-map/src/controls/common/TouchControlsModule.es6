@@ -20,13 +20,14 @@ export default class TouchControlModule extends Module {
     const eventHandler = this.eventHandler = new Hammer(this.canvas);
     const minMovementForPan = 15;
 
+    eventHandler.on('panstart', this.onPanStart.bind(this));
     eventHandler.get('pan').set({
       direction: Hammer.DIRECTION_ALL,
       threshold: minMovementForPan
     });
     eventHandler.on('pan', this.onPan.bind(this));
+    eventHandler.on('panend', this.onPanEnd.bind(this));
 
-    eventHandler.on('panstart', (e) => this.setCursorToEvent(e));
     eventHandler.get('pinch').set({enable: true});
     eventHandler.on('pinchin', this.onPinchIn.bind(this));
     eventHandler.on('pinchout', this.onPinchOut.bind(this));
@@ -51,6 +52,11 @@ export default class TouchControlModule extends Module {
     return false;
   }
 
+  onPanStart(e) {
+    this.setCursorToEvent(e);
+    this.eventEmitter.emit('onPanStart');
+  }
+
   onPan(event) {
     const pointer = event.pointers[0];
     const dx = (pointer.clientX - this.cursor.x);
@@ -59,6 +65,10 @@ export default class TouchControlModule extends Module {
     this.setCursorToEvent(event);
 
     this.eventEmitter.emit('onMove', {dx, dy});
+  }
+
+  onPanEnd() {
+    this.eventEmitter.emit('onPanEnd');
   }
 
   onTab(e) {

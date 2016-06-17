@@ -1,14 +1,16 @@
+import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
+import BaseCameraController from 'in-map/src/controls/common/CameraController';
 import AnimationController from 'in-map/src/AnimationController';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
 import * as time from 'in-map/src/timeCalculations';
 import {currentTooltip} from 'in-map/src/mapStores';
 
-import MouseControlsModule from '../common/MouseControlsModule';
-import TouchControlsModule from '../common/TouchControlsModule';
-import BaseCameraController from '../common/CameraController';
-import RaycasterModule from '../common/RaycasterModule';
+import MouseControlsModule from 'in-map/src/controls/common/MouseControlsModule';
+import TouchControlsModule from 'in-map/src/controls/common/TouchControlsModule';
+import DragAndDropModule from 'in-map/src/controls/common/DragAndDropModule';
+import RaycasterModule from 'in-map/src/controls/common//RaycasterModule';
 
 
 const QUATERNION = new THREE.Quaternion();
@@ -58,7 +60,8 @@ export default class CameraController extends BaseCameraController {
     this.interactionModules.push(
       new MouseControlsModule({eventEmitter, scene, canvas}),
       new TouchControlsModule({eventEmitter, scene, canvas}),
-      new RaycasterModule({eventEmitter, scene, camera: this.camera})
+      new RaycasterModule({eventEmitter, scene, camera: this.camera}),
+      new DragAndDropModule({eventEmitter, canvas, scene, camera: this.camera})
     );
     eventEmitter.emit('onZoom', 0);
   }
@@ -93,7 +96,15 @@ export default class CameraController extends BaseCameraController {
 
   setupEvents() {
     this.addSubscriptions([
-      this.eventEmitter.on('onMove').subscribe(delta => this.onMove(delta)),
+      combineLatest([
+        this.eventEmitter.on('onMove'),
+        this.eventEmitter.on('isDragingObject')
+      ]).subscribe(props => {
+        const isDragingObject = props[1];
+        if (!isDragingObject) {
+          this.onMove(props[0]);
+        }
+      }),
 
       this.eventEmitter.on('onZoom').subscribe(delta => this.onZoom(delta)),
 
