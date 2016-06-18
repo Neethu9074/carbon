@@ -17,7 +17,7 @@ export default connectTo({
         <input type='range'
                min='0'
                max='10'
-               step='1'
+               step='5'
                value={severity}
                onChange={e => setSeverity(parseInt(e.target.value, 10))}
                className={block + '__slider'} />
