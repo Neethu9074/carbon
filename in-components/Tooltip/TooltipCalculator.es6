@@ -1,10 +1,10 @@
 const Bits = {
-  LeftAlignment: 32,
-  RightAlignment: 16,
-  Right: 8,
-  Bottom: 4,
-  Left: 2,
-  Top: 1
+  LeftAlignment: 0b100000,
+  RightAlignment: 0b010000,
+  Right: 0b001000,
+  Bottom: 0b000100,
+  Left: 0b000010,
+  Top: 0b000001
 };
 
 const Align = {
