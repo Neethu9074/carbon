@@ -37,7 +37,7 @@ describe('in-components/TooltipCalculator', () => {
 
     expect(result.left).to.equal(null);
     expect(result.top).to.equal(null);
-    expect(result.right).to.equal(reference.left);
+    expect(result.right).to.equal(reference.left - TooltipCalculator.margin);
     expect(result.bottom).to.equal(reference.bottom);
   });
 
@@ -45,7 +45,7 @@ describe('in-components/TooltipCalculator', () => {
     prepare(100, 50, bounds.right - 200, bounds.bottom - 200, 200, 200, 'leftMiddle');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.right).to.equal(reference.left);
+    expect(result.right).to.equal(reference.left - TooltipCalculator.margin);
     expect(result.top).to.equal(reference.top + (height(reference) / 2 - height(tooltip) / 2));
     expect(result.left).to.equal(null);
     expect(result.bottom).to.equal(null);
@@ -55,7 +55,7 @@ describe('in-components/TooltipCalculator', () => {
     prepare(100, bounds.bottom / 2, bounds.right - 200, bounds.top, 200, 200, 'leftTop');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.right).to.equal(reference.left);
+    expect(result.right).to.equal(reference.left - TooltipCalculator.margin);
     expect(result.top).to.equal(reference.top);
     expect(result.left).to.equal(null);
     expect(result.bottom).to.equal(null);
@@ -68,7 +68,7 @@ describe('in-components/TooltipCalculator', () => {
     expect(result.right).to.equal(null);
     expect(result.top).to.equal(null);
     expect(result.left).to.equal(reference.left);
-    expect(result.bottom).to.equal(reference.top);
+    expect(result.bottom).to.equal(reference.top - TooltipCalculator.margin);
   });
 
   it('should align top middle', () => {
@@ -78,7 +78,7 @@ describe('in-components/TooltipCalculator', () => {
     expect(result.right).to.equal(null);
     expect(result.top).to.equal(null);
     expect(result.left).to.equal(reference.left + width(reference) / 2 - width(tooltip) / 2);
-    expect(result.bottom).to.equal(reference.top);
+    expect(result.bottom).to.equal(reference.top - TooltipCalculator.margin);
   });
 
   it('should align top right', () => {
@@ -88,7 +88,7 @@ describe('in-components/TooltipCalculator', () => {
     expect(result.right).to.equal(reference.right);
     expect(result.top).to.equal(null);
     expect(result.left).to.equal(null);
-    expect(result.bottom).to.equal(reference.top);
+    expect(result.bottom).to.equal(reference.top - TooltipCalculator.margin);
   });
 
   it('should align right top', () => {
@@ -97,7 +97,7 @@ describe('in-components/TooltipCalculator', () => {
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     expect(result.right).to.equal(null);
     expect(result.top).to.equal(reference.top);
-    expect(result.left).to.equal(reference.right);
+    expect(result.left).to.equal(reference.right + TooltipCalculator.margin);
     expect(result.bottom).to.equal(null);
   });
 
@@ -107,7 +107,7 @@ describe('in-components/TooltipCalculator', () => {
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     expect(result.right).to.equal(null);
     expect(result.top).to.equal(reference.top + height(reference) / 2 - height(tooltip) / 2);
-    expect(result.left).to.equal(reference.right);
+    expect(result.left).to.equal(reference.right + TooltipCalculator.margin);
     expect(result.bottom).to.equal(null);
   });
 
@@ -117,7 +117,7 @@ describe('in-components/TooltipCalculator', () => {
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     expect(result.right).to.equal(null);
     expect(result.top).to.equal(null);
-    expect(result.left).to.equal(reference.right);
+    expect(result.left).to.equal(reference.right + TooltipCalculator.margin);
     expect(result.bottom).to.equal(reference.bottom);
   });
 
@@ -126,7 +126,7 @@ describe('in-components/TooltipCalculator', () => {
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     expect(result.right).to.equal(reference.right);
-    expect(result.top).to.equal(reference.bottom);
+    expect(result.top).to.equal(reference.bottom + TooltipCalculator.margin);
     expect(result.left).to.equal(null);
     expect(result.bottom).to.equal(null);
   });
@@ -137,7 +137,7 @@ describe('in-components/TooltipCalculator', () => {
      const result = TooltipCalculator.calculate(bounds, tooltip, reference);
      expect(result.right).to.equal(null);
      expect(result.left).to.equal(reference.left + width(reference) / 2 - width(tooltip) / 2);
-     expect(result.top).to.equal(reference.bottom);
+     expect(result.top).to.equal(reference.bottom + TooltipCalculator.margin);
      expect(result.bottom).to.equal(null);
   });
 
@@ -147,7 +147,7 @@ describe('in-components/TooltipCalculator', () => {
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     expect(result.right).to.equal(null);
     expect(result.left).to.equal(reference.left);
-    expect(result.top).to.equal(reference.bottom);
+    expect(result.top).to.equal(reference.bottom + TooltipCalculator.margin);
     expect(result.bottom).to.equal(null);
   });
 });

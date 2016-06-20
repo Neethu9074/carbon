@@ -29,10 +29,7 @@ export default connectTo({
     }
 
     const tooltipElement = ReactDOM.findDOMNode(this);
-    const align = {
-      horizontal: 'auto',
-      vertical: 'auto'
-    };
+    const align = this.resolveAutoAlignment();
 
     // add the CSS classes for arrow alignment
     tooltipElement.className = '';
@@ -70,8 +67,7 @@ export default connectTo({
       right: focusedElementBox.left + focusedElementBox.width,
       bottom: focusedElementBox.top + focusedElementBox.height
     };
-    tooltip.align = this.translateAlignment(align);
-
+    tooltip.align = this.translateToNewAlignment(align);
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     this.set(tooltipElement, 'left', result.left);
     this.set(tooltipElement, 'top', result.top);
@@ -87,7 +83,7 @@ export default connectTo({
     }
   },
 
-  translateAlignment(align) {
+  translateToNewAlignment(align) {
     if (align.horizontal === 'left') {
       return 'leftMiddle';
     }
@@ -100,7 +96,19 @@ export default connectTo({
     if (align.vertical === 'bottom') {
       return 'bottomMiddle';
     }
-    return 'bottomMiddle';
+
+    return 'auto';
+  },
+
+  resolveAutoAlignment() {
+    const activeTooltip = this.props.activeTooltip;
+
+    const align = {
+      horizontal: activeTooltip.align.horizontal,
+      vertical: activeTooltip.align.vertical
+    };
+
+    return align;
   },
 
   render() {

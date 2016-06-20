@@ -4,7 +4,8 @@ const Bits = {
   Right: 0b001000,
   Bottom: 0b000100,
   Left: 0b000010,
-  Top: 0b000001
+  Top: 0b000001,
+  Auto: 0b000000
 };
 
 const Align = {
@@ -43,6 +44,8 @@ const centerY = (element) => element.top + height(element) / 2;
 
 const TooltipCalculator = {
 
+  margin: 10,
+
   direction: {x: 0, y: 0 },
 
   offset: { x: 0, y: 0 },
@@ -70,7 +73,7 @@ const TooltipCalculator = {
       bottom: null,
       right: null
     };
-    const mask = this.calculateMask(bounds, tooltip, reference);
+    const mask = this.retreiveMask(bounds, tooltip, reference);
     this.calculateInternally(data, mask, bounds, tooltip, reference);
     return data;
   },
@@ -86,10 +89,10 @@ const TooltipCalculator = {
   },
 
   // Calculates the bitmask for tooltip alignment
-  calculateMask(bounds, tooltip) {
+  retreiveMask(bounds, tooltip) {
     let mask = Bits.Bottom;
-    if (tooltip.align === 'undefined' || tooltip.align === 0) {
-      // TODO: Auto-Alignment
+    if (tooltip.align === 'undefined' || tooltip.align === Align.Auto) {
+      // TODO
     } else {
       mask = Align[tooltip.align];
     }
@@ -99,8 +102,8 @@ const TooltipCalculator = {
   // Aligns the direction vector to the direction of the positioning. The
   // direction vector is half of the length of the reference element
   updateDirection(mask, reference) {
-    this.direction.x = (bit(mask, r) ^ -bit(mask, l)) * width(reference) / 2;
-    this.direction.y = (bit(mask, b) ^ -bit(mask, t)) * height(reference) / 2;
+    this.direction.x = (bit(mask, r) ^ -bit(mask, l)) * (width(reference) / 2 + this.margin);
+    this.direction.y = (bit(mask, b) ^ -bit(mask, t)) * (height(reference) / 2 + this.margin);
   },
 
   updateAttributes(mask) {
