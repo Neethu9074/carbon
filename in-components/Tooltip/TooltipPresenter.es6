@@ -75,8 +75,8 @@ export default connectTo({
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     this.set(tooltipElement, 'left', result.left);
     this.set(tooltipElement, 'top', result.top);
-    this.set(tooltipElement, 'right', result.right);
-    this.set(tooltipElement, 'bottom', result.bottom);
+    this.set(tooltipElement, 'right', result.right !== null ? window.innerWidth - result.right : null);
+    this.set(tooltipElement, 'bottom', result.bottom !== null ? window.innerHeight - result.bottom : null);
   },
 
   set(ele, prop, value) {
