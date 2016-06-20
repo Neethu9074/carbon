@@ -313,7 +313,11 @@ const highlightedEvent = createStore({
   name: 'highlightedEventStore',
   initialValue: null
 });
-export const highlightedEvent$ = highlightedEvent.observable.distinct();
+export const highlightedEvent$ = highlightedEvent.observable.distinct()
+  // Event highlighting is prone to high frequency changes. We need to protect the backend
+  // against this as retrieving the data for event displaying is expensive to retrieve
+  // (entities for highlighting).
+  .debounce(200);
 
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);

@@ -18,8 +18,6 @@ import connectTo from 'in-hoc/connectTo';
 
 import './PhysicalTableViewContent.less';
 
-const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
-
 const block = 'in-table-view-physical';
 
 export default connectTo({
@@ -33,8 +31,7 @@ export default connectTo({
     }
 
     const children = viewStructure.get('children')
-      .toArray()
-      .filter(zone => zone.get('id') !== idOfUnmonitoredZone);
+      .toArray();
 
     return (
       <div className={block}>
