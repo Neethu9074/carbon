@@ -46,7 +46,8 @@ export default React.createClass({
                                   height={30}
                                   timeframe={timeframe}
                                   snapshotId={snapshotId}
-                                  metric={metric} />
+                                  metric={metric}
+                                  tooltipFormatter={formatter} />
         <div className={block + '__description'}>
           <span className={block + '__title'}>
             {title}

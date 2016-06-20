@@ -8,10 +8,25 @@
     z-index: 1;
   }
 
+  &__tooltip-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: red;
+  }
+
   &__tooltip {
     position: absolute;
+    bottom: 100%;
     display: none;
     z-index: 2;
+
+    background: #21282E;
+    border-radius: 3px;
+    font-size: 11px;
+    color: #fff;
+    padding: 3px 5px;
   }
 
   &__glass-pane {

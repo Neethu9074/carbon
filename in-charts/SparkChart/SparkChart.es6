@@ -1,17 +1,19 @@
 import {on} from 'reactive-observables';
+import {sortedIndexBy} from 'lodash';
 
 import createDataHolder from 'in-charts/data/dataHolder';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
-import {setHighlightedMoment, clearHighlightedMoment} from 'in-stores/timeline';
+import {highlightedMoment$, setHighlightedMoment, clearHighlightedMoment} from 'in-stores/timeline';
 
 import './SparkChart.less';
 
 const block = 'in-spark-chart';
 
-export default function createSparkChart({width, height, datasource, container, timeframe}) {
+export default function createSparkChart({width, height, datasource, container, timeframe,
+    tooltipFormatter}) {
   const dataHolder = createDataHolder({numberOfSeries: 1});
   const xScale = createScale();
   xScale.setRangeFrom(0);
@@ -32,6 +34,10 @@ export default function createSparkChart({width, height, datasource, container, 
   canvas.classList.add(`${block}__canvas`);
   wrapper.appendChild(canvas);
   updateCanvasDimensions(canvas, ctx, width, height);
+
+  const tooltipLine = document.createElement('div');
+  tooltipLine.classList.add(`${block}__tooltip-line`);
+  wrapper.appendChild(tooltipLine);
 
   const tooltipContainer = document.createElement('div');
   tooltipContainer.classList.add(`${block}__tooltip`);
@@ -69,12 +75,24 @@ export default function createSparkChart({width, height, datasource, container, 
   });
 
   on(glassPane, 'mousemove')
-    .subscribe(e => {
-      setHighlightedMoment(xScale.getDomain(e.offsetX));
-    });
+    .subscribe(e => setHighlightedMoment(xScale.getDomain(e.offsetX)));
 
   on(glassPane, 'mouseleave')
     .subscribe(clearHighlightedMoment);
+
+  const highlightedMomentSubscription = highlightedMoment$
+    .subscribe(highlightedMoment => {
+      if (highlightedMoment) {
+        tooltipContainer.style.display = 'block';
+        tooltipLine.style.display = 'block';
+        tooltipLine.style.left = `${xScale.getRange(highlightedMoment)}px`;
+        fillTooltip(highlightedMoment);
+      } else {
+        tooltipContainer.style.display = 'none';
+        tooltipLine.style.display = 'none';
+      }
+    });
+
 
   return {
     dispose
@@ -83,6 +101,7 @@ export default function createSparkChart({width, height, datasource, container, 
 
   function dispose() {
     dataSubscription.dispose();
+    highlightedMomentSubscription.dispose();
     if (timeSubscription) {
       timeSubscription.dispose();
     }
@@ -131,6 +150,7 @@ export default function createSparkChart({width, height, datasource, container, 
     ctx.closePath();
   }
 
+
   function updateYScale(dataColumns) {
     let min = dataColumns[0][1];
     let max = dataColumns[0][1];
@@ -142,5 +162,51 @@ export default function createSparkChart({width, height, datasource, container, 
 
     yScale.setDomainFrom(min);
     yScale.setDomainTo(max);
+  }
+
+
+  function fillTooltip(highlightedMoment) {
+    const dataPoint = lookForDataPoint(highlightedMoment);
+    if (!dataPoint) {
+      tooltipContainer.style.display = 'none';
+      return;
+    }
+
+    let valueToShow = dataPoint[1];
+    if (tooltipFormatter) {
+      valueToShow = tooltipFormatter(dataPoint[1]);
+    }
+
+    tooltipContainer.textContent = valueToShow;
+    const x = xScale.getRange(dataPoint[0]);
+    if (x > (width / 2)) {
+      const position = width - x + 10;
+      tooltipContainer.style.right = `${position}px`;
+      tooltipContainer.style.left = null;
+    } else {
+      const position = x + 10;
+      tooltipContainer.style.left = `${position}px`;
+      tooltipContainer.style.right = null;
+    }
+  }
+
+
+  function lookForDataPoint(highlightedMoment) {
+    const dataColumns = dataHolder.getDataColumns();
+    if (dataColumns.length === 0) {
+      return null;
+    }
+    const i = sortedIndexBy(
+      dataColumns,
+      highlightedMoment,
+      column => {
+        if (column.time) {
+          return column.time;
+        }
+        // this iteratee function will be called for the search value as well
+        return column;
+      }
+    );
+    return dataColumns[i];
   }
 }
