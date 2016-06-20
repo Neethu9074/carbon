@@ -48,7 +48,7 @@ export default class MouseControlModule extends Module {
         // mice send stable large ticks.
 
         // scale down
-        const zoom = Math.max(-50, Math.min(50, Math.abs(deltaY / 4) | 0));
+        const zoom = Math.max(-50, Math.min(50, Math.abs(deltaY | 0) / 4));
 
         this.eventEmitter.emit('onZoom', -zoom * event.scrollSpeed * event.scrollDirection);
       }),

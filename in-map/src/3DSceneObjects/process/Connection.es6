@@ -8,8 +8,6 @@ import eventBus from 'in-map/src/eventbus';
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
 
 
-const NUM_LINES = 10;
-
 export default class Connection extends BaseConnection {
 
   constructor(params) {
@@ -55,11 +53,9 @@ export default class Connection extends BaseConnection {
       id: this.id,
       contentProvider: new CLCP()
     };
-    // the default color must be set to get a working shader. It's black so you can see if there is a snapshot missing
-    this.lineFragment.contentProvider.setColor(this.getColors());
   }
 
-  getColors() {
+  getColors(numSegments) {
     const baseColor = 0.73;
     const colors = [
       baseColor, baseColor, baseColor,
@@ -67,14 +63,19 @@ export default class Connection extends BaseConnection {
       baseColor, baseColor, baseColor,
       baseColor, baseColor, baseColor
     ];
-    for (let i = 0; i <= NUM_LINES; i++) {
+    for (let i = 0; i <= numSegments; i++) {
       colors.push(baseColor, baseColor, baseColor, baseColor, baseColor, baseColor);
     }
     return colors;
   }
 
   updateGeometry() {
-    this.lineFragment.contentProvider.setLines(this.getLineVertices(this.sourceNode, this.destinationNode));
+    const vertices = this.getLineVertices(this.sourceNode, this.destinationNode);
+    this.lineFragment.contentProvider.setLines(vertices);
+
+    // the default color must be set to get a working shader. It's black so you can see if there is a snapshot missing
+    this.lineFragment.contentProvider.setColor(this.getColors(vertices.length / 3));
+
     this.lineSMF.addFragment(this.lineFragment);
   }
 
@@ -85,8 +86,12 @@ export default class Connection extends BaseConnection {
     toPos.x -= 0.5;
     toPos.z += 0.5;
 
+    const distanceX = toPos.x - fromPos.x;
+    const distanceZ = toPos.z - fromPos.z;
+    const distance = Math.sqrt(distanceX * distanceX + distanceZ * distanceZ);
+
     const lines = [];
-    const parts = getPartsForCount(NUM_LINES);
+    const parts = getPartsForCount(Math.ceil(distance)); // one segment each unit
     const direction = {
       x: toPos.x - fromPos.x,
       y: toPos.y - fromPos.y,
