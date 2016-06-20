@@ -3,7 +3,6 @@ import {combineLatest} from 'reactive-observables';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import {nodes$} from 'in-map/src/stores/process/nodesStore';
 import {edges$} from 'in-map/src/stores/process/edgesStore';
-import {nothing} from 'in-services/fixedStreams';
 import eventBus from 'in-map/src/eventbus';
 
 
@@ -26,25 +25,24 @@ export function toggleLayouting() {
 }
 
 // when something is dragged, disable automatic layouting
-eventBus.on('dragObjectStart').subscribe(() => {
-  disableLayouting();
+eventBus.on('dragObjectStop').subscribe(id => {
+  // if something was dropped, stop layouting
+  if (id) {
+    disableLayouting();
+  }
 });
 
 
 export const inventar$ = createTrackingStore({
   name: 'processViewInventarStore',
-  observable: layoutingEnabled$
-                .flatMap(isEnabled => isEnabled ?
-                  combineLatest([nodes$, edges$])
-                  .map(props => {
-                    const nodes = props[0];
-                    const edges = props[1];
+  observable: combineLatest([nodes$, edges$])
+                .map(props => {
+                  const nodes = props[0];
+                  const edges = props[1];
 
-                    return {
-                      nodes: Object.keys(nodes).map(key => nodes[key]),
-                      edges: Object.keys(edges).map(key => edges[key])
-                    };
-                  }) :
-                  nothing
-                )
+                  return {
+                    nodes: Object.keys(nodes).map(key => nodes[key]),
+                    edges: Object.keys(edges).map(key => edges[key])
+                  };
+                })
 }).observable;

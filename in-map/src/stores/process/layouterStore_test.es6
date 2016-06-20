@@ -66,17 +66,4 @@ describe('process layouterStore', () => {
     expect(onInventarChange).to.have.callCount(1);
     checkCallIsEqualTestData(onInventarChange.getCall(0).args[0]);
   });
-
-  it('should not fire when layouting is disabled and fire when enabled again', () => {
-    store.disableLayouting();
-
-    expect(onInventarChange).to.have.callCount(0);
-
-    sendTestData();
-    expect(onInventarChange).to.have.callCount(0);
-
-    store.enableLayouting();
-    expect(onInventarChange).to.have.callCount(1);
-    checkCallIsEqualTestData(onInventarChange.getCall(0).args[0]);
-  });
 });

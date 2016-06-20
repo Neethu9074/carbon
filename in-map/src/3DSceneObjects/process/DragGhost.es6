@@ -9,7 +9,6 @@ export default class DragGhost extends SceneObject {
   constructor(parent) {
     super({parent, id: parent.id + '__ghost'});
 
-    console.log('start');
     this.currentPosition = new THREE.Vector3();
 
     const obj = this.obj = new THREE.Mesh(

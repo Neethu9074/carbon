@@ -4,6 +4,7 @@ import {toggleLayouting, layoutingEnabled$} from 'in-map/src/stores/process/layo
 import {view, types as views} from 'in-stores/view';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import 'in-components/LayoutControls/LayoutControls.less';
 
@@ -30,10 +31,11 @@ export default connectTo({
       }
 
       return (
-        <Button className={block}
+        <Button className={this.props.layoutingEnabled ? block : block + ' ' + block + '__disabled'}
                 onClick={toggleLayouting}>
 
-          {this.props.layoutingEnabled ? 'turn auto layouting off' : 'turn auto layouting on'}
+          <Icon type='incidents'
+                className={block + '__icon'}/>
         </Button>
       );
     }
