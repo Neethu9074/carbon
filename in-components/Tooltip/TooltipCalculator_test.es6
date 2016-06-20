@@ -9,7 +9,7 @@ describe('in-components/TooltipCalculator', () => {
       left: 0,
       top: 0,
       right: 2000,
-      bottom: 1000
+      bottom: 2000
   };
 
   const tooltip = {};
@@ -34,95 +34,120 @@ describe('in-components/TooltipCalculator', () => {
     prepare(100, bounds.bottom / 2, bounds.right - 200, bounds.bottom - 200, 200, 200, 'leftBottom');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.left).to.equal(reference.left - width(tooltip));
-    expect(result.top).to.equal(reference.bottom - height(tooltip));
+
+    expect(result.left).to.equal(null);
+    expect(result.top).to.equal(null);
+    expect(result.right).to.equal(reference.left);
+    expect(result.bottom).to.equal(reference.bottom);
   });
 
   it('should align left middle', () => {
     prepare(100, 50, bounds.right - 200, bounds.bottom - 200, 200, 200, 'leftMiddle');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.left).to.equal(reference.left - width(tooltip));
+    expect(result.right).to.equal(reference.left);
     expect(result.top).to.equal(reference.top + (height(reference) / 2 - height(tooltip) / 2));
+    expect(result.left).to.equal(null);
+    expect(result.bottom).to.equal(null);
   });
 
   it('should align left top', () => {
     prepare(100, bounds.bottom / 2, bounds.right - 200, bounds.top, 200, 200, 'leftTop');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.left).to.equal(reference.left - width(tooltip));
+    expect(result.right).to.equal(reference.left);
     expect(result.top).to.equal(reference.top);
+    expect(result.left).to.equal(null);
+    expect(result.bottom).to.equal(null);
   });
 
   it('should align top left', () => {
     prepare(bounds.right / 2, 100, bounds.left, bounds.bottom - 200, 200, 200, 'topLeft');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(result.right).to.equal(null);
+    expect(result.top).to.equal(null);
     expect(result.left).to.equal(reference.left);
-    expect(result.top).to.equal(reference.top - height(tooltip));
+    expect(result.bottom).to.equal(reference.top);
   });
 
   it('should align top middle', () => {
     prepare(100, 100, bounds.left, bounds.bottom - 200, 200, 200, 'topMiddle');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(result.right).to.equal(null);
+    expect(result.top).to.equal(null);
     expect(result.left).to.equal(reference.left + width(reference) / 2 - width(tooltip) / 2);
-    expect(result.top).to.equal(reference.top - 100);
+    expect(result.bottom).to.equal(reference.top);
   });
 
   it('should align top right', () => {
     prepare(bounds.right / 2, 100, bounds.right - 200, bounds.bottom - 200, 200, 200, 'topRight');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.left).to.equal(reference.right - width(tooltip));
-    expect(result.top).to.equal(reference.top - height(tooltip));
+    expect(result.right).to.equal(reference.right);
+    expect(result.top).to.equal(null);
+    expect(result.left).to.equal(null);
+    expect(result.bottom).to.equal(reference.top);
   });
 
   it('should align right top', () => {
     prepare(100, bounds.bottom / 2, bounds.left, bounds.top, 200, 200, 'rightTop');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.left).to.equal(reference.right);
+    expect(result.right).to.equal(null);
     expect(result.top).to.equal(reference.top);
+    expect(result.left).to.equal(reference.right);
+    expect(result.bottom).to.equal(null);
   });
 
   it('should align right middle', () => {
     prepare(100, 100, bounds.left, bounds.top, 200, 200, 'rightMiddle');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.left).to.equal(reference.right);
+    expect(result.right).to.equal(null);
     expect(result.top).to.equal(reference.top + height(reference) / 2 - height(tooltip) / 2);
+    expect(result.left).to.equal(reference.right);
+    expect(result.bottom).to.equal(null);
   });
 
   it('should align right bottom', () => {
     prepare(100, bounds.bottom / 2, bounds.left, bounds.bottom - 200, 200, 200, 'rightBottom');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(result.right).to.equal(null);
+    expect(result.top).to.equal(null);
     expect(result.left).to.equal(reference.right);
-    expect(result.top).to.equal(reference.bottom - height(tooltip));
+    expect(result.bottom).to.equal(reference.bottom);
   });
 
   it('should align bottom right', () => {
     prepare(bounds.right / 2, 100, bounds.right - 200, bounds.top, 200, 200, 'bottomRight');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
-    expect(result.left).to.equal(reference.right - width(tooltip));
+    expect(result.right).to.equal(reference.right);
     expect(result.top).to.equal(reference.bottom);
+    expect(result.left).to.equal(null);
+    expect(result.bottom).to.equal(null);
   });
 
   it('should align bottom middle', () => {
      prepare(100, 100, bounds.left, bounds.top, 200, 200, 'bottomMiddle');
 
      const result = TooltipCalculator.calculate(bounds, tooltip, reference);
+     expect(result.right).to.equal(null);
      expect(result.left).to.equal(reference.left + width(reference) / 2 - width(tooltip) / 2);
      expect(result.top).to.equal(reference.bottom);
+     expect(result.bottom).to.equal(null);
   });
 
   it('should align bottom left', () => {
     prepare(bounds.right / 2, 100, bounds.left, bounds.top, 200, 200, 'bottomLeft');
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(result.right).to.equal(null);
     expect(result.left).to.equal(reference.left);
     expect(result.top).to.equal(reference.bottom);
+    expect(result.bottom).to.equal(null);
   });
 });

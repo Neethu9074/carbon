@@ -23,13 +23,6 @@ const Align = {
   auto: 0
 };
 
-let directionX = 0.0;
-let directionY = 0.0;
-let offsetX = 0.0;
-let offsetY = 0.0;
-
-const arrowSize = 0;
-
 // Indexing
 const la = 5;
 const ra = 4;
@@ -48,12 +41,16 @@ const height = (element) => (element.bottom - element.top);
 const centerX = (element) => element.left + width(element) / 2;
 const centerY = (element) => element.top + height(element) / 2;
 
-
-// TODO: implement offset
-const popupOffsetX = 0;
-const popupOffsetY = 0;
-
 const TooltipCalculator = {
+
+  direction: {x: 0, y: 0 },
+
+  offset: { x: 0, y: 0 },
+
+  attr: {
+    x: 'left',
+    y: 'top'
+  },
 
   // Calculates an updates position for the tooltip and its arrow by considering
   // a six digit bitmask.
@@ -68,8 +65,10 @@ const TooltipCalculator = {
   // T: Top
   calculate(bounds, tooltip, reference) {
     const data = {
-      left: bounds.left,
-      top: bounds.top
+      left: null,
+      top: null,
+      bottom: null,
+      right: null
     };
     const mask = this.calculateMask(bounds, tooltip, reference);
     this.calculateInternally(data, mask, bounds, tooltip, reference);
@@ -79,9 +78,11 @@ const TooltipCalculator = {
   // Calculates the tooltip position (left, top) and the arrow alignment
   calculateInternally(data, mask, bounds, tooltip, reference) {
     this.updateDirection(mask, reference);
+    this.updateAttributes(mask);
     this.updateOffset(mask, tooltip, reference);
-    this.calculatePopupPosition(data, reference);
-    this.calculateArrowPosition(data, mask, reference, tooltip);
+    // Set the data values
+    data[this.attr.x] = centerX(reference) + this.direction.x + this.offset.x;
+    data[this.attr.y] = centerY(reference) + this.direction.y + this.offset.y;
   },
 
   // Calculates the bitmask for tooltip alignment
@@ -98,68 +99,42 @@ const TooltipCalculator = {
   // Aligns the direction vector to the direction of the positioning. The
   // direction vector is half of the length of the reference element
   updateDirection(mask, reference) {
-    directionX = (bit(mask, r) ^ -bit(mask, l)) * width(reference) / 2;
-    directionY = (bit(mask, b) ^ -bit(mask, t)) * height(reference) / 2;
+    this.direction.x = (bit(mask, r) ^ -bit(mask, l)) * width(reference) / 2;
+    this.direction.y = (bit(mask, b) ^ -bit(mask, t)) * height(reference) / 2;
+  },
+
+  updateAttributes(mask) {
+    // 'left' | 'right' alignment
+    if (is(mask, l) || is(mask, t) && is(mask, ra) || is(mask, b) && is(mask, la)) {
+      this.attr.x = 'right';
+    } else {
+      this.attr.x = 'left';
+    }
+    // 'top' | 'bottom' alignment
+    if (is(mask, t) || is(mask, l) && is(mask, la) || is(mask, r) && is(mask, ra)) {
+      this.attr.y = 'bottom';
+    } else {
+      this.attr.y = 'top';
+    }
   },
 
   updateOffset(mask, tooltip, reference) {
-    offsetX = -bit(mask, l) * (width(tooltip) + arrowSize);
-    offsetY = -bit(mask, t) * (height(tooltip) + arrowSize);
-    offsetX += bit(mask, r) * arrowSize;
-    offsetY += bit(mask, b) * arrowSize;
+    this.offset.x = 0;
+    this.offset.y = 0;
     if (is(mask, la)) {
-      offsetX -= bit(mask, t) * width(reference) / 2;
-      offsetY -= bit(mask, r) * height(reference) / 2;
-      offsetX -= bit(mask, b) * (width(tooltip) - width(reference) / 2);
-      offsetY -= bit(mask, l) * (height(tooltip) - height(reference) / 2);
+      this.offset.x -= bit(mask, t) * width(reference) / 2;
+      this.offset.x += bit(mask, b) * width(reference) / 2;
+      this.offset.y -= bit(mask, r) * height(reference) / 2;
+      this.offset.y += bit(mask, l) * height(reference) / 2;
     } else if (is(mask, ra)) {
-      offsetX -= bit(mask, b) * width(reference) / 2;
-      offsetY -= bit(mask, l) * height(reference) / 2;
-      offsetX -= bit(mask, t) * (width(tooltip) - width(reference) / 2);
-      offsetY -= bit(mask, r) * (height(tooltip) - height(reference) / 2);
+      this.offset.x += bit(mask, t) * width(reference) / 2;
+      this.offset.x -= bit(mask, b) * width(reference) / 2;
+      this.offset.y += bit(mask, r) * height(reference) / 2;
+      this.offset.y -= bit(mask, l) * height(reference) / 2;
     } else {
-      offsetX -= (bit(mask, t) | bit(mask, b)) * (width(tooltip) / 2);
-      offsetY -= (bit(mask, l) | bit(mask, r)) * (height(tooltip) / 2);
+      this.offset.x -= (bit(mask, t) | bit(mask, b)) * (width(tooltip) / 2);
+      this.offset.y -= (bit(mask, l) | bit(mask, r)) * (height(tooltip) / 2);
     }
-  },
-
-  calculatePopupPosition(data, reference) {
-    data.left = centerX(reference) + directionX + offsetX + popupOffsetX;
-    data.top = centerY(reference) + directionY + offsetY + popupOffsetY;
-  },
-
-  calculateArrowPosition(data, mask, reference, tooltip) {
-    let moveX = width(tooltip) / 2;
-    let moveY = height(tooltip) / 2;
-    const deltaX = moveX - width(reference) / 2;
-    const deltaY = moveY - height(reference) / 2;
-
-    // Position always centered to the reference
-    if (is(mask, la)) {
-      moveX -= bit(mask, t) * deltaX;
-      moveX += bit(mask, b) * deltaX;
-      moveY += bit(mask, l) * deltaY;
-      moveY -= bit(mask, r) * deltaY;
-    } else if (is(mask, ra)) {
-      moveX += bit(mask, t) * deltaX;
-      moveX -= bit(mask, b) * deltaX;
-      moveY -= bit(mask, l) * deltaY;
-      moveY += bit(mask, r) * deltaY;
-    }
-
-    // Consider offset
-    moveX -= (bit(mask, t) | bit(mask, b)) * popupOffsetX;
-    moveY -= (bit(mask, l) | bit(mask, r)) * popupOffsetY;
-
-    // Consider arrow size
-    data.arrowLeft = (bit(mask, t) | bit(mask, b)) * (moveX - arrowSize) / 2;
-    data.arrowTop = (bit(mask, l) | bit(mask, r)) * (moveY - arrowSize) / 2;
-
-    // "vertical" alignment to position arrow to its reference
-    data.arrowLeft += bit(mask, l) * width(tooltip);
-    data.arrowLeft -= bit(mask, r) * arrowSize;
-    data.arrowTop += bit(mask, t) * height(tooltip);
-    data.arrowTop -= bit(mask, b) * arrowSize;
   }
 };
 
