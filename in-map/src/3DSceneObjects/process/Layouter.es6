@@ -1,19 +1,39 @@
 /* eslint-disable complexity */
-export default class FruchtermanReingoldLayout {
+import {combineLatest} from 'reactive-observables';
+
+import {layoutingEnabled$, inventar$} from 'in-map/src/stores/process/layouterStore';
+
+
+const SCALE = 5;
+
+export default class Layouter {
 
   constructor() {
-    this.iterations =  1000;
-    this.gravity =  1;
-    this.speed =  0.1;
+    this.iterations = 1000;
+    this.gravity = 200;
+    this.speed = 0.1;
+
+    this.layoutingSubscription = combineLatest([
+      layoutingEnabled$,
+      inventar$
+    ]).debounce(100)
+      .subscribe(props => {
+      const isAutoLayoutEnabled = props[0];
+      const inventar = props[1];
+
+      isAutoLayoutEnabled ?
+        this.applyLayout(inventar) :
+        this.applyLayout(inventar, true);
+    });
   }
 
-  applyLayout(inventar) {
-    const sigmaGraph = this.buildSigmaGraphStructure(inventar);
+  applyLayout(inventar, skipLayouted = false) {
+    const sigmaGraph = this.buildSigmaGraphStructure(inventar, skipLayouted);
     this.start(sigmaGraph);
     this.applyPositionUpdate(sigmaGraph);
   }
 
-  buildSigmaGraphStructure({nodes, edges}) {
+  buildSigmaGraphStructure({nodes, edges}, skipLayouted) {
     const graph = {
       nodes: [],
       nodeMap: {},
@@ -23,6 +43,7 @@ export default class FruchtermanReingoldLayout {
     let posOffet = 0;
     nodes.forEach((node) => {
       const pos = node.getComponent('position').getPosition();
+
       const sigmaNode = {
         id: node.id,
         x: pos.x + posOffet++,
@@ -32,6 +53,12 @@ export default class FruchtermanReingoldLayout {
       };
       graph.nodeMap[node.id] = sigmaNode;
       graph.nodes.push(sigmaNode);
+
+      if (skipLayouted && (pos.x !== 0 || pos.y !== 0 || pos.z !== 0)) {
+        sigmaNode.fixed = true;
+        sigmaNode.x = pos.x;
+        sigmaNode.y = pos.z;
+      }
     });
 
     let edgeIdCounter = 0;
@@ -49,13 +76,14 @@ export default class FruchtermanReingoldLayout {
   start(graph) {
     // Init nodes
     graph.nodes.forEach(node => {
-      node.fr_x = node.x;
-      node.fr_y = node.y;
+      node.fr_x = node.x / SCALE;
+      node.fr_y = node.y / SCALE;
       node.fr = {
         dx: 0,
         dy: 0
       };
     });
+
 
     this.go(graph);
   }
@@ -178,11 +206,11 @@ export default class FruchtermanReingoldLayout {
 
   applyPositionUpdate(graph) {
     graph.nodes.forEach(node => {
-      if (node.isDisposed) {
-        return;
-      }
-
-      node.inNode.getComponent('position').setPosition(node.fr_x * 2, 0, node.fr_y * 2);
+      node.inNode.getComponent('position').setPosition(node.fr_x * SCALE, 0, node.fr_y * SCALE);
     });
+  }
+
+  dispose() {
+    this.layoutingSubscription.dispose();
   }
 }
