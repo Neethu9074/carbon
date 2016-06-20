@@ -1,6 +1,6 @@
 import THREE from 'three';
 
-import {onDown, onUp} from 'in-services/reactiveMouseEvents';
+import {onDown} from 'in-services/reactiveMouseEvents';
 import eventBus from 'in-map/src/eventbus';
 
 import Module from './Module';
@@ -19,7 +19,7 @@ export default class RaycasterModule extends Module {
     // raytracing fields
     this.raycaster = new THREE.Raycaster();
 
-    this.dragedObject = false;
+    this.dragedObjectId = false;
 
     // holds the mouse/touch position in screen coordinates (x,y) => [-1, 1]
     this.cursorForRay = new THREE.Vector2();
@@ -45,15 +45,16 @@ export default class RaycasterModule extends Module {
         this.cursorPosition.y = Infinity;
       }),
 
-      onDown(this.canvas, () => this.dragedObject = this.getObjectOnCursor()),
-
-      onUp(this.canvas, () => this.dragedObject = false),
+      onDown(this.canvas, () => {
+        const objectOnCursor = this.getObjectOnCursor();
+        this.dragedObjectId = objectOnCursor ? objectOnCursor.parentSceneObject.id : null;
+      }),
 
       this.eventEmitter.on('onPanStart').subscribe(() => {
-        this.eventEmitter.emit('isDragingObject', this.dragedObject ? this.dragedObject : false);
+        this.eventEmitter.emit('isDragingObject', this.dragedObjectId ? this.dragedObjectId : false);
 
-        if (this.dragedObject) {
-          eventBus.emit('dragObjectStart', this.dragedObject.parentSceneObject.id);
+        if (this.dragedObjectId) {
+          eventBus.emit('dragObjectStart', this.dragedObjectId);
           this.mouseMoveSubscription = this.eventEmitter.on('onMouseMoved').subscribe(event => {
             this.updateCursorForRayCasting(event.x, event.y);
             const pointOfImpact = this.getPointOfImpact();
@@ -65,8 +66,11 @@ export default class RaycasterModule extends Module {
       }),
 
       this.eventEmitter.on('onPanEnd').subscribe(() => {
-        eventBus.emit('dragObjectStop');
         eventBus.emit('dragObjectStart', null);
+        eventBus.emit('dragObjectStop', this.dragedObjectId);
+
+        this.dragedObjectId = null;
+
         if (this.mouseMoveSubscription) {
           this.mouseMoveSubscription.dispose();
           this.mouseMoveSubscription = null;

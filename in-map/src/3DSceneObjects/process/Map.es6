@@ -3,10 +3,10 @@ import GraphToProcessViewHandler from 'in-map/src/3DSceneObjects/process/GraphTo
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
 import CameraController from 'in-map/src/controls/process/CameraController';
+import Layouter from 'in-map/src/3DSceneObjects/process/layouter/Layouter';
 import GroundPlane from 'in-map/src/3DSceneObjects/process/GroundPlane';
 import EdgeSpawner from 'in-map/src/3DSceneObjects/process/EdgeSpawner';
 import NodeSpawner from 'in-map/src/3DSceneObjects/process/NodeSpawner';
-import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 
 
@@ -17,7 +17,7 @@ export default class Map extends BaseMap {
 
     this.edges = {};
     this.nodes = {};
-    this.layouter = new Layouter(this);
+    this.layouter = new Layouter();
 
     this.graphToProcessViewAdapter = new GraphToProcessViewHandler(this);
   }

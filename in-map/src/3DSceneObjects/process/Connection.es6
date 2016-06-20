@@ -1,5 +1,3 @@
-import {combineLatest} from 'reactive-observables';
-
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {getPartsForCount} from 'in-map/src/3DSceneObjects/process/dashedLineHelper';
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
@@ -20,10 +18,8 @@ export default class Connection extends BaseConnection {
     this.withArrows = false;
 
     this.addSubscriptions([
-      combineLatest([
-        this.sourceNode.eventEmitter.on('positionChanged'),
-        this.destinationNode.eventEmitter.on('positionChanged')
-      ]).subscribe(() => this.positionChanged()),
+      this.sourceNode.eventEmitter.on('positionChanged').subscribe(() => this.positionChanged()),
+      this.destinationNode.eventEmitter.on('positionChanged').subscribe(() => this.positionChanged()),
 
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition())
     ]);

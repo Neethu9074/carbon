@@ -1,18 +1,10 @@
 /* eslint-disable complexity */
-import {inventar$} from 'in-map/src/stores/process/layouterStore';
-
-
 export default class FruchtermanReingoldLayout {
 
-  constructor(map) {
+  constructor() {
     this.iterations =  1000;
     this.gravity =  1;
     this.speed =  0.1;
-    this.map = map;
-
-    this.nodesSubscription = inventar$
-                              .debounce(100)
-                              .subscribe(inventar => this.applyLayout(inventar));
   }
 
   applyLayout(inventar) {
@@ -192,10 +184,5 @@ export default class FruchtermanReingoldLayout {
 
       node.inNode.getComponent('position').setPosition(node.fr_x * 2, 0, node.fr_y * 2);
     });
-  }
-
-  dispose() {
-    this.nodesSubscription.dispose();
-    this.nodesSubscription = null;
   }
 }
