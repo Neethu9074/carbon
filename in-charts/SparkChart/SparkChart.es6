@@ -1,7 +1,11 @@
+import {on} from 'reactive-observables';
+
 import createDataHolder from 'in-charts/data/dataHolder';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
+
+import {setHighlightedMoment, clearHighlightedMoment} from 'in-stores/timeline';
 
 import './SparkChart.less';
 
@@ -40,7 +44,6 @@ export default function createSparkChart({width, height, datasource, container, 
   // draw initial axis
   drawAxis();
 
-
   let timeSubscription;
   if (timeframe.to == null) {
     timeSubscription = serverTime$.subscribe(serverTime => {
@@ -64,6 +67,14 @@ export default function createSparkChart({width, height, datasource, container, 
       render();
     }
   });
+
+  on(glassPane, 'mousemove')
+    .subscribe(e => {
+      setHighlightedMoment(xScale.getDomain(e.offsetX));
+    });
+
+  on(glassPane, 'mouseleave')
+    .subscribe(clearHighlightedMoment);
 
   return {
     dispose
