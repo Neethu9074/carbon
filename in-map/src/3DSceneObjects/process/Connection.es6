@@ -18,8 +18,10 @@ export default class Connection extends BaseConnection {
     this.withArrows = false;
 
     this.addSubscriptions([
-      this.sourceNode.eventEmitter.on('positionChanged').subscribe(() => this.positionChanged()),
-      this.destinationNode.eventEmitter.on('positionChanged').subscribe(() => this.positionChanged()),
+      this.sourceNode.eventEmitter.on('positionChanged')
+      .merge(this.destinationNode.eventEmitter.on('positionChanged'))
+        .debounce(10)
+        .subscribe(() => this.positionChanged()),
 
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition())
     ]);
@@ -119,6 +121,8 @@ export default class Connection extends BaseConnection {
     const pos = fromPos.add(toPos.sub(fromPos).multiplyScalar(0.5));
 
     this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.5, 0, pos.z + 0.5);
+
+    this.scene.renderScene();
   }
 
   dispose() {
