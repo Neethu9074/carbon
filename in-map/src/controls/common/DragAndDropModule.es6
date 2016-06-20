@@ -66,6 +66,7 @@ export default class RaycasterModule extends Module {
 
       this.eventEmitter.on('onPanEnd').subscribe(() => {
         eventBus.emit('dragObjectStop');
+        eventBus.emit('dragObjectStart', null);
         if (this.mouseMoveSubscription) {
           this.mouseMoveSubscription.dispose();
           this.mouseMoveSubscription = null;
