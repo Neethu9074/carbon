@@ -1,26 +1,49 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import EntityList from 'in-components/tableView/components/EntityList';
+import PhysicalTableViewContent from 'in-components/tableView/components/PhysicalTableViewContent';
+import {isOpen$ as isSidebarOpen$} from 'in-components/sidebars/Map/sidebarStore';
+import {isTableVisible$} from 'in-components/tableView/stores/visibility';
+import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import {clearSelectedSnapshotId} from 'in-stores/snapshot';
+import {view$, types} from 'in-stores/view';
+import connectTo from 'in-hoc/connectTo';
 
 import './TableView.less';
 
-
 const block = 'in-table-view';
 
-export default React.createClass({
-  displayName: 'TableView',
+export default connectTo({
+    isTableVisible: isTableVisible$,
+    isCollapsed: isCollapsed$,
+    view: view$,
+    isSidebarOpen: isSidebarOpen$
+  }, function TableView({isTableVisible, isCollapsed, view, isSidebarOpen}) {
+    if (!isTableVisible) {
+      return null;
+    }
 
-  mixins: [PureRenderMixin],
+    let classes = block;
 
-  propTypes: {
-  },
+    if (!isCollapsed) {
+      classes += ' ' + block + '--timeline-expanded';
+    }
 
-  render() {
+    if (isSidebarOpen) {
+      classes += ' ' + block + '--sidebar-open';
+    }
+
+    let content;
+    if (view === types.physical) {
+      content = <PhysicalTableViewContent />;
+    } else {
+      return null;
+    }
+
     return (
-      <div className={block}>
-        <EntityList />
+      <div className={classes}
+           onClick={clearSelectedSnapshotId}>
+        {content}
       </div>
     );
   }
-});
+);

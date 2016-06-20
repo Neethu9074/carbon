@@ -1,5 +1,5 @@
-import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getIconIdBySnapshot} from 'in-sdk/snapshot';
+import {getColor} from 'in-sdk/color/color';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -31,7 +31,7 @@ export default class Label extends BaseLabel {
   }
 
   onSnapshotUpdated(snapshot) {
-    const newColor = getColorPool('processes').getColorRGB(snapshot.get('plugin'));
+    const newColor = getColor(snapshot);
     const currentColor = this.fragment.contentProvider.contentProvider.color;
 
     currentColor.r = newColor.r;

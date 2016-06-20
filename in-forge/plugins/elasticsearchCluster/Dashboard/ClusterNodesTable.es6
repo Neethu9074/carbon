@@ -8,7 +8,7 @@ import {
 } from 'in-services/formatters/number';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
-import HealthInfoBar from 'in-components/HealthInfoBar';
+import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import SnapshotLink from 'in-components/SnapshotLink';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -54,7 +54,7 @@ export default connectTo(
 
             return (
               <tr key={id}>
-                <td><HealthInfoBar snapshotId={id} /></td>
+                <td><AnnotatedHealthBar snapshotId={id} /></td>
                 <td>
                   <SnapshotLink snapshotId={id}>
                     {node.getIn(['data', 'node.name'])}

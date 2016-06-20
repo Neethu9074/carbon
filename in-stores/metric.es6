@@ -1,73 +1,15 @@
+import createHistoricMetricsObservable from 'in-services/subscription/historicMetrics';
+import {getDummyMetric, getDummyHistoricMetrics} from 'in-stores/processViewDummyData';
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
-import {getDummyMetric} from 'in-stores/processViewDummyData';
-import {timeframe$} from 'in-stores/timeline';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import {timeframe$, focusedMoment$} from 'in-stores/timeline';
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
 // There is currently no other form of aggregation, but we already want
 // to have this communication style with the backend.
 const defaultAggregation = 'mean';
-
-export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
-  // TODO TEMPORARY HACK FOR PROCESS VIEW
-  if (snapshotId.indexOf('process-view') === 0) {
-    return getDummyMetric();
-  }
-
-  if (rollup === undefined) {
-    rollup = getDefaultMetricRollupDuration(timeframe);
-  }
-
-  let aggregation = null;
-  if (rollup) {
-    aggregation = defaultAggregation;
-  }
-
-  return createLiveMetricObservable({
-    snapshotId,
-    metric,
-    aggregation,
-    rollup
-  });
-}
-
-
-function getHistoricMetrics({snapshotId, metric, timeframe, rollup}) {
-  if (rollup === undefined) {
-    rollup = getDefaultMetricRollupDuration(timeframe);
-  }
-
-
-  let aggregation = null;
-  if (rollup) {
-    aggregation = defaultAggregation;
-  }
-
-  return createHistoricMetricObservable({
-    snapshotId,
-    metric,
-    timeframe,
-    aggregation,
-    rollup
-  });
-}
-
-
-export function getHistoricMetricsWithLiveUpdates(opts) {
-  const live$ = getLiveMetrics(opts)
-    // bring the two streams into the same format
-    .map(update => [update]);
-  const historic$ = getHistoricMetrics(opts);
-  return live$.merge(historic$);
-}
-
-export function getMetricsForTimeframe(opts) {
-  return opts.timeframe.to ?
-    getHistoricMetrics(opts) :
-    getHistoricMetricsWithLiveUpdates(opts);
-}
-
 
 const rollupDurationThresholds = [
   {
@@ -96,6 +38,108 @@ const rollupDurationThresholds = [
     label: '1h'
   }
 ];
+
+
+export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
+  // TODO TEMPORARY HACK FOR PROCESS VIEW
+  if (snapshotId.indexOf('process-view') === 0) {
+    return getDummyMetric(metric);
+  }
+
+  if (rollup === undefined) {
+    rollup = getDefaultMetricRollupDuration(timeframe);
+  }
+
+  let aggregation = null;
+  if (rollup) {
+    aggregation = defaultAggregation;
+  }
+
+  return createLiveMetricObservable({
+    snapshotId,
+    metric,
+    aggregation,
+    rollup
+  });
+}
+
+
+function getHistoricMetrics({snapshotId, metric, timeframe, rollup}) {
+  // TODO TEMPORARY HACK FOR PROCESS VIEW
+  if (snapshotId.indexOf('process-view') === 0) {
+    return getDummyHistoricMetrics(metric, timeframe, rollup);
+  }
+
+  if (rollup === undefined) {
+    rollup = getDefaultMetricRollupDuration(timeframe);
+  }
+
+  let aggregation = null;
+  if (rollup) {
+    aggregation = defaultAggregation;
+  }
+
+  return createHistoricMetricsObservable({
+    snapshotId,
+    metric,
+    timeframe,
+    aggregation,
+    rollup
+  });
+}
+
+
+export const getMetricForFocusedMoment = memoize(
+  ({snapshotId, metric}) => {
+    return focusedMoment$.flatMap(focusedMoment => {
+      if (focusedMoment == null) {
+        return getLiveMetrics({snapshotId, metric});
+      }
+
+      return getHistoricMetric({snapshotId, metric, time: focusedMoment});
+    });
+  },
+
+  ({snapshotId, metric}) => snapshotId + metric
+);
+
+
+export function getHistoricMetric({snapshotId, metric, time}) {
+  const now = Date.now();
+  const availableRollupDefinitions = rollupDurationThresholds.filter(rollupDefinition =>
+    time >= now - rollupDefinition.availableFor && rollupDefinition.rollup != null
+  );
+  const rollup = availableRollupDefinitions[0].rollup;
+
+  let aggregation = null;
+  if (rollup) {
+    aggregation = defaultAggregation;
+  }
+
+  return createHistoricMetricObservable({
+    snapshotId,
+    metric,
+    aggregation,
+    rollup,
+    time
+  });
+}
+
+
+export function getHistoricMetricsWithLiveUpdates(opts) {
+  const live$ = getLiveMetrics(opts)
+    // bring the two streams into the same format
+    .map(update => [update]);
+  const historic$ = getHistoricMetrics(opts);
+  return live$.merge(historic$);
+}
+
+export function getMetricsForTimeframe(opts) {
+  return opts.timeframe.to ?
+    getHistoricMetrics(opts) :
+    getHistoricMetricsWithLiveUpdates(opts);
+}
+
 
 export function getDefaultMetricRollupDuration(timeframe) {
   if (!timeframe) {

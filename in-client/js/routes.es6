@@ -5,7 +5,6 @@ import React from 'react';
 import {Route} from 'react-router';
 
 import TraceView from 'in-components/traceView/TraceView';
-import TableView from 'in-components/tableView/TableView';
 import GraphView from 'in-components/graphView/GraphView';
 
 import Dashboard from './components/Dashboard';
@@ -17,8 +16,6 @@ export default (
            path='dashboard' />
     <Route component={TraceView}
            path='traces' />
-    <Route component={TableView}
-           path='table' />
     <Route component={GraphView}
            path='graph' />
   </Route>

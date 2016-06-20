@@ -6,7 +6,6 @@ import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
-import ComponentList from './ComponentList';
 import Controls from './Controls';
 import MapStats from './MapStats';
 import Metrics from './Metrics';
@@ -68,8 +67,6 @@ export default connectTo({
         return <Tags/>;
       case 'metrics':
         return <Metrics/>;
-      case 'components':
-        return <ComponentList/>;
       default:
         throw new Error('Unknown content control', this.state.activeControl);
     }

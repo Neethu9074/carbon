@@ -42,6 +42,7 @@ export const selectedSnapshot = createTrackingStore({
     })
     .distinct()
 }).observable;
+export const selectedSnapshot$ = selectedSnapshot;
 
 
 export const selectedSnapshotWithId = createTrackingStore({

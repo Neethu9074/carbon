@@ -16,7 +16,7 @@ import {activeMetric} from 'in-services/stores/metrics';
 import * as snapshotStore from 'in-stores/snapshot';
 import {viewStructure} from 'in-stores/view';
 import {find} from 'in-services/arrayUtils';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 
 export default class Map extends BaseMap {
@@ -28,6 +28,7 @@ export default class Map extends BaseMap {
   init() {
     this.activeMetric = null;
     this.groups = [];
+    this.layouter = new Layouter();
   }
 
   setupFactories() {
@@ -101,12 +102,6 @@ export default class Map extends BaseMap {
       map: this,
       canvas
     });
-  }
-
-  onZoom(zoomLevel) {
-    if (this.groundPlane) {
-      this.groundPlane.onZoom(zoomLevel);
-    }
   }
 
   // is called if new data is available and parsed in BaseMap
@@ -231,8 +226,12 @@ export default class Map extends BaseMap {
     }
   }
 
+  firstLayoutDone(x, z) {
+    this.controller.flyToPosition(x, z);
+  }
+
   applyLayout() {
-    new Layouter().applyLayout(this);
+    this.layouter.applyLayout(this);
   }
 
   dispose() {

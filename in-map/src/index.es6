@@ -2,14 +2,14 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ProcessMetricsSwitch from 'in-components/ProcessMetricSwitch';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import LayoutControls from 'in-components/LayoutControls';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {isWebGLSupported} from 'in-services/util/webGL';
 import * as navigation from 'in-stores/navigation';
 import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 import connectTo from 'in-hoc/connectTo';
 
 import Scene from './Scene';
@@ -78,7 +78,7 @@ export default connectTo({
     if (this.state.isWebGLSupported) {
       return (
         <div className={block} ref='parent'>
-          <ProcessMetricsSwitch />
+          <LayoutControls />
         </div>
       );
     }

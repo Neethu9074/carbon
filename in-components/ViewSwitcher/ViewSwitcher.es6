@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {navigationParameters$, goToTraceView, goToTable, goToMap} from 'in-stores/navigation';
+import {navigationParameters$, goToTraceView, goToMap} from 'in-stores/navigation';
 import {isInternalEnvironment} from 'in-services/config';
 import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import './ViewSwitcher.less';
 
@@ -28,7 +28,6 @@ export default connectTo({
       <div className={block}>
         {this.renderViewItem(views.physical, 'Physical')}
         {isInternalEnvironment() ? this.renderViewItem(views.process, 'Process') : null}
-        {isInternalEnvironment() ? this.renderTableViewItem() : null}
         {this.renderTraceViewItem()}
       </div>
     );
@@ -68,14 +67,6 @@ export default connectTo({
       'Trace',
       goToTraceView,
       this.props.navigationParameters.pathname === '/traces'
-    );
-  },
-
-  renderTableViewItem() {
-    return this.renderItem(
-      'Table',
-      goToTable,
-      this.props.navigationParameters.pathname === '/table'
     );
   }
 }));

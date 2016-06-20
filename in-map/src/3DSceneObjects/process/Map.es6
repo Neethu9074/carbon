@@ -18,6 +18,7 @@ export default class Map extends BaseMap {
     this.edges = {};
     this.nodes = {};
     this.layouter = new Layouter(this);
+
     this.graphToProcessViewAdapter = new GraphToProcessViewHandler(this);
   }
 
@@ -27,9 +28,12 @@ export default class Map extends BaseMap {
     const factories = this.factories;
     const scene = this.parent;
 
+    factories.transparentSMF = new SingleMeshFactory({scene});
+    factories.transparentSMF.material.transparent = true;
+    factories.transparentSMF.material.opacity = 0.8;
+
     factories.solidSMF = new SingleMeshFactory({scene});
     factories.solidSMF.material.transparent = false;
-    factories.solidSMF.material.opacity = 0.3;
 
     factories.lineSMF = new SingleMeshLineFactory({scene});
 
@@ -47,7 +51,8 @@ export default class Map extends BaseMap {
     return new CameraController({
       canvas,
       scene: this.scene,
-      camera: this.camera
+      camera: this.camera,
+      map: this
     });
   }
 
@@ -79,13 +84,13 @@ export default class Map extends BaseMap {
     delete this.nodes[id];
   }
 
-  onZoom() {}
-
   getAllNodes() {
     return Object.keys(this.nodes).map(snapshotId => this.nodes[snapshotId]);
   }
 
-  applyLayout() {}
+  onZoomLevel() {
+    return this.controller.eventEmitter.on('onZoomLevelChange');
+  }
 
   removeChild() {
     // not needed to implement this because nodes and connections are removed in different ways

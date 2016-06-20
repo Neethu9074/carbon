@@ -1,42 +1,46 @@
+import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import MetricList from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric/MetricList';
-import {connectionMetricsAreActive$} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
-import connectTo from 'in-hoc/connectTo';
+import getForgeComponent from 'in-services/getForgeComponent';
+import getSnapshot from 'in-hoc/getSnapshot';
+import Jail from 'in-components/Jail';
 
 import './Metric.less';
 
 
 const rpt = React.PropTypes;
-const block = 'in-sticky-note-process-connection-metric';
+const block = 'in-sticky-connection-process-metric';
 
-const ProcessCluster = connectTo({
-  connectionMetricsAreActive: connectionMetricsAreActive$
-}, React.createClass({
+const ProcessCluster = getSnapshot(React.createClass({
 
-    displayName: 'process metric sticky',
+  displayName: 'process connection metric sticky',
 
-    propTypes: {
-      snapshotId: rpt.string.isRequired,
-      connectionMetricsAreActive: rpt.bool
-    },
+  propTypes: {
+    snapshotId: rpt.string.isRequired,
+    snapshot: irpt.map
+  },
 
-    render() {
-      const connectionMetricsAreActive = this.props.connectionMetricsAreActive;
-      if (!connectionMetricsAreActive) {
-        return false;
-      }
-
-      return (
-        <div className={block}>
-          <MetricList snapshotId={this.props.snapshotId}/>
-        </div>
-      );
+  render() {
+    const snapshot = this.props.snapshot;
+    if (!snapshot) {
+      return false;
     }
-  })
-);
+
+    return (
+      <div className={block + '__wrapper'}>
+        <Jail component={this.getForgeSpecificComponent('KPI')}
+              props={{snapshot}}/>
+      </div>
+    );
+  },
+
+  getForgeSpecificComponent(name) {
+    const plugin = this.props.snapshot.get('plugin');
+    return getForgeComponent('./' + plugin + '/' + name + '.es6');
+  }
+}));
 
 export default class StickyNoteProcessMetric extends StickyNote {
   constructor(parent) {

@@ -31,6 +31,7 @@ const store = createTrackingStore({
     .distinct()
 });
 export const view = store.observable;
+export const view$ = view;
 
 export const viewStructure = createTrackingStore({
   name: 'viewStructure',
@@ -43,6 +44,11 @@ export const viewStructure = createTrackingStore({
       return createViewStructureObservable({viewType, time: focusedMoment});
     })
 }).observable;
+
+
+export const physicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
+  createViewStructureObservable({viewType: types.physical, time: focusedMoment})
+);
 
 
 export function setView(newActiveView) {

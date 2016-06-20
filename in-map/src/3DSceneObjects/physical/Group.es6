@@ -1,8 +1,9 @@
-import {remove, find} from 'lodash';
+import {remove} from 'lodash';
 
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/physical/Group';
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import eventBus from 'in-map/eventbus';
+import {find} from 'in-services/arrayUtils';
+import eventBus from 'in-map/src/eventbus';
 
 import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
@@ -10,6 +11,7 @@ import FCP from 'in-map/src/SingleMeshFactory/ContentProvider/FrameContentProvid
 
 import GroundHighlightingComponent from 'in-map/src/components/physical/GroundHighlightingComponent';
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import LineMeshComponent from 'in-map/src/components/common/LineMeshComponent';
 import Node from 'in-map/src/3DSceneObjects/physical/Node';
@@ -21,8 +23,18 @@ export default class Group extends SceneObjectWithSnapshot {
 
     this._cachedLabel = this.id;
 
-    this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
-    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.updateScreenAnchorPosition.bind(this)));
+    this.addSubscriptions([
+      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
+
+      this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition =>
+        this.stickyNote.update(screenPosition)),
+
+      this.eventEmitter.on('isVisibleChanged_screenPosition').distinct().subscribe(isVisible =>
+        isVisible ?
+          this.stickyNote.show() :
+          this.stickyNote.hide()
+      )
+    ]);
   }
 
   // will be called before subscriptions are handled
@@ -88,6 +100,8 @@ export default class Group extends SceneObjectWithSnapshot {
     components.mesh.colorChanged(color);
 
     components.highlight = new GroundHighlightingComponent({sceneObject});
+
+    components.screenPosition = new ScreenPositionComponent({sceneObject, id: '_screenPosition'});
   }
 
   onMouseEnterOnSticky() {
@@ -111,28 +125,15 @@ export default class Group extends SceneObjectWithSnapshot {
     return this.parent.getAllMapNodes();
   }
 
-  update() {
-    this.updateScreenPosition();
-
-    if (this.isInView()) {
-      this.stickyNote.update();
-    } else {
-      this.stickyNote.hide();
-    }
-  }
-
-  updateScreenAnchorPosition() {
-    const pos = this.getComponent('position').getPosition();
-    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + this.depth / 2);
-  }
-
   setScale(x, y, z) {
     this.depth = z;
 
     // this.getComponent('mesh').sizeChanged({x, y, z});
     this.eventEmitter.emit('sizeChanged', { x, y, z });
     this.getComponent('highlight').sizeChanged(x, y, z);
-    this.updateScreenAnchorPosition();
+
+    const pos = this.getComponent('position').getPosition();
+    this.getComponent('screenPosition').set3DPositionToProject(pos.x, pos.y, pos.z + this.depth / 2);
   }
 
   addNode(entity) {

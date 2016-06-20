@@ -1,13 +1,16 @@
+import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
+import BaseCameraController from 'in-map/src/controls/common/CameraController';
 import AnimationController from 'in-map/src/AnimationController';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
 import * as time from 'in-map/src/timeCalculations';
+import {currentTooltip} from 'in-map/src/mapStores';
 
-import MouseControlsModule from '../common/MouseControlsModule';
-import TouchControlsModule from '../common/TouchControlsModule';
-import BaseCameraController from '../common/CameraController';
-import RaycasterModule from '../common/RaycasterModule';
+import MouseControlsModule from 'in-map/src/controls/common/MouseControlsModule';
+import TouchControlsModule from 'in-map/src/controls/common/TouchControlsModule';
+import DragAndDropModule from 'in-map/src/controls/common/DragAndDropModule';
+import RaycasterModule from 'in-map/src/controls/common//RaycasterModule';
 
 
 const QUATERNION = new THREE.Quaternion();
@@ -17,7 +20,7 @@ const START_ROLL = -40;
 
 export default class CameraController extends BaseCameraController {
 
-  constructor({scene, camera, canvas}) {
+  constructor({scene, camera, canvas, map}) {
     super();
 
     this.camera = camera;
@@ -25,7 +28,7 @@ export default class CameraController extends BaseCameraController {
 
     // this is an abstract zoomLevel, needed to store calculte the frustum size of
     // of the camera and the distance to the POI
-    this.zoomLevel = 1000;
+    this.zoomLevel = 500;
 
     // this is the speed te camera will move to the new pos on drag
     this.cameraMoveSpeed = 0.02;
@@ -57,7 +60,8 @@ export default class CameraController extends BaseCameraController {
     this.interactionModules.push(
       new MouseControlsModule({eventEmitter, scene, canvas}),
       new TouchControlsModule({eventEmitter, scene, canvas}),
-      new RaycasterModule({eventEmitter, scene, camera: this.camera})
+      new RaycasterModule({eventEmitter, scene, camera: this.camera}),
+      new DragAndDropModule({eventEmitter, map, canvas, scene, camera: this.camera})
     );
     eventEmitter.emit('onZoom', 0);
   }
@@ -92,7 +96,15 @@ export default class CameraController extends BaseCameraController {
 
   setupEvents() {
     this.addSubscriptions([
-      this.eventEmitter.on('onMove').subscribe(delta => this.onMove(delta)),
+      combineLatest([
+        this.eventEmitter.on('onMove'),
+        this.eventEmitter.on('isDragingObject')
+      ]).subscribe(props => {
+        const isDragingObject = props[1];
+        if (!isDragingObject) {
+          this.onMove(props[0]);
+        }
+      }),
 
       this.eventEmitter.on('onZoom').subscribe(delta => this.onZoom(delta)),
 
@@ -101,7 +113,11 @@ export default class CameraController extends BaseCameraController {
       this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked()),
 
       this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne =>
-        longClickedSceneObject.emit(hittenOne.parentSceneObject))
+        longClickedSceneObject.emit(hittenOne.parentSceneObject)),
+
+      this.eventEmitter.on('setConnectionTooltip').subscribe(() => currentTooltip.emit(null)),
+
+      this.eventEmitter.on('clearConnectionTooltip').subscribe(() => currentTooltip.emit(null))
     ]);
   }
 
@@ -122,10 +138,13 @@ export default class CameraController extends BaseCameraController {
 
   onZoom(delta) {
     this.zoomLevel -= delta;
-    this.zoomLevel = Math.min(Math.max(this.zoomLevel, 200), 1500);
+    this.zoomLevel = Math.min(Math.max(this.zoomLevel, 200), 1800);
 
     this.targetCameraZPosition = this.zoomLevel / 2.5;
     this.targetCameraFrustumSize = this.zoomLevel / 20;
+
+    this.scene.onZoom({zoomLevel: this.zoomLevel});
+    this.eventEmitter.emit('onZoomLevelChange', this.zoomLevel);
   }
 
   onDoubleClicked() {

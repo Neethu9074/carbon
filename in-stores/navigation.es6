@@ -63,13 +63,6 @@ export function goToMap() {
 }
 
 
-export function goToTable() {
-  mutateUrl(navParams => {
-    navParams.pathname = 'table';
-    return navParams;
-  });
-}
-
 export function goToGraph() {
   mutateUrl(navParams => {
     navParams.pathname = 'graph';

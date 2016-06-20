@@ -3,7 +3,7 @@ import THREE from 'three';
 import TooltipLayer from 'in-map/src/2DSceneObjects/tooltips/physical/Layer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {theme} from 'in-services/theme';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import HighlightingComponent from '../../components/physical/HighlightingComponent';
 import CollisionComponent from '../../components/common/CollisionObjectComponent';

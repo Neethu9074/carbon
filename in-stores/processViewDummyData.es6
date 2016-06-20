@@ -57,7 +57,9 @@ export function getDummySnapshot(snapshotId) {
 
 
 function getPlugin(snapshotId) {
-  if (snapshotId.indexOf('app') !== -1) {
+  if (snapshotId.indexOf('connection') !== -1) {
+    return 'dummyConnection';
+  } else if (snapshotId.indexOf('app') !== -1) {
     return 'dummyJavaApp';
   } else if (snapshotId.indexOf('schema') !== -1) {
     return 'dummyMysqlSchema';
@@ -65,8 +67,6 @@ function getPlugin(snapshotId) {
     return 'dummyMysqlDb';
   } else if (snapshotId.indexOf('tomcat') !== -1) {
     return 'dummyTomcat';
-  } else if (snapshotId.indexOf('connection') !== -1) {
-    return 'dummyConnection';
   }
 
   throw new Error(`Could not identify plugin for snapshot id ${snapshotId}`);
@@ -77,12 +77,19 @@ function getLabel(snapshotId) {
 }
 
 
-export function getDummyMetric() {
+export function getDummyMetric(metric) {
+  let generateMetric = () => (Math.random() * 100) | 0;
+  if (metric === 'errors') {
+    generateMetric = () => Math.random() / 5;
+  } else if (metric === 'sessions') {
+    generateMetric = () => 500 * Math.random() | 0;
+  }
+
   let intervalHandle;
   return create({
     start(observable) {
       intervalHandle = setInterval(() => {
-        observable.emit((Math.random() * 100) | 0);
+        observable.emit([Date.now(), generateMetric()]);
       }, 1000);
     },
 
@@ -90,4 +97,27 @@ export function getDummyMetric() {
       clearInterval(intervalHandle);
     }
   });
+}
+
+export function getDummyHistoricMetrics(metric, timeframe) {
+  let generateMetric = () => (Math.random() * 100) | 0;
+  if (metric === 'errors') {
+    generateMetric = () => Math.random() / 5;
+  } else if (metric === 'sessions') {
+    generateMetric = () => 500 * Math.random() | 0;
+  }
+
+  const from = Date.now() - timeframe.windowSize;
+  const numMetrics = 10;
+  const metrics = [];
+
+  for (let i = 0; i < numMetrics; i++) {
+    const array = [from + (timeframe.windowSize * (i / numMetrics)), generateMetric()];
+    array.time = array[0];
+    metrics.push(array);
+  }
+
+  return create()
+         .emit(metrics)
+         .freeze();
 }

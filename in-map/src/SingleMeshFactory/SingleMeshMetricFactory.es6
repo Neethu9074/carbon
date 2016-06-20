@@ -3,7 +3,7 @@ import TWEEN from 'tween.js';
 import THREE from 'three';
 
 import {find} from 'in-services/arrayUtils';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import fragmentShader from './metricFragmentShader.glsl';
 import vertexShader from './metricVertexShader.glsl';

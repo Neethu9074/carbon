@@ -9,7 +9,7 @@ import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine'
 import TooltipMetric from 'in-map/src/2DSceneObjects/tooltips/physical/Metric';
 import {currentTooltip, tooltipForSceneObject} from 'in-map/src/mapStores';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import CollisionComponent from '../CollisionObjectComponent';
 import Component from '../Component';

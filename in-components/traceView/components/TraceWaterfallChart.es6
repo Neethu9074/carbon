@@ -73,13 +73,15 @@ export default connectTo({
       scale.setRangeTo(100);
       scale.setDomainFrom(domain[0]);
       scale.setDomainTo(domain[1]);
-      const axisConfig = getAxisConfig(scale.getDomainTo() - scale.getDomainFrom());
-      const ticks = getTickPositions(scale, axisConfig);
+      const fullDomain = scale.getDomainTo() - scale.getDomainFrom();
+      const axisConfig = getAxisConfig(fullDomain);
+      const ticks = getTickPositions(scale, axisConfig, true);
 
       return (
         <div className={block}>
           <TraceWaterfallAxis ticks={ticks}
-                              axisConfig={axisConfig} />
+                              axisConfig={axisConfig}
+                              fullDomain={fullDomain} />
           <TraceWatterfallSpan span={this.props.trace}
                                scale={scale}
                                selectedSpanId={this.props.selectedSpanId} />

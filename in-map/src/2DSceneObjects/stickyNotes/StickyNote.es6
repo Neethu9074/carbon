@@ -11,19 +11,22 @@ export default class StickyNote extends SceneObject {
     this.mount();
   }
 
-  update() {
-    this.setScreenPosition(this.parent.screenPosition);
+  update(screenPosition) {
+    this.setScreenPosition(screenPosition);
   }
 
   setInactive(inactive) {
     const sticky = this.container;
+    const baseClass = 'in-sticky-note';
+    const active = baseClass + '__active';
+    const inActive = baseClass + '__inactive';
 
     if (inactive) {
-      sticky.classList.remove('in-sticky-note__active');
-      sticky.classList.add('in-sticky-note__inactive');
+      sticky.classList.remove(active);
+      sticky.classList.add(inActive);
     } else {
-      sticky.classList.remove('in-sticky-note__inactive');
-      sticky.classList.add('in-sticky-note__active');
+      sticky.classList.remove(inActive);
+      sticky.classList.add(active);
     }
   }
 }

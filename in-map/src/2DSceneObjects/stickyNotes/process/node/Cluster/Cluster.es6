@@ -32,21 +32,32 @@ const ProcessCluster = getSnapshot(React.createClass({
 
   getInitialState() {
     return {
+      highlighted: false,
       expanded: false
     };
   },
 
   render() {
     const snapshot = this.props.snapshot;
-    const color = snapshot ? getColorPool('processes').getColorHex(snapshot.get('plugin')) : '#999';
+
+    let backgroundColor;
+    if (this.state.highlighted || this.state.expanded) {
+      backgroundColor = '#fff';
+    } else if (snapshot) {
+      backgroundColor = getColorPool('processes').getColorHex(snapshot.get('plugin'));
+    } else {
+      backgroundColor = '#999';
+    }
 
     return (
       <div className={block + '__content'}
-           style={{backgroundColor: color}}>
+           style={{backgroundColor}}
+           onMouseEnter={() => this.setState({highlighted: true})}
+           onMouseLeave={() => this.setState({highlighted: false})}
+           onClick={this.onClick}>
         {this.props.numChildren}
-        <Icon type={this.state.expanded ? 'timeline_close' : 'timeline_open'}
-              className={block + '__icon'}
-              onClick={this.onClick} />
+        <Icon type={this.state.expanded ? 'open' : 'close'}
+              className={block + '__icon'}/>
       </div>
     );
   },

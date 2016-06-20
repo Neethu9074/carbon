@@ -1,7 +1,9 @@
 import THREE from 'three';
 
+import ConnectionTooltip from 'in-map/src/2DSceneObjects/tooltips/common/Connection';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
 import * as time from 'in-map/src/timeCalculations';
+import {currentTooltip} from 'in-map/src/mapStores';
 
 import MouseControlsModule from '../common/MouseControlsModule';
 import TouchControlsModule from '../common/TouchControlsModule';
@@ -23,7 +25,9 @@ export default class CameraController extends BaseCameraController {
 
     this.init(scene, map);
 
-    this.setZoomLevel(260);
+    this.connectionTooltip = new ConnectionTooltip(scene, []);
+
+    this.setZoomLevel(500);
     this.states = setupStates(this);
     this.state = this.states.mid;
     this.setupEvents();
@@ -70,6 +74,15 @@ export default class CameraController extends BaseCameraController {
       .normalize();
   }
 
+  switchStateIfNext(zoomLevel) {
+    const next = this.state.getNext(zoomLevel);
+    if (next) {
+      this.state.leave();
+      this.state = next;
+      this.state.enter();
+    }
+  }
+
   initZoomField() {
     // zoom fields
     this.maxZoomOut = 1800;
@@ -97,7 +110,14 @@ export default class CameraController extends BaseCameraController {
       this.eventEmitter.on('onObjectClicked').subscribe((hittenOnes) => this.scene.onObjectClicked(hittenOnes)),
 
       this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne =>
-        longClickedSceneObject.emit(hittenOne.parentSceneObject))
+        longClickedSceneObject.emit(hittenOne.parentSceneObject)),
+
+      this.eventEmitter.on('setConnectionTooltip').subscribe(hoveredConnections => {
+        currentTooltip.emit(this.connectionTooltip);
+        this.connectionTooltip.setHovered(hoveredConnections);
+      }),
+
+      this.eventEmitter.on('clearConnectionTooltip').subscribe(() => currentTooltip.emit(null))
     ]);
   }
 
@@ -154,15 +174,6 @@ export default class CameraController extends BaseCameraController {
         this.cameraSpeed = this.defaultCameraSpeed;
       }
     }, 500);
-  }
-
-  switchStateIfNext() {
-    const next = this.state.getNext(this.zoomLevel);
-    if (next) {
-      this.state.leave();
-      this.state = next;
-      this.state.enter();
-    }
   }
 
   setZoomLevel(zL) {
@@ -224,15 +235,6 @@ export default class CameraController extends BaseCameraController {
     this.scene.renderScene();
   }
 
-  switchStateIfNext(zoomLevel) {
-    const next = this.state.getNext(zoomLevel);
-    if (next) {
-      this.state.leave();
-      this.state = next;
-      this.state.enter();
-    }
-  }
-
   updateZoomLevel(dT) {
     const scene = this.scene;
     const cursorPosition = { x: 0, y: 0 };
@@ -281,6 +283,9 @@ export default class CameraController extends BaseCameraController {
 
   dispose() {
     super.dispose();
+
+    this.connectionTooltip.dispose();
+    this.connectionTooltip = null;
 
     this.defaultCameraSpeed = null;
     this.camTransformObject = null;

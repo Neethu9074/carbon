@@ -7,6 +7,12 @@ import ProcessMap from '../process/Map';
 export default class MapHandler {
 
   constructor({scene}) {
+    this.scene = scene;
+  }
+
+  subscribe() {
+    const scene = this.scene;
+
     this.viewSubscription = view.subscribe(v => {
       this.doIfPresent(map => map.dispose());
       scene.renderScene();
@@ -53,8 +59,8 @@ export default class MapHandler {
     return camera;
   }
 
-  onZoom() {
-    this.doIfPresent(map => map.onZoom());
+  onZoom(zoomLevel) {
+    this.doIfPresent(map => map.onZoom(zoomLevel));
   }
 
   doIfPresent(action) {

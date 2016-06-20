@@ -1,0 +1,6 @@
+{
+  "name": "color",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./color.es6"
+}

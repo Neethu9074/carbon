@@ -1,7 +1,8 @@
 import immutable from 'immutable';
 
-import {voteUp, nodeIdVoting$} from 'in-map/src/3DSceneObjects/process/processViewStores';
-import Node from 'in-map/src/3DSceneObjects/process/Node';
+import {voteUp, nodeIdVoting$} from 'in-map/src/stores/process/nodesStore';
+import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
+import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
 import {emptyArray} from 'in-services/fixedObjects';
 
 
@@ -32,13 +33,16 @@ export default class NodeSpawner {
 
     this.disposeNode();
     if (isVisible) {
-      this.node = new Node({
+      const props = {
         parent: this.map,
         entity: immutable.fromJS({
           id: this.id,
           plugin: 'node'
         })
-      });
+      };
+      this.node = this.nodesParents.length === 0 ?
+        new NodeCluster(props) :
+        new NodePhysical(props);
       this.node.setChildIds(this.chidlIds);
     }
     this.isVisible = isVisible;

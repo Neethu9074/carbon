@@ -1,7 +1,7 @@
 import OrthographicCamera from 'in-map/src/3DSceneObjects/common/OrthographicCamera';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import * as time from 'in-map/src/timeCalculations';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 
 export default class Map extends SceneObject {
@@ -14,16 +14,16 @@ export default class Map extends SceneObject {
     this.groups = [];
 
     this.init();
-    this.registerEvents();
 
     this.camera = new OrthographicCamera({ scene: parent });
     this.controller = this.getController(parent.canvas);
     this.groundPlane = this.getGroundPlane();
+
+    this.registerEvents();
   }
 
   getGroundPlane() { throw new Error('PLEASE OVERRIDE METHOD'); }
   getController() { throw new Error('PLEASE OVERRIDE METHOD'); }
-  onZoom() { throw new Error('PLEASE OVERRIDE METHOD'); }
   init() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
   initComponents() {
@@ -67,6 +67,12 @@ export default class Map extends SceneObject {
 
   layoutNeedsUpdate() {
     this.refreshLayout = true;
+  }
+
+  onZoom(zoomLevel) {
+    if (this.groundPlane) {
+      this.groundPlane.onZoom(zoomLevel);
+    }
   }
 
   findNodeById(id) {
