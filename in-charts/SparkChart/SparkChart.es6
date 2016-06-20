@@ -3,6 +3,10 @@ import {updateCanvasDimensions} from 'in-charts/canvas';
 import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
+import './SparkChart.less';
+
+const block = 'in-spark-chart';
+
 export default function createSparkChart({width, height, datasource, container, timeframe}) {
   const dataHolder = createDataHolder({numberOfSeries: 1});
   const xScale = createScale();
@@ -13,11 +17,25 @@ export default function createSparkChart({width, height, datasource, container, 
   yScale.setRangeFrom(height);
   yScale.setRangeTo(0);
 
+  const wrapper = document.createElement('div');
+  wrapper.style.width = `${width}px`;
+  wrapper.style.height = `${height}px`;
+  wrapper.classList.add(`${block}__wrapper`);
+  container.appendChild(wrapper);
+
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  canvas.classList.add('in-spark-chart__canvas');
-  container.appendChild(canvas);
+  canvas.classList.add(`${block}__canvas`);
+  wrapper.appendChild(canvas);
   updateCanvasDimensions(canvas, ctx, width, height);
+
+  const tooltipContainer = document.createElement('div');
+  tooltipContainer.classList.add(`${block}__tooltip`);
+  wrapper.appendChild(tooltipContainer);
+
+  const glassPane = document.createElement('div');
+  glassPane.classList.add(`${block}__glass-pane`);
+  wrapper.appendChild(glassPane);
 
   // draw initial axis
   drawAxis();
@@ -57,7 +75,7 @@ export default function createSparkChart({width, height, datasource, container, 
     if (timeSubscription) {
       timeSubscription.dispose();
     }
-    container.removeChild(canvas);
+    container.removeChild(wrapper);
   }
 
 

@@ -1,6 +1,25 @@
 .in-spark-chart {
+  &__wrapper {
+    position: relative;
+  }
 
   &__canvas {
     display: block;
+    z-index: 1;
+  }
+
+  &__tooltip {
+    position: absolute;
+    display: none;
+    z-index: 2;
+  }
+
+  &__glass-pane {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
   }
 }
