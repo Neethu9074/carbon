@@ -75,7 +75,7 @@ const ElasticsearchDashboard = React.createClass({
 
         <Row>
           <Col cols={6}>
-            <DashboardSection title='Indices'>
+            <DashboardSection title='Indices Count'>
               <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
                                height={chartHeight}
