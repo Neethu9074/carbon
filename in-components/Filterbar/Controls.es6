@@ -2,7 +2,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import {toggleTableViewVisibility, isTableVisible$} from 'in-components/tableView/stores/visibility';
-import {isInternalEnvironment} from 'in-services/config';
 import classnames from 'in-services/util/classnames';
 import {getClassName} from 'in-services/react';
 import {view$, types} from 'in-stores/view';
@@ -20,7 +19,7 @@ const TableViewToggleButton = connectTo({
     isTableVisible: isTableVisible$,
     view: view$
   }, function TableViewToggleButton({isTableVisible, view, onChangeActiveControl}) {
-    if (!isInternalEnvironment() || view !== types.physical) {
+    if (view !== types.physical) {
       return null;
     }
 
