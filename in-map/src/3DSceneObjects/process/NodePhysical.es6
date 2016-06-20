@@ -65,4 +65,8 @@ export default class NodePhysical extends Node {
   createMetricSticky() {
     return new StickyNoteMetric(this);
   }
+
+  getDragGhostGeometry() {
+    return new THREE.BoxGeometry(1, 0.5, 1, 1, 1, 1);
+  }
 }

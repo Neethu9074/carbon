@@ -12,8 +12,11 @@ export default class DragGhost extends SceneObject {
     this.currentPosition = new THREE.Vector3();
 
     const obj = this.obj = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1, 1, 1, 1),
-      new THREE.MeshBasicMaterial()
+      parent.getDragGhostGeometry(),
+      new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.25
+      })
     );
 
     obj.position.set(0, 0, 0);

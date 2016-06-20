@@ -95,6 +95,10 @@ export default class NodeCluster extends Node {
     return new StickyNoteMetric(this);
   }
 
+  getDragGhostGeometry() {
+    return new THREE.CylinderBufferGeometry(0.5, 0.5, 0.5, 20, 20);
+  }
+
   dispose() {
     super.dispose();
 
