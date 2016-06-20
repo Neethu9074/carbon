@@ -15,15 +15,12 @@ const Tooltip = React.createClass({
       rpt.string.isRequired
     ]),
     children: rpt.any.isRequired,
-    align: rpt.object
+    align: rpt.string
   },
 
   getDefaultProps() {
     return {
-      align: {
-        vertical: 'auto',
-        horizontal: 'auto'
-      }
+      align: 'auto'
     };
   },
 
@@ -62,10 +59,7 @@ const Tooltip = React.createClass({
     tooltipStore.setActiveTooltip({
       focusedElement: this.domNode,
       content: this.props.content,
-      align: {
-        vertical: this.props.align.vertical || 'auto',
-        horizontal: this.props.align.horizontal || 'auto'
-      }
+      align: this.props.align || 'auto'
     });
     this.isActive = true;
   },

@@ -51,10 +51,7 @@ const Controls = React.createClass({
         [block + '__control-item--enabled']: enabled
       })}>
         <Tooltip content={tooltip}
-                 align={{
-                   horizontal: 'left',
-                   vertical: 'middle'
-                 }}>
+                 align={'leftMiddle'}>
           <Icon type={icon}
                 className={classnames({
                   [block + '__control-icon']: true,

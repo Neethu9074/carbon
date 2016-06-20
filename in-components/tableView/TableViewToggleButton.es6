@@ -31,10 +31,7 @@ export default connectTo({
     }
 
     return (
-      <Tooltip align={{
-                 vertical: 'middle',
-                 horizontal: 'left'
-               }}
+      <Tooltip align={'leftMiddle'}
                content='Switch between 3D view and tabular form.'>
         <Icon type='menue'
               onClick={toggleTableViewVisibility}

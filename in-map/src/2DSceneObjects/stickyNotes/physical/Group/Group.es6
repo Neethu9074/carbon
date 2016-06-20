@@ -89,7 +89,7 @@ const PhysicalGroup = getSnapshot(
       });
 
       return (
-        <Tooltip align={{horizontal: 'right'}}
+        <Tooltip align={'rightMiddle'}
                  content={<EventDescription event={mostImportantEvent}
                                             snapshotId={this.props.snapshotId}/>
                          }>
