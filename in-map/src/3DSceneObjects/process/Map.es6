@@ -51,7 +51,8 @@ export default class Map extends BaseMap {
     return new CameraController({
       canvas,
       scene: this.scene,
-      camera: this.camera
+      camera: this.camera,
+      map: this
     });
   }
 

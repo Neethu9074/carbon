@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 
 export default class DragGhost extends SceneObject {
@@ -9,8 +9,8 @@ export default class DragGhost extends SceneObject {
   constructor(parent) {
     super({parent, id: parent.id + '__ghost'});
 
-    console.log('start');
-    this.getComponent('position').setPosition(0, 0, 0);
+    this.currentPosition = new THREE.Vector3();
+
     const obj = this.obj = new THREE.Mesh(
       new THREE.BoxGeometry(1, 1, 1, 1, 1, 1),
       new THREE.MeshBasicMaterial()
@@ -21,8 +21,10 @@ export default class DragGhost extends SceneObject {
     this.scene.renderScene();
 
     this.addSubscription(
-      eventBus.on('dragObject').subscribe(event => {
-        console.log(event);
+      eventBus.on('dragObject').subscribe(newPos => {
+        this.currentPosition.copy(newPos);
+        this.obj.position.copy(newPos);
+        this.scene.renderScene();
       })
     );
   }
@@ -31,12 +33,14 @@ export default class DragGhost extends SceneObject {
     this.scene.removeSceneObject(this.obj);
     this.scene.renderScene();
 
+    const dropPosition = this.currentPosition;
+    this.parent.getComponent('position').setPosition(dropPosition.x, dropPosition.y, dropPosition.z);
+    this.currentPosition = null;
+
     super.dispose();
 
     this.obj.geometry.dispose();
     this.obj.material.dispose();
     this.obj = null;
-
-    console.log('stop');
   }
 }

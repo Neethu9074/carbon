@@ -8,7 +8,7 @@ import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shade
 import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import {getDeltaTime} from 'in-map/src/timeCalculations';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 
 export default class ParticleEmitter extends SceneObject {

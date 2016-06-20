@@ -1,11 +1,11 @@
 import {combineLatest} from 'reactive-observables';
 
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import {addEdge, removeEdge} from 'in-map/src/3DSceneObjects/process/processViewStores';
 import {getPartsForCount} from 'in-map/src/3DSceneObjects/process/dashedLineHelper';
+import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
 

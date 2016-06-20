@@ -1,7 +1,5 @@
 /* eslint-disable complexity */
-import {combineLatest} from 'reactive-observables';
-
-import {edges$, nodes$} from 'in-map/src/3DSceneObjects/process/processViewStores';
+import {inventar$} from 'in-map/src/stores/process/layouterStore';
 
 
 export default class FruchtermanReingoldLayout {
@@ -12,18 +10,18 @@ export default class FruchtermanReingoldLayout {
     this.speed =  0.1;
     this.map = map;
 
-    this.nodesSubscription = combineLatest([nodes$, edges$])
-      .debounce(100)
-      .subscribe(props => this.applyLayout(props[0], props[1]));
+    this.nodesSubscription = inventar$
+                              .debounce(100)
+                              .subscribe(inventar => this.applyLayout(inventar));
   }
 
-  applyLayout(nodeMap, edgesMap) {
-    const sigmaGraph = this.buildSigmaGraphStructure(edgesMap, nodeMap);
+  applyLayout(inventar) {
+    const sigmaGraph = this.buildSigmaGraphStructure(inventar);
     this.start(sigmaGraph);
     this.applyPositionUpdate(sigmaGraph);
   }
 
-  buildSigmaGraphStructure(edges, nodes) {
+  buildSigmaGraphStructure({nodes, edges}) {
     const graph = {
       nodes: [],
       nodeMap: {},
@@ -31,8 +29,7 @@ export default class FruchtermanReingoldLayout {
     };
 
     let posOffet = 0;
-    const allNodes = Object.keys(nodes).map(key => nodes[key]);
-    allNodes.forEach((node) => {
+    nodes.forEach((node) => {
       const pos = node.getComponent('position').getPosition();
       const sigmaNode = {
         id: node.id,
@@ -46,8 +43,7 @@ export default class FruchtermanReingoldLayout {
     });
 
     let edgeIdCounter = 0;
-    const allEdges = Object.keys(edges).map(key => edges[key]);
-    allEdges.forEach(edge => {
+    edges.forEach(edge => {
       graph.edges.push({
         id: edgeIdCounter++,
         source: edge.sourceNode.id,

@@ -9,7 +9,7 @@ import {focusedMoment$} from 'in-stores/timeline';
 import {getClassName} from 'in-services/react';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 import Icon from 'in-components/Icon';
 
 import './FocusButton.less';

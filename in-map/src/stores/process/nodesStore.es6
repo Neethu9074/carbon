@@ -22,27 +22,6 @@ export function removeNode(node) {
 }
 
 
-const edges = createStore({
-  name: 'processViewEdgesStore',
-  initialValue: {}
-});
-export const edges$ = edges.observable;
-
-export function addEdge(node) {
-  edges.applyStateMutation(edgeMap => {
-    edgeMap[node.id] = node;
-    return edgeMap;
-  });
-}
-
-export function removeEdge(node) {
-  edges.applyStateMutation(edgeMap => {
-    delete edgeMap[node.id];
-    return edgeMap;
-  });
-}
-
-
 const nodeIdVoting = createStore({
   name: 'processViewExpandedNodeIdsStore',
   initialValue: {}

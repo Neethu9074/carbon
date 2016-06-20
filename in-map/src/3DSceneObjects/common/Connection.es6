@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/physical/ConnectionLine';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObject from './SceneObject';

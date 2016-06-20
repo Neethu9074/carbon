@@ -16,7 +16,7 @@ import {activeMetric} from 'in-services/stores/metrics';
 import * as snapshotStore from 'in-stores/snapshot';
 import {viewStructure} from 'in-stores/view';
 import {find} from 'in-services/arrayUtils';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 
 export default class Map extends BaseMap {

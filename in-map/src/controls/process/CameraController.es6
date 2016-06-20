@@ -20,7 +20,7 @@ const START_ROLL = -40;
 
 export default class CameraController extends BaseCameraController {
 
-  constructor({scene, camera, canvas}) {
+  constructor({scene, camera, canvas, map}) {
     super();
 
     this.camera = camera;
@@ -61,7 +61,7 @@ export default class CameraController extends BaseCameraController {
       new MouseControlsModule({eventEmitter, scene, canvas}),
       new TouchControlsModule({eventEmitter, scene, canvas}),
       new RaycasterModule({eventEmitter, scene, camera: this.camera}),
-      new DragAndDropModule({eventEmitter, canvas, scene, camera: this.camera})
+      new DragAndDropModule({eventEmitter, map, canvas, scene, camera: this.camera})
     );
     eventEmitter.emit('onZoom', 0);
   }
