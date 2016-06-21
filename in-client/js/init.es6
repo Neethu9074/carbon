@@ -18,8 +18,8 @@ import * as timelineStore from 'in-components/timeline/timelineStore';
 import * as browserIdentification from 'in-services/browser';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
+import * as showrcuts from 'in-services/shortcuts';
 import * as tracking from 'in-services/tracking';
-import * as showrcuts from 'in-stores/shortcuts';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
