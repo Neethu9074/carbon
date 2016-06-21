@@ -10,7 +10,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import EndpointBreakdownTable from
   'in-forge/plugins/springbootApplicationContainer/Dashboard/EndpointBreakdownTable.es6';
 
-import {emptyList} from 'in-services/fixedImmutables';
 const chartHeight = 200;
 
 const SpringbootDashboard = React.createClass({
@@ -24,40 +23,36 @@ const SpringbootDashboard = React.createClass({
   render() {
     const snapshot = this.props.snapshot;
     const timeframe = this.props.timeframe;
-    const allStatusCodes = snapshot.getIn(['data', 'allStatusCodes'], emptyList).sort();
     const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
-    const statusCodeRequestMetrics = allStatusCodes.map(statusCode => 'statusCode.' + statusCode).toArray();
-    const statusCodeRequestLabels = allStatusCodes
-      .map(statusCode => 'Requests with Status Code ' + statusCode).toArray();
     return (
       <div>
-        {allStatusCodes.size > 0 ?
-          <div>
-            <DashboardSection title='Request Count'>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
-                               timeframe={timeframe}
-                               height={chartHeight}
-                               margins={{
-                                 left: 80,
-                                 right: 80
-                               }}
-                               y1={{
-                                 metrics: statusCodeRequestMetrics,
-                                 labels: statusCodeRequestLabels,
-                                 type: 'line'
-                               }}
-                               y2={{
-                                 metrics: [
-                                  'requests'
-                                 ],
-                                 labels: [
-                                  'All Requests'
-                                 ],
-                                 type: 'line'
-                               }}/>
-            </DashboardSection>
-          </div>
-          : null}
+        <DashboardSection title='Request Count'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                            metrics: [
+                              'requests',
+                              'statusCode.1xx',
+                              'statusCode.2xx',
+                              'statusCode.3xx',
+                              'statusCode.4xx',
+                              'statusCode.5xx'
+                            ],
+                            labels: [
+                              'All Requests',
+                              'Requests with Status Code 1xx',
+                              'Requests with Status Code 2xx',
+                              'Requests with Status Code 3xx',
+                              'Requests with Status Code 4xx',
+                              'Requests with Status Code 5xx'
+                            ],
+                            type: 'line'
+                           }}/>
+        </DashboardSection>
         {httpSessionsMax ?
           <DashboardSection title='HTTP Sessions Active'>
             <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -78,7 +73,7 @@ const SpringbootDashboard = React.createClass({
           </DashboardSection>
           : null}
         <EndpointBreakdownTable snapshot={snapshot}
-                          timeframe={timeframe} />
+                                timeframe={timeframe}/>
       </div>
     );
   }
