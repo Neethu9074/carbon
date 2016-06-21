@@ -6,6 +6,7 @@ import EventItemList from 'in-components/notificationCenter/Flyout/components/Ev
 import {isOpen$, toggleMenu} from 'in-components/notificationCenter/notificationCenterStore';
 import FilterBar from 'in-components/notificationCenter/Flyout/components/FilterBar';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import {selectedEventId$} from 'in-stores/events';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,7 +18,8 @@ const rpt = React.PropTypes;
 
 export default connectTo({
     isTimelineCollapsed: isCollapsed$,
-    showNotificationCenter: isOpen$
+    showNotificationCenter: isOpen$,
+    selectedEventId: selectedEventId$
   }, React.createClass({
 
     displayName: 'Flyout',
@@ -29,6 +31,7 @@ export default connectTo({
     propTypes: {
       showNotificationCenter: rpt.bool,
       isTimelineCollapsed: rpt.bool,
+      selectedEventId: rpt.string,
       style: rpt.object
     },
 

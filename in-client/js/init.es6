@@ -8,11 +8,12 @@ import ReactDOM from 'react-dom';
 import logging from 'instalog';
 import React from 'react';
 
+import * as notificationCenterStore from 'in-components/notificationCenter/notificationCenterStore';
 import * as tableViewVisibilityStore from 'in-components/tableView/stores/visibility';
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
 import * as notMonitoringPresenter from 'in-services/notMonitoringDialogPresenter';
-import * as expandedIdsStore from 'in-components/tableView/stores/expandedIds';
 import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
+import * as expandedIdsStore from 'in-components/tableView/stores/expandedIds';
 import * as persistentConnection from 'in-services/persistentConnection';
 import * as timelineStore from 'in-components/timeline/timelineStore';
 import * as browserIdentification from 'in-services/browser';
@@ -55,6 +56,7 @@ if (__DEV__) {
 }
 
 // kick of the init process
+notificationCenterStore.init();
 browserIdentification.init();
 persistentConnection.init();
 subscriptonManager.init();
