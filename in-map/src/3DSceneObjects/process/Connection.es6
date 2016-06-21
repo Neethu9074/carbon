@@ -86,12 +86,8 @@ export default class Connection extends BaseConnection {
     toPos.x -= 0.5;
     toPos.z += 0.5;
 
-    const distanceX = toPos.x - fromPos.x;
-    const distanceZ = toPos.z - fromPos.z;
-    const distance = Math.sqrt(distanceX * distanceX + distanceZ * distanceZ);
-
     const lines = [];
-    const parts = getPartsForCount(Math.ceil(distance)); // one segment each unit
+    const parts = getPartsForCount(10);
     const direction = {
       x: toPos.x - fromPos.x,
       y: toPos.y - fromPos.y,
