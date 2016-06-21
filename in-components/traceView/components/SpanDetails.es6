@@ -13,22 +13,24 @@ import connectTo from 'in-hoc/connectTo';
 
 import './SpanDetails.less';
 
+
 const rpt = React.PropTypes;
 const block = 'in-span-details';
 
 export default connectTo({
-    span: selectedSpan$,
     spanId: selectedSpanId$,
-    trace: selectedTrace$
-  }, React.createClass({
+    trace: selectedTrace$,
+    span: selectedSpan$
+  },
+  React.createClass({
     displayName: 'SpanDetails',
 
     mixins: [PureRenderMixin],
 
     propTypes: {
       spanId: rpt.string,
-      span: irpt.map,
-      trace: irpt.map
+      trace: irpt.map,
+      span: irpt.map
     },
 
     render() {

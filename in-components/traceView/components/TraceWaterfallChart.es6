@@ -10,6 +10,7 @@ import {getTickPositions} from 'in-charts/timeAxis';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/tracing';
+import theme from 'in-services/theme';
 
 import './TraceWaterfallChart.less';
 
@@ -27,6 +28,8 @@ const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
   }
 
   const onClick = selected ? clearSpanSelection : () => setSelectedSpanId(span.get('spanId'));
+  const spanHasError = span.get('error');
+  const background = spanHasError ? theme.health[theme.health.length - 1] : null;
 
   return (
     <div>
@@ -36,8 +39,8 @@ const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
              width: `${right - left}%`
            }}
            onClick={onClick}>
-        <div className={block + '__span-block'}>
-        </div>
+        <div className={block + '__span-block'}
+             style={{backgroundColor: background}}/>
         <span>
           {msZeroDecimalPlaces(span.get('duration'))}: {getLabel(span)}
         </span>
