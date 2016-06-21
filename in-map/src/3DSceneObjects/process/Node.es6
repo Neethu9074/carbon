@@ -1,7 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
-import {voteUp, voteDown, addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import {voteUp, voteDown, addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
@@ -144,17 +144,22 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   expand() {
-    Object.keys(this.childIds).forEach(id => voteUp(id));
+    this.childIds.forEach(id => voteUp(id));
+    this.isExpanded = true;
   }
 
   collapse() {
-    Object.keys(this.childIds).forEach(id => voteDown(id));
+    this.childIds.forEach(id => voteDown(id));
+    this.isExpanded = false;
   }
 
   setChildIds(childIds) {
-    this.childIds = childIds;
-    const numChildren = Object.keys(childIds).length;
-    if (numChildren === 0) {
+    this.childIds = Object.keys(childIds);
+    if (this.childIds.length === 0) {
+      if (this.stickyNote) {
+        this.stickyNote.dispose();
+        this.stickyNote = null;
+      }
       return;
     }
 
@@ -162,7 +167,7 @@ export default class Node extends SceneObjectWithSnapshot {
       this.stickyNote = new StickyNoteCluster(this);
     }
 
-    this.stickyNote.setNumChildren(Object.keys(childIds).length);
+    this.stickyNote.setNumChildren(this.childIds.length);
   }
 
   positionChanged(newPos) {
