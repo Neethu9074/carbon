@@ -19,6 +19,7 @@ import * as browserIdentification from 'in-services/browser';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
 import * as tracking from 'in-services/tracking';
+import * as showrcuts from 'in-stores/shortcuts';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -61,6 +62,7 @@ timeOffsetStore.init();
 filteringStore.init();
 timelineStore.init();
 messageStore.init();
+showrcuts.init();
 tracking.init();
 notMonitoringPresenter.init();
 tableViewVisibilityStore.init();
