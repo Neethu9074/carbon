@@ -1,11 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import classnames from 'in-services/util/classnames';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import classnames from 'in-services/util/classnames';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import CloseFilterbarButton from './CloseFilterbarButton';
 import Controls from './Controls';
 import MapStats from './MapStats';
 import Metrics from './Metrics';
@@ -45,7 +45,10 @@ export default connectTo({
           [block + '__content--open']: open,
           [block + '__content--timeline-expanded']: !this.props.isCollapsed
         })}>
-          <CloseFilterbarButton closeFilterbar={this.closeFilterbar} />
+          <Button className={block + '__close-button'}
+                  onClick={this.closeFilterbar}>
+            Close
+          </Button>
           {this.renderContent()}
         </div>
       </div>
