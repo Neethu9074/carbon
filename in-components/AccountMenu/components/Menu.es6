@@ -1,12 +1,10 @@
 import React from 'react';
 
 import TenantUnitSwitcher from 'in-components/AccountMenu/components/TenantUnitSwitcher';
+import {isOpen$, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
 import {setSettingsVisibility} from 'in-stores/settings/visibility';
+import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {showReleaseNotes} from 'in-stores/releaseNotes';
-import {
-  isOpen$,
-  closeMenu
-} from 'in-components/AccountMenu/accountMenuStore';
 import {goToGraph} from 'in-stores/navigation';
 import {isOnPremise} from 'in-services/config';
 import {config} from 'in-services/config';
@@ -15,76 +13,126 @@ import Icon from 'in-components/Icon';
 
 import './Menu.less';
 
+
 const block = 'in-account-menu';
 const umpLink = `https://${config.groundskeeperDomain}/ump/${config.tenant}/${config.tenantUnit}`;
 
 export default connectTo({
-    isOpen: isOpen$
-  }, function Menu({isOpen}) {
-    if (!isOpen) {
-      return null;
-    }
+  isOpen: isOpen$
+}, React.createClass({
 
-    return (
-      <section className={block}>
-        <p className={block + '__account-name'}>
-          Signed in as {window.instana.user.fullName}
-        </p>
+    displayName: 'Menu',
 
-        <a href={umpLink}
-           target='_blank'
-           className={block + '__account-menu-link'}
-           onClick={closeMenu}>
-          Management Portal
+    propTypes: {
+      isOpen: React.PropTypes.bool
+    },
 
-          <Icon type='right'
-                className={block + '__account-menu-arrow'}/>
-        </a>
+    componentDidMount() {
+      this.onMouseUp = throttleNextFrame(this.onMouseUp);
+    },
 
-        <Separator />
+    componentWillUnMount() {
+      this.disposeListener();
+    },
 
-        <TenantUnitSwitcher />
+    render() {
+      if (!this.props.isOpen) {
+        this.disposeListener();
+        return null;
+      }
 
-        <Separator />
+      this.registerListener();
 
-        <a className={block + '__link'}
-           href='#'
-           onClick={closeAndCall(() => setSettingsVisibility(true))}>
-          Settings
-        </a>
+      return (
+        <section className={block}
+                 ref='menu'>
+          <p className={block + '__account-name'}>
+            Signed in as {window.instana.user.fullName}
+          </p>
 
-        {!isOnPremise() ?
+          <a href={umpLink}
+             target='_blank'
+             className={block + '__account-menu-link'}
+             onClick={closeMenu}>
+            Management Portal
+
+            <Icon type='right'
+                  className={block + '__account-menu-arrow'}/>
+          </a>
+
+          <Separator />
+
+          <TenantUnitSwitcher />
+
+          <Separator />
+
           <a className={block + '__link'}
              href='#'
-             onClick={closeAndCall(showReleaseNotes)}>
-            Release Notes
+             onClick={closeAndCall(() => setSettingsVisibility(true))}>
+            Settings
           </a>
-        : null}
 
-        <a className={block + '__link'}
-           href='#'
-           onClick={closeAndCall(goToGraph)}>
-          Graph Showcase
-        </a>
+          {!isOnPremise() ?
+            <a className={block + '__link'}
+               href='#'
+               onClick={closeAndCall(showReleaseNotes)}>
+              Release Notes
+            </a>
+          : null}
 
-        <Separator />
+          <a className={block + '__link'}
+             href='#'
+             onClick={closeAndCall(goToGraph)}>
+            Graph Showcase
+          </a>
 
-        <form action='/auth/signOut' method='post'>
-          <button type='submit'
-                  className={block + '__signout'}>
-            Sign Out
-          </button>
-        </form>
-      </section>
-    );
-  }
+          <Separator />
+
+          <form action='/auth/signOut' method='post'>
+            <button type='submit'
+                    className={block + '__signout'}>
+              Sign Out
+            </button>
+          </form>
+        </section>
+      );
+    },
+
+    registerListener() {
+      if (this.registered) {
+        return;
+      }
+      window.addEventListener('mouseup', this.onMouseUp, false);
+      this.registered = true;
+    },
+
+    disposeListener() {
+      if (!this.registered) {
+        return;
+      }
+      window.removeEventListener('mouseup', this.onMouseUp, false);
+      this.registered = false;
+    },
+
+    onMouseUp(e) {
+      // we are doing this asynchronously and the timepicker may already be gone
+      if (!this.refs.menu) {
+        return;
+      }
+
+      const rect = this.refs.menu.getBoundingClientRect();
+      if (e.clientX > rect.right || e.clientX < rect.left ||
+          e.clientY < rect.top || e.clientY > rect.bottom) {
+        // the click was donw outside this component so close it
+        closeMenu();
+      }
+    }
+  })
 );
-
 
 function Separator() {
   return <div className={block + '__separator'} />;
 }
-
 
 function closeAndCall(fn) {
   return e => {
