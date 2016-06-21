@@ -42,6 +42,7 @@ const NodeTooltip = getMostImportantEvent(
       <TooltipFrame>
         {mostImportantEvent ?
           <EventDescription event={mostImportantEvent}
+                            showFullTextIfToLong={false}
                             snapshotId={this.props.snapshotId}/>
           :
           <Content>

@@ -29,8 +29,9 @@ export default connectTo(props => {
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
-    event: irpt.map.isRequired,
+    showFullTextIfToLong: rpt.bool,
     color: rpt.string.isRequired,
+    event: irpt.map.isRequired,
     className: rpt.string
   },
 
@@ -61,17 +62,18 @@ export default connectTo(props => {
             : null}
           </Row>
 
-          {this.getContent(event, eventType, this.props.color)}
+          {this.getContent(event, eventType, this.props.color, this.props.showFullTextIfToLong)}
         </div>
       </div>
     );
   },
 
-  getContent(event, eventType, color) {
+  getContent(event, eventType, color, showFullTextIfToLong = true) {
     return (
       eventType === issueTracker.EVENT_TYPES.INCIDENT ?
       <IncidentContent incident={event}/> :
       <EventContent snapshotId={this.props.snapshotId}
+                    showFullTextIfToLong={showFullTextIfToLong}
                     event={event}
                     color={color}/>
     );
