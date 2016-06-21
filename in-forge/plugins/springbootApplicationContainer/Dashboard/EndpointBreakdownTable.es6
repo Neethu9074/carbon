@@ -25,7 +25,7 @@ export default function EndpointBreakdownTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails} />
+                       createDetails={createDetails}/>
     </DashboardSection>
   );
 }
@@ -39,55 +39,82 @@ function getKey(statusCodes, endpoint) {
 function createHeader() {
   return (
     <thead>
-      <tr>
-        <th>Endpoint</th>
-        <th>Request Count</th>
-        <th>Last Response Time</th>
-      </tr>
+    <tr>
+      <th>Endpoint</th>
+      <th>All Requests</th>
+      <th>Requests with Status Code 1xx</th>
+      <th>Requests with Status Code 2xx</th>
+      <th>Requests with Status Code 3xx</th>
+      <th>Requests with Status Code 4xx</th>
+      <th>Requests with Status Code 5xx</th>
+      <th>Response Time of Latest Request</th>
+    </tr>
     </thead>
   );
 }
 
 
 function createRow(statusCodes, endpoint, context) {
+  const endpointMetricName = 'endpoint.' + endpoint;
   return ([
     <td>{endpoint}</td>,
-    <Mtd metric={'endpoint.' + endpoint}
-         snapshot={context.snapshot} />,
+    <Mtd metric={endpointMetricName}
+         snapshot={context.snapshot}/>,
+    <Mtd metric={endpointMetricName + '.' + '1xx'}
+         snapshot={context.snapshot}/>,
+    <Mtd metric={endpointMetricName + '.' + '2xx'}
+         snapshot={context.snapshot}/>,
+    <Mtd metric={endpointMetricName + '.' + '3xx'}
+         snapshot={context.snapshot}/>,
+    <Mtd metric={endpointMetricName + '.' + '4xx'}
+         snapshot={context.snapshot}/>,
+    <Mtd metric={endpointMetricName + '.' + '5xx'}
+         snapshot={context.snapshot}/>,
     <Mtd metric={'gauge.response.' + endpoint}
-         snapshot={context.snapshot} />
+         snapshot={context.snapshot}/>
   ]);
 }
 
 
 function createDetails(statusCodes, endpoint, context) {
-  const statusCodeRequestMetrics = statusCodes.map(statusCode => 'counter.status.' + statusCode + '.' + endpoint)
-    .toArray();
-  const statusCodeRequestLabels = statusCodes
-    .map(statusCode => 'Requests with Status Code ' + statusCode).toArray();
+  const endpointMetricName = 'endpoint.' + endpoint;
   return (
-      <ChartWithLegend snapshotId={context.snapshot.get('id')}
-             timeframe={context.timeframe}
-                       key={endpoint}
-             height={200}
-             margins={{
-               left: 80,
-               right: 80
-             }}
-             y1={{
-               metrics: statusCodeRequestMetrics,
-               labels: statusCodeRequestLabels,
-               type: 'line'
-             }}
-             y2={{
-               formatter: msZeroDecimalPlaces,
-               metrics: [
-                 'gauge.response.' + endpoint
-               ],
-               labels: [
-                 'Last Response Time'
-               ],
-               type: 'line'
-             }}/>
+    <ChartWithLegend snapshotId={context.snapshot.get('id')}
+                     timeframe={context.timeframe}
+                     key={endpoint}
+                     height={200}
+                     margins={{
+                      left: 80,
+                      right: 80
+                     }}
+                     y1={{
+                      metrics: [
+                        endpointMetricName,
+                        endpointMetricName + '.' + '1xx',
+                        endpointMetricName + '.' + '2xx',
+                        endpointMetricName + '.' + '3xx',
+                        endpointMetricName + '.' + '4xx',
+                        endpointMetricName + '.' + '5xx'
+                      ],
+                      labels: [
+                        'All Requests',
+                        'Requests with Status Code 1xx',
+                        'Requests with Status Code 2xx',
+                        'Requests with Status Code 3xx',
+                        'Requests with Status Code 4xx',
+                        'Requests with Status Code 5xx'
+                      ],
+                      type: 'line'
+                     }}
+                     y2={{
+                      formatter: msZeroDecimalPlaces,
+                      metrics: [
+                        'gauge.response.' + endpoint
+                      ],
+                      labels: [
+                        'Response Time of Latest Request'
+                      ],
+                      type: 'line'
+                     }}/>
   );
 }
