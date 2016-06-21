@@ -19,7 +19,8 @@ export default React.createClass({
     width: rpt.number.isRequired,
     aggregation: rpt.string,
     className: rpt.string,
-    rollup: rpt.number
+    rollup: rpt.number,
+    tooltipFormatter: rpt.func
   },
 
   getInitialState() {
