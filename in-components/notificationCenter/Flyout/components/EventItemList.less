@@ -15,13 +15,14 @@
     list-style: none;
   }
 
-  &__item {
+  &__item, &__item__selected {
     padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
 
-    &:hover {
+    &:hover, &__selected {
       background: @notification-center__background-highlight;
     }
   }
+
 }
