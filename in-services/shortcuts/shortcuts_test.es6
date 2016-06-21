@@ -52,7 +52,7 @@ describe('stores.view', () => {
   function loadModule() {
     onKeyPressed = create();
 
-    mod = proxyquire('in-stores/shortcuts', {
+    mod = proxyquire('in-services/shortcuts', {
       'reactive-observables': {
         on: () => onKeyPressed
       }
