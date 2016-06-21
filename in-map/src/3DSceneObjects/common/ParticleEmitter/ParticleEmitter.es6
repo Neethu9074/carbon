@@ -72,7 +72,6 @@ export default class ParticleEmitter extends SceneObject {
       wordsWritten = wordsWritten.substring(wordsWritten.length - 9, 10);
 
       if (wordsWritten.toLowerCase() === 'particles') {
-        console.log('FIRE SOME AWESOME PARTICLES');
         this.start();
         this.startSubscription.dispose();
         this.startSubscription = null;
