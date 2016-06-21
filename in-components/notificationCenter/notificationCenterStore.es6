@@ -1,5 +1,4 @@
 import {closeMenu as closeAccountMenu} from 'in-components/AccountMenu/accountMenuStore';
-import {selectedEventId$} from 'in-stores/events';
 import {createStore} from 'in-stores/store';
 
 
@@ -24,12 +23,4 @@ export function closeMenu() {
 
 export function openMenu() {
   isOpen.applyStateMutation(() => true);
-}
-
-export function init() {
-  selectedEventId$.subscribe(id => {
-    if (id) {
-      openMenu();
-    }
-  });
 }
