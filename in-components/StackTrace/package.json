@@ -1,0 +1,6 @@
+{
+  "name": "StackTrace",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./StackTrace.es6"
+}
