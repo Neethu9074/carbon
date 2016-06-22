@@ -10,6 +10,7 @@ import {formatDateTime} from 'in-services/formatters/date';
 import {getTypeLabelSingular} from 'in-sdk/tracing';
 import PropList from 'in-components/PropList';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import './SpanDetails.less';
 
@@ -52,6 +53,11 @@ export default connectTo({
             <h1 className={block + '__type'}>
               {getTypeLabelSingular(span)}
             </h1>
+            {span.get('error') ?
+              <Icon type='critical'
+                    className={block + '__icon'}/> :
+              null
+            }
           </div>
 
           <PropList>

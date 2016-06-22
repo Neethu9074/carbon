@@ -1,5 +1,10 @@
+@import "~in-themes/active.less";
+
 .in-span-details {
   &__header {
+    display: flex;
+    align-items: center;
+
     padding: 1.6525rem;
     background: #43565E;
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.30);
@@ -13,5 +18,12 @@
     color: #FFFFFF;
     font-weight: normal;
     font-size: 1rem;
+  }
+
+  &__icon {
+    font-size: 2rem;
+    color: @map__colors__critical;
+    max-height: 22px;
+    margin: -10px 0 0 10px;
   }
 }
