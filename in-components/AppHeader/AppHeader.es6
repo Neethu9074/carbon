@@ -5,6 +5,7 @@ import ViewSwitcher from 'in-components/ViewSwitcher';
 import AccountMenu from 'in-components/AccountMenu';
 import SearchBar from 'in-components/SearchBar';
 import Lettering from 'in-components/Lettering';
+import {goHome} from 'in-stores/navigation';
 
 import './AppHeader.less';
 
@@ -15,7 +16,8 @@ export default function AppHeader() {
   return (
     <div className={block}>
       <div>
-        <Lettering className={block + '__lettering'} />
+        <Lettering className={block + '__lettering'}
+                   onClick={goHome} />
         <SearchBar className={block + '__search'} />
       </div>
 

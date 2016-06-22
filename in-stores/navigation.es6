@@ -47,6 +47,15 @@ export function mutateUrl(mutator) {
 }
 
 
+export function goHome() {
+  mutateUrl(navParams => {
+    navParams.pathname = '/';
+    navParams.query = {};
+    return navParams;
+  });
+}
+
+
 export function goToDashboard() {
   mutateUrl(navParams => {
     navParams.pathname = '/dashboard';
