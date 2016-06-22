@@ -17,6 +17,11 @@
       "from": "acorn@>=1.0.3 <2.0.0",
       "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/acorn/-/acorn-1.2.2.tgz"
     },
+    "lex": {
+      "version": "1.7.9",
+      "from": "lex@>=1.7.9 <2.0.0",
+      "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/lex/-/lex-1.7.9.tgz"
+    },
     "after": {
       "version": "0.8.1",
       "from": "after@0.8.1",
