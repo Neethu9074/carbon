@@ -10,7 +10,8 @@ import {createStore} from 'in-stores/store';
 // The filter types as defined in the backend.
 const filterTypes = {
   tag: 'TAG',
-  excludeUnmonitoredHosts: 'EXCLUDE_UNMONITORED_HOSTS'
+  excludeUnmonitoredHosts: 'EXCLUDE_UNMONITORED_HOSTS',
+  freeText: 'FREE_TEXT'
 };
 
 // Filter identification is done via user specific filter ids. Each
@@ -107,6 +108,26 @@ function removeExcludeUnmonitoredHostsFilter() {
     return filters.filter(f => {
       return f.get('type') !== filterTypes.excludeUnmonitoredHosts;
     });
+  });
+}
+
+
+export function setFreeTextFilter(query) {
+  query = query.trim();
+  filtersStore.applyStateMutation(filters => {
+    let result = filters.filter(f => {
+      return f.get('type') !== filterTypes.freeText;
+    });
+
+    if (query.length > 2) {
+      result = result.add(Immutable.Map({
+        filterId: filterIdCounter++,
+        type: filterTypes.freeText,
+        options: Immutable.Map({query})
+      }));
+    }
+
+    return result;
   });
 }
 
