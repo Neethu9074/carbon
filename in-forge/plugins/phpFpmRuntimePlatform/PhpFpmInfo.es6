@@ -35,7 +35,7 @@ const PhpFpmInfo = React.createClass({
                 {
                   data.get('worker_pool.' + pool + '.start_time')
                   ? <DescriptionItem title='Start Time'>
-                    {formatDateTime(data.get('worker_pool.' + pool + '.start_time'))}
+                    {formatDateTime(data.get('worker_pool.' + pool + '.start_time') * 1000)}
                     </DescriptionItem>
                   : null
                 }

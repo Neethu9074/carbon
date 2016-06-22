@@ -18,7 +18,7 @@ import * as timelineStore from 'in-components/timeline/timelineStore';
 import * as browserIdentification from 'in-services/browser';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
-import * as showrcuts from 'in-services/shortcuts';
+import * as shortcuts from 'in-services/shortcuts';
 import * as tracking from 'in-services/tracking';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
@@ -62,7 +62,7 @@ timeOffsetStore.init();
 filteringStore.init();
 timelineStore.init();
 messageStore.init();
-showrcuts.init();
+shortcuts.init();
 tracking.init();
 notMonitoringPresenter.init();
 tableViewVisibilityStore.init();
