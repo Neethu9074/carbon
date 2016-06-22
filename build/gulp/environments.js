@@ -51,6 +51,13 @@ module.exports = {
     tenantUnit: 'dell',
     groundskeeperDomain: 'instana.io'
   },
+  hellmann: {
+    uiBackendUrl: 'https://hellmann.instana.io/api/data/',
+    groundskeeperUrl: 'https://hellmann.instana.io',
+    tenant: 'hellmann',
+    tenantUnit: 'hellmann',
+    groundskeeperDomain: 'instana.io'
+  },
   sigil66: {
     uiBackendUrl: 'https://sigil66.instana.io/api/data/',
     groundskeeperUrl: 'https://sigil66.instana.io',

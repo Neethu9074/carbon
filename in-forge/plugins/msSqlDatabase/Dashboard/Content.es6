@@ -2,10 +2,10 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
-
 
 const chartHeight = 200;
 const MsSqlDashboard = React.createClass({
@@ -17,6 +17,7 @@ const MsSqlDashboard = React.createClass({
   },
 
   render() {
+
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
 
@@ -66,6 +67,9 @@ const MsSqlDashboard = React.createClass({
                            type: 'line'
                        }}/>
       </DashboardSection>
+
+      <DatabasesTable snapshot={snapshot}
+                     timeframe={this.props.timeframe} />
       </div>
     );
   }
