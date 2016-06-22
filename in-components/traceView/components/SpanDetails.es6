@@ -68,6 +68,11 @@ export default connectTo({
                            value={msZeroDecimalPlaces(span.get('start') - trace.get('start'))} />
             <PropList.Prop label='Start'
                            value={formatDateTime(span.get('start'))} />
+            {span.get('async') ?
+              <PropList.Prop label='Async'
+                             value={'true'} />
+              : null
+            }
           </PropList>
 
           <SpanForgeDetails span={span}

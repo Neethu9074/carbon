@@ -30,7 +30,6 @@ const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
     classes += ' ' + classes + '--selected';
   }
 
-
   const onClick = selected ? clearSpanSelection : () => setSelectedSpanId(span.get('spanId'));
 
   return (
