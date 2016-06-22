@@ -14,6 +14,8 @@ export default function AppHeader() {
     <div className={block}>
       <Lettering className={block + '__lettering'}/>
 
+      Search...
+
       <ViewSwitcher />
 
       <div className={block + '__menu'}>
