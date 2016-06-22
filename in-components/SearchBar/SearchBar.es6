@@ -4,6 +4,7 @@ import React from 'react';
 import {inputString$, setInputString} from 'in-components/SearchBar/stores/searchInputString';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import './SearchBar.less';
 
@@ -30,12 +31,16 @@ export default connectTo({
     render() {
       return (
         <div className={getClassName(this, block)}>
+          <Icon type='search'
+                className={block + '__search-icon'}/>
+
           <input type='search'
                  value={this.props.inputString}
                  onChange={e => setInputString(e.target.value)}
                  className={block + '__input'}
                  placeholder='Search…'
                  onClick={e => e.stopPropagation()}/>
+
         </div>
       );
     }
