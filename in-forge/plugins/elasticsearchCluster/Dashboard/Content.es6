@@ -167,13 +167,13 @@ export default React.createClass({
                            }}/>
         </DashboardSection>
 
-        <IndicesTable snapshot={snapshot}
-                      timeframe={timeframe} />
-
         <DashboardSection title='Cluster Nodes'>
           <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}
                              timeframe={timeframe} />
         </DashboardSection>
+
+        <IndicesTable snapshot={snapshot}
+                      timeframe={timeframe} />
       </div>
     );
   }
