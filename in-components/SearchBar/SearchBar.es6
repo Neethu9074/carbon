@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {query$, setQuery} from 'in-components/SearchBar/stores/searchStore';
+import {inputString$, setInputString} from 'in-components/SearchBar/stores/searchInputString';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,7 +12,7 @@ const rpt = React.PropTypes;
 const block = 'in-searchbar';
 
 export default connectTo({
-    query: query$
+    inputString: inputString$
   },
   React.createClass({
 
@@ -24,15 +24,15 @@ export default connectTo({
 
     propTypes: {
       className: rpt.string,
-      query: rpt.string
+      inputString: rpt.string
     },
 
     render() {
       return (
         <div className={getClassName(this, block)}>
           <input type='search'
-                 value={this.props.query}
-                 onChange={e => setQuery(e.target.value)}
+                 value={this.props.inputString}
+                 onChange={e => setInputString(e.target.value)}
                  className={block + '__input'}
                  placeholder='Search…'
                  onClick={e => e.stopPropagation()}/>
