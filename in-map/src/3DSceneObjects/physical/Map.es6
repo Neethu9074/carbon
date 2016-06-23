@@ -7,6 +7,7 @@ import SingleMeshMetricFactory from 'in-map/src/SingleMeshFactory/SingleMeshMetr
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import {getAllNodes, getAllGroups} from 'in-map/src/3DSceneObjects/physical/mapUtils';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
+import {clearCurrentlyHighlightedEntity} from 'in-map/src/stores/focusEntity';
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
 import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
@@ -67,7 +68,10 @@ export default class Map extends BaseMap {
     this.addSubscriptions([
       viewStructure.subscribe(structures => this.onInventoryUpdate(structures)),
 
-      eventBus.on('flyToEntity').subscribe(entity => this.controller.flyToObject(entity)),
+      eventBus.on('flyToEntity').subscribe(entity => {
+        this.controller.flyToObject(entity);
+        clearCurrentlyHighlightedEntity();
+      }),
 
       activeMetric.subscribe(metric => {
         if (metric) {

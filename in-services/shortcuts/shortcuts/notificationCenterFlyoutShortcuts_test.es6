@@ -47,7 +47,7 @@ describe('shortcuts/dashboard', () => {
   });
 
   function loadModules() {
-    mod = proxyquire('in-services/shortcuts/shortcuts/notificationCenterFlyout', {});
+    mod = proxyquire('in-services/shortcuts/shortcuts/notificationCenterFlyoutShortcuts', {});
 
     onKeyPressed = create();
     shortcuts = proxyquire('in-services/shortcuts', {

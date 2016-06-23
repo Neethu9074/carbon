@@ -2,8 +2,9 @@ import THREE from 'three';
 
 import TooltipLayer from 'in-map/src/2DSceneObjects/tooltips/physical/Layer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import {theme} from 'in-services/theme';
+import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import eventBus from 'in-map/src/eventbus';
+import {theme} from 'in-services/theme';
 
 import HighlightingComponent from '../../components/physical/HighlightingComponent';
 import CollisionComponent from '../../components/common/CollisionObjectComponent';
@@ -127,7 +128,7 @@ export default class Layer extends SceneObjectWithSnapshot {
 
       this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
 
-      eventBus.on('focusEntityId').subscribe(id => {
+      focusEntityId$.subscribe(id => {
         if (this.id === id) {
           eventBus.emit('flyToEntity', this);
         }

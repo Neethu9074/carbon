@@ -1,13 +1,18 @@
 import * as ro from 'reactive-observables';
 import {remove} from 'lodash';
 
-import {register as registerNotificationShortcuts} from 'in-services/shortcuts/shortcuts/notificationCenterFlyout';
-import {register as registerDashboardShortcuts} from 'in-services/shortcuts/shortcuts/dashboard';
+import {register as registerNotificationShortcuts}
+  from 'in-services/shortcuts/shortcuts/notificationCenterFlyoutShortcuts';
+import {register as registerDashboardShortcuts}
+  from 'in-services/shortcuts/shortcuts/dashboardShortcuts';
+import {register as registerFocusShortcuts}
+  from 'in-services/shortcuts/shortcuts/focusEntityShortcuts';
 
 
 export const KEY_CODES = {
   ESC: 27,
-  N: 78
+  N: 78,
+  C: 67
 };
 
 let registeredShortcuts = {};
@@ -17,6 +22,7 @@ export function init() {
 
   registerNotificationShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
   registerDashboardShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
+  registerFocusShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
 }
 
 export function registerShortcut(keycode, callback) {

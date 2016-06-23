@@ -98,7 +98,7 @@ describe('shortcuts/dashboard', () => {
       navigationParameters$: navigationParametersStore.observable
     };
 
-    mod = proxyquire('in-services/shortcuts/shortcuts/dashboard', {
+    mod = proxyquire('in-services/shortcuts/shortcuts/dashboardShortcuts', {
       'in-stores/navigation': navigationMock
     });
 

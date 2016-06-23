@@ -2,14 +2,13 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
+import {focusCurrentlyHighlightedEntity} from 'in-map/src/stores/focusEntity';
 import {closeTableView} from 'in-components/tableView/stores/visibility';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
 import {getClassName} from 'in-services/react';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import eventBus from 'in-map/src/eventbus';
 import Icon from 'in-components/Icon';
 
 import './FocusButton.less';
@@ -29,8 +28,8 @@ export default connectTo({
   ],
 
   propTypes: {
-    focusedMoment: rpt.number,
     snapshot: irpt.map.isRequired,
+    focusedMoment: rpt.number,
     className: rpt.string
   },
 
@@ -81,10 +80,7 @@ export default connectTo({
 
   focusSnapshotId() {
     closeTableView();
-    selectedSnapshotIdForHighlightingInMap
-      .once(highlightedId => {
-        eventBus.emit('focusEntityId', highlightedId);
-      });
+    focusCurrentlyHighlightedEntity();
   },
 
   wrapTooltipElement(txt) {
