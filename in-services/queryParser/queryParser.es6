@@ -22,15 +22,17 @@ export function parse(query) {
 
   lexer.addRule(/([a-z0-9._\-]+) *= *"([^"]+)"/i, function onMatch(s, key, value) {
     result.push({
-      type: key,
-      options: value
+      type: 'kv',
+      key: key,
+      value: value
     });
   });
 
   lexer.addRule(/([a-z0-9._\-]+) *= *([^\s]+)/i, function onMatch(s, key, value) {
     result.push({
-      type: key,
-      options: value
+      type: 'kv',
+      key: key,
+      value: value
     });
   });
 
@@ -53,7 +55,7 @@ export function parse(query) {
   if (freeTextFilters.length !== 0) {
     result.push({
       type: 'freeText',
-      options: freeTextFilters.join(' ')
+      text: freeTextFilters.join(' ')
     });
   }
 
