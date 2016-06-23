@@ -1,5 +1,5 @@
 import {addIconsToRegistry} from 'in-sdk/iconRegistry';
-import {addKeywordOperator} from 'in-sdk/search';
+import {addKeywordOperator, createPluginFieldPath} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
@@ -51,5 +51,20 @@ addIconsToRegistry([ {
 addKeywordOperator({
   context: 'entity',
   type: 'number',
-  keyword: 'host.cpuCount'
+  keyword: 'host.cpuCount',
+  field: createPluginFieldPath(constants.plugins.os, ['cpu.count'])
+});
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'host.hostname',
+  field: createPluginFieldPath(constants.plugins.os, ['hostname'])
+});
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'host.osName',
+  field: createPluginFieldPath(constants.plugins.os, ['os.name'])
 });

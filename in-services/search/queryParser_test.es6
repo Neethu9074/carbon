@@ -18,7 +18,11 @@ describe('in-services/queryParser', () => {
     expect(parse('cassandra node.js')).to.deep.equal([
       {
         type: 'freeText',
-        text: 'cassandra node.js'
+        text: 'cassandra'
+      },
+      {
+        type: 'freeText',
+        text: 'node.js'
       }
     ]);
   });
@@ -27,7 +31,11 @@ describe('in-services/queryParser', () => {
     expect(parse('"cassandra node.js"  bla')).to.deep.equal([
       {
         type: 'freeText',
-        text: 'cassandra node.js bla'
+        text: 'cassandra node.js'
+      },
+      {
+        type: 'freeText',
+        text: 'bla'
       }
     ]);
   });
@@ -37,6 +45,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
+        operator: '=',
         value: 'production',
         row: 1
       }
@@ -48,6 +57,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
+        operator: '=',
         value: 'development',
         row: 1
       }
@@ -59,6 +69,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       }
@@ -70,6 +81,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       }
@@ -81,12 +93,14 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       },
       {
         type: 'kv',
         key: 'foo',
+        operator: '=',
         value: 'bar',
         row: 1
       }
@@ -98,12 +112,14 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       },
       {
         type: 'kv',
         key: 'foo',
+        operator: '=',
         value: 'bar',
         row: 1
       }
@@ -113,20 +129,26 @@ describe('in-services/queryParser', () => {
   it('must support combinations of key/value pairs and free text', () => {
     expect(parse('node.js host.tag ="my awesome tag" "what up" foo=bar')).to.deep.equal([
       {
+        type: 'freeText',
+        text: 'node.js'
+      },
+      {
         type: 'kv',
         key: 'host.tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       },
       {
-        type: 'kv',
-        key: 'foo',
-        value: 'bar',
-        row: 1
+        type: 'freeText',
+        text: 'what up'
       },
       {
-        type: 'freeText',
-        text: 'node.js what up'
+        type: 'kv',
+        key: 'foo',
+        operator: '=',
+        value: 'bar',
+        row: 1
       }
     ]);
   });
@@ -134,29 +156,33 @@ describe('in-services/queryParser', () => {
   it('must support multi-line queries', () => {
     expect(parse('cassandra \ntag=foo\nnode.js')).to.deep.equal([
       {
+        type: 'freeText',
+        text: 'cassandra'
+      },
+      {
         type: 'kv',
         key: 'tag',
+        operator: '=',
         value: 'foo',
         row: 2
       },
       {
         type: 'freeText',
-        text: 'cassandra node.js'
+        text: 'node.js'
       }
     ]);
   });
 
   it('must report failures', () => {
-    expect(() => parse('cassandra~foo')).to.throw(/Unexpected character at row 1: ~/);
+    expect(() => parse('cassandra§foo')).to.throw(/Unexpected character at row 1: §/);
   });
 
   it('must provide helpful debugging information on parsing errors', () => {
     try {
-      parse('cassandra\nblub~foo');
+      parse('cassandra\nblub§foo');
       throw new Error('Parsing must fail');
     } catch (e) {
       expect(e.row).to.equal(2);
-      expect(e.char).to.equal('~');
     }
   });
 });
