@@ -110,4 +110,17 @@ describe('in-services/queryParser', () => {
       }
     ]);
   });
+
+  it('support flatten queries', () => {
+    expect(parse('cassandra \ntag=foo\nnode.js')).to.deep.equal([
+      {
+        type: 'tag',
+        options: 'foo'
+      },
+      {
+        type: 'freeText',
+        options: 'cassandra node.js'
+      }
+    ]);
+  });
 });

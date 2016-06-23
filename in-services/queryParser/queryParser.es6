@@ -27,7 +27,7 @@ export function parse(query) {
     });
   });
 
-  lexer.addRule(/([a-z0-9._\-]+) *= *([^ ]+)/i, function onMatch(s, key, value) {
+  lexer.addRule(/([a-z0-9._\-]+) *= *([^\s]+)/i, function onMatch(s, key, value) {
     result.push({
       type: key,
       options: value
