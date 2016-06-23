@@ -8,7 +8,7 @@ import {
   EVENT_LISTS,
   selectedEventList$,
   setSelectedList
-} from 'in-components/notificationCenter/Flyout/flyoutStore';
+} from 'in-components/notificationCenter/Flyout/stores/flyoutStore';
 
 import './EventListSwitcher.less';
 

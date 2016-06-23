@@ -3,7 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
-import {event$, selectedNotificationFilter} from 'in-components/notificationCenter/Flyout/flyoutStore';
+import {event$, selectedNotificationFilter} from 'in-components/notificationCenter/Flyout/stores/flyoutStore';
 import EventDescription from 'in-components/EventDescription';
 import {selectedEventId$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';

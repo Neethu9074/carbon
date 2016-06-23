@@ -2,8 +2,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import EventListSwitcher from 'in-components/notificationCenter/Flyout/components/EventListSwitcher';
+import {isOpen$, toggleMenu} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
 import EventItemList from 'in-components/notificationCenter/Flyout/components/EventItemList';
-import {isOpen$, toggleMenu} from 'in-components/notificationCenter/notificationCenterStore';
 import FilterBar from 'in-components/notificationCenter/Flyout/components/FilterBar';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import Button from 'in-components/Button';
