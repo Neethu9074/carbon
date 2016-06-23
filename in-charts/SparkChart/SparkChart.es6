@@ -12,16 +12,21 @@ import './SparkChart.less';
 
 const block = 'in-spark-chart';
 
-export default function createSparkChart({width, height, datasource, container,
-                                          timeframe, tooltipFormatter, design = 'light'}) {
+export default function createSparkChart({width,
+                                          height,
+                                          datasource,
+                                          container,
+                                          timeframe,
+                                          tooltipFormatter,
+                                          design = 'light'}) {
 
   let metricLineStrokeColor;
   let metricLineFillColor;
   if (design === 'light') {
-    metricLineStrokeColor = '#4A90E2';
-    metricLineFillColor = '#c7d7e9';
+    metricLineStrokeColor = '#2c4048';
+    metricLineFillColor = '#eef2f4';
   } else {
-    metricLineStrokeColor = '#7e9099';
+    metricLineStrokeColor = '#eef2f4';
     metricLineFillColor = '#2c4048';
   }
 
