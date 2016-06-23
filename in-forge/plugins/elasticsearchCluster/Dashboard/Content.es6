@@ -11,12 +11,11 @@ import {
 } from 'in-services/formatters/number';
 import ClusterNodesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/ClusterNodesTable';
 import IndicesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/IndicesTable.es6';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import ClusterSummary from 'in-forge/plugins/elasticsearchCluster/ClusterSummary';
 import DashboardSection from 'in-components/DashboardSection';
+import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 import {Row, Col} from 'in-components/Grid/Grid';
-
-import ClusterSummary from '../ClusterSummary.es6';
 
 
 const chartHeight = 200;
