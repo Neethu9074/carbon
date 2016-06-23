@@ -12,8 +12,19 @@ import './SparkChart.less';
 
 const block = 'in-spark-chart';
 
-export default function createSparkChart({width, height, datasource, container, timeframe,
-    tooltipFormatter}) {
+export default function createSparkChart({width, height, datasource, container,
+                                          timeframe, tooltipFormatter, design = 'light'}) {
+
+  let metricLineStrokeColor;
+  let metricLineFillColor;
+  if (design === 'light') {
+    metricLineStrokeColor = '#4A90E2';
+    metricLineFillColor = '#c7d7e9';
+  } else {
+    metricLineStrokeColor = '#7e9099';
+    metricLineFillColor = '#2c4048';
+  }
+
   const dataHolder = createDataHolder({numberOfSeries: 1});
   const xScale = createScale();
   xScale.setRangeFrom(0);
@@ -119,11 +130,12 @@ export default function createSparkChart({width, height, datasource, container, 
     drawAxis();
 
     ctx.beginPath();
+    let xToRender;
     for (let columnIndex = 0, len = dataColumns.length;
          columnIndex < len;
          columnIndex++) {
       const dataRow = dataColumns[columnIndex];
-      const xToRender = xScale.getRange(dataRow[0]);
+      xToRender = xScale.getRange(dataRow[0]);
 
       if (columnIndex === 0) {
         ctx.moveTo(xToRender, yScale.getRange(dataRow[1]));
@@ -132,11 +144,14 @@ export default function createSparkChart({width, height, datasource, container, 
       }
     }
 
-
     ctx.lineWidth = 1;
-    ctx.strokeStyle = '#4A90E2';
+    ctx.strokeStyle = metricLineStrokeColor;
+    ctx.lineTo(xToRender, yScale.getRangeFrom());
+    ctx.lineTo(0, yScale.getRangeFrom());
     ctx.stroke();
     ctx.closePath();
+    ctx.fillStyle = metricLineFillColor;
+    ctx.fill();
   }
 
   function drawAxis() {

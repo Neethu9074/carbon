@@ -17,10 +17,11 @@ export default React.createClass({
     metric: rpt.string.isRequired,
     height: rpt.number.isRequired,
     width: rpt.number.isRequired,
+    tooltipFormatter: rpt.func,
     aggregation: rpt.string,
     className: rpt.string,
-    rollup: rpt.number,
-    tooltipFormatter: rpt.func
+    design: rpt.string,
+    rollup: rpt.number
   },
 
   getInitialState() {

@@ -63,6 +63,7 @@ const NodeTooltip = connectTo({
                                     height={30}
                                     timeframe={timeframe}
                                     snapshotId={snapshotId}
+                                    design='dark'
                                     metric={metric} />
           <div className={block + '__description'}>
             <span className={block + '__title'}>

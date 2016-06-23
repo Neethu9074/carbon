@@ -18,8 +18,9 @@ export default React.createClass({
     datasource: rpt.object.isRequired,
     height: rpt.number.isRequired,
     width: rpt.number.isRequired,
+    tooltipFormatter: rpt.func,
     className: rpt.string,
-    tooltipFormatter: rpt.func
+    design: rpt.string
   },
 
   componentDidMount() {
@@ -44,7 +45,8 @@ export default React.createClass({
       datasource: props.datasource,
       container: ReactDOM.findDOMNode(this),
       timeframe: props.timeframe,
-      tooltipFormatter: props.tooltipFormatter
+      tooltipFormatter: props.tooltipFormatter,
+      design: this.props.design
     });
   },
 
