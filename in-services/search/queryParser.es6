@@ -5,7 +5,6 @@ import ParsingError from 'in-services/search/ParsingError';
 export function parse(query) {
   const result = [];
   let row = 1;
-  const freeTextFilters = [];
 
   const lexer = new Lexer((char) => {
     throw new ParsingError(`Unexpected character at row ${row}: ${char}`, row);
@@ -36,11 +35,17 @@ export function parse(query) {
   });
 
   lexer.addRule(/"([^"]+)"/, function onMatch(s, value) {
-    freeTextFilters.push(value.trim());
+    result.push({
+      type: 'freeText',
+      text: value.trim()
+    });
   });
 
   lexer.addRule(/([a-z0-9.-_]+)/i, function onMatch(s, value) {
-    freeTextFilters.push(value.trim());
+    result.push({
+      type: 'freeText',
+      text: value.trim()
+    });
   });
 
   lexer.addRule(/ */, function onMatch() {
@@ -50,13 +55,6 @@ export function parse(query) {
   lexer.input = query;
 
   lexer.lex();
-
-  if (freeTextFilters.length !== 0) {
-    result.push({
-      type: 'freeText',
-      text: freeTextFilters.join(' ')
-    });
-  }
 
   return result;
 }

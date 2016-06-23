@@ -3,7 +3,8 @@ import ParsingError from 'in-services/search/ParsingError';
 import {getKeywordOperators} from 'in-sdk/search';
 
 const allowedOperators = {
-  number: ['<', '<=', '=', '>=', '>']
+  number: ['<', '<=', '=', '>=', '>'],
+  string: ['=']
 };
 
 const valueValidators = {
@@ -49,18 +50,24 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
   const keywordOperator = keywordOperators[key];
 
   if (!keywordOperator) {
-    throw new ParsingError(`Unknown key ${key} at line ${row}.`);
+    throw new ParsingError(`Unknown key ${key} at line ${row}.`, queryPart.row);
   }
 
   const type = keywordOperator.type;
   if (allowedOperators[type].indexOf(queryPart.operator) === -1) {
-    throw new ParsingError(`Unsupported operator ${queryPart.operator} for key ${key} at line ${row}.`);
+    throw new ParsingError(
+      `Unsupported operator ${queryPart.operator} for key ${key} at line ${row}.`,
+      queryPart.row
+    );
   }
 
 
   const validator = valueValidators[type];
   if (validator && !validator(queryPart.value)) {
-    throw new ParsingError(`Unsupported value ${value} for key ${key} at line ${row}. Expected type to be ${type}.`);
+    throw new ParsingError(
+      `Unsupported value ${value} for key ${key} at line ${row}. Expected type to be ${type}.`,
+      queryPart.row
+    );
   }
 
   const luceneOperator = queryPart.operator === '=' ? '' : queryPart.operator;
