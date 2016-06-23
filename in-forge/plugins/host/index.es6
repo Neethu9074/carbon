@@ -1,5 +1,5 @@
+import {addKeywordOperator, createPluginFieldPath, addSearchableType} from 'in-sdk/search';
 import {addIconsToRegistry} from 'in-sdk/iconRegistry';
-import {addKeywordOperator, createPluginFieldPath} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
@@ -68,3 +68,5 @@ addKeywordOperator({
   keyword: 'host.osName',
   field: createPluginFieldPath(constants.plugins.os, ['os.name'])
 });
+
+addSearchableType('host', constants.plugins.os);

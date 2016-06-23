@@ -2,6 +2,8 @@ import invariant from 'invariant';
 
 import {fullyQualifiedPlugins} from 'in-forge/constants';
 
+const searchableTypes = {};
+
 // maps from context to map of operators, e.g.
 // {
 //   entity: [
@@ -15,6 +17,34 @@ import {fullyQualifiedPlugins} from 'in-forge/constants';
 const contexts = {
   entity: []
 };
+
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'tag',
+  field: 'processor_tags'
+});
+
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'selection',
+  keyword: 'type',
+  field: 'plugin_id',
+  validate(selection, queryPart) {
+    if (this.getSelectableItems().indexOf(selection) === -1) {
+      return `Unknown entity type ${selection} for key type at row ${queryPart.row}.`;
+    }
+    return null;
+  },
+  getSelectableItems() {
+    return Object.keys(searchableTypes);
+  },
+  toValue(selection) {
+    return searchableTypes[selection];
+  }
+});
 
 
 // Example for an operatorDefinition:
@@ -31,7 +61,7 @@ export function addKeywordOperator(operatorDefinition) {
     );
 
     invariant(
-      ['number', 'string'].indexOf(operatorDefinition.type) !== -1,
+      ['number', 'string', 'selection'].indexOf(operatorDefinition.type) !== -1,
       `Unsupported operator type: ${operatorDefinition.type}.`
     );
   }
@@ -69,4 +99,9 @@ export function createPluginFieldPath(shortPluginId, fieldPath) {
 
 function cleanPathElement(element) {
   return element.replace(/\./g, '__');
+}
+
+
+export function addSearchableType(label, shortPluginId) {
+  searchableTypes[label] = fullyQualifiedPlugins[shortPluginId];
 }

@@ -36,7 +36,7 @@ describe('in-services/search', () => {
   });
 
   it('must reject values which are not numbers', () => {
-    expect(() => transform('host.cpuCount > abc')).to.throw(/Unsupported value abc for key host.cpuCount at line 1. Expected type to be number./);
+    expect(() => transform('host.cpuCount > abc')).to.throw(/Unsupported value abc for key host.cpuCount at line 1. Expected value to be a number./);
   });
 
   it('must not mix free text query parts', () => {
@@ -47,5 +47,20 @@ describe('in-services/search', () => {
   it('must support key/value string queries', () => {
     expect(transform('host.osName = "Windows 10"'))
       .to.equal("data.com__instana__forge__infrastructure__os__host__Host.os__name:'Windows 10'");
+  });
+
+  it('must support searches for tags', () => {
+    expect(transform('tag = "production environment"'))
+      .to.equal("processor_tags:'production environment'");
+  });
+
+  it('must support searches for entity types', () => {
+    expect(transform('type=host'))
+      .to.equal("plugin_id:'com.instana.forge.infrastructure.os.host.Host'");
+  });
+
+  it('must reject searches for unknown entity types', () => {
+    expect(() => transform('type=blub'))
+      .to.throw(/Unknown entity type blub for key type at row 1./);
   });
 });
