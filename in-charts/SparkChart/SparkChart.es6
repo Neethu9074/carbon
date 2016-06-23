@@ -127,7 +127,6 @@ export default function createSparkChart({width, height, datasource, container,
     }
 
     ctx.clearRect(0, 0, width, height);
-    drawAxis();
 
     ctx.beginPath();
     let xToRender;
@@ -152,6 +151,8 @@ export default function createSparkChart({width, height, datasource, container,
     ctx.closePath();
     ctx.fillStyle = metricLineFillColor;
     ctx.fill();
+
+    drawAxis();
   }
 
   function drawAxis() {
