@@ -1,5 +1,7 @@
 import invariant from 'invariant';
 
+import {fullyQualifiedPlugins} from 'in-forge/constants';
+
 // maps from context to map of operators, e.g.
 // {
 //   entity: [
@@ -38,6 +40,33 @@ export function addKeywordOperator(operatorDefinition) {
   context.push(operatorDefinition);
 }
 
-export function getKeywordOperators(context) {
-  return contexts[context];
+
+export function getKeywordOperators(requestedContexts) {
+  let result = [];
+
+  for (let i = 0, len = requestedContexts.length; i < len; i++) {
+    const requestedContext = requestedContexts[i];
+    if (__DEV__) {
+      invariant(requestedContext in contexts, `Context '${requestedContext}' is unknown.`);
+    }
+    result = result.concat(contexts[requestedContext]);
+  }
+
+  return result;
+}
+
+
+export function createPluginFieldPath(shortPluginId, fieldPath) {
+  const longPluginId = fullyQualifiedPlugins[shortPluginId];
+  if (__DEV__ && !longPluginId) {
+    throw new Error(`Unable to translate short plugin ID ${shortPluginId} to long one.`);
+  }
+
+  const cleanedFieldPath = fieldPath.map(cleanPathElement).join('.');
+  return `data.${cleanPathElement(longPluginId)}.${cleanedFieldPath}`;
+}
+
+
+function cleanPathElement(element) {
+  return element.replace(/\./g, '__');
 }

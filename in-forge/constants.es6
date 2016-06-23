@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 export const plugins = {
   availabilityZone: 'availabilityZone',
   cassandra: 'cassandraNode',
@@ -43,3 +45,49 @@ export const plugins = {
   dummyTomcat: 'dummyTomcat',
   dummyConnection: 'dummyConnection'
 };
+
+ export const fullyQualifiedPlugins = {
+   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+   cassandraNode: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
+   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
+   dropwizardApplicationContainer: 'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
+   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
+   ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
+   elasticsearchNode: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchNode',
+   elasticsearchCluster: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchCluster',
+   httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd',
+   jBossAsApplicationContainer: 'com.instana.forge.infrastructure.application.jbossas.JBossAsApplicationContainer',
+   genericJavaWebapp: 'com.instana.forge.infrastructure.application.java.GenericJavaWebapp',
+   jiraApplication: 'com.instana.forge.infrastructure.application.jira.JiraApplication',
+   jvmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
+   kafka: 'com.instana.forge.infrastructure.messaging.kafka.Kafka',
+   mongoDb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
+   msSqlDatabase: 'com.instana.forge.infrastructure.database.mssql.MsSqlDatabase',
+   mySqlDatabase: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
+   postgreSqlDatabase: 'com.instana.forge.infrastructure.database.postgresql.PostgreSqlDatabase',
+   mariaDbDatabase: 'com.instana.forge.infrastructure.database.mariadb.MariaDbDatabase',
+   nginx: 'com.instana.forge.infrastructure.webserver.nginx.Nginx',
+   nodeJsRuntimePlatform: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
+   genericNodejsApp: 'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp',
+   nodeJsCluster: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster',
+   host: 'com.instana.forge.infrastructure.os.host.Host',
+   phpFpmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.phpfpm.PhpFpmRuntimePlatform',
+   process: 'com.instana.forge.infrastructure.os.process.Process',
+   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
+   rabbitMq: 'com.instana.forge.infrastructure.messaging.rabbitmq.RabbitMq',
+   springbootApplicationContainer: 'com.instana.forge.infrastructure.application.springboot.SpringbootApplicationContainer',
+   tomcatApplicationContainer: 'com.instana.forge.infrastructure.application.tomcat.TomcatApplicationContainer',
+   msiis: 'com.instana.forge.infrastructure.webserver.msiis.Msiis',
+   genericHardware: 'com.instana.forge.hardware.GenericHardware',
+   genericZone: 'com.instana.forge.hardware.GenericZone',
+   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
+   hAProxy: 'com.instana.forge.infrastructure.loadbalancer.haproxy.HAProxy',
+   oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB',
+
+   // TODO TEMPORARY HACK FOR PROCESS VIEW
+   dummyJavaApp: 'dummyJavaApp',
+   dummyMysqlSchema: 'dummyMysqlSchema',
+   dummyMysqlDb: 'dummyMysqlDb',
+   dummyTomcat: 'dummyTomcat',
+   dummyConnection: 'dummyConnection'
+ };

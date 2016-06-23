@@ -37,6 +37,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
+        operator: '=',
         value: 'production',
         row: 1
       }
@@ -48,6 +49,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
+        operator: '=',
         value: 'development',
         row: 1
       }
@@ -59,6 +61,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       }
@@ -70,6 +73,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       }
@@ -81,12 +85,14 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       },
       {
         type: 'kv',
         key: 'foo',
+        operator: '=',
         value: 'bar',
         row: 1
       }
@@ -98,12 +104,14 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       },
       {
         type: 'kv',
         key: 'foo',
+        operator: '=',
         value: 'bar',
         row: 1
       }
@@ -115,12 +123,14 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
+        operator: '=',
         value: 'my awesome tag',
         row: 1
       },
       {
         type: 'kv',
         key: 'foo',
+        operator: '=',
         value: 'bar',
         row: 1
       },
@@ -136,6 +146,7 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
+        operator: '=',
         value: 'foo',
         row: 2
       },
@@ -147,16 +158,15 @@ describe('in-services/queryParser', () => {
   });
 
   it('must report failures', () => {
-    expect(() => parse('cassandra~foo')).to.throw(/Unexpected character at row 1: ~/);
+    expect(() => parse('cassandra§foo')).to.throw(/Unexpected character at row 1: §/);
   });
 
   it('must provide helpful debugging information on parsing errors', () => {
     try {
-      parse('cassandra\nblub~foo');
+      parse('cassandra\nblub§foo');
       throw new Error('Parsing must fail');
     } catch (e) {
       expect(e.row).to.equal(2);
-      expect(e.char).to.equal('~');
     }
   });
 });

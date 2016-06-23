@@ -8,27 +8,29 @@ export function parse(query) {
   const freeTextFilters = [];
 
   const lexer = new Lexer((char) => {
-    throw new ParsingError(row, char);
+    throw new ParsingError(`Unexpected character at row ${row}: ${char}`, row);
   });
 
   lexer.addRule(/\n/, function onMatch() {
     row++;
   });
 
-  lexer.addRule(/([a-z0-9._\-]+) *= *"([^"]+)"/i, function onMatch(s, key, value) {
+  lexer.addRule(/([a-z0-9._\-]+) *(<=|>=|=|<|>|~) *"([^"]+)"/i, function onMatch(s, key, operator, value) {
     result.push({
       type: 'kv',
-      key: key,
-      value: value,
+      key,
+      operator,
+      value,
       row
     });
   });
 
-  lexer.addRule(/([a-z0-9._\-]+) *= *([^\s]+)/i, function onMatch(s, key, value) {
+  lexer.addRule(/([a-z0-9._\-]+) *(<=|>=|=|<|>|~) *([^\s]+)/i, function onMatch(s, key, operator, value) {
     result.push({
       type: 'kv',
-      key: key,
-      value: value,
+      key,
+      operator,
+      value,
       row
     });
   });
