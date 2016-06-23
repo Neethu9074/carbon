@@ -1,8 +1,16 @@
 /* global process:false, require:false */
-
 import {cloneDeep, isEqual} from 'lodash';
 
-import {createStore} from './store';
+import {createStore} from 'in-stores/store';
+
+
+export const PATH_NAMES = {
+  DASHBOARD: '/dashboard',
+  TRACES: '/traces',
+  GRAPH: '/graph',
+  MAP: '/',
+  HOME: '/'
+};
 
 let hashHistory;
 
@@ -49,7 +57,7 @@ export function mutateUrl(mutator) {
 
 export function goHome() {
   mutateUrl(navParams => {
-    navParams.pathname = '/';
+    navParams.pathname = PATH_NAMES.HOME;
     navParams.query = {};
     return navParams;
   });
@@ -58,7 +66,7 @@ export function goHome() {
 
 export function goToDashboard() {
   mutateUrl(navParams => {
-    navParams.pathname = '/dashboard';
+    navParams.pathname = PATH_NAMES.DASHBOARD;
     return navParams;
   });
 }
@@ -66,7 +74,7 @@ export function goToDashboard() {
 
 export function goToMap() {
   mutateUrl(navParams => {
-    navParams.pathname = '/';
+    navParams.pathname = PATH_NAMES.MAP;
     return navParams;
   });
 }
@@ -74,7 +82,7 @@ export function goToMap() {
 
 export function goToGraph() {
   mutateUrl(navParams => {
-    navParams.pathname = 'graph';
+    navParams.pathname = PATH_NAMES.GRAPH;
     return navParams;
   });
 }
@@ -82,7 +90,7 @@ export function goToGraph() {
 
 export function goToTraceView() {
   mutateUrl(navParams => {
-    navParams.pathname = '/traces';
+    navParams.pathname = PATH_NAMES.TRACES;
     return navParams;
   });
 }

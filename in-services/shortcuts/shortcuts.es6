@@ -1,6 +1,8 @@
 import * as ro from 'reactive-observables';
 import {remove} from 'lodash';
 
+import {register as registerDashboardShortcuts} from 'in-services/shortcuts/shortcuts/dashboard';
+
 
 export const KEY_CODES = {
   ESC: 27
@@ -10,6 +12,8 @@ let registeredShortcuts = {};
 
 export function init() {
   ro.on(window, 'keydown').subscribe(event => fireShortcutListener(event.keyCode));
+
+  registerDashboardShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
 }
 
 export function registerShortcut(keycode, callback) {
@@ -36,7 +40,3 @@ function fireShortcutListener(keycode) {
 export function clearRegristry() {
   registeredShortcuts = {};
 }
-
-registerShortcut(KEY_CODES.ESC, () => {
-  // esc was pressed
-});
