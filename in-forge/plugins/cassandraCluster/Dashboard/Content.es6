@@ -9,6 +9,8 @@ import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number'
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
+import ClusterSummary from '../ClusterSummary';
+
 const chartHeight = 200;
 export default React.createClass({
 
@@ -26,6 +28,10 @@ export default React.createClass({
     const snapshot = this.props.snapshot;
     return (
       <div>
+        <DashboardSection title='Summary'>
+          <ClusterSummary snapshot={snapshot}/>
+        </DashboardSection>
+
         <DashboardSection title='Overall Requests'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}

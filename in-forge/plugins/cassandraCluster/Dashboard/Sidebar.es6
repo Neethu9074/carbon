@@ -4,6 +4,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ClusterMembersList from 'in-components/ClusterMembersList';
+import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 
 
 export default React.createClass({
@@ -18,18 +19,26 @@ export default React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
+    const snapshotId = snapshot.get('id');
     const data = snapshot.get('data');
 
     return (
       <div>
         <DescriptionList>
-          <DescriptionItem title='Cluster name'>
-            {data.get('groupId')}
-          </DescriptionItem>
+          {this.item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
+          {this.item('Name', data.get('groupId'))}
         </DescriptionList>
 
-        <ClusterMembersList snapshotId={snapshot.get('id')} />
+        <ClusterMembersList snapshotId={snapshotId} />
       </div>
+    );
+  },
+
+  item(header, content) {
+    return (
+      <DescriptionItem title={header}>
+        {content}
+      </DescriptionItem>
     );
   }
 });
