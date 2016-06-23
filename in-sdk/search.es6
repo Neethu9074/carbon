@@ -29,7 +29,7 @@ export function addKeywordOperator(operatorDefinition) {
     );
 
     invariant(
-      operatorDefinition.type in ['number'],
+      ['number'].indexOf(operatorDefinition.type) !== -1,
       `Unsupported operator type: ${operatorDefinition.type}.`
     );
   }
