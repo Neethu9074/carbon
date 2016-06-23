@@ -31,7 +31,7 @@ export function addKeywordOperator(operatorDefinition) {
     );
 
     invariant(
-      ['number'].indexOf(operatorDefinition.type) !== -1,
+      ['number', 'string'].indexOf(operatorDefinition.type) !== -1,
       `Unsupported operator type: ${operatorDefinition.type}.`
     );
   }

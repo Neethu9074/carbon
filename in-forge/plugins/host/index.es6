@@ -54,3 +54,17 @@ addKeywordOperator({
   keyword: 'host.cpuCount',
   field: createPluginFieldPath(constants.plugins.os, ['cpu.count'])
 });
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'host.hostname',
+  field: createPluginFieldPath(constants.plugins.os, ['hostname'])
+});
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'host.osName',
+  field: createPluginFieldPath(constants.plugins.os, ['os.name'])
+});

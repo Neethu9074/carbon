@@ -22,6 +22,15 @@ describe('in-services/search', () => {
 
   it('must translate a mix of key/value and free text queries', () => {
     expect(transform('host.cpuCount <= 18 fat machine'))
-      .to.equal('data.com__instana__forge__infrastructure__os__host__Host.cpu__count:<=18 fat machine');
+      .to.equal('data.com__instana__forge__infrastructure__os__host__Host.cpu__count:<=18 \'fat machine\'');
+  });
+
+  it('must not use an equal sign when looking for equality', () => {
+    expect(transform('host.cpuCount = 18'))
+      .to.equal('data.com__instana__forge__infrastructure__os__host__Host.cpu__count:18');
+  });
+
+  it('must reject values which are not numbers', () => {
+    expect(() => transform('host.cpuCount > abc')).to.throw(/Unsupported value abc for key host.cpuCount at line 1. Expected type to be number./);
   });
 });
