@@ -37,7 +37,8 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
-        value: 'production'
+        value: 'production',
+        row: 1
       }
     ]);
   });
@@ -47,7 +48,8 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
-        value: 'development'
+        value: 'development',
+        row: 1
       }
     ]);
   });
@@ -57,7 +59,8 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
-        value: 'my awesome tag'
+        value: 'my awesome tag',
+        row: 1
       }
     ]);
   });
@@ -67,7 +70,8 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
-        value: 'my awesome tag'
+        value: 'my awesome tag',
+        row: 1
       }
     ]);
   });
@@ -77,12 +81,14 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
-        value: 'my awesome tag'
+        value: 'my awesome tag',
+        row: 1
       },
       {
         type: 'kv',
         key: 'foo',
-        value: 'bar'
+        value: 'bar',
+        row: 1
       }
     ]);
   });
@@ -92,12 +98,14 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
-        value: 'my awesome tag'
+        value: 'my awesome tag',
+        row: 1
       },
       {
         type: 'kv',
         key: 'foo',
-        value: 'bar'
+        value: 'bar',
+        row: 1
       }
     ]);
   });
@@ -107,12 +115,14 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'host.tag',
-        value: 'my awesome tag'
+        value: 'my awesome tag',
+        row: 1
       },
       {
         type: 'kv',
         key: 'foo',
-        value: 'bar'
+        value: 'bar',
+        row: 1
       },
       {
         type: 'freeText',
@@ -126,7 +136,8 @@ describe('in-services/queryParser', () => {
       {
         type: 'kv',
         key: 'tag',
-        value: 'foo'
+        value: 'foo',
+        row: 2
       },
       {
         type: 'freeText',

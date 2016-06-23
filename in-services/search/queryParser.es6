@@ -19,7 +19,8 @@ export function parse(query) {
     result.push({
       type: 'kv',
       key: key,
-      value: value
+      value: value,
+      row
     });
   });
 
@@ -27,7 +28,8 @@ export function parse(query) {
     result.push({
       type: 'kv',
       key: key,
-      value: value
+      value: value,
+      row
     });
   });
 
