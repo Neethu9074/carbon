@@ -2,7 +2,7 @@
 
 import {expect} from 'chai';
 
-import {parse} from 'in-services/queryParser';
+import {parse} from 'in-services/search/queryParser';
 
 describe('in-services/queryParser', () => {
   it('must parse uncategorized text as free text query', () => {
@@ -121,7 +121,7 @@ describe('in-services/queryParser', () => {
     ]);
   });
 
-  it('support flatten queries', () => {
+  it('must support multi-line queries', () => {
     expect(parse('cassandra \ntag=foo\nnode.js')).to.deep.equal([
       {
         type: 'kv',
@@ -133,5 +133,19 @@ describe('in-services/queryParser', () => {
         text: 'cassandra node.js'
       }
     ]);
+  });
+
+  it('must report failures', () => {
+    expect(() => parse('cassandra~foo')).to.throw(/Unexpected character at row 1: ~/);
+  });
+
+  it('must provide helpful debugging information on parsing errors', () => {
+    try {
+      parse('cassandra\nblub~foo');
+      throw new Error('Parsing must fail');
+    } catch (e) {
+      expect(e.row).to.equal(2);
+      expect(e.char).to.equal('~');
+    }
   });
 });

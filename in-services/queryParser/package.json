@@ -1,6 +1,0 @@
-{
-  "name": "queryParser",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./queryParser.es6"
-}
