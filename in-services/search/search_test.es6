@@ -63,4 +63,8 @@ describe('in-services/search', () => {
     expect(() => transform('type=blub'))
       .to.throw(/Unknown entity type blub for key type at row 1./);
   });
+
+  it('must return an empty string when no filters are defined', () => {
+    expect(transform('')).to.equal('');
+  });
 });
