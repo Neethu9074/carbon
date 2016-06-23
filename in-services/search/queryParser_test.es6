@@ -2,14 +2,14 @@
 
 import {expect} from 'chai';
 
-import {parse} from 'in-services/queryParser';
+import {parse} from 'in-services/search/queryParser';
 
 describe('in-services/queryParser', () => {
   it('must parse uncategorized text as free text query', () => {
     expect(parse('cassandra')).to.deep.equal([
       {
         type: 'freeText',
-        options: 'cassandra'
+        text: 'cassandra'
       }
     ]);
   });
@@ -18,7 +18,7 @@ describe('in-services/queryParser', () => {
     expect(parse('cassandra node.js')).to.deep.equal([
       {
         type: 'freeText',
-        options: 'cassandra node.js'
+        text: 'cassandra node.js'
       }
     ]);
   });
@@ -27,7 +27,7 @@ describe('in-services/queryParser', () => {
     expect(parse('"cassandra node.js"  bla')).to.deep.equal([
       {
         type: 'freeText',
-        options: 'cassandra node.js bla'
+        text: 'cassandra node.js bla'
       }
     ]);
   });
@@ -35,8 +35,10 @@ describe('in-services/queryParser', () => {
   it('must identify key/value pairs', () => {
     expect(parse('tag=production')).to.deep.equal([
       {
-        type: 'tag',
-        options: 'production'
+        type: 'kv',
+        key: 'tag',
+        value: 'production',
+        row: 1
       }
     ]);
   });
@@ -44,8 +46,10 @@ describe('in-services/queryParser', () => {
   it('must identify key/value pairs with excess whitespace', () => {
     expect(parse('tag  =development')).to.deep.equal([
       {
-        type: 'tag',
-        options: 'development'
+        type: 'kv',
+        key: 'tag',
+        value: 'development',
+        row: 1
       }
     ]);
   });
@@ -53,8 +57,10 @@ describe('in-services/queryParser', () => {
   it('must identify quoted key/value pairs', () => {
     expect(parse('tag="my awesome tag"')).to.deep.equal([
       {
-        type: 'tag',
-        options: 'my awesome tag'
+        type: 'kv',
+        key: 'tag',
+        value: 'my awesome tag',
+        row: 1
       }
     ]);
   });
@@ -62,8 +68,10 @@ describe('in-services/queryParser', () => {
   it('must support complicated keys', () => {
     expect(parse('host.tag="my awesome tag"')).to.deep.equal([
       {
-        type: 'host.tag',
-        options: 'my awesome tag'
+        type: 'kv',
+        key: 'host.tag',
+        value: 'my awesome tag',
+        row: 1
       }
     ]);
   });
@@ -71,12 +79,16 @@ describe('in-services/queryParser', () => {
   it('must support multiple key/value pairs', () => {
     expect(parse('host.tag="my awesome tag" foo=bar')).to.deep.equal([
       {
-        type: 'host.tag',
-        options: 'my awesome tag'
+        type: 'kv',
+        key: 'host.tag',
+        value: 'my awesome tag',
+        row: 1
       },
       {
-        type: 'foo',
-        options: 'bar'
+        type: 'kv',
+        key: 'foo',
+        value: 'bar',
+        row: 1
       }
     ]);
   });
@@ -84,12 +96,16 @@ describe('in-services/queryParser', () => {
   it('must not parse quotes in a greedy fashion', () => {
     expect(parse('host.tag="my awesome tag" foo="bar"')).to.deep.equal([
       {
-        type: 'host.tag',
-        options: 'my awesome tag'
+        type: 'kv',
+        key: 'host.tag',
+        value: 'my awesome tag',
+        row: 1
       },
       {
-        type: 'foo',
-        options: 'bar'
+        type: 'kv',
+        key: 'foo',
+        value: 'bar',
+        row: 1
       }
     ]);
   });
@@ -97,17 +113,50 @@ describe('in-services/queryParser', () => {
   it('must support combinations of key/value pairs and free text', () => {
     expect(parse('node.js host.tag ="my awesome tag" "what up" foo=bar')).to.deep.equal([
       {
-        type: 'host.tag',
-        options: 'my awesome tag'
+        type: 'kv',
+        key: 'host.tag',
+        value: 'my awesome tag',
+        row: 1
       },
       {
-        type: 'foo',
-        options: 'bar'
+        type: 'kv',
+        key: 'foo',
+        value: 'bar',
+        row: 1
       },
       {
         type: 'freeText',
-        options: 'node.js what up'
+        text: 'node.js what up'
       }
     ]);
+  });
+
+  it('must support multi-line queries', () => {
+    expect(parse('cassandra \ntag=foo\nnode.js')).to.deep.equal([
+      {
+        type: 'kv',
+        key: 'tag',
+        value: 'foo',
+        row: 2
+      },
+      {
+        type: 'freeText',
+        text: 'cassandra node.js'
+      }
+    ]);
+  });
+
+  it('must report failures', () => {
+    expect(() => parse('cassandra~foo')).to.throw(/Unexpected character at row 1: ~/);
+  });
+
+  it('must provide helpful debugging information on parsing errors', () => {
+    try {
+      parse('cassandra\nblub~foo');
+      throw new Error('Parsing must fail');
+    } catch (e) {
+      expect(e.row).to.equal(2);
+      expect(e.char).to.equal('~');
+    }
   });
 });

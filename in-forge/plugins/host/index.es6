@@ -1,6 +1,7 @@
-import {addLabelFinder} from 'in-sdk/snapshot';
 import {addIconsToRegistry} from 'in-sdk/iconRegistry';
+import {addKeywordOperator} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
@@ -46,3 +47,9 @@ addIconsToRegistry([ {
     image: windowsIconPath
   }
 ]);
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'number',
+  keyword: 'host.cpuCount'
+});
