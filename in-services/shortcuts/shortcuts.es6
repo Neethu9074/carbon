@@ -7,6 +7,8 @@ import {register as registerDashboardShortcuts}
   from 'in-services/shortcuts/shortcuts/dashboardShortcuts';
 import {register as registerFocusShortcuts}
   from 'in-services/shortcuts/shortcuts/focusEntityShortcuts';
+  import {register as registerSidebarShortcuts}
+    from 'in-services/shortcuts/shortcuts/sidebarShortcuts';
 
 
 export const KEY_CODES = {
@@ -22,6 +24,7 @@ export function init() {
 
   registerNotificationShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
   registerDashboardShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
+  registerSidebarShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
   registerFocusShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
 }
 
