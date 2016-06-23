@@ -4,13 +4,33 @@ import {getKeywordOperators} from 'in-sdk/search';
 
 const allowedOperators = {
   number: ['<', '<=', '=', '>=', '>'],
-  string: ['=']
+  string: ['='],
+  selection: ['=']
 };
 
 const valueValidators = {
-  number(s) {
-    return !isNaN(Number(s));
+  number(s, keywordOperator, queryPart) {
+    if (isNaN(Number(s))) {
+      throw new ParsingError(
+        `Unsupported value ${s} for key ${queryPart.key} at line ${queryPart.row}. Expected value to be a number.`,
+        queryPart.row
+      );
+    }
+  },
+  selection(s, keywordOperator, queryPart) {
+    if (keywordOperator.validate) {
+      const error = keywordOperator.validate(s, queryPart);
+      if (error) {
+        throw new ParsingError(error, queryPart.row);
+      }
+    }
   }
+};
+
+const luceneValueConverters = {
+  number(v) { return `${v}`; },
+  string(v) { return `'${v}'`; },
+  selection(v, keywordOperator) { return `'${keywordOperator.toValue(v)}'`; }
 };
 
 export function transformToLuceneQuery(query, contexts = ['entity']) {
@@ -63,14 +83,11 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
 
 
   const validator = valueValidators[type];
-  if (validator && !validator(queryPart.value)) {
-    throw new ParsingError(
-      `Unsupported value ${value} for key ${key} at line ${row}. Expected type to be ${type}.`,
-      queryPart.row
-    );
+  if (validator) {
+    validator(queryPart.value, keywordOperator, queryPart);
   }
 
   const luceneOperator = queryPart.operator === '=' ? '' : queryPart.operator;
-  const luceneValue = type === 'string' ? `'${value}'` : value;
+  const luceneValue = luceneValueConverters[type](value, keywordOperator);
   return `${keywordOperator.field}:${luceneOperator}${luceneValue}`;
 }
