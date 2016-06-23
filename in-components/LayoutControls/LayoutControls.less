@@ -3,11 +3,22 @@
   top: 20px;
   right: 30px;
 
-  &__disabled {
-    background: #6b8088;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  border: 2px solid white;
+  cursor: pointer;
+
+  &:hover {
+    border: 2px solid #96a9b2;
   }
 
-  &__icon {
-    font-size: 2rem;
+  &__disabled {
+    border: 2px solid #96a9b2;
+    color: #96a9b2;
+
+    &:hover {
+      border: 2px solid white;
+    }
   }
 }
