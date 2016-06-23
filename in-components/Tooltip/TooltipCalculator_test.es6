@@ -150,4 +150,24 @@ describe('in-components/TooltipCalculator', () => {
     expect(result.top).to.equal(reference.bottom + TooltipCalculator.margin);
     expect(result.bottom).to.equal(null);
   });
+
+  it('should shrink width to bounds', () => {
+    prepare(bounds.right * 2, 100, bounds.left, bounds.top, 200, 200, 'bottomLeft');
+
+    const result = TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(result.right).to.equal(bounds.right);
+    expect(result.left).to.equal(bounds.left);
+    expect(result.top).to.equal(reference.bottom + TooltipCalculator.margin);
+    expect(result.bottom).to.equal(null);
+  });
+
+  it('should shrink height to bounds', () => {
+    prepare(100, bounds.bottom * 2, bounds.left, bounds.top, 200, 200, 'rightTop');
+
+    const result = TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(result.right).to.equal(null);
+    expect(result.left).to.equal(reference.right + TooltipCalculator.margin);
+    expect(result.top).to.equal(bounds.top);
+    expect(result.bottom).to.equal(bounds.bottom);
+  });
 });
