@@ -40,6 +40,8 @@ export default connectTo({
         return null;
       }
 
+      console.log(allEvents);
+
       const sortedEvent = allEvents
                             .filter(event => this.props.selectedNotificationFilter.predicate(event))
                             .sort((a, b) => b.get('start') - a.get('start'));
