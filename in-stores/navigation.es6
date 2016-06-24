@@ -114,6 +114,16 @@ export function closeHelpIfOpen(id) {
 }
 
 
+export function closeCurrentHelpIfOpen() {
+  mutateUrl(navParams => {
+    if (navParams.query.help) {
+      delete navParams.query.help;
+    }
+    return navParams;
+  });
+}
+
+
 export function closeHelp() {
   mutateUrl(navParams => {
     delete navParams.query.help;

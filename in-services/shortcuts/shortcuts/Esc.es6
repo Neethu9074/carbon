@@ -1,4 +1,4 @@
-import {goToMap, PATH_NAMES, navigationParameters$, closeHelpIfOpen} from 'in-stores/navigation';
+import {goToMap, PATH_NAMES, navigationParameters$, closeCurrentHelpIfOpen} from 'in-stores/navigation';
 import {clearSelectedSnapshotId} from 'in-stores/snapshot';
 
 
@@ -13,11 +13,12 @@ export default function onPressed() {
 
   const isSidebarInMapOpen = checkIfSidebarInMapisOpen();
   const isDashboardOpen = checkIfDashboardisOpen();
+  const isHelpTextOpen = checkIfHelpTextIsOpen();
 
-  if (isDashboardOpen) {
-    checkIfHelpTextIsOpen() ?
-      closeHelpIfOpen() :
-      goToMap();
+  if (isHelpTextOpen) {
+    closeCurrentHelpIfOpen();
+  } else if (isDashboardOpen) {
+    goToMap();
   } else if (isSidebarInMapOpen) {
     clearSelectedSnapshotId();
   }
