@@ -34,13 +34,13 @@ export default connectTo({
     // add the CSS classes for arrow alignment
     tooltipElement.className = '';
     tooltipElement.classList.add(block);
-    tooltipElement.classList.add(`${block}__${align}`);
 
     if (activeTooltip.focusedElement) {
       this.positionFocusedElement(align, tooltipElement, activeTooltip.focusedElement);
     } else if (activeTooltip.focusedPoint) {
       tooltipElement.style.left = toPx(activeTooltip.focusedPoint.x);
       tooltipElement.style.top = toPx(activeTooltip.focusedPoint.y);
+      tooltipElement.classList.add(`${block}__${align}`);
     } else {
       throw new Error('Not possible to show tooltip without any focused element.');
     }
@@ -73,6 +73,7 @@ export default connectTo({
     this.set(tooltipElement, 'top', result.top);
     this.set(tooltipElement, 'right', result.right !== null ? window.innerWidth - result.right : null);
     this.set(tooltipElement, 'bottom', result.bottom !== null ? window.innerHeight - result.bottom : null);
+    tooltipElement.classList.add(`${block}__${tooltip.align}`);
   },
 
   set(ele, prop, value) {
