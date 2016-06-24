@@ -18,7 +18,9 @@ export function init() {
   registeredShortcuts[KEY_CODES.C] = onCPressed;
 
   ro.on(window, 'keydown').subscribe(keyEvent => {
-    if (keyEvent.target.tagName.toLowerCase() === 'input') {
+    const targetType = keyEvent.target.tagName.toLowerCase();
+    if (targetType === 'input' ||
+        targetType === 'textarea') {
       return;
     }
     if (registeredShortcuts[keyEvent.keyCode]) {
