@@ -15,7 +15,6 @@ describe('shortcuts/C', () => {
   let focusEntityId;
   let onKeyPressed;
   let shortcuts;
-  let mod;
 
   beforeEach(() => {
     resetStoreRegistry();
@@ -50,16 +49,16 @@ describe('shortcuts/C', () => {
       }
     });
 
-    mod = proxyquire('in-services/shortcuts/shortcuts/C', {
+    const mod = proxyquire('in-services/shortcuts/shortcuts/C', {
       'in-map/src/stores/focusEntity': focusEntityId
     });
 
     onKeyPressed = create();
     shortcuts = proxyquire('in-services/shortcuts', {
-      'in-services/shortcuts/shortcuts/focusEntityShortcuts': mod,
       'reactive-observables': {
         on: () => onKeyPressed
-      }
+      },
+      'in-services/shortcuts/shortcuts/C': mod
     });
     shortcuts.init();
   }
