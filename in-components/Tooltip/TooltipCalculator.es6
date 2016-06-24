@@ -125,6 +125,8 @@ const TooltipCalculator = {
     this.direction.y = (bit(mask, b) ^ -bit(mask, t)) * (height(reference) / 2 + this.margin);
   },
 
+  // Decides which attributes (left, right, top, bottom) should be touched
+  // for alignment, depending on the current mask
   updateAttributes(mask) {
     // 'left' | 'right' alignment
     if (is(mask, l) || is(mask, t) && is(mask, ra) || is(mask, b) && is(mask, la)) {
@@ -140,6 +142,7 @@ const TooltipCalculator = {
     }
   },
 
+  // Updates the local offset of the popup (starting from the center of the reference)
   updateOffset(mask, tooltip, reference) {
     this.offset.x = 0;
     this.offset.y = 0;
@@ -159,6 +162,7 @@ const TooltipCalculator = {
     }
   },
 
+  // Checks if the tooltip leaves the bounds and shrinks it accordingly
   bindToBounds(data, bounds, tooltip) {
     const lowerBounds = [ 'left', 'top'];
     const upperBounds = [ 'right', 'bottom'];
@@ -183,6 +187,8 @@ const TooltipCalculator = {
     });
   },
 
+  // Provides a clipped mask which contains a better alignment to avoid
+  // any bound collision
   clipMask(mask, data, bounds, tooltip) {
     if (data.left !== null) {
       mask = this.clipInternally(mask, data.left, bounds.left, bounds.right, width(tooltip), l, r);
@@ -193,6 +199,7 @@ const TooltipCalculator = {
     return mask;
   },
 
+  // Helper method to clip internally a mask on bit layer
   clipInternally(mask, coord, clipLimit1, clipLimit2, size, align1, align2) {
     if (coord < clipLimit1 || coord + size > clipLimit2) {
       if (is(mask, align1) || is(mask, align2)) {
