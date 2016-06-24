@@ -21,8 +21,6 @@ export function init() {
     const targetType = keyEvent.target.tagName.toLowerCase();
     if (targetType === 'input' ||
         targetType === 'textarea') {
-
-      console.log('return');
       return;
     }
     if (registeredShortcuts[keyEvent.keyCode]) {

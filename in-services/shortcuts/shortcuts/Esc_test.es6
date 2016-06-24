@@ -124,10 +124,7 @@ describe('shortcuts/dashboard', () => {
       'reactive-observables': {
         on: () => onKeyPressed
       },
-      'in-services/shortcuts/shortcuts/Esc': mod,
-      'in-stores/shortcuts': {
-        shortcutsAreActive$: create().startWith(true)
-      }
+      'in-services/shortcuts/shortcuts/Esc': mod
     });
     shortcuts.init();
   }
