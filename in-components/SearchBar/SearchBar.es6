@@ -2,7 +2,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import {inputString$, setInputString} from 'in-components/SearchBar/stores/searchInputString';
-import {disableShortcuts, enableShortcuts} from 'in-stores/shortcuts';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -39,8 +38,6 @@ export default connectTo({
           <input type='search'
                  value={this.props.inputString}
                  onChange={e => setInputString(e.target.value)}
-                 onFocus={disableShortcuts}
-                 onBlur={enableShortcuts}
                  className={block + '__input'}
                  placeholder='Search…'
                  onClick={e => e.stopPropagation()}/>

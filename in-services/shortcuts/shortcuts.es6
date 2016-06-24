@@ -3,7 +3,6 @@ import * as ro from 'reactive-observables';
 import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
 import onNpressed from 'in-services/shortcuts/shortcuts/N';
 import onCPressed from 'in-services/shortcuts/shortcuts/C';
-import {shortcutsAreActive$} from 'in-stores/shortcuts';
 
 export const KEY_CODES = {
   ESC: 27,
@@ -12,25 +11,20 @@ export const KEY_CODES = {
 };
 
 const registeredShortcuts = {};
-let shortcutsSubscription = null;
 
 export function init() {
-  shortcutsAreActive$.subscribe(areActive => {
-    if (areActive && !shortcutsSubscription) {
-      shortcutsSubscription = ro.on(window, 'keydown').subscribe(keyEvent => {
-        if (registeredShortcuts[keyEvent.keyCode]) {
-          registeredShortcuts[keyEvent.keyCode]();
-        }
-      });
-    } else if (!areActive && shortcutsSubscription) {
-      shortcutsSubscription.dispose();
-      shortcutsSubscription = null;
-    }
-  });
-
   registeredShortcuts[KEY_CODES.ESC] = onEscapePressed;
   registeredShortcuts[KEY_CODES.N] = onNpressed;
   registeredShortcuts[KEY_CODES.C] = onCPressed;
+
+  ro.on(window, 'keydown').subscribe(keyEvent => {
+    if (keyEvent.target.tagName.toLowerCase() === 'input') {
+      return;
+    }
+    if (registeredShortcuts[keyEvent.keyCode]) {
+      registeredShortcuts[keyEvent.keyCode]();
+    }
+  });
 }
 
 /*
