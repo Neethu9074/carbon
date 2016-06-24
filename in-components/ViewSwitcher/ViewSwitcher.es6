@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {navigationParameters$, goToTraceView, goToMap} from 'in-stores/navigation';
+import {navigationParameters$, goToTraceView, goToMap, goToEventCenter} from 'in-stores/navigation';
 import {isInternalEnvironment} from 'in-services/config';
 import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
@@ -28,7 +28,7 @@ export default connectTo({
       <div className={block}>
         {this.renderViewItem(views.physical, 'Physical')}
         {isInternalEnvironment() ? this.renderViewItem(views.process, 'Process') : null}
-        {isInternalEnvironment() ? this.renderViewItem(views.nofiticationCenter, 'Events') : null}
+        {isInternalEnvironment() ? this.renderEventCenterItem() : null}
         {this.renderTraceViewItem()}
       </div>
     );
@@ -68,6 +68,14 @@ export default connectTo({
       'Trace',
       goToTraceView,
       this.props.navigationParameters.pathname === '/traces'
+    );
+  },
+
+  renderEventCenterItem() {
+    return this.renderItem(
+      'Events',
+      goToEventCenter,
+      this.props.navigationParameters.pathname === '/events'
     );
   }
 }));

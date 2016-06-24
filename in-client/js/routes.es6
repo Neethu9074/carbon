@@ -4,6 +4,7 @@ import React from 'react';
 
 import {Route} from 'react-router';
 
+import EventCenter from 'in-components/eventCenter/EventCenter';
 import TraceView from 'in-components/traceView/TraceView';
 import GraphView from 'in-components/graphView/GraphView';
 
@@ -18,5 +19,7 @@ export default (
            path='traces' />
     <Route component={GraphView}
            path='graph' />
+    <Route component={EventCenter}
+           path='events' />
   </Route>
 );
