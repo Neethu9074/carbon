@@ -1,5 +1,5 @@
-import {createStore} from 'in-stores/store';
 import {setFreeTextFilter} from 'in-stores/filtering';
+import {createStore} from 'in-stores/store';
 
 
 const inputString = createStore({

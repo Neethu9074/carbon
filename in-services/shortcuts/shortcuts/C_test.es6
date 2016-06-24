@@ -58,7 +58,10 @@ describe('shortcuts/C', () => {
       'reactive-observables': {
         on: () => onKeyPressed
       },
-      'in-services/shortcuts/shortcuts/C': mod
+      'in-services/shortcuts/shortcuts/C': mod,
+      'in-stores/shortcuts': {
+        shortcutsAreActive$: create().startWith(true)
+      }
     });
     shortcuts.init();
   }
