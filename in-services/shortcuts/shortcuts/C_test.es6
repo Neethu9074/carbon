@@ -7,15 +7,13 @@ import sinon from 'sinon';
 import {resetStoreRegistry} from 'in-stores/store';
 
 
-describe('shortcuts/dashboard', () => {
+describe('shortcuts/C', () => {
 
   let focusEntityIdSubscription;
   let focusEntityIdStub;
   let selectedEntityId;
   let focusEntityId;
   let onKeyPressed;
-  let onUnregister;
-  let onRegister;
   let shortcuts;
   let mod;
 
@@ -34,16 +32,7 @@ describe('shortcuts/dashboard', () => {
     focusEntityIdSubscription.dispose();
   });
 
-  it('should always register because map store is omni-present', () => {
-    onRegister = sinon.stub();
-    onUnregister = sinon.stub();
-    mod.register(onRegister, onUnregister, shortcuts.KEY_CODES);
-
-    expect(onRegister).to.have.callCount(1);
-    expect(onUnregister).to.have.callCount(0);
-  });
-
-  it('should toggle NC flyout when n was pressed', () => {
+  it('should focus entity when C was pressed', () => {
     expect(focusEntityIdStub).to.have.callCount(1);
     expect(focusEntityIdStub.getCall(0).args[0]).to.equal(null);
 
@@ -61,7 +50,7 @@ describe('shortcuts/dashboard', () => {
       }
     });
 
-    mod = proxyquire('in-services/shortcuts/shortcuts/focusEntityShortcuts', {
+    mod = proxyquire('in-services/shortcuts/shortcuts/C', {
       'in-map/src/stores/focusEntity': focusEntityId
     });
 

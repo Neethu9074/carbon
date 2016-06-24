@@ -7,15 +7,12 @@ import sinon from 'sinon';
 import {isOpen$} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
 
 
-describe('shortcuts/dashboard', () => {
+describe('shortcuts/N', () => {
 
   let isOpenSubscription;
   let onKeyPressed;
-  let onUnregister;
-  let onRegister;
   let shortcuts;
   let isOpen;
-  let mod;
 
   beforeEach(() => {
     loadModules();
@@ -28,16 +25,7 @@ describe('shortcuts/dashboard', () => {
     isOpenSubscription.dispose();
   });
 
-  it('should always register because NC is omni-present', () => {
-    onRegister = sinon.stub();
-    onUnregister = sinon.stub();
-    mod.register(onRegister, onUnregister, shortcuts.KEY_CODES);
-
-    expect(onRegister).to.have.callCount(1);
-    expect(onUnregister).to.have.callCount(0);
-  });
-
-  it('should toggle NC flyout when n was pressed', () => {
+  it('should toggle NC flyout when N was pressed', () => {
     expect(isOpen).to.have.callCount(1);
     expect(isOpen.getCall(0).args[0]).to.equal(false);
 
@@ -47,8 +35,6 @@ describe('shortcuts/dashboard', () => {
   });
 
   function loadModules() {
-    mod = proxyquire('in-services/shortcuts/shortcuts/notificationCenterFlyoutShortcuts', {});
-
     onKeyPressed = create();
     shortcuts = proxyquire('in-services/shortcuts', {
       'reactive-observables': {

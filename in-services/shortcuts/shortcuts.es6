@@ -1,15 +1,8 @@
 import * as ro from 'reactive-observables';
-import {remove} from 'lodash';
 
-import {register as registerNotificationShortcuts}
-  from 'in-services/shortcuts/shortcuts/notificationCenterFlyoutShortcuts';
-import {register as registerDashboardShortcuts}
-  from 'in-services/shortcuts/shortcuts/dashboardShortcuts';
-import {register as registerFocusShortcuts}
-  from 'in-services/shortcuts/shortcuts/focusEntityShortcuts';
-  import {register as registerSidebarShortcuts}
-    from 'in-services/shortcuts/shortcuts/sidebarShortcuts';
-
+import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
+import onNpressed from 'in-services/shortcuts/shortcuts/N';
+import onCPressed from 'in-services/shortcuts/shortcuts/C';
 
 export const KEY_CODES = {
   ESC: 27,
@@ -17,40 +10,18 @@ export const KEY_CODES = {
   C: 67
 };
 
-let registeredShortcuts = {};
+const registeredShortcuts = {};
 
 export function init() {
-  ro.on(window, 'keydown').subscribe(event => fireShortcutListener(event.keyCode));
+  ro.on(window, 'keydown').subscribe(event => {
+    if (registeredShortcuts[event.keyCode]) {
+      registeredShortcuts[event.keyCode]();
+    }
+  });
 
-  registerNotificationShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
-  registerDashboardShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
-  registerSidebarShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
-  registerFocusShortcuts(registerShortcut, unregisterShortcut, KEY_CODES);
-}
-
-export function registerShortcut(keycode, callback) {
-  if (!registeredShortcuts[keycode]) {
-    registeredShortcuts[keycode] = [];
-  }
-
-  registeredShortcuts[keycode].push(callback);
-}
-
-export function unregisterShortcut(keycode, callback) {
-  if (registeredShortcuts[keycode]) {
-    remove(registeredShortcuts[keycode], fn => fn === callback);
-  }
-}
-
-function fireShortcutListener(keycode) {
-  if (registeredShortcuts[keycode]) {
-    registeredShortcuts[keycode].forEach(callback => callback());
-  }
-}
-
-// is used for testing purpose
-export function clearRegristry() {
-  registeredShortcuts = {};
+  registeredShortcuts[KEY_CODES.ESC] = onEscapePressed;
+  registeredShortcuts[KEY_CODES.N] = onNpressed;
+  registeredShortcuts[KEY_CODES.C] = onCPressed;
 }
 
 /*

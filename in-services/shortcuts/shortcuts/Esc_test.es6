@@ -10,18 +10,16 @@ import {createStore} from 'in-stores/store';
 
 
 describe('shortcuts/dashboard', () => {
-
   let onKeyPressed;
-  let onUnregister;
-  let onRegister;
   let shortcuts;
 
+  let navigationParametersSubscription;
   let selectedSnapshotSubscription;
   let navigationParametersStore;
-  let selectedSnapshotStore;
+  let navigationParametersStub;
   let selectedSnapshotIdStub;
+  let selectedSnapshotStore;
   let navigationMock;
-  let mod;
 
   beforeEach(() => {
     resetStoreRegistry();
@@ -29,48 +27,17 @@ describe('shortcuts/dashboard', () => {
 
     selectedSnapshotIdStub = sinon.stub();
     selectedSnapshotSubscription = selectedSnapshotStore.observable.subscribe(selectedSnapshotIdStub);
+
+    navigationParametersStub = sinon.stub();
+    navigationParametersSubscription = navigationParametersStore.observable.subscribe(navigationParametersStub);
   });
 
   afterEach(() => {
     selectedSnapshotSubscription.dispose();
-  });
-
-  it('should only register when dashboard is closed and snapshotId is selected', () => {
-    onRegister = sinon.stub();
-    onUnregister = sinon.stub();
-    mod.register(onRegister, onUnregister, shortcuts.KEY_CODES);
-
-    expect(onRegister).to.have.callCount(0);
-    expect(onUnregister).to.have.callCount(1);
-
-    navigationMock.goToDashboard();
-    expect(onRegister).to.have.callCount(0);
-    expect(onUnregister).to.have.callCount(1);
-
-    navigationMock.goToMap();
-    expect(onRegister).to.have.callCount(0);
-    expect(onUnregister).to.have.callCount(1);
-
-    navigationMock.setSnapshotId('testId');
-    expect(onRegister).to.have.callCount(1);
-    expect(onUnregister).to.have.callCount(1);
-
-    navigationMock.goToDashboard();
-    expect(onRegister).to.have.callCount(1);
-    expect(onUnregister).to.have.callCount(2);
-
-    navigationMock.goToMap();
-    expect(onRegister).to.have.callCount(2);
-    expect(onUnregister).to.have.callCount(2);
-
-    navigationMock.setSnapshotId(null);
-    expect(onRegister).to.have.callCount(2);
-    expect(onUnregister).to.have.callCount(3);
+    navigationParametersSubscription.dispose();
   });
 
   it('should remove snapshotId from URL', () => {
-    mod.register(shortcuts.registerShortcut, shortcuts.unregisterShortcut, shortcuts.KEY_CODES);
-
     // initial call
     expect(selectedSnapshotIdStub).to.have.callCount(1);
 
@@ -84,11 +51,33 @@ describe('shortcuts/dashboard', () => {
     expect(selectedSnapshotIdStub.getCall(1).args[0]).to.equal(null);
   });
 
+  it('should close first dashboard and then sidebar', () => {
+    // initial call
+    expect(selectedSnapshotIdStub).to.have.callCount(1);
+    expect(navigationParametersStub).to.have.callCount(1);
+
+    navigationMock.goToDashboard();
+    expect(navigationParametersStub).to.have.callCount(2);
+
+    navigationMock.setSnapshotId('testId');
+    expect(navigationParametersStub).to.have.callCount(3);
+
+    onKeyPressed.emit({keyCode: shortcuts.KEY_CODES.ESC});
+    expect(selectedSnapshotIdStub).to.have.callCount(1);
+    expect(navigationParametersStub).to.have.callCount(4);
+    expect(navigationParametersStub.getCall(1).args[0].pathname).to.equal(PATH_NAMES.MAP);
+
+
+    onKeyPressed.emit({keyCode: shortcuts.KEY_CODES.ESC});
+    expect(selectedSnapshotIdStub).to.have.callCount(2);
+    expect(selectedSnapshotIdStub.getCall(1).args[0]).to.equal(null);
+  });
+
   function loadModules() {
     navigationParametersStore = createStore({
       name: 'navigationTestStore',
       initialValue: {
-        pathname: '/',
+        pathname: PATH_NAMES.HOME,
         query: {}
       }
     });
@@ -115,7 +104,7 @@ describe('shortcuts/dashboard', () => {
       PATH_NAMES
     };
 
-    mod = proxyquire('in-services/shortcuts/shortcuts/sidebarShortcuts', {
+    const mod = proxyquire('in-services/shortcuts/shortcuts/Esc', {
       'in-stores/navigation': navigationMock,
       'in-stores/snapshot': {
         clearSelectedSnapshotId: () => selectedSnapshotStore.applyStateMutation(() => null)
@@ -126,7 +115,8 @@ describe('shortcuts/dashboard', () => {
     shortcuts = proxyquire('in-services/shortcuts', {
       'reactive-observables': {
         on: () => onKeyPressed
-      }
+      },
+      'in-services/shortcuts/shortcuts/Esc': mod
     });
     shortcuts.init();
   }
