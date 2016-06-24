@@ -7,11 +7,11 @@ import SingleMeshMetricFactory from 'in-map/src/SingleMeshFactory/SingleMeshMetr
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import {getAllNodes, getAllGroups} from 'in-map/src/3DSceneObjects/physical/mapUtils';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
-import {clearCurrentlyHighlightedEntity} from 'in-map/src/stores/focusEntity';
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
 import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
+import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 import {activeMetric} from 'in-services/stores/metrics';
 import * as snapshotStore from 'in-stores/snapshot';
@@ -68,10 +68,7 @@ export default class Map extends BaseMap {
     this.addSubscriptions([
       viewStructure.subscribe(structures => this.onInventoryUpdate(structures)),
 
-      eventBus.on('flyToEntity').subscribe(entity => {
-        this.controller.flyToObject(entity);
-        clearCurrentlyHighlightedEntity();
-      }),
+      eventBus.on('flyToEntity').subscribe(entity => this.controller.flyToObject(entity)),
 
       activeMetric.subscribe(metric => {
         if (metric) {
@@ -83,7 +80,14 @@ export default class Map extends BaseMap {
         }
       }),
 
-      snapshotStore.selectedSnapshotId.subscribe(selectedId => selectedId ? this.hideHulls() : this.showHulls())
+      snapshotStore.selectedSnapshotId.subscribe(selectedId => selectedId ? this.hideHulls() : this.showHulls()),
+
+      focusEntityId$.subscribe(id => {
+        // if there is no entity defined, center map
+        if (!id) {
+          this.centerMap();
+        }
+      })
     ]);
 
     this.metricUpdateInterval = setInterval(() => {
@@ -230,8 +234,8 @@ export default class Map extends BaseMap {
     }
   }
 
-  firstLayoutDone(x, z) {
-    this.controller.flyToPosition(x, z);
+  centerMap() {
+    this.controller.flyToPosition(this.layouter.currentDimensions.x / 2, -this.layouter.currentDimensions.y / 2);
   }
 
   applyLayout() {

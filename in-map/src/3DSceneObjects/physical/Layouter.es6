@@ -8,11 +8,16 @@ export default class GroupLayouting {
     this.squashFactor = 0.5;
     this.groupMargin = 1;
     this.nodeMargin = 2;
+
+    this.currentDimensions = {
+      x: 0,
+      y: 0
+    };
   }
 
   applyLayout(map) {
-    let maxX = 0;
-    let maxZ = 0;
+    this.currentDimensions.x = 0;
+    this.currentDimensions.y = 0;
 
     // the first group starts at (0, 0)
     let groupXCursor = 0;
@@ -46,8 +51,8 @@ export default class GroupLayouting {
         group.children
           .sort((a, b) => a.id.localeCompare(b.id))
           .forEach(node => {
-            maxX = Math.max(maxX, nodeXCursor);
-            maxZ = Math.max(maxZ, nodeYCursor);
+            this.currentDimensions.x = Math.max(this.currentDimensions.x, nodeXCursor);
+            this.currentDimensions.y = Math.max(this.currentDimensions.y, nodeYCursor);
             node.getComponent('position').setPosition(nodeXCursor, 0, -nodeYCursor);
 
             nodeXCursor += this.nodeMargin + 1;
@@ -63,7 +68,7 @@ export default class GroupLayouting {
 
     if (!this.firstLayoutDone) {
       this.firstLayoutDone = true;
-      map.firstLayoutDone(maxX / 2, -10);
+      map.centerMap();
     }
   }
 }
