@@ -50,6 +50,15 @@ const height = (element) => (element.bottom - element.top);
 const centerX = (element) => element.left + width(element) / 2;
 const centerY = (element) => element.top + height(element) / 2;
 
+const createElement = () => {
+  return {
+    left: null,
+    top: null,
+    bottom: null,
+    right: null
+  };
+};
+
 const TooltipCalculator = {
 
   margin: 10,
@@ -75,22 +84,12 @@ const TooltipCalculator = {
   // L: Left
   // T: Top
   calculate(bounds, tooltip, reference) {
-    let data = {
-      left: null,
-      top: null,
-      bottom: null,
-      right: null
-    };
+    let data = createElement();
     const mask = this.retreiveMask(bounds, tooltip, reference);
     this.calculateInternally(data, mask, bounds, tooltip, reference);
     const clipped = this.clipMask(mask, data, bounds, tooltip);
     if (clipped !== mask) {
-      data = {
-        left: null,
-        top: null,
-        bottom: null,
-        right: null
-      };
+      data = createElement();
       this.calculateInternally(data, clipped, bounds, tooltip, reference);
     }
     this.bindToBounds(data, bounds, tooltip);
