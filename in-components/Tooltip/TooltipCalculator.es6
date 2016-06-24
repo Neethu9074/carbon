@@ -91,6 +91,9 @@ const TooltipCalculator = {
     if (clipped !== mask) {
       data = createElement();
       this.calculateInternally(data, clipped, bounds, tooltip, reference);
+      if (tooltip.align !== 'undefined') {
+        tooltip.align = this.retrieveAlignment(clipped, Align[tooltip.align]);
+      }
     }
     this.bindToBounds(data, bounds, tooltip);
     return data;
@@ -208,6 +211,16 @@ const TooltipCalculator = {
       }
     }
     return mask;
+  },
+
+  // Retrieves the actual alignment of the mask
+  retrieveAlignment(mask, align) {
+    Object.keys(Align).forEach((key) => {
+      if (Align[key] === mask) {
+        align = key;
+      }
+    });
+    return align;
   }
 };
 
