@@ -1,7 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-import {removeAllTagFilters} from 'in-stores/filtering';
+import {removeAllTagFilters} from 'in-components/SearchBar/stores/searchInputString';
 import TagListAll from 'in-components/TagListAll';
 
 import ResetButton from 'in-components/Filterbar/ResetButton';

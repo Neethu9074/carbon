@@ -59,6 +59,11 @@ describe('in-services/search', () => {
       .to.equal('plugin_id:com.instana.forge.infrastructure.os.host.Host');
   });
 
+  it('must support case insensitive searches for types', () => {
+    expect(transform('type=nOdE.Js'))
+      .to.equal('plugin_id:com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform');
+  });
+
   it('must reject searches for unknown entity types', () => {
     expect(() => transform('type=blub'))
       .to.throw(/Unknown entity type blub for key type at row 1./);

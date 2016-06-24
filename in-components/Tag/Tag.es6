@@ -1,8 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {addTagFilter, removeTagFilter, filteredTags$} from 'in-stores/filtering';
+import {addTagFilter, removeTagFilter} from 'in-components/SearchBar/stores/searchInputString';
 import {getColorPool} from 'in-services/util/ColorGenerator';
+import {filteredTags$} from 'in-stores/filtering';
 import connectTo from 'in-hoc/connectTo';
 
 import './Tag.less';
@@ -13,7 +14,7 @@ const block = 'in-tag';
 export default connectTo(
   props => {
     return {
-      active: filteredTags$.map(tags => tags.contains(props.tag))
+      active: filteredTags$.map(tags => tags.contains(props.tag.toLowerCase()))
         .startWith(false)
     };
   }, React.createClass({

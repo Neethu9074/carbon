@@ -7,7 +7,6 @@ import PhysicalSummary from 'in-components/tableView/components/PhysicalSummary'
 import HealthSlider from 'in-components/tableView/components/HealthSlider';
 import ChildList from 'in-components/tableView/components/ChildList';
 import ZoneEntry from 'in-components/tableView/components/ZoneEntry';
-import Search from 'in-components/tableView/components/Search';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {physicalViewStructure$} from 'in-stores/view';
 import {
@@ -43,7 +42,6 @@ export default connectTo({
 
           <div className={block + '__header-left'}>
             <HealthSlider />
-            <Search />
           </div>
         </div>
 

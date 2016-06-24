@@ -96,3 +96,10 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
   const luceneValue = luceneValueConverters[type](value, keywordOperator);
   return `${keywordOperator.field}:${luceneOperator}${luceneValue}`;
 }
+
+
+export function getTagFiltersFromQuery(query) {
+  return parseString(query)
+    .filter(queryPart => queryPart.type === 'kv' && queryPart.key === 'tag')
+    .map(queryPart => queryPart.value.toLowerCase());
+}
