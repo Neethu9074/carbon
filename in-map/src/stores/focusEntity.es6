@@ -12,7 +12,3 @@ export const focusEntityId$ = focusEntityId.observable;
 export function focusCurrentlyHighlightedEntity() {
   selectedSnapshotIdForHighlightingInMap.once(highlightedId => focusEntityId.applyStateMutation(() => highlightedId));
 }
-
-export function clearCurrentlyHighlightedEntity() {
-  focusEntityId.applyStateMutation(() => null);
-}

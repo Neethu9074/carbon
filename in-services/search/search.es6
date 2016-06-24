@@ -29,8 +29,13 @@ const valueValidators = {
 
 const luceneValueConverters = {
   number(v) { return `${v}`; },
-  string(v) { return `'${v}'`; },
-  selection(v, keywordOperator) { return `'${keywordOperator.toValue(v)}'`; }
+  string(v) {
+    if (/ /.test(v)) {
+      return `'${v}'`;
+    }
+    return v;
+  },
+  selection(v, keywordOperator) { return this.string(keywordOperator.toValue(v)); }
 };
 
 export function transformToLuceneQuery(query, contexts = ['entity']) {
@@ -90,4 +95,11 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
   const luceneOperator = queryPart.operator === '=' ? '' : queryPart.operator;
   const luceneValue = luceneValueConverters[type](value, keywordOperator);
   return `${keywordOperator.field}:${luceneOperator}${luceneValue}`;
+}
+
+
+export function getTagFiltersFromQuery(query) {
+  return parseString(query)
+    .filter(queryPart => queryPart.type === 'kv' && queryPart.key === 'tag')
+    .map(queryPart => queryPart.value.toLowerCase());
 }

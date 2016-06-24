@@ -52,64 +52,23 @@ describe('in-components/tableView/stores/search', () => {
 
 
   describe('searchablePhysicalViewData$', () => {
-    it('must have data immediately even when snapshot or health info data has not been emitted', () => {
+    it('must have data immediately even when health info data has not been emitted', () => {
       doImport(false);
       mod.searchablePhysicalViewData$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.deep.equal([
         {
           id: 'a',
-          label: '',
-          pluginName: '',
           maxSeverity: -1
         },
         {
           id: 'b',
-          label: '',
-          pluginName: '',
           maxSeverity: -1
         },
         {
           id: 'c',
-          label: '',
-          pluginName: '',
           maxSeverity: -1
         }
       ]);
-    });
-
-    it('must determine snapshot and label data', () => {
-      doImport(true);
-      mod.searchablePhysicalViewData$.subscribe(onNext);
-      expect(getLastCallValue(onNext)).to.deep.equal([
-        {
-          id: 'a',
-          label: 'label-a',
-          pluginName: 'plugin-a',
-          maxSeverity: 0
-        },
-        {
-          id: 'b',
-          label: 'label-b',
-          pluginName: 'plugin-b',
-          maxSeverity: 0
-        },
-        {
-          id: 'c',
-          label: 'label-c',
-          pluginName: 'plugin-c',
-          maxSeverity: 0
-        }
-      ]);
-    });
-  });
-
-
-  describe('queryParts$', () => {
-    it('must only retain query parts with at least three characters', () => {
-      doImport(true);
-      mod.setQuery('a bcd efgh');
-      mod.queryParts$.subscribe(onNext);
-      expect(getLastCallValue(onNext)).to.deep.equal(['bcd', 'efgh']);
     });
   });
 
@@ -121,16 +80,9 @@ describe('in-components/tableView/stores/search', () => {
       expect(getLastCallValue(onNext)).to.equal(false);
     });
 
-    it('must not be active when there is no query part with at least three characters', () => {
+    it('must be active when there is a severity >0 selected', () => {
       doImport(true);
-      mod.setQuery('a bc d');
-      mod.isFilterActive$.subscribe(onNext);
-      expect(getLastCallValue(onNext)).to.equal(false);
-    });
-
-    it('must be active when there is at least one sufficiently long term', () => {
-      doImport(true);
-      mod.setQuery('a bcd e');
+      mod.setSeverity(5);
       mod.isFilterActive$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.equal(true);
     });
@@ -140,27 +92,6 @@ describe('in-components/tableView/stores/search', () => {
   describe('snapshotIdsInPhysicalViewMatchingFilter$', () => {
     it('must list all snapshot IDs when filtering is not active', () => {
       doImport(true);
-      mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
-      expect(getLastCallValue(onNext)).to.deep.equal(['a', 'b', 'c']);
-    });
-
-    it('must include only snapshots matching the query for labels', () => {
-      doImport(true);
-      mod.setQuery('label-a');
-      mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
-      expect(getLastCallValue(onNext)).to.deep.equal(['a']);
-    });
-
-    it('must include only snapshots matching the query for plugins', () => {
-      doImport(true);
-      mod.setQuery('plugin-b');
-      mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
-      expect(getLastCallValue(onNext)).to.deep.equal(['b']);
-    });
-
-    it('must match multiple plugins', () => {
-      doImport(true);
-      mod.setQuery('plugin');
       mod.snapshotIdsInPhysicalViewMatchingFilter$.subscribe(onNext);
       expect(getLastCallValue(onNext)).to.deep.equal(['a', 'b', 'c']);
     });
@@ -175,21 +106,6 @@ describe('in-components/tableView/stores/search', () => {
         default: (generator) => generator
       },
 
-      'in-stores/snapshot': {
-        getSnapshot(snapshotId) {
-          const result = create();
-
-          if (emitData) {
-            result.emit(Immutable.fromJS({
-              id: snapshotId,
-              plugin: 'plugin-' + snapshotId
-            }));
-          }
-
-          return result;
-        }
-      },
-
       'in-stores/events': {
         getHealthInfoAtFocusedMoment() {
           const result = create();
@@ -201,18 +117,6 @@ describe('in-components/tableView/stores/search', () => {
           }
 
           return result;
-        }
-      },
-
-      'in-sdk/snapshot': {
-        getLabel(snapshot) {
-          return 'label-' + snapshot.get('id');
-        }
-      },
-
-      'in-sdk/pluginName': {
-        getSingular(plugin) {
-          return plugin;
         }
       }
     });

@@ -1,4 +1,5 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addSearchableType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
@@ -23,3 +24,5 @@ addIconToRegistry({
 });
 
 addLabelFinder(constants.plugins.cassandraCluster, () => 'Cassandra Cluster');
+
+addSearchableType('cassandraCluster', constants.plugins.cassandraCluster);

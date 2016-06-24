@@ -49,9 +49,6 @@ describe('shortcuts/N', () => {
     shortcuts = proxyquire('in-services/shortcuts', {
       'reactive-observables': {
         on: () => onKeyPressed
-      },
-      'in-stores/shortcuts': {
-        shortcutsAreActive$: create().startWith(true)
       }
     });
     shortcuts.init();

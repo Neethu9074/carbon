@@ -5,6 +5,8 @@ import {isOpen$ as isSidebarOpen$} from 'in-components/sidebars/Map/sidebarStore
 import {isTableVisible$} from 'in-components/tableView/stores/visibility';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import {clearSelectedSnapshotId} from 'in-stores/snapshot';
+import {clearSelectedIncident} from 'in-stores/incident';
+import {clearSelectedEvent} from 'in-stores/events';
 import {view$, types} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 
@@ -41,7 +43,11 @@ export default connectTo({
 
     return (
       <div className={classes}
-           onClick={clearSelectedSnapshotId}>
+           onClick={() => {
+             clearSelectedIncident();
+             clearSelectedSnapshotId();
+             clearSelectedEvent();
+           }}>
         {content}
       </div>
     );

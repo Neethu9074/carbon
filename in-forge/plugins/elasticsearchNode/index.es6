@@ -1,3 +1,4 @@
+import {addSearchableType} from 'in-sdk/search';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
@@ -28,3 +29,6 @@ addIconToRegistry({
   id: constants.plugins.elasticsearch,
   image: iconPath
 });
+
+addSearchableType('elastic', constants.plugins.elasticsearch);
+addSearchableType('elasticsearch', constants.plugins.elasticsearch);

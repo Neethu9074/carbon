@@ -23,10 +23,10 @@ inputString$
   .debounce(300)
   .subscribe(freeText => {
     try {
-      setFreeTextFilter(transformToLuceneQuery(freeText));
+      setFreeTextFilter(transformToLuceneQuery(freeText), freeText);
     } catch (e) {
       // TODO proper error handling
-      alert(e.message);
+      console.error(e.message);
     }
   });
 
@@ -35,4 +35,57 @@ export function setInputString(newString) {
     navParams.query.q = encodeURIComponent(newString);
     return navParams;
   });
+}
+
+
+function mutateInputString(fn) {
+  mutateUrl(navParams => {
+    navParams.query.q = encodeURIComponent(fn(decodeURIComponent(navParams.query.q || '')));
+    return navParams;
+  });
+}
+
+
+export function addTagFilter(tag) {
+  mutateInputString(inputString => {
+    if (containsTagFilter(inputString, tag)) {
+      return inputString;
+    }
+
+    return `${inputString} tag="${tag}"`.trim();
+  });
+}
+
+
+export function removeTagFilter(tag) {
+  mutateInputString(inputString => {
+    if (!containsTagFilter(inputString, tag)) {
+      return inputString;
+    }
+
+    return inputString.replace(getRegExpMachingTag(tag), ' ')
+      // remove excess whitespace
+      .replace(/ {2,}/ig, ' ')
+      .trim();
+  });
+}
+
+
+export function removeAllTagFilters() {
+  mutateInputString(inputString => {
+    return inputString.replace(/(^|\s)tag *= *(("([^"]+)")|([^\s]+))/ig, ' ')
+      // remove excess whitespace
+      .replace(/ {2,}/ig, ' ')
+      .trim();
+  });
+}
+
+// return new RegExp(`${tag} *= *("([^"]+)"|([^\\s]+))`, 'ig').test(freeText);
+export function containsTagFilter(freeText, tag) {
+  return getRegExpMachingTag(tag).test(freeText);
+}
+
+
+function getRegExpMachingTag(tag) {
+  return new RegExp(`(^|\\s)tag *= *("${tag}"|${tag})(\\s|$)`, 'ig');
 }

@@ -6,6 +6,7 @@ import Icon from 'in-components/Icon';
 
 import './SearchBar.less';
 
+
 const block = 'in-searchbar';
 
 export default connectTo({

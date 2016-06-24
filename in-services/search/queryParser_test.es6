@@ -185,4 +185,31 @@ describe('in-services/queryParser', () => {
       expect(e.row).to.equal(2);
     }
   });
+
+  it('must support dashes in queries', () => {
+    expect(parse('foo-bar')).to.deep.equal([
+      {
+        type: 'freeText',
+        text: 'foo-bar'
+      }
+    ]);
+  });
+
+  it('must support dots in queries', () => {
+    expect(parse('foo.bar')).to.deep.equal([
+      {
+        type: 'freeText',
+        text: 'foo.bar'
+      }
+    ]);
+  });
+
+  it('must support underscores in queries', () => {
+    expect(parse('foo_bar')).to.deep.equal([
+      {
+        type: 'freeText',
+        text: 'foo_bar'
+      }
+    ]);
+  });
 });

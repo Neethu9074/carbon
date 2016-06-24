@@ -33,7 +33,7 @@ addKeywordOperator({
   keyword: 'type',
   field: 'plugin_id',
   validate(selection, queryPart) {
-    if (this.getSelectableItems().indexOf(selection) === -1) {
+    if (this.getSelectableItems().indexOf(selection.toLowerCase()) === -1) {
       return `Unknown entity type ${selection} for key type at row ${queryPart.row}.`;
     }
     return null;
@@ -42,7 +42,7 @@ addKeywordOperator({
     return Object.keys(searchableTypes);
   },
   toValue(selection) {
-    return searchableTypes[selection];
+    return searchableTypes[selection.toLowerCase()];
   }
 });
 
@@ -103,5 +103,5 @@ function cleanPathElement(element) {
 
 
 export function addSearchableType(label, shortPluginId) {
-  searchableTypes[label] = fullyQualifiedPlugins[shortPluginId];
+  searchableTypes[label.toLowerCase()] = fullyQualifiedPlugins[shortPluginId];
 }

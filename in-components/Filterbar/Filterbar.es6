@@ -1,9 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {activeControl$} from 'in-components/Filterbar/stores/filterbarActiveControl';
+import {isOpen$} from 'in-components/Filterbar/stores/filterbarIsOpenStore';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import classnames from 'in-services/util/classnames';
-import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import Controls from './Controls';
@@ -13,78 +14,64 @@ import Tags from './Tags';
 
 import './Filterbar.less';
 
+
 const block = 'in-filterbar';
+const rpt = React.PropTypes;
 
 export default connectTo({
-    isCollapsed: isCollapsed$
-  }, React.createClass({
-  displayName: 'Filterbar',
-
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    isCollapsed: React.PropTypes.bool.isRequired
+    isTimelineCollapsed: isCollapsed$,
+    activeControl: activeControl$,
+    isOpen: isOpen$
   },
+  React.createClass({
+    displayName: 'Filterbar',
 
-  getInitialState() {
-    return { activeControl: null };
-  },
+    mixins: [PureRenderMixin],
 
-  render() {
-    const open = !!this.state.activeControl;
-    return (
-      <div className={block}>
-        <Controls className={classnames({
-                    [block + '__controls']: true,
-                    [block + '__controls--open']: open
-                  })}
-                  activeControl={this.state.activeControl}
-                  onChangeActiveControl={this.onChangeActiveControl} />
-        <div className={classnames({
-          [block + '__content']: true,
-          [block + '__content--open']: open,
-          [block + '__content--timeline-expanded']: !this.props.isCollapsed
-        })}>
-          <Button className={block + '__close-button'}
-                  onClick={this.closeFilterbar}>
-            Close
-          </Button>
-          {this.renderContent()}
+    propTypes: {
+      isTimelineCollapsed: rpt.bool.isRequired,
+      activeControl: rpt.string,
+      isOpen: rpt.bool
+    },
+
+    render() {
+      const open = this.props.isOpen;
+      return (
+        <div className={block}>
+          <Controls className={classnames({
+                      [block + '__controls']: true,
+                      [block + '__controls--open']: open
+                    })}
+                    activeControl={this.props.activeControl}/>
+          <div className={classnames({
+            [block + '__content']: true,
+            [block + '__content--open']: open,
+            [block + '__content--timeline-expanded']: !this.props.isTimelineCollapsed
+          })}>
+            {this.renderContent()}
+          </div>
         </div>
-      </div>
-    );
-  },
+      );
+    },
 
-  renderContent() {
-    if (!this.state.activeControl) {
-      return null;
+    renderContent() {
+      if (!this.props.isOpen || !this.props.activeControl) {
+        return null;
+      }
+
+      // special case mapstats so that it will not be part of the compiled artifact
+      if (__DEV__ && this.props.activeControl === 'mapStats') {
+        return <MapStats />;
+      }
+
+      switch (this.props.activeControl) {
+        case 'tags':
+          return <Tags/>;
+        case 'metrics':
+          return <Metrics/>;
+        default:
+          throw new Error('Unknown content control', this.props.activeControl);
+      }
     }
-
-    // special case mapstats so that it will not be part of the compiled artifact
-    if (__DEV__ && this.state.activeControl === 'mapStats') {
-      return <MapStats />;
-    }
-
-    switch (this.state.activeControl) {
-      case 'tags':
-        return <Tags/>;
-      case 'metrics':
-        return <Metrics/>;
-      default:
-        throw new Error('Unknown content control', this.state.activeControl);
-    }
-  },
-
-  onChangeActiveControl(activeControl) {
-    this.setState({
-      // close when it is already active
-      activeControl: activeControl === this.state.activeControl ? null : activeControl
-    });
-  },
-
-  closeFilterbar() {
-    this.setState({
-      activeControl: null
-    });
-  }
-}));
+  })
+);
