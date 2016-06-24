@@ -36,11 +36,21 @@ describe('shortcuts/C', () => {
     expect(focusEntityIdStub.getCall(0).args[0]).to.equal(null);
 
     selectedEntityId.emit('foo');
-    onKeyPressed.emit({keyCode: shortcuts.KEY_CODES.C});
+
+    pressC();
 
     expect(focusEntityIdStub).to.have.callCount(2);
     expect(focusEntityIdStub.getCall(1).args[0]).to.equal('foo');
   });
+
+  function pressC() {
+    onKeyPressed.emit({
+      keyCode: shortcuts.KEY_CODES.C,
+      target: {
+        tagName: ''
+      }
+    });
+  }
 
   function loadModules() {
     focusEntityId = proxyquire('in-map/src/stores/focusEntity', {

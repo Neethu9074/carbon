@@ -29,10 +29,20 @@ describe('shortcuts/N', () => {
     expect(isOpen).to.have.callCount(1);
     expect(isOpen.getCall(0).args[0]).to.equal(false);
 
-    onKeyPressed.emit({keyCode: shortcuts.KEY_CODES.N});
+    pressN();
+
     expect(isOpen).to.have.callCount(2);
     expect(isOpen.getCall(1).args[0]).to.equal(true);
   });
+
+  function pressN() {
+    onKeyPressed.emit({
+      keyCode: shortcuts.KEY_CODES.N,
+      target: {
+        tagName: ''
+      }
+    });
+  }
 
   function loadModules() {
     onKeyPressed = create();

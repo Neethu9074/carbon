@@ -44,7 +44,7 @@ describe('shortcuts/dashboard', () => {
     navigationMock.goToMap();
     navigationMock.setSnapshotId('testId');
 
-    onKeyPressed.emit({keyCode: shortcuts.KEY_CODES.ESC});
+    pressEscape();
 
     // snapshot was deleted
     expect(selectedSnapshotIdStub).to.have.callCount(2);
@@ -62,16 +62,24 @@ describe('shortcuts/dashboard', () => {
     navigationMock.setSnapshotId('testId');
     expect(navigationParametersStub).to.have.callCount(3);
 
-    onKeyPressed.emit({keyCode: shortcuts.KEY_CODES.ESC});
+    pressEscape();
     expect(selectedSnapshotIdStub).to.have.callCount(1);
     expect(navigationParametersStub).to.have.callCount(4);
     expect(navigationParametersStub.getCall(1).args[0].pathname).to.equal(PATH_NAMES.MAP);
 
-
-    onKeyPressed.emit({keyCode: shortcuts.KEY_CODES.ESC});
+    pressEscape();
     expect(selectedSnapshotIdStub).to.have.callCount(2);
     expect(selectedSnapshotIdStub.getCall(1).args[0]).to.equal(null);
   });
+
+  function pressEscape() {
+    onKeyPressed.emit({
+      keyCode: shortcuts.KEY_CODES.ESC,
+      target: {
+        tagName: ''
+      }
+    });
+  }
 
   function loadModules() {
     navigationParametersStore = createStore({
