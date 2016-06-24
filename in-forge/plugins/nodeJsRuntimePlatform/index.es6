@@ -1,4 +1,5 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addSearchableType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
@@ -50,3 +51,7 @@ addIconToRegistry({
   id: constants.plugins.nodejs,
   image: iconPath
 });
+
+addSearchableType('node', constants.plugins.nodejs);
+addSearchableType('node.js', constants.plugins.nodejs);
+addSearchableType('nodejs', constants.plugins.nodejs);

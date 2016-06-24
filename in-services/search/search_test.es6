@@ -56,7 +56,7 @@ describe('in-services/search', () => {
 
   it('must support searches for entity types', () => {
     expect(transform('type=host'))
-      .to.equal("plugin_id:'com.instana.forge.infrastructure.os.host.Host'");
+      .to.equal('plugin_id:com.instana.forge.infrastructure.os.host.Host');
   });
 
   it('must reject searches for unknown entity types', () => {

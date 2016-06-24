@@ -29,8 +29,13 @@ const valueValidators = {
 
 const luceneValueConverters = {
   number(v) { return `${v}`; },
-  string(v) { return `'${v}'`; },
-  selection(v, keywordOperator) { return `'${keywordOperator.toValue(v)}'`; }
+  string(v) {
+    if (/ /.test(v)) {
+      return `'${v}'`;
+    }
+    return v;
+  },
+  selection(v, keywordOperator) { return this.string(keywordOperator.toValue(v)); }
 };
 
 export function transformToLuceneQuery(query, contexts = ['entity']) {
