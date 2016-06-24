@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 
 import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
 import {emptySet, emptyMap} from 'in-services/fixedImmutables';
+import {getTagFiltersFromQuery} from 'in-services/search';
 import {on, emit} from 'in-services/persistentConnection';
 import {getIn as getSetting} from 'in-services/settings';
 import {focusedMoment$} from 'in-stores/timeline';
@@ -9,7 +10,6 @@ import {createStore} from 'in-stores/store';
 
 // The filter types as defined in the backend.
 const filterTypes = {
-  tag: 'TAG',
   excludeUnmonitoredHosts: 'EXCLUDE_UNMONITORED_HOSTS',
   freeText: 'FREE_TEXT'
 };
@@ -31,59 +31,18 @@ export const filters$ = filtersStore.observable;
 // A stream of the form ImmutableSet<String> describing the currently active
 // tag filters.
 export const filteredTags$ = filters$.map(filters => {
-  return filters.filter(f => f.get('type') === filterTypes.tag)
-    .map(f => f.getIn(['options', 'tag']));
+  const freeTextFilters = filters.filter(f => f.get('type') === filterTypes.freeText);
+  if (freeTextFilters.size === 0) {
+    return emptySet;
+  }
+
+  const freeText = freeTextFilters.first()
+    .getIn(['options', 'rawQuery']);
+
+  return Immutable.Set(getTagFiltersFromQuery(freeText));
 });
 
 export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
-
-export function addTagFilter(tag) {
-  filtersStore.applyStateMutation(filters => {
-    if (containsTagFilter(filters, tag)) {
-      return filters;
-    }
-
-    return filters.add(createTagFilter(tag));
-  });
-}
-
-
-function containsTagFilter(filters, tag) {
-  return filters.some(buildTagFilterPredicate(tag));
-}
-
-
-function buildTagFilterPredicate(tag) {
-  return filter => {
-    return filter.get('type') === filterTypes.tag &&
-      filter.getIn(['options', 'tag']) === tag;
-  };
-}
-
-
-function createTagFilter(tag) {
-  return Immutable.Map({
-    filterId: filterIdCounter++,
-    type: filterTypes.tag,
-    options: Immutable.Map({
-      tag
-    })
-  });
-}
-
-
-export function removeTagFilter(tag) {
-  filtersStore.applyStateMutation(filters => {
-    return filters.filterNot(buildTagFilterPredicate(tag));
-  });
-}
-
-
-export function removeAllTagFilters() {
-  filtersStore.applyStateMutation(filters => {
-    return filters.filter(f => f.get('type') !== filterTypes.tag);
-  });
-}
 
 
 function addExcludeUnmonitoredHostsFilter() {
@@ -112,18 +71,18 @@ function removeExcludeUnmonitoredHostsFilter() {
 }
 
 
-export function setFreeTextFilter(query) {
-  query = query.trim();
+export function setFreeTextFilter(luceneQuery, rawQuery) {
+  luceneQuery = luceneQuery.trim();
   filtersStore.applyStateMutation(filters => {
     let result = filters.filter(f => {
       return f.get('type') !== filterTypes.freeText;
     });
 
-    if (query.length > 2) {
+    if (luceneQuery.length > 2) {
       result = result.add(Immutable.Map({
         filterId: filterIdCounter++,
         type: filterTypes.freeText,
-        options: Immutable.Map({query})
+        options: Immutable.Map({query: luceneQuery, rawQuery})
       }));
     }
 
