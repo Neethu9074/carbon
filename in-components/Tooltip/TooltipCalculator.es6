@@ -32,9 +32,17 @@ const b = 2;
 const l = 1;
 const t = 0;
 
-// Bit utilities
+// Bit operation utilities
 const bit = (mask, digit) => (mask >> digit) & 1;
 const is = (mask, digit) => bit(mask, digit) === 1;
+const set = (mask, digit) => mask | (1 << digit);
+const unset = (mask, digit) => mask & ~(1 << digit);
+const swap = (mask, digitA, digitB) => {
+  const bitA = bit(mask, digitA);
+  const bitB = bit(mask, digitB);
+  mask = bitB === 1 ? set(mask, digitA) : unset(mask, digitA);
+  return bitA === 1 ? set(mask, digitB) : unset(mask, digitB);
+};
 
 // Dimension utilities
 const width = (element) => (element.right - element.left);
@@ -67,7 +75,7 @@ const TooltipCalculator = {
   // L: Left
   // T: Top
   calculate(bounds, tooltip, reference) {
-    const data = {
+    let data = {
       left: null,
       top: null,
       bottom: null,
@@ -75,6 +83,17 @@ const TooltipCalculator = {
     };
     const mask = this.retreiveMask(bounds, tooltip, reference);
     this.calculateInternally(data, mask, bounds, tooltip, reference);
+    const clipped = this.clipMask(mask, data, bounds, tooltip);
+    if (clipped !== mask) {
+      data = {
+        left: null,
+        top: null,
+        bottom: null,
+        right: null
+      };
+      this.calculateInternally(data, clipped, bounds, tooltip, reference);
+    }
+    this.bindToBounds(data, bounds, tooltip);
     return data;
   },
 
@@ -83,6 +102,7 @@ const TooltipCalculator = {
     this.updateDirection(mask, reference);
     this.updateAttributes(mask);
     this.updateOffset(mask, tooltip, reference);
+
     // Set the data values
     data[this.attr.x] = centerX(reference) + this.direction.x + this.offset.x;
     data[this.attr.y] = centerY(reference) + this.direction.y + this.offset.y;
@@ -138,6 +158,50 @@ const TooltipCalculator = {
       this.offset.x -= (bit(mask, t) | bit(mask, b)) * (width(tooltip) / 2);
       this.offset.y -= (bit(mask, l) | bit(mask, r)) * (height(tooltip) / 2);
     }
+  },
+
+  bindToBounds(data, bounds, tooltip) {
+    const lowerBounds = [ 'left', 'top'];
+    const upperBounds = [ 'right', 'bottom'];
+
+    if (width(tooltip) > width(bounds)) {
+      data.left = bounds.left;
+      data.right = bounds.right;
+    }
+    if (height(tooltip) > height(bounds)) {
+      data.top = bounds.top;
+      data.bottom = bounds.bottom;
+    }
+    lowerBounds.forEach((value) => {
+      if (data[value] !== null && data[value] < bounds[value]) {
+        data[value] = bounds[value];
+      }
+    });
+    upperBounds.forEach((value) => {
+      if (data[value] !== null && data[value] > bounds[value]) {
+        data[value] = bounds[value];
+      }
+    });
+  },
+
+  clipMask(mask, data, bounds, tooltip) {
+    if (data.left !== null) {
+      mask = this.clipInternally(mask, data.left, bounds.left, bounds.right, width(tooltip), l, r);
+    }
+    if (data.top !== null) {
+      mask = this.clipInternally(mask, data.top, bounds.top, bounds.bottom, height(tooltip), t, b);
+    }
+    return mask;
+  },
+
+  clipInternally(mask, coord, clipLimit1, clipLimit2, size, align1, align2) {
+    if (coord < clipLimit1 || coord + size > clipLimit2) {
+      if (is(mask, align1) || is(mask, align2)) {
+        mask = swap(mask, align1, align2);
+        mask = swap(mask, la, ra);
+      }
+    }
+    return mask;
   }
 };
 
