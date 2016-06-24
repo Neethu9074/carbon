@@ -1,4 +1,4 @@
-import {goToMap, PATH_NAMES, navigationParameters$} from 'in-stores/navigation';
+import {goToMap, PATH_NAMES, navigationParameters$, closeHelpIfOpen} from 'in-stores/navigation';
 import {clearSelectedSnapshotId} from 'in-stores/snapshot';
 
 
@@ -7,24 +7,32 @@ navigationParameters$.subscribe(_navigationParameters => navigationParameters = 
 
 
 export default function onPressed() {
-  const isDashboardOpen = checkIfDashboardisOpen();
+  if (!navigationParameters) {
+    return;
+  }
+
   const isSidebarInMapOpen = checkIfSidebarInMapisOpen();
+  const isDashboardOpen = checkIfDashboardisOpen();
 
   if (isDashboardOpen) {
-    goToMap();
+    checkIfHelpTextIsOpen() ?
+      closeHelpIfOpen() :
+      goToMap();
   } else if (isSidebarInMapOpen) {
     clearSelectedSnapshotId();
   }
 }
 
 function checkIfDashboardisOpen() {
-  return navigationParameters &&
-         navigationParameters.pathname === PATH_NAMES.DASHBOARD;
+  return navigationParameters.pathname === PATH_NAMES.DASHBOARD;
 }
 
 
 function checkIfSidebarInMapisOpen() {
-  return navigationParameters &&
-         'snapshotId' in navigationParameters.query &&
+  return 'snapshotId' in navigationParameters.query &&
          navigationParameters.pathname !== PATH_NAMES.DASHBOARD;
+}
+
+function checkIfHelpTextIsOpen() {
+  return 'help' in navigationParameters.query;
 }

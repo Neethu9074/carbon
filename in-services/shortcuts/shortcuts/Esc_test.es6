@@ -51,7 +51,7 @@ describe('shortcuts/dashboard', () => {
     expect(selectedSnapshotIdStub.getCall(1).args[0]).to.equal(null);
   });
 
-  it('should close first dashboard and then sidebar', () => {
+  it('should close dashboard first and then sidebar', () => {
     // initial call
     expect(selectedSnapshotIdStub).to.have.callCount(1);
     expect(navigationParametersStub).to.have.callCount(1);
