@@ -1,7 +1,9 @@
+import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
 import {isFilterActive$, snapshotIdsInPhysicalView$} from 'in-components/tableView/stores/search';
 import {emptySet} from 'in-services/fixedImmutables';
+import {freeTextFilter$} from 'in-stores/filtering';
 import {createStore} from 'in-stores/store';
 
 const expandedSnapshotIdsStore = createStore({
@@ -39,7 +41,9 @@ export function expandAll() {
 }
 
 export function init() {
-  isFilterActive$
+  combineLatest([isFilterActive$, freeTextFilter$])
+    .map(([isFilterActive, freeTextFilter]) => isFilterActive || freeTextFilter.length > 0)
+    .distinct()
     .subscribe(active => {
       if (active) {
         expandAll();

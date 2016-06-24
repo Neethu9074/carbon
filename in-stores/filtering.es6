@@ -28,6 +28,17 @@ const filtersStore = createStore({
 // the form seen in the backend.
 export const filters$ = filtersStore.observable;
 
+export const freeTextFilter$ = filters$
+  .map(filters => {
+    const freeTextFilters = filters.filter(f => f.get('type') === filterTypes.freeText);
+    if (freeTextFilters.size === 0) {
+      return '';
+    }
+
+    return freeTextFilters.first().getIn(['options', 'rawQuery']);
+  })
+  .distinct();
+
 // A stream of the form ImmutableSet<String> describing the currently active
 // tag filters.
 export const filteredTags$ = filters$.map(filters => {
