@@ -30,10 +30,18 @@ const valueValidators = {
 const luceneValueConverters = {
   number(v) { return `${v}`; },
   string(v) {
-    if (/[ :-]/.test(v)) {
-      return `'${v}'`;
+    // for reference, see the escaping rules over here:
+    // https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Escaping Special Characters
+    const escapedValue = v
+      .replace(/[\+\-\!\(\)\{\}\[\]\^\"\~\*\?\:\\\&\|\']/, c => {
+        return `\\${c}`;
+      });
+
+    if (/ /.test(escapedValue)) {
+      return `'${escapedValue}'`;
     }
-    return v;
+
+    return escapedValue;
   },
   selection(v, keywordOperator) { return this.string(keywordOperator.toValue(v)); }
 };
