@@ -30,7 +30,7 @@ const valueValidators = {
 const luceneValueConverters = {
   number(v) { return `${v}`; },
   string(v) {
-    if (/ /.test(v)) {
+    if (/[ :-]/.test(v)) {
       return `'${v}'`;
     }
     return v;
