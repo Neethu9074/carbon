@@ -8,6 +8,9 @@ import './RightSidebarHeader.less';
 const block = 'in-right-sidebar-header';
 
 export default function RightSidebarHeader({title, onClose, children}) {
+  if (!title) {
+    return null;
+  }
   return (
     <div className={block}>
       <div className={block + '__left'}>
