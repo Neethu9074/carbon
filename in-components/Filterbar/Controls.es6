@@ -38,10 +38,7 @@ const TableViewToggleButton = connectTo({
         [block + '__control-item--enabled']: true
       })}>
         <Tooltip content='Switch between 3D view and tabular form.'
-                 align={{
-                   horizontal: 'left',
-                   vertical: 'middle'
-                 }}>
+                 align={'leftMiddle'}>
           <Icon type='menue'
                 className={classnames({
                   [block + '__control-icon']: true,
@@ -107,10 +104,7 @@ const Controls = connectTo({
           [block + '__control-item--end-of-group']: end
         })}>
           <Tooltip content={tooltip}
-                   align={{
-                     horizontal: 'left',
-                     vertical: 'middle'
-                   }}>
+                   align={'leftMiddle'}>
             <Icon type={icon}
                   className={classnames({
                     [block + '__control-icon']: true,

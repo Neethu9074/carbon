@@ -14,18 +14,17 @@ export const TooltipShape = rpt.shape({
     x: rpt.number,
     y: rpt.number
   }),
-  align: rpt.shape({
-    horizontal: rpt.oneOf(['left', 'right', 'middle', 'auto']),
-    vertical: rpt.oneOf(['top', 'bottom', 'middle', 'auto'])
-  })
+  align: rpt.oneOf(['leftBottom', 'leftMiddle', 'leftTop',
+               'topLeft', 'topMiddle', 'topRight',
+               'rightTop', 'rightMiddle', 'rightBottom',
+               'bottomLeft', 'bottomMiddle', 'bottomRight', 'auto']
+  )
 });
 
 export const activeTooltip = ro.create(reemitSpec);
 
 export function setActiveTooltip(tooltip) {
-  tooltip.align = tooltip.align || {};
-  tooltip.align.horizontal = tooltip.align.horizontal || 'auto';
-  tooltip.align.vertical = tooltip.align.vertical || 'auto';
+  tooltip.align = tooltip.align || 'auto';
   activeTooltip.emit(tooltip);
 }
 

@@ -48,7 +48,7 @@ export default connectTo(
         <Tooltip content={<TooltipFrame>
                             <EventListing snapshotId={this.props.snapshotId}/>
                           </TooltipFrame>}
-                 align={{horizontal: 'right'}}>
+                 align={'rightTop'}>
           <div className={block}
                style={{backgroundColor}}>
             {healthInfo.get('numberOfOpenIssues')}

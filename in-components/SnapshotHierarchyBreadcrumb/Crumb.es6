@@ -42,10 +42,7 @@ export default getSnapshot(
 
     return (
       <Tooltip content={tooltip}
-               align={{
-                 vertical: 'bottom',
-                 horizontal: 'middle'
-               }}>
+               align={'bottomMiddle'}>
         <li className={className}
             onClick={this.onCrumbClicked}>
 
