@@ -5,11 +5,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as metricsStore from 'in-services/stores/metrics';
 
 import MetricTreeLeaf from './MetricTreeLeaf';
-import ResetButton from './ResetButton';
 import MetricTree from './MetricTree';
-import ListHeader from './ListHeader';
-
-import './Metrics.less';
 
 
 const metricTree = Immutable.fromJS({
@@ -83,13 +79,7 @@ const Metrics = React.createClass({
   render() {
     return (
       <div className={block}>
-
-        <ListHeader header={'Metrics'}/>
-
-        <ResetButton onClick={() => metricsStore.activeMetric.emit(null)} />
-
         {metricTree.get('children').map(child => this.getMetricsToShow(child, 0))}
-
       </div>
     );
   }

@@ -1,20 +1,14 @@
-import {closeMenu as closeAccountMenu} from 'in-components/AccountMenu/accountMenuStore';
 import {createStore} from 'in-stores/store';
 
 
 const isOpen = createStore({
-  name: 'isNotificationFlyoutOpenStore',
-  initialValue: false
+  name: 'rightSidebar/visibilityStore',
+  initialValue: true
 });
 export const isOpen$ = isOpen.observable;
 
 export function toggle() {
-  isOpen.applyStateMutation(oldValue => {
-    if (!oldValue) {
-      closeAccountMenu();
-    }
-    return !oldValue;
-  });
+  isOpen.applyStateMutation(oldValue => !oldValue);
 }
 
 export function close() {
