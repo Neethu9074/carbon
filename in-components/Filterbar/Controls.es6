@@ -1,7 +1,9 @@
 import React from 'react';
 
 import {setActiveControl} from 'in-components/Filterbar/stores/filterbarActiveControl';
+import {isOpen$} from 'in-components/Filterbar/stores/filterbarVisibilityStore';
 import Tooltip from 'in-components/Tooltip';
+import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
 import './Controls.less';
@@ -9,15 +11,19 @@ import './Controls.less';
 
 const block = 'in-filterbar-controls';
 
-export default function FilterBarControls() {
-  return (
-    <ul className={block}>
-      {controlItem('metrics')}
-      {controlItem('tags')}
-      {__DEV__ ? controlItem('system') : null}
-    </ul>
-  );
-}
+export default connectTo({
+    isOpen: isOpen$
+  },
+  function FilterBarControls({isOpen}) {
+    return (
+      <ul className={block + (isOpen ? ' ' + block + '__open' : '')}>
+        {controlItem('metrics')}
+        {controlItem('tags')}
+        {__DEV__ ? controlItem('system') : null}
+      </ul>
+    );
+  }
+);
 
 function controlItem(type) {
   return (

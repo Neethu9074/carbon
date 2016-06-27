@@ -5,7 +5,7 @@ import {setActiveControl} from 'in-components/Filterbar/stores/filterbarActiveCo
 
 const isOpen = createStore({
   name: 'filterbar/visibilityStore',
-  initialValue: false
+  initialValue: true
 });
 export const isOpen$ = isOpen.observable.distinct();
 

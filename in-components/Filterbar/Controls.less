@@ -3,10 +3,16 @@
 .in-filterbar-controls {
   position: absolute;
   top:~'calc(50% - 100px)';
-  right: 100%;
+  right: 0;
   padding: 0;
   margin: 0;
   list-style: none;
+
+  transition: right 0.25s ease-in-out;
+
+  &__open {
+    right: 25rem;
+  }
 
   &__control {
     padding: 7px 7px 4px 11px;

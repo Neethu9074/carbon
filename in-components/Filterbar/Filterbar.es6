@@ -30,25 +30,27 @@ export default connectTo({
 
     render() {
       return (
-        <RightSidebar isOpen$={isOpen$}
-                      onClose={close}
-                      rightSidebarContent={this.callByActiveControl(
-                        () => <ResetButton onClick={removeAllTagFilters}/>,
-                        () => <ResetButton onClick={() => metricsStore.activeMetric.emit(null)} />,
-                        () => null,
-                        () => null)}
-                      title={this.callByActiveControl(() => 'Tags',
-                                                      () => 'Metrics',
-                                                      () => 'Statistics',
-                                                      () => '')}>
+        <div>
           <Controls />
-          {this.callByActiveControl(
-            () => <Tags />,
-            () => <Metrics />,
-            () => <MapStats />,
-            () => null
-          )}
-        </RightSidebar>
+          <RightSidebar isOpen$={isOpen$}
+                        onClose={close}
+                        rightSidebarContent={this.callByActiveControl(
+                          () => <ResetButton onClick={removeAllTagFilters}/>,
+                          () => <ResetButton onClick={() => metricsStore.activeMetric.emit(null)} />,
+                          () => null,
+                          () => null)}
+                        title={this.callByActiveControl(() => 'Tags',
+                                                        () => 'Metrics',
+                                                        () => 'Statistics',
+                                                        () => '')}>
+            {this.callByActiveControl(
+              () => <Tags />,
+              () => <Metrics />,
+              () => <MapStats />,
+              () => null
+            )}
+          </RightSidebar>
+        </div>
       );
     },
 
