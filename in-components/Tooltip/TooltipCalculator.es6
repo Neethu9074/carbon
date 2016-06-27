@@ -21,7 +21,7 @@ const Align = {
   bottomRight: Bits.Bottom | Bits.LeftAlignment,
   bottomMiddle: Bits.Bottom,
   bottomLeft: Bits.Bottom | Bits.RightAlignment,
-  auto: 0
+  auto: Bits.Auto
 };
 
 // Indexing
