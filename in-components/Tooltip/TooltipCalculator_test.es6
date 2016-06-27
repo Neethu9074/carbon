@@ -170,4 +170,76 @@ describe('in-components/TooltipCalculator', () => {
     expect(result.top).to.equal(bounds.top);
     expect(result.bottom).to.equal(bounds.bottom);
   });
+
+  it('should flip rightTop align to leftTop', () => {
+    prepare(300, 300, bounds.right - 200, bounds.top, 200, 200, 'rightTop');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('leftTop');
+  });
+
+  it('should flip rightMiddle align to leftMiddle', () => {
+    prepare(300, 300, bounds.right - 400, bounds.bottom - 400, 200, 200, 'rightMiddle');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('leftMiddle');
+  });
+
+  it('should flip rightBottom align to leftBottom', () => {
+    prepare(300, 300, bounds.right - 200, bounds.bottom - 200, 200, 200, 'rightBottom');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('leftBottom');
+  });
+
+  it('should flip leftTop align to rightTop', () => {
+    prepare(300, 300, bounds.left, bounds.top, 200, 200, 'leftTop');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('rightTop');
+  });
+
+  it('should flip leftMiddle align to rightMiddle', () => {
+    prepare(300, 300, bounds.left, bounds.bottom - 400, 200, 200, 'leftMiddle');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('rightMiddle');
+  });
+
+  it('should flip leftBottom align to rightBottom', () => {
+    prepare(300, 300, bounds.left, bounds.bottom - 200, 200, 200, 'leftBottom');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('rightBottom');
+  });
+
+  it('should flip topLeft align to bottomLeft', () => {
+    prepare(300, 300, bounds.left, bounds.top, 200, 200, 'topLeft');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('bottomLeft');
+  });
+
+  it('should flip topMiddle align to bottomMiddle', () => {
+    prepare(300, 300, bounds.left + 400, bounds.top, 200, 200, 'topMiddle');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('bottomMiddle');
+  });
+
+  it('should flip topRight align to bottomLeft', () => {
+    prepare(300, 300, bounds.right - 200, bounds.top, 200, 200, 'topRight');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('bottomRight');
+  });
+
+  it('should flip bottomLeft align to topLeft', () => {
+    prepare(300, 300, bounds.left, bounds.bottom - 200, 200, 200, 'bottomLeft');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('topLeft');
+  });
+
+  it('should flip bottomMiddle align to topMiddle', () => {
+    prepare(300, 300, bounds.left + 400, bounds.bottom - 200, 200, 200, 'bottomMiddle');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('topMiddle');
+  });
+
+  it('should flip bottomRight align to topRight', () => {
+    prepare(300, 300, bounds.right - 200, bounds.bottom - 200, 200, 200, 'bottomRight');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('topRight');
+  });
 });

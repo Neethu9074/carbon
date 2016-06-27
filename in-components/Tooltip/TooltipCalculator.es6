@@ -199,6 +199,12 @@ const TooltipCalculator = {
     if (data.top !== null) {
       mask = this.clipInternally(mask, data.top, bounds.top, bounds.bottom, height(tooltip), t, b);
     }
+    if (data.right !== null) {
+      mask = this.clipInternally(mask, data.right, bounds.left, bounds.right, width(tooltip), l, r);
+    }
+    if (data.bottom !== null) {
+      mask = this.clipInternally(mask, data.bottom, bounds.top, bounds.bottom, height(tooltip), t, b);
+    }
     return mask;
   },
 
