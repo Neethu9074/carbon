@@ -22,7 +22,7 @@ const block = 'in-table-view-physical';
 export default connectTo({
     viewStructure: physicalViewStructure$,
     isFilterActive: isFilterActive$,
-    snapshotIdsMatchingFilter: snapshotIdsInPhysicalViewMatchingFilter$
+    snapshotIdsMatchingFilter: snapshotIdsInPhysicalViewMatchingFilter$.startWith([])
   }, function PhysicalTableViewContent({viewStructure,
       isFilterActive, snapshotIdsMatchingFilter}) {
     if (!viewStructure) {
