@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 import React from 'react';
 
 import './PhysicalSummary.less';
@@ -11,7 +13,15 @@ export default function PhysicalSummary({zones}) {
 
   return (
     <p className={block}>
-      You are monitoring <em>{hostCount} Hosts</em> in <em>{zones.length} Zones</em>
+      <em>{hostCount} {simplePluralize('Host', hostCount)}</em> in <em>{zones.length} {simplePluralize('Zone', zones.length)}</em>
     </p>
   );
+}
+
+
+function simplePluralize(word, count) {
+  if (count === 1) {
+    return word;
+  }
+  return `${word}s`;
 }
