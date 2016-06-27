@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {toggleTableViewVisibility, isTableVisible$} from 'in-components/tableView/stores/visibility';
-import {setActiveControl} from 'in-components/Filterbar/stores/filterbarActiveControl';
+import {activeControl$, setActiveControl} from 'in-components/Filterbar/stores/filterbarActiveControl';
 import {isOpen$, close} from 'in-components/Filterbar/stores/filterbarVisibilityStore';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -14,33 +14,52 @@ const block = 'in-filterbar-controls';
 
 export default connectTo({
     isTableVisible: isTableVisible$,
+    activeControl: activeControl$,
     isOpen: isOpen$
   },
-  function FilterBarControls({isOpen, isTableVisible}) {
+  function FilterBarControls({isOpen, isTableVisible, activeControl}) {
     return (
       <div className={block + (isOpen ? ' ' + block + '__open' : '')}>
-        {controlItem('metrics', 'Show Metrics.', () => setActiveControl('metrics'))}
-        {controlItem('tags', 'Show Tags.', () => setActiveControl('tags'), true)}
-        {__DEV__ ? controlItem('system', 'Show map statistics.', () => {}, true) : null}
+        {controlItem(activeControl,
+          'metrics',
+          'Show Metrics.',
+          () => setActiveControl('metrics'))}
 
+        {controlItem(activeControl,
+          'tags',
+          'Show Tags.',
+          () => setActiveControl('tags'), true)}
+
+        {__DEV__ ? controlItem(activeControl,
+          'system',
+          'Show map statistics',
+          () => setActiveControl('system'), true) : null}
         <br/>
 
-        {controlItem('menue', 'Switch between 3D view and tabular form.', () => {
-          toggleTableViewVisibility();
-          if (!isTableVisible) {
-            close();
+        {controlItem(activeControl,
+          'menue',
+          'Switch between 3D view and tabular form.',
+          () => {
+            toggleTableViewVisibility();
+            if (!isTableVisible) {
+              close();
+            }
           }
-        })}
+        )}
       </div>
     );
   }
 );
 
-function controlItem(type, tooltipText, onClick, addTopBorder) {
+function controlItem(activeControl, type, tooltipText, onClick, addTopBorder) {
+  let classes = block + '__control';
+  addTopBorder ? classes += ' ' + block + '__control--with-border' : null;
+  activeControl === type ? classes += ' ' + block + '__control__active' : null;
+
   return (
     <Tooltip content={tooltipText}
              align='leftMiddle'>
-      <div className={block + '__control' + (addTopBorder ? ' ' + block + '__control--with-border' : '')}
+      <div className={classes}
           onClick={onClick}>
         <Icon type={type}
               className={block + '__icon'}/>
