@@ -59,6 +59,77 @@ const createElement = () => {
   };
 };
 
+// Resolves auto-alignments for tooltips according to
+// the following pattern. The center point of reference
+// is chosen for making a decision:
+//
+// +--+--+--+
+// |BL|BM|BR| (X% of screen height)
+// +----+---+
+// | RM | LM| (Y% of screen height)
+// +----+---+
+// |TL|TM|TR| (X% of screen height)
+// +--+--+--+
+// X% Y% X% (of screen width)
+const AutoAlignmentResolver = {
+
+  // X% percentage of screen space for the corners
+  cornerFactor: 0.2, // 20%
+
+  isLeft(center, bounds) {
+    return center.x < width(bounds) * this.cornerFactor;
+  },
+
+  isRight(center, bounds) {
+    return center.x > width(bounds) - width(bounds) * this.cornerFactor;
+  },
+
+  isTop(center, bounds) {
+    return center.y < height(bounds) * this.cornerFactor;
+  },
+
+  isBottom(center, bounds) {
+    return center.y > height(bounds) - height(bounds) * this.cornerFactor;
+  },
+
+  resolve(bounds, tooltip, reference) {
+    const center = {
+      x: centerX(reference),
+      y: centerY(reference)
+    };
+    // Top
+    if (this.isTop(center, bounds)) {
+      // Left
+      if (this.isLeft(center, bounds)) {
+        return Align.bottomLeft;
+      // Right
+      } else if (this.isRight(center, bounds)) {
+        return Align.bottomRight;
+      }
+      // Middle
+      return Align.bottomMiddle;
+    // Bottom
+    } else if (this.isBottom(center, bounds)) {
+      // Left
+      if (this.isLeft(center, bounds)) {
+        return Align.topLeft;
+      // Right
+      } else if (this.isRight(center, bounds)) {
+        return Align.topRight;
+      }
+      // Middle
+      return Align.topMiddle;
+    }
+    if (center.x < width(bounds) / 2) {
+      return Align.rightMiddle;
+    }
+    // Middle
+    return Align.leftMiddle;
+  }
+};
+
+// Calculates 'top', 'left', 'right' and 'bottom' attributes
+// for DOM tooltips and other elements.
 const TooltipCalculator = {
 
   margin: 10,
@@ -111,10 +182,11 @@ const TooltipCalculator = {
   },
 
   // Calculates the bitmask for tooltip alignment
-  retreiveMask(bounds, tooltip) {
+  retreiveMask(bounds, tooltip, reference) {
     let mask = Bits.Bottom;
-    if (tooltip.align === 'undefined' || tooltip.align === Align.Auto) {
-      // TODO
+    if (tooltip.align === 'undefined' || Align[tooltip.align] === Align.auto) {
+      mask = AutoAlignmentResolver.resolve(bounds, tooltip, reference);
+      tooltip.align = this.retrieveAlignment(mask, Align.auto);
     } else {
       mask = Align[tooltip.align];
     }
@@ -193,19 +265,34 @@ const TooltipCalculator = {
   // Provides a clipped mask which contains a better alignment to avoid
   // any bound collision
   clipMask(mask, data, bounds, tooltip) {
-    Object.keys(data).forEach((key) => {
-      if (key === 'left' || key === 'right') {
-        mask = this.clipInternally(mask, data[key], bounds.left, bounds.right, width(tooltip), l, r);
-      } else {
-        mask = this.clipInternally(mask, data[key], bounds.top, bounds.bottom, height(tooltip), t, b);
+    Object
+      .keys(data)
+      .filter((key) => data[key] != null)
+      .forEach((key) => {
+        if (key === 'left' || key === 'right') {
+          mask = this.clipInternally(key, mask, data[key], bounds.left, bounds.right, width(tooltip), l, r);
+        } else {
+          mask = this.clipInternally(key, mask, data[key], bounds.top, bounds.bottom, height(tooltip), t, b);
+        }
       }
-    });
+    );
     return mask;
   },
 
   // Helper method to clip internally a mask on bit layer
-  clipInternally(mask, coord, clipLimit1, clipLimit2, size, align1, align2) {
-    if (coord < clipLimit1 || coord + size > clipLimit2) {
+  clipInternally(key, mask, coord, clipLimit1, clipLimit2, size, align1, align2) {
+    let clippingA = coord < clipLimit1;
+    let clippingB = coord + size > clipLimit2;
+
+    // Switch the clipping condition accordingly since
+    // the coordinate system changes for right and bottom alignment
+    if (key === 'right' && this.attr.x === 'right' ||
+        key === 'bottom' && this.attr.y === 'bottom') {
+      clippingA = coord - size < clipLimit1;
+      clippingB = coord > clipLimit2;
+    }
+    // Flip the mask when clipping occurs
+    if (clippingA || clippingB) {
       if (is(mask, align1) || is(mask, align2)) {
         mask = swap(mask, align1, align2);
         mask = swap(mask, la, ra);
