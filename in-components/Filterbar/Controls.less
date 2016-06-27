@@ -32,15 +32,6 @@
     transition: background @focus-transition-duration ease-in-out;
     color: @filterbar__controls__label;
 
-    &:first-child {
-      border-radius: 4px 0 0 0;
-    }
-
-    &:last-child {
-      border-bottom: 1px solid transparent;
-      border-radius: 0 0 0 4px;
-    }
-
     &--enabled {
       background: @filterbar__controls__background__regular;
 
@@ -61,6 +52,10 @@
 
     &--start-of-group {
       margin-top: 1rem;
+    }
+
+    &--end-of-group {
+      border-bottom: 1px solid transparent;
     }
   }
 

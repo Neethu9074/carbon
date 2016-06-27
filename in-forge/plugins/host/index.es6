@@ -1,6 +1,7 @@
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {addKeywordOperator, createPluginFieldPath, addSearchableType} from 'in-sdk/search';
 import {addIconsToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
@@ -46,3 +47,26 @@ addIconsToRegistry([ {
     image: windowsIconPath
   }
 ]);
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'number',
+  keyword: 'host.cpuCount',
+  field: createPluginFieldPath(constants.plugins.os, ['cpu.count'])
+});
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'host.hostname',
+  field: createPluginFieldPath(constants.plugins.os, ['hostname'])
+});
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'host.osName',
+  field: createPluginFieldPath(constants.plugins.os, ['os.name'])
+});
+
+addSearchableType('host', constants.plugins.os);

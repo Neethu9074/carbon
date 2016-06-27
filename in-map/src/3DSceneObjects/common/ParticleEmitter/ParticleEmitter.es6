@@ -1,0 +1,204 @@
+import * as ro from 'reactive-observables';
+import {remove} from 'lodash';
+import THREE from 'three';
+
+import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEmitter/SpiralSpawnPositionGenerator';
+import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
+import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
+import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
+import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
+import {getDeltaTime} from 'in-map/src/timeCalculations';
+import eventBus from 'in-map/src/eventbus';
+
+
+export default class ParticleEmitter extends SceneObject {
+
+  constructor({parent, id, config = {}}) {
+    super({parent, id});
+
+    this.particlesPerSecond = config.particlesPerSecond || 10;
+    this.maxParticles = config.maxParticles || 50;
+    this.timeToLife = config.timeToLife || 5;
+    this.secToNextParticle = 1 / this.particlesPerSecond;
+
+    this.isRunning = false;
+
+    this.positionGenerationStrategy = createPositionGenerator();
+
+    this.arrayCusor = 0;
+    this.progresses = new Float32Array(this.maxParticles);
+    this.vertices = new Float32Array(this.maxParticles * 3);
+    for (let i = 0; i < this.vertices.length; i++) {
+      this.vertices[i] = 100000;
+    }
+
+    this.particles = [];
+
+    const geometry = this.geometry = new THREE.BufferGeometry();
+    geometry.dynamic = true;
+    this.positionNeedsUpdate();
+
+    const texture = new THREE.Texture();
+    texture.minFilter = THREE.LinearFilter;
+    texture.generateMipmaps = false;
+    texture.flipY = false;
+    const manager = new THREE.LoadingManager();
+    const img = new THREE.ImageLoader(manager).load(pointShape, () => texture.needsUpdate = true);
+    texture.image = img;
+
+    const material = this.material = new THREE.RawShaderMaterial({
+      fragmentShader,
+      vertexShader,
+      transparent: true,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+      uniforms: {
+        texture: { type: 't', value: texture }
+      }
+    });
+
+    // a global mesh that stores global geometry
+    const mesh = this.mesh = new THREE.Points(geometry, material);
+    mesh.rotationAutoUpdate = false;
+    mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
+
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
+    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
+
+    let wordsWritten = '';
+    this.startSubscription = ro.on(window, 'keydown').subscribe(event => {
+      wordsWritten += String.fromCharCode(event.keyCode);
+      wordsWritten = wordsWritten.substring(wordsWritten.length - 9, 10);
+
+      if (wordsWritten.toLowerCase() === 'particles') {
+        this.start();
+        this.startSubscription.dispose();
+        this.startSubscription = null;
+      }
+    });
+  }
+
+  setFromAndTo(fromPos, toPos) {
+    this.mesh.position.set(fromPos.x - 0.5, fromPos.y, fromPos.z + 0.5);
+
+    const targetPosition = new THREE.Vector3(toPos.x - 0.5, toPos.y, toPos.z + 0.5);
+    this.mesh.lookAt(targetPosition);
+
+    const direction = targetPosition.sub(this.mesh.position);
+    // -1 because we want the particles to break on the border of the nodes. For that we translate the particles
+    // 0.5 to direction and cap them 0.5 before end which results in scale.z - 1
+    this.mesh.scale.set(1, 1, direction.length() - 1);
+
+    this.mesh.position.add(direction.normalize().multiplyScalar(0.5));
+  }
+
+  updateVertices() {
+    this.mesh.updateMatrix();
+  }
+
+  start() {
+    if (this.isRunning) {
+      return;
+    }
+
+    this.scene.addSceneObject(this.mesh);
+
+    this.timeElapsedSinceLastSpawn = 0;
+    this.updateSubscription = eventBus.on('beginUpdate').subscribe(() => this.update());
+
+    this.isRunning = true;
+  }
+
+  update() {
+    const dt = getDeltaTime();
+
+    for (let i = 0, length = this.particles.length; i < length; i++) {
+      const particle = this.particles[i];
+      particle.timeLived += dt;
+      this.progresses[particle.index] = particle.timeLived / this.timeToLife;
+    }
+    // remove old particles
+    remove(this.particles, particle => particle.timeLived >= this.timeToLife);
+
+    // spawn new particles
+    let numParticlesToSpawn = this.timeElapsedSinceLastSpawn / this.secToNextParticle;
+    if (numParticlesToSpawn >= 1) {
+      numParticlesToSpawn = Math.floor(numParticlesToSpawn);
+      this.timeElapsedSinceLastSpawn -= this.secToNextParticle * numParticlesToSpawn;
+
+      for (let i = 0; i < numParticlesToSpawn; i++) {
+        this.spawnParticle();
+      }
+    }
+
+    this.progressNeedsUpdate();
+    this.timeElapsedSinceLastSpawn += dt;
+  }
+
+  spawnParticle() {
+    const position = this.positionGenerationStrategy.getPositionForParticle();
+    const particle = {timeLived: 0};
+    this.particles.push(particle);
+
+    this.arrayCusor++;
+    if (this.arrayCusor >= this.maxParticles) {
+      this.arrayCusor -= this.maxParticles;
+    }
+    const newIndex = this.arrayCusor;
+    particle.index = newIndex;
+
+    // console.log('spawn particle at', index);
+    this.vertices[newIndex * 3] = position.x;
+    this.vertices[newIndex * 3 + 1] = position.y;
+    this.vertices[newIndex * 3 + 2] = position.z;
+
+    this.progresses[newIndex] = 0;
+
+    this.positionNeedsUpdate();
+  }
+
+  positionNeedsUpdate() {
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
+    this.geometry.attributes.position.needsUpdate = true;
+  }
+
+  progressNeedsUpdate() {
+    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
+    this.geometry.attributes.progress.needsUpdate = true;
+
+    this.scene.renderScene();
+  }
+
+  stop() {
+    if (!this.isRunning) {
+      return;
+    }
+
+    this.updateSubscription.dispose();
+
+    this.scene.removeSceneObject(this.mesh);
+    this.isRunning = false;
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.positionGenerationStrategy = null;
+    this.progresses = null;
+    this.isRunning = null;
+    this.particles = null;
+    this.vertices = null;
+
+    this.mesh.geometry.dispose();
+    this.mesh.material.dispose();
+    this.mesh = null;
+
+    this.numParticles = null;
+
+    if (this.startSubscription) {
+      this.startSubscription.dispose();
+      this.startSubscription = null;
+    }
+  }
+}

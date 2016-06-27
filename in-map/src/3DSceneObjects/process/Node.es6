@@ -1,18 +1,13 @@
 import {combineLatest} from 'reactive-observables';
 
-import {
-  voteUp,
-  voteDown,
-  addNode,
-  removeNode
-} from 'in-map/src/3DSceneObjects/process/processViewStores';
-import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
-import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
-import eventBus from 'in-map/eventbus';
-
 import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import {voteUp, voteDown, addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
+import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
+import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
 import {getColor} from 'in-sdk/color/color';
+import eventBus from 'in-map/src/eventbus';
 
 
 export default class Node extends SceneObjectWithSnapshot {
@@ -29,6 +24,19 @@ export default class Node extends SceneObjectWithSnapshot {
       eventBus.on('endUpdate').subscribe(() => {
         this.getComponent('screenPositionCluster').updateScreenPosition();
         this.getComponent('screenPositionMetric').updateScreenPosition();
+      }),
+
+      eventBus.on('dragObjectStart').subscribe(id => {
+        if (this.id === id) {
+          this.dragGhost = new DragGhost(this);
+        }
+      }),
+
+      eventBus.on('dragObjectStop').subscribe(() => {
+        if (this.dragGhost) {
+          this.dragGhost.dispose();
+          this.dragGhost = null;
+        }
       }),
 
       this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
@@ -91,11 +99,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
-
-  init() {
-    this.height = 0.5;
-  }
-
   initComponents() {
     super.initComponents();
 
@@ -141,17 +144,22 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   expand() {
-    Object.keys(this.childIds).forEach(id => voteUp(id));
+    this.childIds.forEach(id => voteUp(id));
+    this.isExpanded = true;
   }
 
   collapse() {
-    Object.keys(this.childIds).forEach(id => voteDown(id));
+    this.childIds.forEach(id => voteDown(id));
+    this.isExpanded = false;
   }
 
   setChildIds(childIds) {
-    this.childIds = childIds;
-    const numChildren = Object.keys(childIds).length;
-    if (numChildren === 0) {
+    this.childIds = Object.keys(childIds);
+    if (this.childIds.length === 0) {
+      if (this.stickyNote) {
+        this.stickyNote.dispose();
+        this.stickyNote = null;
+      }
       return;
     }
 
@@ -159,9 +167,7 @@ export default class Node extends SceneObjectWithSnapshot {
       this.stickyNote = new StickyNoteCluster(this);
     }
 
-    this.stickyNote.setNumChildren(Object.keys(childIds).length);
-
-    // TODO: if expanded, add to scene
+    this.stickyNote.setNumChildren(this.childIds.length);
   }
 
   positionChanged(newPos) {

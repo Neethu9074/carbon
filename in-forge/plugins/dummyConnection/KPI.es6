@@ -26,19 +26,19 @@ export default React.createClass({
                metrics={[
                  'METRIC_NAME_HERE',
                  'METRIC_NAME_HERE',
-                 'METRIC_NAME_HERE',
-                 'METRIC_NAME_HERE'
+                 'errors',
+                 'sessions'
                ]}
                labels={[
-                 'errors',
-                 'latency',
                  'calls/s',
+                 'latency',
+                 'errors',
                  'sessions'
                ]}
                formatters={[
-                 percentageTwoDecimalPlaces,
-                 msZeroDecimalPlaces,
                  zeroDecimalPlaces,
+                 msZeroDecimalPlaces,
+                 percentageTwoDecimalPlaces,
                  zeroDecimalPlaces
                ]}/>
     );

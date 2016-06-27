@@ -3,12 +3,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import LayoutControls from 'in-components/LayoutControls';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {isWebGLSupported} from 'in-services/util/webGL';
 import * as navigation from 'in-stores/navigation';
 import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 import connectTo from 'in-hoc/connectTo';
 
 import Scene from './Scene';
@@ -75,7 +76,11 @@ export default connectTo({
     // else show a notification with a zendesk help text.
     // if this dialog was closed show nothing but the deepest darkness.
     if (this.state.isWebGLSupported) {
-      return <div className={block} ref='parent' />;
+      return (
+        <div className={block} ref='parent'>
+          <LayoutControls />
+        </div>
+      );
     }
     return null;
   },

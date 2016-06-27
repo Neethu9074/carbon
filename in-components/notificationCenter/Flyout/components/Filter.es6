@@ -7,7 +7,7 @@ import Icon from 'in-components/Icon';
 import {
   setSelectedNotificationFilter,
   selectedNotificationFilter
-} from 'in-components/notificationCenter/Flyout/flyoutStore';
+} from 'in-components/notificationCenter/Flyout/stores/flyoutStore';
 
 import './Filter.less';
 

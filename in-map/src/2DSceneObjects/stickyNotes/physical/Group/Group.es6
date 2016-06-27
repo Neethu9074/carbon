@@ -91,6 +91,7 @@ const PhysicalGroup = getSnapshot(
       return (
         <Tooltip align={'rightMiddle'}
                  content={<EventDescription event={mostImportantEvent}
+                                            showFullTextIfToLong={false}
                                             snapshotId={this.props.snapshotId}/>
                          }>
           {icon}

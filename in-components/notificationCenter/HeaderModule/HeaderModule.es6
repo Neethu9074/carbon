@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {toggleMenu} from 'in-components/notificationCenter/notificationCenterStore';
+import {toggleMenu} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {openEventsAtServerTime$} from 'in-stores/events';

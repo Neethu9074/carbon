@@ -7,7 +7,7 @@ import {
   event$,
   selectedEventList$,
   EVENT_LISTS
-} from 'in-components/notificationCenter/Flyout/flyoutStore';
+} from 'in-components/notificationCenter/Flyout/stores/flyoutStore';
 import Filter from 'in-components/notificationCenter/Flyout/components/Filter';
 import {emptyArray} from 'in-services/fixedObjects';
 import {countEvents} from 'in-stores/events';

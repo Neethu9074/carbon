@@ -1,6 +1,6 @@
 import immutable from 'immutable';
 
-import {voteUp, nodeIdVoting$} from 'in-map/src/3DSceneObjects/process/processViewStores';
+import {voteUp, nodeIdVoting$} from 'in-map/src/stores/process/nodesStore';
 import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
 import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
 import {emptyArray} from 'in-services/fixedObjects';

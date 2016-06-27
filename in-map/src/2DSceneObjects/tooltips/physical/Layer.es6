@@ -43,6 +43,7 @@ const LayerTooltipRC = getMostImportantEvent(
       <TooltipFrame>
         {mostImportantEvent ?
           <EventDescription event={mostImportantEvent}
+                            showFullTextIfToLong={false}
                             snapshotId={this.props.snapshotId}/>
           :
           <Content>

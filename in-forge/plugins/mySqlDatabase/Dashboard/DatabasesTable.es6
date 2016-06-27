@@ -115,14 +115,16 @@ function createDetails(db, i, context) {
                              metrics: [
                                'databases.' + db + '.select_count',
                                'databases.' + db + '.insert_count',
+                               'databases.' + db + '.update_count',
                                'databases.' + db + '.delete_count',
-                               'databases.' + db + '.update_count'
+                               'databases.' + db + '.other_count'
                              ],
                              labels: [
                                'SELECTS',
-                               'UPDATES',
                                'INSERTS',
-                               'DELETES'
+                               'UPDATES',
+                               'DELETES',
+                               'OTHER'
                              ],
                              type: 'stackedArea'
                            }}/>

@@ -65,7 +65,7 @@ const BackToMap = React.createClass({
     return (
       <Button className={block + '__button'}
               onClick={navigation.goToMap}>
-        back to map
+        Close Dashboard
       </Button>
     );
   }

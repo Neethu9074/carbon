@@ -1,27 +1,20 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-import {getClassName} from 'in-services/react';
+import {closeFilterbar} from 'in-components/Filterbar/stores/filterbarIsOpenStore';
+import IconOnlyCloseButton from 'in-components/IconOnlyCloseButton';
 
 import './ListHeader.less';
 
+
 const block = 'in-sidebar-listheader';
 
-const ListHeader = React.createClass({
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    header: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string
-  },
-
-  render() {
-    return (
-      <h2 className={getClassName(this, block)}>
-        {this.props.header}
+export default function ListHeader({header}) {
+  return (
+    <div className={block}>
+      <IconOnlyCloseButton onClick={closeFilterbar} />
+      <h2 className={block + '__title'}>
+        {header}
       </h2>
-    );
-  }
-});
-
-export default ListHeader;
+    </div>
+  );
+}

@@ -33,6 +33,9 @@ export default class SceneObject {
   }
 
   setScreenPosition({x, y}) {
+    x = Math.round(x);
+    y = Math.round(y);
+
     applyTransform(this.container, `translate3d(${x}px,${y}px,0)`);
 
     // set to '' because the display is set by zoom too. If you would set

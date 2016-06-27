@@ -11,12 +11,13 @@ import CameraController from 'in-map/src/controls/physical/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
 import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
+import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 import {activeMetric} from 'in-services/stores/metrics';
 import * as snapshotStore from 'in-stores/snapshot';
 import {viewStructure} from 'in-stores/view';
 import {find} from 'in-services/arrayUtils';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 
 export default class Map extends BaseMap {
@@ -28,6 +29,7 @@ export default class Map extends BaseMap {
   init() {
     this.activeMetric = null;
     this.groups = [];
+    this.layouter = new Layouter();
   }
 
   setupFactories() {
@@ -78,7 +80,14 @@ export default class Map extends BaseMap {
         }
       }),
 
-      snapshotStore.selectedSnapshotId.subscribe(selectedId => selectedId ? this.hideHulls() : this.showHulls())
+      snapshotStore.selectedSnapshotId.subscribe(selectedId => selectedId ? this.hideHulls() : this.showHulls()),
+
+      focusEntityId$.subscribe(id => {
+        // if there is no entity defined, center map
+        if (!id) {
+          this.centerMap();
+        }
+      })
     ]);
 
     this.metricUpdateInterval = setInterval(() => {
@@ -225,8 +234,12 @@ export default class Map extends BaseMap {
     }
   }
 
+  centerMap() {
+    this.controller.flyToPosition(this.layouter.currentDimensions.x / 2, -this.layouter.currentDimensions.y / 2);
+  }
+
   applyLayout() {
-    new Layouter().applyLayout(this);
+    this.layouter.applyLayout(this);
   }
 
   dispose() {

@@ -1,10 +1,14 @@
 import React from 'react';
 
 import PhysicalTableViewContent from 'in-components/tableView/components/PhysicalTableViewContent';
-import {isTableVisible$} from 'in-components/tableView/tableViewStore';
+import {isOpen$ as isSidebarOpen$} from 'in-components/sidebars/Map/sidebarStore';
+import {isTableVisible$} from 'in-components/tableView/stores/visibility';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
-import connectTo from 'in-hoc/connectTo';
+import {clearSelectedSnapshotId} from 'in-stores/snapshot';
+import {clearSelectedIncident} from 'in-stores/incident';
+import {clearSelectedEvent} from 'in-stores/events';
 import {view$, types} from 'in-stores/view';
+import connectTo from 'in-hoc/connectTo';
 
 import './TableView.less';
 
@@ -13,8 +17,9 @@ const block = 'in-table-view';
 export default connectTo({
     isTableVisible: isTableVisible$,
     isCollapsed: isCollapsed$,
-    view: view$
-  }, function TableView({isTableVisible, isCollapsed, view}) {
+    view: view$,
+    isSidebarOpen: isSidebarOpen$
+  }, function TableView({isTableVisible, isCollapsed, view, isSidebarOpen}) {
     if (!isTableVisible) {
       return null;
     }
@@ -25,6 +30,10 @@ export default connectTo({
       classes += ' ' + block + '--timeline-expanded';
     }
 
+    if (isSidebarOpen) {
+      classes += ' ' + block + '--sidebar-open';
+    }
+
     let content;
     if (view === types.physical) {
       content = <PhysicalTableViewContent />;
@@ -33,7 +42,12 @@ export default connectTo({
     }
 
     return (
-      <div className={classes}>
+      <div className={classes}
+           onClick={() => {
+             clearSelectedIncident();
+             clearSelectedSnapshotId();
+             clearSelectedEvent();
+           }}>
         {content}
       </div>
     );

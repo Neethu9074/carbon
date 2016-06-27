@@ -1,35 +1,26 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ClusterMembersList from 'in-components/ClusterMembersList';
+import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 
 
-export default React.createClass({
+export default function CassandraClusterSidebar({snapshot}) {
+  const snapshotId = snapshot.get('id');
+  const data = snapshot.get('data');
 
-  displayName: 'CassandraClusterSidebar',
+  return (
+    <div>
+      <DescriptionList>
+        <DescriptionItem title='Health'>
+          <AnnotatedHealthBar snapshotId={snapshotId}/>
+        </DescriptionItem>
+        <DescriptionItem title='Name'>
+          {data.get('groupId')}
+        </DescriptionItem>
+      </DescriptionList>
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    const snapshot = this.props.snapshot;
-    const data = snapshot.get('data');
-
-    return (
-      <div>
-        <DescriptionList>
-          <DescriptionItem title='Cluster name'>
-            {data.get('groupId')}
-          </DescriptionItem>
-        </DescriptionList>
-
-        <ClusterMembersList snapshotId={snapshot.get('id')} />
-      </div>
-    );
-  }
-});
+      <ClusterMembersList snapshotId={snapshotId} />
+    </div>
+  );
+}

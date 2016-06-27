@@ -1,22 +1,23 @@
 import React from 'react';
 
-import {getClassName} from 'in-services/react';
-
 import './Lettering.less';
 
-const Lettering = React.createClass({
-  propTypes: {
-    className: React.PropTypes.string
-  },
+const block = 'in-lettering';
 
-  render() {
-    const className = getClassName(this, 'in-lettering');
-    return (
-      <div className={className}>
-        instana Inc.
-      </div>
-    );
+export default function Lettering({className, onClick}) {
+  let classes = block;
+  if (className) {
+    classes = `${block} ${className}`;
   }
-});
 
-export default Lettering;
+  if (onClick) {
+    classes = `${classes} ${block}--clickable`;
+  }
+
+  return (
+    <div className={classes}
+         onClick={onClick}>
+      instana Inc.
+    </div>
+  );
+}

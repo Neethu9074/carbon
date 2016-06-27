@@ -1,0 +1,105 @@
+import {parse as parseString} from 'in-services/search/queryParser';
+import ParsingError from 'in-services/search/ParsingError';
+import {getKeywordOperators} from 'in-sdk/search';
+
+const allowedOperators = {
+  number: ['<', '<=', '=', '>=', '>'],
+  string: ['='],
+  selection: ['=']
+};
+
+const valueValidators = {
+  number(s, keywordOperator, queryPart) {
+    if (isNaN(Number(s))) {
+      throw new ParsingError(
+        `Unsupported value ${s} for key ${queryPart.key} at line ${queryPart.row}. Expected value to be a number.`,
+        queryPart.row
+      );
+    }
+  },
+  selection(s, keywordOperator, queryPart) {
+    if (keywordOperator.validate) {
+      const error = keywordOperator.validate(s, queryPart);
+      if (error) {
+        throw new ParsingError(error, queryPart.row);
+      }
+    }
+  }
+};
+
+const luceneValueConverters = {
+  number(v) { return `${v}`; },
+  string(v) {
+    if (/[ :-]/.test(v)) {
+      return `'${v}'`;
+    }
+    return v;
+  },
+  selection(v, keywordOperator) { return this.string(keywordOperator.toValue(v)); }
+};
+
+export function transformToLuceneQuery(query, contexts = ['entity']) {
+  const queryParts = parseString(query);
+  const keywordOperators = createKeywordBasedIndex(getKeywordOperators(contexts));
+
+  let luceneQuery = '';
+
+  while (queryParts.length > 0) {
+    const queryPart = queryParts.shift();
+    if (queryPart.type === 'freeText') {
+      luceneQuery = `${luceneQuery} '${queryPart.text}'`;
+    } else if (queryPart.type === 'kv') {
+      const kvLuceneQueryPart = transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart);
+      luceneQuery = `${luceneQuery} ${kvLuceneQueryPart}`;
+    }
+  }
+
+  return luceneQuery.trim();
+}
+
+
+function createKeywordBasedIndex(keywordOperators) {
+  return keywordOperators
+    .reduce((index, keywordOperator) => {
+      index[keywordOperator.keyword] = keywordOperator;
+      return index;
+    }, {});
+}
+
+
+function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
+  const key = queryPart.key;
+  const value = queryPart.value;
+  const row = queryPart.row;
+
+  const keywordOperator = keywordOperators[key];
+
+  if (!keywordOperator) {
+    throw new ParsingError(`Unknown key ${key} at line ${row}.`, queryPart.row);
+  }
+
+  const type = keywordOperator.type;
+  if (allowedOperators[type].indexOf(queryPart.operator) === -1) {
+    throw new ParsingError(
+      `Unsupported operator ${queryPart.operator} for key ${key} at line ${row}.`,
+      queryPart.row
+    );
+  }
+
+
+  const validator = valueValidators[type];
+  if (validator) {
+    validator(queryPart.value, keywordOperator, queryPart);
+  }
+
+  const luceneOperator = queryPart.operator === '=' ? '' : queryPart.operator;
+  const luceneValue = luceneValueConverters[type](value, keywordOperator);
+  return `${keywordOperator.field}:${luceneOperator}${luceneValue}`;
+}
+
+
+export function getTagFiltersFromQuery(query) {
+  return parseString(query)
+    .filter(queryPart => queryPart.type === 'kv' && queryPart.key === 'tag')
+    .map(queryPart => queryPart.value.toLowerCase());
+}

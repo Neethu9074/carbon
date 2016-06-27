@@ -17,7 +17,7 @@ export default class Map extends BaseMap {
 
     this.edges = {};
     this.nodes = {};
-    this.layouter = new Layouter(this);
+    this.layouter = new Layouter();
 
     this.graphToProcessViewAdapter = new GraphToProcessViewHandler(this);
   }
@@ -51,7 +51,8 @@ export default class Map extends BaseMap {
     return new CameraController({
       canvas,
       scene: this.scene,
-      camera: this.camera
+      camera: this.camera,
+      map: this
     });
   }
 

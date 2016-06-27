@@ -5,7 +5,7 @@ import {isInternalEnvironment} from 'in-services/config';
 import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import './ViewSwitcher.less';
 

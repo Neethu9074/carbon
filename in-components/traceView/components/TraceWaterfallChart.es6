@@ -13,15 +13,19 @@ import {getLabel} from 'in-sdk/tracing';
 
 import './TraceWaterfallChart.less';
 
-const block = 'in-trace-waterfall-chart';
 
+const block = 'in-trace-waterfall-chart';
 
 const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
   const left = scale.getRange(span.get('start'));
   const right = scale.getRange(span.get('start') + span.get('duration'));
   const selected = span.get('spanId') === selectedSpanId;
+  const spanHasError = span.get('error');
 
   let classes = block + '__span';
+  if (spanHasError) {
+    classes += '-error';
+  }
   if (selected) {
     classes += ' ' + classes + '--selected';
   }
@@ -36,8 +40,9 @@ const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
              width: `${right - left}%`
            }}
            onClick={onClick}>
-        <div className={block + '__span-block'}>
-        </div>
+        <div className={
+               block + '__span-block' + (spanHasError ? '-error' : '')
+             }/>
         <span>
           {msZeroDecimalPlaces(span.get('duration'))}: {getLabel(span)}
         </span>
@@ -52,7 +57,6 @@ const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
     </div>
   );
 };
-
 
 export default connectTo({
     selectedSpanId: selectedSpanId$
@@ -73,13 +77,15 @@ export default connectTo({
       scale.setRangeTo(100);
       scale.setDomainFrom(domain[0]);
       scale.setDomainTo(domain[1]);
-      const axisConfig = getAxisConfig(scale.getDomainTo() - scale.getDomainFrom());
-      const ticks = getTickPositions(scale, axisConfig);
+      const fullDomain = scale.getDomainTo() - scale.getDomainFrom();
+      const axisConfig = getAxisConfig(fullDomain);
+      const ticks = getTickPositions(scale, axisConfig, true);
 
       return (
         <div className={block}>
           <TraceWaterfallAxis ticks={ticks}
-                              axisConfig={axisConfig} />
+                              axisConfig={axisConfig}
+                              fullDomain={fullDomain} />
           <TraceWatterfallSpan span={this.props.trace}
                                scale={scale}
                                selectedSpanId={this.props.selectedSpanId} />

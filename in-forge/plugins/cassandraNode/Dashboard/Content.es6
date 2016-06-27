@@ -5,6 +5,7 @@ import d3 from 'd3';
 
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
 import {capitalize} from 'in-services/formatters/string';
+import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
 import {timeframeShape} from 'in-stores/timeline';
 
 import DashboardSection from 'in-components/DashboardSection';
@@ -14,8 +15,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 const chartHeight = 200;
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
-const muSecondsToMillisFormatter = muSeconds => +(Math.round(muSeconds / 1000.0 + 'e+2')  + 'e-2') + ' ms';
-
 
 const CassandraDashboard = React.createClass({
   mixins: [PureRenderMixin],
@@ -48,7 +47,7 @@ const CassandraDashboard = React.createClass({
                                'Read',
                                'Write'
                              ],
-                             type: 'line'
+                             type: 'stackedArea'
                            }}/>
         </DashboardSection>
 
@@ -63,7 +62,7 @@ const CassandraDashboard = React.createClass({
                              }}
                              y1={{
                                min: 0,
-                               formatter: muSecondsToMillisFormatter,
+                               formatter: muSecondsToMillisZeroDecimalPlaces,
                                metrics: [
                                  'clientrequests.' + op + '.mean',
                                  'clientrequests.' + op + '.50',

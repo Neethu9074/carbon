@@ -1,12 +1,12 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react';
 import moment from 'moment';
+import React from 'react';
 
-import connectTo from 'in-hoc/connectTo';
-
-import {event$, selectedNotificationFilter} from 'in-components/notificationCenter/Flyout/flyoutStore';
+import {event$, selectedNotificationFilter} from 'in-components/notificationCenter/Flyout/stores/flyoutStore';
 import EventDescription from 'in-components/EventDescription';
+import {selectedEventId$} from 'in-stores/events';
+import connectTo from 'in-hoc/connectTo';
 
 import './EventItemList.less';
 
@@ -15,6 +15,7 @@ const block = 'in-notificationcenter-eventitemlist';
 const rpt = React.PropTypes;
 
 export default connectTo({
+    selectedEventId: selectedEventId$,
     selectedNotificationFilter,
     allEvents: event$
   },
@@ -28,6 +29,7 @@ export default connectTo({
 
     propTypes: {
       selectedNotificationFilter: rpt.object,
+      selectedEventId: rpt.string,
       allEvents: irpt.list,
       style: rpt.object
     },
@@ -59,12 +61,17 @@ export default connectTo({
                 {events.map(event => <EventDescription key={event.get('id')}
                                                        event={event}
                                                        snapshotId={event.getIn(['problem', 'snapshotId'], '')}
-                                                       className={block + '__item'}/>)}
+                                                       className={this.getEventClass(event.get('id'))}/>)}
               </li>
             );
           })}
        </ul>
       );
+    },
+
+    getEventClass(id) {
+      const baseClass = block + '__item';
+      return id === this.props.selectedEventId ? baseClass + '__selected' : baseClass;
     },
 
     getDayStringForDate(dateString) {

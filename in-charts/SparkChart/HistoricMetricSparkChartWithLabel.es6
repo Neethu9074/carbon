@@ -16,15 +16,16 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    width: rpt.number.isRequired,
-    height: rpt.number.isRequired,
     timeframe: timelineStore.timeframeShape.isRequired,
+    height: rpt.number.isRequired,
+    width: rpt.number.isRequired,
 
     snapshotId: rpt.string.isRequired,
     metric: rpt.string.isRequired,
-    rollup: rpt.number,
     aggregation: rpt.string,
-    formatter: rpt.func
+    formatter: rpt.func,
+    design: rpt.string,
+    rollup: rpt.number
   },
 
   render() {
@@ -35,6 +36,7 @@ export default React.createClass({
                      formatter={this.props.formatter}
                      className={block + '__value'}/>
         <HistoricMetricSparkChart {...this.props}
+                                  design={this.props.design}
                                   className={block + '__chart'}/>
       </div>
     );

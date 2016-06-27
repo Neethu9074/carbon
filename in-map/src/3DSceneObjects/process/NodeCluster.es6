@@ -1,7 +1,7 @@
 import THREE from 'three';
 
+import HighlightingComponent from 'in-map/src/components/process/HighlightingComponentForCylinder';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import HighlightingComponent from 'in-map/src/components/process/HighlightingComponent';
 import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
 import TopMeshComponent from 'in-map/src/components/process/TopMeshComponent';
 import MeshComponent from 'in-map/src/components/common/MeshComponent';
@@ -25,7 +25,7 @@ export default class NodeCluster extends Node {
   }
 
   init() {
-    super.init();
+    this.height = 0.5;
 
     this.label = new Label({
       id: this.id,
@@ -93,6 +93,10 @@ export default class NodeCluster extends Node {
 
   createMetricSticky() {
     return new StickyNoteMetric(this);
+  }
+
+  getDragGhostGeometry() {
+    return new THREE.CylinderBufferGeometry(0.5, 0.5, 0.5, 20, 20);
   }
 
   dispose() {

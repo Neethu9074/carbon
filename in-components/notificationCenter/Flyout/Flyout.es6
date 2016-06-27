@@ -2,9 +2,10 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import EventListSwitcher from 'in-components/notificationCenter/Flyout/components/EventListSwitcher';
+import {isOpen$, closeMenu} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
 import EventItemList from 'in-components/notificationCenter/Flyout/components/EventItemList';
 import FilterBar from 'in-components/notificationCenter/Flyout/components/FilterBar';
-import {isOpen$} from 'in-components/notificationCenter/notificationCenterStore';
+import IconOnlyCloseButton from 'in-components/IconOnlyCloseButton';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,7 +18,8 @@ const rpt = React.PropTypes;
 export default connectTo({
     isTimelineCollapsed: isCollapsed$,
     showNotificationCenter: isOpen$
-  }, React.createClass({
+  },
+  React.createClass({
 
     displayName: 'Flyout',
 
@@ -43,7 +45,11 @@ export default connectTo({
 
       return (
         <div className={classes}>
-          {'Notifications'}
+          <div className={classes + '__header-wrapper'}>
+            <IconOnlyCloseButton onClick={closeMenu} />
+            {'Notifications'}
+          </div>
+
           <EventListSwitcher />
           <FilterBar />
           <EventItemList style={this.props.style} />

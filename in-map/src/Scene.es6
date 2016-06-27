@@ -9,7 +9,7 @@ import {clearSelectedIncident} from 'in-stores/incident';
 import {activeMetric} from 'in-services/stores/metrics';
 import {clearSelectedEvent} from 'in-stores/events';
 import {theme} from 'in-services/theme';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import './lib/Octree';
 

@@ -1,9 +1,10 @@
 import THREE from 'three';
 
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/physical/Node';
+import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import {activeMetric} from 'in-services/stores/metrics';
+import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
-import eventBus from 'in-map/eventbus';
 
 import ConnectionsHandlerComponent from 'in-map/src/components/physical/ConnectionsHandlerComponent';
 import GroundLineMeshComponent from 'in-map/src/components/physical/GroundLineMeshComponent';
@@ -193,7 +194,7 @@ export default class Node extends SceneObjectWithSnapshot {
         this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
         this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)),
 
-        eventBus.on('focusEntityId').subscribe(id => {
+        focusEntityId$.subscribe(id => {
           if (this.id === id) {
             eventBus.emit('flyToEntity', this);
           }

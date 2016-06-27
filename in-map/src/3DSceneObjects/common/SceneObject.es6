@@ -4,7 +4,7 @@ import {currentScene, currentTooltip, tooltipForSceneObject} from 'in-map/src/ma
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
 import Subscriber from 'in-map/src/Subscriber';
-import eventBus from 'in-map/eventbus';
+import eventBus from 'in-map/src/eventbus';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import PositionComponent from '../../components/common/PositionComponent';

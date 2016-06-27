@@ -81,8 +81,8 @@ function createDetails(name, i, context) {
                left: 60
              }}
              y1={{
-               metrics: 'siteperf.' + name + '.total_requests',
-               labels: 'Total number of requests',
+               metrics: ['siteperf.' + name + '.total_requests'],
+               labels: ['Total number of requests'],
                type: 'line'
              }}/>
 
@@ -93,8 +93,8 @@ function createDetails(name, i, context) {
                left: 80
              }}
              y1={{
-               metrics: 'siteperf.' + name + '.current_connections',
-               labels: 'Current number of connections',
+               metrics: ['siteperf.' + name + '.current_connections'],
+               labels: ['Current number of connections'],
                type: 'line'
              }}/>
 

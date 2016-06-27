@@ -1,26 +1,40 @@
 import React from 'react';
 
-import Code from 'in-components/Code';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {SpanTabs, SpanTab} from 'in-components/SpanTabs';
+import StackTrace from 'in-components/StackTrace';
+import Code from 'in-components/Code';
 
 export default function MongoSpanDetailView({span}) {
   const query = getQueryForFormatting(span);
+  const stackTrace = span.get('stackTrace');
+
   return (
-    <div>
-      <DescriptionList>
-        <DescriptionItem title='Service'>
-          {span.getIn(['data', 'mongo', 'service'])}
-        </DescriptionItem>
-        <DescriptionItem title='Protocol'>
-          {span.getIn(['data', 'mongo', 'protocol'])}
-        </DescriptionItem>
-      </DescriptionList>
+    <SpanTabs>
+      <SpanTab title='Overview'>
+        <DescriptionList>
+          <DescriptionItem title='Service'>
+            {span.getIn(['data', 'mongo', 'service'])}
+          </DescriptionItem>
+          <DescriptionItem title='Protocol'>
+            {span.getIn(['data', 'mongo', 'protocol'])}
+          </DescriptionItem>
+        </DescriptionList>
+      </SpanTab>
 
       {query ?
-        <Code code={query}
-              type='json' />
+        <SpanTab title='Query'>
+          <Code code={query}
+                type='json' />
+        </SpanTab>
       : null}
-    </div>
+
+      {stackTrace && stackTrace.size > 0 ?
+        <SpanTab title='Stack Trace'>
+          <StackTrace stackTrace={stackTrace} />
+        </SpanTab>
+      : null}
+    </SpanTabs>
   );
 }
 

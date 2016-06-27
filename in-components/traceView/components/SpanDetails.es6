@@ -10,25 +10,28 @@ import {formatDateTime} from 'in-services/formatters/date';
 import {getTypeLabelSingular} from 'in-sdk/tracing';
 import PropList from 'in-components/PropList';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import './SpanDetails.less';
+
 
 const rpt = React.PropTypes;
 const block = 'in-span-details';
 
 export default connectTo({
-    span: selectedSpan$,
     spanId: selectedSpanId$,
-    trace: selectedTrace$
-  }, React.createClass({
+    trace: selectedTrace$,
+    span: selectedSpan$
+  },
+  React.createClass({
     displayName: 'SpanDetails',
 
     mixins: [PureRenderMixin],
 
     propTypes: {
       spanId: rpt.string,
-      span: irpt.map,
-      trace: irpt.map
+      trace: irpt.map,
+      span: irpt.map
     },
 
     render() {
@@ -50,6 +53,11 @@ export default connectTo({
             <h1 className={block + '__type'}>
               {getTypeLabelSingular(span)}
             </h1>
+            {span.get('error') ?
+              <Icon type='critical'
+                    className={block + '__icon'}/> :
+              null
+            }
           </div>
 
           <PropList>
@@ -60,6 +68,11 @@ export default connectTo({
                            value={msZeroDecimalPlaces(span.get('start') - trace.get('start'))} />
             <PropList.Prop label='Start'
                            value={formatDateTime(span.get('start'))} />
+            {span.get('async') ?
+              <PropList.Prop label='Async'
+                             value={'true'} />
+              : null
+            }
           </PropList>
 
           <SpanForgeDetails span={span}

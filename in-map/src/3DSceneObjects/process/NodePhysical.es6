@@ -1,7 +1,7 @@
 import THREE from 'three';
 
+import HighlightingComponent from 'in-map/src/components/process/HighlightingComponentForCubes';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import HighlightingComponent from 'in-map/src/components/process/HighlightingComponent';
 import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
 import MeshComponent from 'in-map/src/components/common/MeshComponent';
 
@@ -19,6 +19,10 @@ export default class NodePhysical extends Node {
 
   constructor(props) {
     super(props);
+  }
+
+  init() {
+    this.height = 0.7;
   }
 
   addComponents(components) {
@@ -60,5 +64,9 @@ export default class NodePhysical extends Node {
 
   createMetricSticky() {
     return new StickyNoteMetric(this);
+  }
+
+  getDragGhostGeometry() {
+    return new THREE.BoxGeometry(1, 0.5, 1, 1, 1, 1);
   }
 }
