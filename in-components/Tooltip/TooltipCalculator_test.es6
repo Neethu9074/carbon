@@ -30,6 +30,8 @@ describe('in-components/TooltipCalculator', () => {
     tooltip.align = align;
   };
 
+  // Basic alignments
+
   it('should align left bottom', () => {
     prepare(100, bounds.bottom / 2, bounds.right - 200, bounds.bottom - 200, 200, 200, 'leftBottom');
 
@@ -151,6 +153,8 @@ describe('in-components/TooltipCalculator', () => {
     expect(result.bottom).to.equal(null);
   });
 
+  // Shrinking behavior
+
   it('should shrink width to bounds', () => {
     prepare(bounds.right * 2, 100, bounds.left, bounds.top, 200, 200, 'bottomLeft');
 
@@ -170,6 +174,8 @@ describe('in-components/TooltipCalculator', () => {
     expect(result.top).to.equal(bounds.top);
     expect(result.bottom).to.equal(bounds.bottom);
   });
+
+  // Flipping Behavior
 
   it('should flip rightTop align to leftTop', () => {
     prepare(300, 300, bounds.right - 200, bounds.top, 200, 200, 'rightTop');
@@ -241,5 +247,55 @@ describe('in-components/TooltipCalculator', () => {
     prepare(300, 300, bounds.right - 200, bounds.bottom - 200, 200, 200, 'bottomRight');
     TooltipCalculator.calculate(bounds, tooltip, reference);
     expect(tooltip.align).to.equal('topRight');
+  });
+
+  // Auto-Alignments
+
+  it('should auto-align topLeft', () => {
+    prepare(300, 300, bounds.left, bounds.bottom - 200, 200, 200, 'auto');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('topLeft');
+  });
+
+  it('should auto-align topMiddle', () => {
+    prepare(300, 300, bounds.right / 2, bounds.bottom - 200, 200, 200, 'auto');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('topMiddle');
+  });
+
+  it('should auto-align topRight', () => {
+    prepare(300, 300, bounds.right - 200, bounds.bottom - 200, 200, 200, 'auto');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('topRight');
+  });
+
+  it('should auto-align rightMiddle', () => {
+    prepare(300, 300, bounds.left, bounds.bottom / 2, 200, 200, 'auto');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('rightMiddle');
+  });
+
+  it('should auto-align leftMiddle', () => {
+    prepare(300, 300, bounds.right - 200, bounds.bottom / 2, 200, 200, 'auto');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('leftMiddle');
+  });
+
+  it('should auto-align bottomLeft', () => {
+    prepare(300, 300, bounds.left, bounds.top, 200, 200, 'auto');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('bottomLeft');
+  });
+
+  it('should auto-align bottomMiddle', () => {
+    prepare(300, 300, bounds.right / 2, bounds.top, 200, 200, 'auto');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('bottomMiddle');
+  });
+
+  it('should auto-align bottomRight', () => {
+    prepare(300, 300, bounds.right - 200, bounds.top, 200, 200, 'auto');
+    TooltipCalculator.calculate(bounds, tooltip, reference);
+    expect(tooltip.align).to.equal('bottomRight');
   });
 });
