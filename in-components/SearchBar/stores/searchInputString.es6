@@ -1,32 +1,40 @@
 /* eslint-disable no-alert */
 
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
-import {createTrackingStore} from 'in-stores/store';
+import {createStore, createTrackingStore} from 'in-stores/store';
 import {setFreeTextFilter} from 'in-stores/filtering';
 import {transformToLuceneQuery} from 'in-services/search';
 
 export const inputString$ = createTrackingStore({
-    name: 'SearchBar/inputString',
-    observable: navigationParameters$
-      .map(params => {
-        const query = params.query;
-        if ('q' in query) {
-          return decodeURIComponent(query.q);
-        }
+  name: 'SearchBar/inputString',
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('q' in query) {
+        return decodeURIComponent(query.q);
+      }
 
-        return '';
-      })
-      .distinct()
+      return '';
+    })
+    .distinct()
   }).observable;
 
+
+const errorStore = createStore({
+  name: 'SearchBar/queryTranslationError',
+  initialValue: ''
+});
+
+export const error$ = errorStore.observable;
+
 inputString$
-  .debounce(300)
+  .debounce(500)
   .subscribe(freeText => {
     try {
       setFreeTextFilter(transformToLuceneQuery(freeText), freeText);
+      errorStore.applyStateMutation(() => null);
     } catch (e) {
-      // TODO proper error handling
-      console.error(e.message);
+      errorStore.applyStateMutation(() => e.message);
     }
   });
 

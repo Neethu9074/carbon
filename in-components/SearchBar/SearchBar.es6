@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {inputString$, setInputString} from 'in-components/SearchBar/stores/searchInputString';
+import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -28,6 +29,8 @@ export default connectTo({
                className={block + '__input'}
                placeholder='Search…'
                onClick={e => e.stopPropagation()}/>
+
+        <ErrorIndicator />
       </div>
     );
   }
