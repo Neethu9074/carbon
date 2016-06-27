@@ -18,10 +18,10 @@ export default connectTo({
   },
   function FilterBarControls({isOpen, isTableVisible}) {
     return (
-      <ul className={block + (isOpen ? ' ' + block + '__open' : '')}>
+      <div className={block + (isOpen ? ' ' + block + '__open' : '')}>
         {controlItem('metrics', 'Show Metrics.', () => setActiveControl('metrics'))}
-        {controlItem('tags', 'Show Tags.', () => setActiveControl('tags'))}
-        {__DEV__ ? controlItem('system', 'Show map statistics.') : null}
+        {controlItem('tags', 'Show Tags.', () => setActiveControl('tags'), true)}
+        {__DEV__ ? controlItem('system', 'Show map statistics.', () => {}, true) : null}
 
         <br/>
 
@@ -31,20 +31,20 @@ export default connectTo({
             close();
           }
         })}
-      </ul>
+      </div>
     );
   }
 );
 
-function controlItem(type, tooltipText, onClick) {
+function controlItem(type, tooltipText, onClick, addTopBorder) {
   return (
     <Tooltip content={tooltipText}
              align='leftMiddle'>
-      <li className={block + '__control'}
+      <div className={block + '__control' + (addTopBorder ? ' ' + block + '__control--with-border' : '')}
           onClick={onClick}>
         <Icon type={type}
               className={block + '__icon'}/>
-      </li>
+      </div>
     </Tooltip>
   );
 }

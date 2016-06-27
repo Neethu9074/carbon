@@ -4,9 +4,6 @@
   position: absolute;
   top:~'calc(50% - 100px)';
   right: 0;
-  padding: 0;
-  margin: 0;
-  list-style: none;
 
   transition: right 0.25s ease-in-out;
 
@@ -17,11 +14,10 @@
   &__control {
     padding: 7px 7px 4px 11px;
     background: #6b8088;
-    border-bottom: 1px solid #eef2f4;
     cursor: pointer;
 
-    &:last-child {
-      border-bottom: none;
+    &--with-border {
+      border-top: 1px solid #eef2f4;
     }
 
     &:hover {
