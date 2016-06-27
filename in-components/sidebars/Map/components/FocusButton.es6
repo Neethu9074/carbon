@@ -48,7 +48,8 @@ export default connectTo({
 
     if (entityExistsAtFocusedMoment) {
       return (
-        <Tooltip content='Focus in map'>
+        <Tooltip content='Focus in map'
+                align={'rightMiddle'}>
           <Icon className={classes}
                 onClick={this.focusSnapshotId}
                 type='relocate' />
@@ -68,10 +69,7 @@ export default connectTo({
 
     return (
       <Tooltip content={this.wrapTooltipElement(tooltip)}
-               align={{
-                 horizontal: 'right',
-                 vertical: 'middle'
-               }}>
+               align={'rightMiddle'}>
         <Icon className={classes}
               type='relocate' />
       </Tooltip>

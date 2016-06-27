@@ -41,10 +41,7 @@ export default getSnapshot(React.createClass({
 
     return (
       <Tooltip content={tooltip}
-               align={{
-                 vertical: 'middle',
-                 horizontal: 'right'
-               }}>
+               align={'rightMiddle'}>
         <li className={className}
             onClick={() => this.props.onClick(this.props.snapshotId)}>
 
