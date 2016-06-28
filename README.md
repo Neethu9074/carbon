@@ -1,5 +1,24 @@
 # ui-client aka. the stuff that runs in the browser
 
+<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Branching Model](#branching-model)
+- [Getting Started](#getting-started)
+	- [Accessing our artifact repository via NPM](#accessing-our-artifact-repository-via-npm)
+	- [Installation of required software](#installation-of-required-software)
+		- [Node.js and NPM](#nodejs-and-npm)
+		- [Nginx](#nginx)
+	- [Setting up local domains](#setting-up-local-domains)
+	- [Executing tasks](#executing-tasks)
+	- [Using Commitizen for Git Commit Messages](#using-commitizen-for-git-commit-messages)
+	- [Upgrading Node.js](#upgrading-nodejs)
+- [Troubleshooting](#troubleshooting)
+	- [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
+- [Theming](#theming)
+	- [Most important files](#most-important-files)
+
+<!-- /TOC -->
+
 ## Branching Model
 We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
 
