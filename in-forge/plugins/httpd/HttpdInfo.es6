@@ -25,7 +25,7 @@ const HttpdInfo = React.createClass({
         <DescriptionItem title='Architecture'>
           {data.get('architecture')}
         </DescriptionItem>
-        {data.get('started_at') !== null ?
+        {data.get('started_at') != null ?
           <DescriptionItem title='Started at'>
             {formatDateTime(data.get('started_at'))}
           </DescriptionItem>

@@ -1,27 +1,23 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {isOpen$, close} from 'in-components/Filterbar/stores/filterbarVisibilityStore';
+import {removeAllTagFilters} from 'in-components/SearchBar/stores/searchInputString';
 import {activeControl$} from 'in-components/Filterbar/stores/filterbarActiveControl';
-import {isOpen$} from 'in-components/Filterbar/stores/filterbarIsOpenStore';
-import {isCollapsed$} from 'in-components/timeline/timelineStore';
-import classnames from 'in-services/util/classnames';
+import ResetButton from 'in-components/Filterbar/ResetButton';
+import * as metricsStore from 'in-services/stores/metrics';
+import Controls from 'in-components/Filterbar/Controls';
+import MapStats from 'in-components/Filterbar/MapStats';
+import Metrics from 'in-components/Filterbar/Metrics';
+import RightSidebar from 'in-components/RightSidebar';
+import Tags from 'in-components/Filterbar/Tags';
 import connectTo from 'in-hoc/connectTo';
 
-import Controls from './Controls';
-import MapStats from './MapStats';
-import Metrics from './Metrics';
-import Tags from './Tags';
 
-import './Filterbar.less';
-
-
-const block = 'in-filterbar';
 const rpt = React.PropTypes;
 
 export default connectTo({
-    isTimelineCollapsed: isCollapsed$,
-    activeControl: activeControl$,
-    isOpen: isOpen$
+    activeControl: activeControl$
   },
   React.createClass({
     displayName: 'Filterbar',
@@ -29,48 +25,47 @@ export default connectTo({
     mixins: [PureRenderMixin],
 
     propTypes: {
-      isTimelineCollapsed: rpt.bool.isRequired,
-      activeControl: rpt.string,
-      isOpen: rpt.bool
+      activeControl: rpt.string
     },
 
     render() {
-      const open = this.props.isOpen;
       return (
-        <div className={block}>
-          <Controls className={classnames({
-                      [block + '__controls']: true,
-                      [block + '__controls--open']: open
-                    })}
-                    activeControl={this.props.activeControl}/>
-          <div className={classnames({
-            [block + '__content']: true,
-            [block + '__content--open']: open,
-            [block + '__content--timeline-expanded']: !this.props.isTimelineCollapsed
-          })}>
-            {this.renderContent()}
-          </div>
+        <div>
+          <Controls />
+          <RightSidebar isOpen$={isOpen$}
+                        onClose={close}
+                        rightSidebarContent={this.callByActiveControl(
+                          () => <ResetButton onClick={removeAllTagFilters}/>,
+                          () => <ResetButton onClick={() => metricsStore.activeMetric.emit(null)} />,
+                          () => null,
+                          () => null)}
+                        title={this.callByActiveControl(() => 'Tags',
+                                                        () => 'Metrics',
+                                                        () => 'Statistics',
+                                                        () => '')}>
+            {this.callByActiveControl(
+              () => <Tags />,
+              () => <Metrics />,
+              () => <MapStats />,
+              () => null
+            )}
+          </RightSidebar>
         </div>
       );
     },
 
-    renderContent() {
-      if (!this.props.isOpen || !this.props.activeControl) {
-        return null;
-      }
+    callByActiveControl(onTags, onMetrics, onStats, onDefault) {
+      const activeControl = this.props.activeControl;
 
-      // special case mapstats so that it will not be part of the compiled artifact
-      if (__DEV__ && this.props.activeControl === 'mapStats') {
-        return <MapStats />;
-      }
-
-      switch (this.props.activeControl) {
+      switch (activeControl) {
         case 'tags':
-          return <Tags/>;
+          return onTags();
         case 'metrics':
-          return <Metrics/>;
+          return onMetrics();
+        case 'system':
+          return onStats();
         default:
-          throw new Error('Unknown content control', this.props.activeControl);
+          return onDefault();
       }
     }
   })

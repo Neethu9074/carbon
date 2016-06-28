@@ -1,11 +1,12 @@
+import iconPath from 'in-forge/plugins/httpd/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addSearchableType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
+import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
-import * as constants from 'in-forge/constants';
-import iconPath from 'in-forge/plugins/httpd/icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.httpd,
@@ -33,3 +34,6 @@ addIconToRegistry({
   id: constants.plugins.httpd,
   image: iconPath
 });
+
+addSearchableType('httpd', constants.plugins.httpd);
+addSearchableType('apache', constants.plugins.httpd);

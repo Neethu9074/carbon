@@ -1,76 +1,33 @@
 @import "~in-themes/active.less";
 
-.in-sidebar-controls {
-  @focus-transition-duration: 0.2s;
-  @control-icon-padding: 0.34rem;
-  @control-icon-width: 2rem;
-
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
+.in-filterbar-controls {
+  position: absolute;
+  top:~'calc(50% - 100px)';
   right: 0;
 
-  z-index: @z-index__sidebar-controls;
+  z-index: @z-index__sidebar;
+  transition: right 0.25s ease-in-out;
 
-
-  &__control-list {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-
-    margin: 0;
-    padding: 0;
+  &__open {
+    right: 25rem;
   }
 
-  &__control-item {
-    display: block;
+  &__control {
+    padding: 7px 7px 4px 11px;
+    background: #6b8088;
+    cursor: pointer;
 
-    list-style: none;
-    border-bottom: 1px solid #7a8d94;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-
-    transition: background @focus-transition-duration ease-in-out;
-    color: @filterbar__controls__label;
-
-    &--enabled {
-      background: @filterbar__controls__background__regular;
-
-      &:hover {
-        background: @filterbar__controls__background__regular-hover;
-      }
+    &--with-border {
+      border-top: 1px solid #eef2f4;
     }
 
-    &--active {
-      color: @filterbar__controls__label-highlight;
-      background: @filterbar__controls__background__active;
-
-      &:hover {
-        color: @filterbar__controls__label;
-        background: @filterbar__controls__background__active-hover;
-      }
-    }
-
-    &--start-of-group {
-      margin-top: 1rem;
-    }
-
-    &--end-of-group {
-      border-bottom: 1px solid transparent;
+    &:hover, &__active {
+      background: white;
+      color: black;
     }
   }
 
-  &__control-icon {
-    width: @control-icon-width;
-    font-size: @control-icon-width;
-    box-sizing: content-box;
-
-    display: inline-block;
-    color: inherit;
-    padding: @control-icon-padding;
-
-    text-align: center;
-
-    opacity: 1;
-    transition: opacity @focus-transition-duration ease-in-out;
+  &__icon {
+    font-size: 2rem;
   }
 }

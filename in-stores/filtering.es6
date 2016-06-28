@@ -19,7 +19,7 @@ const filterTypes = {
 let filterIdCounter = 0;
 
 const filtersStore = createStore({
-  name: 'activeFilters',
+  name: 'in-stores/filtering/activeFilters',
   initialValue: emptySet
 });
 
@@ -27,6 +27,15 @@ const filtersStore = createStore({
 // A set of all filters in the form ImmutableSet<Filter> where Filter is of
 // the form seen in the backend.
 export const filters$ = filtersStore.observable;
+
+
+const lastFilterChangeTimeStore = createStore({
+  name: 'in-stores/filtering/lastFilterChangeTime',
+  initialValue: 0
+});
+export const lastFilterChangeTime$ = lastFilterChangeTimeStore.observable;
+filters$.subscribe(() => lastFilterChangeTimeStore.applyStateMutation(() => Date.now()));
+
 
 export const freeTextFilter$ = filters$
   .map(filters => {

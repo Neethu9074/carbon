@@ -1,6 +1,6 @@
 import {createStore} from 'in-stores/store';
 
-import {openFilterbar, closeFilterbar} from 'in-components/Filterbar/stores/filterbarIsOpenStore';
+import {open, close} from 'in-components/Filterbar/stores/filterbarVisibilityStore';
 
 
 const activeControl = createStore({
@@ -13,4 +13,4 @@ export function setActiveControl(control) {
   activeControl.applyStateMutation(() => control);
 }
 
-activeControl$.subscribe(_activeControl => _activeControl ? openFilterbar() : closeFilterbar());
+activeControl$.skipFirst().subscribe(_activeControl => _activeControl ? open() : close());

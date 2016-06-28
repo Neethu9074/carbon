@@ -1,10 +1,11 @@
+import iconPath from 'in-forge/plugins/jiraApplication/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addSearchableType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
+import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
-import iconPath from 'in-forge/plugins/jiraApplication/icon.svg';
-import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.jira,
@@ -26,3 +27,5 @@ addIconToRegistry({
   id: constants.plugins.jira,
   image: iconPath
 });
+
+addSearchableType('jira', constants.plugins.jira);

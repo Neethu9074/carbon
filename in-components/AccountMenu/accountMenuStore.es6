@@ -1,4 +1,4 @@
-import {closeMenu as closeNotificationFlyout} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
+import {close as closeNotificationFlyout} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
 import {createStore} from 'in-stores/store';
 
 

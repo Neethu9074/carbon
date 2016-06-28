@@ -13,11 +13,19 @@ import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
+import {lastFilterChangeTime$} from 'in-stores/filtering';
 import {activeMetric} from 'in-services/stores/metrics';
 import * as snapshotStore from 'in-stores/snapshot';
 import {viewStructure} from 'in-stores/view';
 import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/src/eventbus';
+
+
+// The time between a filter change and automatic center alignment of the camera.
+// Meaning: When a new view structure is received in less than TIME_BETWEEN_FILTER_UPDATE_AND_AUTO_CENTER
+// millis, the map is automatically centered. This is used to make sure that
+// the user is always presented with the data that matches is query.
+const TIME_BETWEEN_FILTER_UPDATE_AND_AUTO_CENTER = 1000;
 
 
 export default class Map extends BaseMap {
@@ -29,6 +37,7 @@ export default class Map extends BaseMap {
   init() {
     this.activeMetric = null;
     this.groups = [];
+    this.lastFilterChangeTime = 0;
     this.layouter = new Layouter();
   }
 
@@ -66,7 +75,15 @@ export default class Map extends BaseMap {
     super.registerEvents();
 
     this.addSubscriptions([
-      viewStructure.subscribe(structures => this.onInventoryUpdate(structures)),
+      lastFilterChangeTime$.subscribe(lastFilterChangeTime => this.lastFilterChangeTime = lastFilterChangeTime),
+
+      viewStructure.subscribe(structures => {
+        this.onInventoryUpdate(structures);
+
+        if (this.lastFilterChangeTime + TIME_BETWEEN_FILTER_UPDATE_AND_AUTO_CENTER > Date.now()) {
+          setTimeout(() => this.centerMap(), 100);
+        }
+      }),
 
       eventBus.on('flyToEntity').subscribe(entity => this.controller.flyToObject(entity)),
 

@@ -1,16 +1,17 @@
 /* eslint-env node */
-/* eslint-disable no-var, strict */
-'use strict';
 
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const path = require('path');
 
-var definePlugin = new webpack.DefinePlugin({
+const definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
 
   // this is necessary for the React and Invariant modules
-  'process.env.NODE_ENV': process.env.BUILD_DEV === 'true' ? '"development"' : '"production"'
+  'process.env.NODE_ENV': process.env.BUILD_DEV === 'true' ? '"development"' : '"production"',
+
+  'process.env.IS_TEST': '"false"'
 });
 
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.(css|less)$/i,
-      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 3 version!less', {
+      loader: ExtractTextPlugin.extract('style', 'css!postcss!less', {
         // assets will be located next to the CSS file. Thus no need to prefix the path with
         // bundle/
         publicPath: './'
@@ -59,6 +60,9 @@ module.exports = {
       loader: 'url?limit=3000&mimetype=application/font-woff'
     }]
   },
+  postcss: [
+    autoprefixer({browsers: ['last 2 versions']})
+  ],
   plugins: [
     definePlugin,
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/),

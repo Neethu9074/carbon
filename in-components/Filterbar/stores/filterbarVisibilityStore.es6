@@ -4,16 +4,16 @@ import {setActiveControl} from 'in-components/Filterbar/stores/filterbarActiveCo
 
 
 const isOpen = createStore({
-  name: 'filterbar/isOpenStore',
+  name: 'filterbar/visibilityStore',
   initialValue: false
 });
 export const isOpen$ = isOpen.observable.distinct();
 
-export function closeFilterbar() {
+export function close() {
   isOpen.applyStateMutation(() => false);
   setActiveControl(null);
 }
 
-export function openFilterbar() {
+export function open() {
   isOpen.applyStateMutation(() => true);
 }

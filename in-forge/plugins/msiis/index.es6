@@ -1,10 +1,10 @@
+import iconPath from 'in-forge/plugins/msiis/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import * as constants from 'in-forge/constants';
+import {addSearchableType} from 'in-sdk/search';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
-
-import * as constants from 'in-forge/constants';
-import iconPath from 'in-forge/plugins/msiis/icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.msiis,
@@ -26,3 +26,6 @@ addIconToRegistry({
   id: constants.plugins.msiis,
   image: iconPath
 });
+
+addSearchableType('msiis', constants.plugins.msiis);
+addSearchableType('iis', constants.plugins.msiis);

@@ -1,11 +1,12 @@
+import iconPath from 'in-forge/plugins/phpFpmRuntimePlatform/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addSearchableType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
+import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
-import iconPath from 'in-forge/plugins/phpFpmRuntimePlatform/icon.svg';
-import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.phpfpm,
@@ -43,3 +44,5 @@ addIconToRegistry({
   id: constants.plugins.phpfpm,
   image: iconPath
 });
+
+addSearchableType('php', constants.plugins.phpfpm);
