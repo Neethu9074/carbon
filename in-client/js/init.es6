@@ -1,3 +1,5 @@
+/* global require:false */
+
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.
 /* eslint-disable instana-import-order/instana-import-order */
@@ -52,6 +54,7 @@ window.onerror = function f() {
 // expose the React global to analyze performance issues
 if (__DEV__) {
   window.React = React;
+  window.React.Perf = require('react-addons-perf');
 }
 
 // kick of the init process
