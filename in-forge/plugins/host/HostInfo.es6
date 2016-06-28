@@ -18,7 +18,7 @@ const HardwareInfo = React.createClass({
     const snapshot = this.props.snapshot;
     const data = snapshot.get('data');
 
-    const memoryTotal = data.get('memory.total', null);
+    const memoryTotal = data.get('memory.total');
 
     return (
       <div>
@@ -33,7 +33,7 @@ const HardwareInfo = React.createClass({
             {data.get('cpu.count')} x {data.get('cpu.model')}
           </DescriptionItem>
 
-          {memoryTotal !== null ?
+          {memoryTotal != null ?
             <DescriptionItem title='Memory'>
               {bytesTwoDecimalPlaces(memoryTotal)}
             </DescriptionItem>

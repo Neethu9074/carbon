@@ -1,10 +1,10 @@
+import iconPath from 'in-forge/plugins/jvmRuntimePlatform/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import * as constants from 'in-forge/constants';
+import {addSearchableType} from 'in-sdk/search';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
-
-import iconPath from 'in-forge/plugins/jvmRuntimePlatform/icon.svg';
-import * as constants from 'in-forge/constants';
 
 import './metrics.es6';
 
@@ -28,3 +28,6 @@ addIconToRegistry({
   id: constants.plugins.jvm,
   image: iconPath
 });
+
+addSearchableType('jvm', constants.plugins.jvm);
+addSearchableType('java', constants.plugins.jvm);
