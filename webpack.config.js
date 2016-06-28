@@ -11,7 +11,7 @@ const definePlugin = new webpack.DefinePlugin({
   // this is necessary for the React and Invariant modules
   'process.env.NODE_ENV': process.env.BUILD_DEV === 'true' ? '"development"' : '"production"',
 
-  'process.env.IS_TEST': '"false"'
+  'process.env.IS_TEST': 'false'
 });
 
 module.exports = {
