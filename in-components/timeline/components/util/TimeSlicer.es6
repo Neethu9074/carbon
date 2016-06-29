@@ -47,6 +47,15 @@ class TimeSlicer {
     return this.index.length;
   }
 
+  indexOf(time) {
+    for (let i = 0; i < this.index.length; ++i) {
+      if (this.index[i] >= time) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   _buildIndex() {
     this.index = [];
     this.index.push(this.min);

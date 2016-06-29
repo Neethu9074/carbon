@@ -66,13 +66,11 @@ export default connectTo({
           <Icon type={'zoom_small'}
                 className={block + '__icon-zoom'}
                 onClick={this.zoomOut}/>
-
-          {/* MIN / MAX is turned upside down 'cause highest zoom level = smallest number */}
           <Slider onChange={this.onZoomChanged}
                   min={0}
                   max={steps}
                   step={1}
-                  value={steps / 2}
+                  value={steps - slicer.indexOf(MIN_ZOOM_LEVEL + timeframe.windowSize)}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
