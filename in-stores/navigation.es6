@@ -7,7 +7,7 @@ import {createStore} from 'in-stores/store';
 export const PATH_NAMES = {
   DASHBOARD: '/dashboard',
   TRACES: '/traces',
-  EVENTS: '/events',
+  EVENTS: '/event_center',
   GRAPH: '/graph',
   MAP: '/',
   HOME: '/'
@@ -92,14 +92,6 @@ export function goToGraph() {
 export function goToTraceView() {
   mutateUrl(navParams => {
     navParams.pathname = PATH_NAMES.TRACES;
-    return navParams;
-  });
-}
-
-
-export function goToEventCenter() {
-  mutateUrl(navParams => {
-    navParams.pathname = PATH_NAMES.EVENTS;
     return navParams;
   });
 }

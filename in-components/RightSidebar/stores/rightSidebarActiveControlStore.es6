@@ -1,16 +1,20 @@
 import {createStore} from 'in-stores/store';
 
+import {
+  toggle as toggleNotificationCenter
+} from 'in-components/notificationCenter/Center/stores/notificationCenterVisibilityStore';
+
 import {toggleTableViewVisibility} from 'in-components/tableView/stores/visibility';
 
 
 export const CONTROL_TYPES = {
+  EVENT_CENTER: 'incidents',
   MAP_STATISTICS: 'system',
   NOTIFICATIONS: 'app',
   METRICS: 'metrics',
   TABLE: 'menue',
   TAGS: 'tags'
 };
-
 
 const activeControl = createStore({
   name: 'rightSidebar/activeControlStore',
@@ -25,6 +29,8 @@ export function setActiveControl(control) {
 export function toggleControl(control) {
   if (control === CONTROL_TYPES.TABLE) {
     toggleTableViewVisibility();
+  } else if (control === CONTROL_TYPES.EVENT_CENTER) {
+    toggleNotificationCenter();
   } else {
     activeControl$.once(currentControls => currentControls === control ?
       clearActiveControl() :

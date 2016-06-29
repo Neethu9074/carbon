@@ -5,7 +5,7 @@ import React from 'react';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/eventCenter/components/EventList.less';
+import 'in-components/notificationCenter/Center/components/EventList.less';
 
 
 const block = 'in-event-center-list';
