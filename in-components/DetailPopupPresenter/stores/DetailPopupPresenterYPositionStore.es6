@@ -7,6 +7,10 @@ const position = createStore({
 });
 export const position$ = position.observable;
 
-export function setContent(_content) {
+export function setPosition(_content) {
   position.applyStateMutation(() => _content);
+}
+
+export function clearPosition() {
+  position.applyStateMutation(() => null);
 }

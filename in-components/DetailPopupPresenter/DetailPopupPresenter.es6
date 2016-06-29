@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {content$, contentFilter$} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
+import {position$} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterYPositionStore';
 import Header from 'in-components/DetailPopupPresenter/components/Header';
 import connectTo from 'in-hoc/connectTo';
 
@@ -11,15 +12,17 @@ const block = 'in-detail-popup';
 
 export default connectTo({
     content: content$,
-    contentFilter: contentFilter$
+    contentFilter: contentFilter$,
+    position: position$
   },
-  function DetailPopupPresenter({content, contentFilter}) {
+  function DetailPopupPresenter({content, contentFilter, position}) {
     if (!content) {
       return null;
     }
 
     return (
-      <div className={block}>
+      <div className={block}
+           style={{top: position ? position + 'px' : null}}>
         <Header title={content.title} />
         {createHtmlContent(content.data, contentFilter)}
       </div>
