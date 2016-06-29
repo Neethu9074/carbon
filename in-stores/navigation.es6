@@ -7,6 +7,7 @@ import {createStore} from 'in-stores/store';
 export const PATH_NAMES = {
   DASHBOARD: '/dashboard',
   TRACES: '/traces',
+  EVENTS: '/event_center',
   GRAPH: '/graph',
   MAP: '/',
   HOME: '/'

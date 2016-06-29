@@ -10,6 +10,7 @@ module.exports = {
     map: zIndex++,
     stickyNotes: zIndex++,
     tableView: zIndex++,
+    eventCenter: zIndex++,
     feedbackBadge: zIndex++,
     sidebar: zIndex++,
     sidebarControls: zIndex++,
