@@ -85,9 +85,17 @@ export default connectTo({
     },
 
     zoomOut() {
+      const currentIndex = slicer.indexOf(this.props.timeframe.windowSize);
+      if (currentIndex < steps) {
+        setWindowSize(slicer.get(currentIndex + 1));
+      }
     },
 
     zoomIn() {
+      const currentIndex = slicer.indexOf(this.props.timeframe.windowSize);
+      if (currentIndex > 0) {
+        setWindowSize(slicer.get(currentIndex - 1));
+      }
     }
   })
 );
