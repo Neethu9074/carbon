@@ -2,19 +2,23 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {
+  clearPosition,
+  needsUpdate$,
+  setPosition
+} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterYPositionStore';
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import Tab from 'in-components/sidebars/components/Tab';
 import {getClassName} from 'in-services/react';
 
-import Tab from './Tab';
+import 'in-components/sidebars/components/SidebarTabs.less';
 
-import './SidebarTabs.less';
 
 const rpt = React.PropTypes;
 const block = 'in-sidebar-tabs';
 
-export default getPhysicalHierarchy(
-               React.createClass({
+export default getPhysicalHierarchy(React.createClass({
 
   displayName: 'SidebarTabs',
 
@@ -24,8 +28,22 @@ export default getPhysicalHierarchy(
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
-    className: rpt.string,
-    physicalHierarchy: irpt.list
+    physicalHierarchy: irpt.list,
+    className: rpt.string
+  },
+
+  componentDidMount() {
+    this.updateSubsctription = needsUpdate$.nextFrame().subscribe(() => {
+      const sidebarTabs = this.refs.sidebarTabs;
+      if (sidebarTabs) {
+        setPosition(sidebarTabs.getBoundingClientRect().bottom);
+      }
+    });
+  },
+
+  componentWillUnmount() {
+    this.updateSubsctription.dispose();
+    clearPosition();
   },
 
   render() {
@@ -35,7 +53,8 @@ export default getPhysicalHierarchy(
     }
 
     return (
-      <ul className={getClassName(this, block)}>
+      <ul className={getClassName(this, block)}
+          ref='sidebarTabs'>
         {hierarchy.map(childSnapshotId =>
           <Tab key={childSnapshotId}
                snapshotId={childSnapshotId}

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {toggleMenu} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
+import {toggleControl} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
+import {CONTROL_TYPES} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {openEventsAtServerTime$} from 'in-stores/events';
@@ -46,7 +47,7 @@ export default connectTo({
 
       return (
         <div className={block}
-             onClick={toggleMenu}
+             onClick={() => toggleControl(CONTROL_TYPES.NOTIFICATIONS)}
              style={{background}}>
           {this.icon('incidents')}
           {events.incidents.length}

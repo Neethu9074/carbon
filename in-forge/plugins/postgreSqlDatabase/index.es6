@@ -1,10 +1,10 @@
+import iconPath from 'in-forge/plugins/postgreSqlDatabase/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addSearchableType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
-
-import iconPath from 'in-forge/plugins/postgreSqlDatabase/icon.svg';
 import * as constants from 'in-forge/constants';
+import * as power from 'in-sdk/power';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.postgresql,
@@ -26,3 +26,7 @@ addIconToRegistry({
   id: constants.plugins.postgresql,
   image: iconPath
 });
+
+
+addSearchableType('postgresql', constants.plugins.postgresql);
+addSearchableType('postgre', constants.plugins.postgresql);

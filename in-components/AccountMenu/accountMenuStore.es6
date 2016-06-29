@@ -1,4 +1,3 @@
-import {closeMenu as closeNotificationFlyout} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
 import {createStore} from 'in-stores/store';
 
 
@@ -9,12 +8,7 @@ const isOpen = createStore({
 export const isOpen$ = isOpen.observable;
 
 export function toggleMenu() {
-  isOpen.applyStateMutation(oldValue => {
-    if (!oldValue) {
-      closeNotificationFlyout();
-    }
-    return !oldValue;
-  });
+  isOpen.applyStateMutation(oldValue => !oldValue);
 }
 
 export function closeMenu() {

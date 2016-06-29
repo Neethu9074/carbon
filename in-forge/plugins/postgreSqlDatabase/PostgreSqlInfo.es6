@@ -26,7 +26,7 @@ const PostgreSqlInfo = React.createClass({
         <DescriptionItem title='Version'>
           {data.get('variables.VERSION')}
         </DescriptionItem>
-        {data.get('variables.started_at') !== null ?
+        {data.get('variables.started_at') != null ?
           <DescriptionItem title='Started At'>
             {formatDateTime(data.get('variables.started_at'))}
           </DescriptionItem>

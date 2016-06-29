@@ -1,10 +1,11 @@
+import iconPath from 'in-forge/plugins/jBossAsApplicationContainer/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addSearchableType} from 'in-sdk/search';
+import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
-import iconPath from 'in-forge/plugins/jBossAsApplicationContainer/icon.svg';
-import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.jbossas,
@@ -43,3 +44,5 @@ addIconToRegistry({
   id: constants.plugins.jbossas,
   image: iconPath
 });
+
+addSearchableType('jboss', constants.plugins.jbossas);
