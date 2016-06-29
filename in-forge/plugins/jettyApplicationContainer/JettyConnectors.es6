@@ -5,6 +5,8 @@ import React from 'react';
 import Collapsible from 'in-components/Collapsible';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
+import {emptyList} from 'in-services/fixedImmutables';
+
 const JettyConnectors = React.createClass({
   mixins: [PureRenderMixin],
 
@@ -13,7 +15,7 @@ const JettyConnectors = React.createClass({
   },
 
   render() {
-    const connectors = this.props.snapshot.getIn(['data', 'connectors']);
+    const connectors = this.props.snapshot.getIn(['data', 'connectors'], emptyList);
 
     return (
       <div>

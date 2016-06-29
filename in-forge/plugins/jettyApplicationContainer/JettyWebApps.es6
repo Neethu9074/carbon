@@ -5,7 +5,9 @@ import React from 'react';
 import Collapsible from 'in-components/Collapsible';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
-import ClasspathLayouter from './ClasspathLayouter';
+import ClasspathLayouter from 'in-forge/plugins/jvmRuntimePlatform/ClasspathLayouter.es6';
+
+import {emptyList} from 'in-services/fixedImmutables';
 
 const JettyWebApps = React.createClass({
   mixins: [PureRenderMixin],
@@ -16,7 +18,7 @@ const JettyWebApps = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
-    const webApps = data.get('webApps');
+    const webApps = data.get('webApps', emptyList);
 
     return (
       <div>
