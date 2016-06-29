@@ -2,9 +2,10 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {positionNeedsUpdate} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterYPositionStore';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import getSnapshot from 'in-hoc/getSnapshot';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
 
 import Tooltip from 'in-components/Tooltip';
 
@@ -33,6 +34,8 @@ export default getSnapshot(React.createClass({
     if (!snapshot) {
       return null;
     }
+
+    positionNeedsUpdate();
 
     let className = this.props.isSelected ? block + ' ' + block + '__selected' : block;
     className += ' ' + this.props.className;

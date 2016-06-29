@@ -13,7 +13,7 @@ const block = 'in-detail-popup';
 export default connectTo({
     content: content$,
     contentFilter: contentFilter$,
-    position: position$
+    position: position$.distinct()
   },
   function DetailPopupPresenter({content, contentFilter, position}) {
     if (!content) {

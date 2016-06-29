@@ -2,21 +2,23 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {clearPosition, setPosition} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterYPositionStore';
+import {
+  clearPosition,
+  needsUpdate$,
+  setPosition
+} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterYPositionStore';
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import Tab from 'in-components/sidebars/components/Tab';
 import {getClassName} from 'in-services/react';
 
-import Tab from './Tab';
-
-import './SidebarTabs.less';
+import 'in-components/sidebars/components/SidebarTabs.less';
 
 
 const rpt = React.PropTypes;
 const block = 'in-sidebar-tabs';
 
-export default getPhysicalHierarchy(
-               React.createClass({
+export default getPhysicalHierarchy(React.createClass({
 
   displayName: 'SidebarTabs',
 
@@ -30,14 +32,17 @@ export default getPhysicalHierarchy(
     className: rpt.string
   },
 
-  componentDidUpdate() {
-    const sidebarTabs = this.refs.sidebarTabs;
-    if (sidebarTabs) {
-      setPosition(sidebarTabs.getBoundingClientRect().bottom);
-    }
+  componentDidMount() {
+    this.updateSubsctription = needsUpdate$.nextFrame().subscribe(() => {
+      const sidebarTabs = this.refs.sidebarTabs;
+      if (sidebarTabs) {
+        setPosition(sidebarTabs.getBoundingClientRect().bottom);
+      }
+    });
   },
 
   componentWillUnmount() {
+    this.updateSubsctription.dispose();
     clearPosition();
   },
 
