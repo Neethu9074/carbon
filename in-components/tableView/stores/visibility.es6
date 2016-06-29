@@ -13,7 +13,7 @@ export const isTableVisible$ = createTrackingStore({
 export function toggleTableViewVisibility() {
   mutateUrl(params => {
     if ('tableView' in params.query) {
-      delete params.query;
+      delete params.query.tableView;
     } else {
       params.query.tableView = 'true';
     }

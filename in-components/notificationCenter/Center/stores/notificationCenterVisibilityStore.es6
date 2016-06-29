@@ -12,7 +12,7 @@ export const isOpen$ = createTrackingStore({
 export function toggle() {
   mutateUrl(params => {
     if ('event_center' in params.query) {
-      delete params.query;
+      delete params.query.event_center;
     } else {
       params.query.event_center = 'true';
     }

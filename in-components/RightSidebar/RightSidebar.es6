@@ -15,10 +15,7 @@ export default connectTo({
     isTimelineCollapsed: isCollapsed$,
     content: content$
   },
-  function RightSidebar({
-    isTimelineCollapsed,
-    content
-  }) {
+  function RightSidebar({isTimelineCollapsed, content}) {
     let classes = block + (content ? ' ' + block + '--open' : '');
     if (!isTimelineCollapsed) {
       classes += ' ' + block + '--timeline-is-open';
