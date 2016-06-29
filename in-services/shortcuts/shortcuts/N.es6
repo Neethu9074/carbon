@@ -1,6 +1,7 @@
-import {toggle} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
+import {toggleControl} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
+import {CONTROL_TYPES} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
 
 
 export default function onPressed() {
-  toggle();
+  toggleControl(CONTROL_TYPES.NOTIFICATIONS);
 }

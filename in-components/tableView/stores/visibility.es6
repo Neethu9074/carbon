@@ -22,6 +22,13 @@ export function toggleTableViewVisibility() {
 }
 
 
+export function openTableView() {
+  mutateUrl(params => {
+    params.query.tableView = 'true';
+    return params;
+  });
+}
+
 export function closeTableView() {
   mutateUrl(params => {
     delete params.query.tableView;

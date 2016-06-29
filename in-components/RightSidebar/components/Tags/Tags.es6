@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TagsFilter from 'in-components/Filterbar/TagsFilter';
+import TagsFilter from 'in-components/RightSidebar/components/Tags/TagsFilter';
 import TagListAll from 'in-components/TagListAll';
 
 

@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
-import {tagsFilter$} from 'in-components/Filterbar/filterBarStores_tmp';
+import {tagsFilter$} from 'in-components/RightSidebar/stores/rightSidebarFilterStore';
 import {filterableTags$} from 'in-stores/filtering';
 import connectTo from 'in-hoc/connectTo';
 

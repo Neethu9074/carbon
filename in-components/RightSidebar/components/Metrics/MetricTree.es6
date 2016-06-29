@@ -1,9 +1,10 @@
-import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
-import Collapsible from '../Collapsible';
+import Collapsible from 'in-components/Collapsible';
 
-import './MetricTree.less';
+import 'in-components/RightSidebar/components/Metrics/MetricTree.less';
+
 
 const block = 'in-sidebar-metric-tree';
 const rpt = React.PropTypes;

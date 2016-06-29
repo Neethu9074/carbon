@@ -3,9 +3,9 @@ import React from 'react';
 
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import Collapsible from 'in-components/Collapsible';
 
-import Collapsible from '../Collapsible';
-import './MapStats.less';
+import 'in-components/RightSidebar/components/MapStatistics/MapStatistics.less';
 
 
 const block = 'in-sidebar-map-stats';

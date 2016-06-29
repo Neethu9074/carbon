@@ -1,53 +1,43 @@
 import React from 'react';
 
 import RightSidebarHeader from 'in-components/RightSidebar/components/RightSidebarHeader';
+import {content$} from 'in-components/RightSidebar/stores/rightSidebarContentStore';
+import Controls from 'in-components/RightSidebar/components/Controls';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
-import './RightSidebar.less';
+import 'in-components/RightSidebar/RightSidebar.less';
 
 
 const block = 'in-right-sidebar';
-const rpt = React.PropTypes;
 
-export default connectTo(
-  ({isOpen$}) => {
-    return {
-      isTimelineCollapsed: isCollapsed$,
-      isOpen: isOpen$
-    };
+export default connectTo({
+    isTimelineCollapsed: isCollapsed$,
+    content: content$
   },
-  React.createClass({
-
-    displayName: 'RightSidebar',
-
-    propTypes: {
-      isTimelineCollapsed: rpt.bool,
-      title: rpt.string.isRequired,
-      rightSidebarContent: rpt.any,
-      onClose: rpt.func.isRequired,
-      children: rpt.any,
-      isOpen: rpt.bool
-    },
-
-    render() {
-      const isTimelineCollapsed = this.props.isTimelineCollapsed;
-      const isOpen = this.props.isOpen;
-
-      let classes = block + (isOpen ? ' ' + block + '--open' : '');
-      if (!isTimelineCollapsed) {
-        classes += ' ' + block + '--timeline-is-open';
-      }
-
-      return (
-        <div className={classes}>
-          <RightSidebarHeader title={this.props.title}
-                              onClose={this.props.onClose}>
-            {this.props.rightSidebarContent}
-          </RightSidebarHeader>
-          {this.props.children}
-        </div>
-      );
+  function RightSidebar({
+    isTimelineCollapsed,
+    content
+  }) {
+    let classes = block + (content ? ' ' + block + '--open' : '');
+    if (!isTimelineCollapsed) {
+      classes += ' ' + block + '--timeline-is-open';
     }
-  })
+
+    return (
+      <div className={classes}>
+        <Controls />
+
+        <div className={block + '__content'}>
+          {content ?
+            <RightSidebarHeader title={content.title}>
+              {content.additionalHeaderContent}
+            </RightSidebarHeader>
+            : null
+          }
+          {content ? content.content : null}
+        </div>
+      </div>
+    );
+  }
 );

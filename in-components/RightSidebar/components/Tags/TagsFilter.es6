@@ -1,13 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {
-  tagsFilter$,
-  setTagsFilter
-} from 'in-components/Filterbar/filterBarStores_tmp';
+import {tagsFilter$, setTagsFilter} from 'in-components/RightSidebar/stores/rightSidebarFilterStore';
 import connectTo from 'in-hoc/connectTo';
 
 import './TagsFilter.less';
+
 
 const block = 'in-tags-filter';
 

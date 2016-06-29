@@ -1,4 +1,4 @@
-import {close as closeNotificationFlyout} from 'in-components/notificationCenter/Flyout/stores/visibilityStore';
+import {clearActiveControl} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
 import {createStore} from 'in-stores/store';
 
 
@@ -11,7 +11,7 @@ export const isOpen$ = isOpen.observable;
 export function toggleMenu() {
   isOpen.applyStateMutation(oldValue => {
     if (!oldValue) {
-      closeNotificationFlyout();
+      clearActiveControl();
     }
     return !oldValue;
   });
