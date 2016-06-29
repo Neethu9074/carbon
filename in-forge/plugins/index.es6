@@ -3,6 +3,7 @@
 
 import './dropwizardApplicationContainer';
 import './jBossAsApplicationContainer';
+import './jettyApplicationContainer';
 import './tomcatApplicationContainer';
 import './jiraApplication';
 import './redis';
