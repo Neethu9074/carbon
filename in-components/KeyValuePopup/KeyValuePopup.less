@@ -1,45 +1,35 @@
 @import "~in-themes/active.less";
 
 .in-key-value-popup {
-  &__filter-input {
-    margin-left: 0.5rem;
-    background: #435b65;
-    color: #fff;
-    border-radius: 0.38rem;
-    box-sizing: border-box;
-    padding: 0.5rem 0.6rem;
-    border: 0px;
-    width: 12rem;
-    font-size: 0.8rem;
-    position: absolute;
-    top: 1.4rem;
-    right: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    // position above content when scrolling
-    z-index: 1;
+  padding: 1rem 1.5rem 0.1rem;
+  margin: 0 -1.25rem;
+
+  &__button-open, &__button-close {
+    border-radius: 3px;
+    padding: 4px 8px 0px 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
   }
 
-  &__item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-
-    font-size: 12px;
-    border-top: 1px solid @sidebar__key-value-popup__border;
+  &__button-close {
+    background: transparent;
+    color: #4a91e4;
   }
 
-  &__title {
-    width: 45%;
-
-    font-weight: bold;
-    color: @sidebar__key-value-popup__title;
+  &__button-open, &__button-close:hover {
+    background: #2b3d44;
+    color: white;
   }
 
-  &__text {
-    color: @sidebar__key-value-popup__text;
-    width: 55%;
-    margin-right: 10px;
-    word-break: break-all;
-  }
+  &__header {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
 
+    color: @collapsible__header__opened-text;
+  }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import NotificationCenterFlyout from 'in-components/notificationCenter/Flyout';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -32,6 +33,7 @@ export default function App({children = null}) {
         <Filterbar />
         <SidebarIncidents />
         <SidebarMap />
+        <DetailPopupPresenter />
       </section>
 
       <NotificationCenterFlyout />
