@@ -31,10 +31,13 @@ export default connectTo({
                      tooltipText='Show Tags.'
                      addTopBorder={true} />
 
-        <ControlItem type={CONTROL_TYPES.MAP_STATISTICS}
-                     activeControl={activeControl}
-                     tooltipText='Show Map Statistics.'
-                     addTopBorder={true} />
+        {__DEV__ ?
+          <ControlItem type={CONTROL_TYPES.MAP_STATISTICS}
+                       activeControl={activeControl}
+                       tooltipText='Show Map Statistics.'
+                       addTopBorder={true} />
+          : null
+        }
 
         <br />
 
