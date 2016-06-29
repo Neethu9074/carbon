@@ -1,7 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {parseLong} from 'in-services/formatters/string';
 import {
   timeframe$,
   setWindowSize,
@@ -14,10 +13,33 @@ import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
+import TimeSlicer from './util/TimeSlicer';
 
-const stepCount = 30;
-const step = (MIN_ZOOM_LEVEL - MAX_ZOOM_LEVEL) / stepCount;
+// Time range constants
+const days = 30;
+const hours = 24;
+const minutes = 6;
+const steps = days + hours + minutes;
+
+// Utilities
+const minute = 1000 * 60;
+const hour = minute * 60;
+const day = hour * 24;
+
+const slicer = new TimeSlicer({
+  min: MAX_ZOOM_LEVEL,
+  max: MIN_ZOOM_LEVEL
+});
+
+// Slice minutes (10mins-60mins)
+slicer.slice(slicer.min, slicer.min + hour, minutes);
+// Slice hours (1hour-24hours)
+slicer.slice(slicer.min + hour, slicer.min + day, hours);
+// Slice days (1day-30days)
+slicer.slice(slicer.min + day, slicer.max, days);
+
 const block = 'in-timeline-navigation';
+
 
 export default connectTo({
     timeframe: timeframe$
@@ -47,10 +69,10 @@ export default connectTo({
 
           {/* MIN / MAX is turned upside down 'cause highest zoom level = smallest number */}
           <Slider onChange={this.onZoomChanged}
-                  min={MAX_ZOOM_LEVEL}
-                  max={MIN_ZOOM_LEVEL}
-                  step={step}
-                  value={MAX_ZOOM_LEVEL + MIN_ZOOM_LEVEL - timeframe.windowSize}
+                  min={0}
+                  max={steps}
+                  step={1}
+                  value={steps / 2}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
@@ -61,15 +83,13 @@ export default connectTo({
     },
 
     onZoomChanged(e) {
-      setWindowSize(MAX_ZOOM_LEVEL + MIN_ZOOM_LEVEL - parseLong(e.target.value));
+      setWindowSize(slicer.get(steps - e.target.value));
     },
 
     zoomOut() {
-      setWindowSize(this.props.timeframe.windowSize + step);
     },
 
     zoomIn() {
-      setWindowSize(this.props.timeframe.windowSize - step);
     }
   })
 );
