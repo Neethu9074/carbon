@@ -12,6 +12,10 @@ export default class TopMeshComponent extends MeshComponent {
     this.needsUpdate = true;
   }
 
+  colorChanged() {
+    // do nothing to not react on colorChanged events
+  }
+
   sizeChanged({x, y, z}) {
     const scale = this.scaleToSet;
     if (scale.x === x && scale.y === y && scale.z === z) {

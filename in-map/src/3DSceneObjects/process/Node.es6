@@ -1,14 +1,17 @@
 import {combineLatest} from 'reactive-observables';
 
 import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
+import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import {voteUp, voteDown, addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
+import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {getColor} from 'in-sdk/color/color';
 import eventBus from 'in-map/src/eventbus';
+import {theme} from 'in-services/theme';
 
 
 export default class Node extends SceneObject {
@@ -40,7 +43,10 @@ export default class Node extends SceneObject {
         }
       }),
 
-      this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this)),
+      combineLatest([
+        this.eventEmitter.on('snapshotChanged'),
+        this.eventEmitter.on('healthChanged')
+      ]).subscribe(props => this.setColor(props[0], props[1])),
 
       this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
 
@@ -105,7 +111,12 @@ export default class Node extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    this.components.snapshot = new SnapshotComponent({sceneObject: this});
+    const components = this.components;
+    const sceneObject = this;
+
+    components.snapshot = new SnapshotComponent({sceneObject});
+
+    components.health = new HealthComponent({sceneObject});
 
     this.addComponents(this.components);
   }
@@ -126,10 +137,6 @@ export default class Node extends SceneObject {
       this.stickyNoteMetric.dispose();
       this.stickyNoteMetric = null;
     }
-  }
-
-  onSnapshotUpdated(snapshot) {
-    this.components.mesh.colorChanged(getColor(snapshot));
   }
 
   increaseEdgeCount() {
@@ -183,6 +190,14 @@ export default class Node extends SceneObject {
     this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x,
                                                                      this.height,
                                                                      newPos.z);
+  }
+
+  setColor(snapshot, maxSeverity) {
+    if (maxSeverity === 0 && snapshot) {
+      this.eventEmitter.emit('colorChanged', getColor(snapshot));
+    } else if (maxSeverity > 0) {
+      this.eventEmitter.emit('colorChanged', hexToRGBNormalized(theme.health[Math.floor(maxSeverity)]));
+    }
   }
 
   dispose() {
