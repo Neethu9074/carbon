@@ -15,7 +15,6 @@ const SpringbootInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
-    const startedAt = data.get('startedAt');
     const ports = data.get('ports');
 
     return (
@@ -30,9 +29,7 @@ const SpringbootInfo = React.createClass({
           {data.get('springBootVersion')}
         </DescriptionItem>
         <DescriptionItem title='Started At'>
-          {startedAt != null ?
-            formatDateTime(startedAt)
-            : null}
+          {formatDateTime(data.get('startedAt'))}
         </DescriptionItem>
         <DescriptionItem title='Status'>
           {data.get('status')}
