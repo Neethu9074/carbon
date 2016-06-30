@@ -3,10 +3,14 @@
 .in-filterbar-controls {
   position: absolute;
   top:~'calc(50% - 100px)';
-  right: 25rem;
+  right: 0;
 
   z-index: @z-index__sidebar;
   transition: right 0.25s ease-in-out;
+
+  &__open {
+    right: 25rem;
+  }
 
   &__control {
     display: flex;

@@ -3,6 +3,7 @@ import React from 'react';
 import {activeControl$, toggleControl} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
 import {isOpen$} from 'in-components/notificationCenter/Center/stores/notificationCenterVisibilityStore';
 import {CONTROL_TYPES} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
+import {content$} from 'in-components/RightSidebar/stores/rightSidebarContentStore';
 import {isTableVisible$} from 'in-components/tableView/stores/visibility';
 import {isInternalEnvironment} from 'in-services/config';
 import Tooltip from 'in-components/Tooltip';
@@ -17,11 +18,12 @@ const block = 'in-filterbar-controls';
 export default connectTo({
     isNotificationCenterOpen: isOpen$,
     isTableViewOpen: isTableVisible$,
-    activeControl: activeControl$
+    activeControl: activeControl$,
+    isOpen: content$
   },
-  function FilterBarControls({activeControl, isNotificationCenterOpen, isTableViewOpen}) {
+  function FilterBarControls({isOpen, activeControl, isNotificationCenterOpen, isTableViewOpen}) {
     return (
-      <div className={block}>
+      <div className={block + (isOpen ? ' ' + block + '__open' : '')}>
         <ControlItem type={CONTROL_TYPES.NOTIFICATIONS}
                      activeControl={activeControl}
                      tooltipText='Show Notifications.' />

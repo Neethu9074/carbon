@@ -20,6 +20,7 @@ module.exports = {
     mapViewSwitcher: zIndex++,
     dashboard: zIndex++,
     dashboardHeader: zIndex++,
+    rightSidebar: zIndex++,
     flyOutNotifications: zIndex++,
     tableViewToggleButton: zIndex++,
     footer: zIndex++,

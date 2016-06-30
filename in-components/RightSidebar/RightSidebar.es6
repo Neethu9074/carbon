@@ -2,7 +2,6 @@ import React from 'react';
 
 import RightSidebarHeader from 'in-components/RightSidebar/components/RightSidebarHeader';
 import {content$} from 'in-components/RightSidebar/stores/rightSidebarContentStore';
-import Controls from 'in-components/RightSidebar/components/Controls';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
@@ -23,8 +22,6 @@ export default connectTo({
 
     return (
       <div className={classes}>
-        <Controls />
-
         <div className={block + '__content'}>
           {content ?
             <RightSidebarHeader title={content.title}>

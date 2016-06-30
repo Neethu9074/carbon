@@ -3,6 +3,7 @@ import React from 'react';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
+import Controls from 'in-components/RightSidebar/components/Controls';
 import Center from 'in-components/notificationCenter/Center/Center';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
@@ -33,10 +34,11 @@ export default function App({children = null}) {
         <Center />
         <SidebarIncidents />
         <SidebarMap />
-        <RightSidebar />
         <DetailPopupPresenter />
       </section>
 
+      <RightSidebar />
+      <Controls />
       <Timeline />
 
       {children}
