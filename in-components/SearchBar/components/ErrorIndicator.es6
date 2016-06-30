@@ -15,6 +15,7 @@ export default connectTo({
     }
     return (
       <div className={block}>
+        <span className={block + '__icon'}>!</span>
         {error}
       </div>
     );

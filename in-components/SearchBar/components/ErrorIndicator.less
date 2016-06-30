@@ -1,13 +1,31 @@
 .in-search-error-indicator {
   position: absolute;
-  top: 2.2rem;
+  top: 2rem;
   left: 0;
-  right: 0;
+  right: -0.4rem;
 
   font-size: 0.75rem;
-  color: red;
+  color: #6b8088;
   background: rgba(45, 64, 72, 0.98);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem 0.5rem 2rem;
+  margin: 0 0.4rem 0 0;
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
+
+  &__icon {
+    position: absolute;
+    text-indent: 0;
+    left: 0.5rem;
+    top: 0.5rem;
+
+    border-radius: 100%;
+    color: rgb(255, 222, 0);
+    border: 1px solid rgb(255, 222, 0);
+    padding: 0 0.4rem 0.05rem;
+    line-height: 0.9rem;
+    font-weight: bold;
+    transform: scale(0.9);
+    display: inline-block;
+    font-size: 0.8rem;
+  }
 }

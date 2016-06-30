@@ -8254,6 +8254,11 @@
         }
       }
     },
+    "react-addons-perf": {
+      "version": "15.1.0",
+      "from": "react-addons-perf@latest",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-addons-perf/-/react-addons-perf-15.1.0.tgz"
+    },
     "react-addons-pure-render-mixin": {
       "version": "15.1.0",
       "from": "react-addons-pure-render-mixin@>=15.0.1 <16.0.0",
