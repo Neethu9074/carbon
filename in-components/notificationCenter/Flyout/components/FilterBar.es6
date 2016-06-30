@@ -1,5 +1,4 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -17,6 +16,7 @@ import './FilterBar.less';
 
 
 const block = 'in-notificationcenter-filterbar';
+const rpt = React.PropTypes;
 
 export default connectTo({
     allEvents: event$,
@@ -31,8 +31,8 @@ export default connectTo({
     ],
 
     propTypes: {
-      allEvents: irpt.list,
-      selectedEventList: React.PropTypes.string.isRequired
+      selectedEventList: rpt.string.isRequired,
+      allEvents: rpt.array
     },
 
     render() {

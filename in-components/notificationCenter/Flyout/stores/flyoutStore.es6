@@ -1,13 +1,5 @@
-import Immutable from 'immutable';
-
-import {
-  getEventType,
-  EVENT_TYPES
-} from 'in-services/issueTracker';
-import {
-  eventsInTimeframe$,
-  openEventsAtServerTime$
-} from 'in-stores/events';
+import {eventsInTimeframe$, openEventsAtServerTime$} from 'in-stores/events';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {mapHealthToColor, health} from 'in-services/health';
 import {createStore} from 'in-stores/store';
 
@@ -85,5 +77,5 @@ export const event$ = selectedEventListStore.observable
     result = result.concat(events.incidents);
     result = result.concat(events.changes);
 
-    return Immutable.List(result);
+    return result;
   });

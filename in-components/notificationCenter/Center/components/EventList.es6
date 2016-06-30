@@ -1,4 +1,3 @@
-import Immutable from 'immutable';
 import moment from 'moment';
 import React from 'react';
 
@@ -20,7 +19,7 @@ export default connectTo({
       result = result.concat(events.incidents);
       result = result.concat(events.changes);
 
-      return Immutable.List(result);
+      return result;
     })
   },
   function EventCenter({openEventsAtServerTime}) {

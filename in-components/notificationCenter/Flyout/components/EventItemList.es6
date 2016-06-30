@@ -1,5 +1,4 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
@@ -30,7 +29,7 @@ export default connectTo({
     propTypes: {
       selectedNotificationFilter: rpt.object,
       selectedEventId: rpt.string,
-      allEvents: irpt.list,
+      allEvents: rpt.array,
       style: rpt.object
     },
 
