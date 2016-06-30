@@ -43,4 +43,19 @@ describe('in-components/timeline/components/util/TimeSlicer', () => {
     }
     expect(slicer.get(slicer.size() - 1)).to.equal(MAX);
   });
+
+  it('should provide an index', () => {
+
+    const slicer = new TimeSlicer({
+      min: MIN,
+      max: MAX
+    });
+    expect(slicer.indexOf(MIN)).to.equal(0);
+    expect(slicer.indexOf(MAX)).to.equal(1);
+    const firstSlices = 8;
+    slicer.slice(MIN, MIN + firstSlices, firstSlices);
+    for (const i of Array(firstSlices - 1).keys()) {
+      expect(slicer.indexOf(MIN + i)).to.equal(i);
+    }
+  });
 });
