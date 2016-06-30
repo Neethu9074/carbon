@@ -8,9 +8,9 @@ import {toggleTableViewVisibility} from 'in-components/tableView/stores/visibili
 
 
 export const CONTROL_TYPES = {
-  EVENT_CENTER: 'incidents',
+  NOTIFICATIONS: 'incidents',
   MAP_STATISTICS: 'system',
-  NOTIFICATIONS: 'app',
+  EVENT_CENTER: 'app',
   METRICS: 'metrics',
   TABLE: 'menue',
   TAGS: 'tags'
