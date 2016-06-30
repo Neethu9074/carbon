@@ -1,9 +1,12 @@
+import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {getPartsForCount} from 'in-map/src/3DSceneObjects/process/dashedLineHelper';
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
+import {hexToRGBNormalized} from 'in-services/formatters/color';
 import eventBus from 'in-map/src/eventbus';
+import {theme} from 'in-services/theme';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
 
@@ -21,7 +24,9 @@ export default class Connection extends BaseConnection {
         .debounce(10)
         .subscribe(() => this.positionChanged()),
 
-      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition())
+      eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
+
+      this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this))
     ]);
 
     addEdge(this);
@@ -37,6 +42,8 @@ export default class Connection extends BaseConnection {
 
 
   init() {
+    this.currentColor = theme.health[0];
+
     this.lineSMF = this.parent.getFactory('lineSMF');
 
     super.init();
@@ -46,6 +53,8 @@ export default class Connection extends BaseConnection {
     super.initComponents();
 
     this.components.screenPosition = new ScreenPositionComponent({sceneObject: this, id: '_screenPosition'});
+
+    this.components.health = new HealthComponent({sceneObject: this});
   }
 
   setupGeometry() {
@@ -56,16 +65,21 @@ export default class Connection extends BaseConnection {
   }
 
   getColors(numSegments) {
-    const baseColor = 0.73;
+    const rgb = hexToRGBNormalized(this.currentColor);
+    const r = rgb.r;
+    const g = rgb.g;
+    const b = rgb.b;
+
     const colors = [
-      baseColor, baseColor, baseColor,
-      baseColor, baseColor, baseColor,
-      baseColor, baseColor, baseColor,
-      baseColor, baseColor, baseColor
+      r, g, b,
+      r, g, b,
+      r, g, b,
+      r, g, b
     ];
     for (let i = 0; i <= numSegments; i++) {
-      colors.push(baseColor, baseColor, baseColor, baseColor, baseColor, baseColor);
+      colors.push(r, g, b, r, g, b);
     }
+
     return colors;
   }
 
@@ -124,6 +138,11 @@ export default class Connection extends BaseConnection {
     this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.5, 0, pos.z + 0.5);
 
     this.scene.renderScene();
+  }
+
+  healthChanged(maxSeverity) {
+    this.currentColor = maxSeverity > 0 ? theme.health[Math.floor(maxSeverity)] : '#bababa';
+    this.updateGeometry();
   }
 
   dispose() {

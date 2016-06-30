@@ -4,6 +4,7 @@ import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/conn
 import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Connection from 'in-map/src/3DSceneObjects/process/Connection';
+import {hexToRGBNormalized} from 'in-services/formatters/color';
 
 
 export default class ConnectionWithKPI extends Connection {
@@ -52,14 +53,18 @@ export default class ConnectionWithKPI extends Connection {
   }
 
   getColors() {
-    const baseColor = 0.73;
+    const rgb = hexToRGBNormalized(this.currentColor);
+    const r = rgb.r;
+    const g = rgb.g;
+    const b = rgb.b;
+
     return [
-      baseColor, baseColor, baseColor,
-      baseColor, baseColor, baseColor,
-      baseColor, baseColor, baseColor,
-      baseColor, baseColor, baseColor,
-      baseColor, baseColor, baseColor,
-      baseColor, baseColor, baseColor
+      r, g, b,
+      r, g, b,
+      r, g, b,
+      r, g, b,
+      r, g, b,
+      r, g, b
     ];
   }
 
