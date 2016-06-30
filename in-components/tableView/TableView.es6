@@ -1,55 +1,27 @@
 import React from 'react';
 
 import PhysicalTableViewContent from 'in-components/tableView/components/PhysicalTableViewContent';
-import {isOpen$ as isSidebarOpen$} from 'in-components/sidebars/Map/sidebarStore';
+import FullscreenOverlayView from 'in-components/FullscreenOverlayView/FullscreenOverlayView';
 import {isTableVisible$} from 'in-components/tableView/stores/visibility';
-import {isCollapsed$} from 'in-components/timeline/timelineStore';
-import {clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {clearSelectedIncident} from 'in-stores/incident';
-import {clearSelectedEvent} from 'in-stores/events';
 import {view$, types} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 
-import './TableView.less';
-
-const block = 'in-table-view';
 
 export default connectTo({
-    isTableVisible: isTableVisible$,
-    isCollapsed: isCollapsed$,
-    view: view$,
-    isSidebarOpen: isSidebarOpen$
-  }, function TableView({isTableVisible, isCollapsed, view, isSidebarOpen}) {
-    if (!isTableVisible) {
-      return null;
-    }
-
-    let classes = block;
-
-    if (!isCollapsed) {
-      classes += ' ' + block + '--timeline-expanded';
-    }
-
-    if (isSidebarOpen) {
-      classes += ' ' + block + '--sidebar-open';
-    }
-
-    let content;
-    if (view === types.physical) {
-      content = <PhysicalTableViewContent />;
-    } else {
-      return null;
-    }
+    view: view$
+  }, function TableView({view}) {
 
     return (
-      <div className={classes}
-           onClick={() => {
-             clearSelectedIncident();
-             clearSelectedSnapshotId();
-             clearSelectedEvent();
-           }}>
-        {content}
-      </div>
+      <FullscreenOverlayView isOpen$={isTableVisible$}>
+        {getContent(view)}
+      </FullscreenOverlayView>
     );
   }
 );
+
+function getContent(view) {
+  if (view === types.physical) {
+    return <PhysicalTableViewContent />;
+  }
+  return null;
+}

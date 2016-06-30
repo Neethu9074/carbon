@@ -2,7 +2,9 @@ import Immutable from 'immutable';
 import moment from 'moment';
 import React from 'react';
 
+import EventDescription from 'in-components/EventDescription';
 import {openEventsAtServerTime$} from 'in-stores/events';
+import {selectEvent} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/notificationCenter/Center/components/EventList.less';
@@ -27,7 +29,6 @@ export default connectTo({
     }
 
     const sortedEvent = openEventsAtServerTime.sort((a, b) => b.get('start') - a.get('start'));
-
     const days = getEventsPerDay(sortedEvent);
     const dailyEvents = Object.keys(days);
 
@@ -39,10 +40,18 @@ export default connectTo({
             <li key={key}>
               {getDayStringForDate(key)}
 
-              <ul>
+              <ul className={block + '__eventlist'}>
                 {events.map(event =>
-                  <li key={event.get('id')}>
-                    {event.get('id')}
+                  <li key={event.get('id')}
+                      className={block + '__line'}
+                      onClick={e => {
+                        selectEvent(event);
+                        e.stopPropagation();
+                      }}>
+                    <EventDescription onClick={e => e.stopPropagation()}
+                                      key={event.get('id')}
+                                      event={event}
+                                      snapshotId={event.getIn(['problem', 'snapshotId'])}/>
                   </li>)
                 }
               </ul>
