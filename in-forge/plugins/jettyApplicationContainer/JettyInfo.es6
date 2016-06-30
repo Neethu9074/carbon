@@ -28,9 +28,7 @@ const JettyInfo = React.createClass({
               {data.get('version')}
             </DescriptionItem>
             <DescriptionItem title='Started At'>
-              {startedAt != null ?
-                formatDateTime(startedAt)
-                : null}
+              {formatDateTime(startedAt)}
             </DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
