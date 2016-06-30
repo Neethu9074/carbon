@@ -37,7 +37,9 @@ export default connectTo({
           const events = days[key];
           return (
             <div key={key}>
-              {getDayStringForDate(key)}
+              <div className={block + '__day-heading'}>
+                {getDayStringForDate(key)}
+              </div>
 
               <ul className={block + '__eventlist'}>
                 {events.map(event =>
