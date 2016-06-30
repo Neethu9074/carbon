@@ -60,10 +60,7 @@ export default connectTo({
       if (!timeframe) {
         return null;
       }
-      let value = steps - slicer.indexOf(timeframe.windowSize);
-      if (value == null) {
-        value = '';
-      }
+      const value = steps - slicer.indexOf(timeframe.windowSize);
       return (
         <div className={block}>
           <Icon type={'zoom_small'}
@@ -73,7 +70,7 @@ export default connectTo({
                   min={0}
                   max={steps}
                   step={1}
-                  value={value}
+                  value={value || ''}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
