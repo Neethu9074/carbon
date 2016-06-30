@@ -43,12 +43,12 @@ export default connectTo({
               <ul className={block + '__eventlist'}>
                 {events.map(event =>
                   <li key={event.get('id')}
-                      className={block + '__line'}
                       onClick={e => {
                         selectEvent(event);
                         e.stopPropagation();
                       }}>
                     <EventDescription onClick={e => e.stopPropagation()}
+                                      className={block + '__event-description'}
                                       key={event.get('id')}
                                       event={event}
                                       snapshotId={event.getIn(['problem', 'snapshotId'])}/>

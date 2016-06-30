@@ -1,15 +1,19 @@
-.in-event-center-list {
+@import "~in-themes/active.less";
 
+.in-event-center-list {
   &__eventlist {
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  &__line {
+  &__event-description {
     padding: 0.5rem 0;
-    margin-top: 1rem;
-    background: #203036;
+    border-radius: 5px;
     cursor: pointer;
+
+    &:hover {
+      background: @notification-center__background-highlight;
+    }
   }
 }
