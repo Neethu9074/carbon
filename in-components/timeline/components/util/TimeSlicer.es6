@@ -47,6 +47,8 @@ class TimeSlicer {
     return this.index.length;
   }
 
+  // Provides the index of the given time value.
+  // Returns -1 if no index is available.
   indexOf(time) {
     for (let i = 0; i < this.index.length; ++i) {
       if (this.index[i] >= time) {
