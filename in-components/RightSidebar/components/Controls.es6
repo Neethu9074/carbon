@@ -4,6 +4,7 @@ import {activeControl$, toggleControl} from 'in-components/RightSidebar/stores/r
 import {isOpen$} from 'in-components/notificationCenter/Center/stores/notificationCenterVisibilityStore';
 import {CONTROL_TYPES} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
 import {isTableVisible$} from 'in-components/tableView/stores/visibility';
+import {isInternalEnvironment} from 'in-services/config';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -35,7 +36,7 @@ export default connectTo({
                      tooltipText='Show Tags.'
                      addTopBorder={true} />
 
-        {__DEV__ ?
+        {isInternalEnvironment() ?
           <ControlItem type={CONTROL_TYPES.MAP_STATISTICS}
                        activeControl={activeControl}
                        tooltipText='Show Map Statistics.'
@@ -43,7 +44,7 @@ export default connectTo({
           : null
         }
 
-        {__DEV__ ?
+        {isInternalEnvironment() ?
           <ControlItem type={CONTROL_TYPES.EVENT_CENTER}
                        activeControl={activeControl}
                        tooltipText='Show Event Center.'
