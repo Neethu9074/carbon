@@ -15,7 +15,6 @@ const MariaDbInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
-    const startedAt = data.get('startedAt');
     return (
       <DescriptionList>
         <DescriptionItem title='Process ID'>
@@ -28,9 +27,7 @@ const MariaDbInfo = React.createClass({
           {this.getVersion(data)}
         </DescriptionItem>
         <DescriptionItem title='Started At'>
-          {startedAt != null ?
-            formatDateTime(startedAt)
-          : null}
+          {formatDateTime(data.get('startedAt'))}
         </DescriptionItem>
         <DescriptionItem title='Role'>
           {data.get('role')}

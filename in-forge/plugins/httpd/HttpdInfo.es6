@@ -25,11 +25,9 @@ const HttpdInfo = React.createClass({
         <DescriptionItem title='Architecture'>
           {data.get('architecture')}
         </DescriptionItem>
-        {data.get('started_at') != null ?
-          <DescriptionItem title='Started at'>
-            {formatDateTime(data.get('started_at'))}
-          </DescriptionItem>
-        : null}
+        <DescriptionItem title='Started at'>
+          {formatDateTime(data.get('started_at'))}
+        </DescriptionItem>
         <DescriptionItem title='Max workers'>
           {data.get('max_workers')}
         </DescriptionItem>

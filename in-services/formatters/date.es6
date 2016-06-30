@@ -3,16 +3,19 @@ export const dateFormat = 'YYYY-MM-DD';
 export const dateTimeFormat = dateFormat + ' ' + timeFormat;
 
 export function formatTime(millis) {
-  return formatTimeInternal(new Date(millis));
+  return millis ? formatTimeInternal(new Date(millis)) : null;
 }
 
 
 export function formatDate(millis) {
-  return formatDateInternal(new Date(millis));
+  return millis ? formatDateInternal(new Date(millis)) : null;
 }
 
 
 export function formatDateTime(millis) {
+  if (!millis) {
+    return null;
+  }
   const date = new Date(millis);
   return `${formatDateInternal(date)} ${formatTimeInternal(date)}`;
 }
@@ -35,8 +38,7 @@ function formatDateInternal(date) {
 
 
 function ensureTwoChars(s) {
-  s = String(s);
-  if (s.length === 1) {
+  if (s < 10) {
     return `0${s}`;
   }
   return s;

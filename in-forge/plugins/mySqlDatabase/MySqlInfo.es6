@@ -26,11 +26,9 @@ const MySqlInfo = React.createClass({
         <DescriptionItem title='Version'>
           {this.getVersion(data)}
         </DescriptionItem>
-        {data.get('startedAt') != null ?
-          <DescriptionItem title='Started At'>
-            {formatDateTime(data.get('startedAt'))}
-          </DescriptionItem>
-        : null }
+        <DescriptionItem title='Started At'>
+          {formatDateTime(data.get('startedAt'))}
+        </DescriptionItem>
         <DescriptionItem title='Role'>
           {data.get('role')}
         </DescriptionItem>
