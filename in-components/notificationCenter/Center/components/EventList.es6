@@ -33,11 +33,11 @@ export default connectTo({
     const dailyEvents = Object.keys(days);
 
     return (
-      <ul className={block}>
+      <div className={block}>
         {dailyEvents.map(key => {
           const events = days[key];
           return (
-            <li key={key}>
+            <div key={key}>
               {getDayStringForDate(key)}
 
               <ul className={block + '__eventlist'}>
@@ -55,10 +55,10 @@ export default connectTo({
                   </li>)
                 }
               </ul>
-            </li>
+            </div>
           );
         })}
-      </ul>
+      </div>
     );
   }
 );
