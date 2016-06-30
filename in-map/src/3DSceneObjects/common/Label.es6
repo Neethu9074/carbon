@@ -1,7 +1,9 @@
-import SceneObjectWithSnapshot from './SceneObjectWithSnapshot';
+import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
+
+import SceneObject from './SceneObject';
 
 
-export default class Label extends SceneObjectWithSnapshot {
+export default class Label extends SceneObject {
 
   constructor({id, parent, iconSize = 1}) {
     super({parent, id: id + '_label', snapshotId: id});
@@ -10,7 +12,10 @@ export default class Label extends SceneObjectWithSnapshot {
     this.fragment = this.getFragment(iconSize);
     this.positionHandler = this.getPositionHandler();
 
-    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
+    this.addSubscriptions([
+      this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
+      this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this))
+    ]);
   }
 
   getFragment() { throw new Error('PLEASE OVERRIDE METHOD'); }
@@ -22,6 +27,13 @@ export default class Label extends SceneObjectWithSnapshot {
 
   onInactiveLeave() {
     this.factory.addFragment(this.fragment);
+  }
+
+
+  initComponents() {
+    super.initComponents();
+
+    this.components.snapshot = new SnapshotComponent({sceneObject: this, id: this.parent.id});
   }
 
   positionChanged(newPosition) {

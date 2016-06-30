@@ -6,14 +6,15 @@ import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
 
-import HighlightingComponent from '../../components/physical/HighlightingComponent';
-import CollisionComponent from '../../components/common/CollisionObjectComponent';
-import HealthComponent from '../../components/common/HealthComponent';
-import MeshComponent from '../../components/common/MeshComponent';
+import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
+import HighlightingComponent from 'in-map/src/components/physical/HighlightingComponent';
+import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
+import HealthComponent from 'in-map/src/components/common/HealthComponent';
+import MeshComponent from 'in-map/src/components/common/MeshComponent';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
-import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
+import SceneObject from '../common/SceneObject';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -23,7 +24,7 @@ import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 const MARGIN = 0.8;
 
-export default class Layer extends SceneObjectWithSnapshot {
+export default class Layer extends SceneObject {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
@@ -81,6 +82,8 @@ export default class Layer extends SceneObjectWithSnapshot {
 
     const components = this.components;
 
+    components.snapshot = new SnapshotComponent({sceneObject: this});
+
     components.collision = new CollisionComponent({
       sceneObject: this,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
@@ -127,6 +130,8 @@ export default class Layer extends SceneObjectWithSnapshot {
       }),
 
       this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
+
+      this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this)),
 
       focusEntityId$.subscribe(id => {
         if (this.id === id) {

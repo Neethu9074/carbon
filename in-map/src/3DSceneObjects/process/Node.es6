@@ -1,16 +1,17 @@
 import {combineLatest} from 'reactive-observables';
 
-import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
 import {voteUp, voteDown, addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
+import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
 import {getColor} from 'in-sdk/color/color';
 import eventBus from 'in-map/src/eventbus';
 
 
-export default class Node extends SceneObjectWithSnapshot {
+export default class Node extends SceneObject {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
@@ -38,6 +39,8 @@ export default class Node extends SceneObjectWithSnapshot {
           this.dragGhost = null;
         }
       }),
+
+      this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this)),
 
       this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
 
@@ -101,6 +104,8 @@ export default class Node extends SceneObjectWithSnapshot {
 
   initComponents() {
     super.initComponents();
+
+    this.components.snapshot = new SnapshotComponent({sceneObject: this});
 
     this.addComponents(this.components);
   }

@@ -6,15 +6,8 @@ import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import {currentScene} from 'in-map/src/mapStores';
 
-
-class SceneObjectWithSnapshotMock extends SceneObject {
-  constructor({parent, id}) {
-    super({parent, id});
-  }
-}
 
 describe('3D map', () => {
   let component;
@@ -24,7 +17,9 @@ describe('3D map', () => {
     global.window = global.window || {};
     global.window.location = global.window.location || {};
     global.window.location.href = 'https://test-instana.instana.io';
-    sceneObject = {eventEmitter: new RoEmitter()};
+    sceneObject = {
+      eventEmitter: new RoEmitter()
+    };
 
     const layerSMF = {
       addFragment: sinon.stub(),
@@ -36,25 +31,34 @@ describe('3D map', () => {
       removeFragment: sinon.stub()
     };
 
+    const lineSMF = {
+      addFragment: sinon.stub(),
+      removeFragment: sinon.stub()
+    };
+
     sceneObject.getFactory = name => {
       if (name === 'layerSMF') {
         return layerSMF;
       } else if (name === 'highlightingSMF') {
         return highlightingSMF;
+      } else if (name === 'lineSMF') {
+        return lineSMF;
       }
     };
 
     currentScene.emit({
-      addCollisionObject: sinon.stub()
+      addCollisionObject: sinon.stub(),
+      removeCollisionObject: sinon.stub()
     });
 
-    const LayerComponent = proxyquire('./LayerComponent.es6', {
-      'in-map/src/3DSceneObjects/physical/Layer': proxyquire('in-map/src/3DSceneObjects/physical/Layer', {
-        '../common/SceneObjectWithSnapshot': {default: SceneObjectWithSnapshotMock}
-      })
+    const LayerComponent = proxyquire('in-map/src/components/physical/LayerComponent/LayerComponent', {
     }).default;
 
     component = new LayerComponent({ sceneObject });
+  });
+
+  afterEach(() => {
+    component.dispose();
   });
 
   describe('LayerComponent', () => {

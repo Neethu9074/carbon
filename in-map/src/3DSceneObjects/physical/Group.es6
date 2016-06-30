@@ -10,14 +10,15 @@ import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator
 import FCP from 'in-map/src/SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 import GroundHighlightingComponent from 'in-map/src/components/physical/GroundHighlightingComponent';
-import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import LineMeshComponent from 'in-map/src/components/common/LineMeshComponent';
+import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import Node from 'in-map/src/3DSceneObjects/physical/Node';
 
 
-export default class Group extends SceneObjectWithSnapshot {
+export default class Group extends SceneObject {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
@@ -28,6 +29,8 @@ export default class Group extends SceneObjectWithSnapshot {
 
       this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition =>
         this.stickyNote.update(screenPosition)),
+
+      this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this)),
 
       this.eventEmitter.on('isVisibleChanged_screenPosition').distinct().subscribe(isVisible =>
         isVisible ?
@@ -86,6 +89,8 @@ export default class Group extends SceneObjectWithSnapshot {
     const sceneObject = this;
     const color = this.getColor();
     const components = this.components;
+
+    components.snapshot = new SnapshotComponent({sceneObject: this});
 
     // add the mesh component to handle visual representation of the node
     components.mesh = new LineMeshComponent({

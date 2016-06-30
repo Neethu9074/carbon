@@ -7,6 +7,7 @@ import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
 
 import ConnectionsHandlerComponent from 'in-map/src/components/physical/ConnectionsHandlerComponent';
+import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
 import GroundLineMeshComponent from 'in-map/src/components/physical/GroundLineMeshComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import HighlightingComponent from 'in-map/src/components/physical/HighlightingComponent';
@@ -26,13 +27,13 @@ import FCP from 'in-map/src/SingleMeshFactory/ContentProvider/FrameContentProvid
 import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
-import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import MetricHandler from 'in-map/src/3DSceneObjects/physical/MetricHandler';
+import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import Label from 'in-map/src/3DSceneObjects/physical/Label';
 
 
-export default class Node extends SceneObjectWithSnapshot {
+export default class Node extends SceneObject {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
@@ -119,6 +120,8 @@ export default class Node extends SceneObjectWithSnapshot {
     const sceneObject = this;
     const components = this.components;
 
+    components.snapshot = new SnapshotComponent({sceneObject: this});
+
     // add the collision component to handle the collision box
     components.collision = new CollisionComponent({
       sceneObject,
@@ -190,6 +193,7 @@ export default class Node extends SceneObjectWithSnapshot {
           metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON);
         }),
 
+        this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this)),
         this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
         this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
         this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)),
