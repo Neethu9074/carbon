@@ -2,7 +2,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import Collapsible from 'in-components/Collapsible';
 import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import JettyInfo from '../JettyInfo.es6';
@@ -22,18 +21,8 @@ const JettySidebar = React.createClass({
 
     return (
       <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Jetty Server Info</Collapsible.Header>
-          <Collapsible.Content>
-            <JettyInfo snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Queued Thread Pool</Collapsible.Header>
-          <Collapsible.Content>
-            <JettyThreadsInfo snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
+        <JettyInfo snapshot={snapshot} />
+        <JettyThreadsInfo snapshot={snapshot} />
         <JettyConnectors snapshot={snapshot} />
         <JettyWebApps snapshot={snapshot} />
         <RunningComponentsList snapshotId={snapshot.get('id')} />
