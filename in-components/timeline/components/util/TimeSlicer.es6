@@ -1,6 +1,6 @@
 // Slices time ranges into smaller chunks
 // which can be accessed via a number index.
-class TimeSlicer {
+export default class TimeSlicer {
 
   // Given options for minimum and maximum timestamps
   // which express the inclusive start and inclusive
@@ -64,5 +64,3 @@ class TimeSlicer {
     this.index.push(this.max);
   }
 }
-
-export default TimeSlicer;
