@@ -41,7 +41,7 @@ export default connectTo({
         {isInternalEnvironment() ?
           <ControlItem type={CONTROL_TYPES.MAP_STATISTICS}
                        activeControl={activeControl}
-                       tooltipText='Show Map Statistics.'
+                       tooltipText='DEV ONLY FEATURE. INGORE IT'
                        addTopBorder={true} />
           : null
         }
@@ -49,7 +49,7 @@ export default connectTo({
         {isInternalEnvironment() ?
           <ControlItem type={CONTROL_TYPES.EVENT_CENTER}
                        activeControl={activeControl}
-                       tooltipText='Show Event Center.'
+                       tooltipText='DEV ONLY FEATURE. INGORE IT'
                        isActive={isNotificationCenterOpen}
                        addTopBorder={true} />
           : null
