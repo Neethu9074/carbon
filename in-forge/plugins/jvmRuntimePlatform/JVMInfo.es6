@@ -39,7 +39,7 @@ const JVMInfo = React.createClass({
           }
         </DescriptionList>
 
-        <ClasspathLayouter snapshot={this.props.snapshot}/>
+        <ClasspathLayouter classpath={data.get('jvm.cp')}/>
       </div>
     );
   }});

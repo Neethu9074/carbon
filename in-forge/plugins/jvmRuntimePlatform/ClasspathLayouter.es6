@@ -10,11 +10,11 @@ const ClasspathLayouter = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired
+    classpath: irpt.map.isRequired
   },
 
   render() {
-    const cp = this.props.snapshot.getIn(['data', 'jvm.cp']);
+    const cp = this.props.classpath;
 
     if (!cp) {
       return null;
