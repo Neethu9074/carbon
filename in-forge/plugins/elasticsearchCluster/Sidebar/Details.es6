@@ -1,5 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
@@ -15,44 +13,31 @@ import ClusterStatusLabel from '../ClusterStatusLabel';
 export default connectTo({
     timeframe: timelineStore.timeframe
   },
-  React.createClass({
+  function ElasticsearchClusterSidebar({snapshot, timeframe}) {
+    const snapshotId = snapshot.get('id');
+    const data = snapshot.get('data');
 
-    displayName: 'ElasticsearchClusterSidebar',
+    return (
+      <div>
+        <DescriptionList>
+          {item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
+          {item('Name', data.get('groupId'))}
+          {item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
+        </DescriptionList>
 
-    mixins: [PureRenderMixin],
+        <SparkChartsSection snapshotId={snapshotId}
+                            timeframe={timeframe}/>
 
-    propTypes: {
-      timeframe: timelineStore.timeframeShape,
-      snapshot: irpt.map.isRequired
-    },
-
-    render() {
-      const snapshot = this.props.snapshot;
-      const snapshotId = snapshot.get('id');
-      const data = snapshot.get('data');
-
-      return (
-        <div>
-          <DescriptionList>
-            {this.item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
-            {this.item('Name', data.get('groupId'))}
-            {this.item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
-          </DescriptionList>
-
-          <SparkChartsSection snapshotId={snapshotId}
-                              timeframe={this.props.timeframe}/>
-
-          <ClusterMembersList snapshotId={snapshotId} />
-        </div>
-      );
-    },
-
-    item(header, content) {
-      return (
-        <DescriptionItem title={header}>
-          {content}
-        </DescriptionItem>
-      );
-    }
-  })
+        <ClusterMembersList snapshotId={snapshotId} />
+      </div>
+    );
+  }
 );
+
+function item(header, content) {
+  return (
+    <DescriptionItem title={header}>
+    {content}
+    </DescriptionItem>
+  );
+}

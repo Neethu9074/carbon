@@ -9,6 +9,7 @@ import {
 } from 'in-services/formatters/number';
 import Mtd from 'in-components/Mtd';
 
+
 const rateFormatter = d => withSiPrefixThreeDecimalPlaces(d) + ' / sec';
 
 export default function MetersTable({snapshot, timeframe}) {

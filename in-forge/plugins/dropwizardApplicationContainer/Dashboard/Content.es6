@@ -8,34 +8,34 @@ import MetersTable from 'in-forge/plugins/dropwizardApplicationContainer/Dashboa
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const DropwizardDashboard = React.createClass({
-    mixins: [PureRenderMixin],
+export default React.createClass({
+  displayName: 'DropwizardDashboard',
 
-    propTypes: {
-      snapshot: irpt.map.isRequired,
-      timeframe: timeframeShape
-    },
+  mixins: [PureRenderMixin],
 
-    getInitialState() {
-      return {
-        selectedMetricGauge: null,
-        selectedMetricCounter: null,
-        selectedMetricMeter: null
-      };
-    },
+  propTypes: {
+    snapshot: irpt.map.isRequired,
+    timeframe: timeframeShape
+  },
 
-    render() {
-      const timeframe = this.props.timeframe;
-      const snapshot = this.props.snapshot;
+  getInitialState() {
+    return {
+      selectedMetricGauge: null,
+      selectedMetricCounter: null,
+      selectedMetricMeter: null
+    };
+  },
 
-      return (
-        <div>
-          <GaugesTable snapshot={snapshot} timeframe={timeframe} />
-          <CountersTable snapshot={snapshot} timeframe={timeframe} />
-          <MetersTable snapshot={snapshot} timeframe={timeframe} />
-        </div>
-      );
-    }
+  render() {
+    const timeframe = this.props.timeframe;
+    const snapshot = this.props.snapshot;
+
+    return (
+      <div>
+        <GaugesTable snapshot={snapshot} timeframe={timeframe} />
+        <CountersTable snapshot={snapshot} timeframe={timeframe} />
+        <MetersTable snapshot={snapshot} timeframe={timeframe} />
+      </div>
+    );
+  }
 });
-
-export default DropwizardDashboard;

@@ -9,6 +9,7 @@ import {
 } from 'in-services/formatters/number';
 import Mtd from 'in-components/Mtd';
 
+
 export default function Gauges({snapshot, timeframe}) {
   const gauges = snapshot.getIn(['data', 'metrics.gauges'], emptyList);
 

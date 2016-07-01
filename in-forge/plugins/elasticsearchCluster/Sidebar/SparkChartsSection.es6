@@ -1,64 +1,44 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {withSiPrefixTwoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
 import MetricValue from 'in-components/MetricValue';
-import {timeframeShape} from 'in-stores/timeline';
-import {
-  withSiPrefixTwoDecimalPlaces,
-  bytesTwoDecimalPlaces
-} from 'in-services/formatters/number';
 
 import './SparkChartsSection.less';
 
 
 const block = 'in-spark-chart-section';
 
-export default React.createClass({
+export default function ElasticsearchClusterSparkChartsSection({snapshotId, timeframe}) {
+  return (
+    <div className={block}>
+      {sparkChart(snapshotId, timeframe, 'node_count', 'Nodes', withSiPrefixTwoDecimalPlaces)}
+      {sparkChart(snapshotId, timeframe, 'indices_count', 'Indices', withSiPrefixTwoDecimalPlaces)}
+      {sparkChart(snapshotId, timeframe, 'active_shards_count', 'Active Shards', withSiPrefixTwoDecimalPlaces, 280)}
+      {sparkChart(snapshotId, timeframe, 'document_count', 'Documents', withSiPrefixTwoDecimalPlaces)}
+      {sparkChart(snapshotId, timeframe, 'store_size', 'Size of store', bytesTwoDecimalPlaces)}
+    </div>
+  );
+}
 
-  displayName: 'ElasticsearchClusterSparkChartsSection',
-
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    snapshotId: React.PropTypes.string.isRequired,
-    timeframe: timeframeShape.isRequired
-  },
-
-  render() {
-    return (
-      <div className={block}>
-        {this.sparkChart('node_count', 'Nodes', withSiPrefixTwoDecimalPlaces)}
-        {this.sparkChart('indices_count', 'Indices', withSiPrefixTwoDecimalPlaces)}
-        {this.sparkChart('active_shards_count', 'Active Shards', withSiPrefixTwoDecimalPlaces, 280)}
-        {this.sparkChart('document_count', 'Documents', withSiPrefixTwoDecimalPlaces)}
-        {this.sparkChart('store_size', 'Size of store', bytesTwoDecimalPlaces)}
+function sparkChart(snapshotId, timeframe, metric, title, formatter, width = 130) {
+  return (
+    <div className={block + '__chart'}>
+      <HistoricMetricSparkChart width={width}
+                                height={30}
+                                timeframe={timeframe}
+                                snapshotId={snapshotId}
+                                metric={metric}
+                                tooltipFormatter={formatter}/>
+      <div className={block + '__description'}>
+        <span className={block + '__title'}>
+          {title}
+        </span>
+        <MetricValue snapshotId={snapshotId}
+                     metric={metric}
+                     className={block + '__value'}
+                     formatter={formatter}/>
       </div>
-    );
-  },
-
-  sparkChart(metric, title, formatter, width = 130) {
-    const snapshotId = this.props.snapshotId;
-    const timeframe = this.props.timeframe;
-
-    return (
-      <div className={block + '__chart'}>
-        <HistoricMetricSparkChart width={width}
-                                  height={30}
-                                  timeframe={timeframe}
-                                  snapshotId={snapshotId}
-                                  metric={metric}
-                                  tooltipFormatter={formatter}/>
-        <div className={block + '__description'}>
-          <span className={block + '__title'}>
-            {title}
-          </span>
-          <MetricValue snapshotId={snapshotId}
-                       metric={metric}
-                       className={block + '__value'}
-                       formatter={formatter}/>
-        </div>
-      </div>
-    );
-  }
-});
+    </div>
+  );
+}
