@@ -8,7 +8,11 @@ export default class GroundLineMeshComponent extends LineMeshComponent {
   constructor(config) {
     super(config);
 
-    this.addSubscription('healthChanged', this.healthChanged);
+    this.maxSeverityToSet = undefined;
+    this.addSubscription('healthChanged', maxSeverity => {
+      this.maxSeverityToSet = maxSeverity;
+      this.needsUpdate = true;
+    });
   }
 
   positionChanged(pos) {
@@ -23,8 +27,13 @@ export default class GroundLineMeshComponent extends LineMeshComponent {
     super.sizeChanged({x: x * 1.5, y, z: z * 1.5});
   }
 
-  healthChanged(maxSeverity) {
-    const active = maxSeverity < 0.5 ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
-    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, active);
+  update() {
+    super.update();
+
+    if (this.maxSeverityToSet !== undefined) {
+      const active = this.maxSeverityToSet < 0.5 ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
+      this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, active);
+      this.maxSeverityToSet = undefined;
+    }
   }
 }

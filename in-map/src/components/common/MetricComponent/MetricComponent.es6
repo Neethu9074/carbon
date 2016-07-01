@@ -41,6 +41,7 @@ export default class MetricComponent extends Component {
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     this.initialized();
+
     this.addSubscription('positionChanged', this.positionChanged);
 
     this.longClickedSubscription = longClickedSceneObject.subscribe(so => {

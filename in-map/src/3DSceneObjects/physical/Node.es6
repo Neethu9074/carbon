@@ -1,8 +1,7 @@
-import THREE from 'three';
+  import THREE from 'three';
 
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/physical/Node';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
-import {activeMetric} from 'in-services/stores/metrics';
 import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
 
@@ -188,24 +187,16 @@ export default class Node extends SceneObject {
     this.addSubscriptions([
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
-      activeMetric.subscribe(metric => {
-        this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE,
-          metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON);
-        }),
+      this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this)),
+      this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
+      this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
+      this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)),
 
-        this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this)),
-        this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
-        this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
-        this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)),
-
-        focusEntityId$.subscribe(id => {
-          if (this.id === id) {
-            eventBus.emit('flyToEntity', this);
-          }
-        }),
-
-        this.eventEmitter.on('isVisibleChanged_screenPosition').distinct().subscribe(isVisible =>
-          this.metricHandler.setStateForMetricActivity({isOutOfView: !isVisible}))
+      focusEntityId$.subscribe(id => {
+        if (this.id === id) {
+          eventBus.emit('flyToEntity', this);
+        }
+      })
     ]);
   }
 
@@ -233,10 +224,12 @@ export default class Node extends SceneObject {
   }
 
   showMetrics() {
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.changeComponentState('metric', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   hideMetrics() {
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.changeComponentState('metric', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 

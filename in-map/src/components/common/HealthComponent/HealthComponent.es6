@@ -1,7 +1,6 @@
 import Immutable from 'immutable';
 
 import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
-import {health} from 'in-services/health';
 
 import Component from '../Component';
 
@@ -23,7 +22,7 @@ export default class HealthComponent extends Component {
   }
 
   onInactiveEnter() {
-    this.emit('healthChanged', health.ok);
+    this.emit('healthChanged', 0);
   }
 
   onInactiveLeave() {

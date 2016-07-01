@@ -30,7 +30,6 @@ export default class Layer extends SceneObject {
     super({parent, id: entity.get('id')});
 
     this.type = this.id;
-    this.snapshot = undefined;
     this.tooltip = new TooltipLayer(this);
 
     this.registerEvents();
