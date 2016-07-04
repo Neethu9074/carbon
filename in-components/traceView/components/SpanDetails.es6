@@ -34,8 +34,8 @@ function SpanDetails({spanId, trace, span}) {
     }
 
     const traceDuration = trace.get('duration');
-    // if the hole trace duration is 0ms long, don't devide by 0
-    const durationOfTotalTime = traceDuration === 0 ? 0 : span.get('duration') / traceDuration;
+    // if the hole trace duration is 0ms long, don't devide by 0, just set as 100%
+    const durationOfTotalTime = traceDuration === 0 ? 1 : span.get('duration') / traceDuration;
     const percentOfTotalCall = percentageTwoDecimalPlaces(durationOfTotalTime);
     const note = `${percentOfTotalCall} of total call`;
     return (
