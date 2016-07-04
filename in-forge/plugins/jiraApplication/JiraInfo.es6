@@ -1,41 +1,34 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import MetricValue from 'in-components/MetricValue';
 
-const JiraInfo = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+export default function JiraInfo({snapshot}) {
+  const snapshotId = snapshot.get('id');
 
-  render() {
-    const data = this.props.snapshot.get('data');
-    const snapshotId = this.props.snapshot.get('id');
+  return (
+    <DescriptionList>
+      <DescriptionItem title='Version'>
+        {snapshot.getIn(['data', 'version'])}
+      </DescriptionItem>
+      <DescriptionItem title='Issues'>
+        <MetricValue metric={'instruments.entity.issues.total'}
+                     snapshotId={snapshotId} />
+      </DescriptionItem>
+      <DescriptionItem title='Workflows'>
+        <MetricValue metric={'instruments.entity.workflows.total'}
+                     snapshotId={snapshotId} />
+      </DescriptionItem>
+      <DescriptionItem title='Custom Fields'>
+        <MetricValue metric={'instruments.entity.customfields.total'}
+                     snapshotId={snapshotId} />
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
 
-    return (
-      <DescriptionList>
-        <DescriptionItem title='Version'>
-          {data.get('version')}
-        </DescriptionItem>
-        <DescriptionItem title='Issues'>
-          <MetricValue metric={'instruments.entity.issues.total'}
-                       snapshotId={snapshotId} />
-        </DescriptionItem>
-        <DescriptionItem title='Workflows'>
-          <MetricValue metric={'instruments.entity.workflows.total'}
-                       snapshotId={snapshotId} />
-        </DescriptionItem>
-        <DescriptionItem title='Custom Fields'>
-          <MetricValue metric={'instruments.entity.customfields.total'}
-                       snapshotId={snapshotId} />
-        </DescriptionItem>
-      </DescriptionList>
-    );
-  }
-});
-
-export default JiraInfo;
+JiraInfo.propTypes = {
+  snapshot: irpt.map.isRequired
+};

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function DummyConnectionSidebar({}) {
+export default function DummyConnectionSidebar() {
   return (
     <div />
   );

@@ -1,23 +1,16 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const GenericZoneDashboard = React.createClass({
-  mixins: [PureRenderMixin],
+export default function GenericZoneDashboard() {
+  return (
+    <div />
+  );
+}
 
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
-  },
-
-  render() {
-    return (
-      null
-    );
-  }
-});
-
-export default GenericZoneDashboard;
+GenericZoneDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

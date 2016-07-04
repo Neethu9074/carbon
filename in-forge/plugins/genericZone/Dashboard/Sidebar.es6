@@ -1,19 +1,13 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-const GenericZoneSidebar = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+export default function GenericZoneSidebar() {
+  return (
+    <div/>
+  );
+}
 
-  render() {
-    return (
-      null
-    );
-  }
-});
-
-export default GenericZoneSidebar;
+GenericZoneSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

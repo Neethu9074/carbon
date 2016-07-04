@@ -1,47 +1,42 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
-const InterfaceList = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    const ifaces = this.props.snapshot.getIn(['data', 'interfaces']);
-    if (!ifaces) {
-      return null;
-    }
-
-    return (
-      <DescriptionList>
-        {ifaces.map((ifaceData, ifaceName) =>
-          <DescriptionItem key={ifaceName} title={ifaceName}>
-            {this.formatIPs(ifaceData.get('addresses').map(address => address.get('ip')))}
-          </DescriptionItem>
-        ).toArray()}
-      </DescriptionList>
-    );
-  },
-
-  formatIPs(ips) {
-    if (!ips) return null;
-    // sort IPs based on their length, will make v4 come before v6
-    const ipsSorted = ips.sort((a, b) => a.length - b.length);
-    return (
-      <span>
-        {ipsSorted.map((ip) =>
-          <div key={ip}>
-            {ip}
-          </div>
-        )}
-      </span>
-    );
+export default function InterfaceList({snapshot}) {
+  const ifaces = snapshot.getIn(['data', 'interfaces']);
+  if (!ifaces) {
+    return null;
   }
-});
 
-export default InterfaceList;
+  return (
+    <DescriptionList>
+      {ifaces.map((ifaceData, ifaceName) =>
+        <DescriptionItem key={ifaceName} title={ifaceName}>
+          {formatIPs(ifaceData.get('addresses').map(address => address.get('ip')))}
+        </DescriptionItem>
+      ).toArray()}
+    </DescriptionList>
+  );
+}
+
+InterfaceList.propTypes = {
+  snapshot: irpt.map.isRequired
+};
+
+
+function formatIPs(ips) {
+  if (!ips) return null;
+  // sort IPs based on their length, will make v4 come before v6
+  const ipsSorted = ips.sort((a, b) => a.length - b.length);
+  return (
+    <span>
+      {ipsSorted.map((ip) =>
+        <div key={ip}>
+          {ip}
+        </div>
+      )}
+    </span>
+  );
+}

@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-export default function GenericHardwareSidebar({}) {
+export default function GenericHardwareSidebar() {
   return (
     <div />
   );

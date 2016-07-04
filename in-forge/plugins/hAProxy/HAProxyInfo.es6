@@ -1,19 +1,12 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
-const HAProxyInfo = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    const data = this.props.snapshot.get('data');
+export default function HAProxyInfo({snapshot}) {
+    const data = snapshot.get('data');
 
     return (
       <DescriptionList>
@@ -47,6 +40,7 @@ const HAProxyInfo = React.createClass({
       </DescriptionList>
     );
   }
-});
 
-export default HAProxyInfo;
+HAProxyInfo.propTypes = {
+  snapshot: irpt.map.isRequired
+};

@@ -4,7 +4,7 @@ import React from 'react';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-export default function DummyDashboard({}) {
+export default function DummyDashboard() {
   return (
     <div/>
   );

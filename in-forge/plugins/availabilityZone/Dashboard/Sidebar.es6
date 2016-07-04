@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 
-export default function AvailabilityZoneSidebar({}) {
+export default function AvailabilityZoneSidebar() {
   return (
     <div/>
   );

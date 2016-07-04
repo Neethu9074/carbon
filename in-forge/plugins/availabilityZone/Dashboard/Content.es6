@@ -4,7 +4,7 @@ import React from 'react';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-export default function AvailabilityZoneDashboard({}) {
+export default function AvailabilityZoneDashboard() {
   return (
     <div />
   );
