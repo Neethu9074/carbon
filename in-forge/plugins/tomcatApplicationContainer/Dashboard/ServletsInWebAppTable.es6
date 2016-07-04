@@ -6,11 +6,11 @@ import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
+
 const milliSecondsFormatter = milliSeconds => milliSeconds + ' ms';
 
 export default function ServletsTable({webAppContext, snapshot, timeframe}) {
   const servlets = snapshot.getIn(['data', 'servlets', webAppContext], emptyList).sort();
-
   if (servlets.size === 0) {
     return null;
   }
@@ -31,11 +31,9 @@ export default function ServletsTable({webAppContext, snapshot, timeframe}) {
   );
 }
 
-
 function getKey(servlet) {
   return servlet;
 }
-
 
 function createHeader() {
   return (
@@ -49,7 +47,6 @@ function createHeader() {
     </thead>
   );
 }
-
 
 function createRow(servlet, servletIndex, context) {
   const servletKey = context.webAppContext + '.' + servlet;

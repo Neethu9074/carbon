@@ -1,27 +1,19 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
-const IISInfo = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+export default function IISInfo({snapshot}) {
+  return (
+    <DescriptionList>
+      <DescriptionItem title='Version'>
+        {snapshot.getIn(['data', 'iis.version'])}
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
 
-  render() {
-    const data = this.props.snapshot.get('data');
-    return (
-      <DescriptionList>
-        <DescriptionItem title='Version'>
-          {data.get('iis.version')}
-        </DescriptionItem>
-      </DescriptionList>
-    );
-  }
-
-});
-
-export default IISInfo;
+IISInfo.propTypes = {
+  snapshot: irpt.map.isRequired
+};

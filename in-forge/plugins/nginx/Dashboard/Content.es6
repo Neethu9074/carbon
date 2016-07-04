@@ -1,83 +1,75 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const NginxDashboard = React.createClass({
-  mixins: [PureRenderMixin],
+export default function NginxDashboard({snapshot, timeframe}) {
+  const snapshotId = snapshot.get('id');
 
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
-  },
+  return (
+    <div>
+      <DashboardSection title='Requests'>
+        <ChartWithLegend snapshotId={snapshotId}
+               timeframe={timeframe}
+               height={200}
+               margins={{
+                 left: 80
+               }}
+               y1={{
+                 min: 0,
+                 metrics: [
+                   'requests'
+                 ],
+                 labels: [
+                   'Requests / s'
+                 ],
+                 type: 'line'
+               }}/>
+      </DashboardSection>
 
-  render() {
-    const timeframe = this.props.timeframe;
-    const snapshot = this.props.snapshot;
+      <DashboardSection title='Connections'>
+        <ChartWithLegend snapshotId={snapshotId}
+               timeframe={timeframe}
+               height={200}
+               margins={{
+                 left: 80,
+                 right: 80
+               }}
+               y1={{
+                 min: 0,
+                 metrics: [
+                   'connections.accepted',
+                   'connections.handled'
+                 ],
+                 labels: [
+                   'Accepted connections',
+                   'Handled connections'
+                 ],
+                 type: 'line'
+               }}
+               y2={{
+                 min: 0,
+                 metrics: [
+                   'connections.reading',
+                   'connections.writing',
+                   'connections.waiting'
+                 ],
+                 labels: [
+                   'Reading',
+                   'Writing',
+                   'waiting'
+                 ],
+                 type: 'line'
+               }}/>
+      </DashboardSection>
+    </div>
+  );
+}
 
-    return (
-      <div>
-        <DashboardSection title='Requests'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                 timeframe={timeframe}
-                 height={200}
-                 margins={{
-                   left: 80
-                 }}
-                 y1={{
-                   min: 0,
-                   metrics: [
-                     'requests'
-                   ],
-                   labels: [
-                     'Requests / s'
-                   ],
-                   type: 'line'
-                 }}/>
-        </DashboardSection>
-
-        <DashboardSection title='Connections'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                 timeframe={timeframe}
-                 height={200}
-                 margins={{
-                   left: 80,
-                   right: 80
-                 }}
-                 y1={{
-                   min: 0,
-                   metrics: [
-                     'connections.accepted',
-                     'connections.handled'
-                   ],
-                   labels: [
-                     'Accepted connections',
-                     'Handled connections'
-                   ],
-                   type: 'line'
-                 }}
-                 y2={{
-                   min: 0,
-                   metrics: [
-                     'connections.reading',
-                     'connections.writing',
-                     'connections.waiting'
-                   ],
-                   labels: [
-                     'Reading',
-                     'Writing',
-                     'waiting'
-                   ],
-                   type: 'line'
-                 }}/>
-        </DashboardSection>
-      </div>
-    );
-  }
-});
-
-export default NginxDashboard;
+NginxDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

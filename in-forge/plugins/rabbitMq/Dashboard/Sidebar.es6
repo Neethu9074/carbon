@@ -1,31 +1,25 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import RabbitMqInfo from 'in-forge/plugins/rabbitMq/RabbitMqInfo';
 import Collapsible from 'in-components/Collapsible';
 
-import RabbitMqInfo from '../RabbitMqInfo';
 
-const RabbitMqSidebar = React.createClass({
-  mixins: [PureRenderMixin],
+export default function RabbitMqSidebar({snapshot}) {
+  return (
+    <div>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>
+          RabbitMq
+        </Collapsible.Header>
+        <Collapsible.Content>
+            <RabbitMqInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+    </div>
+  );
+}
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-
-    return (
-      <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>RabbitMq</Collapsible.Header>
-          <Collapsible.Content>
-              <RabbitMqInfo snapshot={this.props.snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-      </div>
-    );
-  }
-});
-
-export default RabbitMqSidebar;
+RabbitMqSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

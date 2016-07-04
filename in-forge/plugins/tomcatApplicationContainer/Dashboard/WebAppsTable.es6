@@ -7,9 +7,9 @@ import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
+
 export default function WebAppsTable({snapshot, timeframe}) {
   const webApps = snapshot.getIn(['data', 'webapps'], emptyMap).sort();
-
   if (webApps.size === 0) {
     return null;
   }
@@ -29,11 +29,9 @@ export default function WebAppsTable({snapshot, timeframe}) {
   );
 }
 
-
 function getKey(webApp, webAppContext) {
   return webAppContext;
 }
-
 
 function createHeader() {
   return (
@@ -48,7 +46,6 @@ function createHeader() {
   );
 }
 
-
 function createRow(webApp, webAppContext, context) {
   return ([
     <td>{webAppContext}</td>,
@@ -58,7 +55,6 @@ function createRow(webApp, webAppContext, context) {
          snapshot={context.snapshot} />
   ]);
 }
-
 
 function createDetails(webApp, webAppContext, context) {
   return (

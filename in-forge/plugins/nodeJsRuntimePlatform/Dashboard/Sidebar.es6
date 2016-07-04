@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -8,31 +7,25 @@ import Collapsible from 'in-components/Collapsible';
 
 import NodeJsInfo from '../NodeJsInfo';
 
-const NodejsDashboardSidebar = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+export default function NodejsDashboardSidebar({snapshot}) {
+  return (
+    <div>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>Node.js Runtime</Collapsible.Header>
+        <Collapsible.Content>
+          <NodeJsInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
 
-  render() {
-    return (
-      <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Node.js Runtime</Collapsible.Header>
-          <Collapsible.Content>
-            <NodeJsInfo snapshot={this.props.snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
+      <KeyValuePopup header='Runtime Versions'
+                     data={snapshot.getIn(['data', 'versions'])} />
 
-        <KeyValuePopup header='Runtime Versions'
-                       data={this.props.snapshot.getIn(['data', 'versions'])} />
+      <DeployedUnitList snapshotId={snapshot.get('id')} />
+    </div>
+  );
+}
 
-        <DeployedUnitList snapshotId={this.props.snapshot.get('id')} />
-      </div>
-    );
-  }
-
-});
-
-export default NodejsDashboardSidebar;
+NodejsDashboardSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

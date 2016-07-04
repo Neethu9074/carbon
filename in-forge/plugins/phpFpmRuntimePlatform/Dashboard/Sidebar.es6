@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -7,28 +6,24 @@ import Collapsible from 'in-components/Collapsible';
 
 import PhpFpmInfo from '../PhpFpmInfo';
 
-const PhpFpmDashboardSidebar = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+export default function PhpFpmDashboardSidebar({snapshot}) {
+  return (
+    <div>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>
+          PHP-FPM Runtime
+        </Collapsible.Header>
+        <Collapsible.Content>
+          <PhpFpmInfo snapshot={snapshot}/>
+        </Collapsible.Content>
+      </Collapsible>
 
-  render() {
-    return (
-      <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>PHP-FPM Runtime</Collapsible.Header>
-          <Collapsible.Content>
-            <PhpFpmInfo snapshot={this.props.snapshot}/>
-          </Collapsible.Content>
-        </Collapsible>
+      <DeployedUnitList snapshotId={snapshot.get('id')} />
+    </div>
+  );
+}
 
-        <DeployedUnitList snapshotId={this.props.snapshot.get('id')} />
-      </div>
-    );
-  }
-
-});
-
-export default PhpFpmDashboardSidebar;
+PhpFpmDashboardSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

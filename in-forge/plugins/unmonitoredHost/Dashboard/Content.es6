@@ -1,19 +1,14 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
-export default React.createClass({
-    displayName: 'UnmonitoredHostDashboard',
+import {timeframeShape} from 'in-stores/timeline';
 
-    mixins: [PureRenderMixin],
 
-    propTypes: {
-      snapshot: irpt.map.isRequired
-    },
+export default function UnmonitoredHostDashboard({}) {
+  return <div/>;
+}
 
-    render() {
-      return (
-        <div/>
-      );
-    }
-});
+UnmonitoredHostDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

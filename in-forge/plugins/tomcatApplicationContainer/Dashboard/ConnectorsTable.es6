@@ -6,9 +6,9 @@ import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
+
 export default function ConnectorsTable({snapshot, timeframe}) {
   const connectors = snapshot.getIn(['data', 'connector-config'], emptyMap);
-
   if (connectors.size === 0) {
     return null;
   }
@@ -28,11 +28,9 @@ export default function ConnectorsTable({snapshot, timeframe}) {
   );
 }
 
-
 function getKey(connector, connectorName) {
   return connectorName;
 }
-
 
 function createHeader() {
   return (
@@ -49,7 +47,6 @@ function createHeader() {
   );
 }
 
-
 function createRow(connector, name, context) {
   return ([
     <td>{name}</td>,
@@ -63,7 +60,6 @@ function createRow(connector, name, context) {
     <td>{connector.getIn(['connections', 'max'])}</td>
   ]);
 }
-
 
 function createDetails(connector, name, context) {
   return (
