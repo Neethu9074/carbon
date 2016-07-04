@@ -14,7 +14,7 @@ import Mtd from 'in-components/Mtd';
 
 
 export default function HttpServersTable({snapshot, timeframe}) {
-  const servers = snapshot.getIn(['data', 'emptyMap'], emptyMap);
+  const servers = snapshot.getIn(['data', 'http'], emptyMap);
 
   if (servers.size === 0) {
     return null;
