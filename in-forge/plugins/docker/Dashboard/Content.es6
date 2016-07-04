@@ -1,3 +1,4 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -5,9 +6,10 @@ import {
   bytesZeroDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import DashboardSection from 'in-components/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {timeframeShape} from 'in-stores/timeline';
 
 
 const chartHeight = 200;
@@ -101,3 +103,8 @@ export default function DockerDashboard({snapshot, timeframe}) {
     </div>
   );
 }
+
+DockerDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

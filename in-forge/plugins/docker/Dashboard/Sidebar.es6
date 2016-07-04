@@ -1,3 +1,4 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RunningComponentsList from 'in-components/RunningComponentsList';
@@ -7,7 +8,7 @@ import Collapsible from 'in-components/Collapsible';
 import DockerInfo from 'in-forge/plugins/docker/DockerInfo';
 
 
-export default function Sidebar({snapshot}) {
+export default function DockerSidebar({snapshot}) {
   const labels = snapshot.getIn(['data', 'Labels']);
 
   return (
@@ -29,3 +30,7 @@ export default function Sidebar({snapshot}) {
     </div>
   );
 }
+
+DockerSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

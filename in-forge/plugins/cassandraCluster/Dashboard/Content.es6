@@ -1,3 +1,4 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
@@ -5,6 +6,7 @@ import ClusterSummary from 'in-forge/plugins/cassandraCluster/ClusterSummary';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {capitalize} from 'in-services/formatters/string';
+import {timeframeShape} from 'in-stores/timeline';
 
 
 const chartHeight = 200;
@@ -66,5 +68,9 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
       )}
     </div>
   );
-
 }
+
+CassandraClusterDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

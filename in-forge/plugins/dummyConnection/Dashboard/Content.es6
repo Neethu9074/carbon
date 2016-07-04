@@ -1,8 +1,16 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {timeframeShape} from 'in-stores/timeline';
 
-export default function DummyConnectionDashboard({}) {
+
+export default function DummyDashboard({}) {
   return (
-    <div />
+    <div/>
   );
 }
+
+DummyDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

@@ -1,3 +1,4 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
@@ -11,28 +12,28 @@ import ClusterStatusLabel from '../ClusterStatusLabel';
 
 
 export default connectTo({
-    timeframe: timelineStore.timeframe
-  },
-  function ElasticsearchClusterSidebar({snapshot, timeframe}) {
-    const snapshotId = snapshot.get('id');
-    const data = snapshot.get('data');
+  timeframe: timelineStore.timeframe
+}, ElasticsearchClusterSidebar);
 
-    return (
-      <div>
-        <DescriptionList>
-          {item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
-          {item('Name', data.get('groupId'))}
-          {item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
-        </DescriptionList>
+function ElasticsearchClusterSidebar({snapshot, timeframe}) {
+  const snapshotId = snapshot.get('id');
+  const data = snapshot.get('data');
 
-        <SparkChartsSection snapshotId={snapshotId}
-                            timeframe={timeframe}/>
+  return (
+    <div>
+      <DescriptionList>
+        {item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
+        {item('Name', data.get('groupId'))}
+        {item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
+      </DescriptionList>
 
-        <ClusterMembersList snapshotId={snapshotId} />
-      </div>
-    );
-  }
-);
+      <SparkChartsSection snapshotId={snapshotId}
+                          timeframe={timeframe}/>
+
+      <ClusterMembersList snapshotId={snapshotId} />
+    </div>
+  );
+}
 
 function item(header, content) {
   return (
@@ -41,3 +42,7 @@ function item(header, content) {
     </DescriptionItem>
   );
 }
+
+ElasticsearchClusterSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

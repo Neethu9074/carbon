@@ -1,8 +1,10 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {timeframeShape} from 'in-stores/timeline';
 import {Row, Col} from 'in-components/Grid/Grid';
 import {
   zeroDecimalPlaces,
@@ -297,3 +299,8 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
     </div>
   );
 }
+
+ElasticsearchDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

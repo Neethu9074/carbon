@@ -1,3 +1,4 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import Collapsible from 'in-components/Collapsible';
@@ -18,3 +19,7 @@ export default function ElasticsearchSidebar({snapshot}) {
     </div>
   );
 }
+
+ElasticsearchSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

@@ -1,8 +1,16 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {timeframeShape} from 'in-stores/timeline';
 
-export function Ec2Dashboard({}) {
+
+export default function Ec2Dashboard({}) {
   return (
-    <div />
+    <div/>
   );
 }
+
+Ec2Dashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

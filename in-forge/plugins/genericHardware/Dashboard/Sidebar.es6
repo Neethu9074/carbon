@@ -1,19 +1,12 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-const GenericHardwareSidebar = React.createClass({
-  mixins: [PureRenderMixin],
+export default function GenericHardwareSidebar({}) {
+  return (
+    <div />
+  );
+}
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    return (
-      null
-    );
-  }
-});
-
-export default GenericHardwareSidebar;
+GenericHardwareSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

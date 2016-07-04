@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -8,34 +7,17 @@ import MetersTable from 'in-forge/plugins/dropwizardApplicationContainer/Dashboa
 import {timeframeShape} from 'in-stores/timeline';
 
 
-export default React.createClass({
-  displayName: 'DropwizardDashboard',
+export default function DropwizardDashboard({snapshot, timeframe}) {
+  return (
+    <div>
+      <GaugesTable snapshot={snapshot} timeframe={timeframe} />
+      <CountersTable snapshot={snapshot} timeframe={timeframe} />
+      <MetersTable snapshot={snapshot} timeframe={timeframe} />
+    </div>
+  );
+}
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
-  },
-
-  getInitialState() {
-    return {
-      selectedMetricGauge: null,
-      selectedMetricCounter: null,
-      selectedMetricMeter: null
-    };
-  },
-
-  render() {
-    const timeframe = this.props.timeframe;
-    const snapshot = this.props.snapshot;
-
-    return (
-      <div>
-        <GaugesTable snapshot={snapshot} timeframe={timeframe} />
-        <CountersTable snapshot={snapshot} timeframe={timeframe} />
-        <MetersTable snapshot={snapshot} timeframe={timeframe} />
-      </div>
-    );
-  }
-});
+DropwizardDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

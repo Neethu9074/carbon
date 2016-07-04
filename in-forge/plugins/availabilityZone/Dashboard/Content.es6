@@ -1,4 +1,7 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
+
+import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function AvailabilityZoneDashboard({}) {
@@ -6,3 +9,8 @@ export default function AvailabilityZoneDashboard({}) {
     <div />
   );
 }
+
+AvailabilityZoneDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};
