@@ -33,11 +33,12 @@ export default React.createClass({
     }
   },
 
+  componentWillUnmount() {
+    this.disposeSparkChart();
+  },
+
   initCharts(props) {
-    if (this.chart) {
-      this.chart.dispose();
-      this.chart = null;
-    }
+    this.disposeSparkChart();
 
     this.chart = createSparkChart({
       width: props.width,
@@ -58,5 +59,12 @@ export default React.createClass({
     return (
       <div className={getClassName(this, block)} />
     );
+  },
+
+  disposeSparkChart() {
+    if (this.chart) {
+      this.chart.dispose();
+      this.chart = null;
+    }
   }
 });

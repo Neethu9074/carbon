@@ -9,6 +9,7 @@ import * as timelineStore from 'in-stores/timeline';
 const rpt = React.PropTypes;
 
 export default React.createClass({
+
   displayName: 'HistoricMetricSparkChart',
 
   propTypes: {
