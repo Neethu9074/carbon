@@ -14,7 +14,9 @@ import connectTo from 'in-hoc/connectTo';
 
 import './TraceTable.less';
 
+
 const block = 'in-trace-table';
+const rpt = React.PropTypes;
 
 export default getElementDimensions(connectTo({
     selectedTraceId,
@@ -24,10 +26,10 @@ export default getElementDimensions(connectTo({
   displayName: 'TraceTable',
 
   propTypes: {
-    selectedTraceId: React.PropTypes.string,
-    traces: React.PropTypes.array.isRequired,
-    isInfiniteLoading: React.PropTypes.bool.isRequired,
-    height: React.PropTypes.number
+    isInfiniteLoading: rpt.bool.isRequired,
+    traces: rpt.array.isRequired,
+    selectedTraceId: rpt.string,
+    height: rpt.number
   },
 
   componentWillUnmount() {

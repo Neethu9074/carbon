@@ -2,32 +2,34 @@ import React from 'react';
 
 import './TraceTableRow.less';
 
+
 const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
+const rpt = React.PropTypes;
 
-export default function TraceTableRow(props) {
+export default function TraceTableRow({selectedTraceId, trace, onClick}) {
   let classes = block;
-  if (props.selectedTraceId === props.trace.id) {
+  if (selectedTraceId === trace.id) {
     classes += ' ' + block + '--selected';
   }
   return (
     <div className={classes}
-         onClick={() => props.onClick(props.trace.id)}>
+         onClick={() => onClick(trace.id)}>
       <span className={cellClassName}>
-        {props.trace.start}
+        {trace.start}
       </span>
       <span className={cellClassName}>
-        {props.trace.name}
+        {trace.name}
       </span>
       <span className={cellClassName}>
-        {props.trace.duration}
+        {trace.duration}
       </span>
     </div>
   );
 }
 
 TraceTableRow.propTypes = {
-  trace: React.PropTypes.object.isRequired,
-  selectedTraceId: React.PropTypes.string,
-  onClick: React.PropTypes.func.isRequired
+  trace: rpt.object.isRequired,
+  onClick: rpt.func.isRequired,
+  selectedTraceId: rpt.string
 };
