@@ -2,11 +2,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import Collapsible from 'in-components/Collapsible';
 import RunningComponentsList from 'in-components/RunningComponentsList';
+import ProcessInfo from 'in-forge/plugins/process/ProcessInfo';
+import ArgList from 'in-forge/plugins/process/ArgList';
+import Collapsible from 'in-components/Collapsible';
 
-import ProcessInfo from '../ProcessInfo';
-import ArgList from '../ArgList';
 
 const Sidebar = React.createClass({
   mixins: [PureRenderMixin],
@@ -17,6 +17,7 @@ const Sidebar = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
+    const args = snapshot.getIn(['data', 'args']);
 
     return (
       <div>
@@ -26,12 +27,16 @@ const Sidebar = React.createClass({
             <ProcessInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Arguments</Collapsible.Header>
-          <Collapsible.Content>
-            <ArgList snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
+
+        {args && args.size > 0 ?
+          <Collapsible initiallyOpen={true}>
+            <Collapsible.Header>Arguments</Collapsible.Header>
+            <Collapsible.Content>
+              <ArgList snapshot={snapshot} />
+            </Collapsible.Content>
+          </Collapsible>
+          : null
+        }
         <RunningComponentsList snapshotId={snapshot.get('id')} />
       </div>
     );
