@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import DashboardNotification from 'in-components/DashboardNotification';
 import FrontendsTable from 'in-forge/plugins/hAProxy/Dashboard/FrontendsTable';
 import BackendsTable from 'in-forge/plugins/hAProxy/Dashboard/BackendsTable';
 import {timeframeShape} from 'in-stores/timeline';
@@ -15,6 +16,16 @@ const HAProxyDashboard = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+    const socketPath = snapshot.getIn(['data', 'socketPath']);
+    if (!socketPath) {
+      return (
+        <DashboardNotification type='info'>
+          HAProxy is not configured for socket access.
+          Please configure 'stats socket' to point to a UNIX socket.
+        </DashboardNotification>
+      );
+    }
     return (
       <div>
         <FrontendsTable snapshot={this.props.snapshot}
