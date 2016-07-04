@@ -1,3 +1,4 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import ClasspathLayouter from 'in-components/ClassPathLayouter/ClasspathLayouter';
@@ -34,3 +35,7 @@ export default function JVMInfo({snapshot}) {
     </div>
   );
 }
+
+JVMInfo.propTypes = {
+  snapshot: irpt.map.isRequired
+};

@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -9,109 +8,102 @@ import {timeframeShape} from 'in-stores/timeline';
 
 const chartHeight = 200;
 
-const MariaDbDashboard = React.createClass({
-  mixins: [PureRenderMixin],
+export default function MariaDbDashboard({snapshot, timeframe}) {
+  const snapshotId = snapshot.get('id');
 
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
-  },
+  return (
+    <div>
+      <DashboardSection title='Clients'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           metrics: [
+                             'status.CONNECTIONS'
+                           ],
+                           labels: [
+                             'Connections'
+                           ],
+                           type: 'line'
+                       }}/>
+      </DashboardSection>
+      <DashboardSection title='Slow Queries'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           metrics: [
+                             'status.SLOW_QUERIES'
+                           ],
+                           labels: [
+                             'Slow Queries'
+                           ],
+                           type: 'line'
+                       }}/>
+      </DashboardSection>
+      <DashboardSection title='Key Access'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           metrics: [
+                             'status.KEY_READ_REQUESTS',
+                             'status.KEY_WRITE_REQUESTS'
+                           ],
+                           labels: [
+                             'Read Requests',
+                             'Write Requests'
+                           ],
+                           type: 'line'
+                         }}
+                         y2={{
+                           metrics: [
+                             'status.KEY_READS',
+                             'status.KEY_WRITES'
+                           ],
+                           labels: [
+                             'Reads',
+                             'Writes'
+                           ],
+                           type: 'line'
+                         }}
+                         />
+      </DashboardSection>
+      <DashboardSection title='Aria Engine Properties'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           metrics: [
+                             'status.ARIA_PAGECACHE_READS',
+                             'status.ARIA_PAGECACHE_WRITES'
+                           ],
+                           labels: [
+                             'Pagecache Reads',
+                             'Pagecache Writes'
+                           ],
+                           type: 'line'
+                         }}
+                         />
+      </DashboardSection>
 
-  render() {
-    const timeframe = this.props.timeframe;
-    const snapshot = this.props.snapshot;
+    </div>
+  );
+}
 
-    return (
-      <div>
-        <DashboardSection title='Clients'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: [
-                               'status.CONNECTIONS'
-                             ],
-                             labels: [
-                               'Connections'
-                             ],
-                             type: 'line'
-                         }}/>
-        </DashboardSection>
-        <DashboardSection title='Slow Queries'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: [
-                               'status.SLOW_QUERIES'
-                             ],
-                             labels: [
-                               'Slow Queries'
-                             ],
-                             type: 'line'
-                         }}/>
-        </DashboardSection>
-        <DashboardSection title='Key Access'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: [
-                               'status.KEY_READ_REQUESTS',
-                               'status.KEY_WRITE_REQUESTS'
-                             ],
-                             labels: [
-                               'Read Requests',
-                               'Write Requests'
-                             ],
-                             type: 'line'
-                           }}
-                           y2={{
-                             metrics: [
-                               'status.KEY_READS',
-                               'status.KEY_WRITES'
-                             ],
-                             labels: [
-                               'Reads',
-                               'Writes'
-                             ],
-                             type: 'line'
-                           }}
-                           />
-        </DashboardSection>
-        <DashboardSection title='Aria Engine Properties'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: [
-                               'status.ARIA_PAGECACHE_READS',
-                               'status.ARIA_PAGECACHE_WRITES'
-                             ],
-                             labels: [
-                               'Pagecache Reads',
-                               'Pagecache Writes'
-                             ],
-                             type: 'line'
-                           }}
-                           />
-        </DashboardSection>
-
-      </div>
-    );
-  }
-});
-
-export default MariaDbDashboard;
+MariaDbDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

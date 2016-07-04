@@ -1,13 +1,10 @@
 import React from 'react';
 
-import {emptyMap} from 'in-services/fixedImmutables';
+import {bytesZeroDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {
-  bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces
-} from 'in-services/formatters/number';
+import {emptyMap} from 'in-services/fixedImmutables';
 import {getMaxValue} from 'in-sdk/metrics';
 import Mtd from 'in-components/Mtd';
 
