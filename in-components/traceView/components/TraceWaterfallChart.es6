@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -14,9 +13,56 @@ import {getLabel} from 'in-sdk/tracing';
 import './TraceWaterfallChart.less';
 
 
+const MIN_AXIS_DURATION = 1;
 const block = 'in-trace-waterfall-chart';
 
-const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
+export default connectTo({
+  selectedSpanId: selectedSpanId$
+}, TraceWaterfallChart);
+
+function TraceWaterfallChart({trace, selectedSpanId}) {
+  const domain = getDomainRange(trace);
+  const scale = createScale();
+  scale.setRangeFrom(0);
+  scale.setRangeTo(100);
+  scale.setDomainFrom(domain[0]);
+  scale.setDomainTo(domain[1]);
+
+  let fullDomain = scale.getDomainTo() - scale.getDomainFrom();
+  // if the hole trace is < 1ms long, set it to 1ms to get a better formatting
+  if (fullDomain < MIN_AXIS_DURATION) {
+    fullDomain = MIN_AXIS_DURATION;
+    scale.setDomainTo(scale.getDomainFrom() + MIN_AXIS_DURATION * 2);
+  }
+  const axisConfig = getAxisConfig(fullDomain);
+  const ticks = getTickPositions(scale, axisConfig, true);
+
+  return (
+    <div className={block}>
+      <TraceWaterfallAxis ticks={ticks}
+                          axisConfig={axisConfig}
+                          fullDomain={fullDomain} />
+      <TraceWaterfallSpan span={trace}
+                           scale={scale}
+                           selectedSpanId={selectedSpanId} />
+    </div>
+  );
+}
+
+function getDomainRange(trace) {
+  const domain = [Number.MAX_VALUE, Number.MIN_VALUE];
+  updateDomain(trace);
+  return domain;
+
+  function updateDomain(span) {
+    const start = span.get('start');
+    domain[0] = Math.min(domain[0], start);
+    domain[1] = Math.max(domain[1], start + span.get('duration'));
+    span.get('childSpans').forEach(updateDomain);
+  }
+}
+
+function TraceWaterfallSpan({span, scale, selectedSpanId}) {
   const left = scale.getRange(span.get('start'));
   const right = scale.getRange(span.get('start') + span.get('duration'));
   const selected = span.get('spanId') === selectedSpanId;
@@ -49,60 +95,16 @@ const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
       </div>
 
       {span.get('childSpans').toArray().map(childSpan =>
-        <TraceWatterfallSpan key={childSpan.get('spanId')}
+        <TraceWaterfallSpan key={childSpan.get('spanId')}
                              span={childSpan}
                              scale={scale}
                              selectedSpanId={selectedSpanId} />
       )}
     </div>
   );
+}
+
+TraceWaterfallChart.propTypes = {
+  trace: irpt.map.isRequired,
+  selectedSpanId: React.PropTypes.string
 };
-
-export default connectTo({
-    selectedSpanId: selectedSpanId$
-  }, React.createClass({
-    displayName: 'TraceWaterfallChart',
-
-    mixins: [PureRenderMixin],
-
-    propTypes: {
-      trace: irpt.map.isRequired,
-      selectedSpanId: React.PropTypes.string
-    },
-
-    render() {
-      const domain = this.getDomainRange();
-      const scale = createScale();
-      scale.setRangeFrom(0);
-      scale.setRangeTo(100);
-      scale.setDomainFrom(domain[0]);
-      scale.setDomainTo(domain[1]);
-      const fullDomain = scale.getDomainTo() - scale.getDomainFrom();
-      const axisConfig = getAxisConfig(fullDomain);
-      const ticks = getTickPositions(scale, axisConfig, true);
-
-      return (
-        <div className={block}>
-          <TraceWaterfallAxis ticks={ticks}
-                              axisConfig={axisConfig}
-                              fullDomain={fullDomain} />
-          <TraceWatterfallSpan span={this.props.trace}
-                               scale={scale}
-                               selectedSpanId={this.props.selectedSpanId} />
-        </div>
-      );
-    },
-
-    getDomainRange() {
-      const domain = [Number.MAX_VALUE, Number.MIN_VALUE];
-      updateDomain(this.props.trace);
-      return domain;
-
-      function updateDomain(span) {
-        const start = span.get('start');
-        domain[0] = Math.min(domain[0], start);
-        domain[1] = Math.max(domain[1], start + span.get('duration'));
-        span.get('childSpans').forEach(updateDomain);
-      }
-    }
-  }));

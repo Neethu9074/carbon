@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 
+import {timeframe as timeframe$, from$, to$} from 'in-stores/timeline';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
-import {timeframe as timeframe$, from$, to$} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 import {getTraces} from 'in-stores/traces';
 import {getLabel} from 'in-sdk/tracing';

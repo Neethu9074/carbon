@@ -6,6 +6,7 @@ import './FullscreenButton.less';
 
 const block = 'in-fullscreen-button';
 
+
 export default function FullscreenButton({onClick}) {
   return (
     <Icon type='fullscreen'

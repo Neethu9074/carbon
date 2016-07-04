@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -23,61 +22,58 @@ export default connectTo({
     trace: selectedTrace$,
     span: selectedSpan$
   },
-  React.createClass({
-    displayName: 'SpanDetails',
+  SpanDetails
+);
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
-      spanId: rpt.string,
-      trace: irpt.map,
-      span: irpt.map
-    },
-
-    render() {
-      const span = this.props.span;
-      const trace = this.props.trace;
-
-      if (!this.props.spanId) {
-        return null;
-      } else if (!span || !trace ||
-          span.get('spanId') !== this.props.spanId) {
-        return <LoadingIndicator type='dark' />;
-      }
-
-      const durationOfTotalTime = span.get('duration') / trace.get('duration');
-      const note = `${percentageTwoDecimalPlaces(durationOfTotalTime)} of total call`;
-      return (
-        <section className={block}>
-          <div className={block + '__header'}>
-            <h1 className={block + '__type'}>
-              {getTypeLabelSingular(span)}
-            </h1>
-            {span.get('error') ?
-              <Icon type='critical'
-                    className={block + '__icon'}/> :
-              null
-            }
-          </div>
-
-          <PropList>
-            <PropList.Prop label='Duration'
-                           value={msZeroDecimalPlaces(span.get('duration'))}
-                           note={note}/>
-            <PropList.Prop label='Start in total call'
-                           value={msZeroDecimalPlaces(span.get('start') - trace.get('start'))} />
-            <PropList.Prop label='Start'
-                           value={formatDateTime(span.get('start'))} />
-            {span.get('async') ?
-              <PropList.Prop label='Async'
-                             value={'true'} />
-              : null
-            }
-          </PropList>
-
-          <SpanForgeDetails span={span}
-                            trace={trace} />
-        </section>
-      );
+function SpanDetails({spanId, trace, span}) {
+    if (!spanId) {
+      return null;
+    } else if (!span || !trace ||
+        span.get('spanId') !== spanId) {
+      return <LoadingIndicator type='dark' />;
     }
-  }));
+
+    const traceDuration = trace.get('duration');
+    // if the hole trace duration is 0ms long, don't devide by 0, just set as 100%
+    const durationOfTotalTime = traceDuration === 0 ? 1 : span.get('duration') / traceDuration;
+    const percentOfTotalCall = percentageTwoDecimalPlaces(durationOfTotalTime);
+    const note = `${percentOfTotalCall} of total call`;
+    return (
+      <section className={block}>
+        <div className={block + '__header'}>
+          <h1 className={block + '__type'}>
+            {getTypeLabelSingular(span)}
+          </h1>
+          {span.get('error') ?
+            <Icon type='critical'
+                  className={block + '__icon'}/> :
+            null
+          }
+        </div>
+
+        <PropList>
+          <PropList.Prop label='Duration'
+                         value={msZeroDecimalPlaces(span.get('duration'))}
+                         note={note}/>
+          <PropList.Prop label='Start in total call'
+                         value={msZeroDecimalPlaces(span.get('start') - trace.get('start'))} />
+          <PropList.Prop label='Start'
+                         value={formatDateTime(span.get('start'))} />
+          {span.get('async') ?
+            <PropList.Prop label='Async'
+                           value={'true'} />
+            : null
+          }
+        </PropList>
+
+        <SpanForgeDetails span={span}
+                          trace={trace} />
+      </section>
+    );
+}
+
+SpanDetails.propTypes = {
+  spanId: rpt.string,
+  trace: irpt.map,
+  span: irpt.map
+};

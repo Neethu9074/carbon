@@ -35,12 +35,12 @@ const SpringbootDashboard = React.createClass({
                            }}
                            y1={{
                             metrics: [
-                              'requests',
-                              'statusCode.1xx',
-                              'statusCode.2xx',
-                              'statusCode.3xx',
-                              'statusCode.4xx',
-                              'statusCode.5xx'
+                              'metrics.requests',
+                              'metrics.statusCode.1xx',
+                              'metrics.statusCode.2xx',
+                              'metrics.statusCode.3xx',
+                              'metrics.statusCode.4xx',
+                              'metrics.statusCode.5xx'
                             ],
                             labels: [
                               'All Requests',

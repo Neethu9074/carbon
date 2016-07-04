@@ -5,6 +5,7 @@ import {toggleAutoRefresh, autoUpdate$} from 'in-components/traceView/traceViewS
 
 import './AutoUpdate.less';
 
+
 const block = 'in-trace-auto-update';
 const checkboxId = 'trace-view-auto-update';
 
