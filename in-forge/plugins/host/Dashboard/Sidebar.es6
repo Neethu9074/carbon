@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -9,16 +8,8 @@ import InterfaceList from '../InterfaceList';
 import HostHardware from '../HostHardware';
 import HostInfo from '../HostInfo';
 
-const Sidebar = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    const snapshot = this.props.snapshot;
-
+export default function HostSidebar({snapshot}) {
     return (
       <div>
         <Collapsible initiallyOpen={true}>
@@ -39,6 +30,7 @@ const Sidebar = React.createClass({
       </div>
     );
   }
-});
 
-export default Sidebar;
+HostSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

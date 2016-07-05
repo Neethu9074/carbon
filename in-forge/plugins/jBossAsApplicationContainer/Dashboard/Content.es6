@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -7,28 +6,19 @@ import ConnectorsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashbo
 import {timeframeShape} from 'in-stores/timeline';
 
 
-export default React.createClass({
+export default function JBossAsDashboard({snapshot, timeframe}) {
+  return (
+    <div>
+      <DeploymentsTable snapshot={snapshot}
+                        timeframe={timeframe} />
 
-  displayName: 'JBossAsDashboard',
+      <ConnectorsTable snapshot={snapshot}
+                       timeframe={timeframe} />
+    </div>
+  );
+}
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
-  },
-
-  render() {
-    const snapshot = this.props.snapshot;
-    const timeframe = this.props.timeframe;
-    return (
-      <div>
-        <DeploymentsTable snapshot={snapshot}
-                          timeframe={timeframe} />
-
-        <ConnectorsTable snapshot={snapshot}
-                         timeframe={timeframe} />
-      </div>
-    );
-  }
-});
+JBossAsDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

@@ -8,7 +8,6 @@ import Mtd from 'in-components/Mtd';
 
 export default function ExecutorsTable({snapshot, timeframe}) {
   const executors = snapshot.getIn(['data', 'executor-config'], emptyMap);
-
   if (executors.size === 0) {
     return null;
   }
@@ -28,11 +27,9 @@ export default function ExecutorsTable({snapshot, timeframe}) {
   );
 }
 
-
 function getKey(executor, executorName) {
   return executorName;
 }
-
 
 function createHeader() {
   return (
@@ -47,7 +44,6 @@ function createHeader() {
   );
 }
 
-
 function createRow(executor, name, context) {
   return ([
     <td>{name}</td>,
@@ -58,7 +54,6 @@ function createRow(executor, name, context) {
          snapshot={context.snapshot} />
   ]);
 }
-
 
 function createDetails(executor, name, context) {
   return (

@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -7,26 +6,21 @@ import Collapsible from 'in-components/Collapsible';
 
 import KafkaInfo from '../KafkaInfo';
 
-const KafkaSidebar = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+export default function KafkaSidebar({snapshot}) {
+  return (
+    <div>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>Kafka</Collapsible.Header>
+        <Collapsible.Content>
+          <KafkaInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+      <RunningComponentsList snapshotId={snapshot.get('id')} />
+    </div>
+  );
+}
 
-  render() {
-    return (
-      <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Kafka</Collapsible.Header>
-          <Collapsible.Content>
-            <KafkaInfo snapshot={this.props.snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-        <RunningComponentsList snapshotId={this.props.snapshot.get('id')} />
-      </div>
-    );
-  }
-});
-
-export default KafkaSidebar;
+KafkaSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

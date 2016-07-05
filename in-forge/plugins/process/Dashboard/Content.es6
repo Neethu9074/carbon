@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -14,66 +13,59 @@ import {timeframeShape} from 'in-stores/timeline';
 
 const chartHeight = 200;
 
-const ProcessDashboard = React.createClass({
-  mixins: [PureRenderMixin],
+export default function ProcessDashboard({snapshot, timeframe}) {
+  const snapshotId = snapshot.get('id');
 
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
-  },
+  return (
+    <div>
+      <DashboardSection title='Memory'>
+        <ChartWithLegend snapshotId={snapshotId}
+               timeframe={timeframe}
+               height={chartHeight}
+               margins={{
+                 left: 80
+               }}
+               y1={{
+                 min: 0,
+                 formatter: bytesTwoDecimalPlaces,
+                 metrics: [
+                   'mem.virtual',
+                   'mem.resident',
+                   'mem.share'
+                 ],
+                 labels: [
+                   'Virtual',
+                   'Resident',
+                   'Share'
+                 ],
+                 type: 'line'
+               }}/>
+      </DashboardSection>
+      <DashboardSection title='CPU Usage'>
+        <ChartWithLegend snapshotId={snapshotId}
+               timeframe={timeframe}
+               height={chartHeight}
+               margins={{
+                 left: 80
+               }}
+               y1={{
+                 metrics: [
+                   'cpu.user',
+                   'cpu.sys'
+                 ],
+                 labels: [
+                   'User',
+                   'System'
+                 ],
+                 formatter: percentageZeroDecimalPlaces,
+                 type: 'stackedArea'
+               }}/>
+      </DashboardSection>
+    </div>
+  );
+}
 
-  render() {
-    const timeframe = this.props.timeframe;
-    const snapshot = this.props.snapshot;
-
-    return (
-      <div>
-        <DashboardSection title='Memory'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                 timeframe={timeframe}
-                 height={chartHeight}
-                 margins={{
-                   left: 80
-                 }}
-                 y1={{
-                   min: 0,
-                   formatter: bytesTwoDecimalPlaces,
-                   metrics: [
-                     'mem.virtual',
-                     'mem.resident',
-                     'mem.share'
-                   ],
-                   labels: [
-                     'Virtual',
-                     'Resident',
-                     'Share'
-                   ],
-                   type: 'line'
-                 }}/>
-        </DashboardSection>
-        <DashboardSection title='CPU Usage'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                 timeframe={timeframe}
-                 height={chartHeight}
-                 margins={{
-                   left: 80
-                 }}
-                 y1={{
-                   metrics: [
-                     'cpu.user',
-                     'cpu.sys'
-                   ],
-                   labels: [
-                     'User',
-                     'System'
-                   ],
-                   formatter: percentageZeroDecimalPlaces,
-                   type: 'stackedArea'
-                 }}/>
-        </DashboardSection>
-      </div>
-    );
-  }
-});
-
-export default ProcessDashboard;
+ProcessDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

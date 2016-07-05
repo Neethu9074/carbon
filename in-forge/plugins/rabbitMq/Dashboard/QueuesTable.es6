@@ -11,9 +11,9 @@ import {
   twoDecimalPlaces
 } from 'in-services/formatters/number';
 
+
 export default function QueuesTable({snapshot, timeframe}) {
   const queues = snapshot.getIn(['data', 'queues'], emptyList).sort();
-
   if (queues.size === 0) {
     return null;
   }
@@ -33,11 +33,9 @@ export default function QueuesTable({snapshot, timeframe}) {
   );
 }
 
-
 function getKey(queueName) {
   return queueName;
 }
-
 
 function createHeader() {
   return (
@@ -49,21 +47,22 @@ function createHeader() {
   );
 }
 
-
 function createRow(queueName) {
   return ([
     <td>{queueName}</td>
   ]);
 }
 
-
 function createDetails(queueName, i, context) {
+  const snapshotId = context.snapshot.get('id');
+  const timeframe = context.timeframe;
+
   return (
     <div>
       <Row>
         <Col cols={6}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                timeframe={context.timeframe}
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
                 height={150}
                 margins={{
                   left: 80
@@ -83,8 +82,8 @@ function createDetails(queueName, i, context) {
                 }}/>
         </Col>
         <Col cols={6}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                timeframe={context.timeframe}
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
                 height={150}
                 margins={{
                   left: 80
@@ -110,8 +109,8 @@ function createDetails(queueName, i, context) {
 
       <Row>
         <Col cols={6}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                timeframe={context.timeframe}
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
                 height={150}
                 margins={{
                   left: 80
@@ -131,8 +130,8 @@ function createDetails(queueName, i, context) {
                 }}/>
         </Col>
         <Col cols={6}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                timeframe={context.timeframe}
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
                 height={150}
                 margins={{
                   left: 80
@@ -158,8 +157,8 @@ function createDetails(queueName, i, context) {
 
       <Row>
         <Col cols={6}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                timeframe={context.timeframe}
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
                 height={150}
                 margins={{
                   left: 80
@@ -175,8 +174,8 @@ function createDetails(queueName, i, context) {
                 }}/>
         </Col>
         <Col cols={6}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                timeframe={context.timeframe}
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
                 height={150}
                 margins={{
                   left: 80

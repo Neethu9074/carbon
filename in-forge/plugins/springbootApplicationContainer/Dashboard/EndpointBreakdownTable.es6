@@ -10,7 +10,6 @@ import Mtd from 'in-components/Mtd';
 
 export default function EndpointBreakdownTable({snapshot, timeframe}) {
   const endpointStatusCodesMap = snapshot.getIn(['data', 'endpointStatusCodesMap'], emptyMap).sort();
-
   if (endpointStatusCodesMap.size === 0) {
     return null;
   }

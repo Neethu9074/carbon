@@ -1,11 +1,8 @@
 import React from 'react';
 
+import {withSiPrefixZeroDecimalPlaces, withSiPrefixThreeDecimalPlaces} from 'in-services/formatters/number';
 import {KpiSummary, KpiHeading, KpiKeyValue} from 'in-components/KpiSummary';
 import MetricValue from 'in-components/MetricValue';
-import {
-  withSiPrefixZeroDecimalPlaces,
-  withSiPrefixThreeDecimalPlaces
-} from 'in-services/formatters/number';
 
 
 export default function ClusterSummary({snapshot}) {

@@ -6,9 +6,9 @@ import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
+
 export default function DataSourcesTable({snapshot, timeframe}) {
   const datasources = snapshot.getIn(['data', 'datasource-config'], emptyMap);
-
   if (datasources.size === 0) {
     return null;
   }
@@ -28,11 +28,9 @@ export default function DataSourcesTable({snapshot, timeframe}) {
   );
 }
 
-
 function getKey(connector, connectorName) {
   return connectorName;
 }
-
 
 function createHeader() {
   return (
@@ -48,7 +46,6 @@ function createHeader() {
   );
 }
 
-
 function createRow(datasource, name, context) {
   return ([
     <td>{datasource.getIn(['name'])}</td>,
@@ -59,7 +56,6 @@ function createRow(datasource, name, context) {
     <td>{datasource.getIn(['max'], 'unlimited')}</td>
   ]);
 }
-
 
 function createDetails(connector, name, context) {
   return (

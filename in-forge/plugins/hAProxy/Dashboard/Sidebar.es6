@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -7,28 +6,21 @@ import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import HAProxyInfo from '../HAProxyInfo';
 
-const HAProxySidebar = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+export default function HAProxySidebar({snapshot}) {
+  return (
+    <div>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>HAProxy</Collapsible.Header>
+        <Collapsible.Content>
+          <HAProxyInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+      <RunningComponentsList snapshotId={snapshot.get('id')} />
+    </div>
+  );
+}
 
-  render() {
-    const snapshot = this.props.snapshot;
-
-    return (
-      <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>HAProxy</Collapsible.Header>
-          <Collapsible.Content>
-            <HAProxyInfo snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-        <RunningComponentsList snapshotId={snapshot.get('id')} />
-      </div>
-    );
-  }
-});
-
-export default HAProxySidebar;
+HAProxySidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

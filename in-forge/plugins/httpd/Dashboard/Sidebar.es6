@@ -1,33 +1,26 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import Collapsible from 'in-components/Collapsible';
 import RunningComponentsList from 'in-components/RunningComponentsList';
+import Collapsible from 'in-components/Collapsible';
 
 import HttpdInfo from '../HttpdInfo';
 
-const Sidebar = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
+export default function HttpdSidebar({snapshot}) {
+  return (
+    <div>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>Apache Httpd</Collapsible.Header>
+        <Collapsible.Content>
+          <HttpdInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+      <RunningComponentsList snapshotId={snapshot.get('id')} />
+    </div>
+  );
+}
 
-  render() {
-    return (
-      <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Apache Httpd</Collapsible.Header>
-          <Collapsible.Content>
-            <HttpdInfo snapshot={this.props.snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-        <RunningComponentsList snapshotId={this.props.snapshot.get('id')} />
-      </div>
-    );
-  }
-
-});
-
-export default Sidebar;
+HttpdSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

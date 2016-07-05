@@ -1,24 +1,18 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
 import {timeframeShape} from 'in-stores/timeline';
 
-export default React.createClass({
-  displayName: 'PostgreSqlDashboard',
 
-  mixins: [PureRenderMixin],
+export default function PostgreSqlDashboard({snapshot, timeframe}) {
+  return (
+    <DatabasesTable snapshot={snapshot}
+                    timeframe={timeframe} />
+  );
+}
 
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
-  },
-
-  render() {
-    return (
-      <DatabasesTable snapshot={this.props.snapshot}
-                      timeframe={this.props.timeframe} />
-    );
-  }
-});
+PostgreSqlDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

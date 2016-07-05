@@ -10,7 +10,6 @@ import Mtd from 'in-components/Mtd';
 
 export default function CustomMonitorsTable({snapshot, timeframe}) {
   const monitors = snapshot.getIn(['data', 'monitor'], emptyList);
-
   if (monitors.size === 0) {
     return null;
   }
@@ -30,11 +29,9 @@ export default function CustomMonitorsTable({snapshot, timeframe}) {
   );
 }
 
-
 function getKey(monitorName) {
   return monitorName;
 }
-
 
 function createHeader() {
   return (
@@ -47,7 +44,6 @@ function createHeader() {
   );
 }
 
-
 function createRow(monitorName, index, context) {
   return ([
     <td>
@@ -58,7 +54,6 @@ function createRow(monitorName, index, context) {
          formatter={withSiPrefixThreeDecimalPlaces} />
   ]);
 }
-
 
 function createDetails(monitorName, index, context) {
   return (

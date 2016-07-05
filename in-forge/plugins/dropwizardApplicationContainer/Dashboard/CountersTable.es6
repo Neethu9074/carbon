@@ -9,6 +9,7 @@ import {
 } from 'in-services/formatters/number';
 import Mtd from 'in-components/Mtd';
 
+
 export default function CountersTable({snapshot, timeframe}) {
   const counters = snapshot.getIn(['data', 'metrics.counters'], emptyList);
 

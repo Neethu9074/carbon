@@ -1,77 +1,66 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
-import irpt from 'react-immutable-proptypes';
 
-import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {formatDateTime} from 'in-services/formatters/date';
 
-const DockerInfo = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    const data = this.props.snapshot.get('data');
-    let createdMillis = data.get('Created');
-    // for compatibiltiy with pre 1.1.5 sensor multiply seconds to get ms.
-    if (createdMillis < 1500000000) {
-      createdMillis *= 1000;
-    }
-
-    return (
-      <DescriptionList>
-        <DescriptionItem title='Image'>
-          {data.get('Image')}
-        </DescriptionItem>
-        <DescriptionItem title='Command'>
-          {data.get('Command')}
-        </DescriptionItem>
-        <DescriptionItem title='Created'>
-          {formatDateTime(createdMillis)}
-        </DescriptionItem>
-        <DescriptionItem title='Id'>
-          {data.get('Id').substring(0, 20)}{'…'}
-        </DescriptionItem>
-        <DescriptionItem title='Names'>
-          {data.get('Names').join(', ')}
-        </DescriptionItem>
-        <DescriptionItem title='Ports'>
-          {this.renderPorts(data)}
-        </DescriptionItem>
-        <DescriptionItem title='Network Mode'>
-          {data.get('NetworkMode')}
-        </DescriptionItem>
-        <DescriptionItem title='Storage Driver'>
-          {data.get('StorageDriver')}
-        </DescriptionItem>
-        <DescriptionItem title='Docker Version'>
-          {data.get('docker_version')}
-        </DescriptionItem>
-      </DescriptionList>
-    );
-  },
-
-  renderPorts(data) {
-    // PortBindings is new as of 1.1.5, Ports for compatibility
-    const portBindings = data.get('PortBindings');
-    if (portBindings != null && portBindings.size > 0) {
-      return portBindings.keySeq().join(', ');
-    }
-
-    const ports = data.get('Ports');
-    if (ports != null && ports.size > 0) {
-      return (
-        <span>
-          {ports.map(port =>
-            <span key={port}>{port.get('PrivatePort')}/{port.get('Type')}</span>
-          )}
-        </span>
-      );
-    }
-    return null;
+export default function DockerInfo({snapshot}) {
+  const data = snapshot.get('data');
+  let createdMillis = data.get('Created');
+  // for compatibiltiy with pre 1.1.5 sensor multiply seconds to get ms.
+  if (createdMillis < 1500000000) {
+    createdMillis *= 1000;
   }
-});
 
-export default DockerInfo;
+  return (
+    <DescriptionList>
+      <DescriptionItem title='Image'>
+        {data.get('Image')}
+      </DescriptionItem>
+      <DescriptionItem title='Command'>
+        {data.get('Command')}
+      </DescriptionItem>
+      <DescriptionItem title='Created'>
+        {formatDateTime(createdMillis)}
+      </DescriptionItem>
+      <DescriptionItem title='Id'>
+        {data.get('Id').substring(0, 20)}{'…'}
+      </DescriptionItem>
+      <DescriptionItem title='Names'>
+        {data.get('Names').join(', ')}
+      </DescriptionItem>
+      <DescriptionItem title='Ports'>
+        {renderPorts(data)}
+      </DescriptionItem>
+      <DescriptionItem title='Network Mode'>
+        {data.get('NetworkMode')}
+      </DescriptionItem>
+      <DescriptionItem title='Storage Driver'>
+        {data.get('StorageDriver')}
+      </DescriptionItem>
+      <DescriptionItem title='Docker Version'>
+        {data.get('docker_version')}
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function renderPorts(data) {
+  // PortBindings is new as of 1.1.5, Ports for compatibility
+  const portBindings = data.get('PortBindings');
+  if (portBindings != null && portBindings.size > 0) {
+    return portBindings.keySeq().join(', ');
+  }
+
+  const ports = data.get('Ports');
+  if (ports != null && ports.size > 0) {
+    return (
+      <span>
+        {ports.map(port =>
+          <span key={port}>{port.get('PrivatePort')}/{port.get('Type')}</span>
+        )}
+      </span>
+    );
+  }
+  return null;
+}

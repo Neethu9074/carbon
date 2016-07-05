@@ -1,19 +1,16 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
-export default React.createClass({
-    displayName: 'Ec2Dashboard',
+import {timeframeShape} from 'in-stores/timeline';
 
-    mixins: [PureRenderMixin],
 
-    propTypes: {
-      snapshot: irpt.map.isRequired
-    },
+export default function Ec2Dashboard() {
+  return (
+    <div/>
+  );
+}
 
-    render() {
-      return (
-        <div/>
-      );
-    }
-});
+Ec2Dashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

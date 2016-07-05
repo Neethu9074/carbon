@@ -1,59 +1,52 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import DashboardNotification from 'in-components/DashboardNotification';
 import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
-import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
 
 const chartHeight = 150;
 
-const PhpFpmDashboard = React.createClass({
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
-  },
-
-  render() {
-    const timeframe = this.props.timeframe;
-    const snapshot = this.props.snapshot;
-    const pools = snapshot.getIn(['data', 'worker_pools']).toArray();
-
-    if (pools.length === 0) {
-      return (<div>No Worker Pools found</div>);
-    }
-
-    return (
-      <div>
-        {pools.map(pool =>
-         isStatusPathEnabled(snapshot, pool)
-         ? <WorkerPoolMetrics key={pool}
-                              snapshot={snapshot}
-                              timeframe={timeframe} pool={pool}/>
-         : <DashboardNotification key={pool} type='info'>
-            In order to monitor the worker pool {pool}, you need to
-            enable <code>pm.status_path</code> in your PHP-FPM config.
-         </DashboardNotification>
-        )}
-      </div>
-    );
+export default function PhpFpmDashboard({snapshot, timeframe}) {
+  const pools = snapshot.getIn(['data', 'worker_pools'], emptyList).toArray();
+  if (pools.length === 0) {
+    return (<div>No Worker Pools found</div>);
   }
-});
 
-export default PhpFpmDashboard;
+  return (
+    <div>
+      {pools.map(pool =>
+       isStatusPathEnabled(snapshot, pool)
+       ? <WorkerPoolMetrics key={pool}
+                            snapshot={snapshot}
+                            timeframe={timeframe} pool={pool}/>
+       : <DashboardNotification key={pool} type='info'>
+          In order to monitor the worker pool {pool}, you need to
+          enable <code>pm.status_path</code> in your PHP-FPM config.
+       </DashboardNotification>
+      )}
+    </div>
+  );
+}
+
+PhpFpmDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};
+
 
 function WorkerPoolMetrics({snapshot, pool, timeframe}) {
+  const snapshotId = snapshot.get('id');
   const data = snapshot.get('data');
 
   return (
           <div key={pool}>
             <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
+              <ChartWithLegend snapshotId={snapshotId}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -93,7 +86,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
                                }}/>
             </DashboardSection>
             <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
+              <ChartWithLegend snapshotId={snapshotId}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -133,7 +126,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
                                }}/>
             </DashboardSection>
             <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
+              <ChartWithLegend snapshotId={snapshotId}
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
@@ -151,6 +144,13 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
         </div>
   );
 }
+
+WorkerPoolMetrics.propTypes = {
+  snapshot: irpt.map.isRequired,
+  pool: React.PropTypes.string,
+  timeframe: timeframeShape
+};
+
 
 function isStatusPathEnabled(snapshot, pool) {
   return snapshot.getIn(['data', 'worker_pool.' + pool + '.pm_status_path'], 'undefined') !== 'undefined';

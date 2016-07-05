@@ -10,9 +10,9 @@ import {
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
 
+
 export default function NodesTable({snapshot, timeframe}) {
   const nodes = snapshot.getIn(['data', 'nodes'], emptyList).sort();
-
   if (nodes.size === 0) {
     return null;
   }
@@ -32,11 +32,9 @@ export default function NodesTable({snapshot, timeframe}) {
   );
 }
 
-
 function getKey(nodeName) {
   return nodeName;
 }
-
 
 function createHeader() {
   return (
@@ -48,20 +46,21 @@ function createHeader() {
   );
 }
 
-
 function createRow(nodeName) {
   return ([
     <td>{nodeName}</td>
   ]);
 }
 
-
 function createDetails(nodeName, i, context) {
+  const snapshotId = context.snapshot.get('id');
+  const timeframe = context.timeframe;
+
   return (
     <Row>
       <Col cols={6}>
-        <ChartWithLegend snapshotId={context.snapshot.get('id')}
-              timeframe={context.timeframe}
+        <ChartWithLegend snapshotId={snapshotId}
+              timeframe={timeframe}
               height={150}
               margins={{
                 left: 80
@@ -77,8 +76,8 @@ function createDetails(nodeName, i, context) {
                 ],
                 type: 'line'
               }}/>
-        <ChartWithLegend snapshotId={context.snapshot.get('id')}
-              timeframe={context.timeframe}
+        <ChartWithLegend snapshotId={snapshotId}
+              timeframe={timeframe}
               height={150}
               margins={{
                 left: 80
@@ -98,8 +97,8 @@ function createDetails(nodeName, i, context) {
               }}/>
       </Col>
       <Col cols={6}>
-        <ChartWithLegend snapshotId={context.snapshot.get('id')}
-              timeframe={context.timeframe}
+        <ChartWithLegend snapshotId={snapshotId}
+              timeframe={timeframe}
               height={150}
               margins={{
                 left: 80
@@ -116,8 +115,8 @@ function createDetails(nodeName, i, context) {
                 type: 'line'
               }}/>
 
-        <ChartWithLegend snapshotId={context.snapshot.get('id')}
-              timeframe={context.timeframe}
+        <ChartWithLegend snapshotId={snapshotId}
+              timeframe={timeframe}
               height={150}
               margins={{
                 left: 80

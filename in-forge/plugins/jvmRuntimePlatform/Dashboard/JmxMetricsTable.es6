@@ -1,12 +1,10 @@
 import React from 'react';
 
-import {emptyList} from 'in-services/fixedImmutables';
+import {withSiPrefixThreeDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {
-  withSiPrefixThreeDecimalPlaces
-} from 'in-services/formatters/number';
+import {emptyList} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
 

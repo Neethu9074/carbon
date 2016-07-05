@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -7,39 +6,34 @@ import Collapsible from 'in-components/Collapsible';
 import getFoundation from 'in-hoc/getFoundation';
 import {getSingular} from 'in-sdk/pluginName';
 
-export default getFoundation(React.createClass({
-  displayName: 'HostHardware',
 
-  mixins: [PureRenderMixin],
+export default getFoundation(HostHardware);
 
-  propTypes: {
-    foundationSnapshot: irpt.map
-  },
+function HostHardware({foundationSnapshot}) {
+  if (!foundationSnapshot) return null;
+  const Details = getForgeSpecificComponent(foundationSnapshot);
 
-  render() {
-    const snapshot = this.props.foundationSnapshot;
-    if (!snapshot) return null;
+  return (
+    <Collapsible initiallyOpen={true}>
+      <Collapsible.Header>
+        {getSingular(foundationSnapshot.get('plugin'))}
+      </Collapsible.Header>
+      <Collapsible.Content>
+        <Details snapshot={foundationSnapshot} />
+      </Collapsible.Content>
+    </Collapsible>
+  );
+}
 
-    const Details = this.getForgeSpecificComponent();
+HostHardware.propTypes = {
+  foundationSnapshot: irpt.map
+};
 
-    return (
-      <Collapsible initiallyOpen={true}>
-        <Collapsible.Header>
-          {getSingular(snapshot.get('plugin'))}
-        </Collapsible.Header>
-        <Collapsible.Content>
-          <Details snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
-    );
-  },
 
-  getForgeSpecificComponent() {
-    const snapshot = this.props.foundationSnapshot;
-    return getForgeComponent(
-      './' +
-      snapshot.get('plugin') +
-      '/Sidebar/Details.es6'
-    );
-  }
-}));
+function getForgeSpecificComponent(snapshot) {
+  return getForgeComponent(
+    './' +
+    snapshot.get('plugin') +
+    '/Sidebar/Details.es6'
+  );
+}

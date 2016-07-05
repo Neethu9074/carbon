@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -13,46 +12,37 @@ import ClusterStatusLabel from '../ClusterStatusLabel';
 
 
 export default connectTo({
-    timeframe: timelineStore.timeframe
-  },
-  React.createClass({
+  timeframe: timelineStore.timeframe
+}, ElasticsearchClusterSidebar);
 
-    displayName: 'ElasticsearchClusterSidebar',
+function ElasticsearchClusterSidebar({snapshot, timeframe}) {
+  const snapshotId = snapshot.get('id');
+  const data = snapshot.get('data');
 
-    mixins: [PureRenderMixin],
+  return (
+    <div>
+      <DescriptionList>
+        {item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
+        {item('Name', data.get('groupId'))}
+        {item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
+      </DescriptionList>
 
-    propTypes: {
-      timeframe: timelineStore.timeframeShape,
-      snapshot: irpt.map.isRequired
-    },
+      <SparkChartsSection snapshotId={snapshotId}
+                          timeframe={timeframe}/>
 
-    render() {
-      const snapshot = this.props.snapshot;
-      const snapshotId = snapshot.get('id');
-      const data = snapshot.get('data');
+      <ClusterMembersList snapshotId={snapshotId} />
+    </div>
+  );
+}
 
-      return (
-        <div>
-          <DescriptionList>
-            {this.item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
-            {this.item('Name', data.get('groupId'))}
-            {this.item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
-          </DescriptionList>
+function item(header, content) {
+  return (
+    <DescriptionItem title={header}>
+    {content}
+    </DescriptionItem>
+  );
+}
 
-          <SparkChartsSection snapshotId={snapshotId}
-                              timeframe={this.props.timeframe}/>
-
-          <ClusterMembersList snapshotId={snapshotId} />
-        </div>
-      );
-    },
-
-    item(header, content) {
-      return (
-        <DescriptionItem title={header}>
-          {content}
-        </DescriptionItem>
-      );
-    }
-  })
-);
+ElasticsearchClusterSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

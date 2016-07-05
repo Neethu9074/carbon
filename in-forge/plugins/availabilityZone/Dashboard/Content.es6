@@ -1,19 +1,16 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
-export default React.createClass({
-    displayName: 'AvailabilityZoneDashboard',
+import {timeframeShape} from 'in-stores/timeline';
 
-    mixins: [PureRenderMixin],
 
-    propTypes: {
-      snapshot: irpt.map.isRequired
-    },
+export default function AvailabilityZoneDashboard() {
+  return (
+    <div />
+  );
+}
 
-    render() {
-      return (
-        <div/>
-      );
-    }
-});
+AvailabilityZoneDashboard.propTypes = {
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
+};

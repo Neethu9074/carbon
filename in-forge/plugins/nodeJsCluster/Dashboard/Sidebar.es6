@@ -1,25 +1,13 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import ClusterMembersList from 'in-components/ClusterMembersList';
 
 
-export default React.createClass({
+export default function NodejsClusterSidebar({snapshot}) {
+  return <ClusterMembersList snapshotId={snapshot.get('id')} />;
+}
 
-  displayName: 'NodejsClusterSidebar',
-
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    const snapshot = this.props.snapshot;
-
-    return (
-      <ClusterMembersList snapshotId={snapshot.get('id')} />
-    );
-  }
-});
+NodejsClusterSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

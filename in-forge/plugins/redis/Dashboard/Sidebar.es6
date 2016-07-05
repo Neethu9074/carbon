@@ -1,30 +1,25 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import RedisInfo from 'in-forge/plugins/redis/RedisInfo';
 import Collapsible from 'in-components/Collapsible';
 
-import RedisInfo from '../RedisInfo';
 
-const RedisSidebar = React.createClass({
-  mixins: [PureRenderMixin],
+export default function RedisSidebar({snapshot}) {
+  return (
+    <div>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>
+          Redis
+        </Collapsible.Header>
+        <Collapsible.Content>
+          <RedisInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+    </div>
+  );
+}
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    return (
-      <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Redis</Collapsible.Header>
-          <Collapsible.Content>
-            <RedisInfo snapshot={this.props.snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-      </div>
-    );
-  }
-});
-
-export default RedisSidebar;
+RedisSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};

@@ -1,19 +1,13 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-export default React.createClass({
-  displayName: 'AvailabilityZoneSidebar',
 
-  mixins: [PureRenderMixin],
+export default function AvailabilityZoneSidebar() {
+  return (
+    <div/>
+  );
+}
 
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
-
-  render() {
-    return (
-      <div/>
-    );
-  }
-});
+AvailabilityZoneSidebar.propTypes = {
+  snapshot: irpt.map.isRequired
+};
