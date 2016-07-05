@@ -55,7 +55,7 @@ export const searchMatches$ = createTrackingStore({
         view: 'PHYSICAL'
       });
     })
-});
+}).observable;
 
 
 const errorStore = createStore({
