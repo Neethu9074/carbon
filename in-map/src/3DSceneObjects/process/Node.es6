@@ -221,14 +221,6 @@ export default class Node extends SceneObject {
       this.stickyNote = null;
     }
 
-    try {
-      this.tooltip.unMount();
-      this.tooltip.dispose();
-    } catch (er) {
-      // the tooltip is already unmounted
-      this.tooltip = null;
-    }
-
     this.height = null;
     this.children = null;
     this.isExpanded = null;
