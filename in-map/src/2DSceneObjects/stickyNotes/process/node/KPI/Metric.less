@@ -4,7 +4,7 @@
   position: absolute;
   top: calc(0 - 40px);
   left: 10px;
-  -webkit-font-smoothing: subpixel-antialiased;
+  background: rgba(45, 64, 75, 0.5);
 
   &__heading {
     margin-left: 5px;
@@ -15,9 +15,35 @@
   }
 
   &__metrics {
-    background: rgba(45, 64, 75, 0.5);
     border-radius: 4px;
     padding: 5px 7px 5px 10px;
     height: 25px;
+  }
+
+  &__chart-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    max-width: 300px;
+    padding: 5px 7px 5px 10px;
+  }
+
+  &__description {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__chart {
+    margin: 0.5rem 0;
+  }
+
+  &__title {
+    color: #7e9099;
+  }
+
+  &__value {
+    color: white;
+    font-weight: bold;
   }
 }

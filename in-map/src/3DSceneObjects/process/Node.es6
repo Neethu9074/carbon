@@ -5,7 +5,6 @@ import HealthComponent from 'in-map/src/components/common/HealthComponent/Health
 import {voteUp, voteDown, addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
@@ -21,8 +20,6 @@ export default class Node extends SceneObject {
 
     this.isExpanded = false;
     this.edgeCount = 0;
-
-    this.tooltip = new TooltipNode(this);
 
     this.addSubscriptions([
       eventBus.on('endUpdate').subscribe(() => {
@@ -69,27 +66,33 @@ export default class Node extends SceneObject {
       }),
 
       combineLatest([
-        this.eventEmitter.on('isVisibleChanged_screenPositionMetric').distinct(),
-        parent.onZoomLevel()
-      ]).subscribe(props =>
-        // isVisible && zoomLevel < 500
-        (props[0] && props[1] < 500) ?
-          this.getOrCreateMetricSticky() :
+        this.eventEmitter.on('isVisibleChanged_screenPositionMetric')
+                         .distinct(),
+        parent.onZoomLevel(),
+        this.eventEmitter.on('onHighlight')
+                         .debounce(100)
+                         .distinct()
+      ]).subscribe(([isVisible, zoomLevel, isHighlighted]) =>
+        (isVisible && (zoomLevel < 500 || isHighlighted)) ?
+          this.getOrCreateMetricSticky(isHighlighted) :
           this.disposeMetricSticky()
       )
     ]);
 
     this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });
+    this.eventEmitter.emit('onHighlight', false);
 
     addNode(this);
   }
 
   onHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.eventEmitter.emit('onHighlight', true);
   }
 
   onHighlightLeave() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.eventEmitter.emit('onHighlight', false);
   }
 
   onSelectedEnter() {
@@ -102,10 +105,12 @@ export default class Node extends SceneObject {
 
   onSelectedHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.eventEmitter.emit('onHighlight', true);
   }
 
   onSelectedHighlightLeave() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.eventEmitter.emit('onHighlight', false);
   }
 
   initComponents() {
@@ -121,13 +126,14 @@ export default class Node extends SceneObject {
     this.addComponents(this.components);
   }
 
-  getOrCreateMetricSticky() {
+  getOrCreateMetricSticky(isHighlighted) {
     if (!this.stickyNoteMetric) {
       this.stickyNoteMetric = this.createMetricSticky();
 
       // force screen position update
       this.getComponent('screenPositionMetric').updateScreenPosition(true);
     }
+    this.stickyNoteMetric.setHighlighted(isHighlighted);
   }
 
   createMetricSticky() {}
@@ -152,7 +158,7 @@ export default class Node extends SceneObject {
   }
 
   getTooltip() {
-    return this.tooltip;
+    return null;
   }
 
   expand() {

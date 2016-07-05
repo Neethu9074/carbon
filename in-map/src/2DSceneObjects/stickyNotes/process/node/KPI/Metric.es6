@@ -2,9 +2,14 @@ import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import {withSiPrefixTwoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
+import {timeframe$} from 'in-components/timeline/timelineStore';
 import getForgeComponent from 'in-services/getForgeComponent';
+import MetricValue from 'in-components/MetricValue';
 import getSnapshot from 'in-hoc/getSnapshot';
+import connectTo from 'in-hoc/connectTo';
 import Jail from 'in-components/Jail';
 
 import 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Metric.less';
@@ -13,54 +18,100 @@ import 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Metric.less';
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-process-metric';
 
-const Metric = getSnapshot(React.createClass({
+const Metric = getSnapshot(StickyNoteProcessMetricReactComponent);
 
-  displayName: 'process node metric sticky',
+function StickyNoteProcessMetricReactComponent({getHeading, snapshot, snapshotId, isHighlighted}) {
+  if (!snapshot) {
+    return false;
+  }
 
-  propTypes: {
-    snapshotId: rpt.string.isRequired,
-    getHeading: rpt.func.isRequired,
-    snapshot: irpt.map
-  },
+  return (
+    <div>
+      <div className={block + '__heading'}>
+        {getHeading(snapshot)}
+      </div>
+      {isHighlighted ?
+        <div className={block + '__chart-wrapper'}>
+          <SparkChart snapshotId={snapshotId}
+                      title={'Calls/s'}
+                      metric={'METRIC_NAME_HERE'}
+                      formatter={withSiPrefixTwoDecimalPlaces} />
 
-  render() {
-    const snapshot = this.props.snapshot;
-    if (!snapshot) {
-      return false;
-    }
+          <SparkChart snapshotId={snapshotId}
+                      title={'Latency'}
+                      metric={'METRIC_NAME_HERE'}
+                      formatter={withSiPrefixTwoDecimalPlaces} />
 
-    return (
-      <div>
-        <div className={block + '__heading'}>
-          {this.props.getHeading(snapshot)}
-        </div>
+          <SparkChart snapshotId={snapshotId}
+                      title={'Errors'}
+                      metric={'METRIC_NAME_HERE'}
+                      formatter={withSiPrefixTwoDecimalPlaces} />
+
+          <SparkChart snapshotId={snapshotId}
+                      title={'Sessions'}
+                      metric={'METRIC_NAME_HERE'}
+                      formatter={bytesTwoDecimalPlaces} />
+        </div> :
         <div className={block + '__metrics'}>
-          <Jail component={this.getForgeSpecificComponent('KPI')}
+          <Jail component={getForgeComponent('./' + snapshot.get('plugin') + '/KPI.es6')}
                 props={{snapshot}}/>
         </div>
-      </div>
-    );
-  },
+      }
+    </div>
+  );
+}
 
-  getForgeSpecificComponent(name) {
-    const plugin = this.props.snapshot.get('plugin');
-    return getForgeComponent('./' + plugin + '/' + name + '.es6');
-  }
-}));
+Metric.propTypes = {
+  isHighlighted: rpt.bool.isRequired,
+  snapshotId: rpt.string.isRequired,
+  getHeading: rpt.func.isRequired,
+  snapshot: irpt.map
+};
+
+const SparkChart = connectTo({
+  timeframe: timeframe$
+}, function sparkChart({timeframe, snapshotId, metric, title, formatter, width = 130}) {
+  return (
+    <div className={block + '__chart'}>
+      <HistoricMetricSparkChart width={width}
+                                height={30}
+                                timeframe={timeframe}
+                                snapshotId={snapshotId}
+                                design='dark'
+                                metric={metric} />
+      <div className={block + '__description'}>
+        <span className={block + '__title'}>
+          {title}
+        </span>
+        <MetricValue snapshotId={snapshotId}
+                     metric={metric}
+                     className={block + '__value'}
+                     formatter={formatter}/>
+      </div>
+    </div>
+  );
+});
 
 
 export default class StickyNoteProcessMetric extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: block});
 
+    this.isHighlighted = false;
     this.render();
   }
 
   render() {
     ReactDOM.render(
       <Metric snapshotId={this.parent.id}
-              getHeading={this.getHeading}/>,
+              getHeading={this.getHeading}
+              isHighlighted={this.isHighlighted}/>,
       this.container
     );
+  }
+
+  setHighlighted(isHighlighted) {
+    this.isHighlighted = isHighlighted;
+    this.render();
   }
 }
