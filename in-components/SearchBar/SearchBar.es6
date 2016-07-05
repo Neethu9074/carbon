@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {inputString$, setInputString} from 'in-components/SearchBar/stores/searchInputString';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
+import {rawQuery$, setInputString} from 'in-stores/search';
+import {isPhysicalViewVisible$} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -11,8 +12,13 @@ import './SearchBar.less';
 const block = 'in-searchbar';
 
 export default connectTo({
-    inputString: inputString$
-  }, function SearchBar({inputString, className}) {
+    rawQuery: rawQuery$,
+    isPhysicalViewVisible: isPhysicalViewVisible$
+  }, function SearchBar({rawQuery, className, isPhysicalViewVisible}) {
+    if (!isPhysicalViewVisible) {
+      return null;
+    }
+
     let classes = block;
     if (className) {
       classes = `${classes} ${className}`;
@@ -24,7 +30,7 @@ export default connectTo({
               className={block + '__search-icon'}/>
 
         <input type='search'
-               value={inputString}
+               value={rawQuery}
                onChange={e => setInputString(e.target.value)}
                className={block + '__input'}
                placeholder='Search…'

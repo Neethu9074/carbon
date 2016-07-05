@@ -1,12 +1,18 @@
 /* eslint-disable no-alert */
 
+import {combineLatest} from 'reactive-observables';
+import Immutable from 'immutable';
+
+import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
+import {transformToLuceneQuery, getTagFiltersFromQuery} from 'in-services/search';
+import createSearchSubscription from 'in-services/subscription/search';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
-import {setFreeTextFilter} from 'in-stores/filtering';
-import {transformToLuceneQuery} from 'in-services/search';
+import {alwaysNull} from 'in-services/fixedStreams';
+import {focusedMoment$} from 'in-stores/timeline';
 
-export const inputString$ = createTrackingStore({
-  name: 'SearchBar/inputString',
+export const rawQuery$ = createTrackingStore({
+  name: 'in-stores/search/inputString',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
@@ -17,22 +23,55 @@ export const inputString$ = createTrackingStore({
       return '';
     })
     .distinct()
-  }).observable;
+}).observable;
+
+
+const luceneQueryStore = createStore({
+  name: 'in-stores/search/luceneQuery',
+  initialValue: ''
+});
+export const luceneQuery$ = luceneQueryStore.observable;
+
+
+const lastQueryChangeTime = createStore({
+  name: 'in-stores/search/lastQueryChangeTime',
+  initialValue: 0
+});
+export const lastQueryChangeTime$ = lastQueryChangeTime.observable;
+luceneQuery$.subscribe(() => lastQueryChangeTime.applyStateMutation(() => Date.now()));
+
+
+export const searchMatches$ = createTrackingStore({
+  name: 'in-stores/search/searchMatches',
+  observable: combineLatest([luceneQuery$, focusedMoment$])
+    .flatMap(([luceneQuery, focusedMoment]) => {
+      if (luceneQuery == null || luceneQuery.length === 0) {
+        return alwaysNull;
+      }
+
+      return createSearchSubscription({
+        query: luceneQuery,
+        time: focusedMoment,
+        view: 'PHYSICAL'
+      });
+    })
+});
 
 
 const errorStore = createStore({
-  name: 'SearchBar/queryTranslationError',
+  name: 'in-stores/search/queryTranslationError',
   initialValue: ''
 });
 
 export const error$ = errorStore.observable;
 
-inputString$
+rawQuery$
   .debounce(500)
   .subscribe(freeText => {
     try {
-      setFreeTextFilter(transformToLuceneQuery(freeText), freeText);
+      const luceneQuery = transformToLuceneQuery(freeText);
       errorStore.applyStateMutation(() => null);
+      luceneQueryStore.applyStateMutation(() => luceneQuery);
     } catch (e) {
       errorStore.applyStateMutation(() => e.message);
     }
@@ -52,6 +91,15 @@ function mutateInputString(fn) {
     return navParams;
   });
 }
+
+
+// A stream of the form ImmutableSet<String> describing the currently active
+// tag filters.
+export const filteredTags$ = rawQuery$.map(rawQuery => {
+  return Immutable.Set(getTagFiltersFromQuery(rawQuery));
+});
+
+export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
 
 
 export function addTagFilter(tag) {

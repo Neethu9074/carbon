@@ -8,7 +8,7 @@ import sinon from 'sinon';
 
 import {resetStoreRegistry} from 'in-stores/store';
 
-describe('in-components/SearchBar/stores/searchInputString', () => {
+describe('in-stores/search', () => {
 
   let navigationParameters$;
   let mod;
@@ -21,7 +21,7 @@ describe('in-components/SearchBar/stores/searchInputString', () => {
         navigationParameters$.emit(fn(cloneDeep(params)));
       });
     };
-    mod = proxyquire('in-components/SearchBar/stores/searchInputString', {
+    mod = proxyquire('in-stores/search', {
       'in-stores/navigation': {
         mutateUrl,
         navigationParameters$

@@ -2,13 +2,13 @@ import React from 'react';
 
 import {activeControl$} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
 import {CONTROL_TYPES} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
-import {removeAllTagFilters} from 'in-components/SearchBar/stores/searchInputString';
 import MapStatistics from 'in-components/RightSidebar/components/MapStatistics';
 import Notifications from 'in-components/RightSidebar/components/Notifications';
 import ResetButton from 'in-components/RightSidebar/components/ResetButton';
 import Metrics from 'in-components/RightSidebar/components/Metrics';
 import Tags from 'in-components/RightSidebar/components/Tags';
 import * as metricsStore from 'in-services/stores/metrics';
+import {removeAllTagFilters} from 'in-stores/search';
 import {createStore} from 'in-stores/store';
 
 

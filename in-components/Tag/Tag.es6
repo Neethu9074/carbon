@@ -1,9 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {addTagFilter, removeTagFilter} from 'in-components/SearchBar/stores/searchInputString';
+import {addTagFilter, removeTagFilter} from 'in-stores/search';
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import {filteredTags$} from 'in-stores/filtering';
+import {filteredTags$} from 'in-stores/search';
 import connectTo from 'in-hoc/connectTo';
 
 import './Tag.less';
