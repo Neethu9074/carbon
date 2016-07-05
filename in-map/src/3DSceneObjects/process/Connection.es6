@@ -1,6 +1,5 @@
 import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import {getPartsForCount} from 'in-map/src/3DSceneObjects/process/dashedLineHelper';
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
@@ -32,19 +31,15 @@ export default class Connection extends BaseConnection {
     addEdge(this);
   }
 
-  onSelectedEnter() {
-    // console.log('onSelectedEnter');
-  }
+  onSelectedEnter() {}
 
-  onSelectedLeave() {
-    // console.log('onSelectedLeave');
-  }
+  onSelectedLeave() {}
 
 
   init() {
     this.currentColor = theme.health[0];
 
-    this.lineSMF = this.parent.getFactory('lineSMF');
+    this.lineSMF = this.getFactory();
 
     super.init();
   }
@@ -57,6 +52,10 @@ export default class Connection extends BaseConnection {
     this.components.health = new HealthComponent({sceneObject: this});
   }
 
+  getFactory() {
+    return this.parent.getFactory('dashedLineSMF');
+  }
+
   setupGeometry() {
     this.lineFragment = {
       id: this.id,
@@ -64,33 +63,20 @@ export default class Connection extends BaseConnection {
     };
   }
 
-  getColors(numSegments) {
+  getColors() {
     const rgb = hexToRGBNormalized(this.currentColor);
     const r = rgb.r;
     const g = rgb.g;
     const b = rgb.b;
 
-    const colors = [
+    return [
+      r, g, b,
+      r, g, b,
       r, g, b,
       r, g, b,
       r, g, b,
       r, g, b
     ];
-    for (let i = 0; i <= numSegments; i++) {
-      colors.push(r, g, b, r, g, b);
-    }
-
-    return colors;
-  }
-
-  updateGeometry() {
-    const vertices = this.getLineVertices(this.sourceNode, this.destinationNode);
-    this.lineFragment.contentProvider.setLines(vertices);
-
-    // the default color must be set to get a working shader. It's black so you can see if there is a snapshot missing
-    this.lineFragment.contentProvider.setColor(this.getColors(vertices.length / 3));
-
-    this.lineSMF.addFragment(this.lineFragment);
   }
 
   calculatePath(fromPos, toPos) {
@@ -100,30 +86,17 @@ export default class Connection extends BaseConnection {
     toPos.x -= 0.5;
     toPos.z += 0.5;
 
-    const lines = [];
-    const parts = getPartsForCount(10);
-    const direction = {
-      x: toPos.x - fromPos.x,
-      y: toPos.y - fromPos.y,
-      z: toPos.z - fromPos.z
-    };
-    for (let i = 0; i < parts.length; i += 2) {
-      const from = parts[i];
-      const to = parts[i + 1];
+    return [fromPos, toPos];
+  }
 
-      lines.push({
-        x: fromPos.x + direction.x * from,
-        y: fromPos.y + direction.y * from,
-        z: fromPos.z + direction.z * from
-      });
-      lines.push({
-        x: fromPos.x + direction.x * to,
-        y: fromPos.y + direction.y * to,
-        z: fromPos.z + direction.z * to
-      });
-    }
+  updateGeometry() {
+    const vertices = this.getLineVertices(this.sourceNode, this.destinationNode);
+    this.lineFragment.contentProvider.setLines(vertices);
 
-    return lines;
+    // the default color must be set to get a working shader. It's black so you can see if there is a snapshot missing
+    this.lineFragment.contentProvider.setColor(this.getColors());
+
+    this.lineSMF.addFragment(this.lineFragment);
   }
 
   positionChanged() {

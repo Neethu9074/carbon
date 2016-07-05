@@ -4,7 +4,6 @@ import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/conn
 import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Connection from 'in-map/src/3DSceneObjects/process/Connection';
-import {hexToRGBNormalized} from 'in-services/formatters/color';
 
 
 export default class ConnectionWithKPI extends Connection {
@@ -52,30 +51,8 @@ export default class ConnectionWithKPI extends Connection {
     });
   }
 
-  getColors() {
-    const rgb = hexToRGBNormalized(this.currentColor);
-    const r = rgb.r;
-    const g = rgb.g;
-    const b = rgb.b;
-
-    return [
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b
-    ];
-  }
-
-  calculatePath(fromPos, toPos) {
-    // move the path a little so that the source/target position is in the middle of the geometry
-    fromPos.x -= 0.5;
-    fromPos.z += 0.5;
-    toPos.x -= 0.5;
-    toPos.z += 0.5;
-
-    return [fromPos, toPos];
+  getFactory() {
+    return this.parent.getFactory('lineSMF');
   }
 
   positionChanged() {

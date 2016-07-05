@@ -8,8 +8,9 @@ uniform float aspect;
 attribute vec3 position;
 attribute vec3 color;
 
-varying vec3 vColor;
 varying float fDistance;
+varying vec3 vColor;
+
 
 void main() {
   vColor = color;

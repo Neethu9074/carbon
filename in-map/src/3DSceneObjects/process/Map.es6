@@ -1,5 +1,6 @@
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import GraphToProcessViewHandler from 'in-map/src/3DSceneObjects/process/GraphToProcessViewHandler';
+import SingleMeshDashedLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshDashedLineFactory';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
 import CameraController from 'in-map/src/controls/process/CameraController';
@@ -36,6 +37,8 @@ export default class Map extends BaseMap {
     factories.solidSMF.material.transparent = false;
 
     factories.lineSMF = new SingleMeshLineFactory({scene});
+
+    factories.dashedLineSMF = new SingleMeshDashedLineFactory({scene});
 
     factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory({scene});
   }
