@@ -1,6 +1,0 @@
-{
-  "name": "iconRegistry",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./iconRegistry.es6"
-}

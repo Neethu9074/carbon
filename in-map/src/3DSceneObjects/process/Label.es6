@@ -1,5 +1,5 @@
 import {getIconIdBySnapshot} from 'in-sdk/snapshot';
-import {getColor} from 'in-sdk/color/color';
+import {getColor} from 'in-sdk/color';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';

@@ -7,9 +7,9 @@ import {addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
-import {getColor} from 'in-sdk/color/color';
 import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
+import {getColor} from 'in-sdk/color';
 
 
 export default class Node extends SceneObject {

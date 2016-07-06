@@ -1,6 +1,0 @@
-{
-  "name": "pluginName",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./pluginName.es6"
-}

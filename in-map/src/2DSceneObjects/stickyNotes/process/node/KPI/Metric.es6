@@ -2,15 +2,14 @@ import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import {withSiPrefixTwoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import {timeframe$} from 'in-components/timeline/timelineStore';
-import getForgeComponent from 'in-services/getForgeComponent';
 import MetricValue from 'in-components/MetricValue';
 import getSnapshot from 'in-hoc/getSnapshot';
+import KPIList from 'in-components/KPIList';
 import connectTo from 'in-hoc/connectTo';
-import Jail from 'in-components/Jail';
+import {getKpis} from 'in-sdk/kpi';
 
 import 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Metric.less';
 
@@ -25,38 +24,28 @@ function StickyNoteProcessMetricReactComponent({getHeading, snapshot, snapshotId
     return false;
   }
 
+  const kpis = getKpis(snapshot);
+
   return (
     <div>
       <div className={block + '__heading'}>
         {getHeading(snapshot)}
       </div>
+      <div className={block + '__chart-wrapper'}>
       {isHighlighted ?
-        <div className={block + '__chart-wrapper'}>
-          <SparkChart snapshotId={snapshotId}
-                      title={'Calls/s'}
-                      metric={'METRIC_NAME_HERE'}
-                      formatter={withSiPrefixTwoDecimalPlaces} />
-
-          <SparkChart snapshotId={snapshotId}
-                      title={'Latency'}
-                      metric={'METRIC_NAME_HERE'}
-                      formatter={withSiPrefixTwoDecimalPlaces} />
-
-          <SparkChart snapshotId={snapshotId}
-                      title={'Errors'}
-                      metric={'METRIC_NAME_HERE'}
-                      formatter={withSiPrefixTwoDecimalPlaces} />
-
-          <SparkChart snapshotId={snapshotId}
-                      title={'Sessions'}
-                      metric={'METRIC_NAME_HERE'}
-                      formatter={bytesTwoDecimalPlaces} />
-        </div> :
-        <div className={block + '__metrics'}>
-          <Jail component={getForgeComponent('./' + snapshot.get('plugin') + '/KPI.es6')}
-                props={{snapshot}}/>
-        </div>
+        kpis.map(kpi =>
+          <SparkChart key={kpi.label}
+                      snapshotId={snapshotId}
+                      title={kpi.label}
+                      metric={kpi.metric}
+                      formatter={kpi.formatter} />
+        ) :
+        <KPIList snapshot={snapshot}
+                 metrics={kpis.map(kpi => kpi.metric)}
+                 labels={kpis.map(kpi => kpi.label)}
+                 formatters={kpis.map(kpi => kpi.formatter)}/>
       }
+      </div>
     </div>
   );
 }
@@ -67,6 +56,7 @@ Metric.propTypes = {
   getHeading: rpt.func.isRequired,
   snapshot: irpt.map
 };
+
 
 const SparkChart = connectTo({
   timeframe: timeframe$
