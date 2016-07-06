@@ -31,7 +31,7 @@ describe('shortcuts/C', () => {
     focusEntityIdSubscription.dispose();
   });
 
-  it('should focus entity when C was pressed', () => {
+  it('should focus entity when F was pressed', () => {
     expect(focusEntityIdStub).to.have.callCount(1);
     expect(focusEntityIdStub.getCall(0).args[0]).to.equal(null);
 
@@ -45,7 +45,7 @@ describe('shortcuts/C', () => {
 
   function pressC() {
     onKeyPressed.emit({
-      keyCode: shortcuts.KEY_CODES.C,
+      keyCode: shortcuts.KEY_CODES.F,
       target: {
         tagName: ''
       }
@@ -59,7 +59,7 @@ describe('shortcuts/C', () => {
       }
     });
 
-    const mod = proxyquire('in-services/shortcuts/shortcuts/C', {
+    const mod = proxyquire('in-services/shortcuts/shortcuts/F', {
       'in-map/src/stores/focusEntity': focusEntityId
     });
 
@@ -68,7 +68,7 @@ describe('shortcuts/C', () => {
       'reactive-observables': {
         on: () => onKeyPressed
       },
-      'in-services/shortcuts/shortcuts/C': mod
+      'in-services/shortcuts/shortcuts/F': mod
     });
     shortcuts.init();
   }

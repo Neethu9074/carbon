@@ -2,12 +2,12 @@ import * as ro from 'reactive-observables';
 
 import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
 import onNpressed from 'in-services/shortcuts/shortcuts/N';
-import onCPressed from 'in-services/shortcuts/shortcuts/C';
+import onFPressed from 'in-services/shortcuts/shortcuts/F';
 
 export const KEY_CODES = {
   ESC: 27,
   N: 78,
-  C: 67
+  F: 70
 };
 
 const registeredShortcuts = {};
@@ -15,7 +15,7 @@ const registeredShortcuts = {};
 export function init() {
   registeredShortcuts[KEY_CODES.ESC] = onEscapePressed;
   registeredShortcuts[KEY_CODES.N] = onNpressed;
-  registeredShortcuts[KEY_CODES.C] = onCPressed;
+  registeredShortcuts[KEY_CODES.F] = onFPressed;
 
   ro.on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();
