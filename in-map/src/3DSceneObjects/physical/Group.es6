@@ -141,7 +141,7 @@ export default class Group extends SceneObject {
     this.getComponent('screenPosition').set3DPositionToProject(pos.x, pos.y, pos.z + this.depth / 2);
   }
 
-  addNode(entity) {
+  addNode(entity, searchMatches) {
     const nodeId = entity.get('id');
     let matchedNode = find(this.children, child => child.id === nodeId);
 
@@ -152,7 +152,11 @@ export default class Group extends SceneObject {
     }
 
     // set layer and connections, no matter if a new node was created or it's still available
-    matchedNode.setChildren(entity.get('children'));
+    const children = searchMatches ?
+      entity.get('children').filter(child => searchMatches.contains(child.get('id'))) :
+      entity.get('children');
+
+    matchedNode.setChildren(children);
 
     // first set both, incoming and outgoing connections, then rebuild the geometry
     const connectionsHandler = matchedNode.getComponent('connectionsHandler');
