@@ -1,4 +1,3 @@
-import {combineLatest} from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
@@ -18,7 +17,6 @@ import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 import {activeMetric} from 'in-services/stores/metrics';
 import {lastQueryChangeTime$} from 'in-stores/search';
 import * as snapshotStore from 'in-stores/snapshot';
-import {searchMatches$} from 'in-stores/search';
 import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/src/eventbus';
 
@@ -79,11 +77,8 @@ export default class Map extends BaseMap {
     this.addSubscriptions([
       lastQueryChangeTime$.subscribe(lastQueryChangeTime => this.lastQueryChangeTime = lastQueryChangeTime),
 
-      combineLatest([
-        physicalViewStructure$,
-        searchMatches$
-      ]).subscribe(([structure, searchMatches]) => {
-        this.onInventoryUpdate(structure, searchMatches);
+      physicalViewStructure$.subscribe((structure) => {
+        this.onInventoryUpdate(structure);
 
         if (this.lastQueryChangeTime + TIME_BETWEEN_FILTER_UPDATE_AND_AUTO_CENTER > Date.now()) {
           setTimeout(() => this.centerMap(), 100);
@@ -135,26 +130,26 @@ export default class Map extends BaseMap {
   }
 
   // is called if new data is available and parsed in BaseMap
-  addEntity(groupEntity, searchMatches) {
+  addGroup(groupEntity, includedIds) {
     const group = this.getOrCreateGroup(groupEntity);
     const hosts = groupEntity.get('children');
 
     hosts.forEach(host => {
-      if (!searchMatches || searchMatches.contains(host.get('id'))) {
-        this.addHostToGroup(host, group, searchMatches);
+      if (!includedIds || includedIds.hostIds[host.get('id')]) {
+        this.addHost(host, group, includedIds);
       }
     });
   }
 
-  onInventoryUpdate(rootNode, searchMatches) {
-    const inventory = rootNode.get('children');
-    inventory.forEach(entity => {
-      if (!searchMatches || searchMatches.contains(entity.get('id'))) {
-       this.addEntity(entity, searchMatches);
+  onInventoryUpdate({viewStructure, includedIds}) {
+    const groups = viewStructure.get('children');
+    groups.forEach(group => {
+      if (!includedIds || includedIds.groupIds[group.get('id')]) {
+        this.addGroup(group, includedIds);
       }
     });
 
-    this.removeVanishedHosts(inventory, searchMatches);
+    this.removeVanishedHosts(groups, includedIds);
     this.layoutNeedsUpdate();
   }
 
@@ -189,9 +184,9 @@ export default class Map extends BaseMap {
     return group;
   }
 
-  addHostToGroup(hostEntity, group, searchMatches) {
+  addHost(hostEntity, group, includedIds) {
     // add the node to group (the group handles duplicates)
-    const newNode = group.addNode(hostEntity, searchMatches);
+    const newNode = group.addNode(hostEntity, includedIds);
 
     // if the group has switched delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(group, newNode);
@@ -210,17 +205,19 @@ export default class Map extends BaseMap {
   }
 
   // checks if there are nodes on the map which are not inside the inventory anymore and delete them
-  removeVanishedHosts(inventory, searchMatches) {
-    const currentHostIds = [];
+  removeVanishedHosts(inventory, includedIds) {
+    const currentHostIds = {};
     inventory.forEach(group => {
       const hosts = group.get('children');
-      hosts.forEach(host => currentHostIds.push(host.get('id')));
+      hosts.forEach(host => currentHostIds[host.get('id')] = host);
     });
 
     this.getAllNodes().forEach(node => {
-      if (currentHostIds.indexOf(node.id) < 0 ||
-          (searchMatches && !searchMatches.contains(node.id))) {
+      if (!currentHostIds[node.id] ||
+         (includedIds && !includedIds.hostIds[node.id])) {
         node.dispose();
+      } else if (includedIds) {
+        node.checkLayer(currentHostIds[node.id], includedIds);
       }
     });
   }

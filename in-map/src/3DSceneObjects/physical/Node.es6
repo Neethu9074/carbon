@@ -204,11 +204,15 @@ export default class Node extends SceneObject {
     return this.tooltip;
   }
 
+  checkLayer(hostEntity, includedIds) {
+    this.setChildren(hostEntity.get('children').filter(l => includedIds.layerIds[l.get('id')]));
+  }
+
   setChildren(entities) {
     const layerComponent = this.getComponent('layer');
     const nodeLayerIds = layerComponent.layer.map(layer => layer.id);
 
-    let arraysAreEqual = true;
+    let arraysAreEqual = nodeLayerIds.length === entities.size;
     for (let i = 0; i < entities.size; i++) {
       if (nodeLayerIds.indexOf(entities.getIn([i, 'id'])) < 0) {
         arraysAreEqual = false;
