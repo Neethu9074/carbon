@@ -7,16 +7,16 @@ import SingleMeshMetricFactory from 'in-map/src/SingleMeshFactory/SingleMeshMetr
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import {getAllNodes, getAllGroups} from 'in-map/src/3DSceneObjects/physical/mapUtils';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
+import physicalViewStructure$ from 'in-map/src/stores/physical/viewStructure';
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
 import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
-import {lastQueryChangeTime$} from 'in-stores/search';
 import {activeMetric} from 'in-services/stores/metrics';
+import {lastQueryChangeTime$} from 'in-stores/search';
 import * as snapshotStore from 'in-stores/snapshot';
-import {viewStructure} from 'in-stores/view';
 import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/src/eventbus';
 
@@ -77,8 +77,8 @@ export default class Map extends BaseMap {
     this.addSubscriptions([
       lastQueryChangeTime$.subscribe(lastQueryChangeTime => this.lastQueryChangeTime = lastQueryChangeTime),
 
-      viewStructure.subscribe(structures => {
-        this.onInventoryUpdate(structures);
+      physicalViewStructure$.subscribe((structure) => {
+        this.onInventoryUpdate(structure);
 
         if (this.lastQueryChangeTime + TIME_BETWEEN_FILTER_UPDATE_AND_AUTO_CENTER > Date.now()) {
           setTimeout(() => this.centerMap(), 100);
@@ -130,39 +130,27 @@ export default class Map extends BaseMap {
   }
 
   // is called if new data is available and parsed in BaseMap
-  addEntity(groupEntity) {
+  addGroup(groupEntity, includedIds) {
     const group = this.getOrCreateGroup(groupEntity);
     const hosts = groupEntity.get('children');
 
-    hosts.forEach(host => this.addHostToGroup(host, group));
-  }
-
-  onInventoryUpdate(rootNode) {
-    const inventory = rootNode.get('children');
-    inventory.forEach(entity => this.addEntity(entity));
-
-    this.onInventoryUpdated(inventory);
-
-    this.removeVanishedHosts(inventory);
-    this.layoutNeedsUpdate();
-  }
-
-  onInventoryUpdated(inventory) {
-    const allNodes = this.getAllNodes();
-
-    // add connections later because all nodes need to be there
-    inventory.forEach(entity => {
-      const entityId = entity.get('id');
-      const matchedNode = find(allNodes, n => n.id === entityId);
-
-      if (matchedNode) {
-        matchedNode.setChildren(entity.get('children'));
-
-        const connectionsHandler = matchedNode.getComponent('connectionsHandler');
-        connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
-        connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
+    hosts.forEach(host => {
+      if (!includedIds || includedIds.hostIds[host.get('id')]) {
+        this.addHost(host, group, includedIds);
       }
     });
+  }
+
+  onInventoryUpdate({viewStructure, includedIds}) {
+    const groups = viewStructure.get('children');
+    groups.forEach(group => {
+      if (!includedIds || includedIds.groupIds[group.get('id')]) {
+        this.addGroup(group, includedIds);
+      }
+    });
+
+    this.removeVanishedHosts(groups, includedIds);
+    this.layoutNeedsUpdate();
   }
 
   hideHulls() {
@@ -196,9 +184,9 @@ export default class Map extends BaseMap {
     return group;
   }
 
-  addHostToGroup(hostEntity, group) {
+  addHost(hostEntity, group, includedIds) {
     // add the node to group (the group handles duplicates)
-    const newNode = group.addNode(hostEntity);
+    const newNode = group.addNode(hostEntity, includedIds);
 
     // if the group has switched delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(group, newNode);
@@ -217,17 +205,19 @@ export default class Map extends BaseMap {
   }
 
   // checks if there are nodes on the map which are not inside the inventory anymore and delete them
-  removeVanishedHosts(inventory) {
-    const currentHostIds = [];
+  removeVanishedHosts(inventory, includedIds) {
+    const currentHostIds = {};
     inventory.forEach(group => {
       const hosts = group.get('children');
-      hosts.forEach(host => currentHostIds.push(host.get('id')));
+      hosts.forEach(host => currentHostIds[host.get('id')] = host);
     });
 
     this.getAllNodes().forEach(node => {
-      const index = currentHostIds.indexOf(node.id);
-      if (index < 0) {
+      if (!currentHostIds[node.id] ||
+         (includedIds && !includedIds.hostIds[node.id])) {
         node.dispose();
+      } else if (includedIds) {
+        node.checkLayer(currentHostIds[node.id], includedIds);
       }
     });
   }
