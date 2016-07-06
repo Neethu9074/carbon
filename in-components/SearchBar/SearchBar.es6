@@ -4,6 +4,12 @@ import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {rawQuery$, setInputString} from 'in-stores/search';
+import {KEY_CODES} from 'in-services/shortcuts/shortcuts';
+import {
+  highlightNextSuggestion,
+  highlightPreviousSuggestion,
+  selectHighlightedSuggestion
+} from 'in-components/SearchBar/stores/highlightedSuggestion';
 import {isPhysicalViewVisible$} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -33,12 +39,12 @@ export default connectTo({
 
         <input type='search'
                value={rawQuery}
-               onChange={e => setInputString(e.target.value)}
                className={block + '__input'}
                placeholder='Search…'
-               onClick={e => e.stopPropagation()}
-               onFocus={() => setFocused(true)}
-               onBlur={() => setTimeout(() => setFocused(false), 200)}/>
+               onChange={onChange}
+               onKeyDown={onKeyDown}
+               onFocus={onFocus}
+               onBlur={onBlur}/>
 
         <ErrorIndicator />
         <Suggestions />
@@ -46,3 +52,31 @@ export default connectTo({
     );
   }
 );
+
+function onChange(e) {
+  setInputString(e.target.value);
+}
+
+function onKeyDown(e) {
+  setFocused(true);
+  if (e.keyCode === KEY_CODES.ENTER) {
+    e.preventDefault();
+    selectHighlightedSuggestion();
+  } else if (e.keyCode === KEY_CODES.UP_ARROW) {
+    e.preventDefault();
+    highlightPreviousSuggestion();
+  } else if (e.keyCode === KEY_CODES.DOWN_ARROW) {
+    e.preventDefault();
+    highlightNextSuggestion();
+  }
+}
+
+function onFocus() {
+  setFocused(true);
+}
+
+function onBlur() {
+  // allow for clicks on suggestions to be recognized. Otherwise the element would be disposed
+  // before handling the click.
+  setTimeout(() => setFocused(false), 200);
+}

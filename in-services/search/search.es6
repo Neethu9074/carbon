@@ -107,7 +107,13 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
 
 
 export function getTagFiltersFromQuery(query) {
-  return parseString(query)
-    .filter(queryPart => queryPart.type === 'kv' && queryPart.key === 'tag')
-    .map(queryPart => queryPart.value.toLowerCase());
+  try {
+    return parseString(query)
+      .filter(queryPart => queryPart.type === 'kv' && queryPart.key === 'tag')
+      .map(queryPart => queryPart.value.toLowerCase());
+  } catch (e) {
+    // An error can occur when the current query is invalid. Swallowing the error
+    // is fine in these cases.
+    return [];
+  }
 }

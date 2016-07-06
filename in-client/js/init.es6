@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import logging from 'instalog';
 import React from 'react';
 
+import * as highlightedSuggestionStore from 'in-components/SearchBar/stores/highlightedSuggestion';
 import * as tableViewVisibilityStore from 'in-components/tableView/stores/visibility';
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
 import * as notMonitoringPresenter from 'in-services/notMonitoringDialogPresenter';
@@ -68,6 +69,7 @@ tracking.init();
 notMonitoringPresenter.init();
 tableViewVisibilityStore.init();
 expandedIdsStore.init();
+highlightedSuggestionStore.init();
 
 ReactDOM.render((
   <Router history={hashHistory}>

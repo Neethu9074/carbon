@@ -42,11 +42,15 @@ export default function NginxDashboard({snapshot, timeframe}) {
                  min: 0,
                  metrics: [
                    'connections.accepted',
-                   'connections.handled'
+                   'connections.handled',
+                   'connections.active',
+                   'connections.dropped'
                  ],
                  labels: [
                    'Accepted connections',
-                   'Handled connections'
+                   'Handled connections',
+                   'Active connections',
+                   'Dropped connections'
                  ],
                  type: 'line'
                }}
