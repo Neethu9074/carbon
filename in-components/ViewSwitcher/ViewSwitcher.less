@@ -1,6 +1,15 @@
 @import "~in-themes/active.less";
 
 .in-view-switcher {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: @z-index__view-switcher;
+
+  &__wrapper {
+    margin-left: -50%;
+  }
+
   &__item {
     padding: 10px 15px 13px;
 

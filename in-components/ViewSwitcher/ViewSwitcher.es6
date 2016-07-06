@@ -26,9 +26,11 @@ export default connectTo({
   render() {
     return (
       <div className={block}>
-        {this.renderViewItem(views.physical, 'Physical')}
-        {isInternalEnvironment() ? this.renderViewItem(views.process, 'Process') : null}
-        {this.renderTraceViewItem()}
+        <div className={block + '__wrapper'}>
+          {this.renderViewItem(views.physical, 'Physical')}
+          {isInternalEnvironment() ? this.renderViewItem(views.process, 'Process') : null}
+          {this.renderTraceViewItem()}
+        </div>
       </div>
     );
   },

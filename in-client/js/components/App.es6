@@ -13,6 +13,7 @@ import MaintenanceNote from 'in-components/MaintenanceNote';
 import TableView from 'in-components/tableView/TableView';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
+import ViewSwitcher from 'in-components/ViewSwitcher';
 import RightSidebar from 'in-components/RightSidebar';
 import SidebarMap from 'in-components/sidebars/Map';
 import AppHeader from 'in-components/AppHeader';
@@ -27,6 +28,7 @@ export default function App({children = null}) {
   return (
     <div>
       <AppHeader />
+      <ViewSwitcher />
 
       <section style={{display: hasChildren ? 'none' : 'block'}}>
         <Map />

@@ -25,6 +25,7 @@ module.exports = {
     tableViewToggleButton: zIndex++,
     footer: zIndex++,
     header: zIndex++,
+    viewSwitcher: zIndex++,
     timepicker: zIndex++,
     graphView: zIndex++,
     menuPopup: zIndex++,
