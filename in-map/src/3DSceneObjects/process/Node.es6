@@ -51,13 +51,10 @@ export default class Node extends SceneObject {
       combineLatest([
         this.eventEmitter.on('isVisibleChanged_screenPositionMetric')
                          .distinct(),
-        parent.onZoomLevel(),
-        this.eventEmitter.on('onHighlight')
-                         .debounce(100)
-                         .distinct()
-      ]).subscribe(([isVisible, zoomLevel, isHighlighted]) =>
-        (isVisible && (zoomLevel < 500 || isHighlighted)) ?
-          this.getOrCreateMetricSticky(isHighlighted) :
+        parent.onZoomLevel()
+      ]).subscribe(([isVisible, zoomLevel]) =>
+        (isVisible && zoomLevel < 500) ?
+          this.getOrCreateMetricSticky() :
           this.disposeMetricSticky()
       )
     ]);
@@ -109,14 +106,13 @@ export default class Node extends SceneObject {
     this.addComponents(this.components);
   }
 
-  getOrCreateMetricSticky(isHighlighted) {
+  getOrCreateMetricSticky() {
     if (!this.stickyNoteMetric) {
       this.stickyNoteMetric = this.createMetricSticky();
 
       // force screen position update
       this.getComponent('screenPositionMetric').updateScreenPosition(true);
     }
-    this.stickyNoteMetric.setHighlighted(isHighlighted);
   }
 
   createMetricSticky() {}

@@ -20,13 +20,10 @@ export default class ConnectionWithKPI extends Connection {
 
       combineLatest([
         this.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
-        this.eventEmitter.on('onHighlight')
-                         .debounce(100)
-                         .distinct(),
         this.parent.onZoomLevel()
-      ]).subscribe(([isVisible, isHighlighted, zoomLevel]) =>
-        (isVisible && (zoomLevel < 500 || isHighlighted)) ?
-          this.getOrCreateMetricSticky(isHighlighted) :
+      ]).subscribe(([isVisible, zoomLevel]) =>
+        (isVisible && zoomLevel < 500) ?
+          this.getOrCreateMetricSticky() :
           this.disposeMetricSticky()
       )
     ]);
@@ -42,14 +39,13 @@ export default class ConnectionWithKPI extends Connection {
     });
   }
 
-  getOrCreateMetricSticky(isHighlighted) {
+  getOrCreateMetricSticky() {
     if (!this.stickyNoteMetric) {
       this.stickyNoteMetric = new StickyNoteMetric(this);
 
       // force screen position update
       this.getComponent('screenPosition').updateScreenPosition(true);
     }
-    this.stickyNoteMetric.setHighlighted(isHighlighted);
   }
 
   disposeMetricSticky() {

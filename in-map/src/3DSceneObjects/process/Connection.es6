@@ -1,10 +1,8 @@
 import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
-import {highlightedEntityIds$} from 'in-stores/highlightedEntityIds';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
@@ -23,11 +21,6 @@ export default class Connection extends BaseConnection {
         .debounce(10)
         .subscribe(() => this.positionChanged()),
 
-      highlightedEntityIds$.subscribe(highlightedEntityIds => {
-        const propertyValue = highlightedEntityIds.indexOf(this.id) !== -1 ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-        this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, propertyValue);
-      }),
-
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
       this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
@@ -36,21 +29,12 @@ export default class Connection extends BaseConnection {
                                             .subscribe(this.updateGeometry.bind(this))
     ]);
 
-    this.eventEmitter.emit('onHighlight', false);
     addEdge(this);
   }
 
   onSelectedEnter() {}
 
   onSelectedLeave() {}
-
-  onHighlightEnter() {
-    this.eventEmitter.emit('onHighlight', true);
-  }
-
-  onHighlightLeave() {
-    this.eventEmitter.emit('onHighlight', false);
-  }
 
 
   init() {

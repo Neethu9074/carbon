@@ -17,46 +17,55 @@ import 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Metric.less';
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-process-metric';
 
-const Metric = getSnapshot(StickyNoteProcessMetricReactComponent);
+const Metric = getSnapshot(
+  React.createClass({
 
-function StickyNoteProcessMetricReactComponent({getHeading, snapshot, snapshotId, isHighlighted}) {
-  if (!snapshot) {
-    return false;
-  }
+    propTypes: {
+      snapshotId: rpt.string.isRequired,
+      getHeading: rpt.func.isRequired,
+      snapshot: irpt.map
+    },
 
-  const kpis = getKpis(snapshot);
+    getInitialState() {
+      return {
+        isHighlighted: false
+      };
+    },
 
-  return (
-    <div>
-      <div className={block + '__heading'}>
-        {getHeading(snapshot)}
-      </div>
-      <div className={block + '__chart-wrapper'}>
-      {isHighlighted ?
-        kpis.map(kpi =>
-          <SparkChart key={kpi.label}
-                      snapshotId={snapshotId}
-                      title={kpi.label}
-                      metric={kpi.metric}
-                      formatter={kpi.formatter} />
-        ) :
-        <KPIList snapshot={snapshot}
-                 metrics={kpis.map(kpi => kpi.metric)}
-                 labels={kpis.map(kpi => kpi.label)}
-                 formatters={kpis.map(kpi => kpi.formatter)}/>
+    render() {
+      const snapshot = this.props.snapshot;
+      if (!snapshot) {
+        return false;
       }
-      </div>
-    </div>
-  );
-}
 
-Metric.propTypes = {
-  isHighlighted: rpt.bool.isRequired,
-  snapshotId: rpt.string.isRequired,
-  getHeading: rpt.func.isRequired,
-  snapshot: irpt.map
-};
+      const kpis = getKpis(snapshot);
 
+      return (
+        <div onMouseEnter={() => this.setState({isHighlighted: true})}
+             onMouseLeave={() => this.setState({isHighlighted: false})}>
+          <div className={block + '__heading'}>
+            {this.props.getHeading(snapshot)}
+          </div>
+          <div className={block + '__chart-wrapper'}>
+          {this.state.isHighlighted ?
+            kpis.map(kpi =>
+              <SparkChart key={kpi.label}
+                          snapshotId={this.props.snapshotId}
+                          title={kpi.label}
+                          metric={kpi.metric}
+                          formatter={kpi.formatter} />
+            ) :
+            <KPIList snapshot={snapshot}
+                     metrics={kpis.map(kpi => kpi.metric)}
+                     labels={kpis.map(kpi => kpi.label)}
+                     formatters={kpis.map(kpi => kpi.formatter)}/>
+          }
+          </div>
+        </div>
+      );
+    }
+  })
+);
 
 const SparkChart = connectTo({
   timeframe: timeframe$
@@ -87,21 +96,14 @@ export default class StickyNoteProcessMetric extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: block});
 
-    this.isHighlighted = false;
     this.render();
   }
 
   render() {
     ReactDOM.render(
       <Metric snapshotId={this.parent.id}
-              getHeading={this.getHeading}
-              isHighlighted={this.isHighlighted}/>,
+              getHeading={this.getHeading} />,
       this.container
     );
-  }
-
-  setHighlighted(isHighlighted) {
-    this.isHighlighted = isHighlighted;
-    this.render();
   }
 }
