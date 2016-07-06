@@ -5,6 +5,7 @@ import {combineLatest} from 'reactive-observables';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
 import {physicalViewStructure$} from 'in-stores/view';
+import {searchMatches$} from 'in-stores/search';
 import {createStore} from 'in-stores/store';
 
 
@@ -20,8 +21,8 @@ export function setSeverity(severity) {
 }
 
 
-export const isFilterActive$ = severity$
-  .map(severity => severity > 0)
+export const isFilterActive$ = combineLatest([severity$, searchMatches$])
+  .map(([severity, searchMatches]) => severity > 0 || searchMatches != null)
   .distinct();
 
 
@@ -68,17 +69,25 @@ export const searchablePhysicalViewData$ = snapshotIdsInPhysicalView$
 
 export const snapshotIdsInPhysicalViewMatchingFilter$ = combineLatest([
     severity$,
-    searchablePhysicalViewData$
-  ]).map(([severity, searchableData]) => {
-    const matchingIds = [];
-    const severityFilterActive = severity > 0;
+    searchablePhysicalViewData$,
+    searchMatches$
+  ]).map(([severity, searchableData, searchMatches]) => {
+    let matchingIds = [];
 
-    for (let i = 0, len = searchableData.length; i < len; i++) {
-      const data = searchableData[i];
-      const severityMatch = !severityFilterActive || data.maxSeverity >= severity;
-      if (severityMatch) {
-        matchingIds.push(data.id);
+    const severityFilterActive = severity > 0;
+    if (severityFilterActive) {
+      for (let i = 0, len = searchableData.length; i < len; i++) {
+        const data = searchableData[i];
+        if (data.maxSeverity >= severity) {
+          if ((searchMatches && searchMatches.contains(data.id)) || !searchMatches) {
+            matchingIds.push(data.id);
+          }
+        }
       }
+    } else if (searchMatches) {
+      matchingIds = searchMatches.toArray();
+    } else {
+      matchingIds = searchableData.map(data => data.id);
     }
 
     return matchingIds;

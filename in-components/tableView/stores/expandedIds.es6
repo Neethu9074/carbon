@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 
 import {isFilterActive$, snapshotIdsInPhysicalView$} from 'in-components/tableView/stores/search';
 import {emptySet} from 'in-services/fixedImmutables';
-import {freeTextFilter$} from 'in-stores/filtering';
+import {rawQuery$} from 'in-stores/search';
 import {createStore} from 'in-stores/store';
 
 const expandedSnapshotIdsStore = createStore({
@@ -41,8 +41,8 @@ export function expandAll() {
 }
 
 export function init() {
-  combineLatest([isFilterActive$, freeTextFilter$])
-    .map(([isFilterActive, freeTextFilter]) => isFilterActive || freeTextFilter.length > 0)
+  combineLatest([isFilterActive$, rawQuery$])
+    .map(([isFilterActive, rawQuery]) => isFilterActive || rawQuery.length > 0)
     .distinct()
     .subscribe(active => {
       if (active) {

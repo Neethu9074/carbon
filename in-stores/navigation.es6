@@ -80,6 +80,8 @@ export function goToMap() {
   });
 }
 
+export const isMapVisible$ = navigationParameters$.map(params => params.pathname === PATH_NAMES.MAP);
+
 
 export function goToGraph() {
   mutateUrl(navParams => {

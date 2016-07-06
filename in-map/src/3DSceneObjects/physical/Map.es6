@@ -13,7 +13,7 @@ import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
-import {lastFilterChangeTime$} from 'in-stores/filtering';
+import {lastQueryChangeTime$} from 'in-stores/search';
 import {activeMetric} from 'in-services/stores/metrics';
 import * as snapshotStore from 'in-stores/snapshot';
 import {viewStructure} from 'in-stores/view';
@@ -37,7 +37,7 @@ export default class Map extends BaseMap {
   init() {
     this.activeMetric = null;
     this.groups = [];
-    this.lastFilterChangeTime = 0;
+    this.lastQueryChangeTime = 0;
     this.layouter = new Layouter();
   }
 
@@ -75,12 +75,12 @@ export default class Map extends BaseMap {
     super.registerEvents();
 
     this.addSubscriptions([
-      lastFilterChangeTime$.subscribe(lastFilterChangeTime => this.lastFilterChangeTime = lastFilterChangeTime),
+      lastQueryChangeTime$.subscribe(lastQueryChangeTime => this.lastQueryChangeTime = lastQueryChangeTime),
 
       viewStructure.subscribe(structures => {
         this.onInventoryUpdate(structures);
 
-        if (this.lastFilterChangeTime + TIME_BETWEEN_FILTER_UPDATE_AND_AUTO_CENTER > Date.now()) {
+        if (this.lastQueryChangeTime + TIME_BETWEEN_FILTER_UPDATE_AND_AUTO_CENTER > Date.now()) {
           setTimeout(() => this.centerMap(), 100);
         }
       }),

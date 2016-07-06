@@ -5,18 +5,21 @@ import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription(
   // event ID
-  'subscribe-filters',
+  'subscribe-search',
 
   // getID
-  () => '',
+  ({query, time, view}) => query + time + view,
 
   // data to be send for subscription
-  (subscriptionId) => {
+  (subscriptionId, {query, time, view}) => {
     return {
-      subscriptionId
+      subscriptionId,
+      query,
+      time,
+      view
     };
   },
 
   // data transformation on onData
-  filters => Immutable.fromJS(filters)
+  data => Immutable.List(data)
 );

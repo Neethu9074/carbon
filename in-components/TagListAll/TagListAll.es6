@@ -3,7 +3,7 @@ import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {tagsFilter$} from 'in-components/RightSidebar/stores/rightSidebarFilterStore';
-import {filterableTags$} from 'in-stores/filtering';
+import {filterableTags$} from 'in-stores/search';
 import connectTo from 'in-hoc/connectTo';
 
 import Tag from '../Tag';

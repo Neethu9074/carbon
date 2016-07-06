@@ -19,7 +19,6 @@ import * as persistentConnection from 'in-services/persistentConnection';
 import * as timelineStore from 'in-components/timeline/timelineStore';
 import * as browserIdentification from 'in-services/browser';
 import * as timeOffsetStore from 'in-stores/timeOffset';
-import * as filteringStore from 'in-stores/filtering';
 import * as shortcuts from 'in-services/shortcuts';
 import * as tracking from 'in-services/tracking';
 
@@ -62,7 +61,6 @@ browserIdentification.init();
 persistentConnection.init();
 subscriptonManager.init();
 timeOffsetStore.init();
-filteringStore.init();
 timelineStore.init();
 messageStore.init();
 shortcuts.init();
