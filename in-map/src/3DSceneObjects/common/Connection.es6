@@ -21,7 +21,6 @@ export default class Connection extends SceneObject {
   constructor({parent, entity, sourceNode, destinationNode, direction}) {
     super({parent, id: entity.get('id')});
 
-    this.withArrows = true;
     this.direction = direction;
     this.sourceNode = sourceNode;
     this.destinationNode = destinationNode;
@@ -38,6 +37,12 @@ export default class Connection extends SceneObject {
     ALL_CONNECTIONS.push(this);
 
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.updateGeometry()));
+  }
+
+  init() {
+    super.init();
+
+    this.withArrows = false;
   }
 
   updateGeometry() { throw new Error('PLEASE OVERRIDE METHOD'); }

@@ -2,9 +2,8 @@ import {combineLatest} from 'reactive-observables';
 
 import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
 import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
-import {voteUp, voteDown, addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
-import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import {addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
@@ -18,14 +17,10 @@ export default class Node extends SceneObject {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.isExpanded = false;
     this.edgeCount = 0;
 
     this.addSubscriptions([
-      eventBus.on('endUpdate').subscribe(() => {
-        this.getComponent('screenPositionCluster').updateScreenPosition();
-        this.getComponent('screenPositionMetric').updateScreenPosition();
-      }),
+      eventBus.on('endUpdate').subscribe(this.updateScreenPosition.bind(this)),
 
       eventBus.on('dragObjectStart').subscribe(id => {
         if (this.id === id) {
@@ -46,18 +41,6 @@ export default class Node extends SceneObject {
       ]).subscribe(props => this.setColor(props[0], props[1])),
 
       this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
-
-      this.eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition => {
-        if (this.stickyNote) {
-          this.stickyNote.setScreenPosition(screenPosition);
-        }
-      }),
-
-      this.eventEmitter.on('isVisibleChanged_screenPositionCluster').distinct().subscribe(isVisible => {
-        if (this.stickyNote) {
-          isVisible ? this.stickyNote.show() : this.stickyNote.hide();
-        }
-      }),
 
       this.eventEmitter.on('screenPositionChanged_screenPositionMetric').subscribe(screenPosition => {
         if (this.stickyNoteMetric) {
@@ -161,38 +144,7 @@ export default class Node extends SceneObject {
     return null;
   }
 
-  expand() {
-    this.childIds.forEach(id => voteUp(id));
-    this.isExpanded = true;
-  }
-
-  collapse() {
-    this.childIds.forEach(id => voteDown(id));
-    this.isExpanded = false;
-  }
-
-  setChildIds(childIds) {
-    this.childIds = Object.keys(childIds);
-    if (this.childIds.length === 0) {
-      if (this.stickyNote) {
-        this.stickyNote.dispose();
-        this.stickyNote = null;
-      }
-      return;
-    }
-
-    if (!this.stickyNote) {
-      this.stickyNote = new StickyNoteCluster(this);
-    }
-
-    this.stickyNote.setNumChildren(this.childIds.length);
-  }
-
   positionChanged(newPos) {
-    this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
-                                                                      newPos.y,
-                                                                      newPos.z + 0.8);
-
     this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x,
                                                                      this.height,
                                                                      newPos.z);
@@ -216,13 +168,7 @@ export default class Node extends SceneObject {
       this.stickyNoteMetric = null;
     }
 
-    if (this.stickyNote) {
-      this.stickyNote.dispose();
-      this.stickyNote = null;
-    }
-
     this.height = null;
     this.children = null;
-    this.isExpanded = null;
   }
 }

@@ -19,6 +19,8 @@ export default class NodePhysical extends Node {
 
   constructor(props) {
     super(props);
+
+    this.eventEmitter.emit('isFullyVisible', true);
   }
 
   init() {
@@ -60,6 +62,12 @@ export default class NodePhysical extends Node {
       sceneObject: this,
       id: '_screenPositionMetric'
     });
+  }
+
+  setChildIds() {}
+
+  updateScreenPosition() {
+    this.getComponent('screenPositionMetric').updateScreenPosition();
   }
 
   createMetricSticky() {

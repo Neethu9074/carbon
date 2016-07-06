@@ -15,8 +15,6 @@ export default class Connection extends BaseConnection {
   constructor(params) {
     super(params);
 
-    this.withArrows = false;
-
     this.addSubscriptions([
       this.sourceNode.eventEmitter.on('positionChanged')
       .merge(this.destinationNode.eventEmitter.on('positionChanged'))
@@ -25,7 +23,10 @@ export default class Connection extends BaseConnection {
 
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
-      this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this))
+      this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
+
+      this.eventEmitter.on('updateGeometry').debounce(10)
+                                            .subscribe(this.updateGeometry.bind(this))
     ]);
 
     addEdge(this);
@@ -38,7 +39,6 @@ export default class Connection extends BaseConnection {
 
   init() {
     this.currentColor = theme.health[0];
-
     this.lineSMF = this.getFactory();
 
     super.init();
@@ -65,18 +65,7 @@ export default class Connection extends BaseConnection {
 
   getColors() {
     const rgb = hexToRGBNormalized(this.currentColor);
-    const r = rgb.r;
-    const g = rgb.g;
-    const b = rgb.b;
-
-    return [
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b
-    ];
+    return this.getColorArrayFromRgb(rgb.r, rgb.g, rgb.b);
   }
 
   calculatePath(fromPos, toPos) {
@@ -93,14 +82,15 @@ export default class Connection extends BaseConnection {
     const vertices = this.getLineVertices(this.sourceNode, this.destinationNode);
     this.lineFragment.contentProvider.setLines(vertices);
 
-    // the default color must be set to get a working shader. It's black so you can see if there is a snapshot missing
+    // the default color must be set to get a working shader.
+    // it's black so you can see if there is a snapshot missing
     this.lineFragment.contentProvider.setColor(this.getColors());
 
     this.lineSMF.addFragment(this.lineFragment);
   }
 
   positionChanged() {
-    this.updateGeometry();
+    this.eventEmitter.emit('updateGeometry');
 
     const from = this.direction === DIRECTIONS.OUT ? this.sourceNode : this.destinationNode;
     const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
@@ -115,7 +105,7 @@ export default class Connection extends BaseConnection {
 
   healthChanged(maxSeverity) {
     this.currentColor = maxSeverity > 0 ? theme.health[Math.floor(maxSeverity)] : '#bababa';
-    this.updateGeometry();
+    this.eventEmitter.emit('updateGeometry');
   }
 
   dispose() {

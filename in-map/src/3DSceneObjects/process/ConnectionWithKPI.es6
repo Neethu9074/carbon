@@ -11,8 +11,6 @@ export default class ConnectionWithKPI extends Connection {
   constructor(params) {
     super(params);
 
-    this.withArrows = true;
-
     this.addSubscriptions([
       this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition => {
         if (this.stickyNoteMetric) {
@@ -45,6 +43,7 @@ export default class ConnectionWithKPI extends Connection {
   init() {
     super.init();
 
+    this.withArrows = true;
     this.particleEmitter = new ParticleEmitter({
       id: this.id + '__particleEmitter',
       parent: this
@@ -53,6 +52,18 @@ export default class ConnectionWithKPI extends Connection {
 
   getFactory() {
     return this.parent.getFactory('lineSMF');
+  }
+
+  getColorArrayFromRgb(r, g, b) {
+    return [
+      r, g, b,
+      r, g, b,
+      r, g, b,
+      r, g, b,
+
+      r, g, b,
+      r, g, b
+    ];
   }
 
   positionChanged() {

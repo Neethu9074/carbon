@@ -1,3 +1,4 @@
+import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
 import HighlightingComponent from 'in-map/src/components/process/HighlightingComponentForCylinder';
@@ -14,6 +15,8 @@ import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentPro
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Cluster';
+import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
+import {voteUp, voteDown} from 'in-map/src/stores/process/nodesStore';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
@@ -22,6 +25,29 @@ export default class NodeCluster extends Node {
 
   constructor(props) {
     super(props);
+
+    this.addSubscriptions([
+      this.eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition => {
+        if (this.stickyNote) {
+          this.stickyNote.setScreenPosition(screenPosition);
+        }
+      }),
+
+      this.eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition => {
+        if (this.stickyNote) {
+          this.stickyNote.setScreenPosition(screenPosition);
+        }
+      }),
+
+      combineLatest([
+        this.eventEmitter.on('onNumOfChildrenChanged').distinct(),
+        this.eventEmitter.on('onExpand').distinct()
+      ]).subscribe(([numChildren, isExpanded]) => {
+        this.eventEmitter.emit('isFullyVisible', isExpanded || numChildren === 0);
+      })
+    ]);
+
+    this.eventEmitter.emit('onExpand', false);
   }
 
   init() {
@@ -85,10 +111,48 @@ export default class NodeCluster extends Node {
     });
   }
 
+  setChildIds(childIds) {
+    this.childIds = Object.keys(childIds);
+    this.eventEmitter.emit('onNumOfChildrenChanged', this.childIds.length);
+
+    if (this.childIds.length === 0) {
+      if (this.stickyNote) {
+        this.stickyNote.dispose();
+        this.stickyNote = null;
+      }
+      return;
+    }
+
+    if (!this.stickyNote) {
+      this.stickyNote = new StickyNoteCluster(this);
+    }
+
+    this.stickyNote.setNumChildren(this.childIds.length);
+  }
+
+  expand() {
+    this.eventEmitter.emit('onExpand', true);
+    this.childIds.forEach(id => voteUp(id));
+  }
+
+  collapse() {
+    this.eventEmitter.emit('onExpand', false);
+    this.childIds.forEach(id => voteDown(id));
+  }
+
+  updateScreenPosition() {
+    this.getComponent('screenPositionCluster').updateScreenPosition();
+    this.getComponent('screenPositionMetric').updateScreenPosition();
+  }
+
   positionChanged(newPos) {
     super.positionChanged(newPos);
 
     this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height, newPos.z + 0.5);
+
+    this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
+                                                                      newPos.y,
+                                                                      newPos.z + 0.8);
   }
 
   createMetricSticky() {
@@ -101,6 +165,11 @@ export default class NodeCluster extends Node {
 
   dispose() {
     super.dispose();
+
+    if (this.stickyNote) {
+      this.stickyNote.dispose();
+      this.stickyNote = null;
+    }
 
     this.label.dispose();
     this.label = null;

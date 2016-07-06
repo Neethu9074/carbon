@@ -7,7 +7,7 @@ varying vec3 vColor;
 
 
 void main() {
-  float partLength = 0.1 / fLength;
+  float partLength = 0.25 / fLength;
   float opacity = 1.0;
 
   if (mod(fProgress, partLength * 2.0) < partLength) {
