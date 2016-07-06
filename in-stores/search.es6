@@ -60,7 +60,7 @@ export const searchMatches$ = createTrackingStore({
 
 const errorStore = createStore({
   name: 'in-stores/search/queryTranslationError',
-  initialValue: ''
+  initialValue: null
 });
 
 export const error$ = errorStore.observable;

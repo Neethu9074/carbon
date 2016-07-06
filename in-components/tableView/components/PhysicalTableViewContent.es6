@@ -29,8 +29,6 @@ export default connectTo({
       return <LoadingIndicator />;
     }
 
-    console.log('Render for', snapshotIdsMatchingFilter);
-
     const children = viewStructure.get('children')
       .toArray();
 
