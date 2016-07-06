@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/Metric';
+import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/connection/KPI';
 import ParticleEmitter from 'in-map/src/3DSceneObjects/common/ParticleEmitter';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import Connection from 'in-map/src/3DSceneObjects/process/Connection';
@@ -20,23 +20,15 @@ export default class ConnectionWithKPI extends Connection {
 
       combineLatest([
         this.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
+        this.eventEmitter.on('onHighlight')
+                         .debounce(100)
+                         .distinct(),
         this.parent.onZoomLevel()
-      ]).subscribe(props => {
-        const isVisible = props[0];
-        const zoomLevel = props[1];
-
-        if (isVisible && zoomLevel < 400) {
-          if (!this.stickyNoteMetric) {
-            this.stickyNoteMetric = new StickyNoteMetric(this);
-
-            // force screen position update
-            this.getComponent('screenPosition').updateScreenPosition(true);
-          }
-        } else if (this.stickyNoteMetric) {
-          this.stickyNoteMetric.dispose();
-          this.stickyNoteMetric = null;
-        }
-      })
+      ]).subscribe(([isVisible, isHighlighted, zoomLevel]) =>
+        (isVisible && (zoomLevel < 500 || isHighlighted)) ?
+          this.getOrCreateMetricSticky(isHighlighted) :
+          this.disposeMetricSticky()
+      )
     ]);
   }
 
@@ -48,6 +40,23 @@ export default class ConnectionWithKPI extends Connection {
       id: this.id + '__particleEmitter',
       parent: this
     });
+  }
+
+  getOrCreateMetricSticky(isHighlighted) {
+    if (!this.stickyNoteMetric) {
+      this.stickyNoteMetric = new StickyNoteMetric(this);
+
+      // force screen position update
+      this.getComponent('screenPosition').updateScreenPosition(true);
+    }
+    this.stickyNoteMetric.setHighlighted(isHighlighted);
+  }
+
+  disposeMetricSticky() {
+    if (this.stickyNoteMetric) {
+      this.stickyNoteMetric.dispose();
+      this.stickyNoteMetric = null;
+    }
   }
 
   getFactory() {

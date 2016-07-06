@@ -3,7 +3,6 @@ import THREE from 'three';
 import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/physical/ConnectionLine';
 import eventBus from 'in-map/src/eventbus';
 
-import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObject from './SceneObject';
 
 
@@ -166,11 +165,6 @@ export default class Connection extends SceneObject {
     raycaster.linePrecision = 0.25;
     const hit = raycaster.intersectObject(this.collisionLine, false);
     return hit.length > 0;
-  }
-
-  onHighlight(isHighlighted) {
-    this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT,
-                                          isHighlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF);
   }
 
   dispose() {

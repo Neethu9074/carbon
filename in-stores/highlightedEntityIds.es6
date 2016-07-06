@@ -1,4 +1,4 @@
-import {combineLatest} from 'reactive-observables';
+import {create, combineLatest} from 'reactive-observables';
 
 import getHighlightedEntityIds from 'in-services/subscription/highlightedEntityIds';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
@@ -13,6 +13,11 @@ export const highlightedEntityIds$ = combineLatest([highlightedEntityId$, select
   .flatMap(snapshotId => {
     if (!snapshotId) {
       return alwaysEmptyArray;
+    }
+
+    // TODO TEMPORARY HACK FOR PROCESS VIEW
+    if (snapshotId.indexOf('process-view') === 0) {
+      return create().startWith([snapshotId]);
     }
 
     return focusedMoment$.flatMap(focusedMoment =>
