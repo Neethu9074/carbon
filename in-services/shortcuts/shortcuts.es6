@@ -5,9 +5,12 @@ import onNpressed from 'in-services/shortcuts/shortcuts/N';
 import onFPressed from 'in-services/shortcuts/shortcuts/F';
 
 export const KEY_CODES = {
+  ENTER: 13,
   ESC: 27,
-  N: 78,
-  F: 70
+  UP_ARROW: 38,
+  DOWN_ARROW: 40,
+  F: 70,
+  N: 78
 };
 
 const registeredShortcuts = {};

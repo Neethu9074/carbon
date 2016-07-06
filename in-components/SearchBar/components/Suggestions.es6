@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
+import {highligtedSuggestion$} from 'in-components/SearchBar/stores/highlightedSuggestion';
 import {isFocused$, setFocused} from 'in-components/SearchBar/stores/focus';
+import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
 import {searchMatches$, error$} from 'in-stores/search';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -14,15 +15,20 @@ const Suggestion = connectTo(props => {
     return {
       snapshot: getSnapshot(props.snapshotId)
     };
-  }, function Suggestion({snapshot}) {
+  }, function Suggestion({snapshot, isHighlighted}) {
     if (!snapshot) {
       return null;
     }
 
     const label = getLabel(snapshot);
 
+    let classes = `${block}__suggestion`;
+    if (isHighlighted) {
+      classes = `${classes} ${block}__suggestion--highlighted`;
+    }
+
     return (
-      <div className={`${block}__suggestion`}
+      <div className={classes}
            onClick={() => {
              setSelectedSnapshotId(snapshot.get('id'));
              setFocused(false);
@@ -42,8 +48,9 @@ const Suggestion = connectTo(props => {
 export default connectTo({
     searchMatches: searchMatches$,
     error: error$,
-    isFocused: isFocused$
-  }, function Suggestions({searchMatches, error, isFocused}) {
+    isFocused: isFocused$,
+    highligtedSuggestion: highligtedSuggestion$
+  }, function Suggestions({searchMatches, error, isFocused, highligtedSuggestion}) {
     if (searchMatches == null || error || !isFocused) {
       return null;
     } else if (searchMatches.size === 0) {
@@ -57,9 +64,10 @@ export default connectTo({
     const remainingHitCount = searchMatches.size - 5;
     return (
       <div className={block}>
-        {searchMatches.toArray().slice(0, 5).map(searchMatch =>
+        {searchMatches.toArray().slice(0, 5).map((searchMatch, i) =>
           <Suggestion key={searchMatch}
-                      snapshotId={searchMatch} />
+                      snapshotId={searchMatch}
+                      isHighlighted={highligtedSuggestion === i}/>
         )}
 
         {remainingHitCount > 0 ?
