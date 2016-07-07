@@ -1,11 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
-import {getColorPool} from 'in-services/util/ColorGenerator';
-import getSnapshot from 'in-hoc/getSnapshot';
 import Icon from 'in-components/Icon';
 
 import './Cluster.less';
@@ -14,7 +11,7 @@ import './Cluster.less';
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-process-cluster';
 
-const ProcessCluster = getSnapshot(React.createClass({
+const ProcessCluster = React.createClass({
 
   displayName: 'process cluster sticky',
 
@@ -24,10 +21,8 @@ const ProcessCluster = getSnapshot(React.createClass({
 
   propTypes: {
     numChildren: rpt.number.isRequired,
-    snapshotId: rpt.string.isRequired,
     collapse: rpt.func.isRequired,
-    expand: rpt.func.isRequired,
-    snapshot: irpt.map
+    expand: rpt.func.isRequired
   },
 
   getInitialState() {
@@ -38,16 +33,7 @@ const ProcessCluster = getSnapshot(React.createClass({
   },
 
   render() {
-    const snapshot = this.props.snapshot;
-
-    let backgroundColor;
-    if (this.state.highlighted || this.state.expanded) {
-      backgroundColor = '#fff';
-    } else if (snapshot) {
-      backgroundColor = getColorPool('processes').getColorHex(snapshot.get('plugin'));
-    } else {
-      backgroundColor = '#999';
-    }
+    const backgroundColor = (this.state.highlighted || this.state.expanded) ? '#fff' : '#bababa';
 
     return (
       <div className={block + '__content'}
@@ -71,7 +57,7 @@ const ProcessCluster = getSnapshot(React.createClass({
 
     this.setState({expanded: !this.state.expanded});
   }
-}));
+});
 
 
 export default class StickyNoteProcessCluster extends StickyNote {
@@ -84,7 +70,6 @@ export default class StickyNoteProcessCluster extends StickyNote {
 
     ReactDOM.render(
       <ProcessCluster numChildren={this.numChildren}
-                      snapshotId={parent.id}
                       expand={() => parent.expand()}
                       collapse={() => parent.collapse()}/>,
       this.container

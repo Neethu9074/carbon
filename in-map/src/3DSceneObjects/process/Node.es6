@@ -9,8 +9,9 @@ import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
-import {getColor} from 'in-sdk/color';
 
+
+const NODE_BASE_COLOR = hexToRGBNormalized('#bababa');
 
 export default class Node extends SceneObject {
 
@@ -147,11 +148,9 @@ export default class Node extends SceneObject {
   }
 
   setColor(snapshot, maxSeverity) {
-    if (maxSeverity === 0 && snapshot) {
-      this.eventEmitter.emit('colorChanged', getColor(snapshot));
-    } else if (maxSeverity > 0) {
-      this.eventEmitter.emit('colorChanged', hexToRGBNormalized(theme.health[Math.floor(maxSeverity)]));
-    }
+    this.eventEmitter.emit('colorChanged', maxSeverity > 0 ?
+      hexToRGBNormalized(theme.health[Math.floor(maxSeverity)]) :
+      NODE_BASE_COLOR);
   }
 
   dispose() {
