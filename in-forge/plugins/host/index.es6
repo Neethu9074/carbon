@@ -52,7 +52,7 @@ addKeywordOperator({
   context: 'entity',
   type: 'number',
   keyword: 'host.cpuCount',
-  field: createPluginFieldPath(constants.plugins.os, ['cpu.count'])
+  field: createPluginFieldPath(constants.plugins.os, ['cpuCount'])
 });
 
 addKeywordOperator({
@@ -65,8 +65,15 @@ addKeywordOperator({
 addKeywordOperator({
   context: 'entity',
   type: 'string',
-  keyword: 'host.osName',
-  field: createPluginFieldPath(constants.plugins.os, ['os.name'])
+  keyword: 'host.fqdn',
+  field: createPluginFieldPath(constants.plugins.os, ['fqdn'])
+});
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'number',
+  keyword: 'host.memory',
+  field: createPluginFieldPath(constants.plugins.os, ['memory'])
 });
 
 addSearchableType('host', constants.plugins.os);

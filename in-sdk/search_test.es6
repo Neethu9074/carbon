@@ -9,7 +9,7 @@ describe('in-sdk/search', () => {
   describe('createPluginFieldPath', () => {
     it('must create path', () => {
       expect(createPluginFieldPath('host', ['cpu.count']))
-        .to.equal('data.com__instana__forge__infrastructure__os__host__Host.cpu__count');
+        .to.equal('search.host.cpu__count');
     });
   });
 });

@@ -87,13 +87,8 @@ export function getKeywordOperators(requestedContexts) {
 
 
 export function createPluginFieldPath(shortPluginId, fieldPath) {
-  const longPluginId = fullyQualifiedPlugins[shortPluginId];
-  if (__DEV__ && !longPluginId) {
-    throw new Error(`Unable to translate short plugin ID ${shortPluginId} to long one.`);
-  }
-
   const cleanedFieldPath = fieldPath.map(cleanPathElement).join('.');
-  return `data.${cleanPathElement(longPluginId)}.${cleanedFieldPath}`;
+  return `search.${shortPluginId}.${cleanedFieldPath}`;
 }
 
 

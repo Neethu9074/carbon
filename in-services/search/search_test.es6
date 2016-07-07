@@ -17,22 +17,22 @@ describe('in-services/search', () => {
 
   it('must translate host cpu count query to lucene query', () => {
     expect(transform('host.cpuCount > 3'))
-      .to.equal('data.com__instana__forge__infrastructure__os__host__Host.cpu__count:>3');
+      .to.equal('search.host.cpuCount:>3');
   });
 
   it('must translate a mix of key/value and free text queries', () => {
     expect(transform('host.cpuCount <= 18 fat machine'))
-      .to.equal("data.com__instana__forge__infrastructure__os__host__Host.cpu__count:<=18 'fat' 'machine'");
+      .to.equal("search.host.cpuCount:<=18 'fat' 'machine'");
   });
 
   it('must retain groups of words', () => {
     expect(transform('host.cpuCount <= 18 "fat machine"'))
-      .to.equal("data.com__instana__forge__infrastructure__os__host__Host.cpu__count:<=18 'fat machine'");
+      .to.equal("search.host.cpuCount:<=18 'fat machine'");
   });
 
   it('must not use an equal sign when looking for equality', () => {
     expect(transform('host.cpuCount = 18'))
-      .to.equal('data.com__instana__forge__infrastructure__os__host__Host.cpu__count:18');
+      .to.equal('search.host.cpuCount:18');
   });
 
   it('must reject values which are not numbers', () => {
@@ -41,12 +41,12 @@ describe('in-services/search', () => {
 
   it('must not mix free text query parts', () => {
     expect(transform('fat host.cpuCount <= 18 machine'))
-      .to.equal("'fat' data.com__instana__forge__infrastructure__os__host__Host.cpu__count:<=18 'machine'");
+      .to.equal("'fat' search.host.cpuCount:<=18 'machine'");
   });
 
   it('must support key/value string queries', () => {
-    expect(transform('host.osName = "Windows 10"'))
-      .to.equal("data.com__instana__forge__infrastructure__os__host__Host.os__name:'Windows 10'");
+    expect(transform('host.fqdn = "foo bar"'))
+      .to.equal("search.host.fqdn:'foo bar'");
   });
 
   it('must support searches for tags', () => {
