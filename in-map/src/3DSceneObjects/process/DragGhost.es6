@@ -1,6 +1,8 @@
 import THREE from 'three';
 
+import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import eventBus from 'in-map/src/eventbus';
 
 
@@ -20,15 +22,13 @@ export default class DragGhost extends SceneObject {
       parent.getDragGhostGeometry(),
       GHOST_MATERIAL
     );
-
-    this.scene.addSceneObject(obj);
-    this.scene.renderScene();
+    addSceneObject(obj);
 
     this.addSubscription(
       eventBus.on('dragObject').subscribe(newPos => {
         this.currentPosition.copy(newPos);
         this.obj.position.copy(newPos);
-        this.scene.renderScene();
+        requestRendering();
       })
     );
   }
@@ -36,7 +36,7 @@ export default class DragGhost extends SceneObject {
   dispose() {
     super.dispose();
 
-    this.scene.removeSceneObject(this.obj);
+    removeSceneObject(this.obj);
 
     const dropPosition = this.currentPosition;
     this.parent.getComponent('position').setPosition(dropPosition.x, dropPosition.y, dropPosition.z);

@@ -1,5 +1,7 @@
 import {view, types as views} from 'in-stores/view';
 
+import {requestRendering} from 'in-map/src/stores/renderingStore';
+
 import PhysicalMap from '../physical/Map';
 import ProcessMap from '../process/Map';
 
@@ -15,7 +17,7 @@ export default class MapHandler {
 
     this.viewSubscription = view.subscribe(v => {
       this.doIfPresent(map => map.dispose());
-      scene.renderScene();
+      requestRendering();
 
       if (v === views.physical) {
         this.map = new PhysicalMap({ parent: scene });
@@ -23,7 +25,7 @@ export default class MapHandler {
         this.map = new ProcessMap({ parent: scene });
       }
 
-      scene.renderScene();
+      requestRendering();
     });
   }
 

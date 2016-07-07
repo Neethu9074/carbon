@@ -19,7 +19,6 @@ describe('3D map', () => {
 
   beforeEach(() => {
     sceneObject = {
-      renderScene: sinon.stub(),
       eventEmitter: new RoEmitter()
     };
 

@@ -1,5 +1,7 @@
 import THREE from 'three';
 
+import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
+
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import BaseConnection from '../common/Connection';
 
@@ -16,11 +18,11 @@ export default class Connection extends BaseConnection {
   }
 
   onInitialEnter() {
-    this.addSceneObject(this.mesh);
+    addSceneObject(this.mesh);
   }
 
   onInactiveEnter() {
-    this.removeSceneObject(this.mesh);
+    removeSceneObject(this.mesh);
   }
 
   setupGeometry() {
@@ -83,7 +85,7 @@ export default class Connection extends BaseConnection {
   dispose() {
     super.dispose();
 
-    this.scene.removeSceneObject(this.mesh);
+    removeSceneObject(this.mesh);
 
     // clear three cache
     this.geometry.dispose();

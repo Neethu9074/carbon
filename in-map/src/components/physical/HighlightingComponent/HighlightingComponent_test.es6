@@ -23,8 +23,7 @@ describe('3D map', () => {
       lineSMF: {
         addFragment: sinon.stub(),
         removeFragment: sinon.stub()
-      },
-      renderScene: sinon.stub()
+      }
     };
     sceneObject.getFactory = () => sceneObject.lineSMF;
     component = new HighlightingComponent({sceneObject});

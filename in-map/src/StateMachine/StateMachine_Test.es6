@@ -9,7 +9,6 @@ import {StateMachine, PROPERTY_VALUES, PROPERTIES} from './StateMachine';
 class SpecificSceneObject {
   constructor(params) {
     this.id = params.id;
-    this.scene = {renderScene() {} };
     this.stateMachine = new StateMachine(this);
     this.stateMachine.initialized();
   }

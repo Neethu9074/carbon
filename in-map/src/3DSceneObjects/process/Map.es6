@@ -27,20 +27,19 @@ export default class Map extends BaseMap {
 
   setupFactories() {
     const factories = this.factories;
-    const scene = this.parent;
 
-    factories.transparentSMF = new SingleMeshFactory({scene});
+    factories.transparentSMF = new SingleMeshFactory();
     factories.transparentSMF.material.transparent = true;
     factories.transparentSMF.material.opacity = 0.8;
 
-    factories.solidSMF = new SingleMeshFactory({scene});
+    factories.solidSMF = new SingleMeshFactory();
     factories.solidSMF.material.transparent = false;
 
-    factories.lineSMF = new SingleMeshLineFactory({scene});
+    factories.lineSMF = new SingleMeshLineFactory();
 
-    factories.dashedLineSMF = new SingleMeshDashedLineFactory({scene});
+    factories.dashedLineSMF = new SingleMeshDashedLineFactory();
 
-    factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory({scene});
+    factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory();
   }
 
   getGroundPlane() {

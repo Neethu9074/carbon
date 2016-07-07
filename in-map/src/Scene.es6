@@ -3,13 +3,15 @@ import THREE from 'three';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import TooltipHandler from 'in-map/src/2DSceneObjects/tooltips/TooltipHandler';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {frame$, requestRendering} from 'in-map/src/stores/renderingStore';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {activeMetric} from 'in-services/stores/metrics';
+import {setScene} from 'in-map/src/stores/sceneStore';
 import {clearSelectedEvent} from 'in-stores/events';
-import {theme} from 'in-services/theme';
 import eventBus from 'in-map/src/eventbus';
+import {theme} from 'in-services/theme';
 
 import './lib/Octree';
 
@@ -25,8 +27,6 @@ let currentMetrics;
 export default class Scene {
 
   constructor({parent, onPlusClicked, antialias}) {
-    stores.currentScene.emit(this); // set this scene to store
-
     this.onPlusClicked = onPlusClicked;
     this.height = window.innerHeight;
     this.width = window.innerWidth;
@@ -41,6 +41,7 @@ export default class Scene {
 
     // this is the main scene for all scene objects like nodes or metrics
     this.scene = new THREE.Scene();
+    setScene(this);
 
     this.setupCanvas();
     this.setupRenderer();
@@ -141,6 +142,8 @@ export default class Scene {
       }
     }));
 
+    this.subscriptions.push(frame$.subscribe(() => this.shouldRenderScene = true));
+
     if (__DEV__) {
       setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);
     }
@@ -208,13 +211,8 @@ export default class Scene {
     }
   }
 
-  // set this flag if the scene needs to be redrawn
-  renderScene() {
-    this.shouldRenderScene = true;
-  }
-
   showMetrics() {
-    this.renderScene();
+    requestRendering();
   }
 
   hideMetrics(e) {
@@ -224,7 +222,7 @@ export default class Scene {
       this.hideMetricsOnZoomOut = false;
     }
 
-    this.renderScene();
+    requestRendering();
   }
 
   findObjectByRay(raycaster) {
@@ -254,14 +252,6 @@ export default class Scene {
     }
 
     return undefined;
-  }
-
-  addSceneObject(obj) {
-    this.scene.add(obj);
-  }
-
-  removeSceneObject(obj) {
-    this.scene.remove(obj);
   }
 
   addCollisionObject(obj, layer = 0) {
@@ -298,7 +288,7 @@ export default class Scene {
     this.mapHandler.onWindowResize(width, height);
 
     // refresh to show the current state
-    this.renderScene();
+    requestRendering();
   }
 
   onZoom(event) {
@@ -309,7 +299,7 @@ export default class Scene {
     }
 
     // refresh to show the current state
-    this.renderScene();
+    requestRendering();
   }
 
   onObjectClicked({hittenObject, hoveredConnections}) {
@@ -341,7 +331,7 @@ export default class Scene {
     stores.longClickedSceneObject.emit(null);
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);
-    stores.currentScene.emit(null);
+    setScene(null);
   }
 
   // set this flag if the update loop should be stoped

@@ -8,8 +8,8 @@ import ASingleMeshFactory from 'in-map/src/SingleMeshFactory/ASingleMeshFactory'
 
 
 export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
-  constructor({id, scene, renderOrder = 10, snapshot}) {
-    super({scene, renderOrder, params: {id, snapshot}});
+  constructor(props = {renderOrder: 10}) {
+    super(props);
   }
 
   getMesh() {

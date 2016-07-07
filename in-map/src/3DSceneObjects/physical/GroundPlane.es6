@@ -1,6 +1,8 @@
 import THREE from 'three';
 
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
+import {addSceneObject} from 'in-map/src/stores/sceneStore';
 import theme from 'in-services/theme';
 
 import BaseGroundPlane from '../common/GroundPlane';
@@ -34,8 +36,8 @@ export default class GroundPlane extends BaseGroundPlane {
         ground.material.color.g = color.g;
         ground.material.color.b = color.b;
 
-        this.addSceneObject(ground);
-        this.scene.renderScene();
+        addSceneObject(ground);
+        requestRendering();
       });
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;

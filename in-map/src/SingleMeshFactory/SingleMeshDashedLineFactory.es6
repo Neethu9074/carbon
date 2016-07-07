@@ -8,8 +8,8 @@ import ASingleMeshFactory from './ASingleMeshFactory';
 
 export default class SingleMeshlineSMF extends ASingleMeshFactory {
 
-  constructor({scene, renderOrder = 2}) {
-    super({scene, renderOrder});
+  constructor(props = {renderOrder: 2}) {
+    super(props);
   }
 
   getMesh() {

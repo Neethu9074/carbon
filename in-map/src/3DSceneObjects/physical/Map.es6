@@ -43,31 +43,30 @@ export default class Map extends BaseMap {
 
   setupFactories() {
     const factories = this.factories;
-    const scene = this.parent;
 
-    factories.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
+    factories.singleMeshMetricFactory = new SingleMeshMetricFactory();
 
-    factories.groundSMF = new SingleMeshFactory({scene});
+    factories.groundSMF = new SingleMeshFactory();
     factories.groundSMF.material.transparent = true;
     factories.groundSMF.material.opacity = 0.3;
 
-    factories.highlightingSMF = new FadeByDistanceSingleMeshFactory({scene, renderOrder: 3});
+    factories.highlightingSMF = new FadeByDistanceSingleMeshFactory({renderOrder: 3});
 
-    factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory({scene, renderOrder: 3});
+    factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory({renderOrder: 3});
 
-    factories.solidSMF = new SingleMeshFactory({scene, renderOrder: 3});
+    factories.solidSMF = new SingleMeshFactory({renderOrder: 3});
     factories.solidSMF.material.opacity = 0.3;
 
-    factories.layerSMF = new SingleMeshFactory({scene});
+    factories.layerSMF = new SingleMeshFactory();
     factories.layerSMF.material.opacity = 0.3;
     factories.layerSMF.material.transparent = false;
     factories.layerSMF.material.color = new THREE.Color(0.85, 0.85, 0.85);
 
-    factories.lineSMF = new SingleMeshLineFactory({scene});
+    factories.lineSMF = new SingleMeshLineFactory();
 
-    factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory({scene});
+    factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory();
 
-    factories.baselineSMF = new SingleMeshLineFactory({scene});
+    factories.baselineSMF = new SingleMeshLineFactory();
     factories.baselineSMF.material.transparent = true;
   }
 

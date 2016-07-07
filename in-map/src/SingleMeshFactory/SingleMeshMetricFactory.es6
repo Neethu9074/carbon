@@ -2,6 +2,8 @@ import {remove} from 'lodash';
 import TWEEN from 'tween.js';
 import THREE from 'three';
 
+import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/src/eventbus';
 
@@ -17,9 +19,7 @@ const UPDATE_FLAGS = {
 
 export default class SingleMeshMetricFactory {
 
-  constructor({scene}) {
-    this.scene = scene;
-
+  constructor() {
     // stores all added fragments to create the global geometry
     this.fragments = [];
 
@@ -153,7 +153,7 @@ export default class SingleMeshMetricFactory {
     });
 
     this.updateGeometry();
-    this.scene.renderScene();
+    requestRendering();
 
     // to clear the hole queue just create an empty object
     this.fragmentQueue = {};
@@ -221,12 +221,12 @@ export default class SingleMeshMetricFactory {
 
     if (this.vertices.length > 0) {
       if (!this.isAddedToScene) {
-        this.scene.addSceneObject(this.mesh);
+        addSceneObject(this.mesh);
         this.isAddedToScene = true;
       }
     // if there is no draw data anymore, remove the geometry from scene
     } else {
-      this.scene.removeSceneObject(this.mesh);
+      removeSceneObject(this.mesh);
       this.isAddedToScene = false;
     }
   }
@@ -292,13 +292,12 @@ export default class SingleMeshMetricFactory {
 
   dispose() {
     this.updateSubscribtion.dispose();
-    this.scene.removeSceneObject(this.mesh);
+    removeSceneObject(this.mesh);
 
     this.geometry.dispose();
     this.material.dispose();
 
     this.mesh = null;
-    this.scene = null;
     this.colors = null;
     this.vertices = null;
     this.geometry = null;

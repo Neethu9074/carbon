@@ -44,9 +44,6 @@ describe('3D map', () => {
     global.__DEV__ = true;
     factory = new SMMF({
       scene: {
-        addSceneObject() {},
-        removeSceneObject() {},
-        renderScene() {}
       },
       height: 1
     });

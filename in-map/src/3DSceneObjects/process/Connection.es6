@@ -3,6 +3,7 @@ import ScreenPositionComponent from 'in-map/src/components/common/ScreenPosition
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
@@ -102,7 +103,7 @@ export default class Connection extends BaseConnection {
 
     this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.5, 0, pos.z + 0.5);
 
-    this.scene.renderScene();
+    requestRendering();
   }
 
   healthChanged(maxSeverity) {

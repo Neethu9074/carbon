@@ -1,6 +1,8 @@
 import {remove} from 'lodash';
 import THREE from 'three';
 
+import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {find} from 'in-services/arrayUtils';
 
 
@@ -11,8 +13,7 @@ const UPDATE_FLAGS = {
 
 export default class SingleMeshFactory {
 
-  constructor({scene, renderOrder = 2, params}) {
-    this.scene = scene;
+  constructor({renderOrder = 2, params}) {
     this.params = params;
 
     // stores all added fragments to create the global geometry
@@ -101,7 +102,7 @@ export default class SingleMeshFactory {
     });
 
     this.updateGeometry();
-    this.scene.renderScene();
+    requestRendering();
 
     // to clear the hole queue just create an empty object
     this.fragmentQueue = {};
@@ -151,24 +152,23 @@ export default class SingleMeshFactory {
 
     if (this.vertices.length > 0) {
       if (!this.isAddedToScene) {
-        this.scene.addSceneObject(this.mesh);
+        addSceneObject(this.mesh);
         this.isAddedToScene = true;
       }
     // if there is no draw data anymore, remove the geometry from scene
     } else {
-      this.scene.removeSceneObject(this.mesh);
+      removeSceneObject(this.mesh);
       this.isAddedToScene = false;
     }
   }
 
   dispose() {
-    this.scene.removeSceneObject(this.mesh);
+    removeSceneObject(this.mesh);
 
     this.geometry.dispose();
     this.material.dispose();
 
     this.mesh = null;
-    this.scene = null;
     this.params = null;
     this.colors = null;
     this.geometry = null;

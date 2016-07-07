@@ -1,5 +1,7 @@
 import THREE from 'three';
 
+import {removeSceneObject} from 'in-map/src/stores/sceneStore';
+
 import SceneObject from './SceneObject';
 
 
@@ -40,7 +42,7 @@ export default class GroundPlane extends SceneObject {
     super.dispose();
 
     // remove this ground from the parents scene
-    this.removeSceneObject(this.ground);
+    removeSceneObject(this.ground);
 
     // clear three.js cache trough disposing
     this.ground.material.dispose();

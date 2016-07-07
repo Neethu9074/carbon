@@ -1,8 +1,9 @@
 import RoEmitter from 'roemitter';
 
-import {currentScene, currentTooltip, tooltipForSceneObject} from 'in-map/src/mapStores';
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
+import {currentTooltip, tooltipForSceneObject} from 'in-map/src/mapStores';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
+import {scene$} from 'in-map/src/stores/sceneStore';
 import Subscriber from 'in-map/src/Subscriber';
 import eventBus from 'in-map/src/eventbus';
 
@@ -20,7 +21,7 @@ export default class SceneObject extends Subscriber {
     this.parent = parent;
 
     this.eventEmitter = new RoEmitter(id);
-    this.addSubscription(currentScene.subscribe(scene => this.scene = scene));
+    this.addSubscription(scene$.subscribe(scene => this.scene = scene));
 
     this.stateMachine = new StateMachine(this);
 
@@ -114,25 +115,12 @@ export default class SceneObject extends Subscriber {
     return this.stateMachine.stateProperties.active === PROPERTY_VALUES.ON;
   }
 
-  addSceneObject(obj) {
-    this.scene.addSceneObject(obj);
-  }
-
-  removeSceneObject(obj) {
-    this.scene.removeSceneObject(obj);
-  }
-
   addCollisionObject(obj, layer) {
     this.scene.addCollisionObject(obj, layer);
   }
 
   removeCollisionObject(obj, layer) {
     this.scene.removeCollisionObject(obj, layer);
-  }
-
-  // each object can tell that the scene should be redrawn
-  renderScene() {
-    this.scene.renderScene();
   }
 
   getAllNodes() {

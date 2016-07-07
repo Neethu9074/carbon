@@ -24,8 +24,7 @@ describe('3D map', () => {
         ]
       },
       removeCollisionObject: sinon.stub(),
-      addCollisionObject: sinon.stub(),
-      renderScene: sinon.stub()
+      addCollisionObject: sinon.stub()
     };
     collisionObject = new THREE.Mesh(new THREE.BoxGeometry());
     component = new CollisionObjectComponent({

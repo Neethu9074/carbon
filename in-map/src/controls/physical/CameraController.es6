@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import ConnectionTooltip from 'in-map/src/2DSceneObjects/tooltips/common/Connection';
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
 import * as time from 'in-map/src/timeCalculations';
 import {currentTooltip} from 'in-map/src/mapStores';
@@ -232,7 +233,7 @@ export default class CameraController extends BaseCameraController {
     // move to target position with cameraspeed in units/sec
     cam.getPosition().sub(delta);
     cam.updateMatrix();
-    this.scene.renderScene();
+    requestRendering();
   }
 
   updateZoomLevel(dT) {

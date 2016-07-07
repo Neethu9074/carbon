@@ -13,13 +13,7 @@ describe('3D map', () => {
 
   beforeEach(() => {
     global.__DEV__ = true;
-    factory = new SMF({
-      scene: {
-        addSceneObject() {},
-        removeSceneObject() {},
-        renderScene() {}
-      }
-    });
+    factory = new SMF();
   });
 
   describe('SingleMeshFactory', () => {

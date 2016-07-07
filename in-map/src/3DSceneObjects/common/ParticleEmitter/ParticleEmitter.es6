@@ -6,7 +6,9 @@ import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEm
 import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
 import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
+import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {getDeltaTime} from 'in-map/src/timeCalculations';
 import eventBus from 'in-map/src/eventbus';
 
@@ -102,7 +104,7 @@ export default class ParticleEmitter extends SceneObject {
       return;
     }
 
-    this.scene.addSceneObject(this.mesh);
+    addSceneObject(this.mesh);
 
     this.timeElapsedSinceLastSpawn = 0;
     this.updateSubscription = eventBus.on('beginUpdate').subscribe(() => this.update());
@@ -167,7 +169,7 @@ export default class ParticleEmitter extends SceneObject {
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
     this.geometry.attributes.progress.needsUpdate = true;
 
-    this.scene.renderScene();
+    requestRendering();
   }
 
   stop() {
@@ -177,7 +179,7 @@ export default class ParticleEmitter extends SceneObject {
 
     this.updateSubscription.dispose();
 
-    this.scene.removeSceneObject(this.mesh);
+    removeSceneObject(this.mesh);
     this.isRunning = false;
   }
 

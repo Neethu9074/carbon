@@ -6,7 +6,7 @@ import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {currentScene} from 'in-map/src/mapStores';
+import {setScene} from 'in-map/src/stores/sceneStore';
 
 
 describe('3D map', () => {
@@ -46,7 +46,7 @@ describe('3D map', () => {
       }
     };
 
-    currentScene.emit({
+    setScene({
       addCollisionObject: sinon.stub(),
       removeCollisionObject: sinon.stub()
     });

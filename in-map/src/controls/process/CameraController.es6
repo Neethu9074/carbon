@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
 import BaseCameraController from 'in-map/src/controls/common/CameraController';
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import AnimationController from 'in-map/src/AnimationController';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
 import * as time from 'in-map/src/timeCalculations';
@@ -133,7 +134,7 @@ export default class CameraController extends BaseCameraController {
     this.camera.updateMatrix();
     this.camera.update();
 
-    this.scene.renderScene();
+    requestRendering();
   }
 
   onZoom(delta) {

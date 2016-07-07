@@ -20,10 +20,8 @@ describe('3D map', () => {
 
   beforeEach(() => {
     scene = {
-      addSceneObject() {},
       onZoom() {},
-      setCameraFromSize() {},
-      renderScene() {}
+      setCameraFromSize() {}
     };
     map = {
       camera: {

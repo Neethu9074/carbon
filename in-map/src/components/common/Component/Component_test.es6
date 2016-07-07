@@ -11,9 +11,7 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
-    sceneObject = {
-      renderScene: sinon.stub()
-    };
+    sceneObject = {};
 
     component = new Component(sceneObject);
     component.onInactiveEnter = sinon.stub();
@@ -27,19 +25,5 @@ describe('3D map', () => {
       component.initialized();
       expect(component.isActive()).to.equal(true);
     });
-
-    it('does not call a render update if there us no update', () => {
-      component.initialized();
-      component.handleComponentTimeEvent();
-      expect(sceneObject.renderScene).to.have.callCount(0);
-    });
-
-    it('does not call a render update if there us no update', () => {
-      component.initialized();
-      component.needsUpdate = true;
-      component.handleComponentTimeEvent();
-      expect(sceneObject.renderScene).to.have.callCount(1);
-    });
-
   });
 });

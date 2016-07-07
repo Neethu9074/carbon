@@ -91,10 +91,6 @@ export default class MetricComponent extends Component {
     this.sceneObject.removeCollisionObject(obj, layer);
   }
 
-  renderScene() {
-    this.sceneObject.renderScene();
-  }
-
   setupFragment() {
     this.contentProvider = new PCM({
       contentProvider: new SCM({

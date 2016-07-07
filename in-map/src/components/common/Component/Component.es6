@@ -1,4 +1,5 @@
 import {StateMachine, PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import {requestRendering} from 'in-map/src/stores/renderingStore';
 import * as time from 'in-map/src/timeCalculations';
 import Subscriber from 'in-map/src/Subscriber';
 
@@ -54,7 +55,7 @@ export default class Component extends Subscriber {
   handleComponentTimeEvent() {
     if (this.needsUpdate) {
       this.update();
-      this.sceneObject.renderScene();
+      requestRendering();
     }
   }
 
