@@ -11,7 +11,7 @@ import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
 
 
-const NODE_BASE_COLOR = hexToRGBNormalized('#bababa');
+const NODE_BASE_COLOR = hexToRGBNormalized('#f4f7fa');
 
 export default class Node extends SceneObject {
 

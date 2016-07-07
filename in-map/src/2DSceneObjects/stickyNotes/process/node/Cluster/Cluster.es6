@@ -33,7 +33,7 @@ const ProcessCluster = React.createClass({
   },
 
   render() {
-    const backgroundColor = (this.state.highlighted || this.state.expanded) ? '#fff' : '#bababa';
+    const backgroundColor = (this.state.highlighted || this.state.expanded) ? '#fff' : '#f4f7fa';
 
     return (
       <div className={block + '__content'}
