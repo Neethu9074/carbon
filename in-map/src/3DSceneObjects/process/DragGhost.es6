@@ -4,6 +4,11 @@ import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import eventBus from 'in-map/src/eventbus';
 
 
+const GHOST_MATERIAL = new THREE.MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.25
+});
+
 export default class DragGhost extends SceneObject {
 
   constructor(parent) {
@@ -13,13 +18,9 @@ export default class DragGhost extends SceneObject {
 
     const obj = this.obj = new THREE.Mesh(
       parent.getDragGhostGeometry(),
-      new THREE.MeshBasicMaterial({
-        transparent: true,
-        opacity: 0.25
-      })
+      GHOST_MATERIAL
     );
 
-    obj.position.set(0, 0, 0);
     this.scene.addSceneObject(obj);
     this.scene.renderScene();
 
@@ -33,17 +34,15 @@ export default class DragGhost extends SceneObject {
   }
 
   dispose() {
+    super.dispose();
+
     this.scene.removeSceneObject(this.obj);
-    this.scene.renderScene();
 
     const dropPosition = this.currentPosition;
     this.parent.getComponent('position').setPosition(dropPosition.x, dropPosition.y, dropPosition.z);
     this.currentPosition = null;
 
-    super.dispose();
-
     this.obj.geometry.dispose();
-    this.obj.material.dispose();
     this.obj = null;
   }
 }
