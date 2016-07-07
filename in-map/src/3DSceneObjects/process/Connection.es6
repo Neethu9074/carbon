@@ -1,3 +1,4 @@
+import GhostEdgeSpawnerComponent from 'in-map/src/components/process/GhostEdgeSpawnerComponent';
 import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
@@ -29,6 +30,9 @@ export default class Connection extends BaseConnection {
       this.eventEmitter.on('updateGeometry').debounce(10)
                                             .subscribe(this.updateGeometry.bind(this))
     ]);
+
+    // create this later, afer sourceNode and destinationNode are available
+    this.components.ghostEdgeSpawner = new GhostEdgeSpawnerComponent({sceneObject: this});
 
     addEdge(this);
   }
