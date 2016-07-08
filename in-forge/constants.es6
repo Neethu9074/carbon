@@ -16,6 +16,7 @@ export const plugins = {
   jira: 'jiraApplication',
   jvm: 'jvmRuntimePlatform',
   kafka: 'kafka',
+  logicalService: 'logicalService',
   mongodb: 'mongoDb',
   mssql: 'msSqlDatabase',
   mysql: 'mySqlDatabase',
@@ -37,14 +38,7 @@ export const plugins = {
   genericZone: 'genericZone',
   unmonitoredHost: 'unmonitoredHost',
   haproxy: 'hAProxy',
-  oracledb: 'oracleDB',
-
-  // TODO TEMPORARY HACK FOR PROCESS VIEW
-  dummyJavaApp: 'dummyJavaApp',
-  dummyMysqlSchema: 'dummyMysqlSchema',
-  dummyMysqlDb: 'dummyMysqlDb',
-  dummyTomcat: 'dummyTomcat',
-  dummyConnection: 'dummyConnection'
+  oracledb: 'oracleDB'
 };
 
  export const fullyQualifiedPlugins = {
@@ -63,6 +57,7 @@ export const plugins = {
    jiraApplication: 'com.instana.forge.infrastructure.application.jira.JiraApplication',
    jvmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
    kafka: 'com.instana.forge.infrastructure.messaging.kafka.Kafka',
+   logicalService: 'com.instana.forge.connection.LogicalService',
    mongoDb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
    msSqlDatabase: 'com.instana.forge.infrastructure.database.mssql.MsSqlDatabase',
    mySqlDatabase: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
@@ -84,12 +79,5 @@ export const plugins = {
    genericZone: 'com.instana.forge.hardware.GenericZone',
    unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
    hAProxy: 'com.instana.forge.infrastructure.loadbalancer.haproxy.HAProxy',
-   oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB',
-
-   // TODO TEMPORARY HACK FOR PROCESS VIEW
-   dummyJavaApp: 'dummyJavaApp',
-   dummyMysqlSchema: 'dummyMysqlSchema',
-   dummyMysqlDb: 'dummyMysqlDb',
-   dummyTomcat: 'dummyTomcat',
-   dummyConnection: 'dummyConnection'
+   oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB'
  };
