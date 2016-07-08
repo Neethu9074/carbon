@@ -88,6 +88,19 @@ Once executed, verify that it was successful via the usual `npm test`.
 ### I cannot access the local development domain in Chrome due to HSTS!
 While we do not use certificate pinning, Chromium became even more strict as of late (February 2016). Chrome will add `*.instana.io` to its custom rule HSTS list upon visiting `instana.io`. The only solution right now is to disable this entry via [chrome://net-internals/#hsts](chrome://net-internals/#hsts). Type in the domain `instana.io` and hit the delete button.
 
+### Instana dev extensions are saying that no stores could be found
+This most likely occur due to stores which contain cyclic structures and therefore cannot be JSON serialized. To find out which stores is breaking the dev extensions, run the following JavaScript snippet in the developer console.
+
+```javascript
+Object.keys(instana.dev.storeStates).forEach(key => {
+  try {
+    JSON.stringify(instana.dev.storeStates[key]);
+  } catch (e) {
+    console.error('Store "%s" cannot be JSON serialized', key);
+  }
+});
+```
+
 ## Theming
 The theming system in place is used to support the default dark theme (called *night*) and a brighter theme with stronger contrasts (called *day*). Themes are switched based on a cookie called `in-theme`. This cookie is read by `in-server` and depending on its value the server returns varying HTML responses.
 
