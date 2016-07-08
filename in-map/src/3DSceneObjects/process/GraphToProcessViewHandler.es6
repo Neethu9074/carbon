@@ -44,12 +44,6 @@ export default class GraphToProcessViewAdapter {
       const parentNodeIds = subNodes[physicalNodeId];
       this.client.createSubNode(physicalNodeId, parentNodeIds);
     });
-
-    // this.removeUnusedNodes();
-  }
-
-  removeUnusedNodes() {
-    this.client.removeNode();
   }
 
   dispose() {

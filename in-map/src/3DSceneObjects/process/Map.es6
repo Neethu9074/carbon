@@ -67,18 +67,23 @@ export default class Map extends BaseMap {
     return newNode;
   }
 
-  createSubNode(id, parentIds) {
-    this.nodes[id] = new NodeSpawner(id, this, parentIds);
-    parentIds.forEach(parentId => this.createNode(parentId).addChild(id));
-  }
-
   removeNode(id) {
     this.nodes[id].dispose();
     delete this.nodes[id];
   }
 
+  createSubNode(id, parentIds) {
+    if (!this.nodes[id]) {
+      this.nodes[id] = new NodeSpawner(id, this, parentIds);
+    }
+    parentIds.forEach(parentId => this.createNode(parentId).addChild(id));
+  }
+
   createEdge(entity) {
-    this.edges[entity.get('id')] = new EdgeSpawner(entity, this);
+    const entityId = entity.get('id');
+    if (!this.edges[entityId]) {
+      this.edges[entityId] = new EdgeSpawner(entity, this);
+    }
   }
 
   removeEdge(id) {
