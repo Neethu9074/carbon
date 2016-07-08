@@ -9,6 +9,7 @@ import './jms';
 import './kafka';
 import './mongo';
 import './OpenEJB';
+import './php';
 import './play2';
 import './rabbitMq';
 import './redis';
