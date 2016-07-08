@@ -1,7 +1,7 @@
 import {Animation, CubicEasing} from 'koijs';
 
+import {eventBus} from 'in-map/src/services/eventBus';
 import * as time from 'in-map/src/timeCalculations';
-import eventBus from 'in-map/src/eventbus';
 
 
 const easing = new CubicEasing('inOut');

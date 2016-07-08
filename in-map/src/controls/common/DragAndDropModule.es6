@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {onDown} from 'in-services/reactiveMouseEvents';
-import eventBus from 'in-map/src/eventbus';
+import {eventBus} from 'in-map/src/services/eventBus';
 
 import Module from './Module';
 

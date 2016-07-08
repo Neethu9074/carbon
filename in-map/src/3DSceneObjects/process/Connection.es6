@@ -6,7 +6,7 @@ import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
-import eventBus from 'in-map/src/eventbus';
+import {eventBus} from 'in-map/src/services/eventBus';
 import {theme} from 'in-services/theme';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';

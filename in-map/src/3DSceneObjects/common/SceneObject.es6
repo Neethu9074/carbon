@@ -3,9 +3,9 @@ import RoEmitter from 'roemitter';
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import {currentTooltip, tooltipForSceneObject} from 'in-map/src/mapStores';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
+import {eventBus} from 'in-map/src/services/eventBus';
 import {scene$} from 'in-map/src/stores/sceneStore';
 import Subscriber from 'in-map/src/Subscriber';
-import eventBus from 'in-map/src/eventbus';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import PositionComponent from '../../components/common/PositionComponent';

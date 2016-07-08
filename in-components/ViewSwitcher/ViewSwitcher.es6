@@ -2,9 +2,9 @@ import React from 'react';
 
 import {navigationParameters$, goToTraceView, goToMap} from 'in-stores/navigation';
 import {isInternalEnvironment} from 'in-services/config';
+import {eventBus} from 'in-map/src/services/eventBus';
 import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
-import eventBus from 'in-map/src/eventbus';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewSwitcher.less';

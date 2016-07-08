@@ -4,13 +4,13 @@ import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot
 import TooltipHandler from 'in-map/src/2DSceneObjects/tooltips/TooltipHandler';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {frame$, requestRendering} from 'in-map/src/stores/renderingStore';
+import {eventBus, clearEmitter} from 'in-map/src/services/eventBus';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {activeMetric} from 'in-services/stores/metrics';
 import {setScene} from 'in-map/src/stores/sceneStore';
 import {clearSelectedEvent} from 'in-stores/events';
-import eventBus from 'in-map/src/eventbus';
 import {theme} from 'in-services/theme';
 
 import './lib/Octree';
@@ -362,5 +362,6 @@ export default class Scene {
     }
 
     this.clearStores();
+    clearEmitter();
   }
 }

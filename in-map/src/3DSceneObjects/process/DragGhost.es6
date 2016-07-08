@@ -3,7 +3,7 @@ import THREE from 'three';
 import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
 import {addGhost, removeGhost} from 'in-map/src/stores/process/activeGhosts';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
-import eventBus from 'in-map/src/eventbus';
+import {eventBus} from 'in-map/src/services/eventBus';
 
 
 const GHOST_MATERIAL = new THREE.MeshBasicMaterial({

@@ -4,8 +4,8 @@ import THREE from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
+import {eventBus} from 'in-map/src/services/eventBus';
 import {find} from 'in-services/arrayUtils';
-import eventBus from 'in-map/src/eventbus';
 
 import fragmentShader from './metricFragmentShader.glsl';
 import vertexShader from './metricVertexShader.glsl';

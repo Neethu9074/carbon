@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
-import eventBus from 'in-map/src/eventbus';
+import {eventBus} from 'in-map/src/services/eventBus';
 
 
 const GHOST_MATERIAL = new THREE.LineBasicMaterial({

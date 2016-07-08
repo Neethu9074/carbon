@@ -1,8 +1,8 @@
 import OrthographicCamera from 'in-map/src/3DSceneObjects/common/OrthographicCamera';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
+import {eventBus} from 'in-map/src/services/eventBus';
 import * as time from 'in-map/src/timeCalculations';
-import eventBus from 'in-map/src/eventbus';
 
 
 export default class Map extends SceneObject {

@@ -2,7 +2,7 @@
 
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/physical/Node';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
-import eventBus from 'in-map/src/eventbus';
+import {eventBus} from 'in-map/src/services/eventBus';
 import {theme} from 'in-services/theme';
 
 import ConnectionsHandlerComponent from 'in-map/src/components/physical/ConnectionsHandlerComponent';

@@ -10,7 +10,7 @@ import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {getDeltaTime} from 'in-map/src/timeCalculations';
-import eventBus from 'in-map/src/eventbus';
+import {eventBus} from 'in-map/src/services/eventBus';
 
 
 export default class ParticleEmitter extends SceneObject {

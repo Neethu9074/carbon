@@ -3,7 +3,7 @@ import THREE from 'three';
 import TooltipLayer from 'in-map/src/2DSceneObjects/tooltips/physical/Layer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
-import eventBus from 'in-map/src/eventbus';
+import {eventBus} from 'in-map/src/services/eventBus';
 import {theme} from 'in-services/theme';
 
 import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
