@@ -39,7 +39,6 @@ const Metric = getSnapshot(
       }
 
       const kpis = getKpis(snapshot);
-
       return (
         <div onMouseEnter={() => this.setState({isHighlighted: true})}
              onMouseLeave={() => this.setState({isHighlighted: false})}>
@@ -77,7 +76,8 @@ const SparkChart = connectTo({
                                 timeframe={timeframe}
                                 snapshotId={snapshotId}
                                 design='dark'
-                                metric={metric} />
+                                metric={metric}
+                                tooltipFormatter={formatter}/>
       <div className={block + '__description'}>
         <span className={block + '__title'}>
           {title}

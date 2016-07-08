@@ -19,7 +19,6 @@ export default function createSparkChart({width,
                                           timeframe,
                                           tooltipFormatter,
                                           design = 'light'}) {
-
   let metricLineStrokeColor;
   let metricLineFillColor;
   if (design === 'light') {

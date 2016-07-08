@@ -1,22 +1,22 @@
 import pbst from 'in-sdk/util/pluginBasedSnapshotTransformation';
 import {
-  msZeroDecimalPlaces,
-  zeroDecimalPlaces
+  msTwoDecimalPlaces,
+  twoDecimalPlaces
 } from 'in-services/formatters/number';
 
 const defaultKpis = () => [
   {
     metric: 'count',
     label: 'calls/s',
-    formatter: zeroDecimalPlaces
+    formatter: twoDecimalPlaces
   }, {
     metric: 'duration.stats.95th',
     label: 'latency 95th',
-    formatter: msZeroDecimalPlaces
+    formatter: msTwoDecimalPlaces
   }, {
     metric: 'error_count',
     label: 'errors/s',
-    formatter: zeroDecimalPlaces
+    formatter: twoDecimalPlaces
   }
 ];
 
