@@ -10,7 +10,7 @@ const defaultKpis = () => [
     label: 'calls/s',
     formatter: twoDecimalPlaces
   }, {
-    metric: 'duration.stats.95th',
+    metric: 'duration.95th',
     label: 'latency 95th',
     formatter: msTwoDecimalPlaces
   }, {
