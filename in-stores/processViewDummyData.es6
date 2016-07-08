@@ -3,29 +3,45 @@ import Immutable from 'immutable';
 
 
 const processView$ = create()
-  .emit(Immutable.fromJS([
-    edge('customer-app', 'customer-schema', 'to'),
-    edge('tracking-app', 'customer-app', 'to'),
-    edge('shipping-app', 'customer-app', 'to'),
-    edge('tomcat-1', 'tracking-app', 'of'),
-    edge('tomcat-2', 'tracking-app', 'of'),
-    edge('tomcat-2', 'shipping-app', 'of'),
-    edge('tomcat-2', 'mysql-2', 'to'),
-    edge('shipping-app', 'shipping-schema', 'to'),
-    edge('mysql-1', 'customer-schema', 'of'),
-    edge('mysql-2', 'customer-schema', 'of'),
-    edge('mysql-2', 'shipping-schema', 'of')
-  ]))
+  .emit(Immutable.fromJS(
+    entity('ROOT', [
+      entity('customer-schema',
+             [entity('mysql-1'), entity('mysql-2')]
+      ),
+      entity('shipping-app',
+             [entity('tomcat-2')],
+             ['customer-app', 'shipping-schema']
+      ),
+      entity('customer-app',
+             [],
+             ['customer-schema']
+      ),
+      entity('tracking-app',
+             [entity('tomcat-1'), entity('tomcat-2')],
+             ['customer-app']
+      ),
+      entity('shipping-schema',
+             [entity('mysql-2')]
+      )
+    ])
+  ))
   .freeze();
 
-
-function edge(from, to, rel) {
+function entity(id, children = [], outgoingConnections = []) {
   return {
-    from: 'process-view__' + from,
-    to: 'process-view__' + to,
-    relation: rel,
-    type: 'add',
-    id: 'process-view-connection:' + from + ',' + to + ',' + rel
+    id: 'process-view__' + id,
+    children,
+    outgoingConnections: outgoingConnections.map(to => connection(id + ',' + to,
+                                                                  'process-view__' + id,
+                                                                  'process-view__' + to))
+  };
+}
+
+function connection(id, from, to) {
+  return {
+    id: 'process-view-connection:' + id,
+    from,
+    to
   };
 }
 

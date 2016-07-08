@@ -58,10 +58,6 @@ export default class Map extends BaseMap {
     });
   }
 
-  createEdge(id, entity) {
-    this.edges[id] = new EdgeSpawner(entity, this);
-  }
-
   createNode(id) {
     if (this.nodes[id]) {
       return this.nodes[id];
@@ -76,14 +72,18 @@ export default class Map extends BaseMap {
     parentIds.forEach(parentId => this.createNode(parentId).addChild(id));
   }
 
-  removeEdge(id) {
-    this.edges[id].dispose();
-    delete this.edges[id];
-  }
-
   removeNode(id) {
     this.nodes[id].dispose();
     delete this.nodes[id];
+  }
+
+  createEdge(entity) {
+    this.edges[entity.get('id')] = new EdgeSpawner(entity, this);
+  }
+
+  removeEdge(id) {
+    this.edges[id].dispose();
+    delete this.edges[id];
   }
 
   getAllNodes() {

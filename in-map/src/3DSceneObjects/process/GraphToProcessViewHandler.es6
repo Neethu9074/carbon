@@ -1,137 +1,61 @@
-import {remove} from 'lodash';
+import immutable from 'immutable';
 
-import {emptyArray} from 'in-services/fixedObjects';
 import {viewStructure} from 'in-stores/view';
 
-
-const ADD = 'add';
-const OF = 'of';
 
 export default class GraphToProcessViewAdapter {
 
   constructor(client) {
-    this.nodes = {};
-    this.edges = {};
-
-    // needed for fast parent lookup
-    this.parentLUT = {};
-
     this.client = client;
 
-    this.viewStructureSubscription = viewStructure.subscribe(structures => this.onInventoryUpdate(structures));
+    this.viewStructureSubscription = viewStructure.subscribe(root => this.onInventoryUpdate(root));
   }
 
-  onInventoryUpdate(edgeModifications) {
-    // maps node id => node instance used to remove unused nodes from the graph
-    const modifiedNodes = {};
+  onInventoryUpdate(root) {
+    const subNodes = {};
 
-    edgeModifications.forEach(edgeModification => {
-      const from = edgeModification.get('from');
-      const to = edgeModification.get('to');
+    // setup structure
+    root.get('children').forEach(processNodeEntity => {
+      const processNodeId = processNodeEntity.get('id');
+      this.client.createNode(processNodeId);
 
-      if (edgeModification.get('relation') === OF) {
-        if (edgeModification.get('type') === ADD) {
-          if (!this.parentLUT[from]) {
-            this.parentLUT[from] = [];
-          }
-          this.parentLUT[from].push(to);
-        } else {
-          remove(this.parentLUT[from], id => id === to);
+      processNodeEntity.get('outgoingConnections').forEach(connectionEntity =>
+        this.client.createEdge(connectionEntity));
+
+      processNodeEntity.get('children').forEach(physicalNodeEntity => {
+        const physicalNodeId = physicalNodeEntity.get('id');
+        physicalNodeEntity.get('outgoingConnections').forEach(connectionEntity =>
+          this.client.createEdge(connectionEntity));
+
+        this.client.createEdge(immutable.fromJS({
+          id: processNodeId + ',' + physicalNodeId,
+          from: processNodeId,
+          to: physicalNodeId
+        }));
+
+        if (!subNodes[physicalNodeId]) {
+          subNodes[physicalNodeId] = [];
         }
-      }
+        subNodes[physicalNodeId].push(processNodeId);
+      });
     });
 
-    edgeModifications.forEach(edgeModification => {
-      const edgeId = edgeModification.get('id');
-      const fromNode = this.getOrCreateNode(edgeModification.get('from'));
-      modifiedNodes[fromNode.id] = fromNode;
-      const toNode = this.getOrCreateNode(edgeModification.get('to'));
-      modifiedNodes[toNode.id] = toNode;
-
-      if (edgeModification.get('type') === ADD) {
-        // nothing to do, we already know about this edge
-        if (this.edges[edgeId]) {
-          return;
-        }
-
-        this.edges[edgeId] = true;
-        this.client.createEdge(edgeId, edgeModification);
-
-        fromNode.increaseEdgeCount();
-        toNode.increaseEdgeCount();
-      } else {
-        const edge = this.edges[edgeId];
-
-        // nothing to do, we never knew about this edge
-        if (!edge) {
-          return;
-        }
-
-        delete this.edges[edgeId];
-        this.client.removeEdge(edgeId);
-
-        fromNode.decreaseEdgeCount();
-        toNode.decreaseEdgeCount();
-      }
+    Object.keys(subNodes).forEach(physicalNodeId => {
+      const parentNodeIds = subNodes[physicalNodeId];
+      this.client.createSubNode(physicalNodeId, parentNodeIds);
     });
 
-    this.removeUnusedNodes();
+    // this.removeUnusedNodes();
   }
 
   removeUnusedNodes() {
-    Object.keys(this.nodes).forEach(snapshotId => {
-      const node = this.nodes[snapshotId];
-
-      if (node.getEdgeCount() === 0) {
-        delete this.nodes[snapshotId];
-        this.client.removeNode(snapshotId);
-      }
-    });
-  }
-
-  getOrCreateNode(snapshotId) {
-    let existingNode = this.nodes[snapshotId];
-    if (existingNode) {
-      return existingNode;
-    }
-
-    existingNode = this.nodes[snapshotId] = this.createNode(snapshotId);
-
-    const parentNodeIds = this.getParentNodeIdsFor(snapshotId);
-    if (parentNodeIds.length === 0) {
-      this.client.createNode(snapshotId);
-    } else {
-      this.client.createSubNode(snapshotId, parentNodeIds);
-    }
-    return existingNode;
-  }
-
-  getParentNodeIdsFor(nodeId) {
-    return this.parentLUT[nodeId] ? this.parentLUT[nodeId] : emptyArray;
-  }
-
-  createNode(id) {
-    let edgeCount = 0;
-    return {
-      id,
-      getEdgeCount: () => {
-        return edgeCount;
-      },
-      increaseEdgeCount: () => {
-        edgeCount++;
-      },
-      decreaseEdgeCount: () => {
-        edgeCount--;
-      }
-    };
+    this.client.removeNode();
   }
 
   dispose() {
     this.viewStructureSubscription.dispose();
+    this.viewStructureSubscription = null;
 
-    this.parentLUT = null;
     this.client = null;
-    this.nodes = null;
-    this.edges = null;
   }
 }
