@@ -3,6 +3,7 @@ import './corba';
 import './elasticsearch';
 import './file';
 import './hc';
+import './http';
 import './jdbc';
 import './jersey';
 import './jms';
