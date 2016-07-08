@@ -212,4 +212,25 @@ describe('in-services/queryParser', () => {
       }
     ]);
   });
+
+  it('must support escaped quotes in quoted strings', () => {
+    expect(parse('host.hostname="foo\\"bla"')).to.deep.equal([
+      {
+        type: 'kv',
+        key: 'host.hostname',
+        operator: '=',
+        value: 'foo\\"bla',
+        row: 1
+      }
+    ]);
+  });
+
+  it('must support escaped quotes in quoted free text strings', () => {
+    expect(parse('"foo\\"bla"')).to.deep.equal([
+      {
+        type: 'freeText',
+        text: 'foo\\"bla'
+      }
+    ]);
+  });
 });
