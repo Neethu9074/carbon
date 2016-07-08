@@ -1,5 +1,4 @@
 import createHistoricMetricsObservable from 'in-services/subscription/historicMetrics';
-import {getDummyMetric, getDummyHistoricMetrics} from 'in-stores/processViewDummyData';
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -41,11 +40,6 @@ const rollupDurationThresholds = [
 
 
 export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
-  // TODO TEMPORARY HACK FOR PROCESS VIEW
-  if (snapshotId.indexOf('process-view') === 0) {
-    return getDummyMetric(metric);
-  }
-
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe);
   }
@@ -65,11 +59,6 @@ export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
 
 
 function getHistoricMetrics({snapshotId, metric, timeframe, rollup}) {
-  // TODO TEMPORARY HACK FOR PROCESS VIEW
-  if (snapshotId.indexOf('process-view') === 0) {
-    return getDummyHistoricMetrics(metric, timeframe, rollup);
-  }
-
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe);
   }
