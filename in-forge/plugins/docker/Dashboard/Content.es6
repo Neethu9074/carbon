@@ -29,7 +29,73 @@ export default function DockerDashboard({snapshot, timeframe}) {
 
   return (
     <div>
+      <DashboardSection title='CPU'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 10
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'cpu.total_usage',
+                             'cpu.system_usage',
+                             'cpu.user_usage'
+                           ],
+                           labels: [
+                             'Total',
+                             'System',
+                             'User'
+                           ],
+                           type: 'line'
+                         }}/>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 10
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'cpu.throttling_count',
+                             'cpu.throttling_time'
+                           ],
+                           labels: [
+                             'Throttling count',
+                             'Throttling time'
+                           ],
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
       <DashboardSection title='Memory'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 10
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'memory.usage',
+                             'memory.max_usage',
+                             'memory.total_rss',
+                             'memory.total_cache'
+                           ],
+                           labels: [
+                             'Usage',
+                             'Max usage',
+                             'RSS',
+                             'Cache'
+                           ],
+                           formatter: bytesTwoDecimalPlaces,
+                           type: 'line'
+                         }}/>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={chartHeight}
@@ -52,6 +118,27 @@ export default function DockerDashboard({snapshot, timeframe}) {
                              'inactive_file'
                            ],
                            formatter: bytesTwoDecimalPlaces,
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
+      <DashboardSection title='Block IO'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 10
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'blkio.blk_read',
+                             'blkio.blk_write'
+                           ],
+                           labels: [
+                             'Read',
+                             'Write'
+                           ],
                            type: 'line'
                          }}/>
       </DashboardSection>
