@@ -36,9 +36,11 @@ export default class NodeCluster extends Node {
         }
       }),
 
-      this.eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition => {
+      this.eventEmitter.on('isVisibleChanged_screenPositionCluster').distinct().subscribe(isVisible => {
         if (this.stickyNote) {
-          this.stickyNote.setScreenPosition(screenPosition);
+          isVisible ?
+            this.stickyNote.show() :
+            this.stickyNote.hide();
         }
       }),
 
@@ -116,21 +118,26 @@ export default class NodeCluster extends Node {
 
   setChildIds(childIds) {
     const numChildren = childIds ? childIds.size : 0;
-
     if (numChildren === 0) {
-      if (this.stickyNote) {
-        this.stickyNote.dispose();
-        this.stickyNote = null;
-      }
-      return;
+      this.disposeSticky();
+    } else {
+      this.createSticky();
+      this.stickyNote.setNumChildren(numChildren);
+      this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
     }
+  }
 
+  createSticky() {
     if (!this.stickyNote) {
       this.stickyNote = new StickyNoteCluster(this);
     }
+  }
 
-    this.stickyNote.setNumChildren(numChildren);
-    this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
+  disposeSticky() {
+    if (this.stickyNote) {
+      this.stickyNote.dispose();
+      this.stickyNote = null;
+    }
   }
 
   expand() {
@@ -169,10 +176,7 @@ export default class NodeCluster extends Node {
   dispose() {
     super.dispose();
 
-    if (this.stickyNote) {
-      this.stickyNote.dispose();
-      this.stickyNote = null;
-    }
+    this.disposeSticky();
 
     this.label.dispose();
     this.label = null;
