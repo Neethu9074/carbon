@@ -1,6 +1,4 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {darkColor, midColor} from 'in-components/timeline/timelineConfig';
-
 
 export default class BackgroundRenderer extends BasicRenderer {
 
@@ -19,12 +17,15 @@ export default class BackgroundRenderer extends BasicRenderer {
     const buffer = this.backBuffer;
     const width = this.width;
 
-    buffer.fillStyle = darkColor;
+    // fill whole canvas with color of lines
+    buffer.fillStyle = '#43565E';
     buffer.fillRect(0, 0, width, this.height);
 
-    buffer.fillStyle = midColor;
-    buffer.fillRect(0, 40, width, 40);
-    buffer.fillRect(0, 81, width, 40);
-    buffer.fillRect(0, 122, width, 40);
+    // fill the rest of the canvas with the actual background color
+    buffer.fillStyle = '#2D4048';
+    buffer.fillRect(0, 0, width, 36);
+    buffer.fillRect(0, 37, width, 36);
+    buffer.fillRect(0, 74, width, 36);
+    buffer.fillRect(0, 111, width, 36);
   }
 }

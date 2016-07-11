@@ -211,8 +211,8 @@ module.exports = defaultsDeep({
   },
   health,
   footer: {
-    height: 110,
-    heightOpen: 192
+    height: 36,
+    heightOpen: 172
   },
   header: {
     height: 40

@@ -5,7 +5,7 @@ import * as issueTracker from 'in-services/issueTracker';
 export default class ChangeEventRenderer extends BasicEventRenderer {
 
   constructor(backBuffer, scale, iconSize) {
-    super(backBuffer, scale, 122, iconSize);
+    super(backBuffer, scale, 111, iconSize);
   }
 
   draw(event, isHighlighted) {

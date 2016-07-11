@@ -107,14 +107,14 @@ export default class EventRenderer extends BasicRenderer {
 
     const prevValue = buffer.globalAlpha;
     buffer.globalAlpha = 0.2;
-    buffer.fillRect(x, this.y, 1, 40);
+    buffer.fillRect(x, this.y, 1, 36);
 
     if (event.get('id') === this.selectedEventId) {
       const to = event.get('state') === 'open' ?
         this.backBuffer.canvas.width :
         scale.getRange(event.get('end'));
 
-      buffer.fillRect(x, this.y, to - x, 40);
+      buffer.fillRect(x, this.y, to - x, 36);
     }
 
     buffer.globalAlpha = prevValue;

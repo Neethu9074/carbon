@@ -32,10 +32,17 @@ export default connectTo({
     },
 
     render() {
+      let classes = block;
+
+      if (!this.props.isCollapsed) {
+        classes = `${classes} ${block}--expanded`;
+      }
+
       return (
-        <div className={block}>
+        <div className={classes}>
           <EventTooltip />
-          <div className={this.getWrapperClassName()}>
+
+          <div className={`${block}__wrapper`}>
             <TimelineMenu />
             <TimelineCanvasReactWrapper />
           </div>
@@ -50,7 +57,13 @@ export default connectTo({
 
     getWrapperClassName() {
       const base = block + '__wrapper';
-      return base + (this.props.isCollapsed ? ' ' + base + '--collapsed' : '');
+      let classes = base;
+
+      if (!this.props.isCollapsed) {
+        classes = `${classes} ${base}--expanded`;
+      }
+
+      return classes;
     }
   })
 );

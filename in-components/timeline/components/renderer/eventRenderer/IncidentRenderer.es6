@@ -5,7 +5,7 @@ import icons from 'in-components/timeline/icons/icons';
 export default class IncidentRenderer extends BasicEventRenderer {
 
   constructor(backBuffer, scale, iconSize) {
-    super(backBuffer, scale, 40, iconSize);
+    super(backBuffer, scale, 37, iconSize);
   }
 
   draw(incident, isHighlighted) {

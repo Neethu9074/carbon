@@ -19,7 +19,7 @@ import createScale from 'in-charts/scale';
 
 export default function createTimelineRenderer({container, canvas}) {
   const changeSignal = true;
-  const height = 162;
+  const height = 148;
   let width;
   let collapsed;
 

@@ -1,28 +1,62 @@
 @import "~in-themes/active.less";
 
 .in-timeline {
-  @menu-height: 30px;
+  @transition-duration: 0.20s;
 
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  height: @footer__height * 1px;
 
   background: #2e4048;
   z-index: @z-index__footer;
 
+  transition: height @transition-duration ease-in-out;
+  overflow: hidden;
+
+  &:hover {
+    height: 98px;
+
+    .in-timeline__wrapper {
+      top: 0;
+    }
+  }
+
+  &--expanded, &--expanded:hover {
+    height: @footer__height-open * 1px;
+
+    .in-timeline__wrapper {
+      top: 0px;
+    }
+
+    .in-timeline__bottom {
+      top: 148px;
+    }
+  }
+
   &__wrapper {
-    height: @footer__height-open * 1px - @menu-height;
+    position: absolute;
+    top: -37px;
+    left: 0;
+    right: 0;
+    height: 148px;
     overflow: hidden;
 
-    transition: height 0.25s ease-in-out;
+    transition: top @transition-duration ease-in-out;
 
-    &--collapsed {
-      height: @footer__height * 1px - @menu-height;
-    }
+    background: #2D4048;
   }
 
   &__bottom {
     display: flex;
+    position: absolute;
+    top: 74px;
+    left: 0;
+    right: 0;
+    height: 24px;
+    background: #172429;
+
+    transition: top @transition-duration ease-in-out;
   }
 }
