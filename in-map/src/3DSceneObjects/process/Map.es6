@@ -46,9 +46,6 @@ export default class Map extends BaseMap {
   setupFactories() {
     const factories = this.factories;
 
-    factories.transparentSMF = new SingleMeshFactory();
-    factories.transparentSMF.material.opacity = 0.8;
-
     factories.solidSMF = new SingleMeshFactory();
     factories.solidSMF.material.transparent = false;
 

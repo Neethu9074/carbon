@@ -68,7 +68,7 @@ export default class NodeCluster extends Node {
 
   addComponents(components) {
     const sceneObject = this;
-    const factory = this.getFactory('transparentSMF');
+    const factory = this.getFactory('solidSMF');
 
     // add the mesh component to handle visual representation of the entity
     components.mesh = new MeshComponent({
