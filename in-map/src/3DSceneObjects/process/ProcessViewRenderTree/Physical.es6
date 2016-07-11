@@ -17,7 +17,7 @@ export default React.createClass({
     const entity = this.props.entity;
 
     voteUp(entity.get('id'));
-    entity.get('outgoingConnections').forEach(edge => addEdge(edge));
+    entity.get('outgoingConnections').forEach(edge => this.addEdge(edge));
   },
 
   componentWillUnmount() {
@@ -28,10 +28,18 @@ export default React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    nextProps.entity.get('outgoingConnections').forEach(edge => addEdge(edge));
+    nextProps.entity.get('outgoingConnections').forEach(edge => this.addEdge(edge));
   },
 
   render() {
     return null;
+  },
+
+  addEdge(edgeEntity) {
+    addEdge({
+      id: edgeEntity.get('id'),
+      from: this.props.entity.get('id'),
+      to: edgeEntity.get('otherId')
+    });
   }
 });

@@ -9,7 +9,7 @@ export const edges$ = edges.observable;
 
 export function addEdge(edge) {
   edges.applyStateMutation(edgeMap => {
-    edgeMap[edge.get('id')] = edge;
+    edgeMap[edge.id] = edge;
     return edgeMap;
   });
 }

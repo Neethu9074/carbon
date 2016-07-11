@@ -1,5 +1,4 @@
 import irpt from 'react-immutable-proptypes';
-import immutable from 'immutable';
 import React from 'react';
 
 import {addRelation, removeRelation} from 'in-map/src/stores/process/nodeChildrenRelations';
@@ -31,7 +30,7 @@ export default React.createClass({
     voteUp(id);
     addRelation(id, children);
     this.addChildrenAsEdges();
-    entity.get('outgoingConnections').forEach(edge => addEdge(edge));
+    entity.get('outgoingConnections').forEach(edge => this.addEdge(edge));
 
     this.expandedNodesSubscription = expandedNodes$.subscribe(ids =>
       this.setState({
@@ -56,7 +55,7 @@ export default React.createClass({
     const entity = nextProps.entity;
     const children = entity.get('children');
 
-    entity.get('outgoingConnections').forEach(edge => addEdge(edge));
+    entity.get('outgoingConnections').forEach(edge => this.addEdge(edge));
     addRelation(entity.get('id'), children);
     this.addChildrenAsEdges();
   },
@@ -75,12 +74,20 @@ export default React.createClass({
     );
   },
 
+  addEdge(edgeEntity) {
+    addEdge({
+      id: edgeEntity.get('id'),
+      from: this.props.entity.get('id'),
+      to: edgeEntity.get('otherId')
+    });
+  },
+
   addChildrenAsEdges() {
     const id = this.props.entity.get('id');
-    this.props.entity.get('children').forEach(child => addEdge(immutable.fromJS({
+    this.props.entity.get('children').forEach(child => addEdge({
       id: id + ',' + child.get('id'),
       from: id,
       to: child.get('id')
-    })));
+    }));
   }
 });
