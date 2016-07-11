@@ -27,36 +27,37 @@ export default class NodeCluster extends Node {
   constructor(props) {
     super(props);
 
+    const eventEmitter = this.eventEmitter;
     this.addSubscriptions([
       relations$.subscribe(relationsMap => this.setChildIds(relationsMap[this.id])),
 
-      this.eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition => {
-        if (this.stickyNote) {
-          this.stickyNote.setScreenPosition(screenPosition);
-        }
-      }),
-
-      this.eventEmitter.on('isVisibleChanged_screenPositionCluster').distinct().subscribe(isVisible => {
-        if (this.stickyNote) {
-          isVisible ?
-            this.stickyNote.show() :
-            this.stickyNote.hide();
-        }
-      }),
+      eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition =>
+        this.stickyNote.setScreenPosition(screenPosition)),
 
       combineLatest([
-        this.eventEmitter.on('onNumOfChildrenChanged').distinct(),
-        this.eventEmitter.on('onExpand').distinct()
+        eventEmitter.on('onNumOfChildrenChanged'),
+        eventEmitter.on('isVisibleChanged_screenPositionCluster')
+      ]).subscribe(([numChildren, isVisible]) =>
+        isVisible && numChildren > 0 ?
+          this.stickyNote.show() :
+          this.stickyNote.hide()
+      ),
+
+      combineLatest([
+        eventEmitter.on('onNumOfChildrenChanged').distinct(),
+        eventEmitter.on('onExpand').distinct()
       ]).subscribe(([numChildren, isExpanded]) => {
-        this.eventEmitter.emit('isFullyVisible', isExpanded || numChildren === 0);
+        eventEmitter.emit('isFullyVisible', isExpanded || numChildren === 0);
       })
     ]);
 
-    this.eventEmitter.emit('onExpand', false);
+    eventEmitter.emit('onExpand', false);
   }
 
   init() {
     this.height = 0.5;
+
+    this.stickyNote = new StickyNoteCluster(this);
 
     this.label = new Label({
       id: this.id,
@@ -118,26 +119,8 @@ export default class NodeCluster extends Node {
 
   setChildIds(childIds) {
     const numChildren = childIds ? childIds.size : 0;
-    if (numChildren === 0) {
-      this.disposeSticky();
-    } else {
-      this.createSticky();
-      this.stickyNote.setNumChildren(numChildren);
-      this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
-    }
-  }
-
-  createSticky() {
-    if (!this.stickyNote) {
-      this.stickyNote = new StickyNoteCluster(this);
-    }
-  }
-
-  disposeSticky() {
-    if (this.stickyNote) {
-      this.stickyNote.dispose();
-      this.stickyNote = null;
-    }
+    this.stickyNote.setNumChildren(numChildren);
+    this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
   }
 
   expand() {
@@ -176,7 +159,8 @@ export default class NodeCluster extends Node {
   dispose() {
     super.dispose();
 
-    this.disposeSticky();
+    this.stickyNote.dispose();
+    this.stickyNote = null;
 
     this.label.dispose();
     this.label = null;
