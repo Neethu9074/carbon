@@ -1,4 +1,3 @@
-import invariant from 'invariant';
 import * as ro from 'reactive-observables';
 
 import {emptyList} from 'in-services/fixedImmutables';
@@ -26,18 +25,4 @@ export function setActiveMetric(metric) {
 
 export function clearActiveMetric() {
   activeMetric.emit(null);
-}
-
-// an array of metric names to visualize
-// TODO Ben remove once Map has been refactored
-export const activeMetrics = ro.create(reemitSpec);
-activeMetrics.emit([]);
-
-export function select(metrics) {
-  invariant(metrics instanceof Array, 'Metrics must be an array of strings.');
-  activeMetrics.emit(metrics);
-}
-
-export function clear() {
-  activeMetrics.emit([]);
 }

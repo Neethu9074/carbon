@@ -8,6 +8,13 @@ module.exports = {
     tenantUnit: 'test',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
+  processview: {
+    uiBackendUrl: 'https://processview-instana.instana.io/api/data/',
+    groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'processview',
+    groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+  },
   nightly: {
     uiBackendUrl: 'https://nightly-instana.instana.io/api/data/',
     groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',

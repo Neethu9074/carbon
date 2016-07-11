@@ -71,7 +71,8 @@ const SparkChart = connectTo({
                                 timeframe={timeframe}
                                 snapshotId={snapshotId}
                                 design='dark'
-                                metric={metric} />
+                                metric={metric}
+                                tooltipFormatter={formatter}/>
       <div className={block + '__description'}>
         <span className={block + '__title'}>
           {title}

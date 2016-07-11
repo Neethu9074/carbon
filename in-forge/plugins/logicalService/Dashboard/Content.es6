@@ -1,7 +1,6 @@
 import React from 'react';
 
-
-export default function DummySidebar() {
+export default function LogicalServiceDashboard() {
   return (
     <div/>
   );

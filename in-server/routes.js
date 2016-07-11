@@ -65,8 +65,6 @@ router.get('/', (req, res) => {
     }
 
     if (status === 401) {
-      // TODO Ben once groundskeeper is publicly deployed this needs to be a redirect to
-      // the publicly available groundskeeper.
       const requestedAbsoluteUrl = serverConfig.baseUrl + req.originalUrl;
       res.redirect(
         serverConfig.baseUrl + '/auth/signIn?returnUrl=' + encodeURIComponent(requestedAbsoluteUrl)
