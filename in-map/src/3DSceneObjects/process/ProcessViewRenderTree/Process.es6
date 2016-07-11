@@ -1,4 +1,5 @@
 import irpt from 'react-immutable-proptypes';
+import immutable from 'immutable';
 import React from 'react';
 
 import {addRelation, removeRelation} from 'in-map/src/stores/process/nodeChildrenRelations';
@@ -8,16 +9,12 @@ import {voteUp, voteDown} from 'in-map/src/stores/process/processNodes';
 import {expandedNodes$} from 'in-map/src/stores/process/expandedNodes';
 
 
-const rpt = React.PropTypes;
-
 export default React.createClass({
 
   displayName: 'Process',
 
   propTypes: {
-    outgoingConnections: irpt.list.isRequired,
-    id: rpt.string.isRequired,
-    children: irpt.list
+    entity: irpt.map.isRequired
   },
 
   getInitialState() {
@@ -27,16 +24,18 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const props = this.props;
+    const entity = this.props.entity;
+    const id = entity.get('id');
+    const children = entity.get('children');
 
-    voteUp(props.id);
-    addRelation(props.id, props.children);
-    this.addEdges(props.outgoingConnections);
-    this.addChildrenAsEdges(props.children);
+    voteUp(id);
+    addRelation(id, children);
+    this.addChildrenAsEdges();
+    entity.get('outgoingConnections').forEach(edge => addEdge(edge));
 
     this.expandedNodesSubscription = expandedNodes$.subscribe(ids =>
       this.setState({
-        isExpanded: ids[props.id]
+        isExpanded: ids[id] ? true : false
       })
     );
   },
@@ -45,23 +44,21 @@ export default React.createClass({
     this.expandedNodesSubscription.dispose();
     this.expandedNodesSubscription = null;
 
-    const props = this.props;
+    const entity = this.props.entity;
+    const id = entity.get('id');
 
-    voteDown(props.id);
-    removeRelation(props.id);
-    props.outgoingConnections.forEach(connection => removeEdge(connection.get('id')));
+    voteDown(id);
+    removeRelation(id);
+    entity.get('outgoingConnections').forEach(connection => removeEdge(connection.get('id')));
   },
 
   componentWillReceiveProps(nextProps) {
-    const props = this.props;
+    const entity = nextProps.entity;
+    const children = entity.get('children');
 
-    if (props.outgoingConnections !== nextProps.outgoingConnections) {
-      this.addEdges(nextProps.outgoingConnections);
-    }
-    if (props.children !== nextProps.children) {
-      addRelation(props.id, props.children);
-      this.addChildrenAsEdges(nextProps.children);
-    }
+    entity.get('outgoingConnections').forEach(edge => addEdge(edge));
+    addRelation(entity.get('id'), children);
+    this.addChildrenAsEdges();
   },
 
   render() {
@@ -71,34 +68,19 @@ export default React.createClass({
 
     return (
       <div>
-        {this.props.children.map(physicalNodeEntity =>
-          <Physical key={physicalNodeEntity.get('id')}
-                    outgoingConnections={physicalNodeEntity.get('outgoingConnections')}
-                    id={physicalNodeEntity.get('id')} />
+        {this.props.entity.get('children').map(physicalNodeEntity => <Physical key={physicalNodeEntity.get('id')}
+                                                                               entity={physicalNodeEntity} />
         )}
       </div>
     );
   },
 
-  addEdges(immutableEdges) {
-    immutableEdges.forEach(edge => this.addEdge(edge));
-  },
-
-  addEdge(immutableEdge) {
-    addEdge({
-      id: immutableEdge.get('id'),
-      from: immutableEdge.get('from'),
-      to: immutableEdge.get('to'),
-      relation: 'TO'
-    });
-  },
-
-  addChildrenAsEdges(children) {
-    children.forEach(child => addEdge({
-      id: this.props.id + ',' + child.get('id'),
-      from: this.props.id,
-      to: child.get('id'),
-      relation: 'OF'
-    }));
+  addChildrenAsEdges() {
+    const id = this.props.entity.get('id');
+    this.props.entity.get('children').forEach(child => addEdge(immutable.fromJS({
+      id: id + ',' + child.get('id'),
+      from: id,
+      to: child.get('id')
+    })));
   }
 });

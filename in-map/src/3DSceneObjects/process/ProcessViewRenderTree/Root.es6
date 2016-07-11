@@ -8,10 +8,7 @@ export default function Root({children}) {
   return (
     <div style={{display: 'none'}}>
       {children.map(processNodeEntity => <Process key={processNodeEntity.get('id')}
-                                                  id={processNodeEntity.get('id')}
-                                                  outgoingConnections={processNodeEntity.get('outgoingConnections')}>
-                                           {processNodeEntity.get('children')}
-                                         </Process>
+                                                  entity={processNodeEntity} />
       )}
     </div>
   );
