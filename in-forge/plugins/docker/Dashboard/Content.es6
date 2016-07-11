@@ -2,6 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
+  zeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   bytesZeroDecimalPlaces,
   percentageZeroDecimalPlaces
@@ -13,6 +14,8 @@ import {timeframeShape} from 'in-stores/timeline';
 
 
 const chartHeight = 200;
+
+const throttlingTimeFormater = d => (d / 1000000000.0) + 's';
 
 export default function DockerDashboard({snapshot, timeframe}) {
   const dockerVersion = snapshot.getIn(['data', 'docker_version']);
@@ -39,6 +42,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
+                           max: 1,
                            metrics: [
                              'cpu.total_usage',
                              'cpu.system_usage',
@@ -46,9 +50,10 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            ],
                            labels: [
                              'Total',
-                             'System',
+                             'Kernel',
                              'User'
                            ],
+                           formatter: percentageZeroDecimalPlaces,
                            type: 'line'
                          }}/>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -61,14 +66,23 @@ export default function DockerDashboard({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            metrics: [
-                             'cpu.throttling_count',
+                             'cpu.throttling_count'
+                           ],
+                           labels: [
+                             'Throttling count'
+                           ],
+                           type: 'line'
+                         }}
+                         y2={{
+                           min: 0,
+                           metrics: [
                              'cpu.throttling_time'
                            ],
                            labels: [
-                             'Throttling count',
                              'Throttling time'
                            ],
-                           type: 'line'
+                           type: 'line',
+                           formatter: throttlingTimeFormater
                          }}/>
       </DashboardSection>
       <DashboardSection title='Memory'>
@@ -139,7 +153,8 @@ export default function DockerDashboard({snapshot, timeframe}) {
                              'Read',
                              'Write'
                            ],
-                           type: 'line'
+                           type: 'line',
+                           formatter: zeroDecimalPlaces
                          }}/>
       </DashboardSection>
       { hasNetworkMetrics ?
