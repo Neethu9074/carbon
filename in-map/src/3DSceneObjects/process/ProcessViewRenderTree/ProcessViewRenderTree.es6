@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import React from 'React';
+import React from 'react';
 
 import Root from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/Root';
 import {viewStructure} from 'in-stores/view';
