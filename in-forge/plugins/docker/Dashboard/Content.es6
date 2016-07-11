@@ -42,7 +42,6 @@ export default function DockerDashboard({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           max: 1,
                            metrics: [
                              'cpu.total_usage',
                              'cpu.system_usage',
