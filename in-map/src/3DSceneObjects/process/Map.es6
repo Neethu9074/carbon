@@ -118,6 +118,10 @@ export default class Map extends BaseMap {
     // this is done on other place here
   }
 
+  getAllNodes() {
+    return [];
+  }
+
   dispose() {
     this.processViewRenderTree.dispose();
 

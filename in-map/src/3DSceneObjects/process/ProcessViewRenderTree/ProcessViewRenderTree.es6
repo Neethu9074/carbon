@@ -5,17 +5,18 @@ import Root from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/Root';
 import {viewStructure} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 
-
 const ProcessViewRenderTreeWrapper = connectTo({
-  root: viewStructure
+    root: viewStructure
 }, function ProcessViewRenderTree({root}) {
-    return (
-      <Root>
-        {root.get('children')}
-      </Root>
-    );
+  if (!root) {
+    return null;
   }
-);
+  return (
+    <Root>
+      {root.get('children')}
+    </Root>
+  );
+});
 
 export default class ProcessViewRenderTree {
 
