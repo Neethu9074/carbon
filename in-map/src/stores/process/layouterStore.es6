@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 
 import {createStore, createTrackingStore} from 'in-stores/store';
-import {nodes$} from 'in-map/src/stores/process/nodesStore';
 import {edges$} from 'in-map/src/stores/process/edgesStore';
+import {nodes$} from 'in-map/src/stores/process/nodesStore';
 import {eventBus} from 'in-map/src/services/eventBus';
 
 

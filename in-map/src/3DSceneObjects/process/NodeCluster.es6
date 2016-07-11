@@ -16,7 +16,8 @@ import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentPro
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Cluster';
 import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
-import {voteUp, voteDown} from 'in-map/src/stores/process/nodesStore';
+import {relations$} from 'in-map/src/stores/process/nodeChildrenRelations';
+import {expand, collapse} from 'in-map/src/stores/process/expandedNodes';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
@@ -27,6 +28,8 @@ export default class NodeCluster extends Node {
     super(props);
 
     this.addSubscriptions([
+      relations$.subscribe(relationsMap => this.setChildIds(relationsMap[this.id])),
+
       this.eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition => {
         if (this.stickyNote) {
           this.stickyNote.setScreenPosition(screenPosition);
@@ -112,10 +115,9 @@ export default class NodeCluster extends Node {
   }
 
   setChildIds(childIds) {
-    this.childIds = Object.keys(childIds);
-    this.eventEmitter.emit('onNumOfChildrenChanged', this.childIds.length);
+    const numChildren = childIds ? childIds.size : 0;
 
-    if (this.childIds.length === 0) {
+    if (numChildren === 0) {
       if (this.stickyNote) {
         this.stickyNote.dispose();
         this.stickyNote = null;
@@ -127,17 +129,18 @@ export default class NodeCluster extends Node {
       this.stickyNote = new StickyNoteCluster(this);
     }
 
-    this.stickyNote.setNumChildren(this.childIds.length);
+    this.stickyNote.setNumChildren(numChildren);
+    this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
   }
 
   expand() {
     this.eventEmitter.emit('onExpand', true);
-    this.childIds.forEach(id => voteUp(id));
+    expand(this.id);
   }
 
   collapse() {
     this.eventEmitter.emit('onExpand', false);
-    this.childIds.forEach(id => voteDown(id));
+    collapse(this.id);
   }
 
   updateScreenPosition() {

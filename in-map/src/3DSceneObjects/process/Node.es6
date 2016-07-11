@@ -18,8 +18,6 @@ export default class Node extends SceneObject {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.edgeCount = 0;
-
     this.addSubscriptions([
       eventBus.on('endUpdate').subscribe(this.updateScreenPosition.bind(this)),
 
@@ -123,18 +121,6 @@ export default class Node extends SceneObject {
       this.stickyNoteMetric.dispose();
       this.stickyNoteMetric = null;
     }
-  }
-
-  increaseEdgeCount() {
-    this.edgeCount++;
-  }
-
-  decreaseEdgeCount() {
-    this.edgeCount--;
-  }
-
-  getEdgeCount() {
-    return this.edgeCount;
   }
 
   getTooltip() {

@@ -1,6 +1,5 @@
-import {view, types as views} from 'in-stores/view';
-
 import {requestRendering} from 'in-map/src/stores/renderingStore';
+import {view$, types as views} from 'in-stores/view';
 
 import PhysicalMap from '../physical/Map';
 import ProcessMap from '../process/Map';
@@ -15,7 +14,7 @@ export default class MapHandler {
   subscribe() {
     const scene = this.scene;
 
-    this.viewSubscription = view.subscribe(v => {
+    this.viewSubscription = view$.subscribe(v => {
       this.doIfPresent(map => map.dispose());
       requestRendering();
 

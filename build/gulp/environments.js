@@ -30,6 +30,13 @@ module.exports = {
     tenantUnit: 'staging',
     groundskeeperDomain: 'staging-groundskeeper-instana.instana.io'
   },
+  processview: {
+    uiBackendUrl: 'https://processview-instana.instana.io/api/data/',
+    groundskeeperUrl: 'https://processview-instana.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'processview',
+    groundskeeperDomain: 'processview-groundskeeper-instana.instana.io'
+  },
   current: {
     uiBackendUrl: 'https://current-instana.instana.io/api/data/',
     groundskeeperUrl: 'https://current-instana.instana.io',

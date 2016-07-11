@@ -1,8 +1,8 @@
 import immutable from 'immutable';
 
-import {voteUp, nodeIdVoting$} from 'in-map/src/stores/process/nodesStore';
 import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
 import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
+import {nodeIdVoting$} from 'in-map/src/stores/process/nodesStore';
 import {emptyArray} from 'in-services/fixedObjects';
 
 
@@ -14,10 +14,6 @@ export default class NodeSpawner {
     this.chidlIds = {};
     this.isVisible = false;
     this.nodesParents = nodesParents || emptyArray;
-
-    if (this.nodesParents.length === 0) {
-      voteUp(id);
-    }
 
     this.visibleSubscription = nodeIdVoting$.subscribe(nodeMap => {
       nodeMap[id] > 0 ?

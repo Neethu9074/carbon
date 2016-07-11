@@ -13,9 +13,9 @@ export default class EdgeSpawner {
   constructor(edge, map) {
     this.parent = map;
     this.connection = undefined;
-    this.edgeId = edge.get('id');
-    this.sourceNode = edge.get('from');
-    this.destinationNode = edge.get('to');
+    this.edgeId = edge.id;
+    this.sourceNode = edge.from;
+    this.destinationNode = edge.to;
 
     this.visibleSubscription = nodes$.subscribe(currentVisibleNodeIds =>
       this.setVisible(currentVisibleNodeIds[this.sourceNode], currentVisibleNodeIds[this.destinationNode]));
