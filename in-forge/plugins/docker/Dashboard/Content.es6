@@ -2,6 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
+  zeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   bytesZeroDecimalPlaces,
   percentageZeroDecimalPlaces
@@ -13,6 +14,8 @@ import {timeframeShape} from 'in-stores/timeline';
 
 
 const chartHeight = 200;
+
+const throttlingTimeFormater = d => (d / 1000000000.0) + 's';
 
 export default function DockerDashboard({snapshot, timeframe}) {
   const dockerVersion = snapshot.getIn(['data', 'docker_version']);
@@ -29,7 +32,84 @@ export default function DockerDashboard({snapshot, timeframe}) {
 
   return (
     <div>
+      <DashboardSection title='CPU'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 10
+                         }}
+                         y1={{
+                           min: 0,
+                           max: 1,
+                           metrics: [
+                             'cpu.total_usage',
+                             'cpu.system_usage',
+                             'cpu.user_usage'
+                           ],
+                           labels: [
+                             'Total',
+                             'Kernel',
+                             'User'
+                           ],
+                           formatter: percentageZeroDecimalPlaces,
+                           type: 'line'
+                         }}/>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 10
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'cpu.throttling_count'
+                           ],
+                           labels: [
+                             'Throttling count'
+                           ],
+                           type: 'line'
+                         }}
+                         y2={{
+                           min: 0,
+                           metrics: [
+                             'cpu.throttling_time'
+                           ],
+                           labels: [
+                             'Throttling time'
+                           ],
+                           type: 'line',
+                           formatter: throttlingTimeFormater
+                         }}/>
+      </DashboardSection>
       <DashboardSection title='Memory'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 10
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'memory.usage',
+                             'memory.max_usage',
+                             'memory.total_rss',
+                             'memory.total_cache'
+                           ],
+                           labels: [
+                             'Usage',
+                             'Max usage',
+                             'RSS',
+                             'Cache'
+                           ],
+                           formatter: bytesTwoDecimalPlaces,
+                           type: 'line'
+                         }}/>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={chartHeight}
@@ -53,6 +133,28 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            ],
                            formatter: bytesTwoDecimalPlaces,
                            type: 'line'
+                         }}/>
+      </DashboardSection>
+      <DashboardSection title='Block IO'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 10
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'blkio.blk_read',
+                             'blkio.blk_write'
+                           ],
+                           labels: [
+                             'Read',
+                             'Write'
+                           ],
+                           type: 'line',
+                           formatter: zeroDecimalPlaces
                          }}/>
       </DashboardSection>
       { hasNetworkMetrics ?
