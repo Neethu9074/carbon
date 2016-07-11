@@ -1,5 +1,5 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'React';
+import React from 'react';
 
 import Process from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/Process';
 

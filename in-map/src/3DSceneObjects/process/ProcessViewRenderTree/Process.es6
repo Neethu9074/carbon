@@ -1,5 +1,5 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'React';
+import React from 'react';
 
 import {addRelation, removeRelation} from 'in-map/src/stores/process/nodeChildrenRelations';
 import Physical from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/Physical';

@@ -1,5 +1,5 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'React';
+import React from 'react';
 
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesIdsStore';
 import {voteUp, voteDown} from 'in-map/src/stores/process/physicalNodes';
