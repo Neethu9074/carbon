@@ -17,13 +17,22 @@ export default class EdgeSpawner {
     this.sourceNode = edge.get('from');
     this.destinationNode = edge.get('to');
 
-    this.visibleSubscription = nodes$.subscribe(currentVisibleNodeIds =>
-      this.setVisible(currentVisibleNodeIds[this.sourceNode], currentVisibleNodeIds[this.destinationNode]));
+    this.visibleSubscription = nodes$
+      .map(currentVisibleNodeIds => {
+        const sourceNode = currentVisibleNodeIds[this.sourceNode];
+        const destinationNode = currentVisibleNodeIds[this.destinationNode];
+        return {
+          isVisible: sourceNode && destinationNode ? true : false,
+          sourceNode,
+          destinationNode
+        };
+      })
+      .distinct((oldValue, newValue) => oldValue.isVisible !== newValue.isVisible)
+      .subscribe(e => this.setVisible(e));
   }
 
-  setVisible(sourceNode, destinationNode) {
-    this.disposeConnection();
-    if (sourceNode && destinationNode) {
+  setVisible({isVisible, sourceNode, destinationNode}) {
+    if (isVisible) {
       const config = {
         parent: this.parent,
         entity: immutable.fromJS({
@@ -41,6 +50,8 @@ export default class EdgeSpawner {
       } else {
         this.connection = new ConnectionBetweenProcessAndPhysical(config);
       }
+    } else {
+      this.disposeConnection();
     }
   }
 
