@@ -20,12 +20,12 @@ export default class HoveredEventLineRenderer extends BasicRenderer {
     this.highlightedEvent = event;
 
     if (event) {
-      this.y = 81;
+      this.y = 74;
       const eventType = issueTracker.getEventType(event);
       if (eventType === issueTracker.EVENT_TYPES.INCIDENT) {
-        this.y = 40;
+        this.y = 37;
       } else if (eventType === issueTracker.EVENT_TYPES.CHANGE) {
-        this.y = 122;
+        this.y = 111;
       }
     }
   }
@@ -48,7 +48,7 @@ export default class HoveredEventLineRenderer extends BasicRenderer {
     const buffer = this.backBuffer;
     buffer.globalAlpha = 0.2;
     buffer.fillStyle = getColorForEventAtFocusedMoment(event, this.focusedMoment);
-    buffer.fillRect(x, this.y, to - x, 40);
+    buffer.fillRect(x, this.y, to - x, 36);
     buffer.globalAlpha = 1;
   }
 

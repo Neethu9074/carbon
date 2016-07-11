@@ -24,6 +24,7 @@ module.exports = {
     flyOutNotifications: zIndex++,
     tableViewToggleButton: zIndex++,
     footer: zIndex++,
+    footerSelectedTimeNotification: zIndex++,
     header: zIndex++,
     viewSwitcher: zIndex++,
     timepicker: zIndex++,

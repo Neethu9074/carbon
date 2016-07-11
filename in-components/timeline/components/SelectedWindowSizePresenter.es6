@@ -3,7 +3,7 @@ import {create} from 'reactive-observables';
 import moment from 'moment';
 import React from 'react';
 
-import {timeframe$} from 'in-components/timeline/timelineStore';
+import {timeframe$, isCollapsed$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
 import './SelectedWindowSizePresenter.less';
@@ -35,8 +35,9 @@ timeframe$
 
 
 export default connectTo({
-    shownMessage: shownMessage$
-  }, function SelectedWindowSizePresenter({shownMessage}) {
+    shownMessage: shownMessage$,
+    isCollapsed: isCollapsed$
+  }, function SelectedWindowSizePresenter({shownMessage, isCollapsed}) {
     const items = [];
     if (shownMessage) {
       items.push({
@@ -44,6 +45,11 @@ export default connectTo({
         style: {opacity: spring(1)},
         data: shownMessage
       });
+    }
+
+    let classes = block;
+    if (!isCollapsed) {
+      classes = `${classes} ${block}--timeline-expanded`;
     }
 
     return (
@@ -55,7 +61,7 @@ export default connectTo({
             {interpolatedStyles.map(config => {
               return (
                 <div key={config.key}
-                     className={block}
+                     className={classes}
                      style={{
                        opacity: config.style.opacity
                      }}>

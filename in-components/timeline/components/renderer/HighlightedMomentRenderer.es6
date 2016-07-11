@@ -26,7 +26,7 @@ export default class HighlightedMomentRenderer extends BasicRenderer {
     let x = this.scale.getRange(highlightedMoment);
 
     buffer.fillStyle = '#92A5AE';
-    buffer.fillRect(x, 40, 1, 122);
+    buffer.fillRect(x, 36, 1, 122);
 
     if (x > scale.getRangeTo() * 0.8) {
       x -= width / 2;

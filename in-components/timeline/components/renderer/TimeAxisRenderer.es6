@@ -35,16 +35,16 @@ export default class TimeAxisRenderer extends BasicRenderer {
 
       // draw line
       buffer.fillStyle = midColor;
-      buffer.fillRect(x, 35, 1, 5);
+      buffer.fillRect(x, 29, 1, 7);
 
       // draw time text
       buffer.fillStyle = lightColor;
       buffer.font = font;
-      buffer.fillText(axisConfig.formatter(position.domain), x, 28);
+      buffer.fillText(axisConfig.formatter(position.domain), x, 26);
     }
 
     buffer.fillStyle = this.leftGradient;
-    buffer.fillRect(0, 0, edgeWidth, 40);
+    buffer.fillRect(0, 0, edgeWidth, 36);
 
     // draw the stand and end time of the time window
     const rightGradient = this.backBuffer.createLinearGradient(
@@ -57,16 +57,16 @@ export default class TimeAxisRenderer extends BasicRenderer {
     rightGradient.addColorStop(0.5, darkColor);
     rightGradient.addColorStop(1, darkColor);
     buffer.fillStyle = rightGradient;
-    buffer.fillRect(scale.getRangeTo() - edgeWidth, 0, edgeWidth + 20, 40);
+    buffer.fillRect(scale.getRangeTo() - edgeWidth, 0, edgeWidth + 20, 36);
 
     // start
     buffer.fillStyle = '#6b8088';
     buffer.font = font;
-    buffer.fillText(formatDate(scale.getDomainFrom()), 0, 17);
-    buffer.fillText(formatTime(scale.getDomainFrom()), 0, 32);
+    buffer.fillText(formatDate(scale.getDomainFrom()), 0, 15);
+    buffer.fillText(formatTime(scale.getDomainFrom()), 0, 30);
     buffer.textAlign = 'right';
-    buffer.fillText(formatDate(scale.getDomainTo()), scale.getRangeTo() - 10, 17);
-    buffer.fillText(formatTime(scale.getDomainTo()), scale.getRangeTo() - 10, 32);
+    buffer.fillText(formatDate(scale.getDomainTo()), scale.getRangeTo() - 10, 15);
+    buffer.fillText(formatTime(scale.getDomainTo()), scale.getRangeTo() - 10, 30);
     buffer.textAlign = 'left';
   }
 

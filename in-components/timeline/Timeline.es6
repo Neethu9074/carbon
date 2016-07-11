@@ -32,17 +32,27 @@ export default connectTo({
     },
 
     render() {
+      let classes = block;
+
+      if (!this.props.isCollapsed) {
+        classes = `${classes} ${block}--expanded`;
+      }
+
       return (
-        <div className={block}>
+        <div>
           <EventTooltip />
-          <div className={this.getWrapperClassName()}>
-            <TimelineMenu />
-            <TimelineCanvasReactWrapper />
+
+          <div className={classes}>
+            <div className={`${block}__wrapper`}>
+              <TimelineMenu />
+              <TimelineCanvasReactWrapper />
+            </div>
+            <div className={block + '__bottom'}>
+              <TimelineNavigation />
+              <TimelineTimeframeMarker />
+            </div>
           </div>
-          <div className={block + '__bottom'}>
-            <TimelineNavigation />
-            <TimelineTimeframeMarker />
-          </div>
+
           <SelectedWindowSizePresenter />
         </div>
       );
@@ -50,7 +60,13 @@ export default connectTo({
 
     getWrapperClassName() {
       const base = block + '__wrapper';
-      return base + (this.props.isCollapsed ? ' ' + base + '--collapsed' : '');
+      let classes = base;
+
+      if (!this.props.isCollapsed) {
+        classes = `${classes} ${base}--expanded`;
+      }
+
+      return classes;
     }
   })
 );
