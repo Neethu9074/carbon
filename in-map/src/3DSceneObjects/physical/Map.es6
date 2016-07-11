@@ -264,6 +264,9 @@ export default class Map extends BaseMap {
     clearInterval(this.metricUpdateInterval);
     this.metricUpdateInterval = null;
 
+    // destory all known and unknown nodes
+    this.getAllNodes(this).slice().forEach(node => node.dispose());
+
     super.dispose();
 
     this.activeMetric = null;

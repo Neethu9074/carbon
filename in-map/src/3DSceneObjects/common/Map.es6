@@ -92,9 +92,6 @@ export default class Map extends SceneObject {
     // disposing all subscriptions, so that no update is fired anymore
     super.dispose();
 
-    // destory all known and unknown nodes
-    this.getAllNodes(this).slice().forEach(node => node.dispose());
-
     this.controller.dispose();
     this.controller = null;
 

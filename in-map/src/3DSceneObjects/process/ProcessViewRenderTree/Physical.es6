@@ -1,8 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesIdsStore';
-import {voteUp, voteDown} from 'in-map/src/stores/process/physicalNodes';
+import {nodes, edges} from 'in-map/src/stores/process/entitiesStores';
 
 
 export default React.createClass({
@@ -15,16 +14,18 @@ export default React.createClass({
 
   componentDidMount() {
     const entity = this.props.entity;
-
-    voteUp(entity.get('id'));
+    nodes.voteUp(entity.get('id'), {
+      entity,
+      type: 'physical'
+    });
     entity.get('outgoingConnections').forEach(edge => this.addEdge(edge));
   },
 
   componentWillUnmount() {
     const entity = this.props.entity;
 
-    voteDown(entity.get('id'));
-    entity.get('outgoingConnections').forEach(connection => removeEdge(connection.get('id')));
+    nodes.voteDown(entity.get('id'));
+    entity.get('outgoingConnections').forEach(connection => edges.voteDown(connection.get('id')));
   },
 
   componentWillReceiveProps(nextProps) {
@@ -36,7 +37,7 @@ export default React.createClass({
   },
 
   addEdge(edgeEntity) {
-    addEdge({
+    edges.voteUp(edgeEntity.get('id'), {
       id: edgeEntity.get('id'),
       from: this.props.entity.get('id'),
       to: edgeEntity.get('otherId')

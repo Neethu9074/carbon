@@ -3,9 +3,8 @@ import React from 'react';
 
 import {addRelation, removeRelation} from 'in-map/src/stores/process/nodeChildrenRelations';
 import Physical from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/Physical';
-import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesIdsStore';
-import {voteUp, voteDown} from 'in-map/src/stores/process/processNodes';
 import {expandedNodes$} from 'in-map/src/stores/process/expandedNodes';
+import {nodes, edges} from 'in-map/src/stores/process/entitiesStores';
 
 
 export default React.createClass({
@@ -27,7 +26,10 @@ export default React.createClass({
     const id = entity.get('id');
     const children = entity.get('children');
 
-    voteUp(id);
+    nodes.voteUp(entity.get('id'), {
+      entity,
+      type: 'process'
+    });
     addRelation(id, children);
     this.addChildrenAsEdges();
     entity.get('outgoingConnections').forEach(edge => this.addEdge(edge));
@@ -46,9 +48,9 @@ export default React.createClass({
     const entity = this.props.entity;
     const id = entity.get('id');
 
-    voteDown(id);
+    nodes.voteDown(id);
     removeRelation(id);
-    entity.get('outgoingConnections').forEach(connection => removeEdge(connection.get('id')));
+    entity.get('outgoingConnections').forEach(connection => edges.voteDown(connection.get('id')));
   },
 
   componentWillReceiveProps(nextProps) {
@@ -75,7 +77,7 @@ export default React.createClass({
   },
 
   addEdge(edgeEntity) {
-    addEdge({
+    edges.voteUp(edgeEntity.get('id'), {
       id: edgeEntity.get('id'),
       from: this.props.entity.get('id'),
       to: edgeEntity.get('otherId')
@@ -83,11 +85,16 @@ export default React.createClass({
   },
 
   addChildrenAsEdges() {
-    const id = this.props.entity.get('id');
-    this.props.entity.get('children').forEach(child => addEdge({
-      id: id + ',' + child.get('id'),
-      from: id,
-      to: child.get('id')
-    }));
+    const from = this.props.entity.get('id');
+    this.props.entity.get('children').forEach(child => {
+      const to = child.get('id');
+      const id = from + ',' + to;
+
+      edges.voteUp(id, {
+        id: id + ',' + child.get('id'),
+        from,
+        to
+      });
+    });
   }
 });

@@ -1,10 +1,6 @@
-import immutable from 'immutable';
-
 import ProcessViewRenderTree from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/ProcessViewRenderTree';
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import SingleMeshDashedLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshDashedLineFactory';
-import {init as initPhysicalNodeCallback} from 'in-map/src/stores/process/processNodes';
-import {init as initProcessNodeCallback} from 'in-map/src/stores/process/physicalNodes';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
 import CameraController from 'in-map/src/controls/process/CameraController';
@@ -12,8 +8,8 @@ import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
 import GroundPlane from 'in-map/src/3DSceneObjects/process/GroundPlane';
 import EdgeSpawner from 'in-map/src/3DSceneObjects/process/EdgeSpawner';
 import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
+import {edges, nodes} from 'in-map/src/stores/process/entitiesStores';
 import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
-import {edges$} from 'in-map/src/stores/process/edgesIdsStore';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 
 
@@ -26,21 +22,20 @@ export default class Map extends BaseMap {
     this.nodes = {};
     this.layouter = new Layouter();
 
-    initProcessNodeCallback(this);
-    initPhysicalNodeCallback(this);
+    edges.entities$.subscribe(currentEdges => {
+      this.ifNew(this.edges, currentEdges, entity => new EdgeSpawner(entity, this));
+      this.disposeOld(this.edges, currentEdges);
+    });
 
-    edges$.subscribe(currentEdges => {
-      Object.keys(currentEdges).forEach(key => {
-        if (!this.edges[key]) {
-          this.edges[key] = new EdgeSpawner(currentEdges[key], this);
-        }
+    nodes.entities$.subscribe(currentNodes => {
+      this.ifNew(this.nodes, currentNodes, entity => {
+        const params = {
+          parent: this,
+          entity: entity.entity
+        };
+        return entity.type === 'process' ? new NodeCluster(params) : new NodePhysical(params);
       });
-      Object.keys(this.edges).forEach(key => {
-        if (!currentEdges[key]) {
-          this.edges[key].dispose();
-          delete this.edges[key];
-        }
-      });
+      this.disposeOld(this.nodes, currentNodes);
     });
 
     this.processViewRenderTree = new ProcessViewRenderTree();
@@ -52,7 +47,6 @@ export default class Map extends BaseMap {
     const factories = this.factories;
 
     factories.transparentSMF = new SingleMeshFactory();
-    factories.transparentSMF.material.transparent = true;
     factories.transparentSMF.material.opacity = 0.8;
 
     factories.solidSMF = new SingleMeshFactory();
@@ -63,6 +57,23 @@ export default class Map extends BaseMap {
     factories.dashedLineSMF = new SingleMeshDashedLineFactory();
 
     factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory();
+  }
+
+  ifNew(oldMap, newMap, ifNewCallback) {
+    Object.keys(newMap).forEach(key => {
+      if (!oldMap[key]) {
+        oldMap[key] = ifNewCallback(newMap[key]);
+      }
+    });
+  }
+
+  disposeOld(oldMap, newMap) {
+    Object.keys(oldMap).forEach(key => {
+      if (!newMap[key]) {
+        oldMap[key].dispose();
+        delete oldMap[key];
+      }
+    });
   }
 
   getGroundPlane() {
@@ -81,34 +92,6 @@ export default class Map extends BaseMap {
     });
   }
 
-  addProcessNode(id) {
-    this.nodes[id] = new NodeCluster({
-      parent: this,
-      entity: immutable.fromJS({
-        id
-      })
-    });
-  }
-
-  removeProcessNode(id) {
-    this.nodes[id].dispose();
-    delete this.nodes[id];
-  }
-
-  addPhysicalNode(id) {
-    this.nodes[id] = new NodePhysical({
-      parent: this,
-      entity: immutable.fromJS({
-        id
-      })
-    });
-  }
-
-  removePhysicalNode(id) {
-    this.nodes[id].dispose();
-    delete this.nodes[id];
-  }
-
   onZoomLevel() {
     return this.controller.eventEmitter.on('onZoomLevelChange');
   }
@@ -118,21 +101,17 @@ export default class Map extends BaseMap {
     // this is done on other place here
   }
 
-  getAllNodes() {
-    return [];
-  }
-
   dispose() {
     this.processViewRenderTree.dispose();
+    edges.clear();
+    nodes.clear();
 
     this.layouter.dispose();
     this.layouter = null;
 
-    Object.keys(this.edges).forEach(id => this.edges[id].dispose());
-    this.edges = null;
-
     super.dispose();
 
     this.nodes = null;
+    this.edges = null;
   }
 }
