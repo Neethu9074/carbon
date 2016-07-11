@@ -39,17 +39,20 @@ export default connectTo({
       }
 
       return (
-        <div className={classes}>
+        <div>
           <EventTooltip />
 
-          <div className={`${block}__wrapper`}>
-            <TimelineMenu />
-            <TimelineCanvasReactWrapper />
+          <div className={classes}>
+            <div className={`${block}__wrapper`}>
+              <TimelineMenu />
+              <TimelineCanvasReactWrapper />
+            </div>
+            <div className={block + '__bottom'}>
+              <TimelineNavigation />
+              <TimelineTimeframeMarker />
+            </div>
           </div>
-          <div className={block + '__bottom'}>
-            <TimelineNavigation />
-            <TimelineTimeframeMarker />
-          </div>
+
           <SelectedWindowSizePresenter />
         </div>
       );
