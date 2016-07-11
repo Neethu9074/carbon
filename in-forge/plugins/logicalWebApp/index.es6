@@ -12,7 +12,8 @@ pluginName.setHumanReadablePluginName(
   'Logical WebApps'
 );
 
-addLabelFinder(constants.plugins.logicalWebApp, s => s.getIn(['data', 'groupId']));
+addLabelFinder(constants.plugins.logicalWebApp,
+  snapshot => snapshot.getIn(['data', 'service_name']));
 
 addIconToRegistry({
   id: constants.plugins.logicalWebApp,
