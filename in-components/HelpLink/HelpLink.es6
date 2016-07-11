@@ -8,14 +8,18 @@ import './HelpLink.less';
 const block = 'in-help-link';
 const rpt = React.PropTypes;
 
-export default function HelpLink({helpId, children}) {
+export default function HelpLink({helpId, children, className}) {
+  let classes = block;
+  if (className) {
+    classes = `${classes} ${className}`;
+  }
   return (
     <a href='#'
        onClick={(e) => {
          e.preventDefault();
          showHelp(helpId);
        }}
-       className={block}
+       className={classes}
        title='Open help information'>
       {children}
     </a>
@@ -24,5 +28,6 @@ export default function HelpLink({helpId, children}) {
 
 HelpLink.propTypes = {
   helpId: rpt.string.isRequired,
-  children: rpt.any.isRequired
+  children: rpt.any.isRequired,
+  className: rpt.string
 };

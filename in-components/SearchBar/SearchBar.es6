@@ -11,6 +11,7 @@ import {
   selectHighlightedSuggestion
 } from 'in-components/SearchBar/stores/highlightedSuggestion';
 import {isPhysicalViewVisible$} from 'in-stores/view';
+import HelpLink from 'in-components/HelpLink';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -45,6 +46,11 @@ export default connectTo({
                onKeyDown={onKeyDown}
                onFocus={onFocus}
                onBlur={onBlur}/>
+
+        <HelpLink helpId='209722505'
+                  className={`${block}__help`}>
+          ?
+        </HelpLink>
 
         <ErrorIndicator />
         <Suggestions />
