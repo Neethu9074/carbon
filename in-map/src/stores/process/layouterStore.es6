@@ -1,9 +1,9 @@
 import {combineLatest} from 'reactive-observables';
 
-import {createStore, createTrackingStore} from 'in-stores/store';
 import {edges$} from 'in-map/src/stores/process/edgesStore';
 import {nodes$} from 'in-map/src/stores/process/nodesStore';
 import {eventBus} from 'in-map/src/services/eventBus';
+import {createStore} from 'in-stores/store';
 
 
 const layoutingEnabled = createStore({
@@ -33,16 +33,10 @@ eventBus.on('dragObjectStop').subscribe(id => {
 });
 
 
-export const inventar$ = createTrackingStore({
-  name: 'processViewInventarStore',
-  observable: combineLatest([nodes$, edges$])
-                .map(props => {
-                  const nodes = props[0];
-                  const edges = props[1];
-
-                  return {
-                    nodes: Object.keys(nodes).map(key => nodes[key]),
-                    edges: Object.keys(edges).map(key => edges[key])
-                  };
-                })
-}).observable;
+export const inventar$ = combineLatest([nodes$, edges$])
+                         .map(([nodes, edges]) => {
+                           return {
+                             nodes: Object.keys(nodes).map(key => nodes[key]),
+                             edges: Object.keys(edges).map(key => edges[key])
+                           };
+                         });

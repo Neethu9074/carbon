@@ -1,24 +1,19 @@
+import {create} from 'reactive-observables';
+
 import {createStore} from 'in-stores/store';
 
 
-const nodes = createStore({
-  name: 'processViewNodesStore',
-  initialValue: {}
-});
-export const nodes$ = nodes.observable;
+const nodes = {};
+export const nodes$ = create();
 
 export function addNode(node) {
-  nodes.applyStateMutation(nodeMap => {
-    nodeMap[node.id] = node;
-    return nodeMap;
-  });
+  nodes[node.id] = node;
+  nodes$.emit(nodes);
 }
 
 export function removeNode(node) {
-  nodes.applyStateMutation(nodeMap => {
-    delete nodeMap[node.id];
-    return nodeMap;
-  });
+  delete nodes[node.id];
+  nodes$.emit(nodes);
 }
 
 
