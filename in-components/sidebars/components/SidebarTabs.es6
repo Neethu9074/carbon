@@ -8,9 +8,7 @@ import {
   setPosition
 } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterYPositionStore';
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import Tab from 'in-components/sidebars/components/Tab';
-import {getClassName} from 'in-services/react';
 
 import 'in-components/sidebars/components/SidebarTabs.less';
 
@@ -53,13 +51,11 @@ export default getPhysicalHierarchy(React.createClass({
     }
 
     return (
-      <ul className={getClassName(this, block)}
+      <ul className={block}
           ref='sidebarTabs'>
         {hierarchy.map(childSnapshotId =>
           <Tab key={childSnapshotId}
                snapshotId={childSnapshotId}
-               className={this.props.className + '__tab'}
-               onClick={setSelectedSnapshotId}
                isSelected={this.props.snapshotId === childSnapshotId} />
         )}
       </ul>

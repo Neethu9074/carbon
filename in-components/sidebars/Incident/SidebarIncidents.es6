@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -11,32 +10,22 @@ import 'in-components/sidebars/Incident/SidebarIncidents.less';
 
 const block = 'in-sidebar-incidents';
 
-export default getSelectedIncident(
-  React.createClass({
+export default getSelectedIncident(SidebarIncidents);
 
-    displayName: 'SidebarIncidents',
+function SidebarIncidents({incident}) {
+  if (!incident) {
+    return null;
+  }
 
-    mixins: [
-      PureRenderMixin
-    ],
+  return (
+    <div className={block}>
+      <Header incident={incident}/>
+      <Content incident={incident} />
+    </div>
+  );
+}
 
-    propTypes: {
-      incidentId: React.PropTypes.string,
-      incident: irpt.map
-    },
-
-    render() {
-      const incident = this.props.incident;
-      if (!incident) {
-        return null;
-      }
-
-      return (
-        <div className={block}>
-          <Header incident={incident}/>
-          <Content incident={incident} />
-        </div>
-      );
-    }
-  })
-);
+SidebarIncidents.propTypes = {
+  incidentId: React.PropTypes.string,
+  incident: irpt.map
+};

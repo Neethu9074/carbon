@@ -10,15 +10,19 @@ import './SidebarDetailList.less';
 
 
 const block = 'in-sidebar-detail-list';
+const rpt = React.PropTypes;
 
-const SidebarDetailList = React.createClass({
+export default React.createClass({
+
+  displayName: 'SidebarDetailList',
+
   mixins: [PureRenderMixin],
 
   propTypes: {
-    useDetailedInformation: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    style: React.PropTypes.object,
-    snapshot: irpt.map.isRequired
+    useDetailedInformation: rpt.bool,
+    snapshot: irpt.map.isRequired,
+    className: rpt.string,
+    style: rpt.object
   },
 
   render() {
@@ -42,5 +46,3 @@ const SidebarDetailList = React.createClass({
     return getForgeComponent(path);
   }
 });
-
-export default SidebarDetailList;

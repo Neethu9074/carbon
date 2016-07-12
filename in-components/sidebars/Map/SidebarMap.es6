@@ -4,6 +4,7 @@ import React from 'react';
 
 import SidebarHeadingSnapshotMetadata from 'in-components/sidebars/components/SidebarHeadingSnapshotMetadata';
 import SidebarHeadingNavigation from 'in-components/sidebars/components/SidebarHeadingNavigation';
+import ViewDashboardButton from 'in-components/sidebars/components/ViewDashboardButton';
 import SidebarDetailList from 'in-components/sidebars/components/SidebarDetailList';
 import FocusButton from 'in-components/sidebars/Map/components/FocusButton';
 import SidebarTabs from 'in-components/sidebars/components/SidebarTabs';
@@ -57,19 +58,17 @@ export default getSelectedSnapshot(React.createClass({
 
     return (
       <div className={block}>
-        <SidebarTabs snapshotId={this.props.snapshotId}
-                     className={block + '__tabs'}/>
+        <SidebarTabs snapshotId={this.props.snapshotId}/>
 
         <SidebarHeadingNavigation snapshot={snapshot}
                                   className={block + '__heading-navigation'}>
-          <SidebarHeadingNavigation.ViewDashboardButton snapshot={snapshot}/>
+          <ViewDashboardButton snapshot={snapshot}/>
         </SidebarHeadingNavigation>
 
         <FocusButton className={block + '__focus-button'}
                      snapshot={snapshot}/>
 
-        <SidebarHeadingSnapshotMetadata snapshot={snapshot}
-                                        className={block + '__heading'}/>
+        <SidebarHeadingSnapshotMetadata snapshot={snapshot}/>
 
         <SidebarDetailList snapshot={snapshot}
                            className={block + '__detail-list'}
