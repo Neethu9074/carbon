@@ -2,7 +2,8 @@ import React from 'react';
 
 import RightSidebarHeader from 'in-components/RightSidebar/components/RightSidebarHeader';
 import {content$} from 'in-components/RightSidebar/stores/rightSidebarContentStore';
-import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import {timelineHeight$} from 'in-components/timeline/timelineStore';
+import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/RightSidebar/RightSidebar.less';
@@ -11,17 +12,17 @@ import 'in-components/RightSidebar/RightSidebar.less';
 const block = 'in-right-sidebar';
 
 export default connectTo({
-    isTimelineCollapsed: isCollapsed$,
+    timelineHeight: timelineHeight$,
     content: content$
   },
-  function RightSidebar({isTimelineCollapsed, content}) {
-    let classes = block + (content ? ' ' + block + '--open' : '');
-    if (!isTimelineCollapsed) {
-      classes += ' ' + block + '--timeline-is-open';
-    }
+  function RightSidebar({timelineHeight, content}) {
+    const classes = block + (content ? ' ' + block + '--open' : '');
 
     return (
-      <div className={classes}>
+      <div className={classes}
+           style={{
+             bottom: toPx(timelineHeight)
+           }}>
         <div className={block + '__content'}>
           {content ?
             <RightSidebarHeader title={content.title}>

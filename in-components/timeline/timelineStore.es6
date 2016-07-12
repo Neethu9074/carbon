@@ -7,7 +7,9 @@ import {
   setFocusedMoment as setGlobalFocusedMoment,
   bigBangTimestamp$
 } from 'in-stores/timeline';
+import {getIn} from 'in-services/settings';
 import {serverTime$} from 'in-stores/serverTime';
+import activeTheme from 'in-themes/active.json';
 import {createStore} from 'in-stores/store';
 
 
@@ -28,14 +30,24 @@ export function init() {
   });
 }
 
-const isCollapsed = createStore({
+const isCollapsedStore = createStore({
   name: 'isTimelineCollapsedStore',
   initialValue: true
 });
-export const isCollapsed$ = isCollapsed.observable;
+export const isCollapsed$ = isCollapsedStore.observable;
+
+export const timelineHeight$ = combineLatest([isCollapsed$, getIn(['autoCollapseTimeline'])])
+  .map(([isCollapsed, autoCollapseTimeline]) => {
+    if (!isCollapsed) {
+      return activeTheme.footer.heightOpen;
+    } else if (autoCollapseTimeline) {
+      return activeTheme.footer.height;
+    }
+    return activeTheme.footer.heightExpanded;
+  });
 
 export function toggleMenu() {
-  isCollapsed.applyStateMutation(oldValue => !oldValue);
+  isCollapsedStore.applyStateMutation(oldValue => !oldValue);
 }
 
 
