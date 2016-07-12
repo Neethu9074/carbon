@@ -5,7 +5,6 @@ import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkCh
 import * as timelineStore from 'in-stores/timeline';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
-import {getKpis} from 'in-sdk/kpi';
 
 import './SparkChartsSection.less';
 
@@ -17,23 +16,22 @@ export default connectTo({
   }, SparkChartsSection
 );
 
-function SparkChartsSection({snapshot, timeframe}) {
-  const kpis = getKpis(snapshot);
+function SparkChartsSection({snapshot, timeframe, metrics}) {
   return (
     <div className={block}>
-      {kpis.map(kpi =>
-        <SparkChart key={kpi.metric}
+      {metrics.map(metric =>
+        <SparkChart key={metric.metric}
                     snapshotId={snapshot.get('id')}
-                    metric={kpi.metric}
-                    title={kpi.label}
-                    formatter={kpi.formatter}
+                    metric={metric.metric}
+                    label={metric.label}
+                    formatter={metric.formatter}
                     timeframe={timeframe} />
       )}
     </div>
   );
 }
 
-function SparkChart({snapshotId, timeframe, metric, title, formatter}) {
+function SparkChart({snapshotId, timeframe, metric, label, formatter}) {
   return (
     <div className={block + '__chart'}>
       <HistoricMetricSparkChart width={123}
@@ -44,7 +42,7 @@ function SparkChart({snapshotId, timeframe, metric, title, formatter}) {
                                 tooltipFormatter={formatter} />
       <div className={block + '__description'}>
         <span className={block + '__title'}>
-          {title}
+          {label}
         </span>
         <MetricValue snapshotId={snapshotId}
                      metric={metric}
@@ -56,6 +54,7 @@ function SparkChart({snapshotId, timeframe, metric, title, formatter}) {
 }
 
 SparkChartsSection.propTypes = {
+  metrics: React.PropTypes.array.isRequired,
   timeframe: timelineStore.timeframeShape,
   snapshot: irpt.map.isRequired
 };
