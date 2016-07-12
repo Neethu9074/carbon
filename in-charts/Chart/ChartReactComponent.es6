@@ -25,7 +25,16 @@ export default React.createClass({
   },
 
   renderChart() {
-    const config = Object.create(this.props);
+    // Copy all props to separate chart config object from React lifecycle and
+    // prop immutability.
+    const config = {
+      height: this.props.height,
+      margins: this.props.margins,
+      timeframe$: this.props.timeframe$,
+      snapshotId: this.props.snapshotId,
+      y1: this.props.y1,
+      y2: this.props.y2
+    };
     config.container = ReactDOM.findDOMNode(this);
     this.chart = createChart(config);
   },

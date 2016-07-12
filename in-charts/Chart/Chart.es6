@@ -1,23 +1,36 @@
 import * as ro from 'reactive-observables';
 
+import createAxisRenderer from 'in-charts/Chart/renderer/axis';
 import {updateCanvasDimensions} from 'in-charts/canvas';
+import createScale from 'in-charts/scale';
 
 import './Chart.less';
 
 const block = 'in-chart-v2';
 
 export default function createChart(config) {
-  const margins = calculateMargins();
-  const dom = createDomElements();
-  const ctx = createContexts();
+  const subscriptions = config.subscriptions = [];
+  let width = config.width = 0;
+  const height = config.height;
+  const margins = config.margins = calculateMargins();
+  const dom = config.dom = createDomElements();
+  const ctx = config.ctx = createContexts();
+  const scales = config.scales = createScales();
 
+  const axisRenderer = createAxisRenderer(config);
+
+  addWindowResizeSupport();
   resize();
-
-  const subscriptions = establishSubscriptions();
 
   return {
     dispose
   };
+
+
+  function dispose() {
+    config.container.removeChild(dom.wrapper);
+    subscriptions.forEach(s => s.dispose());
+  }
 
 
   function calculateMargins() {
@@ -58,28 +71,61 @@ export default function createChart(config) {
 
 
   function resize() {
-    const width = dom.wrapper.clientWidth;
-    const height = config.height;
+    width = config.width = dom.wrapper.clientWidth | 0;
+    config.bounds = {
+      top: height,
+      bottom: 0,
+      left: margins.left,
+      right: width - margins.right
+    };
     dom.wrapper.style.height = `${height}px`;
     updateCanvasDimensions(dom.screen, ctx.screen, width, height);
     updateCanvasDimensions(dom.buffer, ctx.buffer, width, height);
+
+    scales.x.setRangeFrom(margins.left);
+    scales.x.setRangeTo(width - margins.right);
+    scales.y1.setRangeFrom(height);
+    if (scales.y2) {
+      scales.y2.setRangeFrom(height);
+    }
+
+    render();
   }
 
 
-  function establishSubscriptions() {
-    const result = [];
-
-    result.push(ro
+  function addWindowResizeSupport() {
+    subscriptions.push(ro
       .on(window, 'resize')
       .debounce(500)
       .subscribe(resize));
+  }
+
+
+  function createScales() {
+    const result = {};
+
+    result.x = createScale();
+    result.y1 = createScale();
+    result.y1.setRangeTo(0);
+
+    if (config.y2) {
+      result.y2 = createScale();
+      result.y2.setRangeTo(0);
+    }
 
     return result;
   }
 
 
-  function dispose() {
-    config.container.removeChild(dom.wrapper);
-    subscriptions.forEach(s => s.dispose());
+  function render() {
+    renderToBackBuffer();
+
+    // copy backbuffer to screenbuffer
+    ctx.screen.drawImage(dom.buffer, 0, 0, width, height);
+  }
+
+
+  function renderToBackBuffer() {
+    axisRenderer.render();
   }
 }
