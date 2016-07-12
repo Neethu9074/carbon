@@ -76,7 +76,7 @@ export default function LogicalWebAppDashboard({snapshot, timeframe}) {
                              'latency 98th',
                              'latency 99th'
                            ],
-                           type: 'stackedArea'
+                           type: 'area'
                          }} />
       </DashboardSection>
 
