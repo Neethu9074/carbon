@@ -38,8 +38,13 @@ const Metric = getSnapshot(
       }
 
       const kpis = getKpis(snapshot);
+      let className = block + '__wrapper';
+      if (this.state.isHighlighted) {
+        className += ' ' + className + '--highlighted';
+      }
+
       return (
-        <div className={block + '__wrapper'}
+        <div className={className}
              onMouseEnter={() => this.setState({isHighlighted: true})}
              onMouseLeave={() => this.setState({isHighlighted: false})}>
           {this.state.isHighlighted ?
