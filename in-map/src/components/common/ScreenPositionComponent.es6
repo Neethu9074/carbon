@@ -14,6 +14,9 @@ export default class ScreenPositionComponent extends Component {
     this.screenPositionChangedKey = 'screenPositionChanged' + id;
     this.isVisibleChangedKey = 'isVisibleChanged' + id;
 
+    // send initial signal
+    this.emit(this.isVisibleChangedKey, false);
+
     this.initialized();
   }
 
