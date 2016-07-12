@@ -1,29 +1,42 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {withSiPrefixTwoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
+import * as timelineStore from 'in-stores/timeline';
 import MetricValue from 'in-components/MetricValue';
+import connectTo from 'in-hoc/connectTo';
+import {getKpis} from 'in-sdk/kpi';
 
 import './SparkChartsSection.less';
 
 
 const block = 'in-spark-chart-section';
 
-export default function ElasticsearchNodeSparkChartsSection({snapshotId, timeframe}) {
+export default connectTo({
+    timeframe: timelineStore.timeframe
+  }, SparkChartsSection
+);
+
+function SparkChartsSection({snapshot, timeframe}) {
+  const kpis = getKpis(snapshot);
   return (
     <div className={block}>
-      {sparkChart(snapshotId, timeframe, 'indices_count', 'Indices', withSiPrefixTwoDecimalPlaces)}
-      {sparkChart(snapshotId, timeframe, 'shards.node_active_shards', 'Active Shards', withSiPrefixTwoDecimalPlaces)}
-      {sparkChart(snapshotId, timeframe, 'indices.document_count', 'Documents', withSiPrefixTwoDecimalPlaces)}
-      {sparkChart(snapshotId, timeframe, 'indices.store_size', 'Size of store', bytesTwoDecimalPlaces)}
+      {kpis.map(kpi =>
+        <SparkChart key={kpi.metric}
+                    snapshotId={snapshot.get('id')}
+                    metric={kpi.metric}
+                    title={kpi.label}
+                    formatter={kpi.formatter}
+                    timeframe={timeframe} />
+      )}
     </div>
   );
 }
 
-function sparkChart(snapshotId, timeframe, metric, title, formatter, width = 130) {
+function SparkChart({snapshotId, timeframe, metric, title, formatter}) {
   return (
     <div className={block + '__chart'}>
-      <HistoricMetricSparkChart width={width}
+      <HistoricMetricSparkChart width={123}
                                 height={30}
                                 timeframe={timeframe}
                                 snapshotId={snapshotId}
@@ -41,3 +54,8 @@ function sparkChart(snapshotId, timeframe, metric, title, formatter, width = 130
     </div>
   );
 }
+
+SparkChartsSection.propTypes = {
+  timeframe: timelineStore.timeframeShape,
+  snapshot: irpt.map.isRequired
+};

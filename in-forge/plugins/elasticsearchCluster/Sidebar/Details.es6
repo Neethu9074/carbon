@@ -1,21 +1,15 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import SparkChartsSection from 'in-components/sidebars/components/SparkChartsSection';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ClusterMembersList from 'in-components/ClusterMembersList';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import * as timelineStore from 'in-stores/timeline';
-import connectTo from 'in-hoc/connectTo';
 
-import SparkChartsSection from './SparkChartsSection';
 import ClusterStatusLabel from '../ClusterStatusLabel';
 
 
-export default connectTo({
-  timeframe: timelineStore.timeframe
-}, ElasticsearchClusterSidebar);
-
-function ElasticsearchClusterSidebar({snapshot, timeframe}) {
+export default function ElasticsearchClusterSidebar({snapshot}) {
   const snapshotId = snapshot.get('id');
   const data = snapshot.get('data');
 
@@ -27,8 +21,7 @@ function ElasticsearchClusterSidebar({snapshot, timeframe}) {
         {item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
       </DescriptionList>
 
-      <SparkChartsSection snapshotId={snapshotId}
-                          timeframe={timeframe}/>
+      <SparkChartsSection snapshot={snapshot} />
 
       <ClusterMembersList snapshotId={snapshotId} />
     </div>
