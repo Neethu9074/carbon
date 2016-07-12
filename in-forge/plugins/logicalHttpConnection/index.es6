@@ -14,7 +14,9 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.logicalHttpConnection,
-  snapshot => snapshot.getIn(['data', 'id'])
+  snapshot => snapshot.getIn(['data', 'source', 'service_name']) +
+              '->' +
+              snapshot.getIn(['data', 'destination', 'service_name'])
 );
 
 power.addMapping(
