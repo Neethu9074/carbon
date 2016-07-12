@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {withSiPrefixTwoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import SparkChartsSection from 'in-components/sidebars/components/SparkChartsSection';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
@@ -48,7 +49,26 @@ export default getZone(
           </DescriptionItem>
         </DescriptionList>
 
-        <SparkChartsSection snapshot={snapshot} />
+        <SparkChartsSection snapshot={snapshot}
+                            metrics={[
+                              {
+                                metric: 'indices_count',
+                                label: 'Indices',
+                                formatter: withSiPrefixTwoDecimalPlaces
+                              }, {
+                                metric: 'shards.node_active_shards',
+                                label: 'Active Shards',
+                                formatter: withSiPrefixTwoDecimalPlaces
+                              }, {
+                                metric: 'indices.document_count',
+                                label: 'Documents',
+                                formatter: withSiPrefixTwoDecimalPlaces
+                              }, {
+                                metric: 'indices.store_size',
+                                label: 'Size of store',
+                                formatter: bytesTwoDecimalPlaces
+                              }
+                            ]}/>
       </div>
     );
   }

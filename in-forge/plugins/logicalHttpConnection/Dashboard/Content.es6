@@ -5,14 +5,14 @@ import DefaultLogicalKpiCharts from 'in-components/DefaultLogicalKpiCharts';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-export default function logicalService({snapshot, timeframe}) {
+export default function LogicalHttpConnectionDashboard({snapshot, timeframe}) {
   return (
     <DefaultLogicalKpiCharts snapshot={snapshot}
                              timeframe={timeframe} />
   );
 }
 
-logicalService.propTypes = {
+LogicalHttpConnectionDashboard.propTypes = {
   snapshot: irpt.map.isRequired,
   timeframe: timeframeShape
 };

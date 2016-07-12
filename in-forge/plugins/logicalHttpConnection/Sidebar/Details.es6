@@ -4,12 +4,12 @@ import React from 'react';
 import DefaultLogicalSidebarKpis from 'in-components/DefaultLogicalSidebarKpis/DefaultLogicalSidebarKpis';
 
 
-export default function LogicalServiceSidebar({snapshot}) {
+export default function LogicalHttpConnectionSidebar({snapshot}) {
   return (
     <DefaultLogicalSidebarKpis snapshot={snapshot} />
   );
 }
 
-LogicalServiceSidebar.propTypes = {
+LogicalHttpConnectionSidebar.propTypes = {
   snapshot: irpt.map.isRequired
 };
