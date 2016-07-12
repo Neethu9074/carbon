@@ -1,5 +1,3 @@
-
-
 const translationTable = {};
 
 export function setHumanReadablePluginName(plugin, singular, plural) {

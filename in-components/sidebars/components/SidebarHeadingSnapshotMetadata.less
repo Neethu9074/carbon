@@ -7,18 +7,16 @@
   background: @sidebar__header__background;
 
   &__label {
+    display: block;
+
+    max-width: 300px;
     margin: 0;
     font-size: 1rem;
     font-weight: normal;
-  }
-
-  &__text {
     color: @sidebar__header__heading;
-    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 300px;
-    display: block;
+    overflow: hidden;
   }
 
   &__wrapper {

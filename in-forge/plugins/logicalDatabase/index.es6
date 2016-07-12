@@ -12,8 +12,10 @@ pluginName.setHumanReadablePluginName(
   'Logical Databases'
 );
 
-addLabelFinder(constants.plugins.logicalDatabase,
-  snapshot => snapshot.getIn(['data', 'service_name']));
+addLabelFinder(
+  constants.plugins.logicalDatabase,
+  snapshot => snapshot.getIn(['data', 'service_name'])
+);
 
 addIconToRegistry({
   id: constants.plugins.logicalDatabase,

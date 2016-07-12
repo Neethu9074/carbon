@@ -22,6 +22,8 @@ import './jiraApplication';
 import './jvmRuntimePlatform';
 import './kafka';
 import './logicalService';
+import './logicalWebApp';
+import './logicalDatabase';
 import './mariaDbDatabase';
 import './mongoDb';
 import './msiis';

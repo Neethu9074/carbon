@@ -37,9 +37,7 @@ export default React.createClass({
       <div className={getClassName(this, block)}>
         <div className={block + '__type-zone-wrapper'}>
           <h1 className={block + '__label'}>
-            <span className={block + '__text'}>
-              {getLabel(snapshot)}
-            </span>
+            {getLabel(snapshot)}
           </h1>
 
           <div className={block + '__wrapper'}>
