@@ -5,6 +5,7 @@ import React from 'react';
 
 import {filterStoreShape} from 'in-components/ChartWithLegend/dataseriesFilterStore';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getDefaultMetricRollupDuration} from 'in-stores/metric';
 import {timeframeShape} from 'in-stores/timeline';
 
 import * as stackedAreaRenderer from './render/stackedAreaRenderer';
@@ -80,7 +81,8 @@ const Chart = React.createClass({
       margins,
       filterStore: this.props.filterStore,
       y1: this.extendAxisConfig('y1'),
-      windowSize: this.props.timeframe.windowSize
+      windowSize: this.props.timeframe.windowSize,
+      rollupMillis: getDefaultMetricRollupDuration(this.props.timeframe) || 1000
     };
 
     if (this.props.y2) {

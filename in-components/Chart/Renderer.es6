@@ -26,6 +26,7 @@ export default class Renderer {
         container,
         height,
         windowSize,
+        rollupMillis,
         margins,
         y1,
         y2,
@@ -35,6 +36,7 @@ export default class Renderer {
     this.container = container;
     this.windowSize = windowSize;
     this.tween = null;
+    this.rollupMillis = rollupMillis;
     this.filters = [];
 
     this.x = d3.time.scale();
@@ -479,7 +481,7 @@ export default class Renderer {
     const start = this.x.domain()[0];
     // The next expected point is the point at we which we would expect a next data point
     // to exist. We add a small margin to this to account for errors and delays.
-    const expectedNextPoint = new Date(start.getTime() + 5000);
+    const expectedNextPoint = new Date(start.getTime() + this.rollupMillis * 5);
     const maxDistanceBetweenPoints = this.x(expectedNextPoint) - this.x(start);
 
     this.y1.config.renderer.draw({
@@ -489,6 +491,7 @@ export default class Renderer {
       x: this.x,
       y: this.y1,
       maxDistanceBetweenPoints,
+      rollUpInMillis: this.rollupMillis,
       filters: this.filters
     });
 
@@ -500,6 +503,7 @@ export default class Renderer {
         x: this.x,
         y: this.y2,
         maxDistanceBetweenPoints,
+        rollUpInMillis: this.rollupMillis,
         filters: this.filters
       });
     }
