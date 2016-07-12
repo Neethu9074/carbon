@@ -7,8 +7,10 @@ import TimelineNavigation from 'in-components/timeline/components/TimelineNaviga
 import TimelineMenu from 'in-components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-components/timeline/components/EventTooltip';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
-import {getIn} from 'in-services/settings';
+import {getIn, toggleIn} from 'in-services/settings';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import './Timeline.less';
 
@@ -40,6 +42,12 @@ export default connectTo({
           <div className={block + '__bottom'}>
             <TimelineNavigation />
             <TimelineTimeframeMarker />
+
+            <Tooltip content='Toggle automatically collapsing timeline'>
+              <Icon type={autoCollapseTimeline ? 'open' : 'close'}
+                    className={block + '__toggle-auto-collapse'}
+                    onClick={() => toggleIn(['autoCollapseTimeline'])}/>
+            </Tooltip>
           </div>
         </div>
 

@@ -45,7 +45,12 @@ function setDefaultConfigValue(path, defaultValue) {
 export function setIn(path, value) {
   settings = settings.setIn(path, value);
   settingsStore.emit(settings);
+  setToStorage();
+}
 
+export function toggleIn(path) {
+  settings = settings.setIn(path, !settings.getIn(path, false));
+  settingsStore.emit(settings);
   setToStorage();
 }
 
