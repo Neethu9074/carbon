@@ -10,7 +10,7 @@ const block = 'in-sidebar-back-to-map-button';
 
 export default function BackToMapButton() {
   return (
-    <Button className={block + '__button'}
+    <Button className={block}
             onClick={navigation.goToMap}>
       Close Dashboard
     </Button>

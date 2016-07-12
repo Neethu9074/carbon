@@ -11,7 +11,7 @@ const block = 'in-sidebar-view-dashboard-button';
 
 export default function ViewDashboardButton({snapshot}) {
   return (
-    <Button className={block + '__button'}
+    <Button className={block}
             onClick={() => {
               setSelectedSnapshotId(snapshot.get('id'));
               navigation.goToDashboard();
