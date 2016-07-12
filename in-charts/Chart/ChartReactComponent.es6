@@ -1,7 +1,8 @@
+import ReactDOM from 'react-dom';
 import {isEqual} from 'lodash';
 import React from 'react';
 
-import {timeframeShape} from 'in-stores/timeline';
+import createChart from 'in-charts/Chart/Chart';
 
 const rpt = React.PropTypes;
 
@@ -12,7 +13,7 @@ export default React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    timeframe: timeframeShape,
+    timeframe$: rpt.object,
 
     snapshotId: rpt.string.isRequired,
     y1: rpt.object.isRequired,
@@ -24,13 +25,14 @@ export default React.createClass({
   },
 
   renderChart() {
-    console.log('Rendering chart');
+    const config = Object.create(this.props);
+    config.container = ReactDOM.findDOMNode(this);
+    this.chart = createChart(config);
   },
 
   shouldComponentUpdate(nextProps) {
     return this.props.snapshotId !== nextProps.snapshotId ||
-        this.props.timeframe.windowSize !== nextProps.timeframe.windowSize ||
-        this.props.timeframe.to !== nextProps.timeframe.to ||
+        this.props.timeframe$ !== nextProps.timeframe$ ||
         !isEqual(this.props.y1, nextProps.y1) ||
         !isEqual(this.props.y2, nextProps.y2);
   },
