@@ -1,12 +1,13 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import SidebarDashboard from 'in-components/sidebars/Dashboard';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import getForgeComponent from 'in-services/getForgeComponent';
 import {selectedSnapshot} from 'in-stores/snapshot';
 import * as timelineStore from 'in-stores/timeline';
+import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 import Jail from 'in-components/Jail';
 
@@ -21,7 +22,7 @@ const block = 'in-dashboard';
 export default connectTo({
     snapshot: selectedSnapshot,
     timeframe: timelineStore.timeframe,
-    isTimelineCollapsed: isCollapsed$
+    timelineHeight: timelineHeight$
   },
   React.createClass({
   displayName: 'Dashboard',
@@ -29,7 +30,7 @@ export default connectTo({
   propTypes: {
     snapshot: irpt.map,
     timeframe: timelineStore.timeframeShape,
-    isTimelineCollapsed: React.PropTypes.bool.isRequired
+    timelineHeight: React.PropTypes.number.isRequired
   },
 
   render() {
@@ -38,14 +39,12 @@ export default connectTo({
       return <LoadingIndicator />;
     }
 
-    let classes = block;
-    if (!this.props.isTimelineCollapsed) {
-      classes += ` ${block}--timeline-open`;
-    }
-
     const DashboardImpl = this.getForgeSpecificComponent('Content');
     return (
-      <div className={classes}>
+      <div className={block}
+           style={{
+             bottom: toPx(this.props.timelineHeight)
+           }}>
         <SidebarDashboard snapshot={snapshot}/>
 
         <div className={block + '__graphs'} ref='content'>
