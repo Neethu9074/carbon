@@ -40,7 +40,8 @@ export default connectTo({
       antialiasValue: 'off',
       speedSliderValue: 1,
       activeTheme: null,
-      experiments: false
+      experiments: false,
+      autoCollapseTimeline: false
     };
   },
 
@@ -56,7 +57,8 @@ export default connectTo({
         antialiasValue: antialias ? antialias : 'off',
         desktopNotification: desktopNotification,
         excludeUnmonitoredHosts: excludeUnmonitoredHosts,
-        experiments: data.get('experiments')
+        experiments: data.get('experiments'),
+        autoCollapseTimeline: data.getIn(['autoCollapseTimeline'])
       });
     }));
 
@@ -82,6 +84,14 @@ export default connectTo({
           <div className={block + '__header'}>
             Settings
           </div>
+
+          <SettingEntry>
+            <SettingEntry.Header text={'Automatically Collapse Timeline'} />
+            <SettingEntry.Content>
+              <CheckBox onClick={(e) => setIn(['autoCollapseTimeline'], !!e.target.checked)}
+                        defaultChecked={this.state.autoCollapseTimeline}/>
+            </SettingEntry.Content>
+          </SettingEntry>
 
           <SettingEntry>
             <SettingEntry.Header text={'Inverse scroll direction'} />

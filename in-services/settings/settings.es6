@@ -31,6 +31,7 @@ function loadDefault() {
   setDefaultConfigValue(['map', 'excludeUnmonitoredHosts'], false);
   setDefaultConfigValue(['desktopNotification'], false);
   setDefaultConfigValue(['experiments'], false);
+  setDefaultConfigValue(['autoCollapseTimeline'], false);
 
   setIn(['dataSource'], 'defaults');
 }
