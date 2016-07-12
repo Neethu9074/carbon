@@ -28,7 +28,7 @@ export default function LogicalDatabaseDashboard({snapshot, timeframe}) {
                            labels: [
                              'calls/s'
                            ],
-                           type: 'stackedArea'
+                           type: 'line'
                          }}
                          y2={{
                            min: 0,
@@ -40,7 +40,7 @@ export default function LogicalDatabaseDashboard({snapshot, timeframe}) {
                            labels: [
                              'errors/s'
                            ],
-                           type: 'stackedArea'
+                           type: 'line'
                          }} />
       </DashboardSection>
 
@@ -62,7 +62,7 @@ export default function LogicalDatabaseDashboard({snapshot, timeframe}) {
                            labels: [
                              'latency 95th'
                            ],
-                           type: 'stackedArea'
+                           type: 'line'
                          }} />
       </DashboardSection>
     </div>
