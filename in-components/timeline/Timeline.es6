@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import SelectedWindowSizePresenter from 'in-components/timeline/components/SelectedWindowSizePresenter';
@@ -8,65 +7,52 @@ import TimelineNavigation from 'in-components/timeline/components/TimelineNaviga
 import TimelineMenu from 'in-components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-components/timeline/components/EventTooltip';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import {getIn, toggleIn} from 'in-services/settings';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import './Timeline.less';
 
-
 const block = 'in-timeline';
-const rpt = React.PropTypes;
 
 export default connectTo({
-    isCollapsed: isCollapsed$
-  },
-  React.createClass({
+    isCollapsed: isCollapsed$,
+    autoCollapseTimeline: getIn(['autoCollapseTimeline'])
+  }, function Timeline({isCollapsed, autoCollapseTimeline}) {
+    let classes = block;
 
-    displayName: 'Timeline',
-
-    mixins: [
-      PureRenderMixin
-    ],
-
-    propTypes: {
-      isCollapsed: rpt.bool.isRequired
-    },
-
-    render() {
-      let classes = block;
-
-      if (!this.props.isCollapsed) {
-        classes = `${classes} ${block}--expanded`;
-      }
-
-      return (
-        <div>
-          <EventTooltip />
-
-          <div className={classes}>
-            <div className={`${block}__wrapper`}>
-              <TimelineMenu />
-              <TimelineCanvasReactWrapper />
-            </div>
-            <div className={block + '__bottom'}>
-              <TimelineNavigation />
-              <TimelineTimeframeMarker />
-            </div>
-          </div>
-
-          <SelectedWindowSizePresenter />
-        </div>
-      );
-    },
-
-    getWrapperClassName() {
-      const base = block + '__wrapper';
-      let classes = base;
-
-      if (!this.props.isCollapsed) {
-        classes = `${classes} ${base}--expanded`;
-      }
-
-      return classes;
+    if (!isCollapsed) {
+      classes = `${classes} ${block}--expanded`;
     }
-  })
+
+    if (!autoCollapseTimeline) {
+      classes = `${classes} ${block}--no-auto-collapse`;
+    }
+
+    return (
+      <div>
+        <EventTooltip />
+
+        <div className={classes}>
+          <div className={`${block}__wrapper`}>
+            <TimelineMenu />
+            <TimelineCanvasReactWrapper />
+          </div>
+          <div className={block + '__bottom'}>
+            <TimelineNavigation />
+            <TimelineTimeframeMarker />
+
+            <Tooltip content='Toggle automatically collapsing timeline'>
+              <Icon type={autoCollapseTimeline ? 'open' : 'close'}
+                    className={block + '__toggle-auto-collapse'}
+                    onClick={() => toggleIn(['autoCollapseTimeline'])}/>
+            </Tooltip>
+          </div>
+        </div>
+
+        <SelectedWindowSizePresenter />
+      </div>
+    );
+  }
 );

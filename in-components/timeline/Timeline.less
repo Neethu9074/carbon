@@ -15,7 +15,7 @@
   transition: height @transition-duration ease-in-out;
   overflow: hidden;
 
-  &:hover {
+  &:hover, &--no-auto-collapse {
     height: 98px;
 
     .in-timeline__wrapper {
@@ -58,5 +58,13 @@
     background: #172429;
 
     transition: top @transition-duration ease-in-out;
+  }
+
+  &__toggle-auto-collapse {
+    position: absolute;
+    right: 0;
+    bottom: -7px;
+    color: #6b8088;
+    font-size: 2rem;
   }
 }
