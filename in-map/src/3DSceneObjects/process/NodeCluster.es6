@@ -55,7 +55,7 @@ export default class NodeCluster extends Node {
   }
 
   init() {
-    this.height = 0.5;
+    this.height = 0.25;
 
     this.stickyNote = new StickyNoteCluster(this);
 
