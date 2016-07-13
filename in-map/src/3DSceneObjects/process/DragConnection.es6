@@ -12,6 +12,10 @@ const GHOST_MATERIAL = new THREE.LineBasicMaterial({
 export default class DragConnection {
 
   constructor(fromPosition) {
+    fromPosition = fromPosition.clone();
+    fromPosition.setX(fromPosition.x - 0.5);
+    fromPosition.setZ(fromPosition.z + 0.5);
+
     const geometry = new THREE.Geometry();
     const sceneObject = this.sceneObject = new THREE.Line(geometry, GHOST_MATERIAL);
 
