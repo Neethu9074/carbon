@@ -38,10 +38,16 @@ const Metric = getSnapshot(
         return false;
       }
 
+      let className = block + '__wrapper';
+      if (this.state.isHighlighted) {
+        className += ' ' + className + '--highlighted';
+      }
+
       const kpis = getKpis(snapshot);
       return (
         <div onMouseEnter={() => this.setState({isHighlighted: true})}
-             onMouseLeave={() => this.setState({isHighlighted: false})}>
+             onMouseLeave={() => this.setState({isHighlighted: false})}
+             className={className}>
           <div className={block + '__heading'}>
             {this.props.getHeading(snapshot)}
           </div>
