@@ -1,6 +1,11 @@
+import {combineLatest} from 'reactive-observables';
+
 import GhostEdgeSpawnerComponent from 'in-map/src/components/process/GhostEdgeSpawnerComponent';
 import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
+import CLCP from 'in-map/src/SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
+import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
+import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
@@ -8,8 +13,6 @@ import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {eventBus} from 'in-map/src/services/eventBus';
 import {theme} from 'in-services/theme';
-
-import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
 
 
 export default class Connection extends BaseConnection {
@@ -25,7 +28,21 @@ export default class Connection extends BaseConnection {
 
       eventBus.on('endUpdate').subscribe(() => this.getComponent('screenPosition').updateScreenPosition()),
 
-      this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)),
+      combineLatest([
+        this.eventEmitter.on('healthChanged'),
+        highlightedEntityId$,
+        selectedSnapshotIdForHighlightingInMap
+      ]).subscribe(([maxSeverity, highlightedEntityId, selectedEntityId]) => {
+        let colorToSet;
+        if (highlightedEntityId === this.id || selectedEntityId === this.id) {
+          colorToSet = '#ffffff';
+        } else if (maxSeverity > 0) {
+          colorToSet = theme.health[Math.floor(maxSeverity)];
+        } else {
+          colorToSet = '#bababa';
+        }
+         this.colorChanged(colorToSet);
+      }),
 
       this.eventEmitter.on('updateGeometry').debounce(10)
                                             .subscribe(this.updateGeometry.bind(this))
@@ -36,11 +53,6 @@ export default class Connection extends BaseConnection {
 
     addEdge(this);
   }
-
-  onSelectedEnter() {}
-
-  onSelectedLeave() {}
-
 
   init() {
     this.currentColor = theme.health[0];
@@ -110,8 +122,8 @@ export default class Connection extends BaseConnection {
     requestRendering();
   }
 
-  healthChanged(maxSeverity) {
-    this.currentColor = maxSeverity > 0 ? theme.health[Math.floor(maxSeverity)] : '#bababa';
+  colorChanged(newColor) {
+    this.currentColor = newColor;
     this.eventEmitter.emit('updateGeometry');
   }
 
