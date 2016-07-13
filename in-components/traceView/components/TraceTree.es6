@@ -1,5 +1,7 @@
 import React from 'react';
 
+import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
+import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
@@ -12,13 +14,15 @@ const block = 'in-trace-view-tree';
 function TreeElement({span}) {
   return (
     <li>
-      {getLabel(span)}
+      {msZeroDecimalPlaces(span.get('duration'))} {getLabel(span)}
 
       <ul>
-        {span.get('childSpans').toArray().map(childSpan =>
-          <TreeElement span={childSpan}
-                       key={childSpan.get('spanId')}/>
-        )}
+        {span.get('childSpans').toArray()
+          .filter(childSpan => !childSpan.get('async'))
+          .map(childSpan =>
+            <TreeElement span={childSpan}
+                         key={childSpan.get('spanId')}/>
+          )}
       </ul>
     </li>
   );
@@ -40,7 +44,11 @@ export default connectTo({
 
     return (
       <div className={block}>
-        Le Trace!
+        <h1>Le Flame Graph</h1>
+
+        <TraceFlameGraph trace={trace} />
+
+        <h1>Le Trace Tree</h1>
 
         <ul>
           <TreeElement span={trace}/>
