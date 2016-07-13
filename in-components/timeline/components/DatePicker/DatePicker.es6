@@ -6,7 +6,10 @@ import moment from 'moment';
 import React from 'react';
 
 import {timeFormat, dateFormat, formatDate} from 'in-services/formatters/date';
+import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
+import {timeframe$} from 'in-components/timeline/timelineStore';
+import {setTo, setFocusedMoment} from 'in-stores/timeline';
 import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import Button from 'in-components/Button';
@@ -31,9 +34,8 @@ const rpt = React.PropTypes;
 
 export default connectTo({
     bigBangTimestamp: bigBangTimestamp$,
-    serverTime: serverTime$,
-
     isDateTimeValid: isDateTimeValid$,
+    serverTime: serverTime$,
     dateString: dateString$,
     timeString: timeString$
   },
@@ -46,8 +48,6 @@ export default connectTo({
     ],
 
     propTypes: {
-      applyDate: rpt.func.isRequired,
-      onClose: rpt.func.isRequired,
       bigBangTimestamp: rpt.number,
       isDateTimeValid: rpt.shape({
         date: rpt.bool.isRequired,
@@ -99,7 +99,7 @@ export default connectTo({
                   className={block + '__reset-button'}
                   onClick={reset}/>
             <Button className={block + '__apply-button'}
-                    onClick={() => this.props.applyDate(this.getMergedDate())}>
+                    onClick={() => applyDate(this.getMergedDate())}>
               Apply
             </Button>
           </div>
@@ -127,7 +127,7 @@ export default connectTo({
                          to: new Date(serverTime)
                        })
                      }}
-                     onDayClick={(e, day) => setDateString(formatDate(day))}/>
+                     onDayClick={(e, day) => setDateString(formatDate(day))} />
         </div>
       );
     },
@@ -160,8 +160,20 @@ export default connectTo({
       if (e.clientX > rect.right || e.clientX < rect.left ||
           e.clientY < rect.top || e.clientY > rect.bottom) {
         // the click was donw outside this component so close it
-        this.props.onClose();
+        toggleShowTimeSelector();
       }
     }
   })
 );
+
+function applyDate(date) {
+  timeframe$.once(timeframe =>
+    serverTime$.once(serverTime => {
+      const focusedMoment = Math.min(serverTime, Date.parse(date));
+      if (focusedMoment) {
+        setFocusedMoment(focusedMoment);
+        setTo(focusedMoment + timeframe.windowSize / 2);
+      }
+    })
+  );
+}

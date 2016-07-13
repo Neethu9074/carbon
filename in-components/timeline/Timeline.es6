@@ -4,9 +4,10 @@ import SelectedWindowSizePresenter from 'in-components/timeline/components/Selec
 import TimelineCanvasReactWrapper from 'in-components/timeline/components/TimelineCanvasReactWrapper';
 import TimelineTimeframeMarker from 'in-components/timeline/components/TimelineTimeframeMarker';
 import TimelineNavigation from 'in-components/timeline/components/TimelineNavigation';
+import {isCollapsed$, showTimeSelector$} from 'in-components/timeline/timelineStore';
 import TimelineMenu from 'in-components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-components/timeline/components/EventTooltip';
-import {isCollapsed$} from 'in-components/timeline/timelineStore';
+import DatePicker from 'in-components/timeline/components/DatePicker';
 import {getIn, toggleIn} from 'in-services/settings';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -14,12 +15,14 @@ import Icon from 'in-components/Icon';
 
 import './Timeline.less';
 
+
 const block = 'in-timeline';
 
 export default connectTo({
     isCollapsed: isCollapsed$,
+    showTimeSelector: showTimeSelector$,
     autoCollapseTimeline: getIn(['autoCollapseTimeline'])
-  }, function Timeline({isCollapsed, autoCollapseTimeline}) {
+  }, function Timeline({showTimeSelector, isCollapsed, autoCollapseTimeline}) {
     let classes = block;
 
     if (!isCollapsed) {
@@ -34,21 +37,23 @@ export default connectTo({
       <div>
         <EventTooltip />
 
-        <div className={classes}>
-          <div className={`${block}__wrapper`}>
-            <TimelineMenu />
-            <TimelineCanvasReactWrapper />
-          </div>
-          <div className={block + '__bottom'}>
-            <TimelineNavigation />
-            <TimelineTimeframeMarker />
+        {showTimeSelector ? <DatePicker /> : null }
 
-            <Tooltip content='Toggle automatically collapsing timeline'>
-              <Icon type={autoCollapseTimeline ? 'open' : 'close'}
-                    className={block + '__toggle-auto-collapse'}
-                    onClick={() => toggleIn(['autoCollapseTimeline'])}/>
-            </Tooltip>
-          </div>
+        <div className={classes}>
+            <div className={`${block}__wrapper`}>
+              <TimelineMenu />
+              <TimelineCanvasReactWrapper />
+            </div>
+            <div className={block + '__bottom'}>
+              <TimelineNavigation />
+              <TimelineTimeframeMarker />
+
+              <Tooltip content='Toggle automatically collapsing timeline'>
+                <Icon type={autoCollapseTimeline ? 'open' : 'close'}
+                      className={block + '__toggle-auto-collapse'}
+                      onClick={() => toggleIn(['autoCollapseTimeline'])}/>
+              </Tooltip>
+            </div>
         </div>
 
         <SelectedWindowSizePresenter />
