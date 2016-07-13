@@ -2,6 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'redis',
+  category: 'database',
 
   typeName: {
     singular: 'Redis call',

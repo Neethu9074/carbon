@@ -1,8 +1,9 @@
 import React from 'react';
 
+import {spanCategoryColorPool} from 'in-services/util/ColorGenerator';
+import {getLabel, getCategory} from 'in-sdk/tracing';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
-import {getLabel} from 'in-sdk/tracing';
 
 import './TraceFlameGraph.less';
 
@@ -31,7 +32,8 @@ function FlameGraphElement({span, currentDepth, totalDepth, scale}) {
              style={{
                top: `${top}px`,
                left: `${left}%`,
-               width: `${width}%`
+               width: `${width}%`,
+               background: spanCategoryColorPool.getColorHex(getCategory(span))
              }} />
       </Tooltip>
     </div>

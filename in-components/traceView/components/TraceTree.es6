@@ -1,11 +1,11 @@
 import React from 'react';
 
-import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
+import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/tracing';
+import connectTo from 'in-hoc/connectTo';
 
 import './TraceTree.less';
 

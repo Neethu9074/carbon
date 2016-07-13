@@ -2,6 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'file',
+  category: 'io',
 
   typeName: {
     singular: 'File access',

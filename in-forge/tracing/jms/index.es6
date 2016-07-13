@@ -2,6 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'jms',
+  category: 'messaging',
 
   typeName: {
     singular: 'JMS message',
