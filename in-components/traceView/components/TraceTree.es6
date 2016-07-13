@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
-import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
@@ -11,17 +11,32 @@ import './TraceTree.less';
 
 const block = 'in-trace-view-tree';
 
-function TreeElement({span}) {
+function TreeElement({span, parentSpanForPercentageCalculation = null}) {
+  let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
+  if (parentSpanForPercentageCalculation.get('async')) {
+    newParentSpanForPercentageCalculation = span;
+  }
+
+  let percentageOfTotalTrace;
+  if (span.get('async')) {
+    percentageOfTotalTrace = 0;
+  } else {
+    // add a small amount to avoid division by zero
+    const parentDuration = parentSpanForPercentageCalculation.get('duration') + 0.00000001;
+    percentageOfTotalTrace = 1 / parentDuration * span.get('duration');
+  }
+
   return (
     <li>
-      {msZeroDecimalPlaces(span.get('duration'))} {getLabel(span)}
+      {percentageTwoDecimalPlaces(percentageOfTotalTrace)} {msZeroDecimalPlaces(span.get('duration'))} {getLabel(span)}
 
       <ul>
         {span.get('childSpans').toArray()
           .filter(childSpan => !childSpan.get('async'))
           .map(childSpan =>
             <TreeElement span={childSpan}
-                         key={childSpan.get('spanId')}/>
+                         key={childSpan.get('spanId')}
+                         parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation} />
           )}
       </ul>
     </li>
@@ -51,7 +66,8 @@ export default connectTo({
         <h1>Le Trace Tree</h1>
 
         <ul>
-          <TreeElement span={trace}/>
+          <TreeElement span={trace}
+                       parentSpanForPercentageCalculation={trace}/>
         </ul>
       </div>
     );
