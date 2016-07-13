@@ -2,6 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'elasticsearch',
+  category: 'database',
 
   typeName: {
     singular: 'Elasticsearch Call',

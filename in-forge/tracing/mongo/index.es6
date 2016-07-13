@@ -2,6 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'mongo',
+  category: 'database',
 
   typeName: {
     singular: 'MongoDB query',

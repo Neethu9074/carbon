@@ -3,6 +3,7 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'jersey',
+  category: 'http',
 
   typeName: {
     singular: 'HTTP Call',

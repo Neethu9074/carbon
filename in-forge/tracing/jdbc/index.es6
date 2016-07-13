@@ -2,6 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'jdbc',
+  category: 'database',
 
   typeName: {
     singular: 'JDBC Call',

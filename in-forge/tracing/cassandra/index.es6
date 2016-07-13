@@ -2,6 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'cassandra',
+  category: 'database',
 
   typeName: {
     singular: 'Cassandra query',

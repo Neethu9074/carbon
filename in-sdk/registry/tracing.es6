@@ -3,6 +3,7 @@ export const registry = {};
 
 const defaultSpanDefinition = {
   type: 'unknown',
+  category: 'generic',
 
   typeName: {
     singular: 'Unknown',
