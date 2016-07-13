@@ -22,21 +22,23 @@ export default class Map extends BaseMap {
     this.nodes = {};
     this.layouter = new Layouter();
 
-    edges.entities$.subscribe(currentEdges => {
-      this.ifNew(this.edges, currentEdges, entity => new EdgeSpawner(entity, this));
-      this.disposeOld(this.edges, currentEdges);
-    });
+    this.addSubscriptions([
+      edges.entities$.subscribe(currentEdges => {
+        this.ifNew(this.edges, currentEdges, entity => new EdgeSpawner(entity, this));
+        this.disposeOld(this.edges, currentEdges);
+      }),
 
-    nodes.entities$.subscribe(currentNodes => {
-      this.ifNew(this.nodes, currentNodes, entity => {
-        const params = {
-          parent: this,
-          entity: entity.entity
-        };
-        return entity.type === 'process' ? new NodeCluster(params) : new NodePhysical(params);
-      });
-      this.disposeOld(this.nodes, currentNodes);
-    });
+      nodes.entities$.subscribe(currentNodes => {
+        this.ifNew(this.nodes, currentNodes, entity => {
+          const params = {
+            parent: this,
+            entity: entity.entity
+          };
+          return entity.type === 'process' ? new NodeCluster(params) : new NodePhysical(params);
+        });
+        this.disposeOld(this.nodes, currentNodes);
+      })
+    ]);
 
     this.processViewRenderTree = new ProcessViewRenderTree();
   }
