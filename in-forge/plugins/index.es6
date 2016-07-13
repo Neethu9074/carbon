@@ -37,6 +37,7 @@ import './nodeJsRuntimePlatform';
 import './oracleDB';
 import './phpFpmRuntimePlatform';
 import './physicalHttpConnection';
+import './physicalJdbcConnection';
 import './postgreSqlDatabase';
 import './process';
 import './rabbitMq';
