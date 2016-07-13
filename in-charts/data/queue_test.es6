@@ -34,6 +34,21 @@ describe('queue', () => {
       ]);
     });
 
+    it('must add multiple data points at the same time', () => {
+      queue.addDataPoints(1, [[2, 5], [4, 6]]);
+      queue.addDataPoints(0, [[4, 5], [2, 3]]);
+      expect(queue.get()).to.deep.equal([
+        column([
+          [2, 3],
+          [2, 5]
+        ]),
+        column([
+          [4, 5],
+          [4, 6]
+        ])
+      ]);
+    });
+
     it('must report columns with missing values', () => {
       queue.addDataPoint(1, [2, 5]);
       expect(queue.get()).to.deep.equal([

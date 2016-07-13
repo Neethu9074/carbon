@@ -2,6 +2,7 @@ import invariant from 'invariant';
 
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
+import {getMetricsForTimeframe} from 'in-stores/metric';
 import createDataHolder from 'in-charts/data/dataHolder';
 import createQueue from 'in-charts/data/queue';
 import {timeframe$} from 'in-stores/timeline';
@@ -15,12 +16,13 @@ const contentRendererCreators = {
 
 
 export default function createAxisController(config) {
+  let timeframeSpecificSubscriptions = [];
   const scales = config.scales = createScales();
   config.axisContentRenderers = createAxisContentRenderers();
   config.queues = createQueues();
   config.dataHolders = createDataHolders();
 
-  subscribeToDataSources();
+  establishSubscriptions();
 
   return {
     resize,
@@ -29,7 +31,13 @@ export default function createAxisController(config) {
 
 
   function dispose() {
-    // TODO
+    disposeTimeframeSpecificSubscriptions();
+  }
+
+
+  function disposeTimeframeSpecificSubscriptions() {
+    timeframeSpecificSubscriptions.forEach(s => s.dipose());
+    timeframeSpecificSubscriptions = [];
   }
 
 
@@ -124,11 +132,42 @@ export default function createAxisController(config) {
   }
 
 
-  function subscribeToDataSources() {
-    config.subscriptions.push(timeframe$.flatMap(timeframe => {
+  function establishSubscriptions() {
+    config.subscriptions.push(timeframe$.subscribe(timeframe => {
       clearAllData();
       config.timeframe = timeframe;
+      disposeTimeframeSpecificSubscriptions();
+      subscribeToDataSources();
     }));
+  }
+
+
+  function subscribeToDataSources() {
+    subscribeToDataSourcesForAxis('y1');
+    if (config.y2) {
+      subscribeToDataSourcesForAxis('y2');
+    }
+  }
+
+
+  function subscribeToDataSourcesForAxis(axisName) {
+    const metrics = config[axisName].metrics;
+    const queue = config.queues[axisName];
+
+    /* eslint-disable no-loop-func */
+    for (let i = 0, len = metrics.length; i < len; i++) {
+      timeframeSpecificSubscriptions.push(
+        getMetricsForTimeframe({
+          snapshotId: config.snapshotId,
+          metric: metrics[i],
+          timeframe: config.timeframe
+        })
+        .subscribe(dataPoints => {
+          queue.addDataPoints(i, dataPoints);
+        })
+      );
+    }
+    /* eslint-enable no-loop-func */
   }
 
 

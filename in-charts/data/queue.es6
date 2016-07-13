@@ -11,10 +11,19 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
   clear();
 
   return {
+    addDataPoints,
     addDataPoint,
     clear,
     get: requireExistenceInAllSeries ? getStrict : getLoose
   };
+
+
+  function addDataPoints(seriesIndex, dataPoints) {
+    for (let i = 0, len = dataPoints.length; i < len; i++) {
+      const dataPoint = dataPoints[i];
+      series[seriesIndex][dataPoint[0]] = dataPoint;
+    }
+  }
 
 
   function addDataPoint(seriesIndex, dataPoint) {
