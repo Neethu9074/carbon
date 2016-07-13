@@ -33,7 +33,7 @@ const luceneValueConverters = {
     // for reference, see the escaping rules over here:
     // https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Escaping Special Characters
     const escapedValue = v
-      .replace(/[\+\-\!\(\)\{\}\[\]\^\"\~\*\?\:\\\&\|\']/, c => {
+      .replace(/[\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\']/, c => {
         return `\\${c}`;
       });
 
@@ -55,7 +55,7 @@ export function transformToLuceneQuery(query, contexts = ['entity']) {
   while (queryParts.length > 0) {
     const queryPart = queryParts.shift();
     if (queryPart.type === 'freeText') {
-      luceneQuery = `${luceneQuery} '${queryPart.text}'`;
+      luceneQuery = `${luceneQuery} ${luceneValueConverters.string(queryPart.text)}`;
     } else if (queryPart.type === 'kv') {
       const kvLuceneQueryPart = transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart);
       luceneQuery = `${luceneQuery} ${kvLuceneQueryPart}`;
