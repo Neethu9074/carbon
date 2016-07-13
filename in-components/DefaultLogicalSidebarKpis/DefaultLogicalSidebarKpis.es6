@@ -13,8 +13,8 @@ export default function DefaultLogicalSidebarKpis({snapshot}) {
                             label: 'calls/s',
                             formatter: twoDecimalPlaces
                           }, {
-                            metric: 'duration.95th',
-                            label: 'latency 95th',
+                            metric: 'duration.mean',
+                            label: 'avg. latency',
                             formatter: msTwoDecimalPlaces
                           }, {
                             metric: 'error_count',
