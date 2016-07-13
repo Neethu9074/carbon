@@ -5,7 +5,7 @@ import createLineContentRenderer from 'in-charts/Chart/renderer/content/stackedA
 import {getMetricsForTimeframe} from 'in-stores/metric';
 import createDataHolder from 'in-charts/data/dataHolder';
 import createQueue from 'in-charts/data/queue';
-import {timeframe$} from 'in-stores/timeline';
+import {timeframe$, to$} from 'in-stores/timeline';
 import createScale from 'in-charts/scale';
 
 
@@ -26,7 +26,8 @@ export default function createAxisController(config) {
 
   return {
     resize,
-    dispose
+    dispose,
+    removeOldDataPoints
   };
 
 
@@ -139,6 +140,16 @@ export default function createAxisController(config) {
       disposeTimeframeSpecificSubscriptions();
       subscribeToDataSources();
     }));
+    config.subscriptions.push(to$.subscribe(to => config.to = to));
+  }
+
+
+  function removeOldDataPoints() {
+    const oldestAllowed = config.to - config.timeframe.windowSize;
+    config.dataHolders.y1.expireDataPointsOlderThan(oldestAllowed);
+    if (config.dataHolders.y2) {
+      config.dataHolders.y1.expireDataPointsOlderThan(oldestAllowed);
+    }
   }
 
 

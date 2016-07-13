@@ -7,7 +7,6 @@ export default function createAxisRenderer(config) {
 
   function render() {
     // draw box around the chart area
-
     ctx.beginPath();
     ctx.strokeStyle = '#ddd';
     ctx.moveTo(config.bounds.left, config.bounds.top);
