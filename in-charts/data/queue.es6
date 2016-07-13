@@ -8,10 +8,11 @@
  */
 export default function createQueue({numberOfSeries, requireExistenceInAllSeries = false}) {
   const series = [];
-  resetSeries();
+  clear();
 
   return {
     addDataPoint,
+    clear,
     get: requireExistenceInAllSeries ? getStrict : getLoose
   };
 
@@ -106,7 +107,7 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
 
     // All data points have been processed and can be removed from the
     // queue.
-    resetSeries();
+    clear();
 
     return dataColumns;
   }
@@ -117,7 +118,7 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
   }
 
 
-  function resetSeries() {
+  function clear() {
     for (let i = 0; i < numberOfSeries; i++) {
       series[i] = {};
     }
