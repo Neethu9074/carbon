@@ -10,9 +10,10 @@
   min-width: @width;
   padding: 0 15px 0 1px;
   position: relative;
+  top: 1px;
 
   &__icon-zoom {
-    color: @light;
+    color: #6b8088;
     font-size: 1.6rem;
 
     &:hover {
@@ -71,13 +72,13 @@
     &::-moz-range-track {
       height: 2px;
       cursor: pointer;
-      background: @dark;
+      background: #43565e;
     }
 
     &::-webkit-slider-runnable-track {
       height: 4px;
       cursor: pointer;
-      background: @dark;
+      background: #43565e;
     }
 
     &::-ms-track {
@@ -86,11 +87,11 @@
     }
 
     &::-ms-fill-upper {
-      background: @dark;
+      background: #43565e;
     }
 
     &:focus::-ms-fill-lower {
-      background: @dark;
+      background: #43565e;
     }
   }
 }

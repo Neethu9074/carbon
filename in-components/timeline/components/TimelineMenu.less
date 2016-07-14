@@ -3,6 +3,7 @@
 
   float: left;
   width: @width;
+  position: relative;
 
   &__heading {
     display: flex;
@@ -10,7 +11,7 @@
     justify-content: space-between;
 
     height: 37px;
-    padding: 5px 20px 5px 10px;
+    padding: 5px 20px 5px 3.3rem;
     box-sizing: border-box;
     border-bottom: 1px solid #43565E;
   }
@@ -26,6 +27,21 @@
 
     &:hover {
       color: white;
+    }
+  }
+
+  &__toggle-auto-expand {
+    position: absolute;
+    top: 0;
+    left: -0.3rem;
+    font-size: 2.1rem;
+    height: 2.3125rem;
+    width: 2.7rem;
+    color: #6b8088;
+    border-right: 1px solid #43565E;
+
+    &:hover {
+      color: #fff;
     }
   }
 }
