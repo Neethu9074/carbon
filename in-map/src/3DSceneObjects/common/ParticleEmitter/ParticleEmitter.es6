@@ -2,7 +2,7 @@ import * as ro from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
-import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEmitter/SpiralSpawnPositionGenerator';
+import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEmitter/PlaneSpawnPositionGenerator';
 import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
 import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
