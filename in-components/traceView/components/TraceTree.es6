@@ -3,11 +3,12 @@ import React from 'react';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
 import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
+import {getLabel, getTypeLabelSingular, getCategory} from 'in-sdk/tracing';
+import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import classnames from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
-import {getLabel, getTypeLabelSingular} from 'in-sdk/tracing';
 
 import './TraceTree.less';
 
@@ -51,6 +52,10 @@ const TreeElement = React.createClass({
                [`${block}__element-header--error`]: this.props.span.get('error')
              })}
              onClick={this.toggleDetails}>
+          <span className={`${block}__element-type-indicator`}
+                style={{
+                  background: spanCategoryColors[getCategory(this.props.span)]
+                }}/>
           {msZeroDecimalPlaces(this.props.span.get('duration'))}
           &nbsp;
           ({percentageTwoDecimalPlaces(percentageOfTotalTrace)})
@@ -68,7 +73,6 @@ const TreeElement = React.createClass({
 
         <ul className={`${block}__element-container`}>
           {childSpans.toArray()
-            .filter(childSpan => !childSpan.get('async'))
             .map(childSpan =>
               <TreeElement span={childSpan}
                            key={childSpan.get('spanId')}
