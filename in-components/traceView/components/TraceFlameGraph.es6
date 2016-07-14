@@ -12,8 +12,8 @@ const margin = 2;
 const height = 6;
 
 
-function FlameGraphElement({span, currentDepth, totalDepth, scale}) {
-  const top = (totalDepth - currentDepth) * (margin + height);
+function FlameGraphElement({span, currentDepth, scale}) {
+  const top = (currentDepth - 1) * (margin + height);
   const left = scale.getRange(span.get('start'));
   // reduce by 0.1 to give it some wiggle room between two adjacent spans
   const width = scale.getRange(span.get('start') + span.get('duration')) - left - 0.1;
@@ -27,7 +27,6 @@ function FlameGraphElement({span, currentDepth, totalDepth, scale}) {
         <FlameGraphElement key={childSpan.get('spanId')}
                            span={childSpan}
                            currentDepth={currentDepth + 1}
-                           totalDepth={totalDepth}
                            scale={scale} />
       )}
 
@@ -62,7 +61,6 @@ export default function TraceFlameGraph({trace}) {
          className={block}>
       <FlameGraphElement span={trace}
                          currentDepth={1}
-                         totalDepth={depth}
                          scale={x} />
     </div>
   );
