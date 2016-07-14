@@ -30,7 +30,12 @@ function TimelineMenu({events, isCollapsed, autoCollapseTimeline}) {
       <Tooltip content='Toggle automatically collapsing timeline'>
         <Icon type={autoCollapseTimeline ? 'up' : 'down'}
               className={`${block}__toggle-auto-expand`}
-              onClick={() => toggleIn(['autoCollapseTimeline'])}/>
+              onClick={() => {
+                if (!isCollapsed) {
+                  toggleMenu();
+                }
+                toggleIn(['autoCollapseTimeline']);
+              }}/>
       </Tooltip>
 
       <div className={block + '__heading'}>
