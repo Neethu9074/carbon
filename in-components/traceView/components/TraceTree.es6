@@ -43,6 +43,7 @@ const TreeElement = React.createClass({
     }
 
     const childSpans = this.props.span.get('childSpans');
+    const selfTime = getSelfTime(this.props.span);
 
     return (
       <li className={`${block}__element`}>
@@ -59,6 +60,8 @@ const TreeElement = React.createClass({
           {msZeroDecimalPlaces(this.props.span.get('duration'))}
           &nbsp;
           ({percentageTwoDecimalPlaces(percentageOfTotalTrace)})
+          &nbsp;
+          {msZeroDecimalPlaces(selfTime)}
           &nbsp;
           {this.props.span.get('async') ? <span>&#x21C4;&nbsp;</span> : null}
           {getTypeLabelSingular(this.props.span)}:
@@ -92,6 +95,13 @@ const TreeElement = React.createClass({
     });
   }
 });
+
+
+function getSelfTime(span) {
+  let selfTime = span.get('duration');
+  span.get('childSpans').forEach(childSpan => selfTime -= childSpan.get('duration'));
+  return selfTime;
+}
 
 
 export default connectTo({
