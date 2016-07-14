@@ -19,6 +19,7 @@ const QUATERNION = new THREE.Quaternion();
 const POSITION = new THREE.Vector3();
 const SCALE = new THREE.Vector3();
 const START_ROLL = -40;
+const START_YAW = -30;
 
 export default class CameraController extends BaseCameraController {
 
@@ -71,7 +72,7 @@ export default class CameraController extends BaseCameraController {
     // transformation helper. need this to move on the ground
     this.camMoveHelper = new THREE.Object3D();
     this.camMoveHelper.add(new THREE.AxisHelper(2));
-    this.camMoveHelper.rotateY(-40 * Math.PI / 180);
+    this.camMoveHelper.rotateY(START_YAW * Math.PI / 180);
 
     this.camRotationHelper = new THREE.Object3D();
     this.camRotationHelper.rotateX(START_ROLL * Math.PI / 180);
