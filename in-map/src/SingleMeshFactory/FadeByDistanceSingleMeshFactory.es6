@@ -8,8 +8,8 @@ import ASingleMeshFactory from './ASingleMeshFactory';
 
 export default class FadeByDistanceSingleMeshFactory extends ASingleMeshFactory {
 
-  constructor({renderOrder = 2}) {
-    super({renderOrder});
+  constructor(props = {renderOrder: 2}) {
+    super(props);
   }
 
   getMesh() {

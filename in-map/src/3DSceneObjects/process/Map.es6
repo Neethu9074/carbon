@@ -1,4 +1,5 @@
 import ProcessViewRenderTree from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/ProcessViewRenderTree';
+import FadeByDistanceSingleMeshFactory from 'in-map/src/SingleMeshFactory/FadeByDistanceSingleMeshFactory';
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import SingleMeshDashedLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshDashedLineFactory';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
@@ -56,6 +57,8 @@ export default class Map extends BaseMap {
     factories.dashedLineSMF = new SingleMeshDashedLineFactory();
 
     factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory();
+
+    factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory();
   }
 
   ifNew(oldMap, newMap, ifNewCallback) {

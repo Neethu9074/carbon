@@ -68,7 +68,6 @@ export default class NodeCluster extends Node {
 
   addComponents(components) {
     const sceneObject = this;
-    const factory = this.getFactory('solidSMF');
 
     // add the mesh component to handle visual representation of the entity
     components.mesh = new MeshComponent({
@@ -80,7 +79,7 @@ export default class NodeCluster extends Node {
           })
         })
       }),
-      factory
+      factory: this.getFactory('fadeByDistanceSMF')
     });
 
     // add the collision component to handle the collision box
