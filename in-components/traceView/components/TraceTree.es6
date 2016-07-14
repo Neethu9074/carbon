@@ -57,6 +57,7 @@ const TreeElement = React.createClass({
                 style={{
                   background: spanCategoryColors[getCategory(this.props.span)]
                 }}/>
+
           {msZeroDecimalPlaces(this.props.span.get('duration'))}
           &nbsp;
           ({percentageTwoDecimalPlaces(percentageOfTotalTrace)})
