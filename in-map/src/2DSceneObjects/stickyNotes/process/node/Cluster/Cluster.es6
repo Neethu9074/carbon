@@ -33,11 +33,15 @@ const ProcessCluster = React.createClass({
   },
 
   render() {
-    const backgroundColor = (this.state.highlighted || this.state.expanded) ? '#fff' : '#f4f7fa';
+    const isHighlighted = this.state.highlighted || this.state.expanded;
+
+    let className = block + '__content';
+    if (isHighlighted) {
+      className += ' ' + className + '--highlighted';
+    }
 
     return (
-      <div className={block + '__content'}
-           style={{backgroundColor}}
+      <div className={className}
            onMouseEnter={() => this.setState({highlighted: true})}
            onMouseLeave={() => this.setState({highlighted: false})}
            onClick={this.onClick}>
