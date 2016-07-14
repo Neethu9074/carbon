@@ -108,8 +108,13 @@ export default class Map extends BaseMap {
       }),
 
       eventBus.on('openDashboard').subscribe(id => {
-        setSelectedSnapshotId(id);
-        goToDashboard();
+        if (id) {
+          setSelectedSnapshotId(id);
+          goToDashboard();
+
+          // clear stream
+          eventBus.emit('openDashboard', null);
+        }
       })
     ]);
 

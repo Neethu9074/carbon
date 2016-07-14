@@ -47,6 +47,7 @@ export default class MetricComponent extends Component {
     this.longClickedSubscription = longClickedSceneObject.subscribe(so => {
       if (so && so.id === this.id) {
         eventBus.emit('openDashboard', sceneObject.id);
+        longClickedSceneObject.emit(null);
       }
     });
   }

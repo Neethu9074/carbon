@@ -49,6 +49,7 @@ export default class SceneObject extends Subscriber {
       longClickedSceneObject.subscribe(so => {
         if (so && so.id === this.id) {
           eventBus.emit('openDashboard', this.id);
+          longClickedSceneObject.emit(null);
         }
       })
     ]);
