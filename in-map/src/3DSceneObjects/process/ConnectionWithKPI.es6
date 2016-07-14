@@ -22,7 +22,7 @@ export default class ConnectionWithKPI extends Connection {
         this.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
         this.parent.onZoomLevel()
       ]).subscribe(([isVisible, zoomLevel]) =>
-        (isVisible && zoomLevel < 500) ?
+        (isVisible && zoomLevel < 300) ?
           this.getOrCreateMetricSticky() :
           this.disposeMetricSticky()
       )
