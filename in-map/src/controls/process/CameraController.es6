@@ -36,7 +36,6 @@ export default class CameraController extends BaseCameraController {
     this.cameraMoveSpeed = 0.02;
 
     this.targetCameraPOIPosition = new THREE.Object3D();
-    this.targetCameraPOIPosition.rotateY(-30 * Math.PI / 180);
 
     // this is the target frustum size (or the zoom level in abstract) for the camera.
     // It will be animated during the update routine
@@ -72,7 +71,7 @@ export default class CameraController extends BaseCameraController {
     // transformation helper. need this to move on the ground
     this.camMoveHelper = new THREE.Object3D();
     this.camMoveHelper.add(new THREE.AxisHelper(2));
-    this.camMoveHelper.rotateY(-30 * Math.PI / 180);
+    this.camMoveHelper.rotateY(-40 * Math.PI / 180);
 
     this.camRotationHelper = new THREE.Object3D();
     this.camRotationHelper.rotateX(START_ROLL * Math.PI / 180);
