@@ -58,8 +58,4 @@ export default class GroundPlane extends BaseGroundPlane {
       this.groundtexture.repeat.set(size, size);
     }
   }
-
-  dispose() {
-    super.dispose();
-  }
 }
