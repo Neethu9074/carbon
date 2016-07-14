@@ -26,6 +26,12 @@ export default class Layouter {
                                  .debounce(100)
                                  .subscribe(inventar => this.applyLayout(inventar, true));
 
+    this.resetProcessViewLayoutingSubscription = eventBus.on('resetProcessViewLayouting').subscribe(shouldReset => {
+      if (shouldReset) {
+        eventBus.emit('resetProcessViewLayouting', false);
+      }
+    });
+
     eventBus.emit('resetProcessViewLayouting', true);
   }
 
