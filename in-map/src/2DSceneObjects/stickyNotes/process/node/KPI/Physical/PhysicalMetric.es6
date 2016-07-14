@@ -1,8 +1,6 @@
 import StickyNoteProcessMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI';
 import {getLabel} from 'in-sdk/snapshot';
 
-import 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Physical/PhysicalMetric.less';
-
 
 export default class StickyNoteProcessMetricCluster extends StickyNoteProcessMetric {
 

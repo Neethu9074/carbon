@@ -1,7 +1,9 @@
 /* eslint-disable complexity */
 import {combineLatest} from 'reactive-observables';
 
-import {layoutingEnabled$, inventar$} from 'in-map/src/stores/process/layouterStore';
+import {edges$} from 'in-map/src/stores/process/edgesStore';
+import {nodes$} from 'in-map/src/stores/process/nodesStore';
+import {eventBus} from 'in-map/src/services/eventBus';
 
 
 const SCALE = 5;
@@ -13,35 +15,43 @@ export default class Layouter {
     this.gravity = 200;
     this.speed = 0.1;
 
-    this.layoutingSubscription = combineLatest([
-      layoutingEnabled$,
-      inventar$
-    ]).debounce(100)
-      .subscribe(props => {
-      const isAutoLayoutEnabled = props[0];
-      const inventar = props[1];
+    this.layoutingSubscription = combineLatest([nodes$, edges$, eventBus.on('resetProcessViewLayouting')])
+                                 .map(([nodes, edges, shouldReset]) => {
+                                   return {
+                                     nodes: Object.keys(nodes).map(key => nodes[key]),
+                                     edges: Object.keys(edges).map(key => edges[key]),
+                                     shouldReset
+                                   };
+                                 })
+                                 .debounce(100)
+                                 .subscribe(inventar => this.applyLayout(inventar, true));
 
-      isAutoLayoutEnabled ?
-        this.applyLayout(inventar) :
-        this.applyLayout(inventar, true);
-    });
+    eventBus.emit('resetProcessViewLayouting', true);
   }
 
-  applyLayout(inventar, skipLayouted = false) {
-    const sigmaGraph = this.buildSigmaGraphStructure(inventar, skipLayouted);
+  applyLayout(inventar) {
+    const sigmaGraph = this.buildSigmaGraphStructure(inventar);
     this.start(sigmaGraph);
     this.applyPositionUpdate(sigmaGraph);
   }
 
-  buildSigmaGraphStructure({nodes, edges}, skipLayouted) {
+  buildSigmaGraphStructure({nodes, edges, shouldReset}) {
     const graph = {
       nodes: [],
       nodeMap: {},
       edges: []
     };
 
+
+    console.log('Layout');
+    if (shouldReset) {
+      console.log('reset');
+      nodes.forEach(node => node._wasAutomaticLayouted = false);
+      this.resetLayouting = false;
+    }
+
     let posOffet = 0;
-    nodes.forEach((node) => {
+    nodes.forEach(node => {
       const pos = node.getComponent('position').getPosition();
 
       const sigmaNode = {
@@ -54,7 +64,7 @@ export default class Layouter {
       graph.nodeMap[node.id] = sigmaNode;
       graph.nodes.push(sigmaNode);
 
-      if (skipLayouted && (pos.x !== 0 || pos.y !== 0 || pos.z !== 0)) {
+      if (node._wasAutomaticLayouted) {
         sigmaNode.fixed = true;
         sigmaNode.x = pos.x;
         sigmaNode.y = pos.z;
@@ -207,10 +217,12 @@ export default class Layouter {
   applyPositionUpdate(graph) {
     graph.nodes.forEach(node => {
       node.inNode.getComponent('position').setPosition(node.fr_x * SCALE, 0, node.fr_y * SCALE);
+      node.inNode._wasAutomaticLayouted = true;
     });
   }
 
   dispose() {
+    this.resetProcessViewLayoutingSubscription.dispose();
     this.layoutingSubscription.dispose();
   }
 }

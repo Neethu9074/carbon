@@ -1,16 +1,15 @@
 import React from 'react';
 
-import {toggleLayouting, layoutingEnabled$} from 'in-map/src/stores/process/layouterStore';
+import {eventBus} from 'in-map/src/services/eventBus';
 import {view, types as views} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/LayoutControls/LayoutControls.less';
+import 'in-map/src/components/react/LayoutControls/LayoutControls.less';
 
 
 const block = 'in-layout-controls';
 
 export default connectTo({
-    layoutingEnabled: layoutingEnabled$,
     currentView: view
   }, LayoutControls
 );
@@ -22,9 +21,8 @@ function LayoutControls({layoutingEnabled, currentView}) {
 
   return (
     <div className={layoutingEnabled ? block : block + ' ' + block + '__disabled'}
-         onClick={toggleLayouting}>
-
-      auto
+         onClick={() => eventBus.emit('resetProcessViewLayouting', true)}>
+      reorder
     </div>
   );
 }

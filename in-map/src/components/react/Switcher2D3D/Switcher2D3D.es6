@@ -4,7 +4,7 @@ import {toggleView, view$ as view2D3D$} from 'in-map/src/stores/process/viewStor
 import {view, types as views} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/Switcher2D3D/Switcher2D3D.less';
+import 'in-map/src/components/react/Switcher2D3D/Switcher2D3D.less';
 
 
 const block = 'in-switcher-2d-3d';
