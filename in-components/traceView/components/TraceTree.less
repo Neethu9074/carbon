@@ -1,6 +1,21 @@
 .in-trace-view-tree {
   &__no-trace-selected {
     text-align: center;
-    margin: 2rem;  
+    margin: 2rem;
+  }
+
+  &__element-container {
+    list-style: none;
+    padding-left: 2rem;
+
+    &--root {
+      padding: 0;
+    }
+  }
+
+  &__element-header {
+    &--error {
+      background: #eaaeae;
+    }
   }
 }

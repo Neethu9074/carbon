@@ -17,6 +17,10 @@ function FlameGraphElement({span, currentDepth, totalDepth, scale}) {
   const left = scale.getRange(span.get('start'));
   // reduce by 0.1 to give it some wiggle room between two adjacent spans
   const width = scale.getRange(span.get('start') + span.get('duration')) - left - 0.1;
+  let color = spanCategoryColorPool.getColorHex(getCategory(span));
+  if (span.get('error')) {
+    color = 'red';
+  }
   return (
     <div>
       {span.get('childSpans').toArray().map(childSpan =>
@@ -33,7 +37,7 @@ function FlameGraphElement({span, currentDepth, totalDepth, scale}) {
                top: `${top}px`,
                left: `${left}%`,
                width: `${width}%`,
-               background: spanCategoryColorPool.getColorHex(getCategory(span))
+               background: color
              }} />
       </Tooltip>
     </div>
