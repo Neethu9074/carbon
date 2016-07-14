@@ -11,16 +11,16 @@ const SCALE = 5;
 export default class Layouter {
 
   constructor() {
+    this.shouldReset = true;
     this.iterations = 1000;
     this.gravity = 200;
     this.speed = 0.1;
 
     this.layoutingSubscription = combineLatest([nodes$, edges$, eventBus.on('resetProcessViewLayouting')])
-                                 .map(([nodes, edges, shouldReset]) => {
+                                 .map(([nodes, edges]) => {
                                    return {
                                      nodes: Object.keys(nodes).map(key => nodes[key]),
-                                     edges: Object.keys(edges).map(key => edges[key]),
-                                     shouldReset
+                                     edges: Object.keys(edges).map(key => edges[key])
                                    };
                                  })
                                  .debounce(100)
@@ -28,6 +28,7 @@ export default class Layouter {
 
     this.resetProcessViewLayoutingSubscription = eventBus.on('resetProcessViewLayouting').subscribe(shouldReset => {
       if (shouldReset) {
+        this.shouldReset = true;
         eventBus.emit('resetProcessViewLayouting', false);
       }
     });
@@ -41,19 +42,16 @@ export default class Layouter {
     this.applyPositionUpdate(sigmaGraph);
   }
 
-  buildSigmaGraphStructure({nodes, edges, shouldReset}) {
+  buildSigmaGraphStructure({nodes, edges}) {
     const graph = {
       nodes: [],
       nodeMap: {},
       edges: []
     };
 
-
-    console.log('Layout');
-    if (shouldReset) {
-      console.log('reset');
+    if (this.shouldReset) {
       nodes.forEach(node => node._wasAutomaticLayouted = false);
-      this.resetLayouting = false;
+      this.shouldReset = false;
     }
 
     let posOffet = 0;
