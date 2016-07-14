@@ -24,7 +24,7 @@ export default class NodePhysical extends Node {
   }
 
   init() {
-    this.height = 0.25;
+    this.height = 1;
   }
 
   addComponents(components) {
