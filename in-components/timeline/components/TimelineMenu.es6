@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TimelineLiveIndicator from 'in-components/timeline/components/TimelineLiveIndicator';
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
@@ -40,9 +41,12 @@ function TimelineMenu({events, isCollapsed, autoCollapseTimeline}) {
       <TimelineMenuEventLine title={'Incidents'}
                              count={events ? events.incidents.length : 0}
                              additionalContent={
-                               <Icon type={'timeline_' + (isCollapsed ? 'open' : 'close')}
-                                     className={block + '__icon'}
-                                     onClick={toggleMenu}/>
+                               <div>
+                                 <Icon type={'timeline_' + (isCollapsed ? 'open' : 'close')}
+                                       className={block + '__icon'}
+                                       onClick={toggleMenu}/>
+                                 <TimelineLiveIndicator />
+                               </div>
                              }/>
 
       <TimelineMenuEventLine title={'Issues'}
