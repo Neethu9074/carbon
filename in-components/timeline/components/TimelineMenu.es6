@@ -4,7 +4,9 @@ import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMen
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
 import {isCollapsed$, toggleMenu} from 'in-components/timeline/timelineStore';
+import {getIn, toggleIn} from 'in-services/settings';
 import {eventsInTimeframe$} from 'in-stores/events';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -16,13 +18,20 @@ const rpt = React.PropTypes;
 
 export default connectTo({
     events: eventsInTimeframe$,
-    isCollapsed: isCollapsed$
+    isCollapsed: isCollapsed$,
+    autoCollapseTimeline: getIn(['autoCollapseTimeline'])
   }, TimelineMenu
 );
 
-function TimelineMenu({events, isCollapsed}) {
+function TimelineMenu({events, isCollapsed, autoCollapseTimeline}) {
   return (
     <div className={block}>
+      <Tooltip content='Toggle automatically collapsing timeline'>
+        <Icon type={autoCollapseTimeline ? 'up' : 'down'}
+              className={`${block}__toggle-auto-expand`}
+              onClick={() => toggleIn(['autoCollapseTimeline'])}/>
+      </Tooltip>
+
       <div className={block + '__heading'}>
         <TimelineSelectedTime/>
         <TimelineLiveButton/>
