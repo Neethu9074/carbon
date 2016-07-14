@@ -1,11 +1,12 @@
 export default function createDataHolder({numberOfSeries}) {
   // A data column has the form Array<DataPoint>
-  const dataColumns = [];
+  let dataColumns = [];
 
   return {
     insertSorted,
     getDataColumns,
-    expireDataPointsOlderThan
+    expireDataPointsOlderThan,
+    clear
   };
 
 
@@ -63,5 +64,10 @@ export default function createDataHolder({numberOfSeries}) {
     if (tooOldDataPointFound) {
       dataColumns.splice(0, i);
     }
+  }
+
+
+  function clear() {
+    dataColumns = [];
   }
 }
