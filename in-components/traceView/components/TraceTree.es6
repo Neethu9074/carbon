@@ -33,17 +33,23 @@ const TreeElement = React.createClass({
       newParentSpanForPercentageCalculation = this.props.span;
     }
 
-    let percentageOfTotalTrace;
+    const selfTime = getSelfTime(this.props.span);
+    const totalTime = this.props.span.get('duration');
+
+    let totalTimePercentage;
+    let selfTimePercentage;
     if (this.props.span.get('async')) {
-      percentageOfTotalTrace = 0;
+      totalTimePercentage = 0;
+      selfTimePercentage = 0;
     } else {
       // add a small amount to avoid division by zero
-      const parentDuration = this.props.parentSpanForPercentageCalculation.get('duration') + 0.00000001;
-      percentageOfTotalTrace = 1 / parentDuration * this.props.span.get('duration');
+      const parentTotalTime = this.props.parentSpanForPercentageCalculation.get('duration') + 0.00000001;
+      totalTimePercentage = 1 / parentTotalTime * totalTime;
+      const parentSelfTime = getSelfTime(this.props.parentSpanForPercentageCalculation);
+      selfTimePercentage = 1 / parentSelfTime * selfTime;
     }
 
     const childSpans = this.props.span.get('childSpans');
-    const selfTime = getSelfTime(this.props.span);
 
     return (
       <li className={`${block}__element`}>
@@ -58,16 +64,24 @@ const TreeElement = React.createClass({
                   background: spanCategoryColors[getCategory(this.props.span)]
                 }}/>
 
-          {msZeroDecimalPlaces(this.props.span.get('duration'))}
-          &nbsp;
-          ({percentageTwoDecimalPlaces(percentageOfTotalTrace)})
-          &nbsp;
-          {msZeroDecimalPlaces(selfTime)}
-          &nbsp;
-          {this.props.span.get('async') ? <span>&#x21C4;&nbsp;</span> : null}
-          {getTypeLabelSingular(this.props.span)}:
-          &nbsp;
-          {getLabel(this.props.span)}
+          <div className={`${block}__element-header-row ${block}__element-header-row--top`}>
+            Self: {msZeroDecimalPlaces(selfTime)} ({percentageTwoDecimalPlaces(selfTimePercentage)})
+
+            <span style={{position: 'absolute', left: '150px'}}>
+              {getTypeLabelSingular(this.props.span)}:
+              &nbsp;
+              {getLabel(this.props.span)}
+            </span>
+          </div>
+          <div className={`${block}__element-header-row ${block}__element-header-row--bottom`}>
+            Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
+          </div>
+
+          {this.props.span.get('async') ?
+            <span className={`${block}__async-marker`}>
+              &#x21C4;
+            </span>
+          : null}
         </div>
 
         {this.state.detailsExpanded ?
