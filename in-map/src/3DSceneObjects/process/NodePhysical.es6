@@ -12,6 +12,7 @@ import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CubeContentProvide
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Physical';
+import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
 
@@ -25,6 +26,12 @@ export default class NodePhysical extends Node {
 
   init() {
     this.height = 1;
+
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      iconSize: 2.5
+    });
   }
 
   addComponents(components) {
@@ -70,11 +77,25 @@ export default class NodePhysical extends Node {
     this.getComponent('screenPositionMetric').updateScreenPosition();
   }
 
+  positionChanged(newPos) {
+    super.positionChanged(newPos);
+
+    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.6, newPos.z + 0.5);
+  }
+
+
   createMetricSticky() {
     return new StickyNoteMetric(this);
   }
 
   getDragGhostGeometry() {
     return new THREE.BoxGeometry(1, 0.5, 1, 1, 1, 1);
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.label.dispose();
+    this.label = null;
   }
 }
