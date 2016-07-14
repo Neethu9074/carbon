@@ -12,7 +12,7 @@ import './mongo';
 import './OpenEJB';
 import './php';
 import './play2';
-import './rabbitMq';
+import './rabbitmq';
 import './redis';
 import './servlet';
 import './spring-web';
