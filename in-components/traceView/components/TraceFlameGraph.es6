@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {highlightSpanId} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getLabel, getCategory} from 'in-sdk/tracing';
 import Tooltip from 'in-components/Tooltip';
@@ -37,7 +38,8 @@ function FlameGraphElement({span, currentDepth, scale}) {
                left: `${left}%`,
                width: `${width}%`,
                background: color
-             }} />
+             }}
+             onClick={() => highlightSpanId(span.get('spanId'))}/>
       </Tooltip>
     </div>
   );
