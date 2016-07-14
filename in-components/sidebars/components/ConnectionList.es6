@@ -32,11 +32,12 @@ export default connectTo(
 );
 
 function ConnectionList({connections}) {
-  const numOutgoing = connections.outgoing.size;
-  const numIncoming = connections.incoming.size;
-  if (!connections || (numOutgoing === 0 && numIncoming === 0)) {
+  if (!connections || (connections.outgoing.size === 0 && connections.incoming.size === 0)) {
     return null;
   }
+  const numOutgoing = connections.outgoing.size;
+  const numIncoming = connections.incoming.size;
+
   return (
     <Collapsible initiallyOpen={false}>
       <Collapsible.Header>

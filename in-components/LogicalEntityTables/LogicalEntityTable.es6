@@ -16,12 +16,12 @@ export default connectTo(
     return {
       nodes: props.dataStream
     };
-  }, function LogicalEntityTable({nodes, timeframe}) {
+  }, function LogicalEntityTable({nodes, title, timeframe}) {
     if (!nodes || nodes.length === 0) {
       return null;
     }
     return (
-      <DashboardSection title='Runs on'>
+      <DashboardSection title={title}>
         <ResponsiveTable>
           <thead>
             <tr>
