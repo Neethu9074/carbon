@@ -6,7 +6,7 @@ import moment from 'moment';
 import React from 'react';
 
 import {timeFormat, dateFormat, formatDate} from 'in-services/formatters/date';
-import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
+import {toggleShowTimeSelector, interactableTimelineHeight$} from 'in-components/timeline/timelineStore';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {timeframe$} from 'in-components/timeline/timelineStore';
 import {setTo, setFocusedMoment} from 'in-stores/timeline';
@@ -37,7 +37,8 @@ export default connectTo({
     isDateTimeValid: isDateTimeValid$,
     serverTime: serverTime$,
     dateString: dateString$,
-    timeString: timeString$
+    timeString: timeString$,
+    timelineHeight: interactableTimelineHeight$
   },
   React.createClass({
 
@@ -55,7 +56,8 @@ export default connectTo({
       }),
       serverTime: rpt.number,
       dateString: rpt.string,
-      timeString: rpt.string
+      timeString: rpt.string,
+      timelineHeight: rpt.number.isRequired
     },
 
     componentWillMount() {
@@ -93,7 +95,10 @@ export default connectTo({
 
       return (
         <div className={block}
-             ref='timepicker'>
+             ref='timepicker'
+             style={{
+               bottom: `${this.props.timelineHeight}px`
+             }}>
           <div className={block + '__heading'}>
             <Icon type='reset'
                   className={block + '__reset-button'}

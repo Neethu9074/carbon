@@ -29,7 +29,7 @@ export default connectTo({
       classes = `${classes} ${block}--expanded`;
     }
 
-    if (!autoCollapseTimeline) {
+    if (!autoCollapseTimeline || showTimeSelector) {
       classes = `${classes} ${block}--no-auto-collapse`;
     }
 
