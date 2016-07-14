@@ -5,6 +5,7 @@ import BaseCameraController from 'in-map/src/controls/common/CameraController';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import AnimationController from 'in-map/src/AnimationController';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
+import {view$} from 'in-map/src/stores/process/viewStore';
 import * as time from 'in-map/src/timeCalculations';
 import {currentTooltip} from 'in-map/src/mapStores';
 
@@ -111,7 +112,7 @@ export default class CameraController extends BaseCameraController {
 
       this.eventEmitter.on('onObjectClicked').subscribe(hittenOnes => this.scene.onObjectClicked(hittenOnes)),
 
-      this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked()),
+      view$.skipFirst().subscribe(() => this.animationController.start()),
 
       this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne =>
         longClickedSceneObject.emit(hittenOne.parentSceneObject)),

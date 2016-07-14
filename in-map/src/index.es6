@@ -5,6 +5,7 @@ import React from 'react';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import LayoutControls from 'in-components/LayoutControls';
 import {isWebGLSupported} from 'in-services/util/webGL';
+import Switcher2D3D from 'in-components/Switcher2D3D';
 import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
@@ -72,6 +73,7 @@ export default connectTo({
       return (
         <div className={block} ref='parent'>
           <LayoutControls />
+          <Switcher2D3D />
         </div>
       );
     }
