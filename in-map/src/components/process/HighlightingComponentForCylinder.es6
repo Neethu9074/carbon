@@ -11,7 +11,7 @@ export default class HighlightingComponentForCylinder extends BaseHighlightingCo
     const pos = this.positionToSet;
     const scale = this.scaleToSet;
     const margin = 0.05;
-    const height = 1;
+    const height = 0.25;
     const fromX = -(0.51 + margin) + pos.x - ((1 - (2 * margin + scale.x)) / 2) + 0.01;
     const fromZ = (0.51 + margin) + pos.z - 0.01 + ((1 - (2 * margin + scale.z)) / 2);
     const lineScaleX = (2 * margin + scale.x);

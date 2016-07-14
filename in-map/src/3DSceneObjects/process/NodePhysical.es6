@@ -25,7 +25,7 @@ export default class NodePhysical extends Node {
   }
 
   init() {
-    this.height = 1;
+    this.height = 0.25;
 
     this.label = new Label({
       id: this.id,
