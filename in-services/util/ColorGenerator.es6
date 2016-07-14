@@ -141,4 +141,3 @@ export const pluginsColorPool = createColorPool('plugins', 50);
 export const groupsColorPool = createColorPool('groups', 20);
 export const tagsColorPool = createColorPool('tags', 100);
 export const processesColorPool = createColorPool('processes', 100);
-export const spanCategoryColorPool = createColorPool('spanCategory', 20);
