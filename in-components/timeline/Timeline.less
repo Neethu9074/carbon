@@ -9,14 +9,14 @@
   right: 0;
   height: @footer__height * 1px;
 
-  background: #2e4048;
+  background: #2d4048;
   z-index: @z-index__footer;
 
   transition: height @transition-duration ease-in-out;
   overflow: hidden;
 
   &:hover, &--no-auto-collapse {
-    height: 98px;
+    height: @footer__height-expanded * 1px;
 
     .in-timeline__wrapper {
       top: 0;
@@ -40,7 +40,7 @@
     top: -37px;
     left: 0;
     right: 0;
-    height: 148px;
+    height: 147px;
     overflow: hidden;
 
     transition: top @transition-duration ease-in-out;
@@ -51,7 +51,7 @@
   &__bottom {
     display: flex;
     position: absolute;
-    top: 74px;
+    top: 73px;
     left: 0;
     right: 0;
     height: 24px;
