@@ -101,7 +101,7 @@ export default class NodeCluster extends Node {
           })
         })
       }),
-      factory: this.getFactory('solidSMF')
+      factory: this.getFactory('fadeByDistanceSMF')
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.25, z: 0.9});
 
@@ -140,7 +140,7 @@ export default class NodeCluster extends Node {
   positionChanged(newPos) {
     super.positionChanged(newPos);
 
-    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height, newPos.z + 0.5);
+    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.6, newPos.z + 0.5);
 
     this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
                                                                       newPos.y,
