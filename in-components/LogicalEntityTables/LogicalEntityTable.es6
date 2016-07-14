@@ -1,0 +1,83 @@
+import React from 'react';
+
+import {msTwoDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
+import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
+import DashboardSection from 'in-components/DashboardSection';
+import ResponsiveTable from 'in-components/ResponsiveTable';
+import SnapshotLink from 'in-components/SnapshotLink';
+import {getLabel} from 'in-sdk/snapshot';
+import connectTo from 'in-hoc/connectTo';
+import Mtd from 'in-components/Mtd';
+
+
+export default connectTo(
+  props => {
+    return {
+      nodes: props.dataStream
+    };
+  }, function LogicalEntityTable({nodes, timeframe}) {
+    if (!nodes || nodes.length === 0) {
+      return null;
+    }
+    return (
+      <DashboardSection title='Runs on'>
+        <ResponsiveTable>
+          <thead>
+            <tr>
+              <th>Health</th>
+              <th>Name</th>
+              <th>Calls/s</th>
+              <th>Erros</th>
+              <th>Latency</th>
+            </tr>
+          </thead>
+          <tbody>
+            {nodes.map(node => {
+              const id = node.get('id');
+              return (
+                <tr key={id}>
+                  <td>
+                    <AnnotatedHealthBar snapshotId={id} />
+                  </td>
+                  <td>
+                    <SnapshotLink snapshotId={id}>
+                      {getLabel(node)}
+                    </SnapshotLink>
+                  </td>
+                  <td>
+                    <HistoricMetricSparkChartWithLabel width={200}
+                                                       height={30}
+                                                       timeframe={timeframe}
+                                                       snapshotId={id}
+                                                       metric='count'
+                                                       formatter={twoDecimalPlaces} />
+                  </td>
+                  <td>
+                    <HistoricMetricSparkChartWithLabel width={200}
+                                                       height={30}
+                                                       timeframe={timeframe}
+                                                       snapshotId={id}
+                                                       metric='duration.mean'
+                                                       formatter={msTwoDecimalPlaces} />
+                  </td>
+                  <td>
+                    <HistoricMetricSparkChartWithLabel width={200}
+                                                       height={30}
+                                                       timeframe={timeframe}
+                                                       snapshotId={id}
+                                                       metric='error_count'
+                                                       formatter={msTwoDecimalPlaces} />
+                  </td>
+                  <Mtd metric={'indices.store_size'}
+                       snapshot={node}
+                       formatter={bytesTwoDecimalPlaces}/>
+                </tr>
+              );
+            })}
+          </tbody>
+        </ResponsiveTable>
+      </DashboardSection>
+    );
+  }
+);
