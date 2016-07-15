@@ -21,6 +21,7 @@ export default class ParticleEmitter extends SceneObject {
     super({parent, id});
 
     this.maxParticles = config.maxParticles || 50;
+    this.timeToLife = 3;
     this.setNumparticlesPerSecond(config.particlesPerSecond);
 
     this.isRunning = false;
@@ -142,7 +143,7 @@ export default class ParticleEmitter extends SceneObject {
       this.timeElapsedSinceLastSpawn -= this.secToNextParticle * numParticlesToSpawn;
 
       for (let i = 0; i < numParticlesToSpawn; i++) {
-        this.spawnParticle(this.timeToLife);
+        this.spawnParticle();
       }
     }
 
@@ -150,11 +151,11 @@ export default class ParticleEmitter extends SceneObject {
     this.timeElapsedSinceLastSpawn += dt;
   }
 
-  spawnParticle(timeToLife) {
+  spawnParticle() {
     const position = this.positionGenerationStrategy.getPositionForParticle();
     const particle = {
       timeLived: 0,
-      timeToLife: timeToLife
+      timeToLife: this.timeToLife
     };
     this.particles.push(particle);
 
@@ -201,7 +202,6 @@ export default class ParticleEmitter extends SceneObject {
   setNumparticlesPerSecond(particlesPerSecond = 10) {
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = 1 / this.particlesPerSecond;
-    this.timeToLife = this.maxParticles / this.particlesPerSecond;
   }
 
   dispose() {
