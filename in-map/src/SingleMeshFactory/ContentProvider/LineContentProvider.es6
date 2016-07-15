@@ -30,16 +30,12 @@ export default class LineContentProvider extends ContentProvider {
 
   updateColorArray() {
     const faceColors = this.faceColor;
-    const colors = [];
-    let colorIndex = 0;
 
-    this.lines.forEach(() => {
-      colors.push(faceColors[colorIndex++]);
-      if (colorIndex >= faceColors.length) {
-        colorIndex = 0;
-      }
-    });
-    this.colors = colors;
+    for (let i = 0; i < this.lines.length; i += 3) {
+      this.colors[i] = faceColors[0];
+      this.colors[i + 1] = faceColors[1];
+      this.colors[i + 2] = faceColors[2];
+    }
   }
 
   getVertices() {

@@ -3,7 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import GhostEdgeSpawnerComponent from 'in-map/src/components/process/GhostEdgeSpawnerComponent';
 import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import CLCP from 'in-map/src/SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
+import CLCP from 'in-map/src/SingleMeshFactory/ContentProvider/LineContentProvider';
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
@@ -85,11 +85,6 @@ export default class Connection extends BaseConnection {
     };
   }
 
-  getColors() {
-    const rgb = hexToRGBNormalized(this.currentColor);
-    return this.getColorArrayFromRgb(rgb.r, rgb.g, rgb.b);
-  }
-
   calculatePath(fromPos, toPos) {
     // move the path a little so that the source/target position is in the middle of the geometry
     fromPos.x -= 0.5;
@@ -113,6 +108,10 @@ export default class Connection extends BaseConnection {
     this.lineFragment.contentProvider.setColor(this.getColors());
 
     this.lineSMF.addFragment(this.lineFragment);
+  }
+
+  getColors() {
+    return this.getColor(hexToRGBNormalized(this.currentColor));
   }
 
   positionChanged() {

@@ -33,6 +33,7 @@ export default class ConnectionWithKPI extends Connection {
     super.init();
 
     this.withArrows = true;
+
     this.particleEmitter = new ParticleEmitter({
       id: this.id + '__particleEmitter',
       parent: this
@@ -59,16 +60,8 @@ export default class ConnectionWithKPI extends Connection {
     return this.parent.getFactory('lineSMF');
   }
 
-  getColorArrayFromRgb(r, g, b) {
-    return [
-      r, g, b,
-      r, g, b,
-      r, g, b,
-      r, g, b,
-
-      r, g, b,
-      r, g, b
-    ];
+  getColor(color) {
+    return color;
   }
 
   positionChanged() {

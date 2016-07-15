@@ -93,9 +93,18 @@ export default class Connection extends SceneObject {
   addArrowToDestination(path) {
     const from = this.direction === DIRECTIONS.IN ? 0 : path.length - 1;
     const to = this.direction === DIRECTIONS.IN ? 1 : path.length - 2;
+
+    const arrowGeometry = this.getArrowGeometry(path[from], this.getDirectionForPoints(path[from], path[to]));
+
+    for (let i = 0; i < arrowGeometry.length; i++) {
+      path.push(arrowGeometry[i]);
+    }
+
+    return path;
+  }
+
+  getArrowGeometry(position, dir) {
     const arrowLength = 0.2;
-    const fromP = path[from];
-    const dir = this.getDirectionForPoints(path[from], path[to]);
 
     // because the arrow are laying on the ground, the up-vector is 0 1 0
     const right = new THREE.Vector3(0, 1, 0)
@@ -106,17 +115,12 @@ export default class Connection extends SceneObject {
     const arrowLineXLeft = (-right.x + dir.x) * arrowLength;
     const arrowLineZLeft = (-right.z + dir.z) * arrowLength;
 
-    path.push(fromP);
-    path.push({
-      x: fromP.x + arrowLineX, y: fromP.y, z: fromP.z + arrowLineZ
-    });
-
-    path.push(fromP);
-    path.push({
-      x: fromP.x + arrowLineXLeft, y: fromP.y, z: fromP.z + arrowLineZLeft
-    });
-
-    return path;
+    return [
+      position,
+      {x: position.x + arrowLineX, y: position.y, z: position.z + arrowLineZ},
+      position,
+      {x: position.x + arrowLineXLeft, y: position.y, z: position.z + arrowLineZLeft}
+    ];
   }
 
   init() {

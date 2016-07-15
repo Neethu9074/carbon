@@ -26,15 +26,12 @@ export default class ConnectionBetweenProcessAndPhysical extends Connection {
     super.init();
   }
 
-  getColorArrayFromRgb(r, g, b) {
+  getColor(color) {
     if (!this.isFullyVisible) {
-      r = NOT_FULLY_VISIBLE_COLOR.r;
-      g = NOT_FULLY_VISIBLE_COLOR.g;
-      b = NOT_FULLY_VISIBLE_COLOR.b;
+      color.r = NOT_FULLY_VISIBLE_COLOR.r;
+      color.g = NOT_FULLY_VISIBLE_COLOR.g;
+      color.b = NOT_FULLY_VISIBLE_COLOR.b;
     }
-    return [
-      r, g, b,
-      r, g, b
-    ];
+    return color;
   }
 }
