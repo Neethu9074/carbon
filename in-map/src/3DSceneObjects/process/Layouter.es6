@@ -103,8 +103,9 @@ export default class Layouter {
   }
 
   go(graph) {
-    for (let i = 0; i < this.iterations; i++) {
-      this.atomicGo(graph);
+    let i = 0;
+    while (i < this.iterations && !this.atomicGo(graph)) {
+      i++;
     }
   }
 
@@ -190,6 +191,7 @@ export default class Layouter {
     let gf;
     let limitedDist;
 
+    let totalDistance = 0;
     for (i = 0; i < nodesCount; i++) {
       n = nodes[i];
 
@@ -208,6 +210,7 @@ export default class Layouter {
         xDist = n.fr.dx;
         yDist = n.fr.dy;
         dist = Math.sqrt(xDist * xDist + yDist * yDist);
+        totalDistance += dist;
 
         if (dist > 0) {
           limitedDist = Math.min(maxDisplace * this.speed, dist);
@@ -215,6 +218,9 @@ export default class Layouter {
           n.fr_y += yDist / dist * limitedDist;
         }
       }
+    }
+    if (totalDistance < 0.001) {
+      return true;
     }
   }
 
