@@ -1,3 +1,7 @@
+import Immutable from 'immutable';
+
+import {getDirection} from 'in-sdk/tracing';
+
 export function transform(span) {
   const result = {
     spanId: span.spanId,
@@ -5,8 +9,18 @@ export function transform(span) {
     children: []
   };
 
+  let parentForChildren = result;
+  // TODO temporary workaround for each of prototyping
+  if (getDirection(Immutable.fromJS(span)) === 'exit') {
+    parentForChildren = {
+      type: 'network',
+      children: []
+    };
+    result.children.push(parentForChildren);
+  }
+
   span.childSpans.forEach(childSpan => {
-    insertSpanIntoParent(result, childSpan);
+    insertSpanIntoParent(parentForChildren, childSpan);
   });
 
   return result;
