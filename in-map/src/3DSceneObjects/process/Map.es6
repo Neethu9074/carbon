@@ -58,7 +58,13 @@ export default class Map extends BaseMap {
 
     factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory();
 
-    factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory();
+    factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory({
+      renderOrder: 2,
+      params: {
+        minOpacity: 0.1,
+        maxOpacity: 0.8
+      }
+    });
   }
 
   ifNew(oldMap, newMap, ifNewCallback) {

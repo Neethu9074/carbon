@@ -4,18 +4,18 @@ precision mediump int;
 uniform sampler2D texture;
 uniform float numColumns;
 
-varying vec3 vColor;
+varying float fMinOpacity;
+varying float fMaxOpacity;
 varying float fDistance;
+varying vec3 vColor;
 
 
 void main() {
-  float minOpacity = 0.1;
-  float maxOpacity = 0.6;
   float maxZoomOut = 250.0;
   float maxZoomIn = 60.0;
 
   float opacity = fDistance / ( maxZoomOut - maxZoomIn );
-  opacity = min( maxOpacity, max( minOpacity, opacity ) );
+  opacity = min( fMaxOpacity, max( fMinOpacity, opacity ) );
 
   gl_FragColor = vec4( vColor.rgb, opacity );
 }
