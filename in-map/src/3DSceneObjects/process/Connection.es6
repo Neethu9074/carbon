@@ -45,7 +45,10 @@ export default class Connection extends BaseConnection {
       }),
 
       this.eventEmitter.on('updateGeometry').debounce(10)
-                                            .subscribe(this.updateGeometry.bind(this))
+                                            .subscribe(this.updateGeometry.bind(this)),
+
+      this.eventEmitter.on('updateColor').debounce(10)
+                                            .subscribe(this.updateColor.bind(this))
     ]);
 
     // create this later, afer sourceNode and destinationNode are available
@@ -101,8 +104,12 @@ export default class Connection extends BaseConnection {
     const vertices = this.getLineVertices(this.sourceNode, this.destinationNode);
     this.lineFragment.contentProvider.setLines(vertices);
 
-    // the default color must be set to get a working shader.
-    // it's black so you can see if there is a snapshot missing
+    this.lineFragment.contentProvider.setColor(this.getColors());
+
+    this.lineSMF.addFragment(this.lineFragment);
+  }
+
+  updateColor() {
     this.lineFragment.contentProvider.setColor(this.getColors());
 
     this.lineSMF.addFragment(this.lineFragment);
@@ -124,7 +131,7 @@ export default class Connection extends BaseConnection {
 
   colorChanged(newColor) {
     this.currentColor = newColor;
-    this.eventEmitter.emit('updateGeometry');
+    this.eventEmitter.emit('updateColor');
   }
 
   dispose() {
