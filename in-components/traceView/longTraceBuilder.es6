@@ -4,14 +4,14 @@ import {getDirection} from 'in-sdk/tracing';
 
 export function transform(span) {
   const result = {
-    spanId: span.spanId,
+    id: span.spanId,
     type: 'span',
     children: []
   };
 
   let parentForChildren = result;
   // TODO temporary workaround for each of prototyping
-  if (getDirection(Immutable.fromJS(span)) === 'exit') {
+  if (getDirection(Immutable.fromJS(span)) === 'exit' && span.childSpans.length > 0) {
     parentForChildren = {
       type: 'network',
       children: []
