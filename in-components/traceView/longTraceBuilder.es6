@@ -13,6 +13,7 @@ export function transform(span) {
   // TODO temporary workaround for each of prototyping
   if (getDirection(Immutable.fromJS(span)) === 'exit' && span.childSpans.length > 0) {
     parentForChildren = {
+      id: '-1',
       type: 'network',
       children: []
     };
