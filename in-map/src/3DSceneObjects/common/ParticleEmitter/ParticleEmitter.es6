@@ -13,15 +13,15 @@ import {getDeltaTime} from 'in-map/src/timeCalculations';
 import {eventBus} from 'in-map/src/services/eventBus';
 
 
+const START_POS = 100000;
+
 export default class ParticleEmitter extends SceneObject {
 
   constructor({parent, id, config = {}}) {
     super({parent, id});
 
-    this.particlesPerSecond = config.particlesPerSecond || 10;
     this.maxParticles = config.maxParticles || 50;
-    this.timeToLife = config.timeToLife || 5;
-    this.secToNextParticle = 1 / this.particlesPerSecond;
+    this.setNumparticlesPerSecond(config.particlesPerSecond);
 
     this.isRunning = false;
 
@@ -31,7 +31,7 @@ export default class ParticleEmitter extends SceneObject {
     this.progresses = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
     for (let i = 0; i < this.vertices.length; i++) {
-      this.vertices[i] = 100000;
+      this.vertices[i] = START_POS;
     }
 
     this.particles = [];
@@ -77,6 +77,10 @@ export default class ParticleEmitter extends SceneObject {
         this.start();
         this.startSubscription.dispose();
         this.startSubscription = null;
+
+        setInterval(() => {
+          this.setNumparticlesPerSecond(Math.random() * 10);
+        }, 1000);
       }
     });
   }
@@ -118,10 +122,18 @@ export default class ParticleEmitter extends SceneObject {
     for (let i = 0, length = this.particles.length; i < length; i++) {
       const particle = this.particles[i];
       particle.timeLived += dt;
-      this.progresses[particle.index] = particle.timeLived / this.timeToLife;
+      this.progresses[particle.index] = Math.min(1, particle.timeLived / particle.timeToLife);
     }
     // remove old particles
-    remove(this.particles, particle => particle.timeLived >= this.timeToLife);
+    const removed = remove(this.particles, particle => particle.timeLived >= particle.timeToLife);
+    for (let i = 0; i < removed.length; i++) {
+      const index = removed[i].index;
+      this.vertices[index * 3] = START_POS;
+      this.vertices[index * 3 + 1] = START_POS;
+      this.vertices[index * 3 + 2] = START_POS;
+
+      this.progresses[index] = 0;
+    }
 
     // spawn new particles
     let numParticlesToSpawn = this.timeElapsedSinceLastSpawn / this.secToNextParticle;
@@ -130,7 +142,7 @@ export default class ParticleEmitter extends SceneObject {
       this.timeElapsedSinceLastSpawn -= this.secToNextParticle * numParticlesToSpawn;
 
       for (let i = 0; i < numParticlesToSpawn; i++) {
-        this.spawnParticle();
+        this.spawnParticle(this.timeToLife);
       }
     }
 
@@ -138,9 +150,12 @@ export default class ParticleEmitter extends SceneObject {
     this.timeElapsedSinceLastSpawn += dt;
   }
 
-  spawnParticle() {
+  spawnParticle(timeToLife) {
     const position = this.positionGenerationStrategy.getPositionForParticle();
-    const particle = {timeLived: 0};
+    const particle = {
+      timeLived: 0,
+      timeToLife: timeToLife
+    };
     this.particles.push(particle);
 
     this.arrayCusor++;
@@ -181,6 +196,12 @@ export default class ParticleEmitter extends SceneObject {
 
     removeSceneObject(this.mesh);
     this.isRunning = false;
+  }
+
+  setNumparticlesPerSecond(particlesPerSecond = 10) {
+    this.particlesPerSecond = particlesPerSecond;
+    this.secToNextParticle = 1 / this.particlesPerSecond;
+    this.timeToLife = this.maxParticles / this.particlesPerSecond;
   }
 
   dispose() {
