@@ -66,7 +66,7 @@ const CYLINDRIC_PLANE_VERTICES = [
 
 const DEFAULT_COLOR = [];
 for (let i = 0; i < CYLINDRIC_PLANE_VERTICES.length; i++) {
-  DEFAULT_COLOR.push(0.85);
+  DEFAULT_COLOR.push(1);
 }
 
 export default class CylinderPlaneContentProvider extends ContentProvider {
@@ -76,6 +76,6 @@ export default class CylinderPlaneContentProvider extends ContentProvider {
   }
 
   getColors() {
-    return DEFAULT_COLOR;
+    return DEFAULT_COLOR.slice();
   }
 }
