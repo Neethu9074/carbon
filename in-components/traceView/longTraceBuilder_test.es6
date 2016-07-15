@@ -8,6 +8,7 @@ describe('in-components/traceView/longStackTraceBuilder', () => {
   testFile('simpleTrace');
   testFile('networkCallToServer');
   testFile('withStackTrace');
+  testFile('withStackTraceAndCommonRoot');
 
   function testFile(name) {
     it(`must translate ${name} content to long trace`, () => {
