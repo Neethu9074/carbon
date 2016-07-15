@@ -119,21 +119,26 @@ export default class ParticleEmitter extends SceneObject {
 
   update() {
     const dt = getDeltaTime();
+    const vertices = this.vertices;
+    const particles = this.particles;
+    const progresses = this.progresses;
 
-    for (let i = 0, length = this.particles.length; i < length; i++) {
-      const particle = this.particles[i];
+    for (let i = 0, length = particles.length; i < length; i++) {
+      const particle = particles[i];
       particle.timeLived += dt;
-      this.progresses[particle.index] = Math.min(1, particle.timeLived / particle.timeToLife);
+      particle.progress = Math.min(1, particle.timeLived / particle.timeToLife);
+      progresses[particle.index] = particle.progress;
     }
-    // remove old particles
-    const removed = remove(this.particles, particle => particle.timeLived >= particle.timeToLife);
-    for (let i = 0; i < removed.length; i++) {
-      const index = removed[i].index;
-      this.vertices[index * 3] = START_POS;
-      this.vertices[index * 3 + 1] = START_POS;
-      this.vertices[index * 3 + 2] = START_POS;
 
-      this.progresses[index] = 0;
+    // remove old particles
+    const removed = remove(particles, particle => particle.progress === 1);
+    for (let i = 0; i < removed.length; i++) {
+      const index = removed[i].index * 3;
+      vertices[index] = START_POS;
+      vertices[index + 1] = START_POS;
+      vertices[index + 2] = START_POS;
+
+      progresses[index] = 0;
     }
 
     // spawn new particles
@@ -154,6 +159,7 @@ export default class ParticleEmitter extends SceneObject {
   spawnParticle() {
     const position = this.positionGenerationStrategy.getPositionForParticle();
     const particle = {
+      progress: 0,
       timeLived: 0,
       timeToLife: this.timeToLife
     };
