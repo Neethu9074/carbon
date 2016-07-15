@@ -26,6 +26,7 @@ import './logicalHttpConnection';
 import './logicalJdbcConnection';
 import './logicalService';
 import './logicalWebApp';
+import './memcached';
 import './mariaDbDatabase';
 import './mongoDb';
 import './msiis';

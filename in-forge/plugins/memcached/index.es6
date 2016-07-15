@@ -1,0 +1,31 @@
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addSearchableType} from 'in-sdk/search';
+import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
+import * as power from 'in-sdk/power';
+
+import * as constants from 'in-forge/constants';
+import iconPath from 'in-forge/plugins/memcached/icon.svg';
+
+pluginName.setHumanReadablePluginName(
+  constants.plugins.memcached,
+  'Memcached Node',
+  'Memcached Nodes'
+);
+
+addLabelFinder(
+  constants.plugins.memcached,
+  snapshot => 'Memcached @' + snapshot.getIn(['data', 'port'])
+);
+
+power.addMapping(
+  constants.plugins.memcached,
+  () => -1
+);
+
+addIconToRegistry({
+  id: constants.plugins.memcached,
+  image: iconPath
+});
+
+addSearchableType('memcached', constants.plugins.memcached);
