@@ -38,10 +38,10 @@ export const isCollapsed$ = isCollapsedStore.observable;
 
 export const timelineHeight$ = combineLatest([isCollapsed$, getIn(['autoCollapseTimeline'])])
   .map(([isCollapsed, autoCollapseTimeline]) => {
-    if (!isCollapsed) {
-      return activeTheme.footer.heightOpen;
-    } else if (autoCollapseTimeline) {
+    if (autoCollapseTimeline) {
       return activeTheme.footer.height;
+    } else if (!isCollapsed) {
+      return activeTheme.footer.heightOpen;
     }
     return activeTheme.footer.heightExpanded;
   })
