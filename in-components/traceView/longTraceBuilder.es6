@@ -55,8 +55,8 @@ function insertSpanIntoParent(parentResult, span) {
     }
 
     const newParent = {
-      type: 'stackTraceElement',
-      stackTraceElementId: id,
+      id: id,
+      type: 'stackTrace',
       stackTrace: stackTraceElement,
       children: []
     };
