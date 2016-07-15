@@ -1,0 +1,626 @@
+{
+  "traceId": "2097887366255533505",
+  "start": 1468562943766,
+  "spanId": "2097887366255533505",
+  "error": false,
+  "data": {
+    "http": {
+      "method": "GET",
+      "url": "/shop",
+      "status": "200"
+    }
+  },
+  "name": "spring-web",
+  "childSpans": [
+    {
+      "start": 1468562943771,
+      "spanId": "5449855402949182823",
+      "error": false,
+      "data": {
+        "http": {
+          "method": "GET",
+          "url": "http://172.31.44.247:85/productsearch/search/findByName?name=demoproduct-477410516",
+          "status": "200"
+        },
+        "url": {
+          "path": "/productsearch/search/findByName",
+          "connection": "172.31.44.247:85"
+        }
+      },
+      "name": "url",
+      "childSpans": [],
+      "duration": 20,
+      "async": false,
+      "stackTrace": [
+        {
+          "c": "sun.net.www.protocol.http.HttpURLConnection",
+          "m": "getInputStream",
+          "n": 1441
+        },
+        {
+          "c": "java.net.HttpURLConnection",
+          "m": "getResponseCode",
+          "n": 480
+        },
+        {
+          "c": "sun.net.www.protocol.http.HttpURLConnection",
+          "m": "getInputStream0",
+          "n": 1552
+        },
+        {
+          "c": "sun.net.www.protocol.http.HttpURLConnection",
+          "m": "getInputStream",
+          "n": 1441
+        },
+        {
+          "c": "java.net.HttpURLConnection",
+          "m": "getResponseCode",
+          "n": 480
+        },
+        {
+          "c": "org.springframework.http.client.SimpleClientHttpResponse",
+          "m": "getRawStatusCode",
+          "n": 48
+        },
+        {
+          "c": "org.springframework.http.client.AbstractClientHttpResponse",
+          "m": "getStatusCode",
+          "n": 33
+        },
+        {
+          "c": "org.springframework.web.client.DefaultResponseErrorHandler",
+          "m": "getHttpStatusCode",
+          "n": 56
+        },
+        {
+          "c": "org.springframework.web.client.DefaultResponseErrorHandler",
+          "m": "hasError",
+          "n": 50
+        },
+        {
+          "c": "org.springframework.web.client.RestTemplate",
+          "m": "handleResponse",
+          "n": 629
+        },
+        {
+          "c": "org.springframework.web.client.RestTemplate",
+          "m": "doExecute",
+          "n": 597
+        },
+        {
+          "c": "org.springframework.web.client.RestTemplate",
+          "m": "execute",
+          "n": 557
+        },
+        {
+          "c": "org.springframework.web.client.RestTemplate",
+          "m": "getForObject",
+          "n": 264
+        },
+        {
+          "c": "com.instanademo.LogisticsController",
+          "m": "shop",
+          "n": 78
+        },
+        {
+          "c": "sun.reflect.GeneratedMethodAccessor62",
+          "m": "invoke"
+        },
+        {
+          "c": "org.apache.catalina.core.ApplicationFilterChain",
+          "m": "doFilter",
+          "n": 207
+        }
+      ]
+    },
+    {
+      "start": 1468562943842,
+      "spanId": "-3041524847297906193",
+      "error": false,
+      "data": {
+        "http": {
+          "method": "GET",
+          "url": "http://172.31.44.247:81/products/search/findByName",
+          "status": "200"
+        },
+        "url": {
+          "path": "/products/search/findByName",
+          "connection": "172.31.44.247:81"
+        }
+      },
+      "name": "url",
+      "childSpans": [
+        {
+          "start": 1468562943847,
+          "spanId": "-6817445276735474933",
+          "error": false,
+          "data": {
+            "http": {
+              "method": "GET",
+              "url": "/products/search/findByName",
+              "status": "200"
+            }
+          },
+          "name": "spring-web",
+          "childSpans": [
+            {
+              "start": 1468562943848,
+              "spanId": "-5120805452858142545",
+              "error": false,
+              "data": {
+                "jdbc": {
+                  "statement": "select product0_.id as id1_0_, product0_.name as name2_0_ from product product0_ where product0_.name is null",
+                  "connection": "jdbc:mysql://172.31.44.170/productdb",
+                  "sort": "com.mysql.jdbc.JDBC42PreparedStatement"
+                }
+              },
+              "name": "jdbc",
+              "childSpans": [],
+              "duration": 28,
+              "async": false,
+              "stackTrace": [
+                {
+                  "c": "com.mysql.jdbc.PreparedStatement",
+                  "m": "executeQuery",
+                  "n": 1979
+                },
+                {
+                  "c": "org.hibernate.engine.jdbc.internal.ResultSetReturnImpl",
+                  "m": "extract",
+                  "n": 82
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "getResultSet",
+                  "n": 2066
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "executeQueryStatement",
+                  "n": 1863
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "executeQueryStatement",
+                  "n": 1839
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "doQuery",
+                  "n": 910
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "doQueryAndInitializeNonLazyCollections",
+                  "n": 355
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "doList",
+                  "n": 2554
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "doList",
+                  "n": 2540
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "listIgnoreQueryCache",
+                  "n": 2370
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "list",
+                  "n": 2365
+                },
+                {
+                  "c": "org.hibernate.loader.hql.QueryLoader",
+                  "m": "list",
+                  "n": 497
+                },
+                {
+                  "c": "org.hibernate.hql.internal.ast.QueryTranslatorImpl",
+                  "m": "list",
+                  "n": 387
+                },
+                {
+                  "c": "org.hibernate.engine.query.spi.HQLQueryPlan",
+                  "m": "performList",
+                  "n": 236
+                },
+                {
+                  "c": "org.hibernate.internal.SessionImpl",
+                  "m": "list",
+                  "n": 1300
+                },
+                {
+                  "c": "org.hibernate.internal.QueryImpl",
+                  "m": "list",
+                  "n": 103
+                },
+                {
+                  "c": "org.hibernate.jpa.internal.QueryImpl",
+                  "m": "list",
+                  "n": 573
+                },
+                {
+                  "c": "org.hibernate.jpa.internal.QueryImpl",
+                  "m": "getResultList",
+                  "n": 449
+                },
+                {
+                  "c": "org.hibernate.jpa.criteria.compile.CriteriaQueryTypeQueryAdapter",
+                  "m": "getResultList",
+                  "n": 67
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.query.JpaQueryExecution$CollectionExecution",
+                  "m": "doExecute",
+                  "n": 114
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.query.JpaQueryExecution",
+                  "m": "execute",
+                  "n": 78
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.query.AbstractJpaQuery",
+                  "m": "doExecute",
+                  "n": 100
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.query.AbstractJpaQuery",
+                  "m": "execute",
+                  "n": 91
+                },
+                {
+                  "c": "org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor",
+                  "m": "doInvoke",
+                  "n": 462
+                },
+                {
+                  "c": "org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor",
+                  "m": "invoke",
+                  "n": 440
+                },
+                {
+                  "c": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+                  "m": "proceed",
+                  "n": 179
+                },
+                {
+                  "c": "org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor",
+                  "m": "invoke",
+                  "n": 61
+                },
+                {
+                  "c": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+                  "m": "proceed",
+                  "n": 179
+                },
+                {
+                  "c": "org.springframework.transaction.interceptor.TransactionInterceptor$1",
+                  "m": "proceedWithInvocation",
+                  "n": 99
+                },
+                {
+                  "c": "org.springframework.transaction.interceptor.TransactionAspectSupport",
+                  "m": "invokeWithinTransaction",
+                  "n": 281
+                },
+                {
+                  "c": "org.springframework.transaction.interceptor.TransactionInterceptor",
+                  "m": "invoke",
+                  "n": 96
+                },
+                {
+                  "c": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+                  "m": "proceed",
+                  "n": 179
+                },
+                {
+                  "c": "org.springframework.dao.support.PersistenceExceptionTranslationInterceptor",
+                  "m": "invoke",
+                  "n": 136
+                },
+                {
+                  "c": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+                  "m": "proceed",
+                  "n": 179
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor",
+                  "m": "invoke",
+                  "n": 131
+                }
+              ]
+            },
+            {
+              "start": 1468562943876,
+              "spanId": "4996093267083560725",
+              "error": false,
+              "data": {
+                "jdbc": {
+                  "statement": "SHOW WARNINGS",
+                  "connection": "jdbc:mysql://172.31.44.170/productdb",
+                  "sort": "com.mysql.jdbc.StatementImpl"
+                }
+              },
+              "name": "jdbc",
+              "childSpans": [],
+              "duration": 0,
+              "async": false,
+              "stackTrace": [
+                {
+                  "c": "com.mysql.jdbc.StatementImpl",
+                  "m": "executeQuery",
+                  "n": 1424
+                },
+                {
+                  "c": "com.mysql.jdbc.SQLError",
+                  "m": "convertShowWarningsToSQLWarnings",
+                  "n": 704
+                },
+                {
+                  "c": "com.mysql.jdbc.SQLError",
+                  "m": "convertShowWarningsToSQLWarnings",
+                  "n": 656
+                },
+                {
+                  "c": "com.mysql.jdbc.StatementImpl",
+                  "m": "getWarnings",
+                  "n": 2145
+                },
+                {
+                  "c": "org.hibernate.engine.jdbc.spi.SqlExceptionHelper",
+                  "m": "handleAndClearWarnings",
+                  "n": 320
+                },
+                {
+                  "c": "org.hibernate.engine.jdbc.spi.SqlExceptionHelper",
+                  "m": "logAndClearWarnings",
+                  "n": 273
+                },
+                {
+                  "c": "org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl",
+                  "m": "close",
+                  "n": 529
+                },
+                {
+                  "c": "org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl",
+                  "m": "release",
+                  "n": 421
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "doQuery",
+                  "n": 924
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "doQueryAndInitializeNonLazyCollections",
+                  "n": 355
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "doList",
+                  "n": 2554
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "doList",
+                  "n": 2540
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "listIgnoreQueryCache",
+                  "n": 2370
+                },
+                {
+                  "c": "org.hibernate.loader.Loader",
+                  "m": "list",
+                  "n": 2365
+                },
+                {
+                  "c": "org.hibernate.loader.hql.QueryLoader",
+                  "m": "list",
+                  "n": 497
+                },
+                {
+                  "c": "org.hibernate.hql.internal.ast.QueryTranslatorImpl",
+                  "m": "list",
+                  "n": 387
+                },
+                {
+                  "c": "org.hibernate.engine.query.spi.HQLQueryPlan",
+                  "m": "performList",
+                  "n": 236
+                },
+                {
+                  "c": "org.hibernate.internal.SessionImpl",
+                  "m": "list",
+                  "n": 1300
+                },
+                {
+                  "c": "org.hibernate.internal.QueryImpl",
+                  "m": "list",
+                  "n": 103
+                },
+                {
+                  "c": "org.hibernate.jpa.internal.QueryImpl",
+                  "m": "list",
+                  "n": 573
+                },
+                {
+                  "c": "org.hibernate.jpa.internal.QueryImpl",
+                  "m": "getResultList",
+                  "n": 449
+                },
+                {
+                  "c": "org.hibernate.jpa.criteria.compile.CriteriaQueryTypeQueryAdapter",
+                  "m": "getResultList",
+                  "n": 67
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.query.JpaQueryExecution$CollectionExecution",
+                  "m": "doExecute",
+                  "n": 114
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.query.JpaQueryExecution",
+                  "m": "execute",
+                  "n": 78
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.query.AbstractJpaQuery",
+                  "m": "doExecute",
+                  "n": 100
+                },
+                {
+                  "c": "org.springframework.data.jpa.repository.query.AbstractJpaQuery",
+                  "m": "execute",
+                  "n": 91
+                },
+                {
+                  "c": "org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor",
+                  "m": "doInvoke",
+                  "n": 462
+                },
+                {
+                  "c": "org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor",
+                  "m": "invoke",
+                  "n": 440
+                },
+                {
+                  "c": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+                  "m": "proceed",
+                  "n": 179
+                },
+                {
+                  "c": "org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor",
+                  "m": "invoke",
+                  "n": 61
+                },
+                {
+                  "c": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+                  "m": "proceed",
+                  "n": 179
+                },
+                {
+                  "c": "org.springframework.transaction.interceptor.TransactionInterceptor$1",
+                  "m": "proceedWithInvocation",
+                  "n": 99
+                },
+                {
+                  "c": "org.springframework.transaction.interceptor.TransactionAspectSupport",
+                  "m": "invokeWithinTransaction",
+                  "n": 281
+                },
+                {
+                  "c": "org.springframework.transaction.interceptor.TransactionInterceptor",
+                  "m": "invoke",
+                  "n": 96
+                },
+                {
+                  "c": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+                  "m": "proceed",
+                  "n": 179
+                }
+              ]
+            }
+          ],
+          "duration": 30,
+          "async": false,
+          "stackTrace": []
+        }
+      ],
+      "duration": 32,
+      "async": false,
+      "stackTrace": [
+        {
+          "c": "sun.net.www.protocol.http.HttpURLConnection",
+          "m": "getInputStream",
+          "n": 1441
+        },
+        {
+          "c": "java.net.HttpURLConnection",
+          "m": "getResponseCode",
+          "n": 480
+        },
+        {
+          "c": "sun.net.www.protocol.http.HttpURLConnection",
+          "m": "getInputStream0",
+          "n": 1552
+        },
+        {
+          "c": "sun.net.www.protocol.http.HttpURLConnection",
+          "m": "getInputStream",
+          "n": 1441
+        },
+        {
+          "c": "java.net.HttpURLConnection",
+          "m": "getResponseCode",
+          "n": 480
+        },
+        {
+          "c": "org.springframework.http.client.SimpleClientHttpResponse",
+          "m": "getRawStatusCode",
+          "n": 48
+        },
+        {
+          "c": "org.springframework.http.client.AbstractClientHttpResponse",
+          "m": "getStatusCode",
+          "n": 33
+        },
+        {
+          "c": "org.springframework.web.client.DefaultResponseErrorHandler",
+          "m": "getHttpStatusCode",
+          "n": 56
+        },
+        {
+          "c": "org.springframework.web.client.DefaultResponseErrorHandler",
+          "m": "hasError",
+          "n": 50
+        },
+        {
+          "c": "org.springframework.web.client.RestTemplate",
+          "m": "handleResponse",
+          "n": 629
+        },
+        {
+          "c": "org.springframework.web.client.RestTemplate",
+          "m": "doExecute",
+          "n": 597
+        },
+        {
+          "c": "org.springframework.web.client.RestTemplate",
+          "m": "execute",
+          "n": 557
+        },
+        {
+          "c": "org.springframework.web.client.RestTemplate",
+          "m": "getForObject",
+          "n": 264
+        },
+        {
+          "c": "com.instanademo.LogisticsController",
+          "m": "shop",
+          "n": 83
+        },
+        {
+          "c": "sun.reflect.GeneratedMethodAccessor62",
+          "m": "invoke"
+        },
+        {
+          "c": "org.apache.catalina.core.ApplicationFilterChain",
+          "m": "doFilter",
+          "n": 207
+        }
+      ]
+    }
+  ],
+  "duration": 108,
+  "async": false,
+  "stackTrace": []
+}
