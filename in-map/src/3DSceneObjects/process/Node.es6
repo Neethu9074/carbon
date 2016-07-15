@@ -129,8 +129,8 @@ export default class Node extends SceneObject {
 
   positionChanged(newPos) {
     this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x,
-                                                                     this.height,
-                                                                     newPos.z);
+                                                                     this.height + 0.5,
+                                                                     newPos.z + 0.5);
   }
 
   setColor(snapshot, maxSeverity) {
