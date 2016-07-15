@@ -103,7 +103,6 @@ export default class NodeCluster extends Node {
       }),
       factory: this.getFactory('fadeByDistanceSMF')
     });
-    components.topMesh.sizeChanged({x: 0.9, y: 0.25, z: 0.9});
 
     components.screenPositionCluster = new ScreenPositionComponent({
       sceneObject: this,
