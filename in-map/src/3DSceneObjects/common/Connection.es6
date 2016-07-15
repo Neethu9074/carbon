@@ -117,9 +117,9 @@ export default class Connection extends SceneObject {
 
     return [
       position,
-      {x: position.x + arrowLineX, y: position.y, z: position.z + arrowLineZ},
+      {x: position.x + arrowLineX, y: position.y, z: position.z + arrowLineZ / 2},
       position,
-      {x: position.x + arrowLineXLeft, y: position.y, z: position.z + arrowLineZLeft}
+      {x: position.x + arrowLineXLeft, y: position.y, z: position.z + arrowLineZLeft / 2}
     ];
   }
 
