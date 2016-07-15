@@ -35,19 +35,31 @@ function ConnectionList({connections}) {
   if (!connections || (connections.outgoing.size === 0 && connections.incoming.size === 0)) {
     return null;
   }
-  const numOutgoing = connections.outgoing.size;
-  const numIncoming = connections.incoming.size;
 
   return (
-    <Collapsible initiallyOpen={false}>
-      <Collapsible.Header>
-        {'Connections (' + (numOutgoing + numIncoming) + ')'}
-      </Collapsible.Header>
-      <Collapsible.Content>
-        <SnapshotList connections={connections.incoming} />
-        <SnapshotList connections={connections.outgoing} />
-      </Collapsible.Content>
-    </Collapsible>
+    <div>
+      {connections.outgoing.size === 0 ? null :
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>
+            {'Downstream (' + connections.outgoing.size + ')'}
+          </Collapsible.Header>
+          <Collapsible.Content>
+            <SnapshotList connections={connections.outgoing} />
+          </Collapsible.Content>
+        </Collapsible>
+      }
+
+      {connections.incoming.size === 0 ? null :
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>
+            {'Upstream (' + connections.incoming.size + ')'}
+          </Collapsible.Header>
+          <Collapsible.Content>
+            <SnapshotList connections={connections.incoming} />
+          </Collapsible.Content>
+        </Collapsible>
+      }
+    </div>
   );
 }
 
