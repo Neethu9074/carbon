@@ -49,7 +49,7 @@ function insertSpanIntoParent(parentResult, span) {
 
     for (let i = 0, len = currentParent.children.length; i < len; i++) {
       const child = currentParent.children[i];
-      if (child.stackTraceElementId === id) {
+      if (child.type === 'stackTrace' && child.id === id) {
         return child;
       }
     }
