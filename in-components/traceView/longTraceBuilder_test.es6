@@ -6,6 +6,7 @@ import {transform} from 'in-components/traceView/longTraceBuilder';
 
 describe('in-components/traceView/longStackTraceBuilder', () => {
   testFile('simpleTrace');
+  testFile('networkCallToServer');
 
   function testFile(name) {
     it(`must translate ${name} content to long trace`, () => {
