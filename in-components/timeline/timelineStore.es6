@@ -48,8 +48,13 @@ export const timelineHeight$ = combineLatest([isCollapsed$, getIn(['autoCollapse
   .distinct();
 
 // the height of the timeline in the various states in an interactable mode
-export const interactableTimelineHeight$ = timelineHeight$
-  .map(height => Math.max(height, activeTheme.footer.heightExpanded))
+export const interactableTimelineHeight$ = isCollapsed$
+  .map(isCollapsed => {
+    if (!isCollapsed) {
+      return activeTheme.footer.heightOpen;
+    }
+    return activeTheme.footer.heightExpanded;
+  })
   .distinct();
 
 export function toggleMenu() {
