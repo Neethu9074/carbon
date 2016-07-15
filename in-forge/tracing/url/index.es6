@@ -4,6 +4,7 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'url',
   category: 'http',
+  direction: 'exit',
 
   typeName: {
     singular: 'HTTP Call',
