@@ -19,7 +19,7 @@ const QUATERNION = new THREE.Quaternion();
 const POSITION = new THREE.Vector3();
 const SCALE = new THREE.Vector3();
 const START_ROLL = -40;
-const START_YAW = -30;
+const START_YAW = -40;
 
 export default class CameraController extends BaseCameraController {
 

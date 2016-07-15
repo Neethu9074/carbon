@@ -139,7 +139,7 @@ export default class NodeCluster extends Node {
   positionChanged(newPos) {
     super.positionChanged(newPos);
 
-    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.6, newPos.z + 0.5);
+    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
 
     this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
                                                                       newPos.y,
