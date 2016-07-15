@@ -2,6 +2,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {SpanTabs, SpanTab} from 'in-components/SpanTabs';
+import {formatSql} from 'in-forge/tracing/jdbc/sql';
 import StackTrace from 'in-components/StackTrace';
 import Code from 'in-components/Code';
 
@@ -34,26 +35,4 @@ export default function JdbcSpanDetailView({span}) {
       : null}
     </SpanTabs>
   );
-}
-
-
-const keywords = [
-  'select',
-  'from',
-  'where',
-  'group by',
-  'limit',
-  'and'
-];
-
-const replacements = keywords.map(keyword => new RegExp('\\s+(' + keyword + ')\\s', 'ig'));
-
-function formatSql(statement) {
-  let formattedStatement = statement;
-  replacements.forEach(replacement => {
-    formattedStatement = formattedStatement.replace(replacement, (match, keyword) => {
-      return '\n' + keyword.toUpperCase() + ' ';
-    });
-  });
-  return formattedStatement.trim();
 }
