@@ -1,17 +1,16 @@
-import Immutable from 'immutable';
-
 import {getDirection} from 'in-sdk/tracing';
 
 export function transform(span) {
   const result = {
-    id: span.spanId,
+    id: span.get('spanId'),
     type: 'span',
     children: []
   };
 
+
+  const childSpans = span.get('childSpans');
   let parentForChildren = result;
-  // TODO temporary workaround for each of prototyping
-  if (getDirection(Immutable.fromJS(span)) === 'exit' && span.childSpans.length > 0) {
+  if (getDirection(span) === 'exit' && childSpans.size > 0) {
     parentForChildren = {
       id: '-1',
       type: 'network',
@@ -20,7 +19,7 @@ export function transform(span) {
     result.children.push(parentForChildren);
   }
 
-  span.childSpans.forEach(childSpan => {
+  childSpans.forEach(childSpan => {
     insertSpanIntoParent(parentForChildren, childSpan);
   });
 
@@ -29,14 +28,9 @@ export function transform(span) {
 
 
 function insertSpanIntoParent(parentResult, span) {
-  if (!span.stackTrace) {
-    return;
-  }
-
   let currentParent = parentResult;
 
-  span.stackTrace
-    .slice()
+  span.get('stackTrace')
     .reverse()
     .forEach(stackTraceElement => {
       currentParent = getOrAddStackTraceElementToParent(stackTraceElement);
@@ -67,9 +61,10 @@ function insertSpanIntoParent(parentResult, span) {
 
 
 function stringifyStackTraceElement(stackTraceElement) {
-  const result = `${stackTraceElement.c}#${stackTraceElement.m}`;
-  if (!stackTraceElement.n) {
+  const result = `${stackTraceElement.get('c')}#${stackTraceElement.get('m')}`;
+  const n = stackTraceElement.get('n');
+  if (!n) {
     return result;
   }
-  return `${result}:${stackTraceElement.n}`;
+  return `${result}:${n}`;
 }
