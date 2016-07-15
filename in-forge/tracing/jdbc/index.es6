@@ -4,6 +4,7 @@ import {shortenSqlStatement} from 'in-forge/tracing/jdbc/sql';
 registerSpanDefinition({
   type: 'jdbc',
   category: 'database',
+  direction: 'exit',
 
   typeName: {
     singular: 'JDBC Call',

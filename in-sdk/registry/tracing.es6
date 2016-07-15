@@ -4,6 +4,7 @@ export const registry = {};
 const defaultSpanDefinition = {
   type: 'unknown',
   category: 'generic',
+  direction: 'entryAndExit',
 
   typeName: {
     singular: 'Unknown',

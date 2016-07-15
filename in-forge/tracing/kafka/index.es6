@@ -3,6 +3,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 registerSpanDefinition({
   type: 'kafka',
   category: 'messaging',
+  direction: 'exit',
 
   typeName: {
     singular: 'Kafka',

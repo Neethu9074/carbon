@@ -3,6 +3,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 registerSpanDefinition({
   type: 'OpenEJB',
   category: 'remote',
+  direction: 'entryAndExit',
 
   typeName: {
     singular: 'Enterprise Java Bean',
