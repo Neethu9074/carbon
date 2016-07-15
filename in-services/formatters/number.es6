@@ -5,6 +5,8 @@ const byteBase = 1024;
 export const zeroDecimalPlaces = d3.format(',.0f');
 export const twoDecimalPlaces = d3.format(',.2f');
 
+export const twoDecimalPlacesPerSecond = d => twoDecimalPlaces(d) + '/s';
+
 export const percentageZeroDecimalPlaces = d => zeroDecimalPlaces(d * 100) + '%';
 export const percentageTwoDecimalPlaces = d => twoDecimalPlaces(d * 100) + '%';
 
