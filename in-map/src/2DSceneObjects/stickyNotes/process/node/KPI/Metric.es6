@@ -45,26 +45,26 @@ const Metric = getSnapshot(
 
       const kpis = getKpis(snapshot);
       return (
-        <div onMouseEnter={() => this.setState({isHighlighted: true})}
-             onMouseLeave={() => this.setState({isHighlighted: false})}
-             className={className}>
+        <div className={className}>
           <div className={block + '__heading'}>
             {this.props.getHeading(snapshot)}
           </div>
-          <div className={block + '__chart-wrapper'}>
-          {this.state.isHighlighted ?
-            kpis.map(kpi =>
-              <SparkChart key={kpi.label}
-                          snapshotId={this.props.snapshotId}
-                          title={kpi.label}
-                          metric={kpi.metric}
-                          formatter={kpi.formatter} />
-            ) :
-            <KPIList snapshot={snapshot}
-                     metrics={kpis.map(kpi => kpi.metric)}
-                     labels={kpis.map(kpi => kpi.label)}
-                     formatters={kpis.map(kpi => kpi.formatter)}/>
-          }
+          <div className={block + '__chart-wrapper'}
+               onMouseEnter={() => this.setState({isHighlighted: true})}
+               onMouseLeave={() => this.setState({isHighlighted: false})}>
+            {this.state.isHighlighted ?
+              kpis.map(kpi =>
+                <SparkChart key={kpi.label}
+                            snapshotId={this.props.snapshotId}
+                            title={kpi.label}
+                            metric={kpi.metric}
+                            formatter={kpi.formatter} />
+              ) :
+              <KPIList snapshot={snapshot}
+                       metrics={kpis.map(kpi => kpi.metric)}
+                       labels={kpis.map(kpi => kpi.label)}
+                       formatters={kpis.map(kpi => kpi.formatter)}/>
+            }
           </div>
         </div>
       );
