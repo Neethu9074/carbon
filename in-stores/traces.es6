@@ -25,7 +25,7 @@ export function getTraces(maxTimestamp, minTimestamp, sortByField, sortMode) {
  * ############################
  */
 const selectedTraceId$ = createTrackingStore({
-  name: 'selectedTraceId',
+  name: 'in-stores/traces/selectedTraceId',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
@@ -39,7 +39,7 @@ const selectedTraceId$ = createTrackingStore({
 export const selectedTraceId = selectedTraceId$;
 
 export const selectedTrace = createTrackingStore({
-  name: 'selectedTrace',
+  name: 'in-stores/traces/selectedTrace',
   observable: selectedTraceId.flatMap(traceId => {
     if (traceId) {
       return createTraceObservable(traceId);

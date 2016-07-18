@@ -51,11 +51,11 @@ module.exports = {
     tenantUnit: 'drivenow',
     groundskeeperDomain: 'instana.io'
   },
-  dell: {
-    uiBackendUrl: 'https://dell.instana.io/api/data/',
-    groundskeeperUrl: 'https://dell.instana.io',
-    tenant: 'dell',
-    tenantUnit: 'dell',
+  aetion: {
+    uiBackendUrl: 'https://aetion.instana.io/api/data/',
+    groundskeeperUrl: 'https://aetion.instana.io',
+    tenant: 'aetion',
+    tenantUnit: 'aetion',
     groundskeeperDomain: 'instana.io'
   },
   hellmann: {
