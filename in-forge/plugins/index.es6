@@ -26,6 +26,7 @@ import './logicalElasticSearchIndex';
 import './logicalElasticSearchConnection';
 import './logicalHttpConnection';
 import './logicalJdbcConnection';
+import './logicalMessageBroker';
 import './logicalRabbitMqConnection';
 import './logicalService';
 import './logicalWebApp';
