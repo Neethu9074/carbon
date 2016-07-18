@@ -12,6 +12,7 @@ import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import classnames from 'in-services/util/classnames';
+import {getDirection} from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -19,9 +20,19 @@ import './TraceTree.less';
 
 const block = 'in-trace-view-tree';
 
-function TreeNetworkElement() {
+function TreeNetworkElement({parent, element}) {
+  let duration = null;
+  // be really pesimistic here and assume that everyone go bad.
+  if (parent != null && element.children.length === 1 && element.children[0].type === 'span' &&
+      getDirection(element.children[0].span) && parent.type === 'span') {
+    duration = parent.span.get('duration') - element.children[0].span.get('duration');
+    duration = Math.max(duration, 0);
+  }
   return (
-    <div>NETWORK</div>
+    <div>
+      NETWORK
+      {duration != null ? ` (${duration} ms)` : null}
+    </div>
   );
 }
 
@@ -148,14 +159,19 @@ const TreeElement = React.createClass({
       details = (
         <TreeSpanElement trace={this.props.trace}
                          span={this.props.element.span}
-                         parentSpanForPercentageCalculation={this.props.parentSpanForPercentageCalculation} />
+                         parentSpanForPercentageCalculation={this.props.parentSpanForPercentageCalculation}
+                         parent={this.props.parent} />
       );
     } else if (elementType === 'stackTrace') {
       details = (
-        <TreeStackTraceElement stackTrace={this.props.element.stackTrace}/>
+        <TreeStackTraceElement stackTrace={this.props.element.stackTrace}
+                               parent={this.props.parent} />
       );
     } else if (elementType === 'network') {
-      details = <TreeNetworkElement />;
+      details = (
+        <TreeNetworkElement parent={this.props.parent}
+                            element={this.props.element} />
+      );
     } else {
       throw new Error(`Unknown long trace element type ${this.props.element.type}`);
     }
@@ -176,7 +192,8 @@ const TreeElement = React.createClass({
               <TreeElement element={childElement}
                            key={childElement.id}
                            parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
-                           trace={this.props.trace}/>
+                           trace={this.props.trace}
+                           parent={this.props.element} />
             )}
           </ul>
         : null}
@@ -216,7 +233,8 @@ export default connectTo({
         <ul className={`${block}__element-container ${block}__element-container--root`}>
           <TreeElement element={longTrace}
                        parentSpanForPercentageCalculation={trace}
-                       trace={trace}/>
+                       trace={trace}
+                       parent={null} />
         </ul>
       </div>
     );
