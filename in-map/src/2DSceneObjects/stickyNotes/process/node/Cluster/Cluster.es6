@@ -49,7 +49,7 @@ const ProcessCluster = React.createClass({
            onMouseLeave={() => this.setState({highlighted: false})}
            onClick={this.onClick}>
         {numChildren}
-        <Icon type={this.state.expanded ? 'open' : 'close'}
+        <Icon type={this.state.expanded ? 'close_up' : 'close'}
               className={block + '__icon'}/>
       </div>
     );
