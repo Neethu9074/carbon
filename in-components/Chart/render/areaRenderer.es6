@@ -8,7 +8,8 @@ export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints, 
   function renderUntilGap(startingPoint) {
     let endIndex = null;
 
-    series.forEach((s, seriesIndex) => {
+    for (let seriesIndex = series.length - 1; seriesIndex > 0; seriesIndex--) {
+      const s = series[seriesIndex];
       ctx.beginPath();
 
       let previousX = Number.MAX_VALUE * -1;
@@ -55,7 +56,7 @@ export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints, 
         ctx.fill();
       }
       endIndex = seriesEndIndex;
-    });
+    }
 
     return endIndex;
   }
@@ -63,8 +64,8 @@ export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints, 
 
 
 export function processNewDataColumns(newDataColumns) {
-  newDataColumns.reverse().forEach(dataColumn => {
-    dataColumn.reverse().forEach(dataRow => {
+  newDataColumns.forEach(dataColumn => {
+    dataColumn.forEach(dataRow => {
       dataRow.y0 = 0;
       dataRow.y1 = dataRow.y;
     });
