@@ -15,7 +15,7 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.physicalJdbcConnection,
   snapshot => snapshot.getIn(['data', 'source', 'id']) +
-              '->' +
+              ' to ' +
               snapshot.getIn(['data', 'destination', 'id'])
 );
 

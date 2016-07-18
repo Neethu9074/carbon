@@ -15,7 +15,7 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.logicalJdbcConnection,
   snapshot => snapshot.getIn(['data', 'source', 'service_name']) +
-              '->' +
+              ' to ' +
               snapshot.getIn(['data', 'destination', 'service_name'])
 );
 
