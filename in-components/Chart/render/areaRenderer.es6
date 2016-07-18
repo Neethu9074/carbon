@@ -71,12 +71,3 @@ export function processNewDataColumns(newDataColumns) {
     });
   });
 }
-
-export function getMinYFromDataColumn(dataColumn) {
-  return dataColumn[0].y0;
-}
-
-
-export function getMaxYFromDataColumn(dataColumn) {
-  return dataColumn[dataColumn.length - 1].y1;
-}
