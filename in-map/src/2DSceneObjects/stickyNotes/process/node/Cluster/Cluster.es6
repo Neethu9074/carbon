@@ -33,10 +33,13 @@ const ProcessCluster = React.createClass({
   },
 
   render() {
-    const isHighlighted = this.state.highlighted || this.state.expanded;
+    const numChildren = this.props.numChildren;
+    if (numChildren === 0) {
+      return null;
+    }
 
     let className = block + '__content';
-    if (isHighlighted) {
+    if (this.state.highlighted || this.state.expanded) {
       className += ' ' + className + '--highlighted';
     }
 
@@ -45,7 +48,7 @@ const ProcessCluster = React.createClass({
            onMouseEnter={() => this.setState({highlighted: true})}
            onMouseLeave={() => this.setState({highlighted: false})}
            onClick={this.onClick}>
-        {this.props.numChildren}
+        {numChildren}
         <Icon type={this.state.expanded ? 'open' : 'close'}
               className={block + '__icon'}/>
       </div>
