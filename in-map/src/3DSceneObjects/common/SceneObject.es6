@@ -14,18 +14,18 @@ import {StateMachine} from '../../StateMachine/StateMachine';
 
 export default class SceneObject extends Subscriber {
 
-  constructor({parent, id}) {
+  constructor(props) {
     super();
 
-    this.id = id;
-    this.parent = parent;
+    this.id = props.id;
+    this.parent = props.parent;
 
-    this.eventEmitter = new RoEmitter(id);
+    this.eventEmitter = new RoEmitter(this.id);
     this.addSubscription(scene$.subscribe(scene => this.scene = scene));
 
     this.stateMachine = new StateMachine(this);
 
-    this.initComponents();
+    this.initComponents(props);
     this.init();
 
     this.stateMachine.initialized();

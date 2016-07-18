@@ -6,9 +6,9 @@ import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
-import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import SnapshotLink from 'in-components/SnapshotLink';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';

@@ -5,8 +5,8 @@ import SceneObject from './SceneObject';
 
 export default class Label extends SceneObject {
 
-  constructor({id, parent, iconSize = 1}) {
-    super({parent, id: id + '_label', snapshotId: id});
+  constructor({id, parent, snapshotId, iconSize = 1}) {
+    super({parent, id: id + '_label', snapshotId});
 
     this.factory = parent.getFactory('singleMeshGlyphPointsFactory');
     this.fragment = this.getFragment(iconSize);
@@ -30,10 +30,17 @@ export default class Label extends SceneObject {
   }
 
 
-  initComponents() {
+  getSnapshotId() {
+    return this.parent.id;
+  }
+
+  initComponents(props) {
     super.initComponents();
 
-    this.components.snapshot = new SnapshotComponent({sceneObject: this, id: this.parent.id});
+    this.components.snapshot = new SnapshotComponent({
+      sceneObject: this,
+      id: props.snapshotId || this.parent.id
+    });
   }
 
   positionChanged(newPosition) {
@@ -54,6 +61,7 @@ export default class Label extends SceneObject {
     super.dispose();
 
     this.factory.removeFragment(this.id);
+    this.snapshotId = null;
     this.id = null;
   }
 }

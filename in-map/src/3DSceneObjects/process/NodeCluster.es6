@@ -58,12 +58,6 @@ export default class NodeCluster extends Node {
     this.height = 0.25;
 
     this.stickyNote = new StickyNoteCluster(this);
-
-    this.label = new Label({
-      id: this.id,
-      parent: this,
-      iconSize: 2.5
-    });
   }
 
   addComponents(components) {
@@ -119,6 +113,15 @@ export default class NodeCluster extends Node {
     const numChildren = childIds ? childIds.size : 0;
     this.stickyNote.setNumChildren(numChildren);
     this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
+
+    if (numChildren > 0 && !this.label) {
+      this.label = new Label({
+        id: this.id,
+        parent: this,
+        snapshotId: childIds.getIn([0, 'id']),
+        iconSize: 2.5
+      });
+    }
   }
 
   expand() {
@@ -139,7 +142,9 @@ export default class NodeCluster extends Node {
   positionChanged(newPos) {
     super.positionChanged(newPos);
 
-    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
+    if (this.label) {
+      this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
+    }
 
     this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
                                                                       newPos.y,
@@ -160,7 +165,9 @@ export default class NodeCluster extends Node {
     this.stickyNote.dispose();
     this.stickyNote = null;
 
-    this.label.dispose();
-    this.label = null;
+    if (this.label) {
+      this.label.dispose();
+      this.label = null;
+    }
   }
 }
