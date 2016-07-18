@@ -38,6 +38,7 @@ import './nodeJsCluster';
 import './nodeJsRuntimePlatform';
 import './oracleDB';
 import './phpFpmRuntimePlatform';
+import './physicalElasticSearchConnection';
 import './physicalHttpConnection';
 import './physicalJdbcConnection';
 import './postgreSqlDatabase';
