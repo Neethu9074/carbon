@@ -24,6 +24,7 @@ import './kafka';
 import './logicalDatabase';
 import './logicalHttpConnection';
 import './logicalJdbcConnection';
+import './logicalRabbitMqConnection';
 import './logicalService';
 import './logicalWebApp';
 import './memcached';

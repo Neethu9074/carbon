@@ -48,7 +48,7 @@ export default class Connection extends BaseConnection {
                                             .subscribe(this.updateGeometry.bind(this)),
 
       this.eventEmitter.on('updateColor').debounce(10)
-                                            .subscribe(this.updateColor.bind(this))
+                                         .subscribe(this.updateColor.bind(this))
     ]);
 
     // create this later, afer sourceNode and destinationNode are available
