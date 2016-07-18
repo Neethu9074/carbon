@@ -4,6 +4,7 @@ export function transform(span) {
   const result = {
     id: span.get('spanId'),
     type: 'span',
+    span,
     children: []
   };
 
@@ -51,7 +52,7 @@ function insertSpanIntoParent(parentResult, span) {
     const newParent = {
       id: id,
       type: 'stackTrace',
-      stackTrace: stackTraceElement,
+      stackTrace: [stackTraceElement],
       children: []
     };
     currentParent.children.push(newParent);

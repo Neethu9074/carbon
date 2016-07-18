@@ -5,7 +5,7 @@ import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/forma
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
 import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
 import {getLabel, getTypeLabelSingular, getCategory} from 'in-sdk/tracing';
-import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
+import {highlightedSpanId$, longSelectedTrace$} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -16,7 +16,25 @@ import './TraceTree.less';
 
 const block = 'in-trace-view-tree';
 
-const TreeElement = connectTo(props => {
+function TreeNetworkElement() {
+  return (
+    <div>NETWORK</div>
+  );
+}
+
+function TreeStackTraceElement({stackTrace}) {
+  return (
+    <div>
+      {stackTrace.map((st, i) =>
+        <div key={i}>
+          {st.get('c')}#{st.get('m')}:{st.get('n')}
+        </div>
+      )}
+    </div>
+  );
+}
+
+const TreeSpanElement = connectTo(props => {
     const spanId = props.span.get('spanId');
     return {
       isHighlighted: highlightedSpanId$
@@ -40,11 +58,6 @@ const TreeElement = connectTo(props => {
     },
 
     render() {
-      let newParentSpanForPercentageCalculation = this.props.parentSpanForPercentageCalculation;
-      if (this.props.parentSpanForPercentageCalculation.get('async')) {
-        newParentSpanForPercentageCalculation = this.props.span;
-      }
-
       const selfTime = getSelfTime(this.props.span);
       const totalTime = this.props.span.get('duration');
 
@@ -57,15 +70,11 @@ const TreeElement = connectTo(props => {
         // add a small amount to avoid division by zero
         const parentTotalTime = this.props.parentSpanForPercentageCalculation.get('duration') + 0.00000001;
         totalTimePercentage = 1 / parentTotalTime * totalTime;
-        const parentSelfTime = getSelfTime(this.props.parentSpanForPercentageCalculation);
-        selfTimePercentage = 1 / parentSelfTime * selfTime;
+        selfTimePercentage = 1 / parentTotalTime * selfTime;
       }
 
-      const childSpans = this.props.span.get('childSpans');
-
       return (
-        <li className={`${block}__element`}>
-
+        <div>
           <div className={classnames({
                  [`${block}__element-header`]: true,
                  [`${block}__element-header--error`]: this.props.span.get('error'),
@@ -101,17 +110,7 @@ const TreeElement = connectTo(props => {
             <SpanForgeDetails span={this.props.span}
                               trace={this.props.trace} />
           : null}
-
-          <ul className={`${block}__element-container`}>
-            {childSpans.toArray()
-              .map(childSpan =>
-                <TreeElement span={childSpan}
-                             key={childSpan.get('spanId')}
-                             parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
-                             trace={this.props.trace}/>
-              )}
-          </ul>
-        </li>
+        </div>
       );
     },
 
@@ -126,24 +125,56 @@ const TreeElement = connectTo(props => {
 );
 
 
-function getSelfTime(span) {
-  let selfTime = span.get('duration');
-  span.get('childSpans').forEach(childSpan => selfTime -= childSpan.get('duration'));
-  return selfTime;
+function TreeElement({element, parentSpanForPercentageCalculation, trace}) {
+  let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
+  if (element.type === 'span' && parentSpanForPercentageCalculation.get('async')) {
+    newParentSpanForPercentageCalculation = element.span;
+  }
+
+  let details;
+  if (element.type === 'span') {
+    details = (
+      <TreeSpanElement trace={trace}
+                       span={element.span}
+                       parentSpanForPercentageCalculation={parentSpanForPercentageCalculation} />
+    );
+  } else if (element.type === 'stackTrace') {
+    details = (
+      <TreeStackTraceElement stackTrace={element.stackTrace}/>
+    );
+  } else if (element.type === 'network') {
+    details = <TreeNetworkElement />;
+  } else {
+    throw new Error(`Unknown long trace element type ${element.type}`);
+  }
+
+  return (
+    <li className={`${block}__element`}>
+      {details}
+
+      <ul className={`${block}__element-container`}>
+        {element.children.map(childElement =>
+          <TreeElement element={childElement}
+                       key={childElement.id}
+                       parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
+                       trace={trace}/>
+        )}
+      </ul>
+    </li>
+  );
 }
 
 
 export default connectTo({
     traceId: selectedTraceId,
-    trace: selectedTrace
-  }, function TraceTree({traceId, trace}) {
+    trace: selectedTrace,
+    longTrace: longSelectedTrace$
+  }, function TraceTree({traceId, trace, longTrace}) {
     if (!traceId) {
       return <p className={`${block}__no-trace-selected`}>No trace selected.</p>;
     }
 
-    if (!trace) {
-      return <LoadingIndicator type='dark' />;
-    } else if (trace.get('traceId') !== traceId) {
+    if (!longTrace || longTrace.id !== traceId) {
       return <LoadingIndicator type='dark' />;
     }
 
@@ -156,7 +187,7 @@ export default connectTo({
         <h1>Le Trace Tree</h1>
 
         <ul className={`${block}__element-container ${block}__element-container--root`}>
-          <TreeElement span={trace}
+          <TreeElement element={longTrace}
                        parentSpanForPercentageCalculation={trace}
                        trace={trace}/>
         </ul>
@@ -164,3 +195,10 @@ export default connectTo({
     );
   }
 );
+
+
+function getSelfTime(span) {
+  let selfTime = span.get('duration');
+  span.get('childSpans').forEach(childSpan => selfTime -= childSpan.get('duration'));
+  return selfTime;
+}
