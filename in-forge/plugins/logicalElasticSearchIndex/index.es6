@@ -8,8 +8,8 @@ import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.logicalElasticSearchIndex,
-  'Logical Rabbit MQ Connection',
-  'Logical Rabbit MQ Connections'
+  'Logical Elastic Search Index',
+  'Logical Elastic Search Indices'
 );
 
 addLabelFinder(
