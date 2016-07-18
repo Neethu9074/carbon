@@ -1,27 +1,49 @@
 import {create} from 'reactive-observables';
+import {createLogger} from 'instalog';
 import React from 'react';
 
 import getBigBangTimestamp from 'in-services/subscription/bigBangTimestamp';
+import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import {serverTime$} from 'in-stores/serverTime';
+import {isBlank} from 'in-services/util/string';
 
+const logger = createLogger('in-stores/timeline');
 
 // An object of the following structure
 // {
 //   windowSize: <number: Number of milliseconds the window should be big>
 //   to?: <number: An optional, fixed end point in time>
 // }
-const timeframeStore = createStore({
-  name: 'timeline',
-  initialValue: {
-    windowSize: 1000 * 60 * 10,
-    to: null
-  }
-});
+export const timeframe$ = createTrackingStore({
+  name: 'in-stores/timeline/timeline',
+  observable: navigationParameters$
+    .map(params => {
+      let to = null;
+      const toQuery = params.query['timeline.to'];
+      if (toQuery != null && toQuery.length > 0) {
+        try {
+          to = parseInt(toQuery, 10);
+        } catch (e) {
+          logger.info(`Failed to parse timeline.to part of query. Given: ${toQuery}`);
+        }
+      }
 
+      let windowSize = 1000 * 60 * 10;
+      const windowSizeQuery = params.query['timeline.ws'];
+      if (windowSizeQuery != null && windowSizeQuery.length > 0) {
+        try {
+          windowSize = parseInt(windowSizeQuery, 10);
+        } catch (e) {
+          logger.info(`Failed to parse timeline.ws part of query. Given: ${windowSizeQuery}`);
+        }
+      }
 
-export const timeframe = timeframeStore.observable.distinct();
-export const timeframe$ = timeframe;
+      return {to, windowSize};
+    })
+    .distinct((prev, next) => prev.to !== next.to || prev.windowSize !== next.windowSize)
+}).observable;
+export const timeframe = timeframe$;
 
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
@@ -31,19 +53,31 @@ export const to$ = timeframe$.flatMap(_timeframe => {
 }).distinct();
 
 export function setTo(to) {
-  timeframeStore.applyStateMutation(prevTimeFrame => {
-    return {
-      windowSize: prevTimeFrame.windowSize,
-      to
-    };
+  mutateUrl(navParams => {
+    navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
+    return navParams;
   });
 }
 
-const focusedMoment = createStore({
-  name: 'focusedMoment',
-  initialValue: null
-});
-export const focusedMoment$ = focusedMoment.observable.distinct();
+export const focusedMoment$ = createTrackingStore({
+  name: 'in-stores/timeline/focusedMoment',
+  observable: navigationParameters$
+    .map(params => {
+      const focusedMoment = params.query['timeline.fm'];
+      if (focusedMoment == null || focusedMoment.length === 0) {
+        return null;
+      }
+
+      try {
+        return parseInt(focusedMoment, 10);
+      } catch (e) {
+        logger.info(`Failed to parse timeline.fm part of query. Given: ${focusedMoment}`);
+      }
+
+      return null;
+    })
+    .distinct()
+}).observable;
 
 let currentTimeframe;
 timeframe$.subscribe(tf => currentTimeframe = tf);
@@ -52,22 +86,27 @@ let currentServertime;
 serverTime$.subscribe(st => currentServertime = st);
 
 export function setFocusedMoment(newFocusedMoment) {
-  focusedMoment.applyStateMutation(() => newFocusedMoment);
-  if (newFocusedMoment && !currentTimeframe.to) {
-    timeframeStore.applyStateMutation(() => {
-      return {
-        windowSize: currentTimeframe.windowSize,
-        to: currentTimeframe.to ? currentTimeframe.to : currentServertime
-      };
-    });
-  }
+  mutateUrl(navParams => {
+    navParams.query['timeline.fm'] = encodeURIComponent(newFocusedMoment != null ? newFocusedMoment : '');
+    if (newFocusedMoment && !currentTimeframe.to) {
+      navParams.query['timeline.to'] = encodeURIComponent(
+        currentTimeframe.to ? currentTimeframe.to : currentServertime
+      );
+    }
+    navParams.query['timeline.ws'] = encodeURIComponent(currentTimeframe.windowSize);
+    return navParams;
+  });
 }
 
 export function lockFocusedMoment() {
-  serverTime$.once(sTime =>
-    focusedMoment.applyStateMutation(prevFocusedMoment =>
-      !prevFocusedMoment ? sTime : prevFocusedMoment)
-  );
+  serverTime$.once(sTime => {
+    mutateUrl(navParams => {
+      if (isBlank(navParams.query['timeline.fm'])) {
+        navParams.query['timeline.fm'] = encodeURIComponent(sTime);
+      }
+      return navParams;
+    });
+  });
 }
 
 export const live$ = focusedMoment$.map(moment => !moment).distinct();
@@ -91,20 +130,16 @@ export const timeframeShape = React.PropTypes.shape({
 
 
 export function setTimeframe(windowSize, to = null) {
-  timeframeStore.applyStateMutation(previous => {
-    if (previous.windowSize === windowSize && previous.to === to) {
-      return previous;
-    }
-    return {
-      windowSize,
-      to
-    };
+  mutateUrl(navParams => {
+    navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
+    navParams.query['timeline.ws'] = encodeURIComponent(windowSize);
+    return navParams;
   });
 }
 
 
 const highlightedMomentStore = createStore({
-  name: 'highlightedMoment',
+  name: 'in-stores/timeline/highlightedMoment',
   initialValue: null
 });
 export const highlightedMoment$ = highlightedMomentStore.observable;
@@ -125,7 +160,7 @@ export function clearHighlightedMoment() {
 
 
 export const bigBangTimestamp = createTrackingStore({
-  name: 'bigBangTimestamp',
+  name: 'in-stores/timeline/bigBangTimestamp',
   observable: getBigBangTimestamp()
 }).observable;
 
