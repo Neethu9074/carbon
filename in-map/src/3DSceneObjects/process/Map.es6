@@ -12,6 +12,9 @@ import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
 import {edges, nodes} from 'in-map/src/stores/process/entitiesStores';
 import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {eventBus} from 'in-map/src/services/eventBus';
+import {goToDashboard} from 'in-stores/navigation';
 
 
 export default class Map extends BaseMap {
@@ -38,6 +41,16 @@ export default class Map extends BaseMap {
           return entity.type === 'process' ? new NodeCluster(params) : new NodePhysical(params);
         });
         this.disposeOld(this.nodes, currentNodes);
+      }),
+
+      eventBus.on('openDashboard').subscribe(id => {
+        if (id) {
+          setSelectedSnapshotId(id);
+          goToDashboard();
+
+          // clear stream
+          eventBus.emit('openDashboard', null);
+        }
       })
     ]);
 
