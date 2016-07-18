@@ -1,16 +1,16 @@
 import pbst from 'in-sdk/util/pluginBasedSnapshotTransformation';
 import {
-  twoDecimalPlacesPerSecond,
+  zeroDecimalPlacesPerSecond,
   msTwoDecimalPlaces,
-  twoDecimalPlaces
+  zeroDecimalPlaces
 } from 'in-services/formatters/number';
 
 const defaultKpis = () => [
   {
     metric: 'count',
     label: 'calls/s',
-    formatter: twoDecimalPlaces,
-    valueOnlyformatter: twoDecimalPlacesPerSecond
+    formatter: zeroDecimalPlaces,
+    valueOnlyformatter: zeroDecimalPlacesPerSecond
   }, {
     metric: 'duration.mean',
     label: 'avg. latency',
@@ -19,8 +19,8 @@ const defaultKpis = () => [
   }, {
     metric: 'error_count',
     label: 'errors/s',
-    formatter: twoDecimalPlaces,
-    valueOnlyformatter: twoDecimalPlacesPerSecond
+    formatter: zeroDecimalPlaces,
+    valueOnlyformatter: zeroDecimalPlacesPerSecond
   }
 ];
 

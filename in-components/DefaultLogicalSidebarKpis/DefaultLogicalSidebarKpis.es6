@@ -1,7 +1,7 @@
 import React from 'react';
 
 import SparkChartsSection from 'in-components/sidebars/components/SparkChartsSection';
-import {msTwoDecimalPlaces, twoDecimalPlaces} from 'in-services/formatters/number';
+import {msTwoDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 
 
 export default function DefaultLogicalSidebarKpis({snapshot}) {
@@ -11,7 +11,7 @@ export default function DefaultLogicalSidebarKpis({snapshot}) {
                           {
                             metric: 'count',
                             label: 'calls/s',
-                            formatter: twoDecimalPlaces
+                            formatter: zeroDecimalPlaces
                           }, {
                             metric: 'duration.mean',
                             label: 'avg. latency',
@@ -19,7 +19,7 @@ export default function DefaultLogicalSidebarKpis({snapshot}) {
                           }, {
                             metric: 'error_count',
                             label: 'errors/s',
-                            formatter: twoDecimalPlaces
+                            formatter: zeroDecimalPlaces
                           }
                         ]} />
   );

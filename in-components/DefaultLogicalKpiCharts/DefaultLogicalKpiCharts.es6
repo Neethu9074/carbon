@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {msTwoDecimalPlaces, twoDecimalPlaces} from 'in-services/formatters/number';
+import {msTwoDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -18,8 +18,8 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           formatter: twoDecimalPlaces,
-                           tooltipFormatter: twoDecimalPlaces,
+                           formatter: zeroDecimalPlaces,
+                           tooltipFormatter: zeroDecimalPlaces,
                            metrics: [
                              'count'
                            ],
@@ -30,8 +30,8 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                          }}
                          y2={{
                            min: 0,
-                           formatter: twoDecimalPlaces,
-                           tooltipFormatter: twoDecimalPlaces,
+                           formatter: msTwoDecimalPlaces,
+                           tooltipFormatter: msTwoDecimalPlaces,
                            metrics: [
                              'duration.mean'
                            ],
@@ -88,8 +88,8 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           formatter: msTwoDecimalPlaces,
-                           tooltipFormatter: msTwoDecimalPlaces,
+                           formatter: zeroDecimalPlaces,
+                           tooltipFormatter: zeroDecimalPlaces,
                            metrics: [
                              'error_count'
                            ],
