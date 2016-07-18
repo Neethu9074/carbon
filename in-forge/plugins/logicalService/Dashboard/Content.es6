@@ -2,17 +2,27 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DefaultLogicalKpiCharts from 'in-components/DefaultLogicalKpiCharts';
+import ClusterNodes from 'in-components/LogicalEntityTables/ClusterNodes';
+import Connections from 'in-components/LogicalEntityTables/Connections';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-export default function logicalService({snapshot, timeframe}) {
+export default function logicalServiceDashboard({snapshot, timeframe}) {
   return (
-    <DefaultLogicalKpiCharts snapshot={snapshot}
-                             timeframe={timeframe} />
+    <div>
+      <DefaultLogicalKpiCharts snapshot={snapshot}
+                               timeframe={timeframe} />
+
+      <ClusterNodes snapshotId={snapshot.get('id')}
+                    timeframe={timeframe} />
+
+      <Connections snapshotId={snapshot.get('id')}
+                   timeframe={timeframe} />
+    </div>
   );
 }
 
-logicalService.propTypes = {
+logicalServiceDashboard.propTypes = {
   snapshot: irpt.map.isRequired,
   timeframe: timeframeShape
 };
