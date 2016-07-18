@@ -55,24 +55,24 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                            formatter: msTwoDecimalPlaces,
                            tooltipFormatter: msTwoDecimalPlaces,
                            metrics: [
-                             'duration.min',
                              'duration.max',
-                             'duration.25th',
-                             'duration.50th',
-                             'duration.75th',
-                             'duration.95th',
+                             'duration.99th',
                              'duration.98th',
-                             'duration.99th'
+                             'duration.95th',
+                             'duration.75th',
+                             'duration.50th',
+                             'duration.25th',
+                             'duration.min'
                            ],
                            labels: [
-                             'latency min',
                              'latency max',
-                             'latency 25th',
-                             'latency 50th',
-                             'latency 75th',
-                             'latency 95th',
+                             'latency 99th',
                              'latency 98th',
-                             'latency 99th'
+                             'latency 95th',
+                             'latency 75th',
+                             'latency 50th',
+                             'latency 25th',
+                             'latency min'
                            ],
                            type: 'area'
                          }} />
