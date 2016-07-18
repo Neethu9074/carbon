@@ -22,7 +22,7 @@ function LayoutControls({layoutingEnabled, currentView}) {
   return (
     <div className={layoutingEnabled ? block : block + ' ' + block + '__disabled'}
          onClick={() => eventBus.emit('resetProcessViewLayouting', true)}>
-      reorder
+      auto layout
     </div>
   );
 }
