@@ -1,6 +1,10 @@
 import React from 'react';
 
-import {msTwoDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import {
+  bytesTwoDecimalPlaces,
+  msTwoDecimalPlaces,
+  zeroDecimalPlaces
+} from 'in-services/formatters/number';
 import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import DashboardSection from 'in-components/DashboardSection';
@@ -51,7 +55,7 @@ export default connectTo(
                                                        timeframe={timeframe}
                                                        snapshotId={id}
                                                        metric='count'
-                                                       formatter={twoDecimalPlaces} />
+                                                       formatter={zeroDecimalPlaces} />
                   </td>
                   <td>
                     <HistoricMetricSparkChartWithLabel width={200}
@@ -67,7 +71,7 @@ export default connectTo(
                                                        timeframe={timeframe}
                                                        snapshotId={id}
                                                        metric='error_count'
-                                                       formatter={msTwoDecimalPlaces} />
+                                                       formatter={zeroDecimalPlaces} />
                   </td>
                   <Mtd metric={'indices.store_size'}
                        snapshot={node}
