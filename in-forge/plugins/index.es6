@@ -22,6 +22,7 @@ import './jiraApplication';
 import './jvmRuntimePlatform';
 import './kafka';
 import './logicalDatabase';
+import './logicalElasticSearchIndex';
 import './logicalElasticSearchConnection';
 import './logicalHttpConnection';
 import './logicalJdbcConnection';
