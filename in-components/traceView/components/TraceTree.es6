@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types, react/no-multi-comp */
+
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
@@ -11,6 +13,7 @@ import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import classnames from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import './TraceTree.less';
 
@@ -125,44 +128,68 @@ const TreeSpanElement = connectTo(props => {
 );
 
 
-function TreeElement({element, parentSpanForPercentageCalculation, trace}) {
-  let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
-  if (element.type === 'span' && parentSpanForPercentageCalculation.get('async')) {
-    newParentSpanForPercentageCalculation = element.span;
-  }
+const TreeElement = React.createClass({
 
-  let details;
-  if (element.type === 'span') {
-    details = (
-      <TreeSpanElement trace={trace}
-                       span={element.span}
-                       parentSpanForPercentageCalculation={parentSpanForPercentageCalculation} />
+  getInitialState() {
+    return {
+      isExpanded: false
+    };
+  },
+
+  render() {
+    let newParentSpanForPercentageCalculation = this.props.parentSpanForPercentageCalculation;
+    if (this.props.element.type === 'span' && this.props.parentSpanForPercentageCalculation.get('async')) {
+      newParentSpanForPercentageCalculation = this.props.element.span;
+    }
+
+    const elementType = this.props.element.type;
+    let details;
+    if (elementType === 'span') {
+      details = (
+        <TreeSpanElement trace={this.props.trace}
+                         span={this.props.element.span}
+                         parentSpanForPercentageCalculation={this.props.parentSpanForPercentageCalculation} />
+      );
+    } else if (elementType === 'stackTrace') {
+      details = (
+        <TreeStackTraceElement stackTrace={this.props.element.stackTrace}/>
+      );
+    } else if (elementType === 'network') {
+      details = <TreeNetworkElement />;
+    } else {
+      throw new Error(`Unknown long trace element type ${this.props.element.type}`);
+    }
+
+    return (
+      <li className={`${block}__element`}>
+        {details}
+
+        {this.props.element.children.length > 0 && elementType !== 'network' && elementType !== 'stackTrace'  ?
+          <Icon type={this.state.isExpanded ? 'close' : 'open'}
+                onClick={this.toggleExpansion}
+                className={`${block}__toggle`}/>
+        : null}
+
+        {this.state.isExpanded || elementType === 'network' || elementType === 'stackTrace' ?
+          <ul className={`${block}__element-container`}>
+            {this.props.element.children.map(childElement =>
+              <TreeElement element={childElement}
+                           key={childElement.id}
+                           parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
+                           trace={this.props.trace}/>
+            )}
+          </ul>
+        : null}
+      </li>
     );
-  } else if (element.type === 'stackTrace') {
-    details = (
-      <TreeStackTraceElement stackTrace={element.stackTrace}/>
-    );
-  } else if (element.type === 'network') {
-    details = <TreeNetworkElement />;
-  } else {
-    throw new Error(`Unknown long trace element type ${element.type}`);
+  },
+
+  toggleExpansion() {
+    this.setState({
+      isExpanded: !this.state.isExpanded
+    });
   }
-
-  return (
-    <li className={`${block}__element`}>
-      {details}
-
-      <ul className={`${block}__element-container`}>
-        {element.children.map(childElement =>
-          <TreeElement element={childElement}
-                       key={childElement.id}
-                       parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
-                       trace={trace}/>
-        )}
-      </ul>
-    </li>
-  );
-}
+});
 
 
 export default connectTo({
