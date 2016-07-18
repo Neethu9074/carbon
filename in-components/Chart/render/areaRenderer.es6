@@ -63,8 +63,8 @@ export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints, 
 
 
 export function processNewDataColumns(newDataColumns) {
-  newDataColumns.forEach(dataColumn => {
-    dataColumn.forEach(dataRow => {
+  newDataColumns.reverse().forEach(dataColumn => {
+    dataColumn.reverse().forEach(dataRow => {
       dataRow.y0 = 0;
       dataRow.y1 = dataRow.y;
     });

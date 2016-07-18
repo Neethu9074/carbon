@@ -42,7 +42,7 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
 
-      <DashboardSection title='Latency'>
+      <DashboardSection title='Latency vs. min/max'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={200}
@@ -55,26 +55,36 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                            formatter: msTwoDecimalPlaces,
                            tooltipFormatter: msTwoDecimalPlaces,
                            metrics: [
-                             'duration.max',
-                             'duration.99th',
-                             'duration.98th',
-                             'duration.95th',
-                             'duration.75th',
-                             'duration.50th',
                              'duration.25th',
-                             'duration.min'
+                             'duration.50th',
+                             'duration.75th',
+                             'duration.95th',
+                             'duration.98th',
+                             'duration.99th'
                            ],
                            labels: [
-                             'latency max',
-                             'latency 99th',
-                             'latency 98th',
-                             'latency 95th',
-                             'latency 75th',
-                             'latency 50th',
                              'latency 25th',
-                             'latency min'
+                             'latency 50th',
+                             'latency 75th',
+                             'latency 95th',
+                             'latency 98th',
+                             'latency 99th'
                            ],
                            type: 'area'
+                         }}
+                         y2={{
+                           min: 0,
+                           formatter: msTwoDecimalPlaces,
+                           tooltipFormatter: msTwoDecimalPlaces,
+                           metrics: [
+                             'duration.min',
+                             'duration.max'
+                           ],
+                           labels: [
+                             'latency min',
+                             'latency max'
+                           ],
+                           type: 'line'
                          }} />
       </DashboardSection>
 
