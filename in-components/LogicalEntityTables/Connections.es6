@@ -10,25 +10,39 @@ import {viewStructure} from 'in-stores/view';
 export default function Connections({snapshotId, timeframe}) {
 
   return (
-    <LogicalEntityTable timeframe={timeframe}
-                        title={'Connected to'}
-                        dataStream={viewStructure.flatMap(root => {
-                                      for (let i = 0, length = root.get('children').size; i < length; i++) {
-                                        const item = root.getIn(['children', i]);
-                                        if (item.get('id') === snapshotId) {
-                                          return getSnapshotsObservables(item);
+    <div>
+      <LogicalEntityTable timeframe={timeframe}
+                          title={'Downstream'}
+                          dataStream={viewStructure.flatMap(root => {
+                                        for (let i = 0, length = root.get('children').size; i < length; i++) {
+                                          const item = root.getIn(['children', i]);
+                                          if (item.get('id') === snapshotId) {
+                                            return getDownstreamSnapshotsObservables(item);
+                                          }
                                         }
-                                      }
-                                      return alwaysNull;
-                                   })
-                                 } />
+                                        return alwaysNull;
+                                     })
+                                   } />
+      <LogicalEntityTable timeframe={timeframe}
+                          title={'Upstream'}
+                          dataStream={viewStructure.flatMap(root => {
+                                        for (let i = 0, length = root.get('children').size; i < length; i++) {
+                                          const item = root.getIn(['children', i]);
+                                          if (item.get('id') === snapshotId) {
+                                            return getUpstreamSnapshotsObservables(item);
+                                          }
+                                        }
+                                        return alwaysNull;
+                                     })
+                                   } />
+    </div>
   );
 }
 
-function getSnapshotsObservables(entity) {
-  const ids = [];
-  entity.get('outgoingConnections').forEach(c => ids.push(c.get('id')));
-  entity.get('incomingConnections').forEach(c => ids.push(c.get('id')));
+function getDownstreamSnapshotsObservables(entity) {
+  return combineLatest(entity.get('outgoingConnections').map(c => getSnapshot(c.get('id'))));
+}
 
-  return combineLatest(ids.map(id => getSnapshot(id)));
+function getUpstreamSnapshotsObservables(entity) {
+  return combineLatest(entity.get('incomingConnections').map(c => getSnapshot(c.get('id'))));
 }
