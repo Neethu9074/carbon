@@ -2,12 +2,12 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 
-export default function PhysicalElasticsearchConnectionSidebar({}) {
+export default function PhysicalElasticSearchConnectionSidebar({}) {
   return (
     <div />
   );
 }
 
-PhysicalElasticsearchConnectionSidebar.propTypes = {
+PhysicalElasticSearchConnectionSidebar.propTypes = {
   snapshot: irpt.map.isRequired
 };

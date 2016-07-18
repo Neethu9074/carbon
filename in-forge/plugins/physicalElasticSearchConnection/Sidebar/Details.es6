@@ -4,12 +4,12 @@ import React from 'react';
 import DefaultLogicalSidebarKpis from 'in-components/DefaultLogicalSidebarKpis/DefaultLogicalSidebarKpis';
 
 
-export default function PhysicalElasticsearchConnectionSidebar({snapshot}) {
+export default function PhysicalElasticSearchConnectionSidebar({snapshot}) {
   return (
     <DefaultLogicalSidebarKpis snapshot={snapshot} />
   );
 }
 
-PhysicalElasticsearchConnectionSidebar.propTypes = {
+PhysicalElasticSearchConnectionSidebar.propTypes = {
   snapshot: irpt.map.isRequired
 };

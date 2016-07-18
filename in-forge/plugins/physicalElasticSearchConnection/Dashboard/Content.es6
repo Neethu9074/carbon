@@ -5,14 +5,14 @@ import DefaultLogicalKpiCharts from 'in-components/DefaultLogicalKpiCharts';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-export default function PhysicalElasticsearchConnectionDashboard({snapshot, timeframe}) {
+export default function PhysicalElasticSearchConnectionDashboard({snapshot, timeframe}) {
   return (
     <DefaultLogicalKpiCharts snapshot={snapshot}
                              timeframe={timeframe} />
   );
 }
 
-PhysicalElasticsearchConnectionDashboard.propTypes = {
+PhysicalElasticSearchConnectionDashboard.propTypes = {
   snapshot: irpt.map.isRequired,
   timeframe: timeframeShape
 };
