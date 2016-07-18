@@ -42,6 +42,7 @@ import './phpFpmRuntimePlatform';
 import './physicalElasticSearchConnection';
 import './physicalHttpConnection';
 import './physicalJdbcConnection';
+import './physicalRabbitMqConnection';
 import './postgreSqlDatabase';
 import './process';
 import './rabbitMq';
