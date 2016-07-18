@@ -63,12 +63,12 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                              'duration.99th'
                            ],
                            labels: [
-                             'latency 25th',
-                             'latency 50th',
-                             'latency 75th',
-                             'latency 95th',
-                             'latency 98th',
-                             'latency 99th'
+                             '25th',
+                             '50th',
+                             '75th',
+                             '95th',
+                             '98th',
+                             '99th'
                            ],
                            type: 'area'
                          }}
@@ -81,8 +81,8 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                              'duration.max'
                            ],
                            labels: [
-                             'latency min',
-                             'latency max'
+                             'min',
+                             'max'
                            ],
                            type: 'line'
                          }} />
