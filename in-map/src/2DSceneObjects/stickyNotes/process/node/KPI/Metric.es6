@@ -63,7 +63,7 @@ const Metric = getSnapshot(
               <KPIList snapshot={snapshot}
                        metrics={kpis.map(kpi => kpi.metric)}
                        labels={kpis.map(kpi => kpi.label)}
-                       formatters={kpis.map(kpi => kpi.valueOnlyformatter)} />
+                       formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />
             }
           </div>
         </div>

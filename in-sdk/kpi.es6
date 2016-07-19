@@ -10,17 +10,17 @@ const defaultKpis = () => [
     metric: 'count',
     label: 'calls/s',
     formatter: zeroDecimalPlaces,
-    valueOnlyformatter: zeroDecimalPlacesPerSecond
+    valueOnlyFormatter: zeroDecimalPlacesPerSecond
   }, {
     metric: 'duration.mean',
     label: 'avg. latency',
     formatter: msTwoDecimalPlaces,
-    valueOnlyformatter: msTwoDecimalPlaces
+    valueOnlyFormatter: msTwoDecimalPlaces
   }, {
     metric: 'error_count',
     label: 'errors/s',
     formatter: zeroDecimalPlaces,
-    valueOnlyformatter: zeroDecimalPlacesPerSecond
+    valueOnlyFormatter: zeroDecimalPlacesPerSecond
   }
 ];
 
