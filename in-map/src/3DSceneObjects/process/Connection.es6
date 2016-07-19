@@ -1,12 +1,13 @@
 import {combineLatest} from 'reactive-observables';
+import THREE from 'three';
 
 import GhostEdgeSpawnerComponent from 'in-map/src/components/process/GhostEdgeSpawnerComponent';
 import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import CLCP from 'in-map/src/SingleMeshFactory/ContentProvider/LineContentProvider';
+import {edges$, addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
-import {addEdge, removeEdge} from 'in-map/src/stores/process/edgesStore';
 import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
@@ -14,6 +15,8 @@ import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {eventBus} from 'in-map/src/services/eventBus';
 import {theme} from 'in-services/theme';
 
+
+const UP = new THREE.Vector3(0, 1, 0);
 
 export default class Connection extends BaseConnection {
 
@@ -48,7 +51,9 @@ export default class Connection extends BaseConnection {
                                             .subscribe(this.updateGeometry.bind(this)),
 
       this.eventEmitter.on('updateColor').debounce(10)
-                                         .subscribe(this.updateColor.bind(this))
+                                         .subscribe(this.updateColor.bind(this)),
+
+      edges$.subscribe(allEdges => this.checkIfBidirectional(allEdges))
     ]);
 
     // create this later, afer sourceNode and destinationNode are available
@@ -59,6 +64,7 @@ export default class Connection extends BaseConnection {
 
   init() {
     this.currentColor = theme.health[0];
+    this.isBidirectional = false;
     this.lineSMF = this.getFactory();
 
     super.init();
@@ -91,6 +97,16 @@ export default class Connection extends BaseConnection {
     fromPos.z += 0.5;
     toPos.x -= 0.5;
     toPos.z += 0.5;
+
+    if (this.isBidirectional) {
+      const direction = new THREE.Vector3(toPos.x - fromPos.x, 0, toPos.z - fromPos.z).normalize();
+      const forward = direction.clone().multiplyScalar(0.075);
+      const right = direction.cross(UP).multiplyScalar(0.25);
+      fromPos.add(right);
+      fromPos.sub(forward);
+      toPos.add(right);
+      toPos.add(forward);
+    }
 
     return [fromPos, toPos];
   }
@@ -133,14 +149,35 @@ export default class Connection extends BaseConnection {
     this.eventEmitter.emit('updateColor');
   }
 
+  checkIfBidirectional(allEdges) {
+    let isBidirectional = false;
+    const keys = Object.keys(allEdges);
+    for (let i = 0, length = keys.length; i < length; i++) {
+      const connection = allEdges[keys[i]];
+      if (connection.sourceNode.id === this.destinationNode.id &&
+          connection.destinationNode.id === this.sourceNode.id) {
+        isBidirectional = true;
+        break;
+      }
+    }
+
+    if (this.isBidirectional !== isBidirectional) {
+      this.isBidirectional = isBidirectional;
+      this.eventEmitter.emit('updateGeometry');
+    }
+  }
+
   dispose() {
     removeEdge(this);
+
+    super.dispose();
 
     // remove fragment first to save the id
     this.lineSMF.removeFragment(this.id);
     this.lineSMF = null;
 
-    super.dispose();
     this.lineFragment = null;
+    this.currentColor = null;
+    this.isBidirectional = null;
   }
 }
