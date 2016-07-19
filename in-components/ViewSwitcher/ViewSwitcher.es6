@@ -14,61 +14,58 @@ const block = 'in-view-switcher';
 export default connectTo({
     activeView: viewStore.view,
     navigationParameters: navigationParameters$
-  },
-  React.createClass({
-  displayName: 'ViewSwitcher',
+  }, ViewSwitcher
+);
 
-  propTypes: {
-    activeView: React.PropTypes.string.isRequired,
-    navigationParameters: React.PropTypes.object.isRequired
-  },
+function ViewSwitcher({navigationParameters, activeView}) {
+  const pathname = navigationParameters.pathname;
 
-  render() {
-    return (
-      <div className={block}>
-        <div className={block + '__wrapper'}>
-          {this.renderViewItem(views.physical, 'Physical')}
-          {isInternalEnvironment() ? this.renderViewItem(views.process, 'Process') : null}
-          {this.renderTraceViewItem()}
-        </div>
+  return (
+    <div className={block}>
+      <div className={block + '__wrapper'}>
+
+        <View label={'Physical'}
+                    onClick={() => setView(views.physical)}
+                    active={pathname === '/' && activeView === views.physical} />
+
+        {isInternalEnvironment() ?
+          <View label={'Logical'}
+                      onClick={() => setView(views.process)}
+                      active={pathname === '/' && activeView === views.process} />
+          : null
+        }
+
+        <View label={'Trace'}
+                    onClick={goToTraceView}
+                    active={pathname === '/traces'} />
       </div>
-    );
-  },
+    </div>
+  );
+}
 
-  renderViewItem(viewKey, label) {
-    const active = this.props.navigationParameters.pathname === '/' &&
-      this.props.activeView === viewKey;
-    return this.renderItem(
-      label,
-      () => {
-        eventBus.emit('onViewWillSwitch');
-        viewStore.setView(viewKey);
-        eventBus.emit('onViewSwitched');
-        goToMap();
-      },
-      active
-    );
-  },
+const rpt = React.PropTypes;
+ViewSwitcher.propTypes = {
+  navigationParameters: rpt.object.isRequired,
+  activeView: rpt.string.isRequired
+};
 
-  renderItem(label, onClick, active) {
-    let classes = block + '__item ';
-    if (active) {
-      classes += block + '__item__active';
-    }
-    return (
-      <div key={label}
-          className={classes}
-          onClick={onClick}>
-        {label}
-      </div>
-    );
-  },
+function setView(view) {
+  eventBus.emit('onViewWillSwitch');
+  viewStore.setView(view);
+  eventBus.emit('onViewSwitched');
+  goToMap();
+}
 
-  renderTraceViewItem() {
-    return this.renderItem(
-      'Trace',
-      goToTraceView,
-      this.props.navigationParameters.pathname === '/traces'
-    );
+function View({label, onClick, active}) {
+  let classes = block + '__item ';
+  if (active) {
+    classes += block + '__item__active';
   }
-}));
+  return (
+    <div key={label}
+        className={classes}
+        onClick={onClick}>
+      {label}
+    </div>
+  );
+}

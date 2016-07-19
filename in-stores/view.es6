@@ -7,7 +7,7 @@ import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
 
 export const types = {
-  process: 'PROCESS',
+  process: 'LOGICAL',
   physical: 'PHYSICAL'
 };
 

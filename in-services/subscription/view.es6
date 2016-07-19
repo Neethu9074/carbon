@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
+import {types} from 'in-stores/view';
 
 
 export default createSubscription(
@@ -14,7 +15,7 @@ export default createSubscription(
   (subscriptionId, {viewType, time}) => {
     return {
       subscriptionId,
-      viewType,
+      viewType: viewType === types.process ? 'PROCESS' : viewType,
       time
     };
   },
