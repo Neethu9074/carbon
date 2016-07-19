@@ -89,7 +89,7 @@ export const timeframe$ = timeframeStore.observable;
 
 // create cycle
 globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
-timeframe$.throttle(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
+timeframe$.skipFirst().throttle(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
 
 
 export function setTimeFrame(windowSize, to) {
@@ -199,6 +199,7 @@ export function setFocusedMoment(newFocusedMoment) {
 globalFocusedMoment$.subscribe(setFocusedMoment);
 
 focusedMoment$
+  .skipFirst()
   .debounce(1000)
   .subscribe(setGlobalFocusedMoment);
 
