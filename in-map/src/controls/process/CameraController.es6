@@ -160,13 +160,11 @@ export default class CameraController extends BaseCameraController {
   }
 
   flyToPosition(x, z) {
-    console.log('pos', x, z);
-    this.targetCameraPOIPosition.x = x;
-    this.targetCameraPOIPosition.z = z;
+    this.targetCameraPOIPosition.position.x = x;
+    this.targetCameraPOIPosition.position.z = z;
   }
 
   flyToObject(obj) {
-    console.log('obj', obj);
     const pos = obj.getComponent('position').getPosition();
     this.flyToPosition(pos.x, pos.z);
   }

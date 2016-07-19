@@ -15,12 +15,6 @@ export default class Layouter {
     this.iterations = 1000;
     this.gravity = 300;
     this.speed = 0.1;
-    this.currentDimensions = {
-      x: 0,
-      z: 0,
-      width: 0,
-      height: 0
-    };
 
     this.layoutingSubscription = combineLatest([nodes$, edges$, eventBus.on('resetProcessViewLayouting')])
                                  .map(([nodes, edges]) => {
@@ -231,26 +225,10 @@ export default class Layouter {
   }
 
   applyPositionUpdate(graph) {
-    let minX = Number.MAX_VALUE;
-    let minZ = Number.MAX_VALUE;
-    let maxX = Number.MIN_VALUE;
-    let maxZ = Number.MIN_VALUE;
     graph.nodes.forEach(node => {
-      const newX = node.fr_x * SCALE;
-      const newZ = node.fr_y * SCALE;
-      node.inNode.getComponent('position').setPosition(newX, 0, newZ);
+      node.inNode.getComponent('position').setPosition(node.fr_x * SCALE, 0, node.fr_y * SCALE);
       node.inNode._wasAutomaticLayouted = true;
-
-      minX = Math.min(newX, minX);
-      minZ = Math.min(newX, minZ);
-      maxX = Math.max(newX, maxX);
-      maxZ = Math.max(newX, maxZ);
     });
-
-    this.currentDimensions.x = minX;
-    this.currentDimensions.z = minZ;
-    this.currentDimensions.width = maxX - minX;
-    this.currentDimensions.height = maxZ - minZ;
   }
 
   dispose() {

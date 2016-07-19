@@ -12,6 +12,7 @@ import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
 import {edges, nodes} from 'in-map/src/stores/process/entitiesStores';
 import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
+import {nodes$} from 'in-map/src/stores/process/nodesStore';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {eventBus} from 'in-map/src/services/eventBus';
@@ -134,8 +135,21 @@ export default class Map extends BaseMap {
 
   centerMap() {
     // calculate the middle of the process view
-    const dim = this.layouter.currentDimensions;
-    this.controller.flyToPosition((dim.width - dim.x) / 2, (dim.height - dim.z) / 2);
+    let minX = Number.MAX_VALUE;
+    let minZ = Number.MAX_VALUE;
+    let maxX = Number.MIN_VALUE;
+    let maxZ = Number.MIN_VALUE;
+    nodes$.once(currentNodes => {
+      Object.keys(currentNodes).forEach(key => {
+        const node = currentNodes[key];
+        const pos = node.getComponent('position').getPosition();
+        minX = Math.min(minX, pos.x);
+        minZ = Math.min(minZ, pos.z);
+        maxX = Math.max(maxX, pos.x);
+        maxZ = Math.max(maxZ, pos.z);
+      });
+    });
+    this.controller.flyToPosition(minX + (maxX - minX) / 2, minZ + (maxZ - minZ) / 2);
   }
 
   removeChild() {
