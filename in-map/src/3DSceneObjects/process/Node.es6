@@ -7,6 +7,7 @@ import {addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
+import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import {eventBus} from 'in-map/src/services/eventBus';
 import {theme} from 'in-services/theme';
 
@@ -55,7 +56,13 @@ export default class Node extends SceneObject {
         (isVisible && zoomLevel < 500) ?
           this.getOrCreateMetricSticky() :
           this.disposeMetricSticky()
-      )
+      ),
+
+      focusEntityId$.subscribe(id => {
+        if (this.id === id) {
+          eventBus.emit('flyToEntity', this);
+        }
+      })
     ]);
 
     this.eventEmitter.emit('sizeChanged', { x: 1, y: this.height, z: 1 });

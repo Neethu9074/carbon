@@ -11,6 +11,7 @@ import EdgeSpawner from 'in-map/src/3DSceneObjects/process/EdgeSpawner';
 import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
 import {edges, nodes} from 'in-map/src/stores/process/entitiesStores';
 import Layouter from 'in-map/src/3DSceneObjects/process/Layouter';
+import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {eventBus} from 'in-map/src/services/eventBus';
@@ -52,6 +53,15 @@ export default class Map extends BaseMap {
           eventBus.emit('openDashboard', null);
         }
       }),
+
+      focusEntityId$.skipFirst().subscribe(id => {
+        // if there is no entity defined, center map
+        if (!id) {
+          this.centerMap();
+        }
+      }),
+
+      eventBus.on('flyToEntity').subscribe(entity => this.controller.flyToObject(entity)),
 
       selectedSnapshotIdForHighlightingInMap.subscribe(id => id ?
         this.factories.fadeByDistanceSMF.lockOpacity(0.25) :
@@ -120,6 +130,12 @@ export default class Map extends BaseMap {
 
   onZoomLevel() {
     return this.controller.eventEmitter.on('onZoomLevelChange');
+  }
+
+  centerMap() {
+    // calculate the middle of the process view
+    const dim = this.layouter.currentDimensions;
+    this.controller.flyToPosition((dim.width - dim.x) / 2, (dim.height - dim.z) / 2);
   }
 
   removeChild() {

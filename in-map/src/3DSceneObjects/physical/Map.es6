@@ -100,7 +100,7 @@ export default class Map extends BaseMap {
 
       snapshotStore.selectedSnapshotId.subscribe(selectedId => selectedId ? this.hideHulls() : this.showHulls()),
 
-      focusEntityId$.subscribe(id => {
+      focusEntityId$.skipFirst().subscribe(id => {
         // if there is no entity defined, center map
         if (!id) {
           this.centerMap();

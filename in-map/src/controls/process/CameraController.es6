@@ -159,6 +159,18 @@ export default class CameraController extends BaseCameraController {
     this.targetCameraPOIPosition.translateZ(-dy * this.cameraMoveSpeed);
   }
 
+  flyToPosition(x, z) {
+    console.log('pos', x, z);
+    this.targetCameraPOIPosition.x = x;
+    this.targetCameraPOIPosition.z = z;
+  }
+
+  flyToObject(obj) {
+    console.log('obj', obj);
+    const pos = obj.getComponent('position').getPosition();
+    this.flyToPosition(pos.x, pos.z);
+  }
+
   update() {
     const dt = time.getDeltaTime();
     const deltaCamSize = this.targetCameraFrustumSize - this.camera.getCameraSize();
