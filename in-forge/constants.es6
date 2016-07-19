@@ -55,7 +55,8 @@ export const plugins = {
   genericZone: 'genericZone',
   unmonitoredHost: 'unmonitoredHost',
   haproxy: 'hAProxy',
-  oracledb: 'oracleDB'
+  oracledb: 'oracleDB',
+  activemq: 'activeMQ'
 };
 
 export const fullyQualifiedPlugins = {
@@ -113,5 +114,6 @@ export const fullyQualifiedPlugins = {
   genericZone: 'com.instana.forge.hardware.GenericZone',
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   hAProxy: 'com.instana.forge.infrastructure.loadbalancer.haproxy.HAProxy',
-  oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB'
+  oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB',
+  activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ'
 };

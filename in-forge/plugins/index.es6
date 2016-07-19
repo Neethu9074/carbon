@@ -56,3 +56,4 @@ import './redis';
 import './springbootApplicationContainer';
 import './tomcatApplicationContainer';
 import './unmonitoredHost';
+import './activeMQ';
