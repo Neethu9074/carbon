@@ -3,6 +3,7 @@ import THREE from 'three';
 import HighlightingComponent from 'in-map/src/components/process/HighlightingComponentForCubes';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
+import SolidMeshComponent from 'in-map/src/components/process/SolidMeshComponent';
 import MeshComponent from 'in-map/src/components/common/MeshComponent';
 
 import CMCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -49,6 +50,18 @@ export default class NodePhysical extends Node {
         })
       }),
       factory
+    });
+
+    components.solidMesh = new SolidMeshComponent({
+      sceneObject,
+      contentProvider: new CMCM({
+        contentProvider: new PCM({
+          contentProvider: new SCM({
+            contentProvider: new CCP()
+          })
+        })
+      }),
+      factory: this.getFactory('solidSMF')
     });
 
     // add the collision component to handle the collision box

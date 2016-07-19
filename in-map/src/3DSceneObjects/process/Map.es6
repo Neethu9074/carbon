@@ -3,8 +3,8 @@ import FadeByDistanceSingleMeshFactory from 'in-map/src/SingleMeshFactory/FadeBy
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import SingleMeshDashedLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshDashedLineFactory';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
-import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
 import CameraController from 'in-map/src/controls/process/CameraController';
+import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
 import GroundPlane from 'in-map/src/3DSceneObjects/process/GroundPlane';
 import EdgeSpawner from 'in-map/src/3DSceneObjects/process/EdgeSpawner';
@@ -51,7 +51,12 @@ export default class Map extends BaseMap {
           // clear stream
           eventBus.emit('openDashboard', null);
         }
-      })
+      }),
+
+      selectedSnapshotIdForHighlightingInMap.subscribe(id => id ?
+        this.factories.fadeByDistanceSMF.lockOpacity(0.25) :
+        this.factories.fadeByDistanceSMF.unlockOpacity()
+      )
     ]);
 
     this.processViewRenderTree = new ProcessViewRenderTree();
@@ -62,22 +67,22 @@ export default class Map extends BaseMap {
   setupFactories() {
     const factories = this.factories;
 
-    factories.solidSMF = new SingleMeshFactory();
-    factories.solidSMF.material.transparent = false;
-
     factories.lineSMF = new SingleMeshLineFactory();
 
     factories.dashedLineSMF = new SingleMeshDashedLineFactory();
 
     factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory();
 
-    factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory({
+    const fadeFactoryConfig = {
       renderOrder: 2,
       params: {
         minOpacity: 0.1,
         maxOpacity: 0.8
       }
-    });
+    };
+    factories.solidSMF = new FadeByDistanceSingleMeshFactory(fadeFactoryConfig);
+
+    factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory(fadeFactoryConfig);
   }
 
   ifNew(oldMap, newMap, ifNewCallback) {

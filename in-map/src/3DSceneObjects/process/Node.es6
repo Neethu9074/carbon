@@ -62,6 +62,8 @@ export default class Node extends SceneObject {
     this.eventEmitter.emit('onHighlight', false);
 
     addNode(this);
+
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onHighlightEnter() {
@@ -75,19 +77,23 @@ export default class Node extends SceneObject {
   }
 
   onSelectedEnter() {
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onSelectedLeave() {
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSelectedHighlightEnter() {
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.eventEmitter.emit('onHighlight', true);
   }
 
   onSelectedHighlightLeave() {
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.eventEmitter.emit('onHighlight', false);
   }

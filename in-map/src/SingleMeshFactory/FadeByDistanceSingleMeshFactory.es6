@@ -35,4 +35,16 @@ export default class FadeByDistanceSingleMeshFactory extends ASingleMeshFactory 
       }
     });
   }
+
+  lockOpacity(value) {
+    this.material.uniforms.minOpacity.value = value;
+    this.material.uniforms.maxOpacity.value = value;
+  }
+
+  unlockOpacity() {
+    const p = this.params;
+
+    this.material.uniforms.minOpacity.value = p && p.minOpacity ? p.minOpacity : 0.1;
+    this.material.uniforms.maxOpacity.value = p && p.maxOpacity ? p.maxOpacity : 0.6;
+  }
 }
