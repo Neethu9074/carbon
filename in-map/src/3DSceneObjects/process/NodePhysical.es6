@@ -35,7 +35,7 @@ export default class NodePhysical extends Node {
   }
 
   addComponents(components) {
-    const factory = this.getFactory('solidSMF');
+    const factory = this.getFactory('fadeByDistanceSMF');
     const sceneObject = this;
 
     // add the mesh component to handle visual representation of the entity
