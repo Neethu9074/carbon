@@ -1,10 +1,12 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import ConnectedEntitiesList from 'in-components/ConnectedEntitiesList';
 
-export default function LogicalCassandraConnectionSidebar({}) {
+
+export default function LogicalCassandraConnectionSidebar({snapshot}) {
   return (
-    <div />
+    <ConnectedEntitiesList snapshotId={snapshot.get('id')} />
   );
 }
 

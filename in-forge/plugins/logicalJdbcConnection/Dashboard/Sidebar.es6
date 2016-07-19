@@ -1,10 +1,12 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import ConnectedEntitiesList from 'in-components/ConnectedEntitiesList';
 
-export default function LogicalJdbcConnectionSidebar({}) {
+
+export default function LogicalJdbcConnectionSidebar({snapshot}) {
   return (
-    <div />
+    <ConnectedEntitiesList snapshotId={snapshot.get('id')} />
   );
 }
 
