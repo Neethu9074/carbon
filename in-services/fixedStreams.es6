@@ -1,6 +1,8 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 
+import * as fixedImmutables from 'in-services/fixedImmutables';
 import * as fixedObjects from 'in-services/fixedObjects';
 
-export const alwaysNull = ro.create().emit(null).freeze();
-export const alwaysEmptyArray = ro.create().emit(fixedObjects.emptyArray).freeze();
+export const alwaysNull = create().emit(null).freeze();
+export const alwaysEmptyArray = create().emit(fixedObjects.emptyArray).freeze();
+export const alwaysEmptyImmutableMap = create().emit(fixedImmutables.emptyMap).freeze();
