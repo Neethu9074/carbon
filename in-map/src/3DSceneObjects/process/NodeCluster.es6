@@ -4,13 +4,11 @@ import THREE from 'three';
 import HighlightingComponent from 'in-map/src/components/process/HighlightingComponentForCylinder';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
 import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
-import TopMeshComponent from 'in-map/src/components/process/TopMeshComponent';
 import MeshComponent from 'in-map/src/components/common/MeshComponent';
 
 import CMCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import CPCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderPlaneContentProvider';
 import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
@@ -84,19 +82,6 @@ export default class NodeCluster extends Node {
     });
 
     components.highlight = new HighlightingComponent({sceneObject});
-
-    // the topping of the cylinder
-    components.topMesh = new TopMeshComponent({
-      sceneObject,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new CPCP()
-          })
-        })
-      }),
-      factory: this.getFactory('fadeByDistanceSMF')
-    });
 
     components.screenPositionCluster = new ScreenPositionComponent({
       sceneObject: this,
