@@ -16,7 +16,7 @@ import {createStore} from 'in-stores/store';
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 10; // 10 minutes
 
-let maxAvailableWindowSize = MAX_ZOOM_LEVEL;
+let maxAvailableWindowSize = undefined;
 let currentBigBangTimestamp;
 let currentServerTime;
 
@@ -80,16 +80,15 @@ export function toggleShowTimeSelector() {
 */
 const timeframeStore = createStore({
   name: 'timelineTimeframeStore',
-  initialValue: {
-    windowSize: 1000 * 60 * 10, // 10 minutes
-    to: null
-  }
+  initialValue: undefined
 });
-export const timeframe$ = timeframeStore.observable;
+export const timeframe$ = timeframeStore.observable.filter(timeframe => timeframe !== undefined);
 
 // create cycle
 globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
-timeframe$.skipFirst().throttle(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
+timeframe$
+  .throttle(500)
+  .subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
 
 
 export function setTimeFrame(windowSize, to) {
@@ -188,9 +187,11 @@ export function setDrawMode(mode) {
 
 const focusedMoment = createStore({
   name: 'timelineFocusedMomentStore',
-  initialValue: null
+  initialValue: undefined
 });
-export const focusedMoment$ = focusedMoment.observable.distinct();
+export const focusedMoment$ = focusedMoment.observable
+  .filter(fm => fm !== undefined)
+  .distinct();
 
 export function setFocusedMoment(newFocusedMoment) {
   focusedMoment.applyStateMutation(() => newFocusedMoment);
