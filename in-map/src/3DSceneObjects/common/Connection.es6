@@ -104,12 +104,12 @@ export default class Connection extends SceneObject {
   }
 
   getArrowGeometry(position, dir) {
-    const arrowLength = 0.2;
+    const arrowLength = 0.25;
 
     // because the arrow are laying on the ground, the up-vector is 0 1 0
     const right = new THREE.Vector3(0, 1, 0)
       .cross(dir)
-      .multiplyScalar(arrowLength * 2.5); // shorten to get a angle < 45 degree
+      .multiplyScalar(arrowLength * 1.5); // shorten to get a angle < 45 degree
     const arrowLineX = (right.x + dir.x) * arrowLength;
     const arrowLineZ = (right.z + dir.z) * arrowLength;
     const arrowLineXLeft = (-right.x + dir.x) * arrowLength;

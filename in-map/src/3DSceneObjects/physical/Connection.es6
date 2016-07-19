@@ -12,6 +12,11 @@ export default class Connection extends BaseConnection {
     super(params);
   }
 
+  init() {
+    super.init();
+    this.withArrows = true;
+  }
+
   // physical connections are deactivated by default and only visible if a host is highlighted
   setStartingStateProperties() {
     this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
