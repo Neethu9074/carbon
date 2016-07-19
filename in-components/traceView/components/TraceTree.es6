@@ -3,11 +3,12 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {highlightedSpanId$, longSelectedTrace$} from 'in-components/traceView/traceViewStore';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
+import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
 import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
 import {getLabel, getTypeLabelSingular, getCategory} from 'in-sdk/tracing';
-import {highlightedSpanId$, longSelectedTrace$} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -111,6 +112,10 @@ const TreeSpanElement = connectTo(props => {
             </div>
             <div className={`${block}__element-header-row ${block}__element-header-row--bottom`}>
               Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
+
+              <span style={{position: 'absolute', left: '150px'}}>
+                <SpanEntityInformation span={this.props.span} />
+              </span>
             </div>
 
             {this.props.span.get('async') ?
