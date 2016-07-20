@@ -114,7 +114,12 @@ const TreeSpanElement = connectTo(props => {
               Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
 
               <span style={{position: 'absolute', left: '150px'}}>
-                <SpanEntityInformation span={this.props.span} />
+                <SpanEntityInformation span={this.props.span}
+                                       label='From'
+                                       connectionEndpointType='sourceId' />
+                <SpanEntityInformation span={this.props.span}
+                                       label='To'
+                                       connectionEndpointType='destinationId' />
               </span>
             </div>
 
