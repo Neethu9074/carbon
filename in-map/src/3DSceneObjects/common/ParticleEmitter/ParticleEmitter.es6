@@ -27,14 +27,18 @@ export default class ParticleEmitter extends SceneObject {
     this.setNumparticlesPerSecond(config.particlesPerSecond);
 
     this.isRunning = false;
+    this.cursorIfNoFreeIndices = 0;
 
     this.positionGenerationStrategy = createPositionGenerator();
 
-    this.arrayCusor = 0;
     this.progresses = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
+    this.indices = [];
     for (let i = 0; i < this.vertices.length; i++) {
       this.vertices[i] = START_POS;
+    }
+    for (let i = 0; i < this.maxParticles; i++) {
+      this.indices[i] = i;
     }
 
     this.particles = [];
@@ -145,6 +149,7 @@ export default class ParticleEmitter extends SceneObject {
       vertices[index + 2] = START_POS;
 
       progresses[index] = 0;
+      this.freeCursorPosition(index / 3);
     }
 
     // spawn new particles
@@ -172,11 +177,7 @@ export default class ParticleEmitter extends SceneObject {
     };
     this.particles.push(particle);
 
-    this.arrayCusor++;
-    if (this.arrayCusor >= this.maxParticles) {
-      this.arrayCusor -= this.maxParticles;
-    }
-    const newIndex = this.arrayCusor;
+    const newIndex = this.getNextCursorPosition();
     particle.index = newIndex;
     this.progresses[newIndex] = 0;
 
@@ -198,6 +199,23 @@ export default class ParticleEmitter extends SceneObject {
     this.geometry.attributes.progress.needsUpdate = true;
 
     requestRendering();
+  }
+
+  getNextCursorPosition() {
+    const index = this.indices.shift();
+    if (index) {
+      this.cursorIfNoFreeIndices = 0;
+      return index;
+    }
+    const nextIndex = this.cursorIfNoFreeIndices++;
+    if (this.cursorIfNoFreeIndices >= this.maxParticles) {
+      this.cursorIfNoFreeIndices = 0;
+    }
+    return nextIndex;
+  }
+
+  freeCursorPosition(value) {
+    this.indices.push(value);
   }
 
   stop() {
@@ -224,10 +242,12 @@ export default class ParticleEmitter extends SceneObject {
     this.stop();
 
     this.positionGenerationStrategy = null;
+    this.cursorIfNoFreeIndices = null;
     this.progresses = null;
     this.isRunning = null;
     this.particles = null;
     this.vertices = null;
+    this.indices = null;
 
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
