@@ -9,6 +9,7 @@ import {getDefaultMetricRollupDuration} from 'in-stores/metric';
 import {timeframeShape} from 'in-stores/timeline';
 
 import * as stackedAreaRenderer from './render/stackedAreaRenderer';
+import * as integralRenderer from './render/integralRenderer';
 import * as pointRenderer from './render/pointRenderer';
 import * as lineRenderer from './render/lineRenderer';
 import * as areaRenderer from './render/areaRenderer';
@@ -112,6 +113,8 @@ const Chart = React.createClass({
       return stackedAreaRenderer;
     } else if (type === 'area') {
       return areaRenderer;
+    } else if (type === 'integral') {
+      return integralRenderer;
     } else if (type === 'point') {
       return pointRenderer;
     } else if (type === 'bar') {

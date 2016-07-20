@@ -55,36 +55,26 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                            formatter: msTwoDecimalPlaces,
                            tooltipFormatter: msTwoDecimalPlaces,
                            metrics: [
+                             'duration.min',
                              'duration.25th',
                              'duration.50th',
                              'duration.75th',
                              'duration.95th',
                              'duration.98th',
-                             'duration.99th'
+                             'duration.99th',
+                             'duration.max'
                            ],
                            labels: [
+                             'min',
                              '25th',
                              '50th',
                              '75th',
                              '95th',
                              '98th',
-                             '99th'
-                           ],
-                           type: 'area'
-                         }}
-                         y2={{
-                           min: 0,
-                           formatter: msTwoDecimalPlaces,
-                           tooltipFormatter: msTwoDecimalPlaces,
-                           metrics: [
-                             'duration.min',
-                             'duration.max'
-                           ],
-                           labels: [
-                             'min',
+                             '99th',
                              'max'
                            ],
-                           type: 'line'
+                           type: 'integral'
                          }} />
       </DashboardSection>
 

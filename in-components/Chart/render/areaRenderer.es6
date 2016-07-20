@@ -8,7 +8,7 @@ export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints, 
   function renderUntilGap(startingPoint) {
     let endIndex = null;
 
-    for (let seriesIndex = series.length - 1; seriesIndex > 0; seriesIndex--) {
+    for (let seriesIndex = series.length - 1; seriesIndex >= 0; seriesIndex--) {
       const s = series[seriesIndex];
       ctx.beginPath();
 
