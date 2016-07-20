@@ -41,7 +41,7 @@ describe('shortcuts/dashboard', () => {
     // initial call
     expect(selectedSnapshotIdStub).to.have.callCount(1);
 
-    navigationMock.goToMap();
+    navigationMock.goToRootOfView();
     navigationMock.setSnapshotId('testId');
 
     pressEscape();
@@ -100,7 +100,7 @@ describe('shortcuts/dashboard', () => {
         oldParams.pathname = PATH_NAMES.DASHBOARD;
         return oldParams;
       }),
-      goToMap: () => navigationParametersStore.applyStateMutation(oldParams => {
+      goToRootOfView: () => navigationParametersStore.applyStateMutation(oldParams => {
         oldParams.pathname = PATH_NAMES.MAP;
         return oldParams;
       }),

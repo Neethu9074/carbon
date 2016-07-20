@@ -22,15 +22,16 @@ import Map from 'in-map';
 
 import './App.less';
 
-export default function App({children = null}) {
-  const hasChildren = !!children;
+export default function App(props) {
+  const hasChildren = !!props.children;
+  const shouldShowMap = !hasChildren || props.routes[1].showMap;
 
   return (
     <div>
       <AppHeader />
       <ViewSwitcher />
 
-      <section style={{display: hasChildren ? 'none' : 'block'}}>
+      <section style={{display: shouldShowMap ? 'block' : 'none'}}>
         <Map />
         <TableView />
         <Center />
@@ -43,7 +44,7 @@ export default function App({children = null}) {
       <Controls />
       <Timeline />
 
-      {children}
+      {props.children}
 
       <Settings />
       <ReleaseNotesDialog />

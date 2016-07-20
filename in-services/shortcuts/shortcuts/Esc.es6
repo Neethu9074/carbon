@@ -1,4 +1,4 @@
-import {goToMap, PATH_NAMES, navigationParameters$, closeCurrentHelpIfOpen} from 'in-stores/navigation';
+import {goToRootOfView, PATH_NAMES, navigationParameters$, closeCurrentHelpIfOpen} from 'in-stores/navigation';
 import {clearSelectedSnapshotId} from 'in-stores/snapshot';
 
 
@@ -18,14 +18,14 @@ export default function onPressed() {
   if (isHelpTextOpen) {
     closeCurrentHelpIfOpen();
   } else if (isDashboardOpen) {
-    goToMap();
+    goToRootOfView();
   } else if (isSidebarInMapOpen) {
     clearSelectedSnapshotId();
   }
 }
 
 function checkIfDashboardisOpen() {
-  return navigationParameters.pathname === PATH_NAMES.DASHBOARD;
+  return /.*\/dashboard\/?.*/i.test(navigationParameters.pathname);
 }
 
 

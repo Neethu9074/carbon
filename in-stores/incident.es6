@@ -44,7 +44,7 @@ export function setSelectedIncident(id, to) {
   if (id == null) {
     clearSelectedIncident();
   } else {
-    navigation.goToMap();
+    navigation.goToRootOfView();
     mutateUrl(navParams => {
       delete navParams.query.snapshotId;
       navParams.query.incidentId = encodeURIComponent(id);

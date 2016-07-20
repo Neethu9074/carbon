@@ -1,9 +1,9 @@
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully functional
+import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
-import {Route} from 'react-router';
-
+import NoopRoute from 'in-client/js/NoopRoute';
 import TraceView from 'in-components/traceView/TraceView';
 import GraphView from 'in-components/graphView/GraphView';
 
@@ -11,12 +11,30 @@ import Dashboard from './components/Dashboard';
 import App from './components/App';
 
 export default (
-  <Route path='/' component={App}>
-    <Route component={Dashboard}
-           path='dashboard' />
+  <Route path='/'
+         component={App}>
+    <Route path='physical'
+           component={NoopRoute}
+           showMap={true} />
+    <Route path='physical/dashboard'
+           component={Dashboard} />
+
+    <Route path='logical'
+           component={NoopRoute}
+           showMap={true} />
+    <Route path='logical/dashboard'
+           component={Dashboard} />
+
     <Route component={TraceView}
            path='traces' />
+    <Route path='traces/dashboard'
+           component={Dashboard} />
+
     <Route component={GraphView}
            path='graph' />
+
+    {/* Legacy routes */}
+    <Redirect from='dashboard' to='physical/dashboard' />
+    <IndexRedirect to='/physical' />
   </Route>
 );

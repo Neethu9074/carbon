@@ -1,10 +1,9 @@
 import React from 'react';
 
-import {navigationParameters$, goToTraceView, goToMap} from 'in-stores/navigation';
+import {goToPhysicalView, goToLogicalView} from 'in-stores/navigation';
+import {navigationParameters$, goToTraceView} from 'in-stores/navigation';
 import {isInternalEnvironment} from 'in-services/config';
 import {eventBus} from 'in-map/src/services/eventBus';
-import {types as views} from 'in-stores/view';
-import * as viewStore from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewSwitcher.less';
@@ -12,12 +11,11 @@ import './ViewSwitcher.less';
 const block = 'in-view-switcher';
 
 export default connectTo({
-    activeView: viewStore.view,
     navigationParameters: navigationParameters$
   }, ViewSwitcher
 );
 
-function ViewSwitcher({navigationParameters, activeView}) {
+function ViewSwitcher({navigationParameters}) {
   const pathname = navigationParameters.pathname;
 
   return (
@@ -25,35 +23,28 @@ function ViewSwitcher({navigationParameters, activeView}) {
       <div className={block + '__wrapper'}>
 
         <View label={'Physical'}
-                    onClick={() => setView(views.physical)}
-                    active={pathname === '/' && activeView === views.physical} />
+                    onClick={() => setView(goToPhysicalView)}
+                    active={pathname.indexOf('/physical') === 0} />
 
         {isInternalEnvironment() ?
           <View label={'Logical'}
-                      onClick={() => setView(views.process)}
-                      active={pathname === '/' && activeView === views.process} />
+                      onClick={() => setView(goToLogicalView)}
+                      active={pathname.indexOf('/logical') === 0} />
           : null
         }
 
         <View label={'Trace'}
                     onClick={goToTraceView}
-                    active={pathname === '/traces'} />
+                    active={pathname.indexOf('/traces') === 0} />
       </div>
     </div>
   );
 }
 
-const rpt = React.PropTypes;
-ViewSwitcher.propTypes = {
-  navigationParameters: rpt.object.isRequired,
-  activeView: rpt.string.isRequired
-};
-
-function setView(view) {
+function setView(urlChanger) {
   eventBus.emit('onViewWillSwitch');
-  viewStore.setView(view);
+  urlChanger();
   eventBus.emit('onViewSwitched');
-  goToMap();
 }
 
 function View({label, onClick, active}) {

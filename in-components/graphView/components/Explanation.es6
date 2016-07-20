@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Lettering from 'in-components/Lettering';
-import {goToMap} from 'in-stores/navigation';
+import {goToPhysicalView} from 'in-stores/navigation';
 import Button from 'in-components/Button';
 
 import './Explanation.less';
@@ -44,7 +44,7 @@ export default function Explanation() {
       </p>
 
       <p>
-        <Button onClick={goToMap}>
+        <Button onClick={goToPhysicalView}>
           Close Graph
         </Button>
       </p>

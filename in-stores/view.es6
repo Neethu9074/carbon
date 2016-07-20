@@ -2,12 +2,13 @@ import * as ro from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
 
-import {mutateUrl, navigationParameters$, isMapVisible$} from 'in-stores/navigation';
+import {navigationParameters$, isMapVisible$} from 'in-stores/navigation';
 import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
 
 export const types = {
-  process: 'LOGICAL',
+  logical: 'LOGICAL',
+  process: 'LOGICAL', // TODO can we remove this?
   physical: 'PHYSICAL'
 };
 
@@ -15,16 +16,10 @@ const store = createTrackingStore({
   name: 'view',
   observable: navigationParameters$
     .map(params => {
-      const query = params.query;
-      if ('view' in query) {
-        const view = decodeURIComponent(query.view);
-        if (isValidView(view)) {
-          return view;
-        }
-
-        return types.physical;
+      const pathname = params.pathname;
+      if (pathname.indexOf('/logical') === 0) {
+        return types.logical;
       }
-
       return types.physical;
     })
     .distinct()
@@ -47,21 +42,3 @@ export const physicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
 
 export const isPhysicalViewVisible$ = ro.combineLatest([view$, isMapVisible$])
   .map(([activeView, isMapVisible]) => isMapVisible && activeView === types.physical);
-
-
-export function setView(newActiveView) {
-  mutateUrl(navParams => {
-    navParams.query.view = newActiveView;
-    return navParams;
-  });
-}
-
-
-function isValidView(givenView) {
-  for (const key in types) {
-    if (types.hasOwnProperty(key) && types[key] === givenView) {
-      return true;
-    }
-  }
-  return false;
-}

@@ -67,20 +67,45 @@ export function goHome() {
 
 export function goToDashboard() {
   mutateUrl(navParams => {
-    navParams.pathname = PATH_NAMES.DASHBOARD;
+    navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/?.*$/i, (all, view) => `/${view}/dashboard`);
     return navParams;
   });
 }
 
 
-export function goToMap() {
+export function closeDashboard() {
   mutateUrl(navParams => {
-    navParams.pathname = PATH_NAMES.MAP;
+    navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
     return navParams;
   });
 }
 
-export const isMapVisible$ = navigationParameters$.map(params => params.pathname === PATH_NAMES.MAP);
+
+export function goToLogicalView() {
+  mutateUrl(navParams => {
+    navParams.pathname = '/logical';
+    return navParams;
+  });
+}
+
+
+export function goToPhysicalView() {
+  mutateUrl(navParams => {
+    navParams.pathname = '/physical';
+    return navParams;
+  });
+}
+
+
+export function goToRootOfView() {
+  mutateUrl(navParams => {
+    navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
+    return navParams;
+  });
+}
+
+export const isMapVisible$ = navigationParameters$
+  .map(params => params.pathname === '/physical' || params.pathname === '/logical');
 
 
 export function goToGraph() {
