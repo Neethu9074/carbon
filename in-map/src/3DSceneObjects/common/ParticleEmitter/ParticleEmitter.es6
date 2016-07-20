@@ -2,9 +2,6 @@ import * as ro from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
-import {getMetricForFocusedMoment} from 'in-stores/metric';
-import {loadImage} from 'in-map/src/services/imageLoader';
-
 import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEmitter/PlaneSpawnPositionGenerator';
 import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
@@ -12,6 +9,8 @@ import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointSh
 import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
+import {getMetricForFocusedMoment} from 'in-stores/metric';
+import {loadImage} from 'in-map/src/services/imageLoader';
 import {getDeltaTime} from 'in-map/src/timeCalculations';
 import {eventBus} from 'in-map/src/services/eventBus';
 
@@ -138,7 +137,7 @@ export default class ParticleEmitter extends SceneObject {
     }
 
     // remove old particles
-    const removed = remove(particles, particle => particle.progress === 1);
+    const removed = remove(particles, particle => particle.progress >= 1);
     for (let i = 0; i < removed.length; i++) {
       const index = removed[i].index * 3;
       vertices[index] = START_POS;
@@ -164,6 +163,7 @@ export default class ParticleEmitter extends SceneObject {
   }
 
   spawnParticle() {
+    const vertices = this.vertices;
     const position = this.positionGenerationStrategy.getPositionForParticle();
     const particle = {
       progress: 0,
@@ -178,13 +178,12 @@ export default class ParticleEmitter extends SceneObject {
     }
     const newIndex = this.arrayCusor;
     particle.index = newIndex;
-
-    // console.log('spawn particle at', index);
-    this.vertices[newIndex * 3] = position.x;
-    this.vertices[newIndex * 3 + 1] = position.y;
-    this.vertices[newIndex * 3 + 2] = position.z;
-
     this.progresses[newIndex] = 0;
+
+    const indexInVertices = newIndex * 3;
+    vertices[indexInVertices] = position.x;
+    vertices[indexInVertices + 1] = position.y;
+    vertices[indexInVertices + 2] = position.z;
 
     this.positionNeedsUpdate();
   }
@@ -215,7 +214,7 @@ export default class ParticleEmitter extends SceneObject {
 
   setNumparticlesPerSecond(particlesPerSecond = 10) {
     this.particlesPerSecond = particlesPerSecond;
-    this.secToNextParticle = 1 / this.particlesPerSecond;
+    this.secToNextParticle = particlesPerSecond > 0 ? 1 / this.particlesPerSecond : Number.MAX_VALUE;
   }
 
   dispose() {
