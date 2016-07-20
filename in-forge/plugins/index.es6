@@ -23,6 +23,7 @@ import './jvmRuntimePlatform';
 import './kafka';
 import './logicalDatabase';
 import './logicalCassandraConnection';
+import './logicalCassandraKeyspace';
 import './logicalElasticSearchIndex';
 import './logicalElasticSearchConnection';
 import './logicalHttpConnection';
