@@ -5,7 +5,7 @@ import {searchMatches$} from 'in-stores/search';
 import {viewStructure} from 'in-stores/view';
 
 
-export default createTrackingStore({
+const physicalViewStructure$ = createTrackingStore({
   name: 'physicalViewStructure',
   observable: combineLatest([
     viewStructure.distinct(),
@@ -56,3 +56,6 @@ export default createTrackingStore({
     };
   })
 }).observable;
+
+
+export default physicalViewStructure$;

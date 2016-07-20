@@ -42,11 +42,6 @@ export default class Node extends SceneObject {
 
     this.tooltip = new TooltipNode(this);
     this.metricHandler = new MetricHandler(this);
-    this.label = new Label({
-      id: this.id,
-      parent: this,
-      iconSize: 3
-    });
 
     this.registerEvents();
   }
@@ -93,14 +88,18 @@ export default class Node extends SceneObject {
   onInactiveEnter() {
     super.onInactiveEnter();
 
-    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    if (this.label) {
+      this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    }
     this.changeComponentState('mesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onInactiveLeave() {
     super.onInactiveLeave();
 
-    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    if (this.label) {
+      this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    }
     this.highlight(false);
   }
 
@@ -112,6 +111,15 @@ export default class Node extends SceneObject {
     this.changeComponentState('connectionsHandler', PROPERTIES.ACTIVE, value);
   }
 
+  init() {
+    super.init();
+
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      iconSize: 3
+    });
+  }
 
   initComponents() {
     super.initComponents();
