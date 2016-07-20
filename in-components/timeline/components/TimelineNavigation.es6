@@ -70,7 +70,7 @@ export default connectTo({
                   min={0}
                   max={steps}
                   step={1}
-                  value={value || ''}
+                  value={value}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
