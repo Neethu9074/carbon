@@ -2,6 +2,8 @@ import * as ro from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
+import {getMetricForFocusedMoment} from 'in-stores/metric';
+
 import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEmitter/PlaneSpawnPositionGenerator';
 import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
@@ -76,12 +78,8 @@ export default class ParticleEmitter extends SceneObject {
 
       if (wordsWritten.toLowerCase() === 'particles') {
         this.start();
-        this.startSubscription.dispose();
-        this.startSubscription = null;
-
-        setInterval(() => {
-          this.setNumparticlesPerSecond(Math.random() * 10);
-        }, 1000);
+      } else if (wordsWritten.toLowerCase() === 'selcitrap') {
+        this.stop();
       }
     });
   }
@@ -115,6 +113,17 @@ export default class ParticleEmitter extends SceneObject {
     this.updateSubscription = eventBus.on('beginUpdate').subscribe(() => this.update());
 
     this.isRunning = true;
+
+    this.metricSubscription = getMetricForFocusedMoment({
+      snapshotId: this.parent.id,
+      metric: 'count'
+    }).subscribe(metric => {
+      const numCalls = metric[1];
+      // TODO: we have defined a maximum number of particles. If numCalls gets to big, older particles will be used
+      // and resetted before they are finished. Solutions: Increase maxParticles or cap numCalls or map numCalls to
+      // another value pursuing to a max value (log, whatever)
+      this.setNumparticlesPerSecond(numCalls);
+    });
   }
 
   update() {
@@ -200,6 +209,7 @@ export default class ParticleEmitter extends SceneObject {
     }
 
     this.updateSubscription.dispose();
+    this.metricSubscription.dispose();
 
     removeSceneObject(this.mesh);
     this.isRunning = false;
@@ -213,6 +223,9 @@ export default class ParticleEmitter extends SceneObject {
   dispose() {
     super.dispose();
 
+    // stop the emitter to make sure everything is disposed well
+    this.stop();
+
     this.positionGenerationStrategy = null;
     this.progresses = null;
     this.isRunning = null;
@@ -225,9 +238,7 @@ export default class ParticleEmitter extends SceneObject {
 
     this.numParticles = null;
 
-    if (this.startSubscription) {
-      this.startSubscription.dispose();
-      this.startSubscription = null;
-    }
+    this.startSubscription.dispose();
+    this.startSubscription = null;
   }
 }
