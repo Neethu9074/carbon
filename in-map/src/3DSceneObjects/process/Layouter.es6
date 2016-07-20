@@ -13,7 +13,7 @@ export default class Layouter {
   constructor() {
     this.shouldReset = true;
     this.iterations = 1000;
-    this.gravity = 300;
+    this.gravity = 500;
     this.speed = 0.1;
 
     this.layoutingSubscription = combineLatest([nodes$, edges$, eventBus.on('resetProcessViewLayouting')])
