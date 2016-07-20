@@ -6,14 +6,13 @@ import React from 'react';
 import {highlightedSpanId$, longSelectedTrace$} from 'in-components/traceView/traceViewStore';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
+import {getLabel, getTypeLabelSingular, getCategory, getDirection} from 'in-sdk/tracing';
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
 import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
-import {getLabel, getTypeLabelSingular, getCategory} from 'in-sdk/tracing';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import classnames from 'in-services/util/classnames';
-import {getDirection} from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceTree.less';
@@ -169,12 +168,25 @@ const TreeSpanElement = connectTo(props => {
               Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
 
               <span style={{position: 'absolute', left: '150px'}}>
-                <SpanEntityInformation span={this.props.span}
-                                       label='From'
-                                       connectionEndpointType='sourceId' />
-                <SpanEntityInformation span={this.props.span}
-                                       label='To'
-                                       connectionEndpointType='destinationId' />
+                {getDirection(this.props.span) === 'entry' ?
+                  <span>
+                    <SpanEntityInformation span={this.props.span}
+                                           label='From'
+                                           connectionEndpointType='sourceId' />
+                    <SpanEntityInformation span={this.props.span}
+                                           label='On'
+                                           connectionEndpointType='destinationId' />
+                  </span>
+                :
+                  <span>
+                    <SpanEntityInformation span={this.props.span}
+                                           label='On'
+                                           connectionEndpointType='sourceId' />
+                    <SpanEntityInformation span={this.props.span}
+                                           label='To'
+                                           connectionEndpointType='destinationId' />
+                  </span>
+                }
               </span>
             </div>
 
