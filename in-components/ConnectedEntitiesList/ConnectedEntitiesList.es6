@@ -32,8 +32,8 @@ function ConnectedEntitiesList({connectedEntities}) {
 
   return (
     <div>
-      {sourceId ? <Entity snapshotId={sourceId} title={'Source'} /> : null}
-      {destinationId ? <Entity snapshotId={destinationId} title={'Destination'} /> : null}
+      {sourceId ? <Entity snapshotId={sourceId} title={'Upstream'} /> : null}
+      {destinationId ? <Entity snapshotId={destinationId} title={'Downstream'} /> : null}
     </div>
   );
 }
