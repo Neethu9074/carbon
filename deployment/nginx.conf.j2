@@ -24,7 +24,7 @@ http {
   limit_req_zone             $binary_remote_addr zone=onePerSecond:20m rate=1r/s;
 
   upstream localNodeInstance {
-    server                   127.0.0.1:3131;
+    server                   127.0.0.1:{% if OPERATION_MODE == 'fleet' %}{{ NOMAD_PORT_node}}{% else %}3131{% endif %};
   }
 
   upstream api {
@@ -44,8 +44,8 @@ http {
   }
 
   server {
-    listen                   80;
 {% if OPERATION_MODE != "fleet" %}
+    listen                   80;
     return                   301 https://$host$request_uri;
 
 {% if OPERATION_MODE != "on-prem" %}
@@ -55,6 +55,8 @@ http {
 
   server {
     listen                   443 ssl http2;
+{% else %}
+    listen                   {{ NOMAD_PORT_app }};
 {% endif %}
 
     server_name              {{PUBLIC_DOMAIN}};

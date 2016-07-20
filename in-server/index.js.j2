@@ -19,7 +19,7 @@ app.use((req, res) => {
   errorPages.send404(req, res);
 });
 
-const server = app.listen(3131, '127.0.0.1', () => {
+const server = app.listen({% if OPERATION_MODE == 'fleet' %} {{ NOMAD_PORT_node}} {% else %} 3131 {% endif %}, '127.0.0.1', () => {
   const host = server.address().address;
   const port = server.address().port;
 
