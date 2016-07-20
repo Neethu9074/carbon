@@ -3,6 +3,7 @@ import THREE from 'three';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {addSceneObject} from 'in-map/src/stores/sceneStore';
+import {loadImage} from 'in-map/src/services/imageLoader';
 import theme from 'in-services/theme';
 
 import BaseGroundPlane from '../common/GroundPlane';
@@ -20,25 +21,10 @@ export default class GroundPlane extends BaseGroundPlane {
   getGroundTexture() {
     const quadsPerWorldUnit = 3;
     const repating = quadsPerWorldUnit * this.size;
-    const texture = new THREE.TextureLoader().load(
-      groundTexturePath,
-      loadedTexture => {
-        const ground = this.ground;
-        ground.material.dispose();
-        ground.material = new THREE.MeshBasicMaterial({
-          transparent: true,
-          depthWrite: false,
-          map: loadedTexture
-        });
-
-        const color = hexToRGBNormalized(theme.map.colors.groundDots);
-        ground.material.color.r = color.r;
-        ground.material.color.g = color.g;
-        ground.material.color.b = color.b;
-
-        addSceneObject(ground);
-        requestRendering();
-      });
+    const texture = loadImage(groundTexturePath, loadedTexture => {
+      loadedTexture.needsUpdate = true;
+      requestRendering();
+    });
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(repating, repating);
@@ -48,6 +34,21 @@ export default class GroundPlane extends BaseGroundPlane {
     texture.anisotropy = this.scene.webGLRenderer.getMaxAnisotropy();
 
     this.groundtexture = texture;
+
+    const ground = this.ground;
+    ground.material.dispose();
+    ground.material = new THREE.MeshBasicMaterial({
+      transparent: true,
+      depthWrite: false,
+      map: texture
+    });
+
+    const color = hexToRGBNormalized(theme.map.colors.groundDots);
+    ground.material.color.r = color.r;
+    ground.material.color.g = color.g;
+    ground.material.color.b = color.b;
+
+    addSceneObject(ground);
   }
 
   onZoom(zoomLevel) {

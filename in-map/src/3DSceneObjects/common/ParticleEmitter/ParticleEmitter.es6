@@ -3,6 +3,7 @@ import {remove} from 'lodash';
 import THREE from 'three';
 
 import {getMetricForFocusedMoment} from 'in-stores/metric';
+import {loadImage} from 'in-map/src/services/imageLoader';
 
 import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEmitter/PlaneSpawnPositionGenerator';
 import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
@@ -43,13 +44,10 @@ export default class ParticleEmitter extends SceneObject {
     geometry.dynamic = true;
     this.positionNeedsUpdate();
 
-    const texture = new THREE.Texture();
+    const texture = loadImage(pointShape, loadedTexture => loadedTexture.needsUpdate = true);
     texture.minFilter = THREE.LinearFilter;
     texture.generateMipmaps = false;
     texture.flipY = false;
-    const manager = new THREE.LoadingManager();
-    const img = new THREE.ImageLoader(manager).load(pointShape, () => texture.needsUpdate = true);
-    texture.image = img;
 
     const material = this.material = new THREE.RawShaderMaterial({
       fragmentShader,
