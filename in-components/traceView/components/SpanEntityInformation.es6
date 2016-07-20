@@ -3,7 +3,6 @@ import React from 'react';
 
 import {alwaysEmptyImmutableMap, alwaysNull} from 'in-services/fixedStreams';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import DashboardLink from 'in-components/Link/DashboardLink';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -42,7 +41,7 @@ export default connectTo(props => {
   };
 }, function SpanEntityInformation({label, snapshot}) {
   if (snapshot === loadingPlaceholder) {
-    return <LoadingIndicator />;
+    return <span>Loading…</span>;
   } else if (!snapshot) {
     return null;
   }
