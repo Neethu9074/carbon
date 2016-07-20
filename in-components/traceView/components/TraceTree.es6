@@ -12,6 +12,7 @@ import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph'
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import {formatDateTime} from 'in-services/formatters/date';
 import classnames from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
 
@@ -265,6 +266,36 @@ const TreeElement = React.createClass({
 });
 
 
+function TraceHeader({trace}) {
+  const errorCount = getErrorCount(trace);
+  const depth = getDepth(trace);
+  const calls = getCalls(trace);
+
+  const perCategorySummary = getPerCategySummary(trace);
+  const categories = Object.keys(perCategorySummary).sort();
+
+  return (
+    <div>
+      <h1>{getLabel(trace)}</h1>
+
+      <p>
+        Took {msZeroDecimalPlaces(trace.get('duration'))} on {formatDateTime(trace.get('start'))} with&nbsp;
+        {errorCount} errors in {calls} calls and a maximum depth of {depth}
+      </p>
+
+      <ul>
+        {categories.map(category =>
+          <li key={category}>
+            {perCategorySummary[category].calls} {category} calls at a total self time of&nbsp;
+            {msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}
+          </li>
+        )}
+      </ul>
+    </div>
+  );
+}
+
+
 export default connectTo({
     traceId: selectedTraceId,
     trace: selectedTrace,
@@ -280,11 +311,13 @@ export default connectTo({
 
     return (
       <div className={block}>
-        <h1>Flame Graph</h1>
+        <TraceHeader trace={trace} />
+
+        <h2>Flame Graph</h2>
 
         <TraceFlameGraph trace={trace} />
 
-        <h1>Trace Tree</h1>
+        <h2>Trace Tree</h2>
 
         <ul className={`${block}__element-container ${block}__element-container--root`}>
           <TreeElement element={longTrace}
@@ -302,4 +335,59 @@ function getSelfTime(span) {
   let selfTime = span.get('duration');
   span.get('childSpans').forEach(childSpan => selfTime -= childSpan.get('duration'));
   return selfTime;
+}
+
+
+function getDepth(span) {
+  let maxDepth = 1;
+
+  span.get('childSpans').forEach(childSpan => {
+    maxDepth = Math.max(maxDepth, getDepth(childSpan) + 1);
+  });
+
+  return maxDepth;
+}
+
+
+function getErrorCount(span) {
+  let count = 0;
+  if (span.get('error')) {
+    count++;
+  }
+
+  span.get('childSpans').forEach(childSpan => {
+    count += getErrorCount(childSpan);
+  });
+
+  return count;
+}
+
+
+function getCalls(span) {
+  let count = 1;
+
+  span.get('childSpans').forEach(childSpan => {
+    count += getCalls(childSpan);
+  });
+
+  return count;
+}
+
+function getPerCategySummary(span, collector) {
+  collector = collector || {};
+
+  const category = getCategory(span);
+  const categorySummary = collector[category] = collector[category] || {
+    category,
+    calls: 0,
+    durationTotal: 0,
+    durationSelf: 0
+  };
+  categorySummary.calls++;
+  categorySummary.durationTotal += span.get('duration');
+  categorySummary.durationSelf = getSelfTime(span);
+
+  span.get('childSpans').forEach(childSpan => getPerCategySummary(childSpan, collector));
+
+  return collector;
 }
