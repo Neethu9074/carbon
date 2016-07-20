@@ -7,11 +7,12 @@ import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
+import {emptyList} from 'in-services/fixedImmutables';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.activemq,
   'ActiveMQ',
-  'ActiveMQ'
+  'ActiveMQs'
 );
 
 addLabelFinder(constants.plugins.activemq, getLabel);
@@ -27,7 +28,7 @@ sorting.addMapping(
 );
 
 function getLabel(snapshot) {
-  return 'ActiveMQ ' + snapshot.getIn(['data', 'version']);
+  return '@ ' + snapshot.getIn(['data', 'ports'], emptyList).sort().join(', ');
 }
 
 addIconToRegistry({
