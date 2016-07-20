@@ -19,7 +19,7 @@ const START_POS = 100000;
 
 export default class ParticleEmitter extends SceneObject {
 
-  constructor({parent, id, config = {}}) {
+  constructor({parent, id, config = {}, DOMParent}) {
     super({parent, id});
 
     this.maxParticles = config.maxParticles || 50;
@@ -69,7 +69,7 @@ export default class ParticleEmitter extends SceneObject {
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
 
     let wordsWritten = '';
-    this.startSubscription = ro.on(window, 'keydown').subscribe(event => {
+    this.startSubscription = ro.on(DOMParent ? DOMParent : window, 'keydown').subscribe(event => {
       wordsWritten += String.fromCharCode(event.keyCode);
       wordsWritten = wordsWritten.substring(wordsWritten.length - 9, 10);
 

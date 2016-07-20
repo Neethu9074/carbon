@@ -37,7 +37,11 @@ describe('ParticleEmitter', () => {
 
     particleEmitter = new ParticleEmitter({
       id: 'particleEmitter',
-      parent
+      parent,
+      DOMParent: {
+        addEventListener: () => {},
+        removeEventListener: () => {}
+      }
     });
   });
 
