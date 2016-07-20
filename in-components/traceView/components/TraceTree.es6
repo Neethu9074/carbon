@@ -15,7 +15,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import classnames from 'in-services/util/classnames';
 import {getDirection} from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './TraceTree.less';
 
@@ -37,17 +36,73 @@ function TreeNetworkElement({parent, element}) {
   );
 }
 
-function TreeStackTraceElement({stackTrace}) {
-  return (
-    <div>
-      {stackTrace.map((st, i) =>
-        <div key={i}>
-          {st.get('c')}#{st.get('m')}:{st.get('n')}
+const TreeStackTraceElementV2 = React.createClass({
+  getInitialState() {
+    return {
+      showAllElements: false
+    };
+  },
+
+  render() {
+    const stackTrace = this.props.stackTrace;
+
+    if (stackTrace.length < 3) {
+      return (
+        <div>
+          {stackTrace.map((st, i) =>
+            <div key={i}>
+              {st.get('c')}#{st.get('m')}:{st.get('n')}
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  );
-}
+      );
+    }
+
+    const first = stackTrace[0];
+    const last = stackTrace[stackTrace.length - 1];
+
+    return (
+      <div>
+        <div>
+          {first.get('c')}#{first.get('m')}:{first.get('n')}
+        </div>
+
+        {this.state.showAllElements ?
+          <div>
+            <div onClick={this.toggle}>
+              [Show less…]
+            </div>
+
+            {stackTrace.filter(st => st !== first && st !== last).map((st, i) =>
+              <div key={i}>
+                {st.get('c')}#{st.get('m')}:{st.get('n')}
+              </div>
+            )}
+
+            <div onClick={this.toggle}>
+              [Show less…]
+            </div>
+          </div>
+        :
+          <div onClick={this.toggle}>
+            [Show more…]
+          </div>
+        }
+
+        <div>
+          {last.get('c')}#{last.get('m')}:{last.get('n')}
+        </div>
+      </div>
+    );
+  },
+
+  toggle() {
+    this.setState({
+      showAllElements: !this.state.showAllElements
+    });
+  }
+});
+
 
 const TreeSpanElement = connectTo(props => {
     const spanId = props.span.get('spanId');
@@ -150,13 +205,6 @@ const TreeSpanElement = connectTo(props => {
 
 
 const TreeElement = React.createClass({
-
-  getInitialState() {
-    return {
-      isExpanded: false
-    };
-  },
-
   render() {
     let newParentSpanForPercentageCalculation = this.props.parentSpanForPercentageCalculation;
     if (this.props.element.type === 'span' && this.props.parentSpanForPercentageCalculation.get('async')) {
@@ -174,8 +222,8 @@ const TreeElement = React.createClass({
       );
     } else if (elementType === 'stackTrace') {
       details = (
-        <TreeStackTraceElement stackTrace={this.props.element.stackTrace}
-                               parent={this.props.parent} />
+        <TreeStackTraceElementV2 stackTrace={this.props.element.stackTrace}
+                                 parent={this.props.parent} />
       );
     } else if (elementType === 'network') {
       details = (
@@ -190,31 +238,17 @@ const TreeElement = React.createClass({
       <li className={`${block}__element`}>
         {details}
 
-        {this.props.element.children.length > 0 && elementType !== 'network' && elementType !== 'stackTrace'  ?
-          <Icon type={this.state.isExpanded ? 'close' : 'open'}
-                onClick={this.toggleExpansion}
-                className={`${block}__toggle`}/>
-        : null}
-
-        {this.state.isExpanded || elementType === 'network' || elementType === 'stackTrace' ?
-          <ul className={`${block}__element-container`}>
-            {this.props.element.children.map(childElement =>
-              <TreeElement element={childElement}
-                           key={childElement.id}
-                           parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
-                           trace={this.props.trace}
-                           parent={this.props.element} />
-            )}
-          </ul>
-        : null}
+        <ul className={`${block}__element-container`}>
+          {this.props.element.children.map(childElement =>
+            <TreeElement element={childElement}
+                         key={childElement.id}
+                         parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
+                         trace={this.props.trace}
+                         parent={this.props.element} />
+          )}
+        </ul>
       </li>
     );
-  },
-
-  toggleExpansion() {
-    this.setState({
-      isExpanded: !this.state.isExpanded
-    });
   }
 });
 
