@@ -59,4 +59,13 @@
     font-size: 2rem;
     color: red;
   }
+
+  &__stack-trace-element > &__stack-trace-element-view-source {
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+  }
+
+  &__stack-trace-element:hover > &__stack-trace-element-view-source {
+    opacity: 1;
+  }
 }

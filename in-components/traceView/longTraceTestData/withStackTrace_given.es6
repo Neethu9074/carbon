@@ -14,7 +14,7 @@ export default {
       'spanId': '5449855402949182823',
       'error': false,
       'data': {},
-      'name': 'spring-web',
+      'name': 'rabbitMq',
       'duration': 20,
       'async': false,
       'stackTrace': [

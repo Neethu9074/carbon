@@ -31,11 +31,13 @@ export function transform(span) {
 function insertSpanIntoParent(parentResult, span) {
   let currentParent = parentResult;
 
-  span.get('stackTrace')
-    .reverse()
-    .forEach(stackTraceElement => {
-      currentParent = getOrAddStackTraceElementToParent(stackTraceElement);
-    });
+  if (getDirection(span) !== 'entry') {
+    span.get('stackTrace')
+      .reverse()
+      .forEach(stackTraceElement => {
+        currentParent = getOrAddStackTraceElementToParent(stackTraceElement);
+      });
+  }
 
   currentParent.children.push(transform(span));
 
