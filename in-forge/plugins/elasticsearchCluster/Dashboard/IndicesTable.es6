@@ -45,9 +45,9 @@ function createHeader() {
   return (
     <thead>
       <tr>
+        <th>Index</th>
         <th>Shards</th>
         <th>Replicas</th>
-        <th>Index</th>
         <th>Documents</th>
         <th>Deleted</th>
         <th>Size</th>
