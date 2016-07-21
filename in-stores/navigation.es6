@@ -34,6 +34,15 @@ const store = createStore({
 });
 export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
+const activeView$ = navigationParameters$
+  .map(params => {
+    const match = params.pathname.match(/^\/([a-z]+)\/?.*/i);
+    if (!match) {
+      return 'physical';
+    }
+    return match[1];
+  })
+  .distinct();
 
 hashHistory.listen(location => {
   store.applyStateMutation(() => {
@@ -46,7 +55,7 @@ hashHistory.listen(location => {
 
 
 export function mutateUrl(mutator) {
-  navigationParameters.once(currentLocation => {
+  navigationParameters$.once(currentLocation => {
     const newLocation = mutator(cloneDeep(currentLocation, true));
 
     if (!isEqual(newLocation, currentLocation)) {
@@ -70,6 +79,15 @@ export function goToDashboard() {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/?.*$/i, (all, view) => `/${view}/dashboard`);
     return navParams;
   });
+}
+
+export function getDashboardLink(snapshotId) {
+  snapshotId = encodeURIComponent(snapshotId);
+  return activeView$
+    .map(view => {
+      return `/#/${view}/dashboard?snapshotId=${encodeURIComponent(snapshotId)}`;
+    })
+    .distinct();
 }
 
 
