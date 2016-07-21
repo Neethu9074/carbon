@@ -53,6 +53,7 @@ import './physicalHttpConnection';
 import './physicalJdbcConnection';
 import './physicalMongoDbConnection';
 import './physicalRabbitMqConsumerConnection';
+import './physicalRabbitMqPublisherConnection';
 import './postgreSqlDatabase';
 import './process';
 import './rabbitMq';
