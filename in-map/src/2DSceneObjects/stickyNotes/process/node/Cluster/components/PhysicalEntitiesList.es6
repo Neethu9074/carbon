@@ -10,7 +10,6 @@ import connectTo from 'in-hoc/connectTo';
 import {getKpis} from 'in-sdk/kpi';
 
 import './PhysicalEntitiesList.less';
-// import Icon from 'in-components/Icon';
 
 
 const block = 'in-sticky-note-process-cluster-entity-list';
