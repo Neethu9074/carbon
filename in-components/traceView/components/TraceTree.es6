@@ -55,7 +55,7 @@ const TreeStackTraceElementV2 = React.createClass({
               {st.get('c')}#{st.get('m')}:{st.get('n')}
 
               <span className={block + '__stack-trace-element-view-source'}>
-                [View Source]
+                &nbsp;[View Source]
               </span>
             </div>
           )}
@@ -78,7 +78,7 @@ const TreeStackTraceElementV2 = React.createClass({
                 {st.get('c')}#{st.get('m')}:{st.get('n')}
 
                 <span className={block + '__stack-trace-element-view-source'}>
-                  [View Source]
+                  &nbsp;[View Source]
                 </span>
               </div>
             )}
@@ -94,12 +94,12 @@ const TreeStackTraceElementV2 = React.createClass({
 
           {!this.state.showAllElements ?
             <span onClick={this.toggle}>
-              [Show more…]
+              &nbsp;[Show more…]
             </span>
           : null}
 
           <span className={block + '__stack-trace-element-view-source'}>
-            [View Source]
+            &nbsp;[View Source]
           </span>
         </div>
       </div>
@@ -286,11 +286,16 @@ function TraceHeader({trace}) {
 
   return (
     <div>
-      <h1>{getLabel(trace)}</h1>
+      <h1>
+        {getLabel(trace)}
+        <SpanEntityInformation span={trace}
+                               label=' on'
+                               connectionEndpointType='destinationId' />
+      </h1>
 
       <p>
         Took {msZeroDecimalPlaces(trace.get('duration'))} on {formatDateTime(trace.get('start'))} with&nbsp;
-        {errorCount} errors in {calls} calls and a maximum depth of {depth}
+        {errorCount} errors in {calls} calls and a maximum depth of {depth}.
       </p>
 
       <ul>
