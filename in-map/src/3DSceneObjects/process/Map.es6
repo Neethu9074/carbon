@@ -67,7 +67,11 @@ export default class Map extends BaseMap {
       selectedSnapshotIdForHighlightingInMap.subscribe(id => id ?
         this.factories.fadeByDistanceSMF.lockOpacity(0.25) :
         this.factories.fadeByDistanceSMF.unlockOpacity()
-      )
+      ),
+
+      this.eventEmitter.on('onObjectClicked').subscribe(hittenOnes => {
+        console.log(hittenOnes.hittenObject);
+      })
     ]);
 
     this.processViewRenderTree = new ProcessViewRenderTree();

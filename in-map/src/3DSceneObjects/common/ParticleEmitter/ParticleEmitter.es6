@@ -1,4 +1,3 @@
-import * as ro from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
@@ -7,6 +6,7 @@ import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/sha
 import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
 import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
 import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
+import {particlesAreActive$} from 'in-map/src/stores/process/particles';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
@@ -19,7 +19,7 @@ const START_POS = 100000;
 
 export default class ParticleEmitter extends SceneObject {
 
-  constructor({parent, id, config = {}, DOMParent}) {
+  constructor({parent, id, config = {}}) {
     super({parent, id});
 
     this.maxParticles = config.maxParticles || 50;
@@ -72,17 +72,9 @@ export default class ParticleEmitter extends SceneObject {
     this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
 
-    let wordsWritten = '';
-    this.startSubscription = ro.on(DOMParent ? DOMParent : window, 'keydown').subscribe(event => {
-      wordsWritten += String.fromCharCode(event.keyCode);
-      wordsWritten = wordsWritten.substring(wordsWritten.length - 9, 10);
-
-      if (wordsWritten.toLowerCase() === 'particles') {
-        this.start();
-      } else if (wordsWritten.toLowerCase() === 'selcitrap') {
-        this.stop();
-      }
-    });
+    this.startSubscription = particlesAreActive$.subscribe(particlesAreActive =>
+      particlesAreActive ? this.start() : this.stop()
+    );
   }
 
   setFromAndTo(fromPos, toPos) {

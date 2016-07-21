@@ -28,6 +28,7 @@ export default class CameraController extends BaseCameraController {
 
     this.camera = camera;
     this.scene = scene;
+    this.map = map;
 
     // this is an abstract zoomLevel, needed to store calculte the frustum size of
     // of the camera and the distance to the POI
@@ -111,7 +112,10 @@ export default class CameraController extends BaseCameraController {
 
       this.eventEmitter.on('onZoom').subscribe(delta => this.onZoom(delta)),
 
-      this.eventEmitter.on('onObjectClicked').subscribe(hittenOnes => this.scene.onObjectClicked(hittenOnes)),
+      this.eventEmitter.on('onObjectClicked').subscribe(hittenOnes => {
+        this.scene.onObjectClicked(hittenOnes);
+        this.map.eventEmitter.emit('onObjectClicked', hittenOnes);
+      }),
 
       view$.skipFirst().subscribe(() => this.animationController.start()),
 
@@ -217,5 +221,6 @@ export default class CameraController extends BaseCameraController {
     this.zoomLevel = null;
     this.camera = null;
     this.scene = null;
+    this.map = null;
   }
 }

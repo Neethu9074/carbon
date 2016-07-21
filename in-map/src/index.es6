@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import LayoutControls from 'in-map/src/components/react/LayoutControls';
+import Particles from 'in-map/src/components/react/Particles/Particles';
 import Switcher2D3D from 'in-map/src/components/react/Switcher2D3D';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {isWebGLSupported} from 'in-services/util/webGL';
@@ -74,6 +75,7 @@ export default connectTo({
         <div className={block} ref='parent'>
           <LayoutControls />
           <Switcher2D3D />
+          <Particles />
         </div>
       );
     }
