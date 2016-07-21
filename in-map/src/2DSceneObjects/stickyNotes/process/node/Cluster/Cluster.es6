@@ -49,6 +49,11 @@ const ProcessCluster = React.createClass({
 
     return (
       <div className={block}>
+        {this.state.expanded ?
+          <PhysicalEntitiesList
+          childIds={childIds}
+          parentId={this.props.parentId} />
+          : null}
         <div className={className}
              onMouseEnter={() => this.setState({highlighted: true})}
              onMouseLeave={() => this.setState({highlighted: false})}
@@ -57,11 +62,6 @@ const ProcessCluster = React.createClass({
           <Icon type={this.state.expanded ? 'close_up' : 'close'}
                 className={block + '__icon'}/>
         </div>
-        {this.state.expanded ?
-          <PhysicalEntitiesList
-            childIds={childIds}
-            parentId={this.props.parentId} />
-          : null}
       </div>
     );
   },

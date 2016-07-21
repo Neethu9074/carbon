@@ -2,13 +2,15 @@
 
 .in-sticky-note-process-cluster-entity-list {
   position: absolute;
-  top: -50%;
-  left: 100%;
+  top: 10px;
+  left: 0;
 
-  border-radius: 4px;
+  border-radius: 3px;
   font-size: 0.75rem;
-  background: black;
-  color: grey;
+  background: #2d4048;
+  color: white;
+  padding: 8px;
+  box-shadow: 1px 0px 20px 0px rgba(0, 0, 0, 0.25);
 
   &__list {
     list-style: none;
@@ -17,11 +19,21 @@
   }
 
   &__item {
-    margin: 5px;
+    display: flex;
+    align-items: center;
+
+    border-radius: 3px;
+    padding: 8px 0 8px 8px;
     cursor: pointer;
 
     &:hover, &--selected {
-      color: white;
+      background: #42565e;
     }
+  }
+
+  &__plugin-icon {
+    height: 18px;
+    min-width: 18px;
+    margin-right: 5px;
   }
 }

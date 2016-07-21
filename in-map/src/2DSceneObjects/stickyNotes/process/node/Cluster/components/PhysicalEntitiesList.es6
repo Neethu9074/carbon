@@ -3,10 +3,10 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getSnapshot, setSelectedSnapshotId, selectedSnapshotId} from 'in-stores/snapshot';
+import {getIcon, getLabel} from 'in-sdk/snapshot';
 import {viewStructure} from 'in-stores/view';
 import KPIList from 'in-components/KPIList';
 import connectTo from 'in-hoc/connectTo';
-import {getLabel} from 'in-sdk/snapshot';
 import {getKpis} from 'in-sdk/kpi';
 
 import './PhysicalEntitiesList.less';
@@ -61,6 +61,10 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
 
               <IsConnectedIcon id={snapshotId}
                                connections={parentConnections} />
+
+              <img src={getIcon(snapshot)}
+                   alt='plugin icon'
+                   className={block + '__plugin-icon'} />
 
               {getLabel(snapshot)}
 
