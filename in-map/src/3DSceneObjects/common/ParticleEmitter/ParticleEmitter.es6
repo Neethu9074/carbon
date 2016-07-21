@@ -65,11 +65,11 @@ export default class ParticleEmitter extends SceneObject {
     this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
 
+    this.resetParticles();
+
     this.startSubscription = particlesAreActive$.subscribe(particlesAreActive =>
       particlesAreActive ? this.start() : this.stop()
     );
-
-    this.resetParticles();
   }
 
   setFromAndTo(fromPos, toPos) {
