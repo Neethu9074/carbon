@@ -1,18 +1,21 @@
 import React from 'react';
 
-import {closeDashboard} from 'in-stores/navigation';
+import {closeDashboardLink$} from 'in-stores/navigation';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/sidebars/components/BackToMapButton.less';
 
 
 const block = 'in-sidebar-back-to-map-button';
 
-export default function BackToMapButton() {
+export default connectTo({
+    href: closeDashboardLink$
+}, function BackToMapButton({href}) {
   return (
     <Button className={block}
-            onClick={closeDashboard}>
+            href={href}>
       Close Dashboard
     </Button>
   );
-}
+});

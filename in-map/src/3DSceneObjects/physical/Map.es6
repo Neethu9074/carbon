@@ -14,7 +14,6 @@ import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {activeMetric} from 'in-services/stores/metrics';
 import {lastQueryChangeTime$} from 'in-stores/search';
 import {eventBus} from 'in-map/src/services/eventBus';
@@ -109,8 +108,7 @@ export default class Map extends BaseMap {
 
       eventBus.on('openDashboard').subscribe(id => {
         if (id) {
-          setSelectedSnapshotId(id);
-          goToDashboard();
+          goToDashboard(id);
 
           // clear stream
           eventBus.emit('openDashboard', null);

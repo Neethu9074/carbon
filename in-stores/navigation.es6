@@ -1,5 +1,5 @@
 /* global process:false, require:false */
-import {cloneDeep, isEqual} from 'lodash';
+import {cloneDeep as loDashCloneDeep, isEqual} from 'lodash';
 
 import {createStore} from 'in-stores/store';
 
@@ -34,15 +34,6 @@ const store = createStore({
 });
 export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
-const activeView$ = navigationParameters$
-  .map(params => {
-    const match = params.pathname.match(/^\/([a-z]+)\/?.*/i);
-    if (!match) {
-      return 'physical';
-    }
-    return match[1];
-  })
-  .distinct();
 
 hashHistory.listen(location => {
   store.applyStateMutation(() => {
@@ -56,12 +47,23 @@ hashHistory.listen(location => {
 
 export function mutateUrl(mutator) {
   navigationParameters$.once(currentLocation => {
-    const newLocation = mutator(cloneDeep(currentLocation, true));
+    const newLocation = mutator(cloneDeep(currentLocation));
 
     if (!isEqual(newLocation, currentLocation)) {
       hashHistory.push(newLocation);
     }
   });
+}
+
+
+function cloneDeep(obj) {
+  return loDashCloneDeep(obj, true);
+}
+
+
+function getActiveView(params) {
+  const match = params.pathname.match(/\/([a-z]+)\/?/i);
+  return match ? match[1] : 'physical';
 }
 
 
@@ -74,19 +76,27 @@ export function goHome() {
 }
 
 
-export function goToDashboard() {
-  mutateUrl(navParams => {
-    navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/?.*$/i, (all, view) => `/${view}/dashboard`);
-    return navParams;
+export function goToDashboard(snapshotId) {
+  mutateUrl(params => {
+    const view = getActiveView(params);
+    params.pathname = `/${view}/dashboard`;
+    params.query.snapshotId = encodeURIComponent(snapshotId);
+    return params;
   });
 }
 
+
 export function getDashboardLink(snapshotId) {
   snapshotId = encodeURIComponent(snapshotId);
-  return activeView$
-    .map(view => {
-      return `/#/${view}/dashboard?snapshotId=${encodeURIComponent(snapshotId)}`;
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(params => {
+      const view = getActiveView(params);
+      params.pathname = `/${view}/dashboard`;
+      params.query.snapshotId = snapshotId;
+      return params;
     })
+    .map(toUrl)
     .distinct();
 }
 
@@ -96,6 +106,35 @@ export function closeDashboard() {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
     return navParams;
   });
+}
+
+
+export const closeDashboardLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = params.pathname.replace(/\/dashboard/i, '');
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
+
+
+function toUrl(params) {
+  let url = params.pathname;
+
+  let first = true;
+  for (const key in params.query) {
+    if (params.query.hasOwnProperty(key)) {
+      if (first) {
+        first = false;
+        url = `${url}?${key}=${params.query[key]}`;
+      } else {
+        url = `${url}&${key}=${params.query[key]}`;
+      }
+    }
+  }
+
+  return `/#${url}`;
 }
 
 
