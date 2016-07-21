@@ -2,10 +2,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import MultiSelect from 'in-map/src/components/react/MultiSelect';
 import LayoutControls from 'in-map/src/components/react/LayoutControls';
-import Particles from 'in-map/src/components/react/Particles/Particles';
 import Switcher2D3D from 'in-map/src/components/react/Switcher2D3D';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import Particles from 'in-map/src/components/react/Particles';
 import {isWebGLSupported} from 'in-services/util/webGL';
 import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
@@ -76,6 +77,7 @@ export default connectTo({
           <LayoutControls />
           <Switcher2D3D />
           <Particles />
+          <MultiSelect />
         </div>
       );
     }

@@ -10,12 +10,12 @@ import 'in-map/src/components/react/Particles/Particles.less';
 const block = 'in-switcher-particles';
 
 export default connectTo({
-  _particlesAreActive: particlesAreActive$,
+    particlesAreActive: particlesAreActive$,
     currentView: view
   }, Particles
 );
 
-function Particles({currentView, _particlesAreActive}) {
+function Particles({currentView, particlesAreActive}) {
   if (!currentView || currentView !== views.process) {
     return null;
   }
@@ -23,13 +23,13 @@ function Particles({currentView, _particlesAreActive}) {
   return (
     <div className={block}
          onClick={toggleParticles}>
-      {_particlesAreActive ? 'Particles Off' : 'Particles On'}
+      {particlesAreActive ? 'Particles Off' : 'Particles On'}
     </div>
   );
 }
 
 const rpt = React.PropTypes;
 Particles.propTypes = {
-  layoutingEnabled: rpt.bool,
+  particlesAreActive: rpt.bool,
   currentView: rpt.string
 };

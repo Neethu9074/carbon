@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import {highlightedEntityIds$} from 'in-stores/highlightedEntityIds';
+import {selectedEntities$} from 'in-map/src/stores/multiSelection';
 
 import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
@@ -34,9 +35,13 @@ export default class BaseHighlightingComponent extends Component {
     this.addSubscription('positionChanged', this.positionChanged);
     this.addSubscription('sizeChanged', this.sizeChanged);
 
-    this.highlightingSubscription = combineLatest([highlightedEntityId$, highlightedEntityIds$])
-      .subscribe(([highlightedId, highlightedIds]) => {
-        const isHighlighted = sceneObject.id === highlightedId || highlightedIds.indexOf(sceneObject.id) !== -1;
+    this.highlightingSubscription = combineLatest([highlightedEntityId$, highlightedEntityIds$, selectedEntities$])
+      .subscribe(([highlightedId, highlightedIds, selectedEntities]) => {
+        const id = sceneObject.id;
+
+        const isHighlighted = id === highlightedId ||
+                              highlightedIds.indexOf(id) !== -1 ||
+                              selectedEntities[id];
         const propertyValue = isHighlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
         sceneObject.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, propertyValue);
       });

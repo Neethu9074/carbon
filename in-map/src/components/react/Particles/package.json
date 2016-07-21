@@ -1,6 +1,6 @@
 {
-  "name": "Switcher2D3D",
+  "name": "Particles",
   "version": "0.0.0",
   "private": true,
-  "main": "./Switcher2D3D.es6"
+  "main": "./Particles.es6"
 }

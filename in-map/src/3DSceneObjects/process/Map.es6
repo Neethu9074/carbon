@@ -3,6 +3,7 @@ import FadeByDistanceSingleMeshFactory from 'in-map/src/SingleMeshFactory/FadeBy
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import SingleMeshDashedLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshDashedLineFactory';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
+import {selectEntity, clearSelection} from 'in-map/src/stores/multiSelection';
 import CameraController from 'in-map/src/controls/process/CameraController';
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
@@ -69,9 +70,11 @@ export default class Map extends BaseMap {
         this.factories.fadeByDistanceSMF.unlockOpacity()
       ),
 
-      this.eventEmitter.on('onObjectClicked').subscribe(hittenOnes => {
-        console.log(hittenOnes.hittenObject);
-      })
+      this.eventEmitter.on('onObjectClicked').subscribe(hittenOnes =>
+        hittenOnes.hittenObject ?
+          selectEntity(hittenOnes.hittenObject.parentSceneObject.id) :
+          clearSelection()
+      )
     ]);
 
     this.processViewRenderTree = new ProcessViewRenderTree();
