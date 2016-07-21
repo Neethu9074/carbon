@@ -46,36 +46,40 @@ const TreeStackTraceElementV2 = React.createClass({
   render() {
     const stackTrace = this.props.stackTrace;
 
-    if (stackTrace.length < 3) {
+    if (stackTrace.length === 1) {
       return (
         <div>
           {stackTrace.map((st, i) =>
-            <div key={i}>
+            <div key={i}
+                 className={block + '__stack-trace-element'}>
               {st.get('c')}#{st.get('m')}:{st.get('n')}
+
+              <span className={block + '__stack-trace-element-view-source'}>
+                [View Source]
+              </span>
             </div>
           )}
         </div>
       );
     }
 
-    const first = stackTrace[0];
     const last = stackTrace[stackTrace.length - 1];
 
     return (
       <div>
-        <div>
-          {first.get('c')}#{first.get('m')}:{first.get('n')}
-        </div>
-
         {this.state.showAllElements ?
           <div>
             <div onClick={this.toggle}>
               [Show less…]
             </div>
 
-            {stackTrace.filter(st => st !== first && st !== last).map((st, i) =>
-              <div key={i}>
+            {stackTrace.filter(st => st !== last).map((st, i) =>
+              <div key={i} className={block + '__stack-trace-element'}>
                 {st.get('c')}#{st.get('m')}:{st.get('n')}
+
+                <span className={block + '__stack-trace-element-view-source'}>
+                  [View Source]
+                </span>
               </div>
             )}
 
@@ -83,14 +87,20 @@ const TreeStackTraceElementV2 = React.createClass({
               [Show less…]
             </div>
           </div>
-        :
-          <div onClick={this.toggle}>
-            [Show more…]
-          </div>
-        }
+        : null}
 
-        <div>
+        <div className={block + '__stack-trace-element'}>
           {last.get('c')}#{last.get('m')}:{last.get('n')}
+
+          {!this.state.showAllElements ?
+            <span onClick={this.toggle}>
+              [Show more…]
+            </span>
+          : null}
+
+          <span className={block + '__stack-trace-element-view-source'}>
+            [View Source]
+          </span>
         </div>
       </div>
     );
@@ -333,7 +343,11 @@ export default connectTo({
 
 function getSelfTime(span) {
   let selfTime = span.get('duration');
-  span.get('childSpans').forEach(childSpan => selfTime -= childSpan.get('duration'));
+  span.get('childSpans').forEach(childSpan => {
+    if (!childSpan.get('async')) {
+      selfTime -= childSpan.get('duration');
+    }
+  });
   return selfTime;
 }
 
