@@ -2,14 +2,14 @@ import React from 'react';
 
 import {highlightSpanId} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
-import {getLabel, getCategory} from 'in-sdk/tracing';
+import {getLabel, getCategory, getDirection} from 'in-sdk/tracing';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
 import './TraceFlameGraph.less';
 
 const block = 'in-trace-view-flame-graph';
-const margin = 2;
+const margin = 3;
 const height = 6;
 
 
@@ -22,6 +22,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
   if (span.get('error')) {
     color = 'red';
   }
+
   return (
     <div>
       {span.get('childSpans').toArray().map(childSpan =>
@@ -30,6 +31,18 @@ function FlameGraphElement({span, currentDepth, scale}) {
                            currentDepth={currentDepth + 1}
                            scale={scale} />
       )}
+
+      {getDirection(span) === 'entry' && currentDepth > 1 ?
+        <Tooltip content='Network'>
+          <div className={`${block}__network`}
+               style={{
+                 top: `${top - 2}px`,
+                 left: `${left}%`,
+                 width: `${width}%`
+               }}
+               onClick={() => highlightSpanId(span.get('spanId'))}/>
+        </Tooltip>
+      : null}
 
       <Tooltip content={getLabel(span)}>
         <div className={`${block}__element`}
