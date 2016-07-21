@@ -33,6 +33,7 @@ export default React.createClass({
     addRelation(id, children);
     this.addChildrenAsEdges();
     entity.get('outgoingConnections').forEach(edge => this.addEdge(edge));
+    entity.get('incomingConnections').forEach(edge => this.addEdge(edge));
 
     this.expandedNodesSubscription = expandedNodes$.subscribe(ids =>
       this.setState({
