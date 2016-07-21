@@ -1,7 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import PhysicalEntitiesList from
+  'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/PhysicalEntitiesList';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import Icon from 'in-components/Icon';
 
@@ -20,9 +23,10 @@ const ProcessCluster = React.createClass({
   ],
 
   propTypes: {
-    numChildren: rpt.number.isRequired,
+    parentId: rpt.string.isRequired,
     collapse: rpt.func.isRequired,
-    expand: rpt.func.isRequired
+    expand: rpt.func.isRequired,
+    childIds: irpt.list
   },
 
   getInitialState() {
@@ -33,8 +37,8 @@ const ProcessCluster = React.createClass({
   },
 
   render() {
-    const numChildren = this.props.numChildren;
-    if (numChildren === 0) {
+    const childIds = this.props.childIds;
+    if (!childIds || childIds.size === 0) {
       return null;
     }
 
@@ -44,23 +48,26 @@ const ProcessCluster = React.createClass({
     }
 
     return (
-      <div className={className}
-           onMouseEnter={() => this.setState({highlighted: true})}
-           onMouseLeave={() => this.setState({highlighted: false})}
-           onClick={this.onClick}>
-        {numChildren}
-        <Icon type={this.state.expanded ? 'close_up' : 'close'}
-              className={block + '__icon'}/>
+      <div className={block}>
+        <div className={className}
+             onMouseEnter={() => this.setState({highlighted: true})}
+             onMouseLeave={() => this.setState({highlighted: false})}
+             onClick={this.onClick}>
+          {childIds.size}
+          <Icon type={this.state.expanded ? 'close_up' : 'close'}
+                className={block + '__icon'}/>
+        </div>
+        {this.state.expanded ?
+          <PhysicalEntitiesList
+            childIds={childIds}
+            parentId={this.props.parentId} />
+          : null}
       </div>
     );
   },
 
   onClick() {
-    if (!this.state.expanded) {
-      this.props.expand();
-    } else {
-      this.props.collapse();
-    }
+    // !this.state.expanded ? this.props.expand() : this.props.collapse();
 
     this.setState({expanded: !this.state.expanded});
   }
@@ -76,15 +83,16 @@ export default class StickyNoteProcessCluster extends StickyNote {
     const parent = this.parent;
 
     ReactDOM.render(
-      <ProcessCluster numChildren={this.numChildren}
+      <ProcessCluster childIds={this.childIds}
                       expand={() => parent.expand()}
+                      parentId={parent.id}
                       collapse={() => parent.collapse()}/>,
       this.container
     );
   }
 
-  setNumChildren(numChildren) {
-    this.numChildren = numChildren;
+  setChildren(childIds) {
+    this.childIds = childIds;
     this.render();
   }
 }

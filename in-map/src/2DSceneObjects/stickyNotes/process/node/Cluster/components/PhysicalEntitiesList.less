@@ -1,0 +1,27 @@
+@import "~in-themes/active.less";
+
+.in-sticky-note-process-cluster-entity-list {
+  position: absolute;
+  top: -50%;
+  left: 100%;
+
+  border-radius: 4px;
+  font-size: 0.75rem;
+  background: black;
+  color: grey;
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    margin: 5px;
+    cursor: pointer;
+
+    &:hover, &--selected {
+      color: white;
+    }
+  }
+}

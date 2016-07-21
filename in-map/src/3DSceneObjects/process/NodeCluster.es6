@@ -109,7 +109,7 @@ export default class NodeCluster extends Node {
 
   setChildIds(childIds) {
     const numChildren = childIds ? childIds.size : 0;
-    this.stickyNote.setNumChildren(numChildren);
+    this.stickyNote.setChildren(childIds ? childIds : null);
     this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
 
     if (numChildren > 0 && !this.label) {
