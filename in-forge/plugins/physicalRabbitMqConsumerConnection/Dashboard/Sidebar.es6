@@ -4,12 +4,12 @@ import React from 'react';
 import ConnectedEntitiesList from 'in-components/ConnectedEntitiesList';
 
 
-export default function PhysicalRabbitMqConnectionSidebar({snapshot}) {
+export default function PhysicalRabbitMqConsumerConnectionSidebar({snapshot}) {
   return (
     <ConnectedEntitiesList snapshotId={snapshot.get('id')} />
   );
 }
 
-PhysicalRabbitMqConnectionSidebar.propTypes = {
+PhysicalRabbitMqConsumerConnectionSidebar.propTypes = {
   snapshot: irpt.map.isRequired
 };

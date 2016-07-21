@@ -3,28 +3,28 @@ import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
-import iconPath from 'in-forge/plugins/physicalRabbitMqConnection/icon.svg';
+import iconPath from 'in-forge/plugins/physicalRabbitMqConsumerConnection/icon.svg';
 import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
-  constants.plugins.physicalRabbitMqConnection,
-  'Physical Rabbit MQ Connection',
-  'Physical Rabbit MQ Connections'
+  constants.plugins.physicalRabbitMqConsumerConnection,
+  'Physical Rabbit MQ Consumer Connection',
+  'Physical Rabbit MQ Consumer Connections'
 );
 
 addLabelFinder(
-  constants.plugins.physicalRabbitMqConnection,
+  constants.plugins.physicalRabbitMqConsumerConnection,
   snapshot => snapshot.getIn(['data', 'source', 'id']) +
               ' to ' +
               snapshot.getIn(['data', 'destination', 'id'])
 );
 
 power.addMapping(
-  constants.plugins.physicalRabbitMqConnection,
+  constants.plugins.physicalRabbitMqConsumerConnection,
   () => -1
 );
 
 addIconToRegistry({
-  id: constants.plugins.physicalRabbitMqConnection,
+  id: constants.plugins.physicalRabbitMqConsumerConnection,
   image: iconPath
 });

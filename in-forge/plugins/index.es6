@@ -52,7 +52,7 @@ import './physicalElasticSearchConnection';
 import './physicalHttpConnection';
 import './physicalJdbcConnection';
 import './physicalMongoDbConnection';
-import './physicalRabbitMqConnection';
+import './physicalRabbitMqConsumerConnection';
 import './postgreSqlDatabase';
 import './process';
 import './rabbitMq';

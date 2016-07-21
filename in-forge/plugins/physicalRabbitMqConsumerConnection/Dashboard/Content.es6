@@ -5,14 +5,14 @@ import DefaultLogicalKpiCharts from 'in-components/DefaultLogicalKpiCharts';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-export default function PhysicalRabbitMqConnectionDashboard({snapshot, timeframe}) {
+export default function PhysicalRabbitMqConsumerConnectionDashboard({snapshot, timeframe}) {
   return (
     <DefaultLogicalKpiCharts snapshot={snapshot}
                              timeframe={timeframe} />
   );
 }
 
-PhysicalRabbitMqConnectionDashboard.propTypes = {
+PhysicalRabbitMqConsumerConnectionDashboard.propTypes = {
   snapshot: irpt.map.isRequired,
   timeframe: timeframeShape
 };
