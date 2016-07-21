@@ -7,7 +7,7 @@ import SingleMeshMetricFactory from 'in-map/src/SingleMeshFactory/SingleMeshMetr
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import {getAllNodes, getAllGroups} from 'in-map/src/3DSceneObjects/physical/mapUtils';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
-import physicalViewStructure$ from 'in-map/src/stores/physical/viewStructure';
+import {getViewStructure} from 'in-map/src/stores/physical/viewStructure';
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
 import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
@@ -78,7 +78,7 @@ export default class Map extends BaseMap {
     this.addSubscriptions([
       lastQueryChangeTime$.subscribe(lastQueryChangeTime => this.lastQueryChangeTime = lastQueryChangeTime),
 
-      physicalViewStructure$.subscribe((structure) => {
+      getViewStructure().subscribe((structure) => {
         this.onInventoryUpdate(structure);
 
         if (this.lastQueryChangeTime + TIME_BETWEEN_FILTER_UPDATE_AND_AUTO_CENTER > Date.now()) {

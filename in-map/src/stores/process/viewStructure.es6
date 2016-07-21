@@ -1,14 +1,13 @@
-import {createTrackingStore} from 'in-stores/store';
-import {viewStructure} from 'in-stores/view';
+import {combineLatest} from 'reactive-observables';
+
+import createViewStructureObservable from 'in-services/subscription/view';
+import {focusedMoment$} from 'in-stores/timeline';
+import {view} from 'in-stores/view';
 
 
-const processViewStructure$ = createTrackingStore({
-  name: 'processViewStructure',
-  observable: viewStructure.map(structure => {
-    return {
-      viewStructure: structure
-    };
-  })
-}).observable;
-
-export default processViewStructure$;
+export function getViewStructure() {
+  return combineLatest([view, focusedMoment$])
+         .flatMap(([viewType, focusedMoment]) => {
+           return createViewStructureObservable({viewType, time: focusedMoment});
+         });
+}
