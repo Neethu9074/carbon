@@ -29,6 +29,7 @@ import './logicalElasticSearchConnection';
 import './logicalHttpConnection';
 import './logicalJdbcConnection';
 import './logicalMessageBroker';
+import './logicalMessageConsumer';
 import './logicalMongoDbConnection';
 import './logicalMongoDbDatabase';
 import './logicalRabbitMqConnection';
