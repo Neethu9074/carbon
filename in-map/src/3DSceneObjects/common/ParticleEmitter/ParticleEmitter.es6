@@ -16,6 +16,7 @@ import {eventBus} from 'in-map/src/services/eventBus';
 
 
 const START_POS = 100000;
+const TIME_TO_LIFE_PER_UNIT = 0.2;
 
 export default class ParticleEmitter extends SceneObject {
 
@@ -23,11 +24,11 @@ export default class ParticleEmitter extends SceneObject {
     super({parent, id});
 
     this.maxParticles = config.maxParticles || 50;
-    this.timeToLife = 3;
     this.setNumparticlesPerSecond(config.particlesPerSecond);
 
     this.isRunning = false;
     this.cursorIfNoFreeIndices = 0;
+    this.length = 0;
 
     this.positionGenerationStrategy = createPositionGenerator();
 
@@ -82,6 +83,8 @@ export default class ParticleEmitter extends SceneObject {
     // 0.5 to direction and cap them 0.5 before end which results in scale.z - 1
     this.mesh.scale.set(1, 1, direction.length() - 1);
 
+    this.length = direction.length();
+
     this.mesh.position.add(direction.normalize().multiplyScalar(0.5));
   }
 
@@ -118,11 +121,12 @@ export default class ParticleEmitter extends SceneObject {
     const vertices = this.vertices;
     const particles = this.particles;
     const progresses = this.progresses;
+    const timeToLife = TIME_TO_LIFE_PER_UNIT * this.length;
 
     for (let i = 0, length = particles.length; i < length; i++) {
       const particle = particles[i];
       particle.timeLived += dt;
-      particle.progress = Math.min(1, particle.timeLived / particle.timeToLife);
+      particle.progress = Math.min(1, particle.timeLived / timeToLife);
       progresses[particle.index] = particle.progress;
     }
 
@@ -158,8 +162,7 @@ export default class ParticleEmitter extends SceneObject {
     const position = this.positionGenerationStrategy.getPositionForParticle();
     const particle = {
       progress: 0,
-      timeLived: 0,
-      timeToLife: this.timeToLife
+      timeLived: 0
     };
     this.particles.push(particle);
 
@@ -250,6 +253,7 @@ export default class ParticleEmitter extends SceneObject {
     this.particles = null;
     this.vertices = null;
     this.indices = null;
+    this.length = null;
 
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
