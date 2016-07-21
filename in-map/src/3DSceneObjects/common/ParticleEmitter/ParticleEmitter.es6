@@ -34,14 +34,6 @@ export default class ParticleEmitter extends SceneObject {
     this.progresses = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
     this.indices = [];
-    for (let i = 0; i < this.vertices.length; i++) {
-      this.vertices[i] = START_POS;
-    }
-    for (let i = 0; i < this.maxParticles; i++) {
-      this.indices[i] = i;
-    }
-
-    this.particles = [];
 
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
@@ -75,6 +67,8 @@ export default class ParticleEmitter extends SceneObject {
     this.startSubscription = particlesAreActive$.subscribe(particlesAreActive =>
       particlesAreActive ? this.start() : this.stop()
     );
+
+    this.resetParticles();
   }
 
   setFromAndTo(fromPos, toPos) {
@@ -215,11 +209,27 @@ export default class ParticleEmitter extends SceneObject {
       return;
     }
 
+    this.resetParticles();
     this.updateSubscription.dispose();
     this.metricSubscription.dispose();
 
     removeSceneObject(this.mesh);
     this.isRunning = false;
+  }
+
+  resetParticles() {
+    this.particles = [];
+    for (let i = 0; i < this.progresses.length; i++) {
+      const vertexIndex = i * 3;
+      this.progresses[i] = 0;
+      this.vertices[vertexIndex] = START_POS;
+      this.vertices[vertexIndex + 1] = START_POS;
+      this.vertices[vertexIndex + 2] = START_POS;
+      this.indices[i] = i;
+    }
+
+    this.positionNeedsUpdate();
+    this.progressNeedsUpdate();
   }
 
   setNumparticlesPerSecond(particlesPerSecond = 10) {
