@@ -173,6 +173,7 @@ gulp.task('startDevProxy', function startDevProxy() {
       '/auth/signOut': groundskeeperUrl + gkApiPrefix + '/signOut',
       '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
       '/auth/users/tenants': groundskeeperUrl + gkApiPrefix + '/users/tenants',
+      '/ump': groundskeeperUrl + '/ump',
       '/uiTracker/': 'http://127.0.0.1:8484/',
       '/assets/': groundskeeperUrl + '/assets/',
       '/notifications/': 'https://instana.github.io/ui-notifications/content/'
