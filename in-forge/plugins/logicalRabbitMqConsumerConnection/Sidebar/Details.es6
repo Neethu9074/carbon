@@ -5,7 +5,7 @@ import DefaultLogicalSidebarKpis from 'in-components/DefaultLogicalSidebarKpis/D
 import ConnectedEntitiesList from 'in-components/ConnectedEntitiesList';
 
 
-export default function LogicalRabbitMqConnectionSidebar({snapshot}) {
+export default function LogicalRabbitMqConsumerConnectionSidebar({snapshot}) {
   return (
     <div>
       <DefaultLogicalSidebarKpis snapshot={snapshot} />
@@ -14,6 +14,6 @@ export default function LogicalRabbitMqConnectionSidebar({snapshot}) {
   );
 }
 
-LogicalRabbitMqConnectionSidebar.propTypes = {
+LogicalRabbitMqConsumerConnectionSidebar.propTypes = {
   snapshot: irpt.map.isRequired
 };
