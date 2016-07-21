@@ -33,6 +33,7 @@ import './logicalMessageConsumer';
 import './logicalMongoDbConnection';
 import './logicalMongoDbDatabase';
 import './logicalRabbitMqConsumerConnection';
+import './logicalRabbitMqPublisherConnection';
 import './logicalService';
 import './logicalWebApp';
 import './memcached';
