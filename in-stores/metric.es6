@@ -3,12 +3,9 @@ import createHistoricMetricObservable from 'in-services/subscription/historicMet
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import {timeframe$, focusedMoment$} from 'in-stores/timeline';
+import {getAggregation} from 'in-sdk/metrics/aggregation';
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
-
-// There is currently no other form of aggregation, but we already want
-// to have this communication style with the backend.
-const defaultAggregation = 'mean';
 
 const rollupDurationThresholds = [
   {
@@ -46,7 +43,7 @@ export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
 
   let aggregation = null;
   if (rollup) {
-    aggregation = defaultAggregation;
+    aggregation = getAggregation(metric);
   }
 
   return createLiveMetricObservable({
@@ -65,7 +62,7 @@ function getHistoricMetrics({snapshotId, metric, timeframe, rollup}) {
 
   let aggregation = null;
   if (rollup) {
-    aggregation = defaultAggregation;
+    aggregation = getAggregation(metric);
   }
 
   return createHistoricMetricsObservable({
@@ -102,7 +99,7 @@ export function getHistoricMetric({snapshotId, metric, time}) {
 
   let aggregation = null;
   if (rollup) {
-    aggregation = defaultAggregation;
+    aggregation = getAggregation(metric);
   }
 
   return createHistoricMetricObservable({
