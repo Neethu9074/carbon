@@ -70,7 +70,7 @@ export function setSortBy(newSortBy) {
 
 const sortDirection = createStore({
   name: 'in-components/traceView/traceViewStore/tracesSortDirection',
-  initialValue: 'desc'
+  initialValue: 'asc'
 });
 
 export function setSortDirection(newSortDirection) {
