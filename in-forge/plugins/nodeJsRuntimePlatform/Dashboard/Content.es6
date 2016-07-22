@@ -15,14 +15,16 @@ export default function NodejsDashboard({snapshot, timeframe}) {
     <div>
       {getNativeExtensionHint(snapshot)}
 
-      <DashboardSection title='Memory Usage & GC Activity'>
-        <TwoColumnRow>
+      <TwoColumnRow>
+        <DashboardSection title='Memory Usage'>
           {renderGcMetrics(snapshot, timeframe)}
+        </DashboardSection>
+        <DashboardSection title='GC Activity'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
                            height={150}
                            margins={{
-                             left: 90
+                             left: 60
                            }}
 
                            y1={{
@@ -36,8 +38,8 @@ export default function NodejsDashboard({snapshot, timeframe}) {
                              ],
                              type: 'stackedArea'
                            }}/>
-        </TwoColumnRow>
-      </DashboardSection>
+        </DashboardSection>
+      </TwoColumnRow>
 
       <HeapSpacesTable snapshot={snapshot}
                        timeframe={timeframe} />
@@ -56,8 +58,8 @@ function renderGcMetrics(snapshot, timeframe) {
                        timeframe={timeframe}
                        height={150}
                        margins={{
-                         left: 90,
-                         right: 90
+                         left: 60,
+                         right: 60
                        }}
 
                        y1={{
@@ -98,7 +100,7 @@ function renderGcMetrics(snapshot, timeframe) {
                      timeframe={timeframe}
                      height={150}
                      margins={{
-                       left: 90
+                       left: 60
                      }}
 
                      y1={{
@@ -125,8 +127,8 @@ function renderEventLoopMetrics(snapshot, timeframe) {
                        timeframe={timeframe}
                        height={150}
                        margins={{
-                         left: 90,
-                         right: 90
+                         left: 60,
+                         right: 60
                        }}
 
                        y1={{
@@ -163,7 +165,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
                      timeframe={timeframe}
                      height={150}
                      margins={{
-                       left: 90
+                       left: 60
                      }}
 
                      y1={{
