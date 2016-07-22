@@ -22,7 +22,7 @@ export default connectTo({
 
   const plugin = snapshot.get('plugin');
   const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
-  const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
+  // const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 
   return (
     <div className={block}>
@@ -30,8 +30,9 @@ export default connectTo({
 
       <div className={`${block}__wrapper`}>
         <div className={`${block}__sidebar`}>
+        {/*
           <Jail component={SidebarImpl}
-                props={{snapshot, timeframe}}/>
+                props={{snapshot, timeframe}}/>*/}
         </div>
         <div className={`${block}__content`}>
           <Jail component={DashboardImpl}
