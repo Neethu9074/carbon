@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {selectedSnapshot$} from 'in-stores/snapshot';
@@ -21,6 +22,8 @@ const DashboardContent = connectTo({
 
   return (
     <div>
+      <DashboardHeader snapshot={snapshot} />
+
       Dashboard!
     </div>
   );
@@ -31,11 +34,11 @@ export default connectTo({
   timelineHeight: timelineHeight$
 }, function Dashboard({timelineHeight}) {
   return (
-    <div className={block}
+    <section className={block}
          style={{
            bottom: toPx(timelineHeight)
          }}>
       <DashboardContent />
-    </div>
+    </section>
   );
 });
