@@ -86,7 +86,7 @@ const ProcessCluster = connectTo(props => {
             </div>
 
             {this.state.expanded ?
-              <PhysicalEntitiesList children={children}
+              <PhysicalEntitiesList ids={children}
                                     parentId={this.props.client.id} />
             : null}
           </div>

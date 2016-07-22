@@ -21,7 +21,7 @@ const CONNECTION_TYPES = {
 
 export default connectTo(props => {
   return {
-    children: combineLatest(props.children.toArray().map(child => getSnapshot(child.get('id')))),
+    children: combineLatest(props.ids.toArray().map(child => getSnapshot(child.get('id')))),
     parentConnections: viewStructure.map(root => {
                           for (let i = 0, length = root.get('children').size; i < length; i++) {
                             const item = root.getIn(['children', i]);
@@ -113,6 +113,6 @@ function getConnectionType(id, connections) {
 const rpt = React.PropTypes;
 PhysicalEntitiesList.propTypes = {
   parentId: rpt.string.isRequired,
-  childIds: irpt.list,
+  ids: irpt.list.isRequired,
   children: rpt.array
 };
