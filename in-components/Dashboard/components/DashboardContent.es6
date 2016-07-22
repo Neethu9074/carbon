@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -20,13 +21,15 @@ export default connectTo({
     return <LoadingIndicator type='dark' />;
   }
 
+  const snapshotId = snapshot.get('id');
   const plugin = snapshot.get('plugin');
   const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
   // const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 
   return (
     <div className={block}>
-      <DashboardHeader snapshotId={snapshot.get('id')} />
+      <DashboardHeader snapshotId={snapshotId} />
+      <DashboardJumpLabels snapshotId={snapshotId} />
 
       <div className={`${block}__wrapper`}>
         <div className={`${block}__sidebar`}>
