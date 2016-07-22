@@ -7,7 +7,8 @@
 
     display: flex;
 
-    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
 
   &__sidebar {
@@ -18,5 +19,7 @@
   &__content {
     width: ~'calc(100% - 274px)';
     height: 100%;
+    padding: 0.5rem 0.3rem 0 0;
+    box-sizing: border-box;
   }
 }
