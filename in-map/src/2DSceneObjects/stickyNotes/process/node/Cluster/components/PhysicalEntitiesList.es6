@@ -21,7 +21,7 @@ const CONNECTION_TYPES = {
 
 export default connectTo(props => {
   return {
-    children: combineLatest(props.childIds.toArray().map(child => getSnapshot(child.get('id')))),
+    children: combineLatest(props.children.toArray().map(child => getSnapshot(child.get('id')))),
     parentConnections: viewStructure.map(root => {
                           for (let i = 0, length = root.get('children').size; i < length; i++) {
                             const item = root.getIn(['children', i]);

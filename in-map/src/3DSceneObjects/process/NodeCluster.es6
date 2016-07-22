@@ -13,8 +13,7 @@ import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator
 import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
-import StickyNoteMetric from 'in-map/src/2DSceneObjects/stickyNotes/process/node/KPI/Cluster';
-import StickyNoteCluster from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
+import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import {relations$} from 'in-map/src/stores/process/nodeChildrenRelations';
 import {expand, collapse} from 'in-map/src/stores/process/expandedNodes';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
@@ -28,19 +27,7 @@ export default class NodeCluster extends Node {
 
     const eventEmitter = this.eventEmitter;
     this.addSubscriptions([
-      relations$.subscribe(relationsMap => this.setChildIds(relationsMap[this.id])),
-
-      eventEmitter.on('screenPositionChanged_screenPositionCluster').subscribe(screenPosition =>
-        this.stickyNote.setScreenPosition(screenPosition)),
-
-      combineLatest([
-        eventEmitter.on('onNumOfChildrenChanged'),
-        eventEmitter.on('isVisibleChanged_screenPositionCluster')
-      ]).subscribe(([numChildren, isVisible]) =>
-        isVisible && numChildren > 0 ?
-          this.stickyNote.show() :
-          this.stickyNote.hide()
-      ),
+      relations$.subscribe(relationsMap => this.setChildren(relationsMap[this.id])),
 
       combineLatest([
         eventEmitter.on('onNumOfChildrenChanged').distinct(),
@@ -55,8 +42,6 @@ export default class NodeCluster extends Node {
 
   init() {
     this.height = 0.25;
-
-    this.stickyNote = new StickyNoteCluster(this);
   }
 
   addComponents(components) {
@@ -96,27 +81,22 @@ export default class NodeCluster extends Node {
 
     components.highlight = new HighlightingComponent({sceneObject});
 
-    components.screenPositionCluster = new ScreenPositionComponent({
+    components.screenPosition = new ScreenPositionComponent({
       sceneObject: this,
-      id: '_screenPositionCluster'
-    });
-
-    components.screenPositionMetric = new ScreenPositionComponent({
-      sceneObject: this,
-      id: '_screenPositionMetric'
+      id: '_screenPosition'
     });
   }
 
-  setChildIds(childIds) {
-    const numChildren = childIds ? childIds.size : 0;
-    this.stickyNote.setChildren(childIds ? childIds : null);
+  setChildren(ids) {
+    const numChildren = ids ? ids.size : 0;
+    this.stickyNote.setChildren(ids ? ids : null);
     this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
 
     if (numChildren > 0 && !this.label) {
       this.label = new Label({
         id: this.id,
         parent: this,
-        snapshotId: childIds.getIn([0, 'id']),
+        snapshotId: ids.getIn([0, 'id']),
         iconSize: 2.5
       });
     }
@@ -133,8 +113,7 @@ export default class NodeCluster extends Node {
   }
 
   updateScreenPosition() {
-    this.getComponent('screenPositionCluster').updateScreenPosition();
-    this.getComponent('screenPositionMetric').updateScreenPosition();
+    this.getComponent('screenPosition').updateScreenPosition();
   }
 
   positionChanged(newPos) {
@@ -143,14 +122,10 @@ export default class NodeCluster extends Node {
     if (this.label) {
       this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
     }
-
-    this.getComponent('screenPositionCluster').set3DPositionToProject(newPos.x - 0.7,
-                                                                      newPos.y,
-                                                                      newPos.z + 0.8);
   }
 
-  createMetricSticky() {
-    return new StickyNoteMetric(this);
+  createSticky() {
+    return new StickyNote(this);
   }
 
   getDragGhostGeometry() {
@@ -159,9 +134,6 @@ export default class NodeCluster extends Node {
 
   dispose() {
     super.dispose();
-
-    this.stickyNote.dispose();
-    this.stickyNote = null;
 
     if (this.label) {
       this.label.dispose();

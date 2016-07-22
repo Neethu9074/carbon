@@ -1,0 +1,35 @@
+@import "~in-themes/active.less";
+
+.in-sticky-note-process-kpi-list {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+
+  border-radius: 4px;
+  background: rgba(45, 64, 75, 0.5);
+  font-size: 0.75rem;
+  max-width: 300px;
+  padding: 6px 10px;
+
+  &--highlighted {
+    background: #203036;
+  }
+
+  &__description {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__chart {
+    margin: 0.5rem 0;
+  }
+
+  &__title {
+    color: #7e9099;
+  }
+
+  &__value {
+    color: white;
+    font-weight: bold;
+  }
+}

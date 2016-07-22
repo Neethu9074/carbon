@@ -5,31 +5,31 @@
   top: 0px;
 
   &__content {
-    font-size: 0.75rem;
-    cursor: pointer;
-    position: relative;
+    &--expanded {
+      border-radius: 3px;
+      background: #2d4048;
+      box-shadow: 1px 0px 20px 0px rgba(0, 0, 0, 0.25);
+    }
+  }
 
+  &__header {
     display: flex;
-    justify-content: center;
     align-items: center;
 
-    background: #93a5ae;
-    color: white;
-    padding: 5px 2px 5px 6px;
-    margin-left: -50%;
-    max-height: 15px;
-    max-width: 20px;
-    border-radius: 10px;
+    margin: 2px 0 0 10px;
+    padding-top: 3px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    color: #92a5ae;
+    cursor: pointer;
 
-    &--highlighted {
-      background: white;
-      color: black;
+    &--highlighted, &--expanded {
+      color: white;
     }
   }
 
   &__icon {
     font-size: 1.5rem;
-    max-width: 33px;
-    padding: 0;
+b    margin-left: 5px;
   }
 }
