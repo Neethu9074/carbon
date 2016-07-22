@@ -97,7 +97,7 @@ export default class NodeCluster extends Node {
         id: this.id,
         parent: this,
         snapshotId: ids.getIn([0, 'id']),
-        iconSize: 2.5
+        iconSize: 2.75
       });
     }
   }
