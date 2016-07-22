@@ -19,6 +19,8 @@ export default class Node extends SceneObject {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
+    this.stickyNote = this.createSticky();
+
     this.addSubscriptions([
       eventBus.on('endUpdate').subscribe(this.updateScreenPosition.bind(this)),
 
@@ -42,21 +44,11 @@ export default class Node extends SceneObject {
 
       this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
 
-      this.eventEmitter.on('screenPositionChanged_screenPositionMetric').subscribe(screenPosition => {
-        if (this.stickyNoteMetric) {
-          this.stickyNoteMetric.setScreenPosition(screenPosition);
-        }
-      }),
+      this.eventEmitter.on('screenPositionChanged_screenPosition').subscribe(screenPosition =>
+        this.stickyNote.setScreenPosition(screenPosition)),
 
-      combineLatest([
-        this.eventEmitter.on('isVisibleChanged_screenPositionMetric')
-                         .distinct(),
-        parent.onZoomLevel()
-      ]).subscribe(([isVisible, zoomLevel]) =>
-        (isVisible && zoomLevel < 500) ?
-          this.getOrCreateMetricSticky() :
-          this.disposeMetricSticky()
-      ),
+      parent.onZoomLevel().subscribe(zoomLevel =>
+        this.eventEmitter.emit('sicktyFullyVisibilityChanged', zoomLevel < 500)),
 
       focusEntityId$.subscribe(id => {
         if (this.id === id) {
@@ -120,32 +112,16 @@ export default class Node extends SceneObject {
     this.addComponents(this.components);
   }
 
-  getOrCreateMetricSticky() {
-    if (!this.stickyNoteMetric) {
-      this.stickyNoteMetric = this.createMetricSticky();
-
-      // force screen position update
-      this.getComponent('screenPositionMetric').updateScreenPosition(true);
-    }
-  }
-
-  createMetricSticky() {}
-
-  disposeMetricSticky() {
-    if (this.stickyNoteMetric) {
-      this.stickyNoteMetric.dispose();
-      this.stickyNoteMetric = null;
-    }
-  }
+  createSticky() {}
 
   getTooltip() {
     return null;
   }
 
   positionChanged(newPos) {
-    this.getComponent('screenPositionMetric').set3DPositionToProject(newPos.x,
-                                                                     this.height + 0.5,
-                                                                     newPos.z + 0.5);
+    this.getComponent('screenPosition').set3DPositionToProject(newPos.x,
+                                                               this.height + 0.5,
+                                                               newPos.z + 0.5);
   }
 
   setColor(snapshot, maxSeverity) {
@@ -159,10 +135,8 @@ export default class Node extends SceneObject {
 
     super.dispose();
 
-    if (this.stickyNoteMetric) {
-      this.stickyNoteMetric.dispose();
-      this.stickyNoteMetric = null;
-    }
+    this.stickyNote.dispose();
+    this.stickyNote = null;
 
     this.height = null;
     this.children = null;

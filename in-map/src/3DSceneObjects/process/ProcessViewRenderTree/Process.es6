@@ -7,6 +7,11 @@ import {expandedNodes$} from 'in-map/src/stores/process/expandedNodes';
 import {nodes, edges} from 'in-map/src/stores/process/entitiesStores';
 
 
+const DIRECTIONS = {
+  IN: 1,
+  OUT: 2
+};
+
 export default React.createClass({
 
   displayName: 'Process',
@@ -32,7 +37,8 @@ export default React.createClass({
     });
     addRelation(id, children);
     this.addChildrenAsEdges();
-    entity.get('outgoingConnections').forEach(edge => this.addEdge(edge));
+    entity.get('outgoingConnections').forEach(edge => this.addEdge(edge, DIRECTIONS.OUT));
+    entity.get('incomingConnections').forEach(edge => this.addEdge(edge, DIRECTIONS.IN));
 
     this.expandedNodesSubscription = expandedNodes$.subscribe(ids =>
       this.setState({
@@ -76,11 +82,16 @@ export default React.createClass({
     );
   },
 
-  addEdge(edgeEntity) {
+  addEdge(edgeEntity, direction) {
+    const thisId = this.props.entity.get('id');
+    const otherId = edgeEntity.get('otherId');
+    const from = direction === DIRECTIONS.IN ? otherId : thisId;
+    const to = direction === DIRECTIONS.IN ? thisId : otherId;
+
     edges.voteUp(edgeEntity.get('id'), {
       id: edgeEntity.get('id'),
-      from: this.props.entity.get('id'),
-      to: edgeEntity.get('otherId')
+      from,
+      to
     });
   },
 

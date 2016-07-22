@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {msTwoDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
+import {msTwoDecimalPlaces, zeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -88,13 +88,35 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
+                           formatter: percentageTwoDecimalPlaces,
+                           tooltipFormatter: percentageTwoDecimalPlaces,
+                           metrics: [
+                             'error_rate'
+                           ],
+                           labels: [
+                             'error rate'
+                           ],
+                           type: 'line'
+                         }} />
+      </DashboardSection>
+
+      <DashboardSection title='Instances'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={200}
+                         margins={{
+                           left: 80,
+                           right: 80
+                         }}
+                         y1={{
+                           min: 0,
                            formatter: zeroDecimalPlaces,
                            tooltipFormatter: zeroDecimalPlaces,
                            metrics: [
-                             'error_count'
+                             'instances'
                            ],
                            labels: [
-                             'errors'
+                             'instances'
                            ],
                            type: 'line'
                          }} />

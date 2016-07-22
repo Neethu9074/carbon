@@ -21,12 +21,15 @@ export default function createSparkChart({width,
                                           design = 'light'}) {
   let metricLineStrokeColor;
   let metricLineFillColor;
+  let metricAxisStrokeColor;
   if (design === 'light') {
     metricLineStrokeColor = '#2c4048';
     metricLineFillColor = '#eef2f4';
+    metricAxisStrokeColor = '#203036';
   } else {
     metricLineStrokeColor = '#eef2f4';
     metricLineFillColor = '#2c4048';
+    metricAxisStrokeColor = '#ffffff';
   }
 
   const dataHolder = createDataHolder({numberOfSeries: 1});
@@ -165,7 +168,7 @@ export default function createSparkChart({width,
     ctx.lineTo(0, height);
     ctx.lineTo(width, height);
     ctx.lineWidth = 1;
-    ctx.strokeStyle = '#203036';
+    ctx.strokeStyle = metricAxisStrokeColor;
     ctx.stroke();
     ctx.closePath();
   }

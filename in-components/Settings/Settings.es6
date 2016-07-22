@@ -5,7 +5,7 @@ import {activeTheme as activeThemeObservable, availableThemes, setActiveTheme} f
 import {showSettings$, setSettingsVisibility} from 'in-stores/settings/visibility';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import SettingEntry from 'in-components/Settings/SettingEntry';
-import {setIn, settingsStore} from 'in-services/settings';
+import {setIn, settingsStore, toggleIn} from 'in-services/settings';
 import {askPermission} from 'in-services/notification';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
@@ -41,7 +41,8 @@ export default connectTo({
       speedSliderValue: 1,
       activeTheme: null,
       experiments: false,
-      autoCollapseTimeline: false
+      autoCollapseTimeline: false,
+      showMaintenanceNotes: false
     };
   },
 
@@ -58,7 +59,8 @@ export default connectTo({
         desktopNotification: desktopNotification,
         excludeUnmonitoredHosts: excludeUnmonitoredHosts,
         experiments: data.get('experiments'),
-        autoCollapseTimeline: data.getIn(['autoCollapseTimeline'])
+        autoCollapseTimeline: data.getIn(['autoCollapseTimeline']),
+        showMaintenanceNotes: data.getIn(['showMaintenanceNotes'])
       });
     }));
 
@@ -74,11 +76,13 @@ export default connectTo({
 
     return (
       <Dialog onClose={this.closeSettings}
-              className={block + '__dialog'}>
-          <Button onClick={this.closeSettings}
-                  className={block + '__button-close'}>
-            <Icon type={'delete'} className={block + '__button-close__icon'}/>
-          </Button>
+              className={block + '__dialog'}
+              childrenOutsideOfContentFlow={
+                <Button onClick={this.closeSettings}
+                        className={block + '__button-close'}>
+                  <Icon type={'delete'} className={block + '__button-close__icon'}/>
+                </Button>
+              }>
 
         <div className={block}>
           <div className={block + '__header'}>
@@ -169,6 +173,18 @@ export default connectTo({
             <SettingEntry.HelpText text={
                                   'We are constantly working on new features. Check this box ' +
                                   'if you want to use experimential features.'} />
+          </SettingEntry>
+
+          <SettingEntry>
+            <SettingEntry.Header text={'Show Maintenance Notes'} />
+            <SettingEntry.Content>
+              <CheckBox onClick={() => toggleIn(['showMaintenanceNotes'])}
+                        defaultChecked={this.state.showMaintenanceNotes}/>
+            </SettingEntry.Content>
+            <SettingEntry.HelpText text={
+                                  'We will inform you about upcoming Instana server maintenance via small flyouts ' +
+                                  'in the top-right corner. Sometimes though, these flyouts can disturb your ' +
+                                  'workflow. Untick this checkbox to permanently hide maintenance notes.'} />
           </SettingEntry>
         </div>
       </Dialog>

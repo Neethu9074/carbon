@@ -16,6 +16,7 @@ import {eventBus} from 'in-map/src/services/eventBus';
 
 
 const START_POS = 100000;
+const TIME_TO_LIFE_PER_UNIT = 0.2;
 
 export default class ParticleEmitter extends SceneObject {
 
@@ -23,25 +24,17 @@ export default class ParticleEmitter extends SceneObject {
     super({parent, id});
 
     this.maxParticles = config.maxParticles || 50;
-    this.timeToLife = 3;
-    this.setNumparticlesPerSecond(config.particlesPerSecond);
+    this.setNumparticlesPerSecond(0);
 
     this.isRunning = false;
     this.cursorIfNoFreeIndices = 0;
+    this.length = 0;
 
     this.positionGenerationStrategy = createPositionGenerator();
 
     this.progresses = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
     this.indices = [];
-    for (let i = 0; i < this.vertices.length; i++) {
-      this.vertices[i] = START_POS;
-    }
-    for (let i = 0; i < this.maxParticles; i++) {
-      this.indices[i] = i;
-    }
-
-    this.particles = [];
 
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
@@ -72,6 +65,8 @@ export default class ParticleEmitter extends SceneObject {
     this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
 
+    this.resetParticles();
+
     this.startSubscription = particlesAreActive$.subscribe(particlesAreActive =>
       particlesAreActive ? this.start() : this.stop()
     );
@@ -87,6 +82,8 @@ export default class ParticleEmitter extends SceneObject {
     // -1 because we want the particles to break on the border of the nodes. For that we translate the particles
     // 0.5 to direction and cap them 0.5 before end which results in scale.z - 1
     this.mesh.scale.set(1, 1, direction.length() - 1);
+
+    this.length = direction.length();
 
     this.mesh.position.add(direction.normalize().multiplyScalar(0.5));
   }
@@ -124,25 +121,26 @@ export default class ParticleEmitter extends SceneObject {
     const vertices = this.vertices;
     const particles = this.particles;
     const progresses = this.progresses;
+    const timeToLife = TIME_TO_LIFE_PER_UNIT * this.length;
 
     for (let i = 0, length = particles.length; i < length; i++) {
       const particle = particles[i];
       particle.timeLived += dt;
-      particle.progress = Math.min(1, particle.timeLived / particle.timeToLife);
+      particle.progress = Math.min(1, particle.timeLived / timeToLife);
       progresses[particle.index] = particle.progress;
     }
 
     // remove old particles
     const removed = remove(particles, particle => particle.progress >= 1);
-    for (let i = 0; i < removed.length; i++) {
-      const index = removed[i].index * 3;
+    removed.forEach(removedParticles => {
+      const index = removedParticles.index * 3;
       vertices[index] = START_POS;
       vertices[index + 1] = START_POS;
       vertices[index + 2] = START_POS;
 
       progresses[index] = 0;
       this.freeCursorPosition(index / 3);
-    }
+    });
 
     // spawn new particles
     let numParticlesToSpawn = this.timeElapsedSinceLastSpawn / this.secToNextParticle;
@@ -155,6 +153,7 @@ export default class ParticleEmitter extends SceneObject {
       }
     }
 
+    this.positionNeedsUpdate();
     this.progressNeedsUpdate();
     this.timeElapsedSinceLastSpawn += dt;
   }
@@ -164,8 +163,7 @@ export default class ParticleEmitter extends SceneObject {
     const position = this.positionGenerationStrategy.getPositionForParticle();
     const particle = {
       progress: 0,
-      timeLived: 0,
-      timeToLife: this.timeToLife
+      timeLived: 0
     };
     this.particles.push(particle);
 
@@ -177,8 +175,6 @@ export default class ParticleEmitter extends SceneObject {
     vertices[indexInVertices] = position.x;
     vertices[indexInVertices + 1] = position.y;
     vertices[indexInVertices + 2] = position.z;
-
-    this.positionNeedsUpdate();
   }
 
   positionNeedsUpdate() {
@@ -215,11 +211,27 @@ export default class ParticleEmitter extends SceneObject {
       return;
     }
 
+    this.resetParticles();
     this.updateSubscription.dispose();
     this.metricSubscription.dispose();
 
     removeSceneObject(this.mesh);
     this.isRunning = false;
+  }
+
+  resetParticles() {
+    this.particles = [];
+    for (let i = 0; i < this.progresses.length; i++) {
+      const vertexIndex = i * 3;
+      this.progresses[i] = 0;
+      this.vertices[vertexIndex] = START_POS;
+      this.vertices[vertexIndex + 1] = START_POS;
+      this.vertices[vertexIndex + 2] = START_POS;
+      this.indices[i] = i;
+    }
+
+    this.positionNeedsUpdate();
+    this.progressNeedsUpdate();
   }
 
   setNumparticlesPerSecond(particlesPerSecond = 10) {
@@ -240,6 +252,7 @@ export default class ParticleEmitter extends SceneObject {
     this.particles = null;
     this.vertices = null;
     this.indices = null;
+    this.length = null;
 
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();

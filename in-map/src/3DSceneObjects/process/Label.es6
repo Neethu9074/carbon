@@ -1,5 +1,4 @@
 import {getIconIdBySnapshot} from 'in-sdk/snapshot';
-import {getColor} from 'in-sdk/color';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -31,13 +30,6 @@ export default class Label extends BaseLabel {
   }
 
   onSnapshotUpdated(snapshot) {
-    const newColor = getColor(snapshot);
-    const currentColor = this.fragment.contentProvider.contentProvider.color;
-
-    currentColor.r = newColor.r;
-    currentColor.g = newColor.g;
-    currentColor.b = newColor.b;
-
     this.factory.removeFragment(this.id);
     this.fragment.additionalParams.type = getIconIdBySnapshot(snapshot);
     this.updateFragment();

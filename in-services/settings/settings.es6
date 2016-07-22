@@ -32,6 +32,7 @@ function loadDefault() {
   setDefaultConfigValue(['desktopNotification'], false);
   setDefaultConfigValue(['experiments'], false);
   setDefaultConfigValue(['autoCollapseTimeline'], false);
+  setDefaultConfigValue(['showMaintenanceNotes'], true);
 
   setIn(['dataSource'], 'defaults');
 }

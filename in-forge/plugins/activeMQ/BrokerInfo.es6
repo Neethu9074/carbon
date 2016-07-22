@@ -19,6 +19,9 @@ export default function BrokerInfo({snapshot}) {
       <DescriptionItem title='Started At'>
         {formatDateTime(data.get('startedAt'))}
       </DescriptionItem>
+      <DescriptionItem title='Health Status'>
+        {data.get('healthStatus')}
+      </DescriptionItem>
       <DescriptionItem title='Ports'>
         {data.get('ports', emptyList).sort().join(', ')}
       </DescriptionItem>

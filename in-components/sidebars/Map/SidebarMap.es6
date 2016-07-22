@@ -62,7 +62,7 @@ export default getSelectedSnapshot(React.createClass({
 
         <SidebarHeadingNavigation snapshot={snapshot}
                                   className={block + '__heading-navigation'}>
-          <ViewDashboardButton snapshot={snapshot}/>
+          <ViewDashboardButton snapshotId={snapshot.get('id')}/>
         </SidebarHeadingNavigation>
 
         <FocusButton className={block + '__focus-button'}

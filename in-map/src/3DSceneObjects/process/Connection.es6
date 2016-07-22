@@ -36,22 +36,21 @@ export default class Connection extends BaseConnection {
         highlightedEntityId$,
         selectedSnapshotIdForHighlightingInMap
       ]).subscribe(([maxSeverity, highlightedEntityId, selectedEntityId]) => {
-        let colorToSet;
-        if (highlightedEntityId === this.id || selectedEntityId === this.id) {
-          colorToSet = '#ffffff';
-        } else if (maxSeverity > 0) {
-          colorToSet = theme.health[Math.floor(maxSeverity)];
+        const isHighlighted = highlightedEntityId === this.id || selectedEntityId === this.id;
+        let newColor;
+        if (isHighlighted) {
+          newColor = '#ffffff';
         } else {
-          colorToSet = '#bababa';
+          newColor = maxSeverity > 0 ? theme.health[Math.floor(maxSeverity)] : '#bababa';
         }
-         this.colorChanged(colorToSet);
+        this.eventEmitter.emit('updateColor', newColor);
       }),
 
       this.eventEmitter.on('updateGeometry').debounce(10)
                                             .subscribe(this.updateGeometry.bind(this)),
 
-      this.eventEmitter.on('updateColor').debounce(10)
-                                         .subscribe(this.updateColor.bind(this)),
+      this.eventEmitter.on('updateColor').distinct()
+                                         .subscribe(color => this.colorChanged(color)),
 
       edges$.subscribe(allEdges => this.checkIfBidirectional(allEdges))
     ]);
@@ -146,7 +145,8 @@ export default class Connection extends BaseConnection {
 
   colorChanged(newColor) {
     this.currentColor = newColor;
-    this.eventEmitter.emit('updateColor');
+
+    this.updateGeometry();
   }
 
   checkIfBidirectional(allEdges) {

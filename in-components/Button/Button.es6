@@ -1,40 +1,49 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-
-import {getClassName} from 'in-services/react';
 
 import './Button.less';
 
 const rpt = React.PropTypes;
 const block = 'in-button';
 
-const Button = React.createClass({
-  mixins: [PureRenderMixin],
+export default function Button({className, kind = 'default', type = 'button', onClick, style, children, href}) {
+  let classes = `${block} ${block}--${kind}`;
+  if (className) {
+    classes = `${classes} ${className}`;
+  }
 
-  propTypes: {
-    className: rpt.string,
-    style: rpt.object,
-    children: rpt.any.isRequired,
-    type: rpt.oneOf(['button', 'submit']),
-    kind: rpt.oneOf(['default']),
-    onClick: rpt.func
-  },
-
-  render() {
-    let classes = getClassName(this, block);
-
-    const kind = this.props.kind || 'default';
-    classes += ' ' + block + '--' + kind;
-
+  if (!href) {
     return (
       <button className={classes}
-              type={this.props.type || 'button'}
-              onClick={this.props.onClick}
-              style={this.props.style}>
-        {this.props.children}
+              type={type}
+              onClick={onClick}
+              style={style}>
+        {children}
       </button>
     );
   }
-});
 
-export default Button;
+  return (
+    <a href={href}
+       className={classes}
+       onClick={onClick ? onClick : stopPropagation}
+       style={style}>
+      {children}
+    </a>
+  );
+}
+
+
+Button.propTypes = {
+  className: rpt.string,
+  style: rpt.object,
+  children: rpt.any.isRequired,
+  type: rpt.oneOf(['button', 'submit']),
+  kind: rpt.oneOf(['default']),
+  onClick: rpt.func,
+  href: rpt.string
+};
+
+
+function stopPropagation(e) {
+  e.stopPropagation();
+}

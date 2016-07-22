@@ -6,12 +6,21 @@
   align-items: left;
 
   width: 34rem;
-  padding: 50px;
-  border-radius: 13px;
-  background: @settings__background;
 
   &__dialog {
     &__content {
+      position: relative;
+      padding: 50px;
+      border-radius: 13px;
+      background: @settings__background;
+      overflow-y: auto;
+      max-height: 100%;
+      box-sizing: border-box;
+    }
+
+    &__child-wrapper {
+      max-height: 50%;
+      height: 50%;
       position: relative;
     }
   }
@@ -31,6 +40,7 @@
     top: -@size / 2;
     right: -@size / 2;
     border-radius: 50%;
+    z-index: 1;
 
     // this avoids the browser outline which looks ugly here and is not needed
     outline: 0;
