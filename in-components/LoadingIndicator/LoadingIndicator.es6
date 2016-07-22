@@ -14,8 +14,7 @@ const LoadingIndicator = React.createClass({
 
   getDefaultProps() {
     return {
-      type: 'light',
-      inline: true
+      type: 'light'
     };
   },
 
@@ -35,12 +34,12 @@ const LoadingIndicator = React.createClass({
     }
 
     let classes = block;
-    if (!this.props.inline) {
+    if (this.props.inline !== true) {
       classes = `${classes} ${block}--block`;
     }
 
     return (
-      <div className={block}
+      <div className={classes}
            style={this.props.style}>
         {rects}
       </div>
