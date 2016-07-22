@@ -7,7 +7,7 @@ import {twoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
-import {Row, Col} from 'in-components/Grid';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 
 
 const chartHeight = 200;
@@ -18,76 +18,68 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
   return (
     <div>
       <DashboardSection title='Messages'>
-        <Row>
-          <Col cols={12}>
-            <ChartWithLegend snapshotId={snapshotId}
-                  timeframe={timeframe}
-                  height={chartHeight}
-                  margins={{
-                    left: 80
-                  }}
-                  y1={{
-                    metrics: [
-                      'overview.publish_rate',
-                      'overview.deliver_rate',
-                      'overview.ack_rate'
-                    ],
-                    labels: [
-                      'Published per 5 seconds',
-                      'Delivered per 5 seconds',
-                      'Acknowledged per 5 seconds'
-                    ],
-                    type: 'line',
-                    formatter: twoDecimalPlaces
-                  }}/>
-          </Col>
-        </Row>
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
+                    'overview.publish_rate',
+                    'overview.deliver_rate',
+                    'overview.ack_rate'
+                  ],
+                  labels: [
+                    'Published per 5 seconds',
+                    'Delivered per 5 seconds',
+                    'Acknowledged per 5 seconds'
+                  ],
+                  type: 'line',
+                  formatter: twoDecimalPlaces
+                }}/>
 
-        <Row>
-          <Col cols={6}>
-            <ChartWithLegend snapshotId={snapshotId}
-                  timeframe={timeframe}
-                  height={chartHeight}
-                  margins={{
-                    left: 80
-                  }}
-                  y1={{
-                    metrics: [
-                      'overview.messages_ready',
-                      'overview.messages_unacknowledged',
-                      'overview.messages'
-                    ],
-                    labels: [
-                      'Messages ready',
-                      'Messages unacknowledged',
-                      'Messages total'
-                    ],
-                    type: 'line'
-                  }}/>
-          </Col>
-          <Col cols={6}>
-            <ChartWithLegend snapshotId={snapshotId}
-                  timeframe={timeframe}
-                  height={chartHeight}
-                  margins={{
-                    left: 80
-                  }}
-                  y1={{
-                    metrics: [
-                      'overview.messages_ready_rate',
-                      'overview.messages_unacknowledged_rate',
-                      'overview.messages_rate'
-                    ],
-                    labels: [
-                      'Messages ready rate',
-                      'Unacknowledged rate',
-                      'Messages total rate'
-                    ],
-                    type: 'line',
-                    formatter: twoDecimalPlaces
-                  }}/>
-          </Col>
-        </Row>
+        <TwoColumnRow>
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
+                    'overview.messages_ready',
+                    'overview.messages_unacknowledged',
+                    'overview.messages'
+                  ],
+                  labels: [
+                    'Messages ready',
+                    'Messages unacknowledged',
+                    'Messages total'
+                  ],
+                  type: 'line'
+                }}/>
+          <ChartWithLegend snapshotId={snapshotId}
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
+                    'overview.messages_ready_rate',
+                    'overview.messages_unacknowledged_rate',
+                    'overview.messages_rate'
+                  ],
+                  labels: [
+                    'Messages ready rate',
+                    'Unacknowledged rate',
+                    'Messages total rate'
+                  ],
+                  type: 'line',
+                  formatter: twoDecimalPlaces
+                }}/>
+        </TwoColumnRow>
       </DashboardSection>
 
       <DashboardSection title='Overview'>

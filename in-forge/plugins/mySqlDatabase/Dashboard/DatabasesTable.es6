@@ -4,7 +4,7 @@ import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
-import {Row, Col} from 'in-components/Grid';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import Mtd from 'in-components/Mtd';
 
 import {
@@ -82,55 +82,50 @@ function createDetails(db, i, context) {
                          type: 'line',
                          formatter: msZeroDecimalPlaces
                      }}/>
-      <Row>
-        <Col cols={6}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                           timeframe={context.timeframe}
-                           height={150}
-                           margins={{
+      <TwoColumnRow>
+        <ChartWithLegend snapshotId={context.snapshot.get('id')}
+                         timeframe={context.timeframe}
+                         height={150}
+                         margins={{
+                          left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: queriesFormatter,
+                           metrics: [
+                             'databases.' + db + '.queries'
+                           ],
+                           labels: [
+                             'Queries'
+                           ],
+                           type: 'line'
+                         }}/>
+        <ChartWithLegend snapshotId={context.snapshot.get('id')}
+                         timeframe={context.timeframe}
+                         height={150}
+                         margins={{
                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: queriesFormatter,
-                             metrics: [
-                               'databases.' + db + '.queries'
-                             ],
-                             labels: [
-                               'Queries'
-                             ],
-                             type: 'line'
-                           }}/>
-        </Col>
-        <Col cols={6}>
-          <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                           timeframe={context.timeframe}
-                           height={150}
-                           margins={{
-                              left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: queriesFormatter,
-                             metrics: [
-                               'databases.' + db + '.select_count',
-                               'databases.' + db + '.insert_count',
-                               'databases.' + db + '.update_count',
-                               'databases.' + db + '.delete_count',
-                               'databases.' + db + '.other_count'
-                             ],
-                             labels: [
-                               'SELECTS',
-                               'INSERTS',
-                               'UPDATES',
-                               'DELETES',
-                               'OTHER'
-                             ],
-                             type: 'stackedArea'
-                           }}/>
-
-        </Col>
-      </Row>
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: queriesFormatter,
+                           metrics: [
+                             'databases.' + db + '.select_count',
+                             'databases.' + db + '.insert_count',
+                             'databases.' + db + '.update_count',
+                             'databases.' + db + '.delete_count',
+                             'databases.' + db + '.other_count'
+                           ],
+                           labels: [
+                             'SELECTS',
+                             'INSERTS',
+                             'UPDATES',
+                             'DELETES',
+                             'OTHER'
+                           ],
+                           type: 'stackedArea'
+                         }}/>
+      </TwoColumnRow>
     </div>
   );
 }

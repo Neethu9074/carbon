@@ -4,7 +4,7 @@ import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
-import {Row, Col} from 'in-components/Grid';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces
@@ -57,8 +57,8 @@ function createDetails(nodeName, i, context) {
   const timeframe = context.timeframe;
 
   return (
-    <Row>
-      <Col cols={6}>
+    <TwoColumnRow>
+      <div>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
               height={150}
@@ -95,8 +95,8 @@ function createDetails(nodeName, i, context) {
                 ],
                 type: 'line'
               }}/>
-      </Col>
-      <Col cols={6}>
+      </div>
+      <div>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
               height={150}
@@ -134,7 +134,7 @@ function createDetails(nodeName, i, context) {
                 ],
                 type: 'line'
               }}/>
-      </Col>
-    </Row>
+      </div>
+    </TwoColumnRow>
   );
 }

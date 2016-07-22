@@ -3,11 +3,11 @@ import React from 'react';
 
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
-import {Row, Col} from 'in-components/Grid/Grid';
 
 
 export default function NodejsDashboard({snapshot, timeframe}) {
@@ -16,31 +16,27 @@ export default function NodejsDashboard({snapshot, timeframe}) {
       {getNativeExtensionHint(snapshot)}
 
       <DashboardSection title='Memory Usage & GC Activity'>
-        <Row>
-          <Col cols={6}>
-            {renderGcMetrics(snapshot, timeframe)}
-          </Col>
-          <Col cols={6}>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={150}
-                             margins={{
-                               left: 90
-                             }}
+        <TwoColumnRow>
+          {renderGcMetrics(snapshot, timeframe)}
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={150}
+                           margins={{
+                             left: 90
+                           }}
 
-                             y1={{
-                               min: 0,
-                               formatter: numberFormatters.time,
-                               metrics: [
-                                 'gc.gcPause'
-                               ],
-                               labels: [
-                                 'GC Pause'
-                               ],
-                               type: 'stackedArea'
-                             }}/>
-          </Col>
-        </Row>
+                           y1={{
+                             min: 0,
+                             formatter: numberFormatters.time,
+                             metrics: [
+                               'gc.gcPause'
+                             ],
+                             labels: [
+                               'GC Pause'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </TwoColumnRow>
       </DashboardSection>
 
       <HeapSpacesTable snapshot={snapshot}
