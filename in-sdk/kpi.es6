@@ -1,6 +1,7 @@
 import pbst from 'in-sdk/util/pluginBasedSnapshotTransformation';
 import {
   zeroDecimalPlacesPerSecond,
+  percentageTwoDecimalPlaces,
   msTwoDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
@@ -17,10 +18,10 @@ const defaultKpis = () => [
     formatter: msTwoDecimalPlaces,
     valueOnlyFormatter: msTwoDecimalPlaces
   }, {
-    metric: 'error_count',
-    label: 'errors/s',
-    formatter: zeroDecimalPlaces,
-    valueOnlyFormatter: zeroDecimalPlacesPerSecond
+    metric: 'error_rate',
+    label: 'error rate',
+    formatter: percentageTwoDecimalPlaces,
+    valueOnlyFormatter: percentageTwoDecimalPlaces
   }, {
     metric: 'instances',
     label: 'instances',
