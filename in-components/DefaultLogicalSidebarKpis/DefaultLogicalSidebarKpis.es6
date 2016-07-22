@@ -20,6 +20,10 @@ export default function DefaultLogicalSidebarKpis({snapshot}) {
                             metric: 'error_count',
                             label: 'errors/s',
                             formatter: zeroDecimalPlaces
+                          }, {
+                            metric: 'instances',
+                            label: 'instances',
+                            formatter: zeroDecimalPlaces
                           }
                         ]} />
   );

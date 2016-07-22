@@ -99,6 +99,28 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
                            type: 'line'
                          }} />
       </DashboardSection>
+
+      <DashboardSection title='Instances'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={200}
+                         margins={{
+                           left: 80,
+                           right: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: zeroDecimalPlaces,
+                           tooltipFormatter: zeroDecimalPlaces,
+                           metrics: [
+                             'instances'
+                           ],
+                           labels: [
+                             'instances'
+                           ],
+                           type: 'line'
+                         }} />
+      </DashboardSection>
     </div>
   );
 }

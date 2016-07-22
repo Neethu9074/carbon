@@ -21,6 +21,11 @@ const defaultKpis = () => [
     label: 'errors/s',
     formatter: zeroDecimalPlaces,
     valueOnlyFormatter: zeroDecimalPlacesPerSecond
+  }, {
+    metric: 'instances',
+    label: 'instances',
+    formatter: zeroDecimalPlaces,
+    valueOnlyFormatter: zeroDecimalPlaces
   }
 ];
 
