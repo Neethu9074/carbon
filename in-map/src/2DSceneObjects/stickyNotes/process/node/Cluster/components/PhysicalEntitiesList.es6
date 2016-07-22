@@ -6,6 +6,7 @@ import {getSnapshot, setSelectedSnapshotId, selectedSnapshotId} from 'in-stores/
 import {getIcon, getLabel} from 'in-sdk/snapshot';
 import {viewStructure} from 'in-stores/view';
 import KPIList from 'in-components/KPIList';
+import {getPlural} from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 import {getKpis} from 'in-sdk/kpi';
 
@@ -41,6 +42,10 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
   if (!children) {
     return null;
   }
+
+  children = children
+    .sort((a, b) => getPlural(a.get('plugin')).localeCompare(getPlural(b.get('plugin'))))
+    .reverse();
 
   return (
     <div className={block}>
