@@ -43,7 +43,7 @@ function createHeader() {
   return (
     <thead>
       <tr>
-        <th></th>
+        <th>CPU</th>
         <th>User</th>
         <th>System</th>
         <th>Wait</th>
