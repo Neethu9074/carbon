@@ -10,6 +10,7 @@ export default class LineContentProvider extends ContentProvider {
 
     this.lines = [];
     this.colors = [];
+    this.opacity = 1;
 
     this.faceColor = faceColors.slice();
   }

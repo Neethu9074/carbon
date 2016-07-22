@@ -28,6 +28,19 @@ var health = [
   '#ff6121',
   '#ff4229'
 ];
+var lightHealth = [
+  '#bfbfbf',
+  '#aaa98a',
+  '#afa967',
+  '#b5a845',
+  '#b5a845',
+  '#bfa600',
+  '#bf8f06',
+  '#bf780c',
+  '#bf6013',
+  '#bf4919',
+  '#bf311f'
+];
 
 module.exports = defaultsDeep({
   sidebar: {
@@ -210,6 +223,7 @@ module.exports = defaultsDeep({
     text: grey1
   },
   health,
+  lightHealth,
   footer: {
     height: 36,
     heightExpanded: 97,
