@@ -19,7 +19,7 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
   }
   return (
     <div>
-      <DashboardSection title='Broker wide connections, consumers and producers'>
+      <DashboardSection title='Broker wide queues message stats'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={200}
@@ -28,14 +28,10 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
                          }}
                          y1={{
                           metrics: [
-                            'totalConnectionsCount',
-                            'totalConsumerCount',
-                            'totalProducerCount'
+                            'totalQueuesEnqueueCount'
                           ],
                           labels: [
-                            'Total Connections',
-                            'Total Consumers',
-                            'Total Producers'
+                            'All Queues Messages Enqueue'
                           ],
                           type: 'line'
                          }}/>
@@ -59,7 +55,7 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
                           type: 'line'
                          }}/>
       </DashboardSection>
-      <DashboardSection title='Broker wide queues message stats'>
+      <DashboardSection title='Broker wide connections, consumers and producers'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={200}
@@ -68,10 +64,14 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
                          }}
                          y1={{
                           metrics: [
-                            'totalQueuesEnqueueCount'
+                            'totalConnectionsCount',
+                            'totalConsumerCount',
+                            'totalProducerCount'
                           ],
                           labels: [
-                            'All Queues Messages Enqueue'
+                            'Total Connections',
+                            'Total Consumers',
+                            'Total Producers'
                           ],
                           type: 'line'
                          }}/>
