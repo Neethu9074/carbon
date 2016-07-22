@@ -55,10 +55,7 @@ export function transformToLuceneQuery(query, contexts = ['entity']) {
   while (queryParts.length > 0) {
     const queryPart = queryParts.shift();
     if (queryPart.type === 'freeText') {
-      const newFreeTextQueryPart = queryPart.text
-        .replace(/ /g, '* ')
-        .replace(/$/g, '*')
-        .replace(/\*\*/g, '*');
+      const newFreeTextQueryPart = queryPart.text;
       luceneQuery = `${luceneQuery} ${luceneValueConverters.string(newFreeTextQueryPart)}`;
     } else if (queryPart.type === 'kv') {
       const kvLuceneQueryPart = transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart);
