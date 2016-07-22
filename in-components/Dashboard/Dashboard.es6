@@ -22,7 +22,7 @@ const DashboardContent = connectTo({
 
   return (
     <div>
-      <DashboardHeader snapshot={snapshot} />
+      <DashboardHeader snapshotId={snapshot.get('id')} />
 
       Dashboard!
     </div>
