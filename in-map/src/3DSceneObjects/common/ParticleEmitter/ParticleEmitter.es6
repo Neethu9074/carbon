@@ -24,7 +24,7 @@ export default class ParticleEmitter extends SceneObject {
     super({parent, id});
 
     this.maxParticles = config.maxParticles || 50;
-    this.setNumparticlesPerSecond(config.particlesPerSecond);
+    this.setNumparticlesPerSecond(0);
 
     this.isRunning = false;
     this.cursorIfNoFreeIndices = 0;
@@ -132,15 +132,15 @@ export default class ParticleEmitter extends SceneObject {
 
     // remove old particles
     const removed = remove(particles, particle => particle.progress >= 1);
-    for (let i = 0; i < removed.length; i++) {
-      const index = removed[i].index * 3;
+    removed.forEach(removedParticles => {
+      const index = removedParticles.index * 3;
       vertices[index] = START_POS;
       vertices[index + 1] = START_POS;
       vertices[index + 2] = START_POS;
 
       progresses[index] = 0;
       this.freeCursorPosition(index / 3);
-    }
+    });
 
     // spawn new particles
     let numParticlesToSpawn = this.timeElapsedSinceLastSpawn / this.secToNextParticle;
@@ -153,6 +153,7 @@ export default class ParticleEmitter extends SceneObject {
       }
     }
 
+    this.positionNeedsUpdate();
     this.progressNeedsUpdate();
     this.timeElapsedSinceLastSpawn += dt;
   }
@@ -174,8 +175,6 @@ export default class ParticleEmitter extends SceneObject {
     vertices[indexInVertices] = position.x;
     vertices[indexInVertices + 1] = position.y;
     vertices[indexInVertices + 2] = position.z;
-
-    this.positionNeedsUpdate();
   }
 
   positionNeedsUpdate() {

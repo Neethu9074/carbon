@@ -97,7 +97,7 @@ export default class NodePhysical extends Node {
   }
 
 
-  createMetricSticky() {
+  createSticky() {
     return new StickyNoteMetric(this);
   }
 

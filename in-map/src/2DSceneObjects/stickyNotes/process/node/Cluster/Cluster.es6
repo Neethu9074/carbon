@@ -5,7 +5,11 @@ import React from 'react';
 
 import PhysicalEntitiesList from
   'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/PhysicalEntitiesList';
+import KPIList from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/KPIList';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
+import {getSnapshot} from 'in-stores/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
+import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
 import './Cluster.less';
@@ -14,64 +18,88 @@ import './Cluster.less';
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-process-cluster';
 
-const ProcessCluster = React.createClass({
+const ProcessCluster = connectTo(props => {
+  return {
+    isFullyVisible: props.client.eventEmitter.on('sicktyFullyVisibilityChanged').distinct(),
+    isVisible: props.client.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
+    snapshot: getSnapshot(props.client.id)
+  };
+}, React.createClass({
 
-  displayName: 'process cluster sticky',
+    displayName: 'process cluster sticky',
 
-  mixins: [
-    PureRenderMixin
-  ],
+    mixins: [
+      PureRenderMixin
+    ],
 
-  propTypes: {
-    parentId: rpt.string.isRequired,
-    collapse: rpt.func.isRequired,
-    expand: rpt.func.isRequired,
-    childIds: irpt.list
-  },
+    propTypes: {
+      client: rpt.any.isRequired,
+      isFullyVisible: rpt.bool,
+      isVisible: rpt.bool,
+      children: irpt.list,
+      snapshot: irpt.map
+    },
 
-  getInitialState() {
-    return {
-      highlighted: false,
-      expanded: false
-    };
-  },
+    getInitialState() {
+      return {
+        highlighted: false,
+        expanded: false
+      };
+    },
 
-  render() {
-    const childIds = this.props.childIds;
-    if (!childIds || childIds.size === 0) {
-      return null;
-    }
+    render() {
+      const isVisible = this.props.isVisible;
+      if (!isVisible) {
+        return null;
+      }
 
-    let className = block + '__content';
-    if (this.state.highlighted || this.state.expanded) {
-      className += ' ' + className + '--highlighted';
-    }
+      const children = this.props.children;
+      if (!children || children.size === 0) {
+        return null;
+      }
 
-    return (
-      <div className={block}>
-        {this.state.expanded ?
-          <PhysicalEntitiesList
-          childIds={childIds}
-          parentId={this.props.parentId} />
+      let className = block + '__header';
+      if (this.state.highlighted || this.state.expanded) {
+        className += ' ' + className + '--highlighted';
+      }
+
+      let contentClassName = block + '__content';
+      if (this.state.expanded) {
+        contentClassName += ' ' + contentClassName + '--expanded';
+      }
+
+      return (
+        <div className={block}>
+          {this.props.isFullyVisible ?
+            <KPIList snapshotId={this.props.client.id} />
           : null}
-        <div className={className}
-             onMouseEnter={() => this.setState({highlighted: true})}
-             onMouseLeave={() => this.setState({highlighted: false})}
-             onClick={this.onClick}>
-          {childIds.size}
-          <Icon type={this.state.expanded ? 'close_up' : 'close'}
-                className={block + '__icon'}/>
+
+          <div className={contentClassName}>
+            <div className={className}
+               onMouseEnter={() => this.setState({highlighted: true})}
+               onMouseLeave={() => this.setState({highlighted: false})}
+               onClick={this.onClick}>
+
+               {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
+               <Icon type={this.state.expanded ? 'close_up' : 'close'}
+                     className={block + '__icon'}/>
+            </div>
+
+            {this.state.expanded ?
+              <PhysicalEntitiesList ids={children}
+                                    parentId={this.props.client.id} />
+            : null}
+          </div>
         </div>
-      </div>
-    );
-  },
+      );
+    },
 
-  onClick() {
-    // !this.state.expanded ? this.props.expand() : this.props.collapse();
-
-    this.setState({expanded: !this.state.expanded});
-  }
-});
+    onClick() {
+      // !this.state.expanded ? this.props.client.expand() : this.props.client.collapse();
+      this.setState({expanded: !this.state.expanded});
+    }
+  })
+);
 
 
 export default class StickyNoteProcessCluster extends StickyNote {
@@ -83,16 +111,14 @@ export default class StickyNoteProcessCluster extends StickyNote {
     const parent = this.parent;
 
     ReactDOM.render(
-      <ProcessCluster childIds={this.childIds}
-                      expand={() => parent.expand()}
-                      parentId={parent.id}
-                      collapse={() => parent.collapse()}/>,
+      <ProcessCluster children={this.children}
+                      client={parent} />,
       this.container
     );
   }
 
-  setChildren(childIds) {
-    this.childIds = childIds;
+  setChildren(children) {
+    this.children = children;
     this.render();
   }
 }

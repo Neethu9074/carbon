@@ -6,6 +6,7 @@ import {getSnapshot, setSelectedSnapshotId, selectedSnapshotId} from 'in-stores/
 import {getIcon, getLabel} from 'in-sdk/snapshot';
 import {viewStructure} from 'in-stores/view';
 import KPIList from 'in-components/KPIList';
+import {getPlural} from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 import {getKpis} from 'in-sdk/kpi';
 
@@ -21,7 +22,7 @@ const CONNECTION_TYPES = {
 
 export default connectTo(props => {
   return {
-    children: combineLatest(props.childIds.toArray().map(child => getSnapshot(child.get('id')))),
+    children: combineLatest(props.ids.toArray().map(child => getSnapshot(child.get('id')))),
     parentConnections: viewStructure.map(root => {
                           for (let i = 0, length = root.get('children').size; i < length; i++) {
                             const item = root.getIn(['children', i]);
@@ -41,6 +42,10 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
   if (!children) {
     return null;
   }
+
+  children = children
+    .sort((a, b) => getPlural(a.get('plugin')).localeCompare(getPlural(b.get('plugin'))))
+    .reverse();
 
   return (
     <div className={block}>
@@ -113,6 +118,6 @@ function getConnectionType(id, connections) {
 const rpt = React.PropTypes;
 PhysicalEntitiesList.propTypes = {
   parentId: rpt.string.isRequired,
-  childIds: irpt.list,
+  ids: irpt.list.isRequired,
   children: rpt.array
 };

@@ -11,16 +11,16 @@ const block = 'in-kpi-list';
 
 export default function KPIList({formatters, metrics, labels, snapshot}) {
   return (
-    <ul className={block}>
+    <div className={block}>
       {metrics.map((metric, index) =>
-        <li key={labels[index]}
-            className={block + '__kpi'}>
+        <span key={labels[index]}
+              className={block + '__kpi'}>
             <MetricValue snapshotId={snapshot.get('id')}
                          metric={metric}
                          formatter={formatters[index]}/>
-        </li>
+        </span>
       )}
-    </ul>
+    </div>
   );
 }
 

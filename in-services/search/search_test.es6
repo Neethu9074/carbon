@@ -22,12 +22,12 @@ describe('in-services/search', () => {
 
   it('must translate a mix of key/value and free text queries', () => {
     expect(transform('host.cpuCount <= 18 fat machine'))
-      .to.equal('search.host.cpuCount:<=18 fat* machine*');
+      .to.equal('search.host.cpuCount:<=18 fat machine');
   });
 
   it('must retain groups of words', () => {
     expect(transform('host.cpuCount <= 18 "fat machine"'))
-      .to.equal("search.host.cpuCount:<=18 'fat* machine*'");
+      .to.equal("search.host.cpuCount:<=18 'fat machine'");
   });
 
   it('must not use an equal sign when looking for equality', () => {
@@ -41,7 +41,7 @@ describe('in-services/search', () => {
 
   it('must not mix free text query parts', () => {
     expect(transform('fat host.cpuCount <= 18 machine'))
-      .to.equal('fat* search.host.cpuCount:<=18 machine*');
+      .to.equal('fat search.host.cpuCount:<=18 machine');
   });
 
   it('must support key/value string queries', () => {
@@ -78,6 +78,6 @@ describe('in-services/search', () => {
   });
 
   it('must not escape fuzzy operator', () => {
-    expect(transform('elasti~')).to.equal('elasti~*');
+    expect(transform('elasti~')).to.equal('elasti~');
   });
 });
