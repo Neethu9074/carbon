@@ -1,58 +1,62 @@
 import {combineLatest} from 'reactive-observables';
 
-import {createTrackingStore} from 'in-stores/store';
+import {excludeUnmonitoredHosts$} from 'in-stores/settings/unmonitoredHosts';
+import createViewStructureObservable from 'in-services/subscription/view';
+import {focusedMoment$} from 'in-stores/timeline';
 import {searchMatches$} from 'in-stores/search';
-import {viewStructure} from 'in-stores/view';
+import {view} from 'in-stores/view';
 
+const noSearchMatches = {
+  contains() {
+    return true;
+  }
+};
 
-export default createTrackingStore({
-  name: 'physicalViewStructure',
-  observable: combineLatest([
-    viewStructure.distinct(),
-    searchMatches$.distinct()
-  ]).map(([_viewStructure, _searchMatches]) => {
-    if (!_searchMatches) {
-      return {
-        viewStructure: _viewStructure
-      };
-    }
+export default combineLatest([view, focusedMoment$, searchMatches$.distinct(), excludeUnmonitoredHosts$])
+   .flatMap(([viewType, focusedMoment, _searchMatches, excludeUnmonitoredHosts]) => {
+     _searchMatches = _searchMatches || noSearchMatches;
+     return createViewStructureObservable({viewType, time: focusedMoment})
+            .map(_viewStructure => {
+              const groupIds = {};
+              const hostIds = {};
+              const layerIds = {};
 
-    const groupIds = {};
-    const hostIds = {};
-    const layerIds = {};
-    const includedIds = {
-      groupIds,
-      hostIds,
-      layerIds
-    };
+              _viewStructure.get('children').forEach(group => {
+                const groupId = group.get('id');
+                if (excludeUnmonitoredHosts && groupId === 'unmonitored-hosts-zone') {
+                  groupIds[groupId] = false;
+                  return;
+                }
 
-    _viewStructure.get('children').forEach(group => {
-      const groupId = group.get('id');
-      if (_searchMatches.contains(groupId)) {
-        groupIds[groupId] = true;
-      }
+                if (_searchMatches.contains(groupId)) {
+                  groupIds[groupId] = true;
+                }
 
-      group.get('children').forEach(host => {
-        const hostId = host.get('id');
-        if (_searchMatches.contains(hostId)) {
-          hostIds[hostId] = true;
-          groupIds[groupId] = true;
-        }
+                group.get('children').forEach(host => {
+                  const hostId = host.get('id');
+                  if (_searchMatches.contains(hostId)) {
+                    hostIds[hostId] = true;
+                    groupIds[groupId] = true;
+                  }
 
-        host.get('children').forEach(layer => {
-          const layerId = layer.get('id');
-          if (_searchMatches.contains(layerId)) {
-            layerIds[layerId] = true;
-            hostIds[hostId] = true;
-            groupIds[groupId] = true;
-          }
-        });
-      });
-    });
+                  host.get('children').forEach(layer => {
+                    const layerId = layer.get('id');
+                    if (_searchMatches.contains(layerId)) {
+                      layerIds[layerId] = true;
+                      hostIds[hostId] = true;
+                      groupIds[groupId] = true;
+                    }
+                  });
+                });
+              });
 
-    return {
-      viewStructure: _viewStructure,
-      includedIds
-    };
-  })
-}).observable;
+              return {
+                viewStructure: _viewStructure,
+                includedIds: {
+                  groupIds,
+                  hostIds,
+                  layerIds
+                }
+              };
+            });
+   });

@@ -4,6 +4,7 @@ import React from 'react';
 
 import ExpandCollapseAll from 'in-components/tableView/components/ExpandCollapseAll';
 import PhysicalSummary from 'in-components/tableView/components/PhysicalSummary';
+import {excludeUnmonitoredHosts$} from 'in-stores/settings/unmonitoredHosts';
 import HealthSlider from 'in-components/tableView/components/HealthSlider';
 import ChildList from 'in-components/tableView/components/ChildList';
 import ZoneEntry from 'in-components/tableView/components/ZoneEntry';
@@ -22,15 +23,20 @@ const block = 'in-table-view-physical';
 export default connectTo({
     viewStructure: physicalViewStructure$,
     isFilterActive: isFilterActive$,
-    snapshotIdsMatchingFilter: snapshotIdsInPhysicalViewMatchingFilter$.startWith([])
-  }, function PhysicalTableViewContent({viewStructure,
-      isFilterActive, snapshotIdsMatchingFilter}) {
+    snapshotIdsMatchingFilter: snapshotIdsInPhysicalViewMatchingFilter$.startWith([]),
+    excludeUnmonitoredHosts: excludeUnmonitoredHosts$
+  }, function PhysicalTableViewContent({viewStructure, isFilterActive, snapshotIdsMatchingFilter,
+      excludeUnmonitoredHosts}) {
     if (!viewStructure) {
       return <LoadingIndicator />;
     }
 
-    const children = viewStructure.get('children')
+    let children = viewStructure.get('children')
       .toArray();
+
+    if (excludeUnmonitoredHosts) {
+      children = children.filter(child => child.get('id') !== 'unmonitored-hosts-zone');
+    }
 
     return (
       <div className={block}>
