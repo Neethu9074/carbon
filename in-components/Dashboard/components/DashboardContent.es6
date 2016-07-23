@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
+import SidebarContent from 'in-components/Sidebar/components/SidebarContent';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -24,7 +25,7 @@ export default connectTo({
   const snapshotId = snapshot.get('id');
   const plugin = snapshot.get('plugin');
   const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
-  // const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
+  const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 
   return (
     <div className={block}>
@@ -33,9 +34,8 @@ export default connectTo({
 
       <div className={`${block}__wrapper`}>
         <div className={`${block}__sidebar`}>
-        {/*
-          <Jail component={SidebarImpl}
-                props={{snapshot, timeframe}}/>*/}
+          <SidebarContent snapshot={snapshot}
+                          ForgeDetailsComponent={SidebarImpl} />
         </div>
         <div className={`${block}__content`}>
           <Jail component={DashboardImpl}

@@ -3,7 +3,6 @@ import React from 'react';
 
 import HealthIconListing from 'in-components/HealthIconListing';
 import {getSingular} from 'in-sdk/pluginName';
-import ZoneTag from 'in-components/ZoneTag';
 import {getLabel} from 'in-sdk/snapshot';
 
 import './SidebarHeadingSnapshotMetadata.less';
@@ -27,9 +26,6 @@ export default function SidebarHeadingSnapshotMetadata({snapshot}) {
         <span className={block + '__plugin-type'}>
           {getSingular(snapshot.get('plugin'))}
         </span>
-
-        <ZoneTag snapshotId={snapshotId}
-                 className={block + '__zone'}/>
 
         <HealthIconListing snapshotId={snapshotId}/>
       </div>

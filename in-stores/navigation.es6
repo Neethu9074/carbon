@@ -101,6 +101,19 @@ export function getDashboardLink(snapshotId) {
 }
 
 
+export function getLinkToSnapshotInCurrentView(snapshotId) {
+  snapshotId = encodeURIComponent(snapshotId);
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(params => {
+      params.query.snapshotId = snapshotId;
+      return params;
+    })
+    .map(toUrl)
+    .distinct();
+}
+
+
 export function closeDashboard() {
   mutateUrl(navParams => {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
