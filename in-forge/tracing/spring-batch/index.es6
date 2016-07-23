@@ -1,5 +1,4 @@
 import {registerSpanDefinition} from 'in-sdk/registry/tracing';
-import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'spring-batch',
@@ -11,5 +10,15 @@ registerSpanDefinition({
 
   detailView: 'SpringBatchSpanDetailView',
 
-  getLabel
+  getLabel(span) {
+    const job = span.getIn(['data', 'batch', 'job']);
+    const status = span.getIn(['data', 'batch', 'status']);
+
+    if (job && status) {
+      return job + ' ' + status;
+    } else if (job) {
+      return job;
+    }
+    return null;
+  }
 });
