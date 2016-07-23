@@ -15,5 +15,6 @@ import './play2';
 import './rabbitmq';
 import './redis';
 import './servlet';
+import './spring-batch';
 import './spring-web';
 import './url';
