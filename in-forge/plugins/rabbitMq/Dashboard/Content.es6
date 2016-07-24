@@ -1,3 +1,4 @@
+
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -10,8 +11,6 @@ import {timeframeShape} from 'in-stores/timeline';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 
 
-const chartHeight = 200;
-
 export default function RabbitMqDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
 
@@ -20,7 +19,6 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
       <DashboardSection title='Messages'>
           <ChartWithLegend snapshotId={snapshotId}
                 timeframe={timeframe}
-                height={chartHeight}
                 margins={{
                   left: 80
                 }}
@@ -42,7 +40,6 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
         <TwoColumnRow>
           <ChartWithLegend snapshotId={snapshotId}
                 timeframe={timeframe}
-                height={chartHeight}
                 margins={{
                   left: 80
                 }}
@@ -61,7 +58,6 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                 }}/>
           <ChartWithLegend snapshotId={snapshotId}
                 timeframe={timeframe}
-                height={chartHeight}
                 margins={{
                   left: 80
                 }}
@@ -85,7 +81,6 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
       <DashboardSection title='Overview'>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={chartHeight}
               margins={{
                 left: 80
               }}

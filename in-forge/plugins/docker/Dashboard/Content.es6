@@ -13,8 +13,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 200;
-
 const throttlingTimeFormater = d => (d / 1000000000.0) + 's';
 
 export default function DockerDashboard({snapshot, timeframe}) {
@@ -35,7 +33,6 @@ export default function DockerDashboard({snapshot, timeframe}) {
       <DashboardSection title='CPU'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 10
@@ -57,7 +54,6 @@ export default function DockerDashboard({snapshot, timeframe}) {
                          }}/>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 10
@@ -87,7 +83,6 @@ export default function DockerDashboard({snapshot, timeframe}) {
       <DashboardSection title='Memory'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 10
@@ -111,7 +106,6 @@ export default function DockerDashboard({snapshot, timeframe}) {
                          }}/>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 10
@@ -137,7 +131,6 @@ export default function DockerDashboard({snapshot, timeframe}) {
       <DashboardSection title='Block IO'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 10
@@ -161,7 +154,6 @@ export default function DockerDashboard({snapshot, timeframe}) {
         <div>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                  timeframe={timeframe}
-                 height={chartHeight}
                  margins={{
                    left: 80,
                    right: 80

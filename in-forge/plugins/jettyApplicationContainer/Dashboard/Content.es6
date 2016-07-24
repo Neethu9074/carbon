@@ -24,7 +24,6 @@ export default function JettyDashboard({snapshot, timeframe}) {
       <DashboardSection title='Queued Thread Pool Stats'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}

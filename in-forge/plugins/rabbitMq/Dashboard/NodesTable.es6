@@ -61,7 +61,6 @@ function createDetails(nodeName, i, context) {
       <div>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}
@@ -78,7 +77,6 @@ function createDetails(nodeName, i, context) {
               }}/>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}
@@ -99,7 +97,6 @@ function createDetails(nodeName, i, context) {
       <div>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}
@@ -117,7 +114,6 @@ function createDetails(nodeName, i, context) {
 
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}

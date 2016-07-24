@@ -6,15 +6,12 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 200;
-
 export default function OracleDBDashboard({snapshot, timeframe}) {
   return (
     <div>
       <DashboardSection title='Reads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}

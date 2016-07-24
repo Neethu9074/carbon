@@ -22,7 +22,6 @@ export default function NodejsDashboard({snapshot, timeframe}) {
         <DashboardSection title='GC Activity'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
-                           height={150}
                            margins={{
                              left: 60
                            }}
@@ -56,7 +55,6 @@ function renderGcMetrics(snapshot, timeframe) {
     return (
       <ChartWithLegend snapshotId={snapshot.get('id')}
                        timeframe={timeframe}
-                       height={150}
                        margins={{
                          left: 60,
                          right: 60
@@ -98,7 +96,6 @@ function renderGcMetrics(snapshot, timeframe) {
   return (
     <ChartWithLegend snapshotId={snapshot.get('id')}
                      timeframe={timeframe}
-                     height={150}
                      margins={{
                        left: 60
                      }}
@@ -125,7 +122,6 @@ function renderEventLoopMetrics(snapshot, timeframe) {
     return (
       <ChartWithLegend snapshotId={snapshot.get('id')}
                        timeframe={timeframe}
-                       height={150}
                        margins={{
                          left: 60,
                          right: 60
@@ -163,7 +159,6 @@ function renderEventLoopMetrics(snapshot, timeframe) {
   return (
     <ChartWithLegend snapshotId={snapshot.get('id')}
                      timeframe={timeframe}
-                     height={150}
                      margins={{
                        left: 60
                      }}

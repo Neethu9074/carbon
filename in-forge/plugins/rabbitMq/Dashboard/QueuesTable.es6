@@ -62,7 +62,6 @@ function createDetails(queueName, i, context) {
       <TwoColumnRow>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}
@@ -81,7 +80,6 @@ function createDetails(queueName, i, context) {
               }}/>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}
@@ -106,7 +104,6 @@ function createDetails(queueName, i, context) {
       <TwoColumnRow>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}
@@ -125,7 +122,6 @@ function createDetails(queueName, i, context) {
               }}/>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}
@@ -150,7 +146,6 @@ function createDetails(queueName, i, context) {
       <TwoColumnRow>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}
@@ -165,7 +160,6 @@ function createDetails(queueName, i, context) {
               }}/>
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
-              height={150}
               margins={{
                 left: 80
               }}

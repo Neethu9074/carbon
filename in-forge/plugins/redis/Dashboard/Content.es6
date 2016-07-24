@@ -22,8 +22,6 @@ import {getRawPayload} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 
-const chartHeight = 200;
-
 const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 const persistenceFormater = d => d < 0 ? 'Not in progress' : d + 's';
 const latencyFormatter = (d, threshold) => d < threshold ?
@@ -82,7 +80,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
         <DashboardSection title='Latency'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -103,7 +100,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
       <DashboardSection title='Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -122,7 +118,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
       <DashboardSection title='Key Hits/Misses'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                         timeframe={timeframe}
-                        height={chartHeight}
                         margins={{
                           left: 80
                         }}
@@ -150,7 +145,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
       <DashboardSection title='Key Expired/Evicted'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                         timeframe={timeframe}
-                        height={chartHeight}
                         margins={{
                          left: 80
                         }}
@@ -171,7 +165,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
         <DashboardSection title='Database'>
             <ChartWithLegend snapshotId={snapshot.get('id')}
                             timeframe={timeframe}
-                            height={chartHeight}
                             margins={{
                               left: 80
                             }}
@@ -185,7 +178,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
       <DashboardSection title='Memory'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -209,7 +201,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
       <DashboardSection title='Connections'>
          <ChartWithLegend snapshotId={snapshot.get('id')}
                           timeframe={timeframe}
-                          height={chartHeight}
                           margins={{
                             left: 80
                           }}
@@ -224,7 +215,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
         <DashboardSection title='Pub/Sub'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -243,7 +233,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
       <DashboardSection title='Persistence'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -294,7 +283,6 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
         <DashboardSection title='Bytes left before syncing is complete'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                         timeframe={timeframe}
-                        height={chartHeight}
                         margins={{
                         left: 80,
                             right: 80

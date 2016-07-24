@@ -10,7 +10,6 @@ import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
-const chartHeight = 200;
 
 export default function MemcachedDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -21,7 +20,6 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <DashboardSection title='Commands'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -41,7 +39,6 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <DashboardSection title='Reads/Writes'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -61,7 +58,6 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <DashboardSection title='Get Hits/Misses'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 60
@@ -93,7 +89,6 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <DashboardSection title='Delete Hits/Misses'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 60
@@ -125,7 +120,6 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <DashboardSection title='Flush command'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -143,7 +137,6 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <DashboardSection title='Evictions'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -161,7 +154,6 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <DashboardSection title='Used bytes'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -180,7 +172,6 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <DashboardSection title='Connections'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}

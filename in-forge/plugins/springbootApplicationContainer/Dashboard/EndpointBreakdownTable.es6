@@ -81,7 +81,6 @@ function createDetails(statusCodes, endpoint, context) {
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
                      timeframe={context.timeframe}
                      key={endpoint}
-                     height={200}
                      margins={{
                       left: 80,
                       right: 80

@@ -7,7 +7,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 200;
 export default function MsSqlDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
 
@@ -16,7 +15,6 @@ export default function MsSqlDashboard({snapshot, timeframe}) {
     <DashboardSection title='Wait-Times (ms) on server'>
       <ChartWithLegend snapshotId={snapshotId}
                        timeframe={timeframe}
-                       height={chartHeight}
                        margins={{
                          left: 80
                        }}
@@ -41,7 +39,6 @@ export default function MsSqlDashboard({snapshot, timeframe}) {
     <DashboardSection title='Connections & Users'>
       <ChartWithLegend snapshotId={snapshotId}
                        timeframe={timeframe}
-                       height={chartHeight}
                        margins={{
                          left: 80
                        }}

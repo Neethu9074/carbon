@@ -22,7 +22,6 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker wide queues message stats'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}
@@ -39,7 +38,6 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker wide topics message stats'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}
@@ -58,7 +56,6 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker wide connections, consumers and producers'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}
@@ -79,7 +76,6 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       <DashboardSection title='Memory and store usage'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}

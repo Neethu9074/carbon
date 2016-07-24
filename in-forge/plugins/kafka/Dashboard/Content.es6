@@ -16,15 +16,12 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 200;
-
 export default function KafkaDashboard({snapshot, timeframe}) {
   return (
     <div>
       <DashboardSection title='Broker Traffic'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80
                }}
@@ -47,7 +44,6 @@ export default function KafkaDashboard({snapshot, timeframe}) {
       <DashboardSection title='Request Latency vs Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80,
                  right: 80
@@ -86,7 +82,6 @@ export default function KafkaDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker Failures'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80
                }}
@@ -107,7 +102,6 @@ export default function KafkaDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker state metrics'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80
                }}
@@ -138,7 +132,6 @@ export default function KafkaDashboard({snapshot, timeframe}) {
       <DashboardSection title='Average Idle Time Percentage'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80
                }}
@@ -159,7 +152,6 @@ export default function KafkaDashboard({snapshot, timeframe}) {
       <DashboardSection title='Partitions'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80
                }}
@@ -178,7 +170,6 @@ export default function KafkaDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker Messages In'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80
                }}
@@ -197,7 +188,6 @@ export default function KafkaDashboard({snapshot, timeframe}) {
       <DashboardSection title='Log Flushing'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80,
                  right: 40

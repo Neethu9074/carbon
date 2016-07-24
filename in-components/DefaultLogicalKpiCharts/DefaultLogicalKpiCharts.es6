@@ -11,7 +11,6 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
       <DashboardSection title='Calls/s vs. Average Latency'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80
@@ -45,7 +44,7 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
       <DashboardSection title='Latency vs. min/max'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
+                         height={400}
                          margins={{
                            left: 80,
                            right: 80
@@ -81,7 +80,6 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
       <DashboardSection title='Errors/s'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80
@@ -103,7 +101,6 @@ export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
       <DashboardSection title='Instances'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80

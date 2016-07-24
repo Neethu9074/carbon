@@ -62,7 +62,6 @@ function createDetails(jmxMetric, i, context) {
   return (
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
                      timeframe={context.timeframe}
-                     height={200}
                      margins={{
                        left: 90
                      }}

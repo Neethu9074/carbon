@@ -63,7 +63,6 @@ function createDetails(webApp, i, context) {
     <div>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
-             height={200}
              margins={{
                left: 80
              }}

@@ -76,7 +76,6 @@ function createDetails(name, i, context) {
     <div>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
-             height={150}
              margins={{
                left: 60
              }}
@@ -88,7 +87,6 @@ function createDetails(name, i, context) {
 
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
-             height={150}
              margins={{
                left: 80
              }}
@@ -100,7 +98,6 @@ function createDetails(name, i, context) {
 
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
-             height={150}
              margins={{
                left: 80,
                right: 80

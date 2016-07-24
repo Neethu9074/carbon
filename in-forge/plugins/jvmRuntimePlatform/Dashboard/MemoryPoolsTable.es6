@@ -72,7 +72,6 @@ function createDetails(pool, poolName, context) {
   return (
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
            timeframe={context.timeframe}
-           height={200}
            margins={{
              left: 80
            }}

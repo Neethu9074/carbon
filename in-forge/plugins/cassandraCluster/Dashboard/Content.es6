@@ -9,7 +9,6 @@ import {capitalize} from 'in-services/formatters/string';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 200;
 export default function CassandraClusterDashboard({snapshot, timeframe}) {
   return (
     <div>
@@ -20,7 +19,6 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
       <DashboardSection title='Overall Requests'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -43,7 +41,6 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
                             key={op}>
             <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
-                             height={chartHeight}
                              margins={{
                               left: 80
                              }}

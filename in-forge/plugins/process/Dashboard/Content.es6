@@ -11,8 +11,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 200;
-
 export default function ProcessDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
 
@@ -21,7 +19,6 @@ export default function ProcessDashboard({snapshot, timeframe}) {
       <DashboardSection title='Memory'>
         <ChartWithLegend snapshotId={snapshotId}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80
                }}
@@ -44,7 +41,6 @@ export default function ProcessDashboard({snapshot, timeframe}) {
       <DashboardSection title='CPU Usage'>
         <ChartWithLegend snapshotId={snapshotId}
                timeframe={timeframe}
-               height={chartHeight}
                margins={{
                  left: 80
                }}

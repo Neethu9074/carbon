@@ -9,8 +9,6 @@ import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 150;
-
 export default function PhpFpmDashboard({snapshot, timeframe}) {
   const pools = snapshot.getIn(['data', 'worker_pools'], emptyList).toArray();
   if (pools.length === 0) {
@@ -48,7 +46,6 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
             <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
               <ChartWithLegend snapshotId={snapshotId}
                                timeframe={timeframe}
-                               height={chartHeight}
                                margins={{
                                  left: 90,
                                  right: 60
@@ -88,7 +85,6 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
             <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
               <ChartWithLegend snapshotId={snapshotId}
                                timeframe={timeframe}
-                               height={chartHeight}
                                margins={{
                                  left: 90,
                                  right: 60
@@ -128,7 +124,6 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
             <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
               <ChartWithLegend snapshotId={snapshotId}
                                timeframe={timeframe}
-                               height={chartHeight}
                                margins={{
                                  left: 90,
                                  right: 60

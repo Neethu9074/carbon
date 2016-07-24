@@ -91,84 +91,80 @@ function createDetails(frontendName, i, context) {
   return (
     <div>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          metrics: [
-            'frontendStats.' + frontendName + '.reqRate',
-            'frontendStats.' + frontendName + '.reqErrors',
-            'frontendStats.' + frontendName + '.deniedReq'
-          ],
-          labels: [
-            'Requests',
-            'Request Errors',
-            'Denied Requests'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        metrics: [
+                          'frontendStats.' + frontendName + '.reqRate',
+                          'frontendStats.' + frontendName + '.reqErrors',
+                          'frontendStats.' + frontendName + '.deniedReq'
+                        ],
+                        labels: [
+                          'Requests',
+                          'Request Errors',
+                          'Denied Requests'
+                        ],
+                        type: 'line'
+                      }}/>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          metrics: [
-            'frontendStats.' + frontendName + '.sessionRate'
-          ],
-          labels: [
-            'Sessions'
-          ],
-          type: 'line'
-        }}
-        y2={{
-          formatter: percentageTwoDecimalPlaces,
-          metrics: [
-            'frontendStats.' + frontendName + '.sessionUtilization'
-          ],
-          labels: [
-            'Session Usage'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        metrics: [
+                          'frontendStats.' + frontendName + '.sessionRate'
+                        ],
+                        labels: [
+                          'Sessions'
+                        ],
+                        type: 'line'
+                      }}
+                      y2={{
+                        formatter: percentageTwoDecimalPlaces,
+                        metrics: [
+                          'frontendStats.' + frontendName + '.sessionUtilization'
+                        ],
+                        labels: [
+                          'Session Usage'
+                        ],
+                        type: 'line'
+                      }}/>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          metrics: [
-            'frontendStats.' + frontendName + '.clientErrors',
-            'frontendStats.' + frontendName + '.serverErrors'
-          ],
-          labels: [
-            'Client Errors',
-            'Server Errors'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        metrics: [
+                          'frontendStats.' + frontendName + '.clientErrors',
+                          'frontendStats.' + frontendName + '.serverErrors'
+                        ],
+                        labels: [
+                          'Client Errors',
+                          'Server Errors'
+                        ],
+                        type: 'line'
+                      }}/>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          formatter: bytesTwoDecimalPlaces,
-          metrics: [
-            'frontendStats.' + frontendName + '.bytesSent',
-            'frontendStats.' + frontendName + '.bytesReceived'
-          ],
-          labels: [
-            'Bytes Sent',
-            'Bytes Received'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        formatter: bytesTwoDecimalPlaces,
+                        metrics: [
+                          'frontendStats.' + frontendName + '.bytesSent',
+                          'frontendStats.' + frontendName + '.bytesReceived'
+                        ],
+                        labels: [
+                          'Bytes Sent',
+                          'Bytes Received'
+                        ],
+                        type: 'line'
+                      }}/>
     </div>
   );
 }

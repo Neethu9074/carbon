@@ -17,8 +17,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 200;
-
 export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
   return (
     <div>
@@ -29,7 +27,6 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
       <DashboardSection title='Search Performance vs. Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80
@@ -64,7 +61,6 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
         <DashboardSection title='Indices'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -84,7 +80,6 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
         <DashboardSection title='Shards'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -114,7 +109,6 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
       <DashboardSection title='Documents'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80

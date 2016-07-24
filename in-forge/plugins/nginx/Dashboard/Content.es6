@@ -14,7 +14,6 @@ export default function NginxDashboard({snapshot, timeframe}) {
       <DashboardSection title='Requests'>
         <ChartWithLegend snapshotId={snapshotId}
                timeframe={timeframe}
-               height={200}
                margins={{
                  left: 80
                }}
@@ -33,7 +32,6 @@ export default function NginxDashboard({snapshot, timeframe}) {
       <DashboardSection title='Connections'>
         <ChartWithLegend snapshotId={snapshotId}
                timeframe={timeframe}
-               height={200}
                margins={{
                  left: 80,
                  right: 80

@@ -9,8 +9,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const chartHeight = 200;
-
 export default function JVMDashboard({snapshot, timeframe}) {
   const collectors = snapshot.getIn(['data', 'jvm.collectors']);
   const snapshotId = snapshot.get('id');
@@ -20,7 +18,6 @@ export default function JVMDashboard({snapshot, timeframe}) {
       <DashboardSection title='Threads'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 60
                          }}
@@ -50,7 +47,6 @@ export default function JVMDashboard({snapshot, timeframe}) {
       <DashboardSection title='Memory'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 100
                          }}
@@ -76,7 +72,6 @@ export default function JVMDashboard({snapshot, timeframe}) {
         <DashboardSection title='Garbage Collection'>
           <ChartWithLegend snapshotId={snapshotId}
                  timeframe={timeframe}
-                 height={chartHeight}
                  margins={{
                    left: 80,
                    right: 80
