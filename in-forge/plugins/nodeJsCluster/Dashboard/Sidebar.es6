@@ -1,11 +1,11 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import ClusterMembersList from 'in-components/ClusterMembersList';
+import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 
 
 export default function NodejsClusterSidebar({snapshot}) {
-  return <ClusterMembersList snapshotId={snapshot.get('id')} />;
+  return <ClusterMemberList snapshotId={snapshot.get('id')} />;
 }
 
 NodejsClusterSidebar.propTypes = {

@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import ClusterMembersList from 'in-components/ClusterMembersList';
+import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 
 
@@ -21,7 +21,7 @@ export default function CassandraClusterSidebar({snapshot}) {
         </DescriptionItem>
       </DescriptionList>
 
-      <ClusterMembersList snapshotId={snapshotId} />
+      <ClusterMemberList snapshotId={snapshotId} />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import React from 'react';
 import {withSiPrefixTwoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import SparkChartsSection from 'in-components/sidebars/components/SparkChartsSection';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import ClusterMembersList from 'in-components/ClusterMembersList';
+import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 
 import ClusterStatusLabel from '../ClusterStatusLabel';
@@ -47,7 +47,7 @@ export default function ElasticsearchClusterSidebar({snapshot}) {
                             }
                           ]} />
 
-      <ClusterMembersList snapshotId={snapshotId} />
+      <ClusterMemberList snapshotId={snapshotId} />
     </div>
   );
 }
