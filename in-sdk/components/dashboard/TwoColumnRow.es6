@@ -5,16 +5,16 @@ import './TwoColumnRow.less';
 const block = 'in-dashboard-two-column-row';
 
 export default function TwoColumnRow({children}) {
-  const count = React.Children.count(children);
+  children = React.Children.toArray(children)
+    .filter(child => !!child);
+  const count = children.length;
   if (count === 0) {
     return null;
   } else if (count === 1) {
-    return React.Children.only(children);
+    return children[0];
   } else if (__DEV__ && count > 2) {
     throw new Error('Two columns rows may have at most two children.');
   }
-
-  children = React.Children.toArray(children);
 
   return (
     <div className={block}>
