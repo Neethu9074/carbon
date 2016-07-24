@@ -44,7 +44,7 @@ export default class Renderer {
       .scale(this.x)
       .ticks(5)
       .tickSize(0)
-      .tickPadding(20)
+      .tickPadding(10)
       .tickFormat(d3.time.format('%H:%M'))
       .orient('bottom');
 
@@ -61,7 +61,7 @@ export default class Renderer {
       .scale(this.y1)
       .ticks(5)
       .tickSize(1)
-      .tickPadding(20)
+      .tickPadding(10)
       // tickFormat function will get two parameters: value and tick index.
       // Our formatter contract is only one parameter, so we need to swallow
       // the index parameter. (Our formatters sometimes use precision as
@@ -87,7 +87,7 @@ export default class Renderer {
         .scale(this.y2)
         .ticks(5)
         .tickSize(1)
-        .tickPadding(20)
+        .tickPadding(10)
         // tickFormat function will get two parameters: value and tick index.
         // Our formatter contract is only one parameter, so we need to swallow
         // the index parameter. (Our formatters sometimes use precision as

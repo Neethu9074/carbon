@@ -4,7 +4,7 @@ import React from 'react';
 import ClasspathLayouter from 'in-components/ClassPathLayouter/ClasspathLayouter';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {emptyList} from 'in-services/fixedImmutables';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function JettyWebApps({snapshot}) {

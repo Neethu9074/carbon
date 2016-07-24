@@ -11,10 +11,10 @@ import {
 import ClusterNodesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/ClusterNodesTable';
 import IndicesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/IndicesTable.es6';
 import ClusterSummary from 'in-forge/plugins/elasticsearchCluster/ClusterSummary';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
-import {Row, Col} from 'in-components/Grid/Grid';
 
 
 const chartHeight = 200;
@@ -60,60 +60,56 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
                          }}/>
       </DashboardSection>
 
-      <Row>
-        <Col cols={6}>
-          <DashboardSection title='Indices'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               formatter: withSiPrefixZeroDecimalPlaces,
-                               tooltipFormatter: twoDecimalPlaces,
-                               metrics: [
-                                 'indices_count'
-                               ],
-                               labels: [
-                                 'Indices'
-                               ],
-                               type: 'line'
-                             }}/>
-          </DashboardSection>
-        </Col>
-        <Col cols={6}>
-          <DashboardSection title='Shards'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               formatter: withSiPrefixThreeDecimalPlaces,
-                               tooltipFormatter: twoDecimalPlaces,
-                               metrics: [
-                                 'active_shards',
-                                 'active_primaryshards',
-                                 'initializing_shards',
-                                 'relocating_shards',
-                                 'unassigned_shards'
-                               ],
-                               labels: [
-                                 'Active',
-                                 'Active Primary',
-                                 'Initializing',
-                                 'Relocating',
-                                 'Unassinged'
-                               ],
-                               type: 'line'
-                             }}/>
-          </DashboardSection>
-        </Col>
-      </Row>
+      <TwoColumnRow>
+        <DashboardSection title='Indices'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: withSiPrefixZeroDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'indices_count'
+                             ],
+                             labels: [
+                               'Indices'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+        <DashboardSection title='Shards'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: withSiPrefixThreeDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'active_shards',
+                               'active_primaryshards',
+                               'initializing_shards',
+                               'relocating_shards',
+                               'unassigned_shards'
+                             ],
+                             labels: [
+                               'Active',
+                               'Active Primary',
+                               'Initializing',
+                               'Relocating',
+                               'Unassinged'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+      </TwoColumnRow>
 
       <DashboardSection title='Documents'>
         <ChartWithLegend snapshotId={snapshot.get('id')}

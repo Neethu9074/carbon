@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DeployedUnitList from 'in-components/DeployedUnitList';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import PhpFpmInfo from '../PhpFpmInfo';
 

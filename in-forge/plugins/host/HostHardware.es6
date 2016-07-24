@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import getForgeComponent from 'in-services/getForgeComponent';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import getFoundation from 'in-hoc/getFoundation';
 import {getSingular} from 'in-sdk/pluginName';
 
@@ -14,7 +14,7 @@ function HostHardware({foundationSnapshot}) {
   const Details = getForgeSpecificComponent(foundationSnapshot);
 
   return (
-    <Collapsible initiallyOpen={true}>
+    <Collapsible initiallyOpen={false}>
       <Collapsible.Header>
         {getSingular(foundationSnapshot.get('plugin'))}
       </Collapsible.Header>

@@ -2,6 +2,7 @@ import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function InterfaceList({snapshot}) {
@@ -11,13 +12,18 @@ export default function InterfaceList({snapshot}) {
   }
 
   return (
-    <DescriptionList>
-      {ifaces.map((ifaceData, ifaceName) =>
-        <DescriptionItem key={ifaceName} title={ifaceName}>
-          {formatIPs(ifaceData.get('addresses').map(address => address.get('ip')))}
-        </DescriptionItem>
-      ).toArray()}
-    </DescriptionList>
+    <Collapsible initiallyOpen={false}>
+      <Collapsible.Header>Interfaces ({ifaces.size})</Collapsible.Header>
+      <Collapsible.Content>
+        <DescriptionList>
+          {ifaces.map((ifaceData, ifaceName) =>
+            <DescriptionItem key={ifaceName} title={ifaceName}>
+              {formatIPs(ifaceData.get('addresses').map(address => address.get('ip')))}
+            </DescriptionItem>
+          ).toArray()}
+        </DescriptionList>
+      </Collapsible.Content>
+    </Collapsible>
   );
 }
 

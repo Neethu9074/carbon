@@ -5,7 +5,7 @@ import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
-import {Row, Col} from 'in-components/Grid';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 
 
 const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
@@ -58,8 +58,8 @@ function createDetails(db, i, context) {
 
   return (
     <div>
-      <Row>
-        <Col cols={6}>
+      <TwoColumnRow>
+        <div>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            height={150}
@@ -97,8 +97,8 @@ function createDetails(db, i, context) {
                              ],
                              type: 'line'
                            }}/>
-        </Col>
-        <Col cols={6}>
+        </div>
+        <div>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            height={150}
@@ -140,10 +140,11 @@ function createDetails(db, i, context) {
                              ],
                              type: 'line'
                            }}/>
-        </Col>
-      </Row>
-      <Row>
-        <Col cols={6}>
+        </div>
+      </TwoColumnRow>
+
+      <TwoColumnRow>
+        <div>
           <ChartWithLegend snapshotId={snapshotId}
                           timeframe={timeframe}
                           height={150}
@@ -179,8 +180,8 @@ function createDetails(db, i, context) {
                             ],
                             type: 'line'
                           }}/>
-        </Col>
-        <Col cols={6}>
+        </div>
+        <div>
           <ChartWithLegend snapshotId={snapshotId}
                           timeframe={timeframe}
                           height={150}
@@ -219,8 +220,8 @@ function createDetails(db, i, context) {
                             ],
                             type: 'line'
                           }}/>
-        </Col>
-      </Row>
+        </div>
+      </TwoColumnRow>
     </div>
   );
 }

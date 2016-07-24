@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RedisInfo from 'in-forge/plugins/redis/RedisInfo';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function RedisSidebar({snapshot}) {

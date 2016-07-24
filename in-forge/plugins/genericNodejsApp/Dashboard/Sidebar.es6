@@ -2,9 +2,9 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DeployedUnitList from 'in-components/DeployedUnitList';
-import TagListSnapshot from 'in-components/TagListSnapshot';
+import TagList from 'in-sdk/components/sidebar/TagList';
 import KeyValuePopup from 'in-components/KeyValuePopup';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import NodeJsAppInfo from '../NodeJsAppInfo';
 
@@ -22,7 +22,7 @@ export default function NodejsDashboardSidebar({snapshot}) {
       <KeyValuePopup header='Dependencies'
                      data={snapshot.getIn(['data', 'dependencies'])} />
 
-      <TagListSnapshot snapshot={snapshot} />
+      <TagList snapshot={snapshot} />
       <DeployedUnitList snapshotId={snapshot.get('id')} />
     </div>
   );

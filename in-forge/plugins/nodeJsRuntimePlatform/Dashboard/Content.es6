@@ -3,11 +3,11 @@ import React from 'react';
 
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
-import {Row, Col} from 'in-components/Grid/Grid';
 
 
 export default function NodejsDashboard({snapshot, timeframe}) {
@@ -15,33 +15,31 @@ export default function NodejsDashboard({snapshot, timeframe}) {
     <div>
       {getNativeExtensionHint(snapshot)}
 
-      <DashboardSection title='Memory Usage & GC Activity'>
-        <Row>
-          <Col cols={6}>
-            {renderGcMetrics(snapshot, timeframe)}
-          </Col>
-          <Col cols={6}>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={150}
-                             margins={{
-                               left: 90
-                             }}
+      <TwoColumnRow>
+        <DashboardSection title='Memory Usage'>
+          {renderGcMetrics(snapshot, timeframe)}
+        </DashboardSection>
+        <DashboardSection title='GC Activity'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={150}
+                           margins={{
+                             left: 60
+                           }}
 
-                             y1={{
-                               min: 0,
-                               formatter: numberFormatters.time,
-                               metrics: [
-                                 'gc.gcPause'
-                               ],
-                               labels: [
-                                 'GC Pause'
-                               ],
-                               type: 'stackedArea'
-                             }}/>
-          </Col>
-        </Row>
-      </DashboardSection>
+                           y1={{
+                             min: 0,
+                             formatter: numberFormatters.time,
+                             metrics: [
+                               'gc.gcPause'
+                             ],
+                             labels: [
+                               'GC Pause'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
+      </TwoColumnRow>
 
       <HeapSpacesTable snapshot={snapshot}
                        timeframe={timeframe} />
@@ -60,8 +58,8 @@ function renderGcMetrics(snapshot, timeframe) {
                        timeframe={timeframe}
                        height={150}
                        margins={{
-                         left: 90,
-                         right: 90
+                         left: 60,
+                         right: 60
                        }}
 
                        y1={{
@@ -102,7 +100,7 @@ function renderGcMetrics(snapshot, timeframe) {
                      timeframe={timeframe}
                      height={150}
                      margins={{
-                       left: 90
+                       left: 60
                      }}
 
                      y1={{
@@ -129,8 +127,8 @@ function renderEventLoopMetrics(snapshot, timeframe) {
                        timeframe={timeframe}
                        height={150}
                        margins={{
-                         left: 90,
-                         right: 90
+                         left: 60,
+                         right: 60
                        }}
 
                        y1={{
@@ -167,7 +165,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
                      timeframe={timeframe}
                      height={150}
                      margins={{
-                       left: 90
+                       left: 60
                      }}
 
                      y1={{

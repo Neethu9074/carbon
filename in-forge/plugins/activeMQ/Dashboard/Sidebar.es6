@@ -3,7 +3,7 @@ import React from 'react';
 
 import BrokerInfo from 'in-forge/plugins/activeMQ/BrokerInfo';
 import ConnectorsInfo from 'in-forge/plugins/activeMQ/ConnectorsInfo';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function ActiveMQSidebar({snapshot}) {

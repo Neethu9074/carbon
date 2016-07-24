@@ -3,7 +3,7 @@ import React from 'react';
 
 import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import KeyValuePopup from 'in-components/KeyValuePopup';
 
 

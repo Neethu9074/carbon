@@ -4,6 +4,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getPlural} from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
@@ -52,34 +53,41 @@ export default connectTo(
     const groups = this.getSnapshotsGroupedByPlugin();
     const groupPlugins = Object.keys(groups)
       .sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
+    const groupCount = groupPlugins.length;
 
     return (
       <div>
-        {groupPlugins.map(plugin =>
-          <Collapsible key={plugin}
-                       initiallyOpen={this.props.initiallyOpen}>
-            <Collapsible.Header className={block + '__header'}>
-              <div className={block + '__header'}>
-                <img src={getIcon(plugin)}
-                     alt='plugin icon'
-                     className={block + '__plugin-icon'}/>
-                {getPlural(plugin)}
-              </div>
-            </Collapsible.Header>
-            <Collapsible.Content>
-              <List>
-                {groups[plugin].map(snapshot =>
-                  <List.Item key={snapshot.get('id')}
-                             onClick={() => this.select(snapshot)}>
-                    {this.props.onRenderItem ?
-                      this.props.onRenderItem(snapshot) :
-                      getLabel(snapshot)
-                    }
-                  </List.Item>
-                )}
-              </List>
-            </Collapsible.Content>
-          </Collapsible>
+        {groupPlugins.map((plugin, i) =>
+          <div>
+            <Collapsible key={plugin}
+                         initiallyOpen={this.props.initiallyOpen}>
+              <Collapsible.Header className={block + '__header'}>
+                <div className={block + '__header'}>
+                  <img src={getIcon(plugin)}
+                       alt='plugin icon'
+                       className={block + '__plugin-icon'}/>
+                  <span>
+                    {getPlural(plugin)} ({groups[plugin].length})
+                  </span>
+                </div>
+              </Collapsible.Header>
+              <Collapsible.Content>
+                <List>
+                  {groups[plugin].map(snapshot =>
+                    <List.Item key={snapshot.get('id')}
+                               onClick={() => this.select(snapshot)}>
+                      {this.props.onRenderItem ?
+                        this.props.onRenderItem(snapshot) :
+                        getLabel(snapshot)
+                      }
+                    </List.Item>
+                  )}
+                </List>
+              </Collapsible.Content>
+            </Collapsible>
+
+            {i + 1 < groupCount ? <Separator /> : null}
+          </div>
         )}
       </div>
     );

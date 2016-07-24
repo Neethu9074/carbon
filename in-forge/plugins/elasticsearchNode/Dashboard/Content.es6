@@ -4,8 +4,8 @@ import React from 'react';
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import {timeframeShape} from 'in-stores/timeline';
-import {Row, Col} from 'in-components/Grid/Grid';
 import {
   zeroDecimalPlaces,
   withSiMultiplyPrefixZeroDecimalPlaces,
@@ -62,54 +62,50 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                          }}/>
       </DashboardSection>
 
-      <Row>
-        <Col cols={6}>
-          <DashboardSection title='Indices Count'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               formatter: withSiPrefixZeroDecimalPlaces,
-                               tooltipFormatter: twoDecimalPlaces,
-                               metrics: [
-                                 'indices_count'
-                               ],
-                               labels: [
-                                 'Indices'
-                               ],
-                               type: 'line'
-                             }}/>
-          </DashboardSection>
-        </Col>
-        <Col cols={6}>
-          <DashboardSection title='Shards'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               formatter: withSiPrefixThreeDecimalPlaces,
-                               tooltipFormatter: twoDecimalPlaces,
-                               metrics: [
-                                 'shards.node_active_shards',
-                                 'shards.node_active_primary_shards'
-                               ],
-                               labels: [
-                                 'Active',
-                                 'Active Primary'
-                               ],
-                               type: 'line'
-                             }}/>
-          </DashboardSection>
-        </Col>
-      </Row>
+      <TwoColumnRow>
+        <DashboardSection title='Indices Count'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: withSiPrefixZeroDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'indices_count'
+                             ],
+                             labels: [
+                               'Indices'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+        <DashboardSection title='Shards'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: withSiPrefixThreeDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'shards.node_active_shards',
+                               'shards.node_active_primary_shards'
+                             ],
+                             labels: [
+                               'Active',
+                               'Active Primary'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+      </TwoColumnRow>
 
       <DashboardSection title='Documents'>
         <ChartWithLegend snapshotId={snapshot.get('id')}

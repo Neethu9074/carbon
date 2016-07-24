@@ -14,9 +14,9 @@ const ContentHeading = React.createClass({
 
   render() {
     return (
-      <h1 className='in-dashboard__content-heading'>
+      <h2 className='in-dashboard__content-heading'>
         {this.props.children}
-      </h1>
+      </h2>
     );
   }
 });
