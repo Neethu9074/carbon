@@ -1,8 +1,9 @@
 import {on} from 'reactive-observables';
 import React from 'react';
 
-import SidebarContent from 'in-components/Sidebar/components/SidebarContent';
+import SidebarBreadcrumb from 'in-components/Sidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-components/Sidebar/components/MapSidebarHeader';
+import SidebarContent from 'in-components/Sidebar/components/SidebarContent';
 import getForgeComponent from 'in-services/getForgeComponent';
 import {selectedSnapshot$} from 'in-stores/snapshot';
 import toPx from 'in-services/formatters/toPx';
@@ -15,6 +16,7 @@ const block = 'in-map-sidebar';
 export default connectTo({
   snapshot: selectedSnapshot$,
   windowHeight: on(window, 'resize')
+    .map(() => window.innerHeight)
     .startWithFn(() => window.innerHeight)
 }, function MapSidebar({snapshot, windowHeight}) {
   if (!snapshot) {
@@ -27,6 +29,7 @@ export default connectTo({
   return (
     <div className={block}>
       <MapSidebarHeader snapshot={snapshot} />
+      <SidebarBreadcrumb snapshotId={snapshot.get('id')}/>
 
       <div className={`${block}__scroll-wrapper`}
            style={{
