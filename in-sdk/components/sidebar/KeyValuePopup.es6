@@ -10,7 +10,7 @@ import {
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
-import 'in-components/KeyValuePopup/KeyValuePopup.less';
+import './KeyValuePopup.less';
 
 
 const block = 'in-key-value-popup';

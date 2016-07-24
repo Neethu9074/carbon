@@ -4,7 +4,7 @@ import React from 'react';
 import {formatDateTime} from 'in-services/formatters/date';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import KeyValuePopup from 'in-components/KeyValuePopup';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 
 
 export default function PhpFpmInfo({snapshot}) {

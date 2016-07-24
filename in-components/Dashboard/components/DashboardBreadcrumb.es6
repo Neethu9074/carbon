@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import {getDashboardLink} from 'in-stores/navigation';
 import {getIcon, getLabel} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -21,7 +22,15 @@ const Crumb = connectTo(props => {
   };
 }, function Crumb({snapshot, selectedSnapshotId, snapshotLink}) {
   if (!snapshot) {
-    return null;
+    return (
+      <li className={crumbElement}>
+        <LoadingIndicator type='light'
+                          inline={true}
+                          style={{
+                            height: '13px'
+                          }}/>
+      </li>
+    );
   }
 
   const label = getSingular(snapshot.get('plugin'));

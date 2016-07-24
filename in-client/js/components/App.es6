@@ -37,7 +37,6 @@ export default function App(props) {
         <Center />
         <SidebarIncidents />
         <MapSidebar />
-        <DetailPopupPresenter />
       </section>
 
       <RightSidebar />
@@ -47,6 +46,7 @@ export default function App(props) {
       {props.children}
 
       <Settings />
+      <DetailPopupPresenter />
       <ReleaseNotesDialog />
       <MessageDialog />
       <HelpPresenter />

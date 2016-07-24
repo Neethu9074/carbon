@@ -3,7 +3,7 @@ import React from 'react';
 
 import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
 import TagList from 'in-sdk/components/sidebar/TagList';
-import KeyValuePopup from 'in-components/KeyValuePopup';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import NodeJsAppInfo from '../NodeJsAppInfo';
