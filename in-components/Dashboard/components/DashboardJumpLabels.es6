@@ -10,7 +10,7 @@ import './DashboardJumpLabels.less';
 
 // Ignore this many pixels from the top and bottom of the scroll area to
 // avoid listing barely visible sections as visible.
-const wiggleRoom = 100;
+const wiggleRoom = 20;
 const slice = Array.prototype.slice;
 const block = 'in-dashboard-jump-labels';
 
