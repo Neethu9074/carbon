@@ -15,7 +15,7 @@ import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import ViewSwitcher from 'in-components/ViewSwitcher';
 import RightSidebar from 'in-components/RightSidebar';
-import SidebarMap from 'in-components/sidebars/Map';
+import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import AppHeader from 'in-components/AppHeader';
 import Settings from 'in-components/Settings';
 import Map from 'in-map';
@@ -36,7 +36,7 @@ export default function App(props) {
         <TableView />
         <Center />
         <SidebarIncidents />
-        <SidebarMap />
+        <MapSidebar />
         <DetailPopupPresenter />
       </section>
 
