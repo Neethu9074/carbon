@@ -3,7 +3,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import RunningComponentsList from 'in-components/RunningComponentsList';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import JBossAsInfo from '../JBossAsInfo';
 

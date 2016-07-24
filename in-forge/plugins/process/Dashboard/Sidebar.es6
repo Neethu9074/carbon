@@ -4,7 +4,7 @@ import React from 'react';
 import RunningComponentsList from 'in-components/RunningComponentsList';
 import ProcessInfo from 'in-forge/plugins/process/ProcessInfo';
 import ArgList from 'in-forge/plugins/process/ArgList';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function ProcessSidebar({snapshot}) {

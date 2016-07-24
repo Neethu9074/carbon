@@ -3,7 +3,7 @@ import React from 'react';
 import ClusterStatusLabel from 'in-forge/plugins/elasticsearchCluster/ClusterStatusLabel';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function ElasticsearchClusterSidebar({snapshot}) {

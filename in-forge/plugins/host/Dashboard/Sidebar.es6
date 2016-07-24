@@ -2,8 +2,9 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RunningComponentsList from 'in-components/RunningComponentsList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import Collapsible from 'in-components/Collapsible';
+import TagList from 'in-sdk/components/sidebar/TagList';
 
 import InterfaceList from 'in-forge/plugins/host/InterfaceList';
 import HostHardware from 'in-forge/plugins/host/HostHardware';
@@ -22,12 +23,11 @@ export default function HostSidebar({snapshot}) {
 
         <Separator />
 
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Interfaces</Collapsible.Header>
-          <Collapsible.Content>
-            <InterfaceList snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
+        <TagList snapshot={snapshot} />
+
+        <Separator />
+
+        <InterfaceList snapshot={snapshot} />
 
         <Separator />
 

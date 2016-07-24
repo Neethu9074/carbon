@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import MemcachedInfo from 'in-forge/plugins/memcached/MemcachedInfo';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function MemcachedSidebar({snapshot}) {

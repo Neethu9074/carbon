@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RabbitMqInfo from 'in-forge/plugins/rabbitMq/RabbitMqInfo';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function RabbitMqSidebar({snapshot}) {
