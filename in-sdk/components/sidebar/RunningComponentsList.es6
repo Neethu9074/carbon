@@ -2,11 +2,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
+import RelatedSnapshotList from 'in-sdk/components/sidebar/RelatedSnapshotList';
 import {getRunningComponents} from 'in-stores/snapshot';
 import {emptySet} from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 
-import RelatedSnapshotList from './RelatedSnapshotList';
 
 export default connectTo(
   props => {

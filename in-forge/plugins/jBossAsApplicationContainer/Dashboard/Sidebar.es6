@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import RunningComponentsList from 'in-components/RunningComponentsList';
+import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import JBossAsInfo from '../JBossAsInfo';

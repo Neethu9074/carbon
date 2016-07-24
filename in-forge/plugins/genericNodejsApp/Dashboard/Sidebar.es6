@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DeployedUnitList from 'in-components/DeployedUnitList';
+import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import KeyValuePopup from 'in-components/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';

@@ -58,9 +58,8 @@ export default connectTo(
     return (
       <div>
         {groupPlugins.map((plugin, i) =>
-          <div>
-            <Collapsible key={plugin}
-                         initiallyOpen={this.props.initiallyOpen}>
+          <div key={plugin}>
+            <Collapsible initiallyOpen={this.props.initiallyOpen}>
               <Collapsible.Header className={block + '__header'}>
                 <div className={block + '__header'}>
                   <img src={getIcon(plugin)}

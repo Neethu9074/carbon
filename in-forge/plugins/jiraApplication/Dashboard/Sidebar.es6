@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import RunningComponentsList from 'in-components/RunningComponentsList';
+import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import JiraInfo from '../JiraInfo';
