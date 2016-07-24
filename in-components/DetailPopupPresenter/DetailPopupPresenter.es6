@@ -3,6 +3,7 @@ import React from 'react';
 import {content$, contentFilter$} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
 import {position$} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterYPositionStore';
 import Header from 'in-components/DetailPopupPresenter/components/Header';
+import {isDashboardOpen$} from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 
 import './DetailPopupPresenter.less';
@@ -13,15 +14,21 @@ const block = 'in-detail-popup';
 export default connectTo({
     content: content$,
     contentFilter: contentFilter$,
-    position: position$.distinct()
+    position: position$.distinct(),
+    isDashboardOpen: isDashboardOpen$
   },
-  function DetailPopupPresenter({content, contentFilter, position}) {
+  function DetailPopupPresenter({content, contentFilter, position, isDashboardOpen}) {
     if (!content) {
       return null;
     }
 
+    let classes = block;
+    if (isDashboardOpen) {
+      classes = `${classes} ${block}--open-dashboard`;
+    }
+
     return (
-      <div className={block}
+      <div className={classes}
            style={{top: position ? position + 'px' : null}}>
         <Header title={content.title} />
         {createHtmlContent(content.data, contentFilter)}

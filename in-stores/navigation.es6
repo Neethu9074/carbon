@@ -101,6 +101,13 @@ export function getDashboardLink(snapshotId) {
 }
 
 
+export const isDashboardOpen$ = navigationParameters$
+  .map(params => {
+    return /\/[a-z]+\/dashboard/i.test(params.pathname);
+  })
+  .distinct();
+
+
 export function getLinkToSnapshotInCurrentView(snapshotId) {
   snapshotId = encodeURIComponent(snapshotId);
   return navigationParameters$
