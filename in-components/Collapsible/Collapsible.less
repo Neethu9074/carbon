@@ -1,8 +1,6 @@
 @import "~in-themes/active.less";
 
 .in-collapsible {
-  padding: 3px 1.25rem 4px;
-  margin: 0 -1.25rem;
   border-bottom: 1px solid @collapsible__line;
 
   &:last-child {
@@ -15,35 +13,31 @@
     align-items: center;
 
     word-break: break-word;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    padding: 0 0 5px;
-    margin-top: 5px;
-
-    color: @collapsible__header__opened-text;
-    transition: color .25s ease-in-out;
+    font-size: .75rem;
+    color: #6B8088;
     cursor: pointer;
 
-    &__closed {
-      color: @collapsible__header__closed-text;
-    }
+    transition: color .25s ease-in-out;
 
     &:hover {
-      color: @collapsible__header__closed-text;
+      color: lighten(#6B8088, 20%);
 
       .in-collapsible__toggle {
-        color: @collapsible__header__closed-text;
+        color: lighten(#6B8088, 20%);
       }
     }
   }
 
   &__content {
-    margin: 10px 0;
+    margin: 7px 0 7px 10px;
   }
 
   &__toggle {
     font-size: 32px;
-    color: @collapsible__header__opened-text;
+    color: #6B8088;
+    height: 14px;
+    position: relative;
+    top: -9px;
 
     transition: color .25s ease-in-out;
   }
