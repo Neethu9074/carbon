@@ -8,16 +8,14 @@ import {getDeployedUnits} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 
-export default connectTo(
-  props => {
-    return {
-      snapshotIds: getDeployedUnits(props.snapshotId)
-        // Always start with an empty set to avoid inconsistent view,
-        // displaying deployed units for a previously selected snapshot.
-        .startWith(emptySet)
-    };
-  },
-  React.createClass({
+export default connectTo(props => {
+  return {
+    snapshotIds: getDeployedUnits(props.snapshotId)
+      // Always start with an empty set to avoid inconsistent view,
+      // displaying deployed units for a previously selected snapshot.
+      .startWith(emptySet)
+  };
+}, React.createClass({
   displayName: 'DeployedUnitList',
 
   mixins: [
@@ -33,7 +31,6 @@ export default connectTo(
     if (this.props.snapshotIds == null) {
       return null;
     }
-
     return <RelatedSnapshotList snapshotIds={this.props.snapshotIds} />;
   }
 }));
