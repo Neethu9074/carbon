@@ -1,14 +1,15 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DefaultLogicalKpiCharts from 'in-components/DefaultLogicalKpiCharts';
+import DefaultLogicalDashboard from
+  'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultLogicalServiceDashboard';
 import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function LogicalElasticSearchIndexDashboard({snapshot, timeframe}) {
   return (
-    <DefaultLogicalKpiCharts snapshot={snapshot}
-                             timeframe={timeframe} />
+      <DefaultLogicalDashboard snapshot={snapshot}
+                               timeframe={timeframe} />
   );
 }
 

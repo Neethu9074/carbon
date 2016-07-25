@@ -1,44 +1,15 @@
 import React from 'react';
 
 import {msTwoDecimalPlaces, zeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
-import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import MetricValue from 'in-components/MetricValue';
-import {getLabel} from 'in-sdk/snapshot';
 
 
-export default function DefaultLogicalKpiCharts({snapshot, timeframe}) {
+export default function DefaultCharts({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
-    <KpiSection>
-      <KpiHeading>
-        {getLabel(snapshot)}
-      </KpiHeading>
-      <KpiKeyValue label='calls/s'>
-        <MetricValue snapshotId={snapshotId}
-                     metric='count'
-                     formatter={zeroDecimalPlaces} />
-      </KpiKeyValue>
-      <KpiKeyValue label='avg. latency'>
-        <MetricValue snapshotId={snapshotId}
-                     metric='duration.mean'
-                     formatter={msTwoDecimalPlaces} />
-      </KpiKeyValue>
-      <KpiKeyValue label='error rate'>
-        <MetricValue snapshotId={snapshotId}
-                     metric='error_rate'
-                     formatter={percentageTwoDecimalPlaces} />
-      </KpiKeyValue>
-      <KpiKeyValue label='instances'>
-        <MetricValue snapshotId={snapshotId}
-                     metric='instances'
-                     formatter={zeroDecimalPlaces} />
-      </KpiKeyValue>
-    </KpiSection>
-
       <DashboardSection title='Calls/s vs. Average Latency'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}

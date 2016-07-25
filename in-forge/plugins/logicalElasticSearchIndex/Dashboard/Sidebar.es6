@@ -1,10 +1,12 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import DefaultLogicalDashboardSidebar from 'in-sdk/components/sidebar/DefaultLogicalDashboardSidebar';
 
-export default function LogicalElasticSearchIndexSidebar({}) {
+
+export default function LogicalElasticSearchIndexSidebar({snapshot}) {
   return (
-    <div />
+    <DefaultLogicalDashboardSidebar snapshot={snapshot} />
   );
 }
 
