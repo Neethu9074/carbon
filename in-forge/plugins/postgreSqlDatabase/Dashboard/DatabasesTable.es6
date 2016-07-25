@@ -59,24 +59,46 @@ function createDetails(db, i, context) {
   return (
     <div>
       <TwoColumnRow>
-        <div>
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                          left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: queriesFormatter,
+                           metrics: [
+                             'databases.' + db + '.queries'
+                           ],
+                           labels: [
+                             'Queries'
+                           ],
+                           type: 'line'
+                         }}/>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: queriesFormatter,
-                             metrics: [
-                               'databases.' + db + '.queries'
-                             ],
-                             labels: [
-                               'Queries'
-                             ],
-                             type: 'line'
-                           }}/>
-
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: queriesFormatter,
+                           metrics: [
+                             'databases.' + db + '.queries_select',
+                             'databases.' + db + '.queries_update',
+                             'databases.' + db + '.queries_insert',
+                             'databases.' + db + '.queries_delete'
+                           ],
+                           labels: [
+                             'SELECT Queries',
+                             'UPDATE Queries',
+                             'INSERT Queries',
+                             'DELETE Queries'
+                           ],
+                           type: 'line'
+                         }}/>
+        </TwoColumnRow>
+        <TwoColumnRow>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -95,31 +117,6 @@ function createDetails(db, i, context) {
                              ],
                              type: 'line'
                            }}/>
-        </div>
-        <div>
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                              left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: queriesFormatter,
-                             metrics: [
-                               'databases.' + db + '.queries_select',
-                               'databases.' + db + '.queries_update',
-                               'databases.' + db + '.queries_insert',
-                               'databases.' + db + '.queries_delete'
-                             ],
-                             labels: [
-                               'SELECT Queries',
-                               'UPDATE Queries',
-                               'INSERT Queries',
-                               'DELETE Queries'
-                             ],
-                             type: 'line'
-                           }}/>
-
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -136,83 +133,80 @@ function createDetails(db, i, context) {
                              ],
                              type: 'line'
                            }}/>
-        </div>
       </TwoColumnRow>
 
       <TwoColumnRow>
-        <div>
-          <ChartWithLegend snapshotId={snapshotId}
-                          timeframe={timeframe}
-                          margins={{
-                             left: 80
-                          }}
-                          y1={{
-                            min: 0,
-                            formatter: queriesFormatter,
-                            metrics: [
-                              'databases.' + db + '.xact_rollback'
-                            ],
-                            labels: [
-                              'Rolled back transactions'
-                            ],
-                            type: 'line'
-                          }}/>
+        <ChartWithLegend snapshotId={snapshotId}
+                        timeframe={timeframe}
+                        margins={{
+                           left: 80
+                        }}
+                        y1={{
+                          min: 0,
+                          formatter: queriesFormatter,
+                          metrics: [
+                            'databases.' + db + '.xact_rollback'
+                          ],
+                          labels: [
+                            'Rolled back transactions'
+                          ],
+                          type: 'line'
+                        }}/>
+        <ChartWithLegend snapshotId={snapshotId}
+                        timeframe={timeframe}
+                        margins={{
+                          left: 80
+                        }}
+                        y1={{
+                          min: 0,
+                          max: 1,
+                          metrics: [
+                            'databases.' + db + '.blks_hit_rate'
+                          ],
+                          labels: [
+                            'Cache Hit Ratio'
+                          ],
+                          type: 'line',
+                          formatter: hitRateFormatter
+                        }}/>
+      </TwoColumnRow>
+      <TwoColumnRow>
+        <ChartWithLegend snapshotId={snapshotId}
+                        timeframe={timeframe}
+                        margins={{
+                           left: 80
+                        }}
+                        y1={{
+                          min: 0,
+                          formatter: zeroDecimalPlaces,
+                          metrics: [
+                            'databases.' + db + '.conflicts'
+                          ],
+                          labels: [
+                            'Standby Conflicts'
+                          ],
+                          type: 'line'
+                        }}/>
 
-          <ChartWithLegend snapshotId={snapshotId}
-                          timeframe={timeframe}
-                          margins={{
-                             left: 80
-                          }}
-                          y1={{
-                            min: 0,
-                            formatter: zeroDecimalPlaces,
-                            metrics: [
-                              'databases.' + db + '.conflicts'
-                            ],
-                            labels: [
-                              'Standby Conflicts'
-                            ],
-                            type: 'line'
-                          }}/>
-        </div>
-        <div>
-          <ChartWithLegend snapshotId={snapshotId}
-                          timeframe={timeframe}
-                          margins={{
-                            left: 80
-                          }}
-                          y1={{
-                            min: 0,
-                            max: 1,
-                            metrics: [
-                              'databases.' + db + '.blks_hit_rate'
-                            ],
-                            labels: [
-                              'Cache Hit Ratio'
-                            ],
-                            type: 'line',
-                            formatter: hitRateFormatter
-                          }}/>
 
-          <ChartWithLegend snapshotId={snapshotId}
-                          timeframe={timeframe}
-                          margins={{
-                             left: 80
-                          }}
-                          y1={{
-                            min: 0,
-                            formatter: queriesFormatter,
-                            metrics: [
-                              'databases.' + db + '.idx_tup_read',
-                              'databases.' + db + '.idx_tup_fetch'
-                            ],
-                            labels: [
-                              'Tuple read',
-                              'Tuple fetch'
-                            ],
-                            type: 'line'
-                          }}/>
-        </div>
+        <ChartWithLegend snapshotId={snapshotId}
+                        timeframe={timeframe}
+                        margins={{
+                           left: 80
+                        }}
+                        y1={{
+                          min: 0,
+                          formatter: queriesFormatter,
+                          metrics: [
+                            'databases.' + db + '.idx_tup_read',
+                            'databases.' + db + '.idx_tup_fetch'
+                          ],
+                          labels: [
+                            'Tuple read',
+                            'Tuple fetch'
+                          ],
+                          type: 'line'
+                        }}/>
       </TwoColumnRow>
     </div>
   );
