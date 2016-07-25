@@ -5,9 +5,9 @@ import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Collapsible from 'in-components/Collapsible';
+import List from 'in-sdk/components/sidebar/List';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import List from 'in-sdk/components/sidebar/List';
 
 import './ConnectedEntitiesList.less';
 
