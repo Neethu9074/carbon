@@ -58,9 +58,9 @@ const ProcessCluster = connectTo(props => {
         return null;
       }
 
-      let className = block + '__header';
+      let headerClassName = block + '__header';
       if (this.state.highlighted || this.state.expanded) {
-        className += ' ' + className + '--highlighted';
+        headerClassName += ' ' + headerClassName + '--highlighted';
       }
 
       let contentClassName = block + '__content';
@@ -69,13 +69,13 @@ const ProcessCluster = connectTo(props => {
       }
 
       return (
-        <div className={block}>
+        <div>
           {this.props.isFullyVisible ?
             <KPIList snapshotId={this.props.client.id} />
           : null}
 
           <div className={contentClassName}>
-            <div className={className}
+            <div className={headerClassName}
                  onMouseEnter={() => this.setState({highlighted: true})}
                  onMouseLeave={() => this.setState({highlighted: false})}
                  onClick={this.onClick}>
