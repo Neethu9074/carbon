@@ -6,20 +6,16 @@ import {
   bytesTwoDecimalPlaces,
   zeroDecimalPlaces,
   msZeroDecimalPlaces,
-  muSecondsZeroDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
   kiloBytesTwoDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ResponsiveTable from 'in-components/ResponsiveTable';
+import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {formatDateTime} from 'in-services/formatters/date';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
-import {getRawPayload} from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
 
 
 const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
@@ -58,16 +54,8 @@ function pubSubMetrics(channelNames) {
   return channelNames.map(name => 'pubsub_subscribers.' + name);
 }
 
-export default connectTo(
-  props => {
-    return {
-      slowLogs: getRawPayload(props.snapshot.get('id'), 'slow_logs')
-    };
-  },
-  RedisDashboard
-);
 
-function RedisDashboard({snapshot, timeframe, slowLogs}) {
+export default function RedisDashboard({snapshot, timeframe}) {
   const data = snapshot.get('data');
   const latencyThreshold = snapshot.getIn(['data', 'latency_monitor_threshold']);
   const channelNames = data.get('channels', emptyList).toArray();
@@ -251,33 +239,7 @@ function RedisDashboard({snapshot, timeframe, slowLogs}) {
                          }}/>
       </DashboardSection>
 
-      {slowLogs && slowLogs.size > 0 ?
-        <DashboardSection title='Slow logs'>
-          <ResponsiveTable>
-            <thead>
-              <tr>
-                <th>id</th>
-                <th>time</th>
-                <th>duration</th>
-                <th>args</th>
-              </tr>
-            </thead>
-
-            <tbody>
-            {slowLogs.toArray()
-              .sort((a, b) => a.get('timestamp') - b.get('timestamp'))
-              .map(slog =>
-                <tr key={slog.get('id')}>
-                  <td>{slog.get('id')}</td>
-                  <td>{formatDateTime(slog.get('timestamp'))}</td>
-                  <td>{muSecondsZeroDecimalPlaces(slog.get('duration'))} </td>
-                  <td>{slog.get('args').join(' ')}</td>
-                </tr>
-              )}
-            </tbody>
-          </ResponsiveTable>
-        </DashboardSection>
-      : null}
+      <SlowLogsTable snapshotId={snapshot.get('id')} />
 
       {role === 'slave' ?
         <DashboardSection title='Bytes left before syncing is complete'>
