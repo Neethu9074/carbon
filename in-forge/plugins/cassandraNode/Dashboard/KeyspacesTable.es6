@@ -40,7 +40,7 @@ function createHeader() {
   return (
     <thead>
       <tr>
-        <th></th>
+        <th>Keyspace</th>
         <th>Reads</th>
         <th>Avg. Read Latency</th>
         <th>Writes</th>

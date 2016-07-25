@@ -1,13 +1,15 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
+import List from 'in-sdk/components/sidebar/List';
 
 import HttpdInfo from '../HttpdInfo';
 
 
 export default function HttpdSidebar({snapshot}) {
+  const modules = snapshot.getIn(['data', 'modules']).sort().toArray();
   return (
     <div>
       <Collapsible initiallyOpen={true}>
@@ -16,7 +18,23 @@ export default function HttpdSidebar({snapshot}) {
           <HttpdInfo snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-      <RunningComponentsList snapshotId={snapshot.get('id')} />
+
+      {modules.length > 0 ?
+        <div>
+          <Separator />
+
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Modules</Collapsible.Header>
+            <Collapsible.Content>
+              <List>
+                {modules.map(module =>
+                  <List.Item key={module}>{module}</List.Item>
+                )}
+              </List>
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      : null}
     </div>
   );
 }

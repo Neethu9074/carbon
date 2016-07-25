@@ -3,6 +3,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import List from 'in-sdk/components/sidebar/List';
 
 import CassandraCommunicationInfo from '../CassandraCommunicationInfo';
@@ -28,6 +29,8 @@ export default function CassandraSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
           Topology
@@ -38,29 +41,7 @@ export default function CassandraSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      {tokens ?
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>
-            Tokens ({tokens.size})
-          </Collapsible.Header>
-          <Collapsible.Content>
-            {tokens.size > 1 ?
-              <List>
-              {tokens.map((token, i) =>
-                <List.Item key={i}>{token}</List.Item>
-              ).toArray()}
-              </List>
-              :
-              <DescriptionList>
-              <DescriptionItem title='Token'>
-                {tokens[0]}
-              </DescriptionItem>
-            </DescriptionList>
-          }
-          </Collapsible.Content>
-        </Collapsible>
-        : null
-      }
+      <Separator />
 
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
@@ -71,6 +52,23 @@ export default function CassandraSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
+      <Separator />
+
+      {tokens && tokens.size > 0 ?
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>
+            Tokens ({tokens.size})
+          </Collapsible.Header>
+          <Collapsible.Content>
+            <List>
+              {tokens.toArray().sort().map((token, i) =>
+                <List.Item key={i}>{token}</List.Item>
+              )}
+            </List>
+          </Collapsible.Content>
+        </Collapsible>
+        : null
+      }
     </div>
   );
 }

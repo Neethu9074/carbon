@@ -23,6 +23,6 @@ addIconToRegistry({
   image: iconPath
 });
 
-addLabelFinder(constants.plugins.cassandraCluster, () => 'Cassandra Cluster');
+addLabelFinder(constants.plugins.cassandraCluster, snapshot => snapshot.getIn(['data', 'groupId']));
 
 addSearchableType('cassandraCluster', constants.plugins.cassandraCluster);
