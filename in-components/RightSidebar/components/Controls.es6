@@ -15,7 +15,7 @@ import 'in-components/RightSidebar/components/Controls.less';
 const block = 'in-filterbar-controls';
 
 export default connectTo({
-    isNotificationCenterOpen: isOpen$,
+    false: isOpen$,
     isTableViewOpen: isTableVisible$,
     activeControl: activeControl$,
     isOpen: content$
@@ -50,6 +50,14 @@ export default connectTo({
                        activeControl={activeControl}
                        tooltipText='DEV ONLY FEATURE. INGORE IT'
                        isActive={isNotificationCenterOpen}
+                       addTopBorder={true} />
+          : null
+        }
+
+        {__DEV__ ?
+          <ControlItem type={CONTROL_TYPES.ICONS}
+                       activeControl={activeControl}
+                       tooltipText='DEV ONLY FEATURE. INGORE IT'
                        addTopBorder={true} />
           : null
         }

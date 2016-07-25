@@ -40,3 +40,27 @@ export default function SvgIcon({
     </svg>
   );
 }
+
+export function SvgIconList() {
+  const icons = Object.keys(ICONS);
+  return (
+    <ul>
+      {icons.map(key =>
+        <li key={key}
+            style={{listStyle: 'none'}}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <SvgIcon type={key}
+                     width={1}
+                     color='#fff' />
+            <span style={{marginLeft: '10px'}}>
+              {key}
+            </span>
+          </div>
+        </li>
+      )}
+    </ul>
+  );
+}
