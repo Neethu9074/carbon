@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  percentageTwoDecimalPlaces,
   bytesTwoDecimalPlaces,
   msTwoDecimalPlaces,
   zeroDecimalPlaces
@@ -32,7 +33,8 @@ export default connectTo(
               <th>Health</th>
               <th>Name</th>
               <th>Calls/s</th>
-              <th>Erros</th>
+              <th>Error Rate</th>
+              <th>Instances</th>
               <th>Latency</th>
             </tr>
           </thead>
@@ -50,7 +52,7 @@ export default connectTo(
                     </SnapshotLink>
                   </td>
                   <td>
-                    <HistoricMetricSparkChartWithLabel width={200}
+                    <HistoricMetricSparkChartWithLabel width={100}
                                                        height={30}
                                                        timeframe={timeframe}
                                                        snapshotId={id}
@@ -58,7 +60,7 @@ export default connectTo(
                                                        formatter={zeroDecimalPlaces} />
                   </td>
                   <td>
-                    <HistoricMetricSparkChartWithLabel width={200}
+                    <HistoricMetricSparkChartWithLabel width={100}
                                                        height={30}
                                                        timeframe={timeframe}
                                                        snapshotId={id}
@@ -66,11 +68,19 @@ export default connectTo(
                                                        formatter={msTwoDecimalPlaces} />
                   </td>
                   <td>
-                    <HistoricMetricSparkChartWithLabel width={200}
+                    <HistoricMetricSparkChartWithLabel width={100}
                                                        height={30}
                                                        timeframe={timeframe}
                                                        snapshotId={id}
-                                                       metric='error_count'
+                                                       metric='error_rate'
+                                                       formatter={percentageTwoDecimalPlaces} />
+                  </td>
+                  <td>
+                    <HistoricMetricSparkChartWithLabel width={100}
+                                                       height={30}
+                                                       timeframe={timeframe}
+                                                       snapshotId={id}
+                                                       metric='instances'
                                                        formatter={zeroDecimalPlaces} />
                   </td>
                   <Mtd metric={'indices.store_size'}
