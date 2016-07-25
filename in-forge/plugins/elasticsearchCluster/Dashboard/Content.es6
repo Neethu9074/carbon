@@ -139,10 +139,8 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
                          }}/>
       </DashboardSection>
 
-      <DashboardSection title='Cluster Nodes'>
-        <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}
-                           timeframe={timeframe} />
-      </DashboardSection>
+      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}
+                         timeframe={timeframe} />
 
       <IndicesTable snapshot={snapshot}
                     timeframe={timeframe} />
