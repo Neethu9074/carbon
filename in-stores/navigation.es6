@@ -166,12 +166,31 @@ export function goToLogicalView() {
 }
 
 
+export const logicalViewLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/logical';
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
+
+
 export function goToPhysicalView() {
   mutateUrl(navParams => {
     navParams.pathname = '/physical';
     return navParams;
   });
 }
+
+export const physicalViewLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/physical';
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
 
 
 export function goToRootOfView() {
@@ -199,6 +218,16 @@ export function goToTraceView() {
     return navParams;
   });
 }
+
+
+export const traceViewLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = PATH_NAMES.TRACES;
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
 
 
 export function showHelp(id) {
