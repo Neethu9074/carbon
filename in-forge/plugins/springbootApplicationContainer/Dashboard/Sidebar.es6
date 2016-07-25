@@ -1,9 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 
 import SpringbootInfo from '../SpringbootInfo';
 
@@ -21,6 +21,8 @@ export default function SpringbootSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
+      <Separator />
+
       { applicationConfig ?
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>Application Config</Collapsible.Header>
@@ -32,7 +34,6 @@ export default function SpringbootSidebar({snapshot}) {
           </Collapsible.Content>
         </Collapsible>
         : null }
-      <RunningComponentsList snapshotId={snapshot.get('id')}/>
     </div>
   );
 }

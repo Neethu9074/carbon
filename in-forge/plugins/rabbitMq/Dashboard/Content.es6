@@ -36,7 +36,8 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                   type: 'line',
                   formatter: twoDecimalPlaces
                 }}/>
-
+      </DashboardSection>
+      <DashboardSection title='Message Status'>
         <TwoColumnRow>
           <ChartWithLegend snapshotId={snapshotId}
                 timeframe={timeframe}
