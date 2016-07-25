@@ -92,7 +92,11 @@ export default class NodeCluster extends Node {
     this.stickyNote.setChildren(ids ? ids : null);
     this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
 
-    if (numChildren > 0 && !this.label) {
+    if (!ids) {
+      return;
+    }
+
+    if (!this.label) {
       this.label = new Label({
         id: this.id,
         parent: this,

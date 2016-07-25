@@ -21,7 +21,7 @@ export default class Label extends BaseLabel {
           contentProvider: new PCP()
         })
       }),
-      additionalParams: { iconSize, type: undefined }
+      additionalParams: { iconSize, type: 'unknown' }
     };
   }
 
