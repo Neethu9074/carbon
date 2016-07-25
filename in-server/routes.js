@@ -156,8 +156,7 @@ function sendIndexJs(req, res) {
     {maxAge: staticFileMaxCachingDurationMs},
     err => {
       if (err) {
-        console.error('Failed to send file', err);
-        res.sendStatus(404);
+        console.error('Failed to send file. Cannot complete request.', err);
       }
     }
   );
