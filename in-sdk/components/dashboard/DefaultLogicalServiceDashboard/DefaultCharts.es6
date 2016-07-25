@@ -14,8 +14,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80,
-                           right: 80
+                           left: 80
                          }}
                          y1={{
                            min: 0,
@@ -48,8 +47,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          timeframe={timeframe}
                          height={400}
                          margins={{
-                           left: 80,
-                           right: 80
+                           left: 80
                          }}
                          y1={{
                            min: 0,
@@ -83,8 +81,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80,
-                           right: 80
+                           left: 80
                          }}
                          y1={{
                            min: 0,
@@ -104,8 +101,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80,
-                           right: 80
+                           left: 80
                          }}
                          y1={{
                            min: 0,
