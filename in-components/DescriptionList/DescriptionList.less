@@ -24,9 +24,20 @@
     word-break: break-all;
     margin: 0;
 
-    &--link {
+    &--link, &-link {
+      color: #2D4048;
       text-decoration: underline;
       cursor: pointer;
+    }
+  }
+
+  &-item-link {
+    color: #2D4048;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      color: lighten(#2D4048, 20%);
     }
   }
 }
