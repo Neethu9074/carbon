@@ -15,9 +15,6 @@ export default function MongoDBInfo({snapshot}) {
       <DescriptionItem title='Port'>
         {data.get('port')}
       </DescriptionItem>
-      <DescriptionItem title='Databases'>
-        {data.get('databases', []).join(', ')}
-      </DescriptionItem>
     </DescriptionList>
   );
 }

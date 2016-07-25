@@ -8,19 +8,39 @@ import {
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default function HostDashboard({snapshot, timeframe}) {
   const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
+  const memoryTotal = snapshot.getIn(['data', 'memory.total'], 0.000001); // avoid devision by zero errors
 
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
+
+        <KpiKeyValue label='CPU Usage'>
+          <MetricValue snapshotId={snapshot.get('id')}
+                       metric='cpu.idle'
+                       formatter={idle => percentageZeroDecimalPlaces(1 - idle)} />
+        </KpiKeyValue>
+
+        <KpiKeyValue label='Memory Usage'>
+          <MetricValue snapshotId={snapshot.get('id')}
+                       metric='memory.free'
+                       formatter={free => percentageZeroDecimalPlaces(1 / memoryTotal * (memoryTotal - free))} />
+        </KpiKeyValue>
+      </KpiSection>
+
       <TwoColumnRow>
         <DashboardSection title='CPU Usage'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -82,7 +102,7 @@ export default function HostDashboard({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           max: snapshot.getIn(['data', 'memory.total']),
+                           max: memoryTotal,
                            formatter: bytesZeroDecimalPlaces,
                            tooltipFormatter: bytesTwoDecimalPlaces,
                            metrics: [

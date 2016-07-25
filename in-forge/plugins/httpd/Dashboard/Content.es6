@@ -39,6 +39,8 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                            type: 'line'
                          }}
                          />
+      </DashboardSection>
+      <DashboardSection title='Traffic per Request'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{

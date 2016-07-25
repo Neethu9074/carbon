@@ -4,6 +4,7 @@ import React from 'react';
 import {withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 
 import ElasticsearchInfo from '../ElasticsearchInfo';
 
@@ -18,6 +19,8 @@ export default function ElasticsearchSidebar({snapshot}) {
                              snapshotId={snapshot.get('id')}/>
         </Collapsible.Content>
       </Collapsible>
+
+      <Separator />
 
       <SparkChartsSection snapshot={snapshot}
                           metrics={[

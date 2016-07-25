@@ -22,4 +22,4 @@ addIconToRegistry({
   image: iconPath
 });
 
-addLabelFinder(constants.plugins.elasticsearchCluster, () => 'Elasticsearch Cluster');
+addLabelFinder(constants.plugins.elasticsearchCluster, snapshot => snapshot.getIn(['data', 'groupId']));
