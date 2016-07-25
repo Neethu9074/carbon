@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import ConnectedEntitiesList from 'in-components/ConnectedEntitiesList';
+import ConnectedEntitiesList from 'in-sdk/components/sidebar/ConnectedEntitiesList';
 
 
 export default function DefaultLogicalConnectionDashboardSidebar({snapshot}) {

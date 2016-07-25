@@ -2,15 +2,18 @@ import {combineLatest} from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
+import {ClickableList, ClickableSnapshotListItem} from 'in-sdk/components/sidebar/ClickableList';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import Collapsible from 'in-components/Collapsible';
+import {getSnapshot} from 'in-stores/snapshot';
 import {viewStructure} from 'in-stores/view';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import List from 'in-sdk/components/sidebar/List';
 
+import './ConnectionList.less';
 
 const rpt = React.PropTypes;
+const block = 'in-connection-list';
 
 export default connectTo(
   props => {
@@ -43,18 +46,22 @@ function ConnectionList({connections}) {
           <Collapsible.Header>
             {'Downstream (' + connections.outgoing.size + ')'}
           </Collapsible.Header>
-          <Collapsible.Content>
+          <Collapsible.Content className={`${block}__snapshot-list`}>
             <SnapshotList connections={connections.outgoing} />
           </Collapsible.Content>
         </Collapsible>
       }
+
+      {connections.incoming.size > 0 && connections.outgoing.size > 0 ?
+        <Separator />
+      : null}
 
       {connections.incoming.size === 0 ? null :
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>
             {'Upstream (' + connections.incoming.size + ')'}
           </Collapsible.Header>
-          <Collapsible.Content>
+          <Collapsible.Content className={`${block}__snapshot-list`}>
             <SnapshotList connections={connections.incoming} />
           </Collapsible.Content>
         </Collapsible>
@@ -73,14 +80,14 @@ const SnapshotList = connectTo(props => {
   }
 
   return (
-    <List>
+    <ClickableList>
       {snapshots.map(snapshot =>
-        <List.Item key={snapshot.get('id')}
-                   onClick={() => setSelectedSnapshotId(snapshot.get('id'))}>
+        <ClickableSnapshotListItem key={snapshot.get('id')}
+                                   snapshotId={snapshot.get('id')}>
           {getLabel(snapshot)}
-        </List.Item>
+        </ClickableSnapshotListItem>
       )}
-    </List>
+    </ClickableList>
   );
 });
 

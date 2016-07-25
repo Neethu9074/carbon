@@ -1,16 +1,18 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
+import {ClickableList, ClickableSnapshotListItem} from 'in-sdk/components/sidebar/ClickableList';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Collapsible from 'in-components/Collapsible';
-import List from 'in-sdk/components/sidebar/List';
+import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './ConnectedEntitiesList.less';
 
+const block = 'in-connected-entities-list';
 
 export default connectTo(
   props => {
@@ -32,8 +34,11 @@ function ConnectedEntitiesList({connectedEntities}) {
 
   return (
     <div>
-      {sourceId ? <Entity snapshotId={sourceId} title={'Upstream'} /> : null}
-      {destinationId ? <Entity snapshotId={destinationId} title={'Downstream'} /> : null}
+      {sourceId ? <Entity snapshotId={sourceId} title={'Upstream (1)'} /> : null}
+      {sourceId && destinationId ?
+        <Separator />
+      : null}
+      {destinationId ? <Entity snapshotId={destinationId} title={'Downstream (1)'} /> : null}
     </div>
   );
 }
@@ -42,7 +47,7 @@ const Entity = connectTo(props => {
   return {
     snapshot: getSnapshot(props.snapshotId)
   };
-}, function Enttiy({title, snapshot}) {
+}, function Entity({title, snapshot}) {
   if (!snapshot) {
     return null;
   }
@@ -53,13 +58,12 @@ const Entity = connectTo(props => {
       <Collapsible.Header>
         {title}
       </Collapsible.Header>
-      <Collapsible.Content>
-        <List>
-          <List.Item key={id}
-                     onClick={() => setSelectedSnapshotId(id)}>
+      <Collapsible.Content className={`${block}__snapshot-list`}>
+        <ClickableList>
+          <ClickableSnapshotListItem snapshotId={id}>
             {getLabel(snapshot)}
-          </List.Item>
-        </List>
+          </ClickableSnapshotListItem>
+        </ClickableList>
       </Collapsible.Content>
     </Collapsible>
   );
