@@ -25,11 +25,7 @@
     left: 0;
     right: 0;
     border-top: 1px solid #6B8088;
-    margin-top: -1px;
-
-    .in-browser-ff & {
-      margin-top: -19px;
-    }
+    margin-top: -19px;
   }
 
   &--first-child::before {
@@ -64,11 +60,11 @@
   &__health {
     position: absolute;
     left: ~"calc(100% - 10rem)";
-    margin-top: 0.7625rem;
     margin-right: 50%;
+    margin-top: -0.5rem;
 
-    .in-browser-ff & {
-      margin-top: -0.5rem;
+    .in-browser-chrome & {
+      margin-top: 0;
     }
   }
 }
