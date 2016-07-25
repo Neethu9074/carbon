@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {emptyList} from 'in-services/fixedImmutables';
-import List from 'in-components/List';
+import List from 'in-sdk/components/sidebar/List';
 
 
 export default function AppPoolList({snapshot}) {

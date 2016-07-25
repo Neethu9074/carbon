@@ -3,7 +3,8 @@ import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import List from 'in-components/List';
+import Separator from 'in-sdk/components/sidebar/Separator';
+import List from 'in-sdk/components/sidebar/List';
 
 import JVMInfo from '../JVMInfo';
 
@@ -20,18 +21,23 @@ export default function JvmRuntimeSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
+      <Separator />
+
       {args ?
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>JVM Arguments</Collapsible.Header>
-          <Collapsible.Content>
-            <List>
-              {args.map((arg, i) =>
-                <List.Item key={i}>{arg}</List.Item>
-              ).toArray()}
-            </List>
-          </Collapsible.Content>
-        </Collapsible>
+        <div>
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>JVM Arguments</Collapsible.Header>
+            <Collapsible.Content>
+              <List>
+                {args.toArray().map((arg, i) => <List.Item key={i}>{arg}</List.Item>)}
+              </List>
+            </Collapsible.Content>
+          </Collapsible>
+
+          <Separator />
+        </div>
       : null}
+
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>
   );

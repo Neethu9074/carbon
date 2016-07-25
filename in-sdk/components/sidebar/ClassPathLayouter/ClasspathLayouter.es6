@@ -1,7 +1,6 @@
 import React from 'react';
 
-import 'in-components/ClassPathLayouter/ClasspathLayouter.less';
-
+import './ClasspathLayouter.less';
 
 const block = 'in-classpath-layouter';
 
@@ -27,7 +26,6 @@ export default function ClasspathLayouter({classpath}) {
 
   return (
     <div className={block}>
-      Classpath
       {Object.keys(tree).map((path, i) => {
         const parentPath = path;
         const children = tree[path];

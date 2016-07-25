@@ -3,7 +3,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import List from 'in-components/List';
+import List from 'in-sdk/components/sidebar/List';
 
 import CassandraCommunicationInfo from '../CassandraCommunicationInfo';
 import CassandraTopologyInfo from '../CassandraTopologyInfo';

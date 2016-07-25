@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import ClasspathLayouter from 'in-components/ClassPathLayouter/ClasspathLayouter';
+import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 
@@ -29,9 +29,11 @@ export default function JVMInfo({snapshot}) {
           </DescriptionItem> :
           null
         }
-      </DescriptionList>
 
-      <ClasspathLayouter classpath={data.get('jvm.cp')}/>
+        <DescriptionItem title='Classpath'>
+          <ClasspathLayouter classpath={data.get('jvm.cp')}/>
+        </DescriptionItem>
+      </DescriptionList>
     </div>
   );
 }

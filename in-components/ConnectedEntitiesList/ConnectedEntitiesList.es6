@@ -7,7 +7,7 @@ import {emptyMap} from 'in-services/fixedImmutables';
 import Collapsible from 'in-components/Collapsible';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import List from 'in-components/List';
+import List from 'in-sdk/components/sidebar/List';
 
 import './ConnectedEntitiesList.less';
 
