@@ -1,9 +1,8 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
-import * as timelineStore from 'in-stores/timeline';
 import MetricValue from 'in-components/MetricValue';
+import {timeframe$} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import './SparkChartsSection.less';
@@ -12,11 +11,8 @@ import './SparkChartsSection.less';
 const block = 'in-spark-chart-section';
 
 export default connectTo({
-    timeframe: timelineStore.timeframe
-  }, SparkChartsSection
-);
-
-function SparkChartsSection({snapshot, timeframe, metrics}) {
+  timeframe: timeframe$
+}, function SparkChartsSection({snapshot, timeframe, metrics}) {
   return (
     <div className={block}>
       {metrics.map(metric =>
@@ -29,12 +25,12 @@ function SparkChartsSection({snapshot, timeframe, metrics}) {
       )}
     </div>
   );
-}
+});
 
 function SparkChart({snapshotId, timeframe, metric, label, formatter}) {
   return (
     <div className={block + '__chart'}>
-      <HistoricMetricSparkChart width={123}
+      <HistoricMetricSparkChart width={115}
                                 height={30}
                                 timeframe={timeframe}
                                 snapshotId={snapshotId}
@@ -52,9 +48,3 @@ function SparkChart({snapshotId, timeframe, metric, label, formatter}) {
     </div>
   );
 }
-
-SparkChartsSection.propTypes = {
-  metrics: React.PropTypes.array.isRequired,
-  timeframe: timelineStore.timeframeShape,
-  snapshot: irpt.map.isRequired
-};

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
-import SparkChartsSection from 'in-components/sidebars/components/SparkChartsSection';
+import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 
 
 export default function DefaultLogicalSidebarKpis({snapshot}) {

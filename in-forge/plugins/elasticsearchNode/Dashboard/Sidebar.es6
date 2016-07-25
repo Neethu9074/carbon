@@ -1,6 +1,8 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import ElasticsearchInfo from '../ElasticsearchInfo';
@@ -16,6 +18,27 @@ export default function ElasticsearchSidebar({snapshot}) {
                              snapshotId={snapshot.get('id')}/>
         </Collapsible.Content>
       </Collapsible>
+
+      <SparkChartsSection snapshot={snapshot}
+                          metrics={[
+                            {
+                              metric: 'indices_count',
+                              label: 'Indices',
+                              formatter: withSiPrefixThreeDecimalPlaces
+                            }, {
+                              metric: 'shards.node_active_shards',
+                              label: 'Active Shards',
+                              formatter: withSiPrefixThreeDecimalPlaces
+                            }, {
+                              metric: 'indices.document_count',
+                              label: 'Documents',
+                              formatter: withSiPrefixThreeDecimalPlaces
+                            }, {
+                              metric: 'indices.store_size',
+                              label: 'Size of store',
+                              formatter: bytesTwoDecimalPlaces
+                            }
+                          ]}/>
     </div>
   );
 }

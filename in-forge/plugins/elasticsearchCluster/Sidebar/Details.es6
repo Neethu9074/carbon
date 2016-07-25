@@ -1,8 +1,8 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {withSiPrefixTwoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
-import SparkChartsSection from 'in-components/sidebars/components/SparkChartsSection';
+import {withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
@@ -27,19 +27,19 @@ export default function ElasticsearchClusterSidebar({snapshot}) {
                             {
                               metric: 'node_count',
                               label: 'Nodes',
-                              formatter: withSiPrefixTwoDecimalPlaces
+                              formatter: withSiPrefixThreeDecimalPlaces
                             }, {
                               metric: 'indices_count',
                               label: 'Indices',
-                              formatter: withSiPrefixTwoDecimalPlaces
+                              formatter: withSiPrefixThreeDecimalPlaces
                             }, {
                               metric: 'active_shards_count',
                               label: 'Active Shards',
-                              formatter: withSiPrefixTwoDecimalPlaces
+                              formatter: withSiPrefixThreeDecimalPlaces
                             }, {
                               metric: 'document_count',
                               label: 'Documents',
-                              formatter: withSiPrefixTwoDecimalPlaces
+                              formatter: withSiPrefixThreeDecimalPlaces
                             }, {
                               metric: 'store_size',
                               label: 'Size of store',
