@@ -8,9 +8,9 @@ import PhysicalEntitiesList from
 import KPIList from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/KPIList';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import {getSnapshot} from 'in-stores/snapshot';
+import SvgIcon from 'in-components/SvgIcon';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './Cluster.less';
 
@@ -76,13 +76,13 @@ const ProcessCluster = connectTo(props => {
 
           <div className={contentClassName}>
             <div className={className}
-               onMouseEnter={() => this.setState({highlighted: true})}
-               onMouseLeave={() => this.setState({highlighted: false})}
-               onClick={this.onClick}>
+                 onMouseEnter={() => this.setState({highlighted: true})}
+                 onMouseLeave={() => this.setState({highlighted: false})}
+                 onClick={this.onClick}>
 
-               {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
-               <Icon type={this.state.expanded ? 'close_up' : 'close'}
-                     className={block + '__icon'}/>
+              {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
+
+              <Icon expanded={this.state.expanded}/>
             </div>
 
             {this.state.expanded ?
@@ -100,6 +100,22 @@ const ProcessCluster = connectTo(props => {
     }
   })
 );
+
+function Icon({expanded}) {
+  let className = block + '__icon-wrapper';
+  if (expanded) {
+    className += ' ' + className + '--expanded';
+  }
+
+  return (
+    <div className={className}>
+      <SvgIcon type={expanded ? 'arrow_up' : 'arrow_down'}
+               width={0.35}
+               color={expanded ? '#000' : '#2d4048'}
+               className={block + '__icon'}/>
+    </div>
+  );
+}
 
 
 export default class StickyNoteProcessCluster extends StickyNote {
