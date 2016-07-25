@@ -28,11 +28,12 @@ export default function SvgIcon({
   }
 
   return (
-    <svg className={className}
+    <svg className={className + ' ' + 'in-svg-icon'}
          width={width} height={height}
          style={{
            width: width + 'rem',
-           height: height + 'rem'
+           height: height + 'rem',
+           transformOrigin: '0'
          }}
          viewBox={icon.viewBox}>
      <path fill={color} d={icon.path} />
