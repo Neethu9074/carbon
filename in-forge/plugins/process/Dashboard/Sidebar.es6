@@ -2,9 +2,10 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
-import ProcessInfo from 'in-forge/plugins/process/ProcessInfo';
-import ArgList from 'in-forge/plugins/process/ArgList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import ProcessInfo from 'in-forge/plugins/process/ProcessInfo';
+import Separator from 'in-sdk/components/sidebar/Separator';
+import ArgList from 'in-forge/plugins/process/ArgList';
 
 
 export default function ProcessSidebar({snapshot}) {
@@ -21,15 +22,21 @@ export default function ProcessSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
+      <Separator />
+
       {args && args.size > 0 ?
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>
-            Arguments
-          </Collapsible.Header>
-          <Collapsible.Content>
-            <ArgList snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
+        <div>
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>
+              Arguments
+            </Collapsible.Header>
+            <Collapsible.Content>
+              <ArgList snapshot={snapshot} />
+            </Collapsible.Content>
+          </Collapsible>
+
+          <Separator />
+        </div>
         : null
       }
       <RunningComponentsList snapshotId={snapshot.get('id')} />
