@@ -1,9 +1,13 @@
-.in-kpi-summary {
-  margin-top: 2rem;
-  font-size: 1rem;
-  color: #6b8088;
-
+.in-kpi-section {
   display: flex;
+
+  background: #fff;
+  padding: 12px;
+  margin-bottom: 4px;
+
+  .in-dashboard__content-heading {
+    display: none;
+  }
 
   &__heading, &__kv {
     display: flex;
@@ -22,6 +26,7 @@
   &__heading {
     font-weight: bold;
     font-size: 1.2rem;
+    border-left: 0;
   }
 
   &__key {

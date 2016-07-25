@@ -2,7 +2,7 @@ import React from 'react';
 
 import ServletsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ServletsInDeploymentsTable';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyMap} from 'in-services/fixedImmutables';

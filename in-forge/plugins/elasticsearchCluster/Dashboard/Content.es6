@@ -12,7 +12,7 @@ import ClusterNodesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/C
 import IndicesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/IndicesTable.es6';
 import ClusterSummary from 'in-forge/plugins/elasticsearchCluster/ClusterSummary';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
@@ -20,9 +20,7 @@ import {timeframeShape} from 'in-stores/timeline';
 export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <DashboardSection title='Summary'>
-        <ClusterSummary snapshot={snapshot}/>
-      </DashboardSection>
+      <ClusterSummary snapshot={snapshot}/>
 
       <DashboardSection title='Search Performance vs. Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}

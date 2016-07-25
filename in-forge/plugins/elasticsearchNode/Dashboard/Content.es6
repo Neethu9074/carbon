@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import {timeframeShape} from 'in-stores/timeline';
 import {
   zeroDecimalPlaces,
   withSiMultiplyPrefixZeroDecimalPlaces,
@@ -22,9 +20,7 @@ import NodeSummary from '../NodeSummary.es6';
 export default function ElasticsearchDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <DashboardSection title='Summary'>
-        <NodeSummary snapshot={snapshot}/>
-      </DashboardSection>
+      <NodeSummary snapshot={snapshot}/>
 
       <DashboardSection title='Search Performance vs. Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -284,8 +280,3 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-ElasticsearchDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

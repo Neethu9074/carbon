@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ContentHeading from '../ContentHeading';
+import ContentHeading from 'in-sdk/components/dashboard/ContentHeading';
 
 import './DashboardSection.less';
 
@@ -9,9 +9,13 @@ const block = 'in-dashboard-section';
 const rpt = React.PropTypes;
 
 
-export default function DashboardSection({title, children}) {
+export default function DashboardSection({title, children, className}) {
+  let classes = block;
+  if (className) {
+    classes = `${classes} ${className}`;
+  }
   return (
-    <div className={block}>
+    <div className={classes}>
       <ContentHeading>
         {title}
       </ContentHeading>

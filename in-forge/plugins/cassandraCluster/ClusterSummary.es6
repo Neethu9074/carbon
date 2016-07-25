@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {KpiSummary, KpiHeading, KpiKeyValue} from 'in-components/KpiSummary';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 
 export default function ClusterSummary({snapshot}) {
   const data = snapshot.get('data');
   return (
-    <KpiSummary>
+    <KpiSection>
       <KpiHeading>{data.get('groupId')}</KpiHeading>
       <KpiKeyValue label='Nodes'>{data.get('nodeCount')}</KpiKeyValue>
-    </KpiSummary>
+    </KpiSection>
   );
 }

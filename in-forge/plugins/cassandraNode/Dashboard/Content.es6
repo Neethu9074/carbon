@@ -8,7 +8,7 @@ import {capitalize} from 'in-services/formatters/string';
 import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
 import {timeframeShape} from 'in-stores/timeline';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 

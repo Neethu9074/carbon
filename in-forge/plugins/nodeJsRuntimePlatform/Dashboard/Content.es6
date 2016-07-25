@@ -5,7 +5,7 @@ import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/He
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import * as numberFormatters from 'in-services/formatters/number';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 

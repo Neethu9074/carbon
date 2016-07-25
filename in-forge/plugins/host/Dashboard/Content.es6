@@ -12,7 +12,7 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 

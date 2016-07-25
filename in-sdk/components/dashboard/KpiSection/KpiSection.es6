@@ -1,8 +1,10 @@
 import React from 'react';
 
-import './KpiSummary.less';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 
-const block = 'in-kpi-summary';
+import './KpiSection.less';
+
+const block = 'in-kpi-section';
 
 export function KpiHeading({children}) {
   return (
@@ -27,10 +29,11 @@ export function KpiKeyValue({label, children}) {
 }
 
 
-export function KpiSummary({children}) {
+export function KpiSection({children}) {
   return (
-    <div className={block}>
+    <DashboardSection className={block}
+                      title='Summary'>
       {children}
-    </div>
+    </DashboardSection>
   );
 }

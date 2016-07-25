@@ -12,7 +12,7 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {formatDateTime} from 'in-services/formatters/date';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {emptyList} from 'in-services/fixedImmutables';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ExpandableTable from 'in-components/ExpandableTable';
 
 export default function DatabasesTable({snapshot, timeframe}) {

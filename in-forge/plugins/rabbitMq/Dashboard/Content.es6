@@ -5,7 +5,7 @@ import React from 'react';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import {twoDecimalPlaces} from 'in-services/formatters/number';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';

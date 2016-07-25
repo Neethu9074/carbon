@@ -3,7 +3,7 @@ import React from 'react';
 
 import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
 import ClusterSummary from 'in-forge/plugins/cassandraCluster/ClusterSummary';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {capitalize} from 'in-services/formatters/string';
 import {timeframeShape} from 'in-stores/timeline';
@@ -12,9 +12,7 @@ import {timeframeShape} from 'in-stores/timeline';
 export default function CassandraClusterDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <DashboardSection title='Summary'>
-        <ClusterSummary snapshot={snapshot}/>
-      </DashboardSection>
+      <ClusterSummary snapshot={snapshot}/>
 
       <DashboardSection title='Overall Requests'>
         <ChartWithLegend snapshotId={snapshot.get('id')}

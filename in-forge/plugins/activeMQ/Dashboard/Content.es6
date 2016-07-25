@@ -3,7 +3,7 @@ import React from 'react';
 
 import {timeframeShape} from 'in-stores/timeline';
 import DashboardNotification from 'in-components/DashboardNotification';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 const percentage = d => d + '%';

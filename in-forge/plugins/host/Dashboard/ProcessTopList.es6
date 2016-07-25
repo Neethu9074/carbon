@@ -4,7 +4,7 @@ import {
   percentageZeroDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {getRawPayload} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';

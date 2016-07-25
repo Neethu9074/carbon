@@ -3,7 +3,7 @@ import React from 'react';
 
 import EndpointBreakdownTable from
 'in-forge/plugins/springbootApplicationContainer/Dashboard/EndpointBreakdownTable.es6';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 

@@ -7,7 +7,7 @@ import {
 } from 'in-services/formatters/number';
 import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import SnapshotLink from 'in-components/SnapshotLink';
 import {getLabel} from 'in-sdk/snapshot';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {msTwoDecimalPlaces, zeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 
