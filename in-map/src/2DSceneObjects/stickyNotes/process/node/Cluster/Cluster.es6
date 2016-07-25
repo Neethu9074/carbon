@@ -109,8 +109,9 @@ function Icon({expanded}) {
 
   return (
     <div className={className}>
-      <SvgIcon type={expanded ? 'chevron_up' : 'chevron_down'}
+      <SvgIcon type={expanded ? 'triangle_up' : 'triangle_down'}
                width={0.25}
+               height={0.25}
                color={expanded ? '#000' : '#2d4048'}
                className={block + '__icon'}/>
     </div>

@@ -238,8 +238,7 @@ export default function SvgIcon({
          width={width} height={height}
          style={{
            width: iconWidth + 'rem',
-           height: iconHeight + 'rem',
-           transformOrigin: '0'
+           height: iconHeight + 'rem'
          }}
          viewBox={'0 0 ' + icon.width + ' ' + icon.height}>
      <path fill={color} d={icon.path} />
