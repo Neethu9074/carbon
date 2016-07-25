@@ -50,11 +50,11 @@ const Crumb = connectTo(props => {
 
 
 export default getPhysicalHierarchy(function SidebarBreadcrumb({physicalHierarchy, snapshotId}) {
-  physicalHierarchy = physicalHierarchy.toArray();
-
-  if (physicalHierarchy.length === 0) {
-    physicalHierarchy.push(snapshotId);
+  if (physicalHierarchy.size <= 1) {
+    return null;
   }
+
+  physicalHierarchy = physicalHierarchy.toArray();
 
   return (
     <ul className={block}>
