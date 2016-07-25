@@ -6,7 +6,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {
   withSiMultiplyPrefixZeroDecimalPlaces,
-  bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
@@ -103,8 +102,7 @@ function createDetails(indexName, i, context) {
                        labels: [
                          'Size'
                        ],
-                       formatter: bytesZeroDecimalPlaces,
-                       tooltipFormatter: bytesTwoDecimalPlaces,
+                       formatter: bytesTwoDecimalPlaces,
                        type: 'line'
                       }}/>
   );
