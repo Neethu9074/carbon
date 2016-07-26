@@ -1,412 +1,49 @@
 /* eslint-disable react/prop-types, react/no-multi-comp */
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {highlightedSpanId$, longSelectedTrace$} from 'in-components/traceView/traceViewStore';
-import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
-import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
-import {getLabel, getTypeLabelSingular, getCategory, getDirection} from 'in-sdk/tracing';
-import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
+import {longSelectedTrace$} from 'in-components/traceView/traceViewStore';
 import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
-import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
+import TraceHeader from 'in-components/traceView/components/tree/Header';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {formatDateTime} from 'in-services/formatters/date';
-import classnames from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
+import TreeElement from 'in-components/traceView/components/tree/Element';
 
 import './TraceTree.less';
 
 const block = 'in-trace-view-tree';
 
-function TreeNetworkElement({parent, element}) {
-  let duration = null;
-  // be really pesimistic here and assume that everyone go bad.
-  if (parent != null && element.children.length === 1 && element.children[0].type === 'span' &&
-      getDirection(element.children[0].span) && parent.type === 'span') {
-    duration = parent.span.get('duration') - element.children[0].span.get('duration');
-    duration = Math.max(duration, 0);
+
+export default connectTo({
+  traceId: selectedTraceId,
+  trace: selectedTrace,
+  longTrace: longSelectedTrace$
+}, function TraceTree({traceId, trace, longTrace}) {
+  if (!traceId) {
+    return <p className={`${block}__no-trace-selected`}>No trace selected.</p>;
   }
-  return (
-    <div>
-      NETWORK
-      {duration != null ? ` (${duration} ms)` : null}
-    </div>
-  );
-}
 
-const TreeStackTraceElementV2 = React.createClass({
-  getInitialState() {
-    return {
-      showAllElements: false
-    };
-  },
-
-  render() {
-    const stackTrace = this.props.stackTrace;
-
-    if (stackTrace.length === 1) {
-      return (
-        <div>
-          {stackTrace.map((st, i) =>
-            <div key={i}
-                 className={block + '__stack-trace-element'}>
-              {st.get('c')}#{st.get('m')}:{st.get('n')}
-
-              <span className={block + '__stack-trace-element-view-source'}>
-                &nbsp;[View Source]
-              </span>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    const last = stackTrace[stackTrace.length - 1];
-
-    return (
-      <div>
-        {this.state.showAllElements ?
-          <div>
-            <div onClick={this.toggle}>
-              [Show less…]
-            </div>
-
-            {stackTrace.filter(st => st !== last).map((st, i) =>
-              <div key={i} className={block + '__stack-trace-element'}>
-                {st.get('c')}#{st.get('m')}:{st.get('n')}
-
-                <span className={block + '__stack-trace-element-view-source'}>
-                  &nbsp;[View Source]
-                </span>
-              </div>
-            )}
-
-            <div onClick={this.toggle}>
-              [Show less…]
-            </div>
-          </div>
-        : null}
-
-        <div className={block + '__stack-trace-element'}>
-          {last.get('c')}#{last.get('m')}:{last.get('n')}
-
-          {!this.state.showAllElements ?
-            <span onClick={this.toggle}>
-              &nbsp;[Show more…]
-            </span>
-          : null}
-
-          <span className={block + '__stack-trace-element-view-source'}>
-            &nbsp;[View Source]
-          </span>
-        </div>
-      </div>
-    );
-  },
-
-  toggle() {
-    this.setState({
-      showAllElements: !this.state.showAllElements
-    });
+  if (!longTrace || longTrace.id !== traceId) {
+    return <LoadingIndicator type='dark' />;
   }
-});
-
-
-const TreeSpanElement = connectTo(props => {
-    const spanId = props.span.get('spanId');
-    return {
-      isHighlighted: highlightedSpanId$
-        .map(highlightedSpanId => spanId === highlightedSpanId)
-        .distinct()
-    };
-  }, React.createClass({
-    mixins: [PureRenderMixin],
-
-    propTypes: {
-      span: React.PropTypes.object.isRequired,
-      trace: React.PropTypes.object.isRequired,
-      isHighlighted: React.PropTypes.bool.isRequired,
-      parentSpanForPercentageCalculation: React.PropTypes.object.isRequired
-    },
-
-    getInitialState() {
-      return {
-        detailsExpanded: false
-      };
-    },
-
-    render() {
-      const selfTime = getSelfTime(this.props.span);
-      const totalTime = this.props.span.get('duration');
-
-      let totalTimePercentage;
-      let selfTimePercentage;
-      if (this.props.span.get('async')) {
-        totalTimePercentage = 0;
-        selfTimePercentage = 0;
-      } else {
-        // add a small amount to avoid division by zero
-        const parentTotalTime = this.props.parentSpanForPercentageCalculation.get('duration') + 0.00000001;
-        totalTimePercentage = 1 / parentTotalTime * totalTime;
-        selfTimePercentage = 1 / parentTotalTime * selfTime;
-      }
-
-      return (
-        <div>
-          <div className={classnames({
-                 [`${block}__element-header`]: true,
-                 [`${block}__element-header--error`]: this.props.span.get('error'),
-                 [`${block}__element-header--highlighted`]: this.props.isHighlighted
-               })}
-               onClick={this.toggleDetails}>
-            <span className={`${block}__element-type-indicator`}
-                  style={{
-                    background: spanCategoryColors[getCategory(this.props.span)]
-                  }}/>
-
-            <div className={`${block}__element-header-row ${block}__element-header-row--top`}>
-              Self: {msZeroDecimalPlaces(selfTime)} ({percentageTwoDecimalPlaces(selfTimePercentage)})
-
-              <span style={{position: 'absolute', left: '150px'}}>
-                {getTypeLabelSingular(this.props.span)}:
-                &nbsp;
-                {getLabel(this.props.span)}
-              </span>
-            </div>
-            <div className={`${block}__element-header-row ${block}__element-header-row--bottom`}>
-              Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
-
-              <span style={{position: 'absolute', left: '150px'}}>
-                {getDirection(this.props.span) === 'entry' ?
-                  <span>
-                    <SpanEntityInformation span={this.props.span}
-                                           label='From'
-                                           connectionEndpointType='sourceId' />
-                    <SpanEntityInformation span={this.props.span}
-                                           label='On'
-                                           connectionEndpointType='destinationId' />
-                  </span>
-                :
-                  <span>
-                    <SpanEntityInformation span={this.props.span}
-                                           label='On'
-                                           connectionEndpointType='sourceId' />
-                    <SpanEntityInformation span={this.props.span}
-                                           label='To'
-                                           connectionEndpointType='destinationId' />
-                  </span>
-                }
-              </span>
-            </div>
-
-            {this.props.span.get('async') ?
-              <span className={`${block}__async-marker`}>
-                &#x21C4;
-              </span>
-            : null}
-          </div>
-
-          {this.state.detailsExpanded ?
-            <SpanForgeDetails span={this.props.span}
-                              trace={this.props.trace} />
-          : null}
-        </div>
-      );
-    },
-
-    toggleDetails() {
-      this.setState(prevState => {
-        return {
-          detailsExpanded: !prevState.detailsExpanded
-        };
-      });
-    }
-  })
-);
-
-
-const TreeElement = React.createClass({
-  render() {
-    let newParentSpanForPercentageCalculation = this.props.parentSpanForPercentageCalculation;
-    if (this.props.element.type === 'span' && this.props.parentSpanForPercentageCalculation.get('async')) {
-      newParentSpanForPercentageCalculation = this.props.element.span;
-    }
-
-    const elementType = this.props.element.type;
-    let details;
-    if (elementType === 'span') {
-      details = (
-        <TreeSpanElement trace={this.props.trace}
-                         span={this.props.element.span}
-                         parentSpanForPercentageCalculation={this.props.parentSpanForPercentageCalculation}
-                         parent={this.props.parent} />
-      );
-    } else if (elementType === 'stackTrace') {
-      details = (
-        <TreeStackTraceElementV2 stackTrace={this.props.element.stackTrace}
-                                 parent={this.props.parent} />
-      );
-    } else if (elementType === 'network') {
-      details = (
-        <TreeNetworkElement parent={this.props.parent}
-                            element={this.props.element} />
-      );
-    } else {
-      throw new Error(`Unknown long trace element type ${this.props.element.type}`);
-    }
-
-    return (
-      <li className={`${block}__element`}>
-        {details}
-
-        <ul className={`${block}__element-container`}>
-          {this.props.element.children.map(childElement =>
-            <TreeElement element={childElement}
-                         key={childElement.id}
-                         parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
-                         trace={this.props.trace}
-                         parent={this.props.element} />
-          )}
-        </ul>
-      </li>
-    );
-  }
-});
-
-
-function TraceHeader({trace}) {
-  const errorCount = getErrorCount(trace);
-  const depth = getDepth(trace);
-  const calls = getCalls(trace);
-
-  const perCategorySummary = getPerCategySummary(trace);
-  const categories = Object.keys(perCategorySummary).sort();
 
   return (
-    <div>
-      <h1>
-        {getLabel(trace)}
-        <SpanEntityInformation span={trace}
-                               label=' on'
-                               connectionEndpointType='destinationId' />
-      </h1>
+    <div className={block}>
+      <TraceHeader trace={trace} />
 
-      <p>
-        Took {msZeroDecimalPlaces(trace.get('duration'))} on {formatDateTime(trace.get('start'))} with&nbsp;
-        {errorCount} errors in {calls} calls and a maximum depth of {depth}.
-      </p>
+      <h2>Flame Graph</h2>
 
-      <ul>
-        {categories.map(category =>
-          <li key={category}>
-            {perCategorySummary[category].calls} {category} calls at a total self time of&nbsp;
-            {msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}
-          </li>
-        )}
+      <TraceFlameGraph trace={trace} />
+
+      <h2>Trace Tree</h2>
+
+      <ul className={`${block}__element-container ${block}__element-container--root`}>
+        <TreeElement element={longTrace}
+                     parentSpanForPercentageCalculation={trace}
+                     trace={trace}
+                     parent={null} />
       </ul>
     </div>
   );
-}
-
-
-export default connectTo({
-    traceId: selectedTraceId,
-    trace: selectedTrace,
-    longTrace: longSelectedTrace$
-  }, function TraceTree({traceId, trace, longTrace}) {
-    if (!traceId) {
-      return <p className={`${block}__no-trace-selected`}>No trace selected.</p>;
-    }
-
-    if (!longTrace || longTrace.id !== traceId) {
-      return <LoadingIndicator type='dark' />;
-    }
-
-    return (
-      <div className={block}>
-        <TraceHeader trace={trace} />
-
-        <h2>Flame Graph</h2>
-
-        <TraceFlameGraph trace={trace} />
-
-        <h2>Trace Tree</h2>
-
-        <ul className={`${block}__element-container ${block}__element-container--root`}>
-          <TreeElement element={longTrace}
-                       parentSpanForPercentageCalculation={trace}
-                       trace={trace}
-                       parent={null} />
-        </ul>
-      </div>
-    );
-  }
-);
-
-
-function getSelfTime(span) {
-  let selfTime = span.get('duration');
-  span.get('childSpans').forEach(childSpan => {
-    if (!childSpan.get('async')) {
-      selfTime -= childSpan.get('duration');
-    }
-  });
-  return selfTime;
-}
-
-
-function getDepth(span) {
-  let maxDepth = 1;
-
-  span.get('childSpans').forEach(childSpan => {
-    maxDepth = Math.max(maxDepth, getDepth(childSpan) + 1);
-  });
-
-  return maxDepth;
-}
-
-
-function getErrorCount(span) {
-  let count = 0;
-  if (span.get('error')) {
-    count++;
-  }
-
-  span.get('childSpans').forEach(childSpan => {
-    count += getErrorCount(childSpan);
-  });
-
-  return count;
-}
-
-
-function getCalls(span) {
-  let count = 1;
-
-  span.get('childSpans').forEach(childSpan => {
-    count += getCalls(childSpan);
-  });
-
-  return count;
-}
-
-function getPerCategySummary(span, collector) {
-  collector = collector || {};
-
-  const category = getCategory(span);
-  const categorySummary = collector[category] = collector[category] || {
-    category,
-    calls: 0,
-    durationTotal: 0,
-    durationSelf: 0
-  };
-  categorySummary.calls++;
-  categorySummary.durationTotal += span.get('duration');
-  categorySummary.durationSelf = getSelfTime(span);
-
-  span.get('childSpans').forEach(childSpan => getPerCategySummary(childSpan, collector));
-
-  return collector;
-}
+});

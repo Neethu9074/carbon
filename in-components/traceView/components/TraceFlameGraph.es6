@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {getStart, getEnd, getDepth} from 'in-components/traceView/util';
 import {highlightSpanId} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getLabel, getCategory, getDirection} from 'in-sdk/tracing';
@@ -79,37 +80,4 @@ export default function TraceFlameGraph({trace}) {
                          scale={x} />
     </div>
   );
-}
-
-
-function getDepth(span) {
-  let maxDepth = 1;
-
-  span.get('childSpans').forEach(childSpan => {
-    maxDepth = Math.max(maxDepth, getDepth(childSpan) + 1);
-  });
-
-  return maxDepth;
-}
-
-
-function getStart(span) {
-  let earliestStart = span.get('start');
-
-  span.get('childSpans').forEach(childSpan => {
-    earliestStart = Math.min(earliestStart, getStart(childSpan));
-  });
-
-  return earliestStart;
-}
-
-
-function getEnd(span) {
-  let latestEnd = span.get('start') + span.get('duration');
-
-  span.get('childSpans').forEach(childSpan => {
-    latestEnd = Math.max(latestEnd, getEnd(childSpan));
-  });
-
-  return latestEnd;
 }
