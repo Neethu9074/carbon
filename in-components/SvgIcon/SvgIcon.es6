@@ -8,7 +8,8 @@ export default function SvgIcon({
   width,
   height,
   className,
-  color
+  color,
+  onClick
 }) {
   const icon = icons[type];
   if (!icon) {
@@ -37,7 +38,8 @@ export default function SvgIcon({
            width: iconWidth + 'px',
            height: iconHeight + 'px'
          }}
-         viewBox={'0 0 ' + icon.width + ' ' + icon.height}>
+         viewBox={'0 0 ' + icon.width + ' ' + icon.height}
+         onClick={onClick}>
      <path fill={color} d={icon.path} />
     </svg>
   );
