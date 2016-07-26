@@ -33,6 +33,7 @@ const ProcessCluster = connectTo(props => {
     ],
 
     propTypes: {
+      isHighlighted: rpt.func.isRequired,
       client: rpt.any.isRequired,
       isFullyVisible: rpt.bool,
       isVisible: rpt.bool,
@@ -70,7 +71,11 @@ const ProcessCluster = connectTo(props => {
 
       return (
         <div className={contentClassName}>
-          {this.props.isFullyVisible ? <KPIList snapshotId={this.props.client.id} /> : null }
+          {this.props.isFullyVisible ?
+            <KPIList snapshotId={this.props.client.id}
+                     isHighlighted={this.props.isHighlighted}/>
+            : null
+          }
 
           <div className={headerClassName}
                onMouseEnter={() => this.setState({highlighted: true})}
@@ -125,9 +130,18 @@ export default class StickyNoteProcessCluster extends StickyNote {
 
     ReactDOM.render(
       <ProcessCluster children={this.children}
+                      isHighlighted={this.isHighlighted.bind(this)}
                       client={parent} />,
       this.container
     );
+  }
+
+  isHighlighted(isHighlighted) {
+    if (isHighlighted) {
+      this.style.zIndex = 1;
+    } else {
+      this.style.zIndex = 0;
+    }
   }
 
   setChildren(children) {
