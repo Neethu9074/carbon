@@ -212,12 +212,14 @@ http {
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
+{% if OPERATION_MODE != "on-prem" %}
     location /notifications/ {
       proxy_pass             https://instana.github.io/ui-notifications/content/;
       proxy_cache            off;
       proxy_hide_header      Cache-Control;
       add_header             Cache-Control "private, no-cache, no-store, must-revalidate, max-age=0";
     }
+{% endif %}
 
 {% if OPERATION_MODE == "on-prem" %}
 
