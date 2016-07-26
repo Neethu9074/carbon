@@ -69,27 +69,23 @@ const ProcessCluster = connectTo(props => {
       }
 
       return (
-        <div>
-          {this.props.isFullyVisible ?
-            <KPIList snapshotId={this.props.client.id} />
-          : null}
+        <div className={contentClassName}>
+          {this.props.isFullyVisible ? <KPIList snapshotId={this.props.client.id} /> : null }
 
-          <div className={contentClassName}>
-            <div className={headerClassName}
-                 onMouseEnter={() => this.setState({highlighted: true})}
-                 onMouseLeave={() => this.setState({highlighted: false})}
-                 onClick={this.onClick}>
+          <div className={headerClassName}
+               onMouseEnter={() => this.setState({highlighted: true})}
+               onMouseLeave={() => this.setState({highlighted: false})}
+               onClick={this.onClick}>
 
-              {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
+            {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
 
-              <Icon expanded={this.state.expanded}/>
-            </div>
-
-            {this.state.expanded ?
-              <PhysicalEntitiesList ids={children}
-                                    parentId={this.props.client.id} />
-            : null}
+            <Icon expanded={this.state.expanded}/>
           </div>
+
+          {this.state.expanded ?
+            <PhysicalEntitiesList ids={children}
+                                  parentId={this.props.client.id} />
+          : null}
         </div>
       );
     },

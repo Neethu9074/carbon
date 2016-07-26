@@ -46,7 +46,7 @@ export default getSnapshot(
                this.setState({isHighlighted: true});
              }}
              onMouseLeave={() =>{
-               this.setState({isHighlighted: true});
+               this.setState({isHighlighted: false});
              }}>
           {this.state.isHighlighted ?
             kpis.map(kpi =>
