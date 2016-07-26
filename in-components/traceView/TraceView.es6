@@ -1,6 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import TraceDetailHeader from 'in-components/traceView/components/TraceDetailHeader';
+import TraceListHeader from 'in-components/traceView/components/TraceListHeader';
 import {enable, disable} from 'in-components/traceView/traceViewStore';
 import TraceTree from 'in-components/traceView/components/TraceTree';
 import TraceList from 'in-components/traceView/components/TraceList';
@@ -42,9 +44,11 @@ export default connectTo({
                    bottom: toPx(this.props.timelineHeight)
                  }}>
           <div className={`${block}__trace-list`}>
+            <TraceListHeader />
             <TraceList />
           </div>
           <div className={`${block}__trace-details`}>
+            <TraceDetailHeader />
             <TraceTree />
           </div>
         </section>
