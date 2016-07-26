@@ -100,7 +100,7 @@ export default class NodeCluster extends Node {
       this.label = new Label({
         id: this.id,
         parent: this,
-        snapshotId: ids.getIn([0, 'id']),
+        snapshotId: numChildren > 0 ? ids.getIn([0, 'id']) : this.id,
         iconSize: 2.75
       });
     }

@@ -1,8 +1,7 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
 import * as constants from 'in-forge/constants';
+import {addLabelFinder} from 'in-sdk/snapshot';
+import * as icon from 'in-sdk/iconRegistry';
 
 import iconPath from './icon.svg';
 
@@ -14,7 +13,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(constants.plugins.unknownService, s => s.getIn(['data', 'service_name']));
 
-addIconToRegistry({
+icon.addIconToRegistry({
   id: constants.plugins.unknownService,
   image: iconPath
 });
