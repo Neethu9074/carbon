@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
-import SparkChart from 'in-components/SparkChart';
+import LabeledSparkChart from 'in-sdk/components/sidebar/LabeledSparkChart';
 import getSnapshot from 'in-hoc/getSnapshot';
 import KPIList from 'in-components/KPIList';
 import {getKpis} from 'in-sdk/kpi';
@@ -51,11 +51,11 @@ const Metric = getSnapshot(
                onMouseLeave={() => this.setState({isHighlighted: false})}>
             {this.state.isHighlighted ?
               kpis.map(kpi =>
-                <SparkChart key={kpi.label}
-                            snapshotId={this.props.snapshotId}
-                            title={kpi.label}
-                            metric={kpi.metric}
-                            formatter={kpi.formatter} />
+                <LabeledSparkChart key={kpi.label}
+                                   snapshotId={this.props.snapshotId}
+                                   title={kpi.label}
+                                   metric={kpi.metric}
+                                   formatter={kpi.formatter} />
               ) :
               <KPIList snapshot={snapshot}
                        metrics={kpis.map(kpi => kpi.metric)}
