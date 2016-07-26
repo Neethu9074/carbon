@@ -1,4 +1,3 @@
-import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
 import HighlightingComponent from 'in-map/src/components/process/HighlightingComponentForCylinder';
@@ -14,32 +13,23 @@ import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentPro
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
-import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import {relations$} from 'in-map/src/stores/process/nodeChildrenRelations';
-import {expand, collapse} from 'in-map/src/stores/process/expandedNodes';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
 
-export default class NodeCluster extends Node {
+export default class NodeUnknownExitService extends Node {
 
   constructor(props) {
     super(props);
 
-    const eventEmitter = this.eventEmitter;
-    this.addSubscriptions([
-      relations$.subscribe(relationsMap => this.setChildren(relationsMap[this.id])),
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      snapshotId: this.id,
+      iconSize: 2.75
+    });
 
-      combineLatest([
-        eventEmitter.on('onNumOfChildrenChanged').distinct(),
-        eventEmitter.on('onExpand').distinct()
-      ]).subscribe(([numChildren, isExpanded]) => {
-        eventEmitter.emit('isFullyVisible', isExpanded || numChildren === 0);
-      })
-    ]);
-
-    eventEmitter.emit('onExpand', false);
-    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.eventEmitter.emit('isFullyVisible', false);
   }
 
   init() {
@@ -89,45 +79,13 @@ export default class NodeCluster extends Node {
     });
   }
 
-  setChildren(ids) {
-    const numChildren = ids ? ids.size : 0;
-    this.stickyNote.setChildren(ids ? ids : null);
-    this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
-
-    if (!ids) {
-      return;
-    }
-
-    if (!this.label) {
-      this.label = new Label({
-        id: this.id,
-        parent: this,
-        snapshotId: numChildren > 0 ? ids.getIn([0, 'id']) : this.id,
-        iconSize: 2.75
-      });
-    }
-  }
-
-  expand() {
-    this.eventEmitter.emit('onExpand', true);
-    expand(this.id);
-  }
-
-  collapse() {
-    this.eventEmitter.emit('onExpand', false);
-    collapse(this.id);
-  }
-
   updateScreenPosition() {
     this.getComponent('screenPosition').updateScreenPosition();
   }
 
   positionChanged(newPos) {
     super.positionChanged(newPos);
-
-    if (this.label) {
-      this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
-    }
+    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
   }
 
   createSticky() {
@@ -141,9 +99,7 @@ export default class NodeCluster extends Node {
   dispose() {
     super.dispose();
 
-    if (this.label) {
-      this.label.dispose();
-      this.label = null;
-    }
+    this.label.dispose();
+    this.label = null;
   }
 }

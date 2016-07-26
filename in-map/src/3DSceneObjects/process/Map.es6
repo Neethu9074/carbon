@@ -2,7 +2,9 @@ import ProcessViewRenderTree from 'in-map/src/3DSceneObjects/process/ProcessView
 import FadeByDistanceSingleMeshFactory from 'in-map/src/SingleMeshFactory/FadeByDistanceSingleMeshFactory';
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import SingleMeshDashedLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshDashedLineFactory';
+import NodeUnknownExitService from 'in-map/src/3DSceneObjects/process/NodeUnknownExitService';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
+import NodeUnknownService from 'in-map/src/3DSceneObjects/process/NodeUnknownService';
 import {selectEntity, clearSelection} from 'in-map/src/stores/multiSelection';
 import CameraController from 'in-map/src/controls/process/CameraController';
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
@@ -40,7 +42,18 @@ export default class Map extends BaseMap {
             parent: this,
             entity: entity.entity
           };
-          return entity.type === 'process' ? new NodeCluster(params) : new NodePhysical(params);
+          if (entity.type === 'process') {
+            const id = entity.entity.get('id');
+            if (id.startsWith('unknown-service')) {
+              if (entity.entity.get('outgoingConnections') === 0 &&
+                  entity.entity.get('incomingConnections') !== 0) {
+                    return new NodeUnknownExitService(params);
+              }
+              return new NodeUnknownService(params);
+            }
+            return new NodeCluster(params);
+          }
+          return new NodePhysical(params);
         });
         this.disposeOld(this.nodes, currentNodes);
       }),

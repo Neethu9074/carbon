@@ -1,9 +1,6 @@
 import immutable from 'immutable';
 
-import ConnectionBetweenProcessAndPhysical from 'in-map/src/3DSceneObjects/process/ConnectionBetweenProcessAndPhysical';
 import ConnectionWithKPI from 'in-map/src/3DSceneObjects/process/ConnectionWithKPI';
-import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
-import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import {nodes$} from 'in-map/src/stores/process/nodesStore';
 
@@ -44,12 +41,13 @@ export default class EdgeSpawner {
         direction: DIRECTIONS.OUT
       };
 
-      if ((sourceNode instanceof NodeCluster && destinationNode instanceof NodeCluster) ||
-          (sourceNode instanceof NodePhysical && destinationNode instanceof NodePhysical)) {
-        this.connection = new ConnectionWithKPI(config);
-      } else {
-        this.connection = new ConnectionBetweenProcessAndPhysical(config);
-      }
+      this.connection = new ConnectionWithKPI(config);
+      // if ((sourceNode instanceof NodeCluster && destinationNode instanceof NodeCluster) ||
+      //     (sourceNode instanceof NodePhysical && destinationNode instanceof NodePhysical)) {
+      //   this.connection = new ConnectionWithKPI(config);
+      // } else {
+      //   this.connection = new ConnectionBetweenProcessAndPhysical(config);
+      // }
     } else {
       this.disposeConnection();
     }
