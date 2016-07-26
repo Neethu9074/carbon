@@ -161,32 +161,20 @@ export default class ParticleEmitter extends SceneObject {
   spawnParticle() {
     const vertices = this.vertices;
     const position = this.positionGenerationStrategy.getPositionForParticle();
+    const newIndex = this.getNextCursorPosition();
     const particle = {
       progress: 0,
-      timeLived: 0
+      timeLived: 0,
+      index: newIndex
     };
     this.particles.push(particle);
 
-    const newIndex = this.getNextCursorPosition();
-    particle.index = newIndex;
     this.progresses[newIndex] = 0;
 
     const indexInVertices = newIndex * 3;
     vertices[indexInVertices] = position.x;
     vertices[indexInVertices + 1] = position.y;
     vertices[indexInVertices + 2] = position.z;
-  }
-
-  positionNeedsUpdate() {
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
-    this.geometry.attributes.position.needsUpdate = true;
-  }
-
-  progressNeedsUpdate() {
-    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
-    this.geometry.attributes.progress.needsUpdate = true;
-
-    requestRendering();
   }
 
   getNextCursorPosition() {
@@ -204,6 +192,18 @@ export default class ParticleEmitter extends SceneObject {
 
   freeCursorPosition(value) {
     this.indices.push(value);
+  }
+
+  positionNeedsUpdate() {
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
+    this.geometry.attributes.position.needsUpdate = true;
+  }
+
+  progressNeedsUpdate() {
+    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
+    this.geometry.attributes.progress.needsUpdate = true;
+
+    requestRendering();
   }
 
   stop() {
