@@ -5,8 +5,9 @@ import TraceDetailHeader from 'in-components/traceView/components/TraceDetailHea
 import TraceListHeader from 'in-components/traceView/components/TraceListHeader';
 import {enable, disable} from 'in-components/traceView/traceViewStore';
 import TraceTree from 'in-components/traceView/components/TraceTree';
-import TraceList from 'in-components/traceView/components/TraceList';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
+import TraceTableHeader from 'in-components/traceView/components/TraceTableHeader';
+import TraceTable from 'in-components/traceView/components/TraceTable';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
@@ -45,7 +46,8 @@ export default connectTo({
                  }}>
           <div className={`${block}__trace-list`}>
             <TraceListHeader />
-            <TraceList />
+            <TraceTableHeader />
+            <TraceTable />
           </div>
           <div className={`${block}__trace-details`}>
             <TraceDetailHeader />
