@@ -38,7 +38,7 @@ export default React.createClass({
     this.scrollSubscription = on(this.scrollElement, 'scroll')
       .throttle(200)
       .subscribe(this.onScroll);
-    this.resizeSubscription = on(this.scrollElement, 'resize')
+    this.resizeSubscription = on(window, 'resize')
       .throttle(200)
       .subscribe(this.onResize);
     this.checkHandle = setTimeout(this.checkForNewElements, 500);
@@ -75,6 +75,7 @@ export default React.createClass({
 
   onResize() {
     this.setState({
+      top: this.scrollElement.scrollTop,
       height: this.scrollElement.clientHeight
     });
     this.checkForNewElements();
