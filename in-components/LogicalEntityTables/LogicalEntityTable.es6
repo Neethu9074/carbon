@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   percentageTwoDecimalPlaces,
-  bytesTwoDecimalPlaces,
   msTwoDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
@@ -13,7 +12,6 @@ import ExpandableTable from 'in-components/ExpandableTable';
 import SnapshotLink from 'in-components/SnapshotLink';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Mtd from 'in-components/Mtd';
 
 
 export default connectTo(props => {
@@ -102,9 +100,6 @@ function createRow(node, i, {timeframe}) {
                                          snapshotId={id}
                                          metric='instances'
                                          formatter={zeroDecimalPlaces} />
-    </td>,
-    <Mtd metric={'indices.store_size'}
-         snapshot={node}
-         formatter={bytesTwoDecimalPlaces}/>
+    </td>
   ];
 }
