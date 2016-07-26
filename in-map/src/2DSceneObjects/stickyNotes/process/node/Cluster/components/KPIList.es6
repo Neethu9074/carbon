@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import SparkChart from 'in-components/SparkChart';
+import LabeledSparkChart from 'in-sdk/components/sidebar/LabeledSparkChart';
 import getSnapshot from 'in-hoc/getSnapshot';
 import KPIList from 'in-components/KPIList';
 import {getKpis} from 'in-sdk/kpi';
@@ -50,7 +50,7 @@ export default getSnapshot(
              }}>
           {this.state.isHighlighted ?
             kpis.map(kpi =>
-              <SparkChart className={block + '__spark-chart'}
+              <LabeledSparkChart className={block + '__spark-chart'}
                           key={kpi.label}
                           snapshotId={this.props.snapshotId}
                           label={kpi.label}
