@@ -1,18 +1,14 @@
 import React from 'react';
 
-import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
-import MetricValue from 'in-components/MetricValue';
-import {timeframe$} from 'in-stores/timeline';
-import connectTo from 'in-hoc/connectTo';
+import SparkChart from 'in-components/SparkChart';
 
 import './SparkChartsSection.less';
 
 
 const block = 'in-spark-chart-section';
 
-export default connectTo({
-  timeframe: timeframe$
-}, function SparkChartsSection({snapshot, timeframe, metrics}) {
+
+export default function SparkChartsSection({snapshot, metrics}) {
   return (
     <div className={block}>
       {metrics.map(metric =>
@@ -20,31 +16,8 @@ export default connectTo({
                     snapshotId={snapshot.get('id')}
                     metric={metric.metric}
                     label={metric.label}
-                    formatter={metric.formatter}
-                    timeframe={timeframe} />
+                    formatter={metric.formatter} />
       )}
-    </div>
-  );
-});
-
-function SparkChart({snapshotId, timeframe, metric, label, formatter}) {
-  return (
-    <div className={block + '__chart'}>
-      <HistoricMetricSparkChart width={115}
-                                height={30}
-                                timeframe={timeframe}
-                                snapshotId={snapshotId}
-                                metric={metric}
-                                tooltipFormatter={formatter} />
-      <div className={block + '__description'}>
-        <span className={block + '__title'}>
-          {label}
-        </span>
-        <MetricValue snapshotId={snapshotId}
-                     metric={metric}
-                     className={block + '__value'}
-                     formatter={formatter}/>
-      </div>
     </div>
   );
 }
