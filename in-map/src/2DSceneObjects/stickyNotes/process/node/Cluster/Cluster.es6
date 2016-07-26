@@ -33,6 +33,7 @@ const ProcessCluster = connectTo(props => {
     ],
 
     propTypes: {
+      isHighlighted: rpt.func.isRequired,
       client: rpt.any.isRequired,
       isFullyVisible: rpt.bool,
       isVisible: rpt.bool,
@@ -54,9 +55,7 @@ const ProcessCluster = connectTo(props => {
       }
 
       const children = this.props.children;
-      if (!children || children.size === 0) {
-        return null;
-      }
+      const childrenAreAvailable = children && children.size > 0;
 
       let headerClassName = block + '__header';
       if (this.state.highlighted || this.state.expanded) {
@@ -70,19 +69,27 @@ const ProcessCluster = connectTo(props => {
 
       return (
         <div className={contentClassName}>
-          {this.props.isFullyVisible ? <KPIList snapshotId={this.props.client.id} /> : null }
+          {this.props.isFullyVisible ?
+            <KPIList snapshotId={this.props.client.id}
+                     isHighlighted={this.props.isHighlighted}/>
+            : null
+          }
 
-          <div className={headerClassName}
-               onMouseEnter={() => this.setState({highlighted: true})}
-               onMouseLeave={() => this.setState({highlighted: false})}
-               onClick={this.onClick}>
+          {childrenAreAvailable ?
+            <div className={headerClassName}
+                 onMouseEnter={() => this.setState({highlighted: true})}
+                 onMouseLeave={() => this.setState({highlighted: false})}
+                 onClick={this.onClick}>
+              {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
+              <Icon expanded={this.state.expanded} />
+            </div>
+            :
+            <div className={headerClassName}>
+              {getLabel(this.props.snapshot)}
+            </div>
+          }
 
-            {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
-
-            <Icon expanded={this.state.expanded}/>
-          </div>
-
-          {this.state.expanded ?
+          {(this.state.expanded && childrenAreAvailable) ?
             <PhysicalEntitiesList ids={children}
                                   parentId={this.props.client.id} />
           : null}
@@ -125,9 +132,18 @@ export default class StickyNoteProcessCluster extends StickyNote {
 
     ReactDOM.render(
       <ProcessCluster children={this.children}
+                      isHighlighted={this.isHighlighted.bind(this)}
                       client={parent} />,
       this.container
     );
+  }
+
+  isHighlighted(isHighlighted) {
+    if (isHighlighted) {
+      this.style.zIndex = 1;
+    } else {
+      this.style.zIndex = 0;
+    }
   }
 
   setChildren(children) {

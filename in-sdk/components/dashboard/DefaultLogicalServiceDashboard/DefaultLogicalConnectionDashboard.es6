@@ -1,17 +1,19 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DefaultKpiSection from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultKpiSection';
-import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultCharts';
+import DefaultKpiConnectionSection from
+  'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultKpiConnectionSection';
+import DefaultConnectionCharts from
+  'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultConnectionCharts';
 import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function DefaultLogicalConnectionDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <DefaultKpiSection snapshot={snapshot}/>
+      <DefaultKpiConnectionSection snapshot={snapshot}/>
 
-      <DefaultCharts snapshot={snapshot}
+      <DefaultConnectionCharts snapshot={snapshot}
                      timeframe={timeframe} />
     </div>
   );

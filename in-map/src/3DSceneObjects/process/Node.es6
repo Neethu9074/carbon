@@ -61,8 +61,6 @@ export default class Node extends SceneObject {
     this.eventEmitter.emit('onHighlight', false);
 
     addNode(this);
-
-    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onHighlightEnter() {

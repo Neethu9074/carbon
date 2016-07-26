@@ -1,3 +1,5 @@
+import pbst from 'in-sdk/util/pluginBasedSnapshotTransformation';
+
 import unknownIconPath from './unknown_icon.svg';
 
 const iconRegistry = {};
@@ -26,3 +28,9 @@ export function getIconById(id) {
 export function getAllIcons() {
   return Object.keys(iconRegistry).map(key => iconRegistry[key]);
 }
+
+
+const transformer = pbst('icon', snapshot => snapshot.get('plugin'));
+
+export const addMapping = transformer.addMapping;
+export const getIconPath = transformer.get;

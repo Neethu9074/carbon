@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   percentageTwoDecimalPlaces,
-  bytesTwoDecimalPlaces,
   msTwoDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
@@ -12,8 +11,7 @@ import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
 import SnapshotLink from 'in-components/SnapshotLink';
 import {getLabel} from 'in-sdk/snapshot';
- import connectTo from 'in-hoc/connectTo';
-import Mtd from 'in-components/Mtd';
+import connectTo from 'in-hoc/connectTo';
 
 
 export default connectTo(props => {
@@ -51,9 +49,9 @@ function createHeader() {
         <th>Health</th>
         <th>Name</th>
         <th>Calls/s</th>
+        <th>Latency</th>
         <th>Error Rate</th>
         <th>Instances</th>
-        <th>Latency</th>
       </tr>
     </thead>
   );
@@ -102,9 +100,6 @@ function createRow(node, i, {timeframe}) {
                                          snapshotId={id}
                                          metric='instances'
                                          formatter={zeroDecimalPlaces} />
-    </td>,
-    <Mtd metric={'indices.store_size'}
-         snapshot={node}
-         formatter={bytesTwoDecimalPlaces}/>
+    </td>
   ];
 }
