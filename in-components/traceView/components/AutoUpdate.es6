@@ -19,7 +19,8 @@ export default connectTo(
                id={checkboxId}
                value={autoUpdateActive}
                onChange={toggleAutoRefresh}/>
-        <label htmlFor={checkboxId}>
+        <label htmlFor={checkboxId}
+               className={`${block}__label`}>
           Refresh every 10 seconds
         </label>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getDirection} from 'in-components/traceView/util';
+import {getDirection} from 'in-sdk/tracing';
 
 export default function TreeNetworkElement({parent, element}) {
   let duration = null;
