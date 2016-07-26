@@ -2,6 +2,8 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'spring-batch',
+  category: 'batch',
+  direction: 'entry',
 
   typeName: {
     singular: 'Spring Batch Job',
