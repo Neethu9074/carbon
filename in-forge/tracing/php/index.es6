@@ -2,6 +2,8 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'php',
+  category: 'http',
+  direction: 'entryAndExit',
 
   typeName: {
     singular: 'PHP request',

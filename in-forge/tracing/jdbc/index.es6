@@ -1,7 +1,10 @@
 import {registerSpanDefinition} from 'in-sdk/registry/tracing';
+import {shortenSqlStatement} from 'in-forge/tracing/jdbc/sql';
 
 registerSpanDefinition({
   type: 'jdbc',
+  category: 'database',
+  direction: 'exit',
 
   typeName: {
     singular: 'JDBC Call',
@@ -11,6 +14,10 @@ registerSpanDefinition({
   detailView: 'JdbcSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'jdbc', 'statement']) || span.getIn(['data', 'jdbc', 'connection']);
+    const statement = span.getIn(['data', 'jdbc', 'statement']);
+    if (statement == null) {
+      return span.getIn(['data', 'jdbc', 'connection']);
+    }
+    return shortenSqlStatement(statement);
   }
 });

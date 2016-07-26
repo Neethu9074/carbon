@@ -1,5 +1,3 @@
-import {combineLatest} from 'reactive-observables';
-
 import createTotalTraceCountObservable from 'in-services/subscription/totalTraceCount';
 import {timeframe as timeframe$, focusedMoment$} from 'in-stores/timeline';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
@@ -27,7 +25,7 @@ export function getTraces(maxTimestamp, minTimestamp, sortByField, sortMode) {
  * ############################
  */
 const selectedTraceId$ = createTrackingStore({
-  name: 'selectedTraceId',
+  name: 'in-stores/traces/selectedTraceId',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
@@ -41,7 +39,7 @@ const selectedTraceId$ = createTrackingStore({
 export const selectedTraceId = selectedTraceId$;
 
 export const selectedTrace = createTrackingStore({
-  name: 'selectedTrace',
+  name: 'in-stores/traces/selectedTrace',
   observable: selectedTraceId.flatMap(traceId => {
     if (traceId) {
       return createTraceObservable(traceId);
@@ -57,7 +55,6 @@ export function setSelectedTraceId(id) {
   } else {
     mutateUrl(navParams => {
       navParams.query.traceId = encodeURIComponent(id);
-      delete navParams.query.spanId;
       return navParams;
     });
   }
@@ -66,67 +63,6 @@ export function setSelectedTraceId(id) {
 export function clearTraceSelection() {
   mutateUrl(navParams => {
     delete navParams.query.traceId;
-    delete navParams.query.spanId;
     return navParams;
   });
-}
-
-
-/**
- * ############################
- * Selected span and span id
- * ############################
- */
-export const selectedSpanId$ = createTrackingStore({
-  name: 'selectedSpanId',
-  observable: navigationParameters$
-    .map(params => {
-      const query = params.query;
-      if ('spanId' in query) {
-        return decodeURIComponent(query.spanId);
-      }
-
-      return null;
-    })
-    .distinct()
-}).observable;
-
-
-export const selectedSpan$ = createTrackingStore({
-  name: 'selectedSpan',
-  observable: combineLatest([selectedSpanId$, selectedTrace])
-    .map(([spanId, trace]) => {
-      if (!spanId || !trace) {
-        return null;
-      }
-
-      // Walk through all spans and find the correct one.
-      let spansToCheck = [trace];
-      while (spansToCheck.length !== 0) {
-        const span = spansToCheck.shift();
-        if (span.get('spanId') === spanId) {
-          return span;
-        }
-        spansToCheck = spansToCheck.concat(span.get('childSpans').toArray());
-      }
-      return null;
-    })
-}).observable;
-
-export function clearSpanSelection() {
-  mutateUrl(navParams => {
-    delete navParams.query.spanId;
-    return navParams;
-  });
-}
-
-export function setSelectedSpanId(id) {
-  if (id == null) {
-    clearSpanSelection();
-  } else {
-    mutateUrl(navParams => {
-      navParams.query.spanId = encodeURIComponent(id);
-      return navParams;
-    });
-  }
 }
