@@ -1,5 +1,4 @@
-import * as constants from 'in-forge/constants';
-import {getIconById} from 'in-sdk/iconRegistry';
+import {getIconById, getIconPath} from 'in-sdk/iconRegistry';
 
 
 const UNKNOWN_LABEL = 'Unknown';
@@ -46,31 +45,9 @@ export function getLabel(snapshot, fallback) {
 }
 
 
-export function getIcon(plugin) {
-  if (typeof plugin === 'object') {
-    plugin = getIconIdBySnapshot(plugin);
+export function getIcon(snapshot) {
+  if (typeof snapshot === 'object') {
+    return getIconById(getIconPath(snapshot));
   }
-
-  return getIconById(plugin);
-}
-
-export function getIconIdBySnapshot(snapshot) {
-  let type = snapshot.get('plugin');
-
-  const osPlugin = constants.plugins.os;
-  if (type === osPlugin) {
-    const os = snapshot.getIn(['data', 'os.name']);
-    type = osPlugin + '_linux'; // linux as default
-
-    if (os) {
-      if (os.match(/linux/i)) {
-        type = osPlugin + '_linux';
-      } else if (os.match(/windows/i)) {
-        type = osPlugin + '_windows';
-      } else if (os.match(/mac/i)) {
-        type = osPlugin + '_apple';
-      }
-    }
-  }
-  return type;
+  return getIconById(UNKNOWN_LABEL);
 }
