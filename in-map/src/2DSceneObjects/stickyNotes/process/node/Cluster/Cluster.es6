@@ -55,6 +55,7 @@ const ProcessCluster = connectTo(props => {
       }
 
       const children = this.props.children;
+      const childrenAreAvailable = children && children.size > 0;
 
       let headerClassName = block + '__header';
       if (this.state.highlighted || this.state.expanded) {
@@ -74,20 +75,21 @@ const ProcessCluster = connectTo(props => {
             : null
           }
 
-          <div className={headerClassName}
-               onMouseEnter={() => this.setState({highlighted: true})}
-               onMouseLeave={() => this.setState({highlighted: false})}
-               onClick={this.onClick}>
+          {childrenAreAvailable ?
+            <div className={headerClassName}
+                 onMouseEnter={() => this.setState({highlighted: true})}
+                 onMouseLeave={() => this.setState({highlighted: false})}
+                 onClick={this.onClick}>
+              {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
+              <Icon expanded={this.state.expanded} />
+            </div>
+            :
+            <div className={headerClassName}>
+              {getLabel(this.props.snapshot)}
+            </div>
+          }
 
-            {(children && children.size > 0) ?
-              getLabel(this.props.snapshot) + ' (' + children.size + ')' :
-              getLabel(this.props.snapshot)
-            }
-
-            <Icon expanded={this.state.expanded}/>
-          </div>
-
-          {(this.state.expanded && children && children.size > 0) ?
+          {(this.state.expanded && childrenAreAvailable) ?
             <PhysicalEntitiesList ids={children}
                                   parentId={this.props.client.id} />
           : null}
