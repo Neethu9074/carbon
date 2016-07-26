@@ -18,6 +18,7 @@ export default getSnapshot(
     displayName: 'Metric',
 
     propTypes: {
+      isHighlighted: rpt.func.isRequired,
       snapshotId: rpt.string.isRequired,
       snapshot: irpt.map
     },
@@ -44,9 +45,11 @@ export default getSnapshot(
         <div className={className}
              onMouseEnter={() => {
                this.setState({isHighlighted: true});
+               this.props.isHighlighted(true);
              }}
              onMouseLeave={() =>{
                this.setState({isHighlighted: false});
+               this.props.isHighlighted(false);
              }}>
           {this.state.isHighlighted ?
             kpis.map(kpi =>
