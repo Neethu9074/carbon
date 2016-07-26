@@ -3,11 +3,9 @@ import React from 'react';
 
 import {timeframeShape} from 'in-stores/timeline';
 
-function MemcachedDashboard({}) {
+export default function MemcachedDashboard({}) {
   return (
-    <div>
-
-    </div>
+    <div />
   );
 }
 

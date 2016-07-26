@@ -37,13 +37,6 @@ module.exports = {
     tenantUnit: 'staging',
     groundskeeperDomain: 'staging-groundskeeper-instana.instana.io'
   },
-  processview: {
-    uiBackendUrl: 'https://processview-instana.instana.io/api/data/',
-    groundskeeperUrl: 'https://processview-instana.instana.io',
-    tenant: 'instana',
-    tenantUnit: 'processview',
-    groundskeeperDomain: 'processview-groundskeeper-instana.instana.io'
-  },
   current: {
     uiBackendUrl: 'https://current-instana.instana.io/api/data/',
     groundskeeperUrl: 'https://current-instana.instana.io',
@@ -56,6 +49,13 @@ module.exports = {
     groundskeeperUrl: 'https://drivenow.instana.io',
     tenant: 'drivenow',
     tenantUnit: 'drivenow',
+    groundskeeperDomain: 'instana.io'
+  },
+  crowsnest: {
+    uiBackendUrl: 'https://crowsnest.instana.io/api/data/',
+    groundskeeperUrl: 'https://crowsnest.instana.io',
+    tenant: 'crowsnest',
+    tenantUnit: 'crowsnest',
     groundskeeperDomain: 'instana.io'
   },
   dell: {
