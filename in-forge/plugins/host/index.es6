@@ -1,5 +1,5 @@
 import {addKeywordOperator, createPluginFieldPath, addSearchableType} from 'in-sdk/search';
-import {addIconsToRegistry} from 'in-sdk/iconRegistry';
+import * as icon from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
@@ -36,7 +36,7 @@ sorting.addMapping(
   (s1, s2) => s1.get('hostId').localeCompare(s2.get('hostId'))
 );
 
-addIconsToRegistry([ {
+icon.addIconsToRegistry([ {
     id: constants.plugins.os + '_linux',
     image: linuxIconPath
   }, {
@@ -47,6 +47,31 @@ addIconsToRegistry([ {
     image: windowsIconPath
   }
 ]);
+
+icon.addMapping(
+  constants.plugins.os,
+  snapshot => {
+    let type = snapshot.get('plugin');
+
+
+    const osPlugin = constants.plugins.os;
+    if (type === osPlugin) {
+      const os = snapshot.getIn(['data', 'os.name']);
+      type = osPlugin + '_linux'; // linux as default
+
+      if (os) {
+        if (os.match(/linux/i)) {
+          type = osPlugin + '_linux';
+        } else if (os.match(/windows/i)) {
+          type = osPlugin + '_windows';
+        } else if (os.match(/mac/i)) {
+          type = osPlugin + '_apple';
+        }
+      }
+    }
+    return type;
+  }
+);
 
 addKeywordOperator({
   context: 'entity',

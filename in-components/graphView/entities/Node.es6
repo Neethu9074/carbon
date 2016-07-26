@@ -1,5 +1,5 @@
-import {getIconIdBySnapshot, getLabel, getIcon} from 'in-sdk/snapshot';
 import {getColorPool} from 'in-services/util/ColorGenerator';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
 
 
@@ -21,7 +21,7 @@ export default class Node {
         this.color = colorPool.getColorRGB(snapshot.get('plugin'));
         this.label = getLabel(snapshot);
         this.icon = getIcon(snapshot);
-        this.plugin = getIconIdBySnapshot(snapshot);
+        this.plugin = snapshot.get('plugin');
       });
   }
 

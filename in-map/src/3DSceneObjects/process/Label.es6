@@ -1,4 +1,4 @@
-import {getIconIdBySnapshot} from 'in-sdk/snapshot';
+import {getIconPath} from 'in-sdk/iconRegistry';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -31,7 +31,7 @@ export default class Label extends BaseLabel {
 
   onSnapshotUpdated(snapshot) {
     this.factory.removeFragment(this.id);
-    this.fragment.additionalParams.type = getIconIdBySnapshot(snapshot);
+    this.fragment.additionalParams.type = getIconPath(snapshot);
     this.updateFragment();
   }
 }
