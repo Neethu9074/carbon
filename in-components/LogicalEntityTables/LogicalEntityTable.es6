@@ -49,9 +49,9 @@ function createHeader() {
         <th>Health</th>
         <th>Name</th>
         <th>Calls/s</th>
+        <th>Latency</th>
         <th>Error Rate</th>
         <th>Instances</th>
-        <th>Latency</th>
       </tr>
     </thead>
   );
