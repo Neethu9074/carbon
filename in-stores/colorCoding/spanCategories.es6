@@ -3,5 +3,6 @@ export default Object.freeze({
   remote: '#a5bafc',
   io: '#93f9d6',
   http: '#9ce7fb',
-  messaging: '#b8f782'
+  messaging: '#b8f782',
+  batch: '#93f9d6'
 });
