@@ -22,7 +22,7 @@ export function getIconById(id) {
   if (match) {
     return match.image;
   }
-  return getIconById('unknown');
+  return unknownIconPath;
 }
 
 export function getAllIcons() {
