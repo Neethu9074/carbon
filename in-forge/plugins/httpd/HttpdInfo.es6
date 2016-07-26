@@ -30,9 +30,6 @@ export default function HttpdInfo({snapshot}) {
       <DescriptionItem title='Ports'>
         {data.get('ports', []).join(', ')}
       </DescriptionItem>
-      <DescriptionItem title='Modules'>
-        {data.get('modules', []).join(', ')}
-      </DescriptionItem>
     </DescriptionList>
   );
 }

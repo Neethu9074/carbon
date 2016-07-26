@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {isOpen$ as isSidebarOpen$} from 'in-components/sidebars/Map/sidebarStore';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import {clearSelectedSnapshotId} from 'in-stores/snapshot';
 import {clearSelectedIncident} from 'in-stores/incident';
@@ -16,22 +15,15 @@ export default connectTo(
   props => {
     return {
       isOpen: props.isOpen$,
-      isSidebarOpen: isSidebarOpen$,
       timelineHeight: timelineHeight$
     };
-  }, function FullscreenOverlayView({isOpen, timelineHeight, isSidebarOpen, children}) {
+  }, function FullscreenOverlayView({isOpen, timelineHeight, children}) {
     if (!isOpen) {
       return null;
     }
 
-    let classes = block;
-
-    if (isSidebarOpen) {
-      classes += ' ' + block + '--sidebar-open';
-    }
-
     return (
-      <div className={classes}
+      <div className={block}
            onClick={() => {
              clearSelectedIncident();
              clearSelectedSnapshotId();

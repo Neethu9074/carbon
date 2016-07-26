@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.es6';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
-import {Row, Col} from 'in-components/Grid/Grid';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import {
   zeroDecimalPlaces,
   withSiMultiplyPrefixZeroDecimalPlaces,
@@ -19,19 +17,14 @@ import {
 import NodeSummary from '../NodeSummary.es6';
 
 
-const chartHeight = 200;
-
 export default function ElasticsearchDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <DashboardSection title='Summary'>
-        <NodeSummary snapshot={snapshot}/>
-      </DashboardSection>
+      <NodeSummary snapshot={snapshot}/>
 
       <DashboardSection title='Search Performance vs. Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80
@@ -62,59 +55,52 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                          }}/>
       </DashboardSection>
 
-      <Row>
-        <Col cols={6}>
-          <DashboardSection title='Indices Count'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               formatter: withSiPrefixZeroDecimalPlaces,
-                               tooltipFormatter: twoDecimalPlaces,
-                               metrics: [
-                                 'indices_count'
-                               ],
-                               labels: [
-                                 'Indices'
-                               ],
-                               type: 'line'
-                             }}/>
-          </DashboardSection>
-        </Col>
-        <Col cols={6}>
-          <DashboardSection title='Shards'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               formatter: withSiPrefixThreeDecimalPlaces,
-                               tooltipFormatter: twoDecimalPlaces,
-                               metrics: [
-                                 'shards.node_active_shards',
-                                 'shards.node_active_primary_shards'
-                               ],
-                               labels: [
-                                 'Active',
-                                 'Active Primary'
-                               ],
-                               type: 'line'
-                             }}/>
-          </DashboardSection>
-        </Col>
-      </Row>
+      <TwoColumnRow>
+        <DashboardSection title='Indices Count'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: withSiPrefixZeroDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'indices_count'
+                             ],
+                             labels: [
+                               'Indices'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+        <DashboardSection title='Shards'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: withSiPrefixThreeDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'shards.node_active_shards',
+                               'shards.node_active_primary_shards'
+                             ],
+                             labels: [
+                               'Active',
+                               'Active Primary'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+      </TwoColumnRow>
 
       <DashboardSection title='Documents'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80
@@ -153,7 +139,6 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
       <DashboardSection title='Refresh and Flush'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 80
@@ -188,7 +173,6 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
       <DashboardSection title='Lucene Segments'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -208,7 +192,6 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
       <DashboardSection title='Active Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          maergins={{
                            left: 80
                          }}
@@ -241,7 +224,6 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
       <DashboardSection title='Rejected Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          maergins={{
                            left: 80
                          }}
@@ -266,7 +248,6 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
       <DashboardSection title='Queued Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          maergins={{
                            left: 80
                          }}
@@ -299,8 +280,3 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-ElasticsearchDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

@@ -3,14 +3,14 @@ import React from 'react';
 
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
 
 const verPatt = /([5-9]+\.[6-9]+\.([0-9]+)).*/;
-const chartHeight = 200;
+
 
 const msFormatter = d => d < 0 ? 'No activity' : msZeroDecimalPlaces(d);
 
@@ -30,7 +30,6 @@ export default function MySqlDashboard({snapshot, timeframe}) {
       <DashboardSection title='Queries'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 60
@@ -65,7 +64,6 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                          }}/>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -86,7 +84,6 @@ export default function MySqlDashboard({snapshot, timeframe}) {
         <DashboardSection title='Latency'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -106,7 +103,6 @@ export default function MySqlDashboard({snapshot, timeframe}) {
       <DashboardSection title='Clients'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -129,7 +125,6 @@ export default function MySqlDashboard({snapshot, timeframe}) {
         <DashboardSection title='Wait Events'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -145,7 +140,6 @@ export default function MySqlDashboard({snapshot, timeframe}) {
       <DashboardSection title='Key Access'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80,
                            right: 60

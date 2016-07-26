@@ -46,7 +46,8 @@ const Collapsible = React.createClass({
           {header.children}
         </Header>
 
-        <Content isOpen={isOpen}>
+        <Content isOpen={isOpen}
+                 className={contentProps.className}>
           {contentProps.children}
         </Content>
       </div>
@@ -94,7 +95,8 @@ Collapsible.Header = Header;
 const Content = React.createClass({
   propTypes: {
     children: rpt.any.isRequired,
-    isOpen: rpt.bool
+    isOpen: rpt.bool,
+    className: rpt.string
   },
 
   render() {
@@ -102,8 +104,14 @@ const Content = React.createClass({
       return null;
     }
 
+    let classes = `${block}__content`;
+
+    if (this.props.className) {
+      classes = `${classes} ${this.props.className}`;
+    }
+
     return (
-      <div className={block + '__content'}>
+      <div className={classes}>
         {this.props.children}
       </div>
     );

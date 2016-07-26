@@ -1,12 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
-
-const chartHeight = 200;
 
 export default function OracleDBDashboard({snapshot, timeframe}) {
   return (
@@ -14,7 +12,6 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
       <DashboardSection title='Reads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}

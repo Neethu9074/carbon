@@ -1,33 +1,21 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {getLinkToSnapshotInCurrentView} from 'in-stores/navigation';
+import connectTo from 'in-hoc/connectTo';
 
 import './SnapshotLink.less';
 
-const rpt = React.PropTypes;
 const block = 'in-snapshot-link';
 
-export default React.createClass({
-  displayName: 'SnapshotLink',
-
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    snapshotId: rpt.string.isRequired,
-    children: rpt.any
-  },
-
-  onClick() {
-    setSelectedSnapshotId(this.props.snapshotId);
-  },
-
-  render() {
-    return (
-      <span className={block}
-            onClick={this.onClick}>
-        {this.props.children}
-      </span>
-    );
-  }
+export default connectTo(props => {
+  return {
+    href: getLinkToSnapshotInCurrentView(props.snapshotId)
+  };
+}, function SnapshotLink({href, children}) {
+  return (
+    <a href={href}
+       className={block}>
+      {children}
+    </a>
+  );
 });

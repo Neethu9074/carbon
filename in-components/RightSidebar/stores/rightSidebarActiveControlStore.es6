@@ -12,6 +12,7 @@ export const CONTROL_TYPES = {
   MAP_STATISTICS: 'system',
   EVENT_CENTER: 'app',
   METRICS: 'metrics',
+  ICONS: 'relocate',
   TABLE: 'menue',
   TAGS: 'tags'
 };

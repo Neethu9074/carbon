@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {emptyList} from 'in-services/fixedImmutables';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {
@@ -88,7 +88,6 @@ function createDetails(indexName, i, context) {
   return (
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
                      timeframe={context.timeframe}
-                     height={200}
                      margins={{
                        left: 80,
                        right: 80

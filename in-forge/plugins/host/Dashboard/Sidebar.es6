@@ -1,12 +1,14 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import RunningComponentsList from 'in-components/RunningComponentsList';
-import Collapsible from 'in-components/Collapsible';
+import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
+import TagList from 'in-sdk/components/sidebar/TagList';
 
-import InterfaceList from '../InterfaceList';
-import HostHardware from '../HostHardware';
-import HostInfo from '../HostInfo';
+import InterfaceList from 'in-forge/plugins/host/InterfaceList';
+import HostHardware from 'in-forge/plugins/host/HostHardware';
+import HostInfo from 'in-forge/plugins/host/HostInfo';
 
 
 export default function HostSidebar({snapshot}) {
@@ -18,14 +20,21 @@ export default function HostSidebar({snapshot}) {
             <HostInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Interfaces</Collapsible.Header>
-          <Collapsible.Content>
-            <InterfaceList snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
+
+        <Separator />
+
+        <TagList snapshot={snapshot} />
+
+        <Separator />
+
+        <InterfaceList snapshot={snapshot} />
+
+        <Separator />
 
         <HostHardware snapshotId={snapshot.get('id')} />
+
+        <Separator />
+
         <RunningComponentsList snapshotId={snapshot.get('id')} />
       </div>
     );

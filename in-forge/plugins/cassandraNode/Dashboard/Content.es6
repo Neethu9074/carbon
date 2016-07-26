@@ -8,11 +8,10 @@ import {capitalize} from 'in-services/formatters/string';
 import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
 import {timeframeShape} from 'in-stores/timeline';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 
-const chartHeight = 200;
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
 
@@ -34,7 +33,6 @@ const CassandraDashboard = React.createClass({
         <DashboardSection title='Requests'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -57,7 +55,6 @@ const CassandraDashboard = React.createClass({
                             key={op}>
             <ChartWithLegend snapshotId={snapshotId}
                              timeframe={timeframe}
-                             height={chartHeight}
                              margins={{
                                left: 80
                              }}
@@ -86,7 +83,6 @@ const CassandraDashboard = React.createClass({
                             key={stage}>
             <ChartWithLegend snapshotId={snapshotId}
                              timeframe={timeframe}
-                             height={chartHeight}
                              margins={{
                                left: 80
                              }}
@@ -116,7 +112,6 @@ const CassandraDashboard = React.createClass({
         <DashboardSection title='Dropped Messages'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -145,7 +140,6 @@ const CassandraDashboard = React.createClass({
         <DashboardSection title='Pending Compactions'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -164,7 +158,6 @@ const CassandraDashboard = React.createClass({
         <DashboardSection title='Cache Hits'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}
@@ -189,7 +182,6 @@ const CassandraDashboard = React.createClass({
         <DashboardSection title='Bloom Filter'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                              left: 80
                            }}

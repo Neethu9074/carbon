@@ -88,18 +88,14 @@ export default class Node extends SceneObject {
   onInactiveEnter() {
     super.onInactiveEnter();
 
-    if (this.label) {
-      this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    }
+    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.changeComponentState('mesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onInactiveLeave() {
     super.onInactiveLeave();
 
-    if (this.label) {
-      this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    }
+    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.highlight(false);
   }
 
@@ -263,7 +259,7 @@ export default class Node extends SceneObject {
 
   updateScreenPosition() {
     const pos = this.getComponent('position').getPosition();
-    this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.2, pos.y + this.height + 0.75, pos.z + 0.25);
+    this.getComponent('screenPosition').set3DPositionToProject(pos.x - 0.2, pos.y, pos.z + 0.25);
   }
 
   setPower(power) {

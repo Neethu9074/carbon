@@ -1,12 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
-import {timeframe$} from 'in-components/timeline/timelineStore';
-import MetricValue from 'in-components/MetricValue';
+import LabeledSparkChart from 'in-sdk/components/sidebar/LabeledSparkChart';
 import getSnapshot from 'in-hoc/getSnapshot';
 import KPIList from 'in-components/KPIList';
-import connectTo from 'in-hoc/connectTo';
 import {getKpis} from 'in-sdk/kpi';
 
 import 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/KPIList.less';
@@ -45,13 +42,19 @@ export default getSnapshot(
       const kpis = getKpis(snapshot);
       return (
         <div className={className}
-             onMouseEnter={() => this.setState({isHighlighted: true})}
-             onMouseLeave={() => this.setState({isHighlighted: false})}>
+             onMouseEnter={() => {
+               this.setState({isHighlighted: true});
+             }}
+             onMouseLeave={() =>{
+               this.setState({isHighlighted: false});
+             }}>
           {this.state.isHighlighted ?
             kpis.map(kpi =>
-              <SparkChart key={kpi.label}
+              <LabeledSparkChart className={block + '__spark-chart'}
+                          key={kpi.label}
                           snapshotId={this.props.snapshotId}
-                          title={kpi.label}
+                          label={kpi.label}
+                          design='dark'
                           metric={kpi.metric}
                           formatter={kpi.formatter} />
             ) :
@@ -65,28 +68,3 @@ export default getSnapshot(
     }
   })
 );
-
-const SparkChart = connectTo({
-  timeframe: timeframe$
-}, function sparkChart({timeframe, snapshotId, metric, title, formatter, width = 130}) {
-  return (
-    <div className={block + '__chart'}>
-      <HistoricMetricSparkChart width={width}
-                                height={30}
-                                timeframe={timeframe}
-                                snapshotId={snapshotId}
-                                design='dark'
-                                metric={metric}
-                                tooltipFormatter={formatter}/>
-      <div className={block + '__description'}>
-        <span className={block + '__title'}>
-          {title}
-        </span>
-        <MetricValue snapshotId={snapshotId}
-                     metric={metric}
-                     className={block + '__value'}
-                     formatter={formatter}/>
-      </div>
-    </div>
-  );
-});

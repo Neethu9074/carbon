@@ -8,7 +8,7 @@ import * as timelineStore from 'in-stores/timeline';
 import './HistoricMetricSparkChartWithLabel.less';
 
 const rpt = React.PropTypes;
-const block = 'in-labeled-spark-chart';
+const block = 'in-spark-chart-with-label';
 
 export default React.createClass({
   displayName: 'HistoricMetricSparkChartWithLabel',

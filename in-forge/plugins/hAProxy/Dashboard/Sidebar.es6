@@ -1,8 +1,8 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import Collapsible from 'in-components/Collapsible';
-import RunningComponentsList from 'in-components/RunningComponentsList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 
 import HAProxyInfo from '../HAProxyInfo';
 

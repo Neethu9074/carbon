@@ -3,7 +3,7 @@ import React from 'react';
 
 import {timeframeShape} from 'in-stores/timeline';
 import DashboardNotification from 'in-components/DashboardNotification';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 const percentage = d => d + '%';
@@ -22,7 +22,6 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker wide queues message stats'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}
@@ -39,7 +38,6 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker wide topics message stats'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}
@@ -58,7 +56,6 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       <DashboardSection title='Broker wide connections, consumers and producers'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}
@@ -79,7 +76,6 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       <DashboardSection title='Memory and store usage'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={200}
                          margins={{
                            left: 80
                          }}

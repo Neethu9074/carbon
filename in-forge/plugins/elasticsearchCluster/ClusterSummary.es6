@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {withSiPrefixZeroDecimalPlaces, withSiPrefixThreeDecimalPlaces} from 'in-services/formatters/number';
-import {KpiSummary, KpiHeading, KpiKeyValue} from 'in-components/KpiSummary';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import MetricValue from 'in-components/MetricValue';
 
 
@@ -9,7 +9,7 @@ export default function ClusterSummary({snapshot}) {
   const snapshotId = snapshot.get('id');
 
   return (
-    <KpiSummary>
+    <KpiSection>
       <KpiHeading>{snapshot.getIn(['data', 'groupId'])}</KpiHeading>
 
       <KpiKeyValue label='Nodes'>
@@ -41,6 +41,6 @@ export default function ClusterSummary({snapshot}) {
                      metric='store_size'
                      formatter={withSiPrefixThreeDecimalPlaces} />
       </KpiKeyValue>
-    </KpiSummary>
+    </KpiSection>
   );
 }

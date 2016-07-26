@@ -1,10 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import ClasspathLayouter from 'in-components/ClassPathLayouter/ClasspathLayouter';
+import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {emptyList} from 'in-services/fixedImmutables';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function JettyWebApps({snapshot}) {
@@ -33,8 +33,10 @@ export default function JettyWebApps({snapshot}) {
               <DescriptionItem title='Temporary Directory'>
                 {webApp.get('tempDirectory')}
               </DescriptionItem>
+              <DescriptionItem title='Classpath'>
+                <ClasspathLayouter classpath={webApp.get('classPath')}/>
+              </DescriptionItem>
             </DescriptionList>
-            <ClasspathLayouter classpath={webApp.get('classPath')}/>
           </Collapsible.Content>
         </Collapsible>
       )}

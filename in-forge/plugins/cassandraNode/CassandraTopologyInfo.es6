@@ -1,20 +1,30 @@
 import React from 'react';
 
+import {getLinkToSnapshotInCurrentView} from 'in-stores/navigation';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
+import connectTo from 'in-hoc/connectTo';
 import getZone from 'in-hoc/getZone';
 
 
-export default getZone(function CassandraTopologyInfo({snapshot, zoneSnapshot}) {
-  const clusterId = zoneSnapshot ? zoneSnapshot.get('id') : undefined;
+export default getZone(connectTo(props => {
+  if (!props.zoneSnapshot) {
+    return {};
+  }
+  return {
+    href: getLinkToSnapshotInCurrentView(props.zoneSnapshot.get('id'))
+  };
+}, function CassandraTopologyInfo({snapshot, zoneSnapshot, href}) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem onClick={() => setSelectedSnapshotId(clusterId)}
-                       title='Cluster'>
-        {data.get('clusterName')}
-      </DescriptionItem>
+      {zoneSnapshot ?
+        <DescriptionItem href={href}
+                         title='Cluster'>
+          {getLabel(zoneSnapshot)}
+        </DescriptionItem>
+      : null}
 
       <DescriptionItem title='Datacenter'>
         {data.get('datacenter')}
@@ -30,4 +40,4 @@ export default getZone(function CassandraTopologyInfo({snapshot, zoneSnapshot}) 
 
     </DescriptionList>
   );
-});
+}));

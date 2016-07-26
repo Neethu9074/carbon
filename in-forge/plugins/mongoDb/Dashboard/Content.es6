@@ -2,12 +2,10 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {bytesZeroDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
-
-const chartHeight = 200;
 
 export default function MongoDBDashboard({snapshot, timeframe}) {
   const dbs = snapshot.getIn(['data', 'databases']);
@@ -19,7 +17,6 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
       <DashboardSection title='Database Size'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -41,7 +38,6 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
       <DashboardSection title='Document Counter'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -65,7 +61,6 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
       <DashboardSection title='Clients'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}

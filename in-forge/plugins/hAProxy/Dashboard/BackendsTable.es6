@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {emptyList} from 'in-services/fixedImmutables';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {
@@ -86,94 +86,89 @@ function createDetails(backendName, i, context) {
   return (
     <div>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          formatter: msZeroDecimalPlaces,
-          metrics: [
-            'backendStats.' + backendName + '.avgResponseTime',
-            'backendStats.' + backendName + '.avgQueueTime'
-          ],
-          labels: [
-            'Average Response Time',
-            'Average Queue Time'
-          ],
-          type: 'line'
-        }}
-        y2={{
-          metrics: [
-            'backendStats.' + backendName + '.queueSize'
-          ],
-          labels: [
-            'Queue Size'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        formatter: msZeroDecimalPlaces,
+                        metrics: [
+                          'backendStats.' + backendName + '.avgResponseTime',
+                          'backendStats.' + backendName + '.avgQueueTime'
+                        ],
+                        labels: [
+                          'Average Response Time',
+                          'Average Queue Time'
+                        ],
+                        type: 'line'
+                      }}
+                      y2={{
+                        metrics: [
+                          'backendStats.' + backendName + '.queueSize'
+                        ],
+                        labels: [
+                          'Queue Size'
+                        ],
+                        type: 'line'
+                      }}/>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          metrics: [
-            'backendStats.' + backendName + '.reqConnErrors',
-            'backendStats.' + backendName + '.errorRes'
-          ],
-          labels: [
-            'Connection Errors',
-            'Response Errors'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        metrics: [
+                          'backendStats.' + backendName + '.reqConnErrors',
+                          'backendStats.' + backendName + '.errorRes'
+                        ],
+                        labels: [
+                          'Connection Errors',
+                          'Response Errors'
+                        ],
+                        type: 'line'
+                      }}/>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          metrics: [
-            'backendStats.' + backendName + '.connRetries'
-          ],
-          labels: [
-            'Connection Retries'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        metrics: [
+                          'backendStats.' + backendName + '.connRetries'
+                        ],
+                        labels: [
+                          'Connection Retries'
+                        ],
+                        type: 'line'
+                      }}/>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          metrics: [
-            'backendStats.' + backendName + '.deniedRes'
-          ],
-          labels: [
-            'Denied Responses'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        metrics: [
+                          'backendStats.' + backendName + '.deniedRes'
+                        ],
+                        labels: [
+                          'Denied Responses'
+                        ],
+                        type: 'line'
+                      }}/>
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
-        height={200}
-        margins={{
-          left: 80
-        }}
-        y1={{
-          metrics: [
-            'backendStats.' + backendName + '.reDispatchedReq'
-          ],
-          labels: [
-            'Re-Dispatched Requests'
-          ],
-          type: 'line'
-        }}/>
+                      timeframe={context.timeframe}
+                      margins={{
+                        left: 80
+                      }}
+                      y1={{
+                        metrics: [
+                          'backendStats.' + backendName + '.reDispatchedReq'
+                        ],
+                        labels: [
+                          'Re-Dispatched Requests'
+                        ],
+                        type: 'line'
+                      }}/>
     </div>
   );
 }

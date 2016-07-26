@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
@@ -11,15 +11,12 @@ import {
 } from 'in-services/formatters/number';
 
 
-const chartHeight = 200;
-
 export default function HttpdDashboard({snapshot, timeframe}) {
   return (
     <div>
       <DashboardSection title='Traffic'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -42,9 +39,10 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                            type: 'line'
                          }}
                          />
+      </DashboardSection>
+      <DashboardSection title='Traffic per Request'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 60
                          }}
@@ -63,7 +61,6 @@ export default function HttpdDashboard({snapshot, timeframe}) {
       <DashboardSection title='CPU'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 60
                          }}
@@ -83,13 +80,12 @@ export default function HttpdDashboard({snapshot, timeframe}) {
       <DashboardSection title='Connections'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 50,
                            right: 40
                          }}
                          y1={{
-          								 min: 0,
+                           min: 0,
                            metrics: [
                              'conns_total'
                            ],
@@ -99,7 +95,7 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                            type: 'line'
                          }}
                          y2={{
-          								 min: 0,
+                           min: 0,
                            metrics: [
                              'conns_async_writing',
                              'conns_async_keep_alive',
@@ -117,7 +113,6 @@ export default function HttpdDashboard({snapshot, timeframe}) {
       <DashboardSection title='Worker'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 60
                          }}

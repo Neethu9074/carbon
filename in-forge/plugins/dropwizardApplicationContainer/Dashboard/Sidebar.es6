@@ -2,8 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DropwizardInfo from 'in-forge/plugins/dropwizardApplicationContainer/DropwizardInfo';
-import RunningComponentsList from 'in-components/RunningComponentsList';
-import Collapsible from 'in-components/Collapsible';
+import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
 export default function DropwizardSidebar({snapshot}) {

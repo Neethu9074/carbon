@@ -3,12 +3,10 @@ import React from 'react';
 
 import EndpointBreakdownTable from
 'in-forge/plugins/springbootApplicationContainer/Dashboard/EndpointBreakdownTable.es6';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
-
-const chartHeight = 200;
 
 export default function SpringbootDashboard({snapshot, timeframe}) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
@@ -19,7 +17,6 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
       <DashboardSection title='Request Count'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -47,7 +44,6 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
         <DashboardSection title='HTTP Sessions Active'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
-                           height={chartHeight}
                            margins={{
                                left: 80
                              }}

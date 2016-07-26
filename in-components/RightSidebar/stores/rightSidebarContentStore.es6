@@ -9,6 +9,7 @@ import Metrics from 'in-components/RightSidebar/components/Metrics';
 import Tags from 'in-components/RightSidebar/components/Tags';
 import * as metricsStore from 'in-services/stores/metrics';
 import {removeAllTagFilters} from 'in-stores/search';
+import {SvgIconList} from 'in-components/SvgIcon';
 import {createStore} from 'in-stores/store';
 
 
@@ -24,6 +25,10 @@ const CONTENT = {};
 CONTENT[CONTROL_TYPES.NOTIFICATIONS] = {
   title: 'Notifications',
   content: <Notifications />
+};
+CONTENT[CONTROL_TYPES.ICONS] = {
+  title: 'Icons',
+  content: <SvgIconList />
 };
 CONTENT[CONTROL_TYPES.MAP_STATISTICS] = {
   title: 'Map Statistics',

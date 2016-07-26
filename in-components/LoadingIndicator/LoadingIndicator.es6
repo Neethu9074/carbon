@@ -7,7 +7,9 @@ const rectClass = block + '__rect';
 
 const LoadingIndicator = React.createClass({
   propTypes: {
-    type: React.PropTypes.string
+    type: React.PropTypes.string,
+    inline: React.PropTypes.bool,
+    style: React.PropTypes.object
   },
 
   getDefaultProps() {
@@ -31,8 +33,16 @@ const LoadingIndicator = React.createClass({
       );
     }
 
+    let classes = block;
+    if (this.props.inline !== true) {
+      classes = `${classes} ${block}--block`;
+    }
+
     return (
-      <div className={block}>{rects}</div>
+      <div className={classes}
+           style={this.props.style}>
+        {rects}
+      </div>
     );
   }
 });

@@ -70,7 +70,7 @@ const Chart = React.createClass({
     const margins = {
       top: 10,
       right: 0,
-      bottom: 50,
+      bottom: 25,
       left: 40
     };
     if (this.props.margins) {

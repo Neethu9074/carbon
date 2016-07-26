@@ -101,6 +101,26 @@ export function getDashboardLink(snapshotId) {
 }
 
 
+export const isDashboardOpen$ = navigationParameters$
+  .map(params => {
+    return /\/[a-z]+\/dashboard/i.test(params.pathname);
+  })
+  .distinct();
+
+
+export function getLinkToSnapshotInCurrentView(snapshotId) {
+  snapshotId = encodeURIComponent(snapshotId);
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(params => {
+      params.query.snapshotId = snapshotId;
+      return params;
+    })
+    .map(toUrl)
+    .distinct();
+}
+
+
 export function closeDashboard() {
   mutateUrl(navParams => {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
@@ -146,12 +166,31 @@ export function goToLogicalView() {
 }
 
 
+export const logicalViewLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/logical';
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
+
+
 export function goToPhysicalView() {
   mutateUrl(navParams => {
     navParams.pathname = '/physical';
     return navParams;
   });
 }
+
+export const physicalViewLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/physical';
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
 
 
 export function goToRootOfView() {
@@ -179,6 +218,16 @@ export function goToTraceView() {
     return navParams;
   });
 }
+
+
+export const traceViewLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = PATH_NAMES.TRACES;
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
 
 
 export function showHelp(id) {

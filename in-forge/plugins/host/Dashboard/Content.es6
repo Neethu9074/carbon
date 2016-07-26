@@ -1,5 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -10,235 +8,189 @@ import {
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
-import DashboardSection from 'in-components/DashboardSection';
-import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
-import {getRawPayload} from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
-const chartHeight = 200;
+export default function HostDashboard({snapshot, timeframe}) {
+  const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
+  const memoryTotal = snapshot.getIn(['data', 'memory.total'], 0.000001); // avoid devision by zero errors
 
-export default connectTo(
-  props => {
-    return {
-      processes: getRawPayload(props.snapshot.get('id'), 'processes')
-    };
-  },
-  React.createClass({
+  return (
+    <div>
+      <KpiSection>
+        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
 
-    displayName: 'HostDashboard',
+        <KpiKeyValue label='CPU Usage'>
+          <MetricValue snapshotId={snapshot.get('id')}
+                       metric='cpu.idle'
+                       formatter={idle => percentageZeroDecimalPlaces(1 - idle)} />
+        </KpiKeyValue>
 
-    mixins: [
-      PureRenderMixin
-    ],
+        <KpiKeyValue label='Memory Usage'>
+          <MetricValue snapshotId={snapshot.get('id')}
+                       metric='memory.free'
+                       formatter={free => percentageZeroDecimalPlaces(1 / memoryTotal * (memoryTotal - free))} />
+        </KpiKeyValue>
+      </KpiSection>
 
-    propTypes: {
-      snapshot: irpt.map.isRequired,
-      timeframe: timeframeShape,
-      processes: irpt.list
-    },
+      <TwoColumnRow>
+        <DashboardSection title='CPU Usage'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 60
+                           }}
+                           y1={{
+                             min: 0,
+                             max: 1,
+                             formatter: percentageZeroDecimalPlaces,
+                             metrics: [
+                               'cpu.user',
+                               'cpu.sys',
+                               'cpu.wait',
+                               'cpu.nice',
+                               'cpu.steal'
+                             ],
+                             labels: [
+                               'User',
+                               'System',
+                               'Wait',
+                               'Nice',
+                               'Steal'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
 
-    render() {
-      const timeframe = this.props.timeframe;
-      const snapshot = this.props.snapshot;
-      const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
-
-      return (
-        <div>
-          <DashboardSection title='CPU Usage'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                   timeframe={timeframe}
-                   height={chartHeight}
-                   margins={{
-                     left: 60
-                   }}
-                   y1={{
-                     min: 0,
-                     max: 1,
-                     formatter: percentageZeroDecimalPlaces,
-                     metrics: [
-                       'cpu.user',
-                       'cpu.sys',
-                       'cpu.wait',
-                       'cpu.nice',
-                       'cpu.steal'
-                     ],
-                     labels: [
-                       'User',
-                       'System',
-                       'Wait',
-                       'Nice',
-                       'Steal'
-                     ],
-                     type: 'stackedArea'
-                   }}/>
-          </DashboardSection>
-
-          {!this.isWindows() ?
-            <DashboardSection title='CPU Load'>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
-                timeframe={timeframe}
-                height={chartHeight}
-                margins={{
-                  left: 60
-                }}
-                y1={{
-                  min: 0,
-                  type: 'stackedArea',
-                  formatter: twoDecimalPlaces,
-                  tooltipFormatter: twoDecimalPlaces,
-                  metrics: [
-                    'load.1min'
-                  ],
-                  labels: ['Load']
-                }}/>
-            </DashboardSection>
-          : null}
-
-          <CpuTable snapshot={snapshot} timeframe={timeframe} />
-
-          <DashboardSection title='Memory Free'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                   timeframe={timeframe}
-                   height={chartHeight}
-                   margins={{
-                     left: 80
-                   }}
-                   y1={{
-                     min: 0,
-                     max: snapshot.getIn(['data', 'memory.total']),
-                     formatter: bytesZeroDecimalPlaces,
-                     tooltipFormatter: bytesTwoDecimalPlaces,
-                     metrics: [
-                       'memory.free'
-                     ],
-                     labels: ['Free'],
-                     type: 'stackedArea'
-                   }}/>
-          </DashboardSection>
-
-          {swapTotal > 0 ?
-            <DashboardSection title='Swap Activity'>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
-                     timeframe={timeframe}
-                     height={chartHeight}
-                     margins={{
-                       left: 90
-                     }}
-                     y1={{
-                       min: 0,
-                       formatter: twoDecimalPlaces,
-                       metrics: [
-                         'swap.pgin',
-                         'swap.pgout'
-                       ],
-                       labels: [
-                         'Page-In',
-                         'Page-Out'
-                       ],
-                       type: 'line'
-                     }}/>
-            </DashboardSection>
-          : null}
-
-          <FilesystemsTable snapshot={snapshot} timeframe={timeframe}/>
-
-          <NetworkInterfacesTable snapshot={snapshot} timeframe={timeframe} />
-
-          <DashboardSection title='TCP Activity'>
+        {!isWindows(snapshot) ?
+          <DashboardSection title='CPU Load'>
             <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
-                             height={chartHeight}
-                             y1={{
-                               type: 'line',
-                               metrics: [
-                                 'tcp.established',
-                                 'tcp.opens',
-                                 'tcp.inSegs',
-                                 'tcp.outSegs'
-                               ],
-                               labels: [
-                                 'Established',
-                                 'Opens',
-                                 'In Segments',
-                                 'Out Segments'
-                               ],
-                               formatter: zeroDecimalPlaces,
-                               tooltipFormatter: twoDecimalPlaces
-                             }}
-                             y2={{
-                               type: 'line',
-                               metrics: [
-                                 'tcp.establishedResets',
-                                 'tcp.resets',
-                                 'tcp.fails',
-                                 'tcp.errors',
-                                 'tcp.retrans'
-                               ],
-                               labels: [
-                                 'Established Resets',
-                                 'Out Resets',
-                                 'Fail',
-                                 'Error',
-                                 'Retransmission'
-                               ],
-                               min: 0,
-                               max: 1,
-                               formatter: percentageZeroDecimalPlaces
-                             }}
                              margins={{
-                               right: 60,
-                               left: 80
+                               left: 60
+                             }}
+                             y1={{
+                               min: 0,
+                               type: 'stackedArea',
+                               formatter: twoDecimalPlaces,
+                               tooltipFormatter: twoDecimalPlaces,
+                               metrics: [
+                                 'load.1min'
+                               ],
+                               labels: ['Load']
                              }}/>
           </DashboardSection>
+        : null}
+      </TwoColumnRow>
 
-          {this.props.processes && this.props.processes.size > 0 ?
-          <DashboardSection title='Process Top List'>
-            <ResponsiveTable>
-              <thead>
-                <tr>
-                  <th>PID</th>
-                  <th>Process Name</th>
-                  <th>CPU</th>
-                  <th>Memory</th>
-                </tr>
-              </thead>
+      <CpuTable snapshot={snapshot} timeframe={timeframe} />
 
-              <tbody>
-                {this.props.processes.toArray().sort((a, b) => b.get('cpu') - a.get('cpu')).map(process =>
-                  <tr key={process.get('pid')}>
-                    <td>{process.get('pid')}</td>
-                    <td>{process.get('name')}</td>
-                    <td>{percentageZeroDecimalPlaces(process.get('cpu'))}</td>
-                    <td>{bytesTwoDecimalPlaces(process.get('memory'))}</td>
-                  </tr>
-                )}
-              </tbody>
-            </ResponsiveTable>
-          </DashboardSection>
-          : null}
-        </div>
-      );
-    },
+      <DashboardSection title='Memory Free'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
 
-    selectCpu(cpu) {
-      this.setState({
-        cpuNo: cpu
-      });
-    },
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           max: memoryTotal,
+                           formatter: bytesZeroDecimalPlaces,
+                           tooltipFormatter: bytesTwoDecimalPlaces,
+                           metrics: [
+                             'memory.free'
+                           ],
+                           labels: ['Free'],
+                           type: 'stackedArea'
+                         }}/>
+      </DashboardSection>
 
-    selectInterface(iface) {
-      this.setState({
-        interfaceName: iface
-      });
-    },
+      {swapTotal > 0 ?
+        <DashboardSection title='Swap Activity'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 90
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: twoDecimalPlaces,
+                             metrics: [
+                               'swap.pgin',
+                               'swap.pgout'
+                             ],
+                             labels: [
+                               'Page-In',
+                               'Page-Out'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+      : null}
 
-    isWindows() {
-      return !!this.props.snapshot.getIn(['data', 'os.name'], '').match(/windows/i);
-    }
-  })
-);
+      <FilesystemsTable snapshot={snapshot} timeframe={timeframe}/>
+
+      <NetworkInterfacesTable snapshot={snapshot} timeframe={timeframe} />
+
+      <DashboardSection title='TCP Activity'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         y1={{
+                           type: 'line',
+                           metrics: [
+                             'tcp.established',
+                             'tcp.opens',
+                             'tcp.inSegs',
+                             'tcp.outSegs'
+                           ],
+                           labels: [
+                             'Established',
+                             'Opens',
+                             'In Segments',
+                             'Out Segments'
+                           ],
+                           formatter: zeroDecimalPlaces,
+                           tooltipFormatter: twoDecimalPlaces
+                         }}
+                         y2={{
+                           type: 'line',
+                           metrics: [
+                             'tcp.establishedResets',
+                             'tcp.resets',
+                             'tcp.fails',
+                             'tcp.errors',
+                             'tcp.retrans'
+                           ],
+                           labels: [
+                             'Established Resets',
+                             'Out Resets',
+                             'Fail',
+                             'Error',
+                             'Retransmission'
+                           ],
+                           min: 0,
+                           max: 1,
+                           formatter: percentageZeroDecimalPlaces
+                         }}
+                         margins={{
+                           right: 60,
+                           left: 80
+                         }}/>
+      </DashboardSection>
+
+      <ProcessTopList snapshotId={snapshot.get('id')} />
+    </div>
+  );
+}
+
+function isWindows(snapshot) {
+  return !!snapshot.getIn(['data', 'os.name'], '').match(/windows/i);
+}

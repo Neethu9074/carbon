@@ -1,31 +1,38 @@
 .in-expandable-table {
-  @light: #eef2f4;
-  @mid: #b5bfc3;
-  @dark: #6b8088;
-
   overflow-x: auto;
   width: 100%;
-
-  border-spacing: 0 2px;
+  border-spacing: 0;
 
   th, td {
     padding: 7px;
-    color: @dark;
+    font-size: 11px;
+    color: #2D4048;
   }
 
   th {
-    font-size: 11px;
     text-align: left;
     text-transform: uppercase;
+    background: #E2E9EC;
+    color: #6B8088;
+    font-weight: normal;
+
+    &:empty {
+      background: transparent;
+    }
   }
 
   td {
-    font-size: 14px;
-    background: @light;
+    background: transparent;
+    border-bottom: 1px solid #E2E9EC;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
   }
 
   tr.active > td, tr:hover > td {
-    background: @mid;
+    background: #92A5AE;
+    color: #fff;
   }
 
   &__clickable > tbody > tr > td {
@@ -34,7 +41,7 @@
 
   // increase specificity to overwrite rules seen above
   & &__details {
-    padding: 1rem 1rem 2rem;
+    padding: 1.4rem 1rem 2rem;
     box-sizing: border-box;
     background: transparent;
     cursor: auto;

@@ -1,16 +1,12 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import ConnectionList from 'in-components/sidebars/components/ConnectionList';
-import ClusterMembersList from 'in-components/ClusterMembersList';
+import DefaultLogicalDashboardSidebar from 'in-sdk/components/sidebar/DefaultLogicalDashboardSidebar';
 
 
 export default function LogicalServiceSidebar({snapshot}) {
   return (
-    <div>
-      <ClusterMembersList snapshotId={snapshot.get('id')} />
-      <ConnectionList snapshotId={snapshot.get('id')} />
-    </div>
+    <DefaultLogicalDashboardSidebar snapshot={snapshot} />
   );
 }
 

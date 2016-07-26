@@ -1,6 +1,6 @@
 {
-  "name": "ClusterMembersList",
+  "name": "ClusterMemberList",
   "version": "0.0.0",
   "private": true,
-  "main": "./ClusterMembersList.es6"
+  "main": "./ClusterMemberList.es6"
 }

@@ -27,7 +27,7 @@ export default function DockerInfo({snapshot}) {
         {formatDateTime(data.get('Started'))}
       </DescriptionItem>
       <DescriptionItem title='Id'>
-        {data.get('Id').substring(0, 20)}{'…'}
+        {data.get('Id')}
       </DescriptionItem>
       <DescriptionItem title='Names'>
         {data.get('Names').join(', ')}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
@@ -40,7 +40,7 @@ function createHeader() {
   return (
     <thead>
       <tr>
-        <th></th>
+        <th>Keyspace</th>
         <th>Reads</th>
         <th>Avg. Read Latency</th>
         <th>Writes</th>
@@ -79,7 +79,6 @@ function createDetails(keyspace, index, context) {
   return (
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
            timeframe={context.timeframe}
-           height={200}
            margins={{
              left: 80,
              right: 80

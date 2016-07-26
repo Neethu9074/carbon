@@ -1,7 +1,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {
@@ -43,7 +43,7 @@ function createHeader() {
   return (
     <thead>
       <tr>
-        <th></th>
+        <th>CPU</th>
         <th>User</th>
         <th>System</th>
         <th>Wait</th>
@@ -86,7 +86,6 @@ function createDetails(cpuNo, index, context) {
   return (
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
            timeframe={context.timeframe}
-           height={200}
            margins={{
              left: 60
            }}

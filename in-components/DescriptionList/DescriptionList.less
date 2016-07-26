@@ -7,28 +7,37 @@
 
   &-item {
     justify-content: space-between;
-    font-size: 12px;
-    padding: 3px 8px 3px 0;
-    border-radius: 2px;
-    display: flex;
+    font-size: .688rem;
+    margin: .438rem 0;
   }
 
   &-title {
-    float: left;
-    color: @sidebar__discription-list__title;
-    margin-right: 5%;
-    width: 40%;
+    display: block;
+    color: #172429;
+    font-weight: bold;
+    margin: 0 0 .063rem;
   }
 
   &-text {
-    color: @sidebar__discription-list__text;
-    width: 55%;
-    margin: 0;
+    display: block;
+    color: #2D4048;
     word-break: break-all;
+    margin: 0;
 
-    &--link {
+    &--link, &-link {
+      color: #2D4048;
       text-decoration: underline;
       cursor: pointer;
+    }
+  }
+
+  &-item-link {
+    color: #2D4048;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      color: lighten(#2D4048, 20%);
     }
   }
 }

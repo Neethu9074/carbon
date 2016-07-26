@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import RunningComponentsList from 'in-components/RunningComponentsList';
+import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 
 import JettyThreadsInfo from '../JettyThreadsInfo.es6';
 import JettyConnectors from '../JettyConnectors.es6';

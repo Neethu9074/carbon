@@ -1,9 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DeployedUnitList from 'in-components/DeployedUnitList';
-import TagListSnapshot from 'in-components/TagListSnapshot';
-import Collapsible from 'in-components/Collapsible';
+import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
+import TagList from 'in-sdk/components/sidebar/TagList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import MariaDbInfo from '../MariaDbInfo';
 
@@ -17,7 +17,7 @@ export default function MariaDbSidebar({snapshot}) {
           <MariaDbInfo snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-      <TagListSnapshot snapshot={snapshot} />
+      <TagList snapshot={snapshot} />
       <DeployedUnitList snapshotId={snapshot.get('id')} />
     </div>
   );

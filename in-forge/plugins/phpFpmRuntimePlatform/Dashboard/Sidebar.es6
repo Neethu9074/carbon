@@ -1,13 +1,16 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DeployedUnitList from 'in-components/DeployedUnitList';
-import Collapsible from 'in-components/Collapsible';
-
-import PhpFpmInfo from '../PhpFpmInfo';
-
+import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
+import {formatDateTime} from 'in-services/formatters/date';
 
 export default function PhpFpmDashboardSidebar({snapshot}) {
+  const data = snapshot.get('data');
+  const pools = data.get('worker_pools').toArray();
+
   return (
     <div>
       <Collapsible initiallyOpen={true}>
@@ -15,11 +18,63 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
           PHP-FPM Runtime
         </Collapsible.Header>
         <Collapsible.Content>
-          <PhpFpmInfo snapshot={snapshot}/>
+          <DescriptionList>
+            <DescriptionItem title='Master Process ID'>
+              {data.get('pid')}
+            </DescriptionItem>
+          </DescriptionList>
         </Collapsible.Content>
       </Collapsible>
 
-      <DeployedUnitList snapshotId={snapshot.get('id')} />
+      <Separator />
+
+      <KeyValuePopup header='Master Configuration'
+                     data={data.filter((v, k) => k.indexOf('worker_pool') === -1) } />
+
+      {pools.map(pool =>
+        <div>
+          <Separator />
+
+          <Collapsible initiallyOpen={false} key={pool}>
+            <Collapsible.Header>Worker Pool: {pool}</Collapsible.Header>
+            <Collapsible.Content>
+              <DescriptionList>
+                {
+                  data.get('worker_pool.' + pool + '.start_time')
+                  ? <DescriptionItem title='Start Time'>
+                    {formatDateTime(data.get('worker_pool.' + pool + '.start_time') * 1000)}
+                    </DescriptionItem>
+                  : null
+                }
+                <DescriptionItem title='Process Manager'>
+                  {data.get('worker_pool.' + pool + '.pm')}
+                </DescriptionItem>
+                <DescriptionItem title='Status Path'>
+                  {data.get('worker_pool.' + pool + '.pm_status_path')}
+                </DescriptionItem>
+                <DescriptionItem title='Ping Path'>
+                  {data.get('worker_pool.' + pool + '.ping_path')}
+                </DescriptionItem>
+                <DescriptionItem title='User'>
+                  {data.get('worker_pool.' + pool + '.user')}
+                </DescriptionItem>
+                <DescriptionItem title='Group'>
+                  {data.get('worker_pool.' + pool + '.group')}
+                </DescriptionItem>
+              </DescriptionList>
+            </Collapsible.Content>
+          </Collapsible>
+
+          <Separator />
+
+          <KeyValuePopup header={`Worker Pool Configuration: ${pool}`}
+                         data={data.filter(
+                           (v, k) => k.indexOf('worker_pool.' + pool) === 0)
+                           .mapKeys(
+                             k => k.split('worker_pool.' + pool + '.')[1])
+                           } />
+        </div>
+      )}
     </div>
   );
 }

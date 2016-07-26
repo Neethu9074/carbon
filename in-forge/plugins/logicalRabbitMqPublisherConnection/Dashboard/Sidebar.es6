@@ -1,12 +1,13 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import ConnectedEntitiesList from 'in-components/ConnectedEntitiesList';
+import DefaultLogicalConnectionDashboardSidebar from
+  'in-sdk/components/sidebar/DefaultLogicalConnectionDashboardSidebar';
 
 
 export default function LogicalRabbitMqPublisherConnectionSidebar({snapshot}) {
   return (
-    <ConnectedEntitiesList snapshotId={snapshot.get('id')} />
+    <DefaultLogicalConnectionDashboardSidebar snapshot={snapshot} />
   );
 }
 

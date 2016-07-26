@@ -1,11 +1,11 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {withSiPrefixTwoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
-import SparkChartsSection from 'in-components/sidebars/components/SparkChartsSection';
+import {withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import ClusterMembersList from 'in-components/ClusterMembersList';
-import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
+import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 
 import ClusterStatusLabel from '../ClusterStatusLabel';
 
@@ -16,50 +16,48 @@ export default function ElasticsearchClusterSidebar({snapshot}) {
 
   return (
     <div>
-      <DescriptionList>
-        {item('Health', <AnnotatedHealthBar snapshotId={snapshotId}/>)}
-        {item('Name', data.get('groupId'))}
-        {item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
-      </DescriptionList>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>Elasticsearch Cluster</Collapsible.Header>
+        <Collapsible.Content>
+          <DescriptionList>
+            <DescriptionItem title='Name'>
+              {data.get('groupId')}
+            </DescriptionItem>
+            <DescriptionItem title='Status'>
+              <ClusterStatusLabel status={data.get('clusterState')} />
+            </DescriptionItem>
+          </DescriptionList>
+        </Collapsible.Content>
+      </Collapsible>
 
       <SparkChartsSection snapshot={snapshot}
                           metrics={[
                             {
                               metric: 'node_count',
                               label: 'Nodes',
-                              formatter: withSiPrefixTwoDecimalPlaces
+                              formatter: withSiPrefixThreeDecimalPlaces
                             }, {
                               metric: 'indices_count',
                               label: 'Indices',
-                              formatter: withSiPrefixTwoDecimalPlaces
+                              formatter: withSiPrefixThreeDecimalPlaces
                             }, {
                               metric: 'active_shards_count',
                               label: 'Active Shards',
-                              formatter: withSiPrefixTwoDecimalPlaces
+                              formatter: withSiPrefixThreeDecimalPlaces
                             }, {
                               metric: 'document_count',
                               label: 'Documents',
-                              formatter: withSiPrefixTwoDecimalPlaces
+                              formatter: withSiPrefixThreeDecimalPlaces
                             }, {
                               metric: 'store_size',
-                              label: 'Size of store',
+                              label: 'Store Size',
                               formatter: bytesTwoDecimalPlaces
                             }
                           ]} />
 
-      <ClusterMembersList snapshotId={snapshotId} />
+      <Separator />
+
+      <ClusterMemberList snapshotId={snapshotId} />
     </div>
   );
 }
-
-function item(header, content) {
-  return (
-    <DescriptionItem title={header}>
-    {content}
-    </DescriptionItem>
-  );
-}
-
-ElasticsearchClusterSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

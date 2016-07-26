@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
@@ -14,7 +14,6 @@ export default function NginxDashboard({snapshot, timeframe}) {
       <DashboardSection title='Requests'>
         <ChartWithLegend snapshotId={snapshotId}
                timeframe={timeframe}
-               height={200}
                margins={{
                  left: 80
                }}
@@ -33,7 +32,6 @@ export default function NginxDashboard({snapshot, timeframe}) {
       <DashboardSection title='Connections'>
         <ChartWithLegend snapshotId={snapshotId}
                timeframe={timeframe}
-               height={200}
                margins={{
                  left: 80,
                  right: 80

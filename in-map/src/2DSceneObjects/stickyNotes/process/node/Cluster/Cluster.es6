@@ -8,9 +8,9 @@ import PhysicalEntitiesList from
 import KPIList from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/KPIList';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import {getSnapshot} from 'in-stores/snapshot';
+import SvgIcon from 'in-components/SvgIcon';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './Cluster.less';
 
@@ -58,9 +58,9 @@ const ProcessCluster = connectTo(props => {
         return null;
       }
 
-      let className = block + '__header';
+      let headerClassName = block + '__header';
       if (this.state.highlighted || this.state.expanded) {
-        className += ' ' + className + '--highlighted';
+        headerClassName += ' ' + headerClassName + '--highlighted';
       }
 
       let contentClassName = block + '__content';
@@ -69,27 +69,23 @@ const ProcessCluster = connectTo(props => {
       }
 
       return (
-        <div className={block}>
-          {this.props.isFullyVisible ?
-            <KPIList snapshotId={this.props.client.id} />
-          : null}
+        <div className={contentClassName}>
+          {this.props.isFullyVisible ? <KPIList snapshotId={this.props.client.id} /> : null }
 
-          <div className={contentClassName}>
-            <div className={className}
+          <div className={headerClassName}
                onMouseEnter={() => this.setState({highlighted: true})}
                onMouseLeave={() => this.setState({highlighted: false})}
                onClick={this.onClick}>
 
-               {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
-               <Icon type={this.state.expanded ? 'close_up' : 'close'}
-                     className={block + '__icon'}/>
-            </div>
+            {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
 
-            {this.state.expanded ?
-              <PhysicalEntitiesList ids={children}
-                                    parentId={this.props.client.id} />
-            : null}
+            <Icon expanded={this.state.expanded}/>
           </div>
+
+          {this.state.expanded ?
+            <PhysicalEntitiesList ids={children}
+                                  parentId={this.props.client.id} />
+          : null}
         </div>
       );
     },
@@ -100,6 +96,23 @@ const ProcessCluster = connectTo(props => {
     }
   })
 );
+
+function Icon({expanded}) {
+  let className = block + '__icon-wrapper';
+  if (expanded) {
+    className += ' ' + className + '--expanded';
+  }
+
+  return (
+    <div className={className}>
+      <SvgIcon type={expanded ? 'triangle_up' : 'triangle_down'}
+               width={0.25}
+               height={0.25}
+               color={expanded ? '#000' : '#2d4048'}
+               className={block + '__icon'}/>
+    </div>
+  );
+}
 
 
 export default class StickyNoteProcessCluster extends StickyNote {

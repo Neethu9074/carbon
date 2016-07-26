@@ -21,7 +21,7 @@ export default connectTo({
   propTypes: {
     currentRollup: rpt.string.isRequired,
 
-    height: rpt.number.isRequired,
+    height: rpt.number,
     margins: rpt.object,
 
     timeframe: timeframeShape,
@@ -51,7 +51,7 @@ export default connectTo({
 
         <Chart snapshotId={this.props.snapshotId}
                timeframe={this.props.timeframe}
-               height={this.props.height}
+               height={this.props.height || 150}
                y1={this.props.y1}
                y2={this.props.y2}
                margins={this.props.margins}

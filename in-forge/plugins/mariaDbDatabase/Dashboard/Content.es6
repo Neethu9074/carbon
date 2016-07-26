@@ -1,12 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
-
-const chartHeight = 200;
 
 export default function MariaDbDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -16,7 +14,6 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
       <DashboardSection title='Clients'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -33,7 +30,6 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
       <DashboardSection title='Slow Queries'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -50,7 +46,6 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
       <DashboardSection title='Key Access'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}
@@ -81,7 +76,6 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
       <DashboardSection title='Aria Engine Properties'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={chartHeight}
                          margins={{
                            left: 80
                          }}

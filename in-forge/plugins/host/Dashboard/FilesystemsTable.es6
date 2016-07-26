@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {isWindows} from 'in-forge/plugins/host/hostUtils';
@@ -99,7 +99,6 @@ function createDetails(filesystem, name, context) {
       {isWindows(context.snapshot) ?
         <ChartWithLegend snapshotId={context.snapshot.get('id')}
                          timeframe={context.timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80
@@ -125,7 +124,6 @@ function createDetails(filesystem, name, context) {
 
         <ChartWithLegend snapshotId={context.snapshot.get('id')}
                          timeframe={context.timeframe}
-                         height={200}
                          margins={{
                            left: 80,
                            right: 80
@@ -165,7 +163,6 @@ function createDetails(filesystem, name, context) {
 
         <ChartWithLegend snapshotId={context.snapshot.get('id')}
                timeframe={context.timeframe}
-               height={200}
                margins={{
                  left: 80,
                  right: 80

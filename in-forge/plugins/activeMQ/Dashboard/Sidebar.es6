@@ -1,9 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import BrokerInfo from 'in-forge/plugins/activeMQ/BrokerInfo';
 import ConnectorsInfo from 'in-forge/plugins/activeMQ/ConnectorsInfo';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import BrokerInfo from 'in-forge/plugins/activeMQ/BrokerInfo';
+import Separator from 'in-sdk/components/sidebar/Separator';
 
 
 export default function ActiveMQSidebar({snapshot}) {
@@ -17,6 +18,9 @@ export default function ActiveMQSidebar({snapshot}) {
           <BrokerInfo snapshot={snapshot}/>
         </Collapsible.Content>
       </Collapsible>
+
+      <Separator />
+
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>
           Transport Connectors Info

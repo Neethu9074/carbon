@@ -20,13 +20,15 @@ export default connectTo({
       <div className={block}>
         {title}
 
-        <input type='search'
-               value={filter ? filter : ''}
-               onChange={e => setContentFilter(e.target.value)}
-               placeholder='Search…'
-               className={block + '__filter-input'}/>
+        <div className={`${block}__right-side`}>
+          <input type='search'
+                 value={filter ? filter : ''}
+                 onChange={e => setContentFilter(e.target.value)}
+                 placeholder='Search…'
+                 className={block + '__filter-input'}/>
 
-        <CloseButton />
+          <CloseButton />
+        </div>
       </div>
     );
   }

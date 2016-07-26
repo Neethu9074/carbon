@@ -4,8 +4,11 @@
   position: absolute;
   top: calc(0 - 40px);
   left: 10px;
+  z-index: 2;
 
   &__wrapper {
+    z-index: 0;
+
     &--highlighted {
       .in-sticky-note-process-metric__chart-wrapper {
         background: #203036;
@@ -29,23 +32,5 @@
     font-size: 0.75rem;
     max-width: 300px;
     padding: 6px 10px;
-  }
-
-  &__description {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__chart {
-    margin: 0.5rem 0;
-  }
-
-  &__title {
-    color: #7e9099;
-  }
-
-  &__value {
-    color: white;
-    font-weight: bold;
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {filterStoreShape} from 'in-components/ChartWithLegend/dataseriesFilterStore';
+import {hexToRGB} from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
@@ -53,9 +54,14 @@ export default connectTo(props => {
                  [block + '__metric--disabled']: this.props.activeFilters[axis.labels[i]]
                })}
                key={metric}
-               onClick={() => this.props.filterStore.toggleFilter(axis.labels[i])}>
+               onClick={() => this.props.filterStore.toggleFilter(axis.labels[i])}
+               style={{
+                 background: toBackground(theme.chart.strokeColors[themeMetricOffset + i])
+               }}>
             <dt className={block + '__metric-label'}
-                style={{color: theme.chart.strokeColors[themeMetricOffset + i]}}>
+                style={{
+                  color: theme.chart.strokeColors[themeMetricOffset + i]
+                }}>
               {axis.labels[i]}
             </dt>
             <dd className={block + '__metric-value'}>
@@ -70,3 +76,9 @@ export default connectTo(props => {
     );
   }
 }));
+
+
+function toBackground(hexColor) {
+  const color = hexToRGB(hexColor);
+  return `rgba(${color.r}, ${color.g}, ${color.b}, 0.1)`;
+}

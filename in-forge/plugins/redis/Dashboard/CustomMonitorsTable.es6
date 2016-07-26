@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {withSiPrefixThreeDecimalPlaces} from 'in-services/formatters/number';
-import DashboardSection from 'in-components/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
@@ -59,7 +59,6 @@ function createDetails(monitorName, index, context) {
   return (
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
                      timeframe={context.timeframe}
-                     height={200}
                      margins={{
                        left: 90
                      }}

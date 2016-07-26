@@ -3,12 +3,11 @@
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
-import NoopRoute from 'in-client/js/NoopRoute';
 import TraceView from 'in-components/traceView/TraceView';
 import GraphView from 'in-components/graphView/GraphView';
-
-import Dashboard from './components/Dashboard';
-import App from './components/App';
+import Dashboard from 'in-components/Dashboard';
+import NoopRoute from 'in-client/js/NoopRoute';
+import App from 'in-client/js/App';
 
 export default (
   <Route path='/'

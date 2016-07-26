@@ -1,14 +1,15 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DefaultLogicalKpiCharts from 'in-components/DefaultLogicalKpiCharts';
+import DefaultLogicalConnectionDashboard from
+  'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultLogicalConnectionDashboard';
 import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function PhysicalRabbitMqConsumerConnectionDashboard({snapshot, timeframe}) {
   return (
-    <DefaultLogicalKpiCharts snapshot={snapshot}
-                             timeframe={timeframe} />
+    <DefaultLogicalConnectionDashboard snapshot={snapshot}
+                                       timeframe={timeframe} />
   );
 }
 
