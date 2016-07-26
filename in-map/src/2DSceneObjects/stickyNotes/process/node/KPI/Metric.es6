@@ -2,8 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import LabeledSparkChart from 'in-sdk/components/sidebar/LabeledSparkChart';
+import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import getSnapshot from 'in-hoc/getSnapshot';
 import KPIList from 'in-components/KPIList';
 import {getKpis} from 'in-sdk/kpi';
