@@ -12,7 +12,7 @@ import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
 import SnapshotLink from 'in-components/SnapshotLink';
 import {getLabel} from 'in-sdk/snapshot';
-import connectTo from 'in-hoc/connectTo';
+ import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
 
 
