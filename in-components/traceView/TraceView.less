@@ -2,7 +2,7 @@
 
 .in-trace-view {
   position: absolute;
-  top: 0;
+  top: @header__height * 1px;
   left: 0;
   right: 0;
   bottom: @footer__height * 1px;
@@ -16,8 +16,6 @@
   font-size: 0.75rem;
   color: #2D4048;
 
-  padding: 4rem 1rem 1rem;
-
   transition: bottom 0.25s ease-in-out;
 
   &__trace-list {
@@ -25,6 +23,8 @@
     height: 100%;
     max-width: 40rem;
     width: 50%;
+    position: relative;
+    padding: 2.5rem 0 0;
   }
 
   &__trace-details {
@@ -32,6 +32,7 @@
     height: 100%;
     width: 100%;
     max-width: ~"calc(100% - 40rem)";
-    overflow-y: auto;
+    position: relative;
+    padding: 2.5rem 0 0;
   }
 }
