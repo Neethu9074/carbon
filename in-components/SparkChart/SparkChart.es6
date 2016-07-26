@@ -12,13 +12,14 @@ const block = 'in-spark-chart';
 
 export default connectTo({
   timeframe: timeframe$
-}, function SparkChart({snapshotId, timeframe, metric, label, formatter}) {
+}, function SparkChart({snapshotId, timeframe, metric, label, formatter, className, design}) {
     return (
-      <div className={block + '__chart'}>
+      <div className={block + className ? ' ' + className : ''}>
         <HistoricMetricSparkChart width={115}
                                   height={30}
                                   timeframe={timeframe}
                                   snapshotId={snapshotId}
+                                  design={design ? design : 'light'}
                                   metric={metric}
                                   tooltipFormatter={formatter} />
         <div className={block + '__description'}>
