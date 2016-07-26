@@ -4,7 +4,7 @@ export default React.createClass({
   displayName: 'TreeStackTraceElement',
 
   propTypes: {
-    stackTrace: React.PropTypes.object
+    stackTrace: React.PropTypes.array.isRequired
   },
 
   getInitialState() {
