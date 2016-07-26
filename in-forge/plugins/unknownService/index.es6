@@ -8,8 +8,8 @@ import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.unknownService,
-  'Availability Zone',
-  'Availability Zones'
+  'Unknown Service',
+  'Unknown Services'
 );
 
 addLabelFinder(constants.plugins.unknownService, s => s.getIn(['data', 'service_name']));
