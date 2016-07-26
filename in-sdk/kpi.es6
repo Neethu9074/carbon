@@ -22,11 +22,6 @@ const defaultKpis = () => [
     label: 'error rate',
     formatter: percentageTwoDecimalPlaces,
     valueOnlyFormatter: percentageTwoDecimalPlaces
-  }, {
-    metric: 'instances',
-    label: 'instances',
-    formatter: zeroDecimalPlaces,
-    valueOnlyFormatter: zeroDecimalPlaces
   }
 ];
 
