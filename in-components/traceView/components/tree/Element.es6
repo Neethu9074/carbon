@@ -4,6 +4,10 @@ import TreeStackTraceElement from 'in-components/traceView/components/tree/Stack
 import TreeNetworkElement from 'in-components/traceView/components/tree/NetworkElement';
 import TreeSpanElement from 'in-components/traceView/components/tree/SpanElement';
 
+import './Element.less';
+
+const block = 'in-trace-tree-element';
+
 export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace}) {
   let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
   if (element.type === 'span' && parentSpanForPercentageCalculation.get('async')) {
@@ -34,7 +38,7 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
   }
 
   return (
-    <li>
+    <li className={block}>
       {details}
 
       <ul>

@@ -1,0 +1,76 @@
+.in-trace-tree-span-element {
+  position: relative;
+  border-radius: .25rem;
+
+  &--error {
+
+  }
+
+  &--highlighted, &:hover {
+
+  }
+
+  &__background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: .438rem;
+    opacity: 0.1;
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    z-index: 1;
+
+    .in-trace-tree-span-element:hover & {
+      opacity: .3;
+    }
+  }
+
+  &__left-border {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: .438rem;
+    z-index: 2;
+    opacity: .3;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+
+    .in-trace-tree-span-element:hover & {
+      opacity: .5;
+    }
+  }
+
+  &__content-wrapper {
+    position: relative; // only required for z-index stacking
+    z-index: 3;
+    font-size: .625rem;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    height: 2.75rem;
+    padding: 0 1rem;
+  }
+
+  &__category-icon {
+    width: 1.625rem;
+    height: 1.625rem;
+    box-sizing: border-box;
+    padding: .313rem;
+    border-radius: 100%;
+    margin-right: .688rem;
+  }
+
+  &__self-time-label {
+    font-weight: bold;
+  }
+
+  &__horizontal-divider {
+    width: 1px;
+    height: 1.75rem;
+    margin: 0 .75rem;
+  }
+}

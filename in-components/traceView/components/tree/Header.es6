@@ -33,11 +33,11 @@ export default function TraceHeader({trace}) {
           {getLabel(trace)}
         </h1>
 
-        <p className={`${block}__entity`}>
+        <div className={`${block}__entity`}>
           <SpanEntityInformation span={trace}
                                  label='On:'
                                  connectionEndpointType='destinationId' />
-        </p>
+        </div>
 
         <div className={`${block}__stats`}>
           <LabeledValue label='Total'>

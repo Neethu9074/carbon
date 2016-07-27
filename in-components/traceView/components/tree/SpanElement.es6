@@ -4,12 +4,13 @@ import React from 'react';
 import {getSelfTime} from 'in-components/traceView/util';
 import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
-import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
-import {getLabel, getTypeLabelSingular, getCategory, getDirection} from 'in-sdk/tracing';
-import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
+// import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
+import {getLabel, getCategory, getCategoryIcon} from 'in-sdk/tracing';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import classnames from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
+
+import './SpanElement.less';
 
 const block = 'in-trace-tree-span-element';
 
@@ -39,12 +40,16 @@ export default connectTo(props => {
   },
 
   render() {
-    const selfTime = getSelfTime(this.props.span);
-    const totalTime = this.props.span.get('duration');
+    const span = this.props.span;
+    const selfTime = getSelfTime(span);
+    const totalTime = span.get('duration');
+    const category = getCategory(span);
+    const categoryColor = spanCategoryColors[category];
+    const backgroundInCategoryColorStyle = {background: categoryColor};
 
     let totalTimePercentage;
     let selfTimePercentage;
-    if (this.props.span.get('async')) {
+    if (span.get('async')) {
       totalTimePercentage = 0;
       selfTimePercentage = 0;
     } else {
@@ -58,53 +63,33 @@ export default connectTo(props => {
       <div>
         <div className={classnames({
                [`${block}`]: true,
-               [`${block}--error`]: this.props.span.get('error'),
+               [`${block}--error`]: span.get('error'),
                [`${block}--highlighted`]: this.props.isHighlighted
              })}
              onClick={this.toggleDetails}>
-          <span className={`${block}__element-type-indicator`}
-                style={{
-                  background: spanCategoryColors[getCategory(this.props.span)]
-                }}/>
+          <div className={`${block}__background`}
+                style={backgroundInCategoryColorStyle}/>
+          <div className={`${block}__left-border`}
+                style={backgroundInCategoryColorStyle}/>
+          <div className={`${block}__content-wrapper`}>
+            <div className={`${block}__header`}>
+              <img src={getCategoryIcon(category)}
+                   alt={`Icon for the span category ${category}`}
+                   className={`${block}__category-icon`}
+                   style={backgroundInCategoryColorStyle}/>
 
-          Self: {msZeroDecimalPlaces(selfTime)} ({percentageTwoDecimalPlaces(selfTimePercentage)})
-          <br />
-          {getTypeLabelSingular(this.props.span)}: {getLabel(this.props.span)}
-          <br />
-          Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
-          <br/>
+              <div className={`${block}__self-time`}>
+                <span className={`${block}__self-time-label`}>Self: </span>
+                {msZeroDecimalPlaces(selfTime)}<br/>({percentageTwoDecimalPlaces(selfTimePercentage)})
+              </div>
 
-          {getDirection(this.props.span) === 'entry' ?
-            <span>
-              <SpanEntityInformation span={this.props.span}
-                                     label='From'
-                                     connectionEndpointType='sourceId' />
-              <SpanEntityInformation span={this.props.span}
-                                     label='On'
-                                     connectionEndpointType='destinationId' />
-            </span>
-          :
-            <span>
-              <SpanEntityInformation span={this.props.span}
-                                     label='On'
-                                     connectionEndpointType='sourceId' />
-              <SpanEntityInformation span={this.props.span}
-                                     label='To'
-                                     connectionEndpointType='destinationId' />
-            </span>
-          }
+              <div className={`${block}__horizontal-divider`}
+                   style={backgroundInCategoryColorStyle} />
 
-          {this.props.span.get('async') ?
-            <span className={`${block}__async-marker`}>
-              &#x21C4;
-            </span>
-          : null}
+              {getLabel(span)} ({totalTimePercentage} {selfTimePercentage})
+            </div>
+          </div>
         </div>
-
-        {this.state.detailsExpanded ?
-          <SpanForgeDetails span={this.props.span}
-                            trace={this.props.trace} />
-        : null}
       </div>
     );
   },
@@ -117,3 +102,44 @@ export default connectTo(props => {
     });
   }
 }));
+
+
+// {this.state.detailsExpanded ?
+//   <SpanForgeDetails span={this.props.span}
+//                     trace={this.props.trace} />
+// : null}
+//
+//
+//
+// Self: {msZeroDecimalPlaces(selfTime)} ({percentageTwoDecimalPlaces(selfTimePercentage)})
+// <br />
+// {getTypeLabelSingular(this.props.span)}: {getLabel(this.props.span)}
+// <br />
+// Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
+// <br/>
+//
+// {getDirection(this.props.span) === 'entry' ?
+//   <span>
+//     <SpanEntityInformation span={this.props.span}
+//                            label='From'
+//                            connectionEndpointType='sourceId' />
+//     <SpanEntityInformation span={this.props.span}
+//                            label='On'
+//                            connectionEndpointType='destinationId' />
+//   </span>
+// :
+//   <span>
+//     <SpanEntityInformation span={this.props.span}
+//                            label='On'
+//                            connectionEndpointType='sourceId' />
+//     <SpanEntityInformation span={this.props.span}
+//                            label='To'
+//                            connectionEndpointType='destinationId' />
+//   </span>
+// }
+//
+// {this.props.span.get('async') ?
+//   <span className={`${block}__async-marker`}>
+//     &#x21C4;
+//   </span>
+// : null}
