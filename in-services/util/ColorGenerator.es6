@@ -113,7 +113,7 @@ export function getColorPool(nameOfPool) {
   return colorPools[nameOfPool];
 }
 
-function createColorPool(nameOfPool, numColors = 10) {
+export function createColorPool(nameOfPool, numColors = 10) {
   const colorGenerator = new ColorGenerator(numColors);
   const tagColorCache = {};
 

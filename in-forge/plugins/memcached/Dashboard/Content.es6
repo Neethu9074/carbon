@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -8,8 +7,6 @@ import {
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
-
 
 export default function MemcachedDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -194,8 +191,3 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-MemcachedDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

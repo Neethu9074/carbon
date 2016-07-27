@@ -18,6 +18,7 @@ export default function ElasticsearchSpanDetailView({span}) {
           {span.getIn(['data', 'elasticsearch', 'type'])}
         </DescriptionItem>
       </DescriptionList>
+
       {query ?
         <Code code={prettyPrintQuery(query)}
               type='json' />

@@ -49,5 +49,5 @@ export function getIcon(snapshot) {
   if (typeof snapshot === 'object') {
     return getIconById(getIconPath(snapshot));
   }
-  return getIconById(UNKNOWN_LABEL);
+  return getIconById(snapshot);
 }

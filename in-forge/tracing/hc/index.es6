@@ -3,6 +3,8 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'hc',
+  category: 'http',
+  direction: 'exit',
 
   typeName: {
     singular: 'HTTP Call',

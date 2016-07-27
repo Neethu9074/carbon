@@ -1,11 +1,10 @@
 import React from 'react';
 
 import {setSortBy, setSortDirection, sortDirection$, sortBy$} from 'in-components/traceView/traceViewStore';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './TraceTableHeader.less';
-
 
 const block = 'in-trace-table-header';
 const cellClassName = block + '__cell';
@@ -53,13 +52,15 @@ function getSortIcon(cell, sortDirection, sortBy) {
   if (sortBy === cell) {
     if (sortDirection === 'asc') {
       return (
-        <Icon className={cellClassName + '__sort-icon'}
-              type={'up'}/>
+        <SvgIcon type='chevron_up'
+                 className={cellClassName + '__sort-icon'}
+                 width={8} />
       );
     }
     return (
-      <Icon className={cellClassName + '__sort-icon'}
-            type={'down'}/>
+      <SvgIcon className={cellClassName + '__sort-icon'}
+               type='chevron_down'
+               width={8} />
     );
   }
   return null;

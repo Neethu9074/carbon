@@ -1,0 +1,88 @@
+import {getCategory} from 'in-sdk/tracing';
+
+export function getSelfTime(span) {
+  let selfTime = span.get('duration');
+  span.get('childSpans').forEach(childSpan => {
+    if (!childSpan.get('async')) {
+      selfTime -= childSpan.get('duration');
+    }
+  });
+  return selfTime;
+}
+
+
+export function getDepth(span) {
+  let maxDepth = 1;
+
+  span.get('childSpans').forEach(childSpan => {
+    maxDepth = Math.max(maxDepth, getDepth(childSpan) + 1);
+  });
+
+  return maxDepth;
+}
+
+
+export function getErrorCount(span) {
+  let count = 0;
+  if (span.get('error')) {
+    count++;
+  }
+
+  span.get('childSpans').forEach(childSpan => {
+    count += getErrorCount(childSpan);
+  });
+
+  return count;
+}
+
+
+export function getCalls(span) {
+  let count = 1;
+
+  span.get('childSpans').forEach(childSpan => {
+    count += getCalls(childSpan);
+  });
+
+  return count;
+}
+
+export function getPerCategorySummary(span, collector) {
+  collector = collector || {};
+
+  const category = getCategory(span);
+  const categorySummary = collector[category] = collector[category] || {
+    category,
+    calls: 0,
+    durationTotal: 0,
+    durationSelf: 0
+  };
+  categorySummary.calls++;
+  categorySummary.durationTotal += span.get('duration');
+  categorySummary.durationSelf = getSelfTime(span);
+
+  span.get('childSpans').forEach(childSpan => getPerCategorySummary(childSpan, collector));
+
+  return collector;
+}
+
+
+export function getStart(span) {
+  let earliestStart = span.get('start');
+
+  span.get('childSpans').forEach(childSpan => {
+    earliestStart = Math.min(earliestStart, getStart(childSpan));
+  });
+
+  return earliestStart;
+}
+
+
+export function getEnd(span) {
+  let latestEnd = span.get('start') + span.get('duration');
+
+  span.get('childSpans').forEach(childSpan => {
+    latestEnd = Math.max(latestEnd, getEnd(childSpan));
+  });
+
+  return latestEnd;
+}

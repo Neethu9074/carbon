@@ -2,6 +2,8 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
   type: 'rabbitmq',
+  category: 'messaging',
+  direction: 'exit',
 
   typeName: {
     singular: 'RabbitMQ message',

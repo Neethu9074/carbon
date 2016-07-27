@@ -40,8 +40,8 @@ export default getElementDimensions(connectTo({
     return (
       <div className={block}>
         {this.props.height ?
-          <Infinite containerHeight={this.props.height}
-                    elementHeight={38}
+          <Infinite containerHeight={this.props.height - 24 /* Height of the header */}
+                    elementHeight={26}
                     loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
                     infiniteLoadBeginEdgeOffset={this.props.height * 0.5}
                     onInfiniteLoad={traceViewStore.loadMoreTraces}

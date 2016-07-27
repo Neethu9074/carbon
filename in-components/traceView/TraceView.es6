@@ -1,13 +1,14 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import TraceDetailView from 'in-components/traceView/views/TraceDetailView';
-import * as traceViewStores from 'in-components/traceView/traceViewStores';
-import TraceListView from 'in-components/traceView/views/TraceListView';
+import TraceDetailHeader from 'in-components/traceView/components/TraceDetailHeader';
+import TraceListHeader from 'in-components/traceView/components/TraceListHeader';
 import {enable, disable} from 'in-components/traceView/traceViewStore';
+import TraceTree from 'in-components/traceView/components/TraceTree';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
+import TraceTableHeader from 'in-components/traceView/components/TraceTableHeader';
+import TraceTable from 'in-components/traceView/components/TraceTable';
 import toPx from 'in-services/formatters/toPx';
-import {Row, Col} from 'in-components/Grid';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceView.less';
@@ -17,7 +18,6 @@ const rpt = React.PropTypes;
 const block = 'in-trace-view';
 
 export default connectTo({
-    fullscreenComponent: traceViewStores.fullscreenComponent$,
     timelineHeight: timelineHeight$
   }, React.createClass({
 
@@ -27,7 +27,6 @@ export default connectTo({
 
     propTypes: {
       timelineHeight: rpt.number.isRequired,
-      fullscreenComponent: rpt.string,
       height: rpt.number
     },
 
@@ -40,29 +39,20 @@ export default connectTo({
     },
 
     render() {
-      const fullscreenComponent = this.props.fullscreenComponent;
       return (
         <section className={block}
                  style={{
                    bottom: toPx(this.props.timelineHeight)
                  }}>
-          <Row style={{height: '100%'}}>
-            <Col cols={fullscreenComponent === 'listView' ? 12 : 6}
-                 style={{
-                   height: '100%',
-                   display: fullscreenComponent === null || fullscreenComponent === 'listView' ? 'block' : 'none'
-                 }}>
-              <TraceListView />
-            </Col>
-
-            <Col cols={fullscreenComponent === 'detailView' ? 12 : 6}
-                 style={{
-                   height: '100%',
-                   display: fullscreenComponent === null || fullscreenComponent === 'detailView' ? 'block' : 'none'
-                 }}>
-              <TraceDetailView />
-            </Col>
-          </Row>
+          <div className={`${block}__trace-list`}>
+            <TraceListHeader />
+            <TraceTableHeader />
+            <TraceTable />
+          </div>
+          <div className={`${block}__trace-details`}>
+            <TraceDetailHeader />
+            <TraceTree />
+          </div>
         </section>
       );
     }

@@ -1,14 +1,45 @@
 import {combineLatest} from 'reactive-observables';
 
-import {timeframe as timeframe$, from$, to$} from 'in-stores/timeline';
+import {compress as compressTrace} from 'in-components/traceView/longTraceCompressor';
+import {transform as transformTrace} from 'in-components/traceView/longTraceBuilder';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import {createStore, createTrackingStore} from 'in-stores/store';
+import {getTraces, selectedTrace$} from 'in-stores/traces';
 import {formatDateTime} from 'in-services/formatters/date';
-import {createStore} from 'in-stores/store';
-import {getTraces} from 'in-stores/traces';
+import {timeframe$, from$, to$} from 'in-stores/timeline';
 import {getLabel} from 'in-sdk/tracing';
 
+export const longSelectedTrace$ = createTrackingStore({
+  name: 'in-components/traceView/traceViewStore/longSelectedTrace',
+  observable: selectedTrace$.map(selectedTrace => {
+    if (!selectedTrace) {
+      return null;
+    }
+
+    return compressTrace(transformTrace(selectedTrace));
+  })
+}).observable;
+
+const highlightedSpanIdStore = createStore({
+  name: 'in-components/traceView/traceViewStore/highlightedSpanId',
+  initialValue: null
+});
+export const highlightedSpanId$ = highlightedSpanIdStore.observable;
+
+// clear highlighted span automatically after n millis as this is meant as a
+// temporary highlighting mechanism
+highlightedSpanId$
+  .filter(spanId => spanId != null)
+  .debounce(1000)
+  .subscribe(() => highlightedSpanIdStore.mutateTo(null));
+
+export function highlightSpanId(spanId) {
+  highlightedSpanIdStore.mutateTo(spanId);
+}
+
+
 const tracesStore = createStore({
-  name: 'shownTraces',
+  name: 'in-components/traceView/traceViewStore/shownTraces',
   initialValue: []
 });
 export const traces$ = tracesStore.observable;
@@ -23,12 +54,12 @@ const oldestTraceStartTime$ = traces$.map(traces => {
 
 
 const isLoadingStore = createStore({
-  name: 'loadingTraces',
+  name: 'in-components/traceView/traceViewStore/loadingTraces',
   initialValue: false
 });
 
 const sortBy = createStore({
-  name: 'tracesSortBy',
+  name: 'in-components/traceView/traceViewStore/tracesSortBy',
   initialValue: 'ts'
 });
 
@@ -38,8 +69,8 @@ export function setSortBy(newSortBy) {
 }
 
 const sortDirection = createStore({
-  name: 'tracesSortDirection',
-  initialValue: 'desc'
+  name: 'in-components/traceView/traceViewStore/tracesSortDirection',
+  initialValue: 'asc'
 });
 
 export function setSortDirection(newSortDirection) {
@@ -53,7 +84,7 @@ export const isLoading$ = isLoadingStore.observable;
 
 
 const autoUpdateStore = createStore({
-  name: 'traceViewAutoUpdate',
+  name: 'in-components/traceView/traceViewStore/traceViewAutoUpdate',
   initialValue: false
 });
 export const autoUpdate$ = autoUpdateStore.observable;
