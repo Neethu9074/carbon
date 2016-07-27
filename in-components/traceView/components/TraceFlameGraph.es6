@@ -11,7 +11,7 @@ import './TraceFlameGraph.less';
 
 const block = 'in-trace-view-flame-graph';
 const margin = 3;
-const height = 6;
+const height = 7;
 
 
 function FlameGraphElement({span, currentDepth, scale}) {
@@ -75,9 +75,11 @@ export default function TraceFlameGraph({trace}) {
            height: `${chartHeight}px`
          }}
          className={block}>
-      <FlameGraphElement span={trace}
-                         currentDepth={1}
-                         scale={x} />
+      <div className={`${block}__element-wrapper`}>
+        <FlameGraphElement span={trace}
+                           currentDepth={1}
+                           scale={x} />
+      </div>
     </div>
   );
 }

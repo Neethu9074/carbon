@@ -1,22 +1,28 @@
 .in-trace-view-flame-graph {
-  position: relative;
-  width: 100%;
   background: #fff;
-  padding: .75rem;
+  padding: 0.75rem 1.5rem;
   margin-bottom: .25rem;
+
+  &__element-wrapper {
+    position: relative;
+  }
 
   &__element {
     position: absolute;
     background: red;
-    height: 6px;
+    height: 7px;
     min-width: 2px;
     border-radius: 2px;
     cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
   }
 
   &__network {
     position: absolute;
-    border-top: 1px dashed black;
+    border-top: 1px dashed #92A5AE;
     height: 1px;
     min-width: 2px;
   }
