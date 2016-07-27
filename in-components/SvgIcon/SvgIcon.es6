@@ -14,7 +14,7 @@ export default function SvgIcon({
   const icon = icons[type];
   if (!icon) {
     if (__DEV__) {
-      console.error(`SVG icon ${icon} is unknown.`);
+      console.error(`SVG icon ${type} is unknown.`);
     }
     return null;
   }

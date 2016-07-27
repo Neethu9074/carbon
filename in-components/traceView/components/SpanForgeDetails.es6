@@ -8,8 +8,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import {getSpanDetailView} from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
-import './SpanForgeDetails.less';
-
 const context = require.context('../../../in-forge/tracing', true, /\/[a-zA-Z0-9]+\.es6$/);
 
 const block = 'in-span-forge-details';

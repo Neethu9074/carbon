@@ -4,10 +4,13 @@ import React from 'react';
 import {getLabel, getCategory, getCategoryIcon, getTypeLabelSingular, getDirection} from 'in-sdk/tracing';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
+import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
 import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getSelfTime} from 'in-components/traceView/util';
+import {hexToRGB} from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import './SpanElement.less';
@@ -45,6 +48,7 @@ export default connectTo(props => {
     const totalTime = span.get('duration');
     const category = getCategory(span);
     const categoryColor = spanCategoryColors[category];
+    const categoryColorRgb = hexToRGB(categoryColor);
     const backgroundInCategoryColorStyle = {background: categoryColor};
 
     let totalTimePercentage;
@@ -67,14 +71,14 @@ export default connectTo(props => {
                [`${block}`]: true,
                [`${block}--error`]: span.get('error'),
                [`${block}--highlighted`]: this.props.isHighlighted
-             })}
-             onClick={this.toggleDetails}>
+             })}>
           <div className={`${block}__background`}
                 style={backgroundInCategoryColorStyle}/>
           <div className={`${block}__left-border`}
                 style={backgroundInCategoryColorStyle}/>
           <div className={`${block}__content-wrapper`}>
-            <div className={`${block}__header`}>
+            <div className={`${block}__header`}
+                 onClick={this.toggleDetails}>
               <img src={getCategoryIcon(category)}
                    alt={`Icon for the span category ${category}`}
                    className={`${block}__category-icon`}
@@ -115,14 +119,30 @@ export default connectTo(props => {
                   }
                 </div>
               </div>
+
+              <SvgIcon type={this.state.detailsExpanded ? 'timeline_close' : 'timeline_open'}
+                       onClick={this.toggleDetails}
+                       className={`${block}__toggle-details`}
+                       width={12} />
             </div>
+
+            {this.state.detailsExpanded ?
+              <div className={`${block}__details`}
+                   style={{
+                     borderColor: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.7)`
+                   }}>
+                <SpanForgeDetails span={span}
+                                  trace={this.props.trace} />
+              </div>
+            : null}
           </div>
         </div>
       </div>
     );
   },
 
-  toggleDetails() {
+  toggleDetails(e) {
+    e.stopPropagation();
     this.setState(prevState => {
       return {
         detailsExpanded: !prevState.detailsExpanded
@@ -130,26 +150,3 @@ export default connectTo(props => {
     });
   }
 }));
-
-
-// {this.state.detailsExpanded ?
-//   <SpanForgeDetails span={this.props.span}
-//                     trace={this.props.trace} />
-// : null}
-//
-//
-//
-// Self: {msZeroDecimalPlaces(selfTime)} ({percentageTwoDecimalPlaces(selfTimePercentage)})
-// <br />
-// {getTypeLabelSingular(this.props.span)}: {getLabel(this.props.span)}
-// <br />
-// Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
-// <br/>
-//
-
-//
-// {this.props.span.get('async') ?
-//   <span className={`${block}__async-marker`}>
-//     &#x21C4;
-//   </span>
-// : null}

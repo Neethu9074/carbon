@@ -53,6 +53,7 @@
     align-items: center;
     height: 2.75rem;
     padding: 0 1rem;
+    cursor: pointer;
   }
 
   &__category-icon {
@@ -72,6 +73,7 @@
     width: 1px;
     height: 1.75rem;
     margin: 0 .75rem;
+    opacity: 0.7;
   }
 
   &__descriptions {
@@ -89,5 +91,21 @@
 
   &__first-entity {
     margin-right: 3rem;
+  }
+
+  &__toggle-details {
+    position: absolute;
+    right: .625rem;
+    cursor: pointer;
+
+    path {
+      fill: #92A5AE;
+    }
+  }
+
+  &__details {
+    border-top: 1px solid #000;
+    margin: 0 0 0 .438rem;
+    padding: 0.1rem 1rem;
   }
 }
