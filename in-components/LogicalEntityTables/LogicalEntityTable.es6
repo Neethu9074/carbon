@@ -10,7 +10,7 @@ import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDash
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
-import SnapshotLink from 'in-components/SnapshotLink';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 

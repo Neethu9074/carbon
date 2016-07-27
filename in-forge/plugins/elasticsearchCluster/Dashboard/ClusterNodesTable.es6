@@ -10,7 +10,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
-import SnapshotLink from 'in-components/SnapshotLink';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';

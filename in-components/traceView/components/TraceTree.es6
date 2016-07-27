@@ -32,11 +32,7 @@ export default connectTo({
     <div className={block}>
       <TraceHeader trace={trace} />
 
-      <h2>Flame Graph</h2>
-
       <TraceFlameGraph trace={trace} />
-
-      <h2>Trace Tree</h2>
 
       <ul className={`${block}__element-container ${block}__element-container--root`}>
         <TreeElement element={longTrace}

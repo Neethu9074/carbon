@@ -1,10 +1,19 @@
+/* eslint-disable max-len */
+
 import React from 'react';
 
 import {getErrorCount, getDepth, getCalls, getPerCategorySummary} from 'in-components/traceView/util';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
+import LabeledValue from 'in-components/traceView/components/tree/LabeledValue';
+import categoryColors from 'in-stores/colorCoding/spanCategories';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
-import {getLabel} from 'in-sdk/tracing';
+import {getLabel, getCategoryIcon} from 'in-sdk/tracing';
+import Tooltip from 'in-components/Tooltip';
+
+import './Header.less';
+
+const block = 'in-trace-view-details-header';
 
 export default function TraceHeader({trace}) {
   const errorCount = getErrorCount(trace);
@@ -15,27 +24,61 @@ export default function TraceHeader({trace}) {
   const categories = Object.keys(perCategorySummary).sort();
 
   return (
-    <div>
-      <h1>
-        {getLabel(trace)}
-        <SpanEntityInformation span={trace}
-                               label=' on'
-                               connectionEndpointType='destinationId' />
-      </h1>
+    <div className={block}>
+      <div className={`${block}__date`}>
+        {formatDateTime(trace.get('start'))}
+      </div>
+      <div className={`${block}__description`}>
+        <h1 className={`${block}__title`}>
+          {getLabel(trace)}
+        </h1>
 
-      <p>
-        Took {msZeroDecimalPlaces(trace.get('duration'))} on {formatDateTime(trace.get('start'))} with&nbsp;
-        {errorCount} errors in {calls} calls and a maximum depth of {depth}.
-      </p>
+        <p className={`${block}__entity`}>
+          <SpanEntityInformation span={trace}
+                                 label='On:'
+                                 connectionEndpointType='destinationId' />
+        </p>
 
-      <ul>
-        {categories.map(category =>
-          <li key={category}>
-            {perCategorySummary[category].calls} {category} calls at a total self time of&nbsp;
-            {msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}
-          </li>
-        )}
-      </ul>
+        <div className={`${block}__stats`}>
+          <LabeledValue label='Total'>
+            {msZeroDecimalPlaces(trace.get('duration'))}
+          </LabeledValue>
+
+          <LabeledValue label='Errors'>
+            {errorCount}
+          </LabeledValue>
+
+          <LabeledValue label='Calls'>
+            {calls}
+          </LabeledValue>
+
+          <LabeledValue label='Depth'>
+            {depth}
+          </LabeledValue>
+
+          <ul className={`${block}__category-list`}>
+            {categories.map(category =>
+              <Tooltip content={`${perCategorySummary[category].calls} ${category} spans at a total self time of ${msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}`}
+                       key={category}>
+                <li className={`${block}__category`}>
+                  <img src={getCategoryIcon(category)}
+                       alt={`Icon for the span category ${category}`}
+                       className={`${block}__span-category-icon`}
+                       style={{
+                         background: categoryColors[category]
+                       }}/>
+                  <span className={`${block}__category-call-count`}>
+                    {perCategorySummary[category].calls}
+                  </span>
+                  <span className={`${block}__category-self-time`}>
+                    &nbsp;({msZeroDecimalPlaces(perCategorySummary[category].durationSelf)})
+                  </span>
+                </li>
+              </Tooltip>
+            )}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
