@@ -44,7 +44,10 @@ export default function TraceHeader({trace}) {
             {msZeroDecimalPlaces(trace.get('duration'))}
           </LabeledValue>
 
-          <LabeledValue label='Errors'>
+          <LabeledValue label='Errors'
+                        style={{
+                          color: errorCount > 0 ? '#D0021B' : undefined
+                        }}>
             {errorCount}
           </LabeledValue>
 
