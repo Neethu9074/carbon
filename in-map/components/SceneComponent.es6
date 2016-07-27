@@ -12,6 +12,7 @@ export default sceneObjectComponent(props => {
   return {
     InstanceType: Scene,
     params: {
+      id: 'main_scene',
       canvas: props.canvas
     }
   };

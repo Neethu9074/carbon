@@ -1,30 +1,25 @@
 import THREE from 'three';
 
-import {setScene, clearScene, requestFrame, requestedFrame$} from 'in-map/stores/sceneStore';
+import {setScene, clearScene} from 'in-map/stores/sceneStore';
 import Camera from 'in-map/sceneObjects/OrthographicCamera';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {frame$} from 'in-map/stores/renderingStore';
 import {theme} from 'in-services/theme';
 
 
 export default class Scene extends SceneObject {
 
   constructor(params) {
-    super(params);
+    super(params.id);
 
-    this.isDisposed = false;
     this.canvas = params.canvas;
     this.width = this.canvas.clientWidth;
     this.height = this.canvas.clientHeight;
-
-    this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
-
-    console.log('create scene');
   }
 
   init() {
     super.init();
 
-    console.log('init scene');
     this.setupRenderer();
     this.setupScene();
     this.setupCamera();
@@ -34,27 +29,11 @@ export default class Scene extends SceneObject {
 
   initEvents() {
     super.initEvents();
-    console.log('initEvents scene');
-    this.handleAnimationFrames();
 
-    this.addSubscription(
-      requestedFrame$.throttle(1000).subscribe(frame => this.update(frame))
-    );
-  }
-
-  handleAnimationFrames() {
-    // break the browser update routine
-    if (this.isDisposed) {
-      return;
-    }
-
-    requestAnimationFrame(this.handleAnimationFrames);
-    requestFrame();
+    this.addSubscription(frame$.throttle(1000).subscribe(frame => this.update(frame)));
   }
 
   update(frame) {
-    console.log('update scene');
-
     // update objects only if necessary
     this.camera.update();
 
@@ -88,12 +67,7 @@ export default class Scene extends SceneObject {
   }
 
   dispose() {
-    // break the browser update routine
-    this.isDisposed = true;
-
     clearScene();
-
-    console.log('dispose scene');
 
     this.camera.dispose();
     this.camera = null;

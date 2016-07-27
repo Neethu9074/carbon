@@ -1,15 +1,5 @@
+import {requestRendering} from 'in-map/stores/renderingStore';
 import {createStore} from 'in-stores/store';
-
-
-const requestedFrame = createStore({
-  name: 'scene/requestedFrame',
-  initialValue: 0
-});
-export const requestedFrame$ = requestedFrame.observable;
-
-export function requestFrame() {
-  requestedFrame.applyStateMutation(frame => ++frame);
-}
 
 
 const scene = createStore({
@@ -24,4 +14,22 @@ export function setScene(newScene) {
 
 export function clearScene() {
   scene.applyStateMutation(() => null);
+}
+
+export function addSceneObject(object) {
+  scene$.once(_scene => {
+    if (_scene.scene) {
+      _scene.scene.add(object);
+      requestRendering();
+    }
+  });
+}
+
+export function removeSceneObject(object) {
+  scene$.once(_scene => {
+    if (_scene.scene) {
+      _scene.scene.remove(object);
+      requestRendering();
+    }
+  });
 }

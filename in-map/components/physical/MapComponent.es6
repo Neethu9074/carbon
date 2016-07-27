@@ -7,7 +7,9 @@ import Map from 'in-map/sceneObjects/physical/Map';
 export default sceneObjectComponent(() => {
   return {
     InstanceType: Map,
-    params: {}
+    params: {
+      id: 'physical_map'
+    }
   };
 }, MapComponent);
 
