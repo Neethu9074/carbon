@@ -19,6 +19,7 @@ export default class Scene extends SceneObject {
     this.height = this.canvas.clientHeight;
 
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
+    this.onWindowResizeHandler = this.onWindowResize.bind(this);
   }
 
   init() {
@@ -36,7 +37,17 @@ export default class Scene extends SceneObject {
 
     this.handleAnimationFrames();
 
-    this.addSubscription(frame$.throttle(1000).subscribe(frame => this.render(frame)));
+    this.addSubscriptions([
+      frame$.throttle(1000).subscribe(frame => this.render(frame))
+    ]);
+
+    window.addEventListener('resize', this.onWindowResizeHandler, false);
+  }
+
+  disposeEvents() {
+    super.disposeEvents();
+
+    window.removeEventListener('resize', this.onWindowResizeHandler, false);
   }
 
   handleAnimationFrames() {
@@ -80,6 +91,22 @@ export default class Scene extends SceneObject {
 
   setupCamera() {
     this.camera = new Camera(this.width, this.height);
+  }
+
+  onWindowResize() {
+    const height = this.height = window.innerHeight;
+    const width = this.width = window.innerWidth;
+
+    this.canvas.height = height;
+    this.canvas.width = width;
+
+    this.renderer.setSize(width, height);
+
+    this.camera.setSize(width, height);
+    this.camera.setCameraFromSize();
+
+    // refresh to show the current state
+    requestRendering();
   }
 
   dispose() {
