@@ -1,12 +1,12 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {getSelfTime} from 'in-components/traceView/util';
-import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
+import {getLabel, getCategory, getCategoryIcon, getTypeLabelSingular, getDirection} from 'in-sdk/tracing';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
-// import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
-import {getLabel, getCategory, getCategoryIcon} from 'in-sdk/tracing';
+import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
+import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
+import {getSelfTime} from 'in-components/traceView/util';
 import classnames from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
 
@@ -59,6 +59,8 @@ export default connectTo(props => {
       selfTimePercentage = 1 / parentTotalTime * selfTime;
     }
 
+    console.log(totalTimePercentage);
+
     return (
       <div>
         <div className={classnames({
@@ -86,7 +88,33 @@ export default connectTo(props => {
               <div className={`${block}__horizontal-divider`}
                    style={backgroundInCategoryColorStyle} />
 
-              {getLabel(span)} ({totalTimePercentage} {selfTimePercentage})
+              <div className={`${block}__descriptions`}>
+                <div className={`${block}__span-description`}>
+                  <span className={`${block}__span-type`}>{getTypeLabelSingular(span)}: </span>
+                  {getLabel(span)}
+                </div>
+                <div className={`${block}__entity-description`}>
+                  {getDirection(span) === 'entry' ?
+                    <span>
+                      <SpanEntityInformation span={span}
+                                             label='From'
+                                             connectionEndpointType='sourceId' />
+                      <SpanEntityInformation span={span}
+                                             label='On'
+                                             connectionEndpointType='destinationId' />
+                    </span>
+                  :
+                    <span>
+                      <SpanEntityInformation span={span}
+                                             label='On'
+                                             connectionEndpointType='sourceId' />
+                      <SpanEntityInformation span={span}
+                                             label='To'
+                                             connectionEndpointType='destinationId' />
+                    </span>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -118,25 +146,7 @@ export default connectTo(props => {
 // Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
 // <br/>
 //
-// {getDirection(this.props.span) === 'entry' ?
-//   <span>
-//     <SpanEntityInformation span={this.props.span}
-//                            label='From'
-//                            connectionEndpointType='sourceId' />
-//     <SpanEntityInformation span={this.props.span}
-//                            label='On'
-//                            connectionEndpointType='destinationId' />
-//   </span>
-// :
-//   <span>
-//     <SpanEntityInformation span={this.props.span}
-//                            label='On'
-//                            connectionEndpointType='sourceId' />
-//     <SpanEntityInformation span={this.props.span}
-//                            label='To'
-//                            connectionEndpointType='destinationId' />
-//   </span>
-// }
+
 //
 // {this.props.span.get('async') ?
 //   <span className={`${block}__async-marker`}>
