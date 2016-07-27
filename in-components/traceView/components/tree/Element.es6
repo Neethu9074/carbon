@@ -8,7 +8,7 @@ import './Element.less';
 
 const block = 'in-trace-tree-element';
 
-export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace, depth}) {
+export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace, depth, parent}) {
   let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
   if (element.type === 'span' && parentSpanForPercentageCalculation.get('async')) {
     newParentSpanForPercentageCalculation = element.span;
