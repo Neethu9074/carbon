@@ -34,13 +34,17 @@ export default connectTo({
 
       <TraceFlameGraph trace={trace} />
 
-      <ul className={`${block}__element-container ${block}__element-container--root`}>
-        <TreeElement element={longTrace}
-                     parentSpanForPercentageCalculation={trace}
-                     trace={trace}
-                     parent={null}
-                     depth={0}/>
-      </ul>
+      <div className={`${block}__tree-wrapper`}>
+        <div className={`${block}__total-time-label`}>Total: </div>
+
+        <ul className={`${block}__element-container ${block}__element-container--root`}>
+          <TreeElement element={longTrace}
+                       parentSpanForPercentageCalculation={trace}
+                       trace={trace}
+                       parent={null}
+                       depth={0}/>
+        </ul>
+      </div>
     </div>
   );
 });

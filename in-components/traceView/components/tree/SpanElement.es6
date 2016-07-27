@@ -67,11 +67,13 @@ export default connectTo(props => {
     return (
       <div>
         <div className={`${block}__total-time`}>
-          {this.props.depth === 0 ?
-            <span className={`${block}__totel-time-label`}>Total: </span>
-          : null}
-
           {msZeroDecimalPlaces(totalTime)}<br/>({percentageTwoDecimalPlaces(totalTimePercentage)})
+          <div className={`${block}__total-time-indicator`}>
+            <div className={`${block}__total-time-indicator-bar`}
+                 style={{
+                   width: `${totalTimePercentage * 100}%`
+                 }}/>
+          </div>
         </div>
 
         <div className={classnames({
