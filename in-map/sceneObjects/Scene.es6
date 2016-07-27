@@ -37,7 +37,9 @@ export default class Scene extends SceneObject {
     console.log('initEvents scene');
     this.handleAnimationFrames();
 
-    requestedFrame$.throttle(5000).subscribe(frame => this.update(frame));
+    this.addSubscription(
+      requestedFrame$.throttle(1000).subscribe(frame => this.update(frame))
+    );
   }
 
   handleAnimationFrames() {

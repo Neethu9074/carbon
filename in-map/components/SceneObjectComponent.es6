@@ -26,6 +26,7 @@ export default function SceneObjectComponent(getProps, ComposedComponent) {
     componentDidUpdate() {},
 
     componentWillUnmount() {
+      this.sceneObject.disposeEvents();
       this.sceneObject.dispose();
       this.sceneObject = null;
     },

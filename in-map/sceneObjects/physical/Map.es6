@@ -11,15 +11,25 @@ export default class Map extends SceneObject {
 
   init() {
     super.init();
+
     console.log('init physical map');
   }
 
   initEvents() {
     super.initEvents();
+
     console.log('initEvents physical map');
   }
 
+  disposeEvents() {
+    super.disposeEvents();
+
+    console.log('disposeEvents physical map');
+  }
+
   dispose() {
+    super.dispose();
+
     console.log('dispose physical map');
   }
 }
