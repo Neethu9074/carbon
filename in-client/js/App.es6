@@ -11,14 +11,14 @@ import SidebarIncidents from 'in-components/sidebars/Incident';
 import ConnectionStatus from 'in-components/ConnectionStatus';
 import MaintenanceNote from 'in-components/MaintenanceNote';
 import TableView from 'in-components/tableView/TableView';
+import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import ViewSwitcher from 'in-components/ViewSwitcher';
 import RightSidebar from 'in-components/RightSidebar';
-import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import AppHeader from 'in-components/AppHeader';
 import Settings from 'in-components/Settings';
-import Map from 'in-map';
+import Map from 'in-map/index.es6';
 
 import './App.less';
 
