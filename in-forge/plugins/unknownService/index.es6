@@ -35,7 +35,7 @@ icon.addMapping(
   constants.plugins.unknownService,
   snapshot => {
     const map = {};
-    map[fullyQualifiedPlugins.logicalHttpConnection] = '';
+    map[fullyQualifiedPlugins.logicalHttpConnection] = plugins.unknownService;
     map[fullyQualifiedPlugins.logicalJdbcConnection] = plugins.jvmRuntimePlatform;
     map[fullyQualifiedPlugins.logicalMongoDbConnection] = plugins.mongoDb;
     map[fullyQualifiedPlugins.logicalRabbitMqPublisherConnection] = plugins.rabbitMq;
