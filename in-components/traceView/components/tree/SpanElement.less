@@ -2,12 +2,14 @@
   position: relative;
   border-radius: .25rem;
 
-  &--error {
-
+  &--error .in-trace-tree-span-element__background {
+    background: red !important;
+    opacity: .7;
   }
 
-  &--highlighted, &:hover {
-
+  &--highlighted .in-trace-tree-span-element__background {
+    background: yellow !important;
+    opacity: .7;
   }
 
   &__background {
@@ -20,6 +22,8 @@
     border-top-right-radius: .25rem;
     border-bottom-right-radius: .25rem;
     z-index: 1;
+
+    transition: background 0.15s ease-in-out, opacity 0.15s ease-in-out;
 
     .in-trace-tree-span-element:hover & {
       opacity: .3;
@@ -36,6 +40,7 @@
     opacity: .3;
     border-top-left-radius: .25rem;
     border-bottom-left-radius: .25rem;
+    transition: opacity 0.15s ease-in-out;
 
     .in-trace-tree-span-element:hover & {
       opacity: .5;
