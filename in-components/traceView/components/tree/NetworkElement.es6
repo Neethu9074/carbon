@@ -14,7 +14,7 @@ export default function TreeNetworkElement({parent, element}) {
   }
   return (
     <div className={block}>
-      NETWORK
+      Network
       {duration != null ? ` (${duration} ms)` : null}
 
       <div className={`${block}__dashed-filler`} />

@@ -1,5 +1,11 @@
 import React from 'react';
 
+import SvgIcon from 'in-components/SvgIcon';
+
+import './StackTraceElement.less';
+
+const block = 'in-trace-view-stack-trace';
+
 export default React.createClass({
   displayName: 'TreeStackTraceElement',
 
@@ -14,63 +20,29 @@ export default React.createClass({
   },
 
   render() {
-    const stackTrace = this.props.stackTrace;
-
-    if (stackTrace.length === 1) {
-      return (
-        <div>
-          {stackTrace.map((st, i) =>
-            <div key={i}>
-              {st.get('c')}#{st.get('m')}:{st.get('n')}
-
-              <span>
-                &nbsp;[View Source]
-              </span>
-            </div>
-          )}
-        </div>
-      );
+    let stackTrace = this.props.stackTrace;
+    if (!this.state.showAllElements) {
+      stackTrace = [stackTrace[stackTrace.length - 1]];
     }
 
-    const last = stackTrace[stackTrace.length - 1];
-
     return (
-      <div>
-        {this.state.showAllElements ?
-          <div>
-            <div onClick={this.toggle}>
-              [Show less…]
-            </div>
+      <div className={block}
+           onClick={this.toggle}>
 
-            {stackTrace.filter(st => st !== last).map((st, i) =>
-              <div key={i}>
-                {st.get('c')}#{st.get('m')}:{st.get('n')}
+        <SvgIcon type={this.state.showAllElements ? 'timeline_close' : 'timeline_open'}
+                 className={`${block}__toggle-details`}
+                 width={12} />
 
-                <span>
-                  &nbsp;[View Source]
-                </span>
-              </div>
-            )}
-
-            <div onClick={this.toggle}>
-              [Show less…]
-            </div>
-          </div>
-        : null}
-
-        <div>
-          {last.get('c')}#{last.get('m')}:{last.get('n')}
-
-          {!this.state.showAllElements ?
-            <span onClick={this.toggle}>
-              &nbsp;[Show more…]
-            </span>
-          : null}
-
-          <span>
-            &nbsp;[View Source]
-          </span>
-        </div>
+        <ol className={`${block}__list`}>
+          {stackTrace.map((st, i) =>
+            <li key={i}
+                className={`${block}__item`}>
+              <span className={`${block}__method`}> {st.get('m')} </span>
+              <span className={`${block}__in`}>in</span>
+              <span className={`${block}__file`}> {st.get('c')}:{st.get('n')}</span>
+            </li>
+          )}
+        </ol>
       </div>
     );
   },
