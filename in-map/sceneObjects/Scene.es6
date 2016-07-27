@@ -1,5 +1,8 @@
+import THREE from 'three';
+
 import {requestFrame, requestedFrame$} from 'in-map/stores/sceneStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {theme} from 'in-services/theme';
 
 
 export default class Scene extends SceneObject {
@@ -7,6 +10,7 @@ export default class Scene extends SceneObject {
   constructor(params) {
     super(params);
 
+    this.isDisposed = false;
     this.canvas = params.canvas;
     this.width = this.canvas.clientWidth;
     this.height = this.canvas.clientHeight;
@@ -19,6 +23,9 @@ export default class Scene extends SceneObject {
   init() {
     super.init();
     console.log('init scene');
+    this.setupRenderer();
+    this.setupScene();
+    this.setupCamera();
   }
 
   initEvents() {
@@ -33,6 +40,11 @@ export default class Scene extends SceneObject {
   }
 
   handleAnimationFrames() {
+    // break the browser update routine
+    if (this.isDisposed) {
+      return;
+    }
+
     requestAnimationFrame(this.handleAnimationFrames);
     requestFrame();
   }
@@ -43,9 +55,44 @@ export default class Scene extends SceneObject {
 
   render(frame) {
     console.log('render frame', frame);
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  setupRenderer() {
+    const renderer = this.renderer = new THREE.WebGLRenderer({
+      canvas: this.canvas,
+      antialias: true
+    });
+
+    renderer.setSize(this.width, this.height);
+    renderer.setClearColor(new THREE.Color(theme.map.colors.clearColor));
+
+    // objects organize matrix updates by themselves
+    renderer.autoUpdateObjects = false;
+  }
+
+  setupScene() {
+    this.scene = new THREE.Scene();
+  }
+
+  setupCamera() {
+    this.camera = new THREE.OrthographicCamera(
+      1, -1, 1, -1,
+      0.1, // near
+      2000 // far
+    );
   }
 
   dispose() {
+    this.isDisposed = true;
+
     console.log('dispose scene');
+
+    this.renderer = null;
+    this.camera = null;
+    this.canvas = null;
+    this.height = null;
+    this.width = null;
+    this.scene = null;
   }
 }

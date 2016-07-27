@@ -8,5 +8,5 @@ const requestedFrame = createStore({
 export const requestedFrame$ = requestedFrame.observable;
 
 export function requestFrame() {
-  requestedFrame.applyStateMutation(frame => frame++);
+  requestedFrame.applyStateMutation(frame => ++frame);
 }
