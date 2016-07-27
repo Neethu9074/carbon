@@ -8,7 +8,7 @@ import './Element.less';
 
 const block = 'in-trace-tree-element';
 
-export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace}) {
+export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace, depth}) {
   let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
   if (element.type === 'span' && parentSpanForPercentageCalculation.get('async')) {
     newParentSpanForPercentageCalculation = element.span;
@@ -21,33 +21,45 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
       <TreeSpanElement trace={trace}
                        span={element.span}
                        parentSpanForPercentageCalculation={parentSpanForPercentageCalculation}
-                       parent={parent} />
+                       parent={parent}
+                       depth={depth} />
     );
   } else if (elementType === 'stackTrace') {
     details = (
-      <TreeStackTraceElement stackTrace={element.stackTrace}
-                             parent={parent} />
+      <div style={{
+             paddingLeft: `${depth * 20}px`
+           }}>
+        <TreeStackTraceElement stackTrace={element.stackTrace}
+                               parent={parent} />
+      </div>
     );
   } else if (elementType === 'network') {
     details = (
-      <TreeNetworkElement parent={parent}
-                          element={element} />
+      <div style={{
+             paddingLeft: `${depth * 20}px`
+           }}>
+        <TreeNetworkElement parent={parent}
+                            element={element}/>
+      </div>
     );
   } else {
     throw new Error(`Unknown long trace element type ${element.type}`);
   }
 
+  const childDepth = depth + 1;
+
   return (
     <li className={block}>
       {details}
 
-      <ul>
+      <ul className='in-trace-view-tree__element-container'>
         {element.children.map(childElement =>
           <TraceTreeElement element={childElement}
                             key={childElement.id}
                             parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
                             trace={trace}
-                            parent={element} />
+                            parent={element}
+                            depth={childDepth}/>
         )}
       </ul>
     </li>

@@ -33,7 +33,8 @@ export default connectTo(props => {
     span: React.PropTypes.object.isRequired,
     trace: React.PropTypes.object.isRequired,
     isHighlighted: React.PropTypes.bool.isRequired,
-    parentSpanForPercentageCalculation: React.PropTypes.object.isRequired
+    parentSpanForPercentageCalculation: React.PropTypes.object.isRequired,
+    depth: React.PropTypes.number.isRequired
   },
 
   getInitialState() {
@@ -63,15 +64,24 @@ export default connectTo(props => {
       selfTimePercentage = 1 / parentTotalTime * selfTime;
     }
 
-    console.log(totalTimePercentage);
-
     return (
       <div>
+        <div className={`${block}__total-time`}>
+          {this.props.depth === 0 ?
+            <span className={`${block}__totel-time-label`}>Total: </span>
+          : null}
+
+          {msZeroDecimalPlaces(totalTime)}<br/>({percentageTwoDecimalPlaces(totalTimePercentage)})
+        </div>
+
         <div className={classnames({
                [`${block}`]: true,
                [`${block}--error`]: span.get('error'),
                [`${block}--highlighted`]: this.props.isHighlighted
-             })}>
+             })}
+             style={{
+               marginLeft: `${this.props.depth * 20}px`
+             }}>
           <div className={`${block}__background`}
                 style={backgroundInCategoryColorStyle}/>
           <div className={`${block}__left-border`}
@@ -129,7 +139,7 @@ export default connectTo(props => {
             {this.state.detailsExpanded ?
               <div className={`${block}__details`}
                    style={{
-                     borderColor: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.7)`
+                     borderColor: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.5)`
                    }}>
                 <SpanForgeDetails span={span}
                                   trace={this.props.trace} />

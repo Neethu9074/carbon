@@ -38,7 +38,8 @@ export default connectTo({
         <TreeElement element={longTrace}
                      parentSpanForPercentageCalculation={trace}
                      trace={trace}
-                     parent={null} />
+                     parent={null}
+                     depth={0}/>
       </ul>
     </div>
   );
