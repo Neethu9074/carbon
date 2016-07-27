@@ -1,18 +1,17 @@
 import {requestFrame, requestedFrame$} from 'in-map/stores/sceneStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import Map from 'in-map/sceneObjects/physical/Map';
 
 
 export default class Scene extends SceneObject {
 
-  constructor(parentComponent, params) {
-    super(parentComponent, params);
+  constructor(params) {
+    super(params);
 
     this.canvas = params.canvas;
     this.width = this.canvas.clientWidth;
     this.height = this.canvas.clientHeight;
 
-    this.update = this.update.bind(this);
+    this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
 
     console.log('create scene');
   }
@@ -20,25 +19,30 @@ export default class Scene extends SceneObject {
   init() {
     super.init();
     console.log('init scene');
-
-    this.parentComponent.addSceneObject(Map, {});
-    // this.setupCanvas();
-    // this.setupRenderer();
   }
 
   initEvents() {
     super.initEvents();
     console.log('initEvents scene');
-    this.update();
+    this.handleAnimationFrames();
 
-    requestedFrame$.throttle(1000).subscribe(() => {
-      this.parentComponent.update();
+    requestedFrame$.throttle(5000).subscribe(frame => {
+      this.update();
+      this.render(frame);
     });
   }
 
-  update() {
-    requestAnimationFrame(this.update);
+  handleAnimationFrames() {
+    requestAnimationFrame(this.handleAnimationFrames);
     requestFrame();
+  }
+
+  update() {
+    console.log('update scene');
+  }
+
+  render(frame) {
+    console.log('render frame', frame);
   }
 
   dispose() {

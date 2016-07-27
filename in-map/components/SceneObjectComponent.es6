@@ -1,0 +1,40 @@
+import React from 'react';
+
+
+export default function SceneObjectComponent(getProps, ComposedComponent) {
+  return React.createClass({
+
+    displayName: 'SceneObjectComponent',
+
+    sceneObject: null,
+
+    componentWillMount() {
+      const {InstanceType, params} = getProps(this.props);
+      this.sceneObject = new InstanceType(params);
+      this.sceneObject.init();
+    },
+
+    componentDidMount() {
+      this.sceneObject.initEvents();
+
+      // register for update events
+    },
+
+    componentWillReceiveProps() {},
+    shouldComponentUpdate() { return true; },
+    componentWillUpdate() {},
+    componentDidUpdate() {},
+
+    componentWillUnmount() {
+      this.sceneObject.dispose();
+      this.sceneObject = null;
+    },
+
+    render() {
+      return (
+        <ComposedComponent {...this.props}
+                           {...this.state} />
+      );
+    }
+  });
+}

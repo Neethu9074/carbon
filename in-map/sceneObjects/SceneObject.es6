@@ -1,14 +1,11 @@
 export default class SceneObject {
 
-  constructor(parentComponent) {
-    this.parentComponent = parentComponent;
+  constructor() {
   }
 
   init() {}
 
   initEvents() {}
 
-  dispose() {
-    this.parentComponent = null;
-  }
+  dispose() {}
 }
