@@ -6,20 +6,20 @@ export default class Map extends SceneObject {
   constructor(parentComponent, params) {
     super(parentComponent, params);
 
-    console.log('create physical map');
+    console.log('create logical map');
   }
 
   init() {
     super.init();
-    console.log('init physical map');
+    console.log('init logical map');
   }
 
   initEvents() {
     super.initEvents();
-    console.log('initEvents physical map');
+    console.log('initEvents logical map');
   }
 
   dispose() {
-    console.log('dispose physical map');
+    console.log('dispose logical map');
   }
 }

@@ -1,6 +1,7 @@
 import THREE from 'three';
 
-import {requestFrame, requestedFrame$} from 'in-map/stores/sceneStore';
+import {setScene, clearScene, requestFrame, requestedFrame$} from 'in-map/stores/sceneStore';
+import Camera from 'in-map/sceneObjects/OrthographicCamera';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {theme} from 'in-services/theme';
 
@@ -22,10 +23,13 @@ export default class Scene extends SceneObject {
 
   init() {
     super.init();
+
     console.log('init scene');
     this.setupRenderer();
     this.setupScene();
     this.setupCamera();
+
+    setScene(this);
   }
 
   initEvents() {
@@ -33,10 +37,7 @@ export default class Scene extends SceneObject {
     console.log('initEvents scene');
     this.handleAnimationFrames();
 
-    requestedFrame$.throttle(5000).subscribe(frame => {
-      this.update();
-      this.render(frame);
-    });
+    requestedFrame$.throttle(5000).subscribe(frame => this.update(frame));
   }
 
   handleAnimationFrames() {
@@ -49,13 +50,18 @@ export default class Scene extends SceneObject {
     requestFrame();
   }
 
-  update() {
+  update(frame) {
     console.log('update scene');
+
+    // update objects only if necessary
+    this.camera.update();
+
+    this.render(frame);
   }
 
   render(frame) {
     console.log('render frame', frame);
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.camera.getRenderableCamera());
   }
 
   setupRenderer() {
@@ -76,20 +82,21 @@ export default class Scene extends SceneObject {
   }
 
   setupCamera() {
-    this.camera = new THREE.OrthographicCamera(
-      1, -1, 1, -1,
-      0.1, // near
-      2000 // far
-    );
+    this.camera = new Camera(this.width, this.height);
   }
 
   dispose() {
+    // break the browser update routine
     this.isDisposed = true;
+
+    clearScene();
 
     console.log('dispose scene');
 
-    this.renderer = null;
+    this.camera.dispose();
     this.camera = null;
+
+    this.renderer = null;
     this.canvas = null;
     this.height = null;
     this.width = null;
