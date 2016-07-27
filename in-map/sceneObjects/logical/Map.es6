@@ -1,9 +1,17 @@
-import SceneObject from 'in-map/sceneObjects/SceneObject';
+import BaseMap from 'in-map/sceneObjects/common/Map';
 
 
-export default class Map extends SceneObject {
+export default class Map extends BaseMap {
 
   constructor(params) {
-    super(params.id);
+    super(params);
+  }
+
+  createController() {
+
+  }
+
+  createGroundPlane() {
+
   }
 }

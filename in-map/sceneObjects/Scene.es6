@@ -1,5 +1,6 @@
 import THREE from 'three';
 
+import {requestRendering} from 'in-map/stores/renderingStore';
 import {setScene, clearScene} from 'in-map/stores/sceneStore';
 import Camera from 'in-map/sceneObjects/OrthographicCamera';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
@@ -12,9 +13,12 @@ export default class Scene extends SceneObject {
   constructor(params) {
     super(params.id);
 
+    this.isDisposed = false;
     this.canvas = params.canvas;
     this.width = this.canvas.clientWidth;
     this.height = this.canvas.clientHeight;
+
+    this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
   }
 
   init() {
@@ -30,14 +34,26 @@ export default class Scene extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(frame$.throttle(1000).subscribe(frame => this.update(frame)));
+    this.handleAnimationFrames();
+
+    this.addSubscription(frame$.throttle(1000).subscribe(frame => this.render(frame)));
   }
 
-  update(frame) {
+  handleAnimationFrames() {
+    // break the browser update routine
+    if (this.isDisposed) {
+      return;
+    }
+
+    requestAnimationFrame(this.handleAnimationFrames);
+    this.update();
+  }
+
+  update() {
     // update objects only if necessary
     this.camera.update();
 
-    this.render(frame);
+    requestRendering();
   }
 
   render(frame) {
@@ -67,6 +83,9 @@ export default class Scene extends SceneObject {
   }
 
   dispose() {
+    // break the browser update routine
+    this.isDisposed = true;
+
     clearScene();
 
     this.camera.dispose();
