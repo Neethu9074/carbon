@@ -6,6 +6,7 @@ import {
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
 import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
+import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultCharts';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
@@ -31,7 +32,8 @@ export default connectTo(props => {
                        createRow={createRow}
                        context={{
                          timeframe
-                       }}/>
+                       }}
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 });
@@ -56,7 +58,6 @@ function createHeader() {
     </thead>
   );
 }
-
 
 function createRow(node, i, {timeframe}) {
   const id = node.get('id');
@@ -102,4 +103,11 @@ function createRow(node, i, {timeframe}) {
                                          formatter={zeroDecimalPlaces} />
     </td>
   ];
+}
+
+function createDetails(nodeSnapshot, index, context) {
+  return (
+    <DefaultCharts snapshot={nodeSnapshot}
+                   timeframe={context.timeframe} />
+  );
 }
