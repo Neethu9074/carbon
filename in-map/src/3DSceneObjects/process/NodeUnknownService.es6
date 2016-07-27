@@ -26,7 +26,7 @@ export default class NodeUnknownService extends Node {
       iconSize: 2.75
     });
 
-    const geometry = new THREE.SphereBufferGeometry(0.5, 20, 20);
+    const geometry = new THREE.SphereBufferGeometry(0.35, 20, 20);
     const material = new THREE.RawShaderMaterial({
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
@@ -45,6 +45,9 @@ export default class NodeUnknownService extends Node {
       }
     });
     const mesh = this.mesh = new THREE.Mesh(geometry, material);
+    mesh.rotationAutoUpdate = false;
+    mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
     addSceneObject(mesh);
 
     this.addSubscription(
@@ -96,6 +99,7 @@ export default class NodeUnknownService extends Node {
 
     this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
     this.mesh.position.set(newPos.x - 0.5, newPos.y, newPos.z + 0.5);
+    this.mesh.updateMatrix();
   }
 
   createSticky() {
