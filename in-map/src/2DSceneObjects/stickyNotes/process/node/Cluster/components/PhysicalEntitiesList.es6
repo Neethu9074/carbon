@@ -43,9 +43,7 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
     return null;
   }
 
-  children = children
-    .sort((a, b) => getPlural(a.get('plugin')).localeCompare(getPlural(b.get('plugin'))))
-    .reverse();
+  children = children.sort((a, b) => getPlural(getLabel(a)).localeCompare(getLabel(b)));
 
   return (
     <div className={block}>
