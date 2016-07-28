@@ -11,6 +11,7 @@ import {getSelfTime} from 'in-components/traceView/util';
 import {hexToRGB} from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import './SpanElement.less';
@@ -79,6 +80,14 @@ export default connectTo(props => {
                    width: `${totalTimePercentage * 100}%`
                  }}/>
           </div>
+
+          {span.get('async') ?
+            <Tooltip content='Async call'>
+              <SvgIcon type='async'
+                       className={`${block}__async-icon`}
+                       width={14} />
+            </Tooltip>
+          : null}
         </div>
 
         <div className={classnames({
@@ -94,6 +103,11 @@ export default connectTo(props => {
                 style={backgroundInCategoryColorStyle}/>
           <div className={`${block}__left-border`}
                 style={backgroundInCategoryColorStyle}/>
+          {span.get('error') ?
+            <SvgIcon type='error'
+                     className={`${block}__error-icon`}
+                     width={12} />
+          : null}
           <div className={`${block}__content-wrapper`}>
             <div className={`${block}__header`}
                  onClick={this.toggleDetails}>

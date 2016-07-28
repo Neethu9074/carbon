@@ -113,7 +113,8 @@ function TimeAxis({tickPositions, axisConfig, start, chartHeight}) {
         <div style={{
                left: `${position.range}%`
              }}
-             className={`${block}__time-axis-tick`}>
+             className={`${block}__time-axis-tick`}
+             key={position.range}>
           {axisConfig.relativeFormatter(position.domain - start)}
         </div>
       )}
