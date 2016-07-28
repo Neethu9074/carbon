@@ -94,6 +94,10 @@ export default React.createClass({
   },
 
   render() {
+    if (this.state.sections.length === 0) {
+      return null;
+    }
+
     const top = this.state.top + wiggleRoom;
     const bottom = this.state.top + this.state.height - wiggleRoom;
     return (
