@@ -70,6 +70,7 @@ function createDetails(webApp, webAppContext, context) {
                left: 80
              }}
              y1={{
+               min: 0,
                metrics: [
                  'sessions.' + webAppContext
                ],
