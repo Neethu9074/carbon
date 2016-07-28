@@ -42,7 +42,8 @@ export default connectTo({
                        parentSpanForPercentageCalculation={trace}
                        trace={trace}
                        parent={null}
-                       depth={0}/>
+                       depth={0}
+                       totalTimeIndentationDepth={0}/>
         </ul>
       </div>
     </div>

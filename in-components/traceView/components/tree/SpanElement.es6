@@ -34,7 +34,8 @@ export default connectTo(props => {
     trace: React.PropTypes.object.isRequired,
     isHighlighted: React.PropTypes.bool.isRequired,
     parentSpanForPercentageCalculation: React.PropTypes.object.isRequired,
-    depth: React.PropTypes.number.isRequired
+    depth: React.PropTypes.number.isRequired,
+    totalTimeIndentationDepth: React.PropTypes.number.isRequired
   },
 
   getInitialState() {
@@ -48,6 +49,7 @@ export default connectTo(props => {
     const selfTime = getSelfTime(span);
     const totalTime = span.get('duration');
     const category = getCategory(span);
+    const direction = getDirection(span);
     const categoryColor = spanCategoryColors[category];
     const categoryColorRgb = hexToRGB(categoryColor);
     const backgroundInCategoryColorStyle = {background: categoryColor};
@@ -66,7 +68,10 @@ export default connectTo(props => {
 
     return (
       <div>
-        <div className={`${block}__total-time`}>
+        <div className={`${block}__total-time`}
+             style={{
+               left: `${this.props.totalTimeIndentationDepth * 20 + 16}px`
+             }}>
           {msZeroDecimalPlaces(totalTime)}<br/>({percentageTwoDecimalPlaces(totalTimePercentage)})
           <div className={`${block}__total-time-indicator`}>
             <div className={`${block}__total-time-indicator-bar`}
@@ -97,13 +102,18 @@ export default connectTo(props => {
                    className={`${block}__category-icon`}
                    style={backgroundInCategoryColorStyle}/>
 
-              <div className={`${block}__self-time`}>
-                <span className={`${block}__self-time-label`}>Self: </span>
-                {msZeroDecimalPlaces(selfTime)}<br/>({percentageTwoDecimalPlaces(selfTimePercentage)})
-              </div>
-
-              <div className={`${block}__horizontal-divider`}
-                   style={backgroundInCategoryColorStyle} />
+              {direction !== 'exit' ?
+                [
+                  <div className={`${block}__self-time`}
+                       key='0'>
+                    <span className={`${block}__self-time-label`}>Self: </span>
+                    {msZeroDecimalPlaces(selfTime)}<br/>({percentageTwoDecimalPlaces(selfTimePercentage)})
+                  </div>,
+                  <div className={`${block}__horizontal-divider`}
+                       key='1'
+                       style={backgroundInCategoryColorStyle} />
+                ]
+              : null}
 
               <div className={`${block}__descriptions`}>
                 <div className={`${block}__span-description`}>

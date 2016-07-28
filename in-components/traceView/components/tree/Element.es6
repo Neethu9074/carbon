@@ -8,10 +8,15 @@ import './Element.less';
 
 const block = 'in-trace-tree-element';
 
-export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace, depth, parent}) {
+export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace, depth, parent,
+    totalTimeIndentationDepth}) {
   let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
   if (element.type === 'span' && parentSpanForPercentageCalculation.get('async')) {
     newParentSpanForPercentageCalculation = element.span;
+  }
+
+  if (element.type === 'span' && element.span.get('async')) {
+    totalTimeIndentationDepth = depth;
   }
 
   const elementType = element.type;
@@ -22,7 +27,8 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
                        span={element.span}
                        parentSpanForPercentageCalculation={parentSpanForPercentageCalculation}
                        parent={parent}
-                       depth={depth} />
+                       depth={depth}
+                       totalTimeIndentationDepth={totalTimeIndentationDepth} />
     );
   } else if (elementType === 'stackTrace') {
     details = (
@@ -59,7 +65,8 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
                             parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
                             trace={trace}
                             parent={element}
-                            depth={childDepth}/>
+                            depth={childDepth}
+                            totalTimeIndentationDepth={totalTimeIndentationDepth} />
         )}
       </ul>
     </li>
