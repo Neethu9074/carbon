@@ -28,7 +28,7 @@ export default class SingleMeshFactory {
 
     // represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
-    this.geometry.dynamic = true;
+    this.geometry.dynamic = false;
 
     this.material = this.getMaterial();
 

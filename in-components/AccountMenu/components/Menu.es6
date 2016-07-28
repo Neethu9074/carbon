@@ -5,9 +5,8 @@ import {isOpen$, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
 import {setSettingsVisibility} from 'in-stores/settings/visibility';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {showReleaseNotes} from 'in-stores/releaseNotes';
+import {config, isOnPremise} from 'in-services/config';
 import {goToGraph} from 'in-stores/navigation';
-import {isOnPremise} from 'in-services/config';
-import {config} from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -62,9 +61,12 @@ export default connectTo({
 
           <Separator />
 
-          <TenantUnitSwitcher />
-
-          <Separator />
+          {!isOnPremise() ?
+            [
+              <TenantUnitSwitcher key='0' />,
+              <Separator key='1' />
+            ]
+          : null}
 
           <a className={block + '__link'}
              href='#'

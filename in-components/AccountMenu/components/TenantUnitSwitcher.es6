@@ -4,6 +4,7 @@ import {getTenantsWithUnits} from 'in-services/tenants';
 import classnames from 'in-services/util/classnames';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
+import config from 'in-services/config';
 import Icon from 'in-components/Icon';
 
 import './TenantUnitSwitcher.less';
@@ -107,7 +108,7 @@ function Tenant({tenant, expandedTenant, toggleTenant}) {
 
 
 function Unit({tenant, unit}) {
-  const link = `https://${unit}-${tenant.name}.instana.io`;
+  const link = `https://${unit}-${tenant.name}.${config.tenantUnitDomainSuffix}`;
   return (
     <li>
       <a href={link}

@@ -30,6 +30,7 @@ import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine'
 import MetricHandler from 'in-map/src/3DSceneObjects/physical/MetricHandler';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import Label from 'in-map/src/3DSceneObjects/physical/Label';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default class Node extends SceneObject {
@@ -39,6 +40,8 @@ export default class Node extends SceneObject {
 
     // nodes base height
     this.height = 1;
+
+    this._cachedLabel = this.id;
 
     this.tooltip = new TooltipNode(this);
     this.metricHandler = new MetricHandler(this);
@@ -245,10 +248,12 @@ export default class Node extends SceneObject {
     this.getComponent('metric').setValues(values);
   }
 
-  onSnapshotUpdated() {
+  onSnapshotUpdated(snapshot) {
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
+
+    this._cachedLabel = getLabel(snapshot);
   }
 
   positionChanged(newPosition) {

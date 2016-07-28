@@ -18,8 +18,8 @@ chai.use(require('sinon-chai'));
 
 // support static file require statements
 ['.png', '.obj', '.less', '.svg', '.glsl'].forEach(extension => {
-  require.extensions[extension] = module => {
-    return module;
+  require.extensions[extension] = () => {
+    return `a ${extension} module`;
   };
 });
 

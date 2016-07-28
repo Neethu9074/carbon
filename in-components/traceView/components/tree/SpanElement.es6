@@ -1,15 +1,19 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {getSelfTime} from 'in-components/traceView/util';
-import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
+import {getLabel, getCategory, getCategoryIcon, getTypeLabelSingular, getDirection} from 'in-sdk/tracing';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
-import {getLabel, getTypeLabelSingular, getCategory, getDirection} from 'in-sdk/tracing';
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
+import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
+import {getSelfTime} from 'in-components/traceView/util';
+import {hexToRGB} from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+
+import './SpanElement.less';
 
 const block = 'in-trace-tree-span-element';
 
@@ -29,7 +33,9 @@ export default connectTo(props => {
     span: React.PropTypes.object.isRequired,
     trace: React.PropTypes.object.isRequired,
     isHighlighted: React.PropTypes.bool.isRequired,
-    parentSpanForPercentageCalculation: React.PropTypes.object.isRequired
+    parentSpanForPercentageCalculation: React.PropTypes.object.isRequired,
+    depth: React.PropTypes.number.isRequired,
+    totalTimeIndentationDepth: React.PropTypes.number.isRequired
   },
 
   getInitialState() {
@@ -39,12 +45,18 @@ export default connectTo(props => {
   },
 
   render() {
-    const selfTime = getSelfTime(this.props.span);
-    const totalTime = this.props.span.get('duration');
+    const span = this.props.span;
+    const selfTime = getSelfTime(span);
+    const totalTime = span.get('duration');
+    const category = getCategory(span);
+    const direction = getDirection(span);
+    const categoryColor = spanCategoryColors[category];
+    const categoryColorRgb = hexToRGB(categoryColor);
+    const backgroundInCategoryColorStyle = {background: categoryColor};
 
     let totalTimePercentage;
     let selfTimePercentage;
-    if (this.props.span.get('async')) {
+    if (span.get('async')) {
       totalTimePercentage = 0;
       selfTimePercentage = 0;
     } else {
@@ -56,60 +68,104 @@ export default connectTo(props => {
 
     return (
       <div>
-        <div className={classnames({
-               [`${block}`]: true,
-               [`${block}--error`]: this.props.span.get('error'),
-               [`${block}--highlighted`]: this.props.isHighlighted
-             })}
-             onClick={this.toggleDetails}>
-          <span className={`${block}__element-type-indicator`}
-                style={{
-                  background: spanCategoryColors[getCategory(this.props.span)]
-                }}/>
-
-          Self: {msZeroDecimalPlaces(selfTime)} ({percentageTwoDecimalPlaces(selfTimePercentage)})
-          <br />
-          {getTypeLabelSingular(this.props.span)}: {getLabel(this.props.span)}
-          <br />
-          Total: {msZeroDecimalPlaces(totalTime)} ({percentageTwoDecimalPlaces(totalTimePercentage)})
-          <br/>
-
-          {getDirection(this.props.span) === 'entry' ?
-            <span>
-              <SpanEntityInformation span={this.props.span}
-                                     label='From'
-                                     connectionEndpointType='sourceId' />
-              <SpanEntityInformation span={this.props.span}
-                                     label='On'
-                                     connectionEndpointType='destinationId' />
-            </span>
-          :
-            <span>
-              <SpanEntityInformation span={this.props.span}
-                                     label='On'
-                                     connectionEndpointType='sourceId' />
-              <SpanEntityInformation span={this.props.span}
-                                     label='To'
-                                     connectionEndpointType='destinationId' />
-            </span>
-          }
-
-          {this.props.span.get('async') ?
-            <span className={`${block}__async-marker`}>
-              &#x21C4;
-            </span>
-          : null}
+        <div className={`${block}__total-time`}
+             style={{
+               left: `${this.props.totalTimeIndentationDepth * 20 + 16}px`
+             }}>
+          {msZeroDecimalPlaces(totalTime)}<br/>({percentageTwoDecimalPlaces(totalTimePercentage)})
+          <div className={`${block}__total-time-indicator`}>
+            <div className={`${block}__total-time-indicator-bar`}
+                 style={{
+                   width: `${totalTimePercentage * 100}%`
+                 }}/>
+          </div>
         </div>
 
-        {this.state.detailsExpanded ?
-          <SpanForgeDetails span={this.props.span}
-                            trace={this.props.trace} />
-        : null}
+        <div className={classnames({
+               [`${block}`]: true,
+               [`${block}--error`]: span.get('error'),
+               [`${block}--highlighted`]: this.props.isHighlighted
+             })}
+             style={{
+               marginLeft: `${this.props.depth * 20}px`
+             }}
+             id={`span-${span.get('spanId')}`}>
+          <div className={`${block}__background`}
+                style={backgroundInCategoryColorStyle}/>
+          <div className={`${block}__left-border`}
+                style={backgroundInCategoryColorStyle}/>
+          <div className={`${block}__content-wrapper`}>
+            <div className={`${block}__header`}
+                 onClick={this.toggleDetails}>
+              <img src={getCategoryIcon(category)}
+                   alt={`Icon for the span category ${category}`}
+                   className={`${block}__category-icon`}
+                   style={backgroundInCategoryColorStyle}/>
+
+              {direction !== 'exit' ?
+                [
+                  <div className={`${block}__self-time`}
+                       key='0'>
+                    <span className={`${block}__self-time-label`}>Self: </span>
+                    {msZeroDecimalPlaces(selfTime)}<br/>({percentageTwoDecimalPlaces(selfTimePercentage)})
+                  </div>,
+                  <div className={`${block}__horizontal-divider`}
+                       key='1'
+                       style={backgroundInCategoryColorStyle} />
+                ]
+              : null}
+
+              <div className={`${block}__descriptions`}>
+                <div className={`${block}__span-description`}>
+                  <span className={`${block}__span-type`}>{getTypeLabelSingular(span)}: </span>
+                  {getLabel(span)}
+                </div>
+                <div className={`${block}__entity-description`}>
+                  {getDirection(span) === 'entry' ?
+                    <span>
+                      <SpanEntityInformation span={span}
+                                             label='From'
+                                             connectionEndpointType='sourceId' />
+                      <SpanEntityInformation span={span}
+                                             label='On'
+                                             connectionEndpointType='destinationId' />
+                    </span>
+                  :
+                    <span>
+                      <SpanEntityInformation span={span}
+                                             label='On'
+                                             connectionEndpointType='sourceId' />
+                      <SpanEntityInformation span={span}
+                                             label='To'
+                                             connectionEndpointType='destinationId' />
+                    </span>
+                  }
+                </div>
+              </div>
+
+              <SvgIcon type={this.state.detailsExpanded ? 'timeline_close' : 'timeline_open'}
+                       onClick={this.toggleDetails}
+                       className={`${block}__toggle-details`}
+                       width={12} />
+            </div>
+
+            {this.state.detailsExpanded ?
+              <div className={`${block}__details`}
+                   style={{
+                     borderColor: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.5)`
+                   }}>
+                <SpanForgeDetails span={span}
+                                  trace={this.props.trace} />
+              </div>
+            : null}
+          </div>
+        </div>
       </div>
     );
   },
 
-  toggleDetails() {
+  toggleDetails(e) {
+    e.stopPropagation();
     this.setState(prevState => {
       return {
         detailsExpanded: !prevState.detailsExpanded

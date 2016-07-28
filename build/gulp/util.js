@@ -64,6 +64,7 @@ exports.writeDevModeConfig = function writeDevModeConfig(environment, envConfig)
   var devConfig = {
     tenant: envConfig.tenant,
     tenantUnit: envConfig.tenantUnit,
+    tenantUnitDomainSuffix: 'instana.io',
     environment: 'internal',
     groundskeeperDomain: envConfig.groundskeeperDomain,
     analyticsTrackingId: 'UA-66215232-4',

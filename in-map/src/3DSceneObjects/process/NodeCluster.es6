@@ -44,6 +44,13 @@ export default class NodeCluster extends Node {
 
   init() {
     this.height = 0.25;
+
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      snapshotId: this.id,
+      iconSize: 2.75
+    });
   }
 
   addComponents(components) {
@@ -97,15 +104,6 @@ export default class NodeCluster extends Node {
     if (!ids) {
       return;
     }
-
-    if (!this.label) {
-      this.label = new Label({
-        id: this.id,
-        parent: this,
-        snapshotId: numChildren > 0 ? ids.getIn([0, 'id']) : this.id,
-        iconSize: 2.75
-      });
-    }
   }
 
   expand() {
@@ -125,9 +123,7 @@ export default class NodeCluster extends Node {
   positionChanged(newPos) {
     super.positionChanged(newPos);
 
-    if (this.label) {
-      this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
-    }
+    this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
   }
 
   createSticky() {
@@ -135,15 +131,13 @@ export default class NodeCluster extends Node {
   }
 
   getDragGhostGeometry() {
-    return new THREE.CylinderBufferGeometry(0.5, 0.5, 0.5, 20, 20);
+    return new THREE.CylinderBufferGeometry(0.5, 0.5, this.height, 20, 20);
   }
 
   dispose() {
     super.dispose();
 
-    if (this.label) {
-      this.label.dispose();
-      this.label = null;
-    }
+    this.label.dispose();
+    this.label = null;
   }
 }

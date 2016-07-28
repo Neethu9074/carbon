@@ -9,7 +9,7 @@ import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetr
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
-import SnapshotLink from 'in-components/SnapshotLink';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -18,7 +18,7 @@ export default connectTo(props => {
   return {
     nodes: props.dataStream
   };
-}, function LogicalEntityTable({nodes, title, timeframe}) {
+}, function LogicalEntityTable({nodes, title, timeframe, createDetails}) {
   if (!nodes || nodes.length === 0) {
     return null;
   }
@@ -31,7 +31,8 @@ export default connectTo(props => {
                        createRow={createRow}
                        context={{
                          timeframe
-                       }}/>
+                       }}
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 });
@@ -51,12 +52,10 @@ function createHeader() {
         <th>Calls/s</th>
         <th>Latency</th>
         <th>Error Rate</th>
-        <th>Instances</th>
       </tr>
     </thead>
   );
 }
-
 
 function createRow(node, i, {timeframe}) {
   const id = node.get('id');
@@ -92,14 +91,6 @@ function createRow(node, i, {timeframe}) {
                                          snapshotId={id}
                                          metric='error_rate'
                                          formatter={percentageTwoDecimalPlaces} />
-    </td>,
-    <td>
-      <HistoricMetricSparkChartWithLabel width={100}
-                                         height={30}
-                                         timeframe={timeframe}
-                                         snapshotId={id}
-                                         metric='instances'
-                                         formatter={zeroDecimalPlaces} />
     </td>
   ];
 }
