@@ -6,7 +6,6 @@ import {
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
 import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
-import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultCharts';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
@@ -19,7 +18,7 @@ export default connectTo(props => {
   return {
     nodes: props.dataStream
   };
-}, function LogicalEntityTable({nodes, title, timeframe}) {
+}, function LogicalEntityTable({nodes, title, timeframe, createDetails}) {
   if (!nodes || nodes.length === 0) {
     return null;
   }
@@ -53,7 +52,6 @@ function createHeader() {
         <th>Calls/s</th>
         <th>Latency</th>
         <th>Error Rate</th>
-        <th>Instances</th>
       </tr>
     </thead>
   );
@@ -93,21 +91,6 @@ function createRow(node, i, {timeframe}) {
                                          snapshotId={id}
                                          metric='error_rate'
                                          formatter={percentageTwoDecimalPlaces} />
-    </td>,
-    <td>
-      <HistoricMetricSparkChartWithLabel width={100}
-                                         height={30}
-                                         timeframe={timeframe}
-                                         snapshotId={id}
-                                         metric='instances'
-                                         formatter={zeroDecimalPlaces} />
     </td>
   ];
-}
-
-function createDetails(nodeSnapshot, index, context) {
-  return (
-    <DefaultCharts snapshot={nodeSnapshot}
-                   timeframe={context.timeframe} />
-  );
 }

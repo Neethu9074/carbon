@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
+import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultCharts';
 import LogicalEntityTable from 'in-components/LogicalEntityTables/LogicalEntityTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -17,6 +18,14 @@ export default function ClusterNodes({snapshotId, timeframe}) {
 
                                     // throttle because of massive snapshot updates which would produce a rerender/call
                                     .throttle(1000)
-                                  } />
+                                  }
+                        createDetails={createDetails} />
+  );
+}
+
+function createDetails(nodeSnapshot, index, context) {
+  return (
+    <DefaultCharts snapshot={nodeSnapshot}
+                   timeframe={context.timeframe} />
   );
 }

@@ -1,6 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
+import DefaultConnectionCharts from
+  'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultConnectionCharts';
 import LogicalEntityTable from 'in-components/LogicalEntityTables/LogicalEntityTable';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -22,7 +24,8 @@ export default function Connections({snapshotId, timeframe}) {
                                         }
                                         return alwaysNull;
                                      })
-                                   } />
+                                   }
+                          createDetails={createDetails} />
       <LogicalEntityTable timeframe={timeframe}
                           title={'Upstream'}
                           dataStream={viewStructure.flatMap(root => {
@@ -34,10 +37,19 @@ export default function Connections({snapshotId, timeframe}) {
                                         }
                                         return alwaysNull;
                                      })
-                                   } />
+                                   }
+                          createDetails={createDetails} />/>
     </div>
   );
 }
+
+function createDetails(nodeSnapshot, index, context) {
+  return (
+    <DefaultConnectionCharts snapshot={nodeSnapshot}
+                             timeframe={context.timeframe} />
+  );
+}
+
 
 function getDownstreamSnapshotsObservables(entity) {
   return combineLatest(entity.get('outgoingConnections').map(c => getSnapshot(c.get('id'))));
