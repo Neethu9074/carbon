@@ -2,8 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {ClickableList, ClickableSnapshotListItem} from 'in-sdk/components/sidebar/ClickableList';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Collapsible from 'in-components/Collapsible';
 import {getSnapshot} from 'in-stores/snapshot';
