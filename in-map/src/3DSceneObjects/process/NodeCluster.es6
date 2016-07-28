@@ -131,7 +131,7 @@ export default class NodeCluster extends Node {
   }
 
   getDragGhostGeometry() {
-    return new THREE.CylinderBufferGeometry(0.5, 0.5, 0.5, 20, 20);
+    return new THREE.CylinderBufferGeometry(0.5, 0.5, this.height, 20, 20);
   }
 
   dispose() {

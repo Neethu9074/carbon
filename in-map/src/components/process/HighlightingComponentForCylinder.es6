@@ -50,9 +50,6 @@ export default class HighlightingComponentForCylinder extends BaseHighlightingCo
       fromX + lineScaleX * 0.294, 0, fromZ + lineScaleZ * 0.405,
       fromX + lineScaleX * 0.405, 0, fromZ + lineScaleZ * 0.294,
 
-      fromX + lineScaleX * 0.405, 0, fromZ + lineScaleZ * 0.294,
-      fromX + lineScaleX * 0.476, 0, fromZ + lineScaleZ * 0.155,
-
       // top
       fromX + lineScaleX * 0.476, height, fromZ + lineScaleZ * -0.155,
       fromX + lineScaleX * 0.405, height, fromZ + lineScaleZ * -0.294,
@@ -81,12 +78,15 @@ export default class HighlightingComponentForCylinder extends BaseHighlightingCo
       fromX + lineScaleX * 0.500, height, fromZ + lineScaleZ * 0.000,
       fromX + lineScaleX * 0.476, height, fromZ + lineScaleZ * -0.155,
 
+      fromX + lineScaleX * 0.405, height, fromZ + lineScaleZ * 0.294,
+      fromX + lineScaleX * 0.476, height, fromZ + lineScaleZ * 0.155,
+
       // side
       fromX + lineScaleX * -0.405, 0, fromZ + lineScaleZ * -0.294,
       fromX + lineScaleX * -0.405, height, fromZ + lineScaleZ * -0.294,
 
-      fromX + lineScaleX * 0.476, 0, fromZ + lineScaleZ * 0.155,
-      fromX + lineScaleX * 0.476, height, fromZ + lineScaleZ * 0.155
+      fromX + lineScaleX * 0.405, 0, fromZ + lineScaleZ * 0.294,
+      fromX + lineScaleX * 0.405, height, fromZ + lineScaleZ * 0.294
     ]);
   }
 }

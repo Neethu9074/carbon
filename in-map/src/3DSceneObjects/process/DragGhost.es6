@@ -39,7 +39,11 @@ export default class DragGhost {
     removeSceneObject(this.sceneObject);
 
     const dropPosition = this.currentPosition;
-    this.parent.getComponent('position').setPosition(dropPosition.x, dropPosition.y, dropPosition.z);
+    this.parent.getComponent('position').setPosition(
+      dropPosition.x + 0.5,
+      dropPosition.y,
+      dropPosition.z - 0.5
+    );
     this.currentPosition = null;
 
     this.sceneObject.geometry.dispose();
