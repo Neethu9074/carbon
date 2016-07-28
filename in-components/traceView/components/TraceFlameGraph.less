@@ -2,9 +2,11 @@
   background: #fff;
   padding: 0.75rem 1.5rem;
   margin-bottom: .25rem;
+  overflow: hidden;
 
   &__element-wrapper {
     position: relative;
+    margin-top: 1rem;
   }
 
   &__element {
@@ -30,5 +32,20 @@
     border-top: 1px dashed #92A5AE;
     height: 1px;
     min-width: 2px;
+  }
+
+  &__time-axis {
+
+  }
+
+  &__time-axis-tick {
+    position: absolute;
+    top: 0;
+    bottom: 0.8rem;
+    margin-top: -1rem;
+    padding: 0 0 0 .25rem;
+    font-size: 10px;
+    color: #6B8088;
+    border-left: 1px dashed #92A5AE;
   }
 }

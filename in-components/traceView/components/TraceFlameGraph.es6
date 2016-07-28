@@ -4,6 +4,8 @@ import {getStart, getEnd, getDepth} from 'in-components/traceView/util';
 import {highlightSpanId} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getLabel, getCategory, getDirection} from 'in-sdk/tracing';
+import {getAxisConfig} from 'in-charts/timeFormatting';
+import {getTickPositions} from 'in-charts/timeAxis';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
@@ -12,6 +14,7 @@ import './TraceFlameGraph.less';
 const block = 'in-trace-view-flame-graph';
 const margin = 3;
 const height = 7;
+const timeAxisOffset = 16;
 
 
 function FlameGraphElement({span, currentDepth, scale}) {
@@ -72,22 +75,48 @@ export default function TraceFlameGraph({trace}) {
   const x = createScale();
   x.setRangeFrom(0);
   x.setRangeTo(100);
-  x.setDomainFrom(getStart(trace));
-  x.setDomainTo(getEnd(trace));
+  x.setDomainFrom(start);
+  x.setDomainTo(end);
 
   const depth = getDepth(trace);
   const chartHeight = depth * (margin + height) - margin;
+  const axisConfig = getAxisConfig(end - start);
+  const tickPositions = getTickPositions(x, axisConfig, true);
 
   return (
     <div style={{
-           height: `${chartHeight}px`
+           height: `${chartHeight + timeAxisOffset}px`
          }}
          className={block}>
       <div className={`${block}__element-wrapper`}>
+        <TimeAxis tickPositions={tickPositions}
+                  axisConfig={axisConfig}
+                  start={start}
+                  chartHeight={chartHeight}/>
+
         <FlameGraphElement span={trace}
                            currentDepth={1}
                            scale={x} />
       </div>
+    </div>
+  );
+}
+
+
+function TimeAxis({tickPositions, axisConfig, start, chartHeight}) {
+  return (
+    <div className={`${block}__time-axis`}
+         style={{
+           height: `${chartHeight + timeAxisOffset}px`
+         }}>
+      {tickPositions.map(position =>
+        <div style={{
+               left: `${position.range}%`
+             }}
+             className={`${block}__time-axis-tick`}>
+          {axisConfig.relativeFormatter(position.domain - start)}
+        </div>
+      )}
     </div>
   );
 }
