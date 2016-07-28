@@ -41,7 +41,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
                  left: `${left}%`,
                  width: `${width}%`
                }}
-               onClick={() => highlightSpanId(span.get('spanId'))}/>
+               onClick={() => onSpanClick(span)}/>
         </Tooltip>
       : null}
 
@@ -53,7 +53,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
                width: `${width}%`,
                background: color
              }}
-             onClick={() => highlightSpanId(span.get('spanId'))}/>
+             onClick={() => onSpanClick(span)}/>
       </Tooltip>
     </div>
   );
@@ -88,4 +88,17 @@ export default function TraceFlameGraph({trace}) {
       </div>
     </div>
   );
+}
+
+
+function onSpanClick(span) {
+  const spanId = span.get('spanId');
+  highlightSpanId(spanId);
+  const scrollElement = document.querySelector('.in-trace-view-tree');
+  const spanElement = document.getElementById(`span-${spanId}`);
+  if (!scrollElement || !spanElement) {
+    return;
+  }
+
+  scrollElement.scrollTop = spanElement.offsetTop;
 }

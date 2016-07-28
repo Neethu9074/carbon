@@ -83,7 +83,8 @@ export default connectTo(props => {
              })}
              style={{
                marginLeft: `${this.props.depth * 20}px`
-             }}>
+             }}
+             id={`span-${span.get('spanId')}`}>
           <div className={`${block}__background`}
                 style={backgroundInCategoryColorStyle}/>
           <div className={`${block}__left-border`}
