@@ -8,16 +8,14 @@ import connectTo from 'in-hoc/connectTo';
 
 
 export default connectTo({
-    view: view$
-  }, function TableView({view}) {
-
-    return (
-      <FullscreenOverlayView isOpen$={isTableVisible$}>
-        {getContent(view)}
-      </FullscreenOverlayView>
-    );
-  }
-);
+  view: view$
+}, function TableView({view}) {
+  return (
+    <FullscreenOverlayView isOpen$={isTableVisible$}>
+      {getContent(view)}
+    </FullscreenOverlayView>
+  );
+});
 
 function getContent(view) {
   if (view === types.physical) {

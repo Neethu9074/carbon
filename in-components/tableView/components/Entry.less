@@ -26,6 +26,10 @@
     right: 0;
     border-top: 1px solid #6B8088;
     margin-top: -19px;
+
+    .in-browser-safari & {
+      margin-top: 0;
+    }
   }
 
   &--first-child::before {
@@ -63,7 +67,7 @@
     margin-right: 50%;
     margin-top: -0.5rem;
 
-    .in-browser-chrome & {
+    .in-browser-chrome &, .in-browser-safari & {
       margin-top: 0;
     }
   }
