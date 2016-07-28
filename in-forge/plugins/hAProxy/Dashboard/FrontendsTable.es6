@@ -114,6 +114,7 @@ function createDetails(frontendName, i, context) {
                         left: 80
                       }}
                       y1={{
+                        min: 0,
                         metrics: [
                           'frontendStats.' + frontendName + '.sessionRate'
                         ],
