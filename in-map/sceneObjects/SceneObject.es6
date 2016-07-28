@@ -1,4 +1,4 @@
-import Subscriber from 'in-map/sceneObjects/Subscriber';
+import Subscriber from 'in-map/misc/Subscriber';
 
 
 export default class SceneObject extends Subscriber {

@@ -8,13 +8,14 @@ export default class Map extends SceneObject {
 
     // the size of the map in world units (sizeXsize)
     this.size = 1000;
+    this.scene = params.scene;
   }
 
   init() {
     super.init();
 
-    this.controller = this.createController(parent.canvas);
     this.groundPlane = this.createGroundPlane();
+    this.controller = this.createController(this.scene);
   }
 
   update() {
@@ -29,6 +30,7 @@ export default class Map extends SceneObject {
     this.controller.dispose();
     this.controller = null;
 
+    this.scene = null;
     this.size = null;
   }
 }

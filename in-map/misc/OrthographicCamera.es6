@@ -75,14 +75,6 @@ export default class OrthographicCamera {
     return this.camera.position;
   }
 
-  updateProjectionMatrix() {
-    this.camera.updateProjectionMatrix();
-  }
-
-  updateMatrix() {
-    this.camera.updateMatrix();
-  }
-
   getRenderableCamera() {
     return this.camera;
   }

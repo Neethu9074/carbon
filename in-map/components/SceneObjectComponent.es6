@@ -34,7 +34,8 @@ export default function SceneObjectComponent(getProps, ComposedComponent) {
     render() {
       return (
         <ComposedComponent {...this.props}
-                           {...this.state} />
+                           {...this.state}
+                           sceneObject={this.sceneObject}/>
       );
     }
   });

@@ -2,8 +2,8 @@ import THREE from 'three';
 
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {setScene, clearScene} from 'in-map/stores/sceneStore';
-import Camera from 'in-map/sceneObjects/OrthographicCamera';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import Camera from 'in-map/misc/OrthographicCamera';
 import {frame$} from 'in-map/stores/renderingStore';
 import {theme} from 'in-services/theme';
 
@@ -97,6 +97,8 @@ export default class Scene extends SceneObject {
   setupCamera() {
     this.camera = new Camera(this.width, this.height);
   }
+
+  onZoom() {}
 
   onWindowResize() {
     const height = this.height = window.innerHeight;

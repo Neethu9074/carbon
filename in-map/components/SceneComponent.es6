@@ -21,11 +21,11 @@ export default sceneObjectComponent(props => {
    }, SceneComponent)
 );
 
-function SceneComponent({view}) {
+function SceneComponent({view, sceneObject}) {
   if (view === views.physical) {
-    return <PhysicalMapComponent />;
+    return <PhysicalMapComponent scene={sceneObject} />;
   } else if (view === views.process) {
-    return <LogicalMapComponent />;
+    return <LogicalMapComponent scene={sceneObject} />;
   }
 
   return null;

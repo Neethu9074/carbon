@@ -1,24 +1,21 @@
+import * as ro from 'reactive-observables';
+
 import {requestRendering} from 'in-map/stores/renderingStore';
-import {createStore} from 'in-stores/store';
 
 
-const scene = createStore({
-  name: 'scene/scene',
-  initialValue: null
-});
-export const scene$ = scene.observable;
+export const scene$ = ro.create();
 
 export function setScene(newScene) {
-  scene.applyStateMutation(() => newScene);
+  scene$.emit(newScene);
 }
 
 export function clearScene() {
-  scene.applyStateMutation(() => null);
+  scene$.emit(null);
 }
 
 export function addSceneObject(object) {
   scene$.once(_scene => {
-    if (_scene.scene) {
+    if (_scene) {
       _scene.scene.add(object);
       requestRendering();
     }
@@ -27,7 +24,7 @@ export function addSceneObject(object) {
 
 export function removeSceneObject(object) {
   scene$.once(_scene => {
-    if (_scene.scene) {
+    if (_scene) {
       _scene.scene.remove(object);
       requestRendering();
     }

@@ -7,11 +7,12 @@ import Map from 'in-map/sceneObjects/physical/Map';
 import connectTo from 'in-hoc/connectTo';
 
 
-export default sceneObjectComponent(() => {
+export default sceneObjectComponent(props => {
   return {
     InstanceType: Map,
     params: {
-      id: 'physical_map'
+      id: 'physical_map',
+      scene: props.scene
     }
   };
 }, connectTo({
@@ -36,6 +37,7 @@ function MapComponent({structure}) {
         }
         return (
           <GroupComponent key={groupId}
+                          includedIds={structure.includedIds}
                           entity={groupEntity} />
         );
       })}
