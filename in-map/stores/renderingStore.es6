@@ -10,3 +10,7 @@ export const frame$ = frame.observable;
 export function requestRendering() {
   frame.applyStateMutation(oldFrame => ++oldFrame);
 }
+
+export function clear() {
+  frame.applyStateMutation(() => 1);
+}

@@ -60,7 +60,7 @@ export default class CameraController extends BaseCameraController {
     //   new RaycasterModule(eventEmitter, scene, this.camera)
     // );
 
-    this.init(scene, map);
+    this.init();
     this.initEvents();
   }
 

@@ -9,7 +9,7 @@ export function setScene(newScene) {
   scene$.emit(newScene);
 }
 
-export function clearScene() {
+export function clear() {
   scene$.emit(null);
 }
 

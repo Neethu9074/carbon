@@ -15,10 +15,5 @@ export default class Map extends BaseMap {
   }
 
   createGroundPlane() {
-
-  }
-
-  dispose() {
-    super.dispose();
   }
 }

@@ -10,3 +10,7 @@ export const canvas$ = canvas.observable;
 export function setCanvas(newCanvas) {
   canvas.applyStateMutation(() => newCanvas);
 }
+
+export function clear() {
+  canvas.applyStateMutation(() => null);
+}

@@ -1,7 +1,7 @@
 import THREE from 'three';
 
-import {requestRendering} from 'in-map/stores/renderingStore';
-import {setScene, clearScene} from 'in-map/stores/sceneStore';
+import {requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
+import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import Camera from 'in-map/misc/OrthographicCamera';
 import {frame$} from 'in-map/stores/renderingStore';
@@ -120,7 +120,8 @@ export default class Scene extends SceneObject {
     // break the browser update routine
     this.isDisposed = true;
 
-    clearScene();
+    clearRenderingStore();
+    clearSceneStore();
 
     this.camera.dispose();
     this.camera = null;
