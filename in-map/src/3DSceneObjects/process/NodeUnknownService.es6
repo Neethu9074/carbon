@@ -1,8 +1,6 @@
 import THREE from 'three';
 
-import HighlightingComponent from 'in-map/src/components/process/HighlightingComponentForCylinder';
 import ScreenPositionComponent from 'in-map/src/components/common/ScreenPositionComponent';
-import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
 import SolidMeshComponent from 'in-map/src/components/process/SolidMeshComponent';
 import MeshComponent from 'in-map/src/components/common/MeshComponent';
 
@@ -11,7 +9,6 @@ import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator
 import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
-import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
