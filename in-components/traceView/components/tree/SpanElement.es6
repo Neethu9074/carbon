@@ -124,19 +124,19 @@ export default connectTo(props => {
                   {getDirection(span) === 'entry' ?
                     <span>
                       <SpanEntityInformation span={span}
-                                             label='From'
+                                             label='From:'
                                              connectionEndpointType='sourceId' />
                       <SpanEntityInformation span={span}
-                                             label='On'
+                                             label='On:'
                                              connectionEndpointType='destinationId' />
                     </span>
                   :
                     <span>
                       <SpanEntityInformation span={span}
-                                             label='On'
+                                             label='On:'
                                              connectionEndpointType='sourceId' />
                       <SpanEntityInformation span={span}
-                                             label='To'
+                                             label='To:'
                                              connectionEndpointType='destinationId' />
                     </span>
                   }
