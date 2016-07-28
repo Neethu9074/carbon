@@ -2,9 +2,12 @@
   position: relative;
   border-radius: .25rem;
 
-  &--error .in-trace-tree-span-element__background {
-    background: red !important;
-    opacity: .7;
+  &--error {
+    border: 1px solid #D73C52;
+    .in-trace-tree-span-element__left-border {
+      background: #D73C52 !important;
+      opacity: 1;
+    }
   }
 
   &--highlighted .in-trace-tree-span-element__background {

@@ -19,9 +19,11 @@ function FlameGraphElement({span, currentDepth, scale}) {
   const left = scale.getRange(span.get('start'));
   // reduce by 0.1 to give it some wiggle room between two adjacent spans
   const width = scale.getRange(span.get('start') + span.get('duration')) - left - 0.1;
-  let color = spanCategoryColors[getCategory(span)];
+  const color = spanCategoryColors[getCategory(span)];
+
+  let classesForSpanElement = `${block}__element`;
   if (span.get('error')) {
-    color = 'red';
+    classesForSpanElement = `${classesForSpanElement} ${block}__element--error`;
   }
 
   return (
@@ -46,7 +48,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
       : null}
 
       <Tooltip content={getLabel(span)}>
-        <div className={`${block}__element`}
+        <div className={classesForSpanElement}
              style={{
                top: `${top}px`,
                left: `${left}%`,
