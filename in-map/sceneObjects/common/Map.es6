@@ -1,4 +1,5 @@
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {eventBus} from 'in-map/services/eventBus';
 
 
 export default class Map extends SceneObject {
@@ -18,10 +19,10 @@ export default class Map extends SceneObject {
     this.controller = this.createController(this.scene);
   }
 
-  update() {
-    if (this.controller) {
-      this.controller.update();
-    }
+  initEvents() {
+    super.initEvents();
+
+    this.addSubscription(eventBus.on('update').subscribe(dt => this.controller.update(dt)));
   }
 
   dispose() {

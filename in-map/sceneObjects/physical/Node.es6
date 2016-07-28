@@ -18,8 +18,6 @@ export default class Node extends SceneObject {
       new THREE.MeshBasicMaterial()
     );
 
-    mesh.position.set(0, 0, -10);
-
     addSceneObject(mesh);
   }
 

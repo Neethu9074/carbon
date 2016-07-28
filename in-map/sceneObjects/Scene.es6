@@ -2,9 +2,11 @@ import THREE from 'three';
 
 import {requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
+import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import Camera from 'in-map/misc/OrthographicCamera';
 import {frame$} from 'in-map/stores/renderingStore';
+import * as time from 'in-map/misc/time';
 import {theme} from 'in-services/theme';
 
 
@@ -12,6 +14,12 @@ export default class Scene extends SceneObject {
 
   constructor(params) {
     super(params.id);
+
+    // clears the old one and fires up a new to remove all stored messages
+    createEventBus();
+
+    // reset the time and clear all listeners
+    time.reset();
 
     this.isDisposed = false;
     this.canvas = params.canvas;
@@ -36,10 +44,10 @@ export default class Scene extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.handleAnimationFrames();
+    this.handleAnimationFrames(0);
 
     this.addSubscriptions([
-      frame$.throttle(1000).subscribe(() => this.shouldRenderScene = true)
+      frame$.throttle(500).subscribe(() => this.shouldRenderScene = true)
     ]);
 
     window.addEventListener('resize', this.onWindowResizeHandler, false);
@@ -51,19 +59,23 @@ export default class Scene extends SceneObject {
     window.removeEventListener('resize', this.onWindowResizeHandler, false);
   }
 
-  handleAnimationFrames() {
+  handleAnimationFrames(highResTimestamp) {
     // break the browser update routine
     if (this.isDisposed) {
       return;
     }
 
     requestAnimationFrame(this.handleAnimationFrames);
-    this.update();
+    this.update(highResTimestamp);
   }
 
-  update() {
-    // update objects only if necessary
-    this.camera.update();
+  update(highResTimestamp) {
+    time.update(highResTimestamp);
+    const dt = time.getDeltaTime();
+
+    eventBus.emit('update', dt);
+
+    eventBus.emit('lateUpdate');
 
     if (this.shouldRenderScene) {
       this.render();

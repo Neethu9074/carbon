@@ -5,7 +5,7 @@ import Module from 'in-map/misc/common/Module';
 
 export default class TouchControlModule extends Module {
 
-  constructor({eventEmitter, canvas}) {
+  constructor(eventEmitter, canvas) {
     super(eventEmitter);
 
     this.timeSinceLastTap = Date.now();
@@ -14,10 +14,10 @@ export default class TouchControlModule extends Module {
 
     // holds the mouse/touch position in pixel coordinates
     this.cursor = { x: 0, y: 0 };
-    this.setupEvents();
+    this.initEvents();
   }
 
-  setupEvents() {
+  initEvents() {
     const eventHandler = this.eventHandler = new Hammer(this.canvas);
     const minMovementForPan = 15;
 

@@ -5,12 +5,13 @@ import {ALL_CONNECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {tooltipForSceneObject} from 'in-map/src/mapStores';
 import {emptyArray} from 'in-services/fixedObjects';
+import {findObjectByRay} from 'in-map/misc/Physics';
 import Module from 'in-map/misc/common/Module';
 
 
 export default class RaycasterModule extends Module {
 
-  constructor({eventEmitter, scene, camera}) {
+  constructor(eventEmitter, scene, camera) {
     super(eventEmitter);
 
     this.scene = scene;
@@ -107,7 +108,7 @@ export default class RaycasterModule extends Module {
     this.raycaster.setFromCamera(this.cursorForRay, this.camera.camera);
 
     // find the hitten object
-    const hittenObject = this.hittenObject = scene.findObjectByRay(this.raycaster);
+    const hittenObject = this.hittenObject = findObjectByRay(this.raycaster);
     const hoveredConnections = hittenObject ?
       emptyArray : // dont calculate if another object than a connection was hitten
       ALL_CONNECTIONS.filter(connection => connection.intersects(this.raycaster));

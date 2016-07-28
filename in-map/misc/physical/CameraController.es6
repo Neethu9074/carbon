@@ -1,16 +1,15 @@
 import THREE from 'three';
 
-import {requestRendering} from 'in-map/src/stores/renderingStore';
+import {requestRendering} from 'in-map/stores/renderingStore';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
-import * as time from 'in-map/src/timeCalculations';
 import {currentTooltip} from 'in-map/src/mapStores';
 
 import BaseCameraController from 'in-map/misc/common/CameraController';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
-// import MouseControlsModule from 'in-map/misc/common/MouseControlsModule';
-// import TouchControlsModule from 'in-map/misc/common/TouchControlsModule';
-// import RaycasterModule from 'in-map/misc/common/RaycasterModule';
+import MouseControlsModule from 'in-map/misc/common/MouseControlsModule';
+import TouchControlsModule from 'in-map/misc/common/TouchControlsModule';
+import RaycasterModule from 'in-map/misc/common/RaycasterModule';
 
 
 export default class CameraController extends BaseCameraController {
@@ -53,12 +52,12 @@ export default class CameraController extends BaseCameraController {
     this.scrollSpeed = 5;
 
 
-    // const eventEmitter = this.eventEmitter;
-    // this.interactionModules.push(
-    //   new MouseControlsModule(eventEmitter, scene),
-    //   new TouchControlsModule(eventEmitter, scene, scene.canvas),
-    //   new RaycasterModule(eventEmitter, scene, this.camera)
-    // );
+    const eventEmitter = this.eventEmitter;
+    this.interactionModules.push(
+      new MouseControlsModule(eventEmitter, scene),
+      new TouchControlsModule(eventEmitter, scene.canvas),
+      new RaycasterModule(eventEmitter, scene, this.camera)
+    );
 
     this.init();
     this.initEvents();
@@ -183,8 +182,7 @@ export default class CameraController extends BaseCameraController {
     transObj.updateMatrixWorld();
   }
 
-  update() {
-    const dTime = time.getDeltaTime();
+  update(dTime) {
     this.updateZoomLevel(dTime);
 
     const cam = this.camera;
@@ -217,7 +215,7 @@ export default class CameraController extends BaseCameraController {
 
     // move to target position with cameraspeed in units/sec
     cam.getPosition().sub(delta);
-    cam.updateMatrix();
+    cam.getRenderableCamera().updateMatrix();
     requestRendering();
   }
 
@@ -227,7 +225,7 @@ export default class CameraController extends BaseCameraController {
     const delta = this.targetZoomLevel - this.zoomLevel;
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
-    this.switchStateIfNext(this.zoomLevel);
+    // this.switchStateIfNext(this.zoomLevel);
 
     // get the position of the point in world space where the mouse is pointing at
     // and before the camera zoomed in
@@ -236,14 +234,14 @@ export default class CameraController extends BaseCameraController {
     const pointOfImpact = this.getPointOfImpact(cursorPosition);
 
     // change camera size for zoom effect
-    this.map.camera.cameraSize = this.zoomLevel / 10;
-    this.map.camera.setCameraFromSize();
+    this.camera.cameraSize = this.zoomLevel / 10;
+    this.camera.setCameraFromSize();
 
     if (!pointOfImpact) {
       return;
     }
 
-    this.camera.updateProjectionMatrix();
+    this.camera.getRenderableCamera().updateProjectionMatrix();
 
     // get the new screenPosition of the impact point so that you can calculate the delta in screen space
     const pointOfImpactNew = this.getPointOfImpact(cursorPosition, scene);

@@ -7,7 +7,7 @@ import Module from 'in-map/misc/common/Module';
 
 export default class MouseControlModule extends Module {
 
-  constructor({eventEmitter, scene}) {
+  constructor(eventEmitter, scene) {
     super(eventEmitter);
 
     this.scene = scene;
