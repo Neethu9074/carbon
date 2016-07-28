@@ -61,6 +61,12 @@ function FlameGraphElement({span, currentDepth, scale}) {
 
 
 export default function TraceFlameGraph({trace}) {
+  const start = getStart(trace);
+  let end = getEnd(trace);
+  if (start === end) {
+    end++;
+  }
+
   const x = createScale();
   x.setRangeFrom(0);
   x.setRangeTo(100);
