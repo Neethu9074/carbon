@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
@@ -12,6 +13,14 @@ import {
 
 
 export default function HttpdDashboard({snapshot, timeframe}) {
+  const status = snapshot.getIn(['data', 'server-status']);
+  if (status !== 'OK') {
+    return (
+      <DashboardNotification type='warning'>
+        {status}
+      </DashboardNotification>
+    );
+  }
   return (
     <div>
       <DashboardSection title='Traffic'>
