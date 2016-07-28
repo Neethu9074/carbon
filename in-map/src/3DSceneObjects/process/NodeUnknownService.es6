@@ -65,15 +65,6 @@ export default class NodeUnknownExitService extends Node {
       factory: this.getFactory('solidSMF')
     });
 
-    // add the collision component to handle the collision box
-    components.collision = new CollisionComponent({
-      sceneObject,
-      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
-      layer: 2
-    });
-
-    components.highlight = new HighlightingComponent({sceneObject});
-
     components.screenPosition = new ScreenPositionComponent({
       sceneObject: this,
       id: '_screenPosition'
