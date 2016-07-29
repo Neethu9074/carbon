@@ -9,7 +9,8 @@ export default sceneObjectComponent(props => {
     InstanceType: Node,
     params: {
       id: props.entity.get('id'),
-      entity: props.entity
+      entity: props.entity,
+      group: props.group
     }
   };
 }, NodeComponent

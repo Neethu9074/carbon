@@ -47,7 +47,7 @@ export default class Scene extends SceneObject {
     this.handleAnimationFrames(0);
 
     this.addSubscriptions([
-      frame$.throttle(500).subscribe(() => this.shouldRenderScene = true)
+      frame$.subscribe(() => this.shouldRenderScene = true)
     ]);
 
     window.addEventListener('resize', this.onWindowResizeHandler, false);

@@ -1,0 +1,6 @@
+{
+  "name": "TransformationComponent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TransformationComponent.es6"
+}

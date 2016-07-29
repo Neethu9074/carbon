@@ -1,3 +1,6 @@
+import RoEmitter from 'roemitter';
+
+import TransformationComponent from 'in-map/sceneObjectComponents/TransformationComponent';
 import Subscriber from 'in-map/misc/Subscriber';
 
 
@@ -8,6 +11,12 @@ export default class SceneObject extends Subscriber {
 
     this.id = id;
     console.log('create', id);
+
+    this.eventEmitter = new RoEmitter(this.id);
+
+    this.components = {
+      transform: new TransformationComponent(this)
+    };
   }
 
   init() {
@@ -16,6 +25,10 @@ export default class SceneObject extends Subscriber {
 
   initEvents() {
     console.log('initEvents', this.id);
+  }
+
+  getComponent(id) {
+    return this.components[id];
   }
 
   disposeEvents() {
@@ -27,6 +40,12 @@ export default class SceneObject extends Subscriber {
   dispose() {
     console.log('dispose', this.id);
 
-    this.id = null;
+    Object.keys(this.components).forEach(key => {
+      this.components[key].dispose();
+    });
+    this.components = null;
+
+    this.eventEmitter.dispose();
+    this.eventEmitter = null;
   }
 }

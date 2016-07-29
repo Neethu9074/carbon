@@ -13,10 +13,10 @@ export default sceneObjectComponent(props => {
       entity: props.entity
     }
   };
-}, GroupComponent
-);
+}, GroupComponent );
 
-function GroupComponent({entity, includedIds}) {
+
+function GroupComponent({entity, includedIds, sceneObject}) {
   const nodes = [];
   entity.get('children').forEach(nodeEntity => {
     const nodeId = nodeEntity.get('id');
@@ -33,6 +33,7 @@ function GroupComponent({entity, includedIds}) {
     <div>
       {nodes.map(nodeEntity => <NodeComponent key={nodeEntity.get('id')}
                                               includedIds={includedIds}
+                                              group={sceneObject}
                                               entity={nodeEntity} />
       )}
     </div>
