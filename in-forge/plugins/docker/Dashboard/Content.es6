@@ -18,18 +18,16 @@ const throttlingTimeFormater = d => (d / 1000000000.0) + 's';
 export default function DockerDashboard({snapshot, timeframe}) {
   const dockerVersion = snapshot.getIn(['data', 'docker_version']);
   const hasNetworkMetrics = snapshot.getIn(['data', 'NetworkMode'], '') === 'bridge';
-
-  if (dockerVersion === '1.11.0' || dockerVersion === '1.11.1') {
-    return (
-      <DashboardNotification type='info'>
-        Due to a regression in Docker 1.11.0 and 1.11.1, no metrics can be collected.
-        This has been fixed by Docker in 1.12.0 and 1.11.2.
-      </DashboardNotification>
-    );
-  }
+  const memoryMetricsBugged = dockerVersion === '1.11.0' || dockerVersion === '1.11.1';
 
   return (
     <div>
+      {memoryMetricsBugged ?
+        <DashboardNotification type='info'>
+          Due to a regression in Docker 1.11.0 and 1.11.1, no memory metrics can be collected.
+          This has been fixed by Docker in 1.12.0 and 1.11.2.
+        </DashboardNotification>
+      : null}
       <DashboardSection title='CPU'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
@@ -80,6 +78,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            formatter: throttlingTimeFormater
                          }}/>
       </DashboardSection>
+      { !memoryMetricsBugged ?
       <DashboardSection title='Memory'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
@@ -128,6 +127,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            type: 'line'
                          }}/>
       </DashboardSection>
+      : null }
       <DashboardSection title='Block IO'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
