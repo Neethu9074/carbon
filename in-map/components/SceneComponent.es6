@@ -1,5 +1,6 @@
 import React from 'react';
 
+import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import PhysicalMapComponent from 'in-map/components/physical/MapComponent';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
 import LogicalMapComponent from 'in-map/components/logical/MapComponent';
@@ -22,6 +23,15 @@ export default sceneObjectComponent(props => {
 );
 
 function SceneComponent({view, sceneObject}) {
+  return (
+    <div>
+      <StickyNoteHoster />
+      {currentView(view, sceneObject)}
+    </div>
+  );
+}
+
+function currentView(view, sceneObject) {
   if (view === views.physical) {
     return <PhysicalMapComponent scene={sceneObject} />;
   } else if (view === views.process) {

@@ -46,7 +46,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
       <DashboardSection title='Latency vs. min/max'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
-                         height={400}
+                         height={200}
                          margins={{
                            left: 80
                          }}

@@ -37,7 +37,7 @@ export default class TransformationComponent extends SceneObjectComponent {
       }
 
     this.scale.set(x, y, z);
-    this.emitToClient('scaleChanged', this.position);
+    this.emitToClient('scaleChanged', this.scale);
     requestRendering();
   }
 

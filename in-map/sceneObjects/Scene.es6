@@ -75,10 +75,12 @@ export default class Scene extends SceneObject {
     const dt = time.getDeltaTime();
 
     eventBus.emit('update', dt);
+    this.camera.update();
 
-    eventBus.emit('lateUpdate');
+    eventBus.emit('lateUpdate', dt);
 
     if (this.shouldRenderScene) {
+      eventBus.emit('willRenderObject', true);
       this.render();
     }
   }
