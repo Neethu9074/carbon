@@ -18,7 +18,7 @@ export default class GroundPlane extends BaseGroundPlane {
   }
 
   getGroundTexture() {
-    const quadsPerWorldUnit = 3;
+    const quadsPerWorldUnit = 1;
     const repating = quadsPerWorldUnit * this.size;
     const texture = loadImage(groundTexturePath, loadedTexture => {
       loadedTexture.needsUpdate = true;

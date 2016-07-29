@@ -12,6 +12,7 @@ export default function SceneObjectComponent(getProps, ComposedComponent) {
       const {InstanceType, params} = getProps(this.props);
       this.sceneObject = new InstanceType(params);
       this.sceneObject.init();
+      this.sceneObject.initComponents();
     },
 
     componentDidMount() {

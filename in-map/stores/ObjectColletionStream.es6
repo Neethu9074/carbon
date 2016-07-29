@@ -21,6 +21,6 @@ export default function createCollection() {
     add,
     remove,
     stream: objects$,
-    objects: objects.object
+    objects: objects.objects
   };
 }

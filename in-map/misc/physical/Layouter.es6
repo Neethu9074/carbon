@@ -1,4 +1,7 @@
+import {combineLatest} from 'reactive-observables';
+
 import groups from 'in-map/stores/physical/groups';
+import nodes from 'in-map/stores/physical/nodes';
 
 
 const MAX_VALUE = Number.MAX_VALUE;
@@ -15,8 +18,9 @@ export default function createLayouter(map) {
     y: 0
   };
 
-  const layoutingSubscription = groups.stream.debounce(100)
-                                             .subscribe(_groups => applyLayout(_groups.objects));
+  const layoutingSubscription = combineLatest([groups.stream, nodes.stream])
+                               .debounce(100)
+                               .subscribe(([_groups]) => applyLayout(_groups.objects));
 
   function applyLayout(_groups) {
     // transform map to array
@@ -28,9 +32,9 @@ export default function createLayouter(map) {
     // the first group starts at (0, 0)
     let groupXCursor = 0;
     sortGroups(_groups).forEach(group => {
-      const nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
-      const numNodesPerRow = Math.ceil(squashFactor * Math.sqrt(nodes.length));
-      const numNodesPerCol = Math.ceil(nodes.length / numNodesPerRow);
+      const _nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
+      const numNodesPerRow = Math.ceil(squashFactor * Math.sqrt(_nodes.length));
+      const numNodesPerCol = Math.ceil(_nodes.length / numNodesPerRow);
       const dim = {
         x: groupXCursor,
         width: nodeMargin + numNodesPerRow + (numNodesPerRow - 1) * nodeMargin,
@@ -41,16 +45,18 @@ export default function createLayouter(map) {
       transform.setPositionXYZ(dim.x + dim.width / 2 - 1,
                                0,
                                -dim.height / 2 + 1);
-      transform.setScaleXYZ(dim.width, 1, dim.height);
+      transform.setScaleXYZ(dim.width,
+                            1,
+                            dim.height);
 
       let nodeXCursor = groupXCursor + 1;
       let nodeYCursor = 1;
 
-      sortNodes(nodes).forEach(node => {
+      sortNodes(_nodes).forEach(node => {
         currentDimensions.x = Math.max(currentDimensions.x, nodeXCursor);
         currentDimensions.y = Math.max(currentDimensions.y, nodeYCursor);
 
-        node.getComponent('transform').setPositionXYZ(nodeXCursor, 0, -nodeYCursor);
+        node.getComponent('transform').setPositionXYZ(nodeXCursor - 0.5, 0, -nodeYCursor + 0.5);
 
         nodeXCursor += nodeMargin + 1;
         if (nodeXCursor >= dim.x + dim.width) {

@@ -3,6 +3,7 @@ import THREE from 'three';
 import {requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
+import {clear as clearFactories} from 'in-map/misc/Factories';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import Camera from 'in-map/misc/OrthographicCamera';
 import {frame$} from 'in-map/stores/renderingStore';
@@ -134,6 +135,7 @@ export default class Scene extends SceneObject {
 
     clearRenderingStore();
     clearSceneStore();
+    clearFactories();
 
     this.camera.dispose();
     this.camera = null;

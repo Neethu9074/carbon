@@ -42,7 +42,7 @@ export default class TransformationComponent extends SceneObjectComponent {
   }
 
   setScale(newScale) {
-    this.setScaleXYZ(newScale.y, newScale.y, newScale.z);
+    this.setScaleXYZ(newScale.x, newScale.y, newScale.z);
   }
 
   getPosition() {
