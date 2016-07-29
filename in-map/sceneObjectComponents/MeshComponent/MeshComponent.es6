@@ -19,6 +19,11 @@ export default class MeshComponent extends SceneObjectComponent {
         this.factory.needsUpdate();
       }
     });
+    sceneObject.eventEmitter.on('scaleChanged').subscribe(() => {
+      if (this.factory) {
+        this.factory.needsUpdate();
+      }
+    });
   }
 
   dispose() {

@@ -26,7 +26,7 @@ export default class TransformationComponent extends SceneObjectComponent {
   }
 
   setPosition(newPosition) {
-    this.setPositionXYZ(newPosition.y, newPosition.y, newPosition.z);
+    this.setPositionXYZ(newPosition.x, newPosition.y, newPosition.z);
   }
 
   setScaleXYZ(x, y, z) {
