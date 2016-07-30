@@ -58,6 +58,7 @@ import './postgreSqlDatabase';
 import './process';
 import './rabbitMq';
 import './redis';
+import './solr';
 import './springbootApplicationContainer';
 import './tomcatApplicationContainer';
 import './unmonitoredHost';
