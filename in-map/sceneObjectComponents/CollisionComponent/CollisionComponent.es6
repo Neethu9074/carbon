@@ -1,0 +1,56 @@
+import {combineLatest} from 'reactive-observables';
+import THREE from 'three';
+
+import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import {collisionDetection} from 'in-map/misc/Physics';
+
+
+const COLLISION_MESH = new THREE.MeshBasicMaterial();
+
+export default class CollisionComponent extends SceneObjectComponent {
+
+  constructor(sceneObject, collisionGeometry, layerId) {
+    super(sceneObject, '_collision');
+
+    this.collisionGeometry = collisionGeometry;
+    this.layerId = layerId;
+
+    const mesh = this.collisionMesh = new THREE.Mesh(
+      collisionGeometry,
+      COLLISION_MESH
+    );
+    mesh.parentSceneObject = sceneObject;
+    // mesh.rotationAutoUpdate = false;
+    // mesh.matrixAutoUpdate = false;
+    // mesh.frustumCulled = false;
+
+    collisionDetection.addCollisionObject(mesh, layerId);
+
+    this.addSubscription(
+      combineLatest([
+        sceneObject.eventEmitter.on('positionChanged'),
+        sceneObject.eventEmitter.on('scaleChanged')
+      ]).subscribe(([pos, scale]) => {
+        mesh.position.copy(pos);
+        mesh.scale.copy(scale);
+
+        mesh.updateMatrix();
+        mesh.updateMatrixWorld();
+
+        collisionDetection.removeCollisionObject(mesh, this.layerId);
+        collisionDetection.addCollisionObject(mesh, this.layerId);
+      })
+    );
+  }
+
+  dispose() {
+    super.dispose();
+
+    collisionDetection.removeCollisionObject(this.collisionGeometry, this.layerId);
+
+    this.collisionGeometry.dispose();
+    this.collisionGeometry = null;
+
+    this.layerId = null;
+  }
+}

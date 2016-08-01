@@ -14,12 +14,8 @@ export default class MeshComponent extends SceneObjectComponent {
       this.factory.add(this.fragment);
     }
 
-    sceneObject.eventEmitter.on('positionChanged').subscribe(() => {
-      if (this.factory) {
-        this.factory.needsUpdate();
-      }
-    });
-    sceneObject.eventEmitter.on('scaleChanged').subscribe(() => {
+    sceneObject.eventEmitter.on('positionChanged').merge(
+    sceneObject.eventEmitter.on('scaleChanged')).subscribe(() => {
       if (this.factory) {
         this.factory.needsUpdate();
       }

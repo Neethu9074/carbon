@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import {requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
+import {init as initPhysics, dispose as disposePhysics} from 'in-map/misc/Physics';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {clear as clearFactories} from 'in-map/misc/Factories';
@@ -18,6 +19,7 @@ export default class Scene extends SceneObject {
 
     // clears the old one and fires up a new to remove all stored messages
     createEventBus();
+    initPhysics();
 
     // reset the time and clear all listeners
     time.reset();
@@ -138,6 +140,7 @@ export default class Scene extends SceneObject {
     clearRenderingStore();
     clearSceneStore();
     clearFactories();
+    disposePhysics();
 
     this.camera.dispose();
     this.camera = null;

@@ -11,6 +11,9 @@ export default class TransformationComponent extends SceneObjectComponent {
 
     this.position = new THREE.Vector3(0, 0, 0);
     this.scale = new THREE.Vector3(1, 1, 1);
+
+    this.emitToClient('positionChanged', this.position);
+    this.emitToClient('scaleChanged', this.scale);
   }
 
   setPositionXYZ(x, y, z) {

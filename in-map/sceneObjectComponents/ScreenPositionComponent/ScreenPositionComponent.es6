@@ -1,3 +1,5 @@
+import {combineLatest} from 'reactive-observables';
+
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
 import {eventBus} from 'in-map/services/eventBus';
 import {scene$} from 'in-map/stores/sceneStore';
@@ -8,7 +10,7 @@ const IS_VISIBLE_CHANGED_KEY = 'isVisibleChanged';
 const SCREEN_POSITION_CHANGED_KEY = 'screenPositionChanged';
 
 export default class ScreenPositionComponent extends SceneObjectComponent {
-  constructor(sceneObject) {
+  constructor(sceneObject, get3DPositionToProject) {
     super(sceneObject, '_screenPosition');
 
     this.screenPositionAnchor = ZERO.clone();
@@ -24,13 +26,23 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
       if (scene) {
         this.camera = scene.camera;
 
-        this.addSubscription(eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()));
+        this.addSubscriptions([
+          eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()),
+
+          combineLatest([
+            sceneObject.eventEmitter.on('positionChanged'),
+            sceneObject.eventEmitter.on('scaleChanged')
+          ]).subscribe(([pos, scale]) => {
+            const positionToSet = get3DPositionToProject(pos, scale);
+            this.set3DPositionToProject(positionToSet);
+          })
+        ]);
       }
     });
   }
 
-  set3DPositionToProject(x, y, z) {
-    this.screenPositionAnchor.set(x, y, z);
+  set3DPositionToProject(pos) {
+    this.screenPositionAnchor.copy(pos);
   }
 
   updateScreenPosition(force = false) {

@@ -1,6 +1,10 @@
+import THREE from 'three';
+
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
+import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
+import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import nodes from 'in-map/stores/physical/nodes';
 
@@ -25,6 +29,15 @@ export default class Node extends SceneObject {
     super.initComponents();
 
     this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
+    this.addComponent('collision', new CollisionComponent(this, new THREE.BoxGeometry(1, 1, 1, 1, 1, 1), 0));
+  }
+
+  initEvents() {
+    this.addSubscription(highlightedEntityId$.subscribe(id => {
+      if (id === this.id) {
+        console.log('THIS');
+      }
+    }));
   }
 
   dispose() {
