@@ -7,13 +7,20 @@ import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import {twoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import DashboardNotification from 'in-components/DashboardNotification';
 import {timeframeShape} from 'in-stores/timeline';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 
 
 export default function RabbitMqDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
-
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+  if (sensorConnectionStatus !== 'OK') {
+    return (
+      <DashboardNotification type='info'>
+        {sensorConnectionStatus}
+      </DashboardNotification>);
+  }
   return (
     <div>
       <DashboardSection title='Messages'>

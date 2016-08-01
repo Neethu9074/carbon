@@ -14,6 +14,7 @@ import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitors
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import DashboardNotification from 'in-components/DashboardNotification';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
@@ -61,6 +62,13 @@ export default function RedisDashboard({snapshot, timeframe}) {
   const channelNames = data.get('channels', emptyList).toArray();
   const dbNames = data.get('dbs', emptyList).toArray();
   const role = data.get('role');
+  const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
+  if (sensorConnectionStatus !== 'OK') {
+    return (
+      <DashboardNotification type='info'>
+        {sensorConnectionStatus}
+      </DashboardNotification>);
+  }
 
   return (
     <div>

@@ -2,13 +2,20 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function MariaDbDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
-
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+  if (sensorConnectionStatus !== 'OK') {
+    return (
+      <DashboardNotification type='info'>
+        {sensorConnectionStatus}
+      </DashboardNotification>);
+  }
   return (
     <div>
       <DashboardSection title='Clients'>
