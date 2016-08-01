@@ -117,8 +117,6 @@ export default class Scene extends SceneObject {
     this.camera = new Camera(this.width, this.height);
   }
 
-  onZoom() {}
-
   onWindowResize() {
     const height = this.height = window.innerHeight;
     const width = this.width = window.innerWidth;

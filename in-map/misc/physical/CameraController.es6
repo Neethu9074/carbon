@@ -3,6 +3,7 @@ import THREE from 'three';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
 import {currentTooltip} from 'in-map/src/mapStores';
+import {eventBus} from 'in-map/services/eventBus';
 
 import BaseCameraController from 'in-map/misc/common/CameraController';
 import {ZERO} from 'in-map/misc/fixedVectors';
@@ -149,7 +150,7 @@ export default class CameraController extends BaseCameraController {
     const newTargetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel))); // [min, max]
 
     this.targetZoomLevel = newTargetZoomLevel;
-    this.scene.onZoom({zoomLevel: newTargetZoomLevel});
+    eventBus.emit('zoomLevelChanged', newTargetZoomLevel);
 
     this.cameraSpeed = 1000;
     this.zoomCalls++;
@@ -166,7 +167,7 @@ export default class CameraController extends BaseCameraController {
     const max = this.maxZoomIn;
 
     this.targetZoomLevel = Math.max(max, Math.min(min, (zL)));
-    this.scene.onZoom({zoomLevel: this.targetZoomLevel});
+    eventBus.emit('zoomLevelChanged', this.targetZoomLevel);
   }
 
   flyToObject(obj) {

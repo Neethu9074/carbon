@@ -1,5 +1,6 @@
 import THREE from 'three';
 
+import {eventBus} from 'in-map/services/eventBus';
 import * as time from 'in-map/misc/time';
 import 'in-map/lib/Octree';
 
@@ -9,15 +10,32 @@ function createCollisionDetection() {
     Box: new THREE.BoxGeometry(1, 1, 1, 1, 1, 1)
   };
 
+  const OCTREE_LAYER = {
+    NODES: 0,
+    LAYER: 1
+  };
+
   const octrees = [];
+  octrees[OCTREE_LAYER.NODES] = createOctree();
+  octrees[OCTREE_LAYER.LAYER] = createOctree();
+
   let updateSubscription;
+  let zoomLevelSubscription;
 
   function initCollisionDetection() {
     updateSubscription = time.addTimeEventListener(() => updateOctrees());
+
+    zoomLevelSubscription = eventBus.on('zoomLevelChanged').subscribe(zoomLevel => {
+      if (zoomLevel > 250) {
+        octrees[OCTREE_LAYER.LAYER].isEnabled = false;
+      } else {
+        octrees[OCTREE_LAYER.LAYER].isEnabled = true;
+      }
+    });
   }
 
   function createOctree() {
-    return new THREE.Octree({
+    const octree = new THREE.Octree({
       // uncomment below to see the octree (may kill the fps)
       // scene: this.scene,
       // when undeferred = true, objects are inserted immediately
@@ -32,30 +50,27 @@ function createCollisionDetection() {
       // helps insert objects that lie over more than one node
       overlapPct: 0
     });
+    octree.isEnabled = true;
+
+    return octree;
   }
 
   function addCollisionObject(obj, layer = 0) {
-    if (!obj) {
-      return;
+    if (obj) {
+      octrees[layer].add(obj, {useFaces: false});
     }
-
-    let octree = octrees[layer];
-    if (!octree) {
-      octree = octrees[layer] = createOctree();
-    }
-    octree.add(obj, {useFaces: false});
   }
 
   function removeCollisionObject(obj, layer = 0) {
-    const octree = octrees[layer];
-    if (octree) {
-      octree.remove(obj);
-    }
+    octrees[layer].remove(obj);
   }
 
   function disposeCollisionDetection() {
     updateSubscription.dispose();
     updateSubscription = null;
+
+    zoomLevelSubscription.dispose();
+    zoomLevelSubscription = null;
   }
 
   function updateOctrees() {
@@ -76,7 +91,7 @@ function createCollisionDetection() {
       const octree = octrees[i];
 
       // because there can be an octree on layer 7 and 5 but not on 6, check it's presence
-      if (!octree) {
+      if (!octree || !octree.isEnabled) {
         continue;
       }
 
@@ -84,7 +99,7 @@ function createCollisionDetection() {
         ray.origin,
         ray.far,
         true, // true -> organized by objects
-        ray.direction);
+        ray.direction).filter(object => object.object.isEnabled);
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {
@@ -96,6 +111,7 @@ function createCollisionDetection() {
   }
 
   return {
+    OCTREE_LAYER,
     init: initCollisionDetection,
     addCollisionObject,
     removeCollisionObject,

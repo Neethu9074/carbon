@@ -37,7 +37,9 @@ export default class Node extends SceneObject {
     super.initComponents();
 
     this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
-    this.addComponent('collision', new CollisionComponent(this, collisionDetection.predefinedCollisionObjects.Box, 0));
+    this.addComponent('collision', new CollisionComponent(this,
+                                                          collisionDetection.predefinedCollisionObjects.Box,
+                                                          collisionDetection.OCTREE_LAYER.NODES));
     this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
       return {
         x: scale.x / 2,

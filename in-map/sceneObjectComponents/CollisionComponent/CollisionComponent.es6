@@ -22,6 +22,7 @@ export default class CollisionComponent extends SceneObjectComponent {
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
+    mesh.isEnabled = true;
 
     collisionDetection.addCollisionObject(mesh, layerId);
 
@@ -48,7 +49,6 @@ export default class CollisionComponent extends SceneObjectComponent {
     collisionDetection.removeCollisionObject(this.collisionMesh, this.layerId);
 
     this.collisionMesh = null;
-
     this.layerId = null;
   }
 }

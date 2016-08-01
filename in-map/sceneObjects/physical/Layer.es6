@@ -23,7 +23,9 @@ export default class Layer extends SceneObject {
     super.initComponents();
 
     this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
-    this.addComponent('collision', new CollisionComponent(this, collisionDetection.predefinedCollisionObjects.Box, 1));
+    this.addComponent('collision', new CollisionComponent(this,
+                                                          collisionDetection.predefinedCollisionObjects.Box,
+                                                          collisionDetection.OCTREE_LAYER.LAYER));
     this.addComponent('icon', new IconComponent(this, 1, (pos, scale) => {
       return {
         x: scale.x / 2 + 0.1,
