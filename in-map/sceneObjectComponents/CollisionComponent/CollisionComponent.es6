@@ -30,7 +30,7 @@ export default class CollisionComponent extends SceneObjectComponent {
         sceneObject.eventEmitter.on('positionChanged'),
         sceneObject.eventEmitter.on('scaleChanged')
       ]).subscribe(([pos, scale]) => {
-        mesh.position.copy(pos);
+        mesh.position.set(pos.x, pos.y + scale.y / 2, pos.z);
         mesh.scale.copy(scale);
 
         mesh.updateMatrix();

@@ -1,3 +1,5 @@
+import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
+import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
@@ -5,7 +7,6 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
-import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
@@ -28,6 +29,8 @@ export default class Node extends SceneObject {
     nodes.add(this.id);
     layer.add(this.id, createObjectCollectionStream());
     this.group.addNode(this.id, this);
+
+    this.layerLayouter = createLayerLayouter(this);
   }
 
   initComponents() {
@@ -43,18 +46,7 @@ export default class Node extends SceneObject {
       };
     }));
     this.addComponent('snapshot', new SnapshotComponent(this));
-  }
-
-  initEvents() {
-    super.initEvents();
-
-    this.addSubscription(highlightedEntityId$.subscribe(id => {
-      if (id === this.id) {
-        console.log('THIS');
-      }
-    }));
-
-    this.layerLayouter = createLayerLayouter(this);
+    this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
   }
 
   dispose() {

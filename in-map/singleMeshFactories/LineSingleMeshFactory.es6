@@ -5,8 +5,8 @@ import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 
 export default class LineSingleMeshFactory extends ASingleMeshFactory {
 
-  constructor() {
-    super();
+  constructor(renderOrder) {
+    super(renderOrder);
   }
 
   getMesh(geometry, material) {
