@@ -1,4 +1,7 @@
+import {combineLatest} from 'reactive-observables';
+
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObject';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
 import {getFactory} from 'in-map/misc/Factories';
@@ -13,8 +16,15 @@ export default class HighlightingComponent extends SceneObjectComponent {
     const eventEmitter = sceneObject.eventEmitter;
 
     this.addSubscriptions([
-      highlightedEntityId$.subscribe(highlightedEntityId =>
-        eventEmitter.emit('isHighlighted', sceneObject.id === highlightedEntityId)),
+      combineLatest([
+        selectedSnapshotIdForHighlightingInMap$,
+        highlightedEntityId$
+      ]).subscribe(([selectedId, highlightedEntityId]) => {
+        const id = sceneObject.id;
+        const isHighlighted = id === selectedId || id === highlightedEntityId;
+
+        eventEmitter.emit('isHighlighted', isHighlighted);
+      }),
 
       eventEmitter.on('positionChanged').merge(
       eventEmitter.on('scaleChanged')).subscribe(() => factory.needsUpdate()),
