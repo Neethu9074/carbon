@@ -1,6 +1,8 @@
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
+import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
@@ -29,6 +31,8 @@ export default class Node extends SceneObject {
 
     this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
     this.addComponent('collision', new CollisionComponent(this, collisionDetection.predefinedCollisionObjects.Box, 0));
+    this.addComponent('icon', new IconComponent(this, 3));
+    this.addComponent('snapshot', new SnapshotComponent(this));
   }
 
   initEvents() {

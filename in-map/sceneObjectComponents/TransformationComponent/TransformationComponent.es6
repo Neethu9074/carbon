@@ -2,6 +2,7 @@ import THREE from 'three';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
 import {requestRendering} from 'in-map/stores/renderingStore';
+import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 export default class TransformationComponent extends SceneObjectComponent {
@@ -9,7 +10,7 @@ export default class TransformationComponent extends SceneObjectComponent {
   constructor(sceneObject) {
     super(sceneObject, '_transformation');
 
-    this.position = new THREE.Vector3(0, 0, 0);
+    this.position = ZERO.clone();
     this.scale = new THREE.Vector3(1, 1, 1);
 
     this.emitToClient('positionChanged', this.position);

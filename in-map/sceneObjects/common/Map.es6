@@ -31,6 +31,9 @@ export default class Map extends SceneObject {
     this.controller.dispose();
     this.controller = null;
 
+    this.groundPlane.dispose();
+    this.groundPlane = null;
+
     this.scene = null;
     this.size = null;
   }

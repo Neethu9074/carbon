@@ -9,28 +9,24 @@ export default class MeshComponent extends SceneObjectComponent {
     super(sceneObject, '_mesh');
 
     this.factory = getFactory(factoryId);
-    if (this.factory) {
-      this.fragment = createFragment(this.id, sceneObject, contentProvider);
-      this.factory.add(this.fragment);
-    }
+    this.fragment = createFragment(this.id, sceneObject, contentProvider);
+    this.factory.add(this.fragment);
 
-    sceneObject.eventEmitter.on('positionChanged').merge(
-    sceneObject.eventEmitter.on('scaleChanged')).subscribe(() => {
-      if (this.factory) {
+    this.addSubscription(
+      sceneObject.eventEmitter.on('positionChanged').merge(
+      sceneObject.eventEmitter.on('scaleChanged')).subscribe(() => {
         this.factory.needsUpdate();
-      }
-    });
+      })
+    );
   }
 
   dispose() {
     super.dispose();
 
-    if (this.factory) {
-      this.factory.remove(this.id);
-      this.factory.needsUpdate();
-    }
+    this.factory.remove(this.id);
+    this.factory.needsUpdate();
 
-    this.position = null;
-    this.scale = null;
+    this.fragment = null;
+    this.factory = null;
   }
 }

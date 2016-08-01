@@ -1,0 +1,6 @@
+{
+  "name": "SnapshotComponent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SnapshotComponent.es6"
+}

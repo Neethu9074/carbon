@@ -19,9 +19,9 @@ export default class CollisionComponent extends SceneObjectComponent {
       COLLISION_MESH
     );
     mesh.parentSceneObject = sceneObject;
-    // mesh.rotationAutoUpdate = false;
-    // mesh.matrixAutoUpdate = false;
-    // mesh.frustumCulled = false;
+    mesh.rotationAutoUpdate = false;
+    mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
 
     collisionDetection.addCollisionObject(mesh, layerId);
 

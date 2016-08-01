@@ -11,7 +11,7 @@ const WHITE = {
   r: 1,
   g: 1,
   b: 1
-}
+};
 
 export default class ASingleMeshFactory extends Subscriber {
 

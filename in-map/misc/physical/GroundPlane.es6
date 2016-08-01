@@ -1,11 +1,11 @@
 import THREE from 'three';
 
+import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import groundTexturePath from 'in-map/misc/physical/ground.png';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import BaseGroundPlane from 'in-map/misc/common/GroundPlane';
 import {loadImage} from 'in-map/src/services/imageLoader';
-import {addSceneObject} from 'in-map/stores/sceneStore';
 import theme from 'in-services/theme';
 
 
@@ -48,5 +48,13 @@ export default class GroundPlane extends BaseGroundPlane {
     ground.material.color.b = color.b;
 
     addSceneObject(ground);
+  }
+
+  dispose() {
+    removeSceneObject(this.ground);
+
+    this.ground.material.dispose();
+    this.ground.geometry.dispose();
+    this.ground = null;
   }
 }

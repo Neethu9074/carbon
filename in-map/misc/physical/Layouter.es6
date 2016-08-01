@@ -7,7 +7,7 @@ import nodes from 'in-map/stores/physical/nodes';
 const MAX_VALUE = Number.MAX_VALUE;
 const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
 
-export default function createLayouter(map) {
+export default function createLayouter() {
   let firstLayoutDone = false;
   const squashFactor = 0.5;
   const groupMargin = 1;
