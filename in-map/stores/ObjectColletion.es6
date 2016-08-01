@@ -1,7 +1,7 @@
 export default function createCollection() {
   const objects = {};
 
-  function add(id, object) {
+  function add(id, object = true) {
     objects[id] = object;
   }
 

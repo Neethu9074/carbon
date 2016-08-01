@@ -11,7 +11,7 @@ import {ZERO} from 'in-map/misc/fixedVectors';
 
 export default class IconComponent extends SceneObjectComponent {
 
-  constructor(sceneObject, iconSize = 1) {
+  constructor(sceneObject, iconSize, getIconPosition) {
     super(sceneObject, '_icon');
 
     this.factory = getFactory('icons');
@@ -34,9 +34,8 @@ export default class IconComponent extends SceneObjectComponent {
       combineLatest([
         sceneObject.eventEmitter.on('positionChanged'),
         sceneObject.eventEmitter.on('scaleChanged')
-      ]).subscribe(params => {
-        const scale = params[1];
-        this.fragment.additionalParams.positionOffset.set(scale.x / 2, scale.y + 0.25, -scale.z / 2);
+      ]).subscribe(([pos, scale]) => {
+        this.fragment.additionalParams.positionOffset.copy(getIconPosition(pos, scale));
         this.factory.needsUpdate();
       })
     );

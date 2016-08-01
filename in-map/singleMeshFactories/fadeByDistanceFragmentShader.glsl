@@ -1,9 +1,6 @@
 precision mediump float;
 precision mediump int;
 
-uniform sampler2D texture;
-uniform float numColumns;
-
 varying float fMinOpacity;
 varying float fMaxOpacity;
 varying float fDistance;

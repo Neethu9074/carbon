@@ -1,4 +1,5 @@
 import FadeByDistanceSingleMeshFactory from 'in-map/singleMeshFactories/FadeByDistanceSingleMeshFactory';
+import BasicSingleMeshFactory from 'in-map/singleMeshFactories/BasicSingleMeshFactory';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
 import CameraController from 'in-map/misc/physical/CameraController';
@@ -21,7 +22,8 @@ export default class Map extends BaseMap {
 
     this.layouter = createLayouter(this);
 
-    addFactory('nodes', new FadeByDistanceSingleMeshFactory());
+    addFactory('nodes', new FadeByDistanceSingleMeshFactory(3));
+    addFactory('layer', new BasicSingleMeshFactory(2));
     addFactory('lines', new LineSingleMeshFactory());
     addFactory('icons', new IconSingleMeshFactory());
   }

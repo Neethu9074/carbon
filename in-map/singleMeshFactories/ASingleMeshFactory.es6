@@ -15,11 +15,13 @@ const WHITE = {
 
 export default class ASingleMeshFactory extends Subscriber {
 
-  constructor() {
+  constructor(renderOrder = 2) {
     super();
 
     // stores all added fragments to create the global geometry
     this.fragments = createCollection();
+
+    this.renderOrder = renderOrder;
 
     // represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
@@ -43,6 +45,7 @@ export default class ASingleMeshFactory extends Subscriber {
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
+    mesh.renderOrder = this.renderOrder;
   }
 
   add(fragment) {

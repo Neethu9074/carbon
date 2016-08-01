@@ -4,42 +4,37 @@ import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
-import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
-import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
-import nodes from 'in-map/stores/physical/nodes';
 import layer from 'in-map/stores/physical/layer';
 
 
-export default class Node extends SceneObject {
+export default class Layer extends SceneObject {
 
   constructor(params) {
     super(params.id);
 
-    this.group = params.group;
-    this._cachedLabel = this.id;
+    this.node = params.node;
   }
 
   init() {
     super.init();
 
-    nodes.add(this.id);
-    layer.add(this.id, createObjectCollectionStream());
-    this.group.addNode(this.id, this);
+    const layerCollection = layer.objects[this.node.id];
+    layerCollection.add(this.id, this);
   }
 
   initComponents() {
     super.initComponents();
 
-    this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
+    this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
     this.addComponent('collision', new CollisionComponent(this, collisionDetection.predefinedCollisionObjects.Box, 0));
-    this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
+    this.addComponent('icon', new IconComponent(this, 1, (pos, scale) => {
       return {
-        x: scale.x / 2,
-        y: scale.y + 0.25,
-        z: -scale.z / 2
+        x: scale.x / 2 + 0.1,
+        y: scale.y / 2,
+        z: scale.z / 2 + 0.1
       };
     }));
     this.addComponent('snapshot', new SnapshotComponent(this));
@@ -48,25 +43,18 @@ export default class Node extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(highlightedEntityId$.subscribe(id => {
-      if (id === this.id) {
-        console.log('THIS');
-      }
-    }));
-
-    this.layerLayouter = createLayerLayouter(this);
+    this.addSubscriptions([
+      highlightedEntityId$.subscribe(id => {
+        if (id === this.id) {
+          console.log('THIS');
+        }
+      })
+    ]);
   }
 
   dispose() {
     super.dispose();
 
-    this.layerLayouter.dispose();
-
-    nodes.remove(this.id);
-    layer.remove(this.id);
-    this.group.removeNode(this.id);
-
-    this._cachedLabel = null;
-    this.group = null;
+    this.node = null;
   }
 }
