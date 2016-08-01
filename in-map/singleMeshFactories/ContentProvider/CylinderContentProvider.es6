@@ -1,7 +1,4 @@
-import ContentProvider from './ContentProvider';
-
-
-const CYLINDER_VERTICES = [
+const VERTICES = [
   -0.404, 0, -0.293,
   -0.475, 0, -0.154,
   -0.404, 1, -0.293,
@@ -126,26 +123,22 @@ const CYLINDER_VERTICES = [
 ];
 
 const indexWhereTopMeshBegins = 180;
-const DEFAULT_COLOR = new Array(CYLINDER_VERTICES.length);
+const COLORS = new Array(VERTICES.length);
 for (let i = 0; i <= indexWhereTopMeshBegins; i++) {
-  DEFAULT_COLOR[i] = 0.9;
+  COLORS[i] = 0.9;
 }
-for (let i = indexWhereTopMeshBegins + 1; i < CYLINDER_VERTICES.length; i++) {
-  DEFAULT_COLOR[i] = 1;
+for (let i = indexWhereTopMeshBegins + 1; i < VERTICES.length; i++) {
+  COLORS[i] = 1;
 }
 
-export default class CylinderContentProvider extends ContentProvider {
+const contentProvider = {
+  getVertices: () => {
+    return VERTICES;
+  },
 
-  constructor() {
-    super();
-    this.cachedColors = DEFAULT_COLOR;
+  getColors: () => {
+    return COLORS;
   }
+};
 
-  getVertices() {
-    return CYLINDER_VERTICES.slice();
-  }
-
-  getColors() {
-    return DEFAULT_COLOR.slice();
-  }
-}
+export default contentProvider;

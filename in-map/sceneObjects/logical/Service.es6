@@ -1,6 +1,6 @@
-import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
+import CHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
-import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
+import CCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
@@ -32,13 +32,15 @@ export default class Service extends SceneObject {
                                                           collisionDetection.OCTREE_LAYER.NODES));
     this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
       return {
-        x: scale.x / 2,
-        y: scale.y + 0.25,
-        z: -scale.z / 2
+        x: 0,
+        y: scale.y + 0.75,
+        z: 0
       };
     }));
     this.addComponent('snapshot', new SnapshotComponent(this));
     this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
+
+    this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
   }
 
   dispose() {

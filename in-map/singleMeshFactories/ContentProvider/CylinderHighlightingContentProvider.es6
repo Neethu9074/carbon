@@ -1,0 +1,88 @@
+const MARGIN = 0.025;
+
+const VERTICES = [
+  -MARGIN - 0.405, 0, -0.294 - MARGIN,
+  -MARGIN - 0.476, 0, -0.155 - MARGIN,
+
+  -MARGIN - 0.476, 0, -0.155 - MARGIN,
+  -MARGIN - 0.500, 0, 0.000 + MARGIN,
+
+  -MARGIN - 0.500, 0, 0.000 + MARGIN,
+  -MARGIN - 0.476, 0, 0.155 + MARGIN,
+
+  -MARGIN - 0.476, 0, 0.155 + MARGIN,
+  -MARGIN - 0.405, 0, 0.294 + MARGIN,
+
+  -MARGIN - 0.405, 0, 0.294 + MARGIN,
+  -MARGIN - 0.294, 0, 0.405 + MARGIN,
+
+  -MARGIN - 0.294, 0, 0.405 + MARGIN,
+  -MARGIN - 0.155, 0, 0.476 + MARGIN,
+
+  -MARGIN - 0.155, 0, 0.476 + MARGIN,
+  -MARGIN - 0.000, 0, 0.500 + MARGIN,
+
+  -MARGIN - 0.000, 0, 0.500 + MARGIN,
+  MARGIN + 0.155, 0, 0.476 + MARGIN,
+
+  MARGIN + 0.155, 0, 0.476 + MARGIN,
+  MARGIN + 0.294, 0, 0.405 + MARGIN,
+
+  MARGIN + 0.294, 0, 0.405 + MARGIN,
+  MARGIN + 0.405, 0, 0.294 + MARGIN,
+
+  // top
+  MARGIN + 0.476, 1, -0.155 - MARGIN,
+  MARGIN + 0.405, 1, -0.294 - MARGIN,
+
+  MARGIN + 0.405, 1, -0.294 - MARGIN,
+  MARGIN + 0.294, 1, -0.405 - MARGIN,
+
+  MARGIN + 0.294, 1, -0.405 - MARGIN,
+  MARGIN + 0.155, 1, -0.476 - MARGIN,
+
+  MARGIN + 0.155, 1, -0.476 - MARGIN,
+  MARGIN + 0.000, 1, -0.500 - MARGIN,
+
+  MARGIN + 0.000, 1, -0.500 - MARGIN,
+  -MARGIN - 0.155, 1, -0.476 - MARGIN,
+
+  -MARGIN - 0.155, 1, -0.476 - MARGIN,
+  -MARGIN - 0.294, 1, -0.405 - MARGIN,
+
+  -MARGIN - 0.294, 1, -0.405 - MARGIN,
+  -MARGIN - 0.405, 1, -0.294 - MARGIN,
+
+  MARGIN + 0.476, 1, 0.155 + MARGIN,
+  MARGIN + 0.500, 1, 0.000 + MARGIN,
+
+  MARGIN + 0.500, 1, 0.000 + MARGIN,
+  MARGIN + 0.476, 1, -0.155 - MARGIN,
+
+  MARGIN + 0.405, 1, 0.294 + MARGIN,
+  MARGIN + 0.476, 1, 0.155 + MARGIN,
+
+  // side
+  -MARGIN - 0.405, 0, -0.294 - MARGIN,
+  -MARGIN - 0.405, 1, -0.294 - MARGIN,
+
+  MARGIN + 0.405, 0, 0.294 + MARGIN,
+  MARGIN + 0.405, 1, 0.294 + MARGIN
+];
+
+const COLORS = [];
+for (let i = 0; i <= VERTICES.length; i++) {
+  COLORS[i] = 1;
+}
+
+const contentProvider = {
+  getVertices: () => {
+    return VERTICES;
+  },
+
+  getColors: () => {
+    return COLORS;
+  }
+};
+
+export default contentProvider;
