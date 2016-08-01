@@ -12,6 +12,8 @@ export default class SceneObject extends Subscriber {
     this.id = id;
     console.log('create', id);
 
+    this.components = {};
+
     this.eventEmitter = new RoEmitter(this.id);
   }
 
@@ -20,9 +22,7 @@ export default class SceneObject extends Subscriber {
   }
 
   initComponents() {
-    this.components = {
-      transform: new TransformationComponent(this)
-    };
+    this.components.transform = new TransformationComponent(this);
   }
 
   initEvents() {

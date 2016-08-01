@@ -22,10 +22,12 @@ export default function createLayouter(node) {
     for (let i = 0, length = _layer.length; i < length; i++) {
       const item = _layer[i];
       const transform = item.getComponent('transform');
-      transform.setScaleXYZ(0.9, highOfEachLayer * 0.9, 0.9);
-      transform.setPositionXYZ(nodePosition.x,
-                               i * highOfEachLayer,
-                               nodePosition.z);
+      if (transform) {
+        transform.setScaleXYZ(0.9, highOfEachLayer * 0.9, 0.9);
+        transform.setPositionXYZ(nodePosition.x,
+                                 i * highOfEachLayer,
+                                 nodePosition.z);
+      }
     }
   }
 
