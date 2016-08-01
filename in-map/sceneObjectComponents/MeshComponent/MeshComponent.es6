@@ -27,6 +27,7 @@ export default class MeshComponent extends SceneObjectComponent {
 
     if (this.factory) {
       this.factory.remove(this.id);
+      this.factory.needsUpdate();
     }
 
     this.position = null;

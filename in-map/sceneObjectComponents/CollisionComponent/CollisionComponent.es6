@@ -12,7 +12,6 @@ export default class CollisionComponent extends SceneObjectComponent {
   constructor(sceneObject, collisionGeometry, layerId) {
     super(sceneObject, '_collision');
 
-    this.collisionGeometry = collisionGeometry;
     this.layerId = layerId;
 
     const mesh = this.collisionMesh = new THREE.Mesh(
@@ -46,10 +45,9 @@ export default class CollisionComponent extends SceneObjectComponent {
   dispose() {
     super.dispose();
 
-    collisionDetection.removeCollisionObject(this.collisionGeometry, this.layerId);
+    collisionDetection.removeCollisionObject(this.collisionMesh, this.layerId);
 
-    this.collisionGeometry.dispose();
-    this.collisionGeometry = null;
+    this.collisionMesh = null;
 
     this.layerId = null;
   }

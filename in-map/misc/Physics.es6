@@ -5,6 +5,10 @@ import 'in-map/lib/Octree';
 
 
 function createCollisionDetection() {
+  const predefinedCollisionObjects = {
+    Box: new THREE.BoxGeometry(1, 1, 1, 1, 1, 1)
+  };
+
   const octrees = [];
   let updateSubscription;
 
@@ -96,6 +100,7 @@ function createCollisionDetection() {
     addCollisionObject,
     removeCollisionObject,
     checkRaycaster,
+    predefinedCollisionObjects,
     dispose: disposeCollisionDetection
   };
 }
