@@ -2,8 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DefaultLogicalSidebarKpis from 'in-sdk/components/sidebar/DefaultLogicalSidebarKpis';
-import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
+import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 
