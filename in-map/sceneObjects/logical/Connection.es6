@@ -1,3 +1,5 @@
+import {combineLatest} from 'reactive-observables';
+
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
@@ -61,6 +63,18 @@ export default class Connection extends SceneObject {
 
     this.addSubscription(eventBus.on('zoomLevelChanged').subscribe(zoomLevel =>
       this.eventEmitter.emit('isFullyVisible', zoomLevel < 200)));
+
+    this.addSubscription(
+      combineLatest([
+        this.sourceNode.eventEmitter.on('positionChanged'),
+        this.destinationNode.eventEmitter.on('positionChanged')
+      ]).subscribe(([from, to]) => {
+        from = from.clone();
+        to = to.clone();
+        const pos = from.add(to.sub(from).multiplyScalar(0.5));
+        this.eventEmitter.emit('positionChanged', pos);
+      })
+    );
   }
 
   getVertices() {
@@ -75,9 +89,6 @@ export default class Connection extends SceneObject {
     const path = flatten(
                  addArrowToDestination(
                  shortenPathAtSourceAndDestination([from, to])));
-
-    const pos = from.add(to.sub(from).multiplyScalar(0.5));
-    this.eventEmitter.emit('positionChanged', pos);
 
     return path;
   }

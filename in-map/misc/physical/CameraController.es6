@@ -210,7 +210,8 @@ export default class CameraController extends BaseCameraController {
     // set it to total distance
     if (delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
-    } else if (delta.length() < 0.0001) {
+    }
+    if (delta.length() < 0.001) {
       return;
     }
 
