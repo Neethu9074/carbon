@@ -21,7 +21,7 @@ const block = 'in-sticky-note-service';
 export default createStickyNote(
   connectTo(props => {
     return {
-      isFullyVisible: props.eventEmitter.on('sicktyFullyVisibilityChanged').distinct(),
+      isFullyVisible: props.eventEmitter.on('isFullyVisible').distinct(),
       children: getClusterMembers(props.props.id),
       snapshot: getSnapshot(props.props.id)
     };

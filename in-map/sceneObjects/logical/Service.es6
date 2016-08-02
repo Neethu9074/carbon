@@ -4,14 +4,15 @@ import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComp
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
-import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
+import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
 import services from 'in-map/stores/logical/services';
+import {eventBus} from 'in-map/services/eventBus';
 
 
 export default class Service extends SceneObject {
@@ -60,6 +61,13 @@ export default class Service extends SceneObject {
         z: pos.z - scale.z / 2
       };
     }));
+  }
+
+  initEvents() {
+    super.initEvents();
+
+    this.addSubscription(eventBus.on('zoomLevelChanged').subscribe(zoomLevel =>
+      this.eventEmitter.emit('isFullyVisible', zoomLevel < 300)));
   }
 
   dispose() {
