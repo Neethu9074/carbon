@@ -35,7 +35,7 @@ TraceTableHeader.propTypes = {
 
 function renderCell(name, field, sortDirection, sortBy) {
   return (
-    <div onClick={() => onClick(field, sortDirection)}
+    <div onClick={() => onClick(field, sortBy, sortDirection)}
          className={cellClassName + getCellClassName(field, sortBy)}>
       {name}
       {getSortIcon(field, sortDirection, sortBy)}
@@ -43,9 +43,14 @@ function renderCell(name, field, sortDirection, sortBy) {
   );
 }
 
-function onClick(sortBy, sortDirection) {
+function onClick(sortBy, currentSortBy, sortDirection) {
   setSortBy(sortBy);
-  setSortDirection(sortDirection === 'desc' ? 'asc' : 'desc');
+
+  if (currentSortBy === sortBy) {
+    setSortDirection(sortDirection === 'desc' ? 'asc' : 'desc');
+  } else {
+    setSortDirection('desc');
+  }
 }
 
 function getSortIcon(cell, sortDirection, sortBy) {
