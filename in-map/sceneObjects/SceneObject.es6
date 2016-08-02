@@ -10,24 +10,17 @@ export default class SceneObject extends Subscriber {
     super();
 
     this.id = id;
-    console.log('create', id);
-
     this.components = {};
-
     this.eventEmitter = new RoEmitter(this.id);
   }
 
-  init() {
-    console.log('init', this.id);
-  }
+  init() {}
 
   initComponents() {
     this.components.transform = new TransformationComponent(this);
   }
 
-  initEvents() {
-    console.log('initEvents', this.id);
-  }
+  initEvents() {}
 
   getComponent(id) {
     if (!this.components) {
@@ -41,14 +34,10 @@ export default class SceneObject extends Subscriber {
   }
 
   disposeEvents() {
-    console.log('disposeEvents', this.id);
-
     super.dispose();
   }
 
   dispose() {
-    console.log('dispose', this.id);
-
     Object.keys(this.components).forEach(key => {
       this.components[key].dispose();
     });
