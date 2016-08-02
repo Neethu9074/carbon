@@ -25,6 +25,7 @@ export default class Map extends BaseMap {
     addFactory('nodes', new FadeByDistanceSingleMeshFactory(3));
     addFactory('layer', new BasicSingleMeshFactory(2));
     addFactory('lines', new LineSingleMeshFactory());
+    addFactory('connections', new LineSingleMeshFactory());
     addFactory('icons', new IconSingleMeshFactory());
     addFactory('highlighting', new LineSingleMeshFactory(2));
   }

@@ -1,17 +1,15 @@
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
-import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
-import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import {
   shortenPathAtSourceAndDestination,
   addArrowToDestination,
+  getManhattanPath,
   flatten
 } from 'in-map/misc/Connections';
-import connections from 'in-map/stores/logical/connections';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {collisionDetection} from 'in-map/misc/Physics';
 import {emptyArray} from 'in-services/fixedObjects';
+import nodes from 'in-map/stores/physical/nodes';
 
 
 export default class Connection extends SceneObject {
@@ -19,23 +17,36 @@ export default class Connection extends SceneObject {
   constructor(params) {
     super(params.id);
 
-    this.destinationNode = params.destinationNode;
-    this.sourceNode = params.sourceNode;
+    this.destinationId = params.destinationId;
+    this.sourceId = params.sourceId;
+    this.destinationNode = null;
+    this.sourceNode = null;
   }
-
 
   initComponents() {
     super.initComponents();
 
     this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
-    this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'lines'));
+  }
 
-    this.addComponent('collision', new CollisionComponent(this,
-                                                          collisionDetection.predefinedCollisionObjects.Box,
-                                                          collisionDetection.OCTREE_LAYER.NODES));
-    this.addComponent('snapshot', new SnapshotComponent(this));
+  initEvents() {
+    super.initEvents();
 
-    connections.add(this.id, this);
+    this.addSubscriptions([
+      nodes.stream.subscribe(_nodes => {
+        this.sourceNode = _nodes.objects[this.sourceId];
+        this.destinationNode = _nodes.objects[this.destinationId];
+        this.eventEmitter.emit('nodesAreAvailableChanged', this.sourceNode && this.destinationNode);
+      }),
+
+      this.eventEmitter.on('nodesAreAvailableChanged').distinct().subscribe(nodesAreAvailable => {
+        if (nodesAreAvailable) {
+          this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
+        } else {
+          this.removeComponent('mesh');
+        }
+      })
+    ]);
   }
 
   getVertices() {
@@ -44,11 +55,12 @@ export default class Connection extends SceneObject {
     if (!fromTransform || !toTransform) {
       return emptyArray;
     }
-    const from = fromTransform.getPosition().clone();
-    const to = toTransform.getPosition().clone();
+    const from = fromTransform.getPosition();
+    const to = toTransform.getPosition();
     return flatten(
            addArrowToDestination(
-           shortenPathAtSourceAndDestination([from, to])));
+           shortenPathAtSourceAndDestination(
+           getManhattanPath(from.x, from.z, to.x, to.z))));
   }
 
   getColors(vertices) {
@@ -62,10 +74,10 @@ export default class Connection extends SceneObject {
   dispose() {
     super.dispose();
 
-    connections.remove(this.id);
-
     this.lineContentProvider = null;
     this.destinationNode = null;
+    this.destinationId = null;
     this.sourceNode = null;
+    this.sourceId = null;
   }
 }

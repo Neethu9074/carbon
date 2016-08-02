@@ -4,8 +4,8 @@ export default function createContentProvider(verticeCallback, colorCallback) {
       return verticeCallback();
     },
 
-    getColors: () => {
-      return colorCallback();
+    getColors: vertices => {
+      return colorCallback(vertices);
     }
   };
 }

@@ -33,6 +33,14 @@ export default class SceneObject extends Subscriber {
     this.components[id] = component;
   }
 
+  removeComponent(id) {
+    const component = this.components[id];
+    if (component) {
+      component.dispose();
+      delete this.components[id];
+    }
+  }
+
   disposeEvents() {
     super.dispose();
   }

@@ -29,7 +29,7 @@ export default class ASingleMeshFactory extends Subscriber {
 
     this.eventEmitter = new RoEmitter();
     this.addSubscriptions([
-      this.eventEmitter.on('rebuild').throttle(250).subscribe(shouldRebuild => {
+      this.eventEmitter.on('rebuild').debounce(250).subscribe(shouldRebuild => {
         if (shouldRebuild) {
           this.rebuild();
         }
@@ -81,7 +81,7 @@ export default class ASingleMeshFactory extends Subscriber {
       const position = transform.getPosition();
       const scale = transform.getScale();
 
-      const fragmentColors = fragment.contentProvider.getColors();
+      const fragmentColors = fragment.contentProvider.getColors(fragmentVertices);
       const colorComponent = fragment.sceneObject.getComponent('color');
       const color = colorComponent ? colorComponent.getColor() : WHITE;
 

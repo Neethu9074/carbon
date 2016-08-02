@@ -26,7 +26,7 @@ export default class Node extends SceneObject {
   init() {
     super.init();
 
-    nodes.add(this.id);
+    nodes.add(this.id, this);
     this.group.addNode(this.id, this);
 
     this.layerLayouter = createLayerLayouter(this);
