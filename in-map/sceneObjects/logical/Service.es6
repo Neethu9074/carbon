@@ -55,8 +55,8 @@ export default class Service extends SceneObject {
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
       return {
-        x: pos.x + scale.x / 2,
-        y: pos.y + scale.y + 0.75,
+        x: pos.x + scale.x,
+        y: pos.y + scale.y,
         z: pos.z - scale.z / 2
       };
     }));
