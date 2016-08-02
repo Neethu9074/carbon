@@ -71,6 +71,8 @@ export default class Map extends BaseMap {
 
       eventBus.on('flyToEntity').subscribe(entity => this.controller.flyToObject(entity)),
 
+      eventBus.on('flyToPosition').subscribe(pos => this.controller.flyToPosition(pos)),
+
       selectedSnapshotIdForHighlightingInMap.subscribe(id => id ?
         this.factories.fadeByDistanceSMF.lockOpacity(0.25) :
         this.factories.fadeByDistanceSMF.unlockOpacity()
@@ -162,7 +164,7 @@ export default class Map extends BaseMap {
         maxZ = Math.max(maxZ, pos.z);
       });
     });
-    this.controller.flyToPosition(minX + (maxX - minX) / 2, minZ + (maxZ - minZ) / 2);
+    this.controller.flyToPositionXZ(minX + (maxX - minX) / 2, minZ + (maxZ - minZ) / 2);
   }
 
   removeChild() {

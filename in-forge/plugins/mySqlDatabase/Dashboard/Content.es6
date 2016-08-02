@@ -5,6 +5,7 @@ import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTa
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import DashboardNotification from 'in-components/DashboardNotification';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 
@@ -24,7 +25,13 @@ export default function MySqlDashboard({snapshot, timeframe}) {
   const version = data.get('variables.VERSION');
   const dbs = data.get('dbs', emptyList).toArray();
   const waitNames = data.get('wait_event_names', emptyList).toArray().sort();
-
+  const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
+  if (sensorConnectionStatus !== 'OK') {
+    return (
+      <DashboardNotification type='info'>
+        {sensorConnectionStatus}
+      </DashboardNotification>);
+  }
   return (
     <div>
       <DashboardSection title='Queries'>

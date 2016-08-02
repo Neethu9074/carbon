@@ -5,8 +5,8 @@ import DefaultKpiConnectionSection from
   'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultKpiConnectionSection';
 import DefaultConnectionCharts from
   'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultConnectionCharts';
+import ConnectedEntitiesTable from 'in-components/LogicalEntityTables/ConnectedEntitiesTable';
 import {timeframeShape} from 'in-stores/timeline';
-
 
 export default function DefaultLogicalConnectionDashboard({snapshot, timeframe}) {
   return (
@@ -14,7 +14,10 @@ export default function DefaultLogicalConnectionDashboard({snapshot, timeframe})
       <DefaultKpiConnectionSection snapshot={snapshot}/>
 
       <DefaultConnectionCharts snapshot={snapshot}
-                     timeframe={timeframe} />
+                               timeframe={timeframe} />
+
+      <ConnectedEntitiesTable snapshot={snapshot}
+                              timeframe={timeframe} />
     </div>
   );
 }

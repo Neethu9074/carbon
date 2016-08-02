@@ -50,9 +50,23 @@
     }
   }
 
+  &__error-icon {
+    position: absolute;
+    left: -.375rem;
+    background: #D73C52 !important;
+    border-radius: 100%;
+    z-index: 3;
+    padding: .188rem;
+    top: .75rem;
+
+    path {
+      fill: #fff;
+    }
+  }
+
   &__content-wrapper {
     position: relative; // only required for z-index stacking
-    z-index: 3;
+    z-index: 4;
     font-size: .625rem;
   }
 
@@ -138,5 +152,18 @@
   &__total-time-indicator-bar {
     height: 100%;
     background: #D5DFE4;
+  }
+
+  &__async-icon {
+    position: absolute;
+    left: -1.875rem;
+    top: .188rem;
+    background: #6B8087;
+    padding: .25rem;
+    border-radius: 100%;
+
+    path {
+      fill: #fff;
+    }
   }
 }

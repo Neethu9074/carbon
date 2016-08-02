@@ -41,28 +41,26 @@ function ConnectionList({connections}) {
 
   return (
     <div>
-      {connections.outgoing.size === 0 ? null :
+      {connections.incoming.size === 0 ? null :
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>
-            {'Downstream (' + connections.outgoing.size + ')'}
+            {'Inbound Connections (' + connections.incoming.size + ')'}
           </Collapsible.Header>
           <Collapsible.Content className={`${block}__snapshot-list`}>
-            <SnapshotList connections={connections.outgoing} />
+            <SnapshotList connections={connections.incoming} />
           </Collapsible.Content>
         </Collapsible>
       }
 
-      {connections.incoming.size > 0 && connections.outgoing.size > 0 ?
-        <Separator />
-      : null}
+      {connections.incoming.size > 0 && connections.outgoing.size > 0 ? <Separator /> : null}
 
-      {connections.incoming.size === 0 ? null :
+      {connections.outgoing.size === 0 ? null :
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>
-            {'Upstream (' + connections.incoming.size + ')'}
+            {'Outbound Connections (' + connections.outgoing.size + ')'}
           </Collapsible.Header>
           <Collapsible.Content className={`${block}__snapshot-list`}>
-            <SnapshotList connections={connections.incoming} />
+            <SnapshotList connections={connections.outgoing} />
           </Collapsible.Content>
         </Collapsible>
       }

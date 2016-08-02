@@ -2,8 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {ClickableList, ClickableSnapshotListItem} from 'in-sdk/components/sidebar/ClickableList';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Collapsible from 'in-components/Collapsible';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -34,11 +34,11 @@ function ConnectedEntitiesList({connectedEntities}) {
 
   return (
     <div>
-      {sourceId ? <Entity snapshotId={sourceId} title={'Upstream (1)'} /> : null}
+      {sourceId ? <Entity snapshotId={sourceId} title={'Connection From (1)'} /> : null}
       {sourceId && destinationId ?
         <Separator />
       : null}
-      {destinationId ? <Entity snapshotId={destinationId} title={'Downstream (1)'} /> : null}
+      {destinationId ? <Entity snapshotId={destinationId} title={'Connection To (1)'} /> : null}
     </div>
   );
 }

@@ -4,12 +4,20 @@ import React from 'react';
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import DashboardNotification from 'in-components/DashboardNotification';
 import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function MsSqlDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
 
+  if (sensorConnectionStatus !== 'OK') {
+    return (
+      <DashboardNotification type='info'>
+        {sensorConnectionStatus}
+      </DashboardNotification>);
+  }
   return (
     <div>
     <DashboardSection title='Wait-Times (ms) on server'>

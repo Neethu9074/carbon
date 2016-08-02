@@ -3,13 +3,26 @@ import React from 'react';
 
 import {bytesZeroDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframeShape} from 'in-stores/timeline';
+import {emptyList} from 'in-services/fixedImmutables';
 
 
 export default function MongoDBDashboard({snapshot, timeframe}) {
   const dbs = snapshot.getIn(['data', 'databases']);
   const snapshotId = snapshot.get('id');
+  const sensorConnectionProblems = snapshot.getIn(['data', 'sensorConnectionProblems'], emptyList);
+  if (sensorConnectionProblems.size > 0) {
+    return (
+      <DashboardNotification type='info'>
+        {sensorConnectionProblems.map(problem =>
+          <div>
+            {problem}
+          </div>)
+        }
+      </DashboardNotification>);
+  }
 
   return (
     <div>

@@ -253,7 +253,7 @@ export default class Map extends BaseMap {
   centerMap() {
     const width = this.layouter.currentDimensions.x;
     const height = this.layouter.currentDimensions.y;
-    this.controller.flyToPosition(
+    this.controller.flyToPositionXZ(
       width / 2, -(height / 2) * (height / width)
     );
   }
