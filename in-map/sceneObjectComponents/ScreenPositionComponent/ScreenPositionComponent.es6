@@ -28,6 +28,7 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
         this.addSubscriptions([
           eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()),
+          sceneObject.eventEmitter.on('checkInView').throttle(20).subscribe(() => this.update()),
 
           combineLatest([
             sceneObject.eventEmitter.on('positionChanged'),
@@ -61,7 +62,7 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
       this.screenPosition.x = screenPosition.x;
       this.screenPosition.y = screenPosition.y;
 
-      this.update();
+      this.sceneObject.eventEmitter.emit('checkInView');
     }
   }
 
