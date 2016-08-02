@@ -1,17 +1,17 @@
 import THREE from 'three';
 
 import {onDown} from 'in-services/reactiveMouseEvents';
-import {eventBus} from 'in-map/src/services/eventBus';
+import {findObjectByRay} from 'in-map/misc/Physics';
+import {eventBus} from 'in-map/services/eventBus';
 import Module from 'in-map/misc/common/Module';
 
 
 export default class RaycasterModule extends Module {
 
-  constructor({eventEmitter, map, canvas, scene, camera}) {
+  constructor(eventEmitter, map, canvas, camera) {
     super(eventEmitter);
 
     this.map = map;
-    this.scene = scene;
     this.camera = camera;
     this.canvas = canvas;
 
@@ -27,10 +27,10 @@ export default class RaycasterModule extends Module {
 
     this.cursorPosition = { x: 0, y: 0 };
 
-    this.setupEvents();
+    this.initEvents();
   }
 
-  setupEvents() {
+  initEvents() {
     this.addSubscriptions([
       this.eventEmitter.on('onMouseMoved')
       .subscribe(({x, y}) => {
@@ -79,8 +79,6 @@ export default class RaycasterModule extends Module {
   }
 
   getObjectOnCursor() {
-    const scene = this.scene;
-
     // get the mouse/touch position in pixel coords
     const x = this.cursorPosition.x;
     const y = this.cursorPosition.y;
@@ -88,25 +86,23 @@ export default class RaycasterModule extends Module {
     this.updateCursorForRayCasting(x, y);
 
     // update raycaster
-    this.raycaster.setFromCamera(this.cursorForRay, this.camera.camera);
+    this.raycaster.setFromCamera(this.cursorForRay, this.camera.getRenderableCamera());
 
     // find the hitten object
-    return scene.findObjectByRay(this.raycaster);
+    return findObjectByRay(this.raycaster);
   }
 
   updateCursorForRayCasting(x, y) {
-    const scene = this.scene;
-
     // transform into screen space
-    this.cursorForRay.x = (x / scene.width) * 2 - 1;
-    this.cursorForRay.y = -(y / scene.height) * 2 + 1;
+    this.cursorForRay.x = (x / this.camera.width) * 2 - 1;
+    this.cursorForRay.y = -(y / this.camera.height) * 2 + 1;
   }
 
   getPointOfImpact() {
     const mousePos = this.cursorForRay;
 
     // update the picking ray with the camera and mouse position
-    this.raycaster.setFromCamera(mousePos, this.camera.camera);
+    this.raycaster.setFromCamera(mousePos, this.camera.getRenderableCamera());
 
     // calculate objects intersecting the picking ray
     const intersects = this.raycaster.intersectObjects([this.map.groundPlane.getCollisionMesh()]);

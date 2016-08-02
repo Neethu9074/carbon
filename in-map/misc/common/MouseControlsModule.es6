@@ -12,10 +12,10 @@ export default class MouseControlModule extends Module {
 
     this.scene = scene;
     this.lastMousePosition = {x: 0, y: 0};
-    this.setupEvents();
+    this.initEvents();
   }
 
-  setupEvents() {
+  initEvents() {
     const canvas = this.scene.canvas;
 
     this.addSubscriptions([

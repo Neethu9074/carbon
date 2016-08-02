@@ -25,10 +25,10 @@ export default class RaycasterModule extends Module {
 
     this.cursorPosition = { x: 0, y: 0 };
 
-    this.setupEvents();
+    this.initEvents();
   }
 
-  setupEvents() {
+  initEvents() {
     this.addSubscriptions([
       this.eventEmitter.on('onMouseMoved')
       .subscribe(({x, y}) => {

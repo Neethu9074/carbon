@@ -1,3 +1,5 @@
+import THREE from 'three';
+
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
@@ -12,6 +14,7 @@ import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
 import services from 'in-map/stores/logical/services';
+import DragGhost from 'in-map/misc/logical/DragGhost';
 import {eventBus} from 'in-map/services/eventBus';
 
 
@@ -39,9 +42,11 @@ export default class Service extends SceneObject {
     super.initComponents();
 
     this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
+
     this.addComponent('collision', new CollisionComponent(this,
                                                           collisionDetection.predefinedCollisionObjects.Box,
                                                           collisionDetection.OCTREE_LAYER.NODES));
+
     this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
       return {
         x: 0,
@@ -49,10 +54,10 @@ export default class Service extends SceneObject {
         z: 0
       };
     }));
-    this.addComponent('snapshot', new SnapshotComponent(this));
-    this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
 
-    this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
+    this.addComponent('snapshot', new SnapshotComponent(this));
+
+    this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
       return {
@@ -61,13 +66,37 @@ export default class Service extends SceneObject {
         z: pos.z - scale.z / 2
       };
     }));
+
+    this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
   }
 
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(eventBus.on('zoomLevelChanged').subscribe(zoomLevel =>
-      this.eventEmitter.emit('isFullyVisible', zoomLevel < 300)));
+    this.addSubscriptions([
+      eventBus.on('dragObjectStart').subscribe(id => {
+        if (this.id === id) {
+          const scale = this.getComponent('transform').getScale();
+          const height = scale.y;
+          const radius = scale.x / 2;
+          this.dragGhost = new DragGhost(this, new THREE.CylinderBufferGeometry(radius, radius, height, 20, 20));
+        }
+      }),
+
+      eventBus.on('dragObjectStop').subscribe(() => {
+        if (this.dragGhost) {
+          const positionToSet = this.dragGhost.getCurrentPosition();
+          this.getComponent('transform').setPosition(positionToSet);
+
+          this.dragGhost.dispose();
+          this.dragGhost = null;
+        }
+      }),
+
+      eventBus.on('zoomLevelChanged').subscribe(zoomLevel =>
+        this.eventEmitter.emit('isFullyVisible', zoomLevel < 300))
+    ]);
+
   }
 
   dispose() {
