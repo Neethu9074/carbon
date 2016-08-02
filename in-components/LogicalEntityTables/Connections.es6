@@ -38,7 +38,7 @@ export default function Connections({snapshotId, timeframe}) {
                                         return alwaysNull;
                                      })
                                    }
-                          createDetails={createDetails} />/>
+                          createDetails={createDetails} />
     </div>
   );
 }
