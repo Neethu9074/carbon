@@ -26,7 +26,7 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
                          }}
                          y1={{
                            metrics: [
-                             'status.CONNECTIONS'
+                             'status.THREADS_CONNECTED'
                            ],
                            labels: [
                              'Connections'

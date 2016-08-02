@@ -116,7 +116,7 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            metrics: [
-                             'status.CONNECTIONS',
+                             'status.THREADS_CONNECTED',
                              'status.MAX_USED_CONNECTIONS',
                              'status.ABORTED_CONNECTS'
                            ],
