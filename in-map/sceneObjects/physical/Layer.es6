@@ -8,7 +8,6 @@ import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
-import layer from 'in-map/stores/physical/layer';
 
 
 export default class Layer extends SceneObject {
@@ -37,13 +36,13 @@ export default class Layer extends SceneObject {
     this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
 
     // only add them after the components where setup, because the layouter needs the transform component
-    const layerCollection = layer.objects[this.node.id];
-    layerCollection.add(this.id, this);
+    this.node.addLayer(this.id, this);
   }
 
   dispose() {
     super.dispose();
 
+    this.node.removeLayer(this.id);
     this.node = null;
   }
 }

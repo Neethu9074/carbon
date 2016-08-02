@@ -17,11 +17,6 @@ export default class Connection extends SceneObject {
     this.destinationNode = params.destinationNode;
   }
 
-  init() {
-    super.init();
-
-    connections.add(this.id, this);
-  }
 
   initComponents() {
     super.initComponents();
@@ -33,11 +28,18 @@ export default class Connection extends SceneObject {
                                                           collisionDetection.predefinedCollisionObjects.Box,
                                                           collisionDetection.OCTREE_LAYER.NODES));
     this.addComponent('snapshot', new SnapshotComponent(this));
+
+    connections.add(this.id, this);
   }
 
   getVertices() {
-    const from = this.sourceNode.getComponent('transform').getPosition();
-    const to = this.destinationNode.getComponent('transform').getPosition();
+    const fromTransform = this.sourceNode.getComponent('transform');
+    const toTransform = this.destinationNode.getComponent('transform');
+    if (!fromTransform || !toTransform) {
+      return [];
+    }
+    const from = fromTransform.getPosition();
+    const to = toTransform.getPosition();
 
     return [
       from.x, from.y, from.z,

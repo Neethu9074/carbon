@@ -30,6 +30,9 @@ export default class SceneObject extends Subscriber {
   }
 
   getComponent(id) {
+    if (!this.components) {
+      return undefined;
+    }
     return this.components[id];
   }
 

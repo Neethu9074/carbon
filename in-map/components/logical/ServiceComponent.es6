@@ -34,7 +34,7 @@ function ServiceComponent({entity}) {
 
 const ConnectionSpawner = connectTo(() => {
   return {
-    _services: services.stream.debounce(100)
+    _services: services.stream.debounce(50)
   };
 }, function ConnectionSpawner({_services, sourceID, entity}) {
   if (!_services) {

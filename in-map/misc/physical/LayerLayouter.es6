@@ -1,13 +1,11 @@
 import {combineLatest} from 'reactive-observables';
 
-import layer from 'in-map/stores/physical/layer';
-
 
 export default function createLayouter(node) {
 
   const layerSubscription = combineLatest([
     node.eventEmitter.on('positionChanged'),
-    layer.objects[node.id].stream.throttle(500)
+    node.layer.stream.debounce(100)
   ]).subscribe(([nodePosition, _layer]) => {
     applyLayout(nodePosition, Object.keys(_layer.objects).map(key => _layer.objects[key]));
   });

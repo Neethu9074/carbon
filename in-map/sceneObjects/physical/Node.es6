@@ -11,7 +11,6 @@ import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
 import nodes from 'in-map/stores/physical/nodes';
-import layer from 'in-map/stores/physical/layer';
 
 
 export default class Node extends SceneObject {
@@ -20,6 +19,7 @@ export default class Node extends SceneObject {
     super(params.id);
 
     this.group = params.group;
+    this.layer = createObjectCollectionStream();
     this._cachedLabel = this.id;
   }
 
@@ -27,7 +27,6 @@ export default class Node extends SceneObject {
     super.init();
 
     nodes.add(this.id);
-    layer.add(this.id, createObjectCollectionStream());
     this.group.addNode(this.id, this);
 
     this.layerLayouter = createLayerLayouter(this);
@@ -51,13 +50,21 @@ export default class Node extends SceneObject {
     this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
   }
 
+  addLayer(id, node) {
+    this.layer.add(id, node);
+  }
+
+  removeLayer(id) {
+    this.layer.remove(id);
+  }
+
   dispose() {
     super.dispose();
 
     this.layerLayouter.dispose();
+    this.layerLayouter = null;
 
     nodes.remove(this.id);
-    layer.remove(this.id);
     this.group.removeNode(this.id);
 
     this._cachedLabel = null;
