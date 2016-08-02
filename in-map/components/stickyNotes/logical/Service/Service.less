@@ -1,0 +1,50 @@
+@import "~in-themes/active.less";
+
+.in-sticky-note-service {
+  position: absolute;
+  top: 0px;
+
+  &__content {
+    .in-sticky-note-process-cluster {
+      top: 30px;
+    }
+
+    &--expanded {
+      border-radius: 3px;
+      background: #2d4048;
+      box-shadow: 1px 0px 20px 0px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    margin: 2px 0 0 10px;
+    padding-top: 3px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    color: #92a5ae;
+    cursor: pointer;
+
+    &--highlighted, &--expanded {
+      color: white;
+    }
+  }
+
+  &__icon {
+    margin: 0 0 50% 0.25rem;
+  }
+
+  &__icon-wrapper {
+    border-radius: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    background: #92a5ae;
+    margin-left: 3px;
+
+    &--expanded {
+      background: white;
+    }
+  }
+}

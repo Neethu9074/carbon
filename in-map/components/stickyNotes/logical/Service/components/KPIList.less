@@ -1,0 +1,33 @@
+@import "~in-themes/active.less";
+
+.in-sticky-note-process-kpi-list {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  border-radius: 4px;
+  background: rgba(45, 64, 75, 0.5);
+  font-size: 0.75rem;
+  padding: 6px 10px;
+
+  &--highlighted {
+    width: 300px;
+    background: #2d4048;
+  }
+
+  &__spark-chart {
+    margin: 0.5rem;
+
+    &__title {
+      color: #7e9099;
+    }
+
+    &__value {
+      color: white;
+    }
+  }
+}
