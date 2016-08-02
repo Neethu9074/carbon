@@ -12,6 +12,7 @@ import BaseConnection from 'in-map/src/3DSceneObjects/common/Connection';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
+import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import {eventBus} from 'in-map/src/services/eventBus';
 import {theme} from 'in-services/theme';
 
@@ -52,7 +53,16 @@ export default class Connection extends BaseConnection {
       this.eventEmitter.on('updateColor').distinct()
                                          .subscribe(color => this.colorChanged(color)),
 
-      edges$.subscribe(allEdges => this.checkIfBidirectional(allEdges))
+      edges$.subscribe(allEdges => this.checkIfBidirectional(allEdges)),
+
+      focusEntityId$.subscribe(id => {
+        if (this.id === id) {
+          const fromPos = this.sourceNode.getComponent('position').getPosition().clone();
+          const toPos = this.destinationNode.getComponent('position').getPosition().clone();
+          const pos = fromPos.add(toPos.sub(fromPos).multiplyScalar(0.5));
+          eventBus.emit('flyToPosition', pos);
+        }
+      })
     ]);
 
     // create this later, afer sourceNode and destinationNode are available

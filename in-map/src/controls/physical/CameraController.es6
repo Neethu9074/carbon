@@ -187,16 +187,21 @@ export default class CameraController extends BaseCameraController {
 
   flyToObject(obj) {
     const pos = obj.getComponent('position').getPosition();
-    this.flyToPosition(pos.x, pos.z);
+    this.flyToPosition(pos);
   }
 
-  flyToPosition(x, z) {
+  flyToPosition(pos) {
+    this.flyToPositionXZ(pos.x, pos.z);
+  }
+
+  flyToPositionXZ(x, z) {
     const transObj = this.camTransformObject;
 
     transObj.position.x = x;
     transObj.position.z = z;
     transObj.updateMatrixWorld();
   }
+
 
   update() {
     const dTime = time.getDeltaTime();
