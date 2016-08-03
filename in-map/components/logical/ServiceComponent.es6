@@ -19,7 +19,12 @@ export default sceneObjectComponent(props => {
 
 function ServiceComponent({entity}) {
   const serviceId = entity.get('id');
-  const connections = entity.get('outgoingConnections');
+  const outgoingConnections = entity.get('outgoingConnections');
+  const incomingConnections = entity.get('incomingConnections');
+
+  const connections = [];
+  outgoingConnections.forEach(c => connections.push(c));
+  incomingConnections.forEach(c => connections.push(c));
 
   return (
     <div>
