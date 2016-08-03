@@ -24,7 +24,7 @@ export default class Connection extends SceneObject {
   }
 
   initComponents() {
-    super.initComponents();
+    super.initComponents({color: 0xbababa});
 
     this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
   }

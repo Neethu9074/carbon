@@ -17,10 +17,10 @@ export default class SceneObject extends Subscriber {
 
   init() {}
 
-  initComponents() {
+  initComponents(defaultProps = {}) {
     this.addComponent('transform', new TransformationComponent(this));
 
-    this.addComponent('color', new ColorComponent(this));
+    this.addComponent('color', new ColorComponent(this, defaultProps.color));
   }
 
   initEvents() {}

@@ -7,10 +7,11 @@ import {theme} from 'in-services/theme';
 
 export default class ColorComponent extends SceneObjectComponent {
 
-  constructor(sceneObject) {
+  constructor(sceneObject, colorHex = 0xffffff) {
     super(sceneObject, '_color');
 
-    this.color = new THREE.Color(0xffffff);
+    this.color = new THREE.Color(colorHex);
+    this.fallbackColor =  new THREE.Color(colorHex);
     this.emitToClient('colorChanged', this.color);
   }
 
@@ -19,7 +20,8 @@ export default class ColorComponent extends SceneObjectComponent {
 
     this.addSubscription(this.sceneObject.eventEmitter.on('healthChanged').subscribe(health => {
       const severity = health.get('maxSeverity', 0);
-      this.setColor(hexToRGBNormalized(theme.health[Math.floor(severity)]));
+      const color = severity > 0 ? hexToRGBNormalized(theme.health[Math.floor(severity)]) : this.fallbackColor;
+      this.setColor(color);
     }));
   }
 

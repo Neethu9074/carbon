@@ -7,7 +7,6 @@ import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
-
 import {
   shortenPathAtSourceAndDestination,
   addArrowToDestination,
@@ -44,7 +43,7 @@ export default class Connection extends SceneObject {
   }
 
   initComponents() {
-    super.initComponents();
+    super.initComponents({color: 0xbababa});
 
     this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
     this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'lines'));
