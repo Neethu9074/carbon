@@ -17,6 +17,15 @@ export default class TransformationComponent extends SceneObjectComponent {
     this.emitToClient('scaleChanged', this.scale);
   }
 
+  initEvents() {
+    super.initEvents();
+
+    this.addSubscription(this.sceneObject.eventEmitter.on('powerChanged').subscribe(power => {
+      const currentScale = this.getScale();
+      this.setScaleXYZ(currentScale.x, power, currentScale.z);
+    }));
+  }
+
   setPositionXYZ(x, y, z) {
     if (this.position.x === x &&
         this.position.y === y &&

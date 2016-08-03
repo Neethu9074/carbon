@@ -4,6 +4,7 @@ import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider'
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
+import PowerComponent from 'in-map/sceneObjectComponents/PowerComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
@@ -55,6 +56,8 @@ export default class Node extends SceneObject {
     this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
 
     this.addComponent('health', new HealthComponent(this));
+
+    this.addComponent('power', new PowerComponent(this));
   }
 
   addLayer(id, node) {
