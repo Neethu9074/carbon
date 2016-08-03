@@ -1,3 +1,5 @@
+import THREE from 'three';
+
 import {UP} from 'in-map/misc/fixedVectors';
 
 
@@ -108,4 +110,22 @@ export function getCenterPosition(fromPos, toPos) {
   const from = fromPos.clone();
   const to = toPos.clone();
   return from.add(to.sub(from).multiplyScalar(0.5));
+}
+
+
+export function calculateCollisionMesh(from, to) {
+  const geometry = new THREE.Geometry();
+  geometry.vertices.push(from, to);
+  return new THREE.Line(geometry);
+}
+
+
+export function intersects(raycaster, collisionLine) {
+  if (!collisionLine) {
+    return false;
+  }
+
+  raycaster.linePrecision = 0.25;
+  const hit = raycaster.intersectObject(collisionLine, false);
+  return hit.length > 0;
 }

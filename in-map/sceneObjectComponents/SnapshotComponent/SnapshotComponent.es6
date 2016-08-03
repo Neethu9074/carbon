@@ -1,4 +1,4 @@
-import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {getSnapshot} from 'in-stores/snapshot';
 
 

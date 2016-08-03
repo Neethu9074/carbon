@@ -20,8 +20,6 @@ export default class Scene extends SceneObject {
   constructor(params) {
     super(params.id);
 
-    console.log(this);
-
     // clears the old one and fires up a new to remove all stored messages
     createEventBus();
     initPhysics();
@@ -93,9 +91,7 @@ export default class Scene extends SceneObject {
   }
 
   render() {
-    console.log('render');
     this.renderer.render(this.scene, this.camera.getRenderableCamera());
-
     this.shouldRenderScene = false;
   }
 

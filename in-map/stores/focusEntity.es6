@@ -1,4 +1,4 @@
-import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedSnapshotIdForHighlightingInMap';
+import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObject';
 import {createStore} from 'in-stores/store';
 
 

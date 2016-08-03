@@ -1,6 +1,6 @@
 import THREE from 'three';
 
-import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
 

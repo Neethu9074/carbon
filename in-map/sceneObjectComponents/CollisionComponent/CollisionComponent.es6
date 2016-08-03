@@ -1,7 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
-import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {collisionDetection} from 'in-map/misc/Physics';
 
 

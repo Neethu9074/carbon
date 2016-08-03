@@ -2,25 +2,28 @@ import {combineLatest} from 'reactive-observables';
 
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
-import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import {
   shortenPathAtSourceAndDestination,
+  calculateCollisionMesh,
   addArrowToDestination,
   getCenterPosition,
+  intersects,
   flatten
 } from 'in-map/misc/Connections';
+import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObject';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
+import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
 import connections from 'in-map/stores/logical/connections';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {focusEntityId$} from 'in-map/stores/focusEntity';
-import {collisionDetection} from 'in-map/misc/Physics';
 import {emptyArray} from 'in-services/fixedObjects';
 import {eventBus} from 'in-map/services/eventBus';
+import {theme} from 'in-services/theme';
 
 
 export default class Connection extends SceneObject {
@@ -45,14 +48,10 @@ export default class Connection extends SceneObject {
   }
 
   initComponents() {
-    super.initComponents({color: 0xbababa});
+    super.initComponents();
 
     this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
     this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'lines'));
-
-    this.addComponent('collision', new CollisionComponent(this,
-                                                          collisionDetection.predefinedCollisionObjects.Box,
-                                                          collisionDetection.OCTREE_LAYER.NODES));
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
@@ -75,12 +74,38 @@ export default class Connection extends SceneObject {
       ]).subscribe(([from, to]) => this.eventEmitter.emit('positionChanged', getCenterPosition(from, to))),
 
       combineLatest([
+        this.sourceNode.eventEmitter.on('positionChanged'),
+        this.destinationNode.eventEmitter.on('positionChanged')
+      ]).debounce(1000).subscribe(([from, to]) => {
+        if (this.collisionLine) {
+          this.collisionLine.geometry.dispose();
+        }
+        this.collisionLine = calculateCollisionMesh(from, to);
+      }),
+
+      combineLatest([
         focusEntityId$,
         this.eventEmitter.on('positionChanged')
       ]).subscribe(([id, centerPosition]) => {
         if (this.id === id) {
           eventBus.emit('focusPosition', centerPosition);
         }
+      }),
+
+      combineLatest([
+        this.eventEmitter.on('healthChanged'),
+        highlightedEntityId$,
+        selectedSnapshotIdForHighlightingInMap$
+      ]).subscribe(([health, highlightedEntityId, selectedEntityId]) => {
+        const isHighlighted = highlightedEntityId === this.id || selectedEntityId === this.id;
+        let newColor;
+        if (isHighlighted) {
+          newColor = '#ffffff';
+        } else {
+          const severity = health.get('maxSeverity', 0);
+          newColor = severity > 0 ? theme.health[Math.floor(severity)] : '#bababa';
+        }
+        this.getComponent('color').setHex(newColor);
       })
     ]);
   }
@@ -107,6 +132,10 @@ export default class Connection extends SceneObject {
       colors.push(1);
     }
     return colors;
+  }
+
+  intersects(raycaster) {
+    return intersects(raycaster, this.collisionLine);
   }
 
   dispose() {

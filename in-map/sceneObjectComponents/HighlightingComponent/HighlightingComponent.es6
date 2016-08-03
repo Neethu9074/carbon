@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObject';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import createFragment from 'in-map/singleMeshFactories/Fragment';

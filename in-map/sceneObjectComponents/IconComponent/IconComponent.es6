@@ -3,7 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
 
-import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {getFactory} from 'in-map/misc/Factories';
 import {getIconPath} from 'in-sdk/iconRegistry';
 import {ZERO} from 'in-map/misc/fixedVectors';

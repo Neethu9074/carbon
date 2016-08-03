@@ -18,6 +18,7 @@ import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {collisionDetection} from 'in-map/misc/Physics';
 import {eventBus} from 'in-map/services/eventBus';
 import nodes from 'in-map/stores/physical/nodes';
+import {theme} from 'in-services/theme';
 
 
 export default class Node extends SceneObject {
@@ -76,6 +77,12 @@ export default class Node extends SceneObject {
         this.eventEmitter.on('isVisibleChanged' + this.id)
       ]).subscribe(([zoomLevel, isVisible]) => {
         this.eventEmitter.emit('isVisibleForMetrics', zoomLevel < 300 && isVisible);
+      }),
+
+      this.eventEmitter.on('healthChanged').subscribe(health => {
+        const severity = health.get('maxSeverity', 0);
+        const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
+        this.getComponent('color').setHex(color);
       }),
 
       focusEntityId$.subscribe(id => {

@@ -53,7 +53,7 @@ describe('shortcuts/C', () => {
 
   function loadModules() {
     focusEntityId = proxyquire('in-map/stores/focusEntity', {
-      'in-map/stores/selectedSnapshotIdForHighlightingInMap': {
+      'in-map/stores/selectedMapSceneObject': {
         selectedSnapshotIdForHighlightingInMap$: selectedEntityId
       }
     });

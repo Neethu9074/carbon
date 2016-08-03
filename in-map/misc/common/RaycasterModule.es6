@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import {ALL_CONNECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
+import connections from 'in-map/stores/logical/connections';
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {tooltipForSceneObject} from 'in-map/src/mapStores';
 import {emptyArray} from 'in-services/fixedObjects';
@@ -24,6 +24,8 @@ export default class RaycasterModule extends Module {
     this.cursorForRay = new THREE.Vector2();
 
     this.cursorPosition = { x: 0, y: 0 };
+
+    this.currentConnections = emptyArray;
 
     this.initEvents();
   }
@@ -50,7 +52,10 @@ export default class RaycasterModule extends Module {
 
       this.eventEmitter.on('onClicked').subscribe(() => this.onClicked()),
 
-      this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked())
+      this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked()),
+
+      connections.stream.debounce(1000).subscribe(_connections =>
+        this.currentConnections = Object.keys(_connections.objects).map(key => _connections.objects[key]))
     ]);
   }
 
@@ -110,8 +115,8 @@ export default class RaycasterModule extends Module {
     // find the hitten object
     const hittenObject = this.hittenObject = findObjectByRay(this.raycaster);
     const hoveredConnections = hittenObject ?
-      emptyArray : // dont calculate if another object than a connection was hitten
-      ALL_CONNECTIONS.filter(connection => connection.intersects(this.raycaster));
+      emptyArray : // don't calculate if another object than a connection was hitten
+      this.currentConnections.filter(connection => connection.intersects(this.raycaster));
 
     return {
       hittenObject,

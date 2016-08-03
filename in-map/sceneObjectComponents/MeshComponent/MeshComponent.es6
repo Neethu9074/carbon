@@ -1,4 +1,4 @@
-import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
 import {getFactory} from 'in-map/misc/Factories';
 

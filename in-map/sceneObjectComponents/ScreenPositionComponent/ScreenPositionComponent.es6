@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent/SceneObjectComponent';
+import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {eventBus} from 'in-map/services/eventBus';
 import {scene$} from 'in-map/stores/sceneStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
