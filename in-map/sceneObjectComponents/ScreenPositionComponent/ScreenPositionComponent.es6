@@ -28,7 +28,6 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
         this.addSubscriptions([
           eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()),
-          sceneObject.eventEmitter.on('checkInView').throttle(20).subscribe(() => this.update()),
 
           combineLatest([
             sceneObject.eventEmitter.on('positionChanged'),
@@ -55,14 +54,14 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
       .clone()
       .applyProjection(camera.getRenderableCamera().projection);
 
-    screenPosition.x = (screenPosition.x + 1) / 2 * width;
-    screenPosition.y = -(screenPosition.y - 1) / 2 * height;
+    screenPosition.x = ((screenPosition.x + 1) / 2 * width) | 0;
+    screenPosition.y = (-(screenPosition.y - 1) / 2 * height) | 0;
 
     if (force || (this.screenPosition.x !== screenPosition.x || this.screenPosition.y !== screenPosition.y)) {
       this.screenPosition.x = screenPosition.x;
       this.screenPosition.y = screenPosition.y;
 
-      this.sceneObject.eventEmitter.emit('checkInView');
+      this.update();
     }
   }
 
