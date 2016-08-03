@@ -175,7 +175,11 @@ export default class CameraController extends BaseCameraController {
     this.flyToPosition(pos.x, pos.z);
   }
 
-  flyToPosition(x, z) {
+  flyToPosition(pos) {
+    this.flyToPositionXY(pos.x, pos.z);
+  }
+
+  flyToPositionXY(x, z) {
     const transObj = this.camTransformObject;
 
     transObj.position.x = x;

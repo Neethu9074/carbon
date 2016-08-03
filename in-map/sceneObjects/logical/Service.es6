@@ -13,6 +13,7 @@ import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {collisionDetection} from 'in-map/misc/Physics';
 import services from 'in-map/stores/logical/services';
 import DragGhost from 'in-map/misc/logical/DragGhost';
@@ -80,9 +81,8 @@ export default class Service extends SceneObject {
       eventBus.on('dragObjectStart').subscribe(id => {
         if (this.id === id) {
           const scale = this.getComponent('transform').getScale();
-          const height = scale.y;
           const radius = scale.x / 2;
-          this.dragGhost = new DragGhost(this, new THREE.CylinderBufferGeometry(radius, radius, height, 20, 20));
+          this.dragGhost = new DragGhost(this, new THREE.CylinderBufferGeometry(radius, radius, scale.y, 20, 20));
         }
       }),
 
@@ -96,8 +96,13 @@ export default class Service extends SceneObject {
         }
       }),
 
-      eventBus.on('zoomLevelChanged').subscribe(zoomLevel =>
-        this.eventEmitter.emit('isFullyVisible', zoomLevel < 300))
+      eventBus.on('zoomLevelChanged').subscribe(zoomLevel => this.eventEmitter.emit('isFullyVisible', zoomLevel < 300)),
+
+      focusEntityId$.subscribe(id => {
+        if (this.id === id) {
+          eventBus.emit('focusPosition', this.getComponent('transform').getPosition());
+        }
+      })
     ]);
 
   }

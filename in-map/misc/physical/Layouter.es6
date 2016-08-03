@@ -8,7 +8,7 @@ import nodes from 'in-map/stores/physical/nodes';
 const MAX_VALUE = Number.MAX_VALUE;
 const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
 
-export default function createLayouter() {
+export default function createLayouter(map) {
   let firstLayoutDone = false;
   const squashFactor = 0.5;
   const groupMargin = 1;
@@ -71,9 +71,15 @@ export default function createLayouter() {
 
     if (!firstLayoutDone) {
       firstLayoutDone = true;
-      // map.centerMap();
-      console.log('center map');
+      map.eventEmitter.emit('flyToPosition', getFocusPointFromCurrentDimensions());
     }
+  }
+
+  function getFocusPointFromCurrentDimensions() {
+    return {
+      x: currentDimensions.x / 2,
+      z: -currentDimensions.y / 4
+    };
   }
 
   function sortGroups(_groups) {
@@ -102,6 +108,7 @@ export default function createLayouter() {
   }
 
   return {
+    getFocusPointFromCurrentDimensions,
     dispose
   };
 }

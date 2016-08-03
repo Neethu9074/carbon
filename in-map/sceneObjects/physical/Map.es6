@@ -23,12 +23,12 @@ export default class Map extends BaseMap {
     this.layouter = createLayouter(this);
 
     addFactory('nodes', new FadeByDistanceSingleMeshFactory(3));
+    addFactory('highlighting', new LineSingleMeshFactory(2));
+    addFactory('connections', new LineSingleMeshFactory());
     addFactory('metrics', new BasicSingleMeshFactory(2));
     addFactory('layer', new BasicSingleMeshFactory(2));
     addFactory('lines', new LineSingleMeshFactory());
-    addFactory('connections', new LineSingleMeshFactory());
     addFactory('icons', new IconSingleMeshFactory());
-    addFactory('highlighting', new LineSingleMeshFactory(2));
   }
 
   createController(scene) {

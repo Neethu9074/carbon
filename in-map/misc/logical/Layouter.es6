@@ -8,12 +8,20 @@ import {eventBus} from 'in-map/services/eventBus';
 
 const SCALE = 5;
 
-export default function createLayouter() {
+export default function createLayouter(map) {
   const iterations = 1000;
   const gravity = 500;
   const speed = 0.1;
 
+  let firstLayoutDone = false;
   let shouldReset = true;
+
+  const currentDimensions = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0
+  };
 
   const layoutingSubscription = combineLatest([
                                  services.stream,
@@ -226,10 +234,37 @@ export default function createLayouter() {
   }
 
   function applyPositionUpdate(graph) {
+    currentDimensions.x = 0;
+    currentDimensions.y = 0;
+    currentDimensions.width = 0;
+    currentDimensions.height = 0;
+
     graph.nodes.forEach(node => {
-      node.inNode.getComponent('transform').setPositionXYZ(node.fr_x * SCALE, 0, node.fr_y * SCALE);
+      const x = node.fr_x * SCALE;
+      const y = node.fr_y * SCALE;
+      node.inNode.getComponent('transform').setPositionXYZ(x, 0, y);
       node.inNode._wasAutomaticLayouted = true;
+
+      currentDimensions.x = Math.min(currentDimensions.x, x);
+      currentDimensions.y = Math.min(currentDimensions.y, y);
+      currentDimensions.width = Math.max(currentDimensions.x, x);
+      currentDimensions.height = Math.max(currentDimensions.y, y);
     });
+
+    currentDimensions.width -= currentDimensions.x;
+    currentDimensions.height -= currentDimensions.y;
+
+    if (!firstLayoutDone) {
+      firstLayoutDone = true;
+      map.eventEmitter.emit('flyToPosition', getFocusPointFromCurrentDimensions());
+    }
+  }
+
+  function getFocusPointFromCurrentDimensions() {
+    return {
+      x: -((currentDimensions.width / 2) - Math.abs(currentDimensions.x)),
+      z: (currentDimensions.height / 2) - Math.abs(currentDimensions.y)
+    };
   }
 
   function dispose() {
@@ -238,6 +273,7 @@ export default function createLayouter() {
   }
 
   return {
+    getFocusPointFromCurrentDimensions,
     dispose
   };
 }

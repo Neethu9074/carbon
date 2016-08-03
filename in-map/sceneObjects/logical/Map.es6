@@ -16,16 +16,16 @@ export default class Map extends BaseMap {
     this.cameraController = undefined;
   }
 
-    init() {
-      super.init();
+  init() {
+    super.init();
 
-      this.layouter = createLayouter(this);
+    this.layouter = createLayouter(this);
 
-      addFactory('nodes', new FadeByDistanceSingleMeshFactory(3));
-      addFactory('lines', new LineSingleMeshFactory());
-      addFactory('icons', new IconSingleMeshFactory());
-      addFactory('highlighting', new LineSingleMeshFactory(2));
-    }
+    addFactory('nodes', new FadeByDistanceSingleMeshFactory(3));
+    addFactory('highlighting', new LineSingleMeshFactory(2));
+    addFactory('lines', new LineSingleMeshFactory());
+    addFactory('icons', new IconSingleMeshFactory());
+  }
 
   createController(scene) {
     return new CameraController(scene, this);

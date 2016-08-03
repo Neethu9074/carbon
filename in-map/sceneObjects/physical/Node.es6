@@ -14,6 +14,7 @@ import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {collisionDetection} from 'in-map/misc/Physics';
 import {eventBus} from 'in-map/services/eventBus';
 import nodes from 'in-map/stores/physical/nodes';
@@ -69,14 +70,20 @@ export default class Node extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(
+    this.addSubscriptions([
       combineLatest([
         eventBus.on('zoomLevelChanged'),
         this.eventEmitter.on('isVisibleChanged' + this.id)
       ]).subscribe(([zoomLevel, isVisible]) => {
         this.eventEmitter.emit('isVisibleForMetrics', zoomLevel < 300 && isVisible);
+      }),
+
+      focusEntityId$.subscribe(id => {
+        if (this.id === id) {
+          eventBus.emit('focusPosition', this.getComponent('transform').getPosition());
+        }
       })
-    );
+    ]);
   }
 
   addLayer(id, node) {

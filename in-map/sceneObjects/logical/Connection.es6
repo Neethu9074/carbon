@@ -10,12 +10,14 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import {
   shortenPathAtSourceAndDestination,
   addArrowToDestination,
+  getCenterPosition,
   flatten
 } from 'in-map/misc/Connections';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
 import connections from 'in-map/stores/logical/connections';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {collisionDetection} from 'in-map/misc/Physics';
 import {emptyArray} from 'in-services/fixedObjects';
 import {eventBus} from 'in-map/services/eventBus';
@@ -64,20 +66,23 @@ export default class Connection extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(eventBus.on('zoomLevelChanged').subscribe(zoomLevel =>
-      this.eventEmitter.emit('isFullyVisible', zoomLevel < 200)));
+    this.addSubscriptions([
+      eventBus.on('zoomLevelChanged').subscribe(zoomLevel => this.eventEmitter.emit('isFullyVisible', zoomLevel < 200)),
 
-    this.addSubscription(
       combineLatest([
         this.sourceNode.eventEmitter.on('positionChanged'),
         this.destinationNode.eventEmitter.on('positionChanged')
-      ]).subscribe(([from, to]) => {
-        from = from.clone();
-        to = to.clone();
-        const pos = from.add(to.sub(from).multiplyScalar(0.5));
-        this.eventEmitter.emit('positionChanged', pos);
+      ]).subscribe(([from, to]) => this.eventEmitter.emit('positionChanged', getCenterPosition(from, to))),
+
+      combineLatest([
+        focusEntityId$,
+        this.eventEmitter.on('positionChanged')
+      ]).subscribe(([id, centerPosition]) => {
+        if (this.id === id) {
+          eventBus.emit('focusPosition', centerPosition);
+        }
       })
-    );
+    ]);
   }
 
   getVertices() {

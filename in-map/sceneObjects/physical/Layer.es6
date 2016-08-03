@@ -8,7 +8,9 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {collisionDetection} from 'in-map/misc/Physics';
+import {eventBus} from 'in-map/services/eventBus';
 
 
 export default class Layer extends SceneObject {
@@ -44,6 +46,18 @@ export default class Layer extends SceneObject {
 
     // only add them after the components where setup, because the layouter needs the transform component
     this.node.addLayer(this.id, this);
+  }
+
+  initEvents() {
+    super.initEvents();
+
+    this.addSubscription(
+      focusEntityId$.subscribe(id => {
+        if (this.id === id) {
+          eventBus.emit('focusPosition', this.getComponent('transform').getPosition());
+        }
+      })
+    );
   }
 
   dispose() {

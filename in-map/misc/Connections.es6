@@ -103,3 +103,9 @@ export function flatten(path) {
   }
   return flattenedPath;
 }
+
+export function getCenterPosition(fromPos, toPos) {
+  const from = fromPos.clone();
+  const to = toPos.clone();
+  return from.add(to.sub(from).multiplyScalar(0.5));
+}

@@ -32,18 +32,17 @@ describe('shortcuts/C', () => {
   });
 
   it('should focus entity when F was pressed', () => {
-    expect(focusEntityIdStub).to.have.callCount(1);
-    expect(focusEntityIdStub.getCall(0).args[0]).to.equal(null);
+    expect(focusEntityIdStub).to.have.callCount(0);
 
     selectedEntityId.emit('foo');
 
-    pressC();
+    pressF();
 
-    expect(focusEntityIdStub).to.have.callCount(2);
-    expect(focusEntityIdStub.getCall(1).args[0]).to.equal('foo');
+    expect(focusEntityIdStub).to.have.callCount(1);
+    expect(focusEntityIdStub.getCall(0).args[0]).to.equal('foo');
   });
 
-  function pressC() {
+  function pressF() {
     onKeyPressed.emit({
       keyCode: shortcuts.KEY_CODES.F,
       target: {
@@ -53,14 +52,14 @@ describe('shortcuts/C', () => {
   }
 
   function loadModules() {
-    focusEntityId = proxyquire('in-map/src/stores/focusEntity', {
-      'in-map/src/mapStores': {
-        selectedSnapshotIdForHighlightingInMap: selectedEntityId
+    focusEntityId = proxyquire('in-map/stores/focusEntity', {
+      'in-map/stores/selectedSnapshotIdForHighlightingInMap': {
+        selectedSnapshotIdForHighlightingInMap$: selectedEntityId
       }
     });
 
     const mod = proxyquire('in-services/shortcuts/shortcuts/F', {
-      'in-map/src/stores/focusEntity': focusEntityId
+      'in-map/stores/focusEntity': focusEntityId
     });
 
     onKeyPressed = create();
