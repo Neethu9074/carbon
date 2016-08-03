@@ -2,7 +2,6 @@ import React from 'react';
 
 import {msTwoDecimalPlaces, zeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 
@@ -78,47 +77,45 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
 
-      <TwoColumnRow>
-        <DashboardSection title='Errors/s'>
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: percentageTwoDecimalPlaces,
-                             tooltipFormatter: percentageTwoDecimalPlaces,
-                             metrics: [
-                               'error_rate'
-                             ],
-                             labels: [
-                               'error rate'
-                             ],
-                             type: 'line'
-                           }} />
-        </DashboardSection>
+      <DashboardSection title='Errors/s'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: percentageTwoDecimalPlaces,
+                           tooltipFormatter: percentageTwoDecimalPlaces,
+                           metrics: [
+                             'error_rate'
+                           ],
+                           labels: [
+                             'error rate'
+                           ],
+                           type: 'line'
+                         }} />
+      </DashboardSection>
 
-        <DashboardSection title='Instances'>
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: zeroDecimalPlaces,
-                             tooltipFormatter: zeroDecimalPlaces,
-                             metrics: [
-                               'instances'
-                             ],
-                             labels: [
-                               'instances'
-                             ],
-                             type: 'line'
-                           }} />
-        </DashboardSection>
-      </TwoColumnRow>
+      <DashboardSection title='Instances'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: zeroDecimalPlaces,
+                           tooltipFormatter: zeroDecimalPlaces,
+                           metrics: [
+                             'instances'
+                           ],
+                           labels: [
+                             'instances'
+                           ],
+                           type: 'line'
+                         }} />
+      </DashboardSection>
     </div>
   );
 }
