@@ -1,4 +1,7 @@
+import {combineLatest} from 'reactive-observables';
+
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
+import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
@@ -12,6 +15,7 @@ import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
+import {eventBus} from 'in-map/services/eventBus';
 import nodes from 'in-map/stores/physical/nodes';
 
 
@@ -58,6 +62,21 @@ export default class Node extends SceneObject {
     this.addComponent('health', new HealthComponent(this));
 
     this.addComponent('power', new PowerComponent(this));
+
+    this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos) => pos));
+  }
+
+  initEvents() {
+    super.initEvents();
+
+    this.addSubscription(
+      combineLatest([
+        eventBus.on('zoomLevelChanged'),
+        this.eventEmitter.on('isVisibleChanged' + this.id)
+      ]).subscribe(([zoomLevel, isVisible]) => {
+        this.eventEmitter.emit('isVisibleForMetrics', zoomLevel < 300 && isVisible);
+      })
+    );
   }
 
   addLayer(id, node) {

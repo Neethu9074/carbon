@@ -1,7 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import {activeMetric} from 'in-services/stores/metrics';
-import {getLiveMetrics} from 'in-stores/metric';
+import {getLiveMetrics, activeMetric$} from 'in-stores/metric';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getMaxValue} from 'in-sdk/metrics';
 
@@ -16,7 +15,7 @@ export default class MetricHandler {
     // To get this effect, we use nextFrame().
     this.showMetricSubscription = combineLatest([
       getSnapshot(client.id),
-      activeMetric,
+      activeMetric$,
       client.eventEmitter.on('isVisibleChanged_screenPosition').distinct()
     ]).subscribe(([snapshot, metric, isVisible]) => {
       this.disposeMetricSubscription();

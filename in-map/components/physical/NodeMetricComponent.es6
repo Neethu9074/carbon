@@ -1,18 +1,17 @@
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
-import Layer from 'in-map/sceneObjects/physical/Layer';
+import NodeMetric from 'in-map/sceneObjects/physical/NodeMetric';
 
 
 export default sceneObjectComponent(props => {
   return {
-    InstanceType: Layer,
+    InstanceType: NodeMetric,
     params: {
-      id: props.entity.get('id'),
-      entity: props.entity,
+      id: props.node.id + '_metric',
       node: props.node
     }
   };
-}, LayerComponent );
+}, NodeMetricComponent );
 
-function LayerComponent({}) {
+function NodeMetricComponent({}) {
   return null;
 }

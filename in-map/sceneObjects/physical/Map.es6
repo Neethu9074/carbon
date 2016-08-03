@@ -23,6 +23,7 @@ export default class Map extends BaseMap {
     this.layouter = createLayouter(this);
 
     addFactory('nodes', new FadeByDistanceSingleMeshFactory(3));
+    addFactory('metrics', new BasicSingleMeshFactory(2));
     addFactory('layer', new BasicSingleMeshFactory(2));
     addFactory('lines', new LineSingleMeshFactory());
     addFactory('connections', new LineSingleMeshFactory());

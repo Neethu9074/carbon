@@ -4,6 +4,8 @@ import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import {timeframe$, focusedMoment$} from 'in-stores/timeline';
 import {getAggregation} from 'in-sdk/metrics/aggregation';
+import {createStore} from 'in-stores/store';
+
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
@@ -166,3 +168,19 @@ export const currentRollup$ = timeframe$
 
     return 'Unknown rollup';
   });
+
+
+export const activeMetric = createStore({
+  name: 'metric',
+  initialValue: null
+});
+
+export const activeMetric$ = activeMetric.observable.distinct();
+
+export function setActiveMetric(metric) {
+  activeMetric.applyStateMutation(() => metric);
+}
+
+export function clearActiveMetric() {
+  setActiveMetric(null);
+}

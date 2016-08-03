@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {activeMetric} from 'in-services/stores/metrics';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import {emptyList} from 'in-services/fixedImmutables';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import MetricValue from 'in-components/MetricValue';
 import {getFormattedValue} from 'in-sdk/metrics';
+import {activeMetric$} from 'in-stores/metric';
 import getSnapshot from 'in-hoc/getSnapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import {theme} from 'in-services/theme';
@@ -43,7 +43,7 @@ const MetricTooltipReactClass = getSnapshot(React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(activeMetric.subscribe(metric =>
+    this.addSubscription(activeMetric$.subscribe(metric =>
       this.setState({ metrics: metric.get('metrics') })
     ));
   },

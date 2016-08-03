@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import * as metricsStore from 'in-services/stores/metrics';
+import {activeMetric$} from 'in-stores/metric';
 
 import MetricTreeLeaf from './MetricTreeLeaf';
 import MetricTree from './MetricTree';
@@ -55,10 +55,7 @@ const Metrics = React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(
-      metricsStore.activeMetric
-        .subscribe(activeMetric => this.setState({activeMetric}))
-    );
+    this.addSubscription(activeMetric$.subscribe(activeMetric => this.setState({activeMetric})));
   },
 
   getMetricsToShow(root, level) {

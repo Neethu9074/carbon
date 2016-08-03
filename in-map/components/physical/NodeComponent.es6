@@ -1,9 +1,11 @@
 import React from 'react';
 
 import ConnectionComponent from 'in-map/components/physical/ConnectionComponent';
+import NodeMetricComponent from 'in-map/components/physical/NodeMetricComponent';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
 import LayerComponent from 'in-map/components/physical/LayerComponent';
 import Node from 'in-map/sceneObjects/physical/Node';
+import {activeMetric$} from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
 
 
@@ -19,12 +21,13 @@ export default sceneObjectComponent(props => {
 },
 connectTo(props => {
   return {
-    isHighlighted: props.sceneObject.eventEmitter.on('isHighlighted')
+    isHighlighted: props.sceneObject.eventEmitter.on('isHighlighted'),
+    activeMetric: activeMetric$
   };
 }, NodeComponent)
 );
 
-function NodeComponent({entity, includedIds, sceneObject, isHighlighted}) {
+function NodeComponent({entity, activeMetric, includedIds, sceneObject, isHighlighted}) {
   const layer = [];
   entity.get('children').forEach(layerEntity => {
     const layerId = layerEntity.get('id');
@@ -35,14 +38,31 @@ function NodeComponent({entity, includedIds, sceneObject, isHighlighted}) {
 
   return (
     <div>
-      {layer.map(layerEntity => <LayerComponent key={layerEntity.get('id')}
-                                                node={sceneObject}
-                                                entity={layerEntity} />
-      )}
+      {!activeMetric
+        ? layer.map(layerEntity => <LayerComponent key={layerEntity.get('id')}
+                                                   node={sceneObject}
+                                                   entity={layerEntity} />)
+        : <Metric node={sceneObject} />
+      }
       {isHighlighted ? <Connections entity={entity} /> : null}
     </div>
   );
 }
+
+const Metric = connectTo(props => {
+  return {
+    isVisibleForMetrics: props.node.eventEmitter.on('isVisibleForMetrics')
+  };
+},
+function Metric({node, isVisibleForMetrics}) {
+  if (!isVisibleForMetrics) {
+    return null;
+  }
+
+  return (
+    <NodeMetricComponent node={node} />
+  );
+});
 
 function Connections({entity}) {
   const outgoing = entity.get('outgoingConnections');

@@ -6,9 +6,9 @@ import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {frame$, requestRendering} from 'in-map/src/stores/renderingStore';
 import {eventBus, clearEmitter} from 'in-map/src/services/eventBus';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
+import {activeMetric$, clearActiveMetric} from 'in-stores/metric';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {clearSelectedIncident} from 'in-stores/incident';
-import {activeMetric} from 'in-services/stores/metrics';
 import {setScene} from 'in-map/src/stores/sceneStore';
 import {clearSelectedEvent} from 'in-stores/events';
 import {theme} from 'in-services/theme';
@@ -118,7 +118,7 @@ export default class Scene {
 
     this.subscriptions = [];
 
-    this.subscriptions.push(activeMetric.subscribe(metric => {
+    this.subscriptions.push(activeMetric$.subscribe(metric => {
       // if there is an active metric, deselect the current selected obj and show the metric pillars
       if (metric) {
         currentMetrics = metric.get('metrics');
@@ -130,7 +130,7 @@ export default class Scene {
       }
     }));
 
-    this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => activeMetric.emit(null)));
+    this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => clearActiveMetric()));
     this.subscriptions.push(time.addTimeEventListener(this.updateOctrees.bind(this)));
 
     // if something is highlighted, change cursor to pointer
