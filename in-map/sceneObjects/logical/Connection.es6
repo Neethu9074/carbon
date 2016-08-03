@@ -4,7 +4,9 @@ import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPosition
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
+import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
+
 
 import {
   shortenPathAtSourceAndDestination,
@@ -54,6 +56,8 @@ export default class Connection extends SceneObject {
     this.addComponent('snapshot', new SnapshotComponent(this));
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, pos => pos));
+
+    this.addComponent('health', new HealthComponent(this));
 
     connections.add(this.id, this);
   }

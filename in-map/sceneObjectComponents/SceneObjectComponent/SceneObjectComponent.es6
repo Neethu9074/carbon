@@ -12,6 +12,9 @@ export default class SceneObjectComponent extends Subscriber {
     this.sceneObject = sceneObject;
   }
 
+  init() {}
+  initEvents() {}
+
   emitToClient(msg, payload) {
     this.sceneObject.eventEmitter.emit(msg, payload);
   }
@@ -29,9 +32,11 @@ export default class SceneObjectComponent extends Subscriber {
     object.b = b;
   }
 
-  dispose() {
+  disposeEvents() {
     super.dispose();
+  }
 
+  dispose() {
     this.needsUpdate = false;
     this.sceneObject = null;
   }

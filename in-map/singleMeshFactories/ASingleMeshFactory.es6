@@ -7,12 +7,6 @@ import {requestRendering} from 'in-map/stores/renderingStore';
 import Subscriber from 'in-map/misc/Subscriber';
 
 
-const WHITE = {
-  r: 1,
-  g: 1,
-  b: 1
-};
-
 export default class ASingleMeshFactory extends Subscriber {
 
   constructor(renderOrder = 2) {
@@ -76,14 +70,16 @@ export default class ASingleMeshFactory extends Subscriber {
     let index = 0;
     for (let i = 0, length = fragments.length; i < length; i++) {
       const fragment = fragments[i];
+
+      // all it needs for positioning
       const fragmentVertices = fragment.contentProvider.getVertices();
       const transform = fragment.sceneObject.getComponent('transform');
       const position = transform.getPosition();
       const scale = transform.getScale();
 
+      // all it needs for coloring
       const fragmentColors = fragment.contentProvider.getColors(fragmentVertices);
-      const colorComponent = fragment.sceneObject.getComponent('color');
-      const color = colorComponent ? colorComponent.getColor() : WHITE;
+      const color = fragment.sceneObject.getComponent('color').getColor();
 
       for (let j = 0, numVertices = fragmentVertices.length; j < numVertices; j += 3) {
         vertices[index] = position.x + (scale.x * fragmentVertices[j]);

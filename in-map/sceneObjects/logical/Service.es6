@@ -6,6 +6,7 @@ import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComp
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
+import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
@@ -66,6 +67,8 @@ export default class Service extends SceneObject {
         z: pos.z - scale.z / 2
       };
     }));
+
+    this.addComponent('health', new HealthComponent(this));
 
     this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
   }

@@ -1,6 +1,7 @@
 import RoEmitter from 'roemitter';
 
 import TransformationComponent from 'in-map/sceneObjectComponents/TransformationComponent';
+import ColorComponent from 'in-map/sceneObjectComponents/ColorComponent';
 import Subscriber from 'in-map/misc/Subscriber';
 
 
@@ -17,7 +18,9 @@ export default class SceneObject extends Subscriber {
   init() {}
 
   initComponents() {
-    this.components.transform = new TransformationComponent(this);
+    this.addComponent('transform', new TransformationComponent(this));
+
+    this.addComponent('color', new ColorComponent(this));
   }
 
   initEvents() {}
@@ -30,12 +33,15 @@ export default class SceneObject extends Subscriber {
   }
 
   addComponent(id, component) {
+    component.init();
+    component.initEvents();
     this.components[id] = component;
   }
 
   removeComponent(id) {
     const component = this.components[id];
     if (component) {
+      component.disposeEvents();
       component.dispose();
       delete this.components[id];
     }
@@ -47,7 +53,7 @@ export default class SceneObject extends Subscriber {
 
   dispose() {
     Object.keys(this.components).forEach(key => {
-      this.components[key].dispose();
+      this.removeComponent(key);
     });
     this.components = null;
 

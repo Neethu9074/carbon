@@ -26,8 +26,9 @@ export default class HighlightingComponent extends SceneObjectComponent {
         eventEmitter.emit('isHighlighted', isHighlighted);
       }),
 
-      eventEmitter.on('positionChanged').merge(
-      eventEmitter.on('scaleChanged')).subscribe(() => factory.needsUpdate()),
+      eventEmitter.on('positionChanged').subscribe(() => factory.needsUpdate()),
+
+      eventEmitter.on('scaleChanged').subscribe(() => factory.needsUpdate()),
 
       eventEmitter.on('isHighlighted').distinct().subscribe(isHighlighted => {
         isHighlighted

@@ -1,7 +1,6 @@
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import FCP from 'in-map/singleMeshFactories/ContentProvider/FrameContentProvider';
 import GroundStickyNote from 'in-map/components/stickyNotes/physical/Group';
-import ColorComponent from 'in-map/sceneObjectComponents/ColorComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import createObjectCollection from 'in-map/stores/ObjectColletion';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
@@ -37,9 +36,6 @@ export default class Group extends SceneObject {
 
     this.addComponent('mesh', new MeshComponent(this, FCP, 'lines'));
 
-    this.addComponent('color', new ColorComponent(this, FCP, 'lines'));
-    this.getComponent('color').set(getColorPool('groups').getColorRGB(this.id));
-
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
       return {
         x: pos.x,
@@ -47,6 +43,8 @@ export default class Group extends SceneObject {
         z: pos.z + scale.z / 2
       };
     }));
+
+    this.getComponent('color').setColor(getColorPool('groups').getColorRGB(this.id));
   }
 
   addNode(id, node) {

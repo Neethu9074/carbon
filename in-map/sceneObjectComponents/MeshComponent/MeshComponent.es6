@@ -12,12 +12,11 @@ export default class MeshComponent extends SceneObjectComponent {
     this.fragment = createFragment(this.id, sceneObject, contentProvider);
     this.factory.add(this.fragment);
 
-    this.addSubscription(
-      sceneObject.eventEmitter.on('positionChanged').merge(
-      sceneObject.eventEmitter.on('scaleChanged')).subscribe(() => {
-        this.factory.needsUpdate();
-      })
-    );
+    this.addSubscriptions([
+      sceneObject.eventEmitter.on('positionChanged').subscribe(() => this.factory.needsUpdate()),
+      sceneObject.eventEmitter.on('scaleChanged').subscribe(() => this.factory.needsUpdate()),
+      sceneObject.eventEmitter.on('colorChanged').subscribe(() => this.factory.needsUpdate())
+    ]);
   }
 
   dispose() {
