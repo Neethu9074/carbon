@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import groups from 'in-map/stores/physical/groups';
+import {eventBus} from 'in-map/services/eventBus';
 import nodes from 'in-map/stores/physical/nodes';
 
 
@@ -18,7 +19,7 @@ export default function createLayouter() {
     y: 0
   };
 
-  const layoutingSubscription = combineLatest([groups.stream, nodes.stream])
+  const layoutingSubscription = combineLatest([groups.stream, nodes.stream, eventBus.on('layoutNeedsUpdate')])
                                .debounce(100)
                                .subscribe(([_groups]) => applyLayout(_groups.objects));
 

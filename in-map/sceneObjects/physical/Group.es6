@@ -1,12 +1,15 @@
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import FCP from 'in-map/singleMeshFactories/ContentProvider/FrameContentProvider';
-import GroundStickyNote from 'in-map/components/stickyNotes/physical/Group';
+import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
+
+import GroundStickyNote from 'in-map/components/stickyNotes/physical/Group';
 import createObjectCollection from 'in-map/stores/ObjectColletion';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import groups from 'in-map/stores/physical/groups';
+import {eventBus} from 'in-map/services/eventBus';
 
 
 export default class Group extends SceneObject {
@@ -45,6 +48,17 @@ export default class Group extends SceneObject {
     }));
 
     this.getComponent('color').setColor(getColorPool('groups').getColorRGB(this.id));
+
+    this.addComponent('snapshot', new SnapshotComponent(this));
+  }
+
+  initEvents() {
+    super.initEvents();
+
+    this.addSubscription(this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
+      this._cachedLabel = snapshot ? snapshot.getIn(['data', 'groupId']) : this._cachedLabel;
+      eventBus.emit('layoutNeedsUpdate', true);
+    }));
   }
 
   addNode(id, node) {
