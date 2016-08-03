@@ -18,26 +18,16 @@ function ConnectedEntitiesTable({timeframe, connectedEntities}) {
     return null;
   }
 
-  const sourceId = connectedEntities.get('sourceId');
-  const destinationId = connectedEntities.get('destinationId');
+  const id = connectedEntities.get('sourceId');
+  if (!id) {
+    return null;
+  }
 
   return (
-    <div>
-      { sourceId ?
-        <LogicalEntityTable timeframe={timeframe}
-                            title={'Downstream'}
-                            dataStream={getSnapshot(destinationId).map(_snapshot => [_snapshot])}
-                            createDetails={createDetails} />
-        : null
-      }
-      { destinationId ?
-        <LogicalEntityTable timeframe={timeframe}
-                            title={'Upstream'}
-                            dataStream={getSnapshot(sourceId).map(_snapshot => [_snapshot])}
-                            createDetails={createDetails} />
-        : null
-      }
-    </div>
+    <LogicalEntityTable timeframe={timeframe}
+                        title={'Connection From'}
+                        dataStream={getSnapshot(id).map(_snapshot => [_snapshot])}
+                        createDetails={createDetails} />
   );
 }
 
