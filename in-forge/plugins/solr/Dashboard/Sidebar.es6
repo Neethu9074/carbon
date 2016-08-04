@@ -1,13 +1,15 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import {emptyList} from 'in-services/fixedImmutables';
 
 import SolrInfo from '../SolrInfo';
-
+import SolrCoreInfo from '../SolrCoreInfo';
 
 export default function SolrSidebar({snapshot}) {
+  const coreNames = snapshot.getIn(['data', 'core_names'], emptyList).sort();
+
   return (
     <div>
       <Collapsible initiallyOpen={true}>
@@ -18,7 +20,21 @@ export default function SolrSidebar({snapshot}) {
           <SolrInfo snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-      <DeployedUnitList snapshotId={snapshot.get('id')} />
+      <div>
+        Cores
+        {
+          coreNames.map(cn =>
+            <Collapsible initiallyOpen={true} key={cn}>
+              <Collapsible.Header>
+                {cn}
+              </Collapsible.Header>
+              <Collapsible.Content>
+                <SolrCoreInfo snapshot={snapshot} core={cn} />
+              </Collapsible.Content>
+            </Collapsible>
+          )
+        }
+      </div>
     </div>
   );
 }

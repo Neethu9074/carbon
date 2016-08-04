@@ -1,12 +1,27 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-export default function SolrDashboard() {
+import {timeframeShape} from 'in-stores/timeline';
+
+import CoresTable from 'in-forge/plugins/solr/Dashboard/CoresTable';
+import DashboardNotification from 'in-components/DashboardNotification';
+
+export default function SolrDashboard({snapshot, timeframe}) {
+  const version = snapshot.getIn(['data', 'version']);
+  if (!version) {
+    return (
+      <DashboardNotification type='warning'>
+        Jmx module is not enabled in solr. Please enable it to be able to collect data.
+        You can do so, by adding '&lt;jmx /&gt;' in 'solrconfig.xml' file
+      </DashboardNotification>
+    );
+  }
   return (
-    <div>
-    </div>
+    <CoresTable snapshot={snapshot} timeframe={timeframe}/>
   );
 }
 
 SolrDashboard.propTypes = {
-
+  snapshot: irpt.map.isRequired,
+  timeframe: timeframeShape
 };
