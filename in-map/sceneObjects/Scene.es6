@@ -17,7 +17,6 @@ import {theme} from 'in-services/theme';
 
 console.log('TODOS:');
 console.log('- metric pillars');
-console.log('- logical services icons');
 console.log('- bidirectional connections');
 
 export default class Scene extends SceneObject {

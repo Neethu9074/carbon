@@ -136,3 +136,13 @@ export function intersects(raycaster, collisionLine) {
   const hit = raycaster.intersectObject(collisionLine, false);
   return hit.length > 0;
 }
+
+export function getOffsetVectors(from, to) {
+  const direction = new THREE.Vector3(to.x - from.x, 0, to.z - from.z).normalize();
+  const forward = direction.clone().multiplyScalar(0.075);
+  const right = direction.cross(UP).multiplyScalar(0.25);
+
+  return {
+    right, forward
+  };
+}

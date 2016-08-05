@@ -11,6 +11,7 @@ import {
   calculateLogicalCollisionMesh,
   addArrowToDestination,
   getCenterPosition,
+  getOffsetVectors,
   intersects,
   flatten
 } from 'in-map/misc/Connections';
@@ -33,6 +34,7 @@ export default class Connection extends SceneObject {
 
     this.destinationNode = params.destinationNode;
     this.sourceNode = params.sourceNode;
+    this.isBidirectional = false;
   }
 
   init() {
@@ -69,18 +71,32 @@ export default class Connection extends SceneObject {
       eventBus.on('zoomLevelChanged').subscribe(zoomLevel => this.eventEmitter.emit('isFullyVisible', zoomLevel < 200)),
 
       combineLatest([
+        this.eventEmitter.on('isBidirectionalChanged'),
         this.sourceNode.eventEmitter.on('positionChanged'),
         this.destinationNode.eventEmitter.on('positionChanged')
-      ]).subscribe(([from, to]) => this.eventEmitter.emit('positionChanged', getCenterPosition(from, to))),
+      ]).subscribe(([isBidirectional, from, to]) => {
+        if (isBidirectional) {
+          const offset = getOffsetVectors(from, to);
 
-      combineLatest([
-        this.sourceNode.eventEmitter.on('positionChanged'),
-        this.destinationNode.eventEmitter.on('positionChanged')
-      ]).debounce(1000).subscribe(([from, to]) => {
+          from = from.clone();
+          to = to.clone();
+          from.add(offset.right);
+          from.sub(offset.forward);
+          to.add(offset.right);
+          to.add(offset.forward);
+        }
+
+        this.eventEmitter.emit('changePosition', {from, to});
+      }),
+
+      this.eventEmitter.on('changePosition').subscribe(fromTo =>
+        this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
+
+      this.eventEmitter.on('changePosition').debounce(1000).subscribe(fromTo => {
         if (this.collisionLine) {
           this.collisionLine.geometry.dispose();
         }
-        this.collisionLine = calculateLogicalCollisionMesh(from, to);
+        this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
       }),
 
       combineLatest([
@@ -106,8 +122,29 @@ export default class Connection extends SceneObject {
           newColor = severity > 0 ? theme.health[Math.floor(severity)] : '#bababa';
         }
         this.getComponent('color').setHex(newColor);
+      }),
+
+      connections.stream.throttle(1000).subscribe(_connections => {
+        let isBidirectional = false;
+        const keys = Object.keys(_connections.objects);
+        for (let i = 0, length = keys.length; i < length; i++) {
+          const key = keys[i];
+          const connection = _connections.objects[key];
+          if (connection.sourceNode === this.destinationNode &&
+              connection.destinationNode === this.sourceNode) {
+            isBidirectional = true;
+            break;
+          }
+        }
+
+        if (this.isBidirectional !== isBidirectional) {
+          this.isBidirectional = isBidirectional;
+          this.eventEmitter.emit('isBidirectionalChanged', isBidirectional);
+        }
       })
     ]);
+
+    this.eventEmitter.emit('isBidirectionalChanged', this.isBidirectional);
   }
 
   getVertices() {
@@ -116,8 +153,18 @@ export default class Connection extends SceneObject {
     if (!fromTransform || !toTransform) {
       return emptyArray;
     }
+
     const from = fromTransform.getPosition().clone();
     const to = toTransform.getPosition().clone();
+
+    if (this.isBidirectional) {
+      const offset = getOffsetVectors(from, to);
+
+      from.add(offset.right);
+      from.sub(offset.forward);
+      to.add(offset.right);
+      to.add(offset.forward);
+    }
 
     const path = flatten(
                  addArrowToDestination(
