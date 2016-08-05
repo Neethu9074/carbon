@@ -1,14 +1,5 @@
 #!/bin/bash
 
-set -e
-
-source /opt/discovery/discovery.general
-
-j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf
-j2 /opt/www/star_instana_io.key.j2 > /etc/ssl/private/star_instana_io.key
-j2 /etc/ssl/certs/star_instana_io.crt.j2 > /etc/ssl/certs/star_instana_io.crt
-j2 /etc/ssl/dhgroup.pem.j2 > /etc/ssl/dhgroup.pem
-
 USER=root
 if [[ "$USER_AND_GROUP_NAME" != "" ]]; then
   grep "${USER_AND_GROUP_NAME}:" /etc/passwd
@@ -19,4 +10,13 @@ if [[ "$USER_AND_GROUP_NAME" != "" ]]; then
   USER=$USER_AND_GROUP_NAME
 fi
 
-exec gosu $USER nginx -g "daemon off;" 2>&1 | logger -t ui-client-nginx
+set -e
+
+source /opt/discovery/discovery.general
+
+j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf
+j2 /opt/www/star_instana_io.key.j2 > /etc/ssl/private/star_instana_io.key
+j2 /etc/ssl/certs/star_instana_io.crt.j2 > /etc/ssl/certs/star_instana_io.crt
+j2 /etc/ssl/dhgroup.pem.j2 > /etc/ssl/dhgroup.pem
+
+exec /sbin/setuser $USER nginx -g "daemon off;" 2>&1 | logger -t ui-client-nginx
