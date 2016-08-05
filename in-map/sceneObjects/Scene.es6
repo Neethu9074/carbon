@@ -4,8 +4,8 @@ import {requestRendering, clear as clearRenderingStore} from 'in-map/stores/rend
 import {init as initPhysics, dispose as disposePhysics} from 'in-map/misc/Physics';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
+import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
-import {clear as clearFactories} from 'in-map/misc/Factories';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {clearSelectedEvent} from 'in-stores/events';

@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import ParticleEmitterComponent from 'in-map/sceneObjectComponents/ParticleEmitterComponent';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
@@ -60,6 +61,8 @@ export default class Connection extends SceneObject {
     this.addComponent('screenPosition', new ScreenPositionComponent(this, pos => pos));
 
     this.addComponent('health', new HealthComponent(this));
+
+    this.addComponent('particles', new ParticleEmitterComponent(this));
 
     connections.add(this.id, this);
   }

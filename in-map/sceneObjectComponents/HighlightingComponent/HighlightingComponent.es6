@@ -4,7 +4,7 @@ import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMap
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
-import {getFactory} from 'in-map/misc/Factories';
+import {getFactory} from 'in-map/stores/factoriesStore';
 
 
 export default class HighlightingComponent extends SceneObjectComponent {

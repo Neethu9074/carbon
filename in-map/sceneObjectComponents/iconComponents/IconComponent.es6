@@ -4,7 +4,7 @@ import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider
 import createFragment from 'in-map/singleMeshFactories/Fragment';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {getFactory} from 'in-map/misc/Factories';
+import {getFactory} from 'in-map/stores/factoriesStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 

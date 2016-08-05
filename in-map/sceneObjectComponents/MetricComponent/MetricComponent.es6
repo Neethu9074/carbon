@@ -1,6 +1,6 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
-import {getFactory} from 'in-map/misc/Factories';
+import {getFactory} from 'in-map/stores/factoriesStore';
 
 
 export default class MetricComponent extends SceneObjectComponent {

@@ -1,0 +1,6 @@
+{
+  "name": "ParticleEmitterComponent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ParticleEmitterComponent.es6"
+}

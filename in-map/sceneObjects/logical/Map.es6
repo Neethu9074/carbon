@@ -4,8 +4,8 @@ import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFact
 import CameraController from 'in-map/misc/logical/CameraController';
 import GroundPlane from 'in-map/misc/logical/GroundPlane';
 import createLayouter from 'in-map/misc/logical/Layouter';
+import {addFactory} from 'in-map/stores/factoriesStore';
 import BaseMap from 'in-map/sceneObjects/common/Map';
-import {addFactory} from 'in-map/misc/Factories';
 
 
 export default class Map extends BaseMap {
