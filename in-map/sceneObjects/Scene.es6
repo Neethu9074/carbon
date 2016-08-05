@@ -15,6 +15,12 @@ import * as time from 'in-map/misc/time';
 import {theme} from 'in-services/theme';
 
 
+console.log('TODOS:');
+console.log('- tooltips');
+console.log('- metric pillars');
+console.log('- logical unknown services smaller');
+console.log('- logical services icons');
+
 export default class Scene extends SceneObject {
 
   constructor(params) {
