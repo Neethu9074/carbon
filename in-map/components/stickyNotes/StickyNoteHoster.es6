@@ -6,8 +6,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
   stickies: stickyNotes.stream
-}, StickyNoteHoster );
-
+},
 function StickyNoteHoster({stickies}) {
   if (!stickies) {
     return null;
@@ -28,4 +27,4 @@ function StickyNoteHoster({stickies}) {
       })}
     </div>
   );
-}
+});

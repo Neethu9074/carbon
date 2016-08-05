@@ -14,6 +14,7 @@ import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
+import NodeTooltip from 'in-map/components/tooltips/physical/Node';
 import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
@@ -68,7 +69,7 @@ export default class Node extends SceneObject {
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos) => pos));
 
-    this.addComponent('tooltip', new TooltipComponent(this));
+    this.addComponent('tooltip', new TooltipComponent(this, NodeTooltip));
   }
 
   initEvents() {

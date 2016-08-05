@@ -1,9 +1,8 @@
 import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {setTooltip, clear as clearTooltip} from 'in-map/stores/tooltipStore';
 import connections from 'in-map/stores/logical/connectionsStore';
-import * as tooltipStore from 'in-services/stores/tooltip';
-import {tooltipForSceneObject} from 'in-map/src/mapStores';
 import {emptyArray} from 'in-services/fixedObjects';
 import {findObjectByRay} from 'in-map/misc/Physics';
 import Module from 'in-map/misc/common/Module';
@@ -46,8 +45,6 @@ export default class RaycasterModule extends Module {
         this.handleRayCasting();
       }),
 
-      tooltipStore.activeTooltip.subscribe(tooltip => this.tooltip2DIsActive = tooltip ? true : false),
-
       this.eventEmitter.on('onZoom').subscribe(this.handleRayCasting.bind(this)),
 
       this.eventEmitter.on('onClicked').subscribe(() => this.onClicked()),
@@ -60,30 +57,18 @@ export default class RaycasterModule extends Module {
   }
 
   handleRayCasting() {
-    if (this.tooltip2DIsActive) {
-      this.eventEmitter.emit('clearConnectionTooltip', null);
-      this.hittenObject = null;
-      return;
-    }
-
     const oldHittenObject = this.hittenObject;
     const {hittenObject, hoveredConnections} = this.getObjectOnCursor();
 
     if (hittenObject) {
       setHighlightedEntityId(hittenObject.parentSceneObject.id);
-      tooltipForSceneObject.emit(hittenObject.parentSceneObject.id);
-    } else {
-      if (oldHittenObject) {
-        tooltipForSceneObject.emit(null);
-        clearHighlightedEntityId();
-      }
-      if (hoveredConnections.length > 0) {
-        this.eventEmitter.emit('setConnectionTooltip', hoveredConnections);
-        setHighlightedEntityId(hoveredConnections[0].id);
-      } else {
-        clearHighlightedEntityId();
-        this.eventEmitter.emit('clearConnectionTooltip', null);
-      }
+      setTooltip(hittenObject.parentSceneObject);
+    } else if (hoveredConnections.length > 0) {
+      setHighlightedEntityId(hoveredConnections[0].id);
+      setTooltip(hoveredConnections);
+    } else if (oldHittenObject) {
+      clearHighlightedEntityId();
+      clearTooltip();
     }
   }
 

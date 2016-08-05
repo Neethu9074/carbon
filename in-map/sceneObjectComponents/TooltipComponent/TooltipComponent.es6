@@ -3,27 +3,19 @@ import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectCompon
 
 export default class TooltipComponent extends SceneObjectComponent {
 
-  constructor(sceneObject, TooltipClass) {
+  constructor(sceneObject, tooltipClass) {
     super(sceneObject, '_tooltip');
 
-    this.TooltipClass = TooltipClass;
+    this.tooltipClass = tooltipClass;
   }
 
-  initEvents() {
-    super.initEvents();
-
-    this.addSubscription(
-      this.sceneObject.eventEmitter.on('isHighlighted').distinct().subscribe(isHighlighted => {
-        if (isHighlighted) {
-          console.log('mount tooltip');
-        }
-      })
-    );
+  getTooltipClass() {
+    return this.tooltipClass;
   }
 
   dispose() {
     super.dispose();
 
-    this.TooltipClass = null;
+    this.tooltipClass = null;
   }
 }
