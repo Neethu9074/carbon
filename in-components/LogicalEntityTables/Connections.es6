@@ -14,12 +14,12 @@ export default function Connections({snapshotId, timeframe}) {
   return (
     <div>
       <LogicalEntityTable timeframe={timeframe}
-                          title={'Downstream'}
+                          title={'Inbound Connections'}
                           dataStream={viewStructure.flatMap(root => {
                                         for (let i = 0, length = root.get('children').size; i < length; i++) {
                                           const item = root.getIn(['children', i]);
                                           if (item.get('id') === snapshotId) {
-                                            return getDownstreamSnapshotsObservables(item);
+                                            return getUpstreamSnapshotsObservables(item);
                                           }
                                         }
                                         return alwaysNull;
@@ -27,12 +27,12 @@ export default function Connections({snapshotId, timeframe}) {
                                    }
                           createDetails={createDetails} />
       <LogicalEntityTable timeframe={timeframe}
-                          title={'Upstream'}
+                          title={'Outbound Connections'}
                           dataStream={viewStructure.flatMap(root => {
                                         for (let i = 0, length = root.get('children').size; i < length; i++) {
                                           const item = root.getIn(['children', i]);
                                           if (item.get('id') === snapshotId) {
-                                            return getUpstreamSnapshotsObservables(item);
+                                            return getDownstreamSnapshotsObservables(item);
                                           }
                                         }
                                         return alwaysNull;

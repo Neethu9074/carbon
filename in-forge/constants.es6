@@ -11,6 +11,7 @@ export const plugins = {
   elasticsearchCluster: 'elasticsearchCluster',
   httpd: 'httpd',
   jbossas: 'jBossAsApplicationContainer',
+  jbossdatagrid: 'jbossDataGrid',
   jetty: 'jettyApplicationContainer',
   javaWebApp: 'genericJavaWebapp',
   jira: 'jiraApplication',
@@ -129,5 +130,6 @@ export const fullyQualifiedPlugins = {
   unknownService: 'com.instana.forge.connection.UnknownService',
   hAProxy: 'com.instana.forge.infrastructure.loadbalancer.haproxy.HAProxy',
   oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB',
-  activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ'
+  activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
+  jbossDataGrid: 'com.instana.forge.infrastructure.cache.jbossdatagrid.JbossDataGrid'
 };

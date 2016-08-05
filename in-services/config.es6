@@ -10,7 +10,6 @@ export function isProductionEnvironment() {
 
 export function isDemoEnvironment() {
   return theConfig.environment === 'demo' &&
-    theConfig.tenantUnit === 'demo' &&
     theConfig.tenant === 'instana';
 }
 

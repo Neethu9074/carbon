@@ -8,8 +8,8 @@ import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.logicalMessageConsumer,
-  'Logical WebApp',
-  'Logical WebApps'
+  'Logical Message Consumer',
+  'Logical Message Consumers'
 );
 
 addLabelFinder(
