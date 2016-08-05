@@ -1,5 +1,6 @@
 import React from 'react';
 
+import LogicalMapControls from 'in-map/components/logical/misc/LogicalMapControls';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
 import ServiceComponent from 'in-map/components/logical/ServiceComponent';
 import {getViewStructure} from 'in-map/stores/logical/viewStructureStore';
@@ -38,6 +39,7 @@ function MapComponent({viewStructure}) {
                             entity={serviceEntity} />
         );
       })}
+      <LogicalMapControls />
     </div>
   );
 }

@@ -1,29 +1,27 @@
 import {remove} from 'lodash';
 import THREE from 'three';
 
-import createPositionGenerator from 'in-map/src/3DSceneObjects/common/ParticleEmitter/PlaneSpawnPositionGenerator';
-import fragmentShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/fragmentShader.glsl';
-import vertexShader from 'in-map/src/3DSceneObjects/common/ParticleEmitter/shader/vertexShader.glsl';
-import pointShape from 'in-map/src/3DSceneObjects/common/ParticleEmitter/pointShape.png';
-import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
-import {particlesAreActive$} from 'in-map/src/stores/process/particles';
-import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
-import {requestRendering} from 'in-map/src/stores/renderingStore';
+import createPositionGenerator from 'in-map/misc/ParticleEmitter/PlaneSpawnPositionGenerator';
+import fragmentShader from 'in-map/misc/ParticleEmitter/shader/fragmentShader.glsl';
+import vertexShader from 'in-map/misc/ParticleEmitter/shader/vertexShader.glsl';
+import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import {particlesAreActive$} from 'in-map/stores/logical/particlesStore';
+import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
+import {requestRendering} from 'in-map/stores/renderingStore';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
-import {loadImage} from 'in-map/src/services/imageLoader';
-import {getDeltaTime} from 'in-map/src/timeCalculations';
-import {eventBus} from 'in-map/src/services/eventBus';
+import {loadImage} from 'in-map/services/imageLoader';
+import {eventBus} from 'in-map/services/eventBus';
 
 
 const START_POS = 100000;
 const TIME_TO_LIFE_PER_UNIT = 0.2;
 
-export default class ParticleEmitter extends SceneObject {
+export default class ParticleEmitter {
 
-  constructor({parent, id, config = {}}) {
-    super({parent, id});
+  constructor(sceneObject) {
+    this.id = sceneObject.id;
 
-    this.maxParticles = config.maxParticles || 50;
+    this.maxParticles = 50;
     this.setNumparticlesPerSecond(0);
 
     this.isRunning = false;
@@ -61,6 +59,7 @@ export default class ParticleEmitter extends SceneObject {
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
+    mesh.renderOrder = 3;
 
     this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
@@ -73,9 +72,9 @@ export default class ParticleEmitter extends SceneObject {
   }
 
   setFromAndTo(fromPos, toPos) {
-    this.mesh.position.set(fromPos.x - 0.5, fromPos.y, fromPos.z + 0.5);
+    this.mesh.position.set(fromPos.x, fromPos.y, fromPos.z);
 
-    const targetPosition = new THREE.Vector3(toPos.x - 0.5, toPos.y, toPos.z + 0.5);
+    const targetPosition = new THREE.Vector3(toPos.x, toPos.y, toPos.z);
     this.mesh.lookAt(targetPosition);
 
     const direction = targetPosition.sub(this.mesh.position);
@@ -100,12 +99,12 @@ export default class ParticleEmitter extends SceneObject {
     addSceneObject(this.mesh);
 
     this.timeElapsedSinceLastSpawn = 0;
-    this.updateSubscription = eventBus.on('beginUpdate').subscribe(() => this.update());
+    this.updateSubscription = eventBus.on('update').subscribe(dt => this.update(dt));
 
     this.isRunning = true;
 
     this.metricSubscription = getMetricForFocusedMoment({
-      snapshotId: this.parent.id,
+      snapshotId: this.id,
       metric: 'count'
     }).subscribe(metric => {
       const numCalls = metric[1];
@@ -116,8 +115,7 @@ export default class ParticleEmitter extends SceneObject {
     });
   }
 
-  update() {
-    const dt = getDeltaTime();
+  update(dt) {
     const vertices = this.vertices;
     const particles = this.particles;
     const progresses = this.progresses;
@@ -240,8 +238,6 @@ export default class ParticleEmitter extends SceneObject {
   }
 
   dispose() {
-    super.dispose();
-
     // stop the emitter to make sure everything is disposed well
     this.stop();
 

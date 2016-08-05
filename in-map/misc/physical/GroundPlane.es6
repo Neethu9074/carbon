@@ -5,7 +5,7 @@ import groundTexturePath from 'in-map/misc/physical/ground.png';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import BaseGroundPlane from 'in-map/misc/common/GroundPlane';
-import {loadImage} from 'in-map/src/services/imageLoader';
+import {loadImage} from 'in-map/services/imageLoader';
 import theme from 'in-services/theme';
 
 

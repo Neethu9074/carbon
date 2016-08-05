@@ -7,10 +7,7 @@ export default class ParticleEmitterComponent extends SceneObjectComponent {
   constructor(sceneObject) {
     super(sceneObject, '_particleEmitter');
 
-    this.particleEmitter = new ParticleEmitter({
-      id: sceneObject.id,
-      parent: this
-    });
+    this.particleEmitter = new ParticleEmitter(sceneObject);
   }
 
   initEvents() {
