@@ -20,6 +20,7 @@ console.log('- tooltips');
 console.log('- metric pillars');
 console.log('- logical unknown services smaller');
 console.log('- logical services icons');
+console.log('- bidirectional connections');
 
 export default class Scene extends SceneObject {
 
