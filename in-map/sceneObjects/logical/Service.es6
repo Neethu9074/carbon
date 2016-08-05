@@ -72,7 +72,10 @@ export default class Service extends SceneObject {
 
     this.addComponent('health', new HealthComponent(this));
 
-    this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
+    // unknown service hack
+    this.id.startsWith('unknown-service')
+      ? this.getComponent('transform').setScaleXYZ(0.5, 0.25, 0.5)
+      : this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
   }
 
   initEvents() {

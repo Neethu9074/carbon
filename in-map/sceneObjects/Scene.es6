@@ -16,7 +16,6 @@ import {theme} from 'in-services/theme';
 
 
 console.log('TODOS:');
-console.log('- tooltips');
 console.log('- metric pillars');
 console.log('- logical unknown services smaller');
 console.log('- logical services icons');
