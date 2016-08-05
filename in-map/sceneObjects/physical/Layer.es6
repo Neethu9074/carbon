@@ -3,10 +3,12 @@ import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComp
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
+import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
+import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
@@ -44,6 +46,8 @@ export default class Layer extends SceneObject {
     this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
 
     this.addComponent('health', new HealthComponent(this));
+
+    this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
 
     // only add them after the components where setup, because the layouter needs the transform component
     this.node.addLayer(this.id, this);
