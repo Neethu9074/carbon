@@ -176,7 +176,7 @@ function createDetails(filesystem, name, context) {
                    'fs.' + name + '.reads',
                    'fs.' + name + '.writes'
                  ],
-                 labels: ['Reads', 'Writes'],
+                 labels: ['Reads/s', 'Writes/s'],
                  type: 'line'
                }}
 
@@ -188,7 +188,7 @@ function createDetails(filesystem, name, context) {
                    'fs.' + name + '.readBytes',
                    'fs.' + name + '.writeBytes'
                  ],
-                 labels: ['Read', 'Write'],
+                 labels: ['Bytes Read/s', 'Bytes Write/s'],
                  type: 'line'
                }}/>
       </div>
