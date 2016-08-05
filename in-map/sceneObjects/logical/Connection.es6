@@ -14,13 +14,13 @@ import {
   intersects,
   flatten
 } from 'in-map/misc/Connections';
-import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObject';
+import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
-import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
-import connections from 'in-map/stores/logical/connections';
+import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
+import connections from 'in-map/stores/logical/connectionsStore';
+import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {emptyArray} from 'in-services/fixedObjects';
 import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';

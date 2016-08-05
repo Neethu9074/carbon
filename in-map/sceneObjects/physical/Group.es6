@@ -4,11 +4,11 @@ import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import GroundStickyNote from 'in-map/components/stickyNotes/physical/Group';
+import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import createObjectCollection from 'in-map/stores/ObjectColletion';
-import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import groups from 'in-map/stores/physical/groups';
+import groups from 'in-map/stores/physical/groupsStore';
 import {eventBus} from 'in-map/services/eventBus';
 
 

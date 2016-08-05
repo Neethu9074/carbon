@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import connections from 'in-map/stores/logical/connections';
+import connections from 'in-map/stores/logical/connectionsStore';
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {tooltipForSceneObject} from 'in-map/src/mapStores';
 import {emptyArray} from 'in-services/fixedObjects';

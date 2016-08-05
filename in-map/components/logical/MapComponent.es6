@@ -2,7 +2,7 @@ import React from 'react';
 
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
 import ServiceComponent from 'in-map/components/logical/ServiceComponent';
-import {getViewStructure} from 'in-map/stores/logical/viewStructure';
+import {getViewStructure} from 'in-map/stores/logical/viewStructureStore';
 import Map from 'in-map/sceneObjects/logical/Map';
 import connectTo from 'in-hoc/connectTo';
 

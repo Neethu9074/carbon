@@ -1,8 +1,8 @@
 import React from 'react';
 
+import {getViewStructure} from 'in-map/stores/physical/viewStructureStore';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
 import GroupComponent from 'in-map/components/physical/GroupComponent';
-import {getViewStructure} from 'in-map/stores/physical/viewStructure';
 import Map from 'in-map/sceneObjects/physical/Map';
 import connectTo from 'in-hoc/connectTo';
 

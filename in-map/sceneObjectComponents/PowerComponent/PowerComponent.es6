@@ -1,7 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {maxPower$, setPower} from 'in-map/stores/physical/power';
+import {maxPower$, setPower} from 'in-map/stores/physical/powerStore';
 import {getPower} from 'in-sdk/power';
 
 

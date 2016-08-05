@@ -11,11 +11,11 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
-import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
+import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
+import {focusEntityId$} from 'in-map/stores/focusEntityStore';
+import services from 'in-map/stores/logical/servicesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {collisionDetection} from 'in-map/misc/Physics';
-import services from 'in-map/stores/logical/services';
 import DragGhost from 'in-map/misc/logical/DragGhost';
 import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';

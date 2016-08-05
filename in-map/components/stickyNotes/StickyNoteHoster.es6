@@ -1,6 +1,6 @@
 import React from 'react';
 
-import stickyNotes from 'in-map/stores/stickyNotes/stickyNotes';
+import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import connectTo from 'in-hoc/connectTo';
 
 

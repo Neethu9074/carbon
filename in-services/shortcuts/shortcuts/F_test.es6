@@ -52,14 +52,14 @@ describe('shortcuts/C', () => {
   }
 
   function loadModules() {
-    focusEntityId = proxyquire('in-map/stores/focusEntity', {
-      'in-map/stores/selectedMapSceneObject': {
+    focusEntityId = proxyquire('in-map/stores/focusEntityStore', {
+      'in-map/stores/selectedMapSceneObjectStore': {
         selectedSnapshotIdForHighlightingInMap$: selectedEntityId
       }
     });
 
     const mod = proxyquire('in-services/shortcuts/shortcuts/F', {
-      'in-map/stores/focusEntity': focusEntityId
+      'in-map/stores/focusEntityStore': focusEntityId
     });
 
     onKeyPressed = create();

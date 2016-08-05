@@ -6,6 +6,7 @@ import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComp
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
+import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import PowerComponent from 'in-map/sceneObjectComponents/PowerComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
@@ -13,11 +14,11 @@ import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
+import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {collisionDetection} from 'in-map/misc/Physics';
+import nodes from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
-import nodes from 'in-map/stores/physical/nodes';
 import {theme} from 'in-services/theme';
 
 
@@ -66,6 +67,8 @@ export default class Node extends SceneObject {
     this.addComponent('power', new PowerComponent(this));
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos) => pos));
+
+    this.addComponent('tooltip', new TooltipComponent(this));
   }
 
   initEvents() {

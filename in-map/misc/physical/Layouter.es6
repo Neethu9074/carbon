@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 
-import groups from 'in-map/stores/physical/groups';
+import groups from 'in-map/stores/physical/groupsStore';
+import nodes from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
-import nodes from 'in-map/stores/physical/nodes';
 
 
 const MAX_VALUE = Number.MAX_VALUE;

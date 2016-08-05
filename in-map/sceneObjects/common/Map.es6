@@ -1,5 +1,5 @@
+import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {focusEntityId$} from 'in-map/stores/focusEntity';
 import {eventBus} from 'in-map/services/eventBus';
 
 

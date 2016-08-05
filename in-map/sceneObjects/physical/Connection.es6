@@ -8,8 +8,8 @@ import {
   flatten
 } from 'in-map/misc/Connections';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import nodes from 'in-map/stores/physical/nodesStore';
 import {emptyArray} from 'in-services/fixedObjects';
-import nodes from 'in-map/stores/physical/nodes';
 
 
 export default class Connection extends SceneObject {

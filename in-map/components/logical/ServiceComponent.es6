@@ -2,8 +2,8 @@ import React from 'react';
 
 import ConnectionComponent from 'in-map/components/logical/ConnectionComponent';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
+import services from 'in-map/stores/logical/servicesStore';
 import Service from 'in-map/sceneObjects/logical/Service';
-import services from 'in-map/stores/logical/services';
 import connectTo from 'in-hoc/connectTo';
 
 
