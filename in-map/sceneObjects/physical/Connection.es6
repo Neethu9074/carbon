@@ -76,8 +76,10 @@ export default class Connection extends SceneObject {
 
     connections.remove(this.id);
 
-    this.collisionLine.geometry.dispose();
-    this.collisionLine = null;
+    if (this.collisionLine) {
+      this.collisionLine.geometry.dispose();
+      this.collisionLine = null;
+    }
 
     this.lineContentProvider = null;
     this.destinationNode = null;

@@ -16,6 +16,8 @@ export default class RaycasterModule extends Module {
     this.scene = scene;
     this.camera = camera;
 
+    this.hoveredConnections = emptyArray;
+
     // raytracing fields
     this.raycaster = new THREE.Raycaster();
 
@@ -57,17 +59,30 @@ export default class RaycasterModule extends Module {
   }
 
   handleRayCasting() {
+    const lastHittenObject = this.hittenObject;
+    const lastHoveredConnections = this.hoveredConnections;
+
     const {hittenObject, hoveredConnections} = this.getObjectOnCursor();
 
-    if (hittenObject) {
-      setHighlightedEntityId(hittenObject.parentSceneObject.id);
-      setTooltip(hittenObject.parentSceneObject);
-    } else if (hoveredConnections.length > 0) {
-      setHighlightedEntityId(hoveredConnections[0].id);
-      setTooltip(hoveredConnections);
-    } else {
-      clearHighlightedEntityId();
-      clearTooltip();
+    if (lastHittenObject !== hittenObject) {
+      if (hittenObject) {
+        setHighlightedEntityId(hittenObject.parentSceneObject.id);
+        setTooltip(hittenObject.parentSceneObject);
+      } else {
+        clearHighlightedEntityId();
+        clearTooltip();
+      }
+      return;
+    }
+
+    if (lastHoveredConnections.length !== hoveredConnections.length) {
+      if (hoveredConnections.length > 0) {
+        setHighlightedEntityId(hoveredConnections[0].id);
+        setTooltip(hoveredConnections);
+      } else {
+        clearHighlightedEntityId();
+        clearTooltip();
+      }
     }
   }
 
@@ -101,6 +116,8 @@ export default class RaycasterModule extends Module {
     const hoveredConnections = hittenObject ?
       emptyArray : // don't calculate if another object than a connection was hitten
       this.currentConnections.filter(connection => connection.intersects(this.raycaster));
+
+    this.hoveredConnections = hoveredConnections;
 
     return {
       hittenObject,
