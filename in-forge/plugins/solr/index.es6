@@ -12,12 +12,16 @@ pluginName.setHumanReadablePluginName(
   'Solr'
 );
 
-addLabelFinder(constants.plugins.solr, 'Solr');
+addLabelFinder(constants.plugins.solr, getLabel);
 
 power.addMapping(
   constants.plugins.solr,
   () => -1
 );
+
+function getLabel(snapshot) {
+  return 'Solr ' + snapshot.getIn(['data', 'version']);
+}
 
 addIconToRegistry({
   id: constants.plugins.solr,

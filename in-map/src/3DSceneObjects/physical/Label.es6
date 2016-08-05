@@ -10,6 +10,8 @@ export default class Label extends BaseLabel {
 
   constructor(config) {
     super(config);
+
+    this.addSubscription(this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this)));
   }
 
   getFragment(iconSize) {

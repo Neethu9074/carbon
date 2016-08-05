@@ -153,9 +153,9 @@ export default function HostDashboard({snapshot, timeframe}) {
                            ],
                            labels: [
                              'Established',
-                             'Opens',
-                             'In Segments',
-                             'Out Segments'
+                             'Open/s',
+                             'In Segments/s',
+                             'Out Segments/s'
                            ],
                            formatter: zeroDecimalPlaces,
                            tooltipFormatter: twoDecimalPlaces
