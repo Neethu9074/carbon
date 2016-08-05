@@ -5,7 +5,6 @@ import createFragment from 'in-map/singleMeshFactories/Fragment';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {getFactory} from 'in-map/misc/Factories';
-import {getIconPath} from 'in-sdk/iconRegistry';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
@@ -32,11 +31,6 @@ export default class IconComponent extends SceneObjectComponent {
     const sceneObject = this.sceneObject;
 
     this.addSubscription(
-      sceneObject.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
-        this.fragment.additionalParams.type = getIconPath(snapshot);
-        this.factory.needsUpdate();
-      }),
-
       combineLatest([
         sceneObject.eventEmitter.on('positionChanged'),
         sceneObject.eventEmitter.on('scaleChanged')

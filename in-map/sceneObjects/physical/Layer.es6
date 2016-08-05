@@ -2,11 +2,11 @@ import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingCon
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Physical';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
-import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import {focusEntityId$} from 'in-map/stores/focusEntityStore';

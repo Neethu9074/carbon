@@ -5,10 +5,10 @@ import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPosition
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Logical';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
-import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';

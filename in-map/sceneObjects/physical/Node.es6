@@ -5,12 +5,12 @@ import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPosition
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Physical';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import PowerComponent from 'in-map/sceneObjectComponents/PowerComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
-import IconComponent from 'in-map/sceneObjectComponents/IconComponent';
 
 import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
