@@ -16,5 +16,6 @@ import './rabbitmq';
 import './redis';
 import './servlet';
 import './spring-batch';
+import './spring-rest';
 import './spring-web';
 import './url';
