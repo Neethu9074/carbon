@@ -7,8 +7,19 @@ export default class IconComponent extends SceneObjectComponent {
   constructor(sceneObject, alternativeId) {
     super(sceneObject, '_snapshot');
 
-    this.addSubscription(getSnapshot(alternativeId ? alternativeId : sceneObject.id)
-                           .subscribe(snapshot => this.emitToClient('snapshotChanged', snapshot))
-    );
+    this.alternativeId = alternativeId;
+  }
+
+  initEvents() {
+    super.initEvents();
+
+    this.addSubscription(getSnapshot(this.alternativeId ? this.alternativeId : this.sceneObject.id)
+                           .subscribe(snapshot => this.emitToClient('snapshotChanged', snapshot)));
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.alternativeId = null;
   }
 }

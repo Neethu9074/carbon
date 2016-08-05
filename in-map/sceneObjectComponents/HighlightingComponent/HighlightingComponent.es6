@@ -12,8 +12,15 @@ export default class HighlightingComponent extends SceneObjectComponent {
   constructor(sceneObject, contentProvider) {
     super(sceneObject, '_mesh');
 
+    this.contentProvider = contentProvider;
+  }
+
+  initEvents() {
+    super.initEvents();
+
     const factory = this.factory = getFactory('highlighting');
-    const eventEmitter = sceneObject.eventEmitter;
+    const sceneObject = this.sceneObject;
+    const eventEmitter = this.sceneObject.eventEmitter;
 
     this.addSubscriptions([
       combineLatest([
@@ -32,12 +39,11 @@ export default class HighlightingComponent extends SceneObjectComponent {
 
       eventEmitter.on('isHighlighted').distinct().subscribe(isHighlighted => {
         isHighlighted
-          ? factory.add(createFragment(this.id, sceneObject, contentProvider))
+          ? factory.add(createFragment(this.id, sceneObject, this.contentProvider))
           : factory.remove(this.id);
         factory.needsUpdate();
       })
     ]);
-
   }
 
   dispose() {

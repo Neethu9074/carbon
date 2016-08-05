@@ -11,11 +11,17 @@ export default class MetricComponent extends SceneObjectComponent {
     this.factory = getFactory(factoryId);
     this.fragment = createFragment(this.id, sceneObject, contentProvider);
     this.factory.add(this.fragment);
+  }
+
+  initEvents() {
+    super.initEvents();
+
+    const eventEmitter = this.sceneObject.eventEmitter;
 
     this.addSubscriptions([
-      sceneObject.eventEmitter.on('positionChanged').subscribe(() => this.factory.needsUpdate()),
-      sceneObject.eventEmitter.on('scaleChanged').subscribe(() => this.factory.needsUpdate()),
-      sceneObject.eventEmitter.on('colorChanged').subscribe(() => this.factory.needsUpdate())
+      eventEmitter.on('positionChanged').subscribe(() => this.factory.needsUpdate()),
+      eventEmitter.on('scaleChanged').subscribe(() => this.factory.needsUpdate()),
+      eventEmitter.on('colorChanged').subscribe(() => this.factory.needsUpdate())
     ]);
   }
 

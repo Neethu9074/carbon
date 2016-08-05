@@ -14,6 +14,8 @@ export default class IconComponent extends SceneObjectComponent {
   constructor(sceneObject, iconSize, getIconPosition) {
     super(sceneObject, '_icon');
 
+    this.getIconPositionCallback = getIconPosition;
+
     this.factory = getFactory('icons');
     this.fragment = createFragment(this.id,
                                    sceneObject,
@@ -24,6 +26,10 @@ export default class IconComponent extends SceneObjectComponent {
                                      iconSize
                                    });
     this.factory.add(this.fragment);
+  }
+
+  initEvents() {
+    const sceneObject = this.sceneObject;
 
     this.addSubscription(
       sceneObject.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
@@ -35,7 +41,7 @@ export default class IconComponent extends SceneObjectComponent {
         sceneObject.eventEmitter.on('positionChanged'),
         sceneObject.eventEmitter.on('scaleChanged')
       ]).subscribe(([pos, scale]) => {
-        this.fragment.additionalParams.positionOffset.copy(getIconPosition(pos, scale));
+        this.fragment.additionalParams.positionOffset.copy(this.getIconPositionCallback(pos, scale));
         this.factory.needsUpdate();
       })
     );

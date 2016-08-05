@@ -13,6 +13,8 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
   constructor(sceneObject, get3DPositionToProject) {
     super(sceneObject, '_screenPosition');
 
+    this.get3DPositionToProjectCallback = get3DPositionToProject;
+
     this.screenPositionAnchor = ZERO.clone();
     this.screenPosition = {x: 0, y: 0};
     this.wasInView = false;
@@ -21,6 +23,12 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
     // send initial signal
     this.emitToClient(this.isVisibleChangedKey, this.wasInView);
+  }
+
+  initEvents() {
+    super.initEvents();
+
+    const eventEmitter = this.sceneObject.eventEmitter;
 
     scene$.once(scene => {
       if (scene) {
@@ -30,10 +38,10 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
           eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()),
 
           combineLatest([
-            sceneObject.eventEmitter.on('positionChanged'),
-            sceneObject.eventEmitter.on('scaleChanged')
+            eventEmitter.on('positionChanged'),
+            eventEmitter.on('scaleChanged')
           ]).subscribe(([pos, scale]) => {
-            const positionToSet = get3DPositionToProject(pos, scale);
+            const positionToSet = this.get3DPositionToProjectCallback(pos, scale);
             this.set3DPositionToProject(positionToSet);
           })
         ]);

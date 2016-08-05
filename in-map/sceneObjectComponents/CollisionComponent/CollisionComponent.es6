@@ -25,11 +25,15 @@ export default class CollisionComponent extends SceneObjectComponent {
     mesh.isEnabled = true;
 
     collisionDetection.addCollisionObject(mesh, layerId);
+  }
+
+  initEvents() {
+    const mesh = this.collisionMesh;
 
     this.addSubscription(
       combineLatest([
-        sceneObject.eventEmitter.on('positionChanged'),
-        sceneObject.eventEmitter.on('scaleChanged')
+        this.sceneObject.eventEmitter.on('positionChanged'),
+        this.sceneObject.eventEmitter.on('scaleChanged')
       ]).subscribe(([pos, scale]) => {
         mesh.position.set(pos.x, pos.y + scale.y / 2, pos.z);
         mesh.scale.copy(scale);
