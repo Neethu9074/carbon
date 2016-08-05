@@ -23,21 +23,19 @@ export default createTooltip(
       return null;
     }
 
-    return (
-      <div>
-        {mostImportantEvent ?
-          <EventDescription event={mostImportantEvent}
-                            showFullTextIfToLong={false}
-                            snapshotId={snapshot.get('id')}/>
-          :
-          <Content>
-            {getLabel(snapshot)}
-            {layer && layer.length > 0
-              ? <LayerListing snapshotIds={layer.map(_layer => _layer.id)}/>
-              : null}
-          </Content>
-        }
-      </div>
-    );
+    return mostImportantEvent
+      ? (
+        <EventDescription event={mostImportantEvent}
+                          showFullTextIfToLong={false}
+                          snapshotId={snapshot.get('id')}/>
+      )
+      : (
+        <Content>
+          {getLabel(snapshot)}
+          {layer && layer.length > 0
+            ? <LayerListing snapshotIds={layer.map(_layer => _layer.id)}/>
+            : null}
+        </Content>
+      );
   }
 ));

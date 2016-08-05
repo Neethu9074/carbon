@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {setTooltip, clear as clearTooltip} from 'in-map/stores/tooltipStore';
-import connections from 'in-map/stores/logical/connectionsStore';
+import connections from 'in-map/stores/connectionsStore';
 import {emptyArray} from 'in-services/fixedObjects';
 import {findObjectByRay} from 'in-map/misc/Physics';
 import Module from 'in-map/misc/common/Module';
@@ -57,7 +57,6 @@ export default class RaycasterModule extends Module {
   }
 
   handleRayCasting() {
-    const oldHittenObject = this.hittenObject;
     const {hittenObject, hoveredConnections} = this.getObjectOnCursor();
 
     if (hittenObject) {
@@ -66,7 +65,7 @@ export default class RaycasterModule extends Module {
     } else if (hoveredConnections.length > 0) {
       setHighlightedEntityId(hoveredConnections[0].id);
       setTooltip(hoveredConnections);
-    } else if (oldHittenObject) {
+    } else {
       clearHighlightedEntityId();
       clearTooltip();
     }

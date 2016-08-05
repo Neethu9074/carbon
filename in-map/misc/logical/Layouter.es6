@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
 import {combineLatest} from 'reactive-observables';
 
-import connections from 'in-map/stores/logical/connectionsStore';
 import services from 'in-map/stores/logical/servicesStore';
+import connections from 'in-map/stores/connectionsStore';
 import {eventBus} from 'in-map/services/eventBus';
 
 

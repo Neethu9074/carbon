@@ -1,15 +1,18 @@
+import {combineLatest} from 'reactive-observables';
+
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import {
   shortenPathAtSourceAndDestination,
+  calculatePhysicalCollisionMesh,
   addArrowToDestination,
   getManhattanPath,
+  intersects,
   flatten
 } from 'in-map/misc/Connections';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import nodes from 'in-map/stores/physical/nodesStore';
-import {emptyArray} from 'in-services/fixedObjects';
+import connections from 'in-map/stores/connectionsStore';
 
 
 export default class Connection extends SceneObject {
@@ -17,46 +20,39 @@ export default class Connection extends SceneObject {
   constructor(params) {
     super(params.id);
 
-    this.destinationId = params.destinationId;
-    this.sourceId = params.sourceId;
-    this.destinationNode = null;
-    this.sourceNode = null;
+    this.destinationNode = params.destinationNode;
+    this.sourceNode = params.sourceNode;
   }
 
   initComponents() {
     super.initComponents({color: 0xbababa});
 
     this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
+    this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
+
+    connections.add(this.id, this);
   }
 
   initEvents() {
     super.initEvents();
 
     this.addSubscriptions([
-      nodes.stream.subscribe(_nodes => {
-        this.sourceNode = _nodes.objects[this.sourceId];
-        this.destinationNode = _nodes.objects[this.destinationId];
-        this.eventEmitter.emit('nodesAreAvailableChanged', this.sourceNode && this.destinationNode);
-      }),
-
-      this.eventEmitter.on('nodesAreAvailableChanged').distinct().subscribe(nodesAreAvailable => {
-        if (nodesAreAvailable) {
-          this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
-        } else {
-          this.removeComponent('mesh');
+      combineLatest([
+        this.sourceNode.eventEmitter.on('positionChanged'),
+        this.destinationNode.eventEmitter.on('positionChanged')
+      ]).subscribe(([from, to]) => {
+        if (this.collisionLine) {
+          this.collisionLine.geometry.dispose();
         }
+        this.collisionLine = calculatePhysicalCollisionMesh(from, to);
       })
     ]);
   }
 
   getVertices() {
-    const fromTransform = this.sourceNode.getComponent('transform');
-    const toTransform = this.destinationNode.getComponent('transform');
-    if (!fromTransform || !toTransform) {
-      return emptyArray;
-    }
-    const from = fromTransform.getPosition();
-    const to = toTransform.getPosition();
+    const from = this.sourceNode.getComponent('transform').getPosition();
+    const to = this.destinationNode.getComponent('transform').getPosition();
+
     return flatten(
            addArrowToDestination(
            shortenPathAtSourceAndDestination(
@@ -71,13 +67,20 @@ export default class Connection extends SceneObject {
     return colors;
   }
 
+  intersects(raycaster) {
+    return intersects(raycaster, this.collisionLine);
+  }
+
   dispose() {
     super.dispose();
 
+    connections.remove(this.id);
+
+    this.collisionLine.geometry.dispose();
+    this.collisionLine = null;
+
     this.lineContentProvider = null;
     this.destinationNode = null;
-    this.destinationId = null;
     this.sourceNode = null;
-    this.sourceId = null;
   }
 }

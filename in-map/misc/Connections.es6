@@ -1,11 +1,12 @@
 import THREE from 'three';
 
 import {UP} from 'in-map/misc/fixedVectors';
+const COLLISION_LINE_MATERIAL = new THREE.MeshBasicMaterial();
 
 
 export function getManhattanPath(fromX, fromY, toX, toY) {
-  const p0 = { x: fromX, y: 0, z: fromY };
-  const p4 = { x: toX, y: 0, z: toY };
+  const p0 = new THREE.Vector3(fromX, 0, fromY);
+  const p4 = new THREE.Vector3(toX, 0, toY);
 
   if (toX > fromX) {
     toX -= 1;
@@ -18,9 +19,9 @@ export function getManhattanPath(fromX, fromY, toX, toY) {
     fromY -= 1;
   }
 
-  const p1 = { x: fromX, y: 0, z: fromY };
-  const p2 = { x: fromX + (toX - fromX), y: 0, z: fromY };
-  const p3 = { x: toX, y: 0, z: toY };
+  const p1 = new THREE.Vector3(fromX, 0, fromY);
+  const p2 = new THREE.Vector3(fromX + (toX - fromX), 0, fromY);
+  const p3 = new THREE.Vector3(toX, 0, toY);
 
   return [p0, p1, p1, p2, p2, p3, p3, p4];
 }
@@ -113,10 +114,16 @@ export function getCenterPosition(fromPos, toPos) {
 }
 
 
-export function calculateCollisionMesh(from, to) {
+export function calculateLogicalCollisionMesh(from, to) {
   const geometry = new THREE.Geometry();
   geometry.vertices.push(from, to);
-  return new THREE.Line(geometry);
+  return new THREE.Line(geometry, COLLISION_LINE_MATERIAL);
+}
+
+export function calculatePhysicalCollisionMesh(from, to) {
+  const geometry = new THREE.Geometry();
+  geometry.vertices = getManhattanPath(from.x, from.z, to.x, to.z);
+  return new THREE.Line(geometry, COLLISION_LINE_MATERIAL);
 }
 
 

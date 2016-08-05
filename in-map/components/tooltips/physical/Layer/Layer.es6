@@ -22,18 +22,16 @@ export default createTooltip(
       return null;
     }
 
-    return (
-      <div>
-        {mostImportantEvent ?
-          <EventDescription event={mostImportantEvent}
-                            showFullTextIfToLong={false}
-                            snapshotId={snapshot.get('id')}/>
-          :
-          <Content>
-            {getSingular(snapshot.get('plugin'))} : {getLabel(snapshot)}}
-          </Content>
-        }
-      </div>
-    );
+    return mostImportantEvent
+      ? (
+        <EventDescription event={mostImportantEvent}
+                          showFullTextIfToLong={false}
+                          snapshotId={snapshot.get('id')}/>
+      )
+      : (
+        <Content>
+          {getSingular(snapshot.get('plugin'))} : {getLabel(snapshot)}}
+        </Content>
+      );
   }
 ));

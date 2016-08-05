@@ -1,14 +1,22 @@
 import React from 'react';
 
-import 'in-map/components/tooltips/physical/Connections/Connections.less';
+import ConnectionLine from 'in-map/components/tooltips/physical/Connections/components/ConnectionLine';
+import createTooltip from 'in-map/components/tooltips/Tooltip';
+import Heading from 'in-components/Tooltips/Heading';
 
 
-const block = '';
+export default createTooltip(
+  function Connections({entity}) {
+    const connections = entity;
 
-export function Connections({}) {
-  return (
-    <div className={block}>
-
-    </div>
-  );
-}
+    return (
+      <div>
+        <Heading>
+          {connections.length + ' connection' + (connections.length === 1 ? '' : 's')}
+        </Heading>
+        {connections.map(connection => <ConnectionLine key={connection.id}
+                                                       connection={connection} />)}
+      </div>
+    );
+  }
+);

@@ -5,7 +5,7 @@ import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectCompon
 import {collisionDetection} from 'in-map/misc/Physics';
 
 
-const COLLISION_MESH = new THREE.MeshBasicMaterial();
+const COLLISION_MESH_MATERIAL = new THREE.MeshBasicMaterial();
 
 export default class CollisionComponent extends SceneObjectComponent {
 
@@ -16,7 +16,7 @@ export default class CollisionComponent extends SceneObjectComponent {
 
     const mesh = this.collisionMesh = new THREE.Mesh(
       collisionGeometry,
-      COLLISION_MESH
+      COLLISION_MESH_MATERIAL
     );
     mesh.parentSceneObject = sceneObject;
     mesh.rotationAutoUpdate = false;

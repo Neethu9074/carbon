@@ -8,8 +8,8 @@ export default sceneObjectComponent(props => {
     params: {
       id: props.entity.get('id'),
       entity: props.entity,
-      sourceId: props.sourceId,
-      destinationId: props.destinationId
+      sourceNode: props.sourceNode,
+      destinationNode: props.destinationNode
     }
   };
 }, ConnectionComponent

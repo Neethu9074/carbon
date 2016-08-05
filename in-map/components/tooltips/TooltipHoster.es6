@@ -7,7 +7,7 @@ import connectTo from 'in-hoc/connectTo';
 
 
 export default connectTo({
-  entities: tooltip$.distinct().throttle(250),
+  entities: tooltip$.distinct().throttle(50),
   canvas: canvas$
 },
 function TooltipHoster({entities, canvas}) {
@@ -17,7 +17,7 @@ function TooltipHoster({entities, canvas}) {
 
   if (entities.length > 0) {
     return (
-      <Connections connections={entities}
+      <Connections entity={entities}
                    canvas={canvas} />
     );
   }

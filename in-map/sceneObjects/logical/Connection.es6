@@ -8,7 +8,7 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import {
   shortenPathAtSourceAndDestination,
-  calculateCollisionMesh,
+  calculateLogicalCollisionMesh,
   addArrowToDestination,
   getCenterPosition,
   intersects,
@@ -18,9 +18,9 @@ import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMap
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
-import connections from 'in-map/stores/logical/connectionsStore';
 import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import connections from 'in-map/stores/connectionsStore';
 import {emptyArray} from 'in-services/fixedObjects';
 import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';
@@ -80,7 +80,7 @@ export default class Connection extends SceneObject {
         if (this.collisionLine) {
           this.collisionLine.geometry.dispose();
         }
-        this.collisionLine = calculateCollisionMesh(from, to);
+        this.collisionLine = calculateLogicalCollisionMesh(from, to);
       }),
 
       combineLatest([
@@ -143,6 +143,9 @@ export default class Connection extends SceneObject {
 
     stickyNotes.remove(this.id);
     connections.remove(this.id);
+
+    this.collisionLine.geometry.dispose();
+    this.collisionLine = null;
 
     this.lineContentProvider = null;
     this.destinationNode = null;

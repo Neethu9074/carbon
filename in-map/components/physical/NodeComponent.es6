@@ -4,6 +4,7 @@ import ConnectionComponent from 'in-map/components/physical/ConnectionComponent'
 import NodeMetricComponent from 'in-map/components/physical/NodeMetricComponent';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
 import LayerComponent from 'in-map/components/physical/LayerComponent';
+import nodes from 'in-map/stores/physical/nodesStore';
 import Node from 'in-map/sceneObjects/physical/Node';
 import {activeMetric$} from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
@@ -71,16 +72,38 @@ function Connections({entity}) {
 
   return (
     <ul>
-      {outgoing.map(connectionEntity => <ConnectionComponent key={connectionEntity.get('id')}
-                                                             sourceId={nodeEntityId}
-                                                             destinationId={connectionEntity.get('otherId')}
-                                                             entity={connectionEntity} />
+      {outgoing.map(connectionEntity => <ConnectionSpawner key={connectionEntity.get('id')}
+                                                           sourceId={nodeEntityId}
+                                                           destinationId={connectionEntity.get('otherId')}
+                                                           entity={connectionEntity} />
       )}
-      {incoming.map(connectionEntity => <ConnectionComponent key={connectionEntity.get('id')}
-                                                             sourceId={connectionEntity.get('otherId')}
-                                                             destinationId={nodeEntityId}
-                                                             entity={connectionEntity} />
+      {incoming.map(connectionEntity => <ConnectionSpawner key={connectionEntity.get('id')}
+                                                           sourceId={connectionEntity.get('otherId')}
+                                                           destinationId={nodeEntityId}
+                                                           entity={connectionEntity} />
       )}
     </ul>
   );
 }
+
+const ConnectionSpawner = connectTo(() => {
+  return {
+    _nodes: nodes.stream
+  };
+}, function ConnectionSpawner({_nodes, sourceId, destinationId, entity}) {
+  if (!_nodes) {
+    return null;
+  }
+
+  const sourceNode = _nodes.objects[sourceId];
+  const destinationNode = _nodes.objects[destinationId];
+  if (!sourceNode || !destinationNode) {
+    return null;
+  }
+
+  return (
+    <ConnectionComponent entity={entity}
+                         sourceNode={sourceNode}
+                         destinationNode={destinationNode} />
+  );
+});
