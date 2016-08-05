@@ -1,3 +1,4 @@
+import './akka-http-server';
 import './cassandra';
 import './corba';
 import './elasticsearch';
