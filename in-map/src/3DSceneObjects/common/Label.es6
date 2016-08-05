@@ -12,10 +12,7 @@ export default class Label extends SceneObject {
     this.fragment = this.getFragment(iconSize);
     this.positionHandler = this.getPositionHandler();
 
-    this.addSubscriptions([
-      this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)),
-      this.eventEmitter.on('snapshotChanged').subscribe(this.onSnapshotUpdated.bind(this))
-    ]);
+    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
   }
 
   getFragment() { throw new Error('PLEASE OVERRIDE METHOD'); }
