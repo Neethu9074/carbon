@@ -129,8 +129,8 @@ function createDetails(filesystem, name, context) {
                'ifs.' + name + '.tx.bytes'
              ],
              labels: [
-               'Received',
-               'Transmitted'
+               'Received/s',
+               'Transmitted/s'
              ],
              type: 'line'
            }}
