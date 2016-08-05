@@ -20,12 +20,12 @@ export default function Tooltip(ComposedComponent) {
 
     getInitialState() {
       return {
-        x: -Number.MAX_VALUE,
+        x: 0,
         y: 0
       };
     },
 
-    componentDidMount() {
+    componentWillMount() {
       this.positionSubscription = onMove(this.props.canvas, event => {
         this.setState({
           x: event.clientX + OFFSET,
@@ -40,10 +40,17 @@ export default function Tooltip(ComposedComponent) {
     },
 
     render() {
+      const x = this.state.x;
+      const y = this.state.y;
+
+      if (x === 0 && y === 0) {
+        return null;
+      }
+
       const style = {
         position: 'absolute',
-        top: this.state.y + 'px',
-        left: this.state.x + 'px'
+        top: y + 'px',
+        left: x + 'px'
       };
 
       return (
