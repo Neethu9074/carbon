@@ -1,14 +1,14 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import {emptyList} from 'in-services/fixedImmutables';
 
 import SolrInfo from '../SolrInfo';
 import SolrCoreInfo from '../SolrCoreInfo';
 
 export default function SolrSidebar({snapshot}) {
-  const coreNames = snapshot.getIn(['data', 'core_names'], emptyList).sort();
+  const coreNames = snapshot.getIn(['data', 'core_names'], emptyList).toArray().sort();
 
   return (
     <div>
@@ -20,25 +20,21 @@ export default function SolrSidebar({snapshot}) {
           <SolrInfo snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-      <div>
-        Cores
-        {
-          coreNames.map(cn =>
-            <Collapsible initiallyOpen={true} key={cn}>
-              <Collapsible.Header>
-                {cn}
-              </Collapsible.Header>
-              <Collapsible.Content>
-                <SolrCoreInfo snapshot={snapshot} core={cn} />
-              </Collapsible.Content>
-            </Collapsible>
-          )
-        }
-      </div>
+
+      {coreNames.map(cn =>
+        <div key={cn}>
+          <Separator />
+
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>
+              Core {cn}
+            </Collapsible.Header>
+            <Collapsible.Content>
+              <SolrCoreInfo snapshot={snapshot} core={cn} />
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      )}
     </div>
   );
 }
-
-SolrSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

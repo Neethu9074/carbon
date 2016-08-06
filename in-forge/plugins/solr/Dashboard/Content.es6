@@ -1,7 +1,4 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
-
-import {timeframeShape} from 'in-stores/timeline';
 
 import CoresTable from 'in-forge/plugins/solr/Dashboard/CoresTable';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -20,8 +17,3 @@ export default function SolrDashboard({snapshot, timeframe}) {
     <CoresTable snapshot={snapshot} timeframe={timeframe}/>
   );
 }
-
-SolrDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};
