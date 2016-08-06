@@ -4,5 +4,6 @@ export default Object.freeze({
   io: '#93f9d6',
   http: '#9ce7fb',
   messaging: '#b8f782',
-  batch: '#93f9d6'
+  batch: '#93f9d6',
+  generic: '#93f9d6'
 });

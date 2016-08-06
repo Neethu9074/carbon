@@ -1,26 +1,32 @@
 // maps type => spanDefinition
 export const registry = {};
 
-const defaultSpanDefinition = {
-  type: 'unknown',
-  category: 'generic',
-  direction: 'entryAndExit',
+function defaultSpanDefinition(span) {
+  const spanDefinition = {
+    type: 'unknown',
+    category: 'generic',
+    direction: 'entryAndExit',
 
-  typeName: {
-    singular: 'Unknown',
-    plural: 'Unknown'
-  },
+    typeName: {
+      singular: 'Call',
+      plural: 'Calls'
+    },
 
-  getLabel() {
-    return 'Unknown';
-  }
-};
+    detailView: 'GenericSpanDetailView',
+
+    getLabel() {
+      return span.getIn(['data', 'label']) || 'Unknown (' + span.get('name') + ')';
+    }
+
+  };
+  return spanDefinition;
+}
 
 export function registerSpanDefinition(spanDefinition) {
   registry[spanDefinition.type] = spanDefinition;
 }
 
 
-export function getSpanDefinition(type) {
-  return registry[type] || defaultSpanDefinition;
+export function getSpanDefinition(type, span) {
+  return registry[type] || defaultSpanDefinition(span);
 }
