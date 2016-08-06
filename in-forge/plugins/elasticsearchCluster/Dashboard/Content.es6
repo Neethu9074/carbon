@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -14,7 +13,6 @@ import ClusterSummary from 'in-forge/plugins/elasticsearchCluster/ClusterSummary
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
@@ -147,8 +145,3 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-ElasticsearchClusterDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -12,7 +11,3 @@ export default function CassandraClusterSidebar({snapshot}) {
     </div>
   );
 }
-
-CassandraClusterSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

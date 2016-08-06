@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -10,8 +9,6 @@ import {
 import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
-
 
 const throttlingTimeFormater = d => (d / 1000000000.0) + 's';
 
@@ -196,8 +193,3 @@ export default function DockerDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-DockerDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DefaultLogicalConnectionSidebarKpis from 'in-sdk/components/sidebar/DefaultLogicalConnectionSidebarKpis';
@@ -15,7 +14,3 @@ export default function DefaultLogicalConnectionSidebar({snapshot}) {
     </div>
   );
 }
-
-DefaultLogicalConnectionSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

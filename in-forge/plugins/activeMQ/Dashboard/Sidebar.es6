@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import ConnectorsInfo from 'in-forge/plugins/activeMQ/ConnectorsInfo';
@@ -32,7 +31,3 @@ export default function ActiveMQSidebar({snapshot}) {
     </div>
   );
 }
-
-ActiveMQSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

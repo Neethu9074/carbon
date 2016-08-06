@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
@@ -37,7 +36,3 @@ export default function SpringbootSidebar({snapshot}) {
     </div>
   );
 }
-
-SpringbootSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

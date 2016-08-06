@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
@@ -42,7 +41,3 @@ export default function JvmRuntimeSidebar({snapshot}) {
     </div>
   );
 }
-
-JvmRuntimeSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyMap} from 'in-services/fixedImmutables';
-import {timeframeShape} from 'in-stores/timeline';
 import {
   twoDecimalPlaces,
   zeroDecimalPlaces,
@@ -36,11 +34,6 @@ export default function HttpServersTable({snapshot, timeframe}) {
     </DashboardSection>
   );
 }
-
-HttpServersTable.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};
 
 function getKey(server, key) {
   return key;

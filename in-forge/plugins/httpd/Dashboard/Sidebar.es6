@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -38,7 +37,3 @@ export default function HttpdSidebar({snapshot}) {
     </div>
   );
 }
-
-HttpdSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

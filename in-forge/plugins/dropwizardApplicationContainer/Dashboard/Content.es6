@@ -1,10 +1,8 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import CountersTable from 'in-forge/plugins/dropwizardApplicationContainer/Dashboard/CountersTable';
 import GaugesTable from 'in-forge/plugins/dropwizardApplicationContainer/Dashboard/GaugesTable';
 import MetersTable from 'in-forge/plugins/dropwizardApplicationContainer/Dashboard/MetersTable';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function DropwizardDashboard({snapshot, timeframe}) {
@@ -16,8 +14,3 @@ export default function DropwizardDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-DropwizardDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

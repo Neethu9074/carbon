@@ -1,7 +1,5 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {timeframeShape} from 'in-stores/timeline';
 import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -95,8 +93,3 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-ActiveMQDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

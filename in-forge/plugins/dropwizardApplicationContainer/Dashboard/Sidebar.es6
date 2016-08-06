@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DropwizardInfo from 'in-forge/plugins/dropwizardApplicationContainer/DropwizardInfo';
@@ -19,7 +18,3 @@ export default function DropwizardSidebar({snapshot}) {
     </div>
   );
 }
-
-DropwizardSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

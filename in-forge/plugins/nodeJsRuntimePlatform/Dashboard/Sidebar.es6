@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
@@ -30,7 +29,3 @@ export default function NodejsDashboardSidebar({snapshot}) {
     </div>
   );
 }
-
-NodejsDashboardSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

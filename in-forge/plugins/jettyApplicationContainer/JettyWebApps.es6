@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
@@ -43,7 +42,3 @@ export default function JettyWebApps({snapshot}) {
     </div>
   );
 }
-
-JettyWebApps.propTypes = {
-  snapshot: irpt.map.isRequired
-};
