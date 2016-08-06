@@ -27,7 +27,7 @@ export default function SolrSidebar({snapshot}) {
 
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>
-              Core {cn}
+              Core: {cn}
             </Collapsible.Header>
             <Collapsible.Content>
               <SolrCoreInfo snapshot={snapshot} core={cn} />
