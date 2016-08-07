@@ -4,6 +4,8 @@ error_log                    syslog:server=localhost,facility=local4,tag=nginx_e
 
 pid                          /run/nginx.pid;
 
+user                         $USER;
+
 events {
   worker_connections         1024;
 }

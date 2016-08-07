@@ -7,7 +7,7 @@ if [[ "$USER_AND_GROUP_NAME" != "" ]]; then
     groupadd -r $USER_AND_GROUP_NAME --gid=$GROUP_ID && useradd -r -g $USER_AND_GROUP_NAME --uid=$USER_ID $USER_AND_GROUP_NAME
   fi
 
-  USER=$USER_AND_GROUP_NAME
+  export USER=$USER_AND_GROUP_NAME
 fi
 
 set -e
@@ -19,4 +19,4 @@ j2 /opt/www/star_instana_io.key.j2 > /etc/ssl/private/star_instana_io.key
 j2 /etc/ssl/certs/star_instana_io.crt.j2 > /etc/ssl/certs/star_instana_io.crt
 j2 /etc/ssl/dhgroup.pem.j2 > /etc/ssl/dhgroup.pem
 
-exec /sbin/setuser $USER nginx -g "daemon off;" 2>&1 | logger -t ui-client-nginx
+exec nginx -g "daemon off;" 2>&1 | logger -t ui-client-nginx
