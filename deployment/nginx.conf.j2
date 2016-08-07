@@ -4,8 +4,8 @@ error_log                    syslog:server=localhost,facility=local4,tag=nginx_e
 
 pid                          /run/nginx.pid;
 
-{% if OPERATION_MODE == "on-prem" and USER_AND_GROUP_NAME != '' %}
-user                         $USER;
+{% if OPERATION_MODE == "on-prem" and USER_AND_GROUP_NAME != "" %}
+user                         {{ USER_AND_GROUP_NAME }};
 {% endif %}
 
 events {
