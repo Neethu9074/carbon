@@ -1,10 +1,8 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import FrontendsTable from 'in-forge/plugins/hAProxy/Dashboard/FrontendsTable';
 import BackendsTable from 'in-forge/plugins/hAProxy/Dashboard/BackendsTable';
 import DashboardNotification from 'in-components/DashboardNotification';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function HAProxyDashboard({snapshot, timeframe}) {
@@ -27,8 +25,3 @@ export default function HAProxyDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-HAProxyDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

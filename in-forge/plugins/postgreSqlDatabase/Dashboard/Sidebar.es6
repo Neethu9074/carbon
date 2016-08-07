@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
@@ -22,7 +21,3 @@ export default function PostgreSqlSidebar({snapshot}) {
     </div>
   );
 }
-
-PostgreSqlSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

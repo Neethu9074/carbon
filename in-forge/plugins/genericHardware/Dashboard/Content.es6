@@ -1,7 +1,4 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
-
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function GenericHardwareDashboard() {
@@ -9,8 +6,3 @@ export default function GenericHardwareDashboard() {
     <div/>
   );
 }
-
-GenericHardwareDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

@@ -1,9 +1,7 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DeploymentsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/DeploymentsTable';
 import ConnectorsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ConnectorsTable';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function JBossAsDashboard({snapshot, timeframe}) {
@@ -17,8 +15,3 @@ export default function JBossAsDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-JBossAsDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

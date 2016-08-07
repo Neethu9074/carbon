@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -15,7 +14,3 @@ export default function DefaultLogicalDashboardSidebar({snapshot}) {
     </div>
   );
 }
-
-DefaultLogicalDashboardSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

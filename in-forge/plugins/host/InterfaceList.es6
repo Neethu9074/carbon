@@ -1,5 +1,4 @@
 import React from 'react';
-import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -26,10 +25,6 @@ export default function InterfaceList({snapshot}) {
     </Collapsible>
   );
 }
-
-InterfaceList.propTypes = {
-  snapshot: irpt.map.isRequired
-};
 
 
 function formatIPs(ips) {

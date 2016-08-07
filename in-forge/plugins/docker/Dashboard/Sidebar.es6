@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
@@ -34,7 +33,3 @@ export default function DockerSidebar({snapshot}) {
     </div>
   );
 }
-
-DockerSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

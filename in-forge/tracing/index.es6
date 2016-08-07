@@ -1,3 +1,5 @@
+import './akka-http-client';
+import './akka-http-server';
 import './cassandra';
 import './corba';
 import './elasticsearch';
@@ -16,5 +18,6 @@ import './rabbitmq';
 import './redis';
 import './servlet';
 import './spring-batch';
+import './spring-rest';
 import './spring-web';
 import './url';

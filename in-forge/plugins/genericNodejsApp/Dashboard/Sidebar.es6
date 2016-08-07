@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
@@ -30,7 +29,3 @@ export default function NodejsDashboardSidebar({snapshot}) {
     </div>
   );
 }
-
-NodejsDashboardSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

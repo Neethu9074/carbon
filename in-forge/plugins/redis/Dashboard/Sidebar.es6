@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RedisInfo from 'in-forge/plugins/redis/RedisInfo';
@@ -19,7 +18,3 @@ export default function RedisSidebar({snapshot}) {
     </div>
   );
 }
-
-RedisSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};
