@@ -7,7 +7,7 @@ if [[ "$USER_AND_GROUP_NAME" != "" ]]; then
     groupadd -r $USER_AND_GROUP_NAME --gid=$GROUP_ID && useradd -r -g $USER_AND_GROUP_NAME --uid=$USER_ID $USER_AND_GROUP_NAME
   fi
 
-  export USER=$USER_AND_GROUP_NAME
+  USER=$USER_AND_GROUP_NAME
 fi
 
 set -e
