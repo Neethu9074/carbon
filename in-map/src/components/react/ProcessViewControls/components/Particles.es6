@@ -2,12 +2,9 @@ import React from 'react';
 
 import {particlesAreActive$, toggleParticles} from 'in-map/src/stores/process/particles';
 import {view, types as views} from 'in-stores/view';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-map/src/components/react/Particles/Particles.less';
-
-
-const block = 'in-switcher-particles';
 
 export default connectTo({
     particlesAreActive: particlesAreActive$,
@@ -21,10 +18,10 @@ function Particles({currentView, particlesAreActive}) {
   }
 
   return (
-    <div className={block}
+    <Button
          onClick={toggleParticles}>
       {particlesAreActive ? 'Particles Off' : 'Particles On'}
-    </div>
+    </Button>
   );
 }
 

@@ -1,0 +1,14 @@
+@import "~in-themes/active.less";
+
+.in-logical-map-controls {
+  position: absolute;
+  right: 20px;
+  bottom: @footer__height * 1px;
+
+  transition: right 0.25s ease-in-out,
+              bottom 0.25s ease-in-out;
+
+  &--right-sidebar-open {
+    right: 420px;
+  }
+}
