@@ -22,16 +22,17 @@ function ServiceComponent({entity}) {
   const outgoingConnections = entity.get('outgoingConnections');
   const incomingConnections = entity.get('incomingConnections');
 
-  const connections = [];
-  outgoingConnections.forEach(c => connections.push(c));
-  incomingConnections.forEach(c => connections.push(c));
-
   return (
     <div>
-      {connections.map(connectionEntity =>
-        <ConnectionSpawner key={connectionEntity.get('id')}
-                           sourceID={serviceId}
-                           entity={connectionEntity} />
+      {outgoingConnections.map(connectionEntity => <ConnectionSpawner key={connectionEntity.get('id')}
+                                                                      sourceId={serviceId}
+                                                                      destinationId={connectionEntity.get('otherId')}
+                                                                      entity={connectionEntity} />
+      )}
+      {incomingConnections.map(connectionEntity => <ConnectionSpawner key={connectionEntity.get('id')}
+                                                                      sourceId={connectionEntity.get('otherId')}
+                                                                      destinationId={serviceId}
+                                                                      entity={connectionEntity} />
       )}
     </div>
   );
@@ -41,13 +42,13 @@ const ConnectionSpawner = connectTo(() => {
   return {
     _services: services.stream.debounce(50)
   };
-}, function ConnectionSpawner({_services, sourceID, entity}) {
+}, function ConnectionSpawner({_services, sourceId, destinationId, entity}) {
   if (!_services) {
     return null;
   }
 
-  const sourceNode = _services.objects[sourceID];
-  const destinationNode = _services.objects[entity.get('otherId')];
+  const sourceNode = _services.objects[sourceId];
+  const destinationNode = _services.objects[destinationId];
   if (!sourceNode || !destinationNode) {
     return null;
   }
