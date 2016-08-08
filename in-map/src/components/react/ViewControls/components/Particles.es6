@@ -31,8 +31,8 @@ function Particles({particlesAreActive, currentView}) {
     <Button onClick={toggleParticles}
             className={classes}>
       <SvgIcon type={'particles'}
-               width={16}
-               height={16}
+               width={24}
+               height={24}
                color={particlesAreActive ? '#000' : '#7b8e96'} />
     </Button>
   );

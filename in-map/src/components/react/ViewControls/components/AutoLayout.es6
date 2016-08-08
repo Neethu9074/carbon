@@ -24,8 +24,8 @@ function AutoLayout({currentView}) {
     <div className={block}
          onClick={() => eventBus.emit('resetProcessViewLayouting', true)}>
       <SvgIcon type={'autoLayout'}
-               width={16}
-               height={16}
+               width={24}
+               height={24}
                color='#7b8e96' />
     </div>
   );
