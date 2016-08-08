@@ -13,7 +13,10 @@ export default function HttpSpanDetailView({span}) {
           {span.getIn(['data', 'http', 'method'])}
         </DescriptionItem>
         <DescriptionItem title='Status Code'>
-          {span.getIn(['data', 'http', 'status'], span.getIn(['data', 'http', 'status_code']))}
+          {span.getIn(['data', 'http', 'status'])}
+        </DescriptionItem>
+        <DescriptionItem title='Content Length'>
+          {span.getIn(['data', 'http', 'size'])}
         </DescriptionItem>
       </DescriptionList>
     </div>
