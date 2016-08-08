@@ -30,7 +30,7 @@ export default React.createClass({
 
   onConnectError() {
     this.setState({
-      systemMessage: 'Connection lost.'
+      systemMessage: 'Connection lost'
     });
   },
 
