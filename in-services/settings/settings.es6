@@ -33,6 +33,7 @@ function loadDefault() {
   setDefaultConfigValue(['experiments'], false);
   setDefaultConfigValue(['autoCollapseTimeline'], false);
   setDefaultConfigValue(['showMaintenanceNotes'], true);
+  setDefaultConfigValue(['zoomPanelIsActive'], true);
 
   setIn(['dataSource'], 'defaults');
 }

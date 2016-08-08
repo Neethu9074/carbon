@@ -2,6 +2,7 @@ import React from 'react';
 
 import {cameraController$} from 'in-map/src/stores/cameraController';
 import SvgIcon from 'in-components/SvgIcon';
+import {getIn} from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-map/src/components/react/ViewControls/components/Zoom.less';
@@ -11,10 +12,11 @@ const UNITS_TO_ZOOM = 100;
 const block = 'in-logical-view-zoom';
 
 export default connectTo({
-  cameraController: cameraController$
+  cameraController: cameraController$,
+  showZoomPanel: getIn(['zoomPanelIsActive'])
 },
-function Zoom({cameraController}) {
-  if (!cameraController) {
+function Zoom({cameraController, showZoomPanel}) {
+  if (!cameraController || !showZoomPanel) {
     return null;
   }
 
