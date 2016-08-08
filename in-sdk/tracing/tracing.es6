@@ -29,7 +29,14 @@ export function getCategory(span) {
 }
 
 export function getDirection(span) {
-  return getSpanDefinition(span.get('name'), span).direction || 'entryAndExit';
+  const direction = getSpanDefinition(span.get('name'), span).direction;
+  if (!direction) {
+    return 'entryAndExit';
+  } else if (typeof direction === 'string') {
+    return direction;
+  }
+
+  return direction(span) || 'entryAndExit';
 }
 
 export function getTypeLabelSingular(span) {
