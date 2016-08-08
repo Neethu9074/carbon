@@ -235,6 +235,9 @@ export default class ParticleEmitter extends SceneObject {
   }
 
   setNumparticlesPerSecond(particlesPerSecond = 10) {
+    // clamp number of spawning particles to max number of particles during lifetime
+    particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * this.maxParticles);
+
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = particlesPerSecond > 0 ? 1 / this.particlesPerSecond : Number.MAX_VALUE;
   }

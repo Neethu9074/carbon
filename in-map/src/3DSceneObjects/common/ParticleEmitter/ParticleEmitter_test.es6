@@ -60,8 +60,8 @@ describe('ParticleEmitter', () => {
   it('should set the number of spawning particles per second to calls metric', () => {
     particleEmitter.start();
     metricProvider.emit([123456789, 42]);
-    expect(particleEmitter.particlesPerSecond).to.equal(42);
-    expect(particleEmitter.secToNextParticle).to.equal(1 / 42);
+    expect(particleEmitter.particlesPerSecond).to.equal(10);
+    expect(particleEmitter.secToNextParticle).to.equal(1 / 10);
   });
 
   it('should not spawn particles if the metric value is 0', () => {
