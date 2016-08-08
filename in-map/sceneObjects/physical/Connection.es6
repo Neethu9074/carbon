@@ -30,6 +30,8 @@ export default class Connection extends SceneObject {
     this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
     this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
 
+    this.getComponent('color').setHex('#bababa');
+
     connections.add(this.id, this);
   }
 
