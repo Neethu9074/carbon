@@ -32,14 +32,13 @@ function Zoom({cameraController, showZoomPanel}) {
                  height={16}
                  color='#7b8e96' />
       </div>
-      <div className={block + '__button'}
+      <div className={block + '__button-zoom-out'}
            onClick={() => {
              cameraController.centerMousePosition();
              cameraController.onZoom(-UNITS_TO_ZOOM);
            }}>
         <SvgIcon type={'minus'}
                  width={16}
-                 height={16}
                  color='#7b8e96' />
       </div>
     </div>
