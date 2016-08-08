@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 import {combineLatest} from 'reactive-observables';
 
+import {nodePositions$} from 'in-map/src/stores/process/logicalLayouterStore';
 import {edges$} from 'in-map/src/stores/process/edgesStore';
 import {nodes$} from 'in-map/src/stores/process/nodesStore';
 import {eventBus} from 'in-map/src/services/eventBus';
@@ -16,11 +17,16 @@ export default class Layouter {
     this.gravity = 500;
     this.speed = 0.1;
 
-    this.layoutingSubscription = combineLatest([nodes$, edges$, eventBus.on('resetProcessViewLayouting')])
-                                 .map(([nodes, edges]) => {
+    this.layoutingSubscription = combineLatest([nodes$,
+                                                edges$,
+                                                nodePositions$,
+                                                eventBus.on('resetProcessViewLayouting')
+                                              ])
+                                 .map(([nodes, edges, nodePositions]) => {
                                    return {
                                      nodes: Object.keys(nodes).map(key => nodes[key]),
-                                     edges: Object.keys(edges).map(key => edges[key])
+                                     edges: Object.keys(edges).map(key => edges[key]),
+                                     nodePositions
                                    };
                                  })
                                  .debounce(100)
@@ -42,7 +48,7 @@ export default class Layouter {
     this.applyPositionUpdate(sigmaGraph);
   }
 
-  buildSigmaGraphStructure({nodes, edges}) {
+  buildSigmaGraphStructure({nodes, edges, nodePositions}) {
     const graph = {
       nodes: [],
       nodeMap: {},
@@ -57,6 +63,7 @@ export default class Layouter {
     let posOffet = 0;
     nodes.forEach(node => {
       const pos = node.getComponent('position').getPosition();
+      const savedPosition = nodePositions.get(node.id);
 
       const sigmaNode = {
         id: node.id,
@@ -68,7 +75,11 @@ export default class Layouter {
       graph.nodeMap[node.id] = sigmaNode;
       graph.nodes.push(sigmaNode);
 
-      if (node._wasAutomaticLayouted) {
+      if (savedPosition) {
+        sigmaNode.fixed = true;
+        sigmaNode.x = savedPosition.x;
+        sigmaNode.y = savedPosition.z;
+      } else if (node._wasAutomaticLayouted) {
         sigmaNode.fixed = true;
         sigmaNode.x = pos.x;
         sigmaNode.y = pos.z;
