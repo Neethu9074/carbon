@@ -1,20 +1,21 @@
 import React from 'react';
 
 import {content$} from 'in-components/RightSidebar/stores/rightSidebarContentStore';
-import {toggleParticles} from 'in-map/stores/logical/particlesStore';
+import AutoLayout from 'in-map/components/misc/viewControlComponents/AutoLayout';
+import Particles from 'in-map/components/misc/viewControlComponents/Particles';
+import Zoom from 'in-map/components/misc/viewControlComponents/Zoom';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import toPx from 'in-services/formatters/toPx';
-import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-map/components/logical/misc/LogicalMapControls/LogicalMapControls.less';
+import 'in-map/components/logical/misc/ViewControls/ViewControls.less';
 
 
 const block = 'in-logical-map-controls';
 
 export default connectTo({
-  content: content$,
-  timelineHeight: timelineHeight$
+  timelineHeight: timelineHeight$,
+  content: content$
 },
 function LogicalMapControls({content, timelineHeight}) {
   let classes = block;
@@ -25,10 +26,9 @@ function LogicalMapControls({content, timelineHeight}) {
   return (
     <div className={classes}
          style={{ bottom: toPx(timelineHeight) }}>
-
-      <Button onClick={toggleParticles}>
-        Particles
-      </Button>
+      <AutoLayout />
+      <Particles />
+      <Zoom />
     </div>
   );
 });

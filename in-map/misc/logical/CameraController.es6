@@ -112,6 +112,11 @@ export default class CameraController extends BaseCameraController {
     ]);
   }
 
+  centerMousePosition() {
+    this.lastMousePosition.x = this.scene.width / 2;
+    this.lastMousePosition.y = this.scene.height / 2;
+  }
+
   onMouseMoved(lastMousePosition) {
     this.lastMousePosition.x = lastMousePosition.x;
     this.lastMousePosition.y = lastMousePosition.y;

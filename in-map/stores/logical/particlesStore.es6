@@ -2,7 +2,7 @@ import {createStore} from 'in-stores/store';
 
 
 const particlesAreActive = createStore({
-  name: 'processView/particlesAreActive',
+  name: 'logicalView/particlesAreActive',
   initialValue: false
 });
 export const particlesAreActive$ = particlesAreActive.observable;

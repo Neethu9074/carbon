@@ -1,5 +1,6 @@
 import RoEmitter from 'roemitter';
 
+import {setCameraController} from 'in-map/stores/cameraController';
 import Subscriber from 'in-map/src/Subscriber';
 
 
@@ -10,6 +11,8 @@ export default class CameraController extends Subscriber {
 
     this.interactionModules = [];
     this.eventEmitter = new RoEmitter('control event emitter');
+
+    setCameraController(this);
   }
 
   dispose() {
@@ -18,5 +21,7 @@ export default class CameraController extends Subscriber {
 
     this.eventEmitter.dispose();
     super.dispose();
+
+    setCameraController(null);
   }
 }
