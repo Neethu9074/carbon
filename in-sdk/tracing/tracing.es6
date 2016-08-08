@@ -5,6 +5,7 @@ import messagingIcon from 'in-sdk/tracing/categoryIcons/messaging.svg';
 import databaseIcon from 'in-sdk/tracing/categoryIcons/database.svg';
 import remoteIcon from 'in-sdk/tracing/categoryIcons/remote.svg';
 import genericIcon from 'in-sdk/tracing/categoryIcons/generic.svg';
+import loggerIcon from 'in-sdk/tracing/categoryIcons/logger.svg';
 
 const categoryIcons = {
   database: databaseIcon,
@@ -13,7 +14,8 @@ const categoryIcons = {
   http: httpIcon,
   messaging: messagingIcon,
   batch: messagingIcon,
-  generic: genericIcon
+  generic: genericIcon,
+  logger: loggerIcon
 };
 
 export function getType(span) {
@@ -29,7 +31,14 @@ export function getCategory(span) {
 }
 
 export function getDirection(span) {
-  return getSpanDefinition(span.get('name'), span).direction || 'entryAndExit';
+  const direction = getSpanDefinition(span.get('name'), span).direction;
+  if (!direction) {
+    return 'entryAndExit';
+  } else if (typeof direction === 'string') {
+    return direction;
+  }
+
+  return direction(span) || 'entryAndExit';
 }
 
 export function getTypeLabelSingular(span) {

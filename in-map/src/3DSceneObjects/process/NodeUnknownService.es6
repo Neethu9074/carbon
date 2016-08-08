@@ -34,7 +34,7 @@ export default class NodeUnknownExitService extends Node {
   }
 
   init() {
-    this.height = 0.5;
+    this.height = 0.25;
   }
 
   addComponents(components) {

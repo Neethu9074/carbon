@@ -5,5 +5,6 @@ export default Object.freeze({
   http: '#9ce7fb',
   messaging: '#b8f782',
   batch: '#93f9d6',
-  generic: '#93f9d6'
+  generic: '#93f9d6',
+  logger: '#ed6c5d'
 });

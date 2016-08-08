@@ -3,7 +3,10 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 registerSpanDefinition({
   type: 'rabbitmq',
   category: 'messaging',
-  direction: 'exit',
+
+  direction(span) {
+    return span.getIn(['data', 'rabbitmq', 'sort']) === 'publish' ? 'exit' : 'entry';
+  },
 
   typeName: {
     singular: 'RabbitMQ message',
