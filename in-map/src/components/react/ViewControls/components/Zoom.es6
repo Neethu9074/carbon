@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {cameraController$} from 'in-map/src/stores/process/cameraController';
+import {cameraController$} from 'in-map/src/stores/cameraController';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-map/src/components/react/ProcessViewControls/components/Zoom.less';
+import 'in-map/src/components/react/ViewControls/components/Zoom.less';
 
 
 const UNITS_TO_ZOOM = 100;

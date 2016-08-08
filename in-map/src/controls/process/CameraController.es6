@@ -2,7 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
 import BaseCameraController from 'in-map/src/controls/common/CameraController';
-import {setCameraController} from 'in-map/src/stores/process/cameraController';
+import {setCameraController} from 'in-map/src/stores/cameraController';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import AnimationController from 'in-map/src/AnimationController';
 import {longClickedSceneObject} from 'in-map/src/mapStores';

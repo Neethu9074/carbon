@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import ProcessViewControls from 'in-map/src/components/react/ProcessViewControls/ProcessViewControls';
+import ViewControls from 'in-map/src/components/react/ViewControls';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {isWebGLSupported} from 'in-services/util/webGL';
 import {showHelp} from 'in-stores/navigation';
@@ -71,7 +71,7 @@ export default connectTo({
     if (this.state.isWebGLSupported) {
       return (
         <div className={block} ref='parent'>
-          <ProcessViewControls />
+          <ViewControls />
         </div>
       );
     }
