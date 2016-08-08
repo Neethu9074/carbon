@@ -1,0 +1,39 @@
+import React from 'react';
+
+import {cameraController$} from 'in-map/src/stores/process/cameraController';
+import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
+
+import 'in-map/src/components/react/ProcessViewControls/components/Zoom.less';
+
+
+const UNITS_TO_ZOOM = 100;
+const block = 'in-logical-view-zoom';
+
+export default connectTo({
+  cameraController: cameraController$
+},
+function Zoom({cameraController}) {
+  if (!cameraController) {
+    return null;
+  }
+
+  return (
+    <div className={block}>
+      <div className={block + '__button'}
+           onClick={() => cameraController.onZoom(UNITS_TO_ZOOM)}>
+        <SvgIcon type={'plus_without_frame'}
+                 width={16}
+                 height={16}
+                 color='#7b8e96' />
+      </div>
+      <div className={block + '__button'}
+           onClick={() => cameraController.onZoom(-UNITS_TO_ZOOM)}>
+        <SvgIcon type={'minus'}
+                 width={16}
+                 height={16}
+                 color='#7b8e96' />
+      </div>
+    </div>
+  );
+});

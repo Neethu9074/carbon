@@ -2,6 +2,7 @@ import React from 'react';
 
 import Particles from 'in-map/src/components/react/ProcessViewControls/components/Particles';
 import {content$} from 'in-components/RightSidebar/stores/rightSidebarContentStore';
+import Zoom from 'in-map/src/components/react/ProcessViewControls/components/Zoom';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import {view, types as views} from 'in-stores/view';
 import toPx from 'in-services/formatters/toPx';
@@ -31,6 +32,7 @@ function LogicalMapControls({content, timelineHeight, currentView}) {
     <div className={classes}
          style={{ bottom: toPx(timelineHeight) }}>
       <Particles />
+      <Zoom />
     </div>
   );
 });

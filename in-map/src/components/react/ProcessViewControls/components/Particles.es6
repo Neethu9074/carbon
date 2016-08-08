@@ -18,8 +18,7 @@ function Particles({currentView, particlesAreActive}) {
   }
 
   return (
-    <Button
-         onClick={toggleParticles}>
+    <Button onClick={toggleParticles}>
       {particlesAreActive ? 'Particles Off' : 'Particles On'}
     </Button>
   );
