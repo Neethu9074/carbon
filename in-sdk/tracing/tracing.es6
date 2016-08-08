@@ -5,6 +5,7 @@ import messagingIcon from 'in-sdk/tracing/categoryIcons/messaging.svg';
 import databaseIcon from 'in-sdk/tracing/categoryIcons/database.svg';
 import remoteIcon from 'in-sdk/tracing/categoryIcons/remote.svg';
 import genericIcon from 'in-sdk/tracing/categoryIcons/generic.svg';
+import loggerIcon from 'in-sdk/tracing/categoryIcons/logger.svg';
 
 const categoryIcons = {
   database: databaseIcon,
@@ -13,7 +14,8 @@ const categoryIcons = {
   http: httpIcon,
   messaging: messagingIcon,
   batch: messagingIcon,
-  generic: genericIcon
+  generic: genericIcon,
+  logger: loggerIcon
 };
 
 export function getType(span) {
