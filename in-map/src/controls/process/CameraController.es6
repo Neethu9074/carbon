@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
 import BaseCameraController from 'in-map/src/controls/common/CameraController';
+import {setCameraController} from 'in-map/src/stores/cameraController';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import AnimationController from 'in-map/src/AnimationController';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
@@ -68,6 +69,8 @@ export default class CameraController extends BaseCameraController {
       new DragAndDropModule({eventEmitter, map, canvas, scene, camera: this.camera})
     );
     eventEmitter.emit('onZoom', 0);
+
+    setCameraController(this);
   }
 
   init() {
@@ -143,6 +146,8 @@ export default class CameraController extends BaseCameraController {
     requestRendering();
   }
 
+  centerMousePosition() {}
+
   onZoom(delta) {
     this.zoomLevel -= delta;
     this.zoomLevel = Math.min(Math.max(this.zoomLevel, 200), 1800);
@@ -216,6 +221,8 @@ export default class CameraController extends BaseCameraController {
   }
 
   dispose() {
+    setCameraController(null);
+
     super.dispose();
 
     this.cameraFrunstumSizeAnimationSpeed = null;

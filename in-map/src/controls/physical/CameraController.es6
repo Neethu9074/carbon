@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import ConnectionTooltip from 'in-map/src/2DSceneObjects/tooltips/common/Connection';
+import {setCameraController} from 'in-map/src/stores/cameraController';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
 import * as time from 'in-map/src/timeCalculations';
@@ -39,6 +40,8 @@ export default class CameraController extends BaseCameraController {
       new TouchControlsModule({eventEmitter, scene, canvas}),
       new RaycasterModule({eventEmitter, scene, camera: this.camera})
     );
+
+    setCameraController(this);
   }
 
   init(scene, map) {
@@ -120,6 +123,11 @@ export default class CameraController extends BaseCameraController {
 
       this.eventEmitter.on('clearConnectionTooltip').subscribe(() => currentTooltip.emit(null))
     ]);
+  }
+
+  centerMousePosition() {
+    this.lastMousePosition.x = this.scene.width / 2;
+    this.lastMousePosition.y = this.scene.height / 2;
   }
 
   onMouseMoved(lastMousePosition) {
@@ -288,6 +296,8 @@ export default class CameraController extends BaseCameraController {
   }
 
   dispose() {
+    setCameraController(null);
+
     super.dispose();
 
     this.connectionTooltip.dispose();

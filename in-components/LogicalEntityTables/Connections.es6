@@ -52,9 +52,9 @@ function createDetails(nodeSnapshot, index, context) {
 
 
 function getDownstreamSnapshotsObservables(entity) {
-  return combineLatest(entity.get('outgoingConnections').map(c => getSnapshot(c.get('id'))));
+  return combineLatest(entity.get('outgoingConnections').toArray().map(c => getSnapshot(c.get('id'))));
 }
 
 function getUpstreamSnapshotsObservables(entity) {
-  return combineLatest(entity.get('incomingConnections').map(c => getSnapshot(c.get('id'))));
+  return combineLatest(entity.get('incomingConnections').toArray().map(c => getSnapshot(c.get('id'))));
 }

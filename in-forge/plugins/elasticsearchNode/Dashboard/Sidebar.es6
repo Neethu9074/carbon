@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
@@ -45,7 +44,3 @@ export default function ElasticsearchSidebar({snapshot}) {
     </div>
   );
 }
-
-ElasticsearchSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

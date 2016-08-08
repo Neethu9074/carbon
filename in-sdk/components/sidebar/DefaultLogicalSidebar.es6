@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DefaultLogicalSidebarKpis from 'in-sdk/components/sidebar/DefaultLogicalSidebarKpis';
@@ -18,7 +17,3 @@ export default function DefaultLogicalSidebar({snapshot}) {
     </div>
   );
 }
-
-DefaultLogicalSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
@@ -18,7 +17,3 @@ export default function ConnectorsInfo({snapshot}) {
     </DescriptionList>
   );
 }
-
-ConnectorsInfo.propTypes = {
-  snapshot: irpt.map.isRequired
-};

@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import MemcachedInfo from 'in-forge/plugins/memcached/MemcachedInfo';
@@ -19,7 +18,3 @@ export default function MemcachedSidebar({snapshot}) {
     </div>
   );
 }
-
-MemcachedSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

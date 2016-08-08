@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RabbitMqInfo from 'in-forge/plugins/rabbitMq/RabbitMqInfo';
@@ -19,7 +18,3 @@ export default function RabbitMqSidebar({snapshot}) {
     </div>
   );
 }
-
-RabbitMqSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

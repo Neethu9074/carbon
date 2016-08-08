@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import getForgeComponent from 'in-services/getForgeComponent';
@@ -24,11 +23,6 @@ function HostHardware({foundationSnapshot}) {
     </Collapsible>
   );
 }
-
-HostHardware.propTypes = {
-  foundationSnapshot: irpt.map
-};
-
 
 function getForgeSpecificComponent(snapshot) {
   return getForgeComponent(

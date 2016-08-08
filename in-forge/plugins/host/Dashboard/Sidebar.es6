@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
@@ -12,34 +11,30 @@ import HostInfo from 'in-forge/plugins/host/HostInfo';
 
 
 export default function HostSidebar({snapshot}) {
-    return (
-      <div>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>System</Collapsible.Header>
-          <Collapsible.Content>
-            <HostInfo snapshot={snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
+  return (
+    <div>
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>System</Collapsible.Header>
+        <Collapsible.Content>
+          <HostInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
 
-        <Separator />
+      <Separator />
 
-        <TagList snapshot={snapshot} />
+      <TagList snapshot={snapshot} />
 
-        <Separator />
+      <Separator />
 
-        <InterfaceList snapshot={snapshot} />
+      <InterfaceList snapshot={snapshot} />
 
-        <Separator />
+      <Separator />
 
-        <HostHardware snapshotId={snapshot.get('id')} />
+      <HostHardware snapshotId={snapshot.get('id')} />
 
-        <Separator />
+      <Separator />
 
-        <RunningComponentsList snapshotId={snapshot.get('id')} />
-      </div>
-    );
-  }
-
-HostSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};
+      <RunningComponentsList snapshotId={snapshot.get('id')} />
+    </div>
+  );
+}

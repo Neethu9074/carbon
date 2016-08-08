@@ -5,7 +5,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {getSpanDetailView} from 'in-sdk/tracing';
+import {getType, getSpanDetailView} from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
 const context = require.context('../../../in-forge/tracing', true, /\/[a-zA-Z0-9]+\.es6$/);
@@ -38,7 +38,7 @@ export default React.createClass({
   },
 
   updateForge(props) {
-    const type = props.span.get('name');
+    const type = getType(props.span);
     const detailViewPath = getSpanDetailView(props.span);
 
     if (detailViewPath) {
@@ -55,7 +55,7 @@ export default React.createClass({
   render() {
     if (!this.state.Component) {
       return <LoadingIndicator />;
-    } else if (this.state.componentType !== this.props.span.get('name')) {
+    } else if (this.state.componentType !== getType(this.props.span)) {
       return <LoadingIndicator />;
     }
 

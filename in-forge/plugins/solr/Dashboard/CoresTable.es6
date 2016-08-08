@@ -4,7 +4,8 @@ import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   percentageZeroDecimalPlaces,
-  msZeroDecimalPlaces} from 'in-services/formatters/number';
+  msZeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -59,8 +60,8 @@ function createDetails(core, i, context) {
 
   return (
     <div>
-      <DashboardSection title='Requests'>
-        <TwoColumnRow>
+      <TwoColumnRow>
+        <DashboardSection title='Requests'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -77,6 +78,8 @@ function createDetails(core, i, context) {
                            type: 'line',
                            formatter: zeroDecimalPlaces
                          }}/>
+        </DashboardSection>
+        <DashboardSection title='Request Time'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -93,10 +96,11 @@ function createDetails(core, i, context) {
                            type: 'line',
                            formatter: msZeroDecimalPlaces
                          }}/>
-        </TwoColumnRow>
-      </DashboardSection>
-      <DashboardSection title='Cache'>
-        <TwoColumnRow>
+        </DashboardSection>
+      </TwoColumnRow>
+
+      <TwoColumnRow>
+        <DashboardSection title='Cache Lookups'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -113,6 +117,8 @@ function createDetails(core, i, context) {
                            type: 'line',
                            formatter: twoDecimalPlaces
                          }}/>
+        </DashboardSection>
+        <DashboardSection title='Cache Hit Rate'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -129,8 +135,11 @@ function createDetails(core, i, context) {
                            type: 'line',
                            formatter: percentageZeroDecimalPlaces
                          }}/>
-        </TwoColumnRow>
-        <TwoColumnRow>
+        </DashboardSection>
+      </TwoColumnRow>
+
+      <TwoColumnRow>
+        <DashboardSection title='Insertions'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -147,6 +156,8 @@ function createDetails(core, i, context) {
                            type: 'line',
                            formatter: zeroDecimalPlaces
                          }}/>
+        </DashboardSection>
+        <DashboardSection title='Evictions'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -163,10 +174,11 @@ function createDetails(core, i, context) {
                            type: 'line',
                            formatter: zeroDecimalPlaces
                          }}/>
-        </TwoColumnRow>
-      </DashboardSection>
-      <DashboardSection title='Performance'>
-        <TwoColumnRow>
+        </DashboardSection>
+      </TwoColumnRow>
+
+      <TwoColumnRow>
+        <DashboardSection title='Errors'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -183,6 +195,8 @@ function createDetails(core, i, context) {
                            type: 'line',
                            formatter: zeroDecimalPlaces
                          }}/>
+        </DashboardSection>
+        <DashboardSection title='Timeouts'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -199,8 +213,9 @@ function createDetails(core, i, context) {
                            type: 'line',
                            formatter: zeroDecimalPlaces
                          }}/>
-        </TwoColumnRow>
-      </DashboardSection>
+        </DashboardSection>
+      </TwoColumnRow>
+
       <DashboardSection title='Documents'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}

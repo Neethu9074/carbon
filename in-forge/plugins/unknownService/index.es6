@@ -46,8 +46,8 @@ icon.addMapping(
   }
 );
 
-function returnMappingOrDefault(snapshot, map, defaultvalue = 'unknown') {
-  const connectionPlugin = snapshot.getIn(['data', 'connectionPlugin']);
+function returnMappingOrDefault(snapshot, map, defaultvalue = plugins.unknownService) {
+  const connectionPlugin = snapshot.get('plugin');
   const value = map[connectionPlugin];
   return value ? value : defaultvalue;
 }

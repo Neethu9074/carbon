@@ -9,6 +9,7 @@ module.exports = {
   zIndex: {
     map: zIndex++,
     stickyNotes: zIndex++,
+    viewControls: zIndex++,
     tableView: zIndex++,
     eventCenter: zIndex++,
     feedbackBadge: zIndex++,

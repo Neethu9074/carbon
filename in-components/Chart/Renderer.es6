@@ -718,6 +718,8 @@ export default class Renderer {
     this.width = width;
     this.height = height;
 
+    this.container.style.width = this.width + 'px';
+    this.container.style.height = this.height + 'px';
     this.chartContentContainer.style.width = this.width + 'px';
     this.chartContentContainer.style.height = this.height + 'px';
 

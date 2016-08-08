@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -20,7 +19,3 @@ export default function HAProxySidebar({snapshot}) {
     </div>
   );
 }
-
-HAProxySidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

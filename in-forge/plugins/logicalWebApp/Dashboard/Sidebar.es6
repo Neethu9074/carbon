@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DefaultLogicalDashboardSidebar from 'in-sdk/components/sidebar/DefaultLogicalDashboardSidebar';
@@ -9,7 +8,3 @@ export default function LogicalWebAppSidebar({snapshot}) {
     <DefaultLogicalDashboardSidebar snapshot={snapshot} />
   );
 }
-
-LogicalWebAppSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

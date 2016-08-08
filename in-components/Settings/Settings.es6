@@ -3,9 +3,9 @@ import React from 'react';
 
 import {activeTheme as activeThemeObservable, availableThemes, setActiveTheme} from 'in-services/theme';
 import {showSettings$, setSettingsVisibility} from 'in-stores/settings/visibility';
+import {setIn, settingsStore, toggleIn} from 'in-services/settings';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import SettingEntry from 'in-components/Settings/SettingEntry';
-import {setIn, settingsStore, toggleIn} from 'in-services/settings';
 import {askPermission} from 'in-services/notification';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
@@ -42,7 +42,8 @@ export default connectTo({
       activeTheme: null,
       experiments: false,
       autoCollapseTimeline: false,
-      showMaintenanceNotes: false
+      showMaintenanceNotes: false,
+      zoomPanelIsActive: true
     };
   },
 
@@ -60,7 +61,8 @@ export default connectTo({
         excludeUnmonitoredHosts: excludeUnmonitoredHosts,
         experiments: data.get('experiments'),
         autoCollapseTimeline: data.getIn(['autoCollapseTimeline']),
-        showMaintenanceNotes: data.getIn(['showMaintenanceNotes'])
+        showMaintenanceNotes: data.getIn(['showMaintenanceNotes']),
+        zoomPanelIsActive: data.getIn(['zoomPanelIsActive'], true)
       });
     }));
 
@@ -186,7 +188,16 @@ export default connectTo({
                                   'in the top-right corner. Sometimes though, these flyouts can disturb your ' +
                                   'workflow. Untick this checkbox to permanently hide maintenance notes.'} />
           </SettingEntry>
-        </div>
+
+          <SettingEntry>
+            <SettingEntry.Header text={'Show zoom panel'} />
+            <SettingEntry.Content>
+              <CheckBox onClick={() => toggleIn(['zoomPanelIsActive'])}
+                        defaultChecked={this.state.zoomPanelIsActive}/>
+            </SettingEntry.Content>
+            <SettingEntry.HelpText text={''} />
+          </SettingEntry>
+        </div>^
       </Dialog>
     );
   },

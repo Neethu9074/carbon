@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DefaultLogicalConnectionDashboardSidebar from
@@ -10,7 +9,3 @@ export default function LogicalJdbcConnectionSidebar({snapshot}) {
     <DefaultLogicalConnectionDashboardSidebar snapshot={snapshot} />
   );
 }
-
-LogicalJdbcConnectionSidebar.propTypes = {
-  snapshot: irpt.map.isRequired
-};

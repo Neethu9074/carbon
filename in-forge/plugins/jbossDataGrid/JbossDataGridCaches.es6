@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
@@ -42,7 +41,3 @@ export default function JettyWebApps({snapshot}) {
     </div>
   );
 }
-
-JettyWebApps.propTypes = {
-  snapshot: irpt.map.isRequired
-};

@@ -1,10 +1,8 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 import WebAppsTable from './WebAppsTable.es6';
 
@@ -47,8 +45,3 @@ export default function JettyDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-JettyDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};
