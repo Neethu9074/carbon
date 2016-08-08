@@ -37,7 +37,8 @@ export default React.createClass({
                      className={block + '__value'}/>
         <HistoricMetricSparkChart {...this.props}
                                   design={this.props.design}
-                                  className={block + '__chart'}/>
+                                  className={block + '__chart'}
+                                  tooltipFormatter={this.props.formatter} />
       </div>
     );
   }
