@@ -21,14 +21,20 @@ function Zoom({cameraController}) {
   return (
     <div className={block}>
       <div className={block + '__button'}
-           onClick={() => cameraController.onZoom(UNITS_TO_ZOOM)}>
+           onClick={() => {
+             cameraController.centerMousePosition();
+             cameraController.onZoom(UNITS_TO_ZOOM);
+           }}>
         <SvgIcon type={'plus_without_frame'}
                  width={16}
                  height={16}
                  color='#7b8e96' />
       </div>
       <div className={block + '__button'}
-           onClick={() => cameraController.onZoom(-UNITS_TO_ZOOM)}>
+           onClick={() => {
+             cameraController.centerMousePosition();
+             cameraController.onZoom(-UNITS_TO_ZOOM);
+           }}>
         <SvgIcon type={'minus'}
                  width={16}
                  height={16}
