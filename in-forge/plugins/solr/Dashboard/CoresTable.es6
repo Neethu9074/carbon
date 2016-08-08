@@ -12,6 +12,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Mtd from 'in-components/Mtd';
 
 export default function CoresTable({snapshot, timeframe}) {
   const coreNames = snapshot.getIn(['data', 'core_names'], emptyList).sort();
@@ -42,15 +43,35 @@ function createHeader() {
   return (
     <thead>
       <tr>
-        <th>Cores</th>
+        <th>Core</th>
+        <th>Requests</th>
+        <th>Request Time</th>
+        <th>Cache Hit Rate</th>
+        <th>Evictions</th>
+        <th>Errors</th>
       </tr>
     </thead>
   );
 }
 
-function createRow(core) {
+function createRow(core, index, context) {
   return ([
-    <td>{core}</td>
+    <td>{core}</td>,
+    <Mtd metric={'core_stats.' + core + '.avg_requests'}
+         snapshot={context.snapshot}
+         formatter = { zeroDecimalPlaces }/>,
+    <Mtd metric={'core_stats.' + core + '.avg_time_request'}
+         snapshot={context.snapshot}
+         formatter = { msZeroDecimalPlaces }/>,
+    <Mtd metric={'core_stats.' + core + '.hitratio'}
+         snapshot={context.snapshot}
+         formatter = { percentageZeroDecimalPlaces }/>,
+    <Mtd metric={'core_stats.' + core + '.evictions'}
+         snapshot={context.snapshot}
+         formatter = { zeroDecimalPlaces }/>,
+    <Mtd metric={'core_stats.' + core + '.errors'}
+         snapshot={context.snapshot}
+         formatter = { zeroDecimalPlaces }/>
   ]);
 }
 
