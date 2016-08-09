@@ -1,13 +1,9 @@
-import {createStore} from 'in-stores/store';
+import * as ro from 'reactive-observables';
 
 
-const cameraController = createStore({
-  name: 'processView/cameraController',
-  initialValue: null
-});
-export const cameraController$ = cameraController.observable;
+export const cameraController$ = ro.create();
 
 
 export function setCameraController(controller) {
-  cameraController.applyStateMutation(() => controller);
+  cameraController$.emit(controller);
 }
