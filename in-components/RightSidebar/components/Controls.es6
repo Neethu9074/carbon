@@ -5,6 +5,7 @@ import {isOpen$} from 'in-components/notificationCenter/Center/stores/notificati
 import {CONTROL_TYPES} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
 import {content$} from 'in-components/RightSidebar/stores/rightSidebarContentStore';
 import {isTableVisible$} from 'in-components/tableView/stores/visibility';
+import {view, types as views} from 'in-stores/view';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -18,24 +19,31 @@ export default connectTo({
     false: isOpen$,
     isTableViewOpen: isTableVisible$,
     activeControl: activeControl$,
+    currentView: view,
     isOpen: content$
   },
-  function FilterBarControls({isOpen, activeControl, isNotificationCenterOpen, isTableViewOpen}) {
+  function FilterBarControls({isOpen, activeControl, isNotificationCenterOpen, isTableViewOpen, currentView}) {
     return (
       <div className={block + (isOpen ? ' ' + block + '__open' : '')}>
         <ControlItem type={CONTROL_TYPES.NOTIFICATIONS}
                      activeControl={activeControl}
                      tooltipText='Show Notifications.' />
 
-        <ControlItem type={CONTROL_TYPES.METRICS}
-                     activeControl={activeControl}
-                     tooltipText='Show Metrics.'
-                     addTopBorder={true} />
+        {currentView === views.physical
+          ? <ControlItem type={CONTROL_TYPES.METRICS}
+                         activeControl={activeControl}
+                         tooltipText='Show Metrics.'
+                         addTopBorder={true} />
+          : null
+        }
 
-        <ControlItem type={CONTROL_TYPES.TAGS}
-                     activeControl={activeControl}
-                     tooltipText='Show Tags.'
-                     addTopBorder={true} />
+        {currentView === views.physical
+          ? <ControlItem type={CONTROL_TYPES.TAGS}
+                         activeControl={activeControl}
+                         tooltipText='Show Tags.'
+                         addTopBorder={true} />
+          : null
+        }
 
         {__DEV__ ?
           <ControlItem type={CONTROL_TYPES.MAP_STATISTICS}
@@ -64,10 +72,13 @@ export default connectTo({
 
         <br />
 
-        <ControlItem type={CONTROL_TYPES.TABLE}
-                     activeControl={activeControl}
-                     isActive={isTableViewOpen}
-                     tooltipText='Switch between 3D view and tabular form.' />
+        {currentView === views.physical
+          ? <ControlItem type={CONTROL_TYPES.TABLE}
+                         activeControl={activeControl}
+                         isActive={isTableViewOpen}
+                         tooltipText='Switch between 3D view and tabular form.' />
+          : null
+        }
       </div>
     );
   }
