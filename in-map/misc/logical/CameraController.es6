@@ -103,7 +103,7 @@ export default class CameraController extends BaseCameraController {
 
       this.eventEmitter.on('onMouseMoved').subscribe(lastMousePosition => this.onMouseMoved(lastMousePosition)),
 
-      this.eventEmitter.on('onObjectClicked').subscribe((hittenOnes) => this.scene.onObjectClicked(hittenOnes)),
+      this.eventEmitter.on('onObjectClicked').subscribe((hittenOnes) => this.onObjectClicked(hittenOnes)),
 
       this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne =>
         longClickedSceneObject.emit(hittenOne.parentSceneObject)),

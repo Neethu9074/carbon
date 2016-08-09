@@ -2,13 +2,10 @@ import THREE from 'three';
 
 import {requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
 import {init as initPhysics, dispose as disposePhysics} from 'in-map/misc/Physics';
-import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
 import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {clearSelectedIncident} from 'in-stores/incident';
-import {clearSelectedEvent} from 'in-stores/events';
 import Camera from 'in-map/misc/OrthographicCamera';
 import {frame$} from 'in-map/stores/renderingStore';
 import * as time from 'in-map/misc/time';
@@ -155,25 +152,6 @@ export default class Scene extends SceneObject {
       // to make it short... reload the page
       window.location.reload();
     }, false);
-  }
-
-  onObjectClicked({hittenObject, hoveredConnections}) {
-    if (hittenObject) {
-      const parentSceneObject = hittenObject.parentSceneObject;
-      const sceneObject = parentSceneObject ? parentSceneObject : hittenObject;
-      setSelectedSnapshotId(sceneObject.id);
-    // dont reset the click if you clicken on connections
-    } else if (hoveredConnections.length === 0) {
-      this.resetClicked();
-    } else {
-      setSelectedSnapshotId(hoveredConnections[0].id);
-    }
-  }
-
-  resetClicked() {
-    clearSelectedSnapshotId();
-    clearSelectedIncident();
-    clearSelectedEvent();
   }
 
   dispose() {
