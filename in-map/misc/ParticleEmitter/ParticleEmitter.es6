@@ -25,15 +25,16 @@ export default class ParticleEmitter {
     this.maxParticles = 50;
     this.setNumparticlesPerSecond(0);
 
+    // the current index in the ringbuffer array for the next spawning particle
+    this.currentIndex = 0;
+
     this.isRunning = false;
-    this.cursorIfNoFreeIndices = 0;
     this.length = 0;
 
     this.positionGenerationStrategy = createPositionGenerator();
 
     this.progresses = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
-    this.indices = [];
 
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
@@ -138,7 +139,6 @@ export default class ParticleEmitter {
       vertices[index + 2] = START_POS;
 
       progresses[index] = 0;
-      this.freeCursorPosition(index / 3);
     });
 
     // spawn new particles
@@ -160,7 +160,7 @@ export default class ParticleEmitter {
   spawnParticle() {
     const vertices = this.vertices;
     const position = this.positionGenerationStrategy.getPositionForParticle();
-    const newIndex = this.getNextCursorPosition();
+    const newIndex = this.currentIndex;
     const particle = {
       progress: 0,
       timeLived: 0,
@@ -174,23 +174,10 @@ export default class ParticleEmitter {
     vertices[indexInVertices] = position.x;
     vertices[indexInVertices + 1] = position.y;
     vertices[indexInVertices + 2] = position.z;
-  }
 
-  getNextCursorPosition() {
-    const index = this.indices.shift();
-    if (index) {
-      this.cursorIfNoFreeIndices = 0;
-      return index;
-    }
-    const nextIndex = this.cursorIfNoFreeIndices++;
-    if (this.cursorIfNoFreeIndices >= this.maxParticles) {
-      this.cursorIfNoFreeIndices = 0;
-    }
-    return nextIndex;
-  }
-
-  freeCursorPosition(value) {
-    this.indices.push(value);
+    // make the buffer a ringbuffer.
+    // thx Robert Nystrom for this line of code, it will change my life forever
+    this.currentIndex = (this.currentIndex + 1) % this.maxParticles;
   }
 
   positionNeedsUpdate() {
@@ -226,7 +213,6 @@ export default class ParticleEmitter {
       this.vertices[vertexIndex] = START_POS;
       this.vertices[vertexIndex + 1] = START_POS;
       this.vertices[vertexIndex + 2] = START_POS;
-      this.indices[i] = i;
     }
 
     this.positionNeedsUpdate();
@@ -246,12 +232,10 @@ export default class ParticleEmitter {
     this.stop();
 
     this.positionGenerationStrategy = null;
-    this.cursorIfNoFreeIndices = null;
     this.progresses = null;
     this.isRunning = null;
     this.particles = null;
     this.vertices = null;
-    this.indices = null;
     this.length = null;
 
     this.mesh.geometry.dispose();
