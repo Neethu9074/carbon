@@ -2,7 +2,6 @@ import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingCon
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
-import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Physical';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
@@ -33,14 +32,6 @@ export default class Layer extends SceneObject {
     this.addComponent('collision', new CollisionComponent(this,
                                                           collisionDetection.predefinedCollisionObjects.Box,
                                                           collisionDetection.OCTREE_LAYER.LAYER));
-
-    this.addComponent('icon', new IconComponent(this, 1, (pos, scale) => {
-      return {
-        x: scale.x / 2 + 0.1,
-        y: scale.y / 2,
-        z: scale.z / 2 + 0.1
-      };
-    }));
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 

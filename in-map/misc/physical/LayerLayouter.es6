@@ -1,9 +1,17 @@
 import {combineLatest} from 'reactive-observables';
 
+import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
+import createFragment from 'in-map/singleMeshFactories/Fragment';
+
+import {getFactory} from 'in-map/stores/factoriesStore';
+
 
 const LAYER_MARGIN = 0.9; // 90%
 
 export default function createLayouter(node) {
+  const fragments = [];
+  const factory = getFactory('icons');
+
   const layerSubscription = combineLatest([
     node.eventEmitter.on('positionChanged'),
     node.eventEmitter.on('scaleChanged'),
@@ -33,6 +41,7 @@ export default function createLayouter(node) {
         }
         currentPlugin = plugin;
         plugins[plugin] = {
+          layer,
           from: i * highOfEachLayer,
           to: nodeScale.y
         };
@@ -49,15 +58,41 @@ export default function createLayouter(node) {
       }
     }
 
-    refreshIcons(plugins);
+    setupPluginIcons(plugins);
   }
 
-  function refreshIcons(plugins) {
-    console.log(plugins);
+  function setupPluginIcons(plugins) {
+    removeCurrentIcons();
+
+    Object.keys(plugins).forEach(key => {
+      const icon = plugins[key];
+      const fragment = createFragment(node.id + '_' + key,
+                                      node,
+                                      PCP,
+                                      {
+                                        positionOffset: {
+                                          x: 0.6,
+                                          y: icon.from + ((icon.to - icon.from) / 2),
+                                          z: 0.6
+                                        },
+                                        type: key,
+                                        iconSize: 1
+                                      });
+      factory.add(fragment);
+      fragments.push(fragment);
+    });
+  }
+
+  function removeCurrentIcons() {
+    for (let i = 0, length = fragments.length; i < length; i++) {
+      factory.remove(fragments[i].id);
+    }
   }
 
   function dispose() {
     layerSubscription.dispose();
+
+    removeCurrentIcons();
   }
 
   return {
