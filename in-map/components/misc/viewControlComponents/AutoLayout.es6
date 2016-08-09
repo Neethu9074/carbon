@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {eventBus} from 'in-map/src/services/eventBus';
+import {eventBus} from 'in-map/services/eventBus';
 import SvgIcon from 'in-components/SvgIcon';
 
 import 'in-map/src/components/react/ViewControls/components/AutoLayout.less';
