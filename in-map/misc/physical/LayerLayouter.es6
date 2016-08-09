@@ -4,7 +4,6 @@ import {combineLatest} from 'reactive-observables';
 const LAYER_MARGIN = 0.9; // 90%
 
 export default function createLayouter(node) {
-
   const layerSubscription = combineLatest([
     node.eventEmitter.on('positionChanged'),
     node.eventEmitter.on('scaleChanged'),
@@ -19,10 +18,13 @@ export default function createLayouter(node) {
       return;
     }
 
+    // sort layer desc by plugin because they are layouted from bottom to top
+    _layer = _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
+
     const highOfEachLayer = nodeScale.y / numLayer;
     for (let i = 0, length = _layer.length; i < length; i++) {
-      const item = _layer[i];
-      const transform = item.getComponent('transform');
+      const layer = _layer[i];
+      const transform = layer.getComponent('transform');
       if (transform) {
         transform.setScaleXYZ(LAYER_MARGIN,
                               highOfEachLayer * LAYER_MARGIN,

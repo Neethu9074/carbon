@@ -21,6 +21,7 @@ export default class Layer extends SceneObject {
   constructor(params) {
     super(params.id);
 
+    this._cachedPlugin = 'unknown';
     this.node = params.node;
   }
 
@@ -49,7 +50,7 @@ export default class Layer extends SceneObject {
 
     this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
 
-    // only add them after the components where setup, because the layouter needs the transform component
+    // only add them after the snapshot was calculated, because they are layouted by _cachedPlugin
     this.node.addLayer(this.id, this);
   }
 
@@ -67,6 +68,13 @@ export default class Layer extends SceneObject {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
         this.getComponent('color').setHex(color);
+      }),
+
+      this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
+        this._cachedPlugin = snapshot.get('plugin');
+
+        // readd this layer to trigger a relayout
+        this.node.addLayer(this.id, this);
       })
     ]);
   }
@@ -76,5 +84,7 @@ export default class Layer extends SceneObject {
 
     this.node.removeLayer(this.id);
     this.node = null;
+
+    this.plugin = null;
   }
 }
