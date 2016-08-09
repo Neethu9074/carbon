@@ -1,9 +1,7 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function JiraDashboard({snapshot, timeframe}) {
@@ -55,8 +53,3 @@ export default function JiraDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-JiraDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

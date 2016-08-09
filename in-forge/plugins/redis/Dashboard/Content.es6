@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -16,7 +15,6 @@ import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardNotification from 'in-components/DashboardNotification';
 import {emptyList} from 'in-services/fixedImmutables';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
@@ -274,9 +272,3 @@ export default function RedisDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-RedisDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape,
-  slowLogs: irpt.list
-};

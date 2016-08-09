@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DataSourcesTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/DataSourcesTable';
 import ConnectorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ConnectorsTable';
 import ExecutorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ExecutorsTable';
 import WebAppsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/WebAppsTable';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function TomcatDashboard({snapshot, timeframe}) {
@@ -22,8 +20,3 @@ export default function TomcatDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-TomcatDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

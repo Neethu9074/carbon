@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import List from 'in-sdk/components/sidebar/List';
@@ -18,7 +17,3 @@ export default function WebSiteList({snapshot}) {
     </List>
   );
 }
-
-WebSiteList.propTypes = {
-  snapshot: irpt.map.isRequired
-};

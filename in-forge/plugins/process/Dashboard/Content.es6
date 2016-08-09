@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -8,7 +7,6 @@ import {
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function ProcessDashboard({snapshot, timeframe}) {
@@ -60,8 +58,3 @@ export default function ProcessDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-ProcessDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};
