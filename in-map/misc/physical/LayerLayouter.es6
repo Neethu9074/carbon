@@ -21,9 +21,22 @@ export default function createLayouter(node) {
     // sort layer desc by plugin because they are layouted from bottom to top
     _layer = _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
 
+    const plugins = {};
+    let currentPlugin = undefined;
     const highOfEachLayer = nodeScale.y / numLayer;
     for (let i = 0, length = _layer.length; i < length; i++) {
       const layer = _layer[i];
+      const plugin = layer._cachedPlugin;
+      if (plugin !== currentPlugin) {
+        if (plugins[currentPlugin]) {
+          plugins[currentPlugin].to = i * highOfEachLayer;
+        }
+        currentPlugin = plugin;
+        plugins[plugin] = {
+          from: i * highOfEachLayer,
+          to: nodeScale.y
+        };
+      }
       const transform = layer.getComponent('transform');
       if (transform) {
         transform.setScaleXYZ(LAYER_MARGIN,
@@ -35,6 +48,12 @@ export default function createLayouter(node) {
                                  nodePosition.z);
       }
     }
+
+    refreshIcons(plugins);
+  }
+
+  function refreshIcons(plugins) {
+    console.log(plugins);
   }
 
   function dispose() {
