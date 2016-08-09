@@ -22,9 +22,6 @@ export default function createLayouter(node) {
 
   function applyLayout(nodePosition, nodeScale, _layer) {
     const numLayer = _layer.length;
-    if (numLayer === 0) {
-      return;
-    }
 
     // sort layer desc by plugin because they are layouted from bottom to top
     _layer = _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
@@ -72,7 +69,7 @@ export default function createLayouter(node) {
                                       {
                                         positionOffset: {
                                           x: 0.6,
-                                          y: icon.from + ((icon.to - icon.from) / 2),
+                                          y: icon.from + ((icon.to - icon.from) / 2), // place in the middle
                                           z: 0.6
                                         },
                                         type: key,
@@ -81,12 +78,14 @@ export default function createLayouter(node) {
       factory.add(fragment);
       fragments.push(fragment);
     });
+    factory.needsUpdate();
   }
 
   function removeCurrentIcons() {
     for (let i = 0, length = fragments.length; i < length; i++) {
       factory.remove(fragments[i].id);
     }
+    factory.needsUpdate();
   }
 
   function dispose() {

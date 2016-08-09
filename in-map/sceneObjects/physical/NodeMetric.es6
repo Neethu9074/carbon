@@ -41,8 +41,6 @@ export default class NodeMetric extends SceneObject {
         if (!metric) {
           return;
         }
-
-        console.log(metric.toJS());
       })
     ]);
   }
