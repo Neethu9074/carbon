@@ -1,0 +1,44 @@
+import DragConnection from 'in-map/misc/logical/DragConnection';
+import ghosts from 'in-map/stores/logical/ghostsStore';
+
+
+export default class GhostEdgeSpawnerComponent {
+  constructor(sceneObject) {
+    this.ghostConnection = null;
+    this.sourceNode = sceneObject.sourceNode;
+    this.destinationNode = sceneObject.destinationNode;
+  }
+
+  initEvents() {
+    this.activeGhostNodesSubscribtion = ghosts.stream.subscribe(activeGhosts => {
+      const source = activeGhosts.objects[this.sourceNode.id];
+      const destination = activeGhosts.objects[this.destinationNode.id];
+
+      // if there is a new ghost node which is a ghost of one of this connections endpoints
+      if (source || destination) {
+        this.ghostConnection = new DragConnection(source
+          ? this.destinationNode.getComponent('transform').getPosition()
+          : this.sourceNode.getComponent('transform').getPosition());
+      } else {
+        this.disposeGhostConnection();
+      }
+    });
+  }
+
+  disposeGhostConnection() {
+    if (this.ghostConnection) {
+      this.ghostConnection.dispose();
+      this.ghostConnection = null;
+    }
+  }
+
+  dispose() {
+    this.activeGhostNodesSubscribtion.dispose();
+    this.activeGhostNodesSubscribtion = null;
+
+    this.disposeGhostConnection();
+
+    this.destinationNode = null;
+    this.sourceNode = null;
+  }
+}

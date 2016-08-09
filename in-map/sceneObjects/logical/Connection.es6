@@ -18,6 +18,7 @@ import {
 } from 'in-map/misc/Connections';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
+import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import {focusEntityId$} from 'in-map/stores/focusEntityStore';
@@ -48,6 +49,8 @@ export default class Connection extends SceneObject {
         id: this.id
       }
     });
+
+    this.ghostConncetionSpawner = new GhostConncetionSpawner(this);
   }
 
   initComponents() {
@@ -69,6 +72,8 @@ export default class Connection extends SceneObject {
 
   initEvents() {
     super.initEvents();
+
+    this.ghostConncetionSpawner.initEvents();
 
     this.addSubscriptions([
       eventBus.on('zoomLevelChanged').subscribe(zoomLevel => this.eventEmitter.emit('isFullyVisible', zoomLevel < 200)),
@@ -193,6 +198,8 @@ export default class Connection extends SceneObject {
 
     stickyNotes.remove(this.id);
     connections.remove(this.id);
+
+    this.ghostConncetionSpawner.dispose();
 
     if (this.collisionLine) {
       this.collisionLine.geometry.dispose();

@@ -2,8 +2,8 @@ import THREE from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import {requestRendering} from 'in-map/stores/renderingStore';
+import ghosts from 'in-map/stores/logical/ghostsStore';
 import {eventBus} from 'in-map/services/eventBus';
-
 
 const GHOST_MATERIAL = new THREE.MeshBasicMaterial({
   transparent: true,
@@ -20,6 +20,7 @@ export default class DragGhost {
       GHOST_MATERIAL
     );
     addSceneObject(sceneObject);
+    ghosts.add(this.originalId);
 
     this.dragObjectSubscription = eventBus.on('dragObject').subscribe(newPos => {
       this.currentPosition.copy(newPos);
@@ -36,6 +37,7 @@ export default class DragGhost {
     this.dragObjectSubscription.dispose();
 
     removeSceneObject(this.sceneObject);
+    ghosts.remove(this.originalId);
 
     this.sceneObject.geometry.dispose();
     this.sceneObject = null;
