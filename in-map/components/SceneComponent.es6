@@ -15,12 +15,13 @@ export default sceneObjectComponent(props => {
     InstanceType: Scene,
     params: {
       id: 'main_scene',
-      canvas: props.canvas
+      canvas: props.canvas,
+      antialias: props.antialias
     }
   };
 }, connectTo({
-     view: view$
-   }, SceneComponent)
+    view: view$
+  }, SceneComponent)
 );
 
 function SceneComponent({view, sceneObject}) {

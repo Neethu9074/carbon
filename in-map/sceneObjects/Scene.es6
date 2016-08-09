@@ -34,6 +34,7 @@ export default class Scene extends SceneObject {
     this.isDisposed = false;
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
+    this.antialias = params.antialias;
     this.width = this.canvas.clientWidth;
     this.height = this.canvas.clientHeight;
 
@@ -102,7 +103,7 @@ export default class Scene extends SceneObject {
   setupRenderer() {
     const renderer = this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: true
+      antialias: this.antialias === 'browserAA' ? true : false
     });
 
     renderer.setSize(this.width, this.height);
@@ -168,6 +169,7 @@ export default class Scene extends SceneObject {
     this.camera = null;
 
     this.shouldRenderScene = null;
+    this.antialias = null;
     this.renderer = null;
     this.canvas = null;
     this.height = null;
