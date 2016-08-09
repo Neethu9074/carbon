@@ -26,7 +26,7 @@ const COLORS = [
   1, 1, 1
 ];
 
-const contentProvider = {
+export default {
   getVertices: () => {
     return FRAME;
   },
@@ -35,5 +35,3 @@ const contentProvider = {
     return COLORS;
   }
 };
-
-export default contentProvider;

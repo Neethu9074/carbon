@@ -131,7 +131,7 @@ for (let i = indexWhereTopMeshBegins + 1; i < VERTICES.length; i++) {
   COLORS[i] = 1;
 }
 
-const contentProvider = {
+export default {
   getVertices: () => {
     return VERTICES;
   },
@@ -140,5 +140,3 @@ const contentProvider = {
     return COLORS;
   }
 };
-
-export default contentProvider;
