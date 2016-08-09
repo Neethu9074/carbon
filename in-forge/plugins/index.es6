@@ -1,16 +1,19 @@
+
 // require all forge modules inside this one, as
 // this is the only module required by the application.
-
 import './activeMQ';
 import './availabilityZone';
 import './cassandraCluster';
+import './cassandraKeyspaceServiceInstance';
 import './cassandraNode';
+import './databaseServiceInstance';
 import './defaultLogicalConnection';
 import './defaultLogicalService';
 import './docker';
 import './dropwizardApplicationContainer';
 import './ec2';
 import './elasticsearchCluster';
+import './elasticSearchIndexServiceInstance';
 import './elasticsearchNode';
 import './genericHardware';
 import './genericJavaWebapp';
@@ -42,7 +45,10 @@ import './logicalService';
 import './logicalWebApp';
 import './mariaDbDatabase';
 import './memcached';
+import './messageBrokerServiceInstance';
+import './messageConsumerServiceInstance';
 import './mongoDb';
+import './mongoDbDatabaseServiceInstance';
 import './msiis';
 import './msSqlDatabase';
 import './mySqlDatabase';
@@ -62,8 +68,10 @@ import './postgreSqlDatabase';
 import './process';
 import './rabbitMq';
 import './redis';
+import './serviceServiceInstance';
 import './solr';
 import './springbootApplicationContainer';
 import './tomcatApplicationContainer';
 import './unknownService';
 import './unmonitoredHost';
+import './webAppServiceInstance';
