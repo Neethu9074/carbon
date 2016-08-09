@@ -43,6 +43,7 @@ const ProcessCluster = connectTo(props => {
 
     getInitialState() {
       return {
+        kpisAreHighlighted: false,
         highlighted: false,
         expanded: false
       };
@@ -53,6 +54,8 @@ const ProcessCluster = connectTo(props => {
       if (!isVisible) {
         return null;
       }
+
+      this.props.isHighlighted(this.state.kpisAreHighlighted || this.state.expanded);
 
       const children = this.props.children;
       const childrenAreAvailable = children && children.size > 0;
@@ -71,7 +74,7 @@ const ProcessCluster = connectTo(props => {
         <div className={contentClassName}>
           {this.props.isFullyVisible ?
             <KPIList snapshotId={this.props.client.id}
-                     isHighlighted={this.props.isHighlighted}/>
+                     isHighlighted={kpisAreHighlighted => this.setState({kpisAreHighlighted})} />
             : null
           }
 
