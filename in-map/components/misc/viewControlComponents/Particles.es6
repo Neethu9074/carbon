@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {particlesAreActive$, toggleParticles} from 'in-map/src/stores/process/particles';
+import {particlesAreActive$, toggleParticles} from 'in-map/stores/logical/particlesStore';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';

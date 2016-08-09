@@ -1,9 +1,10 @@
 import {remove} from 'lodash';
 import THREE from 'three';
 
-import createPositionGenerator from 'in-map/misc/ParticleEmitter/PlaneSpawnPositionGenerator';
 import fragmentShader from 'in-map/misc/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/misc/ParticleEmitter/shader/vertexShader.glsl';
+
+import createPositionGenerator from 'in-map/misc/ParticleEmitter/PlaneSpawnPositionGenerator';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import {particlesAreActive$} from 'in-map/stores/logical/particlesStore';
 import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
