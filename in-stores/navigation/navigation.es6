@@ -212,9 +212,6 @@ export function goToRootOfView() {
   });
 }
 
-export const isMapVisible$ = navigationParameters$
-  .map(params => params.pathname === '/physical' || params.pathname === '/logical');
-
 
 export function goToGraph() {
   mutateUrl(navParams => {

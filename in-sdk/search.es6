@@ -15,7 +15,8 @@ const searchableTypes = {};
 //   ]
 // }
 const contexts = {
-  entity: []
+  entity: [],
+  trace: []
 };
 
 
