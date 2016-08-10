@@ -63,10 +63,10 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
                 className={className}
                 onClick={() => setSelectedSnapshotId(snapshotId)}>
 
-              <HealthIconListing className={block + '__health-icon'}
-                                 snapshotId={snapshotId} />
-
               <div className={block + '__entity-information'}>
+                <HealthIconListing className={block + '__health-icon'}
+                                   snapshotId={snapshotId} />
+
                 <IsConnectedIcon id={snapshotId}
                                  connections={parentConnections} />
 
