@@ -1,0 +1,4 @@
+import DefaultLogicalConnectionDashboard from
+  'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultLogicalConnectionDashboard';
+
+export default DefaultLogicalConnectionDashboard;
