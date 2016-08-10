@@ -75,6 +75,16 @@ export function goHome() {
   });
 }
 
+export const homeLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/';
+    params.query = {};
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
+
 
 export function goToDashboard(snapshotId) {
   mutateUrl(params => {
@@ -170,6 +180,7 @@ export const logicalViewLink$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/logical';
+    delete params.query.q;
     return params;
   })
   .map(toUrl)
@@ -187,6 +198,7 @@ export const physicalViewLink$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/physical';
+    delete params.query.q;
     return params;
   })
   .map(toUrl)
@@ -224,6 +236,7 @@ export const traceViewLink$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = PATH_NAMES.TRACES;
+    delete params.query.q;
     return params;
   })
   .map(toUrl)

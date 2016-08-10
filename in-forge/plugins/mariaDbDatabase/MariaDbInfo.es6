@@ -1,5 +1,4 @@
 import React from 'react';
-import irpt from 'react-immutable-proptypes';
 
 import {formatDateTime} from 'in-services/formatters/date';
 
@@ -54,7 +53,3 @@ function getVersion(data) {
 
   return null;
 }
-
-MariaDbInfo.propTypes = {
-  snapshot: irpt.map.isRequired
-};

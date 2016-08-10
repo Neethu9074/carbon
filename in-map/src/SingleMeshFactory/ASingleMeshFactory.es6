@@ -2,6 +2,7 @@ import {remove} from 'lodash';
 import THREE from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
+import {updateAttribute} from 'in-map/src/services/geometryAttributes';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {find} from 'in-services/arrayUtils';
 
@@ -140,11 +141,8 @@ export default class SingleMeshFactory {
   updateGeometry() {
     const geometry = this.geometry;
 
-    geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(this.vertices), 3));
-    geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(this.colors), 3));
-
-    geometry.attributes.position.needsUpdate = true;
-    geometry.attributes.color.needsUpdate = true;
+    updateAttribute(geometry, 'position', this.vertices);
+    updateAttribute(geometry, 'color', this.colors);
 
     if (__DEV__) {
       this.numberUpdates++;

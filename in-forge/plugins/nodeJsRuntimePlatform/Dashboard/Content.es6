@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
@@ -7,7 +6,6 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import * as numberFormatters from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function NodejsDashboard({snapshot, timeframe}) {
@@ -206,8 +204,3 @@ function getNativeExtensionHint(snapshot) {
     </DashboardNotification>
   );
 }
-
-NodejsDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

@@ -3,6 +3,8 @@ import THREE from 'three';
 import fragmentShader from 'in-map/src/SingleMeshFactory/lineFragmentShader.glsl';
 import vertexShader from 'in-map/src/SingleMeshFactory/lineVertexShader.glsl';
 
+import {updateAttribute} from 'in-map/src/services/geometryAttributes';
+
 import ASingleMeshFactory from './ASingleMeshFactory';
 
 
@@ -63,10 +65,7 @@ export default class SingleMeshlineSMF extends ASingleMeshFactory {
       length[i + 1] = distance;
     }
 
-    geometry.addAttribute('progress', new THREE.BufferAttribute(progresses, 1));
-    geometry.addAttribute('length', new THREE.BufferAttribute(length, 1));
-
-    geometry.attributes.progress.needsUpdate = true;
-    geometry.attributes.length.needsUpdate = true;
+    updateAttribute(geometry, 'progress', progresses, 1);
+    updateAttribute(geometry, 'length', length, 1);
   }
 }

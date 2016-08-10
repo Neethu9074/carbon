@@ -1,9 +1,7 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function OracleDBDashboard({snapshot, timeframe}) {
@@ -29,8 +27,3 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-OracleDBDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

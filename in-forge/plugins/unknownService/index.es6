@@ -17,6 +17,8 @@ addLabelFinder(constants.plugins.unknownService,
     const map = {};
     map[fullyQualifiedPlugins.logicalHttpConnection] = 'Unknown Http Service';
     map[fullyQualifiedPlugins.logicalJdbcConnection] = 'Unknown Jdbc Service';
+    map[fullyQualifiedPlugins.logicalKafkaPublisherConnection] = 'Unknown Kafka Service';
+    map[fullyQualifiedPlugins.logicalKafkaConsumerConnection] = 'Unknown Kafka Service';
     map[fullyQualifiedPlugins.logicalMongoDbConnection] = 'Unknown MongoDB Service';
     map[fullyQualifiedPlugins.logicalRabbitMqPublisherConnection] = 'Unknown RabbitMQ Service';
     map[fullyQualifiedPlugins.logicalRabbitMqConsumerConnection] = 'Unknown RabbitMQ Service';
@@ -37,6 +39,8 @@ icon.addMapping(
     const map = {};
     map[fullyQualifiedPlugins.logicalHttpConnection] = plugins.unknownService;
     map[fullyQualifiedPlugins.logicalJdbcConnection] = plugins.jvmRuntimePlatform;
+    map[fullyQualifiedPlugins.logicalKafkaPublisherConnection] = plugins.kafka;
+    map[fullyQualifiedPlugins.logicalKafkaConsumerConnection] = plugins.kafka;
     map[fullyQualifiedPlugins.logicalMongoDbConnection] = plugins.mongoDb;
     map[fullyQualifiedPlugins.logicalRabbitMqPublisherConnection] = plugins.rabbitMq;
     map[fullyQualifiedPlugins.logicalRabbitMqConsumerConnection] = plugins.rabbitMq;

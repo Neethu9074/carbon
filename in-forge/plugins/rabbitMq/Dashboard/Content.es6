@@ -1,5 +1,3 @@
-
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
@@ -8,7 +6,6 @@ import {twoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardNotification from 'in-components/DashboardNotification';
-import {timeframeShape} from 'in-stores/timeline';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 
 
@@ -114,8 +111,3 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-RabbitMqDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {formatDateTime} from 'in-services/formatters/date';
@@ -52,7 +51,3 @@ function getVersion(data) {
 
   return null;
 }
-
-MySqlInfo.propTypes = {
-  snapshot: irpt.map.isRequired
-};

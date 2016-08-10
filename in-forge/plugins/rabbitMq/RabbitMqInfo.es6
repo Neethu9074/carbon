@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
@@ -40,7 +39,3 @@ export default function RabbitMqInfo({snapshot}) {
     </DescriptionList>
   );
 }
-
-RabbitMqInfo.propTypes = {
-  snapshot: irpt.map.isRequired
-};

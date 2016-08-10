@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -13,7 +12,6 @@ import {
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function KafkaDashboard({snapshot, timeframe}) {
@@ -218,8 +216,3 @@ export default function KafkaDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-KafkaDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

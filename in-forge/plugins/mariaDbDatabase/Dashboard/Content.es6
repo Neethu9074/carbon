@@ -1,10 +1,8 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function MariaDbDashboard({snapshot, timeframe}) {
@@ -103,8 +101,3 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-MariaDbDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

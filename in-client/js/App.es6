@@ -10,6 +10,7 @@ import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import SidebarIncidents from 'in-components/sidebars/Incident';
 import ConnectionStatus from 'in-components/ConnectionStatus';
 import MaintenanceNote from 'in-components/MaintenanceNote';
+import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import TableView from 'in-components/tableView/TableView';
 import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import MessageDialog from 'in-components/MessageDialog';

@@ -1,5 +1,4 @@
 import React from 'react';
-import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import MetricValue from 'in-components/MetricValue';
@@ -28,7 +27,3 @@ export default function JiraInfo({snapshot}) {
     </DescriptionList>
   );
 }
-
-JiraInfo.propTypes = {
-  snapshot: irpt.map.isRequired
-};

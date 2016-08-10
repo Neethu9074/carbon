@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -6,7 +5,6 @@ import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function PhpFpmDashboard({snapshot, timeframe}) {
@@ -30,11 +28,6 @@ export default function PhpFpmDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-PhpFpmDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};
 
 
 function WorkerPoolMetrics({snapshot, pool, timeframe}) {
@@ -139,12 +132,6 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
         </div>
   );
 }
-
-WorkerPoolMetrics.propTypes = {
-  snapshot: irpt.map.isRequired,
-  pool: React.PropTypes.string,
-  timeframe: timeframeShape
-};
 
 
 function isStatusPathEnabled(snapshot, pool) {

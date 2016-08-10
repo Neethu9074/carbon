@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {bytesZeroDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 import {emptyList} from 'in-services/fixedImmutables';
 
 
@@ -91,8 +89,3 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-MongoDBDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};
