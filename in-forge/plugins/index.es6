@@ -35,6 +35,8 @@ import './logicalElasticSearchConnection';
 import './logicalElasticSearchIndex';
 import './logicalHttpConnection';
 import './logicalJdbcConnection';
+import './logicalKafkaConsumerConnection';
+import './logicalKafkaPublisherConnection';
 import './logicalMessageBroker';
 import './logicalMessageConsumer';
 import './logicalMongoDbConnection';
