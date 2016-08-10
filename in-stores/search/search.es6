@@ -4,6 +4,7 @@ import createSearchSubscription from 'in-services/subscription/search';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import searchContexts$ from 'in-stores/search/searchContexts';
+import {isMapView$} from 'in-stores/navigation/view';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {transformQuery} from 'in-services/search';
 import {focusedMoment$} from 'in-stores/timeline';
@@ -27,14 +28,7 @@ const parsedQueryStore = createStore({
   name: 'in-stores/search/parsedQuery',
   initialValue: null
 });
-export const parsedQuery$ = parsedQueryStore;
-
-
-const luceneQueryStore = createStore({
-  name: 'in-stores/search/luceneQuery',
-  initialValue: ''
-});
-export const luceneQuery$ = luceneQueryStore.observable;
+export const parsedQuery$ = parsedQueryStore.observable;
 
 
 const lastQueryChangeTime = createStore({
@@ -42,19 +36,21 @@ const lastQueryChangeTime = createStore({
   initialValue: 0
 });
 export const lastQueryChangeTime$ = lastQueryChangeTime.observable;
-luceneQuery$.subscribe(() => lastQueryChangeTime.applyStateMutation(() => Date.now()));
+parsedQuery$.subscribe(() => lastQueryChangeTime.mutateTo(Date.now()));
 
 
 export const searchMatches$ = createTrackingStore({
   name: 'in-stores/search/searchMatches',
-  observable: combineLatest([luceneQuery$, focusedMoment$])
-    .flatMap(([luceneQuery, focusedMoment]) => {
-      if (luceneQuery == null || luceneQuery.length === 0) {
+  observable: combineLatest([parsedQuery$, focusedMoment$, isMapView$])
+    .flatMap(([parsedQuery, focusedMoment, isMapView]) => {
+      if (!isMapView ||
+          parsedQuery == null ||
+          parsedQuery.luceneQuery.length === 0) {
         return alwaysNull;
       }
 
       return createSearchSubscription({
-        query: luceneQuery,
+        query: parsedQuery.luceneQuery,
         time: focusedMoment,
         view: 'PHYSICAL'
       });
@@ -66,8 +62,24 @@ const errorStore = createStore({
   name: 'in-stores/search/queryTranslationError',
   initialValue: null
 });
-
 export const error$ = errorStore.observable;
+
+
+export function setInputString(newString) {
+  mutateUrl(navParams => {
+    navParams.query.q = encodeURIComponent(newString);
+    return navParams;
+  });
+}
+
+
+export function mutateInputString(fn) {
+  mutateUrl(navParams => {
+    navParams.query.q = encodeURIComponent(fn(decodeURIComponent(navParams.query.q || '')));
+    return navParams;
+  });
+}
+
 
 combineLatest([searchContexts$, rawQuery$.debounce(500)])
   .subscribe(([searchContexts, rawQuery]) => {
@@ -79,17 +91,3 @@ combineLatest([searchContexts$, rawQuery$.debounce(500)])
       errorStore.mutateTo(e.message);
     }
   });
-
-export function setInputString(newString) {
-  mutateUrl(navParams => {
-    navParams.query.q = encodeURIComponent(newString);
-    return navParams;
-  });
-}
-
-export function mutateInputString(fn) {
-  mutateUrl(navParams => {
-    navParams.query.q = encodeURIComponent(fn(decodeURIComponent(navParams.query.q || '')));
-    return navParams;
-  });
-}
