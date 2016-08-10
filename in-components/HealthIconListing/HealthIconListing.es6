@@ -1,5 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
@@ -12,49 +10,45 @@ import {theme} from 'in-services/theme';
 import './HealthIconListing.less';
 
 
-const block = 'in-health-listing';
-const rpt = React.PropTypes;
+export default connectTo(props => {
+  return {
+    healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
+  };
+}, function HealthCounter({healthInfo, snapshotId, className}) {
+  if (!healthInfo) {
+    return null;
+  }
 
-export default connectTo(
-  props => {
-    return {
-      healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
-    };
-  },
-  React.createClass({
+  const maxSeverity = healthInfo ? healthInfo.get('maxSeverity') : 0;
+  const color = maxSeverity > 0 ? theme.health[Math.floor(maxSeverity)] : '#92A5AE';
+  const numberOfOpenIssues = healthInfo ? healthInfo.get('numberOfOpenIssues') : 0;
 
-    displayName: 'HealthIconListing',
+  let classes = 'in-health-icon-listing';
+  if (className) {
+    classes += ' ' + className;
+  }
 
-    mixins: [
-      PureRenderMixin
-    ],
+  const counter = (
+    <span className={classes}
+          style={{
+            color: maxSeverity < 6 ? '#172429' : '#fff',
+            backgroundColor: color
+          }}>
+      {numberOfOpenIssues}
+    </span>
+  );
 
-    propTypes: {
-      snapshotId: rpt.string.isRequired,
-      className: rpt.string,
-      healthInfo: irpt.map
-    },
+  if (numberOfOpenIssues > 0) {
+    return (
+      <Tooltip content={
+                 <TooltipFrame>
+                   <EventListing snapshotId={snapshotId}/>
+                 </TooltipFrame>
+               }>
+        {counter}
+      </Tooltip>
+    );
+  }
 
-    render() {
-      const healthInfo = this.props.healthInfo;
-      if (!healthInfo || healthInfo.get('numberOfOpenIssues') === 0) {
-        return null;
-      }
-
-      const maxSeverity = healthInfo.get('maxSeverity');
-      const backgroundColor = theme.health[Math.floor(maxSeverity)];
-
-      return (
-        <Tooltip content={<TooltipFrame>
-                            <EventListing snapshotId={this.props.snapshotId}/>
-                          </TooltipFrame>}
-                 align={'rightTop'}>
-          <div className={block}
-               style={{backgroundColor}}>
-            {healthInfo.get('numberOfOpenIssues')}
-          </div>
-        </Tooltip>
-      );
-    }
-  })
-);
+  return counter;
+});

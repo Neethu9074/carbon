@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getSnapshot, setSelectedSnapshotId, selectedSnapshotId} from 'in-stores/snapshot';
+import HealthIconListing from 'in-components/HealthIconListing';
 import {getIcon, getLabel} from 'in-sdk/snapshot';
 import {viewStructure} from 'in-stores/view';
 import KPIList from 'in-components/KPIList';
@@ -61,6 +62,9 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
             <li key={snapshotId}
                 className={className}
                 onClick={() => setSelectedSnapshotId(snapshotId)}>
+
+              <HealthIconListing className={block + '__health-icon'}
+                                 snapshotId={snapshotId} />
 
               <div className={block + '__entity-information'}>
                 <IsConnectedIcon id={snapshotId}
