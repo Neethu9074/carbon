@@ -1,4 +1,4 @@
-import {getCategory} from 'in-sdk/tracing';
+import {getCategory, getDirection} from 'in-sdk/tracing';
 
 export function getSelfTime(span) {
   let selfTime = span.get('duration');
@@ -35,9 +35,12 @@ export function getErrorCount(span) {
   return count;
 }
 
-
 export function getCalls(span) {
-  let count = 1;
+  const direction = getDirection(span);
+  let count = 0;
+  if (direction === 'exit' || direction === 'entryAndExit') {
+    count++;
+  }
 
   span.get('childSpans').forEach(childSpan => {
     count += getCalls(childSpan);

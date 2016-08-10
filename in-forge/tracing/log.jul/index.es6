@@ -4,7 +4,7 @@ import {getLabel} from 'in-forge/tracing/log/spanDefinition';
 registerSpanDefinition({
   type: 'log.jul',
   category: 'logger',
-  direction: 'exit',
+  direction: 'local',
 
   typeName: {
     singular: 'Log',
