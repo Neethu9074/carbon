@@ -5,11 +5,10 @@ import React from 'react';
 
 import PhysicalEntitiesList from
   'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/PhysicalEntitiesList';
+import ExpandableHeader from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/ExpandableHeader';
 import KPIList from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/KPIList';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/StickyNote';
 import {getSnapshot} from 'in-stores/snapshot';
-import SvgIcon from 'in-components/SvgIcon';
-import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './Cluster.less';
@@ -58,71 +57,39 @@ const ProcessCluster = connectTo(props => {
       this.props.isHighlighted(this.state.kpisAreHighlighted || this.state.expanded);
 
       const children = this.props.children;
-      const childrenAreAvailable = children && children.size > 0;
-
-      let headerClassName = block + '__header';
-      if (this.state.highlighted || this.state.expanded) {
-        headerClassName += ' ' + headerClassName + '--highlighted';
-      }
+      const numChildren = children ? children.size : 0;
+      const isHighlighted = this.state.highlighted;
+      const isExpanded = this.state.expanded;
+      const id = this.props.client.id;
 
       let contentClassName = block + '__content';
-      if (this.state.expanded) {
+      if (isExpanded) {
         contentClassName += ' ' + contentClassName + '--expanded';
       }
 
       return (
         <div className={contentClassName}>
-          {this.props.isFullyVisible ?
-            <KPIList snapshotId={this.props.client.id}
+          {this.props.isFullyVisible
+            ? <KPIList snapshotId={id}
                      isHighlighted={kpisAreHighlighted => this.setState({kpisAreHighlighted})} />
-            : null
-          }
+            : null}
 
-          {childrenAreAvailable ?
-            <div className={headerClassName}
-                 onMouseEnter={() => this.setState({highlighted: true})}
-                 onMouseLeave={() => this.setState({highlighted: false})}
-                 onClick={this.onClick}>
-              {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
-              <Icon expanded={this.state.expanded} />
-            </div>
-            :
-            <div className={headerClassName}>
-              {getLabel(this.props.snapshot)}
-            </div>
-          }
+          <ExpandableHeader expanded={isExpanded}
+                            highlighted={isExpanded || isHighlighted}
+                            snapshot={this.props.snapshot}
+                            numItems={numChildren}
+                            onClick={() => this.setState({expanded: !isExpanded})}
+                            isHighlighted={highlighted => this.setState({highlighted})} />
 
-          {(this.state.expanded && childrenAreAvailable) ?
-            <PhysicalEntitiesList ids={children}
-                                  parentId={this.props.client.id} />
-          : null}
+          {(isExpanded && numChildren > 0)
+            ? <PhysicalEntitiesList ids={children}
+                                  parentId={id} />
+            : null}
         </div>
       );
-    },
-
-    onClick() {
-      // !this.state.expanded ? this.props.client.expand() : this.props.client.collapse();
-      this.setState({expanded: !this.state.expanded});
     }
   })
 );
-
-function Icon({expanded}) {
-  let className = block + '__icon-wrapper';
-  if (expanded) {
-    className += ' ' + className + '--expanded';
-  }
-
-  return (
-    <div className={className}>
-      <SvgIcon type={expanded ? 'triangle_up' : 'triangle_down'}
-               width={4}
-               height={4}
-               color={expanded ? '#000' : '#2d4048'}
-               className={block + '__icon'}/>
-    </div>
-  );
-}
 
 
 export default class StickyNoteProcessCluster extends StickyNote {
