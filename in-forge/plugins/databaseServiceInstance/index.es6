@@ -8,8 +8,8 @@ import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.databaseServiceInstance,
-  'Logical Database',
-  'Logical Databases'
+  'Database Instance',
+  'Database Instances'
 );
 
 addLabelFinder(

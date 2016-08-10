@@ -8,8 +8,8 @@ import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.elasticSearchIndexServiceInstance,
-  'Logical Elastic Search Index',
-  'Logical Elastic Search Indices'
+  'Elastic Search Index Instance',
+  'Elastic Search Index Instances'
 );
 
 addLabelFinder(

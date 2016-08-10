@@ -8,8 +8,8 @@ import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.cassandraKeyspaceServiceInstance,
-  'Logical Cassandra Keyspace',
-  'Logical Cassandra Keyspaces'
+  'Cassandra Keyspace Instance',
+  'Cassandra Keyspace Instances'
 );
 
 addLabelFinder(

@@ -64,9 +64,6 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
                 onClick={() => setSelectedSnapshotId(snapshotId)}>
 
               <div className={block + '__entity-information'}>
-                <HealthIconListing className={block + '__health-icon'}
-                                   snapshotId={snapshotId} />
-
                 <IsConnectedIcon id={snapshotId}
                                  connections={parentConnections} />
 
@@ -82,6 +79,9 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
                          metrics={kpis.map(kpi => kpi.metric)}
                          labels={kpis.map(kpi => kpi.label)}
                          formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />
+
+                <HealthIconListing className={block + '__health-icon'}
+                                   snapshotId={snapshotId} />
               </div>
             </li>
           );

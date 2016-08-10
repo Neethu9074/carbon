@@ -8,8 +8,8 @@ import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.messageBrokerServiceInstance,
-  'Logical Message Broker',
-  'Logical Message Brokers'
+  'Message Broker Instance',
+  'Message Broker Instances'
 );
 
 addLabelFinder(

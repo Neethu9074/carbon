@@ -8,8 +8,8 @@ import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.webAppServiceInstance,
-  'Logical WebApp',
-  'Logical WebApps'
+  'WebApp Instance',
+  'WebApp Instances'
 );
 
 addLabelFinder(
