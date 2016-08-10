@@ -3,6 +3,7 @@ import THREE from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import createCollection from 'in-map/stores/ObjectColletionStream';
+import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import Subscriber from 'in-map/misc/Subscriber';
 
@@ -96,11 +97,8 @@ export default class ASingleMeshFactory extends Subscriber {
 
     const geometry = this.geometry;
 
-    geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
-    geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
-
-    geometry.attributes.position.needsUpdate = true;
-    geometry.attributes.color.needsUpdate = true;
+    updateAttribute(geometry, 'position', vertices);
+    updateAttribute(geometry, 'color', colors);
 
     if (vertices.length > 0 && !this.isAddedToScene) {
       addSceneObject(this.mesh);

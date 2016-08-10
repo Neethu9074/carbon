@@ -12,7 +12,6 @@ import ConnectionStatus from 'in-components/ConnectionStatus';
 import MaintenanceNote from 'in-components/MaintenanceNote';
 import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import TableView from 'in-components/tableView/TableView';
-import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import ViewSwitcher from 'in-components/ViewSwitcher';

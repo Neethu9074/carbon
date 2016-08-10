@@ -38,7 +38,9 @@ export default class ParticleEmitter {
 
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
-    this.positionNeedsUpdate();
+
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
+    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
 
     const texture = loadImage(pointShape, loadedTexture => loadedTexture.needsUpdate = true);
     texture.minFilter = THREE.LinearFilter;
@@ -62,9 +64,6 @@ export default class ParticleEmitter {
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.renderOrder = 3;
-
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
-    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
 
     this.resetParticles();
 
@@ -181,12 +180,10 @@ export default class ParticleEmitter {
   }
 
   positionNeedsUpdate() {
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.attributes.position.needsUpdate = true;
   }
 
   progressNeedsUpdate() {
-    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
     this.geometry.attributes.progress.needsUpdate = true;
 
     requestRendering();

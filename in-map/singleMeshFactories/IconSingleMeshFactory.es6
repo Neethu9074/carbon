@@ -5,6 +5,7 @@ import vertexShader from 'in-map/singleMeshFactories/pointVertexShader.glsl';
 
 import {glyphTexture, config} from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
+import {updateAttribute} from 'in-map/services/geometryAttributes';
 
 
 export default class IconSingleMeshFactory extends ASingleMeshFactory {
@@ -36,8 +37,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
     const geometry = this.mesh.geometry;
     const fragments = Object.keys(this.fragments.objects).map(key => this.fragments.objects[key]);
 
-    const pointSizes = new Float32Array(fragments.length);
-
+    const pointSizes = [];
     const uvCoords = [];
     const textureWidth = config.numElementsPerColumn * config.iconWidth;
 
@@ -66,10 +66,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         : uvCoords.push(0, 0);
     }
 
-    geometry.addAttribute('pointSize', new THREE.BufferAttribute(pointSizes, 1));
-    geometry.attributes.pointSize.needsUpdate = true;
-
-    geometry.addAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvCoords), 2));
-    geometry.attributes.uv.needsUpdate = true;
+    updateAttribute(geometry, 'pointSize', pointSizes, 1);
+    updateAttribute(geometry, 'uv', uvCoords, 2);
   }
 }
