@@ -51,7 +51,8 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
         {children.map(snapshot => {
           const kpis = getKpis(snapshot);
           const snapshotId = snapshot.get('id');
-          let className = block + '__item';
+          const baseClass = block + '__item';
+          let className = baseClass;
           if (snapshotId === selectedId) {
             className += ' ' + className + '--selected';
           }
@@ -61,19 +62,23 @@ function PhysicalEntitiesList({children, parentConnections, selectedId}) {
                 className={className}
                 onClick={() => setSelectedSnapshotId(snapshotId)}>
 
-              <IsConnectedIcon id={snapshotId}
-                               connections={parentConnections} />
+              <div className={block + '__entity-information'}>
+                <IsConnectedIcon id={snapshotId}
+                                 connections={parentConnections} />
 
-              <img src={getIcon(snapshot)}
-                   alt='plugin icon'
-                   className={block + '__plugin-icon'} />
+                <img src={getIcon(snapshot)}
+                     alt='plugin icon'
+                     className={block + '__plugin-icon'} />
 
-              {getLabel(snapshot)}
+                {getLabel(snapshot)}
+              </div>
 
-              <KPIList snapshot={snapshot}
-                       metrics={kpis.map(kpi => kpi.metric)}
-                       labels={kpis.map(kpi => kpi.label)}
-                       formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />
+              <div className={block + '__kpis'}>
+                <KPIList snapshot={snapshot}
+                         metrics={kpis.map(kpi => kpi.metric)}
+                         labels={kpis.map(kpi => kpi.label)}
+                         formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />
+              </div>
             </li>
           );
         })}
