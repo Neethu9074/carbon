@@ -2,29 +2,25 @@
 
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {cloneDeep} from 'lodash';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {resetStoreRegistry} from 'in-stores/store';
 
-describe('in-stores/search', () => {
+describe('in-stores/search/tags', () => {
 
-  let navigationParameters$;
+  let rawQuery$;
   let mod;
 
   beforeEach(() => {
     resetStoreRegistry();
-    navigationParameters$ = create().emit({query: {}});
-    const mutateUrl = fn => {
-      navigationParameters$.once(params => {
-        navigationParameters$.emit(fn(cloneDeep(params)));
-      });
-    };
-    mod = proxyquire('in-stores/search', {
-      'in-stores/navigation': {
-        mutateUrl,
-        navigationParameters$
+    rawQuery$ = create().emit('');
+    mod = proxyquire('in-stores/search/tags', {
+      'in-stores/search': {
+        rawQuery$,
+        mutateInputString(fn) {
+          rawQuery$.once(rawQuery => rawQuery$.emit(fn(rawQuery)));
+        }
       }
     });
   });
@@ -62,7 +58,7 @@ describe('in-stores/search', () => {
     });
 
     it('must not add filter twice', () => {
-      setQueryViaUrl('tag=foobar');
+      rawQuery$.emit('tag=foobar');
       mod.addTagFilter('foobar');
       expectQueryToEqual('tag=foobar');
     });
@@ -80,26 +76,26 @@ describe('in-stores/search', () => {
     });
 
     it('must remove filters set via URL', () => {
-      setQueryViaUrl('tag=foobar');
+      rawQuery$.emit('tag=foobar');
       mod.removeTagFilter('foobar');
       expectQueryToEqual('');
     });
 
     it('must not remove the wrong tag filter', () => {
-      setQueryViaUrl('tag=foobar tag=bar');
+      rawQuery$.emit('tag=foobar tag=bar');
       mod.removeTagFilter('foobar');
       expectQueryToEqual('tag=bar');
     });
 
     it('must ignore other filters', () => {
-      setQueryViaUrl('host.cpuCount > 2 tag=bar');
+      rawQuery$.emit('host.cpuCount > 2 tag=bar');
       mod.addTagFilter('foobar');
       mod.removeTagFilter('bar');
       expectQueryToEqual('host.cpuCount > 2 tag="foobar"');
     });
 
     it('must remove all tag filters', () => {
-      setQueryViaUrl('host.cpuCount > 2 tag="bar" tag=blub');
+      rawQuery$.emit('host.cpuCount > 2 tag="bar" tag=blub');
       mod.removeAllTagFilters();
       expectQueryToEqual('host.cpuCount > 2');
     });
@@ -107,12 +103,8 @@ describe('in-stores/search', () => {
 
   function expectQueryToEqual(expected) {
     const subscriber = sinon.stub();
-    navigationParameters$.subscribe(subscriber);
+    rawQuery$.subscribe(subscriber);
     expect(subscriber.callCount).to.equal(1);
-    expect(subscriber.getCall(0).args[0].query.q || '').to.equal(encodeURIComponent(expected));
-  }
-
-  function setQueryViaUrl(q) {
-    navigationParameters$.emit({query: {q: encodeURIComponent(q)}});
+    expect(subscriber.getCall(0).args[0] || '').to.equal(expected);
   }
 });

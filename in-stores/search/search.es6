@@ -1,14 +1,11 @@
-/* eslint-disable no-alert */
-
 import {combineLatest} from 'reactive-observables';
-import Immutable from 'immutable';
 
-import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
-import {transformQuery, getTagFiltersFromQuery} from 'in-services/search';
 import createSearchSubscription from 'in-services/subscription/search';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
+import searchContexts$ from 'in-stores/search/searchContexts';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {transformQuery} from 'in-services/search';
 import {focusedMoment$} from 'in-stores/timeline';
 
 export const rawQuery$ = createTrackingStore({
@@ -24,6 +21,13 @@ export const rawQuery$ = createTrackingStore({
     })
     .distinct()
 }).observable;
+
+
+const parsedQueryStore = createStore({
+  name: 'in-stores/search/parsedQuery',
+  initialValue: null
+});
+export const parsedQuery$ = parsedQueryStore;
 
 
 const luceneQueryStore = createStore({
@@ -65,15 +69,14 @@ const errorStore = createStore({
 
 export const error$ = errorStore.observable;
 
-rawQuery$
-  .debounce(500)
-  .subscribe(freeText => {
+combineLatest([searchContexts$, rawQuery$.debounce(500)])
+  .subscribe(([searchContexts, rawQuery]) => {
     try {
-      const luceneQuery = transformQuery(freeText).luceneQuery;
-      errorStore.applyStateMutation(() => null);
-      luceneQueryStore.applyStateMutation(() => luceneQuery);
+      const parsedQuery = transformQuery(rawQuery, searchContexts);
+      errorStore.mutateTo(null);
+      parsedQueryStore.mutateTo(parsedQuery);
     } catch (e) {
-      errorStore.applyStateMutation(() => e.message);
+      errorStore.mutateTo(e.message);
     }
   });
 
@@ -84,64 +87,9 @@ export function setInputString(newString) {
   });
 }
 
-
-function mutateInputString(fn) {
+export function mutateInputString(fn) {
   mutateUrl(navParams => {
     navParams.query.q = encodeURIComponent(fn(decodeURIComponent(navParams.query.q || '')));
     return navParams;
   });
-}
-
-
-// A stream of the form ImmutableSet<String> describing the currently active
-// tag filters.
-export const filteredTags$ = rawQuery$.map(rawQuery => {
-  return Immutable.Set(getTagFiltersFromQuery(rawQuery));
-});
-
-export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
-
-
-export function addTagFilter(tag) {
-  mutateInputString(inputString => {
-    if (containsTagFilter(inputString, tag)) {
-      return inputString;
-    }
-
-    return `${inputString} tag="${tag}"`.trim();
-  });
-}
-
-
-export function removeTagFilter(tag) {
-  mutateInputString(inputString => {
-    if (!containsTagFilter(inputString, tag)) {
-      return inputString;
-    }
-
-    return inputString.replace(getRegExpMachingTag(tag), ' ')
-      // remove excess whitespace
-      .replace(/ {2,}/ig, ' ')
-      .trim();
-  });
-}
-
-
-export function removeAllTagFilters() {
-  mutateInputString(inputString => {
-    return inputString.replace(/(^|\s)tag *= *(("([^"]+)")|([^\s]+))/ig, ' ')
-      // remove excess whitespace
-      .replace(/ {2,}/ig, ' ')
-      .trim();
-  });
-}
-
-// return new RegExp(`${tag} *= *("([^"]+)"|([^\\s]+))`, 'ig').test(freeText);
-export function containsTagFilter(freeText, tag) {
-  return getRegExpMachingTag(tag).test(freeText);
-}
-
-
-function getRegExpMachingTag(tag) {
-  return new RegExp(`(^|\\s)tag *= *("${tag}"|${tag})(\\s|$)`, 'ig');
 }
