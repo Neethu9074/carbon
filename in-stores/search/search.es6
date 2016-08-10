@@ -29,6 +29,9 @@ const parsedQueryStore = createStore({
   initialValue: null
 });
 export const parsedQuery$ = parsedQueryStore.observable;
+export const luceneQuery$ = parsedQuery$
+  .map(parsed => parsed ? parsed.luceneQuery : null)
+  .distinct();
 
 
 const lastQueryChangeTime = createStore({
