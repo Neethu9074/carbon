@@ -1,5 +1,8 @@
 import THREE from 'three';
 
+import {updateAttribute} from 'in-map/src/services/geometryAttributes';
+
+
 const frontFaceCubeVertices = [
   // front
   -1, 0, 1,
@@ -31,7 +34,6 @@ const frontFaceCubeVertices = [
 
 // the basic geometry is a uniformed cube, where the pivot point is at the corner
 export const cubeGeometry = new THREE.BufferGeometry();
-cubeGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(frontFaceCubeVertices), 3));
-cubeGeometry.attributes.position.needsUpdate = true;
+updateAttribute(cubeGeometry, 'position', frontFaceCubeVertices);
 
 export const defaultGeometryMaterial = new THREE.MeshBasicMaterial();

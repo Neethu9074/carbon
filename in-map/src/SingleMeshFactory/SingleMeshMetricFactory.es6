@@ -3,6 +3,7 @@ import TWEEN from 'tween.js';
 import THREE from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
+import {updateAttribute} from 'in-map/src/services/geometryAttributes';
 import {requestRendering} from 'in-map/src/stores/renderingStore';
 import {eventBus} from 'in-map/src/services/eventBus';
 import {find} from 'in-services/arrayUtils';
@@ -205,15 +206,10 @@ export default class SingleMeshMetricFactory {
   updateGeometry() {
     const geometry = this.geometry;
 
-    geometry.addAttribute('oldHeight', new THREE.BufferAttribute(new Float32Array(this.oldHeights), 1));
-    geometry.addAttribute('newHeight', new THREE.BufferAttribute(new Float32Array(this.newHeights), 1));
-    geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(this.vertices), 3));
-    geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(this.colors), 3));
-
-    geometry.attributes.oldHeight.needsUpdate = true;
-    geometry.attributes.newHeight.needsUpdate = true;
-    geometry.attributes.position.needsUpdate = true;
-    geometry.attributes.color.needsUpdate = true;
+    updateAttribute(geometry, 'oldHeight', this.oldHeights, 1);
+    updateAttribute(geometry, 'newHeight', this.newHeights, 1);
+    updateAttribute(geometry, 'position', this.vertices);
+    updateAttribute(geometry, 'color', this.colors);
 
     if (__DEV__) {
       this.numberUpdates++;
@@ -254,11 +250,8 @@ export default class SingleMeshMetricFactory {
     this.oldHeights = [].concat.apply([], allOld);
     this.newHeights = [].concat.apply([], allNew);
 
-    geometry.addAttribute('oldHeight', new THREE.BufferAttribute(new Float32Array(this.oldHeights), 1));
-    geometry.addAttribute('newHeight', new THREE.BufferAttribute(new Float32Array(this.newHeights), 1));
-
-    geometry.attributes.oldHeight.needsUpdate = true;
-    geometry.attributes.newHeight.needsUpdate = true;
+    updateAttribute(geometry, 'oldHeight', this.oldHeights, 1);
+    updateAttribute(geometry, 'newHeight', this.newHeights, 1);
 
     this.animation.start();
   }

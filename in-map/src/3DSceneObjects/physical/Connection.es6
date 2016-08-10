@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/src/stores/sceneStore';
+import {updateAttribute} from 'in-map/src/services/geometryAttributes';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import BaseConnection from '../common/Connection';
@@ -49,10 +50,7 @@ export default class Connection extends BaseConnection {
   }
 
   updateGeometry() {
-    const vertices = new Float32Array(this.getLineVertices(this.sourceNode, this.destinationNode));
-
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-    this.geometry.attributes.position.needsUpdate = true;
+    updateAttribute(this.geometry, 'position', this.getLineVertices(this.sourceNode, this.destinationNode));
   }
 
   calculatePath(fromPos, toPos) {
