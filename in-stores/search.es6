@@ -4,7 +4,7 @@ import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
 import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
-import {transformToLuceneQuery, getTagFiltersFromQuery} from 'in-services/search';
+import {transformQuery, getTagFiltersFromQuery} from 'in-services/search';
 import createSearchSubscription from 'in-services/subscription/search';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
@@ -69,7 +69,7 @@ rawQuery$
   .debounce(500)
   .subscribe(freeText => {
     try {
-      const luceneQuery = transformToLuceneQuery(freeText);
+      const luceneQuery = transformQuery(freeText).luceneQuery;
       errorStore.applyStateMutation(() => null);
       luceneQueryStore.applyStateMutation(() => luceneQuery);
     } catch (e) {
