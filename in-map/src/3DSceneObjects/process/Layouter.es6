@@ -1,7 +1,8 @@
 /* eslint-disable complexity */
 import {combineLatest} from 'reactive-observables';
 
-import FR from 'in-map/src/3DSceneObjects/process/layoutingStrategies/FruchtermannReingold';
+import Chessboard from 'in-map/src/3DSceneObjects/process/layoutingStrategies/Chessboard';
+// import FR from 'in-map/src/3DSceneObjects/process/layoutingStrategies/FruchtermannReingold';
 import {edges$} from 'in-map/src/stores/process/edgesStore';
 import {nodes$} from 'in-map/src/stores/process/nodesStore';
 import {eventBus} from 'in-map/src/services/eventBus';
@@ -10,7 +11,8 @@ import {eventBus} from 'in-map/src/services/eventBus';
 export default class Layouter {
 
   constructor() {
-    this.layoutingStrategy = new FR();
+    // this.layoutingStrategy = new FR();
+    this.layoutingStrategy = new Chessboard();
 
     this.layoutingSubscription = combineLatest([nodes$, edges$, eventBus.on('resetProcessViewLayouting')])
                                  .map(([nodes, edges]) => {
