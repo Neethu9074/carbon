@@ -48,6 +48,14 @@ addKeywordOperator({
 });
 
 
+addKeywordOperator({
+  context: 'trace',
+  type: 'string',
+  keyword: 'startingAt',
+  field: 'logical_source_service_id'
+});
+
+
 // Example for an operatorDefinition:
 // {
 //   context: 'entity',
