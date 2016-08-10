@@ -40,6 +40,10 @@ export default class ParticleEmitter extends SceneObject {
 
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
+
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
+    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
+
     this.positionNeedsUpdate();
 
     const texture = loadImage(pointShape, loadedTexture => loadedTexture.needsUpdate = true);
@@ -63,9 +67,6 @@ export default class ParticleEmitter extends SceneObject {
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
-
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
-    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
 
     this.resetParticles();
 
@@ -133,7 +134,7 @@ export default class ParticleEmitter extends SceneObject {
     }
 
     // remove old particles
-    const removed = remove(particles, particle => particle.progress >= 1);
+    const removed = remove(this.particles, particle => particle.progress >= 1);
     removed.forEach(removedParticles => {
       const index = removedParticles.index * 3;
       vertices[index] = START_POS;
@@ -183,12 +184,10 @@ export default class ParticleEmitter extends SceneObject {
   }
 
   positionNeedsUpdate() {
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.attributes.position.needsUpdate = true;
   }
 
   progressNeedsUpdate() {
-    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
     this.geometry.attributes.progress.needsUpdate = true;
 
     requestRendering();
