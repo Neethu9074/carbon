@@ -33,7 +33,11 @@ export default class MapHandler {
   }
 
   updateCamera() {
-    this.doIfPresent(map => map.camera.update());
+    this.doIfPresent(map => {
+      if (map.camera) {
+        map.camera.update();
+      }
+    });
   }
 
   onWindowResize(width, height) {

@@ -39,15 +39,15 @@ export default class Layouter {
       }
     });
 
-    this.currentLayoutingStrategySubscription = currentLayoutingStrategy$.distinct.subscribe(() =>
+    this.currentLayoutingStrategySubscription = currentLayoutingStrategy$.distinct().subscribe(() =>
       eventBus.emit('resetProcessViewLayouting', true));
 
     eventBus.emit('resetProcessViewLayouting', true);
   }
 
   dispose() {
-    this.resetProcessViewLayoutingSubscription.dispose();
     this.currentLayoutingStrategySubscription.dispose();
+    this.resetProcessViewLayoutingSubscription.dispose();
     this.layoutingSubscription.dispose();
   }
 }
