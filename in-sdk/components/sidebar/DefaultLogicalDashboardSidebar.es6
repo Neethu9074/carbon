@@ -1,16 +1,20 @@
 import React from 'react';
 
+import JumpToTracesButton from 'in-sdk/components/sidebar/JumpToTracesButton';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 
 export default function DefaultLogicalDashboardSidebar({snapshot}) {
+  const snapshotId = snapshot.get('id');
   return (
     <div>
-      <ClusterMemberList snapshotId={snapshot.get('id')} />
+      <JumpToTracesButton snapshotId={snapshotId}/>
       <Separator />
-      <ConnectionList snapshotId={snapshot.get('id')} />
+      <ClusterMemberList snapshotId={snapshotId} />
+      <Separator />
+      <ConnectionList snapshotId={snapshotId} />
     </div>
   );
 }

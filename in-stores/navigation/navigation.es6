@@ -56,7 +56,7 @@ export function mutateUrl(mutator) {
 }
 
 
-function cloneDeep(obj) {
+export function cloneDeep(obj) {
   return loDashCloneDeep(obj, true);
 }
 
@@ -149,7 +149,7 @@ export const closeDashboardLink$ = navigationParameters$
   .distinct();
 
 
-function toUrl(params) {
+export function toUrl(params) {
   let url = params.pathname;
 
   let first = true;
