@@ -55,6 +55,9 @@ export default function TomcatSidebar({snapshot}) {
                     <DescriptionItem title='Port'>
                       {data.get('port')}
                     </DescriptionItem>
+                    <DescriptionItem title='Executor'>
+                      {data.get('executor')}
+                    </DescriptionItem>
                     <DescriptionItem title='Max Threads'>
                       {data.getIn(['threads', 'max'])}
                     </DescriptionItem>
