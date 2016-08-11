@@ -22,7 +22,15 @@ export default class Layouter {
                                    };
                                  })
                                  .debounce(100)
-                                 .subscribe(inventar => inventar.currentLayoutingStrategy.applyLayout(inventar, true));
+                                 .subscribe(({nodes, edges, currentLayoutingStrategy}) => {
+                                   if (this.shouldReset || this.currentLayoutingStrategy !== currentLayoutingStrategy) {
+                                     nodes.forEach(node => node._wasAutomaticLayouted = false);
+                                     this.shouldReset = false;
+                                   }
+
+                                   this.currentLayoutingStrategy = currentLayoutingStrategy;
+                                   currentLayoutingStrategy(nodes, edges);
+                                 });
 
     this.resetProcessViewLayoutingSubscription = eventBus.on('resetProcessViewLayouting').subscribe(shouldReset => {
       if (shouldReset) {
@@ -31,11 +39,15 @@ export default class Layouter {
       }
     });
 
+    this.currentLayoutingStrategySubscription = currentLayoutingStrategy$.distinct.subscribe(() =>
+      eventBus.emit('resetProcessViewLayouting', true));
+
     eventBus.emit('resetProcessViewLayouting', true);
   }
 
   dispose() {
     this.resetProcessViewLayoutingSubscription.dispose();
+    this.currentLayoutingStrategySubscription.dispose();
     this.layoutingSubscription.dispose();
   }
 }
