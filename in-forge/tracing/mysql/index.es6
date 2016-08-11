@@ -1,4 +1,4 @@
-import {registerSpanDefinition} from 'in-sdk/registry/tracing';
+import {registerSpanDefinition} from 'in-sdk/tracing';
 import {shortenSqlStatement} from 'in-forge/tracing/jdbc/sql';
 
 registerSpanDefinition({
