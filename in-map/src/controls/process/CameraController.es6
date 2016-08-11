@@ -33,7 +33,7 @@ export default class CameraController extends BaseCameraController {
 
     // this is an abstract zoomLevel, needed to store calculte the frustum size of
     // of the camera and the distance to the POI
-    this.zoomLevel = 500;
+    this.zoomLevel = 700;
 
     // this is the speed te camera will move to the new pos on drag
     this.cameraMoveSpeed = 0.02;
@@ -68,7 +68,8 @@ export default class CameraController extends BaseCameraController {
       new RaycasterModule({eventEmitter, scene, camera: this.camera}),
       new DragAndDropModule({eventEmitter, map, canvas, scene, camera: this.camera})
     );
-    eventEmitter.emit('onZoom', 0);
+
+    this.onZoom(0);
 
     setCameraController(this);
   }

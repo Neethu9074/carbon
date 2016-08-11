@@ -225,6 +225,9 @@ export default class ParticleEmitter {
   }
 
   dispose() {
+    this.startSubscription.dispose();
+    this.startSubscription = null;
+
     // stop the emitter to make sure everything is disposed well
     this.stop();
 
@@ -238,10 +241,5 @@ export default class ParticleEmitter {
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
     this.mesh = null;
-
-    this.numParticles = null;
-
-    this.startSubscription.dispose();
-    this.startSubscription = null;
   }
 }

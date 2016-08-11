@@ -1,6 +1,8 @@
+import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
+import {isPhysicalMapView$, isTraceView$} from 'in-stores/navigation/view';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {rawQuery$, setInputString} from 'in-stores/search';
@@ -10,21 +12,23 @@ import {
   highlightPreviousSuggestion,
   selectHighlightedSuggestion
 } from 'in-components/SearchBar/stores/highlightedSuggestion';
-import {isPhysicalViewVisible$} from 'in-stores/view';
 import HelpLink from 'in-components/HelpLink';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
 import './SearchBar.less';
 
+const searchVisible$ = combineLatest([isPhysicalMapView$, isTraceView$])
+  .map(([physicalView, traceView]) => physicalView || traceView)
+  .distinct();
 
 const block = 'in-searchbar';
 
 export default connectTo({
     rawQuery: rawQuery$,
-    isPhysicalViewVisible: isPhysicalViewVisible$
-  }, function SearchBar({rawQuery, className, isPhysicalViewVisible}) {
-    if (!isPhysicalViewVisible) {
+    searchVisible: searchVisible$
+  }, function SearchBar({rawQuery, className, searchVisible}) {
+    if (!searchVisible) {
       return null;
     }
 

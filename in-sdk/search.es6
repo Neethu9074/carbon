@@ -15,7 +15,8 @@ const searchableTypes = {};
 //   ]
 // }
 const contexts = {
-  entity: []
+  entity: [],
+  trace: []
 };
 
 
@@ -44,6 +45,14 @@ addKeywordOperator({
   toValue(selection) {
     return searchableTypes[selection.toLowerCase()];
   }
+});
+
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'string',
+  keyword: 'startingAt',
+  field: 'logical_source_service_id'
 });
 
 

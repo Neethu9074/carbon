@@ -90,14 +90,14 @@ export default class ConnectionWithKPI extends Connection {
   }
 
   dispose() {
+    this.particleEmitter.dispose();
+    this.particleEmitter = null;
+
     super.dispose();
 
     if (this.stickyNoteMetric) {
       this.stickyNoteMetric.dispose();
       this.stickyNoteMetric = null;
     }
-
-    this.particleEmitter.dispose();
-    this.particleEmitter = null;
   }
 }

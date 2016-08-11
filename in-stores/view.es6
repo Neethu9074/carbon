@@ -2,7 +2,7 @@ import * as ro from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
 
-import {navigationParameters$, isMapVisible$} from 'in-stores/navigation';
+import {navigationParameters$} from 'in-stores/navigation';
 import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
 
@@ -39,6 +39,3 @@ export const viewStructure = createTrackingStore({
 export const physicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
   createViewStructureObservable({viewType: types.physical, time: focusedMoment})
 );
-
-export const isPhysicalViewVisible$ = ro.combineLatest([view$, isMapVisible$])
-  .map(([activeView, isMapVisible]) => isMapVisible && activeView === types.physical);
