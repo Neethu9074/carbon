@@ -6,6 +6,7 @@ export default class Chessboard {
 
   applyLayout(inventar) {
     const nunNodesPerRow = Math.ceil(Math.sqrt(inventar.nodes.length));
+    const dimension = nunNodesPerRow * SCALE;
 
     let rowIndex = 1;
     let columnIndex = 1;
@@ -26,7 +27,10 @@ export default class Chessboard {
       .sort((a, b) => a.numEdges - b.numEdges)
       .forEach(node => {
         const currentRowIndex = rowIndex++;
-        node.sceneObject.getComponent('position').setPosition(currentRowIndex * SCALE, 0, columnIndex * SCALE);
+        node.sceneObject.getComponent('position').setPosition(
+          currentRowIndex * SCALE - dimension / 2,
+          0,
+          columnIndex * SCALE - dimension / 2);
 
         if (rowIndex > nunNodesPerRow) {
           rowIndex = 1;
