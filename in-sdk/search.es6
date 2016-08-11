@@ -52,7 +52,7 @@ addKeywordOperator({
   context: 'trace',
   type: 'string',
   keyword: 'startingAt',
-  field: 'logical_source_service_id'
+  field: 'logical_destination_service_id'
 });
 
 
