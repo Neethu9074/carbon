@@ -13,6 +13,22 @@ export default function ConnectorsTable({snapshot, timeframe}) {
     return null;
   }
 
+  if (connectors.first().get('connections')) {
+    return (
+      <DashboardSection title='Connectors'>
+        <ExpandableTable data={connectors}
+                         getKey={getKey}
+                         createHeader={createHeaderWithConnections}
+                         createRow={createRowWithConnections}
+                         context={{
+                           snapshot,
+                           timeframe
+                         }}
+                         createDetails={createDetailsWithConnections} />
+      </DashboardSection>
+    );
+  }
+  // Tomcat 6 which does not have connection
   return (
     <DashboardSection title='Connectors'>
       <ExpandableTable data={connectors}
@@ -32,7 +48,7 @@ function getKey(connector, connectorName) {
   return connectorName;
 }
 
-function createHeader() {
+function createHeaderWithConnections() {
   return (
     <thead>
       <tr>
@@ -47,7 +63,20 @@ function createHeader() {
   );
 }
 
-function createRow(connector, name, context) {
+function createHeader() {
+  return (
+    <thead>
+      <tr>
+        <th>Connector</th>
+        <th>Threads</th>
+        <th>Busy</th>
+        <th>Max</th>
+      </tr>
+    </thead>
+  );
+}
+
+function createRowWithConnections(connector, name, context) {
   return ([
     <td>{name}</td>,
     <Mtd metric={'connectors.' + name + '.threads'}
@@ -61,7 +90,18 @@ function createRow(connector, name, context) {
   ]);
 }
 
-function createDetails(connector, name, context) {
+function createRow(connector, name, context) {
+  return ([
+    <td>{name}</td>,
+    <Mtd metric={'connectors.' + name + '.threads'}
+         snapshot={context.snapshot} />,
+    <Mtd metric={'connectors.' + name + '.threadsBusy'}
+         snapshot={context.snapshot} />,
+    <td>{connector.getIn(['threads', 'max'])}</td>
+  ]);
+}
+
+function createDetailsWithConnections(connector, name, context) {
   return (
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
            timeframe={context.timeframe}
@@ -79,6 +119,27 @@ function createDetails(connector, name, context) {
                name + ' Threads',
                name + ' Threads Busy',
                name + ' Connections'
+             ],
+             type: 'line'
+           }}/>
+  );
+}
+
+function createDetails(connector, name, context) {
+  return (
+    <ChartWithLegend snapshotId={context.snapshot.get('id')}
+           timeframe={context.timeframe}
+           margins={{
+             left: 80
+           }}
+           y1={{
+             metrics: [
+               'connectors.' + name + '.threads',
+               'connectors.' + name + '.threadsBusy'
+             ],
+             labels: [
+               name + ' Threads',
+               name + ' Threads Busy'
              ],
              type: 'line'
            }}/>
