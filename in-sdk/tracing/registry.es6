@@ -1,3 +1,5 @@
+import {addSearchableTraceType} from 'in-sdk/search';
+
 // maps type => spanDefinition
 export const registry = {};
 
@@ -24,6 +26,13 @@ function defaultSpanDefinition(span) {
 
 export function registerSpanDefinition(spanDefinition) {
   registry[spanDefinition.type] = spanDefinition;
+
+  const aliases = spanDefinition.searchAliases;
+  if (aliases) {
+    for (let i = 0, len = aliases.length; i < len; i++) {
+      addSearchableTraceType(aliases[i], spanDefinition.type);
+    }
+  }
 }
 
 

@@ -5,6 +5,7 @@ registerSpanDefinition({
   type: 'servlet',
   category: 'http',
   direction: 'entry',
+  searchAliases: ['servlet', 'http'],
 
   typeName: {
     singular: 'HTTP Call',

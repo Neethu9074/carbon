@@ -1,5 +1,5 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
@@ -28,5 +28,5 @@ addIconToRegistry({
   image: iconPath
 });
 
-addSearchableType('mongo', constants.plugins.mongodb);
-addSearchableType('mongodb', constants.plugins.mongodb);
+addSearchableEntityType('mongo', constants.plugins.mongodb);
+addSearchableEntityType('mongodb', constants.plugins.mongodb);

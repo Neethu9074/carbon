@@ -1,4 +1,4 @@
-import {addKeywordOperator, createPluginFieldPath, addSearchableType} from 'in-sdk/search';
+import {addKeywordOperator, createPluginFieldPath, addSearchableEntityType} from 'in-sdk/search';
 import * as icon from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
@@ -101,4 +101,4 @@ addKeywordOperator({
   field: createPluginFieldPath(constants.plugins.os, ['memory'])
 });
 
-addSearchableType('host', constants.plugins.os);
+addSearchableEntityType('host', constants.plugins.os);

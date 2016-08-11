@@ -1,5 +1,5 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
@@ -19,6 +19,6 @@ addIconToRegistry({
   image: iconPath
 });
 
-addSearchableType('nodeCluster', constants.plugins.nodejsCluster);
-addSearchableType('node.jsCluster', constants.plugins.nodejsCluster);
-addSearchableType('nodejsCluster', constants.plugins.nodejsCluster);
+addSearchableEntityType('nodeCluster', constants.plugins.nodejsCluster);
+addSearchableEntityType('node.jsCluster', constants.plugins.nodejsCluster);
+addSearchableEntityType('nodejsCluster', constants.plugins.nodejsCluster);

@@ -1,9 +1,5 @@
 import invariant from 'invariant';
 
-import {fullyQualifiedPlugins} from 'in-forge/constants';
-
-const searchableTypes = {};
-
 // maps from context to map of operators, e.g.
 // {
 //   entity: [
@@ -18,43 +14,6 @@ const contexts = {
   entity: [],
   trace: []
 };
-
-
-addKeywordOperator({
-  context: 'entity',
-  type: 'string',
-  keyword: 'tag',
-  field: 'processor_tags'
-});
-
-
-addKeywordOperator({
-  context: 'entity',
-  type: 'selection',
-  keyword: 'type',
-  field: 'plugin_id',
-  validate(selection, queryPart) {
-    if (this.getSelectableItems().indexOf(selection.toLowerCase()) === -1) {
-      return `Unknown entity type ${selection} for key type at row ${queryPart.row}.`;
-    }
-    return null;
-  },
-  getSelectableItems() {
-    return Object.keys(searchableTypes);
-  },
-  toValue(selection) {
-    return searchableTypes[selection.toLowerCase()];
-  }
-});
-
-
-addKeywordOperator({
-  context: 'trace',
-  type: 'string',
-  keyword: 'startingAt',
-  field: 'logical_destination_service_id'
-});
-
 
 // Example for an operatorDefinition:
 // {
@@ -92,20 +51,4 @@ export function getKeywordOperators(requestedContexts) {
   }
 
   return result;
-}
-
-
-export function createPluginFieldPath(shortPluginId, fieldPath) {
-  const cleanedFieldPath = fieldPath.map(cleanPathElement).join('.');
-  return `search.${shortPluginId}.${cleanedFieldPath}`;
-}
-
-
-function cleanPathElement(element) {
-  return element.replace(/\./g, '__');
-}
-
-
-export function addSearchableType(label, shortPluginId) {
-  searchableTypes[label.toLowerCase()] = fullyQualifiedPlugins[shortPluginId];
 }

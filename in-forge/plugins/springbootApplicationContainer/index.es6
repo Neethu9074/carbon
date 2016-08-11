@@ -1,6 +1,6 @@
 import iconPath from 'in-forge/plugins/springbootApplicationContainer/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
@@ -45,4 +45,4 @@ addIconToRegistry({
 });
 
 
-addSearchableType('springboot', constants.plugins.springboot);
+addSearchableEntityType('springboot', constants.plugins.springboot);
