@@ -4,7 +4,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import List from 'in-sdk/components/sidebar/List';
 
-import HttpdInfo from '../HttpdInfo';
+import Info from '../Info';
 
 
 export default function HttpdSidebar({snapshot}) {
@@ -14,7 +14,7 @@ export default function HttpdSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Apache Httpd</Collapsible.Header>
         <Collapsible.Content>
-          <HttpdInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

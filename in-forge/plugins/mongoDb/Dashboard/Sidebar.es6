@@ -5,7 +5,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import {emptyList} from 'in-services/fixedImmutables';
 import List from 'in-sdk/components/sidebar/List';
 
-import MongoDBInfo from '../MongoDBInfo';
+import Info from '../Info';
 
 
 export default function MongoDBSidebar({snapshot}) {
@@ -16,7 +16,7 @@ export default function MongoDBSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>MongoDB</Collapsible.Header>
         <Collapsible.Content>
-          <MongoDBInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

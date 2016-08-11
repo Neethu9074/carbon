@@ -2,8 +2,8 @@ import React from 'react';
 
 import ConnectorsInfo from 'in-forge/plugins/activeMQ/ConnectorsInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import BrokerInfo from 'in-forge/plugins/activeMQ/BrokerInfo';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import Info from 'in-forge/plugins/activeMQ/Info';
 
 
 export default function ActiveMQSidebar({snapshot}) {
@@ -14,7 +14,7 @@ export default function ActiveMQSidebar({snapshot}) {
           Broker Info
         </Collapsible.Header>
         <Collapsible.Content>
-          <BrokerInfo snapshot={snapshot}/>
+          <Info snapshot={snapshot}/>
         </Collapsible.Content>
       </Collapsible>
 

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import List from 'in-sdk/components/sidebar/List';
 
 import CassandraCommunicationInfo from '../CassandraCommunicationInfo';
 import CassandraTopologyInfo from '../CassandraTopologyInfo';
+import Info from '../Info';
 
 
 export default function CassandraSidebar({snapshot}) {
@@ -20,11 +20,7 @@ export default function CassandraSidebar({snapshot}) {
           Info
         </Collapsible.Header>
         <Collapsible.Content>
-          <DescriptionList>
-            <DescriptionItem title='Version'>
-              {data.get('version')}
-            </DescriptionItem>
-          </DescriptionList>
+          <Info snapshot={snapshot}/>
         </Collapsible.Content>
       </Collapsible>
 

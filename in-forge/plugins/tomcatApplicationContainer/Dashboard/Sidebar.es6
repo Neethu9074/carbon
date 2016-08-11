@@ -4,7 +4,7 @@ import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import TomcatInfo from '../TomcatInfo';
+import Info from '../Info';
 
 
 export default function TomcatSidebar({snapshot}) {
@@ -16,7 +16,7 @@ export default function TomcatSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Tomcat</Collapsible.Header>
         <Collapsible.Content>
-          <TomcatInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       { webapps ?

@@ -14,7 +14,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.webAppServiceInstance,
-  snapshot => snapshot.getIn(['data', 'service_name'])
+  snapshot => snapshot.getIn(['data', 'name'])
 );
 
 addIconToRegistry({

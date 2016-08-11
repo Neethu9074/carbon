@@ -2,7 +2,7 @@ import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import OracleDBInfo from '../OracleDBInfo';
+import Info from '../Info';
 
 
 export default function OracleDBSidebar({snapshot}) {
@@ -11,7 +11,7 @@ export default function OracleDBSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>OracleDB</Collapsible.Header>
         <Collapsible.Content>
-          <OracleDBInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
     </div>

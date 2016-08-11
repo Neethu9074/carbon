@@ -12,12 +12,18 @@ export default function DefaultLogicalSidebar({snapshot}) {
   return (
     <div>
       <JumpToTracesButton snapshotId={snapshotId}/>
+
       <Separator />
+
       <DefaultLogicalSidebarKpis snapshot={snapshot} />
+
       <Separator />
-      <ClusterMemberList snapshotId={snapshotId} />
+
+      <ClusterMemberList snapshotId={snapshot.get('id')} />
+
       <Separator />
-      <ConnectionList snapshotId={snapshotId} />
+
+      <ConnectionList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

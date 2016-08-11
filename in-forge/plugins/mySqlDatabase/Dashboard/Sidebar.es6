@@ -3,7 +3,7 @@ import React from 'react';
 import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import MySqlInfo from '../MySqlInfo';
+import Info from '../Info';
 
 
 export default function MySqlSidebar({snapshot}) {
@@ -12,7 +12,7 @@ export default function MySqlSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>MySql</Collapsible.Header>
         <Collapsible.Content>
-          <MySqlInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       <DeployedUnitList snapshotId={snapshot.get('id')} />

@@ -5,7 +5,7 @@ import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
-import ElasticsearchInfo from '../ElasticsearchInfo';
+import Info from '../Info';
 
 
 export default function ElasticsearchSidebar({snapshot}) {
@@ -14,8 +14,8 @@ export default function ElasticsearchSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Elasticsearch</Collapsible.Header>
         <Collapsible.Content>
-          <ElasticsearchInfo snapshot={snapshot}
-                             snapshotId={snapshot.get('id')}/>
+          <Info snapshot={snapshot}
+                snapshotId={snapshot.get('id')} />
         </Collapsible.Content>
       </Collapsible>
 

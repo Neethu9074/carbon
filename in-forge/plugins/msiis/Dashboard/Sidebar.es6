@@ -4,7 +4,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import AppPoolList from '../AppPoolList.es6';
 import WebSiteList from '../WebSiteList.es6';
-import IISInfo from '../IISInfo';
+import Info from '../Info';
 
 
 export default function MsIISSidebar({snapshot}) {
@@ -13,7 +13,7 @@ export default function MsIISSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Internet Information Server</Collapsible.Header>
         <Collapsible.Content>
-          <IISInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       <Collapsible initiallyOpen={false}>

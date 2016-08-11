@@ -6,6 +6,9 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import {formatDateTime} from 'in-services/formatters/date';
 
+import Info from '../Info';
+
+
 export default function PhpFpmDashboardSidebar({snapshot}) {
   const data = snapshot.get('data');
   const pools = data.get('worker_pools').toArray();
@@ -17,11 +20,7 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
           PHP-FPM Runtime
         </Collapsible.Header>
         <Collapsible.Content>
-          <DescriptionList>
-            <DescriptionItem title='Master Process ID'>
-              {data.get('pid')}
-            </DescriptionItem>
-          </DescriptionList>
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

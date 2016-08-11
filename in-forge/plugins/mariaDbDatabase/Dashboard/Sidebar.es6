@@ -1,10 +1,10 @@
 import React from 'react';
 
 import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
-import TagList from 'in-sdk/components/sidebar/TagList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import TagList from 'in-sdk/components/sidebar/TagList';
 
-import MariaDbInfo from '../MariaDbInfo';
+import Info from '../Info';
 
 
 export default function MariaDbSidebar({snapshot}) {
@@ -13,7 +13,7 @@ export default function MariaDbSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>MariaDB</Collapsible.Header>
         <Collapsible.Content>
-          <MariaDbInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       <TagList snapshot={snapshot} />

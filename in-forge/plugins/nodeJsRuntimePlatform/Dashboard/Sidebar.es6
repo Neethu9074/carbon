@@ -5,7 +5,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 
-import NodeJsInfo from '../NodeJsInfo';
+import Info from '../Info';
 
 
 export default function NodejsDashboardSidebar({snapshot}) {
@@ -14,7 +14,8 @@ export default function NodejsDashboardSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Node.js Runtime</Collapsible.Header>
         <Collapsible.Content>
-          <NodeJsInfo snapshot={snapshot} />
+          <
+        Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

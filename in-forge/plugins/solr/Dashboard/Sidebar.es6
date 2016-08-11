@@ -4,8 +4,9 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import {emptyList} from 'in-services/fixedImmutables';
 
-import SolrInfo from '../SolrInfo';
 import SolrCoreInfo from '../SolrCoreInfo';
+import Info from '../Info';
+
 
 export default function SolrSidebar({snapshot}) {
   const coreNames = snapshot.getIn(['data', 'core_names'], emptyList).toArray().sort();
@@ -17,7 +18,7 @@ export default function SolrSidebar({snapshot}) {
           Solr
         </Collapsible.Header>
         <Collapsible.Content>
-          <SolrInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

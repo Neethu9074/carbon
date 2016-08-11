@@ -1,7 +1,8 @@
 import React from 'react';
 
-import RabbitMqInfo from 'in-forge/plugins/rabbitMq/RabbitMqInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+
+import Info from '../Info';
 
 
 export default function RabbitMqSidebar({snapshot}) {
@@ -12,7 +13,7 @@ export default function RabbitMqSidebar({snapshot}) {
           RabbitMq
         </Collapsible.Header>
         <Collapsible.Content>
-            <RabbitMqInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
     </div>

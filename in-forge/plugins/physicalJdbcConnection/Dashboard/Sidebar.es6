@@ -1,4 +1,0 @@
-import DefaultLogicalConnectionDashboardSidebar from
-  'in-sdk/components/sidebar/DefaultLogicalConnectionDashboardSidebar';
-
-export default DefaultLogicalConnectionDashboardSidebar;
