@@ -17,7 +17,7 @@ import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
 
-export default class NodeUnknownExitService extends Node {
+export default class NodeUnknownService extends Node {
 
   constructor(props) {
     super(props);

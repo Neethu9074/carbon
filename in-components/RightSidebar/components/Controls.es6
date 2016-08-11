@@ -70,6 +70,14 @@ export default connectTo({
           : null
         }
 
+        {__DEV__ ?
+          <ControlItem type={CONTROL_TYPES.LAYOUT}
+                       activeControl={activeControl}
+                       tooltipText='DEV ONLY FEATURE. INGORE IT'
+                       addTopBorder={true} />
+          : null
+        }
+
         <br />
 
         {currentView === views.physical
