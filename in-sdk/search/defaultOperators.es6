@@ -63,3 +63,26 @@ addKeywordOperator({
   keyword: 'startingAt',
   field: 'logical_destination_service_id'
 });
+
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'number',
+  keyword: 'duration',
+  field: 'd'
+});
+
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'number',
+  keyword: 'time',
+  field: 'd'
+});
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'number',
+  keyword: 'latency',
+  field: 'd'
+});
