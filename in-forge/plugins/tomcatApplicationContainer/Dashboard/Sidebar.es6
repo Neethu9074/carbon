@@ -26,7 +26,7 @@ export default function TomcatSidebar({snapshot}) {
             {webapps.map((data, name) =>
               <Collapsible initiallyOpen={false}
                            key={name}>
-                <Collapsible.Header>{data.get('name')}</Collapsible.Header>
+                <Collapsible.Header>{data.get('name') || name}</Collapsible.Header>
                 <Collapsible.Content>
                   <DescriptionList>
                     <DescriptionItem title='Context'>
