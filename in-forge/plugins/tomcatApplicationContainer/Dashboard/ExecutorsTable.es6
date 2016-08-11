@@ -47,7 +47,7 @@ function createHeader() {
 function createRow(executor, name, context) {
   return ([
     <td>{name}</td>,
-    <Mtd metric={'executors.' + name + '.activeCount'}
+    <Mtd metric={'executors.' + name + '.active'}
          snapshot={context.snapshot} />,
     <td>{executor.getIn(['maxThreads'])}</td>,
     <Mtd metric={'executors.' + name + '.queueSize'}
@@ -64,7 +64,7 @@ function createDetails(executor, name, context) {
            }}
            y1={{
              metrics: [
-               'executors.' + name + '.activeCount',
+               'executors.' + name + '.active',
                'executors.' + name + '.queueSize'
              ],
              labels: [
