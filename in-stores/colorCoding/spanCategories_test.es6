@@ -5,7 +5,7 @@ import {uniq} from 'lodash';
 
 import {createColorPool} from 'in-services/util/ColorGenerator';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
-import {registry} from 'in-sdk/registry/tracing';
+import {registry} from 'in-sdk/tracing';
 
 describe('in-stores/colorCoding/spanCategories', () => {
   const categories = Object.keys(registry).map(type => registry[type].category);

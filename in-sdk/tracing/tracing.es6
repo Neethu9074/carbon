@@ -1,5 +1,6 @@
-import {getSpanDefinition} from 'in-sdk/registry/tracing';
+export {registry, registerSpanDefinition, getSpanDefinition} from 'in-sdk/tracing/registry';
 
+import {getSpanDefinition} from 'in-sdk/tracing';
 import httpIcon from 'in-sdk/tracing/categoryIcons/http.svg';
 import messagingIcon from 'in-sdk/tracing/categoryIcons/messaging.svg';
 import databaseIcon from 'in-sdk/tracing/categoryIcons/database.svg';
