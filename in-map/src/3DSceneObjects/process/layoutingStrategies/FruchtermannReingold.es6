@@ -1,12 +1,12 @@
 /* eslint-disable complexity */
-const SCALE = 5;
+const SCALE = 2;
 
 export default class FruchtermannReingold {
 
   constructor() {
     this.shouldReset = true;
     this.iterations = 1000;
-    this.gravity = 500;
+    this.gravity = 100;
     this.speed = 0.1;
   }
 
@@ -28,14 +28,13 @@ export default class FruchtermannReingold {
       this.shouldReset = false;
     }
 
-    let posOffet = 0;
     nodes.forEach(node => {
       const pos = node.getComponent('position').getPosition();
 
       const sigmaNode = {
         id: node.id,
-        x: pos.x + posOffet++,
-        y: pos.z + posOffet++,
+        x: Math.random(),
+        y: Math.random(),
         size: 1,
         inNode: node
       };
@@ -72,20 +71,26 @@ export default class FruchtermannReingold {
       };
     });
 
-
     this.go(graph);
   }
 
   go(graph) {
+    const nodesCount = graph.nodes.length;
+    const area = nodesCount * nodesCount;
+    const maxDisplace = nodesCount / 10;
+    const k = Math.sqrt(area / (1 + nodesCount));
+
     let i = 0;
-    while (i < this.iterations && !this.atomicGo(graph)) {
+    while (i < this.iterations && !this.atomicGo(graph, maxDisplace, k)) {
       i++;
     }
   }
 
-  atomicGo(graph) {
+  atomicGo(graph, maxDisplace, k) {
     const nodes = graph.nodes;
     const edges = graph.edges;
+    const nodesCount = nodes.length;
+    const edgesCount = edges.length;
     let i;
     let j;
     let n;
@@ -95,14 +100,6 @@ export default class FruchtermannReingold {
     let yDist;
     let dist;
     let repulsiveF;
-    const nodesCount = nodes.length;
-    const edgesCount = edges.length;
-
-    // TODO changed
-    const area = (nodesCount * nodesCount);
-
-    const maxDisplace = nodesCount / 10;
-    const k = Math.sqrt(area / (1 + nodesCount));
 
     for (i = 0; i < nodesCount; i++) {
       n = nodes[i];
@@ -149,16 +146,18 @@ export default class FruchtermannReingold {
 
       xDist = nSource.fr_x - nTarget.fr_x;
       yDist = nSource.fr_y - nTarget.fr_y;
-      dist = Math.sqrt(xDist * xDist + yDist * yDist) + 0.01;
-      // dist = Math.sqrt(xDist * xDist + yDist * yDist) - nSource.size - nTarget.size;
-      attractiveF = dist * dist / k;
 
-      if (dist > 0) {
-        nSource.fr.dx -= xDist / dist * attractiveF;
-        nSource.fr.dy -= yDist / dist * attractiveF;
-        nTarget.fr.dx += xDist / dist * attractiveF;
-        nTarget.fr.dy += yDist / dist * attractiveF;
-      }
+      dist = Math.sqrt(xDist * xDist + yDist * yDist) + 0.0001; // 0.0001 to avoid devide by 0 exceptions
+      // dist = Math.sqrt(xDist * xDist + yDist * yDist) - nSource.size - nTarget.size;
+
+      attractiveF = (dist * dist) / k;
+
+      const xDisplacement = xDist / dist * attractiveF;
+      const yDisplacement = yDist / dist * attractiveF;
+      nSource.fr.dx -= xDisplacement;
+      nSource.fr.dy -= yDisplacement;
+      nTarget.fr.dx += xDisplacement;
+      nTarget.fr.dy += yDisplacement;
     }
 
     let d;
