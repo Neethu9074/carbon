@@ -9,6 +9,7 @@ import Info from '../Info';
 
 export default function TomcatSidebar({snapshot}) {
   const connectors = snapshot.getIn(['data', 'connector-config']);
+  const executors = snapshot.getIn(['data', 'executor-config']);
   const webapps = snapshot.getIn(['data', 'webapps']);
 
   return (
@@ -69,6 +70,32 @@ export default function TomcatSidebar({snapshot}) {
                     </DescriptionItem>
                     <DescriptionItem title='Keepalive Timeout'>
                       {data.get('keepalive-timeout')}
+                    </DescriptionItem>
+                  </DescriptionList>
+                </Collapsible.Content>
+              </Collapsible>
+            ).valueSeq()}
+          </Collapsible.Content>
+        </Collapsible>
+      : null }
+      { executors ?
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>Executors</Collapsible.Header>
+          <Collapsible.Content>
+            {executors.map((data, name) =>
+              <Collapsible initiallyOpen={false}
+                           key={name}>
+                <Collapsible.Header>{name}</Collapsible.Header>
+                <Collapsible.Content>
+                  <DescriptionList>
+                    <DescriptionItem title='Max Threads'>
+                      {data.get('maxThreads')}
+                    </DescriptionItem>
+                    <DescriptionItem title='Max Idle'>
+                      {data.get('maxIdleTime')}
+                    </DescriptionItem>
+                    <DescriptionItem title='Core Pool'>
+                      {data.get('corePoolSize')}
                     </DescriptionItem>
                   </DescriptionList>
                 </Collapsible.Content>
