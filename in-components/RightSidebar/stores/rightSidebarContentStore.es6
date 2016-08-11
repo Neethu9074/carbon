@@ -9,7 +9,7 @@ import Layouter from 'in-components/RightSidebar/components/Layouter';
 import Metrics from 'in-components/RightSidebar/components/Metrics';
 import Tags from 'in-components/RightSidebar/components/Tags';
 import * as metricsStore from 'in-services/stores/metrics';
-import {removeAllTagFilters} from 'in-stores/search';
+import {removeAllTagFilters} from 'in-stores/search/tags';
 import {SvgIconList} from 'in-components/SvgIcon';
 import {createStore} from 'in-stores/store';
 

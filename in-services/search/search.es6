@@ -46,24 +46,28 @@ const luceneValueConverters = {
   selection(v, keywordOperator) { return this.string(keywordOperator.toValue(v)); }
 };
 
-export function transformToLuceneQuery(query, contexts = ['entity']) {
+export function transformQuery(query, contexts = ['entity']) {
   const queryParts = parseString(query);
   const keywordOperators = createKeywordBasedIndex(getKeywordOperators(contexts));
-
-  let luceneQuery = '';
+  const result = {
+    luceneQuery: '',
+    queryParts
+  };
 
   while (queryParts.length > 0) {
     const queryPart = queryParts.shift();
     if (queryPart.type === 'freeText') {
       const newFreeTextQueryPart = queryPart.text;
-      luceneQuery = `${luceneQuery} ${luceneValueConverters.string(newFreeTextQueryPart)}`;
+      result.luceneQuery = `${result.luceneQuery} ${luceneValueConverters.string(newFreeTextQueryPart)}`;
     } else if (queryPart.type === 'kv') {
       const kvLuceneQueryPart = transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart);
-      luceneQuery = `${luceneQuery} ${kvLuceneQueryPart}`;
+      result.luceneQuery = `${result.luceneQuery} ${kvLuceneQueryPart}`;
     }
   }
 
-  return luceneQuery.trim();
+  result.luceneQuery = result.luceneQuery.trim();
+
+  return result;
 }
 
 

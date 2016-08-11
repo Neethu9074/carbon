@@ -10,13 +10,14 @@ export default createSubscription(
   // getID
   getId,
   // data to be send for subscription
-  (subscriptionId, {maxTimestamp, minTimestamp, sortByField, sortMode}) => {
+  (subscriptionId, {maxTimestamp, minTimestamp, sortByField, sortMode, query}) => {
     return {
       subscriptionId,
       maxTimestamp: maxTimestamp > 0 ? maxTimestamp : undefined,
-      minTimestamp: minTimestamp,
-      sortByField: sortByField,
-      sortMode: sortMode
+      minTimestamp,
+      sortByField,
+      sortMode,
+      query
     };
   },
 
@@ -24,11 +25,11 @@ export default createSubscription(
   traceData => Immutable.fromJS(traceData)
 );
 
-function getId({maxTimestamp, minTimestamp, sortByField, sortMode}) {
-  return 'traces'
-        + maxTimestamp
+function getId({maxTimestamp, minTimestamp, sortByField, sortMode, query}) {
+  return maxTimestamp
         + minTimestamp
         + sortByField
         + sortMode
-        + Math.round(Date.now() / 1000);
+        + Math.round(Date.now() / 1000)
+        + query;
 }

@@ -82,11 +82,11 @@ export default class ParticleEmitter extends SceneObject {
     this.mesh.lookAt(targetPosition);
 
     const direction = targetPosition.sub(this.mesh.position);
+    this.length = direction.length();
+
     // -1 because we want the particles to break on the border of the nodes. For that we translate the particles
     // 0.5 to direction and cap them 0.5 before end which results in scale.z - 1
-    this.mesh.scale.set(1, 1, direction.length() - 1);
-
-    this.length = direction.length();
+    this.mesh.scale.set(1, 1, this.length - 1);
 
     this.mesh.position.add(direction.normalize().multiplyScalar(0.5));
   }
@@ -229,10 +229,13 @@ export default class ParticleEmitter extends SceneObject {
   }
 
   dispose() {
-    super.dispose();
+    this.startSubscription.dispose();
+    this.startSubscription = null;
 
     // stop the emitter to make sure everything is disposed well
     this.stop();
+
+    super.dispose();
 
     this.positionGenerationStrategy = null;
     this.progresses = null;
@@ -244,10 +247,5 @@ export default class ParticleEmitter extends SceneObject {
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
     this.mesh = null;
-
-    this.numParticles = null;
-
-    this.startSubscription.dispose();
-    this.startSubscription = null;
   }
 }

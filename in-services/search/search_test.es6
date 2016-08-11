@@ -3,10 +3,14 @@
 
 import {expect} from 'chai';
 
-import {transformToLuceneQuery as transform} from 'in-services/search/search';
+import {transformQuery} from 'in-services/search/search';
 import 'in-forge';
 
 describe('in-services/search', () => {
+  function transform(str) {
+    return transformQuery(str).luceneQuery;
+  }
+
   it('must report unknown keys', () => {
     expect(() => transform('host.cpuAwesomeness = 1000')).to.throw(/Unknown key host\.cpuAwesomeness at line 1/);
   });

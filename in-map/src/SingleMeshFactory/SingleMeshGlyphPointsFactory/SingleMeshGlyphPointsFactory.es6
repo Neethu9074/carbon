@@ -35,7 +35,7 @@ export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
 
     const geometry = this.geometry;
 
-    const pointSizes = new Float32Array(this.fragments.length);
+    const pointSizes = [];
     this.fragments.forEach((fragment, index) => {
       pointSizes[index] = fragment.additionalParams.iconSize;
     });

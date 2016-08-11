@@ -1,3 +1,5 @@
+import {combineLatest} from 'reactive-observables';
+
 import createTotalTraceCountObservable from 'in-services/subscription/totalTraceCount';
 import {timeframe as timeframe$, focusedMoment$} from 'in-stores/timeline';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
@@ -5,16 +7,18 @@ import createTracesObservable from 'in-services/subscription/traces';
 import createTraceObservable from 'in-services/subscription/trace';
 import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {luceneQuery$} from 'in-stores/search';
 
 
-export const totalTraceCount$ = timeframe$.flatMap(createTotalTraceCountObservable);
+export const totalTraceCount$ = combineLatest([timeframe$, luceneQuery$])
+  .flatMap(([timeframe, query]) => createTotalTraceCountObservable({timeframe, query}));
 
 
-export function getTraces(maxTimestamp, minTimestamp, sortByField, sortMode) {
+export function getTraces(maxTimestamp, minTimestamp, sortByField, sortMode, query) {
   return maxTimestamp ?
-    createTracesObservable({maxTimestamp, minTimestamp, sortByField, sortMode}) :
+    createTracesObservable({maxTimestamp, minTimestamp, sortByField, sortMode, query}) :
     focusedMoment$.flatMap(focusedMoment => createTracesObservable(
-      {maxTimstamp: focusedMoment, minTimestamp, sortByField, sortMode}
+      {maxTimstamp: focusedMoment, minTimestamp, sortByField, sortMode, query}
     ));
 }
 
