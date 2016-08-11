@@ -15,6 +15,9 @@ export default function HttpSpanDetailView({span}) {
         <DescriptionItem title='Host Header'>
           {span.getIn(['data', 'http', 'host'])}
         </DescriptionItem>
+        <DescriptionItem title='Remote Address'>
+          {span.getIn(['data', 'peer', 'ip'])}
+        </DescriptionItem>
         <DescriptionItem title='Request URI'>
           {span.getIn(['data', 'http', 'url'])}
         </DescriptionItem>
