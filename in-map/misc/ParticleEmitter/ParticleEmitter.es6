@@ -75,15 +75,14 @@ export default class ParticleEmitter {
   setFromAndTo(fromPos, toPos) {
     this.mesh.position.set(fromPos.x, fromPos.y, fromPos.z);
 
-    const targetPosition = new THREE.Vector3(toPos.x, toPos.y, toPos.z);
-    this.mesh.lookAt(targetPosition);
+    this.mesh.lookAt(toPos);
 
-    const direction = targetPosition.sub(this.mesh.position);
+    const direction = toPos.clone().sub(this.mesh.position);
+    this.length = direction.length();
+
     // -1 because we want the particles to break on the border of the nodes. For that we translate the particles
     // 0.5 to direction and cap them 0.5 before end which results in scale.z - 1
-    this.mesh.scale.set(1, 1, direction.length() - 1);
-
-    this.length = direction.length();
+    this.mesh.scale.set(1, 1, this.length - 1);
 
     this.mesh.position.add(direction.normalize().multiplyScalar(0.5));
   }

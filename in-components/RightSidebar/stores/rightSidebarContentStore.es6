@@ -7,7 +7,7 @@ import Notifications from 'in-components/RightSidebar/components/Notifications';
 import ResetButton from 'in-components/RightSidebar/components/ResetButton';
 import Metrics from 'in-components/RightSidebar/components/Metrics';
 import Tags from 'in-components/RightSidebar/components/Tags';
-import {removeAllTagFilters} from 'in-stores/search';
+import {removeAllTagFilters} from 'in-stores/search/tags';
 import {clearActiveMetric} from 'in-stores/metric';
 import {SvgIconList} from 'in-components/SvgIcon';
 import {createStore} from 'in-stores/store';
@@ -42,7 +42,7 @@ CONTENT[CONTROL_TYPES.TAGS] = {
 CONTENT[CONTROL_TYPES.METRICS] = {
   title: 'Metrics',
   content: <Metrics />,
-  additionalHeaderContent: <ResetButton onClick={() => clearActiveMetric()} />
+  additionalHeaderContent: <ResetButton onClick={clearActiveMetric} />
 };
 
 activeControl$.subscribe(activeControl => content.applyStateMutation(() => CONTENT[activeControl]));
