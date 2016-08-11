@@ -14,8 +14,7 @@ export default function NodejsDashboardSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Node.js Runtime</Collapsible.Header>
         <Collapsible.Content>
-          <
-        Info snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
