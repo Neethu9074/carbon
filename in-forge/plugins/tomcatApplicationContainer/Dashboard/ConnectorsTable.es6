@@ -8,7 +8,8 @@ import Mtd from 'in-components/Mtd';
 
 
 export default function ConnectorsTable({snapshot, timeframe}) {
-  const connectors = snapshot.getIn(['data', 'connector-config'], emptyMap);
+  const connectors = snapshot.getIn(['data', 'connector-config'], emptyMap)
+                           .filter((c) => !c.get('executor'));
   if (connectors.size === 0) {
     return null;
   }
