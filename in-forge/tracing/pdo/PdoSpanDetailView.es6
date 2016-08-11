@@ -1,0 +1,28 @@
+import React from 'react';
+
+import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {formatSql} from 'in-forge/tracing/jdbc/sql';
+import Code from 'in-components/Code';
+
+
+export default function PdoSpanDetailView({span}) {
+  const statement = span.getIn(['data', 'pdo', 'stmt']);
+
+  return (
+    <div>
+      <DescriptionList>
+        <DescriptionItem title='Driver'>
+          {span.getIn(['data', 'pdo', 'driver'])}
+        </DescriptionItem>
+        <DescriptionItem title='DSN'>
+          {span.getIn(['data', 'pdo', 'dsn'])}
+        </DescriptionItem>
+      </DescriptionList>
+
+      {statement ?
+        <Code code={formatSql(statement)}
+              type='sql' />
+      : null}
+    </div>
+  );
+}
