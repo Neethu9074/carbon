@@ -42,6 +42,7 @@ import './logicalMessageBroker';
 import './logicalMessageConsumer';
 import './logicalMongoDbConnection';
 import './logicalMongoDbDatabase';
+import './logicalPdoConnection';
 import './logicalRabbitMqConsumerConnection';
 import './logicalRabbitMqPublisherConnection';
 import './logicalWebApp';
