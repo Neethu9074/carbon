@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultConnectionCharts';
+import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalConnectionDashboard/DefaultConnectionCharts';
 import LogicalEntityTable from 'in-components/LogicalEntityTables/LogicalEntityTable';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
 import {getSnapshot} from 'in-stores/snapshot';

@@ -1,7 +1,7 @@
 import {addKeywordOperator, createPluginFieldPath, addSearchableEntityType} from 'in-sdk/search';
-import * as icon from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
+import * as icon from 'in-sdk/iconRegistry';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
@@ -52,7 +52,6 @@ icon.addMapping(
   constants.plugins.os,
   snapshot => {
     let type = snapshot.get('plugin');
-
 
     const osPlugin = constants.plugins.os;
     if (type === osPlugin) {

@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultServiceInstanceCharts';
+import DefaultCharts from 'in-sdk/components/dashboard/DefaultServiceInstanceDashboard/DefaultServiceInstanceCharts';
 import DefaultKpiSection from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultKpiSection';
 import ClusterNodes from 'in-components/LogicalEntityTables/ClusterNodes';
 import Connections from 'in-components/LogicalEntityTables/Connections';
