@@ -100,10 +100,6 @@ export default class NodeCluster extends Node {
     const numChildren = ids ? ids.size : 0;
     this.stickyNote.setChildren(ids ? ids : null);
     this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
-
-    if (!ids) {
-      return;
-    }
   }
 
   expand() {
