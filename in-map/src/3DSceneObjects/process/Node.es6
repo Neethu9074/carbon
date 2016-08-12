@@ -3,6 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import SnapshotComponent from 'in-map/src/components/common/SnapshotComponent/SnapshotComponent';
 import HealthComponent from 'in-map/src/components/common/HealthComponent/HealthComponent';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import {changePosition} from 'in-map/src/stores/process/logicalLayouterStore';
 import {addNode, removeNode} from 'in-map/src/stores/process/nodesStore';
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import DragGhost from 'in-map/src/3DSceneObjects/process/DragGhost';
@@ -120,6 +121,8 @@ export default class Node extends SceneObject {
     this.getComponent('screenPosition').set3DPositionToProject(newPos.x,
                                                                this.height + 0.5,
                                                                newPos.z + 0.5);
+
+    changePosition(this.id, newPos.x, newPos.y, newPos.z);
   }
 
   setColor(snapshot, maxSeverity) {
