@@ -43,6 +43,7 @@ export default class ParticleEmitter {
 
     this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
+    this.geometry.addAttribute('severity', new THREE.BufferAttribute(this.severities, 1));
 
     const texture = loadImage(pointShape, loadedTexture => loadedTexture.needsUpdate = true);
     texture.minFilter = THREE.LinearFilter;
