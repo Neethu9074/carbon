@@ -9,7 +9,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 const formatBoolean = value => value ? 'Yes' : 'No';
 
-export default function JettyWebApps({snapshot}) {
+export default function JbossDataGridCaches({snapshot}) {
   const data = snapshot.get('data');
   const caches = data.get('caches', emptyMap);
 
