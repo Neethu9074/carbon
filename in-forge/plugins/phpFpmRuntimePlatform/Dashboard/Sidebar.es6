@@ -30,7 +30,7 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
                      data={data.filter((v, k) => k.indexOf('worker_pool') === -1) } />
 
       {pools.map(pool =>
-        <div>
+        <div key={pool}>
           <Separator />
 
           <Collapsible initiallyOpen={false} key={pool}>
