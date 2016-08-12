@@ -69,7 +69,7 @@ function setToStorage() {
 }
 
 function getFromStorage() {
-  if (typeof(Storage) === 'undefined') {
+  if (typeof(localStorage) === 'undefined') {
     return null;
   }
   const temp = localStorage.getItem(settingsPath);
