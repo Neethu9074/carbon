@@ -173,7 +173,7 @@ export function getPixelAwareRollupSize(timeframe, pixels) {
   const now = Date.now();
   const to = timeframe.to ? timeframe.to : now;
   const from = to - timeframe.windowSize;
-  const maxNumberOfDataPoints = pixels * 2;
+  const maxNumberOfDataPoints = pixels * (window.devicePixelRatio || 1);
   const availableRollupDefinitions = rollupDurationThresholds.filter(rollupDefinition =>
     from >= now - rollupDefinition.availableFor
   );
