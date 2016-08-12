@@ -46,7 +46,7 @@ icon.addMapping(
 
     const messageBrokerPlugin = constants.plugins.messageBrokerServiceInstance;
     if (type === messageBrokerPlugin) {
-      type = messageBrokerPlugin; // linux as default
+      type = messageBrokerPlugin;
       const messageBrokerType = snapshot.getIn(['data', 'physical_endpoint', 'type']);
 
       if (messageBrokerType) {

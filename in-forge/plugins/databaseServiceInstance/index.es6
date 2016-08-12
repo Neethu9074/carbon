@@ -40,7 +40,7 @@ icon.addMapping(
 
     const databasePlugin = constants.plugins.databaseServiceInstance;
     if (type === databasePlugin) {
-      type = databasePlugin; // linux as default
+      type = databasePlugin;
       const databaseType = snapshot.getIn(['data', 'physical_endpoint', 'type']);
 
       if (databaseType) {
