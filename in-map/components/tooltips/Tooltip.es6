@@ -2,6 +2,7 @@ import React from 'react';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import {onMove} from 'in-services/reactiveMouseEvents';
+import {applyTransform} from 'in-services/util/dom';
 import {theme} from 'in-services/theme';
 
 
@@ -18,19 +19,14 @@ export default function Tooltip(ComposedComponent) {
       entity: rpt.any.isRequired
     },
 
-    getInitialState() {
-      return {
-        x: 0,
-        y: 0
-      };
-    },
-
     componentWillMount() {
       this.positionSubscription = onMove(this.props.canvas, event => {
-        this.setState({
-          x: event.clientX + OFFSET,
-          y: event.clientY - theme.header.height - OFFSET
-        });
+        const tooltip = this.refs.tooltip;
+        if (tooltip) {
+          const x = event.clientX + OFFSET;
+          const y = event.clientY - theme.header.height - OFFSET;
+          applyTransform(tooltip, `translate3d(${x}px,${y}px,0)`);
+        }
       });
     },
 
@@ -40,21 +36,15 @@ export default function Tooltip(ComposedComponent) {
     },
 
     render() {
-      const x = this.state.x;
-      const y = this.state.y;
-
-      if (x === 0 && y === 0) {
-        return null;
-      }
-
       const style = {
         position: 'absolute',
-        top: y + 'px',
-        left: x + 'px'
+        top: 0,
+        left: 0
       };
 
       return (
-        <div style={style}>
+        <div ref='tooltip'
+             style={style}>
           <TooltipFrame>
             <ComposedComponent {...this.props}
                                {...this.state} />
