@@ -1,29 +1,24 @@
 import React from 'react';
 
-import {getLinkToSnapshotInCurrentView} from 'in-stores/navigation';
+import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import SnapshotForgeInfo from 'in-sdk/components/sidebar/SnapshotForgeInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import {getClusterMembers} from 'in-stores/clusterMembers';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
-import Button from 'in-components/Button';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import SnapshotForgeInfo from 'in-sdk/components/sidebar/SnapshotForgeInfo';
-
-import './ServiceInstancePhysicalEntity.less';
-
-const block = 'in-service-instana-physical-entity';
 
 export default connectTo(props => {
-  const phsicalEntityId$ = getClusterMembers(props.snapshotId)
-    .map(clusterMembers => clusterMembers.first());
-
   return {
-    snapshot: phsicalEntityId$.flatMap(id => id ? getSnapshot(id) : alwaysNull),
-    href: phsicalEntityId$.flatMap(id => id ? getLinkToSnapshotInCurrentView(id) : alwaysNull)
+    snapshot: getClusterMembers(props.snapshotId)
+      .map(clusterMembers => clusterMembers.first())
+      .flatMap(id => id ? getSnapshot(id) : alwaysNull)
   };
-}, function ServiceInstancePhysicalEntity({snapshot, href}) {
+}, function ServiceInstancePhysicalEntity({snapshot}) {
   if (!snapshot) {
     return null;
   }
@@ -36,11 +31,13 @@ export default connectTo(props => {
         Component
       </Collapsible.Header>
       <Collapsible.Content>
-        <Button href={href}
-                kind='secondary'
-                className={`${block}__open`}>
-          Show {pluginLabel} details
-        </Button>
+        <DescriptionList>
+          <DescriptionItem title={pluginLabel}>
+            <SnapshotLink snapshotId={snapshot.get('id')}>
+              {getLabel(snapshot)}
+            </SnapshotLink>
+          </DescriptionItem>
+        </DescriptionList>
         <SnapshotForgeInfo snapshot={snapshot} />
       </Collapsible.Content>
     </Collapsible>

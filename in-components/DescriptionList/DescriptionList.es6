@@ -9,7 +9,7 @@ const block = 'in-detail-pane';
 export const DescriptionList = React.createClass({
 
   propTypes: {
-    children: rpt.any.isRequired
+    children: rpt.any
   },
 
   render() {
@@ -21,7 +21,15 @@ export const DescriptionList = React.createClass({
   },
 
   renderItems() {
+    if (!this.props.children) {
+      return null;
+    }
+
     if (this.props.children instanceof Array) {
+      if (this.props.children.length === 0) {
+        return null;
+      }
+
       return this.props.children
         .filter(children => children)
         .map(child => {

@@ -12,11 +12,11 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 export default function ServiceInstanceSidebar({snapshot}) {
   return (
     <div>
-      <ServiceInstanceKpiSparkCharts snapshot={snapshot} />
+      <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
 
       <Separator />
 
-      <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
+      <ServiceInstanceKpiSparkCharts snapshot={snapshot} />
 
       <Separator />
 
