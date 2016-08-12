@@ -228,7 +228,7 @@ function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
   // No focused moment? Then it is according to server time which means
   // we color based on the state property.
   return (focusedMoment == null && state === 'open') ||
-         (start < focusedMoment && (focusedMoment < end || !end));
+         (start <= focusedMoment && (focusedMoment < end || !end));
 }
 
 
