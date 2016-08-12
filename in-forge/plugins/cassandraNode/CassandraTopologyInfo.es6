@@ -1,28 +1,21 @@
 import React from 'react';
 
-import {getLinkToSnapshotInCurrentView} from 'in-stores/navigation';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {getLabel} from 'in-sdk/snapshot';
-import connectTo from 'in-hoc/connectTo';
 import getZone from 'in-hoc/getZone';
 
 
-export default getZone(connectTo(props => {
-  if (!props.zoneSnapshot) {
-    return {};
-  }
-  return {
-    href: getLinkToSnapshotInCurrentView(props.zoneSnapshot.get('id'))
-  };
-}, function CassandraTopologyInfo({snapshot, zoneSnapshot, href}) {
+export default getZone(function CassandraTopologyInfo({snapshot, zoneSnapshot}) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
       {zoneSnapshot ?
-        <DescriptionItem href={href}
-                         title='Cluster'>
-          {getLabel(zoneSnapshot)}
+        <DescriptionItem title='Cluster'>
+          <SnapshotLink snapshotId={zoneSnapshot.get('id')}>
+            {getLabel(zoneSnapshot)}
+          </SnapshotLink>
         </DescriptionItem>
       : null}
 
@@ -40,4 +33,4 @@ export default getZone(connectTo(props => {
 
     </DescriptionList>
   );
-}));
+});

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ServiceInstanceKpiSparkCharts from
-  'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceKpiSparkCharts';
-import ServiceInstancePhysicalEntity from 'in-sdk/components/sidebar/ServiceInstancePhysicalEntity';
+import ServiceInstanceInfo from 'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceInfo';
+import ServiceInstancePhysicalEntity
+  from 'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstancePhysicalEntity';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -10,7 +10,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 export default function ServiceInstanceDashboardSidebar({snapshot}) {
   return (
     <div>
-      <ServiceInstanceKpiSparkCharts snapshot={snapshot} />
+      <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
 
       <Separator />
 

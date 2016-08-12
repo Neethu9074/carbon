@@ -8,7 +8,6 @@ import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
-import {getLabel} from 'in-sdk/snapshot';
 
 import SnapshotForgeInfo from 'in-sdk/components/sidebar/SnapshotForgeInfo';
 
@@ -32,9 +31,9 @@ export default connectTo(props => {
   const pluginLabel = getSingular(snapshot.get('plugin'));
 
   return (
-    <Collapsible initiallyOpen={true}>
+    <Collapsible initiallyOpen={false}>
       <Collapsible.Header>
-        {pluginLabel}: {getLabel(snapshot)}
+        Component
       </Collapsible.Header>
       <Collapsible.Content>
         <Button href={href}
