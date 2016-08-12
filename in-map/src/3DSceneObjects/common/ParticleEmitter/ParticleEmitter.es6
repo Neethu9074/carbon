@@ -37,6 +37,7 @@ export default class ParticleEmitter extends SceneObject {
     this.positionGenerationStrategy = createPositionGenerator();
 
     this.progresses = new Float32Array(this.maxParticles);
+    this.severities = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
 
     const geometry = this.geometry = new THREE.BufferGeometry();
@@ -44,8 +45,7 @@ export default class ParticleEmitter extends SceneObject {
 
     this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
-
-    this.positionNeedsUpdate();
+    this.geometry.addAttribute('severity', new THREE.BufferAttribute(this.severities, 1));
 
     const texture = loadImage(pointShape, loadedTexture => loadedTexture.needsUpdate = true);
     texture.minFilter = THREE.LinearFilter;
@@ -141,7 +141,8 @@ export default class ParticleEmitter extends SceneObject {
       vertices[index + 1] = START_POS;
       vertices[index + 2] = START_POS;
 
-      progresses[index] = 0;
+      progresses[removedParticles.index] = 0;
+      this.severities[removedParticles.index] = 0;
     });
 
     // spawn new particles
@@ -161,13 +162,13 @@ export default class ParticleEmitter extends SceneObject {
     }
 
     this.positionNeedsUpdate();
+    this.severityNeedsUpdate();
     this.progressNeedsUpdate();
     this.timeElapsedSinceLastSpawn += dt;
     this.timeElapsedSinceLastError += dt;
   }
 
   spawnParticle(hasError) {
-    console.log(hasError);
     const vertices = this.vertices;
     const position = this.positionGenerationStrategy.getPositionForParticle();
     const newIndex = this.currentIndex;
@@ -178,6 +179,7 @@ export default class ParticleEmitter extends SceneObject {
     };
     this.particles.push(particle);
 
+    this.severities[newIndex] = hasError ? 1.0 : 0.0;
     this.progresses[newIndex] = 0;
 
     const indexInVertices = newIndex * 3;
@@ -199,6 +201,10 @@ export default class ParticleEmitter extends SceneObject {
     requestRendering();
   }
 
+  severityNeedsUpdate() {
+    this.geometry.attributes.severity.needsUpdate = true;
+  }
+
   stop() {
     if (!this.isRunning) {
       return;
@@ -217,11 +223,13 @@ export default class ParticleEmitter extends SceneObject {
     for (let i = 0; i < this.progresses.length; i++) {
       const vertexIndex = i * 3;
       this.progresses[i] = 0;
+      this.severities[i] = 0;
       this.vertices[vertexIndex] = START_POS;
       this.vertices[vertexIndex + 1] = START_POS;
       this.vertices[vertexIndex + 2] = START_POS;
     }
 
+    this.severityNeedsUpdate();
     this.positionNeedsUpdate();
     this.progressNeedsUpdate();
   }
@@ -233,7 +241,6 @@ export default class ParticleEmitter extends SceneObject {
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = particlesPerSecond > 0 ? 1 / this.particlesPerSecond : Number.MAX_VALUE;
     this.secToNextError = errorRate > 0 ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
-    console.log(errorRate);
   }
 
   dispose() {

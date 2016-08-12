@@ -4,11 +4,16 @@ precision mediump int;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
+attribute float severity;
 attribute float progress;
 attribute vec3 position;
 
+varying float fSeverity;
+
 
 void main() {
+  fSeverity = severity;
+
   vec4 mvPosition = modelViewMatrix * vec4( vec3( position.x,
                                                   position.y,
                                                   position.z + progress ),
