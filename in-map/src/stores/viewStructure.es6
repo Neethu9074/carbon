@@ -4,7 +4,7 @@ import {excludeUnmonitoredHosts$} from 'in-stores/settings/unmonitoredHosts';
 import createViewStructureObservable from 'in-services/subscription/view';
 import {focusedMoment$} from 'in-stores/timeline';
 import {searchMatches$} from 'in-stores/search';
-import {view} from 'in-stores/view';
+import {view$} from 'in-stores/view';
 
 const noSearchMatches = {
   contains() {
@@ -13,7 +13,7 @@ const noSearchMatches = {
 };
 
 export function getViewStructure() {
-  return combineLatest([view, focusedMoment$, searchMatches$.distinct(), excludeUnmonitoredHosts$])
+  return combineLatest([view$, focusedMoment$, searchMatches$.distinct(), excludeUnmonitoredHosts$])
      .flatMap(([viewType, focusedMoment, _searchMatches, excludeUnmonitoredHosts]) => {
        _searchMatches = _searchMatches || noSearchMatches;
        return createViewStructureObservable({viewType, time: focusedMoment})
