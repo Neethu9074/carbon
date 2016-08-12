@@ -10,7 +10,7 @@ nodePositions$.distinct()
               .subscribe(nodes => save(nodes));
 
 function save(nodes) {
-  if (typeof(Storage) !== 'undefined') {
+  if (typeof(localStorage) !== 'undefined') {
     localStorage.setItem(layoutingPath, JSON.stringify(nodes.toJS()));
   }
 }
