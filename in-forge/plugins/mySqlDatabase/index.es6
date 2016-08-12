@@ -9,7 +9,7 @@ import * as power from 'in-sdk/power';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.mysql,
-  'MySQL DB',
+  'MySQL',
   'MySQL DBs'
 );
 
