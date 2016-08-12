@@ -5,13 +5,14 @@ import {currentLayoutingStrategy$} from 'in-map/stores/logical/layouterStore';
 import services from 'in-map/stores/logical/servicesStore';
 import connections from 'in-map/stores/connectionsStore';
 import {eventBus} from 'in-map/services/eventBus';
+import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 export default function createLayouter() {
   let shouldReset = false;
   let currentLayoutingStrategy;
 
-  const layoutingSubscription = combineLatest([
+  let layoutingSubscription = combineLatest([
                                  services.stream,
                                  connections.stream,
                                  currentLayoutingStrategy$,
@@ -35,25 +36,39 @@ export default function createLayouter() {
                                  currentLayoutingStrategy(nodes, edges);
                                });
 
-  const resetProcessViewLayoutingSubscription = eventBus.on('resetProcessViewLayouting').subscribe(_shouldReset => {
+  let resetProcessViewLayoutingSubscription = eventBus.on('resetProcessViewLayouting').subscribe(_shouldReset => {
     if (_shouldReset) {
       shouldReset = true;
       eventBus.emit('resetProcessViewLayouting', false);
     }
   });
 
-  const currentLayoutingStrategySubscription = currentLayoutingStrategy$.distinct().subscribe(() =>
+  let currentLayoutingStrategySubscription = currentLayoutingStrategy$.distinct().subscribe(() =>
     eventBus.emit('resetProcessViewLayouting', true));
 
   eventBus.emit('resetProcessViewLayouting', true);
 
+
+  function getFocusPointFromCurrentDimensions() {
+    return ZERO;
+  }
+
   return {
-    dispose
+    dispose,
+    getFocusPointFromCurrentDimensions
   };
 
   function dispose() {
     currentLayoutingStrategySubscription.dispose();
+    currentLayoutingStrategySubscription = null;
+
     resetProcessViewLayoutingSubscription.dispose();
+    resetProcessViewLayoutingSubscription = null;
+
     layoutingSubscription.dispose();
+    layoutingSubscription = null;
+
+    currentLayoutingStrategy = null;
+    shouldReset = null;
   }
 }
