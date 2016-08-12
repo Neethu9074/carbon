@@ -13,13 +13,9 @@ const ProcessViewRenderTreeWrapper = connectTo({
     return null;
   }
 
-  const visibleChildren = structure.includedIds.groupIds;
-
-
   return (
     <Root>
-      {structure.viewStructure.get('children')
-        .filter(child => visibleChildren[child.get('id')] === true)}
+      {structure.viewStructure.get('children')}
     </Root>
   );
 });
