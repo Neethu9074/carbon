@@ -88,7 +88,7 @@ export default class EventRenderer extends BasicRenderer {
 
   eventIsOpenAtFocusedMoment(event) {
     const focusedMoment = this.focusedMoment;
-    return event.get('start') < focusedMoment && (!event.get('end') || event.get('end') > focusedMoment);
+    return event.get('start') <= focusedMoment && (!event.get('end') || event.get('end') > focusedMoment);
   }
 
   eventIsOpenOnLiveMode(event) {

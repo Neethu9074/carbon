@@ -17,6 +17,7 @@ import Timeline from 'in-components/timeline/Timeline';
 import ViewSwitcher from 'in-components/ViewSwitcher';
 import RightSidebar from 'in-components/RightSidebar';
 import AppHeader from 'in-components/AppHeader';
+import MapNotes from 'in-components/MapNotes';
 import Settings from 'in-components/Settings';
 import Map from 'in-map/index.es6';
 
@@ -37,6 +38,7 @@ export default function App(props) {
         <Center />
         <SidebarIncidents />
         <MapSidebar />
+        <MapNotes />
       </section>
 
       <RightSidebar />

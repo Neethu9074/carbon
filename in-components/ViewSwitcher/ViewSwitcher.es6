@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {logicalViewLink$, physicalViewLink$, traceViewLink$, navigationParameters$} from 'in-stores/navigation';
-import {isInternalEnvironment, isDemoEnvironment} from 'in-services/config';
 import {eventBus} from 'in-map/src/services/eventBus';
 import connectTo from 'in-hoc/connectTo';
 
@@ -22,12 +21,9 @@ export default connectTo({
                     href$={physicalViewLink$}
                     active={pathname.indexOf('/physical') === 0} />
 
-        {(isInternalEnvironment() || isDemoEnvironment()) ?
-          <View label={'Logical'}
-                      href$={logicalViewLink$}
-                      active={pathname.indexOf('/logical') === 0} />
-          : null
-        }
+        <View label={'Logical'}
+                    href$={logicalViewLink$}
+                    active={pathname.indexOf('/logical') === 0} />
 
         <View label={'Trace'}
                     href$={traceViewLink$}
