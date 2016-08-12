@@ -1,8 +1,13 @@
 import React from 'react';
 
 import {getTraceViewFilteredBySnapshotLink} from 'in-stores/navigation/search';
+import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+
+import './JumpToTracesButton.less';
+
+const block = 'in-jump-to-traces';
 
 export default connectTo(props => {
   return {
@@ -10,12 +15,12 @@ export default connectTo(props => {
   };
 }, function JumpToTracesButton({href}) {
   return (
-    <Button href={href}
-            style={{
-              margin: '1rem 0',
-              display: 'block'
-            }}>
-      Traces
-    </Button>
+    <Tooltip content='Jump to traces starting at this service'>
+      <Button href={href}
+              className={block}
+              kind='secondary'>
+        Traces
+      </Button>
+    </Tooltip>
   );
 });
