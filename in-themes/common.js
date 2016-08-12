@@ -32,6 +32,7 @@ module.exports = {
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
     menuPopup: zIndex++,
+    mapNotes: zIndex++,
     toast: zIndex++,
     tooltips: zIndex++,
     temporaryNotification: zIndex++,
