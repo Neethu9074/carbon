@@ -2,6 +2,7 @@ import React from 'react';
 
 import {eventBus} from 'in-map/src/services/eventBus';
 import {view, types as views} from 'in-stores/view';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -21,13 +22,15 @@ function AutoLayout({currentView}) {
   }
 
   return (
-    <div className={block}
-         onClick={() => eventBus.emit('resetProcessViewLayouting', true)}>
-      <SvgIcon type={'autoLayout'}
-               width={24}
-               height={24}
-               color='#7b8e96' />
-    </div>
+    <Tooltip content='Apply automatic layouting'>
+      <div className={block}
+           onClick={() => eventBus.emit('resetProcessViewLayouting', true)}>
+        <SvgIcon type={'autoLayout'}
+                 width={24}
+                 height={24}
+                 color='#7b8e96' />
+      </div>
+    </Tooltip>
   );
 }
 
