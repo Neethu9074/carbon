@@ -6,7 +6,7 @@ import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 
-export default function DefaultLogicalSidebar({snapshot}) {
+export default function ServiceInstanceDashboardSidebar({snapshot}) {
   return (
     <div>
       <DefaultLogicalSidebarKpis snapshot={snapshot} />

@@ -1,15 +1,16 @@
 import React from 'react';
 
+import ServiceInstanceKpiSparkCharts from
+  'in-sdk/components/sidebar/defaultServiceSidebars/ServiceInstanceKpiSparkCharts';
 import ServiceInstancePhysicalEntity from 'in-sdk/components/sidebar/ServiceInstancePhysicalEntity';
-import DefaultLogicalSidebarKpis from 'in-sdk/components/sidebar/DefaultLogicalSidebarKpis';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 
-export default function DefaultLogicalSidebar({snapshot}) {
+export default function ServiceInstanceSidebar({snapshot}) {
   return (
     <div>
-      <DefaultLogicalSidebarKpis snapshot={snapshot} />
+      <ServiceInstanceKpiSparkCharts snapshot={snapshot} />
 
       <Separator />
 

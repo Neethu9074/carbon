@@ -1,13 +1,12 @@
 import React from 'react';
 
-import DefaultLogicalSidebarKpis from 'in-sdk/components/sidebar/DefaultLogicalSidebarKpis';
 import JumpToTracesButton from 'in-sdk/components/sidebar/JumpToTracesButton';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 
-export default function DefaultLogicalSidebar({snapshot}) {
+export default function ServiceDashboardSidebar({snapshot}) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -15,15 +14,11 @@ export default function DefaultLogicalSidebar({snapshot}) {
 
       <Separator />
 
-      <DefaultLogicalSidebarKpis snapshot={snapshot} />
+      <ClusterMemberList snapshotId={snapshotId} />
 
       <Separator />
 
-      <ClusterMemberList snapshotId={snapshot.get('id')} />
-
-      <Separator />
-
-      <ConnectionList snapshotId={snapshot.get('id')} />
+      <ConnectionList snapshotId={snapshotId} />
     </div>
   );
 }

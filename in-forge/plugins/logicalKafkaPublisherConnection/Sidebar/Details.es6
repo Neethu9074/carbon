@@ -1,3 +1,4 @@
-import DefaultLogicalConnectionSidebar from 'in-sdk/components/sidebar/DefaultLogicalConnectionSidebar';
+import LogicalConnectionSidebar from
+  'in-sdk/components/sidebar/defaultLogicalConnectionSidebars/LogicalConnectionSidebar';
 
-export default DefaultLogicalConnectionSidebar;
+export default LogicalConnectionSidebar;

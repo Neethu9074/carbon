@@ -1,3 +1,4 @@
+import {combineLatest} from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
@@ -24,7 +25,7 @@ export default class ParticleEmitter extends SceneObject {
     super({parent, id});
 
     this.maxParticles = config.maxParticles || 50;
-    this.setNumparticlesPerSecond(0);
+    this.setNumparticlesPerSecond(0, 0);
 
     this.isRunning = false;
 
@@ -103,19 +104,18 @@ export default class ParticleEmitter extends SceneObject {
     addSceneObject(this.mesh);
 
     this.timeElapsedSinceLastSpawn = 0;
+    this.timeElapsedSinceLastError = 0;
     this.updateSubscription = eventBus.on('beginUpdate').subscribe(() => this.update());
 
     this.isRunning = true;
 
-    this.metricSubscription = getMetricForFocusedMoment({
-      snapshotId: this.parent.id,
-      metric: 'count'
-    }).subscribe(metric => {
-      const numCalls = metric[1];
-      // TODO: we have defined a maximum number of particles. If numCalls gets to big, older particles will be used
-      // and resetted before they are finished. Solutions: Increase maxParticles or cap numCalls or map numCalls to
-      // another value pursuing to a max value (log, whatever)
-      this.setNumparticlesPerSecond(numCalls);
+    this.metricSubscription = combineLatest([
+      getMetricForFocusedMoment({snapshotId: this.parent.id, metric: 'count'}),
+      getMetricForFocusedMoment({snapshotId: this.parent.id, metric: 'error_rate'})
+    ]).subscribe(([countMetric, errorRateMetric]) => {
+      const numCalls = countMetric[1];
+      const errorRate = errorRateMetric[1];
+      this.setNumparticlesPerSecond(numCalls, errorRate);
     });
   }
 
@@ -146,21 +146,28 @@ export default class ParticleEmitter extends SceneObject {
 
     // spawn new particles
     let numParticlesToSpawn = this.timeElapsedSinceLastSpawn / this.secToNextParticle;
-    if (numParticlesToSpawn >= 1) {
+    if (numParticlesToSpawn > 0) {
       numParticlesToSpawn = Math.floor(numParticlesToSpawn);
       this.timeElapsedSinceLastSpawn -= this.secToNextParticle * numParticlesToSpawn;
 
       for (let i = 0; i < numParticlesToSpawn; i++) {
-        this.spawnParticle();
+        let hasError = false;
+        if (this.timeElapsedSinceLastError > this.secToNextError) {
+          hasError = true;
+          this.timeElapsedSinceLastError -= this.secToNextError;
+        }
+        this.spawnParticle(hasError);
       }
     }
 
     this.positionNeedsUpdate();
     this.progressNeedsUpdate();
     this.timeElapsedSinceLastSpawn += dt;
+    this.timeElapsedSinceLastError += dt;
   }
 
-  spawnParticle() {
+  spawnParticle(hasError) {
+    console.log(hasError);
     const vertices = this.vertices;
     const position = this.positionGenerationStrategy.getPositionForParticle();
     const newIndex = this.currentIndex;
@@ -179,7 +186,6 @@ export default class ParticleEmitter extends SceneObject {
     vertices[indexInVertices + 2] = position.z;
 
     // make the buffer a ringbuffer.
-    // thx Robert Nystrom for this line of code, it will change my life forever
     this.currentIndex = (this.currentIndex + 1) % this.maxParticles;
   }
 
@@ -220,12 +226,14 @@ export default class ParticleEmitter extends SceneObject {
     this.progressNeedsUpdate();
   }
 
-  setNumparticlesPerSecond(particlesPerSecond = 10) {
+  setNumparticlesPerSecond(particlesPerSecond = 10, errorRate = 0) {
     // clamp number of spawning particles to max number of particles during lifetime
     particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * this.maxParticles);
 
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = particlesPerSecond > 0 ? 1 / this.particlesPerSecond : Number.MAX_VALUE;
+    this.secToNextError = errorRate > 0 ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
+    console.log(errorRate);
   }
 
   dispose() {
@@ -238,7 +246,12 @@ export default class ParticleEmitter extends SceneObject {
     super.dispose();
 
     this.positionGenerationStrategy = null;
+    this.timeElapsedSinceLastError = null;
+    this.timeElapsedSinceLastSpawn = null;
+    this.secToNextParticle = null;
+    this.secToNextError = null;
     this.progresses = null;
+    this.errorRate = null;
     this.isRunning = null;
     this.particles = null;
     this.vertices = null;

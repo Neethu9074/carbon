@@ -4,7 +4,7 @@ import {percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces} from 
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 
 
-export default function DefaultLogicalSidebarKpis({snapshot}) {
+export default function ServiceInstanceKpiSparkCharts({snapshot}) {
   return (
     <SparkChartsSection snapshot={snapshot}
                         metrics={[
@@ -20,10 +20,6 @@ export default function DefaultLogicalSidebarKpis({snapshot}) {
                             metric: 'error_rate',
                             label: 'error rate',
                             formatter: percentageTwoDecimalPlaces
-                          }, {
-                            metric: 'instances',
-                            label: 'instances',
-                            formatter: zeroDecimalPlaces
                           }
                         ]} />
   );

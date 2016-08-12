@@ -4,7 +4,7 @@ import {percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces} from 
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 
 
-export default function DefaultLogicalConnectionSidebarKpis({snapshot}) {
+export default function LogicalConnectionSidebarKpiSparkCharts({snapshot}) {
   return (
     <SparkChartsSection snapshot={snapshot}
                         metrics={[
