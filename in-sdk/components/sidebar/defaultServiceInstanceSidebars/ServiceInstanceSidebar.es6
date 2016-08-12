@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ServiceInstanceKpiSparkCharts from
-  'in-sdk/components/sidebar/defaultServiceSidebars/ServiceInstanceKpiSparkCharts';
+  'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceKpiSparkCharts';
 import ServiceInstancePhysicalEntity from 'in-sdk/components/sidebar/ServiceInstancePhysicalEntity';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
