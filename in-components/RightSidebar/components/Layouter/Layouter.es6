@@ -1,9 +1,9 @@
 import React from 'react';
 
-import FruchtermannReingold from 'in-map/src/3DSceneObjects/process/layoutingStrategies/FruchtermannReingold';
-import OrderByType from 'in-map/src/3DSceneObjects/process/layoutingStrategies/OrderByType';
-import Chessboard from 'in-map/src/3DSceneObjects/process/layoutingStrategies/Chessboard';
-import {setLayoutingStrategy} from 'in-map/src/stores/process/layouterStore';
+import FruchtermannReingold from 'in-map/misc/logical/layoutingStrategies/FruchtermannReingold';
+import OrderByType from 'in-map/misc/logical/layoutingStrategies/OrderByType';
+import Chessboard from 'in-map/misc/logical/layoutingStrategies/Chessboard';
+import {setLayoutingStrategy} from 'in-map/stores/logical/layouterStore';
 import Button from 'in-components/Button';
 
 
