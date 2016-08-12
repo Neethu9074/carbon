@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import Root from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/Root';
-import {getViewStructure} from 'in-map/src/stores/process/viewStructure';
+import {getViewStructure} from 'in-map/src/stores/viewStructure';
 import connectTo from 'in-hoc/connectTo';
 
 
@@ -12,9 +12,10 @@ const ProcessViewRenderTreeWrapper = connectTo({
   if (!structure) {
     return null;
   }
+
   return (
     <Root>
-      {structure.get('children')}
+      {structure.viewStructure.get('children')}
     </Root>
   );
 });

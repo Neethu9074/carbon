@@ -3,7 +3,7 @@ import React from 'react';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import KafkaInfo from '../KafkaInfo';
+import Info from '../Info';
 
 
 export default function KafkaSidebar({snapshot}) {
@@ -12,7 +12,7 @@ export default function KafkaSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Kafka</Collapsible.Header>
         <Collapsible.Content>
-          <KafkaInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       <RunningComponentsList snapshotId={snapshot.get('id')} />

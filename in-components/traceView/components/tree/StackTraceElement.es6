@@ -40,7 +40,7 @@ export default React.createClass({
                 className={`${block}__item`}>
               <span className={`${block}__method`}> {st.get('m')} </span>
               <span className={`${block}__in`}>in</span>
-              <span className={`${block}__file`}> {st.get('c')}:{st.get('n')}</span>
+              <span className={`${block}__file`}> {st.get('c')}{st.get('n') ? `:${st.get('n')}` : ''}</span>
             </li>
           )}
         </ol>

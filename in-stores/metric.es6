@@ -122,6 +122,7 @@ export function getHistoricMetricsWithLiveUpdates(opts) {
   return live$.merge(historic$);
 }
 
+
 export function getMetricsForTimeframe(opts) {
   return opts.timeframe.to ?
     getHistoricMetrics(opts) :
@@ -183,4 +184,26 @@ export function setActiveMetric(metric) {
 
 export function clearActiveMetric() {
   setActiveMetric(null);
+}
+
+export function getPixelAwareRollupSize(timeframe, pixels) {
+  const now = Date.now();
+  const to = timeframe.to ? timeframe.to : now;
+  const from = to - timeframe.windowSize;
+  const maxNumberOfDataPoints = pixels * (window.devicePixelRatio || 1);
+  const availableRollupDefinitions = rollupDurationThresholds.filter(rollupDefinition =>
+    from >= now - rollupDefinition.availableFor
+  );
+
+  for (let i = 0, len = availableRollupDefinitions.length; i < len; i++) {
+    // this works because the rollupDurationThresholds array is sorted by rollup
+    // the first rollup matching the requirements is returned
+    const rollupDefinition = availableRollupDefinitions[i];
+    const rollup = rollupDefinition.rollup || 1000;
+    if (timeframe.windowSize / rollup <= maxNumberOfDataPoints) {
+      return rollupDefinition.rollup;
+    }
+  }
+
+  return rollupDurationThresholds[rollupDurationThresholds.length - 1].rollup;
 }

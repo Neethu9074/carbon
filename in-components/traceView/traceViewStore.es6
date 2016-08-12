@@ -1,4 +1,5 @@
 import {combineLatest} from 'reactive-observables';
+import {debounce} from 'lodash';
 
 import {compress as compressTrace} from 'in-components/traceView/longTraceCompressor';
 import {transform as transformTrace} from 'in-components/traceView/longTraceBuilder';
@@ -63,6 +64,11 @@ const sortBy = createStore({
   name: 'in-components/traceView/traceViewStore/tracesSortBy',
   initialValue: 'ts'
 });
+
+export const refresh = debounce(() => {
+  clear();
+  loadMoreTraces();
+}, 100);
 
 export function setSortBy(newSortBy) {
   sortBy.applyStateMutation(()=>newSortBy);
@@ -150,12 +156,6 @@ function addNewTraces(newTraces) {
   });
   tracesStore.applyStateMutation(existingTraces => existingTraces.concat(transformedTraces));
   isLoadingStore.applyStateMutation(() => false);
-}
-
-
-export function refresh() {
-  clear();
-  loadMoreTraces();
 }
 
 

@@ -4,11 +4,12 @@ import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import TomcatInfo from '../TomcatInfo';
+import Info from '../Info';
 
 
 export default function TomcatSidebar({snapshot}) {
   const connectors = snapshot.getIn(['data', 'connector-config']);
+  const executors = snapshot.getIn(['data', 'executor-config']);
   const webapps = snapshot.getIn(['data', 'webapps']);
 
   return (
@@ -16,7 +17,7 @@ export default function TomcatSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Tomcat</Collapsible.Header>
         <Collapsible.Content>
-          <TomcatInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       { webapps ?
@@ -26,7 +27,7 @@ export default function TomcatSidebar({snapshot}) {
             {webapps.map((data, name) =>
               <Collapsible initiallyOpen={false}
                            key={name}>
-                <Collapsible.Header>{data.get('name')}</Collapsible.Header>
+                <Collapsible.Header>{data.get('name') || name}</Collapsible.Header>
                 <Collapsible.Content>
                   <DescriptionList>
                     <DescriptionItem title='Context'>
@@ -55,6 +56,9 @@ export default function TomcatSidebar({snapshot}) {
                     <DescriptionItem title='Port'>
                       {data.get('port')}
                     </DescriptionItem>
+                    <DescriptionItem title='Executor'>
+                      {data.get('executor')}
+                    </DescriptionItem>
                     <DescriptionItem title='Max Threads'>
                       {data.getIn(['threads', 'max'])}
                     </DescriptionItem>
@@ -66,6 +70,32 @@ export default function TomcatSidebar({snapshot}) {
                     </DescriptionItem>
                     <DescriptionItem title='Keepalive Timeout'>
                       {data.get('keepalive-timeout')}
+                    </DescriptionItem>
+                  </DescriptionList>
+                </Collapsible.Content>
+              </Collapsible>
+            ).valueSeq()}
+          </Collapsible.Content>
+        </Collapsible>
+      : null }
+      { executors ?
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>Executors</Collapsible.Header>
+          <Collapsible.Content>
+            {executors.map((data, name) =>
+              <Collapsible initiallyOpen={false}
+                           key={name}>
+                <Collapsible.Header>{name}</Collapsible.Header>
+                <Collapsible.Content>
+                  <DescriptionList>
+                    <DescriptionItem title='Max Threads'>
+                      {data.get('maxThreads')}
+                    </DescriptionItem>
+                    <DescriptionItem title='Max Idle'>
+                      {data.get('maxIdleTime')}
+                    </DescriptionItem>
+                    <DescriptionItem title='Core Pool'>
+                      {data.get('corePoolSize')}
                     </DescriptionItem>
                   </DescriptionList>
                 </Collapsible.Content>

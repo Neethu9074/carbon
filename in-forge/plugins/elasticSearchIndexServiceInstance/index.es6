@@ -8,13 +8,13 @@ import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.elasticSearchIndexServiceInstance,
-  'Elastic Search Index Instance',
-  'Elastic Search Index Instances'
+  'Elasticsearch Index Instance',
+  'Elasticsearch Index Instances'
 );
 
 addLabelFinder(
   constants.plugins.elasticSearchIndexServiceInstance,
-  snapshot => snapshot.getIn(['data', 'service_name'])
+  snapshot => snapshot.getIn(['data', 'name'])
 );
 
 power.addMapping(

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import getForgeComponent from 'in-services/getForgeComponent';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import getForgeComponent from 'in-services/getForgeComponent';
 import getFoundation from 'in-hoc/getFoundation';
 import {getSingular} from 'in-sdk/pluginName';
 

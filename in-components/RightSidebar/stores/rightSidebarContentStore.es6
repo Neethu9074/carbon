@@ -5,6 +5,7 @@ import {CONTROL_TYPES} from 'in-components/RightSidebar/stores/rightSidebarActiv
 import MapStatistics from 'in-components/RightSidebar/components/MapStatistics';
 import Notifications from 'in-components/RightSidebar/components/Notifications';
 import ResetButton from 'in-components/RightSidebar/components/ResetButton';
+import Layouter from 'in-components/RightSidebar/components/Layouter';
 import Metrics from 'in-components/RightSidebar/components/Metrics';
 import Tags from 'in-components/RightSidebar/components/Tags';
 import {removeAllTagFilters} from 'in-stores/search/tags';
@@ -43,6 +44,11 @@ CONTENT[CONTROL_TYPES.METRICS] = {
   title: 'Metrics',
   content: <Metrics />,
   additionalHeaderContent: <ResetButton onClick={clearActiveMetric} />
+};
+
+CONTENT[CONTROL_TYPES.LAYOUT] = {
+  title: 'LAYOUT',
+  content: <Layouter />
 };
 
 activeControl$.subscribe(activeControl => content.applyStateMutation(() => CONTENT[activeControl]));

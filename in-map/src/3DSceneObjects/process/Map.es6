@@ -2,6 +2,7 @@ import ProcessViewRenderTree from 'in-map/src/3DSceneObjects/process/ProcessView
 import FadeByDistanceSingleMeshFactory from 'in-map/src/SingleMeshFactory/FadeByDistanceSingleMeshFactory';
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import SingleMeshDashedLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshDashedLineFactory';
+import NodeUnknownExitService from 'in-map/src/3DSceneObjects/process/NodeUnknownExitService';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import NodeUnknownService from 'in-map/src/3DSceneObjects/process/NodeUnknownService';
 import {selectEntity, clearSelection} from 'in-map/src/stores/multiSelection';
@@ -46,7 +47,10 @@ export default class Map extends BaseMap {
             if (id.startsWith('unknown-service')) {
               return new NodeUnknownService(params);
             }
-            return new NodeCluster(params);
+            const isExternal = entity.entity.getIn(['metadata', 'external']);
+            return isExternal
+              ? new NodeUnknownExitService(params)
+              : new NodeCluster(params);
           }
           return new NodePhysical(params);
         });

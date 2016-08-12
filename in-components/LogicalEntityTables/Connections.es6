@@ -2,7 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import DefaultConnectionCharts from
-  'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultConnectionCharts';
+  'in-sdk/components/dashboard/DefaultLogicalConnectionDashboard/DefaultConnectionCharts';
 import LogicalEntityTable from 'in-components/LogicalEntityTables/LogicalEntityTable';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';

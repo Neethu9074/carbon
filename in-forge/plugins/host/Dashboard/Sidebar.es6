@@ -7,7 +7,8 @@ import TagList from 'in-sdk/components/sidebar/TagList';
 
 import InterfaceList from 'in-forge/plugins/host/InterfaceList';
 import HostHardware from 'in-forge/plugins/host/HostHardware';
-import HostInfo from 'in-forge/plugins/host/HostInfo';
+
+import Info from '../Info';
 
 
 export default function HostSidebar({snapshot}) {
@@ -16,7 +17,7 @@ export default function HostSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>System</Collapsible.Header>
         <Collapsible.Content>
-          <HostInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

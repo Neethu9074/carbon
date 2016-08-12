@@ -7,10 +7,10 @@ import SingleMeshMetricFactory from 'in-map/src/SingleMeshFactory/SingleMeshMetr
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import {getAllNodes, getAllGroups} from 'in-map/src/3DSceneObjects/physical/mapUtils';
 import SingleMeshFactory from 'in-map/src/SingleMeshFactory/SingleMeshFactory';
-import {getViewStructure} from 'in-map/src/stores/physical/viewStructure';
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
 import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
+import {getViewStructure} from 'in-map/src/stores/viewStructure';
 import Group from 'in-map/src/3DSceneObjects/physical/Group';
 import {focusEntityId$} from 'in-map/src/stores/focusEntity';
 import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
@@ -251,6 +251,9 @@ export default class Map extends BaseMap {
   }
 
   centerMap() {
+    if (!this.controller) {
+      return;
+    }
     const width = this.layouter.currentDimensions.x;
     const height = this.layouter.currentDimensions.y;
     this.controller.flyToPositionXZ(

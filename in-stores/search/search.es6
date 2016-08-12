@@ -8,6 +8,7 @@ import {isMapView$} from 'in-stores/navigation/view';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {transformQuery} from 'in-services/search';
 import {focusedMoment$} from 'in-stores/timeline';
+import {view$} from 'in-stores/view';
 
 export const rawQuery$ = createTrackingStore({
   name: 'in-stores/search/inputString',
@@ -44,8 +45,8 @@ parsedQuery$.subscribe(() => lastQueryChangeTime.mutateTo(Date.now()));
 
 export const searchMatches$ = createTrackingStore({
   name: 'in-stores/search/searchMatches',
-  observable: combineLatest([parsedQuery$, focusedMoment$, isMapView$])
-    .flatMap(([parsedQuery, focusedMoment, isMapView]) => {
+  observable: combineLatest([parsedQuery$, focusedMoment$, isMapView$, view$])
+    .flatMap(([parsedQuery, focusedMoment, isMapView, view]) => {
       if (!isMapView ||
           parsedQuery == null ||
           parsedQuery.luceneQuery.length === 0) {
@@ -55,7 +56,7 @@ export const searchMatches$ = createTrackingStore({
       return createSearchSubscription({
         query: parsedQuery.luceneQuery,
         time: focusedMoment,
-        view: 'PHYSICAL'
+        view
       });
     })
 }).observable;

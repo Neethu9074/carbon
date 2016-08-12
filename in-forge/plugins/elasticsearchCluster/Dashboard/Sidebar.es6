@@ -1,9 +1,10 @@
 import React from 'react';
 
-import ClusterStatusLabel from 'in-forge/plugins/elasticsearchCluster/ClusterStatusLabel';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
+
+import Info from '../Info';
 
 
 export default function ElasticsearchClusterSidebar({snapshot}) {
@@ -14,14 +15,7 @@ export default function ElasticsearchClusterSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Elasticsearch Cluster</Collapsible.Header>
         <Collapsible.Content>
-          <DescriptionList>
-            <DescriptionItem title='Name'>
-              {data.get('groupId')}
-            </DescriptionItem>
-            <DescriptionItem title='Status'>
-              <ClusterStatusLabel status={data.get('clusterState')} />
-            </DescriptionItem>
-          </DescriptionList>
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

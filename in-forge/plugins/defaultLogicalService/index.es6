@@ -7,17 +7,17 @@ import * as constants from 'in-forge/constants';
 import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalDatabase,
+  constants.plugins.defaultLogicalService,
   'Unspecified Logical Service',
   'Unspecified Logical Services'
 );
 
 addLabelFinder(
-  constants.plugins.logicalDatabase,
+  constants.plugins.defaultLogicalService,
   snapshot => snapshot.getIn(['data', 'service_name'])
 );
 
 addIconToRegistry({
-  id: constants.plugins.logicalDatabase,
+  id: constants.plugins.defaultLogicalService,
   image: iconPath
 });

@@ -3,8 +3,7 @@
 import {expect} from 'chai';
 import {uniq} from 'lodash';
 
-import {registry} from 'in-sdk/registry/tracing';
-import {getCategoryIcon} from 'in-sdk/tracing';
+import {registry, getCategoryIcon} from 'in-sdk/tracing';
 
 describe('in-sdk/tracing/tracing', () => {
   uniq(Object.keys(registry)

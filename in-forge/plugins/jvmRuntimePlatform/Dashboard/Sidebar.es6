@@ -5,7 +5,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import List from 'in-sdk/components/sidebar/List';
 
-import JVMInfo from '../JVMInfo';
+import Info from '../Info';
 
 
 export default function JvmRuntimeSidebar({snapshot}) {
@@ -16,7 +16,7 @@ export default function JvmRuntimeSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Java</Collapsible.Header>
         <Collapsible.Content>
-          <JVMInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

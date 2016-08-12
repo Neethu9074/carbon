@@ -1,7 +1,7 @@
 import iconPath from 'in-forge/plugins/tomcatApplicationContainer/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
@@ -39,4 +39,4 @@ addIconToRegistry({
   image: iconPath
 });
 
-addSearchableType('tomcat', constants.plugins.tomcat);
+addSearchableEntityType('tomcat', constants.plugins.tomcat);

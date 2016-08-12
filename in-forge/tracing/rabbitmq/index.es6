@@ -1,4 +1,4 @@
-import {registerSpanDefinition} from 'in-sdk/registry/tracing';
+import {registerSpanDefinition} from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'rabbitmq',

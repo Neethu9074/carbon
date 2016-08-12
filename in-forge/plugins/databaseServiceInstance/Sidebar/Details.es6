@@ -1,3 +1,3 @@
-import DefaultLogicalSidebar from 'in-sdk/components/sidebar/DefaultLogicalSidebar';
+import ServiceInstanceSidebar from 'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceSidebar';
 
-export default DefaultLogicalSidebar;
+export default ServiceInstanceSidebar;

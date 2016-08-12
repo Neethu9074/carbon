@@ -1,7 +1,7 @@
-import {addKeywordOperator, createPluginFieldPath, addSearchableType} from 'in-sdk/search';
-import * as icon from 'in-sdk/iconRegistry';
+import {addKeywordOperator, createPluginFieldPath, addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
+import * as icon from 'in-sdk/iconRegistry';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
@@ -53,7 +53,6 @@ icon.addMapping(
   snapshot => {
     let type = snapshot.get('plugin');
 
-
     const osPlugin = constants.plugins.os;
     if (type === osPlugin) {
       const os = snapshot.getIn(['data', 'os.name']);
@@ -101,4 +100,4 @@ addKeywordOperator({
   field: createPluginFieldPath(constants.plugins.os, ['memory'])
 });
 
-addSearchableType('host', constants.plugins.os);
+addSearchableEntityType('host', constants.plugins.os);

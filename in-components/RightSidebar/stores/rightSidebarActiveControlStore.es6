@@ -14,6 +14,7 @@ export const CONTROL_TYPES = {
   METRICS: 'metrics',
   ICONS: 'relocate',
   TABLE: 'menue',
+  LAYOUT: 'dot',
   TAGS: 'tags'
 };
 

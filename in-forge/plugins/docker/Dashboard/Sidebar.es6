@@ -5,7 +5,7 @@ import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
-import DockerInfo from 'in-forge/plugins/docker/DockerInfo';
+import Info from 'in-forge/plugins/docker/Info';
 
 
 export default function DockerSidebar({snapshot}) {
@@ -18,7 +18,7 @@ export default function DockerSidebar({snapshot}) {
           Docker Container
         </Collapsible.Header>
         <Collapsible.Content>
-          <DockerInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

@@ -1,6 +1,6 @@
 import iconPath from 'in-forge/plugins/solr/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as constants from 'in-forge/constants';
@@ -29,4 +29,4 @@ addIconToRegistry({
 });
 
 
-addSearchableType('solr', constants.plugins.solr);
+addSearchableEntityType('solr', constants.plugins.solr);

@@ -2,7 +2,7 @@ import iconPath from 'in-forge/plugins/msSqlDatabase/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
@@ -28,4 +28,4 @@ addIconToRegistry({
   image: iconPath
 });
 
-addSearchableType('mssql', constants.plugins.mssql);
+addSearchableEntityType('mssql', constants.plugins.mssql);

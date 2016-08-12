@@ -1,3 +1,4 @@
-import DefaultLogicalDashboardSidebar from 'in-sdk/components/sidebar/DefaultLogicalDashboardSidebar';
+import ServiceInstanceDashboardSidebar from
+  'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceDashboardSidebar';
 
-export default DefaultLogicalDashboardSidebar;
+export default ServiceInstanceDashboardSidebar;

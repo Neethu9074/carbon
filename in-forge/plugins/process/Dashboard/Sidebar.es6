@@ -2,9 +2,10 @@ import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import ProcessInfo from 'in-forge/plugins/process/ProcessInfo';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import ArgList from 'in-forge/plugins/process/ArgList';
+
+import Info from '../Info';
 
 
 export default function ProcessSidebar({snapshot}) {
@@ -17,7 +18,7 @@ export default function ProcessSidebar({snapshot}) {
           Process
         </Collapsible.Header>
         <Collapsible.Content>
-          <ProcessInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
