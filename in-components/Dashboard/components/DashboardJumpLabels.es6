@@ -35,7 +35,7 @@ export default React.createClass({
       height: this.scrollElement.clientHeight
     });
 
-    this.scrollSubscription = on(this.scrollElement, 'scroll')
+    this.scrollSubscription = on(this.scrollElement, 'scroll', {passive: true})
       .throttle(200)
       .subscribe(this.onScroll);
     this.resizeSubscription = on(window, 'resize')

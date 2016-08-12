@@ -8,7 +8,7 @@ export function onWheel(domElement, callback) {
   return ro.combineLatest([
     getIn(['map', 'scrollSpeed']),
     getIn(['map', 'scrollDirection']),
-     ro.on(domElement, 'wheel')
+     ro.on(domElement, 'wheel', {passive: true})
        .throttle(50)
   ])
   .subscribe(props => {
