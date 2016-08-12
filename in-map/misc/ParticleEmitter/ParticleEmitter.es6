@@ -1,3 +1,4 @@
+import {combineLatest} from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
@@ -34,6 +35,7 @@ export default class ParticleEmitter {
     this.positionGenerationStrategy = createPositionGenerator();
 
     this.progresses = new Float32Array(this.maxParticles);
+    this.severities = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
 
     const geometry = this.geometry = new THREE.BufferGeometry();
@@ -103,16 +105,12 @@ export default class ParticleEmitter {
 
     this.isRunning = true;
 
-    this.metricSubscription = getMetricForFocusedMoment({
-      snapshotId: this.id,
-      metric: 'count'
-    }).subscribe(metric => {
-      const numCalls = metric[1];
-      // TODO: we have defined a maximum number of particles. If numCalls gets to big, older particles will be used
-      // and resetted before they are finished. Solutions: Increase maxParticles or cap numCalls or map numCalls to
-      // another value pursuing to a max value (log, whatever)
-      this.setNumparticlesPerSecond(numCalls);
-    });
+    this.metricSubscription = combineLatest([
+      getMetricForFocusedMoment({snapshotId: this.id, metric: 'count'}),
+      getMetricForFocusedMoment({snapshotId: this.id, metric: 'error_rate'})
+    ]).subscribe(([countMetric, errorRateMetric]) =>
+      this.setNumparticlesPerSecond(countMetric[1], errorRateMetric[1])
+    );
   }
 
   update(dt) {
@@ -136,7 +134,8 @@ export default class ParticleEmitter {
       vertices[index + 1] = START_POS;
       vertices[index + 2] = START_POS;
 
-      progresses[index] = 0;
+      progresses[removedParticles.index] = 0;
+      this.severities[removedParticles.index] = 0;
     });
 
     // spawn new particles
@@ -146,16 +145,23 @@ export default class ParticleEmitter {
       this.timeElapsedSinceLastSpawn -= this.secToNextParticle * numParticlesToSpawn;
 
       for (let i = 0; i < numParticlesToSpawn; i++) {
-        this.spawnParticle();
+        let hasError = false;
+        if (this.timeElapsedSinceLastError > this.secToNextError) {
+          hasError = true;
+          this.timeElapsedSinceLastError -= this.secToNextError;
+        }
+        this.spawnParticle(hasError);
       }
     }
 
     this.positionNeedsUpdate();
+    this.severityNeedsUpdate();
     this.progressNeedsUpdate();
     this.timeElapsedSinceLastSpawn += dt;
+    this.timeElapsedSinceLastError += dt;
   }
 
-  spawnParticle() {
+  spawnParticle(hasError) {
     const vertices = this.vertices;
     const position = this.positionGenerationStrategy.getPositionForParticle();
     const newIndex = this.currentIndex;
@@ -166,6 +172,7 @@ export default class ParticleEmitter {
     };
     this.particles.push(particle);
 
+    this.severities[newIndex] = hasError ? 1.0 : 0.0;
     this.progresses[newIndex] = 0;
 
     const indexInVertices = newIndex * 3;
@@ -173,8 +180,7 @@ export default class ParticleEmitter {
     vertices[indexInVertices + 1] = position.y;
     vertices[indexInVertices + 2] = position.z;
 
-    // make the buffer a ringbuffer.
-    // thx Robert Nystrom for this line of code, it will change my life forever
+    // make the buffer a ringbuffer
     this.currentIndex = (this.currentIndex + 1) % this.maxParticles;
   }
 
@@ -186,6 +192,10 @@ export default class ParticleEmitter {
     this.geometry.attributes.progress.needsUpdate = true;
 
     requestRendering();
+  }
+
+  severityNeedsUpdate() {
+    this.geometry.attributes.severity.needsUpdate = true;
   }
 
   stop() {
@@ -206,6 +216,7 @@ export default class ParticleEmitter {
     for (let i = 0; i < this.progresses.length; i++) {
       const vertexIndex = i * 3;
       this.progresses[i] = 0;
+      this.severities[i] = 0;
       this.vertices[vertexIndex] = START_POS;
       this.vertices[vertexIndex + 1] = START_POS;
       this.vertices[vertexIndex + 2] = START_POS;
@@ -215,12 +226,13 @@ export default class ParticleEmitter {
     this.progressNeedsUpdate();
   }
 
-  setNumparticlesPerSecond(particlesPerSecond = 10) {
+  setNumparticlesPerSecond(particlesPerSecond = 10, errorRate = 0) {
     // clamp number of spawning particles to max number of particles during lifetime
     particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * this.maxParticles);
 
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = particlesPerSecond > 0 ? 1 / this.particlesPerSecond : Number.MAX_VALUE;
+    this.secToNextError = errorRate > 0 ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
   }
 
   dispose() {
@@ -231,6 +243,10 @@ export default class ParticleEmitter {
     this.stop();
 
     this.positionGenerationStrategy = null;
+    this.timeElapsedSinceLastError = null;
+    this.timeElapsedSinceLastSpawn = null;
+    this.secToNextParticle = null;
+    this.secToNextError = null;
     this.progresses = null;
     this.isRunning = null;
     this.particles = null;
