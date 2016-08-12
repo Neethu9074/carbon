@@ -1,5 +1,14 @@
+/* eslint-disable no-console */
+
 import './perfNowPolyfill';
 import './defaultTimeout.es6';
+
+if (!__DEV__) {
+  console.log(
+    '%c Questions about Instana? Contact us via info@instana.com!',
+    'font-size: 14px; color: #172429; font-weight: bold;'
+  );
+}
 
 /* global require:false */
 runWithPolyfills(() => {
