@@ -10,24 +10,17 @@ import {
   highlightPreviousSuggestion,
   selectHighlightedSuggestion
 } from 'in-components/SearchBar/stores/highlightedSuggestion';
-import {isPhysicalViewVisible$} from 'in-stores/view';
 import HelpLink from 'in-components/HelpLink';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
 import './SearchBar.less';
 
-
 const block = 'in-searchbar';
 
 export default connectTo({
-    rawQuery: rawQuery$,
-    isPhysicalViewVisible: isPhysicalViewVisible$
-  }, function SearchBar({rawQuery, className, isPhysicalViewVisible}) {
-    if (!isPhysicalViewVisible) {
-      return null;
-    }
-
+    rawQuery: rawQuery$
+  }, function SearchBar({rawQuery, className}) {
     let classes = block;
     if (className) {
       classes = `${classes} ${className}`;

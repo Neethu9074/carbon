@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
@@ -6,7 +5,6 @@ import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMe
 import {bytesTwoDecimalPlaces, time} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function JVMDashboard({snapshot, timeframe}) {
@@ -105,8 +103,3 @@ export default function JVMDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-JVMDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

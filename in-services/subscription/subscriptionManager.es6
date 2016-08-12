@@ -1,3 +1,4 @@
+import * as ro from 'reactive-observables';
 import invariant from 'invariant';
 
 import {getDataEvent} from 'in-services/subscription/dataEvent';
@@ -14,11 +15,20 @@ import {on, off, emit} from 'in-services/persistentConnection';
 // }
 export const activeSubscriptions = {};
 
+// How long it takes until the subscriptions are disposed backend wise when the
+// browser tab is no longer visible.
+const timeUntilDisposingSubscriptionsForHiddenUi = 1000 * 60;
+
+// Whether or not the backend is currently informed aboute active subscriptions.
+let isSubscriptionsActive = true;
+
 export function subscribe(subscriptionId, event, payload) {
-  invariant(
-    !(subscriptionId in activeSubscriptions),
-    'Multiple subscriptions with the same id are not possible!'
-  );
+  if (__DEV__) {
+    invariant(
+      !(subscriptionId in activeSubscriptions),
+      'Multiple subscriptions with the same id are not possible!'
+    );
+  }
 
   const subscription = activeSubscriptions[subscriptionId] = {
     subscriptionId,
@@ -32,7 +42,9 @@ export function subscribe(subscriptionId, event, payload) {
     on(getDataEvent(subscriptionId), dataListener);
   }
 
-  emit(event, payload);
+  if (isSubscriptionsActive) {
+    emit(event, payload);
+  }
 
   function dataListener(data) {
     subscription.lastData = data;
@@ -41,7 +53,9 @@ export function subscribe(subscriptionId, event, payload) {
 
 
 export function unsubscribe(subscriptionId) {
-  emit('unsubscribe', {subscriptionId});
+  if (isSubscriptionsActive) {
+    emit('unsubscribe', {subscriptionId});
+  }
 
   const subscription = activeSubscriptions[subscriptionId];
   off(getDataEvent(subscriptionId), subscription.dataListener);
@@ -59,7 +73,32 @@ export function init() {
       emit(activeSubscription.event, activeSubscription.payload);
     });
   });
+
+  // We dispose all subscriptions server side when the window is hidden for a few
+  // minutes. We do this to avoid buffering a large amount of data in the UI
+  const documentVisibility$ = ro.on(document, 'visibilitychange')
+    .map(() => document.hidden);
+
+  documentVisibility$
+    .debounce(timeUntilDisposingSubscriptionsForHiddenUi)
+    .filter(hidden => hidden)
+    .subscribe(() => {
+      if (isSubscriptionsActive) {
+        isSubscriptionsActive = false;
+        unsubscribeAllFromBackend();
+      }
+    });
+
+  documentVisibility$
+    .filter(hidden => !hidden)
+    .subscribe(() => {
+      if (!isSubscriptionsActive) {
+        isSubscriptionsActive = true;
+        subscribeAllToBackend();
+      }
+    });
 }
+
 
 /**
  * Provides information about all currently active subscriptions.
@@ -82,4 +121,20 @@ let idCounter = 0;
 
 export function getNewSubscriptionId() {
   return idCounter++;
+}
+
+
+function subscribeAllToBackend() {
+  Object.keys(activeSubscriptions).forEach(k => {
+    const activeSubscription = activeSubscriptions[k];
+    emit(activeSubscription.event, activeSubscription.payload);
+  });
+}
+
+
+function unsubscribeAllFromBackend() {
+  Object.keys(activeSubscriptions).forEach(k => {
+    const activeSubscription = activeSubscriptions[k];
+    emit('unsubscribe', {subscriptionId: activeSubscription.subscriptionId});
+  });
 }

@@ -1,19 +1,4 @@
-import irpt from 'react-immutable-proptypes';
-import React from 'react';
-
 import DefaultLogicalConnectionDashboard from
-  'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultLogicalConnectionDashboard';
-import {timeframeShape} from 'in-stores/timeline';
+  'in-sdk/components/dashboard/DefaultLogicalConnectionDashboard/DefaultLogicalConnectionDashboard';
 
-
-export default function LogicalHttpConnectionDashboard({snapshot, timeframe}) {
-  return (
-    <DefaultLogicalConnectionDashboard snapshot={snapshot}
-                                       timeframe={timeframe} />
-  );
-}
-
-LogicalHttpConnectionDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};
+export default DefaultLogicalConnectionDashboard;

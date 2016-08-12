@@ -1,6 +1,6 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import iconPath from 'in-forge/plugins/ec2/icon.svg';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import * as constants from 'in-forge/constants';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
@@ -22,5 +22,5 @@ addLabelFinder(
   snapshot => snapshot.getIn(['data', 'instance-id'])
 );
 
-addSearchableType('ec2', constants.plugins.ec2);
-addSearchableType('aws', constants.plugins.ec2);
+addSearchableEntityType('ec2', constants.plugins.ec2);
+addSearchableEntityType('aws', constants.plugins.ec2);

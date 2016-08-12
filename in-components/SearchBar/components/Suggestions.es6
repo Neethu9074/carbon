@@ -11,6 +11,8 @@ import './Suggestions.less';
 
 const block = 'in-search-suggestions';
 
+const maxProposals = 10;
+
 const Suggestion = connectTo(props => {
     return {
       snapshot: getSnapshot(props.snapshotId)
@@ -61,10 +63,10 @@ export default connectTo({
       );
     }
 
-    const remainingHitCount = searchMatches.size - 5;
+    const remainingHitCount = searchMatches.size - maxProposals;
     return (
       <div className={block}>
-        {searchMatches.toArray().slice(0, 5).map((searchMatch, i) =>
+        {searchMatches.toArray().slice(0, maxProposals).map((searchMatch, i) =>
           <Suggestion key={searchMatch}
                       snapshotId={searchMatch}
                       isHighlighted={highligtedSuggestion === i}/>

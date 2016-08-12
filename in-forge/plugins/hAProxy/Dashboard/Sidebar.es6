@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import HAProxyInfo from '../HAProxyInfo';
+import Info from '../Info';
 
 
 export default function HAProxySidebar({snapshot}) {
@@ -12,7 +12,7 @@ export default function HAProxySidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>HAProxy</Collapsible.Header>
         <Collapsible.Content>
-          <HAProxyInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       <RunningComponentsList snapshotId={snapshot.get('id')} />

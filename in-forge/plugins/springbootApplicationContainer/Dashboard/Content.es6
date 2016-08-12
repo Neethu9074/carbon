@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import EndpointBreakdownTable from
 'in-forge/plugins/springbootApplicationContainer/Dashboard/EndpointBreakdownTable.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function SpringbootDashboard({snapshot, timeframe}) {
@@ -63,8 +61,3 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-SpringbootDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

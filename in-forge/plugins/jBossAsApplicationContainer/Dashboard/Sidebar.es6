@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import JBossAsInfo from '../JBossAsInfo';
+import Info from '../Info';
 
 
 const formatBoolean = value => value ? 'Yes' : 'No';
@@ -18,7 +18,7 @@ export default function JBossAsSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>JBoss Application Server</Collapsible.Header>
         <Collapsible.Content>
-          <JBossAsInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       { deployments ?

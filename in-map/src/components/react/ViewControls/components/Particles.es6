@@ -2,6 +2,7 @@ import React from 'react';
 
 import {particlesAreActive$, toggleParticles} from 'in-map/src/stores/process/particles';
 import {view, types as views} from 'in-stores/view';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -28,13 +29,15 @@ function Particles({particlesAreActive, currentView}) {
   }
 
   return (
-    <Button onClick={toggleParticles}
-            className={classes}>
-      <SvgIcon type={'particles'}
-               width={16}
-               height={16}
-               color={particlesAreActive ? '#000' : '#7b8e96'} />
-    </Button>
+    <Tooltip content='Toggle visualization of calls and error rates'>
+      <Button onClick={toggleParticles}
+              className={classes}>
+        <SvgIcon type={'particles'}
+                 width={24}
+                 height={24}
+                 color={particlesAreActive ? '#000' : '#7b8e96'} />
+      </Button>
+    </Tooltip>
   );
 }
 

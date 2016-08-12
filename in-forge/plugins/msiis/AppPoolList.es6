@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {emptyList} from 'in-services/fixedImmutables';
@@ -21,7 +20,3 @@ export default function AppPoolList({snapshot}) {
     </List>
   );
 }
-
-AppPoolList.propTypes = {
-  snapshot: irpt.map.isRequired
-};

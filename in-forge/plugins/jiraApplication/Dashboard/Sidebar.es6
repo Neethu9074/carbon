@@ -3,7 +3,7 @@ import React from 'react';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import JiraInfo from '../JiraInfo';
+import Info from '../Info';
 
 
 export default function JiraSidebar({snapshot}) {
@@ -12,7 +12,7 @@ export default function JiraSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>JIRA</Collapsible.Header>
         <Collapsible.Content>
-          <JiraInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       <RunningComponentsList snapshotId={snapshot.get('id')} />

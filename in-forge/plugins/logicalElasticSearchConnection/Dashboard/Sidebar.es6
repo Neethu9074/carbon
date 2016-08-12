@@ -1,11 +1,4 @@
-import React from 'react';
+import LogicalConnectionDashboardSidebar from
+  'in-sdk/components/sidebar/defaultLogicalConnectionSidebars/LogicalConnectionDashboardSidebar';
 
-import DefaultLogicalConnectionDashboardSidebar from
-  'in-sdk/components/sidebar/DefaultLogicalConnectionDashboardSidebar';
-
-
-export default function LogicalElasticSearchConnectionSidebar({snapshot}) {
-  return (
-    <DefaultLogicalConnectionDashboardSidebar snapshot={snapshot} />
-  );
-}
+export default LogicalConnectionDashboardSidebar;

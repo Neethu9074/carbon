@@ -1,7 +1,7 @@
 import React from 'react';
 
-import DropwizardInfo from 'in-forge/plugins/dropwizardApplicationContainer/DropwizardInfo';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import Info from 'in-forge/plugins/dropwizardApplicationContainer/Info';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 
@@ -11,7 +11,7 @@ export default function DropwizardSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Dropwizard</Collapsible.Header>
         <Collapsible.Content>
-          <DropwizardInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       <RunningComponentsList snapshotId={snapshot.get('id')} />

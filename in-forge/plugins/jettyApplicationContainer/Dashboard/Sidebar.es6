@@ -5,13 +5,13 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import JettyThreadsInfo from '../JettyThreadsInfo.es6';
 import JettyConnectors from '../JettyConnectors.es6';
 import JettyWebApps from '../JettyWebApps.es6';
-import JettyInfo from '../JettyInfo.es6';
+import Info from '../Info.es6';
 
 
 export default function JettySidebar({snapshot}) {
   return (
     <div>
-      <JettyInfo snapshot={snapshot} />
+      <Info snapshot={snapshot} />
       <JettyThreadsInfo snapshot={snapshot} />
       <JettyConnectors snapshot={snapshot} />
       <JettyWebApps snapshot={snapshot} />

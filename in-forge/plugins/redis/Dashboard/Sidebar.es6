@@ -1,7 +1,8 @@
 import React from 'react';
 
-import RedisInfo from 'in-forge/plugins/redis/RedisInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+
+import Info from '../Info';
 
 
 export default function RedisSidebar({snapshot}) {
@@ -12,7 +13,7 @@ export default function RedisSidebar({snapshot}) {
           Redis
         </Collapsible.Header>
         <Collapsible.Content>
-          <RedisInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
     </div>

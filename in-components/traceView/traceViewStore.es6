@@ -1,4 +1,5 @@
 import {combineLatest} from 'reactive-observables';
+import {debounce} from 'lodash';
 
 import {compress as compressTrace} from 'in-components/traceView/longTraceCompressor';
 import {transform as transformTrace} from 'in-components/traceView/longTraceBuilder';
@@ -7,6 +8,7 @@ import {createStore, createTrackingStore} from 'in-stores/store';
 import {getTraces, selectedTrace$} from 'in-stores/traces';
 import {formatDateTime} from 'in-services/formatters/date';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
+import {luceneQuery$} from 'in-stores/search';
 import {getLabel} from 'in-sdk/tracing';
 
 export const longSelectedTrace$ = createTrackingStore({
@@ -63,6 +65,11 @@ const sortBy = createStore({
   initialValue: 'ts'
 });
 
+export const refresh = debounce(() => {
+  clear();
+  loadMoreTraces();
+}, 100);
+
 export function setSortBy(newSortBy) {
   sortBy.applyStateMutation(()=>newSortBy);
   refresh();
@@ -92,27 +99,37 @@ export const autoUpdate$ = autoUpdateStore.observable;
 // Automatically refresh the shown traces upon timeframe change to reload and present data
 // that is in the chosen timeframe.
 let timeframeSubscription;
+// Automatically refresh the shown traces when the query changes.
+let luceneQuerySubscription;
 
 export function enable() {
   timeframeSubscription = timeframe$.subscribe(refresh);
+  luceneQuerySubscription = luceneQuery$.subscribe(refresh);
 }
 
 export function disable() {
   timeframeSubscription.dispose();
+  luceneQuerySubscription.dispose();
 }
 
 let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
   disposeExistingLoad();
 
-  combineLatest([oldestTraceStartTime$, from$, to$, sortBy$, sortDirection$])
-    .once(([oldestTraceStartTime, from, to, currentSortBy, currentSortDirection]) => {
+  combineLatest([oldestTraceStartTime$, from$, to$, sortBy$, sortDirection$, luceneQuery$])
+    .once(([oldestTraceStartTime, from, to, currentSortBy, currentSortDirection, luceneQuery]) => {
       isLoadingStore.applyStateMutation(() => true);
       // Remove 1 from the maxTimestamp to avoid being stuck in time, i.e. loading the same
       // data over and over again. This can happen when we have more than <pageSize> traces
       // with the same timestamp.
       const maxTimestamp = oldestTraceStartTime ? oldestTraceStartTime - 1 : to;
-      existingLoadMoreTracesSubscription = getTraces(maxTimestamp, from, currentSortBy, currentSortDirection)
+      existingLoadMoreTracesSubscription = getTraces(
+          maxTimestamp,
+          from,
+          currentSortBy,
+          currentSortDirection,
+          luceneQuery
+        )
         .once(addNewTraces);
     });
 }
@@ -139,12 +156,6 @@ function addNewTraces(newTraces) {
   });
   tracesStore.applyStateMutation(existingTraces => existingTraces.concat(transformedTraces));
   isLoadingStore.applyStateMutation(() => false);
-}
-
-
-export function refresh() {
-  clear();
-  loadMoreTraces();
 }
 
 

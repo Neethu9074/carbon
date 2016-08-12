@@ -1,0 +1,88 @@
+import {addKeywordOperator} from 'in-sdk/search/registry';
+import {fullyQualifiedPlugins} from 'in-forge/constants';
+
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'tag',
+  field: 'processor_tags'
+});
+
+const searchableEntityTypes = {};
+addKeywordOperator({
+  context: 'entity',
+  type: 'selection',
+  keyword: 'type',
+  field: 'plugin_id',
+  validate(selection, queryPart) {
+    if (this.getSelectableItems().indexOf(selection.toLowerCase()) === -1) {
+      return `Unknown entity type ${selection} for key type at row ${queryPart.row}.`;
+    }
+    return null;
+  },
+  getSelectableItems() {
+    return Object.keys(searchableEntityTypes);
+  },
+  toValue(selection) {
+    return searchableEntityTypes[selection.toLowerCase()];
+  }
+});
+export function addSearchableEntityType(label, shortPluginId) {
+  searchableEntityTypes[label.toLowerCase()] = fullyQualifiedPlugins[shortPluginId];
+}
+
+
+const searchableTraceTypes = {};
+addKeywordOperator({
+  context: 'trace',
+  type: 'selection',
+  keyword: 'type',
+  field: 'n',
+  validate(selection, queryPart) {
+    if (this.getSelectableItems().indexOf(selection.toLowerCase()) === -1) {
+      return `Unknown trace type ${selection} for key type at row ${queryPart.row}.`;
+    }
+    return null;
+  },
+  getSelectableItems() {
+    return Object.keys(searchableTraceTypes);
+  },
+  toValue(selection) {
+    return searchableTraceTypes[selection.toLowerCase()];
+  }
+});
+export function addSearchableTraceType(label, name) {
+  searchableTraceTypes[label.toLowerCase()] = name;
+}
+
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'string',
+  keyword: 'startingAt',
+  field: 'logical_destination_service_id'
+});
+
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'number',
+  keyword: 'duration',
+  field: 'd'
+});
+
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'number',
+  keyword: 'time',
+  field: 'd'
+});
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'number',
+  keyword: 'latency',
+  field: 'd'
+});

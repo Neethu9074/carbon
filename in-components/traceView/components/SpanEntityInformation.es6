@@ -48,10 +48,10 @@ export default connectTo(props => {
   if (snapshot === loadingPlaceholder) {
     return (
       <LoadingIndicator inline={true}
-                               type='dark'
-                               style={{
-                                 height: '16px'
-                               }}/>
+                        type='dark'
+                        style={{
+                          height: '16px'
+                        }}/>
     );
   } else if (!snapshot) {
     return null;

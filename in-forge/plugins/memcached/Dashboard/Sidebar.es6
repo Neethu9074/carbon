@@ -1,7 +1,8 @@
 import React from 'react';
 
-import MemcachedInfo from 'in-forge/plugins/memcached/MemcachedInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+
+import Info from '../Info';
 
 
 export default function MemcachedSidebar({snapshot}) {
@@ -12,7 +13,7 @@ export default function MemcachedSidebar({snapshot}) {
           Memcached
         </Collapsible.Header>
         <Collapsible.Content>
-          <MemcachedInfo snapshot={snapshot} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
     </div>

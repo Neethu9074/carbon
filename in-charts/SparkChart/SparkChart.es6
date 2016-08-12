@@ -151,13 +151,13 @@ export default function createSparkChart({width,
     }
 
     ctx.lineWidth = 1;
-    ctx.strokeStyle = metricLineStrokeColor;
     ctx.lineTo(xToRender, yScale.getRangeFrom());
     ctx.lineTo(0, yScale.getRangeFrom());
-    ctx.stroke();
     ctx.closePath();
     ctx.fillStyle = metricLineFillColor;
     ctx.fill();
+    ctx.strokeStyle = metricLineStrokeColor;
+    ctx.stroke();
 
     drawAxis();
   }

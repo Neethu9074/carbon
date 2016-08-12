@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardNotification from 'in-components/DashboardNotification';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 export default function MsSqlDashboard({snapshot, timeframe}) {
@@ -68,8 +66,3 @@ export default function MsSqlDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-MsSqlDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

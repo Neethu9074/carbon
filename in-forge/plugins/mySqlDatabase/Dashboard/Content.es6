@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
@@ -7,7 +6,6 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardNotification from 'in-components/DashboardNotification';
 import {emptyList} from 'in-services/fixedImmutables';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 const verPatt = /([5-9]+\.[6-9]+\.([0-9]+)).*/;
@@ -185,8 +183,3 @@ export default function MySqlDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-MySqlDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};

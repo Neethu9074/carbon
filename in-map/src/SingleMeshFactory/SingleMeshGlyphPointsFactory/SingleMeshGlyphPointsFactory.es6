@@ -5,6 +5,7 @@ import {glyphTexture, config} from 'in-map/src/SingleMeshFactory/SingleMeshGlyph
 import fragmentShader from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory/pointFragmentShader.glsl';
 import vertexShader from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory/pointVertexShader.glsl';
 import ASingleMeshFactory from 'in-map/src/SingleMeshFactory/ASingleMeshFactory';
+import {updateAttribute} from 'in-map/src/services/geometryAttributes';
 
 
 export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
@@ -34,16 +35,13 @@ export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
 
     const geometry = this.geometry;
 
-    const pointSizes = new Float32Array(this.fragments.length);
+    const pointSizes = [];
     this.fragments.forEach((fragment, index) => {
       pointSizes[index] = fragment.additionalParams.iconSize;
     });
 
-    geometry.addAttribute('pointSize', new THREE.BufferAttribute(pointSizes, 1));
-    geometry.attributes.pointSize.needsUpdate = true;
-
-    geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(this.colors), 3));
-    geometry.attributes.color.needsUpdate = true;
+    updateAttribute(geometry, 'pointSize', pointSizes, 1);
+    updateAttribute(geometry, 'color', this.colors);
 
     const uvCoords = [];
     const textureWidth = config.numElementsPerColumn * config.iconWidth;
@@ -58,8 +56,8 @@ export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
         uvCoords.push(xy.y / textureWidth);
       }
     });
-    geometry.addAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvCoords), 2));
-    geometry.attributes.uv.needsUpdate = true;
+
+    updateAttribute(geometry, 'uv', uvCoords, 2);
   }
 
   dispose() {

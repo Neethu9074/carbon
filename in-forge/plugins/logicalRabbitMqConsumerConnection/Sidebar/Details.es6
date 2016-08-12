@@ -1,10 +1,4 @@
-import React from 'react';
+import LogicalConnectionSidebar from
+  'in-sdk/components/sidebar/defaultLogicalConnectionSidebars/LogicalConnectionSidebar';
 
-import DefaultLogicalConnectionSidebar from 'in-sdk/components/sidebar/DefaultLogicalConnectionSidebar';
-
-
-export default function LogicalRabbitMqConsumerConnectionSidebar({snapshot}) {
-  return (
-    <DefaultLogicalConnectionSidebar snapshot={snapshot} />
-  );
-}
+export default LogicalConnectionSidebar;

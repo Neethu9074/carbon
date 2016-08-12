@@ -2,7 +2,7 @@ import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
 import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
-import {getHistoricMetricsWithLiveUpdates} from 'in-stores/metric';
+import {getHistoricMetricsWithLiveUpdates, getPixelAwareRollupSize} from 'in-stores/metric';
 import * as timelineStore from 'in-stores/timeline';
 
 
@@ -42,6 +42,10 @@ export default React.createClass({
   },
 
   updateDatasource(props) {
+    if (props.rollup === undefined) {
+      props = Object.create(props);
+      props.rollup = getPixelAwareRollupSize(props.timeframe, props.width);
+    }
     this.setState({
       datasource: getHistoricMetricsWithLiveUpdates(props)
     });

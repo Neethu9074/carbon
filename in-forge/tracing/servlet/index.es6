@@ -1,10 +1,11 @@
-import {registerSpanDefinition} from 'in-sdk/registry/tracing';
+import {registerSpanDefinition} from 'in-sdk/tracing';
 import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'servlet',
   category: 'http',
   direction: 'entry',
+  searchAliases: ['servlet', 'http'],
 
   typeName: {
     singular: 'HTTP Call',

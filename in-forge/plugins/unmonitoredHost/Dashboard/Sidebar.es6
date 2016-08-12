@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+
+import Info from '../Info';
 
 
 export default function UnmonitoredHostSidebar({snapshot}) {
@@ -12,14 +13,7 @@ export default function UnmonitoredHostSidebar({snapshot}) {
           Network Information
         </Collapsible.Header>
         <Collapsible.Content>
-          <DescriptionList>
-            <DescriptionItem title='IPv4'>
-              {snapshot.getIn(['data', 'ipv4'])}
-            </DescriptionItem>
-            <DescriptionItem title='Reverse Lookup'>
-              {snapshot.getIn(['data', 'dnsName'])}
-            </DescriptionItem>
-          </DescriptionList>
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
     </div>

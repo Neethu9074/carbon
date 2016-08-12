@@ -28,7 +28,7 @@ export default function SvgIcon({
     iconWidth = 1;
   }
 
-  const iconHeight = height ? height : iconWidth * icon.ratio;
+  const iconHeight = height ? height : iconWidth / icon.ratio;
 
   return (
     <svg className={className}

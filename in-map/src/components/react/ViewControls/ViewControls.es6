@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AutoLayout from 'in-map/src/components/react/ViewControls/components/AutoLayout';
 import Particles from 'in-map/src/components/react/ViewControls/components/Particles';
 import {content$} from 'in-components/RightSidebar/stores/rightSidebarContentStore';
 import Zoom from 'in-map/src/components/react/ViewControls/components/Zoom';
@@ -25,6 +26,7 @@ function LogicalMapControls({content, timelineHeight}) {
   return (
     <div className={classes}
          style={{ bottom: toPx(timelineHeight) }}>
+      <AutoLayout />
       <Particles />
       <Zoom />
     </div>

@@ -1,10 +1,3 @@
-import React from 'react';
+import ServiceDashboardSidebar from 'in-sdk/components/sidebar/defaultServiceSidebars/ServiceDashboardSidebar';
 
-import DefaultLogicalDashboardSidebar from 'in-sdk/components/sidebar/DefaultLogicalDashboardSidebar';
-
-
-export default function LogicalElasticSearchIndexSidebar({snapshot}) {
-  return (
-    <DefaultLogicalDashboardSidebar snapshot={snapshot} />
-  );
-}
+export default ServiceDashboardSidebar;

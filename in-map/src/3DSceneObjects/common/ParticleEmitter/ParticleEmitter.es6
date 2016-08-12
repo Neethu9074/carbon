@@ -1,3 +1,4 @@
+import {combineLatest} from 'reactive-observables';
 import {remove} from 'lodash';
 import THREE from 'three';
 
@@ -24,21 +25,27 @@ export default class ParticleEmitter extends SceneObject {
     super({parent, id});
 
     this.maxParticles = config.maxParticles || 50;
-    this.setNumparticlesPerSecond(0);
+    this.setNumparticlesPerSecond(0, 0);
 
     this.isRunning = false;
-    this.cursorIfNoFreeIndices = 0;
+
+    // the current index in the ringbuffer array for the next spawning particle
+    this.currentIndex = 0;
+
     this.length = 0;
 
     this.positionGenerationStrategy = createPositionGenerator();
 
     this.progresses = new Float32Array(this.maxParticles);
+    this.severities = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
-    this.indices = [];
 
     const geometry = this.geometry = new THREE.BufferGeometry();
     geometry.dynamic = true;
-    this.positionNeedsUpdate();
+
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
+    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
+    this.geometry.addAttribute('severity', new THREE.BufferAttribute(this.severities, 1));
 
     const texture = loadImage(pointShape, loadedTexture => loadedTexture.needsUpdate = true);
     texture.minFilter = THREE.LinearFilter;
@@ -62,9 +69,6 @@ export default class ParticleEmitter extends SceneObject {
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
 
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
-    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
-
     this.resetParticles();
 
     this.startSubscription = particlesAreActive$.subscribe(particlesAreActive =>
@@ -79,11 +83,11 @@ export default class ParticleEmitter extends SceneObject {
     this.mesh.lookAt(targetPosition);
 
     const direction = targetPosition.sub(this.mesh.position);
+    this.length = direction.length();
+
     // -1 because we want the particles to break on the border of the nodes. For that we translate the particles
     // 0.5 to direction and cap them 0.5 before end which results in scale.z - 1
-    this.mesh.scale.set(1, 1, direction.length() - 1);
-
-    this.length = direction.length();
+    this.mesh.scale.set(1, 1, this.length - 1);
 
     this.mesh.position.add(direction.normalize().multiplyScalar(0.5));
   }
@@ -100,19 +104,18 @@ export default class ParticleEmitter extends SceneObject {
     addSceneObject(this.mesh);
 
     this.timeElapsedSinceLastSpawn = 0;
+    this.timeElapsedSinceLastError = 0;
     this.updateSubscription = eventBus.on('beginUpdate').subscribe(() => this.update());
 
     this.isRunning = true;
 
-    this.metricSubscription = getMetricForFocusedMoment({
-      snapshotId: this.parent.id,
-      metric: 'count'
-    }).subscribe(metric => {
-      const numCalls = metric[1];
-      // TODO: we have defined a maximum number of particles. If numCalls gets to big, older particles will be used
-      // and resetted before they are finished. Solutions: Increase maxParticles or cap numCalls or map numCalls to
-      // another value pursuing to a max value (log, whatever)
-      this.setNumparticlesPerSecond(numCalls);
+    this.metricSubscription = combineLatest([
+      getMetricForFocusedMoment({snapshotId: this.parent.id, metric: 'count'}),
+      getMetricForFocusedMoment({snapshotId: this.parent.id, metric: 'error_rate'})
+    ]).subscribe(([countMetric, errorRateMetric]) => {
+      const numCalls = countMetric[1];
+      const errorRate = errorRateMetric[1];
+      this.setNumparticlesPerSecond(numCalls, errorRate);
     });
   }
 
@@ -131,37 +134,44 @@ export default class ParticleEmitter extends SceneObject {
     }
 
     // remove old particles
-    const removed = remove(particles, particle => particle.progress >= 1);
+    const removed = remove(this.particles, particle => particle.progress >= 1);
     removed.forEach(removedParticles => {
       const index = removedParticles.index * 3;
       vertices[index] = START_POS;
       vertices[index + 1] = START_POS;
       vertices[index + 2] = START_POS;
 
-      progresses[index] = 0;
-      this.freeCursorPosition(index / 3);
+      progresses[removedParticles.index] = 0;
+      this.severities[removedParticles.index] = 0;
     });
 
     // spawn new particles
     let numParticlesToSpawn = this.timeElapsedSinceLastSpawn / this.secToNextParticle;
-    if (numParticlesToSpawn >= 1) {
+    if (numParticlesToSpawn > 0) {
       numParticlesToSpawn = Math.floor(numParticlesToSpawn);
       this.timeElapsedSinceLastSpawn -= this.secToNextParticle * numParticlesToSpawn;
 
       for (let i = 0; i < numParticlesToSpawn; i++) {
-        this.spawnParticle();
+        let hasError = false;
+        if (this.timeElapsedSinceLastError > this.secToNextError) {
+          hasError = true;
+          this.timeElapsedSinceLastError -= this.secToNextError;
+        }
+        this.spawnParticle(hasError);
       }
     }
 
     this.positionNeedsUpdate();
+    this.severityNeedsUpdate();
     this.progressNeedsUpdate();
     this.timeElapsedSinceLastSpawn += dt;
+    this.timeElapsedSinceLastError += dt;
   }
 
-  spawnParticle() {
+  spawnParticle(hasError) {
     const vertices = this.vertices;
     const position = this.positionGenerationStrategy.getPositionForParticle();
-    const newIndex = this.getNextCursorPosition();
+    const newIndex = this.currentIndex;
     const particle = {
       progress: 0,
       timeLived: 0,
@@ -169,41 +179,30 @@ export default class ParticleEmitter extends SceneObject {
     };
     this.particles.push(particle);
 
+    this.severities[newIndex] = hasError ? 1.0 : 0.0;
     this.progresses[newIndex] = 0;
 
     const indexInVertices = newIndex * 3;
     vertices[indexInVertices] = position.x;
     vertices[indexInVertices + 1] = position.y;
     vertices[indexInVertices + 2] = position.z;
-  }
 
-  getNextCursorPosition() {
-    const index = this.indices.shift();
-    if (index) {
-      this.cursorIfNoFreeIndices = 0;
-      return index;
-    }
-    const nextIndex = this.cursorIfNoFreeIndices++;
-    if (this.cursorIfNoFreeIndices >= this.maxParticles) {
-      this.cursorIfNoFreeIndices = 0;
-    }
-    return nextIndex;
-  }
-
-  freeCursorPosition(value) {
-    this.indices.push(value);
+    // make the buffer a ringbuffer.
+    this.currentIndex = (this.currentIndex + 1) % this.maxParticles;
   }
 
   positionNeedsUpdate() {
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
     this.geometry.attributes.position.needsUpdate = true;
   }
 
   progressNeedsUpdate() {
-    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
     this.geometry.attributes.progress.needsUpdate = true;
 
     requestRendering();
+  }
+
+  severityNeedsUpdate() {
+    this.geometry.attributes.severity.needsUpdate = true;
   }
 
   stop() {
@@ -224,46 +223,49 @@ export default class ParticleEmitter extends SceneObject {
     for (let i = 0; i < this.progresses.length; i++) {
       const vertexIndex = i * 3;
       this.progresses[i] = 0;
+      this.severities[i] = 0;
       this.vertices[vertexIndex] = START_POS;
       this.vertices[vertexIndex + 1] = START_POS;
       this.vertices[vertexIndex + 2] = START_POS;
-      this.indices[i] = i;
     }
 
+    this.severityNeedsUpdate();
     this.positionNeedsUpdate();
     this.progressNeedsUpdate();
   }
 
-  setNumparticlesPerSecond(particlesPerSecond = 10) {
+  setNumparticlesPerSecond(particlesPerSecond = 10, errorRate = 0) {
     // clamp number of spawning particles to max number of particles during lifetime
     particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * this.maxParticles);
 
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = particlesPerSecond > 0 ? 1 / this.particlesPerSecond : Number.MAX_VALUE;
+    this.secToNextError = errorRate > 0 ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
   }
 
   dispose() {
-    super.dispose();
+    this.startSubscription.dispose();
+    this.startSubscription = null;
 
     // stop the emitter to make sure everything is disposed well
     this.stop();
 
+    super.dispose();
+
     this.positionGenerationStrategy = null;
-    this.cursorIfNoFreeIndices = null;
+    this.timeElapsedSinceLastError = null;
+    this.timeElapsedSinceLastSpawn = null;
+    this.secToNextParticle = null;
+    this.secToNextError = null;
     this.progresses = null;
+    this.errorRate = null;
     this.isRunning = null;
     this.particles = null;
     this.vertices = null;
-    this.indices = null;
     this.length = null;
 
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
     this.mesh = null;
-
-    this.numParticles = null;
-
-    this.startSubscription.dispose();
-    this.startSubscription = null;
   }
 }

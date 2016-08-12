@@ -27,8 +27,7 @@ export default function QueuesTable({snapshot, timeframe}) {
                        context={{
                          snapshot,
                          timeframe
-                       }}
-                       createDetails={createDetails} />
+                       }} />
     </DashboardSection>
   );
 }
@@ -53,6 +52,8 @@ function createRow(queueName) {
   ]);
 }
 
+/* eslint-disable no-unused-vars */
+// queue metric processing is currently disabled in the backend
 function createDetails(queueName, i, context) {
   const snapshotId = context.snapshot.get('id');
   const timeframe = context.timeframe;

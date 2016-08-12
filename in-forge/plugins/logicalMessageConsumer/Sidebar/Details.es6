@@ -1,10 +1,3 @@
-import React from 'react';
+import ServiceSidebar from 'in-sdk/components/sidebar/defaultServiceSidebars/ServiceSidebar';
 
-import DefaultLogicalSidebar from 'in-sdk/components/sidebar/DefaultLogicalSidebar';
-
-
-export default function LogicalMessageConsumerSidebar({snapshot}) {
-  return (
-    <DefaultLogicalSidebar snapshot={snapshot} />
-  );
-}
+export default ServiceSidebar;

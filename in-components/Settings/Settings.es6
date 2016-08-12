@@ -197,7 +197,7 @@ export default connectTo({
             </SettingEntry.Content>
             <SettingEntry.HelpText text={''} />
           </SettingEntry>
-        </div>^
+        </div>
       </Dialog>
     );
   },

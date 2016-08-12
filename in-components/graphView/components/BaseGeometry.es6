@@ -1,5 +1,7 @@
 import THREE from 'three';
 
+import {updateAttribute} from 'in-map/src/services/geometryAttributes';
+
 
 export default class BaseGeometry {
 
@@ -28,8 +30,7 @@ export default class BaseGeometry {
     const mesh = this.mesh = this.getMesh(geometry, material);
     mesh.frustumCulled = false;
 
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(this.emptyVertices), 3));
-    this.geometry.attributes.position.needsUpdate = true;
+    updateAttribute(this.geometry, 'position', this.emptyVertices);
   }
 
   update() {
@@ -41,8 +42,7 @@ export default class BaseGeometry {
       vertices = this.emptyVertices;
     }
 
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
-    this.geometry.attributes.position.needsUpdate = true;
+    updateAttribute(this.geometry, 'position', vertices);
   }
 
   setColors(colors) {
@@ -50,8 +50,7 @@ export default class BaseGeometry {
       colors = this.emptyVertices;
     }
 
-    this.geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
-    this.geometry.attributes.color.needsUpdate = true;
+    updateAttribute(this.geometry, 'color', colors);
   }
 
   setUVs(uvs) {
@@ -59,8 +58,7 @@ export default class BaseGeometry {
       uvs = this.emptyVertices;
     }
 
-    this.geometry.addAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), 2));
-    this.geometry.attributes.uv.needsUpdate = true;
+    updateAttribute(this.geometry, 'uv', uvs, 2);
   }
 
   renderableGeometry() {

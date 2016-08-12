@@ -2,7 +2,7 @@ import iconPath from 'in-forge/plugins/kafka/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import * as constants from 'in-forge/constants';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
@@ -34,4 +34,4 @@ addIconToRegistry({
   image: iconPath
 });
 
-addSearchableType('kafka', constants.plugins.kafka);
+addSearchableEntityType('kafka', constants.plugins.kafka);

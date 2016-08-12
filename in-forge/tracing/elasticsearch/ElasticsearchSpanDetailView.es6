@@ -17,6 +17,9 @@ export default function ElasticsearchSpanDetailView({span}) {
         <DescriptionItem title='Type'>
           {span.getIn(['data', 'elasticsearch', 'type'])}
         </DescriptionItem>
+        <DescriptionItem title='Hits'>
+          {span.getIn(['data', 'elasticsearch', 'hits'])}
+        </DescriptionItem>
       </DescriptionList>
 
       {query ?

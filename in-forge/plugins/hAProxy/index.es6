@@ -1,6 +1,6 @@
 import iconPath from 'in-forge/plugins/hAProxy/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import * as constants from 'in-forge/constants';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
@@ -31,4 +31,4 @@ addIconToRegistry({
   image: iconPath
 });
 
-addSearchableType('haproxy', constants.plugins.haproxy);
+addSearchableEntityType('haproxy', constants.plugins.haproxy);
