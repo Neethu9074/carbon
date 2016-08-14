@@ -48,11 +48,10 @@ const Tooltip = React.createClass({
   },
 
   componentWillUnmount() {
+    this.removeListeners();
     if (this.isActive) {
       tooltipStore.clearActiveTooltip();
     }
-
-    this.removeListeners();
   },
 
   onMouseIn() {
