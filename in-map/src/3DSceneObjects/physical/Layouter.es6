@@ -1,5 +1,7 @@
+import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
+
+
 const MAX_VALUE = Number.MAX_VALUE;
-const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
 
 export default class GroupLayouting {
 
@@ -61,10 +63,10 @@ export default class GroupLayouting {
   sortGroups(groups) {
     // doerte sort -> unmonitored zone is the last one
     groups.sort((a, b) => {
-      if (a.id === idOfUnmonitoredZone) {
+      if (a.id === ID_OF_UNMONITORED_ZONE) {
         return MAX_VALUE;
       }
-      if (b.id === idOfUnmonitoredZone) {
+      if (b.id === ID_OF_UNMONITORED_ZONE) {
         return -1 * MAX_VALUE;
       }
       return a._cachedLabel.localeCompare(b._cachedLabel);

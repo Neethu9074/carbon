@@ -8,6 +8,7 @@ import {excludeUnmonitoredHosts$} from 'in-stores/settings/unmonitoredHosts';
 import HealthSlider from 'in-components/tableView/components/HealthSlider';
 import ChildList from 'in-components/tableView/components/ChildList';
 import ZoneEntry from 'in-components/tableView/components/ZoneEntry';
+import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {physicalViewStructure$} from 'in-stores/view';
 import {
@@ -35,7 +36,7 @@ export default connectTo({
       .toArray();
 
     if (excludeUnmonitoredHosts) {
-      children = children.filter(child => child.get('id') !== 'unmonitored-hosts-zone');
+      children = children.filter(child => child.get('id') !== ID_OF_UNMONITORED_ZONE);
     }
 
     return (
