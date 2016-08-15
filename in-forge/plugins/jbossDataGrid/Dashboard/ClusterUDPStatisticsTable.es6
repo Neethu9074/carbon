@@ -32,8 +32,8 @@ export default function ClusterUDPStatisticsTable({snapshot, timeframe}) {
 }
 
 
-function getKey(indexName) {
-  return indexName;
+function getKey(cacheInfo, cacheName) {
+  return cacheName;
 }
 
 
