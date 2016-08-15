@@ -5,8 +5,8 @@ import React from 'react';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
 
-const logger = createLogger('in-components/Tooltip');
 
+const logger = createLogger('in-components/Tooltip');
 const rpt = React.PropTypes;
 
 export default React.createClass({
@@ -40,8 +40,8 @@ export default React.createClass({
 
   removeListeners() {
     if (this.domNode) {
-      this.domNode.removeEventListener('mouseenter', this.onMouseIn, false);
       this.domNode.removeEventListener('mouseleave', this.onMouseOut, false);
+      this.domNode.removeEventListener('mouseenter', this.onMouseIn, false);
       this.domNode = null;
     }
   },

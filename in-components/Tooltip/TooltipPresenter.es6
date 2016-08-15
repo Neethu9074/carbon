@@ -1,12 +1,12 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
 import * as tooltipStore from 'in-services/stores/tooltip';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
 import './TooltipPresenter.less';
-import TooltipCalculator from './TooltipCalculator';
 
 
 const block = 'in-tooltip-presenter';
@@ -85,10 +85,15 @@ export default connectTo({
   },
 
   render() {
-    if (!this.props.activeTooltip) {
+    const tooltip = this.props.activeTooltip;
+    if (!tooltip) {
       return null;
     }
 
-    return <div>{this.props.activeTooltip.content}</div>;
+    return (
+      <div>
+        {tooltip.content}
+      </div>
+    );
   }
 }));
