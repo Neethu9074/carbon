@@ -1,7 +1,6 @@
 import ProcessViewRenderTree from 'in-map/src/3DSceneObjects/process/ProcessViewRenderTree/ProcessViewRenderTree';
 import FadeByDistanceSingleMeshFactory from 'in-map/src/SingleMeshFactory/FadeByDistanceSingleMeshFactory';
 import SingleMeshGlyphPointsFactory from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory';
-import SingleMeshDashedLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshDashedLineFactory';
 import NodeUnknownExitService from 'in-map/src/3DSceneObjects/process/NodeUnknownExitService';
 import SingleMeshLineFactory from 'in-map/src/SingleMeshFactory/SingleMeshLineFactory';
 import NodeUnknownService from 'in-map/src/3DSceneObjects/process/NodeUnknownService';
@@ -9,6 +8,7 @@ import {selectEntity, clearSelection} from 'in-map/src/stores/multiSelection';
 import CameraController from 'in-map/src/controls/process/CameraController';
 import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import NodePhysical from 'in-map/src/3DSceneObjects/process/NodePhysical';
+import {particlesAreActive$} from 'in-map/src/stores/process/particles';
 import GroundPlane from 'in-map/src/3DSceneObjects/process/GroundPlane';
 import EdgeSpawner from 'in-map/src/3DSceneObjects/process/EdgeSpawner';
 import NodeCluster from 'in-map/src/3DSceneObjects/process/NodeCluster';
@@ -99,7 +99,7 @@ export default class Map extends BaseMap {
 
     factories.lineSMF = new SingleMeshLineFactory();
 
-    factories.dashedLineSMF = new SingleMeshDashedLineFactory();
+    factories.connectionSMF = new SingleMeshLineFactory();
 
     factories.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory();
 
@@ -113,6 +113,18 @@ export default class Map extends BaseMap {
     factories.solidSMF = new FadeByDistanceSingleMeshFactory(fadeFactoryConfig);
 
     factories.fadeByDistanceSMF = new FadeByDistanceSingleMeshFactory(fadeFactoryConfig);
+
+    this.addSubscription(
+      particlesAreActive$.subscribe(particlesAreActive => {
+        if (particlesAreActive) {
+          this.factories.connectionSMF.material.transparent = true;
+          this.factories.connectionSMF.material.opacity = 0.25;
+        } else {
+          this.factories.connectionSMF.material.transparent = false;
+          this.factories.connectionSMF.material.opacity = 1.0;
+        }
+      })
+    );
   }
 
   ifNew(oldMap, newMap, ifNewCallback) {
