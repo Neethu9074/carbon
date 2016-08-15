@@ -51,13 +51,17 @@ export default function TraceHeader({trace}) {
             {errorCount}
           </LabeledValue>
 
-          <LabeledValue label='Calls'>
-            {calls}
-          </LabeledValue>
+          <Tooltip content='Calls to services'>
+            <LabeledValue label='Calls'>
+              {calls}
+            </LabeledValue>
+          </Tooltip>
 
-          <LabeledValue label='Depth'>
-            {depth}
-          </LabeledValue>
+          <Tooltip content='Maximum service call nesting'>
+            <LabeledValue label='Depth'>
+              {depth}
+            </LabeledValue>
+          </Tooltip>
 
           <ul className={`${block}__category-list`}>
             {categories.map(category =>

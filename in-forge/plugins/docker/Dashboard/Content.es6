@@ -6,8 +6,8 @@ import {
   bytesZeroDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 const throttlingTimeFormater = d => (d / 1000000000.0) + 's';

@@ -2,7 +2,10 @@
 /* eslint-env mocha, node */
 import {expect} from 'chai';
 
+import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
+
 import Layouter from './Layouter';
+
 
 describe('3D map', () => {
   let layouter;
@@ -32,7 +35,7 @@ describe('3D map', () => {
       groups: []
     };
     addGroup('group_1');
-    addGroup('unmonitored-hosts-zone');
+    addGroup(ID_OF_UNMONITORED_ZONE);
     addGroup('group_2');
   });
 
@@ -40,8 +43,8 @@ describe('3D map', () => {
 
     it('should sort doerte style', () => {
       layouter.applyLayout(map);
-      expect(sortedGroups['unmonitored-hosts-zone'].x).to.be.above(sortedGroups.group_1.x);
-      expect(sortedGroups['unmonitored-hosts-zone'].x).to.be.above(sortedGroups.group_2.x);
+      expect(sortedGroups[ID_OF_UNMONITORED_ZONE].x).to.be.above(sortedGroups.group_1.x);
+      expect(sortedGroups[ID_OF_UNMONITORED_ZONE].x).to.be.above(sortedGroups.group_2.x);
     });
 
   });

@@ -24,6 +24,12 @@ export default function RedisInfo({snapshot}) {
       <DescriptionItem title='Port'>
         {data.get('port')}
       </DescriptionItem>
+      <DescriptionItem title='Max Memory'>
+        {data.get('max_memory')}
+      </DescriptionItem>
+      <DescriptionItem title='Max Clients'>
+        {data.get('maxclients')}
+      </DescriptionItem>
       <DescriptionItem title='Started At'>
         {formatDateTime(data.get('started_at'))}
       </DescriptionItem>

@@ -198,17 +198,27 @@ gulp.task('webpack:dev', () => {
   config.devtool = 'eval';
   config.debug = true;
 
-  // Start a webpack-dev-server
-  new WebpackDevServer(webpack(config), {
+  var express = require('express');
+  var Dashboard = require('webpack-dashboard');
+  var DashboardPlugin = require('webpack-dashboard/plugin');
+
+  var app = express();
+  var compiler = webpack(config);
+  var dashboard = new Dashboard();
+  compiler.apply(new DashboardPlugin(dashboard.setData));
+
+  app.use(require('webpack-dev-middleware')(compiler, {
     publicPath: '/bundle',
     contentBase: 'target/assets/',
     inline: true,
     noInfo: true,
+    quiet: true,
     stats: {
       colors: true
     }
-  })
-  .listen(3000, 'localhost', (err) => {
+  }));
+
+  app.listen(3000, (err) => {
     if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
     }

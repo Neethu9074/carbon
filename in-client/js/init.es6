@@ -45,12 +45,17 @@ if (!__DEV__) {
 }
 
 const unhandledLogger = logging.createLogger('in-client.unhandled');
-window.onerror = function f() {
-  unhandledLogger.error.apply(unhandledLogger, arguments);
+window.addEventListener('error', (e) => {
+  // violation of SOP - we cannot read the error…
+  if (e.message === 'Script error.') {
+    unhandledLogger.error('Unhandled error which we cannot read due to SOP');
+  } else {
+    unhandledLogger.error(`Unhandled error: ${e.message} at ${e.filename}:${e.lineno}`, e.error);
+  }
 
   // let the default error handler run as well
   return false;
-};
+}, false);
 
 // expose the React global to analyze performance issues
 if (__DEV__) {

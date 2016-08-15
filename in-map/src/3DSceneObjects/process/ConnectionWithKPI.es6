@@ -60,7 +60,7 @@ export default class ConnectionWithKPI extends Connection {
   }
 
   getFactory() {
-    return this.parent.getFactory('lineSMF');
+    return this.parent.getFactory('connectionSMF');
   }
 
   getColor(color) {

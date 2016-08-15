@@ -49,7 +49,10 @@ export default class Node extends SceneObject {
         this.stickyNote.setScreenPosition(screenPosition)),
 
       parent.onZoomLevel().subscribe(zoomLevel =>
-        this.eventEmitter.emit('sicktyFullyVisibilityChanged', zoomLevel < 500)),
+        this.eventEmitter.emit('stickyFullyVisibilityChanged', zoomLevel < 500)),
+
+      parent.onZoomLevel().subscribe(zoomLevel =>
+        this.eventEmitter.emit('stickyIsToFarAwayChanged', zoomLevel > 1100)),
 
       focusEntityId$.subscribe(id => {
         if (this.id === id) {

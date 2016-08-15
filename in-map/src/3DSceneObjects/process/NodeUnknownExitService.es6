@@ -13,6 +13,7 @@ import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CloudContentProvid
 
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster';
+import {relations$} from 'in-map/src/stores/process/nodeChildrenRelations';
 import Label from 'in-map/src/3DSceneObjects/process/Label';
 import Node from 'in-map/src/3DSceneObjects/process/Node';
 
@@ -28,6 +29,10 @@ export default class NodeUnknownExitService extends Node {
       snapshotId: this.id,
       iconSize: 2.75
     });
+
+    this.addSubscriptions([
+      relations$.subscribe(relationsMap => this.setChildren(relationsMap[this.id]))
+    ]);
 
     this.eventEmitter.emit('isFullyVisible', false);
     this.eventEmitter.emit('sizeChanged', { x: 1.0, y: this.height, z: 1.0 });
@@ -87,6 +92,12 @@ export default class NodeUnknownExitService extends Node {
   positionChanged(newPos) {
     super.positionChanged(newPos);
     this.label.getComponent('position').setPosition(newPos.x - 0.5, this.height + 0.8, newPos.z + 0.5);
+  }
+
+  setChildren(ids) {
+    const numChildren = ids ? ids.size : 0;
+    this.stickyNote.setChildren(ids ? ids : null);
+    this.eventEmitter.emit('onNumOfChildrenChanged', numChildren);
   }
 
   createSticky() {

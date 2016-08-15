@@ -11,11 +11,15 @@ export function getSelfTime(span) {
 }
 
 
-export function getDepth(span) {
-  let maxDepth = 1;
+export function getDepth(span, currentDepth = 1) {
+  const direction = getDirection(span);
+  if (direction === 'exit' || direction === 'entryAndExit') {
+    currentDepth++;
+  }
 
+  let maxDepth = currentDepth;
   span.get('childSpans').forEach(childSpan => {
-    maxDepth = Math.max(maxDepth, getDepth(childSpan) + 1);
+    maxDepth = Math.max(maxDepth, getDepth(childSpan, currentDepth));
   });
 
   return maxDepth;
@@ -35,15 +39,14 @@ export function getErrorCount(span) {
   return count;
 }
 
-export function getCalls(span) {
+export function getCalls(span, count = 1) {
   const direction = getDirection(span);
-  let count = 0;
   if (direction === 'exit' || direction === 'entryAndExit') {
     count++;
   }
 
   span.get('childSpans').forEach(childSpan => {
-    count += getCalls(childSpan);
+    count = getCalls(childSpan, count);
   });
 
   return count;

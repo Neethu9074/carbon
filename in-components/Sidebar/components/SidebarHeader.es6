@@ -23,7 +23,7 @@ export default function SidebarHeader({snapshot}) {
           <h1 className={`${block}__entity-label`}>
             {getLabel(snapshot)}
           </h1>
-          <div>
+          <div className={`${block}__type-id-wrapper`}>
             <span className={`${block}__entity-type`}>
               {entityType}
             </span>

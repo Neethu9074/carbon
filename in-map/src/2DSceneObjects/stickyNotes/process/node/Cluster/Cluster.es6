@@ -19,8 +19,9 @@ const block = 'in-sticky-note-process-cluster';
 
 const ProcessCluster = connectTo(props => {
   return {
-    isFullyVisible: props.client.eventEmitter.on('sicktyFullyVisibilityChanged').distinct(),
+    isFullyVisible: props.client.eventEmitter.on('stictyFullyVisibilityChanged').distinct(),
     isVisible: props.client.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
+    isToFarAway: props.client.eventEmitter.on('stickyIsToFarAwayChanged').distinct(),
     snapshot: getSnapshot(props.client.id)
   };
 }, React.createClass({
@@ -35,6 +36,7 @@ const ProcessCluster = connectTo(props => {
       isHighlighted: rpt.func.isRequired,
       client: rpt.any.isRequired,
       isFullyVisible: rpt.bool,
+      isToFarAway: rpt.bool,
       isVisible: rpt.bool,
       children: irpt.list,
       snapshot: irpt.map
@@ -49,8 +51,7 @@ const ProcessCluster = connectTo(props => {
     },
 
     render() {
-      const isVisible = this.props.isVisible;
-      if (!isVisible) {
+      if (!this.props.isVisible || this.props.isToFarAway) {
         return null;
       }
 

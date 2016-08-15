@@ -9,7 +9,7 @@ const block = 'in-detail-pane';
 export const DescriptionList = React.createClass({
 
   propTypes: {
-    children: rpt.any.isRequired
+    children: rpt.any
   },
 
   render() {
@@ -21,7 +21,15 @@ export const DescriptionList = React.createClass({
   },
 
   renderItems() {
+    if (!this.props.children) {
+      return null;
+    }
+
     if (this.props.children instanceof Array) {
+      if (this.props.children.length === 0) {
+        return null;
+      }
+
       return this.props.children
         .filter(children => children)
         .map(child => {
@@ -37,8 +45,7 @@ export const DescriptionList = React.createClass({
       return null;
     }
 
-    const textClassName = block + '__description-text ' +
-      (descriptionItemProps.onClick ? block + '__description-text--link' : '');
+    const textClassName = block + '__description-text ';
 
     return (
       <div key={descriptionItemProps.title}
@@ -48,12 +55,7 @@ export const DescriptionList = React.createClass({
         </dt>
         <dd className={textClassName}
             onClick={descriptionItemProps.onClick}>
-          {descriptionItemProps.href ?
-            <a href={descriptionItemProps.href}
-               className={`${block}__description-item-link`}>
-              {descriptionItemProps.children}
-            </a>
-          : descriptionItemProps.children}
+          {descriptionItemProps.children}
         </dd>
       </div>
     );

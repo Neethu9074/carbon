@@ -16,7 +16,7 @@ function save(nodes) {
 }
 
 export function init() {
-  if (typeof(Storage) === 'undefined') {
+  if (typeof(localStorage) === 'undefined') {
     return;
   }
   const temp = localStorage.getItem(layoutingPath);

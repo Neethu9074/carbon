@@ -11,8 +11,11 @@ export default function JbossDataGridInfo({snapshot}) {
       <Collapsible.Header>Jboss Data Grid Info</Collapsible.Header>
       <Collapsible.Content>
         <DescriptionList>
-          <DescriptionItem title='Version'>
+          <DescriptionItem title='Jboss Data Grid Version'>
             {data.get('version')}
+          </DescriptionItem>
+          <DescriptionItem title='JGroups Version'>
+            {data.get('jGroupsVersion')}
           </DescriptionItem>
         </DescriptionList>
       </Collapsible.Content>
