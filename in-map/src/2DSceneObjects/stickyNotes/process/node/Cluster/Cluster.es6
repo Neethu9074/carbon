@@ -19,7 +19,7 @@ const block = 'in-sticky-note-process-cluster';
 
 const ProcessCluster = connectTo(props => {
   return {
-    isFullyVisible: props.client.eventEmitter.on('stictyFullyVisibilityChanged').distinct(),
+    isFullyVisible: props.client.eventEmitter.on('stickyFullyVisibilityChanged').distinct(),
     isVisible: props.client.eventEmitter.on('isVisibleChanged_screenPosition').distinct(),
     isToFarAway: props.client.eventEmitter.on('stickyIsToFarAwayChanged').distinct(),
     snapshot: getSnapshot(props.client.id)
