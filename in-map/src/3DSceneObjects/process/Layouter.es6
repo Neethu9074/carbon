@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 import {combineLatest} from 'reactive-observables';
 
+import {nodePositions$, clearAll} from 'in-map/src/stores/process/logicalLayouterStore';
 import {currentLayoutingStrategy$} from 'in-map/src/stores/process/layouterStore';
 import {edges$} from 'in-map/src/stores/process/edgesStore';
 import {nodes$} from 'in-map/src/stores/process/nodesStore';
@@ -13,40 +14,29 @@ export default class Layouter {
     this.layoutingSubscription = combineLatest([nodes$,
                                                 edges$,
                                                 currentLayoutingStrategy$,
-                                                eventBus.on('resetProcessViewLayouting')])
-                                 .map(([nodes, edges, currentLayoutingStrategy]) => {
+                                                nodePositions$])
+                                 .map(([nodes, edges, currentLayoutingStrategy, nodePositions]) => {
                                    return {
                                      nodes: Object.keys(nodes).map(key => nodes[key]),
                                      edges: Object.keys(edges).map(key => edges[key]),
-                                     currentLayoutingStrategy
+                                     currentLayoutingStrategy,
+                                     nodePositions
                                    };
                                  })
                                  .debounce(100)
-                                 .subscribe(({nodes, edges, currentLayoutingStrategy}) => {
-                                   if (this.shouldReset || this.currentLayoutingStrategy !== currentLayoutingStrategy) {
-                                     nodes.forEach(node => node._wasAutomaticLayouted = false);
-                                     this.shouldReset = false;
-                                   }
-
-                                   this.currentLayoutingStrategy = currentLayoutingStrategy;
-                                   currentLayoutingStrategy(nodes, edges);
+                                 .subscribe(({nodes, edges, currentLayoutingStrategy, nodePositions}) => {
+                                   currentLayoutingStrategy(nodes, edges, nodePositions);
                                  });
 
     this.resetProcessViewLayoutingSubscription = eventBus.on('resetProcessViewLayouting').subscribe(shouldReset => {
       if (shouldReset) {
-        this.shouldReset = true;
+        clearAll();
         eventBus.emit('resetProcessViewLayouting', false);
       }
     });
-
-    this.currentLayoutingStrategySubscription = currentLayoutingStrategy$.distinct().subscribe(() =>
-      eventBus.emit('resetProcessViewLayouting', true));
-
-    eventBus.emit('resetProcessViewLayouting', true);
   }
 
   dispose() {
-    this.currentLayoutingStrategySubscription.dispose();
     this.resetProcessViewLayoutingSubscription.dispose();
     this.layoutingSubscription.dispose();
   }
