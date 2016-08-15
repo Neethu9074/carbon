@@ -30,7 +30,7 @@ export default connectTo({
       this.onMouseUp = throttleNextFrame(this.onMouseUp);
     },
 
-    componentWillUnMount() {
+    componentWillUnmount() {
       this.disposeListener();
     },
 
