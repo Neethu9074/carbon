@@ -1,8 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
+import {createLogger} from 'instalog';
 import ReactDOM from 'react-dom';
+import React from 'react';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
+
+const logger = createLogger('in-components/Tooltip');
 
 const rpt = React.PropTypes;
 
@@ -42,9 +45,17 @@ const Tooltip = React.createClass({
   },
 
   addListeners() {
-    this.domNode = ReactDOM.findDOMNode(this);
-    this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
-    this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
+    try {
+      this.domNode = ReactDOM.findDOMNode(this);
+      this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
+      this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
+    } catch (e) {
+      /* eslint-disable max-len */
+      // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this
+      // error…
+      logger.warn(`Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(this.props.content)}`, e);
+      /* eslint-enable max-len */
+    }
   },
 
   componentWillUnmount() {
