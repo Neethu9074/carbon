@@ -18,75 +18,77 @@ export default class HighlightingComponentForCylinder extends BaseHighlightingCo
     const fromZ = (depthHalf + margin) + pos.z + ((1 - (2 * margin + scale.z)) / 2);
     const lineScaleX = (2 * margin + scale.x);
     const lineScaleZ = (2 * margin + scale.z);
+    const xOffset = fromX + lineScaleX;
+    const zOffset = fromZ + lineScaleZ;
 
     this.lineContentProvider.setLines([
-      fromX + lineScaleX * -0.405, -margin, fromZ + lineScaleZ * -0.294,
-      fromX + lineScaleX * -0.476, -margin, fromZ + lineScaleZ * -0.155,
+      xOffset * -0.405, -margin, zOffset * -0.294,
+      xOffset * -0.476, -margin, zOffset * -0.155,
 
-      fromX + lineScaleX * -0.476, -margin, fromZ + lineScaleZ * -0.155,
-      fromX + lineScaleX * -0.500, -margin, fromZ + lineScaleZ * 0.000,
+      xOffset * -0.476, -margin, zOffset * -0.155,
+      xOffset * -0.500, -margin, zOffset * 0.000,
 
-      fromX + lineScaleX * -0.500, -margin, fromZ + lineScaleZ * 0.000,
-      fromX + lineScaleX * -0.476, -margin, fromZ + lineScaleZ * 0.155,
+      xOffset * -0.500, -margin, zOffset * 0.000,
+      xOffset * -0.476, -margin, zOffset * 0.155,
 
-      fromX + lineScaleX * -0.476, -margin, fromZ + lineScaleZ * 0.155,
-      fromX + lineScaleX * -0.405, -margin, fromZ + lineScaleZ * 0.294,
+      xOffset * -0.476, -margin, zOffset * 0.155,
+      xOffset * -0.405, -margin, zOffset * 0.294,
 
-      fromX + lineScaleX * -0.405, -margin, fromZ + lineScaleZ * 0.294,
-      fromX + lineScaleX * -0.294, -margin, fromZ + lineScaleZ * 0.405,
+      xOffset * -0.405, -margin, zOffset * 0.294,
+      xOffset * -0.294, -margin, zOffset * 0.405,
 
-      fromX + lineScaleX * -0.294, -margin, fromZ + lineScaleZ * 0.405,
-      fromX + lineScaleX * -0.155, -margin, fromZ + lineScaleZ * 0.476,
+      xOffset * -0.294, -margin, zOffset * 0.405,
+      xOffset * -0.155, -margin, zOffset * 0.476,
 
-      fromX + lineScaleX * -0.155, -margin, fromZ + lineScaleZ * 0.476,
-      fromX + lineScaleX * -0.000, -margin, fromZ + lineScaleZ * 0.500,
+      xOffset * -0.155, -margin, zOffset * 0.476,
+      xOffset * -0.000, -margin, zOffset * 0.500,
 
-      fromX + lineScaleX * -0.000, -margin, fromZ + lineScaleZ * 0.500,
-      fromX + lineScaleX * 0.155, -margin, fromZ + lineScaleZ * 0.476,
+      xOffset * -0.000, -margin, zOffset * 0.500,
+      xOffset * 0.155, -margin, zOffset * 0.476,
 
-      fromX + lineScaleX * 0.155, -margin, fromZ + lineScaleZ * 0.476,
-      fromX + lineScaleX * 0.294, -margin, fromZ + lineScaleZ * 0.405,
+      xOffset * 0.155, -margin, zOffset * 0.476,
+      xOffset * 0.294, -margin, zOffset * 0.405,
 
-      fromX + lineScaleX * 0.294, -margin, fromZ + lineScaleZ * 0.405,
-      fromX + lineScaleX * 0.405, -margin, fromZ + lineScaleZ * 0.294,
+      xOffset * 0.294, -margin, zOffset * 0.405,
+      xOffset * 0.405, -margin, zOffset * 0.294,
 
       // top
-      fromX + lineScaleX * 0.476, height, fromZ + lineScaleZ * -0.155,
-      fromX + lineScaleX * 0.405, height, fromZ + lineScaleZ * -0.294,
+      xOffset * 0.476, height, zOffset * -0.155,
+      xOffset * 0.405, height, zOffset * -0.294,
 
-      fromX + lineScaleX * 0.405, height, fromZ + lineScaleZ * -0.294,
-      fromX + lineScaleX * 0.294, height, fromZ + lineScaleZ * -0.405,
+      xOffset * 0.405, height, zOffset * -0.294,
+      xOffset * 0.294, height, zOffset * -0.405,
 
-      fromX + lineScaleX * 0.294, height, fromZ + lineScaleZ * -0.405,
-      fromX + lineScaleX * 0.155, height, fromZ + lineScaleZ * -0.476,
+      xOffset * 0.294, height, zOffset * -0.405,
+      xOffset * 0.155, height, zOffset * -0.476,
 
-      fromX + lineScaleX * 0.155, height, fromZ + lineScaleZ * -0.476,
-      fromX + lineScaleX * 0.000, height, fromZ + lineScaleZ * -0.500,
+      xOffset * 0.155, height, zOffset * -0.476,
+      xOffset * 0.000, height, zOffset * -0.500,
 
-      fromX + lineScaleX * 0.000, height, fromZ + lineScaleZ * -0.500,
-      fromX + lineScaleX * -0.155, height, fromZ + lineScaleZ * -0.476,
+      xOffset * 0.000, height, zOffset * -0.500,
+      xOffset * -0.155, height, zOffset * -0.476,
 
-      fromX + lineScaleX * -0.155, height, fromZ + lineScaleZ * -0.476,
-      fromX + lineScaleX * -0.294, height, fromZ + lineScaleZ * -0.405,
+      xOffset * -0.155, height, zOffset * -0.476,
+      xOffset * -0.294, height, zOffset * -0.405,
 
-      fromX + lineScaleX * -0.294, height, fromZ + lineScaleZ * -0.405,
-      fromX + lineScaleX * -0.405, height, fromZ + lineScaleZ * -0.294,
+      xOffset * -0.294, height, zOffset * -0.405,
+      xOffset * -0.405, height, zOffset * -0.294,
 
-      fromX + lineScaleX * 0.476, height, fromZ + lineScaleZ * 0.155,
-      fromX + lineScaleX * 0.500, height, fromZ + lineScaleZ * 0.000,
+      xOffset * 0.476, height, zOffset * 0.155,
+      xOffset * 0.500, height, zOffset * 0.000,
 
-      fromX + lineScaleX * 0.500, height, fromZ + lineScaleZ * 0.000,
-      fromX + lineScaleX * 0.476, height, fromZ + lineScaleZ * -0.155,
+      xOffset * 0.500, height, zOffset * 0.000,
+      xOffset * 0.476, height, zOffset * -0.155,
 
-      fromX + lineScaleX * 0.405, height, fromZ + lineScaleZ * 0.294,
-      fromX + lineScaleX * 0.476, height, fromZ + lineScaleZ * 0.155,
+      xOffset * 0.405, height, zOffset * 0.294,
+      xOffset * 0.476, height, zOffset * 0.155,
 
       // side
-      fromX + lineScaleX * -0.405, -margin, fromZ + lineScaleZ * -0.294,
-      fromX + lineScaleX * -0.405, height, fromZ + lineScaleZ * -0.294,
+      xOffset * -0.405, -margin, zOffset * -0.294,
+      xOffset * -0.405, height, zOffset * -0.294,
 
-      fromX + lineScaleX * 0.405, -margin, fromZ + lineScaleZ * 0.294,
-      fromX + lineScaleX * 0.405, height, fromZ + lineScaleZ * 0.294
+      xOffset * 0.405, -margin, zOffset * 0.294,
+      xOffset * 0.405, height, zOffset * 0.294
     ]);
   }
 }
