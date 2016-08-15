@@ -19,6 +19,10 @@ export function removeId(id) {
   set(id, null);
 }
 
+export function clearAll() {
+  nodePositions.applyStateMutation(() => Immutable.fromJS({}));
+}
+
 function set(id, value) {
   nodePositions.applyStateMutation(nodes => {
     nodes = nodes.set(id, value);
