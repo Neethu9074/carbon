@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getStart, getEnd, getDepth} from 'in-components/traceView/util';
+import {getStart, getEnd} from 'in-components/traceView/util';
 import {highlightSpanId} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getLabel, getCategory, getDirection} from 'in-sdk/tracing';
@@ -78,7 +78,7 @@ export default function TraceFlameGraph({trace}) {
   x.setDomainFrom(start);
   x.setDomainTo(end);
 
-  const depth = getDepth(trace);
+  const depth = getMaxSpanNestingDepth(trace);
   const chartHeight = depth * (margin + height) - margin;
   const axisConfig = getAxisConfig(end - start);
   const tickPositions = getTickPositions(x, axisConfig, true);
@@ -100,6 +100,17 @@ export default function TraceFlameGraph({trace}) {
       </div>
     </div>
   );
+}
+
+
+function getMaxSpanNestingDepth(span) {
+  let maxDepth = 1;
+
+  span.get('childSpans').forEach(childSpan => {
+    maxDepth = Math.max(maxDepth, getMaxSpanNestingDepth(childSpan) + 1);
+  });
+
+  return maxDepth;
 }
 
 

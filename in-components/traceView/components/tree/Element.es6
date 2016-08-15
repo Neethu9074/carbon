@@ -8,18 +8,23 @@ import './Element.less';
 
 const block = 'in-trace-tree-element';
 
-export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace, depth, parent,
+export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace, parentDepth, parent,
     totalTimeIndentationDepth}) {
   let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
   if (element.type === 'span' && parentSpanForPercentageCalculation.get('async')) {
     newParentSpanForPercentageCalculation = element.span;
   }
 
+  const elementType = element.type;
+  let depth = parentDepth + 1;
+  if (elementType === 'network' || (parent != null && parent.type === 'network')) {
+    depth--;
+  }
+
   if (element.type === 'span' && element.span.get('async')) {
     totalTimeIndentationDepth = depth;
   }
 
-  const elementType = element.type;
   let details;
   if (elementType === 'span') {
     details = (
@@ -52,8 +57,6 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
     throw new Error(`Unknown long trace element type ${element.type}`);
   }
 
-  const childDepth = depth + 1;
-
   return (
     <li className={block}>
       {details}
@@ -65,7 +68,7 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
                             parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
                             trace={trace}
                             parent={element}
-                            depth={childDepth}
+                            parentDepth={depth}
                             totalTimeIndentationDepth={totalTimeIndentationDepth} />
         )}
       </ul>

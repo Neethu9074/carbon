@@ -9,7 +9,9 @@ const logger = createLogger('in-components/Tooltip');
 
 const rpt = React.PropTypes;
 
-const Tooltip = React.createClass({
+export default React.createClass({
+  displayName: 'Tooltip',
+
   mixins: [PureRenderMixin],
 
   propTypes: {
@@ -83,5 +85,3 @@ const Tooltip = React.createClass({
     return this.props.children;
   }
 });
-
-export default Tooltip;
