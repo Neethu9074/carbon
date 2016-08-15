@@ -47,11 +47,11 @@ function createHeader() {
   return (
     <thead>
       <tr>
-        <th>Health</th>
+        <th width='150px'>Health</th>
         <th>Name</th>
-        <th>Calls/s</th>
-        <th>Latency</th>
-        <th>Error Rate</th>
+        <th width='230px'>Calls/s</th>
+        <th width='230px'>Latency</th>
+        <th width='230px'>Error Rate</th>
       </tr>
     </thead>
   );
