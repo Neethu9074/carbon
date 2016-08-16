@@ -43,6 +43,7 @@ const offsetStore = createStore({
   initialValue: 0
 });
 export const offset = offsetStore.observable;
+export const offset$ = offset;
 
 
 export function init() {

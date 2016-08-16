@@ -1,12 +1,11 @@
-export default function createAxisRenderer(config) {
-  const ctx = config.ctx.buffer;
+export default function createBorderRenderer(config) {
+  const ctx = config.ctx.staticScreen;
 
   return {
     render
   };
 
   function render() {
-    // draw box around the chart area
     ctx.beginPath();
     ctx.strokeStyle = '#ddd';
     ctx.moveTo(config.bounds.left, config.bounds.top);

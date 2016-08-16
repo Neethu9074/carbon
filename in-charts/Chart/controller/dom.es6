@@ -2,12 +2,17 @@ import {updateCanvasDimensions} from 'in-charts/canvas';
 
 const block = 'in-chart-v2';
 
+// We will use this as the highest expected zoom level to avoid
+// constant resizing of the animation buffer
+const highestZoomLevel = 60; /* min seconds in time window */
+
 export default function createDomController(config) {
   const height = config.height;
   const dom = config.dom = createDomElements();
   const ctx = config.ctx = {
-    screen: dom.screen.getContext('2d'),
-    buffer: dom.buffer.getContext('2d')
+    animationScreen: dom.animationScreen.getContext('2d'),
+    animationBuffer: dom.animationBuffer.getContext('2d'),
+    staticScreen: dom.staticScreen.getContext('2d')
   };
 
   return {
@@ -24,17 +29,20 @@ export default function createDomController(config) {
   function createDomElements() {
     const result = {
       wrapper: document.createElement('div'),
-      screen: document.createElement('canvas'),
-      buffer: document.createElement('canvas'),
+      animationScreen: document.createElement('canvas'),
+      animationBuffer: document.createElement('canvas'),
+      staticScreen: document.createElement('canvas'),
       glassPane: document.createElement('div')
     };
 
     config.container.appendChild(result.wrapper);
-    result.wrapper.appendChild(result.screen);
+    result.wrapper.appendChild(result.animationScreen);
+    result.wrapper.appendChild(result.staticScreen);
     result.wrapper.appendChild(result.glassPane);
 
     result.wrapper.classList.add(block);
-    result.screen.classList.add(`${block}__screen`);
+    result.animationScreen.classList.add(`${block}__animation-screen`);
+    result.staticScreen.classList.add(`${block}__static-screen`);
     result.glassPane.classList.add(`${block}__glass-pane`);
 
     return result;
@@ -43,14 +51,16 @@ export default function createDomController(config) {
 
   function resize() {
     const width = config.width = dom.wrapper.clientWidth | 0;
+    const bufferWidth = config.bufferWidth = config.width + Math.ceil(config.width / highestZoomLevel);
     config.bounds = {
-      top: height - config.margins.top,
-      bottom: config.margins.bottom,
+      top: config.margins.top,
+      bottom: height - config.margins.bottom,
       left: config.margins.left,
       right: width - config.margins.right
     };
     dom.wrapper.style.height = `${height}px`;
-    updateCanvasDimensions(dom.screen, ctx.screen, width, height);
-    updateCanvasDimensions(dom.buffer, ctx.buffer, width, height);
+    updateCanvasDimensions(dom.animationScreen, ctx.animationScreen, width, height);
+    updateCanvasDimensions(dom.animationBuffer, ctx.animationBuffer, bufferWidth, height);
+    updateCanvasDimensions(dom.staticScreen, ctx.staticScreen, width, height);
   }
 }
