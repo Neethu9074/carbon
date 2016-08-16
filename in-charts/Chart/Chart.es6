@@ -1,13 +1,21 @@
 import * as ro from 'reactive-observables';
 
 import createAxisController from 'in-charts/Chart/controller/axis';
+import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
+import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
+import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
-import createAxisRenderer from 'in-charts/Chart/renderer/axis';
+import {toServerTime} from 'in-stores/timeOffset';
 
 import './Chart.less';
 
+const signalRoSpec = {emitLatestOnSubscribe: false};
+
 export default function createChart(config) {
   config.subscriptions = [];
+  config.signals = {
+    restartRendering$: ro.create(signalRoSpec)
+  };
   config.margins = {
     top: 1,
     bottom: 22,
@@ -15,25 +23,18 @@ export default function createChart(config) {
     right: config.margins.right || 1
   };
 
-  // rendering loop specific vars
-  const restartRenderingSignals$ = ro.create();
-  config.scheduleRenderingRestart = () => restartRenderingSignals$.emit(true);
-  const incrementalRenderSignals$ = ro.create();
-  config.scheduleIncrementalRender = () => incrementalRenderSignals$.emit(true);
-  let isRenderLoopActive = false;
-  let incrementalRenderSignalSubscription;
-
   const domController = createDomController(config);
   const axisController = createAxisController(config);
+  const animatableContentRenderer = createAnimatableContentRenderer(config);
+  const borderRenderer = createBorderRenderer(config);
 
-  const axisRenderer = createAxisRenderer(config);
+  let isRendering = false;
+  let restartRenderingSubscription;
+  let renderTimeAndDataIntervalHandle;
+  let animationCopyHandle;
 
   addWindowResizeSupport();
-  addVisibilityChangeSupport();
-
-  // start all the things
-  resize();
-  config.subscriptions.push(restartRenderingSignals$.subscribe(restartRenderLoop));
+  onResize();
 
   return {
     dispose
@@ -42,24 +43,7 @@ export default function createChart(config) {
 
   function dispose() {
     domController.dispose();
-    axisController.dispose();
     config.subscriptions.forEach(s => s.dispose());
-  }
-
-
-  function resize() {
-    domController.resize();
-    axisController.resize();
-    config.scheduleRenderingRestart();
-  }
-
-
-  function onVisibilityChange() {
-    if (document.hidden) {
-      stopRenderLoop();
-    } else {
-      restartRenderLoop();
-    }
   }
 
 
@@ -67,83 +51,93 @@ export default function createChart(config) {
     config.subscriptions.push(ro
       .on(window, 'resize')
       .debounce(500)
-      .subscribe(resize));
+      .subscribe(onResize));
   }
 
 
-  function addVisibilityChangeSupport() {
-    config.subscriptions.push(ro
-      .on(document, 'visibilitychange')
-      .subscribe(onVisibilityChange));
+  function onResize() {
+    domController.resize();
+    axisController.resize();
+    restartRendering();
   }
 
 
-  function render() {
-    log('Render', config);
-
-    const to = config.timeframe.to || config.serverTime;
-    config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
-    config.scales.x.setDomainTo(to);
-
-    renderToBackBuffer();
-
-    // copy backbuffer to screenbuffer
-    config.ctx.screen.drawImage(config.dom.buffer, 0, 0, config.width, config.height);
-  }
-
-
-  function renderToBackBuffer() {
-    log('Back Buffer Render');
-
-    // clear buffers
-    config.ctx.buffer.clearRect(0, 0, config.width, config.height);
-    config.ctx.screen.clearRect(0, 0, config.width, config.height);
-
-    // call all the renderers
-    axisRenderer.render();
-  }
-
-
-  function startRenderLoop() {
-    if (isRenderLoopActive) {
+  function startRendering() {
+    if (isRendering) {
       return;
     }
-    isRenderLoopActive = true;
-    log('Start render loop');
+    isRendering = true;
+    log('Starting rendering');
 
-    render();
+    restartRenderingSubscription = config.signals.restartRendering$
+      .subscribe(restartRendering);
+
+    borderRenderer.render();
 
     if (config.timeframe.to == null) {
-      log('TODO implement incremental render');
-      // serverTime$
-      //   .skipFirst()
-      //   .subscribe(() => {
-      //     log('Render incremental');
-      //   });
+      let prev = 0;
+      const animate = () => {
+        const now = Date.now();
+        const to = toServerTime(now, config.serverTimeOffset);
+        config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
+        config.scales.x.setDomainTo(to);
+
+        if (now - prev > 900) {
+          config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize);
+          config.scales.bufferX.setDomainTo(to + 1000);
+          config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + 1000));
+
+          config.ctx.animationBuffer.clearRect(0, 0, config.bufferWidth, config.height);
+          animatableContentRenderer.render();
+          prev = now;
+        }
+
+        // update screen buffer x scale
+        copyBackBufferToScreenBuffer();
+      };
+
+      animationCopyHandle = requestAnimationFrameWithFps(animate, 30);
+    } else {
+      // schedule copy from backbuffer to screenbuffer when data changes!
+      log('Do something static');
     }
   }
 
 
-  function stopRenderLoop() {
-    if (!isRenderLoopActive) {
+  function copyBackBufferToScreenBuffer() {
+    config.ctx.animationScreen.clearRect(0, 0, config.width, config.height);
+    const x = config.scales.bufferX.getRange(config.scales.x.getDomainFrom()) - config.scales.bufferX.getRangeFrom();
+    config.ctx.animationScreen.drawImage(config.dom.animationBuffer, x * -1, 0, config.width, config.height);
+  }
+
+
+  function stopRendering() {
+    if (!isRendering) {
       return;
     }
-    isRenderLoopActive = false;
-    if (incrementalRenderSignalSubscription) {
-      incrementalRenderSignalSubscription.dispose();
-      incrementalRenderSignalSubscription = null;
+    isRendering = false;
+    log('Stopping rendering');
+    if (restartRenderingSubscription) {
+      restartRenderingSubscription.dispose();
+      restartRenderingSubscription = null;
     }
-    log('Stopping render loop');
+    if (animationCopyHandle) {
+      animationCopyHandle.cancel();
+      animationCopyHandle = null;
+    }
+    clearInterval(renderTimeAndDataIntervalHandle);
   }
 
 
-  function restartRenderLoop() {
-    stopRenderLoop();
-    startRenderLoop();
+  function restartRendering() {
+    log('Restarting rendering');
+    stopRendering();
+    startRendering();
   }
-}
 
-function log(...args) {
-  args.unshift(new Date());
-  console.log.apply(console, args);
+
+  function log(...args) {
+    args.unshift(new Date());
+    console.log.apply(console, args);
+  }
 }
