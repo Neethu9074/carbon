@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {eventBus} from 'in-map/services/eventBus';
+import {clearAll} from 'in-map/stores/logical/layouterStore';
 import SvgIcon from 'in-components/SvgIcon';
 
 import 'in-map/src/components/react/ViewControls/components/AutoLayout.less';
@@ -11,7 +11,7 @@ const block = 'in-auto-layout-button';
 export default function AutoLayout() {
   return (
     <div className={block}
-         onClick={() => eventBus.emit('resetProcessViewLayouting', true)}>
+         onClick={clearAll}>
       <SvgIcon type={'autoLayout'}
                width={24}
                height={24}

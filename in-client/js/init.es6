@@ -11,10 +11,10 @@ import logging from 'instalog';
 import React from 'react';
 
 import * as highlightedSuggestionStore from 'in-components/SearchBar/stores/highlightedSuggestion';
-import * as layouterStorage from 'in-map/src/services/process/logicalLayouterStorage';
 import * as tableViewVisibilityStore from 'in-components/tableView/stores/visibility';
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
 import * as notMonitoringPresenter from 'in-services/notMonitoringDialogPresenter';
+import * as layouterStorage from 'in-map/services/logical/logicalLayouterStorage';
 import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
 import * as expandedIdsStore from 'in-components/tableView/stores/expandedIds';
 import * as persistentConnection from 'in-services/persistentConnection';

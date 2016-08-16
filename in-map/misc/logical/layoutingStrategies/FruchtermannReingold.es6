@@ -4,13 +4,13 @@ const GRAVITY = 100;
 const SPEED = 0.1;
 const SCALE = 2;
 
-export default function applyLayout(nodes, edges) {
-  const sigmaGraph = buildSigmaGraphStructure(nodes, edges);
+export default function applyLayout(nodes, edges, nodePositions) {
+  const sigmaGraph = buildSigmaGraphStructure(nodes, edges, nodePositions);
   start(sigmaGraph);
   applyPositionUpdate(sigmaGraph);
 }
 
-function buildSigmaGraphStructure(nodes, edges) {
+function buildSigmaGraphStructure(nodes, edges, nodePositions) {
   const graph = {
     nodes: [],
     nodeMap: {},
@@ -18,7 +18,7 @@ function buildSigmaGraphStructure(nodes, edges) {
   };
 
   nodes.forEach(node => {
-    const pos = node.getComponent('transform').getPosition();
+    const storedNodePosition = nodePositions.get(node.id);
 
     const sigmaNode = {
       id: node.id,
@@ -30,10 +30,10 @@ function buildSigmaGraphStructure(nodes, edges) {
     graph.nodeMap[node.id] = sigmaNode;
     graph.nodes.push(sigmaNode);
 
-    if (node._wasAutomaticLayouted) {
+    if (storedNodePosition) {
       sigmaNode.fixed = true;
-      sigmaNode.x = pos.x;
-      sigmaNode.y = pos.z;
+      sigmaNode.x = storedNodePosition.x;
+      sigmaNode.y = storedNodePosition.z;
     }
   });
 
@@ -188,7 +188,9 @@ function atomicGo(graph, maxDisplace, k) {
 
 function applyPositionUpdate(graph) {
   graph.nodes.forEach(node => {
-    node.inNode.getComponent('transform').setPositionXYZ(node.fr_x * SCALE, 0, node.fr_y * SCALE);
-    node.inNode._wasAutomaticLayouted = true;
+    const x = node.fr_x * SCALE;
+    const y = 0;
+    const z = node.fr_y * SCALE;
+    node.inNode.getComponent('transform').setPositionXYZ(x, y, z);
   });
 }
