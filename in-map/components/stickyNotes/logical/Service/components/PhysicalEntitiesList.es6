@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getSnapshot, setSelectedSnapshotId, selectedSnapshotId} from 'in-stores/snapshot';
+import HealthIconListing from 'in-components/HealthIconListing';
 import {getIcon, getLabel} from 'in-sdk/snapshot';
 import KPIList from 'in-components/KPIList';
 import {getPlural} from 'in-sdk/pluginName';
@@ -16,22 +17,22 @@ const block = 'in-sticky-note-process-cluster-entity-list';
 
 export default connectTo(props => {
   return {
-    children: combineLatest(props.ids.toArray().map(id => getSnapshot(id))),
+    entitySnapshots: combineLatest(props.ids.toArray().map(id => getSnapshot(id))),
     selectedId: selectedSnapshotId
   };
 }, PhysicalEntitiesList);
 
-function PhysicalEntitiesList({children, selectedId}) {
-  if (!children) {
+function PhysicalEntitiesList({entitySnapshots, selectedId}) {
+  if (!entitySnapshots) {
     return null;
   }
 
-  children = children.sort((a, b) => getPlural(getLabel(a)).localeCompare(getLabel(b)));
+  entitySnapshots = entitySnapshots.sort((a, b) => getPlural(getLabel(a)).localeCompare(getLabel(b)));
 
   return (
     <div className={block}>
       <ul className={block + '__list'}>
-        {children.map(snapshot => {
+        {entitySnapshots.map(snapshot => {
           const kpis = getKpis(snapshot);
           const snapshotId = snapshot.get('id');
           let className = block + '__item';
@@ -44,16 +45,24 @@ function PhysicalEntitiesList({children, selectedId}) {
                 className={className}
                 onClick={() => setSelectedSnapshotId(snapshotId)}>
 
-              <img src={getIcon(snapshot)}
-                   alt='plugin icon'
-                   className={block + '__plugin-icon'} />
+              <div className={block + '__entity-information'}>
+                <img src={getIcon(snapshot)}
+                     alt='plugin icon'
+                     className={block + '__plugin-icon'} />
 
-              {getLabel(snapshot)}
+                {getLabel(snapshot)}
+              </div>
 
+              <div className={block + '__kpis'}>
               <KPIList snapshot={snapshot}
                        metrics={kpis.map(kpi => kpi.metric)}
                        labels={kpis.map(kpi => kpi.label)}
                        formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />
+
+              <HealthIconListing className={block + '__health-icon'}
+                                 snapshotId={snapshotId} />
+
+              </div>
             </li>
           );
         })}
@@ -64,7 +73,6 @@ function PhysicalEntitiesList({children, selectedId}) {
 
 const rpt = React.PropTypes;
 PhysicalEntitiesList.propTypes = {
-  parentId: rpt.string.isRequired,
   ids: irpt.set.isRequired,
-  children: rpt.array
+  entitySnapshots: rpt.array
 };

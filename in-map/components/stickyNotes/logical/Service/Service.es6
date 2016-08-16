@@ -92,8 +92,7 @@ export default createStickyNote(
           }
 
           {(this.state.expanded && childrenAreAvailable) ?
-            <PhysicalEntitiesList ids={children}
-                                  parentId={this.props.id} />
+            <PhysicalEntitiesList ids={children} />
           : null}
         </div>
       );
