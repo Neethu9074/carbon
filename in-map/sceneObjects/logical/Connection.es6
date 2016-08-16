@@ -57,7 +57,7 @@ export default class Connection extends SceneObject {
     super.initComponents();
 
     this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
-    this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'lines'));
+    this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 

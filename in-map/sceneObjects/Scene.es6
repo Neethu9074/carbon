@@ -14,7 +14,6 @@ import {theme} from 'in-services/theme';
 
 console.log('TODOS:');
 console.log('- metric pillars');
-console.log('- fade connections on particles');
 
 export default class Scene extends SceneObject {
 
