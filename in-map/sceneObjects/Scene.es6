@@ -12,6 +12,11 @@ import * as time from 'in-map/misc/time';
 import {theme} from 'in-services/theme';
 
 
+console.log('TODOS:');
+console.log('fucking connection directions on connection tooltips');
+console.log('doubelclick on enity');
+console.log('not all is red on health');
+
 export default class Scene extends SceneObject {
 
   constructor(params) {
