@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
-import * as time from 'in-map/src/timeCalculations';
+import {getDeltaTime} from 'in-map/misc/time';
 
 
 const RAD_2_DEG = Math.PI / 180;
@@ -61,7 +61,7 @@ export default function createControls(canvas, camera, {
   }
 
   function update() {
-    const dt = time.getDeltaTime();
+    const dt = getDeltaTime();
 
     const direction = targetPosition.sub(poi.position);
     poi.position.add(direction.multiplyScalar(dt * cameraMoveSpeed));

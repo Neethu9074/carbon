@@ -1,6 +1,6 @@
 import THREE from 'three';
 
-import {updateAttribute} from 'in-map/src/services/geometryAttributes';
+import {updateAttribute} from 'in-map/services/geometryAttributes';
 
 
 export default class BaseGeometry {

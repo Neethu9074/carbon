@@ -26,7 +26,7 @@ describe('controls', () => {
 
   beforeEach(() => {
     createControls = proxyquire('in-components/graphView/components/Controls', {
-      'in-map/src/timeCalculations': {
+      'in-map/misc/time': {
         getDeltaTime: () => 0.5
       },
       'in-services/reactiveMouseEvents': {

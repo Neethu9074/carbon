@@ -1,6 +1,0 @@
-{
-  "name": "HealthComponent",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./HealthComponent.es6"
-}

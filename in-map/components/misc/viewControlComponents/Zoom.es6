@@ -5,7 +5,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import {getIn} from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-map/src/components/react/ViewControls/components/Zoom.less';
+import 'in-map/components/misc/viewControlComponents/Zoom.less';
 
 
 const UNITS_TO_ZOOM = 100;

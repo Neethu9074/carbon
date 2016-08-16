@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -31,9 +30,11 @@ function ConnectionLine({connection,
 
   const sourceColor = sourceZoneSnapshot ? getColorPool('groups').getColorHex(sourceZoneSnapshot.get('id')) : '';
 
+  console.log(connection.direction);
+
   return (
     <div className={block}>
-      {connection.direction === DIRECTIONS.IN ?
+      {connection.direction === 'in' ?
         <Icon className={block + '__icon'} type={'arrow_left'}/> :
         <Icon className={block + '__icon'} type={'arrow_right'}/>
       }

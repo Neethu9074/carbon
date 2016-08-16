@@ -102,6 +102,7 @@ export default class ParticleEmitter {
     addSceneObject(this.mesh);
 
     this.timeElapsedSinceLastSpawn = 0;
+
     this.updateSubscription = eventBus.on('update').subscribe(dt => this.update(dt));
 
     this.isRunning = true;
@@ -205,6 +206,7 @@ export default class ParticleEmitter {
     }
 
     this.resetParticles();
+
     this.updateSubscription.dispose();
     this.metricSubscription.dispose();
 

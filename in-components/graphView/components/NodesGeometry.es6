@@ -1,8 +1,9 @@
 import THREE from 'three';
 
-import {glyphTexture, config} from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory/pluginIconsGlyphTexture';
 import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
+
+import {glyphTexture, config} from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
 
 

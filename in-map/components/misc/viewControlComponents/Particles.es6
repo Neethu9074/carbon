@@ -5,7 +5,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-map/src/components/react/ViewControls/components/Particles.less';
+import 'in-map/components/misc/viewControlComponents/Particles.less';
 
 
 const block = 'in-particles-button';

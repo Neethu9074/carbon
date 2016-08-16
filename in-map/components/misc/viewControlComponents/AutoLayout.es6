@@ -3,7 +3,7 @@ import React from 'react';
 import {clearAll} from 'in-map/stores/logical/layouterStore';
 import SvgIcon from 'in-components/SvgIcon';
 
-import 'in-map/src/components/react/ViewControls/components/AutoLayout.less';
+import 'in-map/components/misc/viewControlComponents/AutoLayout.less';
 
 
 const block = 'in-auto-layout-button';

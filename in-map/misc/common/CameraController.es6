@@ -4,7 +4,7 @@ import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot
 import {setCameraController} from 'in-map/stores/cameraController';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {clearSelectedEvent} from 'in-stores/events';
-import Subscriber from 'in-map/src/Subscriber';
+import Subscriber from 'in-map/misc/Subscriber';
 
 
 export default class CameraController extends Subscriber {

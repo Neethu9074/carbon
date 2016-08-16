@@ -1,5 +1,4 @@
 import {onWheel, onMove, onLeave} from 'in-services/reactiveMouseEvents';
-import {cursorPosition} from 'in-map/src/mapStores';
 import {theme} from 'in-services/theme';
 
 import Module from 'in-map/misc/common/Module';
@@ -29,7 +28,6 @@ export default class MouseControlModule extends Module {
             this.lastMousePosition.x = roundedX;
             this.lastMousePosition.y = roundedY;
 
-            cursorPosition.emit(this.lastMousePosition);
             this.eventEmitter.emit('onMouseMoved', this.lastMousePosition);
           }
         }),

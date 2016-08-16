@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {focusCurrentlyHighlightedEntity} from 'in-map/src/stores/focusEntity';
+import {focusCurrentlyHighlightedEntity} from 'in-map/stores/focusEntityStore';
 import {closeTableView} from 'in-components/tableView/stores/visibility';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';

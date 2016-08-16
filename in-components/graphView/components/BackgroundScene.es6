@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import galaxyImagePath from 'in-components/graphView/components/background.jpg';
-import {loadImage} from 'in-map/src/services/imageLoader';
+import {loadImage} from 'in-map/services/imageLoader';
 
 
 export default class BackgroundScene {

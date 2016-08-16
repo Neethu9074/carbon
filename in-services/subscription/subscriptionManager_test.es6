@@ -33,15 +33,6 @@ describe('in-services.subscriptionManager', () => {
   });
 
   describe('subscribe', () => {
-    it('should not permit two concurrent subscriptions with the same ID', () => {
-      const subscriptionId = 5;
-      mod.subscribe(subscriptionId, 'subscribe-view', {});
-
-      expect(() => {
-        mod.subscribe(subscriptionId, 'subscribe-view', {});
-      }).to.throw(/Multiple subscriptions/);
-    });
-
     it('should send subscription to persistent connection', () => {
       const event = 'subscribe-view';
       const payload = {a: 'foo'};

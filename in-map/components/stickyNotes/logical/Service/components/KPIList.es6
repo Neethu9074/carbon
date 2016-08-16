@@ -6,7 +6,7 @@ import getSnapshot from 'in-hoc/getSnapshot';
 import KPIList from 'in-components/KPIList';
 import {getKpis} from 'in-sdk/kpi';
 
-import 'in-map/src/2DSceneObjects/stickyNotes/process/node/Cluster/components/KPIList.less';
+import 'in-map/components/stickyNotes/logical/Service/components/KPIList.less';
 
 
 const rpt = React.PropTypes;

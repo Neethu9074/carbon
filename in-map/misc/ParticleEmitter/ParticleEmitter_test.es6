@@ -5,6 +5,8 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import THREE from 'three';
 
+import {createEventBus} from 'in-map/services/eventBus';
+createEventBus();
 
 describe('ParticleEmitter', () => {
   let removeSceneObject;
@@ -22,11 +24,11 @@ describe('ParticleEmitter', () => {
     removeSceneObject = sinon.stub();
     metricProvider = create();
 
-    ParticleEmitter = proxyquire('in-map/src/3DSceneObjects/common/ParticleEmitter', {
-      'in-map/src/services/imageLoader': {
+    ParticleEmitter = proxyquire('in-map/misc/ParticleEmitter/ParticleEmitter', {
+      'in-map/services/imageLoader': {
         loadImage: () => new THREE.Texture()
       },
-      'in-map/src/stores/sceneStore': {
+      'in-map/stores/sceneStore': {
         addSceneObject,
         removeSceneObject
       },
