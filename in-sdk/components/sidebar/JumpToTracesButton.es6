@@ -12,6 +12,7 @@ const block = 'in-jump-to-traces';
 export default connectTo(props => {
   return {
     href: getTraceViewFilteredBySnapshotLink(props.snapshotId)
+      .nextFrame()
   };
 }, function JumpToTracesButton({href}) {
   return (
