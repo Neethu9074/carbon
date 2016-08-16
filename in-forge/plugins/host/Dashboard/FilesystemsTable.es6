@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -85,9 +86,11 @@ function createRow(filesystem, name, context) {
          formatter={kiloBytesTwoDecimalPlaces} />,
 
     !isWindows(context.snapshot) ?
-      <Mtd metric={'fs.' + name + '.ifree'}
-           snapshot={context.snapshot}
-           formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
+      filesystem.get('icapacity') ?
+        <Mtd metric={'fs.' + name + '.ifree'}
+             snapshot={context.snapshot}
+             formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
+        : <td>'N/A'</td>
     : null
   ]);
 }
@@ -96,7 +99,7 @@ function createRow(filesystem, name, context) {
 function createDetails(filesystem, name, context) {
   return (
     <div>
-      {isWindows(context.snapshot) ?
+      {isWindows(context.snapshot) || !filesystem.get('icapacity') ?
         <ChartWithLegend snapshotId={context.snapshot.get('id')}
                          timeframe={context.timeframe}
                          margins={{
