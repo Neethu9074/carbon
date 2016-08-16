@@ -1,10 +1,21 @@
-import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
-import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
-import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
+import THREE from 'three';
 
+import fragmentShader from 'in-map/singleMeshFactories/nodeMetricFragmentShader.glsl';
+import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl';
+
+import {
+  NUM_POINTS_PER_SLICE,
+  getSlicedGeometry,
+  INDEX_MASK
+} from 'in-map/singleMeshFactories/ContentProvider/PredefinedSlicedCubes';
+import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import createMetricHandler from 'in-map/misc/physical/MetricHandler';
+import {updateAttribute} from 'in-map/services/geometryAttributes';
+import AnimationController from 'in-map/misc/AnimationController';
+import {requestRendering} from 'in-map/stores/renderingStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
-import {activeMetric$} from 'in-stores/metric';
 
 
 const METRIC_MARGIN = 0.9;
@@ -15,12 +26,36 @@ export default class NodeMetric extends SceneObject {
     super(params.id);
 
     this.parentNode = params.node;
+    this.numSlices = 1;
+  }
+
+  init() {
+    super.init();
+
+    const sceneObject = this.sceneObject = new THREE.Mesh(
+      getSlicedGeometry(1),
+      new THREE.RawShaderMaterial({
+        fragmentShader: fragmentShader,
+        vertexShader: vertexShader,
+        uniforms: {
+          progress: {
+            type: 'f',
+            value: 0.0
+          }
+        }
+      })
+    );
+    addSceneObject(sceneObject);
+
+    this.animationController = new AnimationController({
+      onUpdate: this.onAnimationUpdate.bind(this),
+      onStop: this.onAnimationStop.bind(this),
+      timeToAnimate: 500
+    });
   }
 
   initComponents() {
     super.initComponents();
-
-    this.addComponent('mesh', new MeshComponent(this, CCP, 'metrics'));
 
     this.addComponent('collision', new CollisionComponent(this,
                                                           collisionDetection.predefinedCollisionObjects.Box,
@@ -28,31 +63,84 @@ export default class NodeMetric extends SceneObject {
   }
 
   initEvents() {
+    super.initEvents();
+
     this.addSubscriptions([
-      this.parentNode.eventEmitter.on('positionChanged').subscribe(position =>
-        this.getComponent('transform').setPosition(position)),
+      this.parentNode.eventEmitter.on('positionChanged').subscribe(position => {
+        this.getComponent('transform').setPosition(position);
+        this.sceneObject.position.copy(position);
+      }),
 
-      this.parentNode.eventEmitter.on('scaleChanged').subscribe(scale =>
+      this.parentNode.eventEmitter.on('scaleChanged').subscribe(scale => {
         this.getComponent('transform').setScaleXYZ(scale.x * METRIC_MARGIN,
-                                                   scale.y - 0.1,
-                                                   scale.z * METRIC_MARGIN)),
+                                                   scale.y,
+                                                   scale.z * METRIC_MARGIN);
 
-      activeMetric$.subscribe(metric => {
-        if (!metric) {
-          return;
-        }
+        this.sceneObject.scale.set(scale.x * METRIC_MARGIN,
+                                   scale.y,
+                                   scale.z * METRIC_MARGIN);
+      }),
+
+      this.parentNode.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
+        this.eventEmitter.emit('snapshotChanged', snapshot);
       })
     ]);
+
+    this.metricHandler = createMetricHandler(this, this.parentNode.id);
   }
 
-  disposeMetricPillar() {
+  setMetricValues(values) {
+    this.animationController.stop();
 
+    if (this.numSlices !== values.length) {
+      this.numSlices = values.length;
+
+      this.sceneObject.geometry.dispose();
+      this.sceneObject.geometry = getSlicedGeometry(this.numSlices);
+    }
+
+    const newHeights = [];
+    let currentValue = 0;
+    const stackedValues = [0];
+    for (let i = 0; i < values.length; i++) {
+      currentValue += values[i];
+      stackedValues.push(currentValue);
+    }
+
+    let currentIndex = 0;
+    for (let i = 0; i < values.length; i++) {
+      for (let j = 0; j < NUM_POINTS_PER_SLICE; j++) {
+        newHeights[currentIndex] = stackedValues[INDEX_MASK[currentIndex]];
+        currentIndex++;
+      }
+    }
+
+    updateAttribute(this.sceneObject.geometry, 'oldHeight', this.sceneObject.geometry.attributes.newHeight.array, 1);
+    updateAttribute(this.sceneObject.geometry, 'newHeight', newHeights, 1);
+
+    this.animationController.start();
   }
+
+  onAnimationUpdate(progress) {
+    this.sceneObject.material.uniforms.progress.value = progress;
+
+    requestRendering();
+  }
+
+  onAnimationStop() {}
 
   dispose() {
     super.dispose();
 
-    this.disposeMetricPillar();
+    this.animationController.dispose();
+    this.metricHandler.dispose();
+
+    removeSceneObject(this.sceneObject);
+    this.sceneObject.geometry.dispose();
+    this.sceneObject.material.dispose();
+    this.sceneObject = null;
+
     this.parentNode = null;
+    this.numSlices = null;
   }
 }
