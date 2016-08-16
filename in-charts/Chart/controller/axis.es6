@@ -1,8 +1,8 @@
 import invariant from 'invariant';
 
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
+import {getMetricsForTimeframe, getDefaultMetricRollupDuration} from 'in-stores/metric';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
-import {getMetricsForTimeframe} from 'in-stores/metric';
 import createDataHolder from 'in-charts/data/dataHolder';
 import createQueue from 'in-charts/data/queue';
 import {timeframe$, to$} from 'in-stores/timeline';
@@ -46,11 +46,11 @@ export default function createAxisController(config) {
     scales.x.setRangeFrom(config.bounds.left);
     scales.x.setRangeTo(config.bounds.right);
 
-    scales.y1.setRangeFrom(config.bounds.top);
-    scales.y1.setRangeTo(config.bounds.bottom);
+    scales.y1.setRangeFrom(config.bounds.bottom);
+    scales.y1.setRangeTo(config.bounds.top);
     if (scales.y2) {
-      scales.y2.setRangeFrom(config.bounds.top);
-      scales.y2.setRangeTo(config.bounds.bottom);
+      scales.y2.setRangeFrom(config.bounds.bottom);
+      scales.y2.setRangeTo(config.bounds.top);
     }
   }
 
@@ -134,18 +134,23 @@ export default function createAxisController(config) {
 
 
   function establishSubscriptions() {
-    config.subscriptions.push(timeframe$.subscribe(timeframe => {
+    const actualTimeframe$ = config.timeframe$ || timeframe$;
+    config.subscriptions.push(actualTimeframe$.subscribe(timeframe => {
       clearAllData();
+      config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;
       config.timeframe = timeframe;
       disposeTimeframeSpecificSubscriptions();
       subscribeToDataSources();
+      config.scheduleRenderingRestart();
     }));
     config.subscriptions.push(to$.subscribe(to => config.to = to));
   }
 
 
   function removeOldDataPoints() {
-    const oldestAllowed = config.to - config.timeframe.windowSize;
+    // slightly increase the window size to avoid removal of items which are still visibile
+    // due to incremental animation
+    const oldestAllowed = config.to - config.timeframe.windowSize * 1.1;
     config.dataHolders.y1.expireDataPointsOlderThan(oldestAllowed);
     if (config.dataHolders.y2) {
       config.dataHolders.y1.expireDataPointsOlderThan(oldestAllowed);

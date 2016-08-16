@@ -20,6 +20,12 @@ export default React.createClass({
     y2: rpt.object
   },
 
+  getDefaultProps() {
+    return {
+      height: 150
+    };
+  },
+
   componentDidMount() {
     this.renderChart();
   },

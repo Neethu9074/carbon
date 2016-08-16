@@ -44,8 +44,8 @@ export default function createDomController(config) {
   function resize() {
     const width = config.width = dom.wrapper.clientWidth | 0;
     config.bounds = {
-      top: height - config.margins.top,
-      bottom: config.margins.bottom,
+      top: config.margins.top,
+      bottom: height - config.margins.bottom,
       left: config.margins.left,
       right: width - config.margins.right
     };
