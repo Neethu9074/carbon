@@ -122,7 +122,7 @@ const VERTICES = [
   0, 1, 0
 ];
 
-const indexWhereTopMeshBegins = 180;
+const indexWhereTopMeshBegins = 179;
 const COLORS = new Array(VERTICES.length);
 for (let i = 0; i <= indexWhereTopMeshBegins; i++) {
   COLORS[i] = 0.9;

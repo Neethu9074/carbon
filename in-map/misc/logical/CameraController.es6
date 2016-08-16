@@ -69,7 +69,7 @@ export default class CameraController extends BaseCameraController {
 
   init() {
     const renderableCamera = this.camera.getRenderableCamera();
-    renderableCamera.position.set(-0.8, 1, 1);
+    renderableCamera.position.set(-0.6, 1, 1);
     renderableCamera.lookAt(ZERO);
 
     this.setZoomLevel(500);

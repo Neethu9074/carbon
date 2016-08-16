@@ -1,4 +1,4 @@
-const FRAME = [
+const VERTICES = [
   -0.5, 0, -0.5,
   0.5, 0, -0.5,
 
@@ -12,23 +12,11 @@ const FRAME = [
   -0.5, 0, -0.5
 ];
 
-const COLORS = [
-  1, 1, 1,
-  1, 1, 1,
-
-  1, 1, 1,
-  1, 1, 1,
-
-  1, 1, 1,
-  1, 1, 1,
-
-  1, 1, 1,
-  1, 1, 1
-];
+const COLORS = new Array(VERTICES.length).fill(1);
 
 export default {
   getVertices: () => {
-    return FRAME;
+    return VERTICES;
   },
 
   getColors: () => {

@@ -1,9 +1,11 @@
 import THREE from 'three';
 
-import CHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
+import CylinderHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
+import CloudHCP from 'in-map/singleMeshFactories/ContentProvider/CloudHighlightingContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
+import CubeCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
-import CCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
+import CloudCP from 'in-map/singleMeshFactories/ContentProvider/CloudContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Logical';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
@@ -25,6 +27,8 @@ export default class Service extends SceneObject {
 
   constructor(params) {
     super(params.id);
+
+    this.isExternal = params.entity.getIn(['metadata', 'external'], false);
   }
 
   init() {
@@ -44,7 +48,9 @@ export default class Service extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
+    this.isExternal
+      ? this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'))
+      : this.addComponent('mesh', new MeshComponent(this, CubeCP, 'nodes'));
 
     this.addComponent('collision', new CollisionComponent(this,
                                                           collisionDetection.predefinedCollisionObjects.Box,
@@ -60,7 +66,9 @@ export default class Service extends SceneObject {
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
-    this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
+    this.isExternal
+      ? this.addComponent('highlighting', new HighlightingComponent(this, CloudHCP))
+      : this.addComponent('highlighting', new HighlightingComponent(this, CylinderHCP));
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
       return {
@@ -122,5 +130,7 @@ export default class Service extends SceneObject {
 
     stickyNotes.remove(this.id);
     services.remove(this.id);
+
+    this.isExternal = null;
   }
 }
