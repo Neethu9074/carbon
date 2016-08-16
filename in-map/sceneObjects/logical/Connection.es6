@@ -76,8 +76,6 @@ export default class Connection extends SceneObject {
     this.ghostConncetionSpawner.initEvents();
 
     this.addSubscriptions([
-      eventBus.on('zoomLevelChanged').subscribe(zoomLevel => this.eventEmitter.emit('isFullyVisible', zoomLevel < 200)),
-
       combineLatest([
         this.eventEmitter.on('isBidirectionalChanged'),
         this.sourceNode.eventEmitter.on('positionChanged'),

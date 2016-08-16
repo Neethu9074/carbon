@@ -4,6 +4,7 @@ import React from 'react';
 
 import PhysicalEntitiesList from 'in-map/components/stickyNotes/logical/Service/components/PhysicalEntitiesList';
 import KPIList from 'in-map/components/stickyNotes/logical/Service/components/KPIList';
+import {showKpi$, showSticky$} from 'in-map/stores/logical/servicesStore';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import {emptyArray} from 'in-services/fixedObjects';
@@ -21,9 +22,10 @@ const block = 'in-sticky-note-service';
 export default createStickyNote(
   connectTo(props => {
     return {
-      isFullyVisible: props.eventEmitter.on('isFullyVisible').distinct(),
       children: getClusterMembers(props.props.id),
-      snapshot: getSnapshot(props.props.id)
+      snapshot: getSnapshot(props.props.id),
+      showSticky: showSticky$.distinct(),
+      showKpi: showKpi$.distinct()
     };
   },
   React.createClass({
@@ -36,9 +38,10 @@ export default createStickyNote(
 
     propTypes: {
       id: rpt.string.isRequired,
-      isFullyVisible: rpt.bool,
+      showSticky: rpt.bool,
       children: irpt.set,
-      snapshot: irpt.map
+      snapshot: irpt.map,
+      showKpi: rpt.bool
     },
 
     getInitialState() {
@@ -49,6 +52,10 @@ export default createStickyNote(
     },
 
     render() {
+      if (!this.props.showSticky) {
+        return null;
+      }
+
       const children = this.props.children || emptyArray;
       const childrenAreAvailable = children && children.size > 0;
 
@@ -64,7 +71,7 @@ export default createStickyNote(
 
       return (
         <div className={contentClassName}>
-          {this.props.isFullyVisible ?
+          {this.props.showKpi ?
             <KPIList snapshotId={this.props.id}
                      isHighlighted={() => {}}/>
             : null

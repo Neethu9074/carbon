@@ -4,6 +4,7 @@ import React from 'react';
 
 import LabeledSparkChart from 'in-sdk/components/sidebar/LabeledSparkChart';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
+import {showSticky$} from 'in-map/stores/logical/connectionsStore';
 import {getSnapshot} from 'in-stores/snapshot';
 import KPIList from 'in-components/KPIList';
 import connectTo from 'in-hoc/connectTo';
@@ -18,8 +19,8 @@ const block = 'in-sticky-note-connection';
 export default createStickyNote(
   connectTo(props => {
     return {
-      isFullyVisible: props.eventEmitter.on('isFullyVisible').distinct(),
-      snapshot: getSnapshot(props.props.id)
+      snapshot: getSnapshot(props.props.id),
+      showSticky: showSticky$.distinct()
     };
   },
   React.createClass({
@@ -32,7 +33,7 @@ export default createStickyNote(
 
     propTypes: {
       id: rpt.string.isRequired,
-      isFullyVisible: rpt.bool,
+      showSticky: rpt.bool,
       snapshot: irpt.map
     },
 
@@ -44,8 +45,8 @@ export default createStickyNote(
 
     render() {
       const snapshot = this.props.snapshot;
-      if (!snapshot || !this.props.isFullyVisible) {
-        return null;
+      if (!snapshot || !this.props.showSticky) {
+      return null;
       }
 
       const kpis = getKpis(snapshot);
