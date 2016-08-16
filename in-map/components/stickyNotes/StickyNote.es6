@@ -22,7 +22,6 @@ export default function StickyNote(ComposedComponent) {
     },
 
     componentDidMount() {
-
       this.positionSubscription = this.props.eventEmitter.on('screenPositionChanged' + this.props.id)
         .subscribe(newPosition => {
           const stickyNote = this.refs.stickyNote;

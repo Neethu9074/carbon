@@ -19,7 +19,7 @@ export default function Tooltip(ComposedComponent) {
       entity: rpt.any.isRequired
     },
 
-    componentWillMount() {
+    componentDidMount() {
       this.positionSubscription = onMove(this.props.canvas, event => {
         const tooltip = this.refs.tooltip;
         if (tooltip) {
@@ -28,6 +28,9 @@ export default function Tooltip(ComposedComponent) {
           applyTransform(tooltip, `translate3d(${x}px,${y}px,0)`);
         }
       });
+
+      // set starting position into the nimbus, to avoid that tootltips are hosted without a position to set
+      applyTransform(this.refs.tooltip, `translate3d(${-1000}px,${0}px,0)`);
     },
 
     componentWillUnmount() {
