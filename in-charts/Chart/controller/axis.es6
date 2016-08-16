@@ -4,8 +4,10 @@ import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/s
 import {getMetricsForTimeframe, getDefaultMetricRollupDuration} from 'in-stores/metric';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import createDataHolder from 'in-charts/data/dataHolder';
-import createQueue from 'in-charts/data/queue';
+import {getAxisConfig} from 'in-charts/timeFormatting';
 import {timeframe$, to$} from 'in-stores/timeline';
+import {serverTime$} from 'in-stores/serverTime';
+import createQueue from 'in-charts/data/queue';
 import createScale from 'in-charts/scale';
 
 
@@ -139,11 +141,13 @@ export default function createAxisController(config) {
       clearAllData();
       config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;
       config.timeframe = timeframe;
+      config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
       disposeTimeframeSpecificSubscriptions();
       subscribeToDataSources();
       config.scheduleRenderingRestart();
     }));
     config.subscriptions.push(to$.subscribe(to => config.to = to));
+    config.subscriptions.push(serverTime$.subscribe(serverTime => config.serverTime = serverTime));
   }
 
 

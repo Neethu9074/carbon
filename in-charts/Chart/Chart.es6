@@ -10,7 +10,7 @@ export default function createChart(config) {
   config.subscriptions = [];
   config.margins = {
     top: 1,
-    bottom: 31,
+    bottom: 22,
     left: config.margins.left || 1,
     right: config.margins.right || 1
   };
@@ -79,7 +79,12 @@ export default function createChart(config) {
 
 
   function render() {
-    log('Render');
+    log('Render', config);
+
+    const to = config.timeframe.to || config.serverTime;
+    config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
+    config.scales.x.setDomainTo(to);
+
     renderToBackBuffer();
 
     // copy backbuffer to screenbuffer
@@ -89,6 +94,12 @@ export default function createChart(config) {
 
   function renderToBackBuffer() {
     log('Back Buffer Render');
+
+    // clear buffers
+    config.ctx.buffer.clearRect(0, 0, config.width, config.height);
+    config.ctx.screen.clearRect(0, 0, config.width, config.height);
+
+    // call all the renderers
     axisRenderer.render();
   }
 
