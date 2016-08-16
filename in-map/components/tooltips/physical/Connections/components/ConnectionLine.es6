@@ -30,8 +30,6 @@ function ConnectionLine({connection,
 
   const sourceColor = sourceZoneSnapshot ? getColorPool('groups').getColorHex(sourceZoneSnapshot.get('id')) : '';
 
-  console.log(connection.direction);
-
   return (
     <div className={block}>
       {connection.direction === 'in' ?
