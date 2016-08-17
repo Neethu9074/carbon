@@ -6,6 +6,7 @@ import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
 import LayerComponent from 'in-map/components/physical/LayerComponent';
 import nodes from 'in-map/stores/physical/nodesStore';
 import Node from 'in-map/sceneObjects/physical/Node';
+import {emptyArray} from 'in-services/fixedObjects';
 import {activeMetric$} from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
 
@@ -66,9 +67,9 @@ function Metric({node, isVisibleForMetrics}) {
 });
 
 function Connections({entity}) {
-  const outgoing = entity.get('outgoingConnections');
-  const incoming = entity.get('incomingConnections');
   const nodeEntityId = entity.get('id');
+  const outgoing = entity.get('outgoingConnections', emptyArray);
+  const incoming = entity.get('incomingConnections', emptyArray);
 
   return (
     <ul>

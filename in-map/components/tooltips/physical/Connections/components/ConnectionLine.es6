@@ -15,32 +15,30 @@ const block = 'in-connection-item';
 
 export default connectTo(props => {
   const sourceId = props.connection.sourceNode.id;
-  const destinationId = props.connection.destinationNode.id;
 
   return {
     sourceSnapshot: getSnapshot(sourceId),
-    sourceZoneSnapshot: getZone(sourceId).flatMap(id => id ? getSnapshot(id) : alwaysNull),
-    destinationSnapshot: getSnapshot(destinationId),
-    destinationZoneSnapshot: getZone(destinationId).flatMap(id => id ? getSnapshot(id) : alwaysNull)
+    sourceZoneSnapshot: getZone(sourceId).flatMap(id => id ? getSnapshot(id) : alwaysNull)
   };
 },
-function ConnectionLine({connection,
-                         sourceSnapshot,
-                         sourceZoneSnapshot}) {
-
-  const sourceColor = sourceZoneSnapshot ? getColorPool('groups').getColorHex(sourceZoneSnapshot.get('id')) : '';
+function ConnectionLine({sourceSnapshot, sourceZoneSnapshot, direction}) {
+  let sourceColor = '';
+  let zoneLabel = null;
+  if (sourceZoneSnapshot) {
+    sourceColor = getColorPool('groups').getColorHex(sourceZoneSnapshot.get('id'));
+    zoneLabel = getLabel(sourceZoneSnapshot);
+  }
 
   return (
     <div className={block}>
-      {connection.direction === 'in' ?
-        <Icon className={block + '__icon'} type={'arrow_left'}/> :
-        <Icon className={block + '__icon'} type={'arrow_right'}/>
-      }
+      <Icon className={block + '__icon'} type={direction === 'in' ? 'arrow_right' : 'arrow_left'}/>
+
       <span className={block + '__ip'}>
         {getLabel(sourceSnapshot)}
       </span>
+
       <span style={{sourceColor}}>
-        {sourceZoneSnapshot ? getLabel(sourceZoneSnapshot) : null}
+        {zoneLabel}
       </span>
     </div>
   );

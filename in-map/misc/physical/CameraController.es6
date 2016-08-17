@@ -94,11 +94,7 @@ export default class CameraController extends BaseCameraController {
 
       this.eventEmitter.on('onObjectClicked').subscribe((hittenOnes) => this.onObjectClicked(hittenOnes)),
 
-      this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne => set(hittenOne.parentSceneObject)),
-
-      this.eventEmitter.on('setConnectionTooltip').subscribe(hoveredConnections => {
-        this.connectionTooltip.setHovered(hoveredConnections);
-      })
+      this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne => set(hittenOne.parentSceneObject))
     ]);
   }
 

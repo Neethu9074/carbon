@@ -17,11 +17,12 @@ function TooltipHoster({entities, view, canvas}) {
     return null;
   }
 
+  // if it's a connection tooltip
   if (entities.length > 0) {
     if (view === views.physical) {
       return (
         <Connections entity={entities}
-        canvas={canvas} />
+                     canvas={canvas} />
       );
     }
     // don't show connection tooltip on logical view
