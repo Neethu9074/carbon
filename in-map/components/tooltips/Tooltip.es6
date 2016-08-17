@@ -8,6 +8,11 @@ import {theme} from 'in-services/theme';
 
 const rpt = React.PropTypes;
 const OFFSET = 15;
+const DEFAULT_STYLE = {
+  position: 'absolute',
+  left: 0,
+  top: 0
+};
 
 export default function Tooltip(ComposedComponent) {
   return React.createClass({
@@ -39,15 +44,9 @@ export default function Tooltip(ComposedComponent) {
     },
 
     render() {
-      const style = {
-        position: 'absolute',
-        top: 0,
-        left: 0
-      };
-
       return (
         <div ref='tooltip'
-             style={style}>
+             style={DEFAULT_STYLE}>
           <TooltipFrame>
             <ComposedComponent {...this.props}
                                {...this.state} />

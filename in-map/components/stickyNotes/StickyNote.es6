@@ -4,6 +4,11 @@ import {applyTransform} from 'in-services/util/dom';
 
 
 const rpt = React.PropTypes;
+const DEFAULT_STYLE = {
+  position: 'absolute',
+  left: 0,
+  top: 0
+};
 
 export default function StickyNote(ComposedComponent) {
   return React.createClass({
@@ -44,21 +49,15 @@ export default function StickyNote(ComposedComponent) {
     },
 
     render() {
-      if (!this.state.isVisible) {
-        return null;
-      }
-
-      const style = {
-        position: 'absolute',
-        left: 0,
-        top: 0
-      };
+      const content = this.state.isVisible
+        ? <ComposedComponent {...this.props}
+                             {...this.state} />
+        : null;
 
       return (
         <div ref='stickyNote'
-             style={style}>
-          <ComposedComponent {...this.props}
-                             {...this.state} />
+             style={DEFAULT_STYLE}>
+          {content}
         </div>
       );
     }
