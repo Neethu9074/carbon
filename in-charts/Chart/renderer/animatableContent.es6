@@ -7,6 +7,11 @@ export default function createAnimatableContentRenderer(config) {
 
   function render() {
     renderXAxis();
+
+    renderAxisContent('y1');
+    if (config.y2) {
+      renderAxisContent('y2');
+    }
   }
 
   function renderXAxis() {
@@ -52,4 +57,12 @@ export default function createAnimatableContentRenderer(config) {
     return ticks;
   }
 
+
+  function renderAxisContent(axisName) {
+    const newDataColumns = config.queues[axisName].get();
+    config.axisContentRenderers[axisName].processNewDataColumns(newDataColumns);
+    config.dataHolders[axisName].insertSorted(newDataColumns);
+    config.dataHolders[axisName].expireDataPointsOlderThan(config.scales.x.getDomainFrom());
+    config.axisContentRenderers[axisName].render(config.dataHolders[axisName].getDataColumns());
+  }
 }

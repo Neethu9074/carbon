@@ -2,13 +2,14 @@ import invariant from 'invariant';
 
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import {getDefaultMetricRollupDuration, getMetricsForTimeframe} from 'in-stores/metric';
-import createLineContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
+import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createDataHolder from 'in-charts/data/dataHolder';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {timeframe$, to$} from 'in-stores/timeline';
 import createQueue from 'in-charts/data/queue';
 import {offset$} from 'in-stores/timeOffset';
 import createScale from 'in-charts/scale';
+import {theme} from 'in-services/theme';
 
 
 const contentRendererCreators = {
@@ -19,6 +20,8 @@ const contentRendererCreators = {
 
 export default function createAxisController(config) {
   let timeframeSpecificSubscriptions = [];
+  determineNumberOfSeries();
+  determineSeriesColors();
   const scales = config.scales = createScales();
   config.axisContentRenderers = createAxisContentRenderers();
   config.queues = createQueues();
@@ -37,6 +40,13 @@ export default function createAxisController(config) {
     scales.x.setRangeTo(config.bounds.right);
     scales.bufferX.setRangeFrom(config.bounds.left);
     scales.bufferX.setRangeTo(config.bounds.right);
+
+    scales.y1.setRangeFrom(config.bounds.bottom);
+    scales.y1.setRangeTo(config.bounds.top);
+    if (scales.y2) {
+      scales.y2.setRangeFrom(config.bounds.bottom);
+      scales.y2.setRangeTo(config.bounds.top);
+    }
   }
 
 
@@ -51,11 +61,38 @@ export default function createAxisController(config) {
   }
 
 
+  function determineNumberOfSeries() {
+    config.y1.numberOfSeries = getNumberOfDataSeries('y1');
+    if (config.y2) {
+      config.y2.numberOfSeries = getNumberOfDataSeries('y2');
+    }
+  }
+
+
+  function getNumberOfDataSeries(axisName) {
+    return config[axisName].labels.length;
+  }
+
+
+  function determineSeriesColors() {
+    config.y1.colors = config.y1.labels.map((label, i) => theme.chart.strokeColors[i]);
+
+    if (config.y2) {
+      config.y2.colors = config.y2.labels.map((label, i) => theme.chart.strokeColors[i + config.y1.numberOfSeries]);
+    }
+  }
+
+
   function createScales() {
     const result = {};
 
     result.x = createScale();
     result.bufferX = createScale();
+    result.y1 = createScale();
+
+    if (config.y2) {
+      result.y2 = createScale();
+    }
 
     return result;
   }
@@ -136,7 +173,7 @@ export default function createAxisController(config) {
       invariant(contentRendererCreator, `Unknown content renderer ${config[axisName].type}`);
     }
 
-    return contentRendererCreator(config, axisName);
+    return contentRendererCreator({config, axisName});
   }
 
 
@@ -154,14 +191,9 @@ export default function createAxisController(config) {
 
   function createQueueForAxis(axisName) {
     return createQueue({
-      numberOfSeries: getNumberOfDataSeries(axisName),
+      numberOfSeries: config[axisName].numberOfSeries,
       requireExistenceInAllSeries: config.axisContentRenderers[axisName].requireExistenceInAllSeries
     });
-  }
-
-
-  function getNumberOfDataSeries(axisName) {
-    return config[axisName].labels.length;
   }
 
 
@@ -169,11 +201,11 @@ export default function createAxisController(config) {
     const result = {};
 
     result.y1 = createDataHolder({
-      numberOfSeries: getNumberOfDataSeries('y1')
+      numberOfSeries: config.y1.numberOfSeries
     });
     if (config.y2) {
       result.y2 = createDataHolder({
-        numberOfSeries: getNumberOfDataSeries('y2')
+        numberOfSeries: config.y2.numberOfSeries
       });
     }
 

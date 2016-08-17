@@ -64,6 +64,7 @@ export default function createDataHolder({numberOfSeries}) {
     if (tooOldDataPointFound) {
       dataColumns.splice(0, i);
     }
+    return tooOldDataPointFound;
   }
 
 

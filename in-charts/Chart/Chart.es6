@@ -10,6 +10,8 @@ import {toServerTime} from 'in-stores/timeOffset';
 import './Chart.less';
 
 const signalRoSpec = {emitLatestOnSubscribe: false};
+const animationDuration = 1000;
+const maxFps = 30;
 
 export default function createChart(config) {
   config.subscriptions = [];
@@ -85,12 +87,14 @@ export default function createChart(config) {
       return;
     }
     isRendering = true;
-    log('Starting rendering');
+    log('Starting rendering', config);
 
     restartRenderingSubscription = config.signals.restartRendering$
       .subscribe(restartRendering);
 
+    calculateMaxDistanceBetweenPoints();
     borderRenderer.render();
+
 
     if (config.timeframe.to == null) {
       let prev = 0;
@@ -100,10 +104,10 @@ export default function createChart(config) {
         config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
         config.scales.x.setDomainTo(to);
 
-        if (now - prev >= 1000) {
+        if (now - prev >= animationDuration) {
           config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize);
-          config.scales.bufferX.setDomainTo(to + 1000);
-          config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + 1000));
+          config.scales.bufferX.setDomainTo(to + animationDuration);
+          config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + animationDuration));
 
           config.ctx.animationBuffer.clearRect(0, 0, config.bufferWidth, config.height);
           animatableContentRenderer.render();
@@ -114,7 +118,7 @@ export default function createChart(config) {
         copyBackBufferToScreenBuffer();
       };
 
-      animationCopyHandle = requestAnimationFrameWithFps(animate, 30);
+      animationCopyHandle = requestAnimationFrameWithFps(animate, maxFps);
     } else {
       // schedule copy from backbuffer to screenbuffer when data changes!
       log('Do something static');
@@ -122,10 +126,35 @@ export default function createChart(config) {
   }
 
 
+  function calculateMaxDistanceBetweenPoints() {
+    const now = Date.now();
+    config.scales.x.setDomainFrom(now - config.timeframe.windowSize);
+    config.scales.x.setDomainTo(now);
+
+    // The next expected point is the point at we which we would expect a next data point
+    // to exist. We add a small margin to this to account for errors and delays.
+    const expectedNextPoint = config.scales.x.getDomainFrom() + config.rollup * 2.3;
+    const maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
+    config.maxDistanceBetweenPoints = maxDistanceBetweenPoints;
+  }
+
+
   function copyBackBufferToScreenBuffer() {
-    config.ctx.animationScreen.clearRect(0, 0, config.width, config.height);
+    const dpr = (window.devicePixelRatio || 1);
     const x = config.scales.bufferX.getRange(config.scales.x.getDomainFrom()) - config.scales.bufferX.getRangeFrom();
-    config.ctx.animationScreen.drawImage(config.dom.animationBuffer, x * -1, 0, config.width, config.height);
+
+    config.ctx.animationScreen.clearRect(0, 0, config.width, config.height);
+    config.ctx.animationScreen.drawImage(
+      config.dom.animationBuffer,
+      config.margins.left * dpr + x * dpr,
+      config.margins.top * dpr,
+      config.width * dpr - config.margins.right * dpr - config.margins.left * dpr,
+      config.height * dpr - config.margins.top * dpr,
+      config.margins.left,
+      config.margins.top,
+      config.width - config.margins.right * dpr - config.margins.left,
+      config.height - config.margins.top
+    );
   }
 
 
