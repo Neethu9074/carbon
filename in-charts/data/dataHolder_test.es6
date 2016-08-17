@@ -229,7 +229,7 @@ describe('data', () => {
       ])
     ]);
 
-    data.expireDataPointsOlderThan(3);
+    expect(data.expireDataPointsOlderThan(3)).to.equal(true);
     expect(data.getDataColumns()).to.deep.equal([
       column([
         [2, 4],
@@ -264,7 +264,7 @@ describe('data', () => {
       ])
     ]);
 
-    data.expireDataPointsOlderThan(3);
+    expect(data.expireDataPointsOlderThan(3)).to.equal(false);
     expect(data.getDataColumns().length).to.equal(3);
   });
 });
