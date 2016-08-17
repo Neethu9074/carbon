@@ -1,5 +1,13 @@
+const textHeightInPx = 13;
+const textMarginInPx = 5;
+const desiredNumberOfTicks = 5;
+const axisFontColor = '#2d4048';
+const axisFont = '0.625rem "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
+const axisTickColor = '#ddd';
+
 export default function createAnimatableContentRenderer(config) {
-  const ctx = config.ctx.animationBuffer;
+  const animationCtx = config.ctx.animationBuffer;
+  const staticCtx = config.ctx.staticScreen;
 
   return {
     render
@@ -12,26 +20,33 @@ export default function createAnimatableContentRenderer(config) {
     if (config.y2) {
       renderAxisContent('y2');
     }
+
+    // render after content since the content is updating the y scales
+    renderYAxis('y1');
+
+    if (config.y2) {
+      renderYAxis('y2');
+    }
   }
 
   function renderXAxis() {
     const ticks = getXTickPositions();
     const formatting = config.xAxisFormattingConfig;
-    ctx.beginPath();
-    ctx.font = '0.625rem "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
-    ctx.fillStyle = '#2d4048';
-    ctx.textAlign = 'center';
+    animationCtx.beginPath();
+    animationCtx.font = axisFont;
+    animationCtx.fillStyle = axisFontColor;
+    animationCtx.textAlign = 'center';
 
     for (let i = 0, len = ticks.length; i < len; i++) {
       const tick = ticks[i];
-      ctx.rect(tick.range, config.bounds.bottom, 1, 5);
+      animationCtx.rect(tick.range, config.bounds.bottom, 1, 5);
 
-      ctx.fillStyle = '#2d4048';
-      ctx.fillText(formatting.formatter(tick.domain), tick.range, config.bounds.bottom + 18);
+      animationCtx.fillStyle = axisFontColor;
+      animationCtx.fillText(formatting.formatter(tick.domain), tick.range, config.bounds.bottom + 18);
     }
 
-    ctx.fillStyle = '#ddd';
-    ctx.fill();
+    animationCtx.fillStyle = axisTickColor;
+    animationCtx.fill();
   }
 
 
@@ -107,6 +122,70 @@ export default function createAnimatableContentRenderer(config) {
     scale.setDomainFrom(min);
     scale.setDomainTo(max);
   }
+
+
+  function renderYAxis(axisName) {
+    const scale = config.scales[axisName];
+    const formatter = config[axisName].formatter || noop;
+    const ticks = getYTickPositions(scale);
+    const isLeftAxis = axisName === 'y1';
+    const tickX = isLeftAxis ? config.bounds.left - 5 : config.bounds.right;
+    const textX = isLeftAxis ? config.bounds.left - 10 : config.bounds.right + 10;
+
+    staticCtx.beginPath();
+    staticCtx.font = axisFont;
+    staticCtx.fillStyle = axisFontColor;
+    staticCtx.textBaseline = 'middle';
+
+    if (isLeftAxis) {
+      staticCtx.textAlign = 'right';
+    } else {
+      staticCtx.textAlign = 'left';
+    }
+
+    for (let i = 0, len = ticks.length; i < len; i++) {
+      const tick = ticks[i];
+      staticCtx.rect(tickX, tick.range, 5, 1);
+
+      staticCtx.fillStyle = axisFontColor;
+      staticCtx.fillText(formatter(tick.domain), textX, tick.range);
+    }
+
+    staticCtx.fillStyle = axisTickColor;
+    staticCtx.fill();
+  }
+
+
+  function getYTickPositions(scale) {
+    const ticks = [];
+    const domainRange = scale.getDomainTo() - scale.getDomainFrom();
+
+    const fullAxisHeightInPx = config.height - config.margins.top - config.margins.bottom;
+    const maxElements = Math.floor(fullAxisHeightInPx / (textHeightInPx + textMarginInPx));
+
+    let step = Math.pow(10, Math.floor(Math.log(domainRange / desiredNumberOfTicks) / Math.LN10));
+    let numElements = domainRange / step;
+
+    while (numElements > maxElements) {
+      numElements /= 2;
+      step *= 2;
+    }
+
+    let lastTickDomain = Math.ceil(scale.getDomainFrom() / step) * step;
+    let lastTickRange = scale.getRange(lastTickDomain);
+
+    for (let i = 0; i < numElements; i++) {
+      ticks.push({
+        range: lastTickRange,
+        domain: lastTickDomain
+      });
+
+      lastTickDomain += step;
+      lastTickRange = scale.getRange(lastTickDomain);
+    }
+
+    return ticks;
+  }
 }
 
 
@@ -124,4 +203,9 @@ function getBoundsForRow(column) {
   }
 
   return [min, max];
+}
+
+
+function noop() {
+  // noop
 }

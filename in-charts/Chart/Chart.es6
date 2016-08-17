@@ -109,7 +109,9 @@ export default function createChart(config) {
           config.scales.bufferX.setDomainTo(to + animationDuration);
           config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + animationDuration));
 
+          config.ctx.staticScreen.clearRect(0, 0, config.width, config.height);
           config.ctx.animationBuffer.clearRect(0, 0, config.bufferWidth, config.height);
+          borderRenderer.render();
           animatableContentRenderer.render();
           prev = now;
         }
