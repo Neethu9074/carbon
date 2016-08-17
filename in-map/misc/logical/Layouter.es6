@@ -16,8 +16,8 @@ export default function createLayouter(map) {
                                                nodePositions$])
                                 .map(([_services, _connections, _currentLayoutingStrategy, _nodePositions]) => {
                                   return {
-                                    nodes: Object.keys(_services.objects).map(key => _services.objects[key]),
-                                    edges: Object.keys(_connections.objects).map(key => _connections.objects[key]),
+                                    nodes: Object.keys(_services).map(key => _services[key]),
+                                    edges: Object.keys(_connections).map(key => _connections[key]),
                                     layoutStrategy: _currentLayoutingStrategy,
                                     nodePositions: _nodePositions
                                   };

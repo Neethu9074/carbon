@@ -26,16 +26,16 @@ if (__DEV__) {
   let updateSubscription;
   let renderSubscription;
 
-  groups.stream.subscribe(_groups => numGroups = Object.keys(_groups.objects).length);
-  services.stream.subscribe(_services => numServices = Object.keys(_services.objects).length);
+  groups.stream.subscribe(_groups => numGroups = Object.keys(_groups).length);
+  services.stream.subscribe(_services => numServices = Object.keys(_services).length);
   nodes.stream.subscribe(_nodes => {
-    const keys = Object.keys(_nodes.objects);
+    const keys = Object.keys(_nodes);
     numNodes = keys.length;
 
     numLayer = 0;
-    keys.forEach(key => numLayer += Object.keys(_nodes.objects[key].layer.objects).length);
+    keys.forEach(key => numLayer += Object.keys(_nodes[key].layer).length);
   });
-  connections.stream.subscribe(_connections => numConnections = Object.keys(_connections.objects).length);
+  connections.stream.subscribe(_connections => numConnections = Object.keys(_connections).length);
 
   scene$.subscribe(s => {
     scene = s;

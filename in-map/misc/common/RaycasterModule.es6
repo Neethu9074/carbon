@@ -54,7 +54,7 @@ export default class RaycasterModule extends Module {
       this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked()),
 
       connections.stream.debounce(50).subscribe(_connections =>
-        this.currentConnections = Object.keys(_connections.objects).map(key => _connections.objects[key]))
+        this.currentConnections = Object.keys(_connections).map(key => _connections[key]))
     ]);
   }
 

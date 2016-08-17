@@ -24,7 +24,7 @@ export default function createLayouter(map) {
                                                nodes.stream,
                                                eventBus.on('layoutNeedsUpdate')])
                                .throttle(PHYSICAL_LAYOUTING)
-                               .subscribe(([_groups]) => applyLayout(_groups.objects));
+                               .subscribe(([_groups]) => applyLayout(_groups));
 
   function applyLayout(_groups) {
     // transform map to array

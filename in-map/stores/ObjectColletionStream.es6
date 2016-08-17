@@ -5,22 +5,22 @@ import createObjectCollection from 'in-map/stores/ObjectColletion';
 
 export default function createCollection() {
   const objects$ = create();
-  const objects = createObjectCollection();
+  const collection = createObjectCollection();
 
   function add(id, object) {
-    objects.add(id, object);
-    objects$.emit(objects);
+    collection.add(id, object);
+    objects$.emit(collection.objects);
   }
 
   function remove(id) {
-    objects.remove(id);
-    objects$.emit(objects);
+    collection.remove(id);
+    objects$.emit(collection.objects);
   }
 
   return {
     add,
     remove,
     stream: objects$,
-    objects: objects.objects
+    objects: collection.objects
   };
 }

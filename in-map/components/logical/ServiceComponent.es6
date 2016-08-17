@@ -48,8 +48,8 @@ const ConnectionSpawner = connectTo(() => {
     return null;
   }
 
-  const sourceNode = _services.objects[sourceId];
-  const destinationNode = _services.objects[destinationId];
+  const sourceNode = _services[sourceId];
+  const destinationNode = _services[destinationId];
   if (!sourceNode || !destinationNode) {
     return null;
   }

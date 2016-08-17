@@ -20,7 +20,7 @@ export default function createLayouter(node) {
                             .subscribe(([nodePosition, nodeScale, _layer]) =>
                               applyLayout(nodePosition,
                                           nodeScale,
-                                          Object.keys(_layer.objects).map(key => _layer.objects[key])));
+                                          Object.keys(_layer).map(key => _layer[key])));
 
   function applyLayout(nodePosition, nodeScale, _layer) {
     const numLayer = _layer.length;

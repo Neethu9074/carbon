@@ -14,8 +14,8 @@ function StickyNoteHoster({stickies}) {
 
   return (
     <div>
-      {Object.keys(stickies.objects).map(key => {
-        const stickyDefinition = stickies.objects[key];
+      {Object.keys(stickies).map(key => {
+        const stickyDefinition = stickies[key];
         const StickyNote = stickyDefinition.type;
 
         return (

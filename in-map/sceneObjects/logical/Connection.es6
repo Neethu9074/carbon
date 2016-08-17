@@ -137,10 +137,10 @@ export default class Connection extends SceneObject {
         .throttle(CONNECTIONS_BIDIRECTIONAL_CHECK)
         .subscribe(_connections => {
           let isBidirectional = false;
-          const keys = Object.keys(_connections.objects);
+          const keys = Object.keys(_connections);
           for (let i = 0, length = keys.length; i < length; i++) {
             const key = keys[i];
-            const connection = _connections.objects[key];
+            const connection = _connections[key];
             if (connection.sourceNode === this.destinationNode &&
                 connection.destinationNode === this.sourceNode) {
               isBidirectional = true;

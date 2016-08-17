@@ -11,8 +11,8 @@ export default class GhostEdgeSpawnerComponent {
 
   initEvents() {
     this.activeGhostNodesSubscribtion = ghosts.stream.subscribe(activeGhosts => {
-      const source = activeGhosts.objects[this.sourceNode.id];
-      const destination = activeGhosts.objects[this.destinationNode.id];
+      const source = activeGhosts[this.sourceNode.id];
+      const destination = activeGhosts[this.destinationNode.id];
 
       // if there is a new ghost node which is a ghost of one of this connections endpoints
       if (source || destination) {
