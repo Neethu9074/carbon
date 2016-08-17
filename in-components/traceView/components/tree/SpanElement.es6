@@ -63,8 +63,8 @@ export default connectTo(props => {
     } else {
       // add a small amount to avoid division by zero
       const parentTotalTime = this.props.parentSpanForPercentageCalculation.get('duration') + 0.00000001;
-      totalTimePercentage = 1 / parentTotalTime * totalTime;
-      selfTimePercentage = 1 / parentTotalTime * selfTime;
+      totalTimePercentage = Math.min(1 / parentTotalTime * totalTime, 1);
+      selfTimePercentage = Math.min(1 / parentTotalTime * selfTime, 1);
     }
 
     return (

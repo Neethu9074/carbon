@@ -58,6 +58,13 @@ module.exports = {
     tenantUnit: 'drivenow',
     groundskeeperDomain: 'instana.io'
   },
+  douglas: {
+    uiBackendUrl: 'https://douglas.instana.io/api/data/',
+    groundskeeperUrl: 'https://douglas.instana.io',
+    tenant: 'douglas',
+    tenantUnit: 'douglas',
+    groundskeeperDomain: 'instana.io'
+  },
   aetion: {
     uiBackendUrl: 'https://aetion.instana.io/api/data/',
     groundskeeperUrl: 'https://aetion.instana.io',
