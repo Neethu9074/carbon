@@ -14,6 +14,7 @@ export function getFactory(id) {
 
 export function clear() {
   Object.keys(factories.objects).forEach(id => {
+    factories.objects[id].dispose();
     factories.remove(id);
   });
 }

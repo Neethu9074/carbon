@@ -1,13 +1,12 @@
 import THREE from 'three';
 
-import {requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
+import {frame$, requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
 import {init as initPhysics, dispose as disposePhysics} from 'in-map/misc/Physics';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
 import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import Camera from 'in-map/misc/OrthographicCamera';
-import {frame$} from 'in-map/stores/renderingStore';
 import * as time from 'in-map/misc/time';
 import {theme} from 'in-services/theme';
 
@@ -50,9 +49,7 @@ export default class Scene extends SceneObject {
 
     this.handleAnimationFrames(0);
 
-    this.addSubscriptions([
-      frame$.subscribe(() => this.shouldRenderScene = true)
-    ]);
+    this.addSubscription(frame$.subscribe(() => this.shouldRenderScene = true));
 
     window.addEventListener('resize', this.onWindowResizeHandler, false);
     this.handleLostContext();

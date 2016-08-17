@@ -34,7 +34,7 @@ export default class ASingleMeshFactory extends Subscriber {
 
     this.eventEmitter = new RoEmitter();
     this.addSubscriptions([
-      this.eventEmitter.on('rebuild').debounce(250).subscribe(shouldRebuild => {
+      this.eventEmitter.on('rebuild').debounce(50).subscribe(shouldRebuild => {
         if (shouldRebuild) {
           this.rebuild();
         }
