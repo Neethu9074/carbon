@@ -1,3 +1,7 @@
 export function getLabel(span) {
-  return span.getIn(['data', 'log', 'message']);
+  const msg = span.getIn(['data', 'log', 'message'], '');
+  if (msg.length > 100) {
+    return `${msg.substring(0, 100)}…`;
+  }
+  return msg;
 }

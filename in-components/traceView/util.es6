@@ -7,7 +7,7 @@ export function getSelfTime(span) {
       selfTime -= childSpan.get('duration');
     }
   });
-  return selfTime;
+  return Math.max(selfTime, 0);
 }
 
 
