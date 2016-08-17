@@ -34,7 +34,7 @@ export default class ASingleMeshFactory extends Subscriber {
     this.geometry.dynamic = false;
 
     this.eventEmitter = new RoEmitter();
-    this.addSubscription(this.eventEmitter.on('rebuild').throttle(FACTORY)
+    this.addSubscription(this.eventEmitter.on('rebuild').debounce(FACTORY)
                                                         .subscribe(() => this.rebuild()));
   }
 
@@ -79,10 +79,6 @@ export default class ASingleMeshFactory extends Subscriber {
       // all it needs for positioning
       const fragmentVertices = fragment.contentProvider.getVertices();
       const transform = fragment.sceneObject.getComponent('transform');
-      if (!transform) {
-        continue;
-      }
-
       const position = transform.getPosition();
       const scale = transform.getScale();
 
