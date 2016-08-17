@@ -1,6 +1,5 @@
 import {combineLatest} from 'reactive-observables';
 
-import {focusCurrentlyHighlightedEntity} from 'in-map/stores/focusEntityStore';
 import {PHYSICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import groups from 'in-map/stores/physical/groupsStore';
 import nodes from 'in-map/stores/physical/nodesStore';
@@ -10,7 +9,7 @@ import {eventBus} from 'in-map/services/eventBus';
 const MAX_VALUE = Number.MAX_VALUE;
 const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
 
-export default function createLayouter() {
+export default function createLayouter(map) {
   let firstLayoutDone = false;
   const squashFactor = 0.5;
   const groupMargin = 1;
@@ -77,7 +76,7 @@ export default function createLayouter() {
 
     if (!firstLayoutDone) {
       firstLayoutDone = true;
-      focusCurrentlyHighlightedEntity();
+      map.centerMap();
     }
   }
 

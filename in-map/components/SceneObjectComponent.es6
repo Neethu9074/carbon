@@ -17,6 +17,7 @@ export default function SceneObjectComponent(getProps, ComposedComponent) {
 
     componentDidMount() {
       this.sceneObject.initEvents();
+      this.sceneObject.initialized();
 
       // register for update events
     },

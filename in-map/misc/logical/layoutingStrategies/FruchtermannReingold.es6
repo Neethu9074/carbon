@@ -187,10 +187,9 @@ function atomicGo(graph, maxDisplace, k) {
 }
 
 function applyPositionUpdate(graph) {
-  graph.nodes.forEach(node => {
-    const x = node.fr_x * SCALE;
-    const y = 0;
-    const z = node.fr_y * SCALE;
-    node.inNode.getComponent('transform').setPositionXYZ(x, y, z);
-  });
+  graph.nodes.forEach(node =>
+    node.inNode.getComponent('transform').setPositionXYZ(node.fr_x * SCALE,
+                                                         0,
+                                                         node.fr_y * SCALE)
+  );
 }

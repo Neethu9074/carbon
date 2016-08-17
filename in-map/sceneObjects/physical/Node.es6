@@ -36,7 +36,6 @@ export default class Node extends SceneObject {
   init() {
     super.init();
 
-    nodes.add(this.id, this);
     this.group.addNode(this.id, this);
 
     this.layerLayouter = createLayerLayouter(this);
@@ -95,6 +94,12 @@ export default class Node extends SceneObject {
         }
       })
     ]);
+  }
+
+  initialized() {
+    super.initialized();
+
+    nodes.add(this.id, this);
   }
 
   addLayer(id, node) {

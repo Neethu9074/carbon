@@ -25,6 +25,8 @@ export default class SceneObject extends Subscriber {
 
   initEvents() {}
 
+  initialized() {}
+
   getComponent(id) {
     if (!this.components) {
       return undefined;

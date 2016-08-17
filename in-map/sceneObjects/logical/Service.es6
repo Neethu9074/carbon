@@ -35,8 +35,6 @@ export default class Service extends SceneObject {
   init() {
     super.init();
 
-    services.add(this.id, this);
-
     stickyNotes.add(this.id, {
       type: ServiceStickyNote,
       eventEmitter: this.eventEmitter,
@@ -123,7 +121,12 @@ export default class Service extends SceneObject {
 
       this.eventEmitter.on('positionChanged').subscribe(pos => changePosition(this.id, pos.x, pos.y, pos.z))
     ]);
+  }
 
+  initialized() {
+    super.initialized();
+
+    services.add(this.id, this);
   }
 
   dispose() {

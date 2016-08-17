@@ -28,12 +28,14 @@ export default class Map extends SceneObject {
 
       eventBus.on('focusPosition').subscribe(pos => this.controller.flyToPosition(pos)),
 
-      focusEntityId$.subscribe(id => {
-        if (!id) {
-          this.controller.flyToPosition(this.layouter.getFocusPointFromCurrentDimensions());
-        }
-      })
+      focusEntityId$.subscribe(id => id ? null : this.centerMap())
     ]);
+  }
+
+  centerMap() {
+    if (this.layouter) {
+      this.controller.flyToPosition(this.layouter.getFocusPointFromCurrentDimensions());
+    }
   }
 
   dispose() {

@@ -1,14 +1,13 @@
 import {combineLatest} from 'reactive-observables';
 
 import {nodePositions$, currentLayoutingStrategy$} from 'in-map/stores/logical/layouterStore';
-import {focusCurrentlyHighlightedEntity} from 'in-map/stores/focusEntityStore';
 import {LOGICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import services from 'in-map/stores/logical/servicesStore';
 import connections from 'in-map/stores/connectionsStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
-export default function createLayouter() {
+export default function createLayouter(map) {
   let firstLayoutDone = false;
 
   const layoutingSubscription = combineLatest([services.stream,
@@ -29,7 +28,7 @@ export default function createLayouter() {
 
                                   if (!firstLayoutDone) {
                                     firstLayoutDone = true;
-                                    focusCurrentlyHighlightedEntity();
+                                    map.centerMap();
                                   }
                                 });
 

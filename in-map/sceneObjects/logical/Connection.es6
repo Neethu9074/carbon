@@ -70,8 +70,6 @@ export default class Connection extends SceneObject {
     this.addComponent('health', new HealthComponent(this));
 
     this.addComponent('particles', new ParticleEmitterComponent(this));
-
-    connections.add(this.id, this);
   }
 
   initEvents() {
@@ -158,6 +156,12 @@ export default class Connection extends SceneObject {
     ]);
 
     this.eventEmitter.emit('isBidirectionalChanged', this.isBidirectional);
+  }
+
+  initialized() {
+    super.initialized();
+
+    connections.add(this.id, this);
   }
 
   getVertices() {

@@ -24,7 +24,6 @@ export default class Group extends SceneObject {
   init() {
     super.init();
 
-    groups.add(this.id, this);
     stickyNotes.add(this.id, {
       type: GroundStickyNote,
       eventEmitter: this.eventEmitter,
@@ -59,6 +58,12 @@ export default class Group extends SceneObject {
       this._cachedLabel = snapshot ? snapshot.getIn(['data', 'groupId']) : this._cachedLabel;
       eventBus.emit('layoutNeedsUpdate', true);
     }));
+  }
+
+  initialized() {
+    super.initialized();
+
+    groups.add(this.id, this);
   }
 
   addNode(id, node) {

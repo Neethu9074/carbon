@@ -20,7 +20,7 @@ export default class Map extends BaseMap {
   init() {
     super.init();
 
-    this.layouter = createLayouter();
+    this.layouter = createLayouter(this);
 
     addFactory('nodes', new FadeByDistanceSingleMeshFactory({renderOrder: 3}));
     addFactory('highlighting', new LineSingleMeshFactory({useSceneObjectColors: false}));
