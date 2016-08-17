@@ -37,7 +37,6 @@ export default class SceneObjectComponent extends Subscriber {
   }
 
   dispose() {
-    this.needsUpdate = false;
     this.sceneObject = null;
   }
 }

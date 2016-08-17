@@ -1,5 +1,3 @@
-import THREE from 'three';
-
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 
@@ -9,8 +7,12 @@ export default class ColorComponent extends SceneObjectComponent {
   constructor(sceneObject) {
     super(sceneObject, '_color');
 
-    this.color = new THREE.Color(0xffffff);
-    this.emitToClient('colorChanged', this.color);
+    // pure white as default
+    this.color = {
+      r: 1,
+      g: 1,
+      b: 1
+    };
   }
 
   setHex(hex) {
@@ -22,14 +24,17 @@ export default class ColorComponent extends SceneObjectComponent {
   }
 
   setRGB(r, g, b) {
-    if (this.color.r === r &&
-        this.color.g === g &&
-        this.color.b === b) {
+    const color = this.color;
+    if (color.r === r &&
+        color.g === g &&
+        color.b === b) {
       return;
     }
 
-    this.color.setRGB(r, g, b);
-    this.emitToClient('colorChanged', this.color);
+    color.r = r;
+    color.g = g;
+    color.b = b;
+    this.emitToClient('colorChanged', color);
   }
 
   getColor() {

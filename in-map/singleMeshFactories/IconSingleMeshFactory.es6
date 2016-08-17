@@ -10,8 +10,8 @@ import {updateAttribute} from 'in-map/services/geometryAttributes';
 
 export default class IconSingleMeshFactory extends ASingleMeshFactory {
 
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
   }
 
   getMesh(geometry, material) {

@@ -7,11 +7,11 @@ import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 
 export default class FadeByDistanceSingleMeshFactory extends ASingleMeshFactory {
 
-  constructor(renderOrder, minOpacity = 0.1, maxOpacity = 0.6) {
-    super(renderOrder);
+  constructor(options) {
+    super(options);
 
-    this.minOpacity = minOpacity;
-    this.maxOpacity = maxOpacity;
+    this.minOpacity = options.minOpacity || 0.1;
+    this.maxOpacity = options.maxOpacity || 0.6;
   }
 
   getMesh(geometry, material) {

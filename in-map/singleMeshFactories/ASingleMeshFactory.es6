@@ -8,15 +8,25 @@ import {requestRendering} from 'in-map/stores/renderingStore';
 import Subscriber from 'in-map/misc/Subscriber';
 
 
+// the default color is (1, 1, 1), because 1 is the neutral value on multiplication
+const DEFAULT_COLOR = {
+  r: 1,
+  g: 1,
+  b: 1
+};
+
 export default class ASingleMeshFactory extends Subscriber {
 
-  constructor(renderOrder = 2) {
+  constructor(options = {}) {
     super();
 
     // stores all added fragments to create the global geometry
     this.fragments = createCollection();
 
-    this.renderOrder = renderOrder;
+    this.renderOrder = options.renderOrder || 2;
+    this.useSceneObjectColors = options.useSceneObjectColors === undefined
+      ? true
+      : options.useSceneObjectColors;
 
     // represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
@@ -37,10 +47,10 @@ export default class ASingleMeshFactory extends Subscriber {
 
     // a global mesh that stores global geometry
     const mesh = this.mesh = this.getMesh(this.geometry, this.material);
+    mesh.renderOrder = this.renderOrder;
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
-    mesh.renderOrder = this.renderOrder;
   }
 
   add(fragment) {
@@ -80,7 +90,11 @@ export default class ASingleMeshFactory extends Subscriber {
 
       // all it needs for coloring
       const fragmentColors = fragment.contentProvider.getColors(fragmentVertices);
-      const color = fragment.sceneObject.getComponent('color').getColor();
+
+      // use the default color if the factory user denies the using of scene objects color
+      const color = this.useSceneObjectColors
+        ? fragment.sceneObject.getComponent('color').getColor()
+        : DEFAULT_COLOR;
 
       for (let j = 0, numVertices = fragmentVertices.length; j < numVertices; j += 3) {
         vertices[index] = position.x + (scale.x * fragmentVertices[j]);

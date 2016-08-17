@@ -8,8 +8,8 @@ import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 
 export default class BasicSingleMeshFactory extends ASingleMeshFactory {
 
-  constructor(renderOrder) {
-    super(renderOrder);
+  constructor(options) {
+    super(options);
   }
 
   getMesh(geometry, material) {
