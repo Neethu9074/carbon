@@ -5,6 +5,7 @@ import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import createCollection from 'in-map/stores/ObjectColletionStream';
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {requestRendering} from 'in-map/stores/renderingStore';
+import {FACTORY} from 'in-map/misc/TimingConfig';
 import Subscriber from 'in-map/misc/Subscriber';
 
 
@@ -33,13 +34,8 @@ export default class ASingleMeshFactory extends Subscriber {
     this.geometry.dynamic = false;
 
     this.eventEmitter = new RoEmitter();
-    this.addSubscriptions([
-      this.eventEmitter.on('rebuild').debounce(50).subscribe(shouldRebuild => {
-        if (shouldRebuild) {
-          this.rebuild();
-        }
-      })
-    ]);
+    this.addSubscription(this.eventEmitter.on('rebuild').throttle(FACTORY)
+                                                        .subscribe(() => this.rebuild()));
   }
 
   init() {
@@ -62,8 +58,6 @@ export default class ASingleMeshFactory extends Subscriber {
   }
 
   rebuild() {
-    this.eventEmitter.emit('rebuild', false);
-
     // transform map to array
     const fragments = Object.keys(this.fragments.objects).map(key => this.fragments.objects[key]);
 

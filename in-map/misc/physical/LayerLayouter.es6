@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
+import {LAYER_LAYOUTING} from 'in-map/misc/TimingConfig';
 
 import {getFactory} from 'in-map/stores/factoriesStore';
 
@@ -12,13 +13,14 @@ export default function createLayouter(node) {
   const fragments = [];
   const factory = getFactory('icons');
 
-  const layerSubscription = combineLatest([
-    node.eventEmitter.on('positionChanged'),
-    node.eventEmitter.on('scaleChanged'),
-    node.layer.stream
-  ]).debounce(100)
-    .subscribe(([nodePosition, nodeScale, _layer]) =>
-      applyLayout(nodePosition, nodeScale, Object.keys(_layer.objects).map(key => _layer.objects[key])));
+  const layerSubscription = combineLatest([node.eventEmitter.on('positionChanged'),
+                                           node.eventEmitter.on('scaleChanged'),
+                                           node.layer.stream])
+                            .debounce(LAYER_LAYOUTING)
+                            .subscribe(([nodePosition, nodeScale, _layer]) =>
+                              applyLayout(nodePosition,
+                                          nodeScale,
+                                          Object.keys(_layer.objects).map(key => _layer.objects[key])));
 
   function applyLayout(nodePosition, nodeScale, _layer) {
     const numLayer = _layer.length;

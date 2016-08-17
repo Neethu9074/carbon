@@ -2,6 +2,7 @@ import React from 'react';
 
 import ConnectionComponent from 'in-map/components/logical/ConnectionComponent';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
+import {CONNECTIONS_NODE_CHECKING} from 'in-map/misc/TimingConfig';
 import services from 'in-map/stores/logical/servicesStore';
 import Service from 'in-map/sceneObjects/logical/Service';
 import connectTo from 'in-hoc/connectTo';
@@ -40,7 +41,7 @@ function ServiceComponent({entity}) {
 
 const ConnectionSpawner = connectTo(() => {
   return {
-    _services: services.stream.debounce(50)
+    _services: services.stream.debounce(CONNECTIONS_NODE_CHECKING)
   };
 }, function ConnectionSpawner({_services, sourceId, destinationId, entity}) {
   if (!_services) {

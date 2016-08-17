@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Connections from 'in-map/components/tooltips/physical/Connections';
+import {TOOLTIP_MOUNT} from 'in-map/misc/TimingConfig';
 import {view$, types as views} from 'in-stores/view';
 import {tooltip$} from 'in-map/stores/tooltipStore';
 import {canvas$} from 'in-map/stores/indexStore';
@@ -8,7 +9,7 @@ import connectTo from 'in-hoc/connectTo';
 
 
 export default connectTo({
-  entities: tooltip$.distinct().throttle(50),
+  entities: tooltip$.distinct().throttle(TOOLTIP_MOUNT),
   canvas: canvas$,
   view: view$
 },

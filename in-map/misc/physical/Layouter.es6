@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import {focusCurrentlyHighlightedEntity} from 'in-map/stores/focusEntityStore';
+import {PHYSICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import groups from 'in-map/stores/physical/groupsStore';
 import nodes from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
@@ -20,8 +21,10 @@ export default function createLayouter() {
     y: 0
   };
 
-  const layoutingSubscription = combineLatest([groups.stream, nodes.stream, eventBus.on('layoutNeedsUpdate')])
-                               .debounce(100)
+  const layoutingSubscription = combineLatest([groups.stream,
+                                               nodes.stream,
+                                               eventBus.on('layoutNeedsUpdate')])
+                               .throttle(PHYSICAL_LAYOUTING)
                                .subscribe(([_groups]) => applyLayout(_groups.objects));
 
   function applyLayout(_groups) {
@@ -58,7 +61,9 @@ export default function createLayouter() {
         currentDimensions.x = Math.max(currentDimensions.x, nodeXCursor);
         currentDimensions.y = Math.max(currentDimensions.y, nodeYCursor);
 
-        node.getComponent('transform').setPositionXYZ(nodeXCursor - 0.5, 0, -nodeYCursor + 0.5);
+        node.getComponent('transform').setPositionXYZ(nodeXCursor - 0.5,
+                                                      0,
+                                                      -nodeYCursor + 0.5);
 
         nodeXCursor += nodeMargin + 1;
         if (nodeXCursor >= dim.x + dim.width) {
@@ -100,16 +105,16 @@ export default function createLayouter() {
 
   function sortNodes(_nodes) {
     _nodes.sort((a, b) => a._cachedLabel.localeCompare(b._cachedLabel));
-
     return _nodes;
-  }
-
-  function dispose() {
-    layoutingSubscription.dispose();
   }
 
   return {
     getFocusPointFromCurrentDimensions,
     dispose
   };
+
+  function dispose() {
+    layoutingSubscription.dispose();
+    firstLayoutDone = false;
+  }
 }

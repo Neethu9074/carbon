@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import {nodePositions$, currentLayoutingStrategy$} from 'in-map/stores/logical/layouterStore';
 import {focusCurrentlyHighlightedEntity} from 'in-map/stores/focusEntityStore';
+import {LOGICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import services from 'in-map/stores/logical/servicesStore';
 import connections from 'in-map/stores/connectionsStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
@@ -10,28 +11,27 @@ import {ZERO} from 'in-map/misc/fixedVectors';
 export default function createLayouter() {
   let firstLayoutDone = false;
 
-  let layoutingSubscription = combineLatest([
-                                 services.stream,
-                                 connections.stream,
-                                 currentLayoutingStrategy$,
-                                 nodePositions$
-                               ])
-                               .map(([_services, _connections, _currentLayoutingStrategy, _nodePositions]) => {
-                                 return {
-                                   nodes: Object.keys(_services.objects).map(key => _services.objects[key]),
-                                   edges: Object.keys(_connections.objects).map(key => _connections.objects[key]),
-                                   layoutStrategy: _currentLayoutingStrategy,
-                                   nodePositions: _nodePositions
-                                 };
-                               })
-                               .debounce(100)
-                               .subscribe(({nodes, edges, layoutStrategy, nodePositions}) => {
-                                 if (!firstLayoutDone) {
-                                   firstLayoutDone = true;
-                                   focusCurrentlyHighlightedEntity();
-                                 }
-                                 layoutStrategy(nodes, edges, nodePositions);
-                               });
+  const layoutingSubscription = combineLatest([services.stream,
+                                               connections.stream,
+                                               currentLayoutingStrategy$,
+                                               nodePositions$])
+                                .map(([_services, _connections, _currentLayoutingStrategy, _nodePositions]) => {
+                                  return {
+                                    nodes: Object.keys(_services.objects).map(key => _services.objects[key]),
+                                    edges: Object.keys(_connections.objects).map(key => _connections.objects[key]),
+                                    layoutStrategy: _currentLayoutingStrategy,
+                                    nodePositions: _nodePositions
+                                  };
+                                })
+                                .throttle(LOGICAL_LAYOUTING)
+                                .subscribe(({nodes, edges, layoutStrategy, nodePositions}) => {
+                                  layoutStrategy(nodes, edges, nodePositions);
+
+                                  if (!firstLayoutDone) {
+                                    firstLayoutDone = true;
+                                    focusCurrentlyHighlightedEntity();
+                                  }
+                                });
 
 
   function getFocusPointFromCurrentDimensions() {
@@ -45,6 +45,6 @@ export default function createLayouter() {
 
   function dispose() {
     layoutingSubscription.dispose();
-    layoutingSubscription = null;
+    firstLayoutDone = false;
   }
 }

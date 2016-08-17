@@ -1,12 +1,11 @@
+import {PERSIST_LOGICAL_SERVICE_POSITIONS, SERVICE_POSITION_STORAGE_TTL} from 'in-map/misc/TimingConfig';
 import {nodePositions$, changePosition, removeId} from 'in-map/stores/logical/layouterStore';
 
 
 const layoutingPath = 'in-layouting';
-const TIME_TO_LIFE = 1000 * 60 * 60 * 24 * 7; // 1 week
-
 
 nodePositions$.distinct()
-              .debounce(5000)
+              .debounce(PERSIST_LOGICAL_SERVICE_POSITIONS)
               .subscribe(nodes => save(nodes));
 
 function save(nodes) {
@@ -29,7 +28,7 @@ export function init() {
   const now = Date.now();
   Object.keys(fromStorage).forEach(key => {
     const item = fromStorage[key];
-    if (item.timestamp < now - TIME_TO_LIFE) {
+    if (item.timestamp < now - SERVICE_POSITION_STORAGE_TTL) {
       removeId(key);
     } else {
       changePosition(key, item.x, item.y, item.z);

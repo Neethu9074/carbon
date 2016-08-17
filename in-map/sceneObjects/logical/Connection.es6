@@ -16,6 +16,10 @@ import {
   intersects,
   flatten
 } from 'in-map/misc/Connections';
+import {
+  CONNECTIONS_BIDIRECTIONAL_CHECK,
+  CONNECTIONS_COLLISION_MESH_UPDATE
+} from 'in-map/misc/TimingConfig';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
@@ -98,7 +102,8 @@ export default class Connection extends SceneObject {
       this.eventEmitter.on('changePosition').subscribe(fromTo =>
         this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
 
-      this.eventEmitter.on('changePosition').debounce(1000).subscribe(fromTo => {
+      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE)
+                                            .subscribe(fromTo => {
         if (this.collisionLine) {
           this.collisionLine.geometry.dispose();
         }
@@ -130,24 +135,26 @@ export default class Connection extends SceneObject {
         this.getComponent('color').setHex(newColor);
       }),
 
-      connections.stream.throttle(1000).subscribe(_connections => {
-        let isBidirectional = false;
-        const keys = Object.keys(_connections.objects);
-        for (let i = 0, length = keys.length; i < length; i++) {
-          const key = keys[i];
-          const connection = _connections.objects[key];
-          if (connection.sourceNode === this.destinationNode &&
-              connection.destinationNode === this.sourceNode) {
-            isBidirectional = true;
-            break;
+      connections.stream
+        .throttle(CONNECTIONS_BIDIRECTIONAL_CHECK)
+        .subscribe(_connections => {
+          let isBidirectional = false;
+          const keys = Object.keys(_connections.objects);
+          for (let i = 0, length = keys.length; i < length; i++) {
+            const key = keys[i];
+            const connection = _connections.objects[key];
+            if (connection.sourceNode === this.destinationNode &&
+                connection.destinationNode === this.sourceNode) {
+              isBidirectional = true;
+              break;
+            }
           }
-        }
 
-        if (this.isBidirectional !== isBidirectional) {
-          this.isBidirectional = isBidirectional;
-          this.eventEmitter.emit('isBidirectionalChanged', isBidirectional);
-        }
-      })
+          if (this.isBidirectional !== isBidirectional) {
+            this.isBidirectional = isBidirectional;
+            this.eventEmitter.emit('isBidirectionalChanged', isBidirectional);
+          }
+        })
     ]);
 
     this.eventEmitter.emit('isBidirectionalChanged', this.isBidirectional);
