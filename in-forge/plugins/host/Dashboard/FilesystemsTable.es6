@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -64,12 +63,25 @@ function createHeader(context) {
 
 
 function createRow(filesystem, name, context) {
+  const isWindowsSnapshot = isWindows(context.snapshot);
+  const mount = !isWindowsSnapshot
+    ? <td>{filesystem.get('mount')}</td>
+    : null;
+
+  let ifree = null;
+  if (!isWindowsSnapshot) {
+    ifree = filesystem.get('icapacity')
+      ? <Mtd metric={'fs.' + name + '.ifree'}
+           snapshot={context.snapshot}
+           formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
+      : <td>'N/A'</td>;
+  }
+
+
   return ([
     <td>{name}</td>,
 
-    !isWindows(context.snapshot) ?
-      <td>{filesystem.get('mount')}</td>
-    : null,
+    mount,
 
     <td>{filesystem.get('options')}</td>,
 
@@ -85,13 +97,7 @@ function createRow(filesystem, name, context) {
          snapshot={context.snapshot}
          formatter={kiloBytesTwoDecimalPlaces} />,
 
-    !isWindows(context.snapshot) ?
-      filesystem.get('icapacity') ?
-        <Mtd metric={'fs.' + name + '.ifree'}
-             snapshot={context.snapshot}
-             formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
-        : <td>'N/A'</td>
-    : null
+    ifree
   ]);
 }
 
