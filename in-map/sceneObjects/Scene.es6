@@ -13,7 +13,6 @@ import {theme} from 'in-services/theme';
 
 
 console.log('TODOS:');
-console.log('doubelclick on enity');
 console.log('not all is red on health');
 
 export default class Scene extends SceneObject {

@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {requestRendering} from 'in-map/stores/renderingStore';
-import {set} from 'in-map/stores/longClickedSceneObjectStore';
+import {goToDashboard} from 'in-stores/navigation';
 import {eventBus} from 'in-map/services/eventBus';
 
 import BaseCameraController from 'in-map/misc/common/CameraController';
@@ -94,7 +94,8 @@ export default class CameraController extends BaseCameraController {
 
       this.eventEmitter.on('onObjectClicked').subscribe((hittenOnes) => this.onObjectClicked(hittenOnes)),
 
-      this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne => set(hittenOne.parentSceneObject))
+      this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne =>
+        goToDashboard(hittenOne.parentSceneObject.id))
     ]);
   }
 
