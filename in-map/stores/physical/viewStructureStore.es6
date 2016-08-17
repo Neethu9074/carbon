@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import {excludeUnmonitoredHosts$} from 'in-stores/settings/unmonitoredHosts';
 import createViewStructureObservable from 'in-services/subscription/view';
+import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
 import {focusedMoment$} from 'in-stores/timeline';
 import {searchMatches$} from 'in-stores/search';
 import {view} from 'in-stores/view';
@@ -24,7 +25,7 @@ export function getViewStructure() {
 
                 _viewStructure.get('children').forEach(group => {
                   const groupId = group.get('id');
-                  if (excludeUnmonitoredHosts && groupId === 'unmonitored-hosts-zone') {
+                  if (excludeUnmonitoredHosts && groupId === ID_OF_UNMONITORED_ZONE) {
                     groupIds[groupId] = false;
                     return;
                   }

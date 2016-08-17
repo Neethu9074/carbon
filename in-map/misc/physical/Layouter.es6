@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
 import {PHYSICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import groups from 'in-map/stores/physical/groupsStore';
 import nodes from 'in-map/stores/physical/nodesStore';
@@ -7,7 +8,6 @@ import {eventBus} from 'in-map/services/eventBus';
 
 
 const MAX_VALUE = Number.MAX_VALUE;
-const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
 
 export default function createLayouter(map) {
   let firstLayoutDone = false;
@@ -90,10 +90,10 @@ export default function createLayouter(map) {
   function sortGroups(_groups) {
     // doerte sort -> unmonitored zone is the last one
     _groups.sort((a, b) => {
-      if (a.id === idOfUnmonitoredZone) {
+      if (a.id === ID_OF_UNMONITORED_ZONE) {
         return MAX_VALUE;
       }
-      if (b.id === idOfUnmonitoredZone) {
+      if (b.id === ID_OF_UNMONITORED_ZONE) {
         return -1 * MAX_VALUE;
       }
       return a._cachedLabel.localeCompare(b._cachedLabel);
