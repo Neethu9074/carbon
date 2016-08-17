@@ -34,6 +34,7 @@ export default function createChart(config) {
   let animationCopyHandle;
 
   addWindowResizeSupport();
+  addVisibilityChangeSupport();
   onResize();
 
   return {
@@ -43,6 +44,7 @@ export default function createChart(config) {
 
   function dispose() {
     domController.dispose();
+    axisController.dispose();
     config.subscriptions.forEach(s => s.dispose());
   }
 
@@ -62,8 +64,24 @@ export default function createChart(config) {
   }
 
 
+  function addVisibilityChangeSupport() {
+    config.subscriptions.push(ro
+      .on(document, 'visibilitychange')
+      .subscribe(onVisibilityChange));
+  }
+
+
+  function onVisibilityChange() {
+    if (document.hidden) {
+      stopRendering();
+    } else {
+      restartRendering();
+    }
+  }
+
+
   function startRendering() {
-    if (isRendering) {
+    if (isRendering || document.hidden) {
       return;
     }
     isRendering = true;
@@ -82,7 +100,7 @@ export default function createChart(config) {
         config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
         config.scales.x.setDomainTo(to);
 
-        if (now - prev > 900) {
+        if (now - prev >= 1000) {
           config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize);
           config.scales.bufferX.setDomainTo(to + 1000);
           config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + 1000));
