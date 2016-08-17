@@ -1,12 +1,15 @@
 import {combineLatest} from 'reactive-observables';
 
 import {nodePositions$, currentLayoutingStrategy$} from 'in-map/stores/logical/layouterStore';
+import {focusCurrentlyHighlightedEntity} from 'in-map/stores/focusEntityStore';
 import services from 'in-map/stores/logical/servicesStore';
 import connections from 'in-map/stores/connectionsStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 export default function createLayouter() {
+  let firstLayoutDone = false;
+
   let layoutingSubscription = combineLatest([
                                  services.stream,
                                  connections.stream,
@@ -22,8 +25,13 @@ export default function createLayouter() {
                                  };
                                })
                                .debounce(100)
-                               .subscribe(({nodes, edges, layoutStrategy, nodePositions}) =>
-                                  layoutStrategy(nodes, edges, nodePositions));
+                               .subscribe(({nodes, edges, layoutStrategy, nodePositions}) => {
+                                 if (!firstLayoutDone) {
+                                   firstLayoutDone = true;
+                                   focusCurrentlyHighlightedEntity();
+                                 }
+                                 layoutStrategy(nodes, edges, nodePositions);
+                               });
 
 
   function getFocusPointFromCurrentDimensions() {

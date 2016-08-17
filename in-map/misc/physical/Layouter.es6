@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import {focusCurrentlyHighlightedEntity} from 'in-map/stores/focusEntityStore';
 import groups from 'in-map/stores/physical/groupsStore';
 import nodes from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
@@ -8,7 +9,7 @@ import {eventBus} from 'in-map/services/eventBus';
 const MAX_VALUE = Number.MAX_VALUE;
 const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
 
-export default function createLayouter(map) {
+export default function createLayouter() {
   let firstLayoutDone = false;
   const squashFactor = 0.5;
   const groupMargin = 1;
@@ -71,7 +72,7 @@ export default function createLayouter(map) {
 
     if (!firstLayoutDone) {
       firstLayoutDone = true;
-      map.eventEmitter.emit('flyToPosition', getFocusPointFromCurrentDimensions());
+      focusCurrentlyHighlightedEntity();
     }
   }
 

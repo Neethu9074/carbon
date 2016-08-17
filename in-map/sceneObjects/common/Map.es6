@@ -26,8 +26,6 @@ export default class Map extends SceneObject {
     this.addSubscriptions([
       eventBus.on('update').subscribe(dt => this.controller.update(dt)),
 
-      this.eventEmitter.on('flyToPosition').subscribe(pos => this.controller.flyToPosition(pos)),
-
       eventBus.on('focusPosition').subscribe(pos => this.controller.flyToPosition(pos)),
 
       focusEntityId$.subscribe(id => {
