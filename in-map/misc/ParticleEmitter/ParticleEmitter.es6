@@ -102,6 +102,7 @@ export default class ParticleEmitter {
     addSceneObject(this.mesh);
 
     this.timeElapsedSinceLastSpawn = 0;
+    this.timeElapsedSinceLastError = 0;
 
     this.updateSubscription = eventBus.on('update').subscribe(dt => this.update(dt));
 
