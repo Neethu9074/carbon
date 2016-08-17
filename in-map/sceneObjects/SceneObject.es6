@@ -1,8 +1,8 @@
 import RoEmitter from 'roemitter';
 
 import TransformationComponent from 'in-map/sceneObjectComponents/TransformationComponent';
-import focusableSceneObjects from 'in-map/stores/focusableSceneObjectsStore';
 import ColorComponent from 'in-map/sceneObjectComponents/ColorComponent';
+import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
 import Subscriber from 'in-map/misc/Subscriber';
 
 
@@ -27,7 +27,7 @@ export default class SceneObject extends Subscriber {
   initEvents() {}
 
   initialized() {
-    focusableSceneObjects.add(this.id, this);
+    sceneObjects.add(this.id, this);
   }
 
   getComponent(id) {
@@ -61,7 +61,7 @@ export default class SceneObject extends Subscriber {
   }
 
   dispose() {
-    focusableSceneObjects.remove(this.id);
+    sceneObjects.remove(this.id);
 
     Object.keys(this.components).forEach(key => {
       this.removeComponent(key);
