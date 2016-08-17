@@ -79,6 +79,10 @@ export default class ASingleMeshFactory extends Subscriber {
       // all it needs for positioning
       const fragmentVertices = fragment.contentProvider.getVertices();
       const transform = fragment.sceneObject.getComponent('transform');
+      if (!transform) {
+        continue;
+      }
+
       const position = transform.getPosition();
       const scale = transform.getScale();
 

@@ -10,7 +10,7 @@ import 'in-components/RightSidebar/components/MapStatistics/MapStatistics.less';
 const block = 'in-sidebar-map-stats';
 
 export default connectTo({
-  _statistics: statistics.stream.throttle(1000).map(stats => stats.objects)
+  _statistics: statistics.stream.throttle(1000)
 },
 function MapStatistics({_statistics}) {
   if (!_statistics) {
