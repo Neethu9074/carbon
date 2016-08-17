@@ -1,4 +1,3 @@
-import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {eventBus} from 'in-map/services/eventBus';
 
@@ -26,16 +25,18 @@ export default class Map extends SceneObject {
     this.addSubscriptions([
       eventBus.on('update').subscribe(dt => this.controller.update(dt)),
 
-      eventBus.on('focusPosition').subscribe(pos => this.controller.flyToPosition(pos)),
-
-      focusEntityId$.subscribe(id => id ? null : this.centerMap())
+      eventBus.on('focusPosition').subscribe(pos => {
+        if (pos) {
+          this.controller.flyToPosition(pos);
+        }
+        // clear stream data
+        eventBus.emit('focusPosition', null);
+      })
     ]);
   }
 
   centerMap() {
-    if (this.layouter) {
-      this.controller.flyToPosition(this.layouter.getFocusPointFromCurrentDimensions());
-    }
+    this.controller.flyToPosition(this.layouter.getFocusPointFromCurrentDimensions());
   }
 
   dispose() {

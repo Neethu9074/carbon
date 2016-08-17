@@ -15,7 +15,6 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import NodeTooltip from 'in-map/components/tooltips/physical/Node';
-import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
 import nodes from 'in-map/stores/physical/nodesStore';
@@ -86,12 +85,6 @@ export default class Node extends SceneObject {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
         this.getComponent('color').setHex(color);
-      }),
-
-      focusEntityId$.subscribe(id => {
-        if (this.id === id) {
-          eventBus.emit('focusPosition', this.getComponent('transform').getPosition());
-        }
       })
     ]);
   }

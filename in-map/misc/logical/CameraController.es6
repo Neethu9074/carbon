@@ -177,16 +177,11 @@ export default class CameraController extends BaseCameraController {
     eventBus.emit('zoomLevelChanged', this.targetZoomLevel);
   }
 
-  flyToObject(obj) {
-    const pos = obj.getComponent('position').getPosition();
-    this.flyToPosition(pos.x, pos.z);
-  }
-
   flyToPosition(pos) {
-    this.flyToPositionXY(pos.x, pos.z);
+    this.flyToPositionXZ(pos.x, pos.z);
   }
 
-  flyToPositionXY(x, z) {
+  flyToPositionXZ(x, z) {
     const transObj = this.camTransformObject;
 
     transObj.position.x = x;

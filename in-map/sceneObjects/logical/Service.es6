@@ -15,7 +15,6 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import {changePosition} from 'in-map/stores/logical/layouterStore';
-import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import services from 'in-map/stores/logical/servicesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
@@ -111,12 +110,6 @@ export default class Service extends SceneObject {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
         this.getComponent('color').setHex(color);
-      }),
-
-      focusEntityId$.subscribe(id => {
-        if (this.id === id) {
-          eventBus.emit('focusPosition', this.getComponent('transform').getPosition());
-        }
       }),
 
       this.eventEmitter.on('positionChanged').subscribe(pos => changePosition(this.id, pos.x, pos.y, pos.z))

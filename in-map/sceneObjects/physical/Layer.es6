@@ -8,10 +8,8 @@ import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
-import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {collisionDetection} from 'in-map/misc/Physics';
-import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';
 
 
@@ -49,12 +47,6 @@ export default class Layer extends SceneObject {
     super.initEvents();
 
     this.addSubscriptions([
-      focusEntityId$.subscribe(id => {
-        if (this.id === id) {
-          eventBus.emit('focusPosition', this.getComponent('transform').getPosition());
-        }
-      }),
-
       this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';

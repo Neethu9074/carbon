@@ -5,11 +5,12 @@ import {PHYSICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import groups from 'in-map/stores/physical/groupsStore';
 import nodes from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
+import {focusId} from 'in-map/services/focus';
 
 
 const MAX_VALUE = Number.MAX_VALUE;
 
-export default function createLayouter(map) {
+export default function createLayouter() {
   let firstLayoutDone = false;
   const squashFactor = 0.5;
   const groupMargin = 1;
@@ -23,7 +24,7 @@ export default function createLayouter(map) {
   const layoutingSubscription = combineLatest([groups.stream,
                                                nodes.stream,
                                                eventBus.on('layoutNeedsUpdate')])
-                               .throttle(PHYSICAL_LAYOUTING)
+                               .debounce(PHYSICAL_LAYOUTING)
                                .subscribe(([_groups]) => applyLayout(_groups));
 
   function applyLayout(_groups) {
@@ -76,7 +77,7 @@ export default function createLayouter(map) {
 
     if (!firstLayoutDone) {
       firstLayoutDone = true;
-      map.centerMap();
+      focusId();
     }
   }
 

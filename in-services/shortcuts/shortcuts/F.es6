@@ -1,4 +1,4 @@
-import {focusCurrentlyHighlightedEntity} from 'in-map/stores/focusEntityStore';
+import {focusCurrentlyHighlightedEntity} from 'in-map/services/focus';
 
 
 export default function onPressed() {

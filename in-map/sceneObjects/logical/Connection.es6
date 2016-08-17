@@ -25,11 +25,9 @@ import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connecti
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
-import {focusEntityId$} from 'in-map/stores/focusEntityStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import {emptyArray} from 'in-services/fixedObjects';
-import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';
 
 
@@ -106,15 +104,6 @@ export default class Connection extends SceneObject {
           this.collisionLine.geometry.dispose();
         }
         this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
-      }),
-
-      combineLatest([
-        focusEntityId$,
-        this.eventEmitter.on('positionChanged')
-      ]).subscribe(([id, centerPosition]) => {
-        if (this.id === id) {
-          eventBus.emit('focusPosition', centerPosition);
-        }
       }),
 
       combineLatest([
