@@ -12,9 +12,6 @@ import * as time from 'in-map/misc/time';
 import {theme} from 'in-services/theme';
 
 
-console.log('TODOS:');
-console.log('not all is red on health');
-
 export default class Scene extends SceneObject {
 
   constructor(params) {
