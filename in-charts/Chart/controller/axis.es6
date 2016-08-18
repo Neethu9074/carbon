@@ -1,5 +1,6 @@
 import invariant from 'invariant';
 
+import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import {getDefaultMetricRollupDuration, getMetricsForTimeframe} from 'in-stores/metric';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createDataHolder from 'in-charts/data/dataHolder';
@@ -12,7 +13,7 @@ import {theme} from 'in-services/theme';
 
 
 const contentRendererCreators = {
-  stackedArea: createLineContentRenderer,
+  stackedArea: createStackedAreaContentRenderer,
   line: createLineContentRenderer,
   bar: createLineContentRenderer,
   point: createLineContentRenderer,
