@@ -10,7 +10,8 @@ import Mtd from 'in-components/Mtd';
 
 
 export default function DeploymentsTable({snapshot, timeframe}) {
-  const deployments = snapshot.getIn(['data', 'deployments'], emptyMap).sort();
+  const deployments = snapshot.getIn(['data', 'deployments'], emptyMap)
+                              .filter((c) => c.get('contextRoot')).sort();
   const isEAP = snapshot.getIn(['data', 'serverInfo', 'productName']) === 'EAP';
 
   if (!isEAP || deployments.size === 0) {
@@ -18,7 +19,7 @@ export default function DeploymentsTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Deployments'>
+    <DashboardSection title='Web Deployments'>
       <ExpandableTable data={deployments}
                        getKey={getKey}
                        createHeader={createHeader}
@@ -50,11 +51,11 @@ function createHeader() {
 }
 
 
-function createRow(deploymentName, i, context) {
+function createRow(deploymentName, deploymentContext, context) {
   return ([
-    <td>{deploymentName}</td>,
+    <td>{deploymentContext}</td>,
 
-    <Mtd metric={'sessions.' + deploymentName + '.activeSessions'}
+    <Mtd metric={'sessions.' + deploymentContext + '.activeSessions'}
          snapshot={context.snapshot} />
   ]);
 }
@@ -74,7 +75,7 @@ function createDetails(deploymentName, deploymentContext, context) {
              }}
              y1={{
                metrics: [
-                 'sessions.' + deploymentName + '.activeSessions'
+                 'sessions.' + deploymentContext + '.activeSessions'
                ],
                labels: [
                  'Active Sessions'
