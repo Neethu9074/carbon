@@ -23,6 +23,12 @@ export default function createPointContentRenderer({axisName, config}) {
          columnIndex++) {
         const dataColumn = dataColumns[columnIndex];
         const dataRow = dataColumn[seriesIndex];
+
+        // existense of data points in all rows is not guaranteed - skip column for this series
+        if (!dataRow) {
+          continue;
+        }
+
         ctx.beginPath();
         ctx.arc(x.getRange(dataRow[0]), y.getRange(dataRow[1]), 2, 0, CIRCLE_ARC);
         ctx.closePath();
