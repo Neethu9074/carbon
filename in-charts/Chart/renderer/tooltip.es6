@@ -1,5 +1,8 @@
 import {sortedIndexBy} from 'lodash';
+import ReactDOM from 'react-dom';
+import React from 'react';
 
+import ReactTooltip from 'in-charts/Chart/renderer/ReactTooltip';
 import {applyTransform} from 'in-services/util/dom';
 
 export default function createTooltipRenderer(config) {
@@ -8,11 +11,20 @@ export default function createTooltipRenderer(config) {
   let y2DataColumn;
   let dataPointsExistingAtMoment;
 
+  hideTooltip();
+
   return {
     showTooltip,
     hideTooltip,
-    repositionTooltip
+    repositionTooltip,
+    dispose
   };
+
+
+  function dispose() {
+    ReactDOM.unmountComponentAtNode(config.dom.tooltipContainer);
+  }
+
 
   function showTooltip(_highlightedMoment) {
     highlightedMoment = _highlightedMoment;
@@ -31,6 +43,14 @@ export default function createTooltipRenderer(config) {
     }
 
     repositionTooltip();
+
+    ReactDOM.render(
+      <ReactTooltip config={config}
+                    y1DataColumn={y1DataColumn}
+                    y2DataColumn={y2DataColumn}
+                    time={dataPointsExistingAtMoment} />,
+      config.dom.tooltipContainer
+    );
   }
 
 
@@ -40,6 +60,7 @@ export default function createTooltipRenderer(config) {
     y1DataColumn = null;
     y2DataColumn = null;
     config.dom.tooltipLine.style.display = 'none';
+    config.dom.tooltipContainer.style.display = 'none';
   }
 
 
@@ -49,9 +70,31 @@ export default function createTooltipRenderer(config) {
       return;
     }
 
-    const x = config.scales.x.getRange(time);
+    // const availableWidth = this.width - this.margins.left - this.margins.right;
+    // if (x > (availableWidth / 2)) {
+    //   const tooltipX = availableWidth - x + 50 + this.margins.right;
+    //   this.tooltipElement.style.left = null;
+    //   this.tooltipElement.style.right = tooltipX + 'px';
+    // } else {
+    //   const tooltipX = x + this.margins.left + 50;
+    //   this.tooltipElement.style.right = null;
+    //   this.tooltipElement.style.left = tooltipX + 'px';
+    // }
+
     config.dom.tooltipLine.style.display = 'block';
+    config.dom.tooltipContainer.style.display = 'block';
+
+    const x = config.scales.x.getRange(time);
     applyTransform(config.dom.tooltipLine, `translateX(${x}px)`);
+
+    if (x > config.width / 2) {
+      const tooltipX = config.width - x + 30;
+      config.dom.tooltipContainer.style.left = null;
+      config.dom.tooltipContainer.style.right = `${tooltipX}px`;
+    } else {
+      config.dom.tooltipContainer.style.left = `${x + 30}px`;
+      config.dom.tooltipContainer.style.right = null;
+    }
   }
 
 

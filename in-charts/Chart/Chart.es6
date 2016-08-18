@@ -99,6 +99,7 @@ export default function createChart(config) {
 
 
   function dispose() {
+    tooltipRenderer.dispose();
     domController.dispose();
     axisController.dispose();
     config.subscriptions.forEach(s => s.dispose());
