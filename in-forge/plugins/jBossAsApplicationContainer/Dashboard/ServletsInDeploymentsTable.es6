@@ -9,7 +9,8 @@ import Mtd from 'in-components/Mtd';
 
 
 export default function ServletsTable({deploymentContext, snapshot, timeframe}) {
-  const servlets = snapshot.getIn(['data', 'servlets', deploymentContext], emptyMap).sort();
+  const servlets = snapshot.getIn(['data', 'servlets', deploymentContext], emptyMap)
+                           .sort();
 
   if (servlets.size === 0) {
     return null;
@@ -64,7 +65,9 @@ function createRow(servletName, servletIndex, context) {
 }
 
 
-function createDetails(servlet, servletIndex, context) {
+function createDetails(servletName, servletIndex, context) {
+    const servletKey = context.deploymentContext + '.' + servletName;
+
   return (
     <ChartWithLegend snapshotId={context.snapshot.get('id')}
            timeframe={context.timeframe}
@@ -75,7 +78,7 @@ function createDetails(servlet, servletIndex, context) {
            y1={{
              formatter: msZeroDecimalPlaces,
              metrics: [
-               'servlets.' + servlet + '.avgResponseTime'
+               'servlets.' + servletKey + '.avgResponseTime'
              ],
              labels: [
                'Average Response Time'
@@ -84,7 +87,7 @@ function createDetails(servlet, servletIndex, context) {
            }}
            y2={{
              metrics: [
-               'servlets.' + servlet + '.requests'
+               'servlets.' + servletKey + '.requests'
              ],
              labels: [
                'Requests'
