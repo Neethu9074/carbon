@@ -106,7 +106,6 @@ export default function createChart(config) {
       return;
     }
     isRendering = true;
-    log('Starting rendering', config);
 
     restartRenderingSubscription = config.signals.restartRendering$
       .subscribe(restartRendering);
@@ -179,7 +178,6 @@ export default function createChart(config) {
       return;
     }
     isRendering = false;
-    log('Stopping rendering');
     if (restartRenderingSubscription) {
       restartRenderingSubscription.dispose();
       restartRenderingSubscription = null;
@@ -193,14 +191,7 @@ export default function createChart(config) {
 
 
   function restartRendering() {
-    log('Restarting rendering');
     stopRendering();
     startRendering();
-  }
-
-
-  function log(...args) {
-    args.unshift(new Date());
-    console.log.apply(console, args);
   }
 }
