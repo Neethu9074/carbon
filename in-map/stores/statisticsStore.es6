@@ -1,8 +1,8 @@
 import createCollection from 'in-map/stores/ObjectColletionStream';
 import services from 'in-map/stores/logical/servicesStore';
 import connections from 'in-map/stores/connectionsStore';
-import groups from 'in-map/stores/physical/groupsStore';
-import nodes from 'in-map/stores/physical/nodesStore';
+import {groups} from 'in-map/stores/physical/groupsStore';
+import {nodes} from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
 import {scene$} from 'in-map/stores/sceneStore';
 import * as time from 'in-map/misc/time';

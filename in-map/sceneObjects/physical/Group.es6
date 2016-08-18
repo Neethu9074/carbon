@@ -8,7 +8,7 @@ import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import createObjectCollection from 'in-map/stores/ObjectCollection';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import groups from 'in-map/stores/physical/groupsStore';
+import {groups} from 'in-map/stores/physical/groupsStore';
 import {eventBus} from 'in-map/services/eventBus';
 
 

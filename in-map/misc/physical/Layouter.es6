@@ -2,8 +2,8 @@ import {combineLatest} from 'reactive-observables';
 
 import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
 import {PHYSICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
-import groups from 'in-map/stores/physical/groupsStore';
-import nodes from 'in-map/stores/physical/nodesStore';
+import {groups} from 'in-map/stores/physical/groupsStore';
+import {nodes} from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
 import {focusId} from 'in-map/services/focus';
 
@@ -47,9 +47,9 @@ export default function createLayouter() {
       };
 
       const transform = group.getComponent('transform');
-      transform.setPositionXYZ(dim.x + dim.width / 2 - 1,
+      transform.setPositionXYZ(dim.x + dim.width / 2,
                                0,
-                               -dim.height / 2 + 1);
+                               -dim.height / 2);
       transform.setScaleXYZ(dim.width,
                             1,
                             dim.height);
@@ -61,9 +61,9 @@ export default function createLayouter() {
         currentDimensions.x = Math.max(currentDimensions.x, nodeXCursor);
         currentDimensions.y = Math.max(currentDimensions.y, nodeYCursor);
 
-        node.getComponent('transform').setPositionXYZ(nodeXCursor - 0.5,
+        node.getComponent('transform').setPositionXYZ(nodeXCursor + 0.5,
                                                       0,
-                                                      -nodeYCursor + 0.5);
+                                                      -nodeYCursor + 0.5 - groupMargin);
 
         nodeXCursor += nodeMargin + 1;
         if (nodeXCursor >= dim.x + dim.width) {

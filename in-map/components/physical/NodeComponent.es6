@@ -4,7 +4,7 @@ import ConnectionComponent from 'in-map/components/physical/ConnectionComponent'
 import NodeMetricComponent from 'in-map/components/physical/NodeMetricComponent';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
 import LayerComponent from 'in-map/components/physical/LayerComponent';
-import nodes from 'in-map/stores/physical/nodesStore';
+import {nodes} from 'in-map/stores/physical/nodesStore';
 import Node from 'in-map/sceneObjects/physical/Node';
 import {emptyArray} from 'in-services/fixedObjects';
 import {activeMetric$} from 'in-stores/metric';
