@@ -3,10 +3,12 @@ import RoEmitter from 'roemitter';
 import THREE from 'three';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
+import createObjectCollection from 'in-map/stores/ObjectCollection';
 import {setCameraController} from 'in-map/stores/cameraController';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {clearSelectedEvent} from 'in-stores/events';
+import {emptyArray} from 'in-services/fixedObjects';
 import {goToDashboard} from 'in-stores/navigation';
 import {eventBus} from 'in-map/services/eventBus';
 import Subscriber from 'in-map/misc/Subscriber';
@@ -18,12 +20,15 @@ export default class CameraController extends Subscriber {
   constructor(scene, map) {
     super();
 
-    this.interactionModules = [];
+    this.interactionModules = createObjectCollection();
     this.eventEmitter = new RoEmitter('control event emitter');
 
     this.camera = scene.camera;
     this.scene = scene;
     this.map = map;
+
+    this.hoveredConnections = emptyArray;
+    this.hittenObject = null;
 
     // this counter is used to check if the cameraSpeed can be resetted
     this.zoomCalls = 0;
@@ -38,8 +43,11 @@ export default class CameraController extends Subscriber {
     // the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
 
-    // is needed to calculate delta
-    this.lastMousePosition = {x: 0, y: 0};
+    // the cursor position in pixel-space ([0, width], [0, height])
+    this.cursorPosition = {x: 0, y: 0};
+
+    // the cursor position in screen-space ([-1, 1], [-1, 1])
+    this.screenSpaceCursorPosition = {x: 0, y: 0};
 
     // zoom fields
     this.maxZoomOut = 1800;
@@ -54,8 +62,6 @@ export default class CameraController extends Subscriber {
 
     this.zoomSpeed = 10;
     this.scrollSpeed = 5;
-
-    setCameraController(this);
   }
 
   init(xOffset) {
@@ -92,7 +98,7 @@ export default class CameraController extends Subscriber {
 
       this.eventEmitter.on('onZoom').subscribe(delta => this.onZoom(delta)),
 
-      this.eventEmitter.on('onMouseMoved').subscribe(lastMousePosition => this.onMouseMoved(lastMousePosition)),
+      this.eventEmitter.on('onMouseMoved').subscribe(newPos => this.setCursorPosition(newPos)),
 
       this.eventEmitter.on('onObjectClicked').subscribe((hittenOnes) => this.onObjectClicked(hittenOnes)),
 
@@ -101,9 +107,11 @@ export default class CameraController extends Subscriber {
     ]);
 
     this.eventEmitter.emit('isDragingObject', false);
+
+    setCameraController(this);
   }
 
-  addInteractionModules(modules) {
+  addInteractionModule(name, Class) {
     const params = {
       eventEmitter: this.eventEmitter,
       canvas: this.scene.canvas,
@@ -112,21 +120,27 @@ export default class CameraController extends Subscriber {
       map: this.map,
       client: this
     };
-
-    for (let i = 0; i < modules.length; i++) {
-      const module = new modules[i](params);
-      this.interactionModules.push(module);
-    }
+    this.interactionModules.add(name, new Class(params));
   }
 
   centerMousePosition() {
-    this.lastMousePosition.x = this.scene.width / 2;
-    this.lastMousePosition.y = this.scene.height / 2;
+    this.setCursorPosition({
+      x: this.scene.width / 2,
+      y: this.scene.height / 2
+    });
   }
 
-  onMouseMoved(lastMousePosition) {
-    this.lastMousePosition.x = lastMousePosition.x;
-    this.lastMousePosition.y = lastMousePosition.y;
+  setCursorPosition({x, y}) {
+    if (this.cursorPosition.x === x &&
+        this.cursorPosition.y === y) {
+      return;
+    }
+    this.cursorPosition.x = x;
+    this.cursorPosition.y = y;
+
+    // transform into screen space
+    this.screenSpaceCursorPosition.x = (x / this.camera.width) * 2 - 1;
+    this.screenSpaceCursorPosition.y = -(y / this.camera.height) * 2 + 1;
   }
 
   onMove({dx, dy}) {
@@ -238,18 +252,12 @@ export default class CameraController extends Subscriber {
   }
 
   updateZoomLevel(dT) {
-    const scene = this.scene;
-    const cursorPosition = { x: 0, y: 0 };
     const delta = this.targetZoomLevel - this.zoomLevel;
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
-    // this.switchStateIfNext(this.zoomLevel);
 
-    // get the position of the point in world space where the mouse is pointing at
-    // and before the camera zoomed in
-    cursorPosition.x = (this.lastMousePosition.x / scene.width) * 2 - 1; // [-1, 1]
-    cursorPosition.y = -(this.lastMousePosition.y / scene.height) * 2 + 1; // [-1, 1]
-    const pointOfImpact = this.getPointOfImpact(cursorPosition);
+    // get the position of the point in world space where the mouse is pointing at and before the camera zoomed in
+    const pointOfImpact = this.getPointOfImpact();
 
     // change camera size for zoom effect
     this.camera.cameraSize = this.zoomLevel / 10;
@@ -262,7 +270,7 @@ export default class CameraController extends Subscriber {
     this.camera.getRenderableCamera().updateProjectionMatrix();
 
     // get the new screenPosition of the impact point so that you can calculate the delta in screen space
-    const pointOfImpactNew = this.getPointOfImpact(cursorPosition, scene);
+    const pointOfImpactNew = this.getPointOfImpact();
     if (!pointOfImpactNew) {
       return;
     }
@@ -272,15 +280,13 @@ export default class CameraController extends Subscriber {
     transObj.updateMatrixWorld();
   }
 
-  getPointOfImpact(mousePos) {
-    // update the picking ray with the camera and mouse position
-    this.raycaster.setFromCamera(mousePos, this.camera.camera);
+  getPointOfImpact() {
+    return this.interactionModules.get('raycaster').checkObject(this.map.groundPlane.getCollisionMesh());
+  }
 
-    // calculate objects intersecting the picking ray
-    const intersects = this.raycaster.intersectObjects([this.map.groundPlane.getCollisionMesh()]);
-    if (intersects.length >= 1) {
-      return intersects[0].point;
-    }
+  setCurrentHittenObjects(hittenObject, hoveredConnections) {
+    this.hoveredConnections = hittenObject;
+    this.hittenObject = hoveredConnections;
   }
 
   onObjectClicked({hittenObject, hoveredConnections}) {
@@ -299,19 +305,19 @@ export default class CameraController extends Subscriber {
     }
   }
 
-
   dispose() {
     setCameraController(null);
 
-    this.interactionModules.forEach(module => module.dispose());
-    this.interactionModules = [];
+    Object.keys(this.interactionModules.objects).forEach(key => {
+      this.interactionModules.objects[key].dispose();
+      this.interactionModules.remove(key);
+    });
 
     this.eventEmitter.dispose();
     super.dispose();
 
     this.defaultCameraSpeed = null;
     this.camTransformObject = null;
-    this.lastMousePosition = null;
     this.targetZoomLevel = null;
     this.directionToCam = null;
     this.normalZoomOut = null;

@@ -18,11 +18,6 @@ export default class RaycasterModule extends Module {
     // raytracing fields
     this.raycaster = new THREE.Raycaster();
 
-    // holds the mouse/touch position in screen coordinates (x,y) => [-1, 1]
-    this.cursorForRay = new THREE.Vector2();
-
-    this.cursorPosition = { x: 0, y: 0 };
-
     this.currentConnections = emptyArray;
 
     this.initEvents();
@@ -30,36 +25,27 @@ export default class RaycasterModule extends Module {
 
   initEvents() {
     this.addSubscriptions([
-      this.eventEmitter.on('onMouseMoved')
-      .subscribe(({x, y}) => {
-        this.cursorPosition.x = x;
-        this.cursorPosition.y = y;
-        this.handleRayCasting();
-      }),
+      this.eventEmitter.on('onMouseMoved').subscribe(() => this.handleRayCasting()),
 
-      this.eventEmitter.on('onMouseLeave')
-      .subscribe(() => {
-        this.cursorPosition.x = Infinity;
-        this.cursorPosition.y = Infinity;
-        this.handleRayCasting();
-      }),
+      this.eventEmitter.on('onMouseLeave').subscribe(() => this.handleRayCasting()),
 
-      this.eventEmitter.on('onZoom').subscribe(this.handleRayCasting.bind(this)),
+      this.eventEmitter.on('onZoom').subscribe(() => this.handleRayCasting()),
 
       this.eventEmitter.on('onClicked').subscribe(() => this.onClicked()),
 
       this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked()),
 
-      connections.stream.debounce(50).subscribe(_connections =>
+      connections.stream.subscribe(_connections =>
         this.currentConnections = Object.keys(_connections).map(key => _connections[key]))
     ]);
   }
 
   handleRayCasting() {
-    const lastHittenObject = this.hittenObject;
-    const lastHoveredConnections = this.hoveredConnections;
+    const lastHittenObject = this.client.hittenObject;
+    const lastHoveredConnections = this.client.hoveredConnections;
 
     const {hittenObject, hoveredConnections} = this.getObjectOnCursor();
+    this.client.setCurrentHittenObjects(hittenObject, hoveredConnections);
 
     if (lastHittenObject !== hittenObject) {
       if (hittenObject) {
@@ -83,6 +69,17 @@ export default class RaycasterModule extends Module {
     }
   }
 
+  checkObject(mesh) {
+    // update the picking ray with the camera and mouse position
+    this.raycaster.setFromCamera(this.client.screenSpaceCursorPosition, this.camera.camera);
+
+    // calculate objects intersecting the picking ray
+    const intersects = this.raycaster.intersectObjects([mesh]);
+    if (intersects.length >= 1) {
+      return intersects[0].point;
+    }
+  }
+
   onClicked() {
     this.eventEmitter.emit('onObjectClicked', this.getObjectOnCursor());
   }
@@ -95,18 +92,8 @@ export default class RaycasterModule extends Module {
   }
 
   getObjectOnCursor() {
-    const scene = this.scene;
-
-    // get the mouse/touch position in pixel coords
-    const x = this.cursorPosition.x;
-    const y = this.cursorPosition.y;
-
-    // transform into screen space
-    this.cursorForRay.x = (x / scene.width) * 2 - 1;
-    this.cursorForRay.y = -(y / scene.height) * 2 + 1;
-
     // update raycaster
-    this.raycaster.setFromCamera(this.cursorForRay, this.camera.camera);
+    this.raycaster.setFromCamera(this.client.screenSpaceCursorPosition, this.camera.camera);
 
     // find the hitten object
     const hittenObject = this.hittenObject = findObjectByRay(this.raycaster);
@@ -125,10 +112,6 @@ export default class RaycasterModule extends Module {
   dispose() {
     super.dispose();
 
-    this.cursorPosition = null;
-    this.cursorForRay = null;
     this.raycaster = null;
-    this.camera = null;
-    this.scene = null;
   }
 }

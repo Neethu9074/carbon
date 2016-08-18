@@ -11,12 +11,10 @@ export default function createCameraController(scene, map) {
   controller.init(-0.6);
   controller.initEvents();
 
-  controller.addInteractionModules([
-    MouseControlsModule,
-    TouchControlsModule,
-    DragAndDropModule,
-    RaycasterModule
-  ]);
+  controller.addInteractionModule('mouse', MouseControlsModule);
+  controller.addInteractionModule('touch', TouchControlsModule);
+  controller.addInteractionModule('raycaster', RaycasterModule);
+  controller.addInteractionModule('drag', DragAndDropModule);
 
   return controller;
 }

@@ -9,9 +9,14 @@ export default function createCollection() {
     delete objects[id];
   }
 
+  function get(id) {
+    return objects[id];
+  }
+
   return {
     add,
     remove,
+    get,
     objects
   };
 }

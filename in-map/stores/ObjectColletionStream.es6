@@ -1,6 +1,6 @@
 import {create} from 'reactive-observables';
 
-import createObjectCollection from 'in-map/stores/ObjectColletion';
+import createObjectCollection from 'in-map/stores/ObjectCollection';
 
 
 export default function createCollection() {

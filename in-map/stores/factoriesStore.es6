@@ -1,4 +1,4 @@
-import createObjectColletion from 'in-map/stores/ObjectColletion';
+import createObjectColletion from 'in-map/stores/ObjectCollection';
 
 
 const factories = createObjectColletion();

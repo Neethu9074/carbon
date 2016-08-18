@@ -1,7 +1,6 @@
 import {onWheel, onMove, onLeave} from 'in-services/reactiveMouseEvents';
-import {theme} from 'in-services/theme';
-
 import Module from 'in-map/misc/common/Module';
+import {theme} from 'in-services/theme';
 
 
 export default class MouseControlModule extends Module {
@@ -9,29 +8,31 @@ export default class MouseControlModule extends Module {
   constructor(params) {
     super(params);
 
-    this.lastMousePosition = {x: 0, y: 0};
     this.initEvents();
   }
 
   initEvents() {
-    const canvas = this.scene.canvas;
+    const domElement = this.canvas;
 
     this.addSubscriptions([
-      onMove(canvas, e  => {
+      onMove(domElement, e  => {
         e.preventDefault();
 
-        const roundedX = e.clientX | 0;
-        const roundedY = (e.clientY | 0) - theme.header.height;
-        if (this.lastMousePosition.x === roundedX && this.lastMousePosition.y === roundedY) {
-          return;
-        }
-
-        this.lastMousePosition.x = roundedX;
-        this.lastMousePosition.y = roundedY;
-        this.eventEmitter.emit('onMouseMoved', this.lastMousePosition);
+        this.eventEmitter.emit('onMouseMoved', {
+          x: e.clientX | 0,
+          y: (e.clientY | 0) - theme.header.height
+        });
       }),
 
-      onWheel(canvas, event => {
+      onLeave(domElement, () => {
+        this.client.setCursorPosition({
+          x: Infinity,
+          y: Infinity
+        });
+        this.eventEmitter.emit('onMouseLeave');
+      }),
+
+      onWheel(domElement, event => {
         const deltaY = event.rawEvent.deltaY;
 
         // Because we listen to onwheel, the e.deltaY "should be" in a range of
@@ -48,16 +49,7 @@ export default class MouseControlModule extends Module {
         const zoom = Math.max(-50, Math.min(50, Math.abs(deltaY | 0) / 4));
 
         this.eventEmitter.emit('onZoom', -zoom * event.scrollSpeed * event.scrollDirection);
-      }),
-
-      onLeave(canvas, () => this.eventEmitter.emit('onMouseLeave'))
+      })
     ]);
-  }
-
-  dispose() {
-    super.dispose();
-
-    this.scene = null;
-    this.lastMousePosition = null;
   }
 }
