@@ -192,7 +192,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
       <DashboardSection title='Active Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         maergins={{
+                         margins={{
                            left: 80
                          }}
                          y1={{
@@ -224,7 +224,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
       <DashboardSection title='Rejected Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         maergins={{
+                         margins={{
                            left: 80
                          }}
                          y1={{
@@ -248,7 +248,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
       <DashboardSection title='Queued Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
-                         maergins={{
+                         margins={{
                            left: 80
                          }}
                          y1={{
