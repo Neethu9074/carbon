@@ -113,7 +113,6 @@ export function getCenterPosition(fromPos, toPos) {
   return from.add(to.sub(from).multiplyScalar(0.5));
 }
 
-
 export function calculateLogicalCollisionMesh(from, to) {
   const geometry = new THREE.Geometry();
   geometry.vertices.push(from, to);
@@ -125,7 +124,6 @@ export function calculatePhysicalCollisionMesh(from, to) {
   geometry.vertices = getManhattanPath(from.x, from.z, to.x, to.z);
   return new THREE.Line(geometry, COLLISION_LINE_MATERIAL);
 }
-
 
 export function intersects(raycaster, collisionLine) {
   if (!collisionLine) {
