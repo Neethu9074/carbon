@@ -70,17 +70,6 @@ export default function createTooltipRenderer(config) {
       return;
     }
 
-    // const availableWidth = this.width - this.margins.left - this.margins.right;
-    // if (x > (availableWidth / 2)) {
-    //   const tooltipX = availableWidth - x + 50 + this.margins.right;
-    //   this.tooltipElement.style.left = null;
-    //   this.tooltipElement.style.right = tooltipX + 'px';
-    // } else {
-    //   const tooltipX = x + this.margins.left + 50;
-    //   this.tooltipElement.style.right = null;
-    //   this.tooltipElement.style.left = tooltipX + 'px';
-    // }
-
     config.dom.tooltipLine.style.display = 'block';
     config.dom.tooltipContainer.style.display = 'block';
 
