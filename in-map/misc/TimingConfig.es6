@@ -6,5 +6,4 @@ export const CONNECTIONS_NODE_CHECKING = 50;
 export const PHYSICAL_LAYOUTING = 50;
 export const LOGICAL_LAYOUTING = 50;
 export const LAYER_LAYOUTING = 50;
-export const TOOLTIP_MOUNT = 50;
 export const FACTORY = 50;
