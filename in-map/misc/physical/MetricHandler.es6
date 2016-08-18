@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import {METRIC_PILLAR_REFRESH} from 'in-map/misc/TimingConfig';
 import {getLiveMetrics, activeMetric$} from 'in-stores/metric';
 import {getMaxValue} from 'in-sdk/metrics';
 
@@ -39,8 +40,10 @@ export default function createMetricHandler(node, snapshotId) {
                                                 metric: metric.get('name')
                                               }))
                                       )
-                         .throttle(1000)
-                         .subscribe(values => node.setMetricValues(values.map(v => v[1] / maxValue)));
+                         .throttle(METRIC_PILLAR_REFRESH)
+                         .subscribe(values => {
+                           node.setMetricValues(values.map(v => v[1] / maxValue));
+                         });
   }
 
   return {
