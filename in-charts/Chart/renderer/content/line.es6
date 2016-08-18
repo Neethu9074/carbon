@@ -35,7 +35,6 @@ export default function createLineContentRenderer({axisName, config}) {
           ctx.moveTo(xToRender, y.getRange(dataRow[1]));
         } else {
           ctx.lineTo(xToRender, y.getRange(dataRow[1]));
-          // console.log('line to', xToRender, y.getRange(dataRow.y));
         }
 
         previousX = xToRender;
