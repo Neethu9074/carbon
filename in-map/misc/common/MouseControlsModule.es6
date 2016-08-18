@@ -6,10 +6,9 @@ import Module from 'in-map/misc/common/Module';
 
 export default class MouseControlModule extends Module {
 
-  constructor(eventEmitter, scene) {
-    super(eventEmitter);
+  constructor(params) {
+    super(params);
 
-    this.scene = scene;
     this.lastMousePosition = {x: 0, y: 0};
     this.initEvents();
   }
@@ -23,14 +22,14 @@ export default class MouseControlModule extends Module {
 
         const roundedX = e.clientX | 0;
         const roundedY = (e.clientY | 0) - theme.header.height;
-        if (this.lastMousePosition.x !== roundedX ||
-          this.lastMousePosition.y !== roundedY) {
-            this.lastMousePosition.x = roundedX;
-            this.lastMousePosition.y = roundedY;
+        if (this.lastMousePosition.x === roundedX && this.lastMousePosition.y === roundedY) {
+          return;
+        }
 
-            this.eventEmitter.emit('onMouseMoved', this.lastMousePosition);
-          }
-        }),
+        this.lastMousePosition.x = roundedX;
+        this.lastMousePosition.y = roundedY;
+        this.eventEmitter.emit('onMouseMoved', this.lastMousePosition);
+      }),
 
       onWheel(canvas, event => {
         const deltaY = event.rawEvent.deltaY;

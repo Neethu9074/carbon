@@ -3,15 +3,14 @@ import Subscriber from 'in-map/misc/Subscriber';
 
 export default class Module extends Subscriber {
 
-  constructor(eventEmitter) {
+  constructor(params) {
     super();
 
-    this.eventEmitter = eventEmitter;
-  }
-
-  dispose() {
-    super.dispose();
-
-    this.eventEmitter = null;
+    this.eventEmitter = params.eventEmitter;
+    this.client = params.client;
+    this.canvas = params.canvas;
+    this.camera = params.camera;
+    this.scene = params.scene;
+    this.map = params.map;
   }
 }

@@ -2,7 +2,7 @@ import FadeByDistanceSingleMeshFactory from 'in-map/singleMeshFactories/FadeByDi
 import BasicSingleMeshFactory from 'in-map/singleMeshFactories/BasicSingleMeshFactory';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
-import CameraController from 'in-map/misc/physical/CameraController';
+import createCameraController from 'in-map/misc/physical/CameraController';
 import GroundPlane from 'in-map/misc/physical/GroundPlane';
 import createLayouter from 'in-map/misc/physical/Layouter';
 import {addFactory} from 'in-map/stores/factoriesStore';
@@ -31,7 +31,7 @@ export default class Map extends BaseMap {
   }
 
   createController(scene) {
-    return new CameraController(scene, this);
+    return createCameraController(scene, this);
   }
 
   createGroundPlane() {

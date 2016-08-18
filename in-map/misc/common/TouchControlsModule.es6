@@ -5,12 +5,11 @@ import Module from 'in-map/misc/common/Module';
 
 export default class TouchControlModule extends Module {
 
-  constructor(eventEmitter, canvas) {
-    super(eventEmitter);
+  constructor(params) {
+    super(params);
 
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
-    this.canvas = canvas;
 
     // holds the mouse/touch position in pixel coordinates
     this.cursor = { x: 0, y: 0 };

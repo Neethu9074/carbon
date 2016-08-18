@@ -10,11 +10,8 @@ import Module from 'in-map/misc/common/Module';
 
 export default class RaycasterModule extends Module {
 
-  constructor(eventEmitter, scene, camera) {
-    super(eventEmitter);
-
-    this.scene = scene;
-    this.camera = camera;
+  constructor(params) {
+    super(params);
 
     this.hoveredConnections = emptyArray;
 

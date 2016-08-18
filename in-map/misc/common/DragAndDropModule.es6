@@ -8,12 +8,8 @@ import Module from 'in-map/misc/common/Module';
 
 export default class RaycasterModule extends Module {
 
-  constructor(eventEmitter, map, canvas, camera) {
-    super(eventEmitter);
-
-    this.map = map;
-    this.camera = camera;
-    this.canvas = canvas;
+  constructor(params) {
+    super(params);
 
     // raytracing fields
     this.raycaster = new THREE.Raycaster();
