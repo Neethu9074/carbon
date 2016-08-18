@@ -13,7 +13,11 @@ import {theme} from 'in-services/theme';
 
 const contentRendererCreators = {
   stackedArea: createLineContentRenderer,
-  line: createLineContentRenderer
+  line: createLineContentRenderer,
+  bar: createLineContentRenderer,
+  point: createLineContentRenderer,
+  integral: createLineContentRenderer,
+  area: createLineContentRenderer
 };
 
 

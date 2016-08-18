@@ -36,8 +36,8 @@ export default function createDomController(config) {
     };
 
     config.container.appendChild(result.wrapper);
-    result.wrapper.appendChild(result.animationScreen);
     result.wrapper.appendChild(result.staticScreen);
+    result.wrapper.appendChild(result.animationScreen);
     result.wrapper.appendChild(result.glassPane);
 
     result.wrapper.classList.add(block);

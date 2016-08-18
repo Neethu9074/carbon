@@ -1,12 +1,11 @@
 import React from 'react';
 
 import createDataSeriesFilterStore from 'in-components/ChartWithLegend/dataseriesFilterStore';
+import Chart from 'in-charts/Chart/ChartReactComponent';
+import ChartLegend from 'in-components/ChartLegend';
 import {timeframeShape} from 'in-stores/timeline';
 import {currentRollup$} from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
-
-import ChartLegend from '../ChartLegend';
-import Chart from '../Chart';
 
 import './ChartWithLegend.less';
 

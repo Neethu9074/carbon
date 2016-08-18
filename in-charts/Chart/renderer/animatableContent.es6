@@ -109,9 +109,6 @@ export default function createAnimatableContentRenderer(config) {
         // add 10% to generate a chartable value range
         min = min * 0.9;
         max = max * 1.1;
-      } else {
-        min -= range * 0.05;
-        max += range * 0.05;
       }
     }
 
@@ -175,6 +172,11 @@ export default function createAnimatableContentRenderer(config) {
     let lastTickRange = scale.getRange(lastTickDomain);
 
     for (let i = 0; i < numElements; i++) {
+      // Do not add y axis labels when there ain't any more room for them.
+      if (lastTickRange < 10) {
+        continue;
+      }
+
       ticks.push({
         range: lastTickRange,
         domain: lastTickDomain
