@@ -88,10 +88,13 @@ export default function createAnimatableContentRenderer(config) {
   function updateScale(dataColumns, axisName) {
     const axisConfig = config[axisName];
     const scale = config.scales[axisName];
-    let max = Number.MAX_VALUE * -1;
-    let min = Number.MAX_VALUE;
+    let max = Number.NEGATIVE_INFINITY;
+    let min = Number.POSITIVE_INFINITY;
 
-    if (axisConfig.min == null && axisConfig.max == null) {
+    if (axisConfig.min != null && axisConfig.max != null) {
+      max = axisConfig.max;
+      min = axisConfig.min;
+    } else {
       const getBounds = config.axisContentRenderers[axisName].getBoundsForRow || getBoundsForRow;
 
       for (let i = 0, len = dataColumns.length; i < len; i++) {
@@ -110,9 +113,6 @@ export default function createAnimatableContentRenderer(config) {
         min -= range * 0.05;
         max += range * 0.05;
       }
-    } else {
-      max = axisConfig.max;
-      min = axisConfig.min;
     }
 
     if (min >= max) {
@@ -190,8 +190,8 @@ export default function createAnimatableContentRenderer(config) {
 
 
 function getBoundsForRow(column) {
-  let max = Number.MAX_VALUE * -1;
-  let min = Number.MAX_VALUE;
+  let max = Number.NEGATIVE_INFINITY;
+  let min = Number.POSITIVE_INFINITY;
 
   for (let i = 0, len = column.length; i < len; i++) {
     const point = column[i];

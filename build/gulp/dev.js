@@ -9,7 +9,6 @@ var path = require('path');
 var runSequence = require('run-sequence');
 var inquirer = require('inquirer');
 var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
 var gutil = require('gulp-util');
 var execSync = require('child_process').execSync;
 
@@ -95,6 +94,12 @@ gulp.task('askForDevOptions', cb => {
         'day'
       ],
       default: 'night'
+    },
+    {
+      type: 'confirm',
+      name: 'withDashboard',
+      message: 'Use dashboard in dev mode?',
+      default: true
     }
   ];
 
@@ -199,13 +204,16 @@ gulp.task('webpack:dev', () => {
   config.debug = true;
 
   var express = require('express');
-  var Dashboard = require('webpack-dashboard');
-  var DashboardPlugin = require('webpack-dashboard/plugin');
 
   var app = express();
   var compiler = webpack(config);
-  var dashboard = new Dashboard();
-  compiler.apply(new DashboardPlugin(dashboard.setData));
+
+  if (devModeOptions.withDashboard) {
+    var Dashboard = require('webpack-dashboard');
+    var DashboardPlugin = require('webpack-dashboard/plugin');
+    var dashboard = new Dashboard();
+    compiler.apply(new DashboardPlugin(dashboard.setData));
+  }
 
   app.use(require('webpack-dev-middleware')(compiler, {
     publicPath: '/bundle',

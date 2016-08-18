@@ -154,7 +154,7 @@ export default function createChart(config) {
       config.height * dpr - config.margins.top * dpr,
       config.margins.left,
       config.margins.top,
-      config.width - config.margins.right * dpr - config.margins.left,
+      config.width - config.margins.right - config.margins.left,
       config.height - config.margins.top
     );
   }

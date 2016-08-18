@@ -25,6 +25,7 @@ import './php';
 import './play2';
 import './rabbitmq';
 import './redis';
+import './sdk';
 import './servlet';
 import './session';
 import './spring-batch';
