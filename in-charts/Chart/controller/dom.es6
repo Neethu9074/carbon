@@ -59,8 +59,8 @@ export default function createDomController(config) {
       right: width - config.margins.right
     };
     dom.wrapper.style.height = `${height}px`;
-    updateCanvasDimensions(dom.animationScreen, ctx.animationScreen, width, height);
-    updateCanvasDimensions(dom.animationBuffer, ctx.animationBuffer, bufferWidth, height);
-    updateCanvasDimensions(dom.staticScreen, ctx.staticScreen, width, height);
+    updateCanvasDimensions(dom.animationScreen, ctx.animationScreen, width, height, config.devicePixelRatio);
+    updateCanvasDimensions(dom.animationBuffer, ctx.animationBuffer, bufferWidth, height, config.devicePixelRatio);
+    updateCanvasDimensions(dom.staticScreen, ctx.staticScreen, width, height, config.devicePixelRatio);
   }
 }
