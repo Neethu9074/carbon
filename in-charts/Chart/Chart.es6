@@ -6,6 +6,7 @@ import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameW
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
 import {toServerTime} from 'in-stores/timeOffset';
+import {getIn} from 'in-services/settings';
 
 import './Chart.less';
 
@@ -14,7 +15,9 @@ const animationDuration = 1000;
 const maxFps = 30;
 
 export default function createChart(config) {
+  let initPhase = true;
   config.subscriptions = [];
+  config.devicePixelRatio = window.devicePixelRatio;
   config.signals = {
     restartRendering$: ro.create(signalRoSpec)
   };
@@ -24,6 +27,8 @@ export default function createChart(config) {
     left: config.margins.left || 1,
     right: config.margins.right || 1
   };
+
+  addLowDetailModeSupport();
 
   const domController = createDomController(config);
   const axisController = createAxisController(config);
@@ -39,9 +44,23 @@ export default function createChart(config) {
   addVisibilityChangeSupport();
   onResize();
 
+  initPhase = false;
+  startRendering();
+
   return {
     dispose
   };
+
+
+  function addLowDetailModeSupport() {
+    config.subscriptions.push(getIn(['charts', 'adaptToDevicePixelRatio'])
+      .subscribe(adaptToDevicePixelRatio => {
+        config.devicePixelRatio = adaptToDevicePixelRatio ? window.devicePixelRatio : 1;
+        if (!initPhase) {
+          onResize();
+        }
+      }));
+  }
 
 
   function dispose() {
@@ -83,11 +102,10 @@ export default function createChart(config) {
 
 
   function startRendering() {
-    if (isRendering || document.hidden) {
+    if (isRendering || document.hidden || initPhase) {
       return;
     }
     isRendering = true;
-    log('Starting rendering', config);
 
     restartRenderingSubscription = config.signals.restartRendering$
       .subscribe(restartRendering);
@@ -96,35 +114,30 @@ export default function createChart(config) {
     borderRenderer.render();
 
 
-    if (config.timeframe.to == null) {
-      let prev = 0;
-      const animate = () => {
-        const now = Date.now();
-        const to = toServerTime(now, config.serverTimeOffset);
-        config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
-        config.scales.x.setDomainTo(to);
+    let prev = 0;
+    const animate = () => {
+      const now = Date.now();
+      const to = config.timeframe.to || toServerTime(now, config.serverTimeOffset);
+      config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
+      config.scales.x.setDomainTo(to);
 
-        if (now - prev >= animationDuration) {
-          config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize);
-          config.scales.bufferX.setDomainTo(to + animationDuration);
-          config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + animationDuration));
+      if (now - prev >= animationDuration) {
+        config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize);
+        config.scales.bufferX.setDomainTo(to + animationDuration);
+        config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + animationDuration));
 
-          config.ctx.staticScreen.clearRect(0, 0, config.width, config.height);
-          config.ctx.animationBuffer.clearRect(0, 0, config.bufferWidth, config.height);
-          borderRenderer.render();
-          animatableContentRenderer.render();
-          prev = now;
-        }
+        config.ctx.staticScreen.clearRect(0, 0, config.width, config.height);
+        config.ctx.animationBuffer.clearRect(0, 0, config.bufferWidth, config.height);
+        borderRenderer.render();
+        animatableContentRenderer.render();
+        prev = now;
+      }
 
-        // update screen buffer x scale
-        copyBackBufferToScreenBuffer();
-      };
+      // update screen buffer x scale
+      copyBackBufferToScreenBuffer();
+    };
 
-      animationCopyHandle = requestAnimationFrameWithFps(animate, maxFps);
-    } else {
-      // schedule copy from backbuffer to screenbuffer when data changes!
-      log('Do something static');
-    }
+    animationCopyHandle = requestAnimationFrameWithFps(animate, maxFps);
   }
 
 
@@ -142,7 +155,7 @@ export default function createChart(config) {
 
 
   function copyBackBufferToScreenBuffer() {
-    const dpr = (window.devicePixelRatio || 1);
+    const dpr = config.devicePixelRatio;
     const x = config.scales.bufferX.getRange(config.scales.x.getDomainFrom()) - config.scales.bufferX.getRangeFrom();
 
     config.ctx.animationScreen.clearRect(0, 0, config.width, config.height);
@@ -165,7 +178,6 @@ export default function createChart(config) {
       return;
     }
     isRendering = false;
-    log('Stopping rendering');
     if (restartRenderingSubscription) {
       restartRenderingSubscription.dispose();
       restartRenderingSubscription = null;
@@ -179,14 +191,7 @@ export default function createChart(config) {
 
 
   function restartRendering() {
-    log('Restarting rendering');
     stopRendering();
     startRendering();
-  }
-
-
-  function log(...args) {
-    args.unshift(new Date());
-    console.log.apply(console, args);
   }
 }

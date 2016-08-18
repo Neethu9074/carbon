@@ -6,11 +6,11 @@ export default function createStackedAreaContentRenderer() {
   };
 
   function processNewDataColumns() {
-    console.log('TODO processNewDataColumns stacked area');
+    // console.log('TODO processNewDataColumns stacked area');
   }
 
 
   function render() {
-    console.log('TODO render stacked area');
+    // console.log('TODO render stacked area');
   }
 }

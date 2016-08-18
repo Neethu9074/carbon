@@ -34,6 +34,7 @@ function loadDefault() {
   setDefaultConfigValue(['autoCollapseTimeline'], false);
   setDefaultConfigValue(['showMaintenanceNotes'], true);
   setDefaultConfigValue(['zoomPanelIsActive'], true);
+  setDefaultConfigValue(['charts', 'adaptToDevicePixelRatio'], true);
 
   setIn(['dataSource'], 'defaults');
 }

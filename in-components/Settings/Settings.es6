@@ -43,7 +43,8 @@ export default connectTo({
       experiments: false,
       autoCollapseTimeline: false,
       showMaintenanceNotes: false,
-      zoomPanelIsActive: true
+      zoomPanelIsActive: true,
+      chartAdaptToDevicePixelRatio: true
     };
   },
 
@@ -53,6 +54,7 @@ export default connectTo({
       const excludeUnmonitoredHosts = data.getIn(['map', 'excludeUnmonitoredHosts']);
       const direction = data.getIn(['map', 'scrollDirection']);
       const antialias = data.getIn(['map', 'antialias']);
+
       this.setState({
         inverseCheckboxChecked: direction === 1 ? false : true,
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
@@ -62,7 +64,8 @@ export default connectTo({
         experiments: data.get('experiments'),
         autoCollapseTimeline: data.getIn(['autoCollapseTimeline']),
         showMaintenanceNotes: data.getIn(['showMaintenanceNotes']),
-        zoomPanelIsActive: data.getIn(['zoomPanelIsActive'], true)
+        zoomPanelIsActive: data.getIn(['zoomPanelIsActive'], true),
+        chartAdaptToDevicePixelRatio: data.getIn(['charts', 'adaptToDevicePixelRatio'])
       });
     }));
 
@@ -196,6 +199,16 @@ export default connectTo({
                         defaultChecked={this.state.zoomPanelIsActive}/>
             </SettingEntry.Content>
             <SettingEntry.HelpText text={''} />
+          </SettingEntry>
+
+          <SettingEntry>
+            <SettingEntry.Header text='High Quality Chart Rendering' />
+            <SettingEntry.Content>
+              <CheckBox onClick={() => toggleIn(['charts', 'adaptToDevicePixelRatio'])}
+                        defaultChecked={this.state.chartAdaptToDevicePixelRatio}/>
+            </SettingEntry.Content>
+            <SettingEntry.HelpText text={'Toggle the quality of chart rendering. Disable this to have fluent ' +
+              'chart animations on slower systems.'} />
           </SettingEntry>
         </div>
       </Dialog>
