@@ -168,8 +168,8 @@ export default function createChart(config) {
         prev = now;
       }
 
-      copyBackBufferToScreenBuffer();
       tooltipRenderer.repositionTooltip();
+      copyBackBufferToScreenBuffer();
     };
 
     animationCopyHandle = requestAnimationFrameWithFps(animate, maxFps);

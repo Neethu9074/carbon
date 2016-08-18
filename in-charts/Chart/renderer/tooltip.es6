@@ -1,5 +1,6 @@
 import {sortedIndexBy} from 'lodash';
 
+import {applyTransform} from 'in-services/util/dom';
 
 export default function createTooltipRenderer(config) {
   let highlightedMoment;
@@ -50,7 +51,7 @@ export default function createTooltipRenderer(config) {
 
     const x = config.scales.x.getRange(time);
     config.dom.tooltipLine.style.display = 'block';
-    config.dom.tooltipLine.style.left = `${x}px`;
+    applyTransform(config.dom.tooltipLine, `translateX(${x}px)`);
   }
 
 
