@@ -45,6 +45,7 @@ import './logicalMongoDbDatabase';
 import './logicalPdoConnection';
 import './logicalRabbitMqConsumerConnection';
 import './logicalRabbitMqPublisherConnection';
+import './logicalSdkConnection';
 import './logicalWebApp';
 import './mariaDbDatabase';
 import './memcached';
