@@ -49,6 +49,12 @@ export function shortenPathAtSourceAndDestination(path) {
   const dirFirstToSecond = getDirectionForPoints(first, second);
   const dirlastToBeforeLast = getDirectionForPoints(last, beforeLast);
 
+  const dir = {x: last.x - first.x, y: last.y - first.y, z: last.z - first.z};
+  const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
+  if (length <= 1) {
+    return path;
+  }
+
   // caps the first and last line of the connection. nodes have a size of 1 and
   // normally the connection goes from center (0.5, 0.5) to center. with this
   // capping it begins on the edge of the first and ends on the edge of the
