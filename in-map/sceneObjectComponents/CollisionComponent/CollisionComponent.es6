@@ -23,8 +23,6 @@ export default class CollisionComponent extends SceneObjectComponent {
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.isEnabled = true;
-
-    collisionDetection.addCollisionObject(mesh, layerId);
   }
 
   initEvents() {
