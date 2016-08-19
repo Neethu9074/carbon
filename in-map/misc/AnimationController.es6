@@ -14,12 +14,6 @@ export default class AnimationController {
     this.timeToAnimate = timeToAnimate;
 
     this.setupAnimation();
-
-    this.updateSubscription = eventBus.on('update').subscribe(dt => this.update(dt));
-  }
-
-  setTimeToAnimate(value) {
-    this.animation.setAnimationTime(250 + value * 0.75);
   }
 
   setupAnimation() {
@@ -41,11 +35,22 @@ export default class AnimationController {
   }
 
   start() {
+    if (this.animationInProgress) {
+      return;
+    }
+
+    this.updateSubscription = eventBus.on('update').subscribe(dt => this.update(dt));
     this.animationInProgress = true;
     this.animation.start();
   }
 
   stop() {
+    if (!this.animationInProgress) {
+      return;
+    }
+
+    this.disposeUpdate();
+
     this.animationInProgress = false;
     this.animation.stop();
   }
@@ -56,9 +61,15 @@ export default class AnimationController {
     }
   }
 
+  disposeUpdate() {
+    if (this.updateSubscription) {
+      this.updateSubscription.dispose();
+      this.updateSubscription = null;
+    }
+  }
+
   dispose() {
-    this.updateSubscription.dispose();
-    this.updateSubscription = null;
+    this.disposeUpdate();
 
     this.timeToAnimate = null;
     this.onUpdate = null;
