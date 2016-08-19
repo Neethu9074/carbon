@@ -8,7 +8,7 @@ import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
 
 
 describe('in-map', () => {
-  describe('sceneObjectComponents/HealthComponent', () => {
+  describe('sceneObjectComponents/HighlightingComponent', () => {
     let component;
     let component2;
     let sceneObject;
