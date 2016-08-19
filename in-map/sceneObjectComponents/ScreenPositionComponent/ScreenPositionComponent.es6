@@ -53,7 +53,7 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
     this.screenPositionAnchor.copy(pos);
   }
 
-  updateScreenPosition(force = false) {
+  updateScreenPosition() {
     const camera = this.camera;
     const width = camera.width;
     const height = camera.height;
@@ -65,7 +65,7 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
     screenPosition.x = ((screenPosition.x + 1) / 2 * width) | 0;
     screenPosition.y = (-(screenPosition.y - 1) / 2 * height) | 0;
 
-    if (force || (this.screenPosition.x !== screenPosition.x || this.screenPosition.y !== screenPosition.y)) {
+    if (this.screenPosition.x !== screenPosition.x || this.screenPosition.y !== screenPosition.y) {
       this.screenPosition.x = screenPosition.x;
       this.screenPosition.y = screenPosition.y;
 
