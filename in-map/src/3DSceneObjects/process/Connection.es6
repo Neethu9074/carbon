@@ -53,7 +53,6 @@ export default class Connection extends BaseConnection {
       this.eventEmitter.on('updateColor').distinct()
                                          .subscribe(color => this.colorChanged(color)),
 
-
       edges$.debounce(1000).subscribe(allEdges => this.checkIfBidirectional(allEdges)),
 
       focusEntityId$.subscribe(id => {
