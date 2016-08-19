@@ -35,6 +35,7 @@ describe('in-map', () => {
     });
 
     afterEach(() => {
+      component.disposeEvents();
       component.dispose();
       sceneObject.dispose();
     });

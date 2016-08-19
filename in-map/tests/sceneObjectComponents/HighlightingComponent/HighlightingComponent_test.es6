@@ -52,9 +52,11 @@ describe('in-map', () => {
     });
 
     afterEach(() => {
+      component.disposeEvents();
       component.dispose();
       sceneObject.dispose();
 
+      component2.disposeEvents();
       component2.dispose();
       sceneObject2.dispose();
     });
