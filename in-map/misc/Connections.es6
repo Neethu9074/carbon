@@ -26,10 +26,8 @@ export function getManhattanPath(fromX, fromY, toX, toY) {
   return [p0, p1, p1, p2, p2, p3, p3, p4];
 }
 
-export function getDirectionForPoints(a, b) {
-  a.z = a.z || 0;
-  b.z = b.z || 0;
-  const dir = {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
+export function getNormalizedDirectionForPoints(a, b) {
+  const dir = getDirectionForPoints(a, b);
 
   // normalize them
   const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
@@ -40,16 +38,22 @@ export function getDirectionForPoints(a, b) {
   return dir;
 }
 
+export function getDirectionForPoints(a, b) {
+  a.z = a.z || 0;
+  b.z = b.z || 0;
+  return {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
+}
+
 export function shortenPathAtSourceAndDestination(path) {
   const pathLength = path.length;
   const first = path[0];
   const second = path[1];
   const beforeLast = path[pathLength - 2];
   const last = path[pathLength - 1];
-  const dirFirstToSecond = getDirectionForPoints(first, second);
-  const dirlastToBeforeLast = getDirectionForPoints(last, beforeLast);
+  const dirFirstToSecond = getNormalizedDirectionForPoints(first, second);
+  const dirlastToBeforeLast = getNormalizedDirectionForPoints(last, beforeLast);
 
-  const dir = {x: last.x - first.x, y: last.y - first.y, z: last.z - first.z};
+  const dir = getDirectionForPoints(first, last);
   const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
   if (length <= 1) {
     return path;
@@ -72,10 +76,16 @@ export function shortenPathAtSourceAndDestination(path) {
 }
 
 export function addArrowToDestination(path) {
-  const from = path.length - 1;
-  const to = path.length - 2;
+  const from = path[path.length - 1];
+  const to = path[path.length - 2];
 
-  const arrowGeometry = getArrowGeometry(path[from], getDirectionForPoints(path[from], path[to]));
+  const dir = getDirectionForPoints(from, to);
+  const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
+  if (length <= 1) {
+    return path;
+  }
+
+  const arrowGeometry = getArrowGeometry(from, getNormalizedDirectionForPoints(from, to));
 
   for (let i = 0; i < arrowGeometry.length; i++) {
     path.push(arrowGeometry[i]);
