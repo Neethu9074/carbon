@@ -1,7 +1,6 @@
 .in-chart-v2 {
   position: relative;
   width: 100%;
-  overflow: hidden;
 
   &__animation-screen, &__static-screen {
     position: absolute;
@@ -15,5 +14,15 @@
     bottom: 0;
     left: 0;
     right: 0;
+  }
+
+  &__tooltip-line {
+    position: absolute;
+    width: 1px;
+    background: red;
+  }
+
+  &__tooltip-container {
+    position: absolute;
   }
 }

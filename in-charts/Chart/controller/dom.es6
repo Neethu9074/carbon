@@ -32,17 +32,23 @@ export default function createDomController(config) {
       animationScreen: document.createElement('canvas'),
       animationBuffer: document.createElement('canvas'),
       staticScreen: document.createElement('canvas'),
+      tooltipContainer: document.createElement('div'),
+      tooltipLine: document.createElement('div'),
       glassPane: document.createElement('div')
     };
 
     config.container.appendChild(result.wrapper);
     result.wrapper.appendChild(result.staticScreen);
     result.wrapper.appendChild(result.animationScreen);
+    result.wrapper.appendChild(result.tooltipContainer);
+    result.wrapper.appendChild(result.tooltipLine);
     result.wrapper.appendChild(result.glassPane);
 
     result.wrapper.classList.add(block);
     result.animationScreen.classList.add(`${block}__animation-screen`);
     result.staticScreen.classList.add(`${block}__static-screen`);
+    result.tooltipContainer.classList.add(`${block}__tooltip-container`);
+    result.tooltipLine.classList.add(`${block}__tooltip-line`);
     result.glassPane.classList.add(`${block}__glass-pane`);
 
     return result;
@@ -59,6 +65,8 @@ export default function createDomController(config) {
       right: width - config.margins.right
     };
     dom.wrapper.style.height = `${height}px`;
+    dom.tooltipLine.style.top = `${config.margins.top}px`;
+    dom.tooltipLine.style.bottom = `${config.margins.bottom}px`;
     updateCanvasDimensions(dom.animationScreen, ctx.animationScreen, width, height, config.devicePixelRatio);
     updateCanvasDimensions(dom.animationBuffer, ctx.animationBuffer, bufferWidth, height, config.devicePixelRatio);
     updateCanvasDimensions(dom.staticScreen, ctx.staticScreen, width, height, config.devicePixelRatio);

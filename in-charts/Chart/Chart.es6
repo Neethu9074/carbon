@@ -1,8 +1,10 @@
 import * as ro from 'reactive-observables';
 
-import createAxisController from 'in-charts/Chart/controller/axis';
+import {highlightedMoment$, clearHighlightedMoment, setHighlightedMoment} from 'in-stores/timeline';
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
+import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
+import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
 import {toServerTime} from 'in-stores/timeOffset';
@@ -34,6 +36,7 @@ export default function createChart(config) {
   const axisController = createAxisController(config);
   const animatableContentRenderer = createAnimatableContentRenderer(config);
   const borderRenderer = createBorderRenderer(config);
+  const tooltipRenderer = createTooltipRenderer(config);
 
   let isRendering = false;
   let restartRenderingSubscription;
@@ -42,6 +45,7 @@ export default function createChart(config) {
 
   addWindowResizeSupport();
   addVisibilityChangeSupport();
+  addTooltipSupport();
   onResize();
 
   initPhase = false;
@@ -63,7 +67,39 @@ export default function createChart(config) {
   }
 
 
+  function addTooltipSupport() {
+    config.subscriptions.push(highlightedMoment$
+      .throttle(20)
+      .subscribe(onHighlightedMomentChange));
+
+    config.subscriptions.push(ro
+      .on(config.dom.glassPane, 'mousemove')
+      .subscribe(e => {
+        const time = config.scales.x.getDomain(e.offsetX);
+        if (time >= config.scales.x.getDomainFrom() && time <= config.scales.x.getDomainTo()) {
+          setHighlightedMoment(time);
+        } else {
+          clearHighlightedMoment();
+        }
+      }));
+
+    config.subscriptions.push(ro
+      .on(config.dom.glassPane, 'mouseleave')
+      .subscribe(clearHighlightedMoment));
+  }
+
+
+  function onHighlightedMomentChange(highlightedMoment) {
+    if (highlightedMoment != null) {
+      tooltipRenderer.showTooltip(highlightedMoment);
+    } else {
+      tooltipRenderer.hideTooltip();
+    }
+  }
+
+
   function dispose() {
+    tooltipRenderer.dispose();
     domController.dispose();
     axisController.dispose();
     config.subscriptions.forEach(s => s.dispose());
@@ -133,7 +169,7 @@ export default function createChart(config) {
         prev = now;
       }
 
-      // update screen buffer x scale
+      tooltipRenderer.repositionTooltip();
       copyBackBufferToScreenBuffer();
     };
 

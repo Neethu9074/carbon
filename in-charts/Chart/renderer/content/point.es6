@@ -1,9 +1,10 @@
-export default function createLineContentRenderer({axisName, config}) {
+const CIRCLE_ARC = 2 * Math.PI;
+
+export default function createPointContentRenderer({axisName, config}) {
   const ctx = config.ctx.animationBuffer;
   const x = config.scales.x;
   const y = config.scales[axisName];
   const colors = config[axisName].colors;
-
 
   return {
     requireExistenceInAllSeries: false,
@@ -13,14 +14,13 @@ export default function createLineContentRenderer({axisName, config}) {
 
   function render(dataColumns) {
     for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
-      ctx.beginPath();
-
-      let previousX = Number.MAX_VALUE * -1;
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = colors[seriesIndex];
 
       // going left to right
       for (let columnIndex = 0, len = dataColumns.length;
-           columnIndex < len;
-           columnIndex++) {
+         columnIndex < len;
+         columnIndex++) {
         const dataColumn = dataColumns[columnIndex];
         const dataRow = dataColumn[seriesIndex];
 
@@ -29,20 +29,11 @@ export default function createLineContentRenderer({axisName, config}) {
           continue;
         }
 
-        const xToRender = x.getRange(dataRow[0]);
-
-        if ((xToRender - previousX) > config.maxDistanceBetweenPoints || columnIndex === 0) {
-          ctx.moveTo(xToRender, y.getRange(dataRow[1]));
-        } else {
-          ctx.lineTo(xToRender, y.getRange(dataRow[1]));
-        }
-
-        previousX = xToRender;
+        ctx.beginPath();
+        ctx.arc(x.getRange(dataRow[0]), y.getRange(dataRow[1]), 2, 0, CIRCLE_ARC);
+        ctx.closePath();
+        ctx.stroke();
       }
-
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = colors[seriesIndex];
-      ctx.stroke();
     }
   }
 }

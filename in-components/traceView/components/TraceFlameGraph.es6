@@ -42,7 +42,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
         <Tooltip content='Network'>
           <div className={`${block}__network`}
                style={{
-                 top: `${top - 2}px`,
+                 top: `${top - 1}px`,
                  left: `${left}%`,
                  width: `${width}%`
                }}

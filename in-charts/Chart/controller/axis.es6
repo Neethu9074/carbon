@@ -1,7 +1,11 @@
 import invariant from 'invariant';
 
+import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
 import {getDefaultMetricRollupDuration, getMetricsForTimeframe} from 'in-stores/metric';
+import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
+import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
+import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createDataHolder from 'in-charts/data/dataHolder';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {timeframe$, to$} from 'in-stores/timeline';
@@ -12,12 +16,11 @@ import {theme} from 'in-services/theme';
 
 
 const contentRendererCreators = {
-  stackedArea: createLineContentRenderer,
+  stackedArea: createStackedAreaContentRenderer,
   line: createLineContentRenderer,
-  bar: createLineContentRenderer,
-  point: createLineContentRenderer,
-  integral: createLineContentRenderer,
-  area: createLineContentRenderer
+  point: createPointContentRenderer,
+  integral: createIntegralContentRenderer,
+  area: createAreaContentRenderer
 };
 
 

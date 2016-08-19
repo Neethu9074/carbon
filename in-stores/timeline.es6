@@ -142,7 +142,7 @@ const highlightedMomentStore = createStore({
   name: 'in-stores/timeline/highlightedMoment',
   initialValue: null
 });
-export const highlightedMoment$ = highlightedMomentStore.observable;
+export const highlightedMoment$ = highlightedMomentStore.observable.distinct();
 
 export function setHighlightedMoment(t) {
   highlightedMomentStore.applyStateMutation(() => {

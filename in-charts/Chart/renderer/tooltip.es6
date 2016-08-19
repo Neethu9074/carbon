@@ -1,0 +1,105 @@
+import {sortedIndexBy} from 'lodash';
+import ReactDOM from 'react-dom';
+import React from 'react';
+
+import ReactTooltip from 'in-charts/Chart/renderer/ReactTooltip';
+import {applyTransform} from 'in-services/util/dom';
+
+export default function createTooltipRenderer(config) {
+  let highlightedMoment;
+  let y1DataColumn;
+  let y2DataColumn;
+  let dataPointsExistingAtMoment;
+
+  hideTooltip();
+
+  return {
+    showTooltip,
+    hideTooltip,
+    repositionTooltip,
+    dispose
+  };
+
+
+  function dispose() {
+    ReactDOM.unmountComponentAtNode(config.dom.tooltipContainer);
+  }
+
+
+  function showTooltip(_highlightedMoment) {
+    highlightedMoment = _highlightedMoment;
+
+    y1DataColumn = lookForDataPoint('y1');
+    y2DataColumn = config.y2 ? lookForDataPoint('y2') : null;
+
+    if (!y1DataColumn && !y2DataColumn) {
+      return;
+    }
+
+    if (y1DataColumn) {
+      dataPointsExistingAtMoment = y1DataColumn.time;
+    } else if (y2DataColumn) {
+      dataPointsExistingAtMoment = y2DataColumn.time;
+    }
+
+    repositionTooltip();
+
+    ReactDOM.render(
+      <ReactTooltip config={config}
+                    y1DataColumn={y1DataColumn}
+                    y2DataColumn={y2DataColumn}
+                    time={dataPointsExistingAtMoment} />,
+      config.dom.tooltipContainer
+    );
+  }
+
+
+  function hideTooltip() {
+    highlightedMoment = null;
+    dataPointsExistingAtMoment = null;
+    y1DataColumn = null;
+    y2DataColumn = null;
+    config.dom.tooltipLine.style.display = 'none';
+    config.dom.tooltipContainer.style.display = 'none';
+  }
+
+
+  function repositionTooltip() {
+    const time = dataPointsExistingAtMoment != null ? dataPointsExistingAtMoment : highlightedMoment;
+    if (time == null) {
+      return;
+    }
+
+    config.dom.tooltipLine.style.display = 'block';
+    config.dom.tooltipContainer.style.display = 'block';
+
+    const x = config.scales.x.getRange(time);
+    applyTransform(config.dom.tooltipLine, `translateX(${x}px)`);
+
+    if (x > config.width / 2) {
+      const tooltipX = config.width - x + 30;
+      config.dom.tooltipContainer.style.left = null;
+      config.dom.tooltipContainer.style.right = `${tooltipX}px`;
+    } else {
+      config.dom.tooltipContainer.style.left = `${x + 30}px`;
+      config.dom.tooltipContainer.style.right = null;
+    }
+  }
+
+
+  function lookForDataPoint(axisName) {
+    const data = config.dataHolders[axisName].getDataColumns();
+    const i = sortedIndexBy(
+      data,
+      highlightedMoment,
+      column => {
+        if (column.time) {
+          return column.time;
+        }
+        // this iteratee function will be called for the search value as well
+        return column;
+      }
+    );
+    return data[i];
+  }
+}

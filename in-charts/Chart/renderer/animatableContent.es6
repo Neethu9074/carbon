@@ -123,7 +123,7 @@ export default function createAnimatableContentRenderer(config) {
 
   function renderYAxis(axisName) {
     const scale = config.scales[axisName];
-    const formatter = config[axisName].formatter || noop;
+    const formatter = config[axisName].formatter || identity;
     const ticks = getYTickPositions(scale);
     const isLeftAxis = axisName === 'y1';
     const tickX = isLeftAxis ? config.bounds.left - 5 : config.bounds.right;
@@ -208,6 +208,6 @@ function getBoundsForRow(column) {
 }
 
 
-function noop() {
-  // noop
+function identity(a) {
+  return a;
 }

@@ -5,28 +5,10 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
   const colors = config[axisName].colors;
 
   return {
-    requireExistenceInAllSeries: true,
-    processNewDataColumns,
-    getBoundsForRow,
+    requireExistenceInAllSeries: false,
+    processNewDataColumns() {},
     render
   };
-
-  function processNewDataColumns(dataColumns) {
-    dataColumns.forEach(dataColumn => {
-      let sum = 0;
-      dataColumn.forEach(dataRow => {
-        dataRow.y0 = sum;
-        sum += dataRow[1];
-        dataRow.y1 = sum;
-      });
-    });
-  }
-
-
-  function getBoundsForRow(dataRow) {
-    return [dataRow[0].y0, dataRow[dataRow.length - 1].y1];
-  }
-
 
   function render(dataColumns) {
     let currentRenderIndex = 0;
@@ -54,13 +36,13 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
 
           if (columnIndex === startingPoint) {
             // subtract one to ensure that the line is always visible
-            ctx.moveTo(xToRender, y.getRange(dataRow.y1) - 1);
+            ctx.moveTo(xToRender, y.getRange(dataRow[1]) - 1);
             previousX = xToRender;
           } else if ((xToRender - previousX) > config.maxDistanceBetweenPoints) {
             seriesEndIndex = columnIndex;
           } else {
             // subtract one to ensure that the line is always visible
-            ctx.lineTo(xToRender, y.getRange(dataRow.y1) - 1);
+            ctx.lineTo(xToRender, y.getRange(dataRow[1]) - 1);
             previousX = xToRender;
           }
         }
@@ -76,7 +58,7 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
           const dataColumn = dataColumns[columnIndex];
           const dataRow = dataColumn[seriesIndex];
 
-          ctx.lineTo(x.getRange(dataRow[0]), y.getRange(dataRow.y0));
+          ctx.lineTo(x.getRange(dataRow[0]), y.getRangeFrom());
         }
 
         ctx.closePath();
