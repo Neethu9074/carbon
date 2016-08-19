@@ -39,7 +39,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
       )}
 
       {getDirection(span) === 'entry' && currentDepth > 1 ?
-        <Tooltip content='Network'>
+        <Tooltip content='Network and Serialization'>
           <div className={`${block}__network`}
                style={{
                  top: `${top - 1}px`,
