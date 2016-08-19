@@ -107,10 +107,12 @@ export function flatten(path) {
   return flattenedPath;
 }
 
-export function getCenterPosition(fromPos, toPos) {
-  const from = fromPos.clone();
-  const to = toPos.clone();
-  return from.add(to.sub(from).multiplyScalar(0.5));
+export function getCenterPosition(from, to) {
+  return {
+    x: from.x + (to.x - from.x) * 0.5,
+    y: from.y + (to.y - from.y) * 0.5,
+    z: from.z + (to.z - from.z) * 0.5
+  };
 }
 
 export function calculateLogicalCollisionMesh(from, to) {

@@ -1,6 +1,5 @@
 /* eslint-env mocha, node */
 import {expect} from 'chai';
-import THREE from 'three';
 
 import * as helper from 'in-map/misc/Connections';
 
@@ -31,7 +30,7 @@ describe('in-map', () => {
     });
 
     it('should calulate the center of two points', () => {
-      const centerPos = helper.getCenterPosition(new THREE.Vector3(1, 2, 3), new THREE.Vector3(10, 10, 10));
+      const centerPos = helper.getCenterPosition({x: 1, y: 2, z: 3}, {x: 10, y: 10, z: 10});
       expect(centerPos.x).to.deep.equal(5.5);
       expect(centerPos.y).to.deep.equal(6);
       expect(centerPos.z).to.deep.equal(6.5);
