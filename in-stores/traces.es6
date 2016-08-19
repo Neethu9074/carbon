@@ -5,6 +5,7 @@ import {timeframe as timeframe$, focusedMoment$} from 'in-stores/timeline';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import createTracesObservable from 'in-services/subscription/traces';
 import createTraceObservable from 'in-services/subscription/trace';
+import {buildLuceneQuery} from 'in-services/search';
 import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {luceneQuery$} from 'in-stores/search';
@@ -20,6 +21,12 @@ export function getTraces(maxTimestamp, minTimestamp, sortByField, sortMode, que
     focusedMoment$.flatMap(focusedMoment => createTracesObservable(
       {maxTimstamp: focusedMoment, minTimestamp, sortByField, sortMode, query}
     ));
+}
+
+
+export function getNumberOfTracesStartingAtService(serviceId) {
+  const query = buildLuceneQuery('logical_destination_service_id', '=', serviceId);
+  return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
 }
 
 

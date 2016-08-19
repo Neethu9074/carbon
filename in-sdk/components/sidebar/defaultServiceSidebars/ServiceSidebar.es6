@@ -13,8 +13,6 @@ export default function ServiceSidebar({snapshot}) {
     <div>
       <JumpToTracesButton snapshotId={snapshotId}/>
 
-      <Separator />
-
       <ServiceKpiSparkCharts snapshot={snapshot} />
 
       <Separator />
