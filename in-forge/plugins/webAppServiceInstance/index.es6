@@ -15,14 +15,17 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.webAppServiceInstance,
   snapshot => {
-    const fallback = snapshot.getIn(['data', 'name']);
+    const name = snapshot.getIn(['data', 'name']);
+    if (/^PID \d+/i.test(name)) {
+      // label would be shitty, try to find a matching label using the embedded component snapshot
 
-    const service = snapshot.getIn(['embedded', 'service']);
-    if (!service) {
-      return fallback;
+      const component = snapshot.getIn(['embedded', 'component']);
+      if (component) {
+        return getLabel(component, name);
+      }
     }
 
-    return getLabel(service, fallback);
+    return name;
   }
 );
 
