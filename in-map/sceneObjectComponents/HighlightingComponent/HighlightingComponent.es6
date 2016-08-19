@@ -10,7 +10,7 @@ import {getFactory} from 'in-map/stores/factoriesStore';
 export default class HighlightingComponent extends SceneObjectComponent {
 
   constructor(sceneObject, contentProvider) {
-    super(sceneObject, '_mesh');
+    super(sceneObject, '_highlighting');
 
     this.contentProvider = contentProvider;
   }
@@ -30,7 +30,7 @@ export default class HighlightingComponent extends SceneObjectComponent {
         const id = sceneObject.id;
         const isHighlighted = id === selectedId || id === highlightedEntityId;
 
-        eventEmitter.emit('isHighlighted', isHighlighted);
+        this.emitToClient('isHighlighted', isHighlighted);
       }),
 
       eventEmitter.on('positionChanged').subscribe(() => factory.needsUpdate()),

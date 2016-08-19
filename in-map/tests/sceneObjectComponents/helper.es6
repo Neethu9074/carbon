@@ -1,9 +1,9 @@
 import RoEmitter from 'roemitter';
 
-export function createSceneObject() {
+export function createSceneObject(id = 'id1') {
   const eventEmitter = new RoEmitter();
   return {
-    id: 'id',
+    id,
     eventEmitter,
     dispose: () => {
       eventEmitter.dispose();
