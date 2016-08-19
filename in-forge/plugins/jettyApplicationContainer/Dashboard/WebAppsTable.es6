@@ -8,7 +8,9 @@ import Mtd from 'in-components/Mtd';
 
 
 export default function WebAppsTable({snapshot, timeframe}) {
-  const webApps = snapshot.getIn(['data', 'webApps'], emptyList).filter(webApp => webApp.get('state') === 'STARTED');
+  const webApps = snapshot.getIn(['data', 'webApps'], emptyList)
+    .filter(webApp => webApp.get('state') === 'STARTED')
+    .sortBy(webApp => webApp.get('displayName'));
 
   if (webApps.size === 0) {
     return null;
@@ -30,8 +32,9 @@ export default function WebAppsTable({snapshot, timeframe}) {
 }
 
 
-function getKey(webApp) {
-  return webApp.get('displayName');
+function getKey(webApp, i) {
+  // web app names are not guaranteed to be unique
+  return i;
 }
 
 
@@ -50,7 +53,7 @@ function createHeader() {
 function createRow(webApp, i, context) {
   const webAppName = webApp.get('displayName');
   return ([
-    <td>{webAppName}</td>,
+    <td>{webAppName || '<unnamed>'}</td>,
     <Mtd metric={'webAppsSessionData.' + webAppName + '.sessions'}
          snapshot={context.snapshot} />
   ]);
