@@ -65,8 +65,8 @@ export default class ASingleMeshFactory extends Subscriber {
       if (this.isAddedToScene) {
         removeSceneObject(this.mesh);
         this.isAddedToScene = false;
-        return;
       }
+      return;
     }
 
     const vertices = [];
