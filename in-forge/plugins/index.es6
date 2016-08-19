@@ -65,6 +65,8 @@ import './process';
 import './rabbitMq';
 import './redis';
 import './sdkLogicalConnection';
+import './sdkLogicalService';
+import './sdkServiceInstance';
 import './solr';
 import './springbootApplicationContainer';
 import './tomcatApplicationContainer';
