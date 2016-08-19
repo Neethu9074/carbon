@@ -11,10 +11,10 @@ describe('in-map', () => {
       let direction = helper.getDirectionForPoints({x: 0, y: 0, z: 0}, {x: 1, y: 0, z: 0});
       expect(direction).to.deep.equal({x: 1, y: 0, z: 0});
 
-      direction = helper.getDirectionForPoints({x: 0, y: 1, z: 0}, {x: 1, y: 0, z: 0});
+      direction = helper.getNormalizedDirectionForPoints({x: 0, y: 1, z: 0}, {x: 1, y: 0, z: 0});
       expect(direction).to.deep.equal({x: 1 / Math.sqrt(2), y: 1 / -Math.sqrt(2), z: 0});
 
-      direction = helper.getDirectionForPoints({x: 0, y: 0, z: 2}, {x: 1, y: 0, z: 0});
+      direction = helper.getNormalizedDirectionForPoints({x: 0, y: 0, z: 2}, {x: 1, y: 0, z: 0});
       expect(direction).to.deep.equal({x: 1 / Math.sqrt(5), y: 0, z: -2 / Math.sqrt(5)});
     });
 
