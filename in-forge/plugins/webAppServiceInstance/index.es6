@@ -1,6 +1,6 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {addLabelFinder, getLabel} from 'in-sdk/snapshot';
 
 import * as constants from 'in-forge/constants';
 
@@ -14,7 +14,16 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.webAppServiceInstance,
-  snapshot => snapshot.getIn(['data', 'name'])
+  snapshot => {
+    const fallback = snapshot.getIn(['data', 'name']);
+
+    const service = snapshot.getIn(['embedded', 'service']);
+    if (!service) {
+      return fallback;
+    }
+
+    return getLabel(service, fallback);
+  }
 );
 
 addIconToRegistry({
