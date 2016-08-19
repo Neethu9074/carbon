@@ -9,7 +9,7 @@ import {collisionDetection} from 'in-map/misc/Physics';
 
 
 describe('in-map', () => {
-  describe('misc/time', () => {
+  describe('sceneObjectComponents/CollisionComponent', () => {
     let component;
     let sceneObject;
     let addCollisionObject;
