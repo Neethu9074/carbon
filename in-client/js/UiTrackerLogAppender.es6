@@ -37,7 +37,8 @@ export default class UiTrackerLogAppender {
       userAgent: window.navigator.userAgent,
       platform: window.navigator.platform,
       level: opts.severity,
-      message: formattedPayload
+      message: formattedPayload,
+      serverTimeInClient: window.instana.dev.storeStates.serverTime
     };
 
     const error = opts.params.filter(p => p instanceof Error)[0];
