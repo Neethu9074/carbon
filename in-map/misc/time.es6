@@ -30,7 +30,7 @@ export function update(highResTimestamp) {
   // avoid that clamp the time to a max of x ms/sec. you can also implement a
   // matrix or max payne slowmotion effect with that by setting max to something
   // around .001
-  deltaTime = Math.min(deltaTime, 0.1);
+  deltaTime = Math.min(deltaTime, 1);
 
   timeOfLastFrameUpdate = timeNow;
   timeSinceFirstFrame += deltaTime;
@@ -78,5 +78,6 @@ export function reset() {
   secondCounter = 0;
   fpsCounter = 0;
   deltaTime = 0;
+  timeNow = 0;
   fps = 0;
 }
