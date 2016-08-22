@@ -1,5 +1,6 @@
 /* eslint-env node */
 
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
@@ -66,7 +67,8 @@ module.exports = {
   plugins: [
     definePlugin,
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/),
-    new ExtractTextPlugin('index.css')
+    new ExtractTextPlugin('index.css'),
+    new CaseSensitivePathsPlugin()
   ],
   resolve: {
     extensions: ['', '.js', '.es6', '.ts']
