@@ -19,9 +19,9 @@ export function createEventBus() {
   eventBus = new RoEmitter('global event bus');
 
   eventBus.on('zoomLevelChanged').subscribe(zoomLevel => {
-    showServiceKpi(zoomLevel < 300);
+    showServiceKpi(zoomLevel < 420);
 
     showServiceSticky(zoomLevel < 600);
-    showConnectionSticky(zoomLevel < 180);
+    showConnectionSticky(zoomLevel < 300);
   });
 }

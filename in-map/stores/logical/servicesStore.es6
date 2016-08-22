@@ -13,7 +13,7 @@ const showKpi = createStore({
 export const showKpi$ = showKpi.observable;
 
 const showSticky = createStore({
-  name: 'logical/serviceSticky/isibility',
+  name: 'logical/serviceSticky/visibility',
   initialValue: false
 });
 export const showSticky$ = showSticky.observable;
