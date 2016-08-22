@@ -26,8 +26,7 @@ function PhysicalEntitiesList({entitySnapshots, selectedId}) {
   if (!entitySnapshots) {
     return null;
   }
-
-  entitySnapshots = entitySnapshots.sort((a, b) => getPlural(getLabel(a)).localeCompare(getLabel(b)));
+  entitySnapshots = entitySnapshots.slice().sort((a, b) => getPlural(getLabel(a)).localeCompare(getLabel(b)));
 
   return (
     <div className={block}>
