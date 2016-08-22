@@ -3,12 +3,16 @@ import THREE from 'three';
 import fragmentShader from 'in-map/singleMeshFactories/nodeMetricFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl';
 
+import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
+import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
+
 import {
   NUM_POINTS_PER_SLICE,
   getSlicedGeometry,
   INDEX_MASK
 } from 'in-map/singleMeshFactories/ContentProvider/PredefinedSlicedCubes';
-import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+import NodeMetricTooltip from 'in-map/components/tooltips/physical/NodeMetric';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import createMetricHandler from 'in-map/misc/physical/MetricHandler';
 import {updateAttribute} from 'in-map/services/geometryAttributes';
@@ -59,7 +63,11 @@ export default class NodeMetric extends SceneObject {
 
     this.addComponent('collision', new CollisionComponent(this,
                                                           collisionDetection.predefinedCollisionObjects.Box,
-                                                          collisionDetection.OCTREE_LAYER.NODES));
+                                                          collisionDetection.OCTREE_LAYER.LAYER));
+
+    this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos) => pos));
+
+    this.addComponent('tooltip', new TooltipComponent(this, NodeMetricTooltip));
   }
 
   initEvents() {
