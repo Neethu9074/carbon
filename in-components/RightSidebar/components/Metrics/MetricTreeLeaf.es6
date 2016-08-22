@@ -2,7 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import * as metricsStore from 'in-services/stores/metrics';
+import {activeMetric$, setActiveMetric} from 'in-stores/metric';
 
 import './MetricTreeLeaf.less';
 
@@ -25,11 +25,11 @@ const MetricTreeLeaf = React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(metricsStore.activeMetric.subscribe(activeMetric => this.setState({ activeMetric })));
+    this.addSubscription(activeMetric$.subscribe(activeMetric => this.setState({ activeMetric })));
   },
 
   onClickMetric() {
-    metricsStore.setActiveMetric(this.props.metricObject);
+    setActiveMetric(this.props.metricObject);
   },
 
   render() {

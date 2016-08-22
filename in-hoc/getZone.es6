@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {getSnapshot as loadSnapshot} from 'in-stores/snapshot';
-import {getZone as loadZone} from 'in-stores/zone';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {getZone as loadZone} from 'in-stores/zone';
 
 
 export default function getZone(ComposedComponent) {

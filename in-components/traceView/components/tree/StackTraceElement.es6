@@ -20,6 +20,7 @@ export default React.createClass({
   },
 
   render() {
+
     let stackTrace = this.props.stackTrace;
     if (!this.state.showAllElements) {
       stackTrace = [stackTrace[stackTrace.length - 1]];

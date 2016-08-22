@@ -8,8 +8,8 @@ import ResetButton from 'in-components/RightSidebar/components/ResetButton';
 import Layouter from 'in-components/RightSidebar/components/Layouter';
 import Metrics from 'in-components/RightSidebar/components/Metrics';
 import Tags from 'in-components/RightSidebar/components/Tags';
-import * as metricsStore from 'in-services/stores/metrics';
 import {removeAllTagFilters} from 'in-stores/search/tags';
+import {clearActiveMetric} from 'in-stores/metric';
 import {SvgIconList} from 'in-components/SvgIcon';
 import {createStore} from 'in-stores/store';
 
@@ -43,7 +43,7 @@ CONTENT[CONTROL_TYPES.TAGS] = {
 CONTENT[CONTROL_TYPES.METRICS] = {
   title: 'Metrics',
   content: <Metrics />,
-  additionalHeaderContent: <ResetButton onClick={() => metricsStore.activeMetric.emit(null)} />
+  additionalHeaderContent: <ResetButton onClick={clearActiveMetric} />
 };
 
 CONTENT[CONTROL_TYPES.LAYOUT] = {

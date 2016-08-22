@@ -2,11 +2,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {focusCurrentlyHighlightedEntity} from 'in-map/src/stores/focusEntity';
 import {closeTableView} from 'in-components/tableView/stores/visibility';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
 import {getClassName} from 'in-services/react';
+import {focusId} from 'in-map/services/focus';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -51,7 +51,7 @@ export default connectTo({
         <Tooltip content='Focus in map'
                 align={'rightMiddle'}>
           <Icon className={classes}
-                onClick={this.focusSnapshotId}
+                onClick={() => this.focusSnapshotId(snapshot.get('id'))}
                 type='relocate' />
         </Tooltip>
       );
@@ -76,9 +76,9 @@ export default connectTo({
     );
   },
 
-  focusSnapshotId() {
+  focusSnapshotId(id) {
     closeTableView();
-    focusCurrentlyHighlightedEntity();
+    focusId(id);
   },
 
   wrapTooltipElement(txt) {

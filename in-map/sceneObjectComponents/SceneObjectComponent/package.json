@@ -1,0 +1,6 @@
+{
+  "name": "SceneObjectComponent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SceneObjectComponent.es6"
+}

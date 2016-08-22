@@ -19,7 +19,7 @@ import RightSidebar from 'in-components/RightSidebar';
 import AppHeader from 'in-components/AppHeader';
 import MapNotes from 'in-components/MapNotes';
 import Settings from 'in-components/Settings';
-import Map from 'in-map';
+import Map from 'in-map/index.es6';
 
 import './App.less';
 

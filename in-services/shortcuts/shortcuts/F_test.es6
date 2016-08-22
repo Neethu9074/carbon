@@ -9,8 +9,7 @@ import {resetStoreRegistry} from 'in-stores/store';
 
 describe('shortcuts/C', () => {
 
-  let focusEntityIdSubscription;
-  let focusEntityIdStub;
+  let flyToPositionStub;
   let selectedEntityId;
   let focusEntityId;
   let onKeyPressed;
@@ -19,31 +18,28 @@ describe('shortcuts/C', () => {
   beforeEach(() => {
     resetStoreRegistry();
 
+    flyToPositionStub = sinon.stub();
     selectedEntityId = create();
     selectedEntityId.emit(null);
     loadModules();
-
-    focusEntityIdStub = sinon.stub();
-    focusEntityIdSubscription = focusEntityId.focusEntityId$.subscribe(focusEntityIdStub);
-  });
-
-  afterEach(() => {
-    focusEntityIdSubscription.dispose();
   });
 
   it('should focus entity when F was pressed', () => {
-    expect(focusEntityIdStub).to.have.callCount(1);
-    expect(focusEntityIdStub.getCall(0).args[0]).to.equal(null);
+    expect(flyToPositionStub).to.have.callCount(0);
 
     selectedEntityId.emit('foo');
 
-    pressC();
+    pressF();
 
-    expect(focusEntityIdStub).to.have.callCount(2);
-    expect(focusEntityIdStub.getCall(1).args[0]).to.equal('foo');
+    expect(flyToPositionStub).to.have.callCount(1);
+    expect(flyToPositionStub.getCall(0).args[0]).to.deep.equal({
+      x: 1,
+      y: -1,
+      z: 0
+    });
   });
 
-  function pressC() {
+  function pressF() {
     onKeyPressed.emit({
       keyCode: shortcuts.KEY_CODES.F,
       target: {
@@ -53,14 +49,34 @@ describe('shortcuts/C', () => {
   }
 
   function loadModules() {
-    focusEntityId = proxyquire('in-map/src/stores/focusEntity', {
-      'in-map/src/mapStores': {
-        selectedSnapshotIdForHighlightingInMap: selectedEntityId
+    focusEntityId = proxyquire('in-map/services/focus', {
+      'in-map/stores/focusableSceneObjectsStore': {
+        sceneObjects: {
+          stream: create().startWith({
+            'id1': {
+              getFocusPosition: () => {
+                return {
+                  x: 1,
+                  y: -1,
+                  z: 0
+                };
+              }
+            }
+          })
+        }
+      },
+      'in-map/stores/cameraController': {
+        cameraController$: create().startWith({
+          flyToPosition: flyToPositionStub
+        })
+      },
+      'in-map/stores/selectedMapSceneObjectStore': {
+        selectedSnapshotIdForHighlightingInMap$: create().startWith('id1')
       }
     });
 
     const mod = proxyquire('in-services/shortcuts/shortcuts/F', {
-      'in-map/src/stores/focusEntity': focusEntityId
+      'in-map/services/focus': focusEntityId
     });
 
     onKeyPressed = create();

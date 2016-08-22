@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {logicalViewLink$, physicalViewLink$, traceViewLink$, navigationParameters$} from 'in-stores/navigation';
-import {eventBus} from 'in-map/src/services/eventBus';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewSwitcher.less';
@@ -56,5 +55,4 @@ const View = connectTo(props => {
 
 function onViewSwitch(e) {
   e.stopPropagation();
-  eventBus.emit('onViewWillSwitch');
 }

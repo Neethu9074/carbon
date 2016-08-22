@@ -1,0 +1,206 @@
+import {combineLatest} from 'reactive-observables';
+
+import ParticleEmitterComponent from 'in-map/sceneObjectComponents/ParticleEmitterComponent';
+import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
+import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
+import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
+import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
+import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
+
+import {
+  shortenPathAtSourceAndDestination,
+  calculateLogicalCollisionMesh,
+  addArrowToDestination,
+  getCenterPosition,
+  getOffsetVectors,
+  intersects,
+  flatten
+} from 'in-map/misc/Connections';
+import {
+  CONNECTIONS_BIDIRECTIONAL_CHECK,
+  CONNECTIONS_COLLISION_MESH_UPDATE
+} from 'in-map/misc/TimingConfig';
+import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
+import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
+import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
+import SceneObject from 'in-map/sceneObjects/SceneObject';
+import connections from 'in-map/stores/connectionsStore';
+import {emptyArray} from 'in-services/fixedObjects';
+import {theme} from 'in-services/theme';
+
+
+export default class Connection extends SceneObject {
+
+  constructor(params) {
+    super(params.id);
+
+    this.destinationNode = params.destinationNode;
+    this.sourceNode = params.sourceNode;
+    this.isBidirectional = false;
+  }
+
+  init() {
+    super.init();
+
+    stickyNotes.add(this.id, {
+      type: ConnectionStickyNote,
+      eventEmitter: this.eventEmitter,
+      props: {
+        id: this.id
+      }
+    });
+
+    this.ghostConncetionSpawner = new GhostConncetionSpawner(this);
+  }
+
+  initComponents() {
+    super.initComponents();
+
+    this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
+    this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
+
+    this.addComponent('snapshot', new SnapshotComponent(this));
+
+    this.addComponent('screenPosition', new ScreenPositionComponent(this, pos => pos));
+
+    this.addComponent('health', new HealthComponent(this));
+
+    this.addComponent('particles', new ParticleEmitterComponent(this));
+  }
+
+  initEvents() {
+    super.initEvents();
+
+    this.ghostConncetionSpawner.initEvents();
+
+    this.addSubscriptions([
+      combineLatest([
+        this.eventEmitter.on('isBidirectionalChanged'),
+        this.sourceNode.eventEmitter.on('positionChanged'),
+        this.destinationNode.eventEmitter.on('positionChanged')
+      ]).subscribe(([isBidirectional, from, to]) => {
+        if (isBidirectional) {
+          const offset = getOffsetVectors(from, to);
+
+          from = from.clone();
+          to = to.clone();
+          from.add(offset.right);
+          from.sub(offset.forward);
+          to.add(offset.right);
+          to.add(offset.forward);
+        }
+
+        this.eventEmitter.emit('changePosition', {from, to});
+      }),
+
+      this.eventEmitter.on('changePosition').subscribe(fromTo =>
+        this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
+
+      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE)
+                                            .subscribe(fromTo => {
+        if (this.collisionLine) {
+          this.collisionLine.geometry.dispose();
+        }
+        this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
+      }),
+
+      combineLatest([
+        this.eventEmitter.on('healthChanged'),
+        this.eventEmitter.on('isHighlighted')
+      ]).subscribe(([health, isHighlighted]) => {
+        let newColor;
+        if (isHighlighted) {
+          newColor = '#ffffff';
+        } else {
+          const severity = health.get('maxSeverity', 0);
+          newColor = severity > 0 ? theme.health[Math.floor(severity)] : '#bababa';
+        }
+        this.getComponent('color').setHex(newColor);
+      }),
+
+      connections.stream
+        .throttle(CONNECTIONS_BIDIRECTIONAL_CHECK)
+        .subscribe(_connections => {
+          let isBidirectional = false;
+          const keys = Object.keys(_connections);
+          for (let i = 0, length = keys.length; i < length; i++) {
+            const connection = _connections[keys[i]];
+            if (connection.sourceNode === this.destinationNode &&
+                connection.destinationNode === this.sourceNode) {
+              isBidirectional = true;
+              break;
+            }
+          }
+
+          if (this.isBidirectional !== isBidirectional) {
+            this.isBidirectional = isBidirectional;
+            this.eventEmitter.emit('isBidirectionalChanged', isBidirectional);
+          }
+        })
+    ]);
+
+    this.eventEmitter.emit('isBidirectionalChanged', this.isBidirectional);
+  }
+
+  initialized() {
+    super.initialized();
+
+    connections.add(this.id, this);
+  }
+
+  getVertices() {
+    const fromTransform = this.sourceNode.getComponent('transform');
+    const toTransform = this.destinationNode.getComponent('transform');
+    if (!fromTransform || !toTransform) {
+      return emptyArray;
+    }
+
+    const from = fromTransform.getPosition().clone();
+    const to = toTransform.getPosition().clone();
+
+    if (this.isBidirectional) {
+      const offset = getOffsetVectors(from, to);
+
+      from.add(offset.right);
+      from.sub(offset.forward);
+      to.add(offset.right);
+      to.add(offset.forward);
+    }
+
+    const path = flatten(
+                 addArrowToDestination(
+                 shortenPathAtSourceAndDestination([from, to])));
+
+    return path;
+  }
+
+  getColors(vertices) {
+    const colors = [];
+    for (let i = 0, length = vertices.length; i < length; i++) {
+      colors.push(1);
+    }
+    return colors;
+  }
+
+  intersects(raycaster) {
+    return intersects(raycaster, this.collisionLine);
+  }
+
+  dispose() {
+    super.dispose();
+
+    stickyNotes.remove(this.id);
+    connections.remove(this.id);
+
+    this.ghostConncetionSpawner.dispose();
+
+    if (this.collisionLine) {
+      this.collisionLine.geometry.dispose();
+      this.collisionLine = null;
+    }
+
+    this.lineContentProvider = null;
+    this.destinationNode = null;
+    this.sourceNode = null;
+  }
+}

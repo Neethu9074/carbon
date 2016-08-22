@@ -8,7 +8,7 @@ module.exports = {
     tenantUnit: 'test',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
-   next: {
+  next: {
     uiBackendUrl: 'https://next-instana.instana.io/api/data/',
     groundskeeperUrl: 'https://next-instana.instana.io',
     tenant: 'instana',
