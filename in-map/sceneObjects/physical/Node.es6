@@ -61,6 +61,8 @@ export default class Node extends SceneObject {
 
     this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
 
+    this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid'));
+
     this.addComponent('health', new HealthComponent(this));
 
     this.addComponent('power', new PowerComponent(this));

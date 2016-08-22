@@ -21,8 +21,9 @@ export default class BasicSingleMeshFactory extends ASingleMeshFactory {
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
       side: THREE.DoubleSide,
-      transparent: true,
-      depthWrite: true
+      transparent: false,
+      depthWrite: true,
+      opacity: 0.5
     });
   }
 

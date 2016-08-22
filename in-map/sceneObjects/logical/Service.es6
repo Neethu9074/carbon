@@ -60,13 +60,19 @@ export default class Service extends SceneObject {
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
-    this.isExternal
-      ? this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'))
-      : this.addComponent('mesh', new MeshComponent(this, CubeCP, 'nodes'));
+    if (this.isExternal) {
+      this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'));
 
-    this.isExternal
-      ? this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP))
-      : this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CylinderHCP));
+      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP));
+
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CloudCP, 'solid'));
+    } else {
+      this.addComponent('mesh', new MeshComponent(this, CubeCP, 'nodes'));
+
+      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CylinderHCP));
+
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CubeCP, 'solid'));
+    }
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
       return {

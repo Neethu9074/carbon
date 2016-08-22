@@ -5,16 +5,17 @@ import {getFactory} from 'in-map/stores/factoriesStore';
 
 export default class HighlightingMeshComponent extends SceneObjectComponent {
 
-  constructor(sceneObject, contentProvider) {
+  constructor(sceneObject, contentProvider, factoryId = 'highlighting') {
     super(sceneObject, '_highlighting');
 
     this.contentProvider = contentProvider;
+    this.factoryId = factoryId;
   }
 
   initEvents() {
     super.initEvents();
 
-    const factory = this.factory = getFactory('highlighting');
+    const factory = this.factory = getFactory(this.factoryId);
     const eventEmitter = this.sceneObject.eventEmitter;
 
     this.addSubscriptions([
@@ -36,7 +37,9 @@ export default class HighlightingMeshComponent extends SceneObjectComponent {
 
     this.factory.remove(this.id);
     this.factory.needsUpdate();
-
     this.factory = null;
+
+    this.contentProvider = null;
+    this.factoryId = null;
   }
 }
