@@ -5,6 +5,7 @@ import TransformationComponent from 'in-map/sceneObjectComponents/Transformation
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import ColorComponent from 'in-map/sceneObjectComponents/ColorComponent';
 import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
+import {init as initCursorService} from 'in-map/services/cursor';
 import Subscriber from 'in-map/misc/Subscriber';
 
 
@@ -20,7 +21,9 @@ export default class SceneObject extends Subscriber {
     this.eventEmitter = new RoEmitter(this.id);
   }
 
-  init() {}
+  init() {
+    initCursorService();
+  }
 
   initComponents() {
     this.addComponent('transform', new TransformationComponent(this));
