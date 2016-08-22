@@ -20,10 +20,8 @@ import {
   CONNECTIONS_BIDIRECTIONAL_CHECK,
   CONNECTIONS_COLLISION_MESH_UPDATE
 } from 'in-map/misc/TimingConfig';
-import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
-import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
@@ -108,10 +106,8 @@ export default class Connection extends SceneObject {
 
       combineLatest([
         this.eventEmitter.on('healthChanged'),
-        highlightedEntityId$,
-        selectedSnapshotIdForHighlightingInMap$
-      ]).subscribe(([health, highlightedEntityId, selectedEntityId]) => {
-        const isHighlighted = highlightedEntityId === this.id || selectedEntityId === this.id;
+        this.eventEmitter.on('isHighlighted')
+      ]).subscribe(([health, isHighlighted]) => {
         let newColor;
         if (isHighlighted) {
           newColor = '#ffffff';

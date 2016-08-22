@@ -28,7 +28,7 @@ export default class CameraController extends Subscriber {
     this.map = map;
 
     this.hoveredConnections = emptyArray;
-    this.hittenObject = null;
+    this.hittenObject = undefined;
 
     // this counter is used to check if the cameraSpeed can be resetted
     this.zoomCalls = 0;
@@ -285,8 +285,8 @@ export default class CameraController extends Subscriber {
   }
 
   setCurrentHittenObjects(hittenObject, hoveredConnections) {
-    this.hoveredConnections = hittenObject;
-    this.hittenObject = hoveredConnections;
+    this.hittenObject = hittenObject;
+    this.hoveredConnections = hoveredConnections;
   }
 
   onObjectClicked({hittenObject, hoveredConnections}) {
