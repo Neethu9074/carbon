@@ -25,14 +25,14 @@ describe('in-map', () => {
       expect(time.getDeltaTime()).to.equal(0.02);
     });
 
-    it('should clamp deltaTime to max of 1000ms', () => {
+    it('should clamp deltaTime to max of 100ms', () => {
       expect(time.getDeltaTime()).to.equal(0);
 
       time.update(1000);
-      expect(time.getDeltaTime()).to.equal(1);
+      expect(time.getDeltaTime()).to.equal(0.1);
 
       time.update(20000);
-      expect(time.getDeltaTime()).to.equal(1);
+      expect(time.getDeltaTime()).to.equal(0.1);
     });
 
     it('should set the big bang time to the time since started', () => {
@@ -79,18 +79,16 @@ describe('in-map', () => {
     it('should return the number of current frames per second', () => {
       expect(time.getFPS()).to.equal(0);
 
-      time.update(100);
+      for (let i = 1; i <= 10; i++) {
+        time.update(i * 100);
+      }
       expect(time.getFPS()).to.equal(0);
 
-      time.update(1000);
-      expect(time.getFPS()).to.equal(2);
+      time.update(1001);
+      expect(time.getFPS()).to.equal(11);
 
       time.update(1100);
-      time.update(1200);
-      time.update(1300);
-      time.update(1400);
-      time.update(2000);
-      expect(time.getFPS()).to.equal(5);
+      expect(time.getFPS()).to.equal(11);
     });
   });
 });
