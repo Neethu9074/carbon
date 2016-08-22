@@ -13,7 +13,11 @@ export default function createPointContentRenderer({axisName, config}) {
   };
 
   function render(dataColumns) {
+    const activeSeries = config.activeSeries[axisName];
     for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
+      if (activeSeries[seriesIndex] === false) {
+        continue;
+      }
       ctx.lineWidth = 1;
       ctx.strokeStyle = colors[seriesIndex];
 

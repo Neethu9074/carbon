@@ -27,6 +27,7 @@ const contentRendererCreators = {
 export default function createAxisController(config) {
   let timeframeSpecificSubscriptions = [];
   determineNumberOfSeries();
+  addDataSeriesTogglingSupport();
   determineSeriesColors();
   const scales = config.scales = createScales();
   config.axisContentRenderers = createAxisContentRenderers();
@@ -74,9 +75,38 @@ export default function createAxisController(config) {
     }
   }
 
-
   function getNumberOfDataSeries(axisName) {
     return config[axisName].labels.length;
+  }
+
+
+  function addDataSeriesTogglingSupport() {
+    config.subscriptions.push(config.activeFilters$
+      .subscribe(onActiveFiltersChange));
+  }
+
+
+  function onActiveFiltersChange(hiddenSeries) {
+    config.hasActiveFilters = Object.keys(hiddenSeries).length > 0;
+    config.activeSeries = {};
+    config.activeSeries.y1 = getActiveSeries(hiddenSeries, 'y1');
+    if (config.y2) {
+      config.activeSeries.y2 = getActiveSeries(hiddenSeries, 'y2');
+    }
+    config.processDataColumnsAgain = true;
+    config.signals.restartRendering$.emit(true);
+  }
+
+
+  function getActiveSeries(hiddenSeries, axisName) {
+    const activeSeries = {};
+
+    for (let i = 0, len = config[axisName].numberOfSeries; i < len; i++) {
+      const label = config[axisName].labels[i];
+      activeSeries[i] = hiddenSeries[label] !== true;
+    }
+
+    return activeSeries;
   }
 
 
@@ -107,7 +137,6 @@ export default function createAxisController(config) {
   function establishSubscriptions() {
     const actualTimeframe$ = config.timeframe$ || timeframe$;
     config.subscriptions.push(actualTimeframe$.subscribe(timeframe => {
-      clearAllData();
       config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;
       config.timeframe = timeframe;
       config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
@@ -117,17 +146,6 @@ export default function createAxisController(config) {
     }));
     config.subscriptions.push(to$.subscribe(to => config.to = to));
     config.subscriptions.push(offset$.subscribe(serverTimeOffset => config.serverTimeOffset = serverTimeOffset));
-  }
-
-
-  function clearAllData() {
-    config.queues.y1.clear();
-    config.dataHolders.y1.clear();
-
-    if (config.y2) {
-      config.queues.y2.clear();
-      config.dataHolders.y2.clear();
-    }
   }
 
 

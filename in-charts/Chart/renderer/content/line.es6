@@ -12,7 +12,11 @@ export default function createLineContentRenderer({axisName, config}) {
   };
 
   function render(dataColumns) {
+    const activeSeries = config.activeSeries[axisName];
     for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
+      if (activeSeries[seriesIndex] === false) {
+        continue;
+      }
       ctx.beginPath();
 
       let previousX = Number.MAX_VALUE * -1;

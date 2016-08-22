@@ -13,8 +13,8 @@ import {getIn} from 'in-services/settings';
 import './Chart.less';
 
 const signalRoSpec = {emitLatestOnSubscribe: false};
-const animationDuration = 1000;
-const maxFps = 30;
+const animationDuration = 2000;
+const maxFps = 15;
 
 export default function createChart(config) {
   let initPhase = true;

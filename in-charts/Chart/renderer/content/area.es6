@@ -11,6 +11,7 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
   };
 
   function render(dataColumns) {
+    const activeSeries = config.activeSeries[axisName];
     let currentRenderIndex = 0;
     const end = dataColumns.length - 1;
     while (currentRenderIndex < end) {
@@ -21,6 +22,10 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
       let endIndex = null;
 
       for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
+        if (activeSeries[seriesIndex] === false) {
+          continue;
+        }
+
         ctx.beginPath();
 
         let previousX = Number.MAX_VALUE * -1;

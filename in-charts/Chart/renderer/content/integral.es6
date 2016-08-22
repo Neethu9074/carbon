@@ -31,6 +31,11 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
     }
 
     function renderSeries(seriesIndex, startingPoint, color) {
+      const activeSeries = config.activeSeries[axisName];
+      if (activeSeries[seriesIndex] === false) {
+        return dataColumns.length;
+      }
+
       ctx.beginPath();
 
       let previousX = Number.MAX_VALUE * -1;

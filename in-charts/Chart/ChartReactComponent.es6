@@ -17,7 +17,8 @@ export default React.createClass({
 
     snapshotId: rpt.string.isRequired,
     y1: rpt.object.isRequired,
-    y2: rpt.object
+    y2: rpt.object,
+    activeFilters$: rpt.object
   },
 
   getDefaultProps() {
@@ -39,7 +40,8 @@ export default React.createClass({
       timeframe$: this.props.timeframe$,
       snapshotId: this.props.snapshotId,
       y1: this.props.y1,
-      y2: this.props.y2
+      y2: this.props.y2,
+      activeFilters$: this.props.activeFilters$
     };
     config.container = ReactDOM.findDOMNode(this);
     this.chart = createChart(config);

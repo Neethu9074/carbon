@@ -76,10 +76,14 @@ export default function createAnimatableContentRenderer(config) {
   function renderAxisContent(axisName) {
     const newDataColumns = config.queues[axisName].get();
     const axisContentRenderer = config.axisContentRenderers[axisName];
-    axisContentRenderer.processNewDataColumns(newDataColumns);
+    axisContentRenderer.processNewDataColumns(newDataColumns, axisName);
     config.dataHolders[axisName].insertSorted(newDataColumns);
     config.dataHolders[axisName].expireDataPointsOlderThan(config.scales.x.getDomainFrom());
     const dataColumns = config.dataHolders[axisName].getDataColumns();
+    if (config.processDataColumnsAgain) {
+      axisContentRenderer.processNewDataColumns(dataColumns, axisName);
+    }
+    config.processDataColumnsAgain = false;
     updateScale(dataColumns, axisName);
     axisContentRenderer.render(dataColumns);
   }
@@ -99,7 +103,7 @@ export default function createAnimatableContentRenderer(config) {
 
       for (let i = 0, len = dataColumns.length; i < len; i++) {
         const column = dataColumns[i];
-        const bounds = getBounds(column);
+        const bounds = getBounds(column, axisName);
         max = Math.max(max, bounds[1]);
         min = Math.min(min, bounds[0]);
       }
@@ -188,23 +192,24 @@ export default function createAnimatableContentRenderer(config) {
 
     return ticks;
   }
-}
 
 
-function getBoundsForRow(column) {
-  let max = Number.NEGATIVE_INFINITY;
-  let min = Number.POSITIVE_INFINITY;
+  function getBoundsForRow(column, axisName) {
+    const activeSeries = config.activeSeries[axisName];
+    let max = Number.NEGATIVE_INFINITY;
+    let min = Number.POSITIVE_INFINITY;
 
-  for (let i = 0, len = column.length; i < len; i++) {
-    const point = column[i];
+    for (let i = 0, len = column.length; i < len; i++) {
+      const point = column[i];
 
-    if (point) {
-      max = Math.max(max, point[1]);
-      min = Math.min(min, point[1]);
+      if (point && activeSeries[i] === true) {
+        max = Math.max(max, point[1]);
+        min = Math.min(min, point[1]);
+      }
     }
-  }
 
-  return [min, max];
+    return [min, max];
+  }
 }
 
 

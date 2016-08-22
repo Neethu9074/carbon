@@ -54,7 +54,7 @@ export default connectTo({
                y1={this.props.y1}
                y2={this.props.y2}
                margins={this.props.margins}
-               filterStore={this.state.filterStore} />
+               activeFilters$={this.state.filterStore.activeFilters$} />
       </div>
     );
   }

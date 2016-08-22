@@ -3,6 +3,7 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
   const x = config.scales.x;
   const y = config.scales[axisName];
   const colors = config[axisName].colors;
+  const numberOfSeries = config[axisName].numberOfSeries;
 
   return {
     requireExistenceInAllSeries: true,
@@ -12,23 +13,42 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
   };
 
   function processNewDataColumns(dataColumns) {
+    const activeSeries = config.activeSeries[axisName];
     dataColumns.forEach(dataColumn => {
       let sum = 0;
-      dataColumn.forEach(dataRow => {
-        dataRow.y0 = sum;
-        sum += dataRow[1];
-        dataRow.y1 = sum;
+      dataColumn.forEach((dataRow, i) => {
+        if (activeSeries[i] === true) {
+          dataRow.y0 = sum;
+          sum += dataRow[1];
+          dataRow.y1 = sum;
+        }
       });
     });
   }
 
 
   function getBoundsForRow(dataRow) {
-    return [dataRow[0].y0, dataRow[dataRow.length - 1].y1];
+    if (!config.hasActiveFilters) {
+      return [dataRow[0].y0, dataRow[dataRow.length - 1].y1];
+    }
+
+    const activeSeries = config.activeSeries[axisName];
+    let max = Number.NEGATIVE_INFINITY;
+    let min = Number.POSITIVE_INFINITY;
+
+    for (let i = 0; i < numberOfSeries; i++) {
+      if (activeSeries[i] === true) {
+        min = Math.min(min, dataRow[i].y0);
+        max = Math.max(max, dataRow[i].y1);
+      }
+    }
+
+    return [min, max];
   }
 
 
   function render(dataColumns) {
+    const activeSeries = config.activeSeries[axisName];
     let currentRenderIndex = 0;
     const end = dataColumns.length - 1;
     while (currentRenderIndex < end) {
@@ -38,7 +58,11 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
     function renderUntilGap(startingPoint) {
       let endIndex = null;
 
-      for (let seriesIndex = 0; seriesIndex < config[axisName].numberOfSeries; seriesIndex++) {
+      for (let seriesIndex = 0; seriesIndex < numberOfSeries; seriesIndex++) {
+        if (activeSeries[seriesIndex] === false) {
+          continue;
+        }
+
         ctx.beginPath();
 
         let previousX = Number.MAX_VALUE * -1;
