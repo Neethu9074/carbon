@@ -7,9 +7,9 @@ import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
+import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {collisionDetection} from 'in-map/misc/Physics';
 import {theme} from 'in-services/theme';
 
 
@@ -28,8 +28,8 @@ export default class Layer extends SceneObject {
     this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
 
     this.addComponent('collision', new CollisionComponent(this,
-                                                          collisionDetection.predefinedCollisionObjects.Box,
-                                                          collisionDetection.OCTREE_LAYER.LAYER));
+                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
+                                                          OCTREE_LAYER.LAYER));
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 

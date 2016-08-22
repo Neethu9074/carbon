@@ -4,8 +4,8 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import THREE from 'three';
 
+import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
-import {collisionDetection} from 'in-map/misc/Physics';
 
 
 describe('in-map', () => {
@@ -21,8 +21,8 @@ describe('in-map', () => {
       sceneObject = createSceneObject();
 
       const Component = proxyquire('in-map/sceneObjectComponents/CollisionComponent/CollisionComponent', {
-        'in-map/misc/Physics': {
-          collisionDetection: {
+        'in-map/misc/serviceLocator/physics/PhysicsServiceLocator': {
+          default: {
             removeCollisionObject,
             addCollisionObject
           }
@@ -30,8 +30,8 @@ describe('in-map', () => {
       }).default;
 
       component = new Component(sceneObject,
-                                collisionDetection.predefinedCollisionObjects.Box,
-                                collisionDetection.OCTREE_LAYER.NODES);
+                                PREDEFINED_COLLISION_OBJECTS.BOX,
+                                OCTREE_LAYER.NODES);
       component.initEvents();
     });
 
@@ -54,7 +54,7 @@ describe('in-map', () => {
       expect(addCollisionObject).to.have.callCount(1);
       const mesh = addCollisionObject.getCall(0).args[0];
       expect(mesh instanceof THREE.Mesh).to.equal(true);
-      expect(addCollisionObject.getCall(0).args[1]).to.equal(collisionDetection.OCTREE_LAYER.NODES);
+      expect(addCollisionObject.getCall(0).args[1]).to.equal(OCTREE_LAYER.NODES);
 
       expect(mesh.position.x).to.equal(1);
       expect(mesh.position.y).to.equal(1);

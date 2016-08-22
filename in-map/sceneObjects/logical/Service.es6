@@ -12,12 +12,12 @@ import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
+import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import {changePosition} from 'in-map/stores/logical/layouterStore';
 import services from 'in-map/stores/logical/servicesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {collisionDetection} from 'in-map/misc/Physics';
 import DragGhost from 'in-map/misc/logical/DragGhost';
 import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';
@@ -47,8 +47,8 @@ export default class Service extends SceneObject {
     super.initComponents();
 
     this.addComponent('collision', new CollisionComponent(this,
-                                                          collisionDetection.predefinedCollisionObjects.Box,
-                                                          collisionDetection.OCTREE_LAYER.NODES));
+                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
+                                                          OCTREE_LAYER.NODES));
 
     this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
       return {

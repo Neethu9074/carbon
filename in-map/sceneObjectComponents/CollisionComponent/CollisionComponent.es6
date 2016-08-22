@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
+import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {collisionDetection} from 'in-map/misc/Physics';
 
 
 const COLLISION_MESH_MATERIAL = new THREE.MeshBasicMaterial();
@@ -39,8 +39,8 @@ export default class CollisionComponent extends SceneObjectComponent {
         mesh.updateMatrix();
         mesh.updateMatrixWorld();
 
-        collisionDetection.removeCollisionObject(mesh, this.layerId);
-        collisionDetection.addCollisionObject(mesh, this.layerId);
+        PhysicsServiceLocator.removeCollisionObject(mesh, this.layerId);
+        PhysicsServiceLocator.addCollisionObject(mesh, this.layerId);
       })
     );
   }
@@ -48,7 +48,7 @@ export default class CollisionComponent extends SceneObjectComponent {
   dispose() {
     super.dispose();
 
-    collisionDetection.removeCollisionObject(this.collisionMesh, this.layerId);
+    PhysicsServiceLocator.removeCollisionObject(this.collisionMesh, this.layerId);
 
     this.collisionMesh = null;
     this.layerId = null;

@@ -1,10 +1,10 @@
 import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import {setTooltip, clear as clearTooltip} from 'in-map/stores/tooltipStore';
 import connections from 'in-map/stores/connectionsStore';
 import {emptyArray} from 'in-services/fixedObjects';
-import {findObjectByRay} from 'in-map/misc/Physics';
 import Module from 'in-map/misc/common/Module';
 
 
@@ -96,7 +96,7 @@ export default class RaycasterModule extends Module {
     this.raycaster.setFromCamera(this.client.screenSpaceCursorPosition, this.camera.camera);
 
     // find the hitten object
-    const hittenObject = this.hittenObject = findObjectByRay(this.raycaster);
+    const hittenObject = this.hittenObject = PhysicsServiceLocator.checkRaycaster(this.raycaster);
     const hoveredConnections = hittenObject ?
       emptyArray : // don't calculate if another object than a connection was hitten
       this.currentConnections.filter(connection => connection.intersects(this.raycaster));

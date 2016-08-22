@@ -12,6 +12,7 @@ import {
   getSlicedGeometry,
   INDEX_MASK
 } from 'in-map/singleMeshFactories/ContentProvider/PredefinedSlicedCubes';
+import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import NodeMetricTooltip from 'in-map/components/tooltips/physical/NodeMetric';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import createMetricHandler from 'in-map/misc/physical/MetricHandler';
@@ -19,7 +20,6 @@ import {updateAttribute} from 'in-map/services/geometryAttributes';
 import AnimationController from 'in-map/misc/AnimationController';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {collisionDetection} from 'in-map/misc/Physics';
 
 
 const METRIC_MARGIN = 0.9;
@@ -62,8 +62,8 @@ export default class NodeMetric extends SceneObject {
     super.initComponents();
 
     this.addComponent('collision', new CollisionComponent(this,
-                                                          collisionDetection.predefinedCollisionObjects.Box,
-                                                          collisionDetection.OCTREE_LAYER.LAYER));
+                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
+                                                          OCTREE_LAYER.LAYER));
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos) => pos));
 

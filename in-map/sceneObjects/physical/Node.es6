@@ -12,12 +12,12 @@ import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import PowerComponent from 'in-map/sceneObjectComponents/PowerComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
+import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import createObjectCollectionStream from 'in-map/stores/ObjectColletionStream';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import NodeTooltip from 'in-map/components/tooltips/physical/Node';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {nodes} from 'in-map/stores/physical/nodesStore';
-import {collisionDetection} from 'in-map/misc/Physics';
 import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';
 
@@ -46,8 +46,8 @@ export default class Node extends SceneObject {
     this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
 
     this.addComponent('collision', new CollisionComponent(this,
-                                                          collisionDetection.predefinedCollisionObjects.Box,
-                                                          collisionDetection.OCTREE_LAYER.NODES));
+                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
+                                                          OCTREE_LAYER.NODES));
 
     this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
       return {

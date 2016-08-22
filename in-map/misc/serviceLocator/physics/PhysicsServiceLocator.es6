@@ -1,0 +1,49 @@
+import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
+
+const PhysicsServiceLocator = (function create() {
+  let service = createNullService();
+
+  function init() {
+    return service.init();
+  }
+
+  function checkRaycaster(raycaster) {
+    return service.checkRaycaster(raycaster);
+  }
+
+  function addCollisionObject(object, layerId) {
+    return service.addCollisionObject(object, layerId);
+  }
+
+  function removeCollisionObject(object, layerId) {
+    return service.removeCollisionObject(object, layerId);
+  }
+
+  function dispose() {
+    return service.dispose();
+  }
+
+
+  function provide(_service) {
+    if (service) {
+      service.dispose();
+    }
+
+    service = _service;
+
+    if (service) {
+      service.init();
+    }
+  }
+
+  return {
+    init,
+    provide,
+    checkRaycaster,
+    addCollisionObject,
+    removeCollisionObject,
+    dispose
+  };
+}());
+
+export default PhysicsServiceLocator;
