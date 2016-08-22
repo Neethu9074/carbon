@@ -78,8 +78,6 @@ export default class Scene extends SceneObject {
     eventBus.emit('update', dt);
     this.camera.update();
 
-    eventBus.emit('lateUpdate', dt);
-
     if (this.shouldRenderScene) {
       eventBus.emit('willRenderObject', true);
       this.render();
