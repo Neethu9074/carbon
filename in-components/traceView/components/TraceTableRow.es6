@@ -24,6 +24,9 @@ export default function TraceTableRow({selectedTraceId, trace, onClick}) {
       <span className={cellClassName}>
         {trace.duration}
       </span>
+      <span className={cellClassName}>
+        {trace.totalErrorCount}
+      </span>
     </div>
   );
 }

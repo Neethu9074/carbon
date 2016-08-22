@@ -14,7 +14,7 @@ import {focusedMoment$} from 'in-stores/timeline';
 
 
 const selectedSnapshotIdStore = createTrackingStore({
-  name: 'selectedSnapshotId',
+  name: 'in-stores/snapshot/selectedSnapshotId',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
@@ -31,7 +31,7 @@ export const selectedSnapshotId$ = selectedSnapshotId;
 
 
 export const selectedSnapshot = createTrackingStore({
-  name: 'selectedSnapshot',
+  name: 'in-stores/snapshot/selectedSnapshot',
   observable: selectedSnapshotId
     .flatMap(snapshotId => {
       if (snapshotId) {
@@ -45,7 +45,7 @@ export const selectedSnapshot$ = selectedSnapshot;
 
 
 export const selectedSnapshotWithId = createTrackingStore({
-  name: 'selectedSnapshotWithId',
+  name: 'in-stores/snapshot/selectedSnapshotWithId',
   observable: combineLatest([selectedSnapshotId, selectedSnapshot])
     .map(([snapshotId, snapshot]) => {
       if (!snapshotId) {

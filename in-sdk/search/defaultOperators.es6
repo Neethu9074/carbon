@@ -86,3 +86,17 @@ addKeywordOperator({
   keyword: 'latency',
   field: 'd'
 });
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'number',
+  keyword: 'error',
+  field: 'total_error_count'
+});
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'number',
+  keyword: 'errors',
+  field: 'total_error_count'
+});

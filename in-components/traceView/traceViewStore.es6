@@ -151,7 +151,8 @@ function addNewTraces(newTraces) {
       startMillis: trace.get('start'),
       duration: msZeroDecimalPlaces(trace.get('duration')),
       name: getLabel(trace),
-      id: trace.get('traceId')
+      id: trace.get('traceId'),
+      totalErrorCount: trace.get('totalErrorCount', 0)
     };
   });
   tracesStore.applyStateMutation(existingTraces => existingTraces.concat(transformedTraces));

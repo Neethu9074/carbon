@@ -20,12 +20,14 @@ export default function ElasticsearchSpanDetailView({span}) {
         <DescriptionItem title='Hits'>
           {span.getIn(['data', 'elasticsearch', 'hits'])}
         </DescriptionItem>
-      </DescriptionList>
 
-      {query ?
-        <Code code={prettyPrintQuery(query)}
-              type='json' />
-      : null}
+        {query ?
+          <DescriptionItem title='Query'>
+            <Code code={prettyPrintQuery(query)}
+                  type='json' />
+          </DescriptionItem>
+        : null}
+      </DescriptionList>
     </div>
   );
 }

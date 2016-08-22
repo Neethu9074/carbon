@@ -1,16 +1,11 @@
-import {createStore} from 'in-stores/store';
+import {create} from 'reactive-observables';
 
-
-const canvas = createStore({
-  name: 'index/canvas',
-  initialValue: null
-});
-export const canvas$ = canvas.observable;
+export const canvas$ = create();
 
 export function setCanvas(newCanvas) {
-  canvas.applyStateMutation(() => newCanvas);
+  canvas$.emit(newCanvas);
 }
 
 export function clear() {
-  canvas.applyStateMutation(() => null);
+  canvas$.emit(null);
 }

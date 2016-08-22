@@ -24,6 +24,7 @@ function TraceTableHeader({sortDirection, sortBy}) {
         Call
       </span>
       {renderCell('Resp. Time', 'd', sortDirection, sortBy)}
+      {renderCell('Error Count', 'total_error_count', sortDirection, sortBy)}
     </div>
   );
 }
