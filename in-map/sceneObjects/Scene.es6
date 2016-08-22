@@ -79,14 +79,11 @@ export default class Scene extends SceneObject {
     this.camera.update();
 
     if (this.shouldRenderScene) {
-      eventBus.emit('willRenderObject', true);
-      this.render();
-    }
-  }
+      this.shouldRenderScene = false;
 
-  render() {
-    this.renderer.render(this.scene, this.camera.getRenderableCamera());
-    this.shouldRenderScene = false;
+      eventBus.emit('willRenderObject', true);
+      this.renderer.render(this.scene, this.camera.getRenderableCamera());
+    }
   }
 
   setupRenderer() {
