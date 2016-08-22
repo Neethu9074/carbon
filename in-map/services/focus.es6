@@ -3,7 +3,7 @@ import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
 import {cameraController$} from 'in-map/stores/cameraController';
 
 
-let focusableSceneObjects;
+let focusableSceneObjects = {};
 let currentCameraController;
 cameraController$.subscribe(controller => currentCameraController = controller);
 sceneObjects.stream.subscribe(objects => focusableSceneObjects = objects);
