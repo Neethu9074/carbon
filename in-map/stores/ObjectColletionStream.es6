@@ -17,8 +17,13 @@ export default function createCollection() {
     objects$.emit(collection.objects);
   }
 
+  function get(id) {
+    return collection.get(id);
+  }
+
   return {
     add,
+    get,
     remove,
     stream: objects$,
     objects: collection.objects

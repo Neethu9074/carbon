@@ -7,4 +7,5 @@ export const METRIC_PILLAR_REFRESH = 1000;
 export const PHYSICAL_LAYOUTING = 50;
 export const LOGICAL_LAYOUTING = 50;
 export const LAYER_LAYOUTING = 50;
+export const POWER_CHECKING = 200;
 export const FACTORY = 50;

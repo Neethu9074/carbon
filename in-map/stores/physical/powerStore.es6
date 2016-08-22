@@ -1,13 +1,12 @@
-import {createStore} from 'in-stores/store';
+import createCollection from 'in-map/stores/ObjectColletionStream';
+import {POWER_CHECKING} from 'in-map/misc/TimingConfig';
 
 
-const maxPower = createStore({
-  name: 'physical/power',
-  initialValue: 1
-});
+export const powers = createCollection();
+export const maxPower$ = powers.stream.debounce(POWER_CHECKING)
+                                      .map(_powers => Object.keys(_powers).map(key => _powers[key])
+                                                                          .reduce(powerReducer, 0));
 
-export const maxPower$ = maxPower.observable;
-
-export function setPower(newPower) {
-  maxPower.applyStateMutation(() => newPower);
+function powerReducer(maxPower, power) {
+  return Math.max(maxPower, power);
 }

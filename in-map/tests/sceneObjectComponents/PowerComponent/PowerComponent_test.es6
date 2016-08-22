@@ -25,7 +25,14 @@ describe('in-map', () => {
       sceneObject2 = createSceneObject('id2');
       sceneObject2.eventEmitter.on('powerChanged').subscribe(powerChanged2);
 
+      const powerStore = proxyquire('in-map/stores/physical/powerStore', {
+        'in-map/misc/TimingConfig': {
+          POWER_CHECKING: 0
+        }
+      });
+
       const Component = proxyquire('in-map/sceneObjectComponents/PowerComponent/PowerComponent', {
+        'in-map/stores/physical/powerStore': powerStore,
         'in-sdk/power': {
           getPower: snapshot => {
             if (snapshot.get('id') === 'id1') {
@@ -76,6 +83,23 @@ describe('in-map', () => {
       expect(powerChanged.getCall(1).args[0]).to.equal(2);
       expect(powerChanged2).to.have.callCount(1);
       expect(powerChanged2.getCall(0).args[0]).to.equal(3);
+    });
+
+    it('should adjust powers when nodes leave', () => {
+      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'id1' }));
+      expect(powerChanged).to.have.callCount(1);
+      expect(powerChanged.getCall(0).args[0]).to.equal(3);
+
+      sceneObject2.eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'id2' }));
+      expect(powerChanged).to.have.callCount(2);
+      expect(powerChanged.getCall(1).args[0]).to.equal(2);
+      expect(powerChanged2).to.have.callCount(1);
+      expect(powerChanged2.getCall(0).args[0]).to.equal(3);
+
+      component2.disposeEvents();
+      expect(powerChanged).to.have.callCount(3);
+      expect(powerChanged.getCall(2).args[0]).to.equal(3);
+      expect(powerChanged2).to.have.callCount(1);
     });
   });
 });

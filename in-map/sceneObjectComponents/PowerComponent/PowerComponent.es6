@@ -1,7 +1,5 @@
-import {combineLatest} from 'reactive-observables';
-
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {maxPower$, setPower} from 'in-map/stores/physical/powerStore';
+import {powers, maxPower$} from 'in-map/stores/physical/powerStore';
 import {getPower} from 'in-sdk/power';
 
 
@@ -17,30 +15,23 @@ export default class PowerComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(
-      combineLatest([
-        this.sceneObject.eventEmitter.on('snapshotChanged'),
-        maxPower$.distinct()
-      ]).subscribe(([snapshot, maxPower]) => {
-        const power = getPower(snapshot);
+    this.addSubscriptions([
+      this.sceneObject.eventEmitter.on('snapshotChanged').subscribe(snappi => powers.add(this.id, getPower(snappi))),
 
-        if (power > maxPower) {
-          setPower(power);
+      maxPower$.distinct().subscribe(maxPower => {
+        const power = powers.get(this.id);
+        if (!power) {
           return;
         }
-
-        // the final power was found
-        this.power = getPower(snapshot);
-        const weightedHeight = (MAX_HEIGHT - BASE_HEIGHT) * (power / maxPower);
-
-        this.emitToClient('powerChanged', BASE_HEIGHT + weightedHeight);
+        const weightedHeight = BASE_HEIGHT + (MAX_HEIGHT - BASE_HEIGHT) * (power / maxPower);
+        this.emitToClient('powerChanged', weightedHeight);
       })
-    );
+    ]);
   }
 
-  dispose() {
-    super.dispose();
+  disposeEvents() {
+    super.disposeEvents();
 
-    this.color = null;
+    powers.remove(this.id);
   }
 }
