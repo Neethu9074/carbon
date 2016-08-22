@@ -1,6 +1,7 @@
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import JettyThreadsInfo from '../JettyThreadsInfo.es6';
 import JettyConnectors from '../JettyConnectors.es6';
@@ -11,7 +12,13 @@ import Info from '../Info.es6';
 export default function JettySidebar({snapshot}) {
   return (
     <div>
-      <Info snapshot={snapshot} />
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>Jetty Server Info</Collapsible.Header>
+        <Collapsible.Content>
+          <Info snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+
       <JettyThreadsInfo snapshot={snapshot} />
       <JettyConnectors snapshot={snapshot} />
       <JettyWebApps snapshot={snapshot} />

@@ -1,5 +1,4 @@
 import irpt from 'react-immutable-proptypes';
-import moment from 'moment';
 import React from 'react';
 
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
@@ -50,14 +49,15 @@ export default connectTo(props => {
               style={{color: this.props.color}}/>
         <div className={block + '__description'}>
           <Row className={getClassName(this, block, '__time')}>
-            <Col cols={5}>
-              {moment(start).fromNow()}
+            <Col cols={6}>
+              Started:<br/>
+              {formatDateTime(start)}
             </Col>
 
             {end && start !== end ?
-              <Col cols={7}
+              <Col cols={6}
                    className={block + '__end'}>
-                Ended: {formatDateTime(end)}
+                Ended:<br/>{formatDateTime(end)}
               </Col>
             : null}
           </Row>

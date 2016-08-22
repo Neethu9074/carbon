@@ -221,6 +221,9 @@ gulp.task('webpack:dev', () => {
     inline: true,
     noInfo: true,
     quiet: true,
+    watchOptions: {
+      ignored: /node_modules/
+    },
     stats: {
       colors: true
     }
