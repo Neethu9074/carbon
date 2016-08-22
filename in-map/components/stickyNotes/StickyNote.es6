@@ -6,6 +6,7 @@ import {applyTransform} from 'in-services/util/dom';
 const rpt = React.PropTypes;
 const DEFAULT_STYLE = {
   position: 'absolute',
+  zIndex: 0,
   left: 0,
   top: 0
 };
@@ -28,12 +29,8 @@ export default function StickyNote(ComposedComponent) {
 
     componentDidMount() {
       this.positionSubscription = this.props.eventEmitter.on('screenPositionChanged' + this.props.id)
-        .subscribe(newPosition => {
-          const stickyNote = this.refs.stickyNote;
-          if (stickyNote) {
-            applyTransform(stickyNote, `translate3d(${newPosition.x}px,${newPosition.y}px,0)`);
-          }
-        });
+        .subscribe(newPosition =>
+          applyTransform(this.refs.stickyNote, `translate3d(${newPosition.x}px,${newPosition.y}px,0)`));
 
       this.visibilitySubscription = this.props.eventEmitter.on('isVisibleChanged' + this.props.id)
         .distinct()
@@ -51,7 +48,8 @@ export default function StickyNote(ComposedComponent) {
     render() {
       const content = this.state.isVisible
         ? <ComposedComponent {...this.props}
-                             {...this.state} />
+                             {...this.state}
+                             wrapper={this.refs.stickyNote} />
         : null;
 
       return (

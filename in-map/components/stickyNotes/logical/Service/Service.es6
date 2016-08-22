@@ -39,6 +39,7 @@ export default createStickyNote(
     propTypes: {
       id: rpt.string.isRequired,
       showSticky: rpt.bool,
+      wrapper: rpt.object,
       children: irpt.set,
       snapshot: irpt.map,
       showKpi: rpt.bool
@@ -56,16 +57,19 @@ export default createStickyNote(
         return null;
       }
 
+      const isExpanded = this.state.expanded;
+      this.props.wrapper.style.zIndex = isExpanded ? 1 : 0;
+
       const children = this.props.children || emptyArray;
       const childrenAreAvailable = children && children.size > 0;
 
       let headerClassName = block + '__header';
-      if (this.state.highlighted || this.state.expanded) {
+      if (this.state.highlighted || isExpanded) {
         headerClassName += ' ' + headerClassName + '--highlighted';
       }
 
-      let contentClassName = block + '__content';
-      if (this.state.expanded) {
+      let contentClassName = block;
+      if (isExpanded) {
         contentClassName += ' ' + contentClassName + '--expanded';
       }
 
@@ -83,7 +87,7 @@ export default createStickyNote(
                  onMouseLeave={() => this.setState({highlighted: false})}
                  onClick={this.onClick}>
               {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
-              <Icon expanded={this.state.expanded} />
+              <Icon expanded={isExpanded} />
             </div>
             :
             <div className={headerClassName}>
@@ -91,7 +95,7 @@ export default createStickyNote(
             </div>
           }
 
-          {(this.state.expanded && childrenAreAvailable) ?
+          {(isExpanded && childrenAreAvailable) ?
             <PhysicalEntitiesList ids={children} />
           : null}
         </div>
