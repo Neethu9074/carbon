@@ -34,6 +34,7 @@ export default function createLayouter(node) {
     for (let i = 0, length = _layer.length; i < length; i++) {
       const layer = _layer[i];
       const plugin = layer._cachedPlugin;
+      const from = i * heightOfEachLayer;
       if (plugin !== currentPlugin) {
         if (plugins[currentPlugin]) {
           plugins[currentPlugin].to = i * heightOfEachLayer;
@@ -41,19 +42,19 @@ export default function createLayouter(node) {
         currentPlugin = plugin;
         plugins[plugin] = {
           layer,
-          from: i * heightOfEachLayer,
+          from,
           to: nodeScale.y
         };
       }
 
-      const heightOfLayer = heightOfEachLayer - Math.min(0.1, heightOfEachLayer * LAYER_MARGIN);
+      const heightOfLayer = heightOfEachLayer - Math.min(0.05, heightOfEachLayer * LAYER_MARGIN);
       const transform = layer.getComponent('transform');
       transform.setScaleXYZ(LAYER_MARGIN,
                             heightOfLayer,
                             LAYER_MARGIN);
 
       transform.setPositionXYZ(nodePosition.x,
-                               i * heightOfEachLayer,
+                               from,
                                nodePosition.z);
     }
 
