@@ -1,5 +1,5 @@
+import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
-import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
@@ -33,7 +33,7 @@ export default class Layer extends SceneObject {
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
-    this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
+    this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
 
     this.addComponent('health', new HealthComponent(this));
 

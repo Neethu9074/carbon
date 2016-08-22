@@ -1,10 +1,14 @@
+import {createLogger} from 'instalog';
 import RoEmitter from 'roemitter';
 
 import TransformationComponent from 'in-map/sceneObjectComponents/TransformationComponent';
+import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import ColorComponent from 'in-map/sceneObjectComponents/ColorComponent';
 import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
 import Subscriber from 'in-map/misc/Subscriber';
 
+
+const logger = createLogger('in-map-sceneObject');
 
 export default class SceneObject extends Subscriber {
 
@@ -22,6 +26,8 @@ export default class SceneObject extends Subscriber {
     this.addComponent('transform', new TransformationComponent(this));
 
     this.addComponent('color', new ColorComponent(this));
+
+    this.addComponent('highlighting', new HighlightingComponent(this));
   }
 
   initEvents() {}
@@ -38,6 +44,11 @@ export default class SceneObject extends Subscriber {
   }
 
   addComponent(id, component) {
+    if (__DEV__) {
+      if (this.components[id]) {
+        logger.warn('there is also a component defined with id:', id);
+      }
+    }
     component.init();
     component.initEvents();
     this.components[id] = component;

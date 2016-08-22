@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 
+import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
-import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Physical';
@@ -59,7 +59,7 @@ export default class Node extends SceneObject {
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
-    this.addComponent('highlighting', new HighlightingComponent(this, CHCP));
+    this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
 
     this.addComponent('health', new HealthComponent(this));
 

@@ -2,9 +2,9 @@ import THREE from 'three';
 
 import CylinderHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import CloudHCP from 'in-map/singleMeshFactories/ContentProvider/CloudHighlightingContentProvider';
+import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import CubeCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
-import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import CloudCP from 'in-map/singleMeshFactories/ContentProvider/CloudContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Logical';
@@ -46,10 +46,6 @@ export default class Service extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    this.isExternal
-      ? this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'))
-      : this.addComponent('mesh', new MeshComponent(this, CubeCP, 'nodes'));
-
     this.addComponent('collision', new CollisionComponent(this,
                                                           collisionDetection.predefinedCollisionObjects.Box,
                                                           collisionDetection.OCTREE_LAYER.NODES));
@@ -65,8 +61,12 @@ export default class Service extends SceneObject {
     this.addComponent('snapshot', new SnapshotComponent(this));
 
     this.isExternal
-      ? this.addComponent('highlighting', new HighlightingComponent(this, CloudHCP))
-      : this.addComponent('highlighting', new HighlightingComponent(this, CylinderHCP));
+      ? this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'))
+      : this.addComponent('mesh', new MeshComponent(this, CubeCP, 'nodes'));
+
+    this.isExternal
+      ? this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP))
+      : this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CylinderHCP));
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
       return {
