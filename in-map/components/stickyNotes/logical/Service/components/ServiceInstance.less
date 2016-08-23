@@ -1,0 +1,38 @@
+@import "~in-themes/active.less";
+
+.in-sticky-note-service-instance {
+  display: flex;
+  align-items: center;
+
+  border-radius: .188rem;
+  padding: .313rem 0 .313rem .5rem;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover, &--selected {
+    background: #42565e;
+  }
+
+  &__entity-information {
+    display: flex;
+    align-items: center;
+  }
+
+  &__plugin-icon {
+    height: 1.125rem;
+    min-width: 1.125rem;
+    margin-right: .313rem;
+    color: white;
+  }
+
+  &__kpis {
+    display: flex;
+    align-items: center;
+
+    margin: 0 0.625rem;
+  }
+
+  &__health-icon {
+    margin-left: .625rem;
+  }
+}

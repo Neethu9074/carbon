@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import PhysicalEntitiesList from 'in-map/components/stickyNotes/logical/Service/components/PhysicalEntitiesList';
+import ServiceInstanceList from 'in-map/components/stickyNotes/logical/Service/components/ServiceInstanceList';
 import KPIList from 'in-map/components/stickyNotes/logical/Service/components/KPIList';
 import {showKpi$, showSticky$} from 'in-map/stores/logical/servicesStore';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
@@ -96,7 +96,7 @@ export default createStickyNote(
           }
 
           {(isExpanded && childrenAreAvailable) ?
-            <PhysicalEntitiesList ids={children} />
+            <ServiceInstanceList ids={children} />
           : null}
         </div>
       );
