@@ -1,4 +1,4 @@
-import * as ro from 'reactive-observables';
+import {on, create} from 'reactive-observables';
 
 import {highlightedMoment$, clearHighlightedMoment, setHighlightedMoment} from 'in-stores/timeline';
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
@@ -21,7 +21,7 @@ export default function createChart(config) {
   config.subscriptions = [];
   config.devicePixelRatio = window.devicePixelRatio;
   config.signals = {
-    restartRendering$: ro.create(signalRoSpec)
+    restartRendering$: create(signalRoSpec)
   };
   config.margins = {
     top: 1,
@@ -72,8 +72,8 @@ export default function createChart(config) {
       .throttle(20)
       .subscribe(onHighlightedMomentChange));
 
-    config.subscriptions.push(ro
-      .on(config.dom.glassPane, 'mousemove')
+    config.subscriptions.push(
+      on(config.dom.glassPane, 'mousemove')
       .subscribe(e => {
         const time = config.scales.x.getDomain(e.offsetX);
         if (time >= config.scales.x.getDomainFrom() && time <= config.scales.x.getDomainTo()) {
@@ -83,8 +83,8 @@ export default function createChart(config) {
         }
       }));
 
-    config.subscriptions.push(ro
-      .on(config.dom.glassPane, 'mouseleave')
+    config.subscriptions.push(
+      on(config.dom.glassPane, 'mouseleave')
       .subscribe(clearHighlightedMoment));
   }
 
@@ -107,8 +107,8 @@ export default function createChart(config) {
 
 
   function addWindowResizeSupport() {
-    config.subscriptions.push(ro
-      .on(window, 'resize')
+    config.subscriptions.push(
+      on(window, 'resize')
       .debounce(500)
       .subscribe(onResize));
   }
@@ -122,8 +122,8 @@ export default function createChart(config) {
 
 
   function addVisibilityChangeSupport() {
-    config.subscriptions.push(ro
-      .on(document, 'visibilitychange')
+    config.subscriptions.push(
+      on(document, 'visibilitychange')
       .subscribe(onVisibilityChange));
   }
 

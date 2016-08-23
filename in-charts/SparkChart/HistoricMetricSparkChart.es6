@@ -1,9 +1,9 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
-import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
 import {getHistoricMetricsWithLiveUpdates, getPixelAwareRollupSize} from 'in-stores/metric';
-import * as timelineStore from 'in-stores/timeline';
+import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
+import {timeframeShape} from 'in-stores/timeline';
 
 
 const rpt = React.PropTypes;
@@ -13,7 +13,7 @@ export default React.createClass({
   displayName: 'HistoricMetricSparkChart',
 
   propTypes: {
-    timeframe: timelineStore.timeframeShape.isRequired,
+    timeframe: timeframeShape.isRequired,
     snapshotId: rpt.string.isRequired,
     metric: rpt.string.isRequired,
     height: rpt.number.isRequired,

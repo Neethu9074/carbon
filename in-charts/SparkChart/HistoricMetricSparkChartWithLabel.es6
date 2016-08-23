@@ -3,9 +3,10 @@ import React from 'react';
 
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
 import MetricValue from 'in-components/MetricValue';
-import * as timelineStore from 'in-stores/timeline';
+import {timeframeShape} from 'in-stores/timeline';
 
 import './HistoricMetricSparkChartWithLabel.less';
+
 
 const rpt = React.PropTypes;
 const block = 'in-spark-chart-with-label';
@@ -16,7 +17,7 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: timelineStore.timeframeShape.isRequired,
+    timeframe: timeframeShape.isRequired,
     height: rpt.number.isRequired,
     width: rpt.number.isRequired,
 

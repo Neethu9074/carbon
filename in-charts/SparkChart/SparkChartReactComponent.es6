@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import createSparkChart from 'in-charts/SparkChart/SparkChart';
-import * as timelineStore from 'in-stores/timeline';
+import {timeframeShape} from 'in-stores/timeline';
 import {getClassName} from 'in-services/react';
 
 
@@ -14,7 +14,7 @@ export default React.createClass({
   displayName: 'SparkChart',
 
   propTypes: {
-    timeframe: timelineStore.timeframeShape.isRequired,
+    timeframe: timeframeShape.isRequired,
     datasource: rpt.object.isRequired,
     height: rpt.number.isRequired,
     width: rpt.number.isRequired,
