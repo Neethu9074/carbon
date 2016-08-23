@@ -22,7 +22,12 @@ export default class BasicSingleMeshFactory extends ASingleMeshFactory {
       side: DoubleSide,
       transparent: false,
       depthWrite: true,
-      opacity: 0.5
+      uniforms: {
+        opacity: {
+          type: 'f',
+          value: 0.25
+        }
+      }
     });
   }
 
