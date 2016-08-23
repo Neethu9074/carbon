@@ -1,8 +1,8 @@
 import {OCTREE} from 'in-map/lib/Octree';
 
 import {OCTREE_LAYER} from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import {addTimeEventListener} from 'in-map/misc/time';
 import {eventBus} from 'in-map/services/eventBus';
-import * as time from 'in-map/misc/time';
 
 
 export default function createPhysicsService() {
@@ -14,7 +14,7 @@ export default function createPhysicsService() {
   let zoomLevelSubscription;
 
   function init() {
-    updateSubscription = time.addTimeEventListener(() => updateOctrees());
+    updateSubscription = addTimeEventListener(() => updateOctrees());
 
     zoomLevelSubscription = eventBus.on('zoomLevelChanged').subscribe(zoomLevel => {
       if (zoomLevel > 250) {

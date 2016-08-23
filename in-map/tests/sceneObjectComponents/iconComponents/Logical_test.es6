@@ -6,7 +6,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
 
 describe('in-map', () => {
@@ -46,8 +46,8 @@ describe('in-map', () => {
         'in-stores/snapshot': {
           getSnapshot: id => create().startWith(
             id === 'cluster_member_1'
-              ? Immutable.fromJS({ plugin: constants.plugins.cassandraNode })
-              : Immutable.fromJS({ plugin: constants.plugins.elasticsearch })
+              ? Immutable.fromJS({ plugin: plugins.cassandraNode })
+              : Immutable.fromJS({ plugin: plugins.elasticsearch })
           )
         }
       }).default;
@@ -73,10 +73,10 @@ describe('in-map', () => {
       ]));
 
       sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({
-        plugin: constants.plugins.cassandraCluster
+        plugin: plugins.cassandraCluster
       }));
       expect(factory.add).to.have.callCount(1);
-      expect(factory.add.getCall(0).args[0].additionalParams.type).to.equal(constants.plugins.cassandraNode);
+      expect(factory.add.getCall(0).args[0].additionalParams.type).to.equal(plugins.cassandraNode);
     });
 
     it('should change the icon type to service type if there are inhomogen cluster member', () => {
@@ -86,10 +86,10 @@ describe('in-map', () => {
       ]));
 
       sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({
-        plugin: constants.plugins.cassandraCluster
+        plugin: plugins.cassandraCluster
       }));
       expect(factory.add).to.have.callCount(1);
-      expect(factory.add.getCall(0).args[0].additionalParams.type).to.equal(constants.plugins.cassandraCluster);
+      expect(factory.add.getCall(0).args[0].additionalParams.type).to.equal(plugins.cassandraCluster);
     });
   });
 });

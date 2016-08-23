@@ -1,4 +1,4 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 
 
 let millisWatingForComponentUpdate = 200;
@@ -11,7 +11,7 @@ let deltaTime = 0;
 let timeNow = 0;
 let fps = 0;
 
-const listenerObservable = ro.create({ emitLatestOnSubscribe: false });
+const listenerObservable = create({ emitLatestOnSubscribe: false });
 
 export function addTimeEventListener(timeEventCallback) {
   return listenerObservable.subscribe(() => timeEventCallback());

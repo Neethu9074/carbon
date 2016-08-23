@@ -1,7 +1,7 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 
 
-export const cameraController$ = ro.create();
+export const cameraController$ = create();
 
 export function setCameraController(controller) {
   cameraController$.emit(controller);

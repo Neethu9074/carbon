@@ -1,11 +1,11 @@
 import createCollection from 'in-map/stores/ObjectColletionStream';
 import services from 'in-map/stores/logical/servicesStore';
-import connections from 'in-map/stores/connectionsStore';
 import {groups} from 'in-map/stores/physical/groupsStore';
+import connections from 'in-map/stores/connectionsStore';
 import {nodes} from 'in-map/stores/physical/nodesStore';
+import {getBigBangTime, getFPS} from 'in-map/misc/time';
 import {eventBus} from 'in-map/services/eventBus';
 import {scene$} from 'in-map/stores/sceneStore';
-import * as time from 'in-map/misc/time';
 
 
 const statistics = createCollection();
@@ -45,7 +45,7 @@ if (__DEV__) {
       if (renderSubscription) renderSubscription.dispose();
 
       updateSubscription = eventBus.on('update').subscribe(() => {
-        const fps = time.getFPS();
+        const fps = getFPS();
         minFPS = Math.min(fps, minFPS);
         maxFPS = Math.max(fps, maxFPS);
       });
@@ -67,8 +67,8 @@ if (__DEV__) {
     const memoryInfo = renderer.info.memory;
 
     statistics.add('time', {
-      seconds: time.getBigBangTime() | 0,
-      FPS_possible: time.getFPS() + ' (' + minFPS + '/' + maxFPS + ')'
+      seconds: getBigBangTime() | 0,
+      FPS_possible: getFPS() + ' (' + minFPS + '/' + maxFPS + ')'
     });
 
     statistics.add('renderer', {

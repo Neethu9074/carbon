@@ -1,11 +1,11 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 
 import FruchtermannReingold from 'in-map/misc/logical/layoutingStrategies/FruchtermannReingold';
 import {createStore} from 'in-stores/store';
 
 
-export const currentLayoutingStrategy$ = ro.create();
+export const currentLayoutingStrategy$ = create();
 
 export function setLayoutingStrategy(newScene) {
   currentLayoutingStrategy$.emit(newScene);

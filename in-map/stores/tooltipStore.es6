@@ -1,7 +1,7 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 
 
-export const tooltip$ = ro.create();
+export const tooltip$ = create();
 
 export function setTooltip(objects) {
   tooltip$.emit(objects);

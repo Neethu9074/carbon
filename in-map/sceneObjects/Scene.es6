@@ -1,5 +1,6 @@
 import {frame$, requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
+import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/misc/time';
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
 import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsService';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
@@ -8,7 +9,6 @@ import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import Camera from 'in-map/misc/OrthographicCamera';
-import * as time from 'in-map/misc/time';
 import {theme} from 'in-services/theme';
 
 
@@ -24,7 +24,7 @@ export default class MainScene extends SceneObject {
     PhysicsServiceLocator.provide(createPhysicsService());
 
     // reset the time and clear all listeners
-    time.reset();
+    resetTime();
 
     this.isDisposed = false;
     this.canvas = params.canvas;
@@ -75,8 +75,8 @@ export default class MainScene extends SceneObject {
   }
 
   update(highResTimestamp) {
-    time.update(highResTimestamp);
-    const dt = time.getDeltaTime();
+    updateTime(highResTimestamp);
+    const dt = getDeltaTime();
 
     eventBus.emit('update', dt);
     this.camera.update();

@@ -1,9 +1,9 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 
 import {requestRendering} from 'in-map/stores/renderingStore';
 
 
-export const scene$ = ro.create();
+export const scene$ = create();
 
 export function setScene(newScene) {
   scene$.emit(newScene);
