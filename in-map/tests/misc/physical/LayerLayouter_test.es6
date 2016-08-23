@@ -57,7 +57,7 @@ describe('in-map', () => {
       expect(factory.add.getCall(0).args).to.have.length(1);
 
       const first = factory.add.getCall(0).args[0];
-      expect(first.additionalParams.positionOffset.y).to.equal((nodeScale.y - 0.1) / 2);
+      expect(first.additionalParams.positionOffset.y).to.equal(2);
     });
 
     it('should only add unique plugins to factory', () => {
@@ -73,7 +73,7 @@ describe('in-map', () => {
       expect(factory.add.getCall(0).args).to.have.length(1);
 
       const first = factory.add.getCall(0).args[0];
-      expect(first.additionalParams.positionOffset.y).to.equal((nodeScale.y - 0.1) / 2);
+      expect(first.additionalParams.positionOffset.y).to.equal(2);
     });
 
     it('should position the layer icons in the middle', () => {

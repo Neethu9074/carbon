@@ -29,12 +29,12 @@ export default function createLayouter(node) {
       return;
     }
 
-    const nodeHeight = nodeScale.y - 0.1;
+    const nodeHeight = nodeScale.y;
 
     // sort layer desc by plugin because they are layouted from bottom to top
     _layer = _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
 
-    const numGaps = countDifferentPluginsFromSortedArray(_layer) - 1;
+    const numGaps = countDifferentPluginsFromSortedArray(_layer);
     const gapHeight = calculateHeightForEachGap(nodeHeight, numGaps);
     const heightUsedForLayer = nodeHeight - numGaps * gapHeight;
     const heightOfEachLayer = heightUsedForLayer / numLayer;
@@ -66,7 +66,7 @@ export default function createLayouter(node) {
 
       const transform = layer.getComponent('transform');
       transform.setScaleXYZ(LAYER_MARGIN,
-                            heightOfEachLayer * LAYER_MARGIN,
+                            heightOfEachLayer - Math.min(0.1, heightOfEachLayer * LAYER_MARGIN),
                             LAYER_MARGIN);
 
       transform.setPositionXYZ(nodePosition.x,
