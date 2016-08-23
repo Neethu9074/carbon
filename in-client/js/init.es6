@@ -10,19 +10,19 @@ import ReactDOM from 'react-dom';
 import logging from 'instalog';
 import React from 'react';
 
-import * as highlightedSuggestionStore from 'in-components/SearchBar/stores/highlightedSuggestion';
-import * as tableViewVisibilityStore from 'in-components/tableView/stores/visibility';
-import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
-import * as notMonitoringPresenter from 'in-services/notMonitoringDialogPresenter';
-import * as layouterStorage from 'in-map/services/logical/logicalLayouterStorage';
-import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
-import * as expandedIdsStore from 'in-components/tableView/stores/expandedIds';
-import * as persistentConnection from 'in-services/persistentConnection';
-import * as timelineStore from 'in-components/timeline/timelineStore';
-import * as browserIdentification from 'in-services/browser';
-import * as timeOffsetStore from 'in-stores/timeOffset';
-import * as shortcuts from 'in-services/shortcuts';
-import * as tracking from 'in-services/tracking';
+import {init as initHighlightedSuggestionStore} from 'in-components/SearchBar/stores/highlightedSuggestion';
+import {init as initTableViewVisibilityStore} from 'in-components/tableView/stores/visibility';
+import {init as initSubscriptonManager} from 'in-services/subscription/subscriptionManager';
+import {init as initNotMonitoringPresenter} from 'in-services/notMonitoringDialogPresenter';
+import {init as initLayouterStorage} from 'in-map/services/logical/logicalLayouterStorage';
+import {init as initMessageStore} from 'in-components/MessageDialog/MessageDialogStores';
+import {init as initExpandedIdsStore} from 'in-components/tableView/stores/expandedIds';
+import {init as initPersistentConnection} from 'in-services/persistentConnection';
+import {init as initTimelineStore} from 'in-components/timeline/timelineStore';
+import {init as initBrowserIdentification} from 'in-services/browser';
+import {init as initTimeOffsetStore} from 'in-stores/timeOffset';
+import {init as initShortcuts} from 'in-services/shortcuts';
+import {init as initTracking} from 'in-services/tracking';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -64,19 +64,19 @@ if (__DEV__) {
 }
 
 // kick of the init process
-layouterStorage.init();
-browserIdentification.init();
-persistentConnection.init();
-subscriptonManager.init();
-timeOffsetStore.init();
-timelineStore.init();
-messageStore.init();
-shortcuts.init();
-tracking.init();
-notMonitoringPresenter.init();
-tableViewVisibilityStore.init();
-expandedIdsStore.init();
-highlightedSuggestionStore.init();
+initHighlightedSuggestionStore();
+initTableViewVisibilityStore();
+initSubscriptonManager();
+initNotMonitoringPresenter();
+initLayouterStorage();
+initMessageStore();
+initExpandedIdsStore();
+initPersistentConnection();
+initTimelineStore();
+initBrowserIdentification();
+initTimeOffsetStore();
+initShortcuts();
+initTracking();
 
 ReactDOM.render((
   <Router history={hashHistory}>
