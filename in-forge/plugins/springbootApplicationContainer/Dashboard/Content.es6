@@ -2,8 +2,11 @@ import React from 'react';
 
 import EndpointBreakdownTable from
 'in-forge/plugins/springbootApplicationContainer/Dashboard/EndpointBreakdownTable.es6';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default function SpringbootDashboard({snapshot, timeframe}) {
@@ -12,6 +15,20 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
 
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='All Requests'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='metrics.requests' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Active Sessions'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='metrics.httpsessions.active' />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Request Count'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}

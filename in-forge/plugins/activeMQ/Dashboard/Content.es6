@@ -1,8 +1,12 @@
 import React from 'react';
 
-import DashboardNotification from 'in-components/DashboardNotification';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
+
 
 const percentage = d => d + '%';
 
@@ -15,8 +19,31 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
       </DashboardNotification>
     );
   }
+
+  const snapshotId = snapshot.get('id');
+
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='All Queues Messages Enqueue'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='totalQueuesEnqueueCount' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Memory Usage'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='memoryPercentUsage'
+                       formatter={percentage} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Storage Usage'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='storePercentUsage'
+                       formatter={percentage} />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Broker wide queues message stats'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}

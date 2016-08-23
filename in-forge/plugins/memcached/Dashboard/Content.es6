@@ -5,8 +5,12 @@ import {
   zeroDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
+
 
 export default function MemcachedDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -14,6 +18,27 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
 
   return (
     <div>
+    <KpiSection>
+      <KpiHeading>
+        {getLabel(snapshot)}
+      </KpiHeading>
+      <KpiKeyValue label='Gets'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='cmd_get'
+                     formatter={zeroDecimalPlaces} />
+      </KpiKeyValue>
+      <KpiKeyValue label='Sets'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='cmd_set'
+                     formatter={zeroDecimalPlaces} />
+      </KpiKeyValue>
+      <KpiKeyValue label='Get hit ratio'>
+        <MetricValue snapshotId={snapshotId}
+                     metric='get_hit_rate'
+                     formatter={percentageZeroDecimalPlaces} />
+      </KpiKeyValue>
+    </KpiSection>
+
       <DashboardSection title='Commands'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}

@@ -2,9 +2,12 @@ import React from 'react';
 
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
-import {bytesTwoDecimalPlaces, time} from 'in-services/formatters/number';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import {bytesTwoDecimalPlaces, time} from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default function JVMDashboard({snapshot, timeframe}) {
@@ -13,6 +16,17 @@ export default function JVMDashboard({snapshot, timeframe}) {
 
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Memory Used'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='memory.used'
+                       formatter={bytesTwoDecimalPlaces}/>
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Threads'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}

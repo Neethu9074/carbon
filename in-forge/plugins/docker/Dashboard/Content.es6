@@ -6,9 +6,13 @@ import {
   bytesZeroDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
+
 
 const throttlingTimeFormater = d => (d / 1000000000.0) + 's';
 
@@ -16,6 +20,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
   const dockerVersion = snapshot.getIn(['data', 'docker_version']);
   const hasNetworkMetrics = snapshot.getIn(['data', 'NetworkMode'], '') === 'bridge';
   const memoryMetricsBugged = dockerVersion === '1.11.0' || dockerVersion === '1.11.1';
+  const snapshotId = snapshot.get('id');
 
   return (
     <div>
@@ -25,8 +30,25 @@ export default function DockerDashboard({snapshot, timeframe}) {
           This has been fixed by Docker in 1.12.0 and 1.11.2.
         </DashboardNotification>
       : null}
+
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='CPU Total %'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='cpu.total_usage'
+                       formatter={percentageZeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Memory Usage'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='memory.usage'
+                       formatter={bytesTwoDecimalPlaces} />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='CPU'>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
+        <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
                            left: 80,
@@ -47,7 +69,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            formatter: percentageZeroDecimalPlaces,
                            type: 'line'
                          }}/>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
+        <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
                            left: 80,
@@ -77,7 +99,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
       </DashboardSection>
       { !memoryMetricsBugged ?
       <DashboardSection title='Memory'>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
+        <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
                            left: 80,
@@ -100,7 +122,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            formatter: bytesTwoDecimalPlaces,
                            type: 'line'
                          }}/>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
+        <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
                            left: 80,
@@ -126,7 +148,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
       </DashboardSection>
       : null }
       <DashboardSection title='Block IO'>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
+        <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
                            left: 80,
@@ -149,7 +171,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
       { hasNetworkMetrics ?
       <DashboardSection title='Network'>
         <div>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
+          <ChartWithLegend snapshotId={snapshotId}
                  timeframe={timeframe}
                  margins={{
                    left: 80,

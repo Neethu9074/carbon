@@ -9,14 +9,39 @@ import {
   msTwoDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
-
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default function KafkaDashboard({snapshot, timeframe}) {
+  const snapshotId = snapshot.get('id');
+
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Produce Latency'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='broker.totalTimeProduce'
+                       formatter={msZeroDecimalPlaces}/>
+        </KpiKeyValue>
+        <KpiKeyValue label='Fetch Consumer Latency'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='broker.totalTimeFetchConsumer'
+                       formatter={msZeroDecimalPlaces}/>
+        </KpiKeyValue>
+        <KpiKeyValue label='Fetch Follower Latency'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='broker.totalTimeFetchFollower'
+                       formatter={msZeroDecimalPlaces}/>
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Broker Traffic'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}

@@ -1,7 +1,10 @@
 import React from 'react';
 
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default function NginxDashboard({snapshot, timeframe}) {
@@ -9,6 +12,28 @@ export default function NginxDashboard({snapshot, timeframe}) {
 
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Requests / s'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='requests' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Connections Reading'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='connections.reading' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Connections Writing'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='connections.writing' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Connections Waiting'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='connections.waiting' />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Requests'>
         <ChartWithLegend snapshotId={snapshotId}
                timeframe={timeframe}
@@ -60,7 +85,7 @@ export default function NginxDashboard({snapshot, timeframe}) {
                  labels: [
                    'Reading',
                    'Writing',
-                   'waiting'
+                   'Waiting'
                  ],
                  type: 'line'
                }}/>

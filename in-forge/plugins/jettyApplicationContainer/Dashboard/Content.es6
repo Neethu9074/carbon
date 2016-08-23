@@ -1,8 +1,11 @@
 import React from 'react';
 
-import DashboardNotification from 'in-components/DashboardNotification';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 import WebAppsTable from './WebAppsTable.es6';
 
@@ -17,10 +20,27 @@ export default function JettyDashboard({snapshot, timeframe}) {
       </DashboardNotification>
     );
   }
+
+  const snapshotId = snapshot.get('id');
+
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Idle Threads'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='idleThreads' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Total Threads'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='threads' />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Queued Thread Pool Stats'>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
+        <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
                            left: 80

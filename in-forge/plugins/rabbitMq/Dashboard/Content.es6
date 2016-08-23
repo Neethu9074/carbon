@@ -1,12 +1,15 @@
 import React from 'react';
 
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
-import {twoDecimalPlaces} from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import {twoDecimalPlaces} from 'in-services/formatters/number';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default function RabbitMqDashboard({snapshot, timeframe}) {
@@ -20,6 +23,24 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
   }
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Messages ready'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='overview.messages_ready' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Consumers'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='overview.consumers' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Connections'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='overview.connections' />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Messages'>
           <ChartWithLegend snapshotId={snapshotId}
                 timeframe={timeframe}

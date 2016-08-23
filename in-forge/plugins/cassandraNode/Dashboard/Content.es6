@@ -1,12 +1,14 @@
 import React from 'react';
 import d3 from 'd3';
 
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
-import {capitalize} from 'in-services/formatters/string';
 import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
-
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {capitalize} from 'in-services/formatters/string';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 const commasFormatter = d3.format(',.0f');
@@ -17,6 +19,30 @@ export default function CassandraDashboard({snapshot, timeframe}) {
 
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Read Requests'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='clientrequests.read.count' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Read Latency'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='clientrequests.read.mean'
+                       formatter={muSecondsToMillisZeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Wrote Requests'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='clientrequests.write.count' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Write Latency'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='clientrequests.write.mean'
+                       formatter={muSecondsToMillisZeroDecimalPlaces} />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Requests'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
