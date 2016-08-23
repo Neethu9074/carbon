@@ -1,4 +1,4 @@
-import * as ro from 'reactive-observables';
+import {on, create} from 'reactive-observables';
 
 import CombinedEventsRenderer from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
 import HighlightedMomentRenderer from 'in-components/timeline/components/renderer/HighlightedMomentRenderer';
@@ -17,6 +17,7 @@ import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
+
 export default function createTimelineRenderer({container, canvas}) {
   const changeSignal = true;
   const height = 148;
@@ -28,10 +29,10 @@ export default function createTimelineRenderer({container, canvas}) {
   const screenBufferCanvas = canvas;
   const screenBuffer = screenBufferCanvas.getContext('2d');
 
-  const realtimeDrawStream = ro.create();
+  const realtimeDrawStream = create();
   const realtimeUpdateEvents = new RealtimeUpdateEvents(realtimeDrawStream, changeSignal);
 
-  const changes = ro.create();
+  const changes = create();
 
   const scale = createScale();
   setTimelineScale(scale);
@@ -94,7 +95,7 @@ export default function createTimelineRenderer({container, canvas}) {
     changes.emit(changeSignal);
   });
 
-  const resizeSubscription = ro.on(window, 'resize')
+  const resizeSubscription = on(window, 'resize')
     .debounce(500)
     .subscribe(resize);
 

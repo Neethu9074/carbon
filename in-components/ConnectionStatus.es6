@@ -1,7 +1,8 @@
 import React from 'react';
 
-import * as connection from 'in-services/persistentConnection';
+import {on, off} from 'in-services/persistentConnection';
 import Toast from 'in-components/Toast';
+
 
 export default React.createClass({
   displayName: 'ConnectionStatus',
@@ -13,13 +14,13 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    connection.on('connect', this.onConnect);
-    connection.on('connect_error', this.onConnectError);
+    on('connect', this.onConnect);
+    on('connect_error', this.onConnectError);
   },
 
   componentWillUnmount() {
-    connection.off('connect', this.onConnect);
-    connection.off('connect_error', this.onConnectError);
+    off('connect', this.onConnect);
+    off('connect_error', this.onConnectError);
   },
 
   onConnect() {

@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
-import * as tooltipStore from 'in-services/stores/tooltip';
+import {activeTooltip, TooltipShape} from 'in-services/stores/tooltip';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,34 +12,34 @@ import './TooltipPresenter.less';
 const block = 'in-tooltip-presenter';
 
 export default connectTo({
-    activeTooltip: tooltipStore.activeTooltip.nextFrame()
+    _activeTooltip: activeTooltip.nextFrame()
   }, React.createClass({
 
   displayName: 'TooltipPresenter',
 
   propTypes: {
-    activeTooltip: tooltipStore.TooltipShape
+    _activeTooltip: TooltipShape
   },
 
   componentDidUpdate() {
-    const activeTooltip = this.props.activeTooltip;
+    const _activeTooltip = this.props._activeTooltip;
     // nothing to do if there is no active tooltip
-    if (!activeTooltip) {
+    if (!_activeTooltip) {
       return;
     }
 
     const tooltipElement = ReactDOM.findDOMNode(this);
-    const align = this.props.activeTooltip.align;
+    const align = this.props._activeTooltip.align;
 
     // add the CSS classes for arrow alignment
     tooltipElement.className = '';
     tooltipElement.classList.add(block);
 
-    if (activeTooltip.focusedElement) {
-      this.positionFocusedElement(align, tooltipElement, activeTooltip.focusedElement);
-    } else if (activeTooltip.focusedPoint) {
-      tooltipElement.style.left = toPx(activeTooltip.focusedPoint.x);
-      tooltipElement.style.top = toPx(activeTooltip.focusedPoint.y);
+    if (_activeTooltip.focusedElement) {
+      this.positionFocusedElement(align, tooltipElement, _activeTooltip.focusedElement);
+    } else if (_activeTooltip.focusedPoint) {
+      tooltipElement.style.left = toPx(_activeTooltip.focusedPoint.x);
+      tooltipElement.style.top = toPx(_activeTooltip.focusedPoint.y);
       tooltipElement.classList.add(`${block}__${align}`);
     } else {
       throw new Error('Not possible to show tooltip without any focused element.');
@@ -85,7 +85,7 @@ export default connectTo({
   },
 
   render() {
-    const tooltip = this.props.activeTooltip;
+    const tooltip = this.props._activeTooltip;
     if (!tooltip) {
       return null;
     }

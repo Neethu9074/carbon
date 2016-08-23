@@ -1,15 +1,20 @@
 import Infinite from 'react-infinite';
 import React from 'react';
 
-import TraceTableRow from 'in-components/traceView/components/TraceTableRow';
-import * as traceViewStore from 'in-components/traceView/traceViewStore';
-import getElementDimensions from 'in-hoc/getElementDimensions';
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import {
+  traces$,
+  isLoading$,
+  clear,
+  loadMoreTraces
+} from 'in-components/traceView/traceViewStore';
 import {
   selectedTraceId,
   setSelectedTraceId,
   clearTraceSelection
 } from 'in-stores/traces';
+import TraceTableRow from 'in-components/traceView/components/TraceTableRow';
+import getElementDimensions from 'in-hoc/getElementDimensions';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceTable.less';
@@ -20,8 +25,8 @@ const rpt = React.PropTypes;
 
 export default getElementDimensions(connectTo({
     selectedTraceId,
-    traces: traceViewStore.traces$,
-    isInfiniteLoading: traceViewStore.isLoading$
+    traces: traces$,
+    isInfiniteLoading: isLoading$
   }, React.createClass({
   displayName: 'TraceTable',
 
@@ -33,7 +38,7 @@ export default getElementDimensions(connectTo({
   },
 
   componentWillUnmount() {
-    traceViewStore.clear();
+    clear();
   },
 
   render() {
@@ -44,7 +49,7 @@ export default getElementDimensions(connectTo({
                     elementHeight={26}
                     loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
                     infiniteLoadBeginEdgeOffset={this.props.height * 0.5}
-                    onInfiniteLoad={traceViewStore.loadMoreTraces}
+                    onInfiniteLoad={loadMoreTraces}
                     isInfiniteLoading={this.props.isInfiniteLoading}
                     className={block + '__scroll-area'}>
             {this.props.traces.map(trace =>

@@ -1,6 +1,7 @@
-import * as ro from 'reactive-observables';
+import {on} from 'reactive-observables';
 import ReactDOM from 'react-dom';
 import React from 'react';
+
 
 export default function getElementDimensions(ComposedComponent) {
   return  React.createClass({
@@ -15,7 +16,7 @@ export default function getElementDimensions(ComposedComponent) {
     componentDidMount() {
       this.domNode = ReactDOM.findDOMNode(this);
       this.calculateDimensions();
-      this.subscription = ro.on(window, 'resize')
+      this.subscription = on(window, 'resize')
         .debounce(300)
         .subscribe(this.calculateDimensions);
     },
@@ -33,7 +34,9 @@ export default function getElementDimensions(ComposedComponent) {
 
     render() {
       return (
-        <ComposedComponent {...this.props} height={this.state.height} width={this.state.width} />
+        <ComposedComponent {...this.props}
+                           height={this.state.height}
+                           width={this.state.width} />
       );
     }
   });

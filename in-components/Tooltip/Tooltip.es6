@@ -3,7 +3,7 @@ import {createLogger} from 'instalog';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import * as tooltipStore from 'in-services/stores/tooltip';
+import {setActiveTooltip, clearActiveTooltip} from 'in-services/stores/tooltip';
 
 
 const logger = createLogger('in-components/Tooltip');
@@ -63,12 +63,12 @@ export default React.createClass({
   componentWillUnmount() {
     this.removeListeners();
     if (this.isActive) {
-      tooltipStore.clearActiveTooltip();
+      clearActiveTooltip();
     }
   },
 
   onMouseIn() {
-    tooltipStore.setActiveTooltip({
+    setActiveTooltip({
       focusedElement: this.domNode,
       content: this.props.content,
       align: this.props.align || 'auto'
@@ -77,7 +77,7 @@ export default React.createClass({
   },
 
   onMouseOut() {
-    tooltipStore.clearActiveTooltip();
+    clearActiveTooltip();
     this.isActive = false;
   },
 

@@ -1,7 +1,7 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
-import * as issueTracker from 'in-services/issueTracker';
+import {getColorForEvent} from 'in-services/issueTracker';
 import {selectedSnapshotId} from 'in-stores/snapshot';
 import {selectedIncident$} from 'in-stores/incident';
 import {emptyArray} from 'in-services/fixedObjects';
@@ -103,7 +103,7 @@ export default class EventRenderer extends BasicRenderer {
     }
 
     const buffer = this.backBuffer;
-    buffer.fillStyle = isHighlighted ? highlightedColor : issueTracker.getColorForEvent(event);
+    buffer.fillStyle = isHighlighted ? highlightedColor : getColorForEvent(event);
 
     const prevValue = buffer.globalAlpha;
     buffer.globalAlpha = 0.2;

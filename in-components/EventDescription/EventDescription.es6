@@ -3,7 +3,12 @@ import React from 'react';
 
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {formatDateTime} from 'in-services/formatters/date';
-import * as issueTracker from 'in-services/issueTracker';
+import {
+  getIconTypeForEventType,
+  getEventType,
+  selectEvent,
+  EVENT_TYPES
+} from 'in-services/issueTracker';
 import {Row, Col} from 'in-components/Grid/Grid';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
@@ -36,16 +41,16 @@ export default connectTo(props => {
 
   render() {
     const event = this.props.event;
-    const eventType = issueTracker.getEventType(event);
+    const eventType = getEventType(event);
     const className = getClassName(this, block);
     const start = event.get('start');
     const end = event.get('end');
 
     return (
       <div className={className}
-           onClick={() => issueTracker.selectEvent(event)}>
+           onClick={() => selectEvent(event)}>
         <Icon className={block + '__icon'}
-              type={issueTracker.getIconTypeForEventType(eventType)}
+              type={getIconTypeForEventType(eventType)}
               style={{color: this.props.color}}/>
         <div className={block + '__description'}>
           <Row className={getClassName(this, block, '__time')}>
@@ -70,7 +75,7 @@ export default connectTo(props => {
 
   getContent(event, eventType, color, showFullTextIfToLong = true) {
     return (
-      eventType === issueTracker.EVENT_TYPES.INCIDENT ?
+      eventType === EVENT_TYPES.INCIDENT ?
       <IncidentContent incident={event}/> :
       <EventContent snapshotId={this.props.snapshotId}
                     showFullTextIfToLong={showFullTextIfToLong}

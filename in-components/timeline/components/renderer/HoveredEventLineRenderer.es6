@@ -1,7 +1,7 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {getColorForEventAtFocusedMoment} from 'in-stores/events';
-import * as issueTracker from 'in-services/issueTracker';
 
 
 export default class HoveredEventLineRenderer extends BasicRenderer {
@@ -21,10 +21,10 @@ export default class HoveredEventLineRenderer extends BasicRenderer {
 
     if (event) {
       this.y = 74;
-      const eventType = issueTracker.getEventType(event);
-      if (eventType === issueTracker.EVENT_TYPES.INCIDENT) {
+      const eventType = getEventType(event);
+      if (eventType === EVENT_TYPES.INCIDENT) {
         this.y = 37;
-      } else if (eventType === issueTracker.EVENT_TYPES.CHANGE) {
+      } else if (eventType === EVENT_TYPES.CHANGE) {
         this.y = 111;
       }
     }

@@ -3,7 +3,7 @@ import React from 'react';
 
 import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
-import * as timelineStore from 'in-stores/timeline';
+import {timeframe, timeframeShape} from 'in-stores/timeline';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
@@ -15,16 +15,16 @@ const rpt = React.PropTypes;
 
 export default getEventsWithinTimerange(
   connectTo({
-    timeframe: timelineStore.timeframe
+    _timeframe: timeframe
   }, RecentEventsCounter)
 );
 
-function RecentEventsCounter({timeframe, events}) {
-  if (!timeframe || !events || events.size === 0) {
+function RecentEventsCounter({_timeframe, events}) {
+  if (!_timeframe || !events || events.size === 0) {
     return null;
   }
 
-  const counter = getEventsCounter(timeframe, events);
+  const counter = getEventsCounter(_timeframe, events);
 
   return (
     <div className={block}>
@@ -42,12 +42,12 @@ function RecentEventsCounter({timeframe, events}) {
 }
 
 RecentEventsCounter.propTypes = {
-  timeframe: timelineStore.timeframeShape,
+  timeframe: timeframeShape,
   events: irpt.list
 };
 
 
-function getEventsCounter(timeframe, events = emptyArray) {
+function getEventsCounter(_timeframe, events = emptyArray) {
   const counter = {
     affectedEntities: 0,
     activeIssues: 0,
@@ -68,8 +68,8 @@ function getEventsCounter(timeframe, events = emptyArray) {
         type === EVENT_TYPES.OK) {
       counter.issues++;
 
-      if ((!timeframe.to && !event.get('end')) || // live mode and open
-          (timeframe.to && event.get('end') > timeframe.to)) {
+      if ((!_timeframe.to && !event.get('end')) || // live mode and open
+          (_timeframe.to && event.get('end') > _timeframe.to)) {
         // if the event is yet active
         counter.activeIssues++;
       }

@@ -4,15 +4,21 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import * as expandedIds from './expandedIds';
+import {
+  addExpandedSnapshotIds,
+  collapseAll,
+  expandedSnapshotIds$,
+  removeExpandedSnapshotIds,
+  toggleExpandedSnapshotId
+} from './expandedIds';
 
 describe('in-components/tableView/stores/expandedIds', () => {
   let onNext;
 
   beforeEach(() => {
     onNext = sinon.stub();
-    expandedIds.collapseAll();
-    expandedIds.expandedSnapshotIds$.subscribe(onNext);
+    collapseAll();
+    expandedSnapshotIds$.subscribe(onNext);
   });
 
   it('should be empty initially', () => {
@@ -20,26 +26,26 @@ describe('in-components/tableView/stores/expandedIds', () => {
   });
 
   it('should add multiple expanded IDs', () => {
-    expandedIds.addExpandedSnapshotIds(['a', 'b']);
+    addExpandedSnapshotIds(['a', 'b']);
     expectExpanded('b', 'a');
   });
 
   it('should remove multiple expanded IDs', () => {
-    expandedIds.addExpandedSnapshotIds(['a', 'b', 'c']);
-    expandedIds.removeExpandedSnapshotIds(['c', 'a']);
+    addExpandedSnapshotIds(['a', 'b', 'c']);
+    removeExpandedSnapshotIds(['c', 'a']);
     expectExpanded('b');
   });
 
   it('should collapse all', () => {
-    expandedIds.addExpandedSnapshotIds(['a', 'b', 'c']);
-    expandedIds.collapseAll();
+    addExpandedSnapshotIds(['a', 'b', 'c']);
+    collapseAll();
     expectExpanded();
   });
 
   it('should toggle IDs', () => {
-    expandedIds.toggleExpandedSnapshotId('a');
+    toggleExpandedSnapshotId('a');
     expectExpanded('a');
-    expandedIds.toggleExpandedSnapshotId('a');
+    toggleExpandedSnapshotId('a');
     expectExpanded();
   });
 
