@@ -7,14 +7,14 @@ const UNKNOWN_LABEL = 'Unknown';
 const steadyId = 's1';
 const plugin = 'host';
 
-describe('snapshot', () => {
+describe('in-sdk/snapshot/legacy', () => {
 
   let mod;
   let snapshot;
 
   beforeEach(() => {
     // reimporting via proxyquire to avoid the finder cache
-    mod = proxyquire('./snapshot', {});
+    mod = proxyquire('./legacy', {});
 
     snapshot = Immutable.fromJS({
       id: steadyId,

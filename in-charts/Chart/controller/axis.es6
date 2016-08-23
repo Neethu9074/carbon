@@ -9,7 +9,9 @@ import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createDataHolder from 'in-charts/data/dataHolder';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {timeframe$, to$} from 'in-stores/timeline';
+import {getChartWiggleRoom} from 'in-sdk/snapshot';
 import createQueue from 'in-charts/data/queue';
+import {getSnapshot} from 'in-stores/snapshot';
 import {offset$} from 'in-stores/timeOffset';
 import createScale from 'in-charts/scale';
 import {theme} from 'in-services/theme';
@@ -29,6 +31,10 @@ export default function createAxisController(config) {
   determineNumberOfSeries();
   addDataSeriesTogglingSupport();
   determineSeriesColors();
+  // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
+  // of availability of metrics. We are removing x millis from the right border in order to
+  // hide this fact from the user.
+  config.chartWiggleRoom = 5000;
   const scales = config.scales = createScales();
   config.axisContentRenderers = createAxisContentRenderers();
   config.queues = createQueues();
@@ -136,6 +142,14 @@ export default function createAxisController(config) {
 
 
   function establishSubscriptions() {
+    config.subscriptions.push(getSnapshot(config.snapshotId)
+      .map(snapshot => getChartWiggleRoom(snapshot.get('plugin')))
+      .distinct()
+      .subscribe(chartWiggleRoom => {
+        config.chartWiggleRoom = chartWiggleRoom;
+        config.signals.restartRendering$.emit(true);
+      }));
+
     const actualTimeframe$ = config.timeframe$ || timeframe$;
     config.subscriptions.push(actualTimeframe$.subscribe(timeframe => {
       config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;

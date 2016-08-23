@@ -1,23 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-import iconPath from './icon.svg';
+registerSnapshotDefinition({
+  plugin: plugins.logicalWebApp,
+  icon,
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalWebApp,
-  'Logical WebApp',
-  'Logical WebApps'
-);
+  pluginName: {
+    singular: 'Logical WebApp',
+    plural: 'Logical WebApps'
+  },
 
-addLabelFinder(
-  constants.plugins.logicalWebApp,
-  snapshot => snapshot.getIn(['data', 'service_name'])
-);
+  chartWiggleRoom: 20000,
 
-addIconToRegistry({
-  id: constants.plugins.logicalWebApp,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'service_name']);
+  }
 });
