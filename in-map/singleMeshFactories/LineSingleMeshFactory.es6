@@ -1,5 +1,4 @@
-import {VertexColors, LineSegments, LineBasicMaterial} from 'three';
-
+import {VertexColors, LineSegments, LineBasicMaterial} from 'in-map/3DLibProvider';
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 
 

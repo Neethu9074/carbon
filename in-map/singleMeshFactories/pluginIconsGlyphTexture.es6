@@ -1,5 +1,4 @@
-import {Texture, LinearFilter} from 'three';
-
+import {Texture, LinearFilter} from 'in-map/3DLibProvider';
 import {getAllIcons} from 'in-sdk/iconRegistry';
 
 

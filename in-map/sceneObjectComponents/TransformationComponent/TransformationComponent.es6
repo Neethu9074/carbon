@@ -1,8 +1,7 @@
-import {Vector3} from 'three';
-
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
+import {Vector3} from 'in-map/3DLibProvider';
 
 
 export default class TransformationComponent extends SceneObjectComponent {

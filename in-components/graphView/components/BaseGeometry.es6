@@ -1,5 +1,4 @@
-import {BufferGeometry, RawShaderMaterial} from 'three';
-
+import {BufferGeometry, RawShaderMaterial} from 'in-map/3DLibProvider';
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 
 

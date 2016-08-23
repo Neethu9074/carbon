@@ -1,5 +1,4 @@
-import {MeshBasicMaterial, Mesh, PlaneBufferGeometry} from 'three';
-
+import {MeshBasicMaterial, Mesh, PlaneBufferGeometry} from 'in-map/3DLibProvider';
 import {removeSceneObject} from 'in-map/stores/sceneStore';
 
 
@@ -38,7 +37,6 @@ export default class GroundPlane {
     // remove this ground from the parents scene
     removeSceneObject(this.ground);
 
-    // clear three.js cache trough disposing
     this.ground.material.dispose();
     this.ground.geometry.dispose();
     this.ground = null;

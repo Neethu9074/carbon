@@ -1,4 +1,4 @@
-import {ImageLoader, Texture} from 'three';
+import {ImageLoader, Texture} from 'in-map/3DLibProvider';
 
 
 const IMAGE_LOADER = new ImageLoader();

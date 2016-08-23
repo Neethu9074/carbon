@@ -1,6 +1,5 @@
-import {Color} from 'three';
-
 import {hexToRGBNormalized} from 'in-services/formatters/color';
+import {Color} from 'in-map/3DLibProvider';
 
 
 const colorService = new Color(0, 0, 0);

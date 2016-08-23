@@ -1,11 +1,10 @@
-import {Points, RawShaderMaterial} from 'three';
-
 import fragmentShader from 'in-map/singleMeshFactories/pointFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/pointVertexShader.glsl';
 
 import {glyphTexture, config} from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 import {updateAttribute} from 'in-map/services/geometryAttributes';
+import {Points, RawShaderMaterial} from 'in-map/3DLibProvider';
 
 
 export default class IconSingleMeshFactory extends ASingleMeshFactory {

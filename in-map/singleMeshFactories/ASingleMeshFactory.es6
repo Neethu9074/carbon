@@ -1,10 +1,10 @@
-import {BufferGeometry} from 'three';
 import RoEmitter from 'roemitter';
 
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import createCollection from 'in-map/stores/ObjectColletionStream';
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {requestRendering} from 'in-map/stores/renderingStore';
+import {BufferGeometry} from 'in-map/3DLibProvider';
 import {FACTORY} from 'in-map/misc/TimingConfig';
 import Subscriber from 'in-map/misc/Subscriber';
 

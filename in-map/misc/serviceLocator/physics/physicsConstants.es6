@@ -1,4 +1,5 @@
-import {BoxGeometry} from 'three';
+import {BoxGeometry} from 'in-map/3DLibProvider';
+
 
 export const OCTREE_LAYER = {
   NODES: 0,

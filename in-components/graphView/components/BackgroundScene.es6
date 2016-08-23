@@ -6,8 +6,7 @@ LinearFilter,
 DoubleSide,
 Scene,
 Mesh
-} from 'three';
-
+} from 'in-map/3DLibProvider';
 import galaxyImagePath from 'in-components/graphView/components/background.jpg';
 import {loadImage} from 'in-map/services/imageLoader';
 

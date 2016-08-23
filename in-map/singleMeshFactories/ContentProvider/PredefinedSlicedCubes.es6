@@ -1,7 +1,6 @@
-import {BufferGeometry} from 'three';
-
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
+import {BufferGeometry} from 'in-map/3DLibProvider';
 import {theme} from 'in-services/theme';
 
 

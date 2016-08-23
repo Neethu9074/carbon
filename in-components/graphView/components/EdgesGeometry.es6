@@ -1,8 +1,8 @@
-import {LineSegments} from 'three';
-
 import fragmentShader from 'in-components/graphView/components/edgeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/edgeVertexShader.glsl';
+
 import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
+import {LineSegments} from 'in-map/3DLibProvider';
 
 
 export default class NodesGeometry extends BaseGeometry {

@@ -5,7 +5,7 @@ import {
   Object3D,
   Vector3,
   Face3
-} from 'three';
+} from 'in-map/3DLibProvider';
 
 export const OCTREE = {};
 

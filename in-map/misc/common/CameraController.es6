@@ -1,10 +1,10 @@
-import {Raycaster, Object3D, Vector3} from 'three';
 import {combineLatest} from 'reactive-observables';
 import RoEmitter from 'roemitter';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import createObjectCollection from 'in-map/stores/ObjectCollection';
 import {setCameraController} from 'in-map/stores/cameraController';
+import {Raycaster, Object3D, Vector3} from 'in-map/3DLibProvider';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {clearSelectedEvent} from 'in-stores/events';

@@ -1,6 +1,5 @@
-import {LineBasicMaterial, Geometry, Line} from 'three';
-
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import {LineBasicMaterial, Geometry, Line} from 'in-map/3DLibProvider';
 import {eventBus} from 'in-map/services/eventBus';
 
 

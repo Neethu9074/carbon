@@ -1,5 +1,3 @@
-import {WebGLRenderer, Scene, Color} from 'three';
-
 import {frame$, requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
@@ -7,6 +5,7 @@ import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsServ
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
 import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
+import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import Camera from 'in-map/misc/OrthographicCamera';
 import * as time from 'in-map/misc/time';

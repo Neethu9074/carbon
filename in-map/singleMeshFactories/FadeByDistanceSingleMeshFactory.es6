@@ -1,8 +1,8 @@
-import {RawShaderMaterial, Mesh, DoubleSide} from 'three';
-
 import fragmentShader from 'in-map/singleMeshFactories/fadeByDistanceFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/fadeByDistanceVertexShader.glsl';
+
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
+import {RawShaderMaterial, Mesh, DoubleSide} from 'in-map/3DLibProvider';
 
 
 export default class FadeByDistanceSingleMeshFactory extends ASingleMeshFactory {

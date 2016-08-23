@@ -1,3 +1,9 @@
+import {combineLatest} from 'reactive-observables';
+import {remove} from 'lodash';
+
+import fragmentShader from 'in-map/misc/ParticleEmitter/shader/fragmentShader.glsl';
+import vertexShader from 'in-map/misc/ParticleEmitter/shader/vertexShader.glsl';
+
 import {
   RawShaderMaterial,
   BufferGeometry,
@@ -5,13 +11,7 @@ import {
   LinearFilter,
   DoubleSide,
   Points
-} from 'three';
-import {combineLatest} from 'reactive-observables';
-import {remove} from 'lodash';
-
-import fragmentShader from 'in-map/misc/ParticleEmitter/shader/fragmentShader.glsl';
-import vertexShader from 'in-map/misc/ParticleEmitter/shader/vertexShader.glsl';
-
+} from 'in-map/3DLibProvider';
 import createPositionGenerator from 'in-map/misc/ParticleEmitter/PlaneSpawnPositionGenerator';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import {particlesAreActive$} from 'in-map/stores/logical/particlesStore';

@@ -1,9 +1,9 @@
 import * as ro from 'reactive-observables';
-import {WebGLRenderer} from 'three';
 
 import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
 import GraphScene from 'in-components/graphView/components/GraphScene';
 import Graph from 'in-components/graphView/entities/Graph';
+import {WebGLRenderer} from 'in-map/3DLibProvider';
 
 
 export default function createUniverseRenderer({container, canvas}) {

@@ -1,9 +1,8 @@
-import {Mesh, RawShaderMaterial, DoubleSide} from 'three';
-
 import fragmentShader from 'in-map/singleMeshFactories/basicFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
 
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
+import {Mesh, RawShaderMaterial, DoubleSide} from 'in-map/3DLibProvider';
 
 
 export default class BasicSingleMeshFactory extends ASingleMeshFactory {

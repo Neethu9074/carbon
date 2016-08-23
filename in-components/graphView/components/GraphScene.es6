@@ -1,8 +1,7 @@
-import {PerspectiveCamera, Scene} from 'three';
-
 import NodesGeometry from 'in-components/graphView/components/NodesGeometry';
 import EdgesGeometry from 'in-components/graphView/components/EdgesGeometry';
 import createControls from 'in-components/graphView/components/Controls';
+import {PerspectiveCamera, Scene} from 'in-map/3DLibProvider';
 
 
 export default class GraphScene {

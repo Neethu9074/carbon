@@ -1,5 +1,3 @@
-import {CylinderBufferGeometry} from 'three';
-
 import CylinderHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import CloudHCP from 'in-map/singleMeshFactories/ContentProvider/CloudHighlightingContentProvider';
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
@@ -11,6 +9,7 @@ import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Logical';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
+import {CylinderBufferGeometry} from 'in-map/3DLibProvider';
 
 import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';

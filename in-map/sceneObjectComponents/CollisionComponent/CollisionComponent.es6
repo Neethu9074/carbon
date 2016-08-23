@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
-import {MeshBasicMaterial, Mesh} from 'three';
 
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
+import {MeshBasicMaterial, Mesh} from 'in-map/3DLibProvider';
 
 
 const COLLISION_MESH_MATERIAL = new MeshBasicMaterial();

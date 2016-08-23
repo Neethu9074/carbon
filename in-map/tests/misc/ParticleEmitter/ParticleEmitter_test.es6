@@ -1,11 +1,12 @@
 /* eslint-env mocha, node */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {Texture} from 'three';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {createEventBus} from 'in-map/services/eventBus';
+import {Texture} from 'in-map/3DLibProvider';
+
 createEventBus();
 
 

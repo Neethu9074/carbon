@@ -1,5 +1,4 @@
-import {Line, Geometry, MeshBasicMaterial, Vector3} from 'three';
-
+import {Line, Geometry, MeshBasicMaterial, Vector3} from 'in-map/3DLibProvider';
 import {UP} from 'in-map/misc/fixedVectors';
 
 

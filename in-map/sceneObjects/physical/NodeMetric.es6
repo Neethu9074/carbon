@@ -1,11 +1,10 @@
-import {Mesh, RawShaderMaterial} from 'three';
-
 import fragmentShader from 'in-map/singleMeshFactories/nodeMetricFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl';
 
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
+import {Mesh, RawShaderMaterial} from 'in-map/3DLibProvider';
 
 import {
   NUM_POINTS_PER_SLICE,

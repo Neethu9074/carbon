@@ -1,6 +1,5 @@
-import {Mesh, MeshBasicMaterial, Vector3} from 'three';
-
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import {Mesh, MeshBasicMaterial, Vector3} from 'in-map/3DLibProvider';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import ghosts from 'in-map/stores/logical/ghostsStore';
 import {eventBus} from 'in-map/services/eventBus';

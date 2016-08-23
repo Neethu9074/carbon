@@ -1,10 +1,9 @@
-import {Points} from 'three';
-
 import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
 
 import {glyphTexture, config} from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
+import {Points} from 'in-map/3DLibProvider';
 
 
 export default class NodesGeometry extends BaseGeometry {

@@ -1,10 +1,9 @@
-import {Raycaster} from 'three';
-
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import {setTooltip, clear as clearTooltip} from 'in-map/stores/tooltipStore';
 import connections from 'in-map/stores/connectionsStore';
 import {emptyArray} from 'in-services/fixedObjects';
+import {Raycaster} from 'in-map/3DLibProvider';
 import Module from 'in-map/misc/common/Module';
 
 

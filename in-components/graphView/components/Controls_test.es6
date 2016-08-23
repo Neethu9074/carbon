@@ -1,8 +1,9 @@
 /* eslint-env mocha, node */
 import {create} from 'reactive-observables';
-import {PerspectiveCamera} from 'three';
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
+
+import {PerspectiveCamera} from 'in-map/3DLibProvider';
 
 
 describe('controls', () => {

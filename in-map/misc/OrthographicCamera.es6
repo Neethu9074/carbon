@@ -1,4 +1,4 @@
-import {Matrix4, OrthographicCamera} from 'three';
+import {Matrix4, OrthographicCamera} from 'in-map/3DLibProvider';
 
 
 const INVERSE = new Matrix4();

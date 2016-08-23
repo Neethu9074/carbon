@@ -1,8 +1,8 @@
 /* eslint-env mocha, node */
 import {expect} from 'chai';
-import {OrthographicCamera, Vector3} from 'three';
 
 import CameraController from 'in-map/misc/common/CameraController';
+import {OrthographicCamera, Vector3} from 'in-map/3DLibProvider';
 
 
 describe('in-map', () => {

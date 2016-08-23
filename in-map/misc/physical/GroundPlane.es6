@@ -1,6 +1,5 @@
-import {RepeatWrapping, MeshBasicMaterial} from 'three';
-
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import {RepeatWrapping, MeshBasicMaterial} from 'in-map/3DLibProvider';
 import groundTexturePath from 'in-map/misc/physical/ground.png';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {requestRendering} from 'in-map/stores/renderingStore';
