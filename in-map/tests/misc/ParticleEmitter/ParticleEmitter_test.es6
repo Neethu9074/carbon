@@ -1,9 +1,9 @@
 /* eslint-env mocha, node */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
+import {Texture} from 'three';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import THREE from 'three';
 
 import {createEventBus} from 'in-map/services/eventBus';
 createEventBus();
@@ -28,7 +28,7 @@ describe('in-map', () => {
 
       ParticleEmitter = proxyquire('in-map/misc/ParticleEmitter/ParticleEmitter', {
         'in-map/services/imageLoader': {
-          loadImage: () => new THREE.Texture()
+          loadImage: () => new Texture()
         },
         'in-map/stores/sceneStore': {
           addSceneObject,

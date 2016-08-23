@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {Mesh, RawShaderMaterial} from 'three';
 
 import fragmentShader from 'in-map/singleMeshFactories/nodeMetricFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl';
@@ -36,9 +36,9 @@ export default class NodeMetric extends SceneObject {
   init() {
     super.init();
 
-    const sceneObject = this.sceneObject = new THREE.Mesh(
+    const sceneObject = this.sceneObject = new Mesh(
       getSlicedGeometry(1),
-      new THREE.RawShaderMaterial({
+      new RawShaderMaterial({
         fragmentShader: fragmentShader,
         vertexShader: vertexShader,
         uniforms: {

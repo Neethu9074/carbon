@@ -1,12 +1,13 @@
-import THREE from 'three';
+import {Line, Geometry, MeshBasicMaterial, Vector3} from 'three';
 
 import {UP} from 'in-map/misc/fixedVectors';
-const COLLISION_LINE_MATERIAL = new THREE.MeshBasicMaterial();
 
+
+const COLLISION_LINE_MATERIAL = new MeshBasicMaterial();
 
 export function getManhattanPath(fromX, fromY, toX, toY) {
-  const p0 = new THREE.Vector3(fromX, 0, fromY);
-  const p4 = new THREE.Vector3(toX, 0, toY);
+  const p0 = new Vector3(fromX, 0, fromY);
+  const p4 = new Vector3(toX, 0, toY);
 
   if (toX > fromX) {
     toX -= 1;
@@ -19,9 +20,9 @@ export function getManhattanPath(fromX, fromY, toX, toY) {
     fromY -= 1;
   }
 
-  const p1 = new THREE.Vector3(fromX, 0, fromY);
-  const p2 = new THREE.Vector3(fromX + (toX - fromX), 0, fromY);
-  const p3 = new THREE.Vector3(toX, 0, toY);
+  const p1 = new Vector3(fromX, 0, fromY);
+  const p2 = new Vector3(fromX + (toX - fromX), 0, fromY);
+  const p3 = new Vector3(toX, 0, toY);
 
   return [p0, p1, p1, p2, p2, p3, p3, p4];
 }
@@ -132,15 +133,15 @@ export function getCenterPosition(from, to) {
 }
 
 export function calculateLogicalCollisionMesh(from, to) {
-  const geometry = new THREE.Geometry();
+  const geometry = new Geometry();
   geometry.vertices.push(from, to);
-  return new THREE.Line(geometry, COLLISION_LINE_MATERIAL);
+  return new Line(geometry, COLLISION_LINE_MATERIAL);
 }
 
 export function calculatePhysicalCollisionMesh(from, to) {
-  const geometry = new THREE.Geometry();
+  const geometry = new Geometry();
   geometry.vertices = getManhattanPath(from.x, from.z, to.x, to.z);
-  return new THREE.Line(geometry, COLLISION_LINE_MATERIAL);
+  return new Line(geometry, COLLISION_LINE_MATERIAL);
 }
 
 export function intersects(raycaster, collisionLine) {
@@ -154,7 +155,7 @@ export function intersects(raycaster, collisionLine) {
 }
 
 export function getOffsetVectors(from, to) {
-  const direction = new THREE.Vector3(to.x - from.x, 0, to.z - from.z).normalize();
+  const direction = new Vector3(to.x - from.x, 0, to.z - from.z).normalize();
   const forward = direction.clone().multiplyScalar(0.075);
   const right = direction.cross(UP).multiplyScalar(0.25);
 

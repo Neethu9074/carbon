@@ -1,8 +1,8 @@
 /* eslint-env mocha, node */
 import {create} from 'reactive-observables';
+import {PerspectiveCamera} from 'three';
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
-import THREE from 'three';
 
 
 describe('controls', () => {
@@ -53,7 +53,7 @@ describe('controls', () => {
       }
     }).default;
 
-    camera = new THREE.PerspectiveCamera(75, 1, 1, 1000);
+    camera = new PerspectiveCamera(75, 1, 1, 1000);
   });
 
   it('should setup events', () => {

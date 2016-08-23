@@ -1,6 +1,6 @@
+import {Raycaster, Object3D, Vector3} from 'three';
 import {combineLatest} from 'reactive-observables';
 import RoEmitter from 'roemitter';
-import THREE from 'three';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import createObjectCollection from 'in-map/stores/ObjectCollection';
@@ -38,7 +38,7 @@ export default class CameraController extends Subscriber {
     this.moveSpeed = 0.01; // distance moved per pixel
 
     // raytracing fields
-    this.raycaster = new THREE.Raycaster();
+    this.raycaster = new Raycaster();
 
     // the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
@@ -75,7 +75,7 @@ export default class CameraController extends Subscriber {
 
     const pitch = -45;
     // transformation helper. need this to move on the ground
-    this.camTransformObject = new THREE.Object3D();
+    this.camTransformObject = new Object3D();
     this.camTransformObject.position.set(10, 0, -10);
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
 
@@ -217,7 +217,7 @@ export default class CameraController extends Subscriber {
     this.updateZoomLevel(dTime);
 
     const cam = this.camera;
-    const targetWorldPos = new THREE.Vector3();
+    const targetWorldPos = new Vector3();
 
     targetWorldPos
       .applyMatrix4(this.camTransformObject.matrixWorld)

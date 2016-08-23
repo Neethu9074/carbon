@@ -1,5 +1,5 @@
 import * as ro from 'reactive-observables';
-import THREE from 'three';
+import {WebGLRenderer} from 'three';
 
 import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
 import GraphScene from 'in-components/graphView/components/GraphScene';
@@ -14,7 +14,7 @@ export default function createUniverseRenderer({container, canvas}) {
     .debounce(1000)
     .subscribe(update);
 
-  const renderer = new THREE.WebGLRenderer({
+  const renderer = new WebGLRenderer({
     canvas,
     antialias: true
   });

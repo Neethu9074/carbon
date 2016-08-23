@@ -1,6 +1,13 @@
+import {
+  RawShaderMaterial,
+  BufferGeometry,
+  BufferAttribute,
+  LinearFilter,
+  DoubleSide,
+  Points
+} from 'three';
 import {combineLatest} from 'reactive-observables';
 import {remove} from 'lodash';
-import THREE from 'three';
 
 import fragmentShader from 'in-map/misc/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/misc/ParticleEmitter/shader/vertexShader.glsl';
@@ -38,31 +45,31 @@ export default class ParticleEmitter {
     this.severities = new Float32Array(this.maxParticles);
     this.vertices = new Float32Array(this.maxParticles * 3);
 
-    const geometry = this.geometry = new THREE.BufferGeometry();
+    const geometry = this.geometry = new BufferGeometry();
     geometry.dynamic = true;
 
-    this.geometry.addAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
-    this.geometry.addAttribute('progress', new THREE.BufferAttribute(this.progresses, 1));
-    this.geometry.addAttribute('severity', new THREE.BufferAttribute(this.severities, 1));
+    this.geometry.addAttribute('position', new BufferAttribute(this.vertices, 3));
+    this.geometry.addAttribute('progress', new BufferAttribute(this.progresses, 1));
+    this.geometry.addAttribute('severity', new BufferAttribute(this.severities, 1));
 
     const texture = loadImage(pointShape, loadedTexture => loadedTexture.needsUpdate = true);
-    texture.minFilter = THREE.LinearFilter;
+    texture.minFilter = LinearFilter;
     texture.generateMipmaps = false;
     texture.flipY = false;
 
-    const material = this.material = new THREE.RawShaderMaterial({
+    const material = this.material = new RawShaderMaterial({
       fragmentShader,
       vertexShader,
       transparent: true,
       depthWrite: false,
-      side: THREE.DoubleSide,
+      side: DoubleSide,
       uniforms: {
         texture: { type: 't', value: texture }
       }
     });
 
     // a global mesh that stores global geometry
-    const mesh = this.mesh = new THREE.Points(geometry, material);
+    const mesh = this.mesh = new Points(geometry, material);
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;

@@ -1,11 +1,11 @@
 import {combineLatest} from 'reactive-observables';
-import THREE from 'three';
+import {MeshBasicMaterial, Mesh} from 'three';
 
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 
 
-const COLLISION_MESH_MATERIAL = new THREE.MeshBasicMaterial();
+const COLLISION_MESH_MATERIAL = new MeshBasicMaterial();
 
 export default class CollisionComponent extends SceneObjectComponent {
 
@@ -14,7 +14,7 @@ export default class CollisionComponent extends SceneObjectComponent {
 
     this.layerId = layerId;
 
-    const mesh = this.collisionMesh = new THREE.Mesh(
+    const mesh = this.collisionMesh = new Mesh(
       collisionGeometry,
       COLLISION_MESH_MATERIAL
     );

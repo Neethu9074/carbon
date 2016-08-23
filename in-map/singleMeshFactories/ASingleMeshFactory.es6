@@ -1,5 +1,5 @@
+import {BufferGeometry} from 'three';
 import RoEmitter from 'roemitter';
-import THREE from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import createCollection from 'in-map/stores/ObjectColletionStream';
@@ -30,7 +30,7 @@ export default class ASingleMeshFactory extends Subscriber {
       : options.useSceneObjectColors;
 
     // represents the geometry for all combined fragments
-    this.geometry = new THREE.BufferGeometry();
+    this.geometry = new BufferGeometry();
     this.geometry.dynamic = false;
 
     this.eventEmitter = new RoEmitter();

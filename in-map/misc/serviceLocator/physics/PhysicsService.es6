@@ -1,9 +1,8 @@
-import THREE from 'three';
+import {OCTREE} from 'in-map/lib/Octree';
 
 import {OCTREE_LAYER} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import {eventBus} from 'in-map/services/eventBus';
 import * as time from 'in-map/misc/time';
-import 'in-map/lib/Octree';
 
 
 export default function createPhysicsService() {
@@ -27,7 +26,7 @@ export default function createPhysicsService() {
   }
 
   function createOctree() {
-    const octree = new THREE.Octree({
+    const octree = new OCTREE.Octree({
       // uncomment below to see the octree (may kill the fps)
       // scene: this.scene,
       // when undeferred = true, objects are inserted immediately

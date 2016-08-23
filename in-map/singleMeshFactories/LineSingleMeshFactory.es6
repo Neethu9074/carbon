@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {VertexColors, LineSegments, LineBasicMaterial} from 'three';
 
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 
@@ -10,12 +10,12 @@ export default class LineSingleMeshFactory extends ASingleMeshFactory {
   }
 
   getMesh(geometry, material) {
-    return new THREE.LineSegments(geometry, material);
+    return new LineSegments(geometry, material);
   }
 
   getMaterial() {
-    const material = new THREE.LineBasicMaterial({
-      vertexColors: THREE.VertexColors
+    const material = new LineBasicMaterial({
+      vertexColors: VertexColors
     });
 
     if (navigator.platform.indexOf('Win') < 0) {

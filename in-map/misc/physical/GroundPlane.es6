@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {RepeatWrapping, MeshBasicMaterial} from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import groundTexturePath from 'in-map/misc/physical/ground.png';
@@ -25,7 +25,7 @@ export default class GroundPlane extends BaseGroundPlane {
       requestRendering();
     });
 
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.wrapS = texture.wrapT = RepeatWrapping;
     texture.repeat.set(repating, repating);
 
     // set the ground anisotropy to the max because it's a huge ground always
@@ -36,7 +36,7 @@ export default class GroundPlane extends BaseGroundPlane {
 
     const ground = this.ground;
     ground.material.dispose();
-    ground.material = new THREE.MeshBasicMaterial({
+    ground.material = new MeshBasicMaterial({
       transparent: true,
       depthWrite: false,
       map: texture

@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {Vector3, Object3D} from 'three';
 
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
 import {getDeltaTime} from 'in-map/misc/time';
@@ -13,14 +13,14 @@ export default function createControls(canvas, camera, {
   zoomSpeed = 1
 }) {
 
-  const targetPosition = new THREE.Vector3(0, 0, 0);
+  const targetPosition = new Vector3(0, 0, 0);
   let targetRotationX = 0;
   let targetRotationY = 0;
   let currentRotationX = 0;
   let currentRotationY = 0;
   let targetZoomDistance = startingZoomDistance;
 
-  const poi = new THREE.Object3D();
+  const poi = new Object3D();
   poi.position.set(0, 0, startingWorldDistance);
   poi.add(camera);
   camera.translateZ(startingZoomDistance);

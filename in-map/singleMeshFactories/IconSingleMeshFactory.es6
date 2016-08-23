@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {Points, RawShaderMaterial} from 'three';
 
 import fragmentShader from 'in-map/singleMeshFactories/pointFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/pointVertexShader.glsl';
@@ -15,11 +15,11 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
   }
 
   getMesh(geometry, material) {
-    return new THREE.Points(geometry, material);
+    return new Points(geometry, material);
   }
 
   getMaterial() {
-    return new THREE.RawShaderMaterial({
+    return new RawShaderMaterial({
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
       transparent: true,

@@ -1,9 +1,9 @@
-import THREE from 'three';
+import {Texture, LinearFilter} from 'three';
 
 import {getAllIcons} from 'in-sdk/iconRegistry';
 
 
-export const glyphTexture = new THREE.Texture();
+export const glyphTexture = new Texture();
 
 export const config = {
   numElementsPerColumn: Math.ceil(Math.sqrt(getAllIcons().length)),
@@ -12,7 +12,7 @@ export const config = {
 };
 
 
-glyphTexture.minFilter = THREE.LinearFilter;
+glyphTexture.minFilter = LinearFilter;
 glyphTexture.generateMipmaps = false;
 glyphTexture.flipY = false;
 create(glyphTexture);

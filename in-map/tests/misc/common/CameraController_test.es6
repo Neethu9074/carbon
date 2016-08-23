@@ -1,6 +1,6 @@
 /* eslint-env mocha, node */
 import {expect} from 'chai';
-import THREE from 'three';
+import {OrthographicCamera, Vector3} from 'three';
 
 import CameraController from 'in-map/misc/common/CameraController';
 
@@ -11,11 +11,11 @@ describe('in-map', () => {
   let controller;
 
   beforeEach(() => {
-    const camera = new THREE.OrthographicCamera(1, -1, 1, -1, 0.1, 2000);
+    const camera = new OrthographicCamera(1, -1, 1, -1, 0.1, 2000);
     scene = {
       camera: {
         getRenderableCamera: () => camera,
-        getPosition: () => new THREE.Vector3(),
+        getPosition: () => new Vector3(),
         update: () => {}
       }
     };
@@ -34,7 +34,7 @@ describe('in-map', () => {
     it('should fly to position', () => {
       const pos = controller.camTransformObject.position;
 
-      const position = new THREE.Vector3(0.1, 30, -2);
+      const position = new Vector3(0.1, 30, -2);
       controller.flyToPosition(position);
 
       expect(roundFloat(pos.x)).to.equal(0.1);

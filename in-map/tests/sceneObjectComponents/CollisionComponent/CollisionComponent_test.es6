@@ -2,7 +2,6 @@
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import THREE from 'three';
 
 import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
@@ -53,7 +52,6 @@ describe('in-map', () => {
 
       expect(addCollisionObject).to.have.callCount(1);
       const mesh = addCollisionObject.getCall(0).args[0];
-      expect(mesh instanceof THREE.Mesh).to.equal(true);
       expect(addCollisionObject.getCall(0).args[1]).to.equal(OCTREE_LAYER.NODES);
 
       expect(mesh.position.x).to.equal(1);

@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {BufferGeometry, RawShaderMaterial} from 'three';
 
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 
@@ -8,11 +8,11 @@ export default class BaseGeometry {
   constructor() {
     this.emptyVertices = [Number.MAX_VALUE, 0, 0, Number.MAX_VALUE, 0, 0];
 
-    const geometry = this.geometry = new THREE.BufferGeometry();
+    const geometry = this.geometry = new BufferGeometry();
     geometry.dynamic = true;
 
     const shader = this.getShader();
-    const material = this.material = new THREE.RawShaderMaterial({
+    const material = this.material = new RawShaderMaterial({
       fragmentShader: shader.fragmentShader,
       vertexShader: shader.vertexShader,
       transparent: true,

@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {RawShaderMaterial, Mesh, DoubleSide} from 'three';
 
 import fragmentShader from 'in-map/singleMeshFactories/fadeByDistanceFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/fadeByDistanceVertexShader.glsl';
@@ -15,14 +15,14 @@ export default class FadeByDistanceSingleMeshFactory extends ASingleMeshFactory 
   }
 
   getMesh(geometry, material) {
-    return new THREE.Mesh(geometry, material);
+    return new Mesh(geometry, material);
   }
 
   getMaterial() {
-    return new THREE.RawShaderMaterial({
+    return new RawShaderMaterial({
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
-      side: THREE.DoubleSide,
+      side: DoubleSide,
       transparent: true,
       depthWrite: true,
       uniforms: {

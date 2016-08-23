@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {WebGLRenderer, Scene, Color} from 'three';
 
 import {frame$, requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
@@ -13,7 +13,7 @@ import * as time from 'in-map/misc/time';
 import {theme} from 'in-services/theme';
 
 
-export default class Scene extends SceneObject {
+export default class MainScene extends SceneObject {
 
   constructor(params) {
     super(params.id);
@@ -91,20 +91,20 @@ export default class Scene extends SceneObject {
   }
 
   setupRenderer() {
-    const renderer = this.renderer = new THREE.WebGLRenderer({
+    const renderer = this.renderer = new WebGLRenderer({
       canvas: this.canvas,
       antialias: this.antialias === 'browserAA' ? true : false
     });
 
     renderer.setSize(this.width, this.height);
-    renderer.setClearColor(new THREE.Color(theme.map.colors.clearColor));
+    renderer.setClearColor(new Color(theme.map.colors.clearColor));
 
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
   }
 
   setupScene() {
-    this.scene = new THREE.Scene();
+    this.scene = new Scene();
   }
 
   setupCamera() {

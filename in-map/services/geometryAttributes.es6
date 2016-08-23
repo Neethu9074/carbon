@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {BufferAttribute} from 'three';
 
 
 export function updateAttribute(geometry, attribute, data, numElements = 3) {
@@ -7,10 +7,10 @@ export function updateAttribute(geometry, attribute, data, numElements = 3) {
       geometry.attributes[attribute].copyArray(data);
     } else {
       geometry.removeAttribute(attribute);
-      geometry.addAttribute(attribute, new THREE.BufferAttribute(new Float32Array(data), numElements));
+      geometry.addAttribute(attribute, new BufferAttribute(new Float32Array(data), numElements));
     }
   } else {
-    geometry.addAttribute(attribute, new THREE.BufferAttribute(new Float32Array(data), numElements));
+    geometry.addAttribute(attribute, new BufferAttribute(new Float32Array(data), numElements));
   }
 
   geometry.attributes[attribute].needsUpdate = true;

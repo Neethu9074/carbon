@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {PerspectiveCamera, Scene} from 'three';
 
 import NodesGeometry from 'in-components/graphView/components/NodesGeometry';
 import EdgesGeometry from 'in-components/graphView/components/EdgesGeometry';
@@ -7,8 +7,8 @@ import createControls from 'in-components/graphView/components/Controls';
 
 export default class GraphScene {
   constructor(renderer) {
-    this.camera = new THREE.PerspectiveCamera(75, 1, 1, 1000);
-    const scene = this.scene = new THREE.Scene();
+    this.camera = new PerspectiveCamera(75, 1, 1, 1000);
+    const scene = this.scene = new Scene();
 
     this.nodesGeometry = new NodesGeometry();
     scene.add(this.nodesGeometry.renderableGeometry());

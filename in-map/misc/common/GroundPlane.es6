@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {MeshBasicMaterial, Mesh, PlaneBufferGeometry} from 'three';
 
 import {removeSceneObject} from 'in-map/stores/sceneStore';
 
@@ -8,13 +8,13 @@ export default class GroundPlane {
   constructor(size) {
     this.size = size;
 
-    const geo = new THREE.PlaneBufferGeometry(size, size, 1, 1);
-    const mat = new THREE.MeshBasicMaterial({
+    const geo = new PlaneBufferGeometry(size, size, 1, 1);
+    const mat = new MeshBasicMaterial({
       transparent: true,
       depthWrite: false
     });
 
-    const ground = this.ground = new THREE.Mesh(geo, mat);
+    const ground = this.ground = new Mesh(geo, mat);
     // turn the group around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
     ground.rotation.x = -90 * Math.PI / 180;

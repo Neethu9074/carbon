@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {Raycaster} from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
@@ -16,7 +16,7 @@ export default class RaycasterModule extends Module {
     this.hoveredConnections = emptyArray;
 
     // raytracing fields
-    this.raycaster = new THREE.Raycaster();
+    this.raycaster = new Raycaster();
 
     this.currentConnections = emptyArray;
 

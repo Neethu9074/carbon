@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {Mesh, RawShaderMaterial, DoubleSide} from 'three';
 
 import fragmentShader from 'in-map/singleMeshFactories/basicFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
@@ -13,14 +13,14 @@ export default class BasicSingleMeshFactory extends ASingleMeshFactory {
   }
 
   getMesh(geometry, material) {
-    return new THREE.Mesh(geometry, material);
+    return new Mesh(geometry, material);
   }
 
   getMaterial() {
-    return new THREE.RawShaderMaterial({
+    return new RawShaderMaterial({
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
-      side: THREE.DoubleSide,
+      side: DoubleSide,
       transparent: false,
       depthWrite: true,
       opacity: 0.5

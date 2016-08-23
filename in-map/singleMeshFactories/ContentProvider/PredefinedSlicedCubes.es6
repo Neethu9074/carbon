@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {BufferGeometry} from 'three';
 
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
@@ -68,7 +68,7 @@ export function getSlicedGeometry(numSlices) {
 
   const sharedHeights = new Array(numSlices * NUM_POINTS_PER_SLICE).fill(0);
 
-  const geometry = new THREE.BufferGeometry();
+  const geometry = new BufferGeometry();
   updateAttribute(geometry, 'position', vertices);
   updateAttribute(geometry, 'color', colors);
   updateAttribute(geometry, 'oldHeight', sharedHeights, 1);

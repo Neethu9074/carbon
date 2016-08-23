@@ -1,9 +1,9 @@
-import THREE from 'three';
+import {Matrix4, OrthographicCamera} from 'three';
 
 
-const INVERSE = new THREE.Matrix4();
+const INVERSE = new Matrix4();
 
-export default class OrthographicCamera {
+export default class OrthographicCameraWrapper {
 
   constructor(width, height) {
     this.width = width;
@@ -16,15 +16,13 @@ export default class OrthographicCamera {
     const aspect = width / height;
     const left = -cameraSizeHalf * aspect;
     const top = cameraSizeHalf;
-    const camera = this.camera = new THREE.OrthographicCamera(
+    const camera = this.camera = new OrthographicCamera(
       left, -left, top, -top,
       0.1, // near
       2000 // far
     );
 
-    // camera.position.set(-0.8, 1, 1);
-    // camera.lookAt(new THREE.Vector3());
-    camera.projection = new THREE.Matrix4();
+    camera.projection = new Matrix4();
 
     // set static
     camera.rotationAutoUpdate = false;

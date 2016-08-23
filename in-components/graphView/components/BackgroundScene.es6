@@ -1,4 +1,12 @@
-import THREE from 'three';
+import {
+PlaneBufferGeometry,
+OrthographicCamera,
+MeshBasicMaterial,
+LinearFilter,
+DoubleSide,
+Scene,
+Mesh
+} from 'three';
 
 import galaxyImagePath from 'in-components/graphView/components/background.jpg';
 import {loadImage} from 'in-map/services/imageLoader';
@@ -6,16 +14,16 @@ import {loadImage} from 'in-map/services/imageLoader';
 
 export default class BackgroundScene {
   constructor() {
-    this.backgroundCamera = new THREE.OrthographicCamera(-0.5, 0.5, -0.5, 0.5, 0.1, 10);
-    this.backgroundScene = new THREE.Scene();
+    this.backgroundCamera = new OrthographicCamera(-0.5, 0.5, -0.5, 0.5, 0.1, 10);
+    this.backgroundScene = new Scene();
 
-    const material = new THREE.MeshBasicMaterial({
-      side: THREE.DoubleSide,
+    const material = new MeshBasicMaterial({
+      side: DoubleSide,
       depthWrite: false
     });
 
-    const plane = this.plane = new THREE.Mesh(
-      new THREE.PlaneBufferGeometry(1, 1, 1, 1, 1, 1),
+    const plane = this.plane = new Mesh(
+      new PlaneBufferGeometry(1, 1, 1, 1, 1, 1),
       material
     );
 
@@ -31,7 +39,7 @@ export default class BackgroundScene {
       loadedTexture.needsUpdate = true;
     });
 
-    texture.minFilter = THREE.LinearFilter;
+    texture.minFilter = LinearFilter;
     material.map = texture;
   }
 

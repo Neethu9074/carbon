@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {BoxGeometry} from 'three';
 
 export const OCTREE_LAYER = {
   NODES: 0,
@@ -6,5 +6,5 @@ export const OCTREE_LAYER = {
 };
 
 export const PREDEFINED_COLLISION_OBJECTS = {
-  BOX: new THREE.BoxGeometry(1, 1, 1, 1, 1, 1)
+  BOX: new BoxGeometry(1, 1, 1, 1, 1, 1)
 };

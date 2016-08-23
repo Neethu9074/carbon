@@ -1,10 +1,9 @@
-
-import THREE from 'three';
+import {Color} from 'three';
 
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 
 
-const colorService = new THREE.Color(0, 0, 0);
+const colorService = new Color(0, 0, 0);
 
 export default class ColorGenerator {
   constructor(desiredNumberOfColors) {
@@ -137,7 +136,6 @@ export function createColorPool(nameOfPool, numColors = 10) {
 }
 
 // create default color pools
-export const pluginsColorPool = createColorPool('plugins', 50);
+export const processesColorPool = createColorPool('processes', 100);
 export const groupsColorPool = createColorPool('groups', 20);
 export const tagsColorPool = createColorPool('tags', 100);
-export const processesColorPool = createColorPool('processes', 100);

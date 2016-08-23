@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {Vector3} from 'three';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {requestRendering} from 'in-map/stores/renderingStore';
@@ -11,7 +11,7 @@ export default class TransformationComponent extends SceneObjectComponent {
     super(sceneObject, '_transformation');
 
     this.position = ZERO.clone();
-    this.scale = new THREE.Vector3(1, 1, 1);
+    this.scale = new Vector3(1, 1, 1);
 
     this.emitToClient('scaleChanged', this.scale);
   }

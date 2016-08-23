@@ -1,18 +1,18 @@
-import THREE from 'three';
+import {LineBasicMaterial, Geometry, Line} from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import {eventBus} from 'in-map/services/eventBus';
 
 
-const GHOST_MATERIAL = new THREE.LineBasicMaterial({
+const GHOST_MATERIAL = new LineBasicMaterial({
   color: 0x627379,
   linewidth: navigator.platform.indexOf('Win') < 0 ? 2 : 1
 });
 
 export default class DragConnection {
   constructor(fromPosition) {
-    const geometry = new THREE.Geometry();
-    const sceneObject = this.sceneObject = new THREE.Line(geometry, GHOST_MATERIAL);
+    const geometry = new Geometry();
+    const sceneObject = this.sceneObject = new Line(geometry, GHOST_MATERIAL);
 
     addSceneObject(sceneObject);
 

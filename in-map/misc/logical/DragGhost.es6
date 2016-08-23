@@ -1,11 +1,12 @@
-import THREE from 'three';
+import {Mesh, MeshBasicMaterial, Vector3} from 'three';
 
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import ghosts from 'in-map/stores/logical/ghostsStore';
 import {eventBus} from 'in-map/services/eventBus';
 
-const GHOST_MATERIAL = new THREE.MeshBasicMaterial({
+
+const GHOST_MATERIAL = new MeshBasicMaterial({
   transparent: true,
   opacity: 0.25
 });
@@ -13,9 +14,9 @@ const GHOST_MATERIAL = new THREE.MeshBasicMaterial({
 export default class DragGhost {
   constructor(parent, ghostGeometry) {
     this.originalId = parent.id;
-    this.currentPosition = new THREE.Vector3();
+    this.currentPosition = new Vector3();
 
-    const sceneObject = this.sceneObject = new THREE.Mesh(
+    const sceneObject = this.sceneObject = new Mesh(
       ghostGeometry,
       GHOST_MATERIAL
     );

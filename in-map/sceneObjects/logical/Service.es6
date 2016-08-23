@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {CylinderBufferGeometry} from 'three';
 
 import CylinderHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import CloudHCP from 'in-map/singleMeshFactories/ContentProvider/CloudHighlightingContentProvider';
@@ -98,7 +98,7 @@ export default class Service extends SceneObject {
         if (this.id === id) {
           const scale = this.getComponent('transform').getScale();
           const radius = scale.x / 2;
-          this.dragGhost = new DragGhost(this, new THREE.CylinderBufferGeometry(radius, radius, scale.y, 20, 20));
+          this.dragGhost = new DragGhost(this, new CylinderBufferGeometry(radius, radius, scale.y, 20, 20));
         }
       }),
 

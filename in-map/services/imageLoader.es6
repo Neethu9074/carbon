@@ -1,12 +1,11 @@
-import THREE from 'three';
+import {ImageLoader, Texture} from 'three';
 
 
-const LOADING_MANAGER = new THREE.LoadingManager();
-const IMAGE_LOADER = new THREE.ImageLoader(LOADING_MANAGER);
+const IMAGE_LOADER = new ImageLoader();
 
 
 export function loadImage(url, callback) {
-  const texture = new THREE.Texture();
+  const texture = new Texture();
   texture.image = IMAGE_LOADER.load(url, () => callback(texture));
   return texture;
 }

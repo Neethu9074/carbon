@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {Points} from 'three';
 
 import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
@@ -25,7 +25,7 @@ export default class NodesGeometry extends BaseGeometry {
   }
 
   getMesh(geometry, material) {
-    return new THREE.Points(geometry, material);
+    return new Points(geometry, material);
   }
 
   updateGeometry(graph) {

@@ -1,4 +1,4 @@
-import THREE from 'three';
+import {LineSegments} from 'three';
 
 import fragmentShader from 'in-components/graphView/components/edgeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/edgeVertexShader.glsl';
@@ -19,7 +19,7 @@ export default class NodesGeometry extends BaseGeometry {
   }
 
   getMesh(geometry, material) {
-    return new THREE.LineSegments(geometry, material);
+    return new LineSegments(geometry, material);
   }
 
   updateGeometry(graph) {
