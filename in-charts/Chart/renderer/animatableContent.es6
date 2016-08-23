@@ -108,11 +108,18 @@ export default function createAnimatableContentRenderer(config) {
         min = Math.min(min, bounds[0]);
       }
 
+      if (axisConfig.min != null) {
+        min = axisConfig.min;
+      }
+
+      if (axisConfig.max != null) {
+        max = axisConfig.max;
+      }
+
       const range = max - min;
       if (range === 0) {
-        // add 10% to generate a chartable value range
-        min = min * 0.9;
-        max = max * 1.1;
+        min = min / 2;
+        max = max * 2;
       }
     }
 
@@ -147,7 +154,6 @@ export default function createAnimatableContentRenderer(config) {
     for (let i = 0, len = ticks.length; i < len; i++) {
       const tick = ticks[i];
       staticCtx.rect(tickX, tick.range, 5, 1);
-
       staticCtx.fillStyle = axisFontColor;
       staticCtx.fillText(formatter(tick.domain), textX, tick.range);
     }

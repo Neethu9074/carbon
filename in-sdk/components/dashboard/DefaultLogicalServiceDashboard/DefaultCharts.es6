@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   msTwoDecimalPlaces,
-  zeroDecimalPlaces,
   twoDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
@@ -24,8 +23,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           formatter: zeroDecimalPlaces,
-                           tooltipFormatter: twoDecimalPlaces,
+                           formatter: twoDecimalPlaces,
                            metrics: [
                              'count'
                            ],
@@ -58,7 +56,6 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            formatter: msTwoDecimalPlaces,
-                           tooltipFormatter: msTwoDecimalPlaces,
                            metrics: [
                              'duration.min',
                              'duration.25th',
@@ -92,7 +89,6 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            formatter: percentageTwoDecimalPlaces,
-                           tooltipFormatter: percentageTwoDecimalPlaces,
                            metrics: [
                              'error_rate'
                            ],
@@ -111,8 +107,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           formatter: zeroDecimalPlaces,
-                           tooltipFormatter: zeroDecimalPlaces,
+                           formatter: twoDecimalPlaces,
                            metrics: [
                              'instances'
                            ],
