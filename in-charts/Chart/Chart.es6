@@ -15,6 +15,10 @@ import './Chart.less';
 const signalRoSpec = {emitLatestOnSubscribe: false};
 const animationDuration = 2000;
 const maxFps = 15;
+// Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
+// of availability of metrics. We are removing x millis from the right border in order to
+// hide this fact from the user.
+const wiggleRoom = 5000; /* millis */
 
 export default function createChart(config) {
   let initPhase = true;
@@ -153,7 +157,7 @@ export default function createChart(config) {
     let prev = 0;
     const animate = () => {
       const now = Date.now();
-      const to = config.timeframe.to || toServerTime(now, config.serverTimeOffset);
+      const to = (config.timeframe.to || toServerTime(now, config.serverTimeOffset)) - wiggleRoom;
       config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
       config.scales.x.setDomainTo(to);
 
