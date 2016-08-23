@@ -25,10 +25,11 @@ export default class Map extends BaseMap {
     this.layouter = createLayouter();
 
     addFactory('nodes', new FadeByDistanceSingleMeshFactory({renderOrder: 3}));
+    addFactory('solid_layer', new FadeByDistanceSingleMeshFactory({renderOrder: 2}));
     addFactory('solid', new FadeByDistanceSingleMeshFactory({renderOrder: 3}));
     addFactory('highlighting', new LineSingleMeshFactory({useSceneObjectColors: false}));
     addFactory('connections', new LineSingleMeshFactory());
-    addFactory('layer', new BasicSingleMeshFactory());
+    addFactory('layer', new BasicSingleMeshFactory({renderOrder: 2}));
     addFactory('lines', new LineSingleMeshFactory());
     addFactory('icons', new IconSingleMeshFactory({useSceneObjectColors: false}));
   }
@@ -41,9 +42,11 @@ export default class Map extends BaseMap {
         if (selectedId) {
           getFactory('nodes').lockOpacity(0.25);
           getFactory('layer').material.transparent = true;
+          getFactory('layer').material.depthWrite = false;
         } else {
           getFactory('nodes').unlockOpacity();
           getFactory('layer').material.transparent = false;
+          getFactory('layer').material.depthWrite = true;
         }
         requestRendering();
       })

@@ -35,6 +35,8 @@ export default class Layer extends SceneObject {
 
     this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
 
+    this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid_layer'));
+
     this.addComponent('health', new HealthComponent(this));
 
     this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
