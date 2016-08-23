@@ -48,10 +48,11 @@ export default function createAxisController(config) {
     scales.bufferX.setRangeFrom(config.bounds.left);
     scales.bufferX.setRangeTo(config.bounds.right);
 
-    scales.y1.setRangeFrom(config.bounds.bottom);
+    // reduce by 0.5 to account for line thickness
+    scales.y1.setRangeFrom(config.bounds.bottom - 0.5);
     scales.y1.setRangeTo(config.bounds.top);
     if (scales.y2) {
-      scales.y2.setRangeFrom(config.bounds.bottom);
+      scales.y2.setRangeFrom(config.bounds.bottom - 0.5);
       scales.y2.setRangeTo(config.bounds.top);
     }
   }
