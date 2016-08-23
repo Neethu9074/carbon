@@ -57,7 +57,7 @@ describe('in-map', () => {
       expect(factory.add.getCall(0).args).to.have.length(1);
 
       const first = factory.add.getCall(0).args[0];
-      expect(first.additionalParams.positionOffset.y).to.equal(nodeScale.y / 2);
+      expect(first.additionalParams.positionOffset.y).to.equal((nodeScale.y - 0.1) / 2);
     });
 
     it('should only add unique plugins to factory', () => {
@@ -73,7 +73,7 @@ describe('in-map', () => {
       expect(factory.add.getCall(0).args).to.have.length(1);
 
       const first = factory.add.getCall(0).args[0];
-      expect(first.additionalParams.positionOffset.y).to.equal(nodeScale.y / 2);
+      expect(first.additionalParams.positionOffset.y).to.equal((nodeScale.y - 0.1) / 2);
     });
 
     it('should position the layer icons in the middle', () => {
@@ -88,8 +88,7 @@ describe('in-map', () => {
 
       expect(factory.add.getCall(0).args).to.have.length(1);
       expect(factory.add.getCall(1).args).to.have.length(1);
-      expect(factory.add.getCall(0).args[0].additionalParams.positionOffset.y).to.equal(1);
-      expect(factory.add.getCall(1).args[0].additionalParams.positionOffset.y).to.equal(3);
+      expect(factory.add.getCall(0).args[0].additionalParams.positionOffset.y).to.equal(0.975);
     });
 
     it('should merge same plugins', () => {
@@ -110,11 +109,6 @@ describe('in-map', () => {
       expect(factory.add.getCall(1).args).to.have.length(1);
       expect(factory.add.getCall(2).args).to.have.length(1);
       expect(factory.add.getCall(3).args).to.have.length(1);
-
-      expect(factory.add.getCall(0).args[0].additionalParams.positionOffset.y).to.equal(0.5);
-      expect(factory.add.getCall(1).args[0].additionalParams.positionOffset.y).to.equal(1.5);
-      expect(factory.add.getCall(2).args[0].additionalParams.positionOffset.y).to.equal(3);
-      expect(factory.add.getCall(3).args[0].additionalParams.positionOffset.y).to.equal(5);
     });
   });
 });

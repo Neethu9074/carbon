@@ -7,6 +7,7 @@ import {LAYER_LAYOUTING} from 'in-map/misc/TimingConfig';
 import {getFactory} from 'in-map/stores/factoriesStore';
 
 
+const maxPercentUsedByGaps = 10;
 const LAYER_MARGIN = 0.9; // 90%
 
 export default function createLayouter(node) {
@@ -24,41 +25,76 @@ export default function createLayouter(node) {
 
   function applyLayout(nodePosition, nodeScale, _layer) {
     const numLayer = _layer.length;
+    if (numLayer === 0) {
+      return;
+    }
+
+    const nodeHeight = nodeScale.y - 0.1;
 
     // sort layer desc by plugin because they are layouted from bottom to top
     _layer = _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
 
+    const numGaps = countDifferentPluginsFromSortedArray(_layer) - 1;
+    const gapHeight = calculateHeightForEachGap(nodeHeight, numGaps);
+    const heightUsedForLayer = nodeHeight - numGaps * gapHeight;
+    const heightOfEachLayer = heightUsedForLayer / numLayer;
     const plugins = {};
-    let currentPlugin = undefined;
-    const heightOfEachLayer = nodeScale.y / numLayer;
+
+    let firstPassed = false;
+    let currentPlugin;
+    let position = 0;
     for (let i = 0, length = _layer.length; i < length; i++) {
       const layer = _layer[i];
       const plugin = layer._cachedPlugin;
-      const from = i * heightOfEachLayer;
       if (plugin !== currentPlugin) {
+        if (!firstPassed) {
+          firstPassed = true;
+        } else {
+          position += gapHeight;
+        }
+
         if (plugins[currentPlugin]) {
           plugins[currentPlugin].to = i * heightOfEachLayer;
         }
         currentPlugin = plugin;
         plugins[plugin] = {
           layer,
-          from,
-          to: nodeScale.y
+          from: position,
+          to: nodeHeight
         };
       }
 
-      const heightOfLayer = heightOfEachLayer - Math.min(0.05, heightOfEachLayer * LAYER_MARGIN);
       const transform = layer.getComponent('transform');
       transform.setScaleXYZ(LAYER_MARGIN,
-                            heightOfLayer,
+                            heightOfEachLayer * LAYER_MARGIN,
                             LAYER_MARGIN);
 
       transform.setPositionXYZ(nodePosition.x,
-                               from,
+                               position,
                                nodePosition.z);
+
+      position += heightOfEachLayer;
     }
 
     setupPluginIcons(plugins);
+  }
+
+  function calculateHeightForEachGap(heightOfNode, numGaps) {
+    // if 10% is the maximum of height used for gaps -> the maximum height for
+    // gaps can be 1 / 10(%) = 0.1. happens if there is only one gap, taking 10%.
+    // if there are more gaps, e.g. 4 -> each one takes 10% / 4 which is
+    // heightOfNode / (#Gaps * 1 / 10).
+    return Math.min(1 / maxPercentUsedByGaps, heightOfNode / (numGaps * maxPercentUsedByGaps));
+  }
+
+  function countDifferentPluginsFromSortedArray(_layer) {
+    const plugins = {};
+
+    for (let i = 1, length = _layer.length; i < length; i++) {
+      plugins[_layer[i]._cachedPlugin] = true;
+    }
+
+    return Object.keys(plugins).length;
   }
 
   function setupPluginIcons(plugins) {
