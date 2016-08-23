@@ -1,9 +1,9 @@
-import d3 from 'd3';
+import {format} from 'd3-format';
 
 const byteBase = 1024;
 
-export const zeroDecimalPlaces = d3.format(',.0f');
-export const twoDecimalPlaces = d3.format(',.2f');
+export const zeroDecimalPlaces = format(',.0f');
+export const twoDecimalPlaces = format(',.2f');
 
 export const zeroDecimalPlacesPerSecond = d => zeroDecimalPlaces(d) + '/s';
 
@@ -22,11 +22,33 @@ export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, 2) + '/s';
 export const kiloBytesZeroDecimalPlaces = d => formatBytes(d * byteBase, 0);
 export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, 2);
 
-export const withSiPrefixZeroDecimalPlaces = d => withSiPrefix(d, 0);
-export const withSiPrefixThreeDecimalPlaces = d => withSiPrefix(d, 3);
+export const withSiPrefixZeroDecimalPlaces = format(',.0s');
+const siPrefixThreeDecimalPlacesFormatRule = format(',.6s');
+export const withSiPrefixThreeDecimalPlaces = d => {
+  const match = siPrefixThreeDecimalPlacesFormatRule(d).match(/^(\d+)\.(\d+)(.*)$/i);
 
-export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiMultiplyPrefix(d, 0);
-export const withSiMultiplyPrefixThreeDecimalPlaces = d => withSiMultiplyPrefix(d, 3);
+  const major = match[1];
+  let minor = match[2];
+  const prefix = match[3];
+
+  while (minor.length < 3) {
+    minor += '0';
+  }
+
+  if (minor.length > 3) {
+    minor = minor.substring(0, 3);
+  }
+
+  return `${major}.${minor}${prefix}`;
+};
+
+export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiPrefixZeroDecimalPlaces(d | 0);
+export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
+  if (d < 1) {
+    return d.toFixed(3);
+  }
+  return withSiPrefixThreeDecimalPlaces(d);
+};
 
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
@@ -40,84 +62,6 @@ export const time = millis => {
   return msZeroDecimalPlaces(millis);
 };
 
-/**
- * Format a number with a metric prefix according to the international system of units:
- * Wiki excerpt:
- * > A metric prefix is a unit prefix that precedes a basic unit of measure to indicate a
- * > multiple or fraction of the unit. While all metric prefixes in common use today are decadic,
- * > historically there have been a number of binary metric prefixes as well.[1] Each prefix has a
- * > unique symbol that is prepended to the unit symbol. The prefix kilo-, for example, may be
- * > added to gram to indicate multiplication by one thousand; one kilogram is equal to one
- * > thousand grams. The prefix milli-, likewise, may be added to metre to indicate division by
- * > one thousand; one millimetre is equal to one thousandth of a metre.
- * >
- * > Decimal multiplicative prefixes have been a feature of all forms of the metric system with
- * > six dating back to the system's introduction in the 1790s. Metric prefixes have even been
- * > pre-pended to non-metric units. The SI prefixes are standardized for use in the
- * > International System of Units (SI) by the International Bureau of Weights and Measures (BIPM)
- * > in resolutions dating from 1960 to 1991.[2] Since 2009, they have formed part of the
- * > International System of Quantities.
- * Source: https://en.wikipedia.org/wiki/Metric_prefix
- *
- * @param {number} num Number to format with SI prefix
- * @param {number} [numberOfDecimalPlaces=2] The desired number of decimal places to format to.
- * @return {string} The formatter number of the SI prefix.
- */
-function withSiPrefix(num, numberOfDecimalPlaces) {
-  const prefix = d3.formatPrefix(num);
-  return toStringWithNumberOfDecimalPlaces(
-    d3.round(prefix.scale(num), numberOfDecimalPlaces),
-    numberOfDecimalPlaces
-  ) + prefix.symbol;
-}
-
-/**
- * Format a number with a metric prefix according to the international system of units.
- * identicla to withSiPrefix, except that only multiplicating prefixes (kilo, mega giga) are used.
- * Intended to avoid confusion for a number that can go from 0 to 100.000, to show 500m instead of 0.5.
- *
- * @param {number} num Number to format with SI prefix
- * @param {number} [numberOfDecimalPlaces=2] The desired number of decimal places to format to.
- * @return {string} The formatter number of the SI prefix.
- */
-function withSiMultiplyPrefix(num, numberOfDecimalPlaces) {
-  const prefix = d3.formatPrefix(num.toFixed(0));
-  return toStringWithNumberOfDecimalPlaces(
-    d3.round(prefix.scale(num), numberOfDecimalPlaces),
-    numberOfDecimalPlaces
-  ) + prefix.symbol;
-}
-
-function toStringWithNumberOfDecimalPlaces(num, numberOfDecimalPlaces) {
-  let numStr = String(num);
-
-  // Assuming that a previous component already rounded to a specific scale
-  // for performance reasons.
-  if (numberOfDecimalPlaces === 0) {
-    return numStr;
-  }
-
-  let periodIndex = -1;
-  for (let i = 0, len = numStr.length; i < len; i++) {
-    if (numStr[i] === '.') {
-      periodIndex = i;
-      break;
-    }
-  }
-
-
-  if (periodIndex === -1) {
-    numStr += '.';
-    periodIndex = numStr.length;
-  }
-
-  const missingZerosCount = numberOfDecimalPlaces - Math.max(numStr.length - periodIndex - 1, 0);
-  for (let i = 0; i < missingZerosCount; i++) {
-    numStr += '0';
-  }
-
-  return numStr;
-}
 
 /**
  * Format a number of bytes to improve readability for humans. Turn a raw
@@ -153,6 +97,7 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   return (neg ? '-' : '') + num + ' ' + unit;
 }
 
+
 /**
  * Format a time to improve readability for humans. Turn a raw
  * number to something like 10 ms or 30 s.
@@ -166,7 +111,7 @@ function formatTime(t) {
     throw new TypeError('Expected a number');
   }
 
-  const format = v => ((v * 100) | 0) / 100;
+  const formatValue = v => ((v * 100) | 0) / 100;
 
   const units = [{
       unit: 'µs',
@@ -193,11 +138,11 @@ function formatTime(t) {
     const unit = units[i];
 
     if (t < unit.range) {
-      return format(t) + unit.unit;
+      return formatValue(t) + unit.unit;
     }
 
     t /= unit.range;
   }
 
-  return format(t) + units[units.length - 1].unit;
+  return formatValue(t) + units[units.length - 1].unit;
 }

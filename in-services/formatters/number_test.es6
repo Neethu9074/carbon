@@ -100,6 +100,7 @@ describe('in-services.formatter.number', () => {
     it('should format with decimal places using only multiplication prefixes', () => {
       expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(0.000000001567)).to.equal('0.000');
       expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(0.001567)).to.equal('0.002');
+      expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(0.1567)).to.equal('0.157');
       expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(1.567)).to.equal('1.567');
       expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(1567)).to.equal('1.567k');
     });
@@ -109,6 +110,10 @@ describe('in-services.formatter.number', () => {
       expect(numberFormatters.withSiPrefixThreeDecimalPlaces(1.53)).to.equal('1.530');
       expect(numberFormatters.withSiPrefixThreeDecimalPlaces(1.536)).to.equal('1.536');
       expect(numberFormatters.withSiPrefixThreeDecimalPlaces(5)).to.equal('5.000');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(433)).to.equal('433.000');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(4433.123)).to.equal('4.433k');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(433.123)).to.equal('433.123');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(433.12345)).to.equal('433.123');
     });
   });
 

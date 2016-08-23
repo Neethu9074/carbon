@@ -33,7 +33,7 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
-    "d3": "^3.5.5",
+    "d3-format": "1.0.2",
     "fbjs": "0.8.3",
     "hammerjs": "^2.0.4",
     "highlight.js": "9.3.0",

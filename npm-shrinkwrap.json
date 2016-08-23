@@ -1392,10 +1392,10 @@
       "from": "d@>=0.1.1 <0.2.0",
       "resolved": "https://registry.npmjs.org/d/-/d-0.1.1.tgz"
     },
-    "d3": {
-      "version": "3.5.17",
-      "from": "d3@>=3.5.5 <4.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3/-/d3-3.5.17.tgz"
+    "d3-format": {
+      "version": "1.0.2",
+      "from": "d3-format@>=1.0.2 <2.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/d3-format/-/d3-format-1.0.2.tgz"
     },
     "dashdash": {
       "version": "1.14.0",
