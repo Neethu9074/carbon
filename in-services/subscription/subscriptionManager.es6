@@ -1,4 +1,4 @@
-import * as ro from 'reactive-observables';
+import {on as reactiveOn} from 'reactive-observables';
 import invariant from 'invariant';
 
 import {getDataEvent} from 'in-services/subscription/dataEvent';
@@ -76,7 +76,7 @@ export function init() {
 
   // We dispose all subscriptions server side when the window is hidden for a few
   // minutes. We do this to avoid buffering a large amount of data in the UI
-  const documentVisibility$ = ro.on(document, 'visibilitychange')
+  const documentVisibility$ = reactiveOn(document, 'visibilitychange')
     .map(() => document.hidden);
 
   documentVisibility$

@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import {expect} from 'chai';
 
-import * as utils from './arrayUtils';
+import {find} from './arrayUtils';
 
 
 describe('arrayUtils', () => {
@@ -9,21 +9,21 @@ describe('arrayUtils', () => {
   describe('find', () => {
 
     it('should find primitive number', () => {
-      expect(utils.find([
+      expect(find([
           0, 1, 2, 3, 123, 321, 2, 231
         ],
         item => item === 123)).to.be.equal(123);
     });
 
     it('should find primitive string', () => {
-      expect(utils.find([
+      expect(find([
           'a', 'ab', 'abc', 'v', 'c'
         ],
         item => item === 'ab')).to.be.equal('ab');
     });
 
     it('should find objects', () => {
-      expect(utils.find([
+      expect(find([
           { id: -1, value: 0 },
           { id: -1, value: 1 },
           { id: 123, value: 3 },
@@ -33,7 +33,7 @@ describe('arrayUtils', () => {
     });
 
     it('should return undefined if nothing is found', () => {
-      expect(utils.find([
+      expect(find([
           { id: -1, value: 0 },
           { id: -1, value: 1 },
           { id: 123, value: 3 },

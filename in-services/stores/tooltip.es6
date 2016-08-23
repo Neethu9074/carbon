@@ -1,5 +1,6 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 import React from 'react';
+
 
 const rpt = React.PropTypes;
 const reemitSpec = {emitLatestOnSubscribe: true};
@@ -21,7 +22,7 @@ export const TooltipShape = rpt.shape({
   )
 });
 
-export const activeTooltip = ro.create(reemitSpec);
+export const activeTooltip = create(reemitSpec);
 
 export function setActiveTooltip(tooltip) {
   tooltip.align = tooltip.align || 'auto';

@@ -1,10 +1,11 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 
 import {emptyMap} from 'in-services/fixedImmutables';
 
+
 const settingsPath = 'in-settings';
-export const settingsStore = ro.create({emitLatestOnSubscribe: true});
+export const settingsStore = create({emitLatestOnSubscribe: true});
 
 let settings = getFromStorage();
 

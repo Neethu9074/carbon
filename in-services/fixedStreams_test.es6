@@ -2,7 +2,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import * as fixedStreams from './fixedStreams';
+import {alwaysNull, alwaysEmptyArray} from './fixedStreams';
 
 describe('fixedStreams', () => {
   testPrimitive('alwaysNull', null);
@@ -50,5 +50,12 @@ function testCollectionIsFrozen(name) {
 }
 
 function getImplementation(name) {
-  return fixedStreams[name];
+  switch (name) {
+    case 'alwaysEmptyArray':
+      return alwaysEmptyArray;
+    case 'alwaysNull':
+      return alwaysNull;
+    default:
+    return null;
+  }
 }

@@ -1,4 +1,4 @@
-import * as ro from 'reactive-observables';
+import {on} from 'reactive-observables';
 
 import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
 import onNpressed from 'in-services/shortcuts/shortcuts/N';
@@ -20,7 +20,7 @@ export function init() {
   registeredShortcuts[KEY_CODES.N] = onNpressed;
   registeredShortcuts[KEY_CODES.F] = onFPressed;
 
-  ro.on(window, 'keydown').subscribe(keyEvent => {
+  on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();
     if (targetType === 'input' ||
         targetType === 'textarea') {
