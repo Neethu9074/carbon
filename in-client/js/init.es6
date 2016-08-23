@@ -64,19 +64,19 @@ if (__DEV__) {
 }
 
 // kick of the init process
-initHighlightedSuggestionStore();
-initTableViewVisibilityStore();
-initSubscriptonManager();
-initNotMonitoringPresenter();
 initLayouterStorage();
-initMessageStore();
-initExpandedIdsStore();
-initPersistentConnection();
-initTimelineStore();
 initBrowserIdentification();
+initPersistentConnection();
+initSubscriptonManager();
 initTimeOffsetStore();
+initTimelineStore();
+initMessageStore();
 initShortcuts();
 initTracking();
+initNotMonitoringPresenter();
+initTableViewVisibilityStore();
+initExpandedIdsStore();
+initHighlightedSuggestionStore();
 
 ReactDOM.render((
   <Router history={hashHistory}>
