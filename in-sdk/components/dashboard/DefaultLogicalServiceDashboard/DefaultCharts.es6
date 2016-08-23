@@ -1,6 +1,11 @@
 import React from 'react';
 
-import {msTwoDecimalPlaces, zeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
+import {
+  msTwoDecimalPlaces,
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  percentageTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -20,7 +25,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            formatter: zeroDecimalPlaces,
-                           tooltipFormatter: zeroDecimalPlaces,
+                           tooltipFormatter: twoDecimalPlaces,
                            metrics: [
                              'count'
                            ],
