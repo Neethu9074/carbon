@@ -1,10 +1,13 @@
 import React from 'react';
 
 import {bytesZeroDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default function MongoDBDashboard({snapshot, timeframe}) {
@@ -24,6 +27,16 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
 
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Connections'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='connections' />
+        </KpiKeyValue>
+      </KpiSection>
+
       {dbs ?
       <DashboardSection title='Database Size'>
         <ChartWithLegend snapshotId={snapshotId}

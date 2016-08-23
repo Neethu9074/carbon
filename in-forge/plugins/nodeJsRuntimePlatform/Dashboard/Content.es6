@@ -1,17 +1,48 @@
 import React from 'react';
 
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import * as numberFormatters from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default function NodejsDashboard({snapshot, timeframe}) {
+  const snapshotId = snapshot.get('id');
+
   return (
     <div>
       {getNativeExtensionHint(snapshot)}
+
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='GC Pause'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='gc.gcPause'
+                       formatter={numberFormatters.time} />
+        </KpiKeyValue>
+        <KpiKeyValue label='RSS'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='memory.rss'
+                       formatter={numberFormatters.bytesZeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Heap Used'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='memory.heapUsed'
+                       formatter={numberFormatters.bytesTwoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Total time spent in loop'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='libuv.num'
+                       formatter={numberFormatters.time} />
+        </KpiKeyValue>
+      </KpiSection>
 
       <TwoColumnRow>
         <DashboardSection title='Memory Usage'>

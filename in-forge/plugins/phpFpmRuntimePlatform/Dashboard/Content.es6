@@ -1,16 +1,20 @@
 import React from 'react';
 
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import * as numberFormatters from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
 
 
 export default function PhpFpmDashboard({snapshot, timeframe}) {
-  const pools = snapshot.getIn(['data', 'worker_pools'], emptyList).toArray();
-  if (pools.length === 0) {
-    return (<div>No Worker Pools found</div>);
+  const pools = snapshot.getIn(['data', 'worker_pools'], emptyList);
+  if (pools.size === 0) {
+    return (
+      <span>
+        No Worker Pools found
+      </span>
+    );
   }
 
   return (
@@ -21,9 +25,9 @@ export default function PhpFpmDashboard({snapshot, timeframe}) {
                             snapshot={snapshot}
                             timeframe={timeframe} pool={pool}/>
        : <DashboardNotification key={pool} type='info'>
-          In order to monitor the worker pool {pool}, you need to
-          enable <code>pm.status_path</code> in your PHP-FPM config.
-       </DashboardNotification>
+           In order to monitor the worker pool {pool}, you need to
+           enable <code>pm.status_path</code> in your PHP-FPM config.
+         </DashboardNotification>
       )}
     </div>
   );
@@ -35,101 +39,101 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
   const data = snapshot.get('data');
 
   return (
-          <div key={pool}>
-            <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshotId={snapshotId}
-                               timeframe={timeframe}
-                               margins={{
-                                 left: 90,
-                                 right: 60
-                               }}
+    <div key={pool}>
+      <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 90,
+                           right: 60
+                         }}
 
-                               y1={{
-                                 min: 0,
-                                 formatter: numberFormatters.zeroDecimalPlaces,
-                                 tooltipFormatter: numberFormatters.zeroDecimalPlaces,
-                                 metrics: [
-                                   'worker_pool.' + pool + '.accepted_conn',
-                                   'worker_pool.' + pool + '.slow_requests'
-                                 ],
-                                 labels: [
-                                   'Accepted Connections',
-                                   'Slow Requests'
-                                 ],
-                                 type: 'line'
-                               }}
+                         y1={{
+                           min: 0,
+                           formatter: numberFormatters.zeroDecimalPlaces,
+                           tooltipFormatter: numberFormatters.zeroDecimalPlaces,
+                           metrics: [
+                             'worker_pool.' + pool + '.accepted_conn',
+                             'worker_pool.' + pool + '.slow_requests'
+                           ],
+                           labels: [
+                             'Accepted Connections',
+                             'Slow Requests'
+                           ],
+                           type: 'line'
+                         }}
 
-                               y2={{
-                                 min: 0,
-                                 formatter: numberFormatters.zeroDecimalPlaces,
-                                 metrics: [
-                                   'worker_pool.' + pool + '.listen_queue',
-                                   'worker_pool.' + pool + '.max_listen_queue',
-                                   'worker_pool.' + pool + '.listen_queue_len'
-                                 ],
-                                 labels: [
-                                   'Listen Queue',
-                                   'Max',
-                                   'Length'
-                                 ],
-                                 type: 'line'
-                               }}/>
-            </DashboardSection>
-            <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshotId={snapshotId}
-                               timeframe={timeframe}
-                               margins={{
-                                 left: 90,
-                                 right: 60
-                               }}
+                         y2={{
+                           min: 0,
+                           formatter: numberFormatters.zeroDecimalPlaces,
+                           metrics: [
+                             'worker_pool.' + pool + '.listen_queue',
+                             'worker_pool.' + pool + '.max_listen_queue',
+                             'worker_pool.' + pool + '.listen_queue_len'
+                           ],
+                           labels: [
+                             'Listen Queue',
+                             'Max',
+                             'Length'
+                           ],
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
+      <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 90,
+                           right: 60
+                         }}
 
-                               y1={{
-                                 min: 0,
-                                 formatter: numberFormatters.zeroDecimalPlaces,
-                                 tooltipFormatter: numberFormatters.zeroDecimalPlaces,
-                                 metrics: [
-                                   'worker_pool.' + pool + '.idle_processes',
-                                   'worker_pool.' + pool + '.active_processes',
-                                   'worker_pool.' + pool + '.total_processes'
-                                 ],
-                                 labels: [
-                                   'Idle',
-                                   'Active',
-                                   'Total'
-                                 ],
-                                 type: 'line'
-                               }}
+                         y1={{
+                           min: 0,
+                           formatter: numberFormatters.zeroDecimalPlaces,
+                           tooltipFormatter: numberFormatters.zeroDecimalPlaces,
+                           metrics: [
+                             'worker_pool.' + pool + '.idle_processes',
+                             'worker_pool.' + pool + '.active_processes',
+                             'worker_pool.' + pool + '.total_processes'
+                           ],
+                           labels: [
+                             'Idle',
+                             'Active',
+                             'Total'
+                           ],
+                           type: 'line'
+                         }}
 
-                               y2={{
-                                 min: 0,
-                                 formatter: numberFormatters.zeroDecimalPlaces,
-                                 metrics: [
-                                   'worker_pool.' + pool + '.max_active_processes',
-                                   'worker_pool.' + pool + '.max_children_reached'
-                                 ],
-                                 labels: [
-                                   'Max Active',
-                                   'Max Children'
-                                 ],
-                                 type: 'line'
-                               }}/>
-            </DashboardSection>
-            <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
-              <ChartWithLegend snapshotId={snapshotId}
-                               timeframe={timeframe}
-                               margins={{
-                                 left: 90,
-                                 right: 60
-                               }}
-                               y1={{
-                                 min: 0,
-                                 formatter: numberFormatters.bytesZeroDecimalPlaces,
-                                 metrics: ['worker_pool.' + pool + '.total_memory'],
-                                 labels: ['Memory'],
-                                 type: 'line'
-                               }}/>
-            </DashboardSection>
-        </div>
+                         y2={{
+                           min: 0,
+                           formatter: numberFormatters.zeroDecimalPlaces,
+                           metrics: [
+                             'worker_pool.' + pool + '.max_active_processes',
+                             'worker_pool.' + pool + '.max_children_reached'
+                           ],
+                           labels: [
+                             'Max Active',
+                             'Max Children'
+                           ],
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
+      <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 90,
+                           right: 60
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: numberFormatters.bytesZeroDecimalPlaces,
+                           metrics: ['worker_pool.' + pool + '.total_memory'],
+                           labels: ['Memory'],
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
+    </div>
   );
 }
 
