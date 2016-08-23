@@ -15,6 +15,7 @@ export default function createLayouter() {
                                                connections.stream,
                                                currentLayoutingStrategy$,
                                                nodePositions$])
+                                .debounce(LOGICAL_LAYOUTING)
                                 .map(([_services, _connections, _currentLayoutingStrategy, _nodePositions]) => {
                                   return {
                                     nodes: Object.keys(_services).map(key => _services[key]),
@@ -23,7 +24,6 @@ export default function createLayouter() {
                                     nodePositions: _nodePositions
                                   };
                                 })
-                                .debounce(LOGICAL_LAYOUTING)
                                 .subscribe(({nodes, edges, layoutStrategy, nodePositions}) => {
                                   layoutStrategy(nodes, edges, nodePositions);
 
