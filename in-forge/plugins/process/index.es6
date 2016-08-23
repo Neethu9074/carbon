@@ -1,7 +1,6 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as sorting from 'in-sdk/sorting';
 
 import iconPath from 'in-forge/plugins/process/icon.svg';
 import * as constants from 'in-forge/constants';
@@ -13,11 +12,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.process, getLabel);
-
-sorting.addMapping(
-  constants.plugins.process,
-  (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
-);
 
 function getLabel(snapshot) {
   return snapshot.getIn(['data', 'exec']);

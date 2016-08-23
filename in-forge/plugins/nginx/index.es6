@@ -2,7 +2,6 @@ import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as sorting from 'in-sdk/sorting';
 
 import * as constants from 'in-forge/constants';
 import iconPath from 'in-forge/plugins/nginx/icon.svg';
@@ -14,11 +13,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.nginx, getLabel);
-
-sorting.addMapping(
-  constants.plugins.nginx,
-  (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
-);
 
 function getLabel() {
   return 'Nginx';

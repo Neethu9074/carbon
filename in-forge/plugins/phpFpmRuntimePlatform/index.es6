@@ -4,7 +4,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as sorting from 'in-sdk/sorting';
 
 
 pluginName.setHumanReadablePluginName(
@@ -28,11 +27,6 @@ function getLabel(s) {
 function getFallbackLabel(s) {
   return 'PHP-FPM Master Process#' + s.get('steadyId');
 }
-
-sorting.addMapping(
-  constants.plugins.phpfpm,
-  (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
-);
 
 addIconToRegistry({
   id: constants.plugins.phpfpm,

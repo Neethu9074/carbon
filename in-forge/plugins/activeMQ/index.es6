@@ -4,7 +4,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as sorting from 'in-sdk/sorting';
 
 import {emptyList} from 'in-services/fixedImmutables';
 
@@ -15,11 +14,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.activemq, getLabel);
-
-sorting.addMapping(
-  constants.plugins.activemq,
-  (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
-);
 
 function getLabel(snapshot) {
   return '@ ' + snapshot.getIn(['data', 'ports'], emptyList).sort().join(', ');

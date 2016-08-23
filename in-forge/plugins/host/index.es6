@@ -1,6 +1,5 @@
 import {addKeywordOperator, createPluginFieldPath, addSearchableEntityType} from 'in-sdk/search';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
-import * as sorting from 'in-sdk/sorting';
 
 import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.svg';
 import linuxIconPath from 'in-forge/plugins/host/icons/instana_server_linux.svg';
@@ -52,11 +51,6 @@ registerSnapshotDefinition({
     return snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']));
   }
 });
-
-sorting.addMapping(
-  plugins.os,
-  (s1, s2) => s1.get('hostId').localeCompare(s2.get('hostId'))
-);
 
 addKeywordOperator({
   context: 'entity',
