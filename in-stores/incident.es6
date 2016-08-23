@@ -1,7 +1,7 @@
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
-import * as navigation from 'in-stores/navigation';
+import {goToRootOfView} from 'in-stores/navigation';
 import {getEvent} from 'in-services/issueTracker';
 
 
@@ -44,7 +44,7 @@ export function setSelectedIncident(id, to) {
   if (id == null) {
     clearSelectedIncident();
   } else {
-    navigation.goToRootOfView();
+    goToRootOfView();
     mutateUrl(navParams => {
       delete navParams.query.snapshotId;
       navParams.query.incidentId = encodeURIComponent(id);

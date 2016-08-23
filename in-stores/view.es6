@@ -1,10 +1,10 @@
-import * as ro from 'reactive-observables';
+import {combineLatest} from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
-
 import {navigationParameters$} from 'in-stores/navigation';
 import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
+
 
 export const types = {
   logical: 'LOGICAL',
@@ -29,7 +29,7 @@ export const view$ = view;
 
 export const viewStructure = createTrackingStore({
   name: 'viewStructure',
-  observable: ro.combineLatest([view, focusedMoment$])
+  observable: combineLatest([view, focusedMoment$])
     .flatMap(([viewType, focusedMoment]) => {
       return createViewStructureObservable({viewType, time: focusedMoment});
     })

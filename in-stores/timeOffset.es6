@@ -1,6 +1,7 @@
-import {createStore} from 'in-stores/store';
 import createTimestampObservable from 'in-services/subscription/timestamp';
-import * as persistentConnection from 'in-services/persistentConnection';
+import {on} from 'in-services/persistentConnection';
+import {createStore} from 'in-stores/store';
+
 
 // This is an attempt to "synchronize" the time between client (browser) and
 // server (backend). This needs to be done as we cannot expect that the user
@@ -47,9 +48,9 @@ export const offset$ = offset;
 
 
 export function init() {
-  persistentConnection.on('connect', start);
-  persistentConnection.on('reconnect', start);
-  persistentConnection.on('disconnect', stop);
+  on('connect', start);
+  on('reconnect', start);
+  on('disconnect', stop);
 }
 
 

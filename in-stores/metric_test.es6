@@ -2,7 +2,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import * as metricStore from 'in-stores/metric';
+import {getDefaultMetricRollupDuration} from 'in-stores/metric';
 
 const oneMinute = 1000 * 60;
 
@@ -23,49 +23,49 @@ describe('in-stores/metric', () => {
     });
 
     it('should not use any rollup when the timeframe is undefined', () => {
-      expect(metricStore.getDefaultMetricRollupDuration(null)).to.equal(null);
-      expect(metricStore.getDefaultMetricRollupDuration()).to.equal(null);
+      expect(getDefaultMetricRollupDuration(null)).to.equal(null);
+      expect(getDefaultMetricRollupDuration()).to.equal(null);
     });
 
     it('should define no rollup size for 5 minutes', () => {
-      expect(metricStore.getDefaultMetricRollupDuration(timeframe(null, oneMinute * 5)))
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 5)))
         .to.equal(null);
     });
 
     it('should define no rollup size for 10 minutes', () => {
-      expect(metricStore.getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10)))
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10)))
         .to.equal(null);
     });
 
     it('should define no rollup size for 10 minutes and a small room for error', () => {
-      expect(metricStore.getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10 + 50)))
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 10 + 50)))
         .to.equal(null);
     });
 
     it('should use five second rollups for 15  minutes', () => {
-      expect(metricStore.getDefaultMetricRollupDuration(timeframe(null, oneMinute * 15)))
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 15)))
         .to.equal(5000);
     });
 
     it('should use five second rollups for one hour timeframes', () => {
-      expect(metricStore.getDefaultMetricRollupDuration(timeframe(null, oneMinute * 60)))
+      expect(getDefaultMetricRollupDuration(timeframe(null, oneMinute * 60)))
         .to.equal(5000);
     });
 
     it('should use hourly rollups for any larger timeframe', () => {
-      expect(metricStore.getDefaultMetricRollupDuration(timeframe(null, Number.MAX_VALUE)))
+      expect(getDefaultMetricRollupDuration(timeframe(null, Number.MAX_VALUE)))
         .to.equal(1000 * 60 * 60);
     });
 
     it('should not use any rollup when the timeframe is undefined', () => {
-      expect(metricStore.getDefaultMetricRollupDuration(null)).to.equal(null);
-      expect(metricStore.getDefaultMetricRollupDuration()).to.equal(null);
+      expect(getDefaultMetricRollupDuration(null)).to.equal(null);
+      expect(getDefaultMetricRollupDuration()).to.equal(null);
     });
 
     it('should define no rollup size for 5 minutes', () => {
       clock.tick(oneMinute * 10);
 
-      expect(metricStore.getDefaultMetricRollupDuration(timeframe(oneMinute * 5, oneMinute * 5)))
+      expect(getDefaultMetricRollupDuration(timeframe(oneMinute * 5, oneMinute * 5)))
         .to.equal(null);
     });
 
@@ -73,7 +73,7 @@ describe('in-stores/metric', () => {
         'retained for the selected time window', () => {
       clock.tick(oneMinute * 20);
 
-      expect(metricStore.getDefaultMetricRollupDuration(timeframe(oneMinute * 15, oneMinute * 10)))
+      expect(getDefaultMetricRollupDuration(timeframe(oneMinute * 15, oneMinute * 10)))
         .to.equal(5000);
     });
   });

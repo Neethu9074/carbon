@@ -1,5 +1,6 @@
-import * as ro from 'reactive-observables';
+import {create} from 'reactive-observables';
 import invariant from 'invariant';
+
 
 // Keeps track of the current state of all created stores. Will
 // be used for debugging purposes in the future.
@@ -9,7 +10,7 @@ export function createStore({name, initialValue = null}) {
   invariant(!(name in allStates), 'Store (' + name +  ') already exists');
 
   let currentState = allStates[name] = initialValue;
-  const observable = ro.create();
+  const observable = create();
   observable.emit(currentState);
 
   return {

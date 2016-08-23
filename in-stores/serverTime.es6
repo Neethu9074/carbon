@@ -1,16 +1,14 @@
 import {combineLatest} from 'reactive-observables';
 
-import * as timeOffsetStore from 'in-stores/timeOffset';
-import * as localTimeStore from 'in-stores/localTime';
+import {offset, toServerTime} from 'in-stores/timeOffset';
 import {createTrackingStore} from 'in-stores/store';
+import {localTime} from 'in-stores/localTime';
 
 
 export const serverTime = createTrackingStore({
   name: 'serverTime',
-  observable: combineLatest([timeOffsetStore.offset, localTimeStore.localTime])
-    .map(([currentOffset, localTime]) => {
-      return timeOffsetStore.toServerTime(localTime, currentOffset);
-    })
+  observable: combineLatest([offset, localTime])
+              .map(([_currentOffset, _localTime]) => toServerTime(_localTime, _currentOffset))
 }).observable;
 
 export const serverTime$ = serverTime;
