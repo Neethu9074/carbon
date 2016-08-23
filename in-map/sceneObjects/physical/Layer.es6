@@ -49,7 +49,7 @@ export default class Layer extends SceneObject {
     this.addSubscriptions([
       this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
-        const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
+        const color = severity > 0 ? theme.health[Math.floor(severity)] : '#dfdfdf';
         this.getComponent('color').setHex(color);
       }),
 
