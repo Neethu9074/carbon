@@ -3,7 +3,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
-import * as power from 'in-sdk/power';
 
 import * as constants from 'in-forge/constants';
 import iconPath from 'in-forge/plugins/nginx/icon.svg';
@@ -15,11 +14,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.nginx, getLabel);
-
-power.addMapping(
-  constants.plugins.nginx,
-  () => -1
-);
 
 sorting.addMapping(
   constants.plugins.nginx,

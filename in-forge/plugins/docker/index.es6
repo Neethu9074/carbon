@@ -3,7 +3,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
-import * as power from 'in-sdk/power';
 
 import iconPath from 'in-forge/plugins/docker/icon.svg';
 import * as constants from 'in-forge/constants';
@@ -23,11 +22,6 @@ addLabelFinder(
     }
     return undefined;
   }
-);
-
-power.addMapping(
-  constants.plugins.docker,
-  () => -1
 );
 
 sorting.addMapping(

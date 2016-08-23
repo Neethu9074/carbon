@@ -4,7 +4,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as constants from 'in-forge/constants';
-import * as power from 'in-sdk/power';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.solr,
@@ -13,11 +12,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.solr, getLabel);
-
-power.addMapping(
-  constants.plugins.solr,
-  () => -1
-);
 
 function getLabel(snapshot) {
   return 'Solr ' + snapshot.getIn(['data', 'version']);

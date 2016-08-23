@@ -4,7 +4,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
 
 
 pluginName.setHumanReadablePluginName(
@@ -17,11 +16,6 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.mariaDbDatabase,
   snapshot => 'MariaDB @' + snapshot.getIn(['data', 'port'])
-);
-
-power.addMapping(
-  constants.plugins.mariaDbDatabase,
-  () => -1
 );
 
 addIconToRegistry({

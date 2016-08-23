@@ -3,7 +3,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
-import * as power from 'in-sdk/power';
 
 import iconPath from 'in-forge/plugins/nodeJsRuntimePlatform/icon.svg';
 import * as constants from 'in-forge/constants';
@@ -36,11 +35,6 @@ function getLabel(s) {
 function getFallbackLabel(s) {
   return 'Node.js#' + s.get('steadyId');
 }
-
-power.addMapping(
-  constants.plugins.nodejs,
-  () => -1
-);
 
 sorting.addMapping(
   constants.plugins.nodejs,

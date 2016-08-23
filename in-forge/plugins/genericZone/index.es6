@@ -1,7 +1,6 @@
 import {addLabelFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
-import * as power from 'in-sdk/power';
 
 import iconPath from 'in-forge/plugins/genericZone/icon.svg';
 import * as constants from 'in-forge/constants';
@@ -21,8 +20,3 @@ addIconToRegistry({
   id: constants.plugins.genericZone,
   image: iconPath
 });
-
-power.addMapping(
-  constants.plugins.genericZone,
-  () => -1
-);

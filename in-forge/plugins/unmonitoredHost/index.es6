@@ -1,26 +1,30 @@
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
-import * as power from 'in-sdk/power';
-
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
 import iconPath from './icon.svg';
 
+registerSnapshotDefinition({
+  plugin: plugins.unmonitoredHost,
+
+  getPower() {
+    return 1;
+  }
+});
+
 pluginName.setHumanReadablePluginName(
-  constants.plugins.unmonitoredHost,
+  plugins.unmonitoredHost,
   'Unmonitored Host',
   'Unmonitored Hosts'
 );
 
-addLabelFinder(constants.plugins.unmonitoredHost, labelFinder);
+addLabelFinder(plugins.unmonitoredHost, labelFinder);
 
 addIconToRegistry({
-  id: constants.plugins.unmonitoredHost,
+  id: plugins.unmonitoredHost,
   image: iconPath
 });
-
-power.addMapping(constants.plugins.unmonitoredHost, () => 1);
 
 function labelFinder(snapshot) {
   const ip = snapshot.getIn(['data', 'ipv4']);

@@ -4,8 +4,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
-
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.jira,
@@ -16,11 +14,6 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.jira,
   snapshot => 'Atlassian JIRA ' + snapshot.getIn(['data', 'version'])
-);
-
-power.addMapping(
-  constants.plugins.jira,
-  () => -1
 );
 
 addIconToRegistry({

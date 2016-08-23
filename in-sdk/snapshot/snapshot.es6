@@ -11,3 +11,12 @@ export function getChartWiggleRoom(plugin) {
   }
   return chartWiggleRoom;
 }
+
+
+export function getPower(snapshot) {
+  const get = getSnapshotDefinition(snapshot.get('plugin')).getPower;
+  if (get) {
+    return get(snapshot);
+  }
+  return -1;
+}

@@ -4,7 +4,6 @@ import * as pluginName from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
 
 
 pluginName.setHumanReadablePluginName(
@@ -27,11 +26,6 @@ addLabelFinder(
     }
     return label;
   }
-);
-
-power.addMapping(
-  constants.plugins.tomcat,
-  () => -1
 );
 
 addIconToRegistry({

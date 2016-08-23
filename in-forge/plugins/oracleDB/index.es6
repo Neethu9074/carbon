@@ -4,7 +4,6 @@ import * as pluginName from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
 
 
 pluginName.setHumanReadablePluginName(
@@ -16,11 +15,6 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.oracledb,
   snapshot => 'OracleDB @' + snapshot.getIn(['data', 'databaseSID'])
-);
-
-power.addMapping(
-  constants.plugins.oracledb,
-  () => -1
 );
 
 addIconToRegistry({

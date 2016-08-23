@@ -5,7 +5,6 @@ import {addLabelFinder} from 'in-sdk/snapshot';
 import {addSearchableEntityType} from 'in-sdk/search';
 import * as constants from 'in-forge/constants';
 import * as sorting from 'in-sdk/sorting';
-import * as power from 'in-sdk/power';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.kafka,
@@ -14,11 +13,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.kafka, getLabel);
-
-power.addMapping(
-  constants.plugins.kafka,
-  () => -1
-);
 
 sorting.addMapping(
   constants.plugins.kafka,

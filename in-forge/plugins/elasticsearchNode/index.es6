@@ -2,7 +2,6 @@ import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
 
 import iconPath from 'in-forge/plugins/elasticsearchNode/icon.svg';
 import * as constants from 'in-forge/constants';
@@ -18,11 +17,6 @@ addLabelFinder(
   snapshot => snapshot.getIn(['data', 'cluster.name'])
               + '-'
               + snapshot.getIn(['data', 'node.name'])
-);
-
-power.addMapping(
-  constants.plugins.elasticsearch,
-  () => -1
 );
 
 addIconToRegistry({

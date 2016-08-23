@@ -3,8 +3,6 @@ import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
-
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.jetty,
@@ -22,11 +20,6 @@ addLabelFinder(
     }
     return label;
   }
-);
-
-power.addMapping(
-  constants.plugins.jetty,
-  () => -1
 );
 
 addIconToRegistry({

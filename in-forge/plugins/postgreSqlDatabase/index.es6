@@ -4,7 +4,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as constants from 'in-forge/constants';
-import * as power from 'in-sdk/power';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.postgresql,
@@ -15,11 +14,6 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.postgresql,
   snapshot => 'PostgreSQL @ ' + snapshot.getIn(['data', 'port'])
-);
-
-power.addMapping(
-  constants.plugins.postgresql,
-  () => -1
 );
 
 addIconToRegistry({

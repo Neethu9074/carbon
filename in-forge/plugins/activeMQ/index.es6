@@ -5,7 +5,6 @@ import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
-import * as power from 'in-sdk/power';
 
 import {emptyList} from 'in-services/fixedImmutables';
 
@@ -16,11 +15,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.activemq, getLabel);
-
-power.addMapping(
-  constants.plugins.activemq,
-  () => -1
-);
 
 sorting.addMapping(
   constants.plugins.activemq,

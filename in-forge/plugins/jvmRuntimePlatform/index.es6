@@ -4,7 +4,6 @@ import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
 
 import './metrics.es6';
 
@@ -17,11 +16,6 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.jvm,
   snapshot => snapshot.getIn(['data', 'name'], 'Unknown JVM')
-);
-
-power.addMapping(
-  constants.plugins.jvm,
-  () => -1
 );
 
 addIconToRegistry({

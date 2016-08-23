@@ -1,7 +1,6 @@
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as icon from 'in-sdk/iconRegistry';
-import * as power from 'in-sdk/power';
 
 import iconPath from 'in-forge/plugins/messageBrokerServiceInstance/icon.svg';
 import rabbitMqIcon from 'in-forge/plugins/rabbitMq/icon.svg';
@@ -20,12 +19,6 @@ addLabelFinder(
   constants.plugins.messageBrokerServiceInstance,
   snapshot => snapshot.getIn(['data', 'name'])
 );
-
-power.addMapping(
-  constants.plugins.messageBrokerServiceInstance,
-  () => -1
-);
-
 
 icon.addIconsToRegistry([ {
     id: constants.plugins.messageBrokerServiceInstance + '_kafka',

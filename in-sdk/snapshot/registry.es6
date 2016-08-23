@@ -1,3 +1,4 @@
+import {addMapping as addIconMapping} from 'in-sdk/iconRegistry';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addLabelFinder} from 'in-sdk/snapshot';
@@ -37,6 +38,10 @@ function registerLegacySdkHooks(snapshotDefinition) {
         image: snapshotDefinition.icons[key]
       });
     });
+  }
+
+  if (snapshotDefinition.getIcon) {
+    addIconMapping(snapshotDefinition.plugin, snapshotDefinition.getIcon);
   }
 
   if (snapshotDefinition.pluginName) {

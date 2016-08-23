@@ -5,7 +5,6 @@ import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
-import * as power from 'in-sdk/power';
 
 
 pluginName.setHumanReadablePluginName(
@@ -29,11 +28,6 @@ function getLabel(s) {
 function getFallbackLabel(s) {
   return 'PHP-FPM Master Process#' + s.get('steadyId');
 }
-
-power.addMapping(
-  constants.plugins.phpfpm,
-  () => -1
-);
 
 sorting.addMapping(
   constants.plugins.phpfpm,

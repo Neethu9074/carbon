@@ -4,7 +4,6 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import * as constants from 'in-forge/constants';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
 
 
 pluginName.setHumanReadablePluginName(
@@ -19,11 +18,6 @@ addLabelFinder(
     const pid = snapshot.getIn(['data', 'pid']);
     return 'HAProxy @' + pid;
   }
-);
-
-power.addMapping(
-  constants.plugins.haproxy,
-  () => -1
 );
 
 addIconToRegistry({

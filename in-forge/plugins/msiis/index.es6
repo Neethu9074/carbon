@@ -4,7 +4,6 @@ import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.msiis,
@@ -15,11 +14,6 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.msiis,
   snapshot => 'IIS ' + snapshot.getIn(['data', 'iis.version'])
-);
-
-power.addMapping(
-  constants.plugins.msiis,
-  () => -1
 );
 
 addIconToRegistry({

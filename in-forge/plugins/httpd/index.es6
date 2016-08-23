@@ -5,8 +5,6 @@ import * as pluginName from 'in-sdk/pluginName';
 import * as constants from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
-import * as power from 'in-sdk/power';
-
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.httpd,
@@ -15,11 +13,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.httpd, getLabel);
-
-power.addMapping(
-  constants.plugins.httpd,
-  () => -1
-);
 
 sorting.addMapping(
   constants.plugins.httpd,

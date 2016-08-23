@@ -33,7 +33,7 @@ describe('in-map', () => {
 
       const Component = proxyquire('in-map/sceneObjectComponents/PowerComponent/PowerComponent', {
         'in-map/stores/physical/powerStore': powerStore,
-        'in-sdk/power': {
+        'in-sdk/snapshot': {
           getPower: snapshot => {
             if (snapshot.get('id') === 'id1') {
               return 1;

@@ -1,6 +1,6 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {powers, maxPower$} from 'in-map/stores/physical/powerStore';
-import {getPower} from 'in-sdk/power';
+import {getPower} from 'in-sdk/snapshot';
 
 
 const BASE_HEIGHT = 1;
