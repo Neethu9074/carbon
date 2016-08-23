@@ -1,18 +1,14 @@
 import React from 'react';
-import d3 from 'd3';
 
+import {muSecondsToMillisZeroDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
-import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {capitalize} from 'in-services/formatters/string';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
-
-const commasFormatter = d3.format(',.0f');
-const percentFormatter = d => commasFormatter(d * 100) + '%';
 
 export default function CassandraDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -177,7 +173,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            max: 1,
-                           formatter: percentFormatter,
+                           formatter: percentageZeroDecimalPlaces,
                            metrics: [
                              'cache.counter.hit',
                              'cache.key.hit',
@@ -201,7 +197,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            max: 1,
-                           formatter: percentFormatter,
+                           formatter: percentageZeroDecimalPlaces,
                            metrics: [
                              'bloomFilterFalse'
                            ],
