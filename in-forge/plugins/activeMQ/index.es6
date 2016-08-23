@@ -1,27 +1,21 @@
-import iconPath from 'in-forge/plugins/activeMQ/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableEntityType} from 'in-sdk/search';
-import * as pluginName from 'in-sdk/pluginName';
-import * as constants from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {emptyList} from 'in-services/fixedImmutables';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.activemq,
-  'ActiveMQ',
-  'ActiveMQs'
-);
+import icon from './icon.svg';
 
-addLabelFinder(constants.plugins.activemq, getLabel);
+registerSnapshotDefinition({
+  plugin: plugins.activemq,
+  icon,
 
-function getLabel(snapshot) {
-  return '@ ' + snapshot.getIn(['data', 'ports'], emptyList).sort().join(', ');
-}
+  pluginName: {
+    singular: 'ActiveMQ',
+    plural: 'ActiveMQs'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.activemq,
-  image: iconPath
+  namesForTypeSearch: ['activemq'],
+
+  getLabel(snapshot) {
+    return '@ ' + snapshot.getIn(['data', 'ports'], emptyList).sort().join(', ');
+  }
 });
-
-addSearchableEntityType('activemq', constants.plugins.activemq);

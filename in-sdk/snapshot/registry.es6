@@ -1,5 +1,6 @@
 import {addMapping as addIconMapping} from 'in-sdk/iconRegistry';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
@@ -11,6 +12,7 @@ export const registry = {};
 export function registerSnapshotDefinition(snapshotDefinition) {
   registry[snapshotDefinition.plugin] = snapshotDefinition;
   registerLegacySdkHooks(snapshotDefinition);
+  registerSearchHooks(snapshotDefinition);
 }
 
 
@@ -57,5 +59,14 @@ function registerLegacySdkHooks(snapshotDefinition) {
       snapshotDefinition.plugin,
       snapshotDefinition.getLabel
     );
+  }
+}
+
+
+function registerSearchHooks(snapshotDefinition) {
+  if (snapshotDefinition.namesForTypeSearch) {
+    snapshotDefinition.namesForTypeSearch.forEach(name => {
+      addSearchableEntityType(name, snapshotDefinition.plugin);
+    });
   }
 }
