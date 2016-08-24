@@ -30,7 +30,7 @@ export default createTooltip(
       )
       : (
         <Content>
-          {getSingular(snapshot.get('plugin'))} : {getLabel(snapshot)}}
+          {getSingular(snapshot.get('plugin'))} : {getLabel(snapshot)}
         </Content>
       );
   }
