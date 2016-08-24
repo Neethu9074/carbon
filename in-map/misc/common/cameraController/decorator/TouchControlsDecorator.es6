@@ -1,24 +1,35 @@
+import {combineLatest} from 'reactive-observables';
 import Hammer from 'hammerjs';
 
-import Module from 'in-map/misc/common/Module';
+import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
 
 
-export default class TouchControlModule extends Module {
+export default class TouchControlsDecorator extends Decorator {
 
-  constructor(params) {
-    super(params);
+  constructor(controller, canvas) {
+    super(controller);
+
+    this.canvas = canvas;
 
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
 
+    // units to move per pixel
+    this.moveSpeed = 0.01;
+
     // holds the mouse/touch position in pixel coordinates
     this.cursor = { x: 0, y: 0 };
-    this.initEvents();
+  }
+
+  init() {
+    super.init();
   }
 
   initEvents() {
+    super.initEvents();
+
     const eventHandler = this.eventHandler = new Hammer(this.canvas);
-    const minMovementForPan = 15;
+    const minMovementForPan = 15; // in px
 
     eventHandler.on('panstart', this.onPanStart.bind(this));
     eventHandler.get('pan').set({
@@ -40,6 +51,19 @@ export default class TouchControlModule extends Module {
       time: 300, // minimal press time in ms
       threshold: minMovementForPan - 1
     });
+
+    this.addSubscriptions([
+      combineLatest([
+        this.eventEmitter.on('onMove'),
+        this.eventEmitter.on('isDragingObject')
+      ]).subscribe(([delta, isDraging]) => {
+        if (!isDraging) {
+          this.move(delta.dx, delta.dy);
+        }
+      })
+    ]);
+
+    this.eventEmitter.emit('isDragingObject', false);
   }
 
   checkDoubleClick() {
@@ -63,7 +87,6 @@ export default class TouchControlModule extends Module {
     const dy = (pointer.clientY - this.cursor.y);
 
     this.setCursorToEvent(event);
-
     this.eventEmitter.emit('onMove', {dx, dy});
   }
 
@@ -101,10 +124,23 @@ export default class TouchControlModule extends Module {
     this.cursor.y = pointer.clientY;
   }
 
+  move(dx, dy) {
+    const min = this.cameraController.minZoomLevel;
+    const max = this.cameraController.maxZoomLevel;
+
+    // [0, 1] => [1, 11]
+    const nZoomLevel = (this.cameraController.zoomLevel / (max - min) * 10) + 1;
+    dx *= nZoomLevel;
+    dy *= nZoomLevel;
+
+    this.cameraController.moveRelative(-dx * this.moveSpeed, -dy * this.moveSpeed);
+  }
+
   dispose() {
+    this.eventHandler.destroy();
+
     super.dispose();
 
-    this.eventHandler.destroy();
     this.timeSinceLastTap = null;
     this.pinchDistance = null;
     this.canvas = null;

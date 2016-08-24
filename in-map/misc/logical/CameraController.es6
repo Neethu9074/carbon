@@ -1,20 +1,19 @@
-import BaseCameraController from 'in-map/misc/common/CameraController';
+import TouchControlsDecorator from 'in-map/misc/common/cameraController/decorator/TouchControlsDecorator';
+import MouseControlsDecorator from 'in-map/misc/common/cameraController/decorator/MouseControlsDecorator';
+import DragAndDropDecorator from 'in-map/misc/common/cameraController/decorator/DragAndDropDecorator';
+import RayCasterDecorator from 'in-map/misc/common/cameraController/decorator/RayCasterDecorator';
+import BasicCameraController from 'in-map/misc/common/cameraController/BasicCameraController';
 
-import MouseControlsModule from 'in-map/misc/common/MouseControlsModule';
-import TouchControlsModule from 'in-map/misc/common/TouchControlsModule';
-import DragAndDropModule from 'in-map/misc/common/DragAndDropModule';
-import RaycasterModule from 'in-map/misc/common/RaycasterModule';
 
-
-export default function createCameraController(scene, map) {
-  const controller = new BaseCameraController(scene, map);
-  controller.init(-0.6);
-  controller.initEvents();
-
-  controller.addInteractionModule('mouse', MouseControlsModule);
-  controller.addInteractionModule('touch', TouchControlsModule);
-  controller.addInteractionModule('raycaster', RaycasterModule);
-  controller.addInteractionModule('drag', DragAndDropModule);
-
-  return controller;
+export default function createCameraController(canvas, camera, map) {
+  return new DragAndDropDecorator(
+           new TouchControlsDecorator(
+             new RayCasterDecorator(
+               new MouseControlsDecorator(
+                 new BasicCameraController(camera,
+                                          'nodes'),
+                 canvas),
+               map),
+             canvas),
+           canvas);
 }

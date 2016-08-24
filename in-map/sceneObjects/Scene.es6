@@ -34,9 +34,7 @@ export default class MainScene extends SceneObject {
     this.antialias = params.antialias;
     this.width = this.canvas.clientWidth;
     this.height = this.canvas.clientHeight;
-
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
-    this.onWindowResizeHandler = this.onWindowResize.bind(this);
   }
 
   init() {
@@ -55,7 +53,7 @@ export default class MainScene extends SceneObject {
     this.addSubscriptions([
       frame$.subscribe(() => this.shouldRenderScene = true),
 
-      on(window, 'resize').subscribe(this.onWindowResizeHandler)
+      on(window, 'resize').subscribe(this.onWindowResize.bind(this))
     ]);
 
     this.handleLostContext();

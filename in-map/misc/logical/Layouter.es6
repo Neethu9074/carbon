@@ -4,13 +4,9 @@ import {nodePositions$, currentLayoutingStrategy$} from 'in-map/stores/logical/l
 import {LOGICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import services from 'in-map/stores/logical/servicesStore';
 import connections from 'in-map/stores/connectionsStore';
-import {focusId} from 'in-map/services/focus';
-import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 export default function createLayouter() {
-  let firstLayoutDone = false;
-
   const layoutingSubscription = combineLatest([services.stream,
                                                connections.stream,
                                                currentLayoutingStrategy$,
@@ -26,24 +22,13 @@ export default function createLayouter() {
                                 })
                                 .subscribe(({nodes, edges, layoutStrategy, nodePositions}) => {
                                   layoutStrategy(nodes, edges, nodePositions);
-
-                                  if (!firstLayoutDone) {
-                                    firstLayoutDone = true;
-                                    focusId();
-                                  }
                                 });
 
-  function getFocusPointFromCurrentDimensions() {
-    return ZERO;
-  }
-
   return {
-    dispose,
-    getFocusPointFromCurrentDimensions
+    dispose
   };
 
   function dispose() {
     layoutingSubscription.dispose();
-    firstLayoutDone = false;
   }
 }

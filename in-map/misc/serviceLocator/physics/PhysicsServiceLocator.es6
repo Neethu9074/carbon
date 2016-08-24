@@ -23,7 +23,6 @@ const PhysicsServiceLocator = (function create() {
     return service.dispose();
   }
 
-
   function provide(_service) {
     if (service) {
       service.dispose();

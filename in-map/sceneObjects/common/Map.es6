@@ -1,5 +1,8 @@
+import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
+import createNullService from 'in-map/misc/serviceLocator/cameraController/CameraControllerNullService';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {eventBus} from 'in-map/services/eventBus';
+import {canvas$} from 'in-map/stores/indexStore';
 
 
 export default class Map extends SceneObject {
@@ -16,34 +19,23 @@ export default class Map extends SceneObject {
     super.init();
 
     this.groundPlane = this.createGroundPlane();
-    this.controller = this.createController(this.scene);
   }
 
   initEvents() {
     super.initEvents();
 
     this.addSubscriptions([
-      eventBus.on('update').subscribe(dt => this.controller.update(dt)),
+      canvas$.subscribe(canvas =>
+        CameraControllerServiceLocator.provide(this.createController()(canvas, this.scene.camera, this))),
 
-      eventBus.on('focusPosition').subscribe(pos => {
-        if (pos) {
-          this.controller.flyToPosition(pos);
-        }
-        // clear stream data
-        eventBus.emit('focusPosition', null);
-      })
+        eventBus.on('update').subscribe(CameraControllerServiceLocator.update)
     ]);
-  }
-
-  centerMap() {
-    this.controller.flyToPosition(this.layouter.getFocusPointFromCurrentDimensions());
   }
 
   dispose() {
     super.dispose();
 
-    this.controller.dispose();
-    this.controller = null;
+    CameraControllerServiceLocator.provide(createNullService());
 
     this.groundPlane.dispose();
     this.groundPlane = null;
