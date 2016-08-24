@@ -133,6 +133,10 @@ function atomicGo(graph, maxDisplace, k) {
     nSource = graph.nodeMap[e.source];
     nTarget = graph.nodeMap[e.target];
 
+    if (!nSource || !nTarget) {
+      continue;
+    }
+
     xDist = nSource.fr_x - nTarget.fr_x;
     yDist = nSource.fr_y - nTarget.fr_y;
 
