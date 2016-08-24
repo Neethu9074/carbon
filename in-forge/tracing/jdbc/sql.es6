@@ -5,18 +5,35 @@ const replacements = [
     'group by',
     'inner join',
     'outer join',
+    'left join',
+    'right join',
     'limit',
-    'and'
+    'and',
+    'order by'
   ]
   .map(keyword => new RegExp('\\s+(' + keyword + ')\\s', 'ig'));
 
 export function formatSql(statement) {
   let formattedStatement = statement;
+
+  // we want to be in total control over line breaks
+  formattedStatement = formattedStatement.replace(/\n/g, ' ');
+
   replacements.forEach(replacement => {
     formattedStatement = formattedStatement.replace(replacement, (match, keyword) => {
       return '\n' + keyword.toUpperCase() + ' ';
     });
   });
+
+  // remove empty comments
+  formattedStatement = formattedStatement.replace(/\/\* *\*\//g, '');
+
+  // convert all tabs to spaces
+  formattedStatement = formattedStatement.replace(/\t/g, ' ');
+
+  // remove multiple successive spaces
+  formattedStatement = formattedStatement.replace(/ {2,}/g, ' ');
+
   return formattedStatement.trim();
 }
 

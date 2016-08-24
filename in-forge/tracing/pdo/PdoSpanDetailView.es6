@@ -17,12 +17,14 @@ export default function PdoSpanDetailView({span}) {
         <DescriptionItem title='DSN'>
           {span.getIn(['data', 'pdo', 'dsn'])}
         </DescriptionItem>
-      </DescriptionList>
 
-      {statement ?
-        <Code code={formatSql(statement)}
-              type='sql' />
-      : null}
+        {statement ?
+          <DescriptionItem title='Query'>
+              <Code code={formatSql(statement)}
+                    type='sql' />
+          </DescriptionItem>
+        : null}
+      </DescriptionList>
     </div>
   );
 }
