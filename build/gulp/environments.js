@@ -65,6 +65,13 @@ module.exports = {
     tenantUnit: 'kddi',
     groundskeeperDomain: 'instana.io'
   },
+  megazebra: {
+    uiBackendUrl: 'https://megazebra.instana.io/api/data/',
+    groundskeeperUrl: 'https://megazebra.instana.io',
+    tenant: 'megazebra',
+    tenantUnit: 'megazebra',
+    groundskeeperDomain: 'instana.io'
+  },
   partner: {
     uiBackendUrl: 'https://partner-partner.instana.io/api/data/',
     groundskeeperUrl: 'https://partner-partner.instana.io',
