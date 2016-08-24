@@ -1,22 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/logicalElasticSearchIndex/icon.svg';
-import * as constants from 'in-forge/constants';
+import icon from 'in-forge/plugins/logicalElasticSearchIndex/icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalElasticSearchIndex,
-  'Logical Elasticsearch Index',
-  'Logical Elasticsearch Indices'
-);
+registerSnapshotDefinition({
+  plugin: plugins.logicalElasticSearchIndex,
+  icon,
 
-addLabelFinder(
-  constants.plugins.logicalElasticSearchIndex,
-  snapshot => snapshot.getIn(['data', 'service_name'])
-);
+  pluginName: {
+    singular: 'Logical Elasticsearch Index',
+    plural: 'Logical Elasticsearch Indices'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.logicalElasticSearchIndex,
-  image: iconPath
+  chartWiggleRoom: 20000,
+
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'service_name']);
+  }
 });

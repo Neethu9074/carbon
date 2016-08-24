@@ -1,22 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/logicalMessageBroker/icon.svg';
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalMessageBroker,
-  'Logical Message Broker',
-  'Logical Message Brokers'
-);
+registerSnapshotDefinition({
+  plugin: plugins.logicalMessageBroker,
+  icon,
 
-addLabelFinder(
-  constants.plugins.logicalMessageBroker,
-  snapshot => snapshot.getIn(['data', 'service_name'])
-);
+  pluginName: {
+    singular: 'Logical Message Broker',
+    plural: 'Logical Message Brokers'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.logicalMessageBroker,
-  image: iconPath
+  chartWiggleRoom: 20000,
+
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'service_name']);
+  }
 });

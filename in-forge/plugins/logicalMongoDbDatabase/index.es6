@@ -1,23 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-import iconPath from './icon.svg';
+registerSnapshotDefinition({
+  plugin: plugins.logicalMongoDbDatabase,
+  icon,
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalMongoDbDatabase,
-  'Logical MongoDB Database',
-  'Logical MongoDB Databases'
-);
+  pluginName: {
+    singular: 'Logical MongoDB Database',
+    plural: 'Logical MongoDB Databases'
+  },
 
-addLabelFinder(
-  constants.plugins.logicalMongoDbDatabase,
-  snapshot => snapshot.getIn(['data', 'service_name'])
-);
+  chartWiggleRoom: 20000,
 
-addIconToRegistry({
-  id: constants.plugins.logicalMongoDbDatabase,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'service_name']);
+  }
 });
