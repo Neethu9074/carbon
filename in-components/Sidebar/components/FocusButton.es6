@@ -1,11 +1,9 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {closeTableView} from 'in-components/tableView/stores/visibility';
+import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
-import {getClassName} from 'in-services/react';
 import {focusId} from 'in-map/services/focus';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -15,77 +13,66 @@ import './FocusButton.less';
 
 
 const block = 'in-sidebar-map__focus-icon';
-const rpt = React.PropTypes;
 
 export default connectTo({
-    focusedMoment: focusedMoment$
-  }, React.createClass({
+  focusableSceneObjects: sceneObjects.stream.debounce(100),
+  focusedMoment: focusedMoment$
+},
+function FocusButton({focusedMoment, snapshot, focusableSceneObjects}) {
+  const snapshotId = snapshot.get('id');
+  const to = snapshot.get('to');
 
-  displayName: 'FocusButton',
+  const entityExistsAtFocusedMoment =
+    // either live
+    (focusedMoment == null && to == null) ||
 
-  mixins: [
-    PureRenderMixin
-  ],
+    // or historic
+    (focusedMoment != null &&
+      (to == null || to > focusedMoment));
 
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    focusedMoment: rpt.number,
-    className: rpt.string
-  },
-
-  render() {
-    const snapshot = this.props.snapshot;
-    const focusedMoment = this.props.focusedMoment;
-    const entityExistsAtFocusedMoment =
-      // either live
-      (focusedMoment == null && snapshot.get('to') == null) ||
-
-      // or historic
-      (focusedMoment != null &&
-        (snapshot.get('to') == null || snapshot.get('to') > focusedMoment));
-
-    let classes = getClassName(this, block);
-
-    if (entityExistsAtFocusedMoment) {
-      return (
-        <Tooltip content='Focus in map'
-                align={'rightMiddle'}>
-          <Icon className={classes}
-                onClick={() => this.focusSnapshotId(snapshot.get('id'))}
-                type='relocate' />
-        </Tooltip>
-      );
+  let classes = block;
+  if (entityExistsAtFocusedMoment) {
+    if (!focusableSceneObjects || !focusableSceneObjects[snapshotId]) {
+      return null;
     }
-
-    classes += ' ' + block + '--disabled';
-    let tooltip = 'Entity does not exists at the focused point in time. The entity appeared ' +
-      'first at ' + formatDateTime(snapshot.get('from'));
-
-    if (snapshot.get('to') != null) {
-      tooltip += ' and was last seen before ' + formatDateTime(snapshot.get('to')) + '.';
-    } else {
-      tooltip += '.';
-    }
-
     return (
-      <Tooltip content={this.wrapTooltipElement(tooltip)}
-               align={'rightMiddle'}>
+      <Tooltip content='Focus in map'
+              align={'rightMiddle'}>
         <Icon className={classes}
+              onClick={() => focusSnapshotId(snapshotId)}
               type='relocate' />
       </Tooltip>
     );
-  },
-
-  focusSnapshotId(id) {
-    closeTableView();
-    focusId(id);
-  },
-
-  wrapTooltipElement(txt) {
-    return (
-      <span className={block + '__tooltip'}>
-        {txt}
-      </span>
-    );
   }
-}));
+
+  classes += ' ' + block + '--disabled';
+  let tooltip = 'Entity does not exists at the focused point in time. The entity appeared ' +
+    'first at ' + formatDateTime(snapshot.get('from'));
+
+  if (to != null) {
+    tooltip += ' and was last seen before ' + formatDateTime(to) + '.';
+  } else {
+    tooltip += '.';
+  }
+
+  return (
+    <Tooltip content={wrapTooltipElement(tooltip)}
+             align={'rightMiddle'}>
+      <Icon className={classes}
+            type='relocate' />
+    </Tooltip>
+  );
+});
+
+function focusSnapshotId(id) {
+  closeTableView();
+  focusId(id);
+}
+
+function wrapTooltipElement(txt) {
+  return (
+    <span className={block + '__tooltip'}>
+      {txt}
+    </span>
+  );
+}
