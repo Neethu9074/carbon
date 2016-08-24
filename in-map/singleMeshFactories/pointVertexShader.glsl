@@ -18,10 +18,11 @@ void main() {
   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
   float pointSize = pointSize * ( 1500.0 / length( mvPosition.xyz ) );
+  gl_PointSize = pointSize;
 
   if (pointSize < 10.0) {
-    pointSize = 0.0;
+    gl_Position = vec4( -1000.0, 0.0, 0.0, 0.0 );
+  } else {
+    gl_Position = projectionMatrix * mvPosition;
   }
-  gl_PointSize = pointSize;
-  gl_Position = projectionMatrix * mvPosition;
 }
