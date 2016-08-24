@@ -15,14 +15,14 @@ import {
 const queriesFormatter = d => d < 0 ? 'No activity' : zeroDecimalPlaces(d);
 
 export default function DatabasesTable({snapshot, timeframe}) {
-  const databases = snapshot.getIn(['data', 'dbs'], emptyList).sort();
+  const databases = snapshot.getIn(['data', 'dbs'], emptyList).toArray().sort();
 
   if (databases.size === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title='Schema(s)'>
+    <DashboardSection title='Schemas'>
       <ExpandableTable data={databases}
                        getKey={getKey}
                        createHeader={createHeader}
