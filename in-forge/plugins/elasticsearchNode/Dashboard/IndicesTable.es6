@@ -20,7 +20,7 @@ export default function IndicesTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Indices'>
+    <DashboardSection title={`Indices (${indices.size})`}>
       <ExpandableTable data={indices}
                        getKey={getKey}
                        createHeader={createHeader}
