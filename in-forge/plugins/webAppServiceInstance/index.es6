@@ -1,20 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder, getLabel} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition, getLabel} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-import iconPath from './icon.svg';
+registerSnapshotDefinition({
+  plugin: plugins.webAppServiceInstance,
+  icon,
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.webAppServiceInstance,
-  'WebApp Instance',
-  'WebApp Instances'
-);
+  pluginName: {
+    singular: 'WebApp Instance',
+    plural: 'WebApp Instances'
+  },
 
-addLabelFinder(
-  constants.plugins.webAppServiceInstance,
-  snapshot => {
+  chartWiggleRoom: 20000,
+
+  getLabel(snapshot) {
     const name = snapshot.getIn(['data', 'name'], '');
     if (name.length === 0 || /^PID: \d+/i.test(name)) {
       // label would be shitty, try to find a matching label using the embedded component snapshot
@@ -26,9 +26,4 @@ addLabelFinder(
 
     return name;
   }
-);
-
-addIconToRegistry({
-  id: constants.plugins.webAppServiceInstance,
-  image: iconPath
 });

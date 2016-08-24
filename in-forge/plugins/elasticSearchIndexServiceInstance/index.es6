@@ -1,22 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/elasticSearchIndexServiceInstance/icon.svg';
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.elasticSearchIndexServiceInstance,
-  'Elasticsearch Index Instance',
-  'Elasticsearch Index Instances'
-);
+registerSnapshotDefinition({
+  plugin: plugins.elasticSearchIndexServiceInstance,
+  icon,
 
-addLabelFinder(
-  constants.plugins.elasticSearchIndexServiceInstance,
-  snapshot => snapshot.getIn(['data', 'name'])
-);
+  pluginName: {
+    singular: 'Elasticsearch Index Instance',
+    plural: 'Elasticsearch Index Instances'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.elasticSearchIndexServiceInstance,
-  image: iconPath
+  chartWiggleRoom: 20000,
+
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'name']);
+  }
 });

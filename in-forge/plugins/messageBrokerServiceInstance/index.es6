@@ -1,55 +1,40 @@
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-import * as icon from 'in-sdk/iconRegistry';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/messageBrokerServiceInstance/icon.svg';
-import rabbitMqIcon from 'in-forge/plugins/rabbitMq/icon.svg';
-import kafkaIcon from 'in-forge/plugins/kafka/icon.svg';
+import icon from './icon.svg';
 
-import * as constants from 'in-forge/constants';
+registerSnapshotDefinition({
+  plugin: plugins.messageBrokerServiceInstance,
+  icon,
 
+  pluginName: {
+    singular: 'Message Broker Instance',
+    plural: 'Message Broker Instances'
+  },
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.messageBrokerServiceInstance,
-  'Message Broker Instance',
-  'Message Broker Instances'
-);
+  chartWiggleRoom: 20000,
 
-addLabelFinder(
-  constants.plugins.messageBrokerServiceInstance,
-  snapshot => snapshot.getIn(['data', 'name'])
-);
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'name']);
+  },
 
-icon.addIconsToRegistry([ {
-    id: constants.plugins.messageBrokerServiceInstance + '_kafka',
-    image: kafkaIcon
-  }, {
-    id: constants.plugins.messageBrokerServiceInstance + '_rabbitmq',
-    image: rabbitMqIcon
-  }, {
-    id: constants.plugins.messageBrokerServiceInstance,
-    image: iconPath
-  }
-]);
-
-icon.addMapping(
-  constants.plugins.messageBrokerServiceInstance,
-  snapshot => {
+  getIcon(snapshot) {
     let type = snapshot.get('plugin');
 
-    const messageBrokerPlugin = constants.plugins.messageBrokerServiceInstance;
+    const messageBrokerPlugin = plugins.messageBrokerServiceInstance;
     if (type === messageBrokerPlugin) {
       type = messageBrokerPlugin;
       const messageBrokerType = snapshot.getIn(['data', 'physical_endpoint', 'type']);
 
       if (messageBrokerType) {
         if (messageBrokerType.match(/kafka/i)) {
-          type = messageBrokerPlugin + '_kafka';
+          return plugins.kafka;
         } else if (messageBrokerType.match(/rabbitmq/i)) {
-          type = messageBrokerPlugin + '_rabbitmq';
+          return plugins.rabbitmq;
         }
       }
     }
+
     return type;
   }
-);
+});

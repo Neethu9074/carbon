@@ -1,24 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-import iconPath from './icon.svg';
+registerSnapshotDefinition({
+  plugin: plugins.defaultServiceInstance,
+  icon,
 
+  pluginName: {
+    singular: 'Unspecified Logical Service Instance',
+    plural: 'Unspecified Logical Service Instances'
+  },
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.defaultServiceInstance,
-  'Unspecified Logical Service Instance',
-  'Unspecified Logical Service Instances'
-);
+  chartWiggleRoom: 20000,
 
-addLabelFinder(
-  constants.plugins.defaultServiceInstance,
-  snapshot => snapshot.getIn(['data', 'name'])
-);
-
-addIconToRegistry({
-  id: constants.plugins.defaultServiceInstance,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'name']);
+  }
 });

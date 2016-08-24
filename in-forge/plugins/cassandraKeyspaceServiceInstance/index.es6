@@ -1,23 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-import iconPath from './icon.svg';
+registerSnapshotDefinition({
+  plugin: plugins.cassandraKeyspaceServiceInstance,
+  icon,
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.cassandraKeyspaceServiceInstance,
-  'Cassandra Keyspace Instance',
-  'Cassandra Keyspace Instances'
-);
+  pluginName: {
+    singular: 'Cassandra Keyspace Instance',
+    plural: 'Cassandra Keyspace Instances'
+  },
 
-addLabelFinder(
-  constants.plugins.cassandraKeyspaceServiceInstance,
-  snapshot => snapshot.getIn(['data', 'name'])
-);
+  chartWiggleRoom: 20000,
 
-addIconToRegistry({
-  id: constants.plugins.cassandraKeyspaceServiceInstance,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'name']);
+  }
 });
