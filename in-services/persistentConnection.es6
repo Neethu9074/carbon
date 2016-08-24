@@ -6,6 +6,8 @@ let transports = ['polling', 'websocket'];
 // makes the development life easier: Only one connection needs to be inspected!
 if (__DEV__) {
   transports = ['websocket'];
+
+  window.instana.retrievedMessageCount = 0;
 }
 
 let socket;
@@ -22,7 +24,14 @@ export function emit(event, payload) {
 }
 
 export function on(event, callback) {
-  socket.on(event, callback);
+  if (__DEV__) {
+    socket.on(event, arg => {
+      window.instana.retrievedMessageCount++;
+      callback(arg);
+    });
+  } else {
+    socket.on(event, callback);
+  }
 }
 
 export function off(event, callback) {
