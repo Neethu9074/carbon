@@ -14,12 +14,12 @@ export default function createAnimatableContentRenderer(config) {
   };
 
   function render() {
-    renderXAxis();
-
     renderAxisContent('y1');
     if (config.y2) {
       renderAxisContent('y2');
     }
+
+    clearOverflowingAxisContent();
 
     // render after content since the content is updating the y scales
     renderYAxis('y1');
@@ -27,7 +27,20 @@ export default function createAnimatableContentRenderer(config) {
     if (config.y2) {
       renderYAxis('y2');
     }
+
+    renderXAxis();
   }
+
+
+  function clearOverflowingAxisContent() {
+    animationCtx.clearRect(
+      config.margins.left,
+      config.height - config.margins.bottom,
+      config.width,
+      config.margins.bottom
+    );
+  }
+
 
   function renderXAxis() {
     const ticks = getXTickPositions();
