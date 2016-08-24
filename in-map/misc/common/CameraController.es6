@@ -4,9 +4,9 @@ import RoEmitter from 'roemitter';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import createObjectCollection from 'in-map/stores/ObjectCollection';
 import {setCameraController} from 'in-map/stores/cameraController';
-import {Raycaster, Object3D, Vector3} from 'in-map/3DLibProvider';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {clearSelectedIncident} from 'in-stores/incident';
+import {Object3D, Vector3} from 'in-map/3DLibProvider';
 import {clearSelectedEvent} from 'in-stores/events';
 import {emptyArray} from 'in-services/fixedObjects';
 import {goToDashboard} from 'in-stores/navigation';
@@ -36,9 +36,6 @@ export default class CameraController extends Subscriber {
     this.defaultCameraSpeed = 100; // camera fly speed
     this.cameraSpeed = this.defaultCameraSpeed; // camera fly speed
     this.moveSpeed = 0.01; // distance moved per pixel
-
-    // raytracing fields
-    this.raycaster = new Raycaster();
 
     // the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
@@ -327,7 +324,6 @@ export default class CameraController extends Subscriber {
     this.maxZoomOut = null;
     this.zoomCalls = null;
     this.moveSpeed = null;
-    this.raycaster = null;
     this.maxZoomIn = null;
     this.zoomLevel = null;
     this.zoomSpeed = null;
