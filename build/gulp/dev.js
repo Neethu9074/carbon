@@ -15,7 +15,6 @@ var execSync = require('child_process').execSync;
 var webpackConfig = require('../../webpack.config.js');
 var paths = require('./paths');
 var buildUtil = require('./util');
-var environments = require('./environments');
 
 // will be populated with data using the askForDevOptions task
 var devModeOptions;
@@ -57,12 +56,88 @@ gulp.task('askForDevOptions', cb => {
   var questions = [
     {
       type: 'list',
+      name: 'target',
+      message: 'Which target would you like to run against?',
+      choices: [
+        {
+          name: 'Test',
+          value: {
+            uiBackendUrl: 'https://test-instana.instana.io/api/data/',
+            groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
+            tenant: 'instana',
+            tenantUnit: 'test',
+            groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+          }
+        },
+        {
+          name: 'Local',
+          value: {
+            uiBackendUrl: 'http://localhost:8082/',
+            groundskeeperUrl: 'http://localhost:8280',
+            withoutAuthPrefix: true,
+            tenant: 'instana',
+            tenantUnit: 'test',
+            groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+          }
+        },
+        {
+          name: 'Custom TU Coordinates',
+          value: {}
+        }
+      ]
+    },
+    {
+      type: 'list',
       name: 'environment',
-      message: 'Which environment would you like to run against?',
-      choices: Object.keys(environments),
-      filter(env) {
-        // extract environment name
-        return env.match(/(\w+)/)[1];
+      message: 'Environment?',
+      choices: [
+        {
+          name: 'saas',
+          value: {
+            groundskeeperUrl: 'https://instana.io',
+            groundskeeperDomain: 'instana.io'
+          }
+        },
+        {
+          name: 'staging',
+          value: {
+            groundskeeperUrl: 'https://staging-groundskeeper-instana.instana.io',
+            groundskeeperDomain: 'staging-groundskeeper-instana.instana.io'
+          }
+        },
+        {
+          name: 'demo',
+          value: {
+            groundskeeperUrl: 'https://demo-groundskeeper-instana.instana.io',
+            groundskeeperDomain: 'demo-groundskeeper-instana.instana.io'
+          }
+        },
+        {
+          name: 'internal',
+          value: {
+            groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
+            groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+          }
+        }
+      ],
+      when(answers) {
+        return answers.target.groundskeeperUrl == null;
+      }
+    },
+    {
+      type: 'input',
+      name: 'tenant',
+      message: 'Tenant?',
+      when(answers) {
+        return answers.target.tenant == null;
+      }
+    },
+    {
+      type: 'input',
+      name: 'tenantUnit',
+      message: 'Tenant Unit?',
+      when(answers) {
+        return answers.target.tenantUnit == null;
       }
     },
     {
@@ -104,6 +179,16 @@ gulp.task('askForDevOptions', cb => {
   ];
 
   inquirer.prompt(questions, (selectedOptions) => {
+    // no premade target selected, we need to build it up!
+    if (selectedOptions.target.groundskeeperUrl == null) {
+      selectedOptions.target = {
+        uiBackendUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io/api/data/`,
+        groundskeeperUrl: selectedOptions.environment.groundskeeperUrl,
+        tenant: selectedOptions.tenant,
+        tenantUnit: selectedOptions.tenantUnit,
+        groundskeeperDomain: selectedOptions.environment.groundskeeperDomain
+      };
+    }
     devModeOptions = selectedOptions;
     cb();
   });
@@ -113,7 +198,7 @@ gulp.task('askForDevOptions', cb => {
 gulp.task('writeDevConfigFile', () => {
   buildUtil.writeDevModeConfig(
     devModeOptions.uiMode === 'saas' ? 'production' : 'demo',
-    environments[devModeOptions.environment]
+    devModeOptions.target
   );
 });
 
@@ -157,7 +242,7 @@ gulp.task('enableDevWatches', () => {
 
 
 gulp.task('startDevProxy', function startDevProxy() {
-  var envConfig = environments[devModeOptions.environment];
+  var envConfig = devModeOptions.target;
   var uiBackendUrl = envConfig.uiBackendUrl;
   var groundskeeperUrl = envConfig.groundskeeperUrl;
 
