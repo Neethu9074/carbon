@@ -3,7 +3,12 @@ import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
+
+
+registerSnapshotDefinition({
+  plugin: plugins.tomcat
+});
 
 
 setHumanReadablePluginName(

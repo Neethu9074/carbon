@@ -1,10 +1,14 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableEntityType} from 'in-sdk/search';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
-import iconPath from 'in-forge/plugins/mongoDb/icon.svg';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.mongodb,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.mongodb,
@@ -16,11 +20,6 @@ addLabelFinder(
   plugins.mongodb,
   snapshot => 'MongoDB @' + snapshot.getIn(['data', 'port'])
 );
-
-addIconToRegistry({
-  id: plugins.mongodb,
-  image: iconPath
-});
 
 addSearchableEntityType('mongo', plugins.mongodb);
 addSearchableEntityType('mongodb', plugins.mongodb);

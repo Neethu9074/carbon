@@ -1,9 +1,14 @@
-import iconPath from 'in-forge/plugins/postgreSqlDatabase/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.postgresql,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.postgresql,
@@ -15,12 +20,6 @@ addLabelFinder(
   plugins.postgresql,
   snapshot => 'PostgreSQL @ ' + snapshot.getIn(['data', 'port'])
 );
-
-addIconToRegistry({
-  id: plugins.postgresql,
-  image: iconPath
-});
-
 
 addSearchableEntityType('postgresql', plugins.postgresql);
 addSearchableEntityType('postgre', plugins.postgresql);

@@ -1,10 +1,14 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableEntityType} from 'in-sdk/search';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
-import iconPath from 'in-forge/plugins/cassandraNode/icon.svg';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.cassandra,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.cassandra,
@@ -18,10 +22,5 @@ addLabelFinder(
               + '-'
               + snapshot.getIn(['data', 'hostId'])
 );
-
-addIconToRegistry({
-  id: plugins.cassandra,
-  image: iconPath
-});
 
 addSearchableEntityType('cassandra', plugins.cassandra);

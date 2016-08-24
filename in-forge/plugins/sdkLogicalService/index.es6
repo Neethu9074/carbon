@@ -4,7 +4,7 @@ import {plugins} from 'in-forge/constants';
 import icon from './icon.svg';
 
 registerSnapshotDefinition({
-  plugin: plugins.defaultSdkService,
+  plugin: plugins.sdkLogicalService,
   icon,
 
   pluginName: {

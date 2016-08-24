@@ -1,4 +1,4 @@
-import {addKeywordOperator, createPluginFieldPath, addSearchableEntityType} from 'in-sdk/search';
+import {addKeywordOperator, createPluginFieldPath} from 'in-sdk/search';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 
 import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.svg';
@@ -14,6 +14,8 @@ registerSnapshotDefinition({
     singular: 'Host',
     plural: 'Hosts'
   },
+
+  namesForTypeSearch: ['host'],
 
   icons: {
     [plugins.os + '_linux']: linuxIconPath,
@@ -79,5 +81,3 @@ addKeywordOperator({
   keyword: 'host.memory',
   field: createPluginFieldPath(plugins.os, ['memory'])
 });
-
-addSearchableEntityType('host', plugins.os);

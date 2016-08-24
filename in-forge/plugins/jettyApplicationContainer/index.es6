@@ -1,8 +1,13 @@
-import iconPath from 'in-forge/plugins/jettyApplicationContainer/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.jetty,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.jetty,
@@ -21,8 +26,3 @@ addLabelFinder(
     return label;
   }
 );
-
-addIconToRegistry({
-  id: plugins.jetty,
-  image: iconPath
-});

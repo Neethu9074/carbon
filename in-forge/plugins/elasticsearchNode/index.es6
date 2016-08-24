@@ -1,10 +1,14 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableEntityType} from 'in-sdk/search';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
-import iconPath from 'in-forge/plugins/elasticsearchNode/icon.svg';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.elasticsearch,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.elasticsearch,
@@ -18,11 +22,6 @@ addLabelFinder(
               + '-'
               + snapshot.getIn(['data', 'node.name'])
 );
-
-addIconToRegistry({
-  id: plugins.elasticsearch,
-  image: iconPath
-});
 
 addSearchableEntityType('elastic', plugins.elasticsearch);
 addSearchableEntityType('elasticsearch', plugins.elasticsearch);

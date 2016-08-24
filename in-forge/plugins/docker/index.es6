@@ -1,10 +1,14 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
-import iconPath from 'in-forge/plugins/docker/icon.svg';
 import {plugins} from 'in-forge/constants';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.docker,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.docker,
@@ -22,10 +26,5 @@ addLabelFinder(
     return undefined;
   }
 );
-
-addIconToRegistry({
-  id: plugins.docker,
-  image: iconPath
-});
 
 addSearchableEntityType('docker', plugins.docker);

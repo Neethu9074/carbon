@@ -1,9 +1,14 @@
-import iconPath from 'in-forge/plugins/oracleDB/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.oracledb,
+  icon
+});
 
 
 setHumanReadablePluginName(
@@ -16,10 +21,5 @@ addLabelFinder(
   plugins.oracledb,
   snapshot => 'OracleDB @' + snapshot.getIn(['data', 'databaseSID'])
 );
-
-addIconToRegistry({
-  id: plugins.oracledb,
-  image: iconPath
-});
 
 addSearchableEntityType('oracle', plugins.oracledb);

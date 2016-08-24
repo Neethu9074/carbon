@@ -1,10 +1,14 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableEntityType} from 'in-sdk/search';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
+import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
-import iconPath from 'in-forge/plugins/nginx/icon.svg';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.nginx,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.nginx,
@@ -17,10 +21,5 @@ addLabelFinder(plugins.nginx, getLabel);
 function getLabel() {
   return 'Nginx';
 }
-
-addIconToRegistry({
-  id: plugins.nginx,
-  image: iconPath
-});
 
 addSearchableEntityType('nginx', plugins.nginx);

@@ -1,9 +1,14 @@
-import iconPath from 'in-forge/plugins/jiraApplication/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.jira,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.jira,
@@ -15,10 +20,5 @@ addLabelFinder(
   plugins.jira,
   snapshot => 'Atlassian JIRA ' + snapshot.getIn(['data', 'version'])
 );
-
-addIconToRegistry({
-  id: plugins.jira,
-  image: iconPath
-});
 
 addSearchableEntityType('jira', plugins.jira);

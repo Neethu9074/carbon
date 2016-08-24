@@ -1,10 +1,15 @@
-import iconPath from 'in-forge/plugins/jbossDataGrid/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {emptyMap} from 'in-services/fixedImmutables';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.jbossdatagrid,
+  icon
+});
 
 
 setHumanReadablePluginName(
@@ -24,11 +29,6 @@ addLabelFinder(
     return label;
   }
 );
-
-addIconToRegistry({
-  id: plugins.jbossdatagrid,
-  image: iconPath
-});
 
 addSearchableEntityType('jdg', plugins.jbossdatagrid);
 addSearchableEntityType('jbdg', plugins.jbossdatagrid);

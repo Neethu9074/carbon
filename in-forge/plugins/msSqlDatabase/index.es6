@@ -1,9 +1,14 @@
-import iconPath from 'in-forge/plugins/msSqlDatabase/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 import {addSearchableEntityType} from 'in-sdk/search';
-import {addLabelFinder} from 'in-sdk/snapshot';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.mssql,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.mssql,
@@ -17,10 +22,5 @@ addLabelFinder(
   snapshot => 'MSSQL @' + snapshot.getIn(['data', 'instance'])
 );
 
-
-addIconToRegistry({
-  id: plugins.mssql,
-  image: iconPath
-});
 
 addSearchableEntityType('mssql', plugins.mssql);

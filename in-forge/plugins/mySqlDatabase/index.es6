@@ -1,10 +1,14 @@
-import iconPath from 'in-forge/plugins/mySqlDatabase/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
 
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.mysql,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.mysql,
@@ -17,10 +21,5 @@ addLabelFinder(
   plugins.mysql,
   snapshot => 'MySQL @' + snapshot.getIn(['data', 'port'])
 );
-
-addIconToRegistry({
-  id: plugins.mysql,
-  image: iconPath
-});
 
 addSearchableEntityType('mysql', plugins.mysql);

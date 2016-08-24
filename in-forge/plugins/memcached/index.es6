@@ -1,10 +1,14 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableEntityType} from 'in-sdk/search';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
+import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
-import iconPath from 'in-forge/plugins/memcached/icon.svg';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.memcached,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.memcached,
@@ -16,10 +20,5 @@ addLabelFinder(
   plugins.memcached,
   snapshot => 'Memcached @' + snapshot.getIn(['data', 'port'])
 );
-
-addIconToRegistry({
-  id: plugins.memcached,
-  image: iconPath
-});
 
 addSearchableEntityType('memcached', plugins.memcached);

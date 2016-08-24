@@ -1,9 +1,13 @@
-import {addLabelFinder} from 'in-sdk/snapshot';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-
-import iconPath from 'in-forge/plugins/genericZone/icon.svg';
 import {plugins} from 'in-forge/constants';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.genericZone,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.genericZone,
@@ -15,8 +19,3 @@ addLabelFinder(
   plugins.genericZone,
   s => s.getIn(['data', 'groupId'])
 );
-
-addIconToRegistry({
-  id: plugins.genericZone,
-  image: iconPath
-});

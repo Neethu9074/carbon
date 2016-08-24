@@ -1,9 +1,13 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
-import iconPath from 'in-forge/plugins/genericJavaWebapp/icon.svg';
 import {plugins} from 'in-forge/constants';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.javaWebApp,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.javaWebApp,
@@ -16,8 +20,3 @@ addLabelFinder(plugins.javaWebApp, getLabel);
 function getLabel(s) {
   return 'JVM Web App#' + s.get('steadyId');
 }
-
-addIconToRegistry({
-  id: plugins.javaWebApp,
-  image: iconPath
-});

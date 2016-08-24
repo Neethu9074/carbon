@@ -1,24 +1,20 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableEntityType} from 'in-sdk/search';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
-import iconPath from 'in-forge/plugins/nodeJsCluster/icon.svg';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-setHumanReadablePluginName(
-  plugins.nodejsCluster,
-  'Node.js Cluster',
-  'Node.js Clusters'
-);
+import icon from './icon.svg';
 
-addLabelFinder(plugins.nodejsCluster, s => s.getIn(['data', 'groupId']));
+registerSnapshotDefinition({
+  plugin: plugins.nodejsCluster,
+  icon,
 
-addIconToRegistry({
-  id: plugins.nodejsCluster,
-  image: iconPath
+  pluginName: {
+    singular: 'Node.js Cluster',
+    plural: 'Node.js Clusters'
+  },
+
+  namesForTypeSearch: ['nodeCluster', 'node.jsCluster', 'nodejsCluster'],
+
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'groupId']);
+  }
 });
-
-addSearchableEntityType('nodeCluster', plugins.nodejsCluster);
-addSearchableEntityType('node.jsCluster', plugins.nodejsCluster);
-addSearchableEntityType('nodejsCluster', plugins.nodejsCluster);

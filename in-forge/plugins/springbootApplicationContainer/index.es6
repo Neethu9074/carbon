@@ -1,9 +1,14 @@
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import iconPath from 'in-forge/plugins/springbootApplicationContainer/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
+
+
+registerSnapshotDefinition({
+  plugin: plugins.springboot
+});
 
 setHumanReadablePluginName(
   plugins.springboot,

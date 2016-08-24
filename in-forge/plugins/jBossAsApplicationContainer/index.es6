@@ -1,9 +1,14 @@
-import iconPath from 'in-forge/plugins/jBossAsApplicationContainer/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder} from 'in-sdk/snapshot';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.jbossas,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.jbossas,
@@ -32,10 +37,5 @@ addLabelFinder(
     return label;
   }
 );
-
-addIconToRegistry({
-  id: plugins.jbossas,
-  image: iconPath
-});
 
 addSearchableEntityType('jboss', plugins.jbossas);

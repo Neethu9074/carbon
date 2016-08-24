@@ -1,9 +1,14 @@
-import iconPath from 'in-forge/plugins/msiis/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 import {addSearchableEntityType} from 'in-sdk/search';
-import {addLabelFinder} from 'in-sdk/snapshot';
+
+import icon from './icon.svg';
+
+registerSnapshotDefinition({
+  plugin: plugins.msiis,
+  icon
+});
 
 setHumanReadablePluginName(
   plugins.msiis,
@@ -15,11 +20,6 @@ addLabelFinder(
   plugins.msiis,
   snapshot => 'IIS ' + snapshot.getIn(['data', 'iis.version'])
 );
-
-addIconToRegistry({
-  id: plugins.msiis,
-  image: iconPath
-});
 
 addSearchableEntityType('msiis', plugins.msiis);
 addSearchableEntityType('iis', plugins.msiis);

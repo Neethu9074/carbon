@@ -1,9 +1,13 @@
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import iconPath from 'in-forge/plugins/solr/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
+
+registerSnapshotDefinition({
+  plugin: plugins.solr
+});
 
 setHumanReadablePluginName(
   plugins.solr,
