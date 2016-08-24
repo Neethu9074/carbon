@@ -1,22 +1,22 @@
 import {addLabelFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 
 import iconPath from 'in-forge/plugins/genericHardware/icon.svg';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.genericHardware,
+setHumanReadablePluginName(
+  plugins.genericHardware,
   'Generic Hardware',
   'Generic Hardware'
 );
 
 addLabelFinder(
-  constants.plugins.genericHardware,
+  plugins.genericHardware,
   () => 'Generic Hardware'
 );
 
 addIconToRegistry({
-  id: constants.plugins.genericHardware,
+  id: plugins.genericHardware,
   image: iconPath
 });

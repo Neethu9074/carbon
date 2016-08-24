@@ -1,18 +1,18 @@
 import iconPath from 'in-forge/plugins/springbootApplicationContainer/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as pluginName from 'in-sdk/pluginName';
-import * as constants from 'in-forge/constants';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {plugins} from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.springboot,
+setHumanReadablePluginName(
+  plugins.springboot,
   'Springboot',
   'Springboot'
 );
 
 addLabelFinder(
-  constants.plugins.springboot,
+  plugins.springboot,
   snapshot => {
     const data = snapshot.get('data');
     const portsMap = data.get('ports');
@@ -34,9 +34,9 @@ addLabelFinder(
 );
 
 addIconToRegistry({
-  id: constants.plugins.springboot,
+  id: plugins.springboot,
   image: iconPath
 });
 
 
-addSearchableEntityType('springboot', constants.plugins.springboot);
+addSearchableEntityType('springboot', plugins.springboot);

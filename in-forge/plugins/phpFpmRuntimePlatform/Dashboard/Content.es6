@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import * as numberFormatters from 'in-services/formatters/number';
+import {twoDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
 
@@ -50,8 +50,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
 
                          y1={{
                            min: 0,
-                           formatter: numberFormatters.zeroDecimalPlaces,
-                           tooltipFormatter: numberFormatters.zeroDecimalPlaces,
+                           formatter: twoDecimalPlaces,
                            metrics: [
                              'worker_pool.' + pool + '.accepted_conn',
                              'worker_pool.' + pool + '.slow_requests'
@@ -65,7 +64,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
 
                          y2={{
                            min: 0,
-                           formatter: numberFormatters.zeroDecimalPlaces,
+                           formatter: twoDecimalPlaces,
                            metrics: [
                              'worker_pool.' + pool + '.listen_queue',
                              'worker_pool.' + pool + '.max_listen_queue',
@@ -89,8 +88,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
 
                          y1={{
                            min: 0,
-                           formatter: numberFormatters.zeroDecimalPlaces,
-                           tooltipFormatter: numberFormatters.zeroDecimalPlaces,
+                           formatter: twoDecimalPlaces,
                            metrics: [
                              'worker_pool.' + pool + '.idle_processes',
                              'worker_pool.' + pool + '.active_processes',
@@ -106,7 +104,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
 
                          y2={{
                            min: 0,
-                           formatter: numberFormatters.zeroDecimalPlaces,
+                           formatter: twoDecimalPlaces,
                            metrics: [
                              'worker_pool.' + pool + '.max_active_processes',
                              'worker_pool.' + pool + '.max_children_reached'
@@ -127,7 +125,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           formatter: numberFormatters.bytesZeroDecimalPlaces,
+                           formatter: bytesTwoDecimalPlaces,
                            metrics: ['worker_pool.' + pool + '.total_memory'],
                            labels: ['Memory'],
                            type: 'line'

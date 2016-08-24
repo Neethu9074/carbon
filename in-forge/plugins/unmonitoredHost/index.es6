@@ -1,6 +1,6 @@
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 
 import iconPath from './icon.svg';
@@ -13,7 +13,7 @@ registerSnapshotDefinition({
   }
 });
 
-pluginName.setHumanReadablePluginName(
+setHumanReadablePluginName(
   plugins.unmonitoredHost,
   'Unmonitored Host',
   'Unmonitored Hosts'

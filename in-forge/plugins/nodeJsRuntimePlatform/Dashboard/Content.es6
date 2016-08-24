@@ -5,7 +5,7 @@ import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/K
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import * as numberFormatters from 'in-services/formatters/number';
+import {time, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces} from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -25,22 +25,22 @@ export default function NodejsDashboard({snapshot, timeframe}) {
         <KpiKeyValue label='GC Pause'>
           <MetricValue snapshotId={snapshotId}
                        metric='gc.gcPause'
-                       formatter={numberFormatters.time} />
+                       formatter={time} />
         </KpiKeyValue>
         <KpiKeyValue label='RSS'>
           <MetricValue snapshotId={snapshotId}
                        metric='memory.rss'
-                       formatter={numberFormatters.bytesZeroDecimalPlaces} />
+                       formatter={bytesZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label='Heap Used'>
           <MetricValue snapshotId={snapshotId}
                        metric='memory.heapUsed'
-                       formatter={numberFormatters.bytesTwoDecimalPlaces} />
+                       formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label='Total time spent in loop'>
           <MetricValue snapshotId={snapshotId}
                        metric='libuv.num'
-                       formatter={numberFormatters.time} />
+                       formatter={time} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -57,7 +57,7 @@ export default function NodejsDashboard({snapshot, timeframe}) {
 
                            y1={{
                              min: 0,
-                             formatter: numberFormatters.time,
+                             formatter: time,
                              metrics: [
                                'gc.gcPause'
                              ],
@@ -91,8 +91,7 @@ function renderGcMetrics(snapshot, timeframe) {
 
                        y1={{
                          min: 0,
-                         formatter: numberFormatters.bytesZeroDecimalPlaces,
-                         tooltipFormatter: numberFormatters.bytesTwoDecimalPlaces,
+                         formatter: bytesTwoDecimalPlaces,
                          metrics: [
                            'memory.rss',
                            'memory.heapUsed',
@@ -108,7 +107,7 @@ function renderGcMetrics(snapshot, timeframe) {
 
                        y2={{
                          min: 0,
-                         formatter: numberFormatters.twoDecimalPlaces,
+                         formatter: twoDecimalPlaces,
                          metrics: [
                            'gc.minorGcs',
                            'gc.majorGcs'
@@ -131,8 +130,8 @@ function renderGcMetrics(snapshot, timeframe) {
 
                      y1={{
                        min: 0,
-                       formatter: numberFormatters.bytesZeroDecimalPlaces,
-                       tooltipFormatter: numberFormatters.bytesTwoDecimalPlaces,
+                       formatter: bytesZeroDecimalPlaces,
+                       tooltipFormatter: bytesTwoDecimalPlaces,
                        metrics: [
                          'memory.rss',
                          'memory.heapUsed'
@@ -158,7 +157,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
 
                        y1={{
                          min: 0,
-                         formatter: numberFormatters.time,
+                         formatter: time,
                          metrics: [
                            'libuv.max',
                            'libuv.sum',
@@ -173,7 +172,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
                        }}
                        y2={{
                          min: 0,
-                         formatter: numberFormatters.zeroDecimalPlaces,
+                         formatter: twoDecimalPlaces,
                          metrics: [
                            'libuv.num'
                          ],
@@ -194,7 +193,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
 
                      y1={{
                        min: 0,
-                       formatter: numberFormatters.time,
+                       formatter: time,
                        metrics: [
                          'libuv.lag'
                        ],

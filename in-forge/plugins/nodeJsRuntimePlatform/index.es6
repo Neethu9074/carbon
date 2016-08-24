@@ -1,18 +1,18 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 import iconPath from 'in-forge/plugins/nodeJsRuntimePlatform/icon.svg';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.nodejs,
+setHumanReadablePluginName(
+  plugins.nodejs,
   'Node.js Runtime',
   'Node.js Runtimes'
 );
 
-addLabelFinder(constants.plugins.nodejs, getLabel);
+addLabelFinder(plugins.nodejs, getLabel);
 
 function getLabel(s) {
   const data = s.get('data');
@@ -36,10 +36,10 @@ function getFallbackLabel(s) {
 }
 
 addIconToRegistry({
-  id: constants.plugins.nodejs,
+  id: plugins.nodejs,
   image: iconPath
 });
 
-addSearchableEntityType('node', constants.plugins.nodejs);
-addSearchableEntityType('node.js', constants.plugins.nodejs);
-addSearchableEntityType('nodejs', constants.plugins.nodejs);
+addSearchableEntityType('node', plugins.nodejs);
+addSearchableEntityType('node.js', plugins.nodejs);
+addSearchableEntityType('nodejs', plugins.nodejs);

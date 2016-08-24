@@ -1,19 +1,19 @@
 import iconPath from 'in-forge/plugins/hAProxy/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as constants from 'in-forge/constants';
-import * as pluginName from 'in-sdk/pluginName';
+import {plugins} from 'in-forge/constants';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.haproxy,
+setHumanReadablePluginName(
+  plugins.haproxy,
   'HAProxy',
   'HAProxy'
 );
 
 addLabelFinder(
-  constants.plugins.haproxy,
+  plugins.haproxy,
     snapshot => {
     const pid = snapshot.getIn(['data', 'pid']);
     return 'HAProxy @' + pid;
@@ -21,8 +21,8 @@ addLabelFinder(
 );
 
 addIconToRegistry({
-  id: constants.plugins.haproxy,
+  id: plugins.haproxy,
   image: iconPath
 });
 
-addSearchableEntityType('haproxy', constants.plugins.haproxy);
+addSearchableEntityType('haproxy', plugins.haproxy);

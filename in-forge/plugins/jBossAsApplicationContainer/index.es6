@@ -1,18 +1,18 @@
 import iconPath from 'in-forge/plugins/jBossAsApplicationContainer/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.jbossas,
+setHumanReadablePluginName(
+  plugins.jbossas,
   'JBoss AS',
   'JBoss AS'
 );
 
 addLabelFinder(
-  constants.plugins.jbossas,
+  plugins.jbossas,
   snapshot => {
     let label = 'JBoss AS';
     const serverInfo = snapshot.getIn(['data', 'serverInfo']);
@@ -34,8 +34,8 @@ addLabelFinder(
 );
 
 addIconToRegistry({
-  id: constants.plugins.jbossas,
+  id: plugins.jbossas,
   image: iconPath
 });
 
-addSearchableEntityType('jboss', constants.plugins.jbossas);
+addSearchableEntityType('jboss', plugins.jbossas);

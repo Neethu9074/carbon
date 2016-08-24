@@ -1,23 +1,23 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 import iconPath from 'in-forge/plugins/process/icon.svg';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.process,
+setHumanReadablePluginName(
+  plugins.process,
   'Process',
   'Processes'
 );
 
-addLabelFinder(constants.plugins.process, getLabel);
+addLabelFinder(plugins.process, getLabel);
 
 function getLabel(snapshot) {
   return snapshot.getIn(['data', 'exec']);
 }
 
 addIconToRegistry({
-  id: constants.plugins.process,
+  id: plugins.process,
   image: iconPath
 });

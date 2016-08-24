@@ -1,26 +1,26 @@
 import iconPath from 'in-forge/plugins/postgreSqlDatabase/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.postgresql,
+setHumanReadablePluginName(
+  plugins.postgresql,
   'PostgreSQL DB',
   'PostgreSQL DBs'
 );
 
 addLabelFinder(
-  constants.plugins.postgresql,
+  plugins.postgresql,
   snapshot => 'PostgreSQL @ ' + snapshot.getIn(['data', 'port'])
 );
 
 addIconToRegistry({
-  id: constants.plugins.postgresql,
+  id: plugins.postgresql,
   image: iconPath
 });
 
 
-addSearchableEntityType('postgresql', constants.plugins.postgresql);
-addSearchableEntityType('postgre', constants.plugins.postgresql);
+addSearchableEntityType('postgresql', plugins.postgresql);
+addSearchableEntityType('postgre', plugins.postgresql);

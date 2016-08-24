@@ -1,18 +1,18 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 import iconPath from 'in-forge/plugins/genericNodejsApp/icon.svg';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.nodejsApp,
+setHumanReadablePluginName(
+  plugins.nodejsApp,
   'Node.js App',
   'Node.js Apps'
 );
 
-addLabelFinder(constants.plugins.nodejsApp, getLabel);
+addLabelFinder(plugins.nodejsApp, getLabel);
 
 function getLabel(s) {
   const data = s.get('data');
@@ -39,10 +39,10 @@ function getFallbackLabel(s) {
 }
 
 addIconToRegistry({
-  id: constants.plugins.nodejsApp,
+  id: plugins.nodejsApp,
   image: iconPath
 });
 
-addSearchableEntityType('nodeApp', constants.plugins.nodejsCluster);
-addSearchableEntityType('node.jsApp', constants.plugins.nodejsCluster);
-addSearchableEntityType('nodejsApp', constants.plugins.nodejsCluster);
+addSearchableEntityType('nodeApp', plugins.nodejsCluster);
+addSearchableEntityType('node.jsApp', plugins.nodejsCluster);
+addSearchableEntityType('nodejsApp', plugins.nodejsCluster);

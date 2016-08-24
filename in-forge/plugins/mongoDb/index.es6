@@ -1,26 +1,26 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 import iconPath from 'in-forge/plugins/mongoDb/icon.svg';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.mongodb,
+setHumanReadablePluginName(
+  plugins.mongodb,
   'MongoDB Node',
   'MongoDB Nodes'
 );
 
 addLabelFinder(
-  constants.plugins.mongodb,
+  plugins.mongodb,
   snapshot => 'MongoDB @' + snapshot.getIn(['data', 'port'])
 );
 
 addIconToRegistry({
-  id: constants.plugins.mongodb,
+  id: plugins.mongodb,
   image: iconPath
 });
 
-addSearchableEntityType('mongo', constants.plugins.mongodb);
-addSearchableEntityType('mongodb', constants.plugins.mongodb);
+addSearchableEntityType('mongo', plugins.mongodb);
+addSearchableEntityType('mongodb', plugins.mongodb);

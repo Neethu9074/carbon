@@ -1,22 +1,22 @@
 import {addLabelFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 
 import iconPath from 'in-forge/plugins/genericZone/icon.svg';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.genericZone,
+setHumanReadablePluginName(
+  plugins.genericZone,
   'Generic Zone',
   'Generic Zones'
 );
 
 addLabelFinder(
-  constants.plugins.genericZone,
+  plugins.genericZone,
   s => s.getIn(['data', 'groupId'])
 );
 
 addIconToRegistry({
-  id: constants.plugins.genericZone,
+  id: plugins.genericZone,
   image: iconPath
 });

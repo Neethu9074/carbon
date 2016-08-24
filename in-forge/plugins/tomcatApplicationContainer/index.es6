@@ -1,19 +1,19 @@
 import iconPath from 'in-forge/plugins/tomcatApplicationContainer/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.tomcat,
+setHumanReadablePluginName(
+  plugins.tomcat,
   'Tomcat Server',
   'Tomcat Servers'
 );
 
 addLabelFinder(
-  constants.plugins.tomcat,
+  plugins.tomcat,
   // Version usually looks like "Apache Tomcat/7.0"
   // So it is enough to take version + ports
   snapshot => {
@@ -29,8 +29,8 @@ addLabelFinder(
 );
 
 addIconToRegistry({
-  id: constants.plugins.tomcat,
+  id: plugins.tomcat,
   image: iconPath
 });
 
-addSearchableEntityType('tomcat', constants.plugins.tomcat);
+addSearchableEntityType('tomcat', plugins.tomcat);

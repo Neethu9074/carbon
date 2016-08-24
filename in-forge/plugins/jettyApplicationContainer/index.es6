@@ -1,17 +1,17 @@
 import iconPath from 'in-forge/plugins/jettyApplicationContainer/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import * as constants from 'in-forge/constants';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {plugins} from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.jetty,
+setHumanReadablePluginName(
+  plugins.jetty,
   'Jetty',
   'Jetty'
 );
 
 addLabelFinder(
-  constants.plugins.jetty,
+  plugins.jetty,
   snapshot => {
     let label = 'Jetty';
     const connectors = snapshot.getIn(['data', 'connectors']);
@@ -23,6 +23,6 @@ addLabelFinder(
 );
 
 addIconToRegistry({
-  id: constants.plugins.jetty,
+  id: plugins.jetty,
   image: iconPath
 });

@@ -1,22 +1,22 @@
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as pluginName from 'in-sdk/pluginName';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 import iconPath from 'in-forge/plugins/cassandraCluster/icon.svg';
-import * as constants from 'in-forge/constants';
+import {plugins} from 'in-forge/constants';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.cassandraCluster,
+setHumanReadablePluginName(
+  plugins.cassandraCluster,
   'Cassandra Cluster',
   'Cassandra Cluster'
 );
 
 addIconToRegistry({
-  id: constants.plugins.cassandraCluster,
+  id: plugins.cassandraCluster,
   image: iconPath
 });
 
-addLabelFinder(constants.plugins.cassandraCluster, snapshot => snapshot.getIn(['data', 'groupId']));
+addLabelFinder(plugins.cassandraCluster, snapshot => snapshot.getIn(['data', 'groupId']));
 
-addSearchableEntityType('cassandraCluster', constants.plugins.cassandraCluster);
+addSearchableEntityType('cassandraCluster', plugins.cassandraCluster);

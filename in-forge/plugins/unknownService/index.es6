@@ -1,18 +1,17 @@
+import {addMapping as addIconMapping, addIconToRegistry} from 'in-sdk/iconRegistry';
 import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
-import * as pluginName from 'in-sdk/pluginName';
-import * as constants from 'in-forge/constants';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
-import * as icon from 'in-sdk/iconRegistry';
 
 import iconPath from './icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.unknownService,
+setHumanReadablePluginName(
+  plugins.unknownService,
   'Unknown Service',
   'Unknown Services'
 );
 
-addLabelFinder(constants.plugins.unknownService,
+addLabelFinder(plugins.unknownService,
   snapshot => {
     const map = {};
     map[fullyQualifiedPlugins.logicalHttpConnection] = 'Unknown Http Service';
@@ -28,13 +27,13 @@ addLabelFinder(constants.plugins.unknownService,
   }
 );
 
-icon.addIconToRegistry({
-  id: constants.plugins.unknownService,
+addIconToRegistry({
+  id: plugins.unknownService,
   image: iconPath
 });
 
-icon.addMapping(
-  constants.plugins.unknownService,
+addIconMapping(
+  plugins.unknownService,
   snapshot => {
     const map = {};
     map[fullyQualifiedPlugins.logicalHttpConnection] = plugins.unknownService;

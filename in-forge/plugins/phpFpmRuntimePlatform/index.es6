@@ -1,18 +1,18 @@
 import iconPath from 'in-forge/plugins/phpFpmRuntimePlatform/icon.svg';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addSearchableEntityType} from 'in-sdk/search';
-import * as pluginName from 'in-sdk/pluginName';
-import * as constants from 'in-forge/constants';
+import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {plugins} from 'in-forge/constants';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.phpfpm,
+setHumanReadablePluginName(
+  plugins.phpfpm,
   'PHP-FPM Runtime',
   'PHP-FPM Runtimes'
 );
 
-addLabelFinder(constants.plugins.phpfpm, getLabel);
+addLabelFinder(plugins.phpfpm, getLabel);
 
 function getLabel(s) {
   const data = s.get('data');
@@ -29,8 +29,8 @@ function getFallbackLabel(s) {
 }
 
 addIconToRegistry({
-  id: constants.plugins.phpfpm,
+  id: plugins.phpfpm,
   image: iconPath
 });
 
-addSearchableEntityType('php', constants.plugins.phpfpm);
+addSearchableEntityType('php', plugins.phpfpm);
