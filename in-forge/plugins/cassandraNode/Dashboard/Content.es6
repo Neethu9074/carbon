@@ -1,6 +1,11 @@
 import React from 'react';
 
-import {muSecondsToMillisZeroDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
+import {
+  muSecondsToMillisTwoDecimalPlaces,
+  muSecondsToMillisZeroDecimalPlaces,
+  percentageTwoDecimalPlaces,
+  twoDecimalPlaces
+} from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -55,7 +60,8 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                              'Read',
                              'Write'
                            ],
-                           type: 'stackedArea'
+                           type: 'stackedArea',
+                           formatter: twoDecimalPlaces
                          }}/>
       </DashboardSection>
 
@@ -69,7 +75,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                            }}
                            y1={{
                              min: 0,
-                             formatter: muSecondsToMillisZeroDecimalPlaces,
+                             formatter: muSecondsToMillisTwoDecimalPlaces,
                              metrics: [
                                'clientrequests.' + op + '.mean',
                                'clientrequests.' + op + '.50',
@@ -113,7 +119,8 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                                'Request/Response',
                                'Memtable Flushwriter'
                              ],
-                             type: 'line'
+                             type: 'line',
+                             formatter: twoDecimalPlaces
                            }}/>
         </DashboardSection>
       )}
@@ -140,7 +147,8 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                              'Read Repair',
                              'Request/Response'
                            ],
-                           type: 'line'
+                           type: 'line',
+                           formatter: twoDecimalPlaces
                          }}/>
       </DashboardSection>
 
@@ -160,7 +168,8 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                            labels: [
                              'Compactions'
                            ],
-                           type: 'line'
+                           type: 'line',
+                           formatter: twoDecimalPlaces
                          }}/>
       </DashboardSection>
 
@@ -173,7 +182,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            max: 1,
-                           formatter: percentageZeroDecimalPlaces,
+                           formatter: percentageTwoDecimalPlaces,
                            metrics: [
                              'cache.counter.hit',
                              'cache.key.hit',
@@ -197,7 +206,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            max: 1,
-                           formatter: percentageZeroDecimalPlaces,
+                           formatter: percentageTwoDecimalPlaces,
                            metrics: [
                              'bloomFilterFalse'
                            ],
