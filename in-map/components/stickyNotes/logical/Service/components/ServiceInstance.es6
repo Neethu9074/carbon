@@ -42,14 +42,14 @@ export default connectTo(props => {
       </div>
 
       <div className={block + '__kpis'}>
-      <KPIList snapshot={snapshot}
-               metrics={kpis.map(kpi => kpi.metric)}
-               labels={kpis.map(kpi => kpi.label)}
-               formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />
+        <KPIList classname={block + '__kpi-list'}
+                 snapshot={snapshot}
+                 metrics={kpis.map(kpi => kpi.metric)}
+                 labels={kpis.map(kpi => kpi.label)}
+                 formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />
 
-      <HealthIconListing className={block + '__health-icon'}
-                         snapshotId={snapshotId} />
-
+        <HealthIconListing className={block + '__health-icon'}
+                           snapshotId={snapshotId} />
       </div>
     </li>
   );

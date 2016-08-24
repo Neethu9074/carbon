@@ -9,9 +9,11 @@ import 'in-components/KPIList/KPIList.less';
 const rpt = React.PropTypes;
 const block = 'in-kpi-list';
 
-export default function KPIList({formatters, metrics, labels, snapshot}) {
+export default function KPIList({formatters, classname, metrics, labels, snapshot}) {
+  const className = block + (classname ? ' ' + classname : '');
+
   return (
-    <div className={block}>
+    <div className={className}>
       {metrics.map((metric, index) =>
         <span key={labels[index]}
               className={block + '__kpi'}>
@@ -28,5 +30,6 @@ KPIList.propTypes = {
   formatters: rpt.array.isRequired,
   snapshot: irpt.map.isRequired,
   metrics: rpt.array.isRequired,
-  labels: rpt.array.isRequired
+  labels: rpt.array.isRequired,
+  classname: rpt.string
 };

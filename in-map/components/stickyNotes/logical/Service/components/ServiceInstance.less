@@ -3,11 +3,11 @@
 .in-sticky-note-service-instance {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
-  border-radius: .188rem;
   padding: .313rem 0 .313rem .5rem;
+  border-radius: .188rem;
   cursor: pointer;
-  white-space: nowrap;
 
   &:hover, &--selected {
     background: #42565e;
@@ -16,6 +16,8 @@
   &__entity-information {
     display: flex;
     align-items: center;
+
+    white-space: nowrap;
   }
 
   &__plugin-icon {
@@ -26,10 +28,12 @@
   }
 
   &__kpis {
-    display: flex;
-    align-items: center;
-
     margin: 0 0.625rem;
+  }
+
+  &__kpi-list {
+    float: left;
+    margin-top: .125rem;
   }
 
   &__health-icon {
