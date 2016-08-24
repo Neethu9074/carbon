@@ -20,10 +20,6 @@ export default connectTo({
 },
 function FocusButton({focusedMoment, snapshot, focusableSceneObjects}) {
   const snapshotId = snapshot.get('id');
-  if (!focusableSceneObjects || !focusableSceneObjects[snapshotId]) {
-    return null;
-  }
-
   const to = snapshot.get('to');
 
   const entityExistsAtFocusedMoment =
@@ -36,6 +32,9 @@ function FocusButton({focusedMoment, snapshot, focusableSceneObjects}) {
 
   let classes = block;
   if (entityExistsAtFocusedMoment) {
+    if (!focusableSceneObjects || !focusableSceneObjects[snapshotId]) {
+      return null;
+    }
     return (
       <Tooltip content='Focus in map'
               align={'rightMiddle'}>
