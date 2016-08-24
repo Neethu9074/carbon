@@ -17,16 +17,16 @@ export default sceneObjectComponent(props => {
     }
   };
 }, connectTo({
-     viewStructure: getViewStructure()
+     structure: getViewStructure()
    }, MapComponent)
  );
 
-function MapComponent({viewStructure}) {
-  if (!viewStructure) {
+function MapComponent({structure}) {
+  if (!structure) {
     return null;
   }
 
-  const services = viewStructure.get('children');
+  const services = structure.viewStructure.get('children');
   if (services.size === 0) {
     return null;
   }
@@ -34,8 +34,12 @@ function MapComponent({viewStructure}) {
   return (
     <div>
       {services.map(serviceEntity => {
+        const serviceId = serviceEntity.get('id');
+        if (!structure.includedIds.serviceIds[serviceId]) {
+          return null;
+        }
         return (
-          <ServiceComponent key={serviceEntity.get('id')}
+          <ServiceComponent key={serviceId}
                             entity={serviceEntity} />
         );
       })}

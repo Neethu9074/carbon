@@ -2,12 +2,36 @@ import {combineLatest} from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
 import {focusedMoment$} from 'in-stores/timeline';
-import {view} from 'in-stores/view';
+import {searchMatches$} from 'in-stores/search';
+import {view$} from 'in-stores/view';
 
+const noSearchMatches = {
+  contains() {
+    return true;
+  }
+};
 
 export function getViewStructure() {
-  return combineLatest([view, focusedMoment$])
-         .flatMap(([viewType, focusedMoment]) => {
-           return createViewStructureObservable({viewType, time: focusedMoment});
-         });
+  return combineLatest([view$, focusedMoment$, searchMatches$.distinct()])
+     .flatMap(([viewType, focusedMoment, _searchMatches]) => {
+       _searchMatches = _searchMatches || noSearchMatches;
+       return createViewStructureObservable({viewType, time: focusedMoment})
+              .map(_viewStructure => {
+                const serviceIds = {};
+
+                _viewStructure.get('children').forEach(service => {
+                  const serviceId = service.get('id');
+                  if (_searchMatches.contains(serviceId)) {
+                    serviceIds[serviceId] = true;
+                  }
+                });
+
+                return {
+                  viewStructure: _viewStructure,
+                  includedIds: {
+                    serviceIds
+                  }
+                };
+              });
+     });
 }
