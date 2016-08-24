@@ -1,24 +1,21 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/logicalHttpConnection/icon.svg';
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalHttpConnection,
-  'Logical Http Connection',
-  'Logical Http Connections'
-);
+registerSnapshotDefinition({
+  plugin: plugins.logicalHttpConnection,
+  icon,
+  chartWiggleRoom: 20000,
 
-addLabelFinder(
-  constants.plugins.logicalHttpConnection,
-  snapshot => snapshot.getIn(['data', 'source', 'service_name']) +
-              ' to ' +
-              snapshot.getIn(['data', 'destination', 'service_name'])
-);
+  pluginName: {
+    singular: 'Logical Http Connection',
+    plural: 'Logical Http Connections'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.logicalHttpConnection,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'source', 'service_name']) +
+                ' to ' +
+                snapshot.getIn(['data', 'destination', 'service_name']);
+  }
 });

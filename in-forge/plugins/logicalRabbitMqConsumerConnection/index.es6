@@ -1,24 +1,21 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/logicalRabbitMqConsumerConnection/icon.svg';
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalRabbitMqConsumerConnection,
-  'Logical Rabbit MQ Consumer Connection',
-  'Logical Rabbit MQ Consumer Connections'
-);
+registerSnapshotDefinition({
+  plugin: plugins.logicalRabbitMqConsumerConnection,
+  icon,
+  chartWiggleRoom: 20000,
 
-addLabelFinder(
-  constants.plugins.logicalRabbitMqConsumerConnection,
-  snapshot => snapshot.getIn(['data', 'source', 'service_name']) +
-              ' to ' +
-              snapshot.getIn(['data', 'destination', 'service_name'])
-);
+  pluginName: {
+    singular: 'Logical Rabbit MQ Consumer Connection',
+    plural: 'Logical Rabbit MQ Consumer Connections'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.logicalRabbitMqConsumerConnection,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'source', 'service_name']) +
+                ' to ' +
+                snapshot.getIn(['data', 'destination', 'service_name']);
+  }
 });

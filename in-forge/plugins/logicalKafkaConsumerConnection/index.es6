@@ -1,24 +1,21 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/logicalKafkaConsumerConnection/icon.svg';
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalKafkaConsumerConnection,
-  'Logical Kafka Consumer Connection',
-  'Logical Kafka Consumer Connections'
-);
+registerSnapshotDefinition({
+  plugin: plugins.logicalKafkaConsumerConnection,
+  icon,
+  chartWiggleRoom: 20000,
 
-addLabelFinder(
-  constants.plugins.logicalKafkaConsumerConnection,
-  snapshot => snapshot.getIn(['data', 'source', 'service_name']) +
-              ' to ' +
-              snapshot.getIn(['data', 'destination', 'service_name'])
-);
+  pluginName: {
+    singular: 'Logical Kafka Consumer Connection',
+    plural: 'Logical Kafka Consumer Connections'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.logicalKafkaConsumerConnection,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'source', 'service_name']) +
+                ' to ' +
+                snapshot.getIn(['data', 'destination', 'service_name']);
+  }
 });

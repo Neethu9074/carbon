@@ -1,24 +1,21 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/defaultLogicalConnection/icon.svg';
-import * as constants from 'in-forge/constants';
+import icon from 'in-forge/plugins/defaultLogicalConnection/icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.logicalPdoConnection,
-  'Logical PDO Connection',
-  'Logical PDO Connections'
-);
+registerSnapshotDefinition({
+  plugin: plugins.logicalPdoConnection,
+  icon,
+  chartWiggleRoom: 20000,
 
-addLabelFinder(
-  constants.plugins.logicalPdoConnection,
-  snapshot => snapshot.getIn(['data', 'source', 'service_name']) +
-              ' to ' +
-              snapshot.getIn(['data', 'destination', 'service_name'])
-);
+  pluginName: {
+    singular: 'Logical PDO Connection',
+    plural: 'Logical PDO Connections'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.logicalPdoConnection,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'source', 'service_name']) +
+                ' to ' +
+                snapshot.getIn(['data', 'destination', 'service_name']);
+  }
 });

@@ -1,24 +1,21 @@
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
 
-import iconPath from 'in-forge/plugins/sdkLogicalConnection/icon.svg';
-import * as constants from 'in-forge/constants';
+import icon from './icon.svg';
 
-pluginName.setHumanReadablePluginName(
-  constants.plugins.sdkLogicalConnection,
-  'Custom Logical Connection',
-  'Custom Logical Connections'
-);
+registerSnapshotDefinition({
+  plugin: plugins.sdkLogicalConnection,
+  icon,
+  chartWiggleRoom: 20000,
 
-addLabelFinder(
-  constants.plugins.sdkLogicalConnection,
-  snapshot => snapshot.getIn(['data', 'source', 'service_name']) +
-              ' to ' +
-              snapshot.getIn(['data', 'destination', 'service_name'])
-);
+  pluginName: {
+    singular: 'Custom Logical Connection',
+    plural: 'Custom Logical Connections'
+  },
 
-addIconToRegistry({
-  id: constants.plugins.sdkLogicalConnection,
-  image: iconPath
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'source', 'service_name']) +
+                ' to ' +
+                snapshot.getIn(['data', 'destination', 'service_name']);
+  }
 });
