@@ -23,6 +23,10 @@
     left: 16.8rem;
   }
 
+  &__kv-list {
+    margin: 0;
+  }
+
   &__item {
     display: flex;
     justify-content: space-between;
@@ -44,5 +48,18 @@
     width: 55%;
     margin-right: 0.625rem;
     word-break: break-all;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__list-item {
+    color: @sidebar__key-value-popup__text;
+    font-size: 0.75rem;
+    padding: 0.625rem 0;
+    border-top: 1px solid @sidebar__key-value-popup__border;
   }
 }

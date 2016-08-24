@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import React from 'react';
 
 import {content$, contentFilter$} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
@@ -38,7 +39,18 @@ export default connectTo({
 );
 
 function createHtmlContent(data, contentFilter) {
-  return data.filter(getFilterPredicate(contentFilter))
+  if (Immutable.Map.isMap(data)) {
+    return createKeyValueHtmlContent(data, contentFilter);
+  } else if (Immutable.Iterable.isIterable(data)) {
+    return createSeqHtmlContent(data, contentFilter);
+  }
+
+  return null;
+}
+
+
+function createKeyValueHtmlContent(data, contentFilter) {
+  const children = data.filter(getMapFilterPredicate(contentFilter))
              .sortBy((v, k) => k)
              .map((v, k) =>
                <div key={k}
@@ -53,22 +65,63 @@ function createHtmlContent(data, contentFilter) {
              )
              .valueSeq()
              .toArray();
+
+  return (
+    <dl className={`${block}__kv-list`}>
+      {children}
+    </dl>
+  );
 }
 
-function getFilterPredicate(filter) {
+
+function getMapFilterPredicate(filter) {
   if (!filter) {
     return e => e;
   }
+
   filter = filter.toLowerCase().trim();
-  let filterPredicate;
 
   if (filter.length === 0) {
-    filterPredicate = () => true;
-  } else {
-    filterPredicate = (v, k) => {
-      return k.toLowerCase().indexOf(filter) !== -1 ||
-        String(v).toLowerCase().indexOf(filter) !== -1;
-    };
+    return () => true;
   }
-  return filterPredicate;
+
+  return (v, k) => {
+    return k.toLowerCase().indexOf(filter) !== -1 ||
+      String(v).toLowerCase().indexOf(filter) !== -1;
+  };
+}
+
+
+function createSeqHtmlContent(data, contentFilter) {
+  const children = data
+     .toArray()
+     .filter(getSeqFilterPredicate(contentFilter))
+     .sort()
+     .map((v, i) =>
+       <li key={i}
+           className={`${block}__list-item`}>
+        {v}
+       </li>
+     );
+
+  return (
+    <ul className={`${block}__list`}>
+      {children}
+    </ul>
+  );
+}
+
+
+function getSeqFilterPredicate(filter) {
+  if (!filter) {
+    return e => e;
+  }
+
+  filter = filter.toLowerCase().trim();
+
+  if (filter.length === 0) {
+    return () => true;
+  }
+
+  return v => String(v).toLowerCase().indexOf(filter) !== -1;
 }

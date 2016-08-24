@@ -1,5 +1,4 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -30,7 +29,7 @@ export default connectTo({
     propTypes: {
       header: rpt.string.isRequired,
       activeContent: rpt.object,
-      data: irpt.map
+      data: rpt.object
     },
 
     componentWillUnmount() {
