@@ -22,6 +22,7 @@ import {init as initTimelineStore} from 'in-components/timeline/timelineStore';
 import {init as initBrowserIdentification} from 'in-services/browser';
 import {init as initTimeOffsetStore} from 'in-stores/timeOffset';
 import {init as initShortcuts} from 'in-services/shortcuts';
+import {init as initUsageInfo} from 'in-stores/usageInfo';
 import {init as initTracking} from 'in-services/tracking';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
@@ -78,6 +79,7 @@ initNotMonitoringPresenter();
 initTableViewVisibilityStore();
 initExpandedIdsStore();
 initHighlightedSuggestionStore();
+initUsageInfo();
 
 ReactDOM.render((
   <Router history={hashHistory}>
