@@ -1,28 +1,19 @@
 import React from 'react';
 
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import WaitEventsTable from 'in-forge/plugins/mySqlDatabase/Dashboard/WaitEventsTable';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
-import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import {msZeroDecimalPlaces, twoDecimalPlaces} from 'in-services/formatters/number';
+import {isPerformanceDataAvailable} from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardNotification from 'in-components/DashboardNotification';
-import {emptyList} from 'in-services/fixedImmutables';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
-
-const verPatt = /([5-9]+\.[6-9]+\.([0-9]+)).*/;
-
-
-const msFormatter = d => d < 0 ? 'No activity' : msZeroDecimalPlaces(d);
-
-function perfDataAvailable(version) {
-  return verPatt.test(version) && parseInt(verPatt.exec(version)[2], 10) > 9;
-}
 
 export default function MySqlDashboard({snapshot, timeframe}) {
   const data = snapshot.get('data');
-  const snapshotId = snapshot.get('id');
-  const version = data.get('variables.VERSION');
-  const dbs = data.get('dbs', emptyList).toArray();
-  const waitNames = data.get('wait_event_names', emptyList).toArray().sort();
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return (
@@ -30,26 +21,39 @@ export default function MySqlDashboard({snapshot, timeframe}) {
         {sensorConnectionStatus}
       </DashboardNotification>);
   }
+
+  const snapshotId = snapshot.get('id');
+  const performanceDataAvailable = isPerformanceDataAvailable(snapshot);
+
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Queries'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='status.QUERIES' />
+        </KpiKeyValue>
+        <KpiKeyValue label='avg. Query Latency'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='status.DB_QUERY_LATENCY'
+                       formatter={msZeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Client Connections'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='status.THREADS_CONNECTED' />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Queries'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80,
+                           left: 60,
                            right: 60
                          }}
                          y1={{
-                           min: 0,
-                           metrics: [
-                             'status.QUERIES'
-                           ],
-                           labels: [
-                             'Queries'
-                           ],
-                           type: 'line'
-                         }}
-                         y2={{
                            min: 0,
                            metrics: [
                              'status.COM_SELECT',
@@ -65,12 +69,16 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                              'DELETES',
                              'OTHER'
                            ],
-                           type: 'line'
+                           formatter: twoDecimalPlaces,
+                           type: 'stackedArea'
                          }}/>
+      </DashboardSection>
+
+      <DashboardSection title='Slow Queries'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
-                             left: 80
+                             left: 60
                            }}
                            y1={{
                              min: 0,
@@ -82,15 +90,16 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                                'Slow Queries',
                                'Errors'
                              ],
-                             type: 'line'
+                             type: 'line',
+                             formatter: twoDecimalPlaces
                          }}/>
       </DashboardSection>
-      {perfDataAvailable(version) ?
+      {performanceDataAvailable ?
         <DashboardSection title='Latency'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
-                             left: 80
+                             left: 60
                            }}
                            y1={{
                              min: 0,
@@ -109,7 +118,7 @@ export default function MySqlDashboard({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80
+                           left: 60
                          }}
                          y1={{
                            min: 0,
@@ -123,30 +132,19 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                              'Max used connections',
                              'Aborted connects'
                            ],
-                           type: 'line'
+                           type: 'line',
+                           formatter: twoDecimalPlaces
                        }}/>
       </DashboardSection>
-      {perfDataAvailable(version) && waitNames && waitNames.length > 0 ?
-        <DashboardSection title='Wait Events'>
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             metrics: waitNames.map(name => 'wait.' + name),
-                             labels: waitNames,
-                             type: 'line',
-                             formatter: msFormatter
-                         }}/>
-        </DashboardSection>
+      {performanceDataAvailable ?
+        <WaitEventsTable snapshot={snapshot}
+                         timeframe={timeframe} />
       : null }
       <DashboardSection title='Key Access'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80,
+                           left: 60,
                            right: 60
                          }}
                          y1={{
@@ -159,7 +157,8 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                              'Read Requests',
                              'Write Requests'
                            ],
-                           type: 'line'
+                           type: 'line',
+                           formatter: twoDecimalPlaces
                          }}
                          y2={{
                            min: 0,
@@ -171,12 +170,13 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                              'Reads',
                              'Writes'
                            ],
-                           type: 'line'
+                           type: 'line',
+                           formatter: twoDecimalPlaces
                          }}
                          />
       </DashboardSection>
 
-      {perfDataAvailable(version) && dbs && dbs.length > 0 ?
+      {performanceDataAvailable ?
         <DatabasesTable snapshot={snapshot}
                         timeframe={timeframe} />
       : null}

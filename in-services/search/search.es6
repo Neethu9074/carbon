@@ -46,6 +46,14 @@ const luceneValueConverters = {
   selection(v, keywordOperator) { return this.string(keywordOperator.toValue(v)); }
 };
 
+
+export function buildLuceneQuery(key, operator, value) {
+  const luceneOperator = operator === '=' ? '' : operator;
+  const luceneValue = luceneValueConverters.string(value);
+  return `${key}:${luceneOperator}${luceneValue}`;
+}
+
+
 export function transformQuery(query, contexts = ['entity']) {
   const queryParts = parseString(query);
   const keywordOperators = createKeywordBasedIndex(getKeywordOperators(contexts));

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import {formatDateTime} from 'in-services/formatters/date';
 
 
@@ -12,18 +11,13 @@ export default function JettyInfo({snapshot}) {
     return null;
   }
   return (
-    <Collapsible initiallyOpen={true}>
-      <Collapsible.Header>Jetty Server Info</Collapsible.Header>
-      <Collapsible.Content>
-        <DescriptionList>
-          <DescriptionItem title='Version'>
-            {data.get('version')}
-          </DescriptionItem>
-          <DescriptionItem title='Started At'>
-            {formatDateTime(startedAt)}
-          </DescriptionItem>
-        </DescriptionList>
-      </Collapsible.Content>
-    </Collapsible>
+    <DescriptionList>
+      <DescriptionItem title='Version'>
+        {data.get('version')}
+      </DescriptionItem>
+      <DescriptionItem title='Started At'>
+        {formatDateTime(startedAt)}
+      </DescriptionItem>
+    </DescriptionList>
   );
 }

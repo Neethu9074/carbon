@@ -12,8 +12,6 @@ export default function ServiceDashboardSidebar({snapshot}) {
     <div>
       <JumpToTracesButton snapshotId={snapshotId}/>
 
-      <Separator />
-
       <ClusterMemberList snapshotId={snapshotId} />
 
       <Separator />
