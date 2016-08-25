@@ -60,6 +60,9 @@ export default class MainScene extends SceneObject {
 
     this.handleLostContext();
     this.handleAnimationFrames(0);
+
+    // send initial resize
+    this.onWindowResize();
   }
 
   handleAnimationFrames(highResTimestamp) {
@@ -109,11 +112,13 @@ export default class MainScene extends SceneObject {
   }
 
   onWindowResize() {
-    const height = this.height = window.innerHeight;
+    const height = this.height = window.innerHeight - (theme.header.height + theme.footer.height);
     const width = this.width = window.innerWidth;
 
-    this.canvas.height = height;
-    this.canvas.width = width;
+    this.canvas.setAttribute('width', width);
+    this.canvas.setAttribute('height', height);
+    this.canvas.style.width = `${width}px`;
+    this.canvas.style.height = `${height}px`;
 
     this.renderer.setSize(width, height);
 

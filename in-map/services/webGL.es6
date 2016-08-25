@@ -4,11 +4,10 @@
 // because the browser doesn't support WebGL and failure for some other reason.
 // if the browser does not support WebGL then the map will not be rendered.
 // you can determine if the browser supports WebGL by checking for the existence of WebGLRenderingContext.
-export function isWebGLSupported() {
+export function isWebGLSupported(canvas) {
   if (window.WebGLRenderingContext) {
     // browser supports WebGL but if the canvas.getContext('webgl') returns null
     // then WebGL failed for some reason other than user's browser (no GPU, out of memory, etc...)
-    const canvas = document.createElement('canvas');
     if (canvas && getWebGLCanvasContext(canvas)) {
       // browser supports WebGL and initialization worked.
       return true;

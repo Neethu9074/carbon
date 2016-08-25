@@ -3,7 +3,7 @@ import React from 'react';
 
 import createUniverseRenderer from 'in-components/graphView/components/universeRenderer';
 import {markAsLoading, markAsFinished} from 'in-components/graphView/graphViewStore';
-import {isWebGLSupported} from 'in-services/util/webGL';
+import {isWebGLSupported} from 'in-map/services/webGL';
 import {getClassName} from 'in-services/react';
 
 import './Universe.less';
