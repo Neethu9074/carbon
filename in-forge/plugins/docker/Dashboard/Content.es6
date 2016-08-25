@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {
-  zeroDecimalPlaces,
+  twoDecimalPlaces,
   bytesTwoDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  percentageZeroDecimalPlaces
+  percentageZeroDecimalPlaces,
+  percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -66,7 +66,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                              'Kernel',
                              'User'
                            ],
-                           formatter: percentageZeroDecimalPlaces,
+                           formatter: percentageTwoDecimalPlaces,
                            type: 'line'
                          }}/>
         <ChartWithLegend snapshotId={snapshotId}
@@ -165,7 +165,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                              'Write'
                            ],
                            type: 'line',
-                           formatter: zeroDecimalPlaces
+                           formatter: twoDecimalPlaces
                          }}/>
       </DashboardSection>
       { hasNetworkMetrics ?
@@ -180,7 +180,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
 
                  y1={{
                    min: 0,
-                   formatter: bytesZeroDecimalPlaces,
+                   formatter: bytesTwoDecimalPlaces,
                    metrics: [
                      'network.rx.bytes',
                      'network.tx.bytes'
@@ -206,7 +206,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                      'TX Errors',
                      'TX Dropped'
                    ],
-                   formatter: percentageZeroDecimalPlaces,
+                   formatter: percentageTwoDecimalPlaces,
                    type: 'line'
                  }}/>
         </div>
