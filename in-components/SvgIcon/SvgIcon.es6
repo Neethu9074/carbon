@@ -39,8 +39,9 @@ export default function SvgIcon({
            height: iconHeight + 'px'
          }}
          viewBox={'0 0 ' + icon.width + ' ' + icon.height}
-         onClick={onClick}>
-     <path fill={color} d={icon.path} />
+         onClick={onClick}
+         fill={color}>
+     <path d={icon.path} />
     </svg>
   );
 }

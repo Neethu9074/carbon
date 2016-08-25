@@ -41,6 +41,7 @@ export function init() {
           addMessage(
             {
               type: 'info',
+              icon: 'server',
               content: <div dangerouslySetInnerHTML={{__html: toHtml(message)}} />,
               onClick: markAsRead
             },

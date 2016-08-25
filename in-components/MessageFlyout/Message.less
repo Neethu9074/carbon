@@ -1,5 +1,31 @@
 .in-message-flyout-message {
+  background: hsla(198, 23%, 23%, 0.9);
+  font-size: 0.8rem;
+  max-width: 18rem;
+  padding: 0rem 1.075rem;
+  margin: 0 0 1rem;
+  border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
   &--clickable {
     cursor: pointer;
+  }
+
+  &__icon {
+    fill: #9FFFFF;
+    margin-right: 0.75rem;
+    min-width: 18px;
+  }
+
+  &__content {
+    color: #92A5AE;
+
+    em {
+      color: #fff;
+      font-style: normal;
+    }
   }
 }

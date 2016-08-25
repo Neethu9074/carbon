@@ -22,6 +22,7 @@ export function addMessage(messageParam, id = null) {
   const message = {
     id,
     type: messageParam.type,
+    icon: messageParam.icon,
     content: messageParam.content,
     onClick: messageParam.onClick
   };
