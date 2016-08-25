@@ -7,6 +7,7 @@ import {
 } from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -15,6 +16,13 @@ import {getLabel} from 'in-sdk/snapshot';
 export default function MemcachedDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
   const maxBytes = snapshot.getIn(['data', 'limit_maxbytes']);
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus']);
+  if (sensorConnectionStatus !== 'OK') {
+    return (
+      <DashboardNotification type='info'>
+        {sensorConnectionStatus}
+      </DashboardNotification>);
+  }
 
   return (
     <div>
