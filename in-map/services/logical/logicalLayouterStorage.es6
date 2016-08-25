@@ -28,7 +28,7 @@ export function init() {
   const now = Date.now();
   Object.keys(fromStorage).forEach(key => {
     const item = fromStorage[key];
-    if (item.timestamp < now - SERVICE_POSITION_STORAGE_TTL) {
+    if (!item || item.timestamp < now - SERVICE_POSITION_STORAGE_TTL) {
       removeId(key);
     } else {
       changePosition(key, item.x, item.y, item.z);
