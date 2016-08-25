@@ -31,13 +31,13 @@ React.createClass({
 
   render() {
     const antialias = this.props.antialias;
-    const canvas = this.props.canvas;
+    const _canvas = this.props.canvas;
 
     return (
       <div className={block}>
         <canvas ref='mainCanvas'/>
-        {(canvas && antialias)
-          ? <SceneComponent canvas={canvas}
+        {(_canvas && antialias)
+          ? <SceneComponent canvas={_canvas}
                             antialias={antialias}/>
           : null
         }

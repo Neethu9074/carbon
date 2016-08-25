@@ -1,3 +1,5 @@
+import {on} from 'reactive-observables';
+
 import {frame$, requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/misc/time';
@@ -50,18 +52,14 @@ export default class MainScene extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.handleAnimationFrames(0);
+    this.addSubscriptions([
+      frame$.subscribe(() => this.shouldRenderScene = true),
 
-    this.addSubscription(frame$.subscribe(() => this.shouldRenderScene = true));
+      on(window, 'resize').subscribe(this.onWindowResizeHandler)
+    ]);
 
-    window.addEventListener('resize', this.onWindowResizeHandler, false);
     this.handleLostContext();
-  }
-
-  disposeEvents() {
-    super.disposeEvents();
-
-    window.removeEventListener('resize', this.onWindowResizeHandler, false);
+    this.handleAnimationFrames(0);
   }
 
   handleAnimationFrames(highResTimestamp) {
@@ -130,19 +128,18 @@ export default class MainScene extends SceneObject {
   // examples: another page does something that takes the GPU too long and the browser
   // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
   handleLostContext() {
-    const canvas = this.canvas;
-    canvas.addEventListener('webglcontextlost', (event) => {
-      event.preventDefault();
-    }, false);
+    this.addSubscriptions([
+      on(this.canvas, 'webglcontextlost').subscribe(event => event.preventDefault()),
 
-    canvas.addEventListener('webglcontextrestored', () => {
-      // at the point that this method is called the browser has reset all state
-      // to the default WebGL state and all previously allocated resources are invalid.
-      // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
-      // and setup your state (clearColor, blendFunc, depthFunc, etc...)
-      // to make it short... reload the page
-      window.location.reload();
-    }, false);
+      on(this.canvas, 'webglcontextrestored').subscribe(() => {
+        // at the point that this method is called the browser has reset all state
+        // to the default WebGL state and all previously allocated resources are invalid.
+        // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
+        // and setup your state (clearColor, blendFunc, depthFunc, etc...)
+        // to make it short... reload the page
+        window.location.reload();
+      })
+    ]);
   }
 
   dispose() {
