@@ -102,6 +102,7 @@ export default function createChart(config) {
     tooltipRenderer.dispose();
     domController.dispose();
     axisController.dispose();
+    stopRendering();
     config.subscriptions.forEach(s => s.dispose());
   }
 
