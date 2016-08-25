@@ -158,7 +158,11 @@ export default class BasicCameraController extends Subscriber {
     position.applyProjection(this.camera.getRenderableCamera().projection);
   }
 
+  // default update implementation
   update() {}
+
+  // default zoom implementation
+  zoom() {}
 
   getCameraController() {
     return this;

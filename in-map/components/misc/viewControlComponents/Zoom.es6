@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {cameraController$} from 'in-map/stores/cameraController';
+import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import SvgIcon from 'in-components/SvgIcon';
 import {getIn} from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
@@ -12,11 +12,10 @@ const UNITS_TO_ZOOM = 100;
 const block = 'in-logical-view-zoom';
 
 export default connectTo({
-  cameraController: cameraController$,
   showZoomPanel: getIn(['zoomPanelIsActive'])
 },
-function Zoom({cameraController, showZoomPanel}) {
-  if (!cameraController || !showZoomPanel) {
+function Zoom({showZoomPanel}) {
+  if (!showZoomPanel) {
     return null;
   }
 
@@ -24,8 +23,7 @@ function Zoom({cameraController, showZoomPanel}) {
     <div className={block}>
       <div className={block + '__button'}
            onClick={() => {
-             cameraController.centerMousePosition();
-             cameraController.onZoom(UNITS_TO_ZOOM);
+             CameraControllerServiceLocator.zoom(-UNITS_TO_ZOOM, true);
            }}>
         <SvgIcon type={'plus_without_frame'}
                  width={16}
@@ -34,8 +32,7 @@ function Zoom({cameraController, showZoomPanel}) {
       </div>
       <div className={block + '__button-zoom-out'}
            onClick={() => {
-             cameraController.centerMousePosition();
-             cameraController.onZoom(-UNITS_TO_ZOOM);
+             CameraControllerServiceLocator.zoom(UNITS_TO_ZOOM, true);
            }}>
         <SvgIcon type={'minus'}
                  width={16}

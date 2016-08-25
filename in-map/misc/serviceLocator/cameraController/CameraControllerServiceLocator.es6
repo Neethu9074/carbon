@@ -16,6 +16,10 @@ const CameraControllerServiceLocator = (function create() {
     return service.update(dt);
   }
 
+  function zoom(dz, centeredZoom) {
+    return service.zoom(dz, centeredZoom);
+  }
+
   function provide(_service) {
     if (!_service) {
       return;
@@ -36,6 +40,7 @@ const CameraControllerServiceLocator = (function create() {
   return {
     flyToPosition,
     focusMap,
+    zoom,
     update,
     provide
   };

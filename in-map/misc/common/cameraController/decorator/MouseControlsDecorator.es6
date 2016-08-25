@@ -26,7 +26,6 @@ export default class MouseControlDecorator extends Decorator {
     this.addProperty('screenSpaceCursorPosition', {x: 0, y: 0});
     this.addProperty('setZoomLevel', this.setZoomLevel.bind(this));
     this.addProperty('setZoomLevelAbsolute', this.setZoomLevelAbsolute.bind(this));
-    this.addProperty('zoom', this.zoom.bind(this));
   }
 
   init() {
@@ -79,7 +78,11 @@ export default class MouseControlDecorator extends Decorator {
     ]);
   }
 
-  zoom(delta) {
+  zoom(delta, centeredZoom) {
+    if (centeredZoom) {
+      this.setCursorPosition(this.canvas.width / 2, this.canvas.height / 2);
+    }
+
     this.zoomLevel = this.clampZoomLevel(this.zoomLevel + delta);
   }
 

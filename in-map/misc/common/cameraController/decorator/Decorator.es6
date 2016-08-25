@@ -41,6 +41,10 @@ export default class Decorator {
     this.inner.focusMap();
   }
 
+  zoom(dt, centeredZoom) {
+    this.inner.zoom(dt, centeredZoom);
+  }
+
   update(dt) {
     this.inner.update(dt);
   }
