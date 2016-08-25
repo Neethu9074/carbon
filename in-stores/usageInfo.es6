@@ -33,7 +33,7 @@ export function init() {
         addMessage(
           {
             type: usageInfo.get('type'),
-            icon: 'server',
+            icon: 'info',
             content: <div dangerouslySetInnerHTML={{__html: toHtml(usageInfo.get('note'))}} />,
             onClick: hideUsageInfo
           },

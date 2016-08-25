@@ -15,7 +15,7 @@ export default function Message({message}) {
   return (
     <div className={classes}
          onClick={message.onClick}>
-      <SvgIcon type='server'
+      <SvgIcon type={message.icon}
                className={`${block}__icon`}
                width={18}/>
       <div className={`${block}__content`}>
