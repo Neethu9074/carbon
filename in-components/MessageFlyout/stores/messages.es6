@@ -8,6 +8,7 @@ let idCounter = 0;
 //   id: <id>,
 //   type: <info|warning|danger>
 //   content: <react element>
+//   onClick?: <fn>
 // }
 const messagesStore = createStore({
   name: 'in-components/MessageFlyout/stores/messages',
@@ -16,12 +17,13 @@ const messagesStore = createStore({
 export const messages$ = messagesStore.observable;
 
 
-export function addMessage(type, content, id = null) {
+export function addMessage(messageParam, id = null) {
   id = id == null ? idCounter++ : id;
   const message = {
     id,
-    type,
-    content
+    type: messageParam.type,
+    content: messageParam.content,
+    onClick: messageParam.onClick
   };
 
   messagesStore.applyStateMutation(messages => {

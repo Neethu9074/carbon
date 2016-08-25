@@ -37,6 +37,7 @@ module.exports = {
     tooltips: zIndex++,
     temporaryNotification: zIndex++,
     maintenanceNote: zIndex++,
+    messageFlyout: zIndex++,
     backdrop: zIndex++,
     dialog: zIndex++,
     demoSignIn: zIndex++

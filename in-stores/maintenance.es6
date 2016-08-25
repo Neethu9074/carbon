@@ -1,33 +1,56 @@
 import {combineLatest} from 'reactive-observables';
+import React from 'react';
 
+import {addMessage, removeMessage} from 'in-components/MessageFlyout/stores/messages';
+import {toHtml} from 'in-services/formatters/markdown';
 import {isOnPremise} from 'in-services/config';
 import {createStore} from 'in-stores/store';
 import http from 'in-services/http';
 
-const readStateStore = createStore({
-  name: 'maintenanceMessageRead',
-  initialValue: false
-});
+const messageId = 'maintenanceNote';
 
-const store = createStore({
-  name: 'maintenanceMessage',
+const messageStore = createStore({
+  name: 'in-stores/maintenance/message',
   initialValue: null
 });
+const message$ = messageStore.observable.distinct();
 
-export const maintenanceMessage$ = combineLatest([readStateStore.observable, store.observable])
-  .map(([readState, maintenanceMessage]) => {
-    if (readState) {
-      return null;
-    }
 
-    return maintenanceMessage;
-  })
-  .distinct();
+const messageReadStore = createStore({
+  name: 'in-stores/maintenance/messageRead',
+  initialValue: false
+});
+const messageRead$ = messageReadStore.observable;
 
-if (!isOnPremise()) {
-  retrieveLatestMessage();
-  setInterval(retrieveLatestMessage, 1000 * 60 * 10);
+function markAsRead() {
+  messageReadStore.mutateTo(true);
 }
+
+
+export function init() {
+  if (!isOnPremise()) {
+    retrieveLatestMessage();
+    setInterval(retrieveLatestMessage, 1000 * 60 * 10);
+
+    combineLatest([message$, messageRead$])
+      .subscribe(([message, messageRead]) => {
+        const hasContent = message != null && message.trim().length > 0;
+        if (!hasContent || messageRead) {
+          removeMessage(messageId);
+        } else if (hasContent) {
+          addMessage(
+            {
+              type: 'info',
+              content: <div dangerouslySetInnerHTML={{__html: toHtml(message)}} />,
+              onClick: markAsRead
+            },
+            messageId
+          );
+        }
+      });
+  }
+}
+
 
 function retrieveLatestMessage() {
   const observable = http({
@@ -39,9 +62,9 @@ function retrieveLatestMessage() {
   observable.once(response => {
     const body = (response.body || '').trim();
     if (body.length === 0) {
-      store.applyStateMutation(() => null);
+      messageStore.applyStateMutation(() => null);
     } else {
-      store.applyStateMutation(() => body);
+      messageStore.applyStateMutation(() => body);
     }
   });
 
@@ -49,9 +72,4 @@ function retrieveLatestMessage() {
     // ignore HTTP errors as the system will self heal and there is no reason to notify
     // us about these types of errors.
   });
-}
-
-
-export function markAsRead() {
-  readStateStore.applyStateMutation(() => true);
 }

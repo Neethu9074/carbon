@@ -1,12 +1,12 @@
-import React from 'react';
 import {combineLatest} from 'reactive-observables';
+import React from 'react';
 
 import {addMessage, removeMessage} from 'in-components/MessageFlyout/stores/messages';
 import createUsageInfoSubscription from 'in-services/subscription/usageInfo';
 import {createTrackingStore, createStore} from 'in-stores/store';
 import {toHtml} from 'in-services/formatters/markdown';
 
-const messageId = 'usage-info';
+const messageId = 'usageInfo';
 
 const usageInfo$ = createTrackingStore({
   name: 'in-stores/usageInfo/usageInfo',
@@ -20,7 +20,7 @@ const usageInfoVisibleStore = createStore({
 });
 const usageInfoVisible$ = usageInfoVisibleStore.observable;
 
-export function hideUsageInfo() {
+function hideUsageInfo() {
   usageInfoVisibleStore.mutateTo(false);
 }
 
@@ -29,12 +29,13 @@ export function init() {
     .subscribe(([usageInfo, visible]) => {
       if (usageInfo == null || !visible) {
         removeMessage(messageId);
-      }
-
-      if (usageInfo) {
+      } else if (usageInfo) {
         addMessage(
-          usageInfo.get('type'),
-          <span dangerouslySetInnerHTML={{__html: toHtml(usageInfo.get('note'))}} />,
+          {
+            type: usageInfo.get('type'),
+            content: <div dangerouslySetInnerHTML={{__html: toHtml(usageInfo.get('note'))}} />,
+            onClick: hideUsageInfo
+          },
           messageId
         );
       }

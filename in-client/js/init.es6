@@ -19,6 +19,7 @@ import {init as initMessageStore} from 'in-components/MessageDialog/MessageDialo
 import {init as initExpandedIdsStore} from 'in-components/tableView/stores/expandedIds';
 import {init as initPersistentConnection} from 'in-services/persistentConnection';
 import {init as initTimelineStore} from 'in-components/timeline/timelineStore';
+import {init as initMaintenanceNoteStore} from 'in-stores/maintenance';
 import {init as initBrowserIdentification} from 'in-services/browser';
 import {init as initTimeOffsetStore} from 'in-stores/timeOffset';
 import {init as initShortcuts} from 'in-services/shortcuts';
@@ -80,6 +81,7 @@ initTableViewVisibilityStore();
 initExpandedIdsStore();
 initHighlightedSuggestionStore();
 initUsageInfo();
+initMaintenanceNoteStore();
 
 ReactDOM.render((
   <Router history={hashHistory}>
