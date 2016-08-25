@@ -66,7 +66,7 @@ export default function createLayouter(node) {
 
       const transform = layer.getComponent('transform');
       transform.setScaleXYZ(LAYER_MARGIN,
-                            heightOfEachLayer - Math.min(0.1, heightOfEachLayer * LAYER_MARGIN),
+                            heightOfEachLayer * LAYER_MARGIN,
                             LAYER_MARGIN);
 
       transform.setPositionXYZ(nodePosition.x,
