@@ -154,11 +154,11 @@ export default function createChart(config) {
     const animate = () => {
       const now = Date.now();
       const to = config.timeframe.to || (toServerTime(now, config.serverTimeOffset) - config.chartWiggleRoom);
-      config.scales.x.setDomainFrom(to - config.timeframe.windowSize);
+      config.scales.x.setDomainFrom(to - config.timeframe.windowSize + config.chartWiggleRoom);
       config.scales.x.setDomainTo(to);
 
       if (now - prev >= animationDuration) {
-        config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize);
+        config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize + config.chartWiggleRoom);
         config.scales.bufferX.setDomainTo(to + animationDuration);
         config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + animationDuration));
 
