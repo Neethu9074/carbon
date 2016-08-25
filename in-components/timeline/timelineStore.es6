@@ -14,7 +14,7 @@ import {createStore} from 'in-stores/store';
 
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
-export const MAX_ZOOM_LEVEL = 1000 * 60 * 10; // 10 minutes
+export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
 
 let maxAvailableWindowSize = undefined;
 let currentBigBangTimestamp;

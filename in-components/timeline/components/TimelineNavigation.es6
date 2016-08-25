@@ -3,9 +3,7 @@ import React from 'react';
 
 import {
   timeframe$,
-  setWindowSize,
-  MIN_ZOOM_LEVEL,
-  MAX_ZOOM_LEVEL
+  setWindowSize
 } from 'in-components/timeline/timelineStore';
 import {timeframeShape} from 'in-stores/timeline';
 import Slider from 'in-components/Slider';
@@ -13,30 +11,38 @@ import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
-import TimeSlicer from './util/TimeSlicer';
 
 // Time range constants
-const days = 30;
-const hours = 24;
-const minutes = 6;
-const steps = days + hours + minutes;
-
-// Utilities
 const minute = 1000 * 60;
 const hour = minute * 60;
 const day = hour * 24;
+const month = day * 31;
 
-const slicer = new TimeSlicer({
-  min: MAX_ZOOM_LEVEL,
-  max: MIN_ZOOM_LEVEL
-});
+const slices = [
+  minute,
+  minute * 5,
+  minute * 10,
+  minute * 15,
+  minute * 30,
+  hour,
+  hour * 2,
+  hour * 6,
+  hour * 12,
+  day,
+  day * 2,
+  day * 7,
+  day * 14,
+  month
+];
 
-// Slice minutes (10mins-60mins)
-slicer.slice(slicer.min, slicer.min + hour, minutes);
-// Slice hours (1hour-24hours)
-slicer.slice(slicer.min + hour, slicer.min + day, hours);
-// Slice days (1day-30days)
-slicer.slice(slicer.min + day, slicer.max, days);
+function getIndexOfSlice(time) {
+  for (let i = 0; i < slices.length; ++i) {
+    if (slices[i] >= time) {
+      return i;
+    }
+  }
+  return -1;
+}
 
 const block = 'in-timeline-navigation';
 
@@ -60,7 +66,7 @@ export default connectTo({
       if (!timeframe) {
         return null;
       }
-      const value = steps - slicer.indexOf(timeframe.windowSize);
+      const value = slices.length - getIndexOfSlice(timeframe.windowSize) - 1;
       return (
         <div className={block}>
           <Icon type={'zoom_small'}
@@ -68,7 +74,7 @@ export default connectTo({
                 onClick={this.zoomOut}/>
           <Slider onChange={this.onZoomChanged}
                   min={0}
-                  max={steps}
+                  max={slices.length - 1}
                   step={1}
                   value={value}
                   className={block + '__slider'}/>
@@ -81,20 +87,20 @@ export default connectTo({
     },
 
     onZoomChanged(e) {
-      setWindowSize(slicer.get(steps - e.target.value));
+      setWindowSize(slices[slices.length - e.target.value - 1]);
     },
 
     zoomOut() {
-      const currentIndex = slicer.indexOf(this.props.timeframe.windowSize);
-      if (currentIndex < steps) {
-        setWindowSize(slicer.get(currentIndex + 1));
+      const currentIndex = getIndexOfSlice(this.props.timeframe.windowSize);
+      if (currentIndex < (slices.length - 1)) {
+        setWindowSize(slices[currentIndex + 1]);
       }
     },
 
     zoomIn() {
-      const currentIndex = slicer.indexOf(this.props.timeframe.windowSize);
+      const currentIndex = getIndexOfSlice(this.props.timeframe.windowSize);
       if (currentIndex > 0) {
-        setWindowSize(slicer.get(currentIndex - 1));
+        setWindowSize(slices[currentIndex - 1]);
       }
     }
   })

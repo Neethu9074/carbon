@@ -34,7 +34,7 @@ const timeFormats = [
     formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 10,
-    ceilToNearestStep: composeCeil(ceilToFullSecond)
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilTo10Seconds)
   },
   {
     maxMillis: 1000 * 60 * 11,
@@ -170,6 +170,15 @@ function ceilToFullSecond(date) {
   const millis = date.getMilliseconds();
   if (millis > 0) {
     date.setMilliseconds(millis + 1000 - millis);
+  }
+}
+
+
+function ceilTo10Seconds(date) {
+  const seconds = date.getSeconds();
+  const mod = seconds % 10;
+  if (mod !== 0) {
+    date.setSeconds(seconds + 10 - mod);
   }
 }
 
