@@ -29,7 +29,7 @@ export function init() {
   const now = Date.now();
   Object.keys(fromStorage).forEach(key => {
     const item = fromStorage[key];
-    if (item.timestamp < now - TIME_TO_LIFE) {
+    if (!item || item.timestamp < now - TIME_TO_LIFE) {
       removeId(key);
     } else {
       changePosition(key, item.x, item.y, item.z);

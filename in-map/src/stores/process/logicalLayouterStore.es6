@@ -25,7 +25,9 @@ export function clearAll() {
 
 function set(id, value) {
   nodePositions.applyStateMutation(nodes => {
-    nodes = nodes.set(id, value);
+    nodes = value
+      ? nodes.set(id, value)
+      : nodes.delete(id);
     return nodes;
   });
 }
