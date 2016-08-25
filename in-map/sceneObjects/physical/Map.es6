@@ -53,8 +53,8 @@ export default class Map extends BaseMap {
     );
   }
 
-  createController(scene) {
-    return createCameraController(scene, this);
+  createController() {
+    return createCameraController;
   }
 
   createGroundPlane() {

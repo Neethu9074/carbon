@@ -5,21 +5,14 @@ import {PHYSICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import {groups} from 'in-map/stores/physical/groupsStore';
 import {nodes} from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
-import {focusId} from 'in-map/services/focus';
 
 
 const MAX_VALUE = Number.MAX_VALUE;
 
 export default function createLayouter() {
-  let firstLayoutDone = false;
   const squashFactor = 0.5;
   const groupMargin = 1;
   const nodeMargin = 2;
-
-  const currentDimensions = {
-    x: 0,
-    y: 0
-  };
 
   const layoutingSubscription = combineLatest([groups.stream,
                                                nodes.stream,
@@ -30,9 +23,6 @@ export default function createLayouter() {
   function applyLayout(_groups) {
     // transform map to array
     _groups = Object.keys(_groups).map(key => _groups[key]);
-
-    currentDimensions.x = 0;
-    currentDimensions.y = 0;
 
     // the first group starts at (0, 0)
     let groupXCursor = 0;
@@ -58,9 +48,6 @@ export default function createLayouter() {
       let nodeYCursor = 1;
 
       sortNodes(_nodes).forEach(node => {
-        currentDimensions.x = Math.max(currentDimensions.x, nodeXCursor);
-        currentDimensions.y = Math.max(currentDimensions.y, nodeYCursor);
-
         node.getComponent('transform').setPositionXYZ(nodeXCursor + 0.5,
                                                       0,
                                                       -nodeYCursor + 0.5 - groupMargin);
@@ -74,18 +61,6 @@ export default function createLayouter() {
 
       groupXCursor += dim.width + groupMargin;
     });
-
-    if (!firstLayoutDone) {
-      firstLayoutDone = true;
-      focusId();
-    }
-  }
-
-  function getFocusPointFromCurrentDimensions() {
-    return {
-      x: currentDimensions.x / 2,
-      z: -currentDimensions.y / 4
-    };
   }
 
   function sortGroups(_groups) {
@@ -109,12 +84,10 @@ export default function createLayouter() {
   }
 
   return {
-    getFocusPointFromCurrentDimensions,
     dispose
   };
 
   function dispose() {
     layoutingSubscription.dispose();
-    firstLayoutDone = false;
   }
 }

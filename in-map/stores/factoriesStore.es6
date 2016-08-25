@@ -1,7 +1,7 @@
-import createObjectColletion from 'in-map/stores/ObjectCollection';
+import createObjectCollection from 'in-map/stores/ObjectCollection';
 
 
-const factories = createObjectColletion();
+const factories = createObjectCollection();
 
 export function addFactory(id, factory) {
   factories.add(id, factory);

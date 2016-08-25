@@ -1,0 +1,44 @@
+import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
+
+
+const CameraControllerServiceLocator = (function create() {
+  let service = createNullService();
+
+  function flyToPosition(position) {
+    return service.flyToPosition(position);
+  }
+
+  function focusMap() {
+    return service.focusMap();
+  }
+
+  function update(dt) {
+    return service.update(dt);
+  }
+
+  function provide(_service) {
+    if (!_service) {
+      return;
+    }
+
+    if (service) {
+      service.dispose();
+    }
+
+    if (_service) {
+      _service.init();
+      _service.initEvents();
+    }
+
+    service = _service;
+  }
+
+  return {
+    flyToPosition,
+    focusMap,
+    update,
+    provide
+  };
+}());
+
+export default CameraControllerServiceLocator;

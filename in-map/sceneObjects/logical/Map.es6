@@ -15,8 +15,6 @@ export default class Map extends BaseMap {
 
   constructor(params) {
     super(params);
-
-    this.cameraController = undefined;
   }
 
   init() {
@@ -52,8 +50,8 @@ export default class Map extends BaseMap {
     ]);
   }
 
-  createController(scene) {
-    return createCameraController(scene, this);
+  createController() {
+    return createCameraController;
   }
 
   createGroundPlane() {

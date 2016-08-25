@@ -4,13 +4,14 @@ import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
+import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import {resetStoreRegistry} from 'in-stores/store';
 
 
 describe('shortcuts/C', () => {
 
-  let flyToPositionStub;
   let selectedEntityId;
+  let currentService;
   let focusEntityId;
   let onKeyPressed;
   let shortcuts;
@@ -18,21 +19,29 @@ describe('shortcuts/C', () => {
   beforeEach(() => {
     resetStoreRegistry();
 
-    flyToPositionStub = sinon.stub();
+    currentService = {
+      init: () => {},
+      initEvents: () => {},
+      dispose: () => {},
+      flyToPosition: sinon.stub(),
+      focusMap: sinon.stub()
+    };
+    CameraControllerServiceLocator.provide(currentService);
+
     selectedEntityId = create();
     selectedEntityId.emit(null);
     loadModules();
   });
 
   it('should focus entity when F was pressed', () => {
-    expect(flyToPositionStub).to.have.callCount(0);
+    expect(currentService.flyToPosition).to.have.callCount(0);
 
     selectedEntityId.emit('foo');
 
     pressF();
 
-    expect(flyToPositionStub).to.have.callCount(1);
-    expect(flyToPositionStub.getCall(0).args[0]).to.deep.equal({
+    expect(currentService.flyToPosition).to.have.callCount(1);
+    expect(currentService.flyToPosition.getCall(0).args[0]).to.deep.equal({
       x: 1,
       y: -1,
       z: 0
@@ -64,11 +73,6 @@ describe('shortcuts/C', () => {
             }
           })
         }
-      },
-      'in-map/stores/cameraController': {
-        cameraController$: create().startWith({
-          flyToPosition: flyToPositionStub
-        })
       },
       'in-map/stores/selectedMapSceneObjectStore': {
         selectedSnapshotIdForHighlightingInMap$: create().startWith('id1')
