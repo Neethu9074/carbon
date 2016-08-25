@@ -35,7 +35,6 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          y2={{
                            min: 0,
                            formatter: msTwoDecimalPlaces,
-                           tooltipFormatter: msTwoDecimalPlaces,
                            metrics: [
                              'duration.mean'
                            ],
