@@ -24,8 +24,6 @@ export default function createTimelineRenderer({container, canvas}) {
   let width;
   let collapsed;
 
-  const backBufferCanvas = document.createElement('canvas');
-  const backBuffer = backBufferCanvas.getContext('2d');
   const screenBufferCanvas = canvas;
   const screenBuffer = screenBufferCanvas.getContext('2d');
 
@@ -56,14 +54,14 @@ export default function createTimelineRenderer({container, canvas}) {
     }
   });
 
-  const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
-  const focusedMomentRenderer = new FocusedMomentRenderer(backBuffer, scale);
-  const highlightedMomentRenderer = new HighlightedMomentRenderer(backBuffer, scale);
-  const markedIncidentRenderer = new MarkedIncidentRenderer(backBuffer, scale);
-  const combinedEventsRenderer = new CombinedEventsRenderer(backBuffer, scale);
-  const backgroundRenderer = new BackgroundRenderer(backBuffer, scale, height);
-  const eventsGraphRenderer = new EventsGraphRenderer(backBuffer, scale, height);
-  const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
+  const timeAxisRenderer = new TimeAxisRenderer(screenBuffer, scale);
+  const focusedMomentRenderer = new FocusedMomentRenderer(screenBuffer, scale);
+  const highlightedMomentRenderer = new HighlightedMomentRenderer(screenBuffer, scale);
+  const markedIncidentRenderer = new MarkedIncidentRenderer(screenBuffer, scale);
+  const combinedEventsRenderer = new CombinedEventsRenderer(screenBuffer, scale);
+  const backgroundRenderer = new BackgroundRenderer(screenBuffer, scale, height);
+  const eventsGraphRenderer = new EventsGraphRenderer(screenBuffer, scale, height);
+  const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
@@ -126,7 +124,6 @@ export default function createTimelineRenderer({container, canvas}) {
     backgroundRenderer.setWidth(width);
 
     updateCanvasDimensions(screenBufferCanvas, screenBuffer, width, height);
-    updateCanvasDimensions(backBufferCanvas, backBuffer, width, height);
 
     changes.emit(changeSignal);
   }
@@ -148,9 +145,6 @@ export default function createTimelineRenderer({container, canvas}) {
 
     focusedMomentRenderer.draw();
     highlightedMomentRenderer.draw();
-
-    // copy backbuffer to screenbuffer
-    screenBuffer.drawImage(backBufferCanvas, 0, 0, width, height);
   }
 
   function dispose() {
