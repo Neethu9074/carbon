@@ -41,7 +41,8 @@ React.createClass({
 
     return (
       <div className={block}>
-        <canvas ref='mainCanvas'/>
+        <canvas ref='mainCanvas'
+                className={`${block}__canvas`}/>
         {(_canvas && antialias)
           ? <SceneComponent canvas={_canvas}
                             antialias={antialias}/>
