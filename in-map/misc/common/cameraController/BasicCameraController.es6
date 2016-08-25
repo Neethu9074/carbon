@@ -141,7 +141,12 @@ export default class BasicCameraController extends Subscriber {
 
     // calculate relative scale
     const widthInScreenSpace = maxX - minX;
-    const inPercent = widthInScreenSpace / 2; // screenSpace goes from [-1, 1]
+    const heightInScreenSpace = maxY - minY;
+
+    // screenSpace goes from [-1, 1]
+    const inPercent = widthInScreenSpace > heightInScreenSpace
+    ? widthInScreenSpace / 2
+      : heightInScreenSpace / 2;
 
     const zoomLevelToSet = this.zoomLevel * inPercent;
 
