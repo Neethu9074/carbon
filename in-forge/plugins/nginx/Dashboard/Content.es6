@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {twoDecimalPlaces} from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -48,7 +49,8 @@ export default function NginxDashboard({snapshot, timeframe}) {
                  labels: [
                    'Requests / s'
                  ],
-                 type: 'line'
+                 type: 'line',
+                 formatter: twoDecimalPlaces
                }}/>
       </DashboardSection>
 
@@ -73,7 +75,8 @@ export default function NginxDashboard({snapshot, timeframe}) {
                    'Active connections',
                    'Dropped connections'
                  ],
-                 type: 'line'
+                 type: 'line',
+                 formatter: twoDecimalPlaces
                }}
                y2={{
                  min: 0,
@@ -87,7 +90,8 @@ export default function NginxDashboard({snapshot, timeframe}) {
                    'Writing',
                    'Waiting'
                  ],
-                 type: 'line'
+                 type: 'line',
+                 formatter: twoDecimalPlaces
                }}/>
       </DashboardSection>
     </div>

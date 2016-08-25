@@ -1,0 +1,62 @@
+import {createStore} from 'in-stores/store';
+
+// used to generate IDs for messages
+let idCounter = 0;
+
+// Each message has the following format:
+// {
+//   id: <id>,
+//   type: <info|warning|danger>
+//   content: <react element>
+// }
+const messagesStore = createStore({
+  name: 'in-components/MessageFlyout/stores/messages',
+  initialValue: []
+});
+export const messages$ = messagesStore.observable;
+
+
+export function addMessage(type, content, id = null) {
+  id = id == null ? idCounter++ : id;
+  const message = {
+    id,
+    type,
+    content
+  };
+
+  messagesStore.applyStateMutation(messages => {
+    messages = messages.slice();
+    const i = getIndexOfMessage(messages, id);
+    if (i !== -1) {
+      messages.splice(i, 1, message);
+    } else {
+      messages.push(message);
+    }
+    return messages;
+  });
+
+  return id;
+}
+
+
+export function removeMessage(id) {
+  messagesStore.applyStateMutation(messages => {
+    messages = messages.slice();
+    const i = getIndexOfMessage(messages, id);
+    if (i !== -1) {
+      messages.splice(i, 1);
+    }
+    return messages;
+  });
+
+}
+
+
+function getIndexOfMessage(messages, id) {
+  for (let i = 0, len = messages.length; i < len; i++) {
+    if (messages[i].id === id) {
+      return i;
+    }
+  }
+  return -1;
+}
