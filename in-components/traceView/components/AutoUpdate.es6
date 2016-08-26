@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {toggleAutoRefresh, autoUpdate$} from 'in-components/traceView/stores/traceList';
+import {toggleAutoUpdate, autoUpdate$} from 'in-components/traceView/stores/autoUpdate';
 import connectTo from 'in-hoc/connectTo';
 
 import './AutoUpdate.less';
@@ -17,7 +17,7 @@ export default connectTo({
       <input type='checkbox'
              id={checkboxId}
              value={autoUpdateActive}
-             onChange={toggleAutoRefresh}/>
+             onChange={toggleAutoUpdate}/>
       <label htmlFor={checkboxId}
              className={`${block}__label`}>
         Refresh every 10 seconds

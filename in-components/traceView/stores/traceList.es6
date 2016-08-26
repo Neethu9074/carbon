@@ -1,115 +1,117 @@
-import {combineLatest} from 'reactive-observables';
-import {debounce} from 'lodash';
-
+import {sortDirection$} from 'in-components/traceView/stores/sortDirection';
+import {autoUpdate$} from 'in-components/traceView/stores/autoUpdate';
+import createTracesObservable from 'in-services/subscription/traces';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import {sortBy$} from 'in-components/traceView/stores/sortBy';
 import {formatDateTime} from 'in-services/formatters/date';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
-import {luceneQuery$} from 'in-stores/search';
+import {luceneQuery$ as query$} from 'in-stores/search';
 import {createStore} from 'in-stores/store';
-import {getTraces} from 'in-stores/traces';
 import {getLabel} from 'in-sdk/tracing';
 
+let initPhase = false;
+let subscriptions = [];
+let loadSubscription;
+let autoUpdateHandle;
+
+// Timestamp bounds to use for queries. Will only be updated when the view
+// becomes visible, when the timeframe changes or when the user explicitly
+// hits refresh (or via auto refresh).
+let maxTimestamp;
+let minTimestamp;
+
+let sortByField;
+let sortDirection;
+let query;
 
 const tracesStore = createStore({
-  name: 'in-components/traceView/stores/traceList/shownTraces',
+  name: 'in-components/traceView/stores/traceList/traces',
   initialValue: []
 });
 export const traces$ = tracesStore.observable;
 
 
-const oldestTraceStartTime$ = traces$.map(traces => {
-  if (traces.length === 0) {
-    return null;
-  }
-  return traces[traces.length - 1].startMillis;
-});
-
-
 const isLoadingStore = createStore({
-  name: 'in-components/traceView/stores/traceList/loadingTraces',
+  name: 'in-components/traceView/stores/traceList/isLoading',
   initialValue: false
 });
-
-const sortBy = createStore({
-  name: 'in-components/traceView/stores/traceList/tracesSortBy',
-  initialValue: 'ts'
-});
-
-export const refresh = debounce(() => {
-  clear();
-  loadMoreTraces();
-}, 100);
-
-export function setSortBy(newSortBy) {
-  sortBy.applyStateMutation(()=>newSortBy);
-  refresh();
-}
-
-const sortDirection = createStore({
-  name: 'in-components/traceView/stores/traceList/tracesSortDirection',
-  initialValue: 'desc'
-});
-
-export function setSortDirection(newSortDirection) {
-  sortDirection.applyStateMutation(()=>newSortDirection);
-  refresh();
-}
-
-export const sortBy$ = sortBy.observable;
-export const sortDirection$ = sortDirection.observable;
 export const isLoading$ = isLoadingStore.observable;
 
 
-const autoUpdateStore = createStore({
-  name: 'in-components/traceView/stores/traceList/traceViewAutoUpdate',
-  initialValue: false
-});
-export const autoUpdate$ = autoUpdateStore.observable;
-
-// Automatically refresh the shown traces upon timeframe change to reload and present data
-// that is in the chosen timeframe.
-let timeframeSubscription;
-// Automatically refresh the shown traces when the query changes.
-let luceneQuerySubscription;
-
 export function enable() {
-  timeframeSubscription = timeframe$.subscribe(refresh);
-  luceneQuerySubscription = luceneQuery$.subscribe(refresh);
+  initPhase = true;
+  subscriptions = [];
+
+  subscriptions.push(timeframe$.subscribe(refresh));
+  subscriptions.push(sortBy$.subscribe(_sortBy => {
+    sortByField = _sortBy;
+    refresh();
+  }));
+  subscriptions.push(sortDirection$.subscribe(_sortDirection => {
+    sortDirection = _sortDirection;
+    refresh();
+  }));
+  subscriptions.push(query$.subscribe(_query => {
+    query = _query;
+    refresh();
+  }));
+  subscriptions.push(autoUpdate$.subscribe(autoUpdate => {
+    clearInterval(autoUpdateHandle);
+
+    if (autoUpdate) {
+      refresh();
+      autoUpdateHandle = setInterval(refresh, 10000);
+    }
+  }));
+
+  initPhase = false;
+  refresh();
 }
+
 
 export function disable() {
-  timeframeSubscription.dispose();
-  luceneQuerySubscription.dispose();
+  tracesStore.mutateTo([]);
+  subscriptions.forEach(s => s.dispose());
+  disposeExistingLoad();
+  clearInterval(autoUpdateHandle);
 }
 
-let existingLoadMoreTracesSubscription;
+
+export function refresh() {
+  if (initPhase) {
+    return;
+  }
+
+  to$.once(to => maxTimestamp = to);
+  from$.once(from => minTimestamp = from);
+  tracesStore.mutateTo([]);
+  loadMoreTraces();
+}
+
+
 export function loadMoreTraces() {
   disposeExistingLoad();
+  isLoadingStore.mutateTo(true);
 
-  combineLatest([oldestTraceStartTime$, from$, to$, sortBy$, sortDirection$, luceneQuery$])
-    .once(([oldestTraceStartTime, from, to, currentSortBy, currentSortDirection, luceneQuery]) => {
-      isLoadingStore.applyStateMutation(() => true);
-      // Remove 1 from the maxTimestamp to avoid being stuck in time, i.e. loading the same
-      // data over and over again. This can happen when we have more than <pageSize> traces
-      // with the same timestamp.
-      const maxTimestamp = oldestTraceStartTime ? oldestTraceStartTime - 1 : to;
-      existingLoadMoreTracesSubscription = getTraces(
-          maxTimestamp,
-          from,
-          currentSortBy,
-          currentSortDirection,
-          luceneQuery
-        )
-        .once(addNewTraces);
-    });
+  traces$.once(traces => {
+    const offset = traces.length;
+    const maxTimestampForQuery = getMaxStartMillis(traces, maxTimestamp);
+    loadSubscription = createTracesObservable(
+        {maxTimestamp: maxTimestampForQuery, minTimestamp, sortByField, sortMode: sortDirection, query, offset})
+      .once(addNewTraces);
+  });
 }
 
 
-function disposeExistingLoad() {
-  if (existingLoadMoreTracesSubscription) {
-    existingLoadMoreTracesSubscription.dispose();
-    existingLoadMoreTracesSubscription = null;
+function getMaxStartMillis(traces, fallback) {
+  if (traces.length === 0) {
+    return fallback;
   }
+  let max = Number.NEGATIVE_INFINITY;
+  for (let i = 0, len = traces.length; i < len; i++) {
+    max = Math.max(max, traces[i].startMillis);
+  }
+  return max;
 }
 
 
@@ -126,28 +128,11 @@ function addNewTraces(newTraces) {
     };
   });
   tracesStore.applyStateMutation(existingTraces => existingTraces.concat(transformedTraces));
-  isLoadingStore.applyStateMutation(() => false);
+  isLoadingStore.mutateTo(false);
 }
 
-
-export function clear() {
-  disposeExistingLoad();
-  tracesStore.applyStateMutation(() => []);
-}
-
-let intervalHandle;
-export function toggleAutoRefresh() {
-  autoUpdateStore.applyStateMutation(active => !active);
-}
-
-autoUpdate$.subscribe(active => {
-  if (intervalHandle) {
-    clearInterval(intervalHandle);
-    intervalHandle = null;
+function disposeExistingLoad() {
+  if (loadSubscription) {
+    loadSubscription.dispose();
   }
-
-  if (active) {
-    refresh();
-    intervalHandle = setInterval(refresh, 10000);
-  }
-});
+}

@@ -4,7 +4,6 @@ import React from 'react';
 import {
   traces$,
   isLoading$,
-  clear,
   loadMoreTraces
 } from 'in-components/traceView/stores/traceList';
 import {
@@ -35,10 +34,6 @@ export default getElementDimensions(connectTo({
     traces: rpt.array.isRequired,
     selectedTraceId: rpt.string,
     height: rpt.number
-  },
-
-  componentWillUnmount() {
-    clear();
   },
 
   render() {
