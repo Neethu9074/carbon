@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {highlightSpanId} from 'in-components/traceView/stores/highlightedSpan';
 import {getStart, getEnd} from 'in-components/traceView/util';
-import {highlightSpanId} from 'in-components/traceView/traceViewStore';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getLabel, getCategory, getDirection} from 'in-sdk/tracing';
 import {getAxisConfig} from 'in-charts/timeFormatting';

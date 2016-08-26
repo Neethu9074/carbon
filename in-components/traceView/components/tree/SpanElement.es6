@@ -5,7 +5,7 @@ import {getLabel, getCategory, getCategoryIcon, getTypeLabelSingular, getDirecti
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
-import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
+import {highlightedSpanId$} from 'in-components/traceView/stores/highlightedSpan';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getSelfTime} from 'in-components/traceView/util';
 import {hexToRGB} from 'in-services/formatters/color';
