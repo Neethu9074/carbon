@@ -12,6 +12,8 @@ import Subscriber from 'in-map/misc/Subscriber';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
+const FOCUS_MARGIN = 0.02;
+
 export default class BasicCameraController extends Subscriber {
 
   constructor(camera, factoryIdForFocusCalculation) {
@@ -132,6 +134,11 @@ export default class BasicCameraController extends Subscriber {
       maxX = Math.max(maxX, screenX);
       maxY = Math.max(maxY, screenY);
     }
+
+    minX -= FOCUS_MARGIN;
+    minY -= FOCUS_MARGIN;
+    maxX += FOCUS_MARGIN;
+    maxY += FOCUS_MARGIN;
 
     const positionOnTheGround = this.getPointOfImpact({
       x: minX + (maxX - minX) / 2,
