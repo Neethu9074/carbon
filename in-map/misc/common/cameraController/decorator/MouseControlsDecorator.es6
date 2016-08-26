@@ -1,6 +1,7 @@
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
 import {onWheel, onMove} from 'in-services/reactiveMouseEvents';
 import {requestRendering} from 'in-map/stores/renderingStore';
+import {width, height} from 'in-map/stores/indexStore';
 import {eventBus} from 'in-map/services/eventBus';
 
 
@@ -67,7 +68,7 @@ export default class MouseControlDecorator extends Decorator {
 
   zoom(delta, centeredZoom) {
     if (centeredZoom) {
-      this.setCursorPosition(this.canvas.width / 2, this.canvas.height / 2);
+      this.setCursorPosition(width / 2, height / 2);
     }
 
     this.zoomLevel = this.clampZoomLevel(this.zoomLevel + delta);
@@ -105,7 +106,6 @@ export default class MouseControlDecorator extends Decorator {
 
   setCursorPosition(x, y) {
     const cursorPosition = this.cameraController.cursorPosition;
-    const camera = this.cameraController.camera;
 
     if (cursorPosition.x === x &&
         cursorPosition.y === y) {
@@ -116,8 +116,8 @@ export default class MouseControlDecorator extends Decorator {
 
     // transform into screen space
     const screenSpaceCursorPosition = this.cameraController.screenSpaceCursorPosition;
-    screenSpaceCursorPosition.x = (x / camera.width) * 2 - 1;
-    screenSpaceCursorPosition.y = -(y / camera.height) * 2 + 1;
+    screenSpaceCursorPosition.x = (x / width) * 2 - 1;
+    screenSpaceCursorPosition.y = -(y / height) * 2 + 1;
 
     this.eventEmitter.emit('onMouseMoved', cursorPosition);
   }

@@ -10,6 +10,7 @@ import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {setDimensions} from 'in-map/stores/indexStore';
 import Camera from 'in-map/misc/OrthographicCamera';
 import {theme} from 'in-services/theme';
 
@@ -32,8 +33,6 @@ export default class MainScene extends SceneObject {
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
     this.antialias = params.antialias;
-    this.width = this.canvas.clientWidth;
-    this.height = this.canvas.clientHeight;
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
   }
 
@@ -94,7 +93,7 @@ export default class MainScene extends SceneObject {
       antialias: this.antialias === 'browserAA' ? true : false
     });
 
-    renderer.setSize(this.width, this.height);
+    renderer.setSize(0, 0);
     renderer.setClearColor(new Color(theme.map.colors.clearColor));
 
     // objects organize matrix updates by themselves
@@ -106,12 +105,14 @@ export default class MainScene extends SceneObject {
   }
 
   setupCamera() {
-    this.camera = new Camera(this.width, this.height);
+    this.camera = new Camera();
   }
 
   onWindowResize() {
-    const height = this.height = window.innerHeight - (theme.header.height + theme.footer.height);
-    const width = this.width = window.innerWidth;
+    const height = window.innerHeight - (theme.header.height + theme.footer.height);
+    const width = window.innerWidth;
+
+    setDimensions(width, height);
 
     this.canvas.setAttribute('width', width);
     this.canvas.setAttribute('height', height);
@@ -120,7 +121,6 @@ export default class MainScene extends SceneObject {
 
     this.renderer.setSize(width, height);
 
-    this.camera.setSize(width, height);
     this.camera.updateCameraFromSize();
 
     // refresh to show the current state
@@ -162,8 +162,6 @@ export default class MainScene extends SceneObject {
     this.antialias = null;
     this.renderer = null;
     this.canvas = null;
-    this.height = null;
-    this.width = null;
     this.scene = null;
   }
 }

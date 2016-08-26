@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
+import {width, height} from 'in-map/stores/indexStore';
 import {eventBus} from 'in-map/services/eventBus';
 import {scene$} from 'in-map/stores/sceneStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
@@ -55,8 +56,6 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
   updateScreenPosition() {
     const camera = this.camera;
-    const width = camera.width;
-    const height = camera.height;
 
     const screenPosition = this.screenPositionAnchor
       .clone()
@@ -90,10 +89,8 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
   isInView() {
     const screenPos = this.screenPosition;
-    const camera = this.camera;
-
-    return (screenPos.x > 0 && screenPos.x <= camera.width &&
-            screenPos.y > 0 && screenPos.y <= camera.height);
+    return (screenPos.x > 0 && screenPos.x <= width &&
+            screenPos.y > 0 && screenPos.y <= height);
   }
 
   dispose() {
