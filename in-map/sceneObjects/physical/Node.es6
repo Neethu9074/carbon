@@ -67,7 +67,7 @@ export default class Node extends SceneObject {
 
     this.addComponent('power', new PowerComponent(this));
 
-    this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos) => pos));
+    this.addComponent('screenPosition', new ScreenPositionComponent(this));
 
     this.addComponent('tooltip', new TooltipComponent(this, NodeTooltip));
   }

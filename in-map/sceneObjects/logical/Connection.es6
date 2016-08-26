@@ -61,7 +61,7 @@ export default class Connection extends SceneObject {
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
-    this.addComponent('screenPosition', new ScreenPositionComponent(this, pos => pos));
+    this.addComponent('screenPosition', new ScreenPositionComponent(this));
 
     this.addComponent('health', new HealthComponent(this));
 
@@ -98,9 +98,7 @@ export default class Connection extends SceneObject {
 
       this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE)
                                             .subscribe(fromTo => {
-        if (this.collisionLine) {
-          this.collisionLine.geometry.dispose();
-        }
+        this.disposeCollisionLine();
         this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
       }),
 
@@ -186,6 +184,13 @@ export default class Connection extends SceneObject {
     return intersects(raycaster, this.collisionLine);
   }
 
+  disposeCollisionLine() {
+    if (this.collisionLine) {
+      this.collisionLine.geometry.dispose();
+      this.collisionLine = null;
+    }
+  }
+
   dispose() {
     super.dispose();
 
@@ -193,11 +198,7 @@ export default class Connection extends SceneObject {
     connections.remove(this.id);
 
     this.ghostConncetionSpawner.dispose();
-
-    if (this.collisionLine) {
-      this.collisionLine.geometry.dispose();
-      this.collisionLine = null;
-    }
+    this.disposeCollisionLine();
 
     this.lineContentProvider = null;
     this.destinationNode = null;

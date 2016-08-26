@@ -11,6 +11,7 @@ const IS_VISIBLE_CHANGED_KEY = 'isVisibleChanged';
 const SCREEN_POSITION_CHANGED_KEY = 'screenPositionChanged';
 
 export default class ScreenPositionComponent extends SceneObjectComponent {
+
   constructor(sceneObject, get3DPositionToProject) {
     super(sceneObject, '_screenPosition');
 
@@ -41,10 +42,11 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
           combineLatest([
             eventEmitter.on('positionChanged'),
             eventEmitter.on('scaleChanged')
-          ]).subscribe(([pos, scale]) => {
-            const positionToSet = this.get3DPositionToProjectCallback(pos, scale);
-            this.set3DPositionToProject(positionToSet);
-          })
+          ]).subscribe(([pos, scale]) =>
+            this.set3DPositionToProject(this.get3DPositionToProjectCallback
+                                          ? this.get3DPositionToProjectCallback(pos, scale)
+                                          : pos)
+          )
         ]);
       }
     });
