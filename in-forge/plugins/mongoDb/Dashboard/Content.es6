@@ -35,6 +35,10 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
           <MetricValue snapshotId={snapshotId}
                        metric='connections' />
         </KpiKeyValue>
+        <KpiKeyValue label='DB Size'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='totalDbSize' />
+        </KpiKeyValue>
       </KpiSection>
 
       {dbs ?
