@@ -1,5 +1,8 @@
-import {VertexColors, LineSegments, LineBasicMaterial} from 'in-map/3DLibProvider';
+import fragmentShader from 'in-map/singleMeshFactories/basicFragmentShader.glsl';
+import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
+
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
+import {LineSegments, RawShaderMaterial} from 'in-map/3DLibProvider';
 
 
 export default class LineSingleMeshFactory extends ASingleMeshFactory {
@@ -13,8 +16,9 @@ export default class LineSingleMeshFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
-    const material = new LineBasicMaterial({
-      vertexColors: VertexColors
+    const material = new RawShaderMaterial({
+      fragmentShader: fragmentShader,
+      vertexShader: vertexShader
     });
 
     if (navigator.platform.indexOf('Win') < 0) {
