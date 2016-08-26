@@ -7,7 +7,6 @@ import {LAYER_LAYOUTING} from 'in-map/misc/TimingConfig';
 import {getFactory} from 'in-map/stores/factoriesStore';
 
 
-const maxPercentUsedByGaps = 10;
 const LAYER_MARGIN = 0.9; // 90%
 
 export default function createLayouter(node) {
@@ -18,83 +17,91 @@ export default function createLayouter(node) {
                                            node.eventEmitter.on('scaleChanged'),
                                            node.layer.stream])
                             .debounce(LAYER_LAYOUTING)
-                            .subscribe(([nodePosition, nodeScale, _layer]) =>
-                              applyLayout(nodePosition,
-                                          nodeScale,
-                                          Object.keys(_layer).map(key => _layer[key])));
+                            .subscribe(([nodePosition, nodeScale, _layer]) => {
+                              const plugins = applyLayout(nodePosition,
+                                                          nodeScale,
+                                                          Object.keys(_layer).map(key => _layer[key]));
+
+
+                              setupPluginIcons(plugins);
+                            });
 
   function applyLayout(nodePosition, nodeScale, _layer) {
     const numLayer = _layer.length;
     if (numLayer === 0) {
-      return;
+      return {};
     }
 
-    const nodeHeight = nodeScale.y;
+    const nodeFullHeight = nodeScale.y;
 
-    // sort layer desc by plugin because they are layouted from bottom to top
-    _layer = _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
+    // sort layer desc by plugin because they are layouted from bottom up
+    // no need to copy the array since it is created new on every call
+    _layer.sort((l1, l2) => l2._cachedPlugin.localeCompare(l1._cachedPlugin));
 
-    const numGaps = countDifferentPluginsFromSortedArray(_layer);
-    const gapHeight = calculateHeightForEachGap(nodeHeight, numGaps);
-    const heightUsedForLayer = nodeHeight - numGaps * gapHeight;
+    // - 1 : if you have only one plugin, you have zero gaps. seems legit
+    const numGaps = countDifferentPluginsFromSortedArray(_layer) - 1;
+
+    // the space between each group of layer
+    const heightOfGap = calculateHeightForEachGap(nodeFullHeight, numGaps);
+
+    // the remaining height to sliver for the layer
+    const heightUsedForLayer = nodeFullHeight - numGaps * heightOfGap;
     const heightOfEachLayer = heightUsedForLayer / numLayer;
-    const plugins = {};
 
-    let firstPassed = false;
-    let currentPlugin;
-    let position = 0;
+    let currentPlugin = _layer[0]._cachedPlugin;
+    const plugins = {};
+    plugins[currentPlugin] = {
+      from: 0,
+      to: nodeFullHeight
+    };
+    let currentYPosition = 0;
+    let lastYPositionBeforePluginChanged = 0;
+
     for (let i = 0, length = _layer.length; i < length; i++) {
       const layer = _layer[i];
       const plugin = layer._cachedPlugin;
-      if (plugin !== currentPlugin) {
-        if (!firstPassed) {
-          firstPassed = true;
-        } else {
-          position += gapHeight;
-        }
 
-        if (plugins[currentPlugin]) {
-          plugins[currentPlugin].to = i * heightOfEachLayer;
-        }
+      if (plugin !== currentPlugin) {
+        plugins[currentPlugin].to = currentYPosition;
+
         currentPlugin = plugin;
-        plugins[plugin] = {
-          layer,
-          from: position,
-          to: nodeHeight
+        lastYPositionBeforePluginChanged = currentYPosition;
+
+        plugins[currentPlugin] = {
+          from: lastYPositionBeforePluginChanged,
+          to: nodeFullHeight
         };
+
+        currentYPosition += heightOfGap;
       }
 
       const transform = layer.getComponent('transform');
-      transform.setScaleXYZ(LAYER_MARGIN,
+      transform.setScaleXYZ(nodeScale.x * LAYER_MARGIN,
                             heightOfEachLayer * LAYER_MARGIN,
-                            LAYER_MARGIN);
+                            nodeScale.z * LAYER_MARGIN);
 
       transform.setPositionXYZ(nodePosition.x,
-                               position,
+                               currentYPosition,
                                nodePosition.z);
 
-      position += heightOfEachLayer;
+      currentYPosition += heightOfEachLayer;
     }
 
-    setupPluginIcons(plugins);
-  }
-
-  function calculateHeightForEachGap(heightOfNode, numGaps) {
-    // if 10% is the maximum of height used for gaps -> the maximum height for
-    // gaps can be 1 / 10(%) = 0.1. happens if there is only one gap, taking 10%.
-    // if there are more gaps, e.g. 4 -> each one takes 10% / 4 which is
-    // heightOfNode / (#Gaps * 1 / 10).
-    return Math.min(1 / maxPercentUsedByGaps, heightOfNode / (numGaps * maxPercentUsedByGaps));
+    return plugins;
   }
 
   function countDifferentPluginsFromSortedArray(_layer) {
     const plugins = {};
-
-    for (let i = 1, length = _layer.length; i < length; i++) {
+    for (let i = 0, length = _layer.length; i < length; i++) {
       plugins[_layer[i]._cachedPlugin] = true;
     }
-
     return Object.keys(plugins).length;
+  }
+
+  function calculateHeightForEachGap(heightOfNode, numGaps) {
+    return numGaps === 0
+      ? 0 // avoid devide by zero exception
+      : (heightOfNode / numGaps) * 0.1; // 0.1 = maxPercentUsedByGaps
   }
 
   function setupPluginIcons(plugins) {
@@ -134,6 +141,10 @@ export default function createLayouter(node) {
   }
 
   return {
-    dispose
+    dispose,
+
+    // export them to make them testable
+    countDifferentPluginsFromSortedArray,
+    calculateHeightForEachGap
   };
 }

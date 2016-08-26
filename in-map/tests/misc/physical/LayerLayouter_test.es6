@@ -45,6 +45,51 @@ describe('in-map', () => {
       eventEmitter.dispose();
     });
 
+    describe('count different plugins', () => {
+      it('should return 0 if there are no plugins', () => {
+        expect(layouter.countDifferentPluginsFromSortedArray([])).to.equal(0);
+      });
+
+      it('should return 1 if there are is one plugins', () => {
+        expect(layouter.countDifferentPluginsFromSortedArray([
+          { _cachedPlugin: 'plugin1' }
+        ])).to.equal(1);
+      });
+
+      it('should return 2 if there are two plugins', () => {
+        expect(layouter.countDifferentPluginsFromSortedArray([
+          { _cachedPlugin: 'plugin1' },
+          { _cachedPlugin: 'plugin2' }
+        ])).to.equal(2);
+      });
+
+      it('should return 3 if there are multiple objects with the same plugins', () => {
+        expect(layouter.countDifferentPluginsFromSortedArray([
+          { _cachedPlugin: 'plugin1' },
+          { _cachedPlugin: 'plugin1' },
+          { _cachedPlugin: 'plugin2' },
+          { _cachedPlugin: 'plugin2' },
+          { _cachedPlugin: 'plugin3' },
+          { _cachedPlugin: 'plugin2' }
+        ])).to.equal(3);
+      });
+    });
+
+    describe('gap height', () => {
+      it('should return 0 if there is only one object, so no gaps', () => {
+        expect(layouter.calculateHeightForEachGap(10, 0)).to.equal(0);
+      });
+
+      it('should return 10% of the full height if there is one gap', () => {
+        expect(layouter.calculateHeightForEachGap(10, 1)).to.equal(1);
+      });
+
+      it('should return 1/n * 10% of the full height if there are multiple gaps', () => {
+        expect(layouter.calculateHeightForEachGap(10, 5)).to.equal(0.2);
+      });
+    });
+
+
     it('should add a plugins to factory and center it', () => {
       const nodePosition = {x: 1, y: 2, z: 3};
       const nodeScale = {x: 1, y: 4, z: 1};
@@ -88,7 +133,6 @@ describe('in-map', () => {
 
       expect(factory.add.getCall(0).args).to.have.length(1);
       expect(factory.add.getCall(1).args).to.have.length(1);
-      expect(factory.add.getCall(0).args[0].additionalParams.positionOffset.y).to.equal(0.975);
     });
 
     it('should merge same plugins', () => {
