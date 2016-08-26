@@ -1,6 +1,10 @@
 import {on} from 'reactive-observables';
 
-import {frame$, requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
+import {
+  frame$, requestRendering,
+  clear as clearRenderingStore,
+  updatesEnabled$
+} from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/misc/time';
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
@@ -32,6 +36,7 @@ export default class MainScene extends SceneObject {
     this.isDisposed = false;
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
+    this.updateSceneObjects = true;
     this.antialias = params.antialias;
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
   }
@@ -52,7 +57,9 @@ export default class MainScene extends SceneObject {
     this.addSubscriptions([
       frame$.subscribe(() => this.shouldRenderScene = true),
 
-      on(window, 'resize').subscribe(this.onWindowResize.bind(this))
+      on(window, 'resize').subscribe(this.onWindowResize.bind(this)),
+
+      updatesEnabled$.subscribe(isEnabled => this.updateSceneObjects = isEnabled)
     ]);
 
     this.handleLostContext();
@@ -68,8 +75,12 @@ export default class MainScene extends SceneObject {
       return;
     }
 
+    // recall this to keep the update loop
     requestAnimationFrame(this.handleAnimationFrames);
-    this.update(highResTimestamp);
+
+    if (this.updateSceneObjects) {
+      this.update(highResTimestamp);
+    }
   }
 
   update(highResTimestamp) {
@@ -158,6 +169,7 @@ export default class MainScene extends SceneObject {
     this.camera.dispose();
     this.camera = null;
 
+    this.updateSceneObjects = null;
     this.shouldRenderScene = null;
     this.antialias = null;
     this.renderer = null;
