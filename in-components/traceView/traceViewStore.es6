@@ -1,26 +1,14 @@
 import {combineLatest} from 'reactive-observables';
 import {debounce} from 'lodash';
 
-import {compress as compressTrace} from 'in-components/traceView/longTraceCompressor';
-import {transform as transformTrace} from 'in-components/traceView/longTraceBuilder';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
-import {createStore, createTrackingStore} from 'in-stores/store';
-import {getTraces, selectedTrace$} from 'in-stores/traces';
 import {formatDateTime} from 'in-services/formatters/date';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
 import {luceneQuery$} from 'in-stores/search';
+import {createStore} from 'in-stores/store';
+import {getTraces} from 'in-stores/traces';
 import {getLabel} from 'in-sdk/tracing';
 
-export const longSelectedTrace$ = createTrackingStore({
-  name: 'in-components/traceView/traceViewStore/longSelectedTrace',
-  observable: selectedTrace$.map(selectedTrace => {
-    if (!selectedTrace) {
-      return null;
-    }
-
-    return compressTrace(transformTrace(selectedTrace));
-  })
-}).observable;
 
 const tracesStore = createStore({
   name: 'in-components/traceView/traceViewStore/shownTraces',
