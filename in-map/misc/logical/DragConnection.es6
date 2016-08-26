@@ -1,5 +1,6 @@
+import {LineBasicMaterial, BufferGeometry, Line} from 'in-map/3DLibProvider';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
-import {LineBasicMaterial, Geometry, Line} from 'in-map/3DLibProvider';
+import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {eventBus} from 'in-map/services/eventBus';
 
 
@@ -10,16 +11,17 @@ const GHOST_MATERIAL = new LineBasicMaterial({
 
 export default class DragConnection {
   constructor(fromPosition) {
-    const geometry = new Geometry();
+    const geometry = new BufferGeometry();
     const sceneObject = this.sceneObject = new Line(geometry, GHOST_MATERIAL);
 
     addSceneObject(sceneObject);
 
-    this.dragObjectSubscription =  eventBus.on('dragObject').subscribe(newPos => {
-      geometry.vertices[0] = fromPosition;
-      geometry.vertices[1] = newPos;
-      geometry.verticesNeedUpdate = true;
-    });
+    this.dragObjectSubscription =  eventBus.on('dragObject').subscribe(newPos =>
+      updateAttribute(geometry, 'position', [
+        fromPosition.x, fromPosition.y, fromPosition.z,
+        newPos.x, newPos.y, newPos.z
+      ])
+    );
   }
 
   dispose() {

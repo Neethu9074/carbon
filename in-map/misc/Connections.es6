@@ -1,4 +1,5 @@
-import {Line, Geometry, MeshBasicMaterial, Vector3} from 'in-map/3DLibProvider';
+import {Line, BufferGeometry, MeshBasicMaterial, Vector3} from 'in-map/3DLibProvider';
+import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {UP} from 'in-map/misc/fixedVectors';
 
 
@@ -132,14 +133,17 @@ export function getCenterPosition(from, to) {
 }
 
 export function calculateLogicalCollisionMesh(from, to) {
-  const geometry = new Geometry();
-  geometry.vertices.push(from, to);
+  const geometry = new BufferGeometry();
+  updateAttribute(geometry, 'position', [
+    from.x, from.y, from.z,
+    to.x, to.y, to.z
+  ]);
   return new Line(geometry, COLLISION_LINE_MATERIAL);
 }
 
 export function calculatePhysicalCollisionMesh(from, to) {
-  const geometry = new Geometry();
-  geometry.vertices = getManhattanPath(from.x, from.z, to.x, to.z);
+  const geometry = new BufferGeometry();
+  updateAttribute(geometry, 'position', flatten(getManhattanPath(from.x, from.z, to.x, to.z)));
   return new Line(geometry, COLLISION_LINE_MATERIAL);
 }
 
