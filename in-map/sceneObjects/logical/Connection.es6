@@ -75,20 +75,14 @@ export default class Connection extends SceneObject {
 
     this.addSubscriptions([
       combineLatest([
-        this.eventEmitter.on('isBidirectionalChanged'),
         this.sourceNode.eventEmitter.on('positionChanged'),
-        this.destinationNode.eventEmitter.on('positionChanged')
-      ]).subscribe(([isBidirectional, from, to]) => {
-        if (isBidirectional) {
-          const offset = getOffsetVectors(from, to);
+        this.destinationNode.eventEmitter.on('positionChanged'),
+        this.eventEmitter.on('isBidirectionalChanged')
+      ]).subscribe(([from, to]) => {
 
-          from = from.clone();
-          to = to.clone();
-          from.add(offset.right);
-          from.sub(offset.forward);
-          to.add(offset.right);
-          to.add(offset.forward);
-        }
+        from = from.clone();
+        to = to.clone();
+        this.addOffsetIfBidirectional(from, to);
 
         this.eventEmitter.emit('changePosition', {from, to});
       }),
@@ -155,15 +149,7 @@ export default class Connection extends SceneObject {
 
     const from = fromTransform.getPosition().clone();
     const to = toTransform.getPosition().clone();
-
-    if (this.isBidirectional) {
-      const offset = getOffsetVectors(from, to);
-
-      from.add(offset.right);
-      from.sub(offset.forward);
-      to.add(offset.right);
-      to.add(offset.forward);
-    }
+    this.addOffsetIfBidirectional(from, to);
 
     const path = flatten(
                  addArrowToDestination(
@@ -188,6 +174,17 @@ export default class Connection extends SceneObject {
     if (this.collisionLine) {
       this.collisionLine.geometry.dispose();
       this.collisionLine = null;
+    }
+  }
+
+  addOffsetIfBidirectional(from, to) {
+    if (this.isBidirectional) {
+      const offset = getOffsetVectors(from, to);
+
+      from.add(offset.right);
+      from.sub(offset.forward);
+      to.add(offset.right);
+      to.add(offset.forward);
     }
   }
 
