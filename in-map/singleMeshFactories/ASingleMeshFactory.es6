@@ -75,13 +75,13 @@ export default class ASingleMeshFactory extends Subscriber {
     let index = 0;
     for (let i = 0, length = fragments.length; i < length; i++) {
       const fragment = fragments[i];
-
-      // all it needs for positioning
-      const fragmentVertices = fragment.contentProvider.getVertices();
       const transform = fragment.sceneObject.getComponent('transform');
       if (!transform) {
         continue;
       }
+
+      // all it needs for positioning
+      const fragmentVertices = fragment.contentProvider.getVertices();
       const position = transform.getPosition();
       const scale = transform.getScale();
 
@@ -94,9 +94,9 @@ export default class ASingleMeshFactory extends Subscriber {
         : DEFAULT_COLOR;
 
       for (let j = 0, numVertices = fragmentVertices.length; j < numVertices; j += 3) {
-        vertices[index] = position.x + (scale.x * fragmentVertices[j]);
-        vertices[index + 1] = position.y + (scale.y * fragmentVertices[j + 1]);
-        vertices[index + 2] = position.z + (scale.z * fragmentVertices[j + 2]);
+        vertices[index] = position.x + scale.x * fragmentVertices[j];
+        vertices[index + 1] = position.y + scale.y * fragmentVertices[j + 1];
+        vertices[index + 2] = position.z + scale.z * fragmentVertices[j + 2];
 
         colors[index] = fragmentColors[j] * color.r;
         colors[index + 1] = fragmentColors[j + 1] * color.g;
@@ -106,12 +106,10 @@ export default class ASingleMeshFactory extends Subscriber {
       }
     }
 
-    const geometry = this.geometry;
+    updateAttribute(this.geometry, 'position', vertices);
+    updateAttribute(this.geometry, 'color', colors);
 
-    updateAttribute(geometry, 'position', vertices);
-    updateAttribute(geometry, 'color', colors);
-
-    if (vertices.length > 0 && !this.isAddedToScene) {
+    if (!this.isAddedToScene) {
       addSceneObject(this.mesh);
       this.isAddedToScene = true;
     }

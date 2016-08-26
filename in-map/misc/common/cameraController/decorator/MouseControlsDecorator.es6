@@ -18,8 +18,8 @@ export default class MouseControlDecorator extends Decorator {
     // if the cam is nearly at the target zoomLevel, abort calculations and with that, redraws
     this.minDistanceBetweenCurrentAndTargetZoomLevel = 0.01;
 
-    this.zoomLevel = 0;
-    this.addProperty('zoomLevel', 0);
+    this.zoomLevel = 600;
+    this.addProperty('zoomLevel', 600);
     this.addProperty('minZoomLevel', 20);
     this.addProperty('maxZoomLevel', 2000);
     this.addProperty('cursorPosition', {x: 0, y: 0});
@@ -31,7 +31,7 @@ export default class MouseControlDecorator extends Decorator {
   init() {
     super.init();
 
-    this.zoom(500);
+    this.zoom(-100);
   }
 
   initEvents() {
