@@ -18,8 +18,11 @@ export default createStickyNote(
     };
   },
   function Group({selectedId, snapshot, props}) {
-    const groupId = props.id;
+    if (!snapshot) {
+      return null;
+    }
 
+    const groupId = props.id;
     const c = getColorPool('groups').getColorRGB(groupId);
     const backgroundColor = selectedId === groupId ?
       '#fff' :
@@ -29,7 +32,7 @@ export default createStickyNote(
       <div className='in-sticky-note-group'
            onClick={() => setSelectedSnapshotId(groupId)}
            style={{backgroundColor}}>
-        {snapshot ? getLabel(snapshot) : groupId}
+        {getLabel(snapshot)}
       </div>
     );
   }
