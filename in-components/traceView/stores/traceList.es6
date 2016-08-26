@@ -11,7 +11,7 @@ import {getLabel} from 'in-sdk/tracing';
 
 
 const tracesStore = createStore({
-  name: 'in-components/traceView/traceViewStore/shownTraces',
+  name: 'in-components/traceView/stores/traceList/shownTraces',
   initialValue: []
 });
 export const traces$ = tracesStore.observable;
@@ -26,12 +26,12 @@ const oldestTraceStartTime$ = traces$.map(traces => {
 
 
 const isLoadingStore = createStore({
-  name: 'in-components/traceView/traceViewStore/loadingTraces',
+  name: 'in-components/traceView/stores/traceList/loadingTraces',
   initialValue: false
 });
 
 const sortBy = createStore({
-  name: 'in-components/traceView/traceViewStore/tracesSortBy',
+  name: 'in-components/traceView/stores/traceList/tracesSortBy',
   initialValue: 'ts'
 });
 
@@ -46,7 +46,7 @@ export function setSortBy(newSortBy) {
 }
 
 const sortDirection = createStore({
-  name: 'in-components/traceView/traceViewStore/tracesSortDirection',
+  name: 'in-components/traceView/stores/traceList/tracesSortDirection',
   initialValue: 'desc'
 });
 
@@ -61,7 +61,7 @@ export const isLoading$ = isLoadingStore.observable;
 
 
 const autoUpdateStore = createStore({
-  name: 'in-components/traceView/traceViewStore/traceViewAutoUpdate',
+  name: 'in-components/traceView/stores/traceList/traceViewAutoUpdate',
   initialValue: false
 });
 export const autoUpdate$ = autoUpdateStore.observable;

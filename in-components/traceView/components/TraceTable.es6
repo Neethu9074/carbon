@@ -6,7 +6,7 @@ import {
   isLoading$,
   clear,
   loadMoreTraces
-} from 'in-components/traceView/traceViewStore';
+} from 'in-components/traceView/stores/traceList';
 import {
   selectedTraceId,
   setSelectedTraceId,
