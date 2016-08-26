@@ -44,8 +44,8 @@ export default class TransformationComponent extends SceneObjectComponent {
     if (this.scale.x === x &&
         this.scale.y === y &&
         this.scale.z === z) {
-        return;
-      }
+      return;
+    }
 
     this.scale.set(x, y, z);
     this.emitToClient('scaleChanged', this.scale);
