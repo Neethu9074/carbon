@@ -121,7 +121,7 @@ export default class MainScene extends SceneObject {
     this.renderer.setSize(width, height);
 
     this.camera.setSize(width, height);
-    this.camera.setCameraFromSize();
+    this.camera.updateCameraFromSize();
 
     // refresh to show the current state
     requestRendering();

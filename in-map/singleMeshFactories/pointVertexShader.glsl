@@ -12,6 +12,7 @@ attribute vec2 uv;
 varying vec3 vColor;
 varying vec2 vUv;
 
+
 void main() {
   vColor = color;
   vUv = uv;
@@ -20,7 +21,7 @@ void main() {
   float pointSize = pointSize * ( 1500.0 / length( mvPosition.xyz ) );
   gl_PointSize = pointSize;
 
-  if (pointSize < 10.0) {
+  if ( pointSize < 10.0 ) {
     gl_Position = vec4( -1000.0, 0.0, 0.0, 0.0 );
   } else {
     gl_Position = projectionMatrix * mvPosition;

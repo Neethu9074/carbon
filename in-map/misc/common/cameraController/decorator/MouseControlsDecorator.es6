@@ -93,7 +93,7 @@ export default class MouseControlDecorator extends Decorator {
     camera.position.setZ(zoomLevel);
 
     cameraWrapper.setCameraSize(zoomLevel / 10);
-    cameraWrapper.setCameraFromSize();
+    cameraWrapper.updateCameraFromSize();
 
     camera.updateMatrix();
     cameraWrapper.update();

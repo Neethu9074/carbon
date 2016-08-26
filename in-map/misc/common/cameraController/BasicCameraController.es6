@@ -88,18 +88,6 @@ export default class BasicCameraController extends Subscriber {
     this.updateCamera();
   }
 
-  updateCamera() {
-    this.camTransformObject.updateMatrixWorld();
-    this.camPitchObject.updateMatrixWorld();
-
-    // apply current transformations
-    this.camera.update();
-
-    // TODO: clamp the position to avoid overflow of the level area
-
-    requestRendering();
-  }
-
   flyToPosition({x, z}) {
     this.camTransformObject.position.setX(x);
     this.camTransformObject.position.setZ(z);
@@ -165,11 +153,23 @@ export default class BasicCameraController extends Subscriber {
     position.applyProjection(this.camera.getRenderableCamera().projection);
   }
 
+  // default zoom implementation
+  zoom() {}
+
   // default update implementation
   update() {}
 
-  // default zoom implementation
-  zoom() {}
+  updateCamera() {
+    this.camTransformObject.updateMatrixWorld();
+    this.camPitchObject.updateMatrixWorld();
+
+    // apply current transformations
+    this.camera.update();
+
+    requestRendering();
+
+    // TODO: clamp the position to avoid overflow of the level area
+  }
 
   getCameraController() {
     return this;
