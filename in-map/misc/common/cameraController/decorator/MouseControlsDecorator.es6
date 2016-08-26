@@ -20,7 +20,7 @@ export default class MouseControlDecorator extends Decorator {
 
     this.zoomLevel = 0;
     this.addProperty('zoomLevel', 0);
-    this.addProperty('minZoomLevel', 100);
+    this.addProperty('minZoomLevel', 20);
     this.addProperty('maxZoomLevel', 2000);
     this.addProperty('cursorPosition', {x: 0, y: 0});
     this.addProperty('screenSpaceCursorPosition', {x: 0, y: 0});

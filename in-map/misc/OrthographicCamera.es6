@@ -51,7 +51,7 @@ export default class OrthographicCameraWrapper {
   }
 
   setCameraSize(value) {
-    this.cameraSize = Math.min(Math.max(10, value), 300);
+    this.cameraSize = Math.min(Math.max(1, value), 300);
   }
 
   getCameraSize() {
