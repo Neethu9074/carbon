@@ -1,8 +1,7 @@
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
-import {onWheel, onMove, onLeave} from 'in-services/reactiveMouseEvents';
+import {onWheel, onMove} from 'in-services/reactiveMouseEvents';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {eventBus} from 'in-map/services/eventBus';
-import {theme} from 'in-services/theme';
 
 
 export default class MouseControlDecorator extends Decorator {
@@ -43,19 +42,7 @@ export default class MouseControlDecorator extends Decorator {
       onMove(domElement, e  => {
         e.preventDefault();
 
-        const x = e.clientX | 0;
-        const y = (e.clientY | 0) - theme.header.height;
-
-        this.setCursorPosition(x, y);
-      }),
-
-      onLeave(domElement, () => {
-        // console.log('leave');
-        // this.client.setCursorPosition({
-        //   x: Infinity,
-        //   y: Infinity
-        // });
-        this.eventEmitter.emit('onMouseLeave');
+        this.setCursorPosition(e.offsetX, e.offsetY);
       }),
 
       onWheel(domElement, event => {
