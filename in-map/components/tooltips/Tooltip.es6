@@ -30,12 +30,12 @@ export default function Tooltip(ComposedComponent) {
         if (tooltip) {
           const x = event.clientX + OFFSET;
           const y = event.clientY - theme.header.height - OFFSET;
-          applyTransform(tooltip, `translate(${x}px,${y}px)`);
+          applyTransform(tooltip, `translate3d(${x}px,${y}px,0)`);
         }
       });
 
       // set starting position into the nimbus, to avoid that tootltips are hosted without a position to set
-      applyTransform(this.refs.tooltip, `translate(${-1000}px,${0}px)`);
+      applyTransform(this.refs.tooltip, `translate3d(${-1000}px,${0}px,0)`);
     },
 
     componentWillUnmount() {

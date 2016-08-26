@@ -30,7 +30,7 @@ export default function StickyNote(ComposedComponent) {
     componentDidMount() {
       this.positionSubscription = this.props.eventEmitter.on('screenPositionChanged' + this.props.id)
         .subscribe(newPosition =>
-          applyTransform(this.refs.stickyNote, `translate(${newPosition.x}px,${newPosition.y}px)`));
+          applyTransform(this.refs.stickyNote, `translate3d(${newPosition.x}px,${newPosition.y}px,0)`));
 
       this.visibilitySubscription = this.props.eventEmitter.on('isVisibleChanged' + this.props.id)
         .distinct()
