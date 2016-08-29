@@ -33,7 +33,7 @@ const luceneValueConverters = {
     // for reference, see the escaping rules over here:
     // https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Escaping Special Characters
     const escapedValue = v
-      .replace(/[\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\']/, c => {
+      .replace(/[\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/]/g, c => {
         return `\\${c}`;
       });
 
