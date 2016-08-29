@@ -8,6 +8,7 @@ import {
   ImageLoader as ThreeImageLoader,
   Line as ThreeLine,
   LinearFilter as ThreeLinearFilter,
+  LineBasicMaterial as ThreeLineBasicMaterial,
   LineSegments as ThreeLineSegments,
   Matrix4 as ThreeMatrix4,
   Mesh as ThreeMesh,
@@ -36,6 +37,7 @@ export const DoubleSide = ThreeDoubleSide;
 export const ImageLoader = ThreeImageLoader;
 export const Line = ThreeLine;
 export const LinearFilter = ThreeLinearFilter;
+export const LineBasicMaterial = ThreeLineBasicMaterial;
 export const LineSegments = ThreeLineSegments;
 export const Matrix4 = ThreeMatrix4;
 export const Mesh = ThreeMesh;
