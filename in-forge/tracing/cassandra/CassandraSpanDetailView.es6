@@ -15,6 +15,9 @@ export default function CassandraSpanDetailView({span}) {
         <DescriptionItem title='Batch Size'>
           {span.getIn(['data', 'cassandra', 'batchSize'])}
         </DescriptionItem>
+        <DescriptionItem title='Fetch Size'>
+          {span.getIn(['data', 'cassandra', 'fetchSize'])}
+        </DescriptionItem>
         <DescriptionItem title='Query'>
           {span.getIn(['data', 'cassandra', 'query'])}
         </DescriptionItem>

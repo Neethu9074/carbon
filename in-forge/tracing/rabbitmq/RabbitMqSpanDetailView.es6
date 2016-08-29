@@ -15,6 +15,9 @@ export default function RabbitMqSpanDetailView({span}) {
         <DescriptionItem title='Key'>
           {span.getIn(['data', 'rabbitmq', 'key'])}
         </DescriptionItem>
+        <DescriptionItem title='Size'>
+          {span.getIn(['data', 'rabbitmq', 'size'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );
