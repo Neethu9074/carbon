@@ -13,7 +13,7 @@ import 'in-map/components/stickyNotes/physical/Group/Group.less';
 export default createStickyNote(
   connectTo(props => {
     return {
-      snapshot: getSnapshot(props.props.id),
+      snapshot: getSnapshot(props.id),
       selectedId: selectedSnapshotId
     };
   },

@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
@@ -22,8 +24,8 @@ const block = 'in-sticky-note-service';
 export default createStickyNote(
   connectTo(props => {
     return {
-      children: getClusterMembers(props.props.id),
-      snapshot: getSnapshot(props.props.id),
+      children: getClusterMembers(props.id),
+      snapshot: getSnapshot(props.id),
       showSticky: showSticky$.distinct(),
       showKpi: showKpi$.distinct()
     };
@@ -42,7 +44,9 @@ export default createStickyNote(
       wrapper: rpt.object,
       children: irpt.set,
       snapshot: irpt.map,
-      showKpi: rpt.bool
+      showKpi: rpt.bool,
+      isExternal: rpt.bool,
+      isUnknown: rpt.bool
     },
 
     getInitialState() {
@@ -75,23 +79,21 @@ export default createStickyNote(
 
       return (
         <div className={contentClassName}>
-          {this.props.showKpi ?
-            <KPIList snapshotId={this.props.id}
-                     isHighlighted={() => {}}/>
-            : null
-          }
+          {this.renderKpis()}
 
           {childrenAreAvailable ?
             <div className={headerClassName}
                  onMouseEnter={() => this.setState({highlighted: true})}
                  onMouseLeave={() => this.setState({highlighted: false})}
                  onClick={this.onClick}>
-              {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
+                 {!this.props.isUnknown ?
+                   getLabel(this.props.snapshot) + ' (' + children.size + ')'
+                 : null}
               <Icon expanded={isExpanded} />
             </div>
-            :
+          :
             <div className={headerClassName}>
-              {getLabel(this.props.snapshot)}
+              {!this.props.isUnknown ? getLabel(this.props.snapshot) : null}
             </div>
           }
 
@@ -100,6 +102,16 @@ export default createStickyNote(
           : null}
         </div>
       );
+    },
+
+    renderKpis() {
+      if (this.props.showKpi && !this.props.isUnknown) {
+        return (
+          <KPIList snapshotId={this.props.id}
+                   isHighlighted={() => {}}/>
+        );
+      }
+      return null;
     },
 
     onClick() {

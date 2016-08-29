@@ -22,7 +22,7 @@ function StickyNoteHoster({stickies}) {
           <StickyNote key={key}
                       id={key}
                       eventEmitter={stickyDefinition.eventEmitter}
-                      props={stickyDefinition.props} />
+                      {...stickyDefinition.props} />
         );
       })}
     </div>

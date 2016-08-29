@@ -37,7 +37,9 @@ export default class Service extends SceneObject {
       type: ServiceStickyNote,
       eventEmitter: this.eventEmitter,
       props: {
-        id: this.id
+        id: this.id,
+        isUnknown: this.id.startsWith('unknown-service'),
+        isExternal: this.isExternal
       }
     });
   }

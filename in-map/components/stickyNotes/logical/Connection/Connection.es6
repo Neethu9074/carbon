@@ -19,7 +19,7 @@ const block = 'in-sticky-note-connection';
 export default createStickyNote(
   connectTo(props => {
     return {
-      snapshot: getSnapshot(props.props.id),
+      snapshot: getSnapshot(props.id),
       showSticky: showSticky$.distinct()
     };
   },
