@@ -2,7 +2,7 @@
 
 . "$NVM_DIR/nvm.sh"
 
-set -e
+set -ex
 
 nvm use
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 rm -rf target
 cp -R /var/lib/jenkins/ui-client_artefacts/build/target .
