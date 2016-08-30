@@ -42,7 +42,7 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
            }}>
         <TreeStackTraceElement stackTrace={element.stackTrace}
                                parent={parent}
-                               spans={element.spans} />
+                               parentSpan={element.parentSpan} />
       </div>
     );
   } else if (elementType === 'network') {
