@@ -10,7 +10,8 @@ export default React.createClass({
   displayName: 'TreeStackTraceElement',
 
   propTypes: {
-    stackTrace: React.PropTypes.array.isRequired
+    stackTrace: React.PropTypes.array.isRequired,
+    spans: React.PropTypes.array.isRequired
   },
 
   getInitialState() {
@@ -20,7 +21,6 @@ export default React.createClass({
   },
 
   render() {
-
     let stackTrace = this.props.stackTrace;
     if (!this.state.showAllElements) {
       stackTrace = [stackTrace[stackTrace.length - 1]];

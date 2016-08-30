@@ -41,6 +41,7 @@ describe('in-components/traceView', () => {
   function removeSpanAndStacktraceDetails(tree) {
     delete tree.span;
     delete tree.stackTrace;
+    delete tree.spans;
     tree.children.forEach(removeSpanAndStacktraceDetails);
     return tree;
   }
