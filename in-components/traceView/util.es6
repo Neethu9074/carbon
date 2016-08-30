@@ -64,7 +64,7 @@ export function getPerCategorySummary(span, collector) {
   };
   categorySummary.calls++;
   categorySummary.durationTotal += span.get('duration');
-  categorySummary.durationSelf = getSelfTime(span);
+  categorySummary.durationSelf += getSelfTime(span);
 
   span.get('childSpans').forEach(childSpan => getPerCategorySummary(childSpan, collector));
 
