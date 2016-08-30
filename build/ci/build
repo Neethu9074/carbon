@@ -6,9 +6,9 @@ set -ex
 
 nvm use
 
-nice -19 npm prune -d
-nice -19 npm update -d
-nice -19 npm install -d
+nice -19 npm prune
+nice -19 npm update
+nice -19 npm install
 
 nice -19 npm run test
 nice -19 npm run build
