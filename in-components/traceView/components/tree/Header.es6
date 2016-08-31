@@ -1,15 +1,14 @@
 /* eslint-disable max-len */
-
 import React from 'react';
 
 import {getErrorCount, getDepth, getCalls, getPerCategorySummary} from 'in-components/traceView/util';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
 import LabeledValue from 'in-components/traceView/components/tree/LabeledValue';
-import categoryColors from 'in-stores/colorCoding/spanCategories';
+import CategoryIcon from 'in-components/traceView/components/tree/CategoryIcon';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
-import {getLabel, getCategoryIcon} from 'in-sdk/tracing';
 import Tooltip from 'in-components/Tooltip';
+import {getLabel} from 'in-sdk/tracing';
 
 import './Header.less';
 
@@ -68,12 +67,7 @@ export default function TraceHeader({trace}) {
               <Tooltip content={`${perCategorySummary[category].calls} ${category} spans at a total self time of ${msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}`}
                        key={category}>
                 <li className={`${block}__category`}>
-                  <img src={getCategoryIcon(category)}
-                       alt={`Icon for the span category ${category}`}
-                       className={`${block}__span-category-icon`}
-                       style={{
-                         background: categoryColors[category]
-                       }}/>
+                  <CategoryIcon category={category} />
                   <span className={`${block}__category-call-count`}>
                     {perCategorySummary[category].calls}
                   </span>
