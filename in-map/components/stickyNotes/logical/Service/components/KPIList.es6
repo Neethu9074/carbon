@@ -18,7 +18,6 @@ export default getSnapshot(
     displayName: 'Metric',
 
     propTypes: {
-      isHighlighted: rpt.func.isRequired,
       snapshotId: rpt.string.isRequired,
       snapshot: irpt.map
     },
@@ -43,14 +42,8 @@ export default getSnapshot(
       const kpis = getKpis(snapshot);
       return (
         <div className={className}
-             onMouseEnter={() => {
-               this.setState({isHighlighted: true});
-               this.props.isHighlighted(true);
-             }}
-             onMouseLeave={() =>{
-               this.setState({isHighlighted: false});
-               this.props.isHighlighted(false);
-             }}>
+             onMouseEnter={() => this.setState({isHighlighted: true})}
+             onMouseLeave={() => this.setState({isHighlighted: false})}>
           {this.state.isHighlighted ?
             kpis.map(kpi =>
               <LabeledSparkChart className={block + '__spark-chart'}
