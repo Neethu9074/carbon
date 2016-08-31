@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {alwaysEmptyImmutableMap, alwaysNull} from 'in-services/fixedStreams';
+import ShowCodeButton from 'in-components/traceView/components/tree/ShowCodeButton';
+import {alwaysEmptyImmutableMap} from 'in-services/fixedStreams';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
 import {emptyMap} from 'in-services/fixedImmutables';
-import {getSnapshot} from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -23,22 +23,15 @@ export default connectTo(props => {
   }
 
   return {
-    destinationSnapshot: connectedEntities$
-      .flatMap(connectedEntities => {
-        const destinationId = connectedEntities.get('destinationId');
-        if (destinationId == null) {
-          return alwaysNull;
-        }
-
-        return getSnapshot(destinationId, start);
-      })
+    destinationSnapshotId: connectedEntities$
+      .map(connectedEntities => connectedEntities.get('destinationId'))
   };
 }, React.createClass({
   displayName: 'TreeStackTraceElement',
 
   propTypes: {
     stackTrace: React.PropTypes.array.isRequired,
-    destinationSnapshot: React.PropTypes.object
+    destinationSnapshotId: React.PropTypes.string
   },
 
   getInitialState() {
@@ -68,6 +61,11 @@ export default connectTo(props => {
               <span className={`${block}__method`}> {st.get('m')} </span>
               <span className={`${block}__in`}>in</span>
               <span className={`${block}__file`}> {st.get('c')}{st.get('n') ? `:${st.get('n')}` : ''}</span>
+              {this.props.destinationSnapshotId != null ?
+                <ShowCodeButton snapshotId={this.props.destinationSnapshotId}
+                                file={st.get('c')}
+                                line={st.get('n')}/>
+              : null}
             </li>
           )}
         </ol>
