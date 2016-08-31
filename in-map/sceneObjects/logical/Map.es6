@@ -37,7 +37,6 @@ export default class Map extends BaseMap {
         const connectionFactory = getFactory('connections');
         if (connectionFactory) {
           connectionFactory.material.transparent = particlesAreActive;
-          connectionFactory.material.opacity = 0.25;
         }
       }),
 
