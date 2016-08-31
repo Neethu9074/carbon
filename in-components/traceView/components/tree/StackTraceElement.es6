@@ -1,9 +1,11 @@
 import React from 'react';
 
 import ShowCodeButton from 'in-components/traceView/components/tree/ShowCodeButton';
-import {alwaysEmptyImmutableMap} from 'in-services/fixedStreams';
+import {alwaysEmptyImmutableMap, alwaysNull} from 'in-services/fixedStreams';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
 import {emptyMap} from 'in-services/fixedImmutables';
+import {getSnapshot} from 'in-stores/snapshot';
+import {getDirection} from 'in-sdk/tracing';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -13,6 +15,7 @@ const block = 'in-trace-view-stack-trace';
 
 export default connectTo(props => {
   const connectionId = props.parentSpan.getIn(['rels', 'physicalConnectionId']);
+  const direction = getDirection(props.parentSpan);
   const start = props.parentSpan.get('start');
   let connectedEntities$;
   if (connectionId) {
@@ -23,15 +26,26 @@ export default connectTo(props => {
   }
 
   return {
-    destinationSnapshotId: connectedEntities$
-      .map(connectedEntities => connectedEntities.get('destinationId'))
+    snapshot: connectedEntities$
+      .map(connectedEntities => {
+        if (direction === 'entry') {
+          return connectedEntities.get('destinationId');
+        }
+        return connectedEntities.get('sourceId');
+      })
+      .flatMap(snapshotId => {
+        if (snapshotId == null) {
+          return alwaysNull;
+        }
+        return getSnapshot(snapshotId, start);
+      })
   };
 }, React.createClass({
   displayName: 'TreeStackTraceElement',
 
   propTypes: {
     stackTrace: React.PropTypes.array.isRequired,
-    destinationSnapshotId: React.PropTypes.string
+    snapshot: React.PropTypes.object
   },
 
   getInitialState() {
@@ -61,8 +75,8 @@ export default connectTo(props => {
               <span className={`${block}__method`}> {st.get('m')} </span>
               <span className={`${block}__in`}>in</span>
               <span className={`${block}__file`}> {st.get('c')}{st.get('n') ? `:${st.get('n')}` : ''}</span>
-              {this.props.destinationSnapshotId != null ?
-                <ShowCodeButton snapshotId={this.props.destinationSnapshotId}
+              {this.props.snapshot != null ?
+                <ShowCodeButton snapshot={this.props.snapshot}
                                 file={st.get('c')}
                                 line={st.get('n')}/>
               : null}

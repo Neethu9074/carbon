@@ -4,7 +4,7 @@ import './ShowCodeButton.less';
 
 const block = 'in-trace-view-show-code';
 
-export default function ShowCodeButton({snapshotId, file, line}) {
+export default function ShowCodeButton({snapshot, file, line}) {
   return (
     <a href=''
        onClick={showCodeView}
@@ -16,6 +16,6 @@ export default function ShowCodeButton({snapshotId, file, line}) {
   function showCodeView(e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Show code view for', snapshotId, file, line);
+    console.log('Show code view for', snapshot.toJS(), file, line);
   }
 }
