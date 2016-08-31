@@ -9,6 +9,7 @@ import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import SidebarIncidents from 'in-components/sidebars/Incident';
 import ConnectionStatus from 'in-components/ConnectionStatus';
+import DialogPresenter from 'in-components/DialogPresenter';
 import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import TableView from 'in-components/tableView/TableView';
 import MessageFlyout from 'in-components/MessageFlyout';
@@ -56,6 +57,7 @@ export default function App(props) {
       <ConnectionStatus />
       <MessageFlyout />
       <TemporaryNotificationPresenter />
+      <DialogPresenter />
     </div>
   );
 }

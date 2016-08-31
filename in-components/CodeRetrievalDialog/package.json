@@ -1,0 +1,6 @@
+{
+  "name": "CodeRetrievalDialog",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CodeRetrievalDialog.es6"
+}
