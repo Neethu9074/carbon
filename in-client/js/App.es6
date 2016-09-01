@@ -3,7 +3,6 @@ import React from 'react';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import Center from 'in-components/notificationCenter/Center/Center';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import SidebarIncidents from 'in-components/sidebars/Incident';
@@ -37,7 +36,6 @@ export default function App(props) {
         <Map />
         <Controls />
         <TableView />
-        <Center />
         <SidebarIncidents />
         <MapSidebar />
         <MapNotes />

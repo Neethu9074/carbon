@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Control from 'in-components/Controls/components/Control';
+import TagListAll from 'in-components/TagListAll';
+import TagFilter from 'in-components/TagFilter';
 
 
 export default function Tags() {
@@ -13,8 +15,9 @@ export default function Tags() {
 
 function createMenuContent() {
   return (
-    <span>
-      Menu Content
-    </span>
+    <div>
+      <TagFilter />
+      <TagListAll />
+    </div>
   );
 }
