@@ -3,24 +3,24 @@ import getLogicalContent from 'in-components/Controls/components/logicalContent'
 import {createStore} from 'in-stores/store';
 
 
-const content = createStore({
+const controls = createStore({
   name: 'Controls/contentStore',
   initialValue: null
 });
-export const content$ = content.observable;
+export const controls$ = controls.observable;
 
 
-export const CONTENT_TYPES = {
+export const CONTROL_PRESETS = {
   PHYSICAL: 'physical',
   LOGICAL: 'logical'
 };
 
-export function setContent(_content) {
-  content.applyStateMutation(() => {
+export function setControls(_content) {
+  controls.applyStateMutation(() => {
     switch (_content) {
-      case CONTENT_TYPES.PHYSICAL:
+      case CONTROL_PRESETS.PHYSICAL:
       return getPhysicalContent();
-      case CONTENT_TYPES.LOGICAL:
+      case CONTROL_PRESETS.LOGICAL:
       return getLogicalContent();
       default:
       return null;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
-import {content$} from 'in-components/Controls/stores/contentStore';
+import {controls$} from 'in-components/Controls/stores/controlsStore';
 import Menu from 'in-components/Controls/components/Menu';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -13,10 +13,10 @@ const block = 'in-controls';
 
 export default connectTo({
   timelineHeight: timelineHeight$,
-  content: content$
+  controls: controls$
 },
-function Controls({content, timelineHeight}) {
-  if (!content) {
+function Controls({controls, timelineHeight}) {
+  if (!controls) {
     return null;
   }
 
@@ -25,7 +25,7 @@ function Controls({content, timelineHeight}) {
          style={{
            bottom: toPx(timelineHeight + 20)
          }}>
-      {content}
+      {controls}
       <Menu />
     </div>
   );

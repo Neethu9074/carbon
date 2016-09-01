@@ -1,7 +1,7 @@
 import FadeByDistanceSingleMeshFactory from 'in-map/singleMeshFactories/FadeByDistanceSingleMeshFactory';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
+import {CONTROL_PRESETS, setControls} from 'in-components/Controls/stores/controlsStore';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
-import {CONTENT_TYPES, setContent} from 'in-components/Controls/stores/contentStore';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
 import {particlesAreActive$} from 'in-map/stores/logical/particlesStore';
 import createCameraController from 'in-map/misc/logical/CameraController';
@@ -17,7 +17,7 @@ export default class Map extends BaseMap {
   constructor(params) {
     super(params);
 
-    setContent(CONTENT_TYPES.LOGICAL);
+    setControls(CONTROL_PRESETS.LOGICAL);
   }
 
   init() {
@@ -68,6 +68,6 @@ export default class Map extends BaseMap {
 
     this.layouter.dispose();
 
-    setContent(null);
+    setControls(null);
   }
 }
