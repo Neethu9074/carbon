@@ -2,7 +2,6 @@ import React from 'react';
 
 import {getViewStructure} from 'in-map/stores/physical/viewStructureStore';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
-import ViewControls from 'in-map/components/physical/misc/ViewControls';
 import GroupComponent from 'in-map/components/physical/GroupComponent';
 import Map from 'in-map/sceneObjects/physical/Map';
 import connectTo from 'in-hoc/connectTo';
@@ -42,7 +41,6 @@ function MapComponent({structure}) {
                           entity={groupEntity} />
         );
       })}
-      <ViewControls />
     </div>
   );
 }

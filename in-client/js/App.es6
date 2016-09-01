@@ -3,7 +3,6 @@ import React from 'react';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import Controls from 'in-components/RightSidebar/components/Controls';
 import Center from 'in-components/notificationCenter/Center/Center';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
@@ -18,6 +17,7 @@ import Timeline from 'in-components/timeline/Timeline';
 import ViewSwitcher from 'in-components/ViewSwitcher';
 import RightSidebar from 'in-components/RightSidebar';
 import AppHeader from 'in-components/AppHeader';
+import Controls from 'in-components/Controls';
 import MapNotes from 'in-components/MapNotes';
 import Settings from 'in-components/Settings';
 import Map from 'in-map/index.es6';
@@ -35,6 +35,7 @@ export default function App(props) {
 
       <section style={{display: shouldShowMap ? 'block' : 'none'}}>
         <Map />
+        <Controls />
         <TableView />
         <Center />
         <SidebarIncidents />
@@ -43,7 +44,6 @@ export default function App(props) {
       </section>
 
       <RightSidebar />
-      <Controls />
       <Timeline />
 
       {props.children}

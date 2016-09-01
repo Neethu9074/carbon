@@ -1,11 +1,8 @@
 import React from 'react';
 
 import {particlesAreActive$, toggleParticles} from 'in-map/stores/logical/particlesStore';
-import SvgIcon from 'in-components/SvgIcon';
-import Button from 'in-components/Button';
+import Control from 'in-components/Controls/components/Control';
 import connectTo from 'in-hoc/connectTo';
-
-import 'in-map/components/misc/viewControlComponents/Particles.less';
 
 
 const block = 'in-particles-button';
@@ -22,13 +19,10 @@ function Particles({particlesAreActive}) {
   }
 
   return (
-    <Button onClick={toggleParticles}
-            className={classes}>
-      <SvgIcon type={'particles'}
-               width={24}
-               height={24}
-               color={particlesAreActive ? '#000' : '#7b8e96'} />
-    </Button>
+    <Control onClick={toggleParticles}
+             iconSize={24}
+             type='particles'
+             isToggle={true} />
   );
 }
 
