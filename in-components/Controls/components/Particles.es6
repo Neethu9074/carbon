@@ -9,9 +9,7 @@ const block = 'in-particles-button';
 
 export default connectTo({
     particlesAreActive: particlesAreActive$
-  }, Particles
-);
-
+  },
 function Particles({particlesAreActive}) {
   let classes = block;
   if (!particlesAreActive) {
@@ -24,10 +22,4 @@ function Particles({particlesAreActive}) {
              type='particles'
              isActive={particlesAreActive} />
   );
-}
-
-const rpt = React.PropTypes;
-Particles.propTypes = {
-  particlesAreActive: rpt.bool,
-  currentView: rpt.string
-};
+});

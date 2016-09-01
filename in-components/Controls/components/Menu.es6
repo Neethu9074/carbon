@@ -1,32 +1,30 @@
 import React from 'react';
 
+import {menuContent$} from 'in-components/Controls/stores/menuContentStore';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
-import {content$} from 'in-components/Controls/stores/contentStore';
-import Menu from 'in-components/Controls/components/Menu';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/Controls/Controls.less';
+import 'in-components/Controls/components/Menu.less';
 
 
-const block = 'in-controls';
+const block = 'in-controls-menu';
 
 export default connectTo({
   timelineHeight: timelineHeight$,
-  content: content$
+  menuContent: menuContent$
 },
-function Controls({content, timelineHeight}) {
-  if (!content) {
+function ControlsMenu({timelineHeight, menuContent}) {
+  if (!menuContent) {
     return null;
   }
 
   return (
     <div className={block}
          style={{
-           bottom: toPx(timelineHeight + 20)
+           bottom: toPx(timelineHeight + 9)
          }}>
-      {content}
-      <Menu />
+      {menuContent.content}
     </div>
   );
 });

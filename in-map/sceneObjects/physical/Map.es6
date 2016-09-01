@@ -1,7 +1,7 @@
 import FadeByDistanceSingleMeshFactory from 'in-map/singleMeshFactories/FadeByDistanceSingleMeshFactory';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
 import BasicSingleMeshFactory from 'in-map/singleMeshFactories/BasicSingleMeshFactory';
-import {CONTENT_TYPES, setContent} from 'in-components/Controls/stores/ContentStore';
+import {CONTENT_TYPES, setContent} from 'in-components/Controls/stores/contentStore';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
 import createCameraController from 'in-map/misc/physical/CameraController';

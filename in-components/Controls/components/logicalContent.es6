@@ -7,8 +7,8 @@ import Zoom from 'in-components/Controls/components/Zoom';
 
 export default function getLogicalContent() {
   return [
-    <AutoLayout key={'layout'}/>,
-    <Particles key={'particles'}/>,
-    <Zoom key={'zoom'}/>
+    <AutoLayout key='layout' />,
+    <Particles key='particles' />,
+    <Zoom key='zoom' />
   ];
 }

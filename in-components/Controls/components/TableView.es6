@@ -11,9 +11,3 @@ export default function AutoLayout() {
              type='menu' />
   );
 }
-
-const rpt = React.PropTypes;
-AutoLayout.propTypes = {
-  particlesAreActive: rpt.bool,
-  currentView: rpt.string
-};

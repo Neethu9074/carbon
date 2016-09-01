@@ -11,9 +11,3 @@ export default function AutoLayout() {
              type='autoLayout' />
   );
 }
-
-const rpt = React.PropTypes;
-AutoLayout.propTypes = {
-  particlesAreActive: rpt.bool,
-  currentView: rpt.string
-};
