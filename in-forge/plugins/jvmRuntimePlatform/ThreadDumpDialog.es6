@@ -1,10 +1,11 @@
 import React from 'react';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
-import {getLabel} from 'in-sdk/snapshot';
+import DialogNotification from 'in-components/DialogNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {close} from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -35,9 +36,9 @@ export default connectTo(props => {
       : null}
 
       {response && response.error ?
-        <p>
-          Failed to retrieve thread drump. Error: {response.error}
-        </p>
+        <DialogNotification type='danger'>
+          Error: {response.error}
+        </DialogNotification>
       : null}
 
       {response && response.data ?
