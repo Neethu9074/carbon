@@ -15,7 +15,7 @@ import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 const FOCUS_MARGIN = 0.02;
-const BOTTOM_MARGIN_IN_PX = activeTheme.footer.height;
+const BOTTOM_MARGIN_IN_PX = activeTheme.footer.heightExpanded;
 
 export default class BasicCameraController extends Subscriber {
 
@@ -119,7 +119,7 @@ export default class BasicCameraController extends Subscriber {
       this.getScreenPosition(screenPosition);
 
       const screenX = screenPosition.x;
-      const screenY = screenPosition.y - yOffset;
+      const screenY = screenPosition.y;
 
       minX = Math.min(minX, screenX);
       minY = Math.min(minY, screenY);
@@ -128,7 +128,7 @@ export default class BasicCameraController extends Subscriber {
     }
 
     minX -= FOCUS_MARGIN;
-    minY -= FOCUS_MARGIN;
+    minY -= FOCUS_MARGIN + yOffset;
     maxX += FOCUS_MARGIN;
     maxY += FOCUS_MARGIN;
 
