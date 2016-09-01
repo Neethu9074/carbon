@@ -71,4 +71,5 @@ import './springbootApplicationContainer';
 import './tomcatApplicationContainer';
 import './unknownService';
 import './unmonitoredHost';
+import './varnish';
 import './webAppServiceInstance';

@@ -72,6 +72,7 @@ export const plugins = {
   tomcat: 'tomcatApplicationContainer',
   unknownService: 'unknownService',
   unmonitoredHost: 'unmonitoredHost',
+  varnish: 'varnish',
   webAppServiceInstance: 'webAppServiceInstance'
 };
 
@@ -147,5 +148,6 @@ export const fullyQualifiedPlugins = {
   tomcatApplicationContainer: 'com.instana.forge.infrastructure.application.tomcat.TomcatApplicationContainer',
   unknownService: 'com.instana.forge.connection.UnknownService',
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
+  varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
   webAppServiceInstance: 'com.instana.forge.connection.http.logical.WebAppServiceInstance'
 };
