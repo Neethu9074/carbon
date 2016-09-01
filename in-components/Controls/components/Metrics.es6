@@ -14,7 +14,7 @@ const block = 'in-controls-metrics';
 export default function Metrics() {
   return (
     <Control createMenuContent={createMenuContent}
-             tooltipText='Show Metrics.'
+             tooltipText='Show metrics'
              iconSize={16}
              type='metrics' />
   );

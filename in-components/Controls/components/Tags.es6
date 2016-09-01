@@ -8,7 +8,7 @@ import TagFilter from 'in-components/TagFilter';
 export default function Tags() {
   return (
     <Control createMenuContent={createMenuContent}
-             tooltipText='Show Tags.'
+             tooltipText='Show tags'
              iconSize={16}
              type='tag' />
   );

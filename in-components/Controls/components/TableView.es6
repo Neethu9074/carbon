@@ -7,7 +7,7 @@ import {toggleTableViewVisibility} from 'in-components/tableView/stores/visibili
 export default function AutoLayout() {
   return (
     <Control onClick={toggleTableViewVisibility}
-             tooltipText='Switch between 3D view and tabular form.'
+             tooltipText='Switch between 3D and table view'
              iconSize={16}
              type='menu' />
   );
