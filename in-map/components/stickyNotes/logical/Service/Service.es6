@@ -39,7 +39,6 @@ export default createStickyNote(
       showSticky: rpt.bool,
       isExternal: rpt.bool,
       wrapper: rpt.object,
-      isUnknown: rpt.bool,
       children: irpt.set,
       showKpi: rpt.bool
     },
@@ -52,7 +51,7 @@ export default createStickyNote(
     },
 
     render() {
-      if (!this.props.showSticky || this.props.isUnknown) {
+      if (!this.props.showSticky) {
         return null;
       }
 
