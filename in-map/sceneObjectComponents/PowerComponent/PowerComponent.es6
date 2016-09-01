@@ -18,7 +18,7 @@ export default class PowerComponent extends SceneObjectComponent {
     this.addSubscriptions([
       this.sceneObject.eventEmitter.on('snapshotChanged').subscribe(snappi => powers.add(this.id, getPower(snappi))),
 
-      maxPower$.distinct().subscribe(maxPower => {
+      maxPower$.subscribe(maxPower => {
         const power = powers.get(this.id);
         if (!power) {
           return;

@@ -1,5 +1,3 @@
-import {combineLatest} from 'reactive-observables';
-
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
@@ -18,7 +16,6 @@ import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import NodeTooltip from 'in-map/components/tooltips/physical/Node';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {nodes} from 'in-map/stores/physical/nodesStore';
-import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';
 
 
@@ -76,12 +73,8 @@ export default class Node extends SceneObject {
     super.initEvents();
 
     this.addSubscriptions([
-      combineLatest([
-        eventBus.on('zoomLevelChanged'),
-        this.eventEmitter.on('isVisibleChanged' + this.id)
-      ]).subscribe(([zoomLevel, isVisible]) => {
-        this.eventEmitter.emit('isVisibleForMetrics', zoomLevel < 300 && isVisible);
-      }),
+      this.eventEmitter.on('isVisibleChanged' + this.id).subscribe((isVisible) =>
+        this.eventEmitter.emit('isVisibleForMetrics', isVisible)),
 
       this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
