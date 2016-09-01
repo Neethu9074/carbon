@@ -1,6 +1,7 @@
 import React from 'react';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
+import {getLabel} from 'in-sdk/snapshot';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {close} from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
@@ -10,21 +11,19 @@ import Code from 'in-components/Code';
 export default connectTo(props => {
   return {
     response: createAgentResponseObservable({
-      action: 'java.class',
+      action: 'java.threadDump',
       target: props.snapshot.get('volatileId'),
-      args: {
-        className: props.file
-      }
+      args: {}
     })
   };
-}, function CodeDialog({file, response, lang}) {
+}, function CodeDialog({snapshot, response}) {
   let header;
   if (!response) {
-    header = `Retrieving file: ${file}`;
+    header = `Retrieving thread dump for JVM: ${getLabel(snapshot)}`;
   } else if (response.error) {
-    header = `Failed to retrieve file: ${file}`;
+    header = `Failed to retrieve thread dump for JVM: ${getLabel(snapshot)}`;
   } else {
-    header = `File: ${file}`;
+    header = `Thread dump for JVM: ${getLabel(snapshot)}`;
   }
 
   return (
@@ -37,13 +36,12 @@ export default connectTo(props => {
 
       {response && response.error ?
         <p>
-          Failed to retrieve file "{file}". Error: {response.error}
+          Failed to retrieve thread drump. Error: {response.error}
         </p>
       : null}
 
       {response && response.data ?
-        <Code lang={lang}
-              code={response.data} />
+        <Code code={response.data} />
       : null}
     </Dialog>
   );
