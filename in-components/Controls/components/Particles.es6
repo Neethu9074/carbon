@@ -22,7 +22,7 @@ function Particles({particlesAreActive}) {
     <Control onClick={toggleParticles}
              iconSize={24}
              type='particles'
-             isToggle={true} />
+             isActive={particlesAreActive} />
   );
 }
 
