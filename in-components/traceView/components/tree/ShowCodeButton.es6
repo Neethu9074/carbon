@@ -20,6 +20,7 @@ export default function ShowCodeButton({snapshot, file}) {
     e.preventDefault();
     e.stopPropagation();
     setActiveDialog(<CodeRetrievalDialog snapshot={snapshot}
-                                         file={file} />);
+                                         file={file}
+                                         lang='java' />);
   }
 }

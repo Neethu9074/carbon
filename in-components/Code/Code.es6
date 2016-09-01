@@ -37,7 +37,7 @@ export default React.createClass({
 
   propTypes: {
     code: rpt.string.isRequired,
-    type: rpt.string.isRequired
+    lang: rpt.string.isRequired
   },
 
   componentDidMount() {
@@ -57,7 +57,7 @@ export default React.createClass({
   render() {
     return (
       <pre>
-        <code className={`in-code lang-${this.props.type}`}
+        <code className={`in-code lang-${this.props.lang}`}
               ref='code' />
       </pre>
     );

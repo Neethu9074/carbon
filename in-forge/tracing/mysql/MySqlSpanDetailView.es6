@@ -10,7 +10,7 @@ export default function MySqlSpanDetailView({span}) {
     <div>
       {statement ?
         <Code code={formatSql(statement)}
-              type='sql' />
+              lang='sql' />
       : null}
     </div>
   );

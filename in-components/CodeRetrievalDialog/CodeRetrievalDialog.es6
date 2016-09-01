@@ -1,9 +1,11 @@
 import React from 'react';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import {close} from 'in-components/DialogPresenter/store';
 import DialogV2 from 'in-components/DialogV2';
 import connectTo from 'in-hoc/connectTo';
+import Code from 'in-components/Code';
 
 export default connectTo(props => {
   return {
@@ -15,13 +17,34 @@ export default connectTo(props => {
       }
     })
   };
-}, function CodeDialog({snapshot, file, code}) {
-  return (
-    <DialogV2 header={file}
-              onClose={close}>
-      Grabbing code for {snapshot.get('id')} file {file}.
+}, function CodeDialog({file, response, lang}) {
+  let header;
+  if (!response) {
+    header = `Retrieving file: ${file}`;
+  } else if (response.error) {
+    header = `Failed to retrieve file: ${file}`;
+  } else {
+    header = `File: ${file}`;
+  }
 
-      Got: {JSON.stringify(code, 0, 2)}
+  return (
+    <DialogV2 header={header}
+              onClose={close}>
+
+      {!response ?
+        <LoadingIndicator type='dark' />
+      : null}
+
+      {response && response.error ?
+        <p>
+          Failed to retrieve file "{file}". Error: {response.error}
+        </p>
+      : null}
+
+      {response && response.data ?
+          <Code lang={lang}
+                code={response.data} />
+      : null}
     </DialogV2>
   );
 });

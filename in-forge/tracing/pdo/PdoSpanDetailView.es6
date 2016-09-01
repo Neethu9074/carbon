@@ -21,7 +21,7 @@ export default function PdoSpanDetailView({span}) {
         {statement ?
           <DescriptionItem title='Query'>
               <Code code={formatSql(statement)}
-                    type='sql' />
+                    lang='sql' />
           </DescriptionItem>
         : null}
       </DescriptionList>
