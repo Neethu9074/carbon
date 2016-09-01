@@ -9,7 +9,7 @@ import 'in-components/Controls/components/Icons.less';
 export default function Icons() {
   return (
     <Control createMenuContent={createMenuContent}
-             tooltipText='DEV ONLY FEATURE. INGORE IT'
+             tooltipText='Icon List. DEV ONLY FEATURE.'
              iconSize={24}
              type='dot'
              id='icons' />

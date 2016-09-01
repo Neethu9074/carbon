@@ -11,7 +11,7 @@ import 'in-components/Controls/components/MapStatistics.less';
 export default function MapStatistics() {
   return (
     <Control createMenuContent={createMenuContent}
-             tooltipText='DEV ONLY FEATURE. INGORE IT'
+             tooltipText='Map Statistics. DEV ONLY FEATURE.'
              iconSize={24}
              type='dot'
              id='mapstatistics' />
