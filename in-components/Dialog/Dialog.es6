@@ -7,7 +7,11 @@ import './Dialog.less';
 
 const block = 'in-dialog';
 
-export default function Dialog({childrenOutsideOfContentFlow, children, header, onClose}) {
+export default function Dialog({childrenOutsideOfContentFlow, children, header, onClose, contentClassName}) {
+  let contentClasses = `${block}__content`;
+  if (contentClassName) {
+    contentClasses = `${contentClasses} ${contentClassName}`;
+  }
   return (
     <section className={block}
              onClick={onClickOutside}>
@@ -25,7 +29,7 @@ export default function Dialog({childrenOutsideOfContentFlow, children, header, 
           : null}
         </header>
 
-        <div className={`${block}__content`}>
+        <div className={contentClasses}>
           {children}
         </div>
       </div>

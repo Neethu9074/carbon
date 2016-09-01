@@ -8,6 +8,10 @@ import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
+import './CodeRetrievalDialog.less';
+
+const block = 'in-code-retrieval-dialog';
+
 export default connectTo(props => {
   return {
     response: createAgentResponseObservable({
@@ -30,7 +34,8 @@ export default connectTo(props => {
 
   return (
     <Dialog header={header}
-              onClose={close}>
+            onClose={close}
+            contentClassName={`${block}__content`}>
 
       {!response ?
         <LoadingIndicator type='dark' />
@@ -44,7 +49,8 @@ export default connectTo(props => {
 
       {response && response.data ?
         <Code lang={lang}
-              code={response.data} />
+              code={response.data}
+              className={`${block}__code`}/>
       : null}
     </Dialog>
   );

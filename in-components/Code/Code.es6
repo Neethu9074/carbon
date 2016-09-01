@@ -37,7 +37,8 @@ export default React.createClass({
 
   propTypes: {
     code: rpt.string.isRequired,
-    lang: rpt.string
+    lang: rpt.string,
+    className: rpt.string
   },
 
   componentDidMount() {
@@ -62,6 +63,10 @@ export default React.createClass({
     if (this.props.lang) {
       classes = `${classes} lang-${this.props.lang}`;
     }
+    if (this.props.className) {
+      classes = `${classes} ${this.props.className}`;
+    }
+
     return (
       <pre>
         <code className={classes}
