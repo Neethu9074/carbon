@@ -35,6 +35,13 @@ describe('in-forge/tracing/jdbc/sql', () => {
             'product product0_ where product0_.name is null'))
           .to.equal('SELECT … FROM product');
       });
+
+      // this can actually happen. Who would have thought? :)
+      // Seen on megazebra
+      it('must not fail when SQL statements do not contain a FROM clause', () => {
+        expect(shortenSqlStatement('show warnings'))
+          .to.equal('show warnings');
+      });
     });
   });
 });
