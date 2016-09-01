@@ -1,5 +1,6 @@
 import React from 'react';
 
+import MapStatistics from 'in-components/Controls/components/MapStatistics';
 import TableView from 'in-components/Controls/components/TableView';
 import Metrics from 'in-components/Controls/components/Metrics';
 import Icons from 'in-components/Controls/components/Icons';
@@ -17,7 +18,8 @@ export default function getPhysicalContent() {
 
   if (__DEV__) {
     controls.push(
-      <Icons key='icons' />
+      <Icons key='icons' />,
+      <MapStatistics key='mapstatistics' />
     );
   }
 

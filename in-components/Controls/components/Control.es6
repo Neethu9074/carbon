@@ -12,7 +12,7 @@ const block = 'in-control';
 export default connectTo({
   menuContent: menuContent$
 },
-function Control({iconSize, onClick, type, isActive, menuContent, createMenuContent}) {
+function Control({iconSize, onClick, type, id, isActive, menuContent, createMenuContent}) {
   isActive = isActive || (menuContent && menuContent.id === type);
   return (
     <div className={block}
@@ -21,7 +21,7 @@ function Control({iconSize, onClick, type, isActive, menuContent, createMenuCont
              onClick();
            }
            if (createMenuContent) {
-             toggleContent(getMenuContent(type, createMenuContent));
+             toggleContent(getMenuContent(id ? id : type, createMenuContent));
            }
          }}>
       <SvgIcon type={type}

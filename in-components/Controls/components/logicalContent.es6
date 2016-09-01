@@ -1,5 +1,6 @@
 import React from 'react';
 
+import MapStatistics from 'in-components/Controls/components/MapStatistics';
 import AutoLayout from 'in-components/Controls/components/AutoLayout';
 import Particles from 'in-components/Controls/components/Particles';
 import Icons from 'in-components/Controls/components/Icons';
@@ -15,7 +16,8 @@ export default function getLogicalContent() {
 
   if (__DEV__) {
     controls.push(
-      <Icons key='icons' />
+      <Icons key='icons' />,
+      <MapStatistics key='mapstatistics' />
     );
   }
 

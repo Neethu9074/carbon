@@ -10,7 +10,8 @@ export default function Icons() {
   return (
     <Control createMenuContent={createMenuContent}
              iconSize={24}
-             type='dot' />
+             type='dot'
+             id='icons' />
   );
 }
 
