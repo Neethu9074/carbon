@@ -18,6 +18,7 @@ function Particles({particlesAreActive}) {
 
   return (
     <Control onClick={toggleParticles}
+             tooltipText='Show Particles.'
              iconSize={24}
              type='particles'
              isActive={particlesAreActive} />
