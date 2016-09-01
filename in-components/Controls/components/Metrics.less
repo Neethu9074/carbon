@@ -1,0 +1,47 @@
+.in-controls-metrics {
+  min-width: 10rem;
+
+  font-size: .75rem;
+  color: #7b8e96;
+
+  &__dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: .313rem;
+  }
+
+  &__dropdown-label, &__reset {
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &__wrapper {
+    padding: .313rem;
+  }
+
+  &__topic {
+    font-size: .875rem;
+    border-bottom: 1px solid #7b8e96;
+    margin: .313rem 0;
+  }
+
+  &__metric {
+    padding: .25rem;
+    cursor: pointer;
+
+    &:hover, &--active {
+      background: #9fffff;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
