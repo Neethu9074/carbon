@@ -3,6 +3,7 @@ import React from 'react';
 
 import {setActiveMetric, clearActiveMetric, activeMetric$} from 'in-stores/metric';
 import Control from 'in-components/Controls/components/Control';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/Controls/components/Metrics.less';
@@ -17,6 +18,10 @@ export default function Metrics() {
              iconSize={16}
              type='metrics' />
   );
+}
+
+function createMenuContent() {
+  return <MetricPanel />;
 }
 
 const metricList = {
@@ -35,10 +40,6 @@ const metricList = {
   }
 };
 
-function createMenuContent() {
-  return <MetricPanel />;
-}
-
 const MetricPanel = React.createClass({
 
   displayName: 'MetricPanel',
@@ -53,7 +54,7 @@ const MetricPanel = React.createClass({
     return (
       <div className={block}>
         {this.state.isOpen
-          ? <div className={block + '__wrapper'}>
+          ? <div className={`${block}__wrapper`}>
               {Object.keys(metricList).map(topic =>
                 <Topic key={topic}
                        label={topic}
@@ -63,7 +64,8 @@ const MetricPanel = React.createClass({
           : null
         }
 
-        <DropDown onClick={() => this.setState({isOpen: !this.state.isOpen})} />
+        <DropDown onClick={() => this.setState({isOpen: !this.state.isOpen})}
+                  isOpen={this.state.isOpen}/>
       </div>
     );
   }
@@ -72,13 +74,20 @@ const MetricPanel = React.createClass({
 const DropDown = connectTo({
   activeMetric: activeMetric$
 },
-function DropDown({activeMetric, onClick}) {
+function DropDown({activeMetric, onClick, isOpen}) {
   return (
-    <div className={block + '__dropdown'}>
-      <span className={block + '__dropdown-label'}
-            onClick={onClick}>
-        {activeMetric ? activeMetric.get('name') : 'choose metric...'}
-      </span>
+    <div className={`${block}__dropdown`}>
+      <div className={`${block}__dropdown-label`}
+           onClick={onClick}>
+
+        {activeMetric ? activeMetric.get('name') : 'choose metric'}
+
+        <SvgIcon className={`${block}__icon`}
+                 type={isOpen ? 'triangle_down' : 'triangle_up'}
+                 height={5}
+                 color={'#7b8e96'} />
+      </div>
+
       <ResetButton />
     </div>
   );
@@ -93,7 +102,7 @@ function ResetButton({activeMetric}) {
   }
 
   return (
-    <div className={block + '__reset'}
+    <div className={`${block}__reset`}
          onClick={clearActiveMetric}>
       Reset
     </div>
@@ -104,10 +113,10 @@ function Topic({label, list}) {
   const topic = list[label];
   return (
     <div>
-      <h4 className={block + '__topic'}>
+      <h4 className={`${block}__topic`}>
         {label}
       </h4>
-      <ul className={block + '__list'}>
+      <ul className={`${block}__list`}>
         {Object.keys(topic).map(metricKey =>
           <Metric key={metricKey}
                   metricKey={metricKey}
@@ -122,7 +131,7 @@ const Metric = connectTo({
   activeMetric: activeMetric$
 },
 function Metric({activeMetric, metricKey, metric}) {
-  let className = block + '__metric';
+  let className = `${block}__metric`;
   if (activeMetric && activeMetric.get('name') === metricKey) {
     className += ` ${className}--active`;
   }
