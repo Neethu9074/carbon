@@ -8,11 +8,14 @@ import {Object3D, Vector3} from 'in-map/3DLibProvider';
 import {emptyArray} from 'in-services/fixedObjects';
 import {clearSelectedEvent} from 'in-stores/events';
 import {goToDashboard} from 'in-stores/navigation';
+import activeTheme from 'in-themes/active.json';
+import {height} from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 const FOCUS_MARGIN = 0.02;
+const BOTTOM_MARGIN_IN_PX = activeTheme.footer.height;
 
 export default class BasicCameraController extends Subscriber {
 
@@ -100,6 +103,7 @@ export default class BasicCameraController extends Subscriber {
     let minY = Number.MAX_VALUE;
     let maxX = -1 * Number.MAX_VALUE;
     let maxY = -1 * Number.MAX_VALUE;
+    const yOffset = Math.min(BOTTOM_MARGIN_IN_PX / height, 1);
 
     const vertices = this.getFactoryVertices();
     if (!vertices) {
@@ -115,7 +119,7 @@ export default class BasicCameraController extends Subscriber {
       this.getScreenPosition(screenPosition);
 
       const screenX = screenPosition.x;
-      const screenY = screenPosition.y;
+      const screenY = screenPosition.y - yOffset;
 
       minX = Math.min(minX, screenX);
       minY = Math.min(minY, screenY);
@@ -140,7 +144,7 @@ export default class BasicCameraController extends Subscriber {
 
     // screenSpace goes from [-1, 1]
     const inPercent = widthInScreenSpace > heightInScreenSpace
-    ? widthInScreenSpace / 2
+      ? widthInScreenSpace / 2
       : heightInScreenSpace / 2;
 
     const zoomLevelToSet = this.zoomLevel * inPercent;
