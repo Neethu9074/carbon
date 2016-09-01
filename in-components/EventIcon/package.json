@@ -1,0 +1,6 @@
+{
+  "name": "EventIcon",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EventIcon.es6"
+}

@@ -4,8 +4,10 @@ import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
 import TraceView from 'in-components/traceView/TraceView';
+import EventView from 'in-components/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
 import WebVRView from 'in-components/webVRView/WebVRView';
+import {isInternalEnvironment} from 'in-services/config';
 import Dashboard from 'in-components/Dashboard';
 import NoopRoute from 'in-client/js/NoopRoute';
 import App from 'in-client/js/App';
@@ -29,6 +31,16 @@ export default (
            path='traces' />
     <Route path='traces/dashboard'
            component={Dashboard} />
+
+    {isInternalEnvironment()
+      ? <Route component={EventView}
+               path='incidents' />
+      : null}
+
+    {isInternalEnvironment()
+      ? <Route component={EventView}
+               path='incidents/dashboard' />
+      : null}
 
     <Route component={GraphView}
            path='graph' />

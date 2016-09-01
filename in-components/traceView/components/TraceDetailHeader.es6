@@ -1,9 +1,9 @@
 import React from 'react';
 
-import TraceViewHeader from 'in-components/traceView/components/TraceViewHeader';
+import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 
 export default function TraceListHeader() {
   return (
-    <TraceViewHeader />
+    <ViewHeader />
   );
 }

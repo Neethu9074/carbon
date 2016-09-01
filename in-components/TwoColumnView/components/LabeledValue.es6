@@ -2,7 +2,7 @@ import React from 'react';
 
 import './LabeledValue.less';
 
-const block = 'in-trace-view-labeled-value';
+const block = 'in-two-columns-view-labeled-value';
 
 export default function LabeledValue({label, children, style}) {
   return (

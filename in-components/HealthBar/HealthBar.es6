@@ -6,6 +6,7 @@ import {theme} from 'in-services/theme';
 
 import './HealthBar.less';
 
+
 const block = 'in-health-bar';
 
 export default connectTo(props => {
