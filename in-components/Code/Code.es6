@@ -51,7 +51,10 @@ export default React.createClass({
   updateCode() {
     const element = ReactDOM.findDOMNode(this.refs.code);
     element.textContent = this.props.code;
-    hljs.highlightBlock(element);
+
+    if (this.props.lang) {
+      hljs.highlightBlock(element);
+    }
   },
 
   render() {
