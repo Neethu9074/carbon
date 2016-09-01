@@ -13,7 +13,7 @@ export default connectTo({
   menuContent: menuContent$
 },
 function Control({iconSize, onClick, type, id, isActive, menuContent, createMenuContent}) {
-  isActive = isActive || (menuContent && menuContent.id === type);
+  isActive = isActive || (menuContent && menuContent.id === (id ? id : type));
   return (
     <div className={block}
          onClick={() => {
