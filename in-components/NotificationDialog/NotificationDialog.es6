@@ -1,45 +1,18 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import Button from '../Button';
-import Dialog from '../Dialog';
-import Icon from '../Icon';
+import DialogV2 from 'in-components/DialogV2';
 
 import './NotificationDialog.less';
 
 
-const rpt = React.PropTypes;
 const block = 'in-notification-dialog';
 
-const NotificationDialog = React.createClass({
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    title: rpt.string.isRequired,
-    children: rpt.any.isRequired,
-    onClose: rpt.func,
-    closeButtonVisible: rpt.bool
-  },
-
-  render() {
-    const closeButtonVisible = this.props.closeButtonVisible;
-
-    return (
-      <Dialog className={block}
-              onClose={this.props.onClose}
-              childrenOutsideOfContentFlow={closeButtonVisible === undefined || closeButtonVisible ?
-                <Button className={block + '__button-close'}
-                        onClick={this.props.onClose}>
-                  <Icon type={'delete'} className={block + '__button-close__icon'}/>
-                </Button>
-              : null}>
-
-        <h1 className={block + '__header'}>{this.props.title}</h1>
-
-        {this.props.children}
-      </Dialog>
-    );
-  }
-});
-
-export default NotificationDialog;
+export default function NotificationDialog({title, children, onClose}) {
+  return (
+    <DialogV2 className={block}
+              header={title}
+              onClose={onClose}>
+      {children}
+    </DialogV2>
+  );
+}

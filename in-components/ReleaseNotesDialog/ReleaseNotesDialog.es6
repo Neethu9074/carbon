@@ -18,8 +18,7 @@ export default connectTo({
 
     return (
       <NotificationDialog onClose={markAsRead}
-                          title='Release Notes'
-                          closeButtonVisible={true}>
+                          title='Release Notes'>
         <div dangerouslySetInnerHTML={{__html: toHtml(releaseNotes)}}
              className={block} />
       </NotificationDialog>
