@@ -9,7 +9,7 @@ import Code from 'in-components/Code';
 
 export default connectTo(props => {
   return {
-    code: createAgentResponseObservable({
+    response: createAgentResponseObservable({
       action: 'java.class',
       target: props.snapshot.get('volatileId'),
       args: {
