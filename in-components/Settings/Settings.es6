@@ -9,7 +9,7 @@ import SettingEntry from 'in-components/Settings/SettingEntry';
 import {askPermission} from 'in-services/notification';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
-import DialogV2 from 'in-components/DialogV2';
+import Dialog from 'in-components/Dialog';
 import Slider from 'in-components/Slider';
 import connectTo from 'in-hoc/connectTo';
 
@@ -79,7 +79,7 @@ export default connectTo({
     }
 
     return (
-      <DialogV2 header='Settings'
+      <Dialog header='Settings'
               onClose={this.closeSettings}
               className={block + '__dialog'}>
         <div className={block}>
@@ -200,7 +200,7 @@ export default connectTo({
               'chart animations on slower systems.'} />
           </SettingEntry>
         </div>
-      </DialogV2>
+      </Dialog>
     );
   },
 

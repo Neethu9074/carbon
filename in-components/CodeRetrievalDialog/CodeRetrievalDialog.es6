@@ -3,7 +3,7 @@ import React from 'react';
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {close} from 'in-components/DialogPresenter/store';
-import DialogV2 from 'in-components/DialogV2';
+import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -28,7 +28,7 @@ export default connectTo(props => {
   }
 
   return (
-    <DialogV2 header={header}
+    <Dialog header={header}
               onClose={close}>
 
       {!response ?
@@ -45,6 +45,6 @@ export default connectTo(props => {
           <Code lang={lang}
                 code={response.data} />
       : null}
-    </DialogV2>
+    </Dialog>
   );
 });

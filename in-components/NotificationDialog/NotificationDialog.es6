@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DialogV2 from 'in-components/DialogV2';
+import Dialog from 'in-components/Dialog';
 
 import './NotificationDialog.less';
 
@@ -9,10 +9,10 @@ const block = 'in-notification-dialog';
 
 export default function NotificationDialog({title, children, onClose}) {
   return (
-    <DialogV2 className={block}
+    <Dialog className={block}
               header={title}
               onClose={onClose}>
       {children}
-    </DialogV2>
+    </Dialog>
   );
 }
