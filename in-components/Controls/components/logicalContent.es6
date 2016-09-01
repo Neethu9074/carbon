@@ -2,19 +2,22 @@ import React from 'react';
 
 import AutoLayout from 'in-components/Controls/components/AutoLayout';
 import Particles from 'in-components/Controls/components/Particles';
+import Icons from 'in-components/Controls/components/Icons';
 import Zoom from 'in-components/Controls/components/Zoom';
 
 
 export default function getLogicalContent() {
   const controls = [
-    <AutoLayout key='layout' />,
+    <Zoom key='zoom' />,
     <Particles key='particles' />,
-    <Zoom key='zoom' />
+    <AutoLayout key='layout' />
   ];
 
   if (__DEV__) {
-
+    controls.push(
+      <Icons key='icons' />
+    );
   }
 
-  return controls;
+  return controls.reverse();
 }
