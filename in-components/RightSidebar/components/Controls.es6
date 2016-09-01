@@ -25,15 +25,10 @@ export default connectTo({
   function FilterBarControls({isOpen, activeControl, isNotificationCenterOpen, isTableViewOpen, currentView}) {
     return (
       <div className={block + (isOpen ? ' ' + block + '__open' : '')}>
-        <ControlItem type={CONTROL_TYPES.NOTIFICATIONS}
-                     activeControl={activeControl}
-                     tooltipText='Show Notifications.' />
-
         {currentView === views.physical
           ? <ControlItem type={CONTROL_TYPES.METRICS}
                          activeControl={activeControl}
-                         tooltipText='Show Metrics.'
-                         addTopBorder={true} />
+                         tooltipText='Show Metrics.' />
           : null
         }
 
