@@ -18,13 +18,40 @@
 
   &__content-wrapper {
     cursor: auto;
+    border-radius: .125rem;
+    overflow: hidden;
+    min-width: 30%;
+    max-width: 90%;
   }
 
   &__header {
+    height: 2.875rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .625rem;
+    box-sizing: border-box;
+    background: #2D4048;
+    border-top-left-radius: .125rem;
+    border-top-right-radius: .125rem;
+    font-size: .75rem;
+  }
 
+  &__close {
+    fill: #fff;
+    cursor: pointer;
+
+    &:hover {
+      fill: darken(#fff, 20%);
+    }
   }
 
   &__content {
-
+    overflow-y: auto;
+    max-height: 40%;
+    font-size: .75rem;
+    background: #fff;
+    color: #2D4048;
+    padding: .625rem;
   }
 }

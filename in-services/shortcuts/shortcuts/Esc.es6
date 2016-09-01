@@ -1,25 +1,26 @@
 import {goToRootOfView, PATH_NAMES, navigationParameters$, closeCurrentHelpIfOpen} from 'in-stores/navigation';
+import {activeDialog$, close} from 'in-components/DialogPresenter/store';
 import {clearSelectedSnapshotId} from 'in-stores/snapshot';
 
 
 let navigationParameters;
 navigationParameters$.subscribe(_navigationParameters => navigationParameters = _navigationParameters);
 
+let activeDialog;
+activeDialog$.subscribe(_activeDialog => activeDialog = _activeDialog);
 
 export default function onPressed() {
   if (!navigationParameters) {
     return;
   }
 
-  const isSidebarInMapOpen = checkIfSidebarInMapisOpen();
-  const isDashboardOpen = checkIfDashboardisOpen();
-  const isHelpTextOpen = checkIfHelpTextIsOpen();
-
-  if (isHelpTextOpen) {
+  if (checkIfHelpTextIsOpen()) {
     closeCurrentHelpIfOpen();
-  } else if (isDashboardOpen) {
+  } else if (activeDialog != null) {
+    close();
+  } else if (checkIfDashboardisOpen()) {
     goToRootOfView();
-  } else if (isSidebarInMapOpen) {
+  } else if (checkIfSidebarInMapisOpen()) {
     clearSelectedSnapshotId();
   }
 }
