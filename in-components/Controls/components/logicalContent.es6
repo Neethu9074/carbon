@@ -6,9 +6,15 @@ import Zoom from 'in-components/Controls/components/Zoom';
 
 
 export default function getLogicalContent() {
-  return [
+  const controls = [
     <AutoLayout key='layout' />,
     <Particles key='particles' />,
     <Zoom key='zoom' />
   ];
+
+  if (__DEV__) {
+
+  }
+
+  return controls;
 }
