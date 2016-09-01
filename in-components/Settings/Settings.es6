@@ -80,8 +80,7 @@ export default connectTo({
 
     return (
       <Dialog header='Settings'
-              onClose={this.closeSettings}
-              className={block + '__dialog'}>
+              onClose={this.closeSettings}>
         <div className={block}>
           <SettingEntry>
             <SettingEntry.Header text={'Automatically Collapse Timeline'} />
