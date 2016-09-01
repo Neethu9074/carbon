@@ -9,15 +9,9 @@ registerSnapshotDefinition({
     singular: 'Varnish Node',
     plural: 'Varnish Nodes'
   },
+  icon,
 
   namesForTypeSearch: ['varnish'],
-
-  icons: {
-  },
-
-  getIcon() {
-    return icon;
-  },
 
   getLabel(snapshot) {
     return 'Varnish @' + snapshot.getIn(['data', 'port']);
