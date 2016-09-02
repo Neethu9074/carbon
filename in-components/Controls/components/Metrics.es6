@@ -11,14 +11,17 @@ import 'in-components/Controls/components/Metrics.less';
 
 const block = 'in-controls-metrics';
 
-export default function Metrics() {
+export default connectTo({
+  activeMetric: activeMetric$
+}, function Metrics({activeMetric}) {
   return (
     <Control createMenuContent={createMenuContent}
+             isActive={activeMetric ? true : false}
              tooltipText='Show metrics'
              iconSize={16}
              type='metrics' />
   );
-}
+});
 
 function createMenuContent() {
   return <MetricPanel />;
