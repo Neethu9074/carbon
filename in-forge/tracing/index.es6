@@ -24,6 +24,7 @@ import './pdo';
 import './php';
 import './play2';
 import './rabbitmq';
+import './resteasy';
 import './redis';
 import './sdk';
 import './servlet';
