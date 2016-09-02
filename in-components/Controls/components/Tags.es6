@@ -17,8 +17,8 @@ export default function Tags() {
 function createMenuContent() {
   return (
     <div>
-      <TagFilter />
       <TagListAll />
+      <TagFilter />
     </div>
   );
 }
