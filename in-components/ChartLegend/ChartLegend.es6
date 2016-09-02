@@ -46,22 +46,16 @@ export default connectTo(props => {
 
   renderList(axis, modifier, themeMetricOffset) {
     const classname = block + '__metrics';
-    const numberOfRemainingEnabledSeries = axis.labels.filter(label => this.props.activeFilters[label] !== true).length;
 
     return (
       <dl className={classname + ' ' + classname + '--' + modifier}>
         {axis.metrics.map((metric, i) =>
           <div className={classnames({
                  [block + '__metric']: true,
-                 [block + '__metric--disabled']: this.props.activeFilters[axis.labels[i]],
-                 [block + '__metric--clickable']: numberOfRemainingEnabledSeries > 1
+                 [block + '__metric--disabled']: this.props.activeFilters[axis.labels[i]]
                })}
                key={metric}
-               onClick={() => {
-                 if (numberOfRemainingEnabledSeries > 1 || this.props.activeFilters[axis.labels[i]]) {
-                   this.props.filterStore.toggleFilter(axis.labels[i]);
-                 }
-               }}
+               onClick={() => this.props.filterStore.toggleFilter(axis.labels[i])}
                style={{
                  background: toBackground(theme.chart.strokeColors[themeMetricOffset + i])
                }}>
