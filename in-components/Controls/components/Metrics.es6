@@ -46,7 +46,7 @@ const MetricPanel = React.createClass({
 
   getInitialState() {
     return {
-      isOpen: false
+      isOpen: true
     };
   },
 
