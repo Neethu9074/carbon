@@ -33,7 +33,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                        metric='clientrequests.read.mean'
                        formatter={muSecondsToMillisZeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label='Wrote Requests'>
+        <KpiKeyValue label='Write Requests'>
           <MetricValue snapshotId={snapshotId}
                        metric='clientrequests.write.count' />
         </KpiKeyValue>
