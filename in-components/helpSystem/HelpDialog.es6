@@ -7,8 +7,11 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import {closeHelp} from 'in-stores/navigation';
 import http from 'in-services/http';
 
+import './HelpDialog.less';
 
 const logger = createLogger('in-client.HelpDialog');
+
+const block = 'in-help-dialog';
 
 const rpt = React.PropTypes;
 const HelpDialog = React.createClass({
@@ -65,14 +68,15 @@ const HelpDialog = React.createClass({
       content = (
         <NotificationDialog title={this.state.article.title}
                             onClose={closeHelp}>
-          <div dangerouslySetInnerHTML={{__html: this.state.article.body}}></div>
+          <div dangerouslySetInnerHTML={{__html: this.state.article.body}}
+                className={`${block}__content`} />
         </NotificationDialog>
       );
     } else if (this.state.error) {
       content = (
         <NotificationDialog title='Sorry, we failed to retrieve the given help article :('
                             onClose={closeHelp}>
-          <p>
+          <p className={`${block}__content`}>
             You can still access the article, though a bit less convenient, via our&nbsp;
             <a href={'https://instana.zendesk.com/hc/en-us/articles/' + this.props.id}
                target='_blank'>
