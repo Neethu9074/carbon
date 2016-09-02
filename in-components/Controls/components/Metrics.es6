@@ -83,7 +83,7 @@ function DropDown({activeMetric, onClick, isOpen}) {
       <div className={`${block}__dropdown-label`}
            onClick={onClick}>
 
-        {activeMetric ? activeMetric.get('name') : 'choose metric'}
+        {activeMetric ? activeMetric.get('longLabel') : 'choose metric'}
 
         <SvgIcon className={`${block}__icon`}
                  type={isOpen ? 'triangle_down' : 'triangle_up'}
@@ -122,6 +122,7 @@ function Topic({label, list}) {
       <ul className={`${block}__list`}>
         {Object.keys(topic).map(metricKey =>
           <Metric key={metricKey}
+                  topic={label}
                   metricKey={metricKey}
                   metric={topic} />
         )}
@@ -133,7 +134,7 @@ function Topic({label, list}) {
 const Metric = connectTo({
   activeMetric: activeMetric$
 },
-function Metric({activeMetric, metricKey, metric}) {
+function Metric({activeMetric, metricKey, metric, topic}) {
   let className = `${block}__metric`;
   if (activeMetric && activeMetric.get('name') === metricKey) {
     className += ` ${className}--active`;
@@ -143,6 +144,7 @@ function Metric({activeMetric, metricKey, metric}) {
     <div className={className}
          onClick={() => setActiveMetric(Immutable.fromJS({
                                           name: metricKey,
+                                          longLabel: `${topic} ${metricKey}`,
                                           metrics: metric[metricKey]
                                         }))
          }>
