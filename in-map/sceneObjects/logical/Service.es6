@@ -25,7 +25,7 @@ import {theme} from 'in-services/theme';
 export default class Service extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     this.isExternal = params.entity.getIn(['metadata', 'external'], false);
     this.isUnknown = params.id.startsWith('unknown-service');

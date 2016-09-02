@@ -26,7 +26,7 @@ const METRIC_MARGIN = 0.9;
 export default class NodeMetric extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     this.parentNode = params.node;
     this.numSlices = 1;

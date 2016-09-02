@@ -1,4 +1,4 @@
-import {Matrix4, OrthographicCamera} from 'in-map/3DLibProvider';
+import {PerspectiveCamera, Matrix4} from 'in-map/3DLibProvider';
 import {width, height} from 'in-map/stores/indexStore';
 import {dimensions$} from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
@@ -6,22 +6,16 @@ import Subscriber from 'in-map/misc/Subscriber';
 
 const INVERSE = new Matrix4();
 
-export default class OrthographicCameraWrapper extends Subscriber {
+export default class VRCamera extends Subscriber {
 
   constructor() {
     super();
 
-    // a multiplicator for a homogenious viewport * aspect
-    this.cameraSize = 30;
-    const cameraSizeHalf = this.cameraSize / 2;
-
-    const aspect = width / height;
-    const left = -cameraSizeHalf * aspect;
-    const top = cameraSizeHalf;
-    const camera = this.camera = new OrthographicCamera(
-      left, -left, top, -top,
+    const camera = this.camera = new PerspectiveCamera(
+      45, // fov
+      width / height, // aspect
       0.1, // near
-      2500 // far
+      2000 // far
     );
 
     camera.projection = new Matrix4();
@@ -35,6 +29,10 @@ export default class OrthographicCameraWrapper extends Subscriber {
     this.addSubscription(
       dimensions$.subscribe(() => this.updateCameraFromSize())
     );
+  }
+
+  updateCameraFromSize() {
+    this.camera.aspect = width / height;
   }
 
   update() {
@@ -52,19 +50,16 @@ export default class OrthographicCameraWrapper extends Subscriber {
     camera.projection.multiplyMatrices(camProjectionMat, INVERSE);
   }
 
-  setCameraSize(value) {
-    this.cameraSize = Math.min(Math.max(1, value), 300);
+  getPosition() {
+    return this.camera.position;
   }
 
-  updateCameraFromSize() {
-    // we start in the middle and go totalWidth / 2 to the left
-    const camSizeHalf = this.cameraSize / 2;
-    const aspect = width / height;
+  updateProjectionMatrix() {
+    this.camera.updateProjectionMatrix();
+  }
 
-    this.camera.left = -camSizeHalf * aspect;
-    this.camera.right = camSizeHalf * aspect;
-    this.camera.bottom = -camSizeHalf;
-    this.camera.top = camSizeHalf;
+  updateMatrix() {
+    this.camera.updateMatrix();
   }
 
   getRenderableCamera() {
@@ -74,7 +69,6 @@ export default class OrthographicCameraWrapper extends Subscriber {
   dispose() {
     super.dispose();
 
-    this.cameraSize = null;
     this.camera = null;
   }
 }

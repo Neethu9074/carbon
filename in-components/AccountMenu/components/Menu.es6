@@ -88,6 +88,15 @@ export default connectTo({
             Graph Showcase
           </a>
 
+          {__DEV__
+            ? <a className={block + '__link'}
+                 href='#/webVR'
+                 target='_blank'>
+                WebVR Showcase
+              </a>
+            : null
+          }
+
           <Separator />
 
           <form action='/auth/signOut' method='post'>

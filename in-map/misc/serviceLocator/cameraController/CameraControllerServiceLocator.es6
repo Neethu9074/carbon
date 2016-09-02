@@ -20,6 +20,10 @@ const CameraControllerServiceLocator = (function create() {
     return service.zoom(dz, centeredZoom);
   }
 
+  function getRenderableCamera() {
+    return service.getRenderableCamera();
+  }
+
   function provide(_service) {
     if (!_service) {
       return;
@@ -38,6 +42,7 @@ const CameraControllerServiceLocator = (function create() {
   }
 
   return {
+    getRenderableCamera,
     flyToPosition,
     focusMap,
     zoom,

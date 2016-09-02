@@ -10,13 +10,14 @@ export default sceneObjectComponent(props => {
     InstanceType: Group,
     params: {
       id: props.entity.get('id'),
-      entity: props.entity
+      entity: props.entity,
+      webVRMode: props.webVRMode
     }
   };
 }, GroupComponent );
 
 
-function GroupComponent({entity, includedIds, sceneObject}) {
+function GroupComponent({entity, includedIds, sceneObject, webVRMode}) {
   const nodes = [];
   entity.get('children').forEach(nodeEntity => {
     const nodeId = nodeEntity.get('id');
@@ -34,7 +35,8 @@ function GroupComponent({entity, includedIds, sceneObject}) {
       {nodes.map(nodeEntity => <NodeComponent key={nodeEntity.get('id')}
                                               includedIds={includedIds}
                                               group={sceneObject}
-                                              entity={nodeEntity} />
+                                              entity={nodeEntity}
+                                              webVRMode={webVRMode} />
       )}
     </div>
   );

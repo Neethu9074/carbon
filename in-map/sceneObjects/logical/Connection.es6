@@ -32,7 +32,7 @@ import {theme} from 'in-services/theme';
 export default class Connection extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     this.destinationNode = params.destinationNode;
     this.sourceNode = params.sourceNode;

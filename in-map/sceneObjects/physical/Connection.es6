@@ -18,7 +18,7 @@ import connections from 'in-map/stores/connectionsStore';
 export default class Connection extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     this.destinationNode = params.destinationNode;
     this.sourceNode = params.sourceNode;

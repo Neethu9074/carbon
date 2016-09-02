@@ -17,7 +17,8 @@ export default sceneObjectComponent(props => {
     params: {
       id: props.entity.get('id'),
       entity: props.entity,
-      group: props.group
+      group: props.group,
+      webVRMode: props.webVRMode
     }
   };
 },

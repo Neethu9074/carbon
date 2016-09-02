@@ -24,10 +24,24 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
       transparent: true,
       depthTest: false,
       uniforms: {
-        texture: { type: 't', value: glyphTexture },
-        numColumns: { type: 'f', value: config.numElementsPerColumn }
+        texture: {
+          type: 't',
+          value: glyphTexture
+        },
+        numColumns: {
+          type: 'f',
+          value: config.numElementsPerColumn
+        },
+        distance: {
+          type: 'f',
+          value: 1000
+        }
       }
     });
+  }
+
+  setDistance(distance) {
+    this.material.uniforms.distance.value = distance;
   }
 
   rebuild() {

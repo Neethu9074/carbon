@@ -5,6 +5,7 @@ const physicsNullService = {
   initEvents: noop,
   flyToPosition: noop,
   focusMap: noop,
+  getRenderableCamera: noop,
   zoom: noop,
   update: noop,
   dispose: noop

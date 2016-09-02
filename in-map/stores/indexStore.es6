@@ -1,5 +1,6 @@
 import {create} from 'reactive-observables';
 
+
 export const canvas$ = create();
 
 export function setCanvas(newCanvas) {
@@ -11,10 +12,17 @@ export function clear() {
 }
 
 
+export const dimensions$ = create();
+
 export let width = 0;
 export let height = 0;
 
 export function setDimensions(_width, _height) {
   width = _width;
   height = _height;
+
+  dimensions$.emit({
+    width,
+    height
+  });
 }

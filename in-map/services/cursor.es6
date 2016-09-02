@@ -13,5 +13,5 @@ export function init() {
   subscription = combineLatest([
     highlightedEntityId$,
     canvas$
-  ]).subscribe(([id, canvas]) => canvas.style.cursor = (id && canvas) ? 'pointer' : 'auto');
+  ]).subscribe(([id, canvas]) => canvas ? (canvas.style.cursor = id ? 'pointer' : 'auto') : null);
 }

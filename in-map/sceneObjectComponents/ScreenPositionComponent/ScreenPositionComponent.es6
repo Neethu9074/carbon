@@ -1,9 +1,9 @@
 import {combineLatest} from 'reactive-observables';
 
+import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {width, height} from 'in-map/stores/indexStore';
 import {eventBus} from 'in-map/services/eventBus';
-import {scene$} from 'in-map/stores/sceneStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
@@ -32,24 +32,18 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
     const eventEmitter = this.sceneObject.eventEmitter;
 
-    scene$.once(scene => {
-      if (scene) {
-        this.camera = scene.camera;
+    this.addSubscriptions([
+      eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()),
 
-        this.addSubscriptions([
-          eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()),
-
-          combineLatest([
-            eventEmitter.on('positionChanged'),
-            eventEmitter.on('scaleChanged')
-          ]).subscribe(([pos, scale]) =>
-            this.set3DPositionToProject(this.get3DPositionToProjectCallback
-                                          ? this.get3DPositionToProjectCallback(pos, scale)
-                                          : pos)
-          )
-        ]);
-      }
-    });
+      combineLatest([
+        eventEmitter.on('positionChanged'),
+        eventEmitter.on('scaleChanged')
+      ]).subscribe(([pos, scale]) =>
+        this.set3DPositionToProject(this.get3DPositionToProjectCallback
+                                      ? this.get3DPositionToProjectCallback(pos, scale)
+                                      : pos)
+      )
+    ]);
   }
 
   set3DPositionToProject(pos) {
@@ -57,11 +51,14 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
   }
 
   updateScreenPosition() {
-    const camera = this.camera;
+    const renderableCamera = CameraControllerServiceLocator.getRenderableCamera();
+    if (!renderableCamera) {
+      return;
+    }
 
     const screenPosition = this.screenPositionAnchor
       .clone()
-      .applyProjection(camera.getRenderableCamera().projection);
+      .applyProjection(renderableCamera.projection);
 
     screenPosition.x = ((screenPosition.x + 1) / 2 * width) | 0;
     screenPosition.y = (-(screenPosition.y - 1) / 2 * height) | 0;
@@ -101,6 +98,5 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
     this.screenPositionAnchor = null;
     this.screenPosition = null;
     this.isInView = null;
-    this.camera = null;
   }
 }
