@@ -1,11 +1,12 @@
 import React from 'react';
 
+import {time, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces} from 'in-services/formatters/number';
+import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import {time, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces} from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -75,6 +76,9 @@ export default function NodejsDashboard({snapshot, timeframe}) {
       <DashboardSection title='Event Loop'>
         {renderEventLoopMetrics(snapshot, timeframe)}
       </DashboardSection>
+
+      <HttpServersTable snapshot={snapshot}
+                        timeframe={timeframe} />
     </div>
   );
 }
