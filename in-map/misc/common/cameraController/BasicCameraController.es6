@@ -1,7 +1,6 @@
 import RoEmitter from 'roemitter';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {clearCameraWasMoved} from 'in-map/stores/cameraController';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {getFactory} from 'in-map/stores/factoriesStore';
@@ -199,7 +198,5 @@ export default class BasicCameraController extends Subscriber {
 
     this.eventEmitter.dispose();
     this.camera = null;
-
-    clearCameraWasMoved();
   }
 }

@@ -2,7 +2,6 @@ import {combineLatest} from 'reactive-observables';
 import Hammer from 'hammerjs';
 
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
-import {cameraWasMoved} from 'in-map/stores/cameraController';
 
 
 export default class TouchControlsDecorator extends Decorator {
@@ -135,7 +134,6 @@ export default class TouchControlsDecorator extends Decorator {
     dy *= nZoomLevel;
 
     this.cameraController.moveRelative(-dx * this.moveSpeed, -dy * this.moveSpeed);
-    cameraWasMoved();
   }
 
   dispose() {
