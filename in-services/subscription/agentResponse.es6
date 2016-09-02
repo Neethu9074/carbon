@@ -19,5 +19,8 @@ export default createSubscription(
   },
 
   // data transformation on onData
-  x => x
+  x => x,
+
+  // memoize only for three seconds
+  0
 );
