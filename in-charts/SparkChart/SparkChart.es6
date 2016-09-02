@@ -18,7 +18,8 @@ export default function createSparkChart({width,
                                           container,
                                           timeframe,
                                           tooltipFormatter,
-                                          design = 'light'}) {
+                                          design = 'light',
+                                          wiggleRoom}) {
   let metricLineStrokeColor;
   let metricLineFillColor;
   let metricAxisStrokeColor;
@@ -73,7 +74,7 @@ export default function createSparkChart({width,
     timeSubscription = serverTime$.subscribe(serverTime => {
       dataHolder.expireDataPointsOlderThan(serverTime - timeframe.windowSize);
       xScale.setDomainFrom(serverTime - timeframe.windowSize);
-      xScale.setDomainTo(serverTime);
+      xScale.setDomainTo(serverTime - wiggleRoom);
       render();
     });
   } else {
