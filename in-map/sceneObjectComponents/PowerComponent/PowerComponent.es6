@@ -23,7 +23,7 @@ export default class PowerComponent extends SceneObjectComponent {
         if (!power) {
           return;
         }
-        const weightedHeight = BASE_HEIGHT + (MAX_HEIGHT - BASE_HEIGHT) * (power / maxPower);
+        const weightedHeight = BASE_HEIGHT + (MAX_HEIGHT - BASE_HEIGHT) * Math.min(1, power / maxPower);
         this.emitToClient('powerChanged', weightedHeight);
       })
     ]);
