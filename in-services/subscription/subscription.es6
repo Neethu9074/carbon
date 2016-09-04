@@ -6,10 +6,11 @@ import {getDataEvent} from 'in-services/subscription/dataEvent';
 import {on, off} from 'in-services/persistentConnection';
 
 
-export default function(eventId, getId, getData, transformData) {
+export default function(eventId, getId, getData, transformData, memoizeFor = 10000) {
   return memoize(
     createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData),
-    getId
+    getId,
+    memoizeFor
   );
 }
 

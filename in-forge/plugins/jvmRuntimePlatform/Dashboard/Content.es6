@@ -8,10 +8,11 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import {bytesTwoDecimalPlaces, time} from 'in-services/formatters/number';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {isInternalEnvironment} from 'in-services/config';
 import MetricValue from 'in-components/MetricValue';
 import Button from 'in-components/Button';
 import {getLabel} from 'in-sdk/snapshot';
+
+import './Content.less';
 
 
 export default function JVMDashboard({snapshot, timeframe}) {
@@ -32,6 +33,11 @@ export default function JVMDashboard({snapshot, timeframe}) {
       </KpiSection>
 
       <DashboardSection title='Threads'>
+        <Button onClick={() => setActiveDialog(<ThreadDumpDialog snapshot={snapshot}/>)}
+                className='in-jvm-dashboard-thread-dump-button'>
+          Get Thread Dump
+        </Button>
+
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
@@ -59,12 +65,6 @@ export default function JVMDashboard({snapshot, timeframe}) {
                            type: 'stackedArea'
                          }}/>
       </DashboardSection>
-
-      {isInternalEnvironment() ?
-        <Button onClick={() => setActiveDialog(<ThreadDumpDialog snapshot={snapshot}/>)}>
-          Get Thread Dump
-        </Button>
-      : null}
 
       <DashboardSection title='Memory'>
         <ChartWithLegend snapshotId={snapshotId}

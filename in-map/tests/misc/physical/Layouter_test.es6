@@ -58,9 +58,9 @@ describe('in-map', () => {
       const group1 = createGroup('group1', [node11, node12]);
       groups.add('group1', group1);
 
-      expect(group1.getPosition().x).to.equal(1.5);
+      expect(group1.getPosition().x).to.equal(0);
       expect(group1.getPosition().y).to.equal(0);
-      expect(group1.getPosition().z).to.equal(-3);
+      expect(group1.getPosition().z).to.equal(-1.5);
 
       expect(group1.getScale().sx).to.equal(3);
       expect(group1.getScale().sz).to.equal(6);
@@ -77,9 +77,9 @@ describe('in-map', () => {
       const group1 = createGroup('group1', [node11, node12]);
       groups.add('group1', group1);
 
-      expect(node11.getPosition().x).to.equal(1.5);
+      expect(node11.getPosition().x).to.equal(0);
       expect(node11.getPosition().y).to.equal(0);
-      expect(node11.getPosition().z).to.equal(-1.5);
+      expect(node11.getPosition().z).to.equal(0);
     });
 
     it('should layout nodes inside many groups', () => {
@@ -99,29 +99,29 @@ describe('in-map', () => {
 
       eventBus.emit('layoutNeedsUpdate', true);
 
-      expect(group1.getPosition().x).to.equal(1.5);
-      expect(group1.getPosition().z).to.equal(-3);
+      expect(group1.getPosition().x).to.equal(-2);
+      expect(group1.getPosition().z).to.equal(-1.5);
 
       expect(group1.getScale().sx).to.equal(3);
       expect(group1.getScale().sz).to.equal(6);
 
-      expect(group2.getPosition().x).to.equal(5.5);
-      expect(group2.getPosition().z).to.equal(-3);
+      expect(group2.getPosition().x).to.equal(2);
+      expect(group2.getPosition().z).to.equal(-1.5);
 
       expect(group2.getScale().sx).to.equal(3);
       expect(group2.getScale().sz).to.equal(6);
 
-      expect(node11.getPosition().x).to.equal(1.5);
-      expect(node11.getPosition().z).to.equal(-1.5);
+      expect(node11.getPosition().x).to.equal(-2);
+      expect(node11.getPosition().z).to.equal(0);
 
-      expect(node12.getPosition().x).to.equal(1.5);
-      expect(node12.getPosition().z).to.equal(-4.5);
+      expect(node12.getPosition().x).to.equal(-2);
+      expect(node12.getPosition().z).to.equal(-3);
 
-      expect(node21.getPosition().x).to.equal(5.5);
-      expect(node21.getPosition().z).to.equal(-1.5);
+      expect(node21.getPosition().x).to.equal(2);
+      expect(node21.getPosition().z).to.equal(0);
 
-      expect(node22.getPosition().x).to.equal(5.5);
-      expect(node22.getPosition().z).to.equal(-4.5);
+      expect(node22.getPosition().x).to.equal(2);
+      expect(node22.getPosition().z).to.equal(-3);
     });
   });
 });

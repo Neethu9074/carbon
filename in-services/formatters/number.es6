@@ -53,7 +53,9 @@ export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
 export const muSecondsZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'µs';
+export const muSecondsTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'µs';
 export const muSecondsToMillisZeroDecimalPlaces = d => zeroDecimalPlaces(d / 1000) + 'ms';
+export const muSecondsToMillisTwoDecimalPlaces = d => twoDecimalPlaces(d / 1000) + 'ms';
 
 export const time = millis => {
   if (millis < 1) {

@@ -3,18 +3,29 @@ import React from 'react';
 
 import {getHistoricMetricsWithLiveUpdates, getPixelAwareRollupSize} from 'in-stores/metric';
 import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
+import {getChartWiggleRoom} from 'in-sdk/snapshot';
 import {timeframeShape} from 'in-stores/timeline';
+import {getSnapshot} from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
 
 const rpt = React.PropTypes;
 
-export default React.createClass({
+export default connectTo(props => {
+  return {
+    wiggleRoom: getSnapshot(props.snapshotId)
+      .map(snapshot => getChartWiggleRoom(snapshot.get('plugin')))
+      .distinct()
+      .startWith(5000)
+  };
+}, React.createClass({
 
   displayName: 'HistoricMetricSparkChart',
 
   propTypes: {
     timeframe: timeframeShape.isRequired,
     snapshotId: rpt.string.isRequired,
+    wiggleRoom: rpt.number.isRequired,
     metric: rpt.string.isRequired,
     height: rpt.number.isRequired,
     width: rpt.number.isRequired,
@@ -57,4 +68,4 @@ export default React.createClass({
                   datasource={this.state.datasource} />
     );
   }
-});
+}));

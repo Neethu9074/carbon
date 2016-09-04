@@ -3,7 +3,6 @@ import React from 'react';
 import ShowCodeButton from 'in-components/traceView/components/tree/ShowCodeButton';
 import {alwaysEmptyImmutableMap, alwaysNull} from 'in-services/fixedStreams';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
-import {isInternalEnvironment} from 'in-services/config';
 import {emptyMap} from 'in-services/fixedImmutables';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getDirection} from 'in-sdk/tracing';
@@ -76,7 +75,7 @@ export default connectTo(props => {
               <span className={`${block}__method`}> {st.get('m')} </span>
               <span className={`${block}__in`}>in</span>
               <span className={`${block}__file`}> {st.get('c')}{st.get('n') ? `:${st.get('n')}` : ''}</span>
-              {this.props.snapshot != null && isInternalEnvironment() ?
+              {this.props.snapshot != null ?
                 <ShowCodeButton snapshot={this.props.snapshot}
                                 file={st.get('c')}
                                 line={st.get('n')}/>

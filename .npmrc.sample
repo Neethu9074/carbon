@@ -3,6 +3,7 @@
 
 registry=https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/
 always-auth=true
+progress=false
 
 # Generate the auth token via
 #
