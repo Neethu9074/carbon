@@ -14,8 +14,7 @@ export default function ElasticsearchSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Elasticsearch</Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot}
-                snapshotId={snapshot.get('id')} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

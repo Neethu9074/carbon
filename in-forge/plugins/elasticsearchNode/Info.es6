@@ -2,6 +2,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
+import ClusterStatusLabel from 'in-forge/plugins/elasticsearchCluster/ClusterStatusLabel';
 import {getLabel} from 'in-sdk/snapshot';
 import getZone from 'in-hoc/getZone';
 
@@ -22,6 +23,11 @@ export default getZone(function ElasticsearchInfo({snapshot, zoneSnapshot}) {
           </SnapshotLink>
         </DescriptionItem>
       : null}
+
+
+      <DescriptionItem title='Status'>
+        <ClusterStatusLabel status={data.get('cluster_health.status')} />
+      </DescriptionItem>
 
       <DescriptionItem title='Node'>
         {data.get('node.name')}
