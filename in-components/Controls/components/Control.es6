@@ -19,7 +19,7 @@ function Control({iconSize, onClick, type, id, isActive, menuContent, createMenu
     <Tooltip content={tooltipText}
              align='topRight'>
 
-      <div className={block}
+      <div className={block + (isActive ? ` ${block}--active` : '')}
            onClick={() => {
              if (onClick) {
                onClick();
@@ -31,7 +31,7 @@ function Control({iconSize, onClick, type, id, isActive, menuContent, createMenu
         <SvgIcon type={type}
                  width={iconSize}
                  height={iconSize}
-                 color={isActive ? '#9fffff' : '#7b8e96'} />
+                 color={'#7b8e96'} />
       </div>
     </Tooltip>
   );
