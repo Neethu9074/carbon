@@ -19,6 +19,7 @@ import './memcache';
 import './mongo';
 import './mysql';
 import './node.http.server';
+import './node.http.client';
 import './okhttp';
 import './OpenEJB';
 import './pdo';
