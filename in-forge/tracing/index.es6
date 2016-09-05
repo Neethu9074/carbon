@@ -18,6 +18,7 @@ import './log.slf4j';
 import './memcache';
 import './mongo';
 import './mysql';
+import './node.http.server';
 import './okhttp';
 import './OpenEJB';
 import './pdo';
