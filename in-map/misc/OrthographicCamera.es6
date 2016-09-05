@@ -17,7 +17,7 @@ export default class OrthographicCameraWrapper {
     const camera = this.camera = new OrthographicCamera(
       left, -left, top, -top,
       0.1, // near
-      2000 // far
+      2500 // far
     );
 
     camera.projection = new Matrix4();
