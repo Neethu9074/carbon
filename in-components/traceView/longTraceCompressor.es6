@@ -8,7 +8,11 @@ export function compress(current) {
         id: `${result.id};${child.id}`,
         type: 'stackTrace',
         children: child.children,
-        stackTrace: result.stackTrace.concat(child.stackTrace)
+        stackTrace: result.stackTrace.concat(child.stackTrace),
+        // No need to concat with child spans as long stack trace generation logic
+        // is already guaranteing that we have all the spans we need.
+        spans: result.spans,
+        parentSpan: result.parentSpan
       };
     }
   }

@@ -1,25 +1,38 @@
+import fragmentShader from 'in-map/singleMeshFactories/basicFragmentShader.glsl';
+import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
+
+import {RawShaderMaterial, BufferGeometry, Line} from 'in-map/3DLibProvider';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
-import {LineBasicMaterial, Geometry, Line} from 'in-map/3DLibProvider';
+import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {eventBus} from 'in-map/services/eventBus';
 
 
-const GHOST_MATERIAL = new LineBasicMaterial({
-  color: 0x627379,
-  linewidth: navigator.platform.indexOf('Win') < 0 ? 2 : 1
+const GHOST_MATERIAL = new RawShaderMaterial({
+  fragmentShader: fragmentShader,
+  vertexShader: vertexShader,
+  linewidth: navigator.platform.indexOf('Win') < 0 ? 2 : 1,
+  transparent: true,
+  uniforms: {
+    opacity: {
+      type: 'f',
+      value: 0.2
+    }
+  }
 });
 
 export default class DragConnection {
   constructor(fromPosition) {
-    const geometry = new Geometry();
+    const geometry = new BufferGeometry();
     const sceneObject = this.sceneObject = new Line(geometry, GHOST_MATERIAL);
 
     addSceneObject(sceneObject);
 
-    this.dragObjectSubscription =  eventBus.on('dragObject').subscribe(newPos => {
-      geometry.vertices[0] = fromPosition;
-      geometry.vertices[1] = newPos;
-      geometry.verticesNeedUpdate = true;
-    });
+    this.dragObjectSubscription =  eventBus.on('dragObject').subscribe(newPos =>
+      updateAttribute(geometry, 'position', [
+        fromPosition.x, fromPosition.y, fromPosition.z,
+        newPos.x, newPos.y, newPos.z
+      ])
+    );
   }
 
   dispose() {

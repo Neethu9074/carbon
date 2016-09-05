@@ -1,14 +1,12 @@
 import {Matrix4, OrthographicCamera} from 'in-map/3DLibProvider';
+import {width, height} from 'in-map/stores/indexStore';
 
 
 const INVERSE = new Matrix4();
 
 export default class OrthographicCameraWrapper {
 
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-
+  constructor() {
     // a multiplicator for a homogenious viewport * aspect
     this.cameraSize = 30;
     const cameraSizeHalf = this.cameraSize / 2;
@@ -27,7 +25,6 @@ export default class OrthographicCameraWrapper {
     // set static
     camera.rotationAutoUpdate = false;
     camera.matrixAutoUpdate = false;
-    camera.updateMatrix();
   }
 
   update() {
@@ -45,32 +42,19 @@ export default class OrthographicCameraWrapper {
     camera.projection.multiplyMatrices(camProjectionMat, INVERSE);
   }
 
-  setSize(width, height) {
-    this.width = width;
-    this.height = height;
-  }
-
   setCameraSize(value) {
     this.cameraSize = Math.min(Math.max(1, value), 300);
   }
 
-  getCameraSize() {
-    return this.cameraSize;
-  }
-
-  setCameraFromSize() {
+  updateCameraFromSize() {
     // we start in the middle and go totalWidth / 2 to the left
     const camSizeHalf = this.cameraSize / 2;
-    const aspect = this.width / this.height;
+    const aspect = width / height;
 
     this.camera.left = -camSizeHalf * aspect;
     this.camera.right = camSizeHalf * aspect;
     this.camera.bottom = -camSizeHalf;
     this.camera.top = camSizeHalf;
-  }
-
-  getPosition() {
-    return this.camera.position;
   }
 
   getRenderableCamera() {
@@ -80,7 +64,5 @@ export default class OrthographicCameraWrapper {
   dispose() {
     this.cameraSize = null;
     this.camera = null;
-    this.height = null;
-    this.width = null;
   }
 }

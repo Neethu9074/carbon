@@ -4,57 +4,5 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-
-  width: 34rem;
-
-  &__dialog {
-    &__content {
-      position: relative;
-      padding: 50px;
-      border-radius: 13px;
-      background: @settings__background;
-      overflow-y: auto;
-      max-height: 100%;
-      box-sizing: border-box;
-    }
-
-    &__child-wrapper {
-      max-height: 50%;
-      height: 50%;
-      position: relative;
-    }
-  }
-
-  &__header {
-    background: @settings__heading__background;
-    padding-bottom: 20px;
-    font-size: 1.6rem;
-    font-weight: lighter;
-    color: @settings__heading__text;
-  }
-
-  &__button-close {
-    @size: 30px;
-    position: absolute;
-    height: @size;
-    top: -@size / 2;
-    right: -@size / 2;
-    border-radius: 50%;
-    z-index: 1;
-
-    // this avoids the browser outline which looks ugly here and is not needed
-    outline: 0;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &__icon {
-      position: absolute;
-      top: -4px;
-      left: 6px;
-      font-size: 2.3rem;
-      color: @settings__close-button-color;
-    }
-  }
+  max-width: 34rem;
 }

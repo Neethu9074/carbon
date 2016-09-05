@@ -1,8 +1,16 @@
 @import "~in-themes/active.less";
 
 .in-tag-list-all {
+  overflow-y: scroll;
+  max-height: 20rem;
+  width: 30rem;
+
   &__no-tags {
-    font-size: 14px;
+    font-size: .875rem;
     color: @filterbar__tags__no-tags-defined-text;
+  }
+
+  &__active-tags {
+    padding: 0  0 0.5rem 0;
   }
 }

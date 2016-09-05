@@ -1,35 +1,45 @@
 import React from 'react';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {getClassName} from 'in-services/react';
+import SvgIcon from 'in-components/SvgIcon';
 
 import './Dialog.less';
 
 
-const rpt = React.PropTypes;
 const block = 'in-dialog';
 
-const Dialog = React.createClass({
-  mixins: [SubscriptionMixin],
-
-  propTypes: {
-    childrenOutsideOfContentFlow: rpt.any,
-    className: rpt.string,
-    children: rpt.any
-  },
-
-  render() {
-    return (
-      <section className={getClassName(this, block)}>
-        <div className={getClassName(this, block, '__child-wrapper')}>
-          {this.props.childrenOutsideOfContentFlow}
-          <div className={getClassName(this, block, '__content')}>
-            {this.props.children}
-          </div>
-        </div>
-      </section>
-    );
+export default function Dialog({childrenOutsideOfContentFlow, children, header, onClose, contentClassName}) {
+  let contentClasses = `${block}__content`;
+  if (contentClassName) {
+    contentClasses = `${contentClasses} ${contentClassName}`;
   }
-});
+  return (
+    <section className={block}
+             onClick={onClickOutside}>
+      {childrenOutsideOfContentFlow}
 
-export default Dialog;
+      <div className={`${block}__content-wrapper`}>
+        <header className={`${block}__header`}>
+          {header}
+
+          {onClose ?
+            <SvgIcon type='x'
+                     width={14}
+                     className={`${block}__close`}
+                     onClick={onClose}/>
+          : null}
+        </header>
+
+        <div className={contentClasses}>
+          {children}
+        </div>
+      </div>
+    </section>
+  );
+
+  function onClickOutside(e) {
+    if (e.target.className === block && onClose) {
+      onClose();
+    }
+  }
+
+}

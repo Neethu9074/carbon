@@ -1,8 +1,8 @@
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
-import {onWheel, onMove, onLeave} from 'in-services/reactiveMouseEvents';
+import {onWheel, onMove} from 'in-services/reactiveMouseEvents';
 import {requestRendering} from 'in-map/stores/renderingStore';
+import {width, height} from 'in-map/stores/indexStore';
 import {eventBus} from 'in-map/services/eventBus';
-import {theme} from 'in-services/theme';
 
 
 export default class MouseControlDecorator extends Decorator {
@@ -18,8 +18,8 @@ export default class MouseControlDecorator extends Decorator {
     // if the cam is nearly at the target zoomLevel, abort calculations and with that, redraws
     this.minDistanceBetweenCurrentAndTargetZoomLevel = 0.01;
 
-    this.zoomLevel = 0;
-    this.addProperty('zoomLevel', 0);
+    this.zoomLevel = 600;
+    this.addProperty('zoomLevel', 600);
     this.addProperty('minZoomLevel', 20);
     this.addProperty('maxZoomLevel', 2000);
     this.addProperty('cursorPosition', {x: 0, y: 0});
@@ -31,7 +31,7 @@ export default class MouseControlDecorator extends Decorator {
   init() {
     super.init();
 
-    this.zoom(500);
+    this.zoom(-100);
   }
 
   initEvents() {
@@ -43,19 +43,7 @@ export default class MouseControlDecorator extends Decorator {
       onMove(domElement, e  => {
         e.preventDefault();
 
-        const x = e.clientX | 0;
-        const y = (e.clientY | 0) - theme.header.height;
-
-        this.setCursorPosition(x, y);
-      }),
-
-      onLeave(domElement, () => {
-        // console.log('leave');
-        // this.client.setCursorPosition({
-        //   x: Infinity,
-        //   y: Infinity
-        // });
-        this.eventEmitter.emit('onMouseLeave');
+        this.setCursorPosition(e.offsetX, e.offsetY);
       }),
 
       onWheel(domElement, event => {
@@ -80,7 +68,7 @@ export default class MouseControlDecorator extends Decorator {
 
   zoom(delta, centeredZoom) {
     if (centeredZoom) {
-      this.setCursorPosition(this.canvas.width / 2, this.canvas.height / 2);
+      this.setCursorPosition(width / 2, height / 2);
     }
 
     this.zoomLevel = this.clampZoomLevel(this.zoomLevel + delta);
@@ -93,7 +81,7 @@ export default class MouseControlDecorator extends Decorator {
     camera.position.setZ(zoomLevel);
 
     cameraWrapper.setCameraSize(zoomLevel / 10);
-    cameraWrapper.setCameraFromSize();
+    cameraWrapper.updateCameraFromSize();
 
     camera.updateMatrix();
     cameraWrapper.update();
@@ -118,7 +106,6 @@ export default class MouseControlDecorator extends Decorator {
 
   setCursorPosition(x, y) {
     const cursorPosition = this.cameraController.cursorPosition;
-    const camera = this.cameraController.camera;
 
     if (cursorPosition.x === x &&
         cursorPosition.y === y) {
@@ -129,8 +116,8 @@ export default class MouseControlDecorator extends Decorator {
 
     // transform into screen space
     const screenSpaceCursorPosition = this.cameraController.screenSpaceCursorPosition;
-    screenSpaceCursorPosition.x = (x / camera.width) * 2 - 1;
-    screenSpaceCursorPosition.y = -(y / camera.height) * 2 + 1;
+    screenSpaceCursorPosition.x = (x / width) * 2 - 1;
+    screenSpaceCursorPosition.y = -(y / height) * 2 + 1;
 
     this.eventEmitter.emit('onMouseMoved', cursorPosition);
   }

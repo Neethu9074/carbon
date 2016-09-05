@@ -64,7 +64,7 @@ export default class NodeMetric extends SceneObject {
                                                           PREDEFINED_COLLISION_OBJECTS.BOX,
                                                           OCTREE_LAYER.LAYER));
 
-    this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos) => pos));
+    this.addComponent('screenPosition', new ScreenPositionComponent(this));
 
     this.addComponent('tooltip', new TooltipComponent(this, NodeMetricTooltip));
   }

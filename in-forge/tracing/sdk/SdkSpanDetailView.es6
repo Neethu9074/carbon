@@ -16,11 +16,14 @@ export default function SdkSpanDetailView({span}) {
         <DescriptionItem title='Captured Return Value'>
           {span.getIn(['data', 'sdk', 'return'])}
         </DescriptionItem>
+        {custom ?
+          <DescriptionItem title='Data'>
+            <Code code={JSON.stringify(custom.toJS(), 0, 2)}
+                  lang='json'/>
+          </DescriptionItem>
+        : null}
       </DescriptionList>
-      { custom ?
-        <Code code={JSON.stringify(custom.toJS(), 0, 2)}
-              type='json'/>
-        : null }
+
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {longSelectedTrace$} from 'in-components/traceView/traceViewStore';
+import {longSelectedTrace$} from 'in-components/traceView/stores/longSelectedTrace';
 import TraceFlameGraph from 'in-components/traceView/components/TraceFlameGraph';
 import TraceHeader from 'in-components/traceView/components/tree/Header';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';

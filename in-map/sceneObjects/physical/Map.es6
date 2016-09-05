@@ -1,5 +1,6 @@
 import FadeByDistanceSingleMeshFactory from 'in-map/singleMeshFactories/FadeByDistanceSingleMeshFactory';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
+import {CONTROL_PRESETS, setControls} from 'in-components/Controls/stores/controlsStore';
 import BasicSingleMeshFactory from 'in-map/singleMeshFactories/BasicSingleMeshFactory';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
@@ -17,6 +18,8 @@ export default class Map extends BaseMap {
     super(params);
 
     this.cameraController = undefined;
+
+    setControls(CONTROL_PRESETS.PHYSICAL);
   }
 
   init() {
@@ -68,5 +71,7 @@ export default class Map extends BaseMap {
     super.dispose();
 
     this.layouter.dispose();
+
+    setControls(null);
   }
 }

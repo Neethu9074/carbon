@@ -70,10 +70,16 @@ export default function createTooltipRenderer(config) {
       return;
     }
 
+    const x = config.scales.x.getRange(time);
+    if (x < config.scales.x.getRangeFrom()) {
+      config.dom.tooltipLine.style.display = 'none';
+      config.dom.tooltipContainer.style.display = 'none';
+      return;
+    }
+
     config.dom.tooltipLine.style.display = 'block';
     config.dom.tooltipContainer.style.display = 'block';
 
-    const x = config.scales.x.getRange(time);
     applyTransform(config.dom.tooltipLine, `translateX(${x}px)`);
 
     if (x > config.width / 2) {

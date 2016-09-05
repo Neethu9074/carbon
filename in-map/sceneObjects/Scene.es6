@@ -1,6 +1,10 @@
 import {on} from 'reactive-observables';
 
-import {frame$, requestRendering, clear as clearRenderingStore} from 'in-map/stores/renderingStore';
+import {
+  frame$, requestRendering,
+  clear as clearRenderingStore,
+  updatesEnabled$
+} from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/misc/time';
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
@@ -10,6 +14,7 @@ import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {setDimensions} from 'in-map/stores/indexStore';
 import Camera from 'in-map/misc/OrthographicCamera';
 import {theme} from 'in-services/theme';
 
@@ -31,9 +36,8 @@ export default class MainScene extends SceneObject {
     this.isDisposed = false;
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
+    this.updateSceneObjects = true;
     this.antialias = params.antialias;
-    this.width = this.canvas.clientWidth;
-    this.height = this.canvas.clientHeight;
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
   }
 
@@ -53,7 +57,9 @@ export default class MainScene extends SceneObject {
     this.addSubscriptions([
       frame$.subscribe(() => this.shouldRenderScene = true),
 
-      on(window, 'resize').subscribe(this.onWindowResize.bind(this))
+      on(window, 'resize').subscribe(this.onWindowResize.bind(this)),
+
+      updatesEnabled$.subscribe(isEnabled => this.updateSceneObjects = isEnabled)
     ]);
 
     this.handleLostContext();
@@ -69,8 +75,12 @@ export default class MainScene extends SceneObject {
       return;
     }
 
+    // recall this to keep the update loop
     requestAnimationFrame(this.handleAnimationFrames);
-    this.update(highResTimestamp);
+
+    if (this.updateSceneObjects) {
+      this.update(highResTimestamp);
+    }
   }
 
   update(highResTimestamp) {
@@ -94,7 +104,7 @@ export default class MainScene extends SceneObject {
       antialias: this.antialias === 'browserAA' ? true : false
     });
 
-    renderer.setSize(this.width, this.height);
+    renderer.setSize(0, 0);
     renderer.setClearColor(new Color(theme.map.colors.clearColor));
 
     // objects organize matrix updates by themselves
@@ -106,12 +116,14 @@ export default class MainScene extends SceneObject {
   }
 
   setupCamera() {
-    this.camera = new Camera(this.width, this.height);
+    this.camera = new Camera();
   }
 
   onWindowResize() {
-    const height = this.height = window.innerHeight - (theme.header.height + theme.footer.height);
-    const width = this.width = window.innerWidth;
+    const height = window.innerHeight - (theme.header.height + theme.footer.height);
+    const width = window.innerWidth;
+
+    setDimensions(width, height);
 
     this.canvas.setAttribute('width', width);
     this.canvas.setAttribute('height', height);
@@ -120,8 +132,7 @@ export default class MainScene extends SceneObject {
 
     this.renderer.setSize(width, height);
 
-    this.camera.setSize(width, height);
-    this.camera.setCameraFromSize();
+    this.camera.updateCameraFromSize();
 
     // refresh to show the current state
     requestRendering();
@@ -158,12 +169,11 @@ export default class MainScene extends SceneObject {
     this.camera.dispose();
     this.camera = null;
 
+    this.updateSceneObjects = null;
     this.shouldRenderScene = null;
     this.antialias = null;
     this.renderer = null;
     this.canvas = null;
-    this.height = null;
-    this.width = null;
     this.scene = null;
   }
 }

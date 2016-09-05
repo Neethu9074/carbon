@@ -61,7 +61,7 @@ export default class Connection extends SceneObject {
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
-    this.addComponent('screenPosition', new ScreenPositionComponent(this, pos => pos));
+    this.addComponent('screenPosition', new ScreenPositionComponent(this));
 
     this.addComponent('health', new HealthComponent(this));
 
@@ -75,20 +75,14 @@ export default class Connection extends SceneObject {
 
     this.addSubscriptions([
       combineLatest([
-        this.eventEmitter.on('isBidirectionalChanged'),
         this.sourceNode.eventEmitter.on('positionChanged'),
-        this.destinationNode.eventEmitter.on('positionChanged')
-      ]).subscribe(([isBidirectional, from, to]) => {
-        if (isBidirectional) {
-          const offset = getOffsetVectors(from, to);
+        this.destinationNode.eventEmitter.on('positionChanged'),
+        this.eventEmitter.on('isBidirectionalChanged')
+      ]).subscribe(([from, to]) => {
 
-          from = from.clone();
-          to = to.clone();
-          from.add(offset.right);
-          from.sub(offset.forward);
-          to.add(offset.right);
-          to.add(offset.forward);
-        }
+        from = from.clone();
+        to = to.clone();
+        this.addOffsetIfBidirectional(from, to);
 
         this.eventEmitter.emit('changePosition', {from, to});
       }),
@@ -98,9 +92,7 @@ export default class Connection extends SceneObject {
 
       this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE)
                                             .subscribe(fromTo => {
-        if (this.collisionLine) {
-          this.collisionLine.geometry.dispose();
-        }
+        this.disposeCollisionLine();
         this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
       }),
 
@@ -157,15 +149,7 @@ export default class Connection extends SceneObject {
 
     const from = fromTransform.getPosition().clone();
     const to = toTransform.getPosition().clone();
-
-    if (this.isBidirectional) {
-      const offset = getOffsetVectors(from, to);
-
-      from.add(offset.right);
-      from.sub(offset.forward);
-      to.add(offset.right);
-      to.add(offset.forward);
-    }
+    this.addOffsetIfBidirectional(from, to);
 
     const path = flatten(
                  addArrowToDestination(
@@ -186,6 +170,24 @@ export default class Connection extends SceneObject {
     return intersects(raycaster, this.collisionLine);
   }
 
+  disposeCollisionLine() {
+    if (this.collisionLine) {
+      this.collisionLine.geometry.dispose();
+      this.collisionLine = null;
+    }
+  }
+
+  addOffsetIfBidirectional(from, to) {
+    if (this.isBidirectional) {
+      const offset = getOffsetVectors(from, to);
+
+      from.add(offset.right);
+      from.sub(offset.forward);
+      to.add(offset.right);
+      to.add(offset.forward);
+    }
+  }
+
   dispose() {
     super.dispose();
 
@@ -193,11 +195,7 @@ export default class Connection extends SceneObject {
     connections.remove(this.id);
 
     this.ghostConncetionSpawner.dispose();
-
-    if (this.collisionLine) {
-      this.collisionLine.geometry.dispose();
-      this.collisionLine = null;
-    }
+    this.disposeCollisionLine();
 
     this.lineContentProvider = null;
     this.destinationNode = null;

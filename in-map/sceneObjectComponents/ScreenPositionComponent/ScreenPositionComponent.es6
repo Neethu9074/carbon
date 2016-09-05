@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
+import {width, height} from 'in-map/stores/indexStore';
 import {eventBus} from 'in-map/services/eventBus';
 import {scene$} from 'in-map/stores/sceneStore';
 import {ZERO} from 'in-map/misc/fixedVectors';
@@ -10,6 +11,7 @@ const IS_VISIBLE_CHANGED_KEY = 'isVisibleChanged';
 const SCREEN_POSITION_CHANGED_KEY = 'screenPositionChanged';
 
 export default class ScreenPositionComponent extends SceneObjectComponent {
+
   constructor(sceneObject, get3DPositionToProject) {
     super(sceneObject, '_screenPosition');
 
@@ -40,10 +42,11 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
           combineLatest([
             eventEmitter.on('positionChanged'),
             eventEmitter.on('scaleChanged')
-          ]).subscribe(([pos, scale]) => {
-            const positionToSet = this.get3DPositionToProjectCallback(pos, scale);
-            this.set3DPositionToProject(positionToSet);
-          })
+          ]).subscribe(([pos, scale]) =>
+            this.set3DPositionToProject(this.get3DPositionToProjectCallback
+                                          ? this.get3DPositionToProjectCallback(pos, scale)
+                                          : pos)
+          )
         ]);
       }
     });
@@ -55,8 +58,6 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
   updateScreenPosition() {
     const camera = this.camera;
-    const width = camera.width;
-    const height = camera.height;
 
     const screenPosition = this.screenPositionAnchor
       .clone()
@@ -90,10 +91,8 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
   isInView() {
     const screenPos = this.screenPosition;
-    const camera = this.camera;
-
-    return (screenPos.x > 0 && screenPos.x <= camera.width &&
-            screenPos.y > 0 && screenPos.y <= camera.height);
+    return (screenPos.x > 0 && screenPos.x <= width &&
+            screenPos.y > 0 && screenPos.y <= height);
   }
 
   dispose() {

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {setSortBy, setSortDirection, sortDirection$, sortBy$} from 'in-components/traceView/traceViewStore';
+import {setSortDirection, sortDirection$} from 'in-components/traceView/stores/sortDirection';
+import {setSortBy, sortBy$} from 'in-components/traceView/stores/sortBy';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 

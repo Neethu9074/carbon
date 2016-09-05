@@ -24,12 +24,13 @@ export default function MongoSpanDetailView({span}) {
         <DescriptionItem title='Namespace'>
           {span.getIn(['data', 'mongo', 'namespace'])}
         </DescriptionItem>
+        {query ?
+          <DescriptionItem title='Query'>
+            <Code code={query}
+                  lang='json' />
+          </DescriptionItem>
+        : null}
       </DescriptionList>
-
-      {query ?
-        <Code code={query}
-              type='json' />
-      : null}
     </div>
   );
 }

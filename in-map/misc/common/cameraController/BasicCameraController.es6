@@ -8,11 +8,14 @@ import {Object3D, Vector3} from 'in-map/3DLibProvider';
 import {emptyArray} from 'in-services/fixedObjects';
 import {clearSelectedEvent} from 'in-stores/events';
 import {goToDashboard} from 'in-stores/navigation';
+import activeTheme from 'in-themes/active.json';
+import {height} from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 const FOCUS_MARGIN = 0.02;
+const BOTTOM_MARGIN_IN_PX = activeTheme.footer.heightExpanded;
 
 export default class BasicCameraController extends Subscriber {
 
@@ -88,18 +91,6 @@ export default class BasicCameraController extends Subscriber {
     this.updateCamera();
   }
 
-  updateCamera() {
-    this.camTransformObject.updateMatrixWorld();
-    this.camPitchObject.updateMatrixWorld();
-
-    // apply current transformations
-    this.camera.update();
-
-    // TODO: clamp the position to avoid overflow of the level area
-
-    requestRendering();
-  }
-
   flyToPosition({x, z}) {
     this.camTransformObject.position.setX(x);
     this.camTransformObject.position.setZ(z);
@@ -112,6 +103,7 @@ export default class BasicCameraController extends Subscriber {
     let minY = Number.MAX_VALUE;
     let maxX = -1 * Number.MAX_VALUE;
     let maxY = -1 * Number.MAX_VALUE;
+    const yOffset = Math.min(BOTTOM_MARGIN_IN_PX / height, 1);
 
     const vertices = this.getFactoryVertices();
     if (!vertices) {
@@ -136,7 +128,7 @@ export default class BasicCameraController extends Subscriber {
     }
 
     minX -= FOCUS_MARGIN;
-    minY -= FOCUS_MARGIN;
+    minY -= FOCUS_MARGIN + yOffset;
     maxX += FOCUS_MARGIN;
     maxY += FOCUS_MARGIN;
 
@@ -152,7 +144,7 @@ export default class BasicCameraController extends Subscriber {
 
     // screenSpace goes from [-1, 1]
     const inPercent = widthInScreenSpace > heightInScreenSpace
-    ? widthInScreenSpace / 2
+      ? widthInScreenSpace / 2
       : heightInScreenSpace / 2;
 
     const zoomLevelToSet = this.zoomLevel * inPercent;
@@ -165,11 +157,23 @@ export default class BasicCameraController extends Subscriber {
     position.applyProjection(this.camera.getRenderableCamera().projection);
   }
 
+  // default zoom implementation
+  zoom() {}
+
   // default update implementation
   update() {}
 
-  // default zoom implementation
-  zoom() {}
+  updateCamera() {
+    this.camTransformObject.updateMatrixWorld();
+    this.camPitchObject.updateMatrixWorld();
+
+    // apply current transformations
+    this.camera.update();
+
+    requestRendering();
+
+    // TODO: clamp the position to avoid overflow of the level area
+  }
 
   getCameraController() {
     return this;

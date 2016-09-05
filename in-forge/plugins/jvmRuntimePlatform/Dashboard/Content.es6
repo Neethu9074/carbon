@@ -3,11 +3,16 @@ import React from 'react';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import ThreadDumpDialog from 'in-forge/plugins/jvmRuntimePlatform/ThreadDumpDialog';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import {bytesTwoDecimalPlaces, time} from 'in-services/formatters/number';
+import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
+import Button from 'in-components/Button';
 import {getLabel} from 'in-sdk/snapshot';
+
+import './Content.less';
 
 
 export default function JVMDashboard({snapshot, timeframe}) {
@@ -33,6 +38,11 @@ export default function JVMDashboard({snapshot, timeframe}) {
       </KpiSection>
 
       <DashboardSection title='Threads'>
+        <Button onClick={() => setActiveDialog(<ThreadDumpDialog snapshot={snapshot}/>)}
+                className='in-jvm-dashboard-thread-dump-button'>
+          Get Thread Dump
+        </Button>
+
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{

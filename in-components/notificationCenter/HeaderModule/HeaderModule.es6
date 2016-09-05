@@ -41,7 +41,7 @@ export default connectTo({
 
       let maxSeverity = 0;
       maxSeverity = this.getSeverity(maxSeverity, events.incidents);
-      maxSeverity = this.getSeverity(maxSeverity, events.issues);
+      // maxSeverity = this.getSeverity(maxSeverity, events.issues);
 
       const background = maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
 

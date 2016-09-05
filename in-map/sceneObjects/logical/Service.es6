@@ -28,18 +28,23 @@ export default class Service extends SceneObject {
     super(params.id);
 
     this.isExternal = params.entity.getIn(['metadata', 'external'], false);
+    this.isUnknown = params.id.startsWith('unknown-service');
   }
 
   init() {
     super.init();
 
-    stickyNotes.add(this.id, {
-      type: ServiceStickyNote,
-      eventEmitter: this.eventEmitter,
-      props: {
-        id: this.id
-      }
-    });
+    // unknown service hack
+    if (!this.isUnknown) {
+      stickyNotes.add(this.id, {
+        type: ServiceStickyNote,
+        eventEmitter: this.eventEmitter,
+        props: {
+          id: this.id,
+          isExternal: this.isExternal
+        }
+      });
+    }
   }
 
   initComponents() {
@@ -73,18 +78,21 @@ export default class Service extends SceneObject {
       this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CubeCP, 'solid'));
     }
 
-    this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
-      return {
-        x: pos.x + scale.x,
-        y: pos.y + scale.y,
-        z: pos.z - scale.z / 2
-      };
-    }));
+    // unknown service hack
+    if (!this.isUnknown) {
+      this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
+        return {
+          x: pos.x + scale.x,
+          y: pos.y + scale.y,
+          z: pos.z - scale.z / 2
+        };
+      }));
+    }
 
     this.addComponent('health', new HealthComponent(this));
 
     // unknown service hack
-    this.id.startsWith('unknown-service')
+    this.isUnknown
       ? this.getComponent('transform').setScaleXYZ(0.5, 0.25, 0.5)
       : this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
   }

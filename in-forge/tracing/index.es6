@@ -1,5 +1,5 @@
-import './akka-http-client';
-import './akka-http-server';
+import './akka.http.client';
+import './akka.http.server';
 import './cassandra';
 import './corba';
 import './elasticsearch';
@@ -24,6 +24,7 @@ import './pdo';
 import './php';
 import './play2';
 import './rabbitmq';
+import './resteasy';
 import './redis';
 import './sdk';
 import './servlet';

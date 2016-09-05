@@ -1,5 +1,6 @@
 import FadeByDistanceSingleMeshFactory from 'in-map/singleMeshFactories/FadeByDistanceSingleMeshFactory';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
+import {CONTROL_PRESETS, setControls} from 'in-components/Controls/stores/controlsStore';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
 import {particlesAreActive$} from 'in-map/stores/logical/particlesStore';
@@ -15,6 +16,8 @@ export default class Map extends BaseMap {
 
   constructor(params) {
     super(params);
+
+    setControls(CONTROL_PRESETS.LOGICAL);
   }
 
   init() {
@@ -37,7 +40,6 @@ export default class Map extends BaseMap {
         const connectionFactory = getFactory('connections');
         if (connectionFactory) {
           connectionFactory.material.transparent = particlesAreActive;
-          connectionFactory.material.opacity = 0.25;
         }
       }),
 
@@ -65,5 +67,7 @@ export default class Map extends BaseMap {
     super.dispose();
 
     this.layouter.dispose();
+
+    setControls(null);
   }
 }

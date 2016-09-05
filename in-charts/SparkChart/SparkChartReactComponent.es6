@@ -16,6 +16,7 @@ export default React.createClass({
   propTypes: {
     timeframe: timeframeShape.isRequired,
     datasource: rpt.object.isRequired,
+    wiggleRoom: rpt.number.isRequired,
     height: rpt.number.isRequired,
     width: rpt.number.isRequired,
     tooltipFormatter: rpt.func,
@@ -47,7 +48,8 @@ export default React.createClass({
       container: ReactDOM.findDOMNode(this),
       timeframe: props.timeframe,
       tooltipFormatter: props.tooltipFormatter,
-      design: this.props.design
+      design: this.props.design,
+      wiggleRoom: this.props.wiggleRoom
     });
   },
 

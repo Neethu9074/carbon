@@ -18,12 +18,12 @@ export default class PowerComponent extends SceneObjectComponent {
     this.addSubscriptions([
       this.sceneObject.eventEmitter.on('snapshotChanged').subscribe(snappi => powers.add(this.id, getPower(snappi))),
 
-      maxPower$.distinct().subscribe(maxPower => {
+      maxPower$.subscribe(maxPower => {
         const power = powers.get(this.id);
         if (!power) {
           return;
         }
-        const weightedHeight = BASE_HEIGHT + (MAX_HEIGHT - BASE_HEIGHT) * (power / maxPower);
+        const weightedHeight = BASE_HEIGHT + (MAX_HEIGHT - BASE_HEIGHT) * Math.min(1, power / maxPower);
         this.emitToClient('powerChanged', weightedHeight);
       })
     ]);

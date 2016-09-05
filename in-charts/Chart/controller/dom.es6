@@ -1,6 +1,6 @@
 import {updateCanvasDimensions} from 'in-charts/canvas';
 
-const block = 'in-chart-v2';
+const block = 'in-chart';
 
 // We will use this as the highest expected zoom level to avoid
 // constant resizing of the animation buffer

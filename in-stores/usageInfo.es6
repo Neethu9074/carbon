@@ -25,6 +25,11 @@ function hideUsageInfo() {
 }
 
 export function init() {
+  // deactivate usage info handling in dev mode for some peace of mind
+  if (__DEV__) {
+    return;
+  }
+
   combineLatest([usageInfo$, usageInfoVisible$])
     .subscribe(([usageInfo, visible]) => {
       if (usageInfo == null || !visible) {

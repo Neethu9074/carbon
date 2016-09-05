@@ -24,7 +24,7 @@ export default function ElasticsearchSpanDetailView({span}) {
         {query ?
           <DescriptionItem title='Query'>
             <Code code={prettyPrintQuery(query)}
-                  type='json' />
+                  lang='json' />
           </DescriptionItem>
         : null}
       </DescriptionList>

@@ -21,14 +21,14 @@ export function transform(span) {
   }
 
   childSpans.forEach(childSpan => {
-    insertSpanIntoParent(parentForChildren, childSpan);
+    insertSpanIntoParent(parentForChildren, childSpan, span);
   });
 
   return result;
 }
 
 
-function insertSpanIntoParent(parentResult, span) {
+function insertSpanIntoParent(parentResult, span, parentSpan) {
   let currentParent = parentResult;
 
   if (getDirection(span) !== 'entry') {
@@ -47,6 +47,7 @@ function insertSpanIntoParent(parentResult, span) {
     for (let i = 0, len = currentParent.children.length; i < len; i++) {
       const child = currentParent.children[i];
       if (child.type === 'stackTrace' && child.id === id) {
+        child.spans.push(span);
         return child;
       }
     }
@@ -55,6 +56,8 @@ function insertSpanIntoParent(parentResult, span) {
       id: id,
       type: 'stackTrace',
       stackTrace: [stackTraceElement],
+      spans: [span],
+      parentSpan,
       children: []
     };
     currentParent.children.push(newParent);

@@ -1,56 +1,57 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
-import irpt from 'react-immutable-proptypes';
 
-import {tagsFilter$} from 'in-components/RightSidebar/stores/rightSidebarFilterStore';
+import {tagsFilter$} from 'in-components/TagFilter/stores/rightSidebarFilterStore';
 import {filterableTags$} from 'in-stores/search/tags';
+import {filteredTags$} from 'in-stores/search/tags';
 import connectTo from 'in-hoc/connectTo';
+import Tag from 'in-components/Tag';
 
-import Tag from '../Tag';
+import 'in-components/TagListAll/TagListAll.less';
 
-import './TagListAll.less';
+
+const block = 'in-tag-list-all';
 
 export default connectTo({
-    tags: filterableTags$,
-    tagsFilter: tagsFilter$
-  }, React.createClass({
-  displayName: 'TagListAll',
-
-  mixins: [
-    PureRenderMixin
-  ],
-
-  propTypes: {
-    tags: irpt.list,
-    tagsFilter: React.PropTypes.string.isRequired
-  },
-
-  render() {
-    let tags = this.props.tags;
-    if (!tags || tags.size === 0) {
-      return (
-        <div className={'in-tag-list-all__no-tags'}>
-          There are no tags defined
-        </div>
-      );
-    }
-
-    tags = tags.toArray();
-
-    const tagsFilter = this.props.tagsFilter.toLowerCase();
-    if (tagsFilter.length > 0) {
-      tags = tags.filter(tag => tag.toLowerCase().indexOf(tagsFilter) !== -1);
-    }
-
+  filteredTags: filteredTags$,
+  tagsFilter: tagsFilter$,
+  tags: filterableTags$
+},
+function TagListAll({tags, tagsFilter, filteredTags}) {
+  if (!tags || tags.size === 0) {
     return (
-      <div>
-        {tags.map(tag =>
-          <Tag key={tag}
-               tag={tag}
-               isDark={true}/>
-        )}
+      <div className={block + '__no-tags'}>
+        There are no tags defined
       </div>
     );
   }
 
-}));
+  tags = tags.toArray();
+  tagsFilter = tagsFilter.toLowerCase();
+
+  const activeTags = [];
+  const inactiveTags = [];
+
+  for (let i = 0; i < tags.length; i++) {
+    const tag = tags[i];
+    if (tag.toLowerCase().indexOf(tagsFilter) === -1) {
+      continue;
+    }
+
+    const collection = filteredTags.contains(tag.toLowerCase())
+      ? activeTags
+      : inactiveTags;
+
+    collection.push(<Tag key={tag}
+                         tag={tag}
+                         isDark={true}/>);
+  }
+
+  return (
+    <div className={block}>
+      <div className={block + '__active-tags'}>
+        {activeTags}
+      </div>
+      {inactiveTags}
+    </div>
+  );
+});

@@ -55,7 +55,7 @@ export default React.createClass({
       /* eslint-disable max-len */
       // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this
       // error…
-      logger.warn(`Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(this.props.content)}`, e);
+      logger.debug(`Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(this.props.content)}`, e);
       /* eslint-enable max-len */
     }
   },

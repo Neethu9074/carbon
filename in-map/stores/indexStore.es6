@@ -9,3 +9,12 @@ export function setCanvas(newCanvas) {
 export function clear() {
   canvas$.emit(null);
 }
+
+
+export let width = 0;
+export let height = 0;
+
+export function setDimensions(_width, _height) {
+  width = _width;
+  height = _height;
+}

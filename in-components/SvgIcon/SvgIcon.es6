@@ -46,10 +46,10 @@ export default function SvgIcon({
   );
 }
 
-export function SvgIconList() {
+export function SvgIconList({className}) {
   const iconNames = Object.keys(icons).sort();
   return (
-    <ul>
+    <ul className={className}>
       {iconNames.map(key =>
         <li key={key}
             style={{listStyle: 'none'}}>

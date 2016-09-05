@@ -3,7 +3,7 @@ import React from 'react';
 import TotalTraceCount from 'in-components/traceView/components/TotalTraceCount';
 import TraceViewHeader from 'in-components/traceView/components/TraceViewHeader';
 import AutoUpdate from 'in-components/traceView/components/AutoUpdate';
-import {refresh} from 'in-components/traceView/traceViewStore';
+import {refresh} from 'in-components/traceView/stores/traceList';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './TraceListHeader.less';

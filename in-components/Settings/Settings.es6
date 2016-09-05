@@ -9,13 +9,12 @@ import SettingEntry from 'in-components/Settings/SettingEntry';
 import {askPermission} from 'in-services/notification';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
-import Button from 'in-components/Button';
-import Slider from 'in-components/Slider';
 import Dialog from 'in-components/Dialog';
+import Slider from 'in-components/Slider';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './Settings.less';
+
 
 const block = 'in-settings';
 
@@ -80,20 +79,9 @@ export default connectTo({
     }
 
     return (
-      <Dialog onClose={this.closeSettings}
-              className={block + '__dialog'}
-              childrenOutsideOfContentFlow={
-                <Button onClick={this.closeSettings}
-                        className={block + '__button-close'}>
-                  <Icon type={'delete'} className={block + '__button-close__icon'}/>
-                </Button>
-              }>
-
+      <Dialog header='Settings'
+              onClose={this.closeSettings}>
         <div className={block}>
-          <div className={block + '__header'}>
-            Settings
-          </div>
-
           <SettingEntry>
             <SettingEntry.Header text={'Automatically Collapse Timeline'} />
             <SettingEntry.Content>

@@ -50,7 +50,12 @@ function isSelectStatement(sql) {
 }
 
 function shortenSelectStatement(sql) {
-  const from = sql.match(/.*?from ([a-z0-9\-\_]+)/i)[1];
+  const match = sql.match(/.*?from ([a-z0-9\-\_]+)/i);
+  if (!match) {
+    return sql;
+  }
+
+  const from = match[1];
   let result = `SELECT … FROM ${from}`;
 
   const ormComment = sql.match(/^ *(\/\*.*?\*\/)/);

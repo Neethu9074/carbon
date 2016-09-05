@@ -4,13 +4,12 @@ import React from 'react';
 
 import ServiceInstanceList from 'in-map/components/stickyNotes/logical/Service/components/ServiceInstanceList';
 import KPIList from 'in-map/components/stickyNotes/logical/Service/components/KPIList';
+import Heading from 'in-map/components/stickyNotes/logical/Service/components/Heading';
 import {showKpi$, showSticky$} from 'in-map/stores/logical/servicesStore';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import {emptyArray} from 'in-services/fixedObjects';
-import {getSnapshot} from 'in-stores/snapshot';
-import SvgIcon from 'in-components/SvgIcon';
-import {getLabel} from 'in-sdk/snapshot';
+
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-map/components/stickyNotes/logical/Service/Service.less';
@@ -22,8 +21,7 @@ const block = 'in-sticky-note-service';
 export default createStickyNote(
   connectTo(props => {
     return {
-      children: getClusterMembers(props.props.id),
-      snapshot: getSnapshot(props.props.id),
+      children: getClusterMembers(props.id),
       showSticky: showSticky$.distinct(),
       showKpi: showKpi$.distinct()
     };
@@ -39,9 +37,9 @@ export default createStickyNote(
     propTypes: {
       id: rpt.string.isRequired,
       showSticky: rpt.bool,
+      isExternal: rpt.bool,
       wrapper: rpt.object,
       children: irpt.set,
-      snapshot: irpt.map,
       showKpi: rpt.bool
     },
 
@@ -63,11 +61,6 @@ export default createStickyNote(
       const children = this.props.children || emptyArray;
       const childrenAreAvailable = children && children.size > 0;
 
-      let headerClassName = block + '__header';
-      if (this.state.highlighted || isExpanded) {
-        headerClassName += ' ' + headerClassName + '--highlighted';
-      }
-
       let contentClassName = block;
       if (isExpanded) {
         contentClassName += ' ' + contentClassName + '--expanded';
@@ -75,25 +68,14 @@ export default createStickyNote(
 
       return (
         <div className={contentClassName}>
-          {this.props.showKpi ?
-            <KPIList snapshotId={this.props.id}
-                     isHighlighted={() => {}}/>
-            : null
-          }
+          {this.renderKpis()}
 
-          {childrenAreAvailable ?
-            <div className={headerClassName}
-                 onMouseEnter={() => this.setState({highlighted: true})}
-                 onMouseLeave={() => this.setState({highlighted: false})}
-                 onClick={this.onClick}>
-              {getLabel(this.props.snapshot) + ' (' + children.size + ')'}
-              <Icon expanded={isExpanded} />
-            </div>
-            :
-            <div className={headerClassName}>
-              {getLabel(this.props.snapshot)}
-            </div>
-          }
+          <Heading expanded={isExpanded}
+                   snapshotId={this.props.id}
+                   children={children}
+                   highlighted={this.state.highlighted}
+                   onHighlight={isHighlighted => this.setState({highlighted: isHighlighted})}
+                   onClick={() => this.setState({expanded: !this.state.expanded})} />
 
           {(isExpanded && childrenAreAvailable) ?
             <ServiceInstanceList ids={children} />
@@ -102,26 +84,10 @@ export default createStickyNote(
       );
     },
 
-    onClick() {
-      // !this.state.expanded ? this.props.client.expand() : this.props.client.collapse();
-      this.setState({expanded: !this.state.expanded});
+    renderKpis() {
+      return this.props.showKpi
+        ? <KPIList snapshotId={this.props.id} />
+        : null;
     }
   })
 ));
-
-function Icon({expanded}) {
-  let className = block + '__icon-wrapper';
-  if (expanded) {
-    className += ' ' + className + '--expanded';
-  }
-
-  return (
-    <div className={className}>
-      <SvgIcon type={expanded ? 'triangle_up' : 'triangle_down'}
-               width={4}
-               height={4}
-               color={expanded ? '#000' : '#2d4048'}
-               className={block + '__icon'}/>
-    </div>
-  );
-}

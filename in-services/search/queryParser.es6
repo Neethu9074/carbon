@@ -41,7 +41,7 @@ export function parse(query) {
     });
   });
 
-  lexer.addRule(/([a-z0-9.\-_*~]+)/i, function onMatch(s, value) {
+  lexer.addRule(/([a-z0-9.\-_*~/]+)/i, function onMatch(s, value) {
     result.push({
       type: 'freeText',
       text: value.trim()

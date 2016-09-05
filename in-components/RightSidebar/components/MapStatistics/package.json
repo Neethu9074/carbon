@@ -1,6 +1,0 @@
-{
-  "name": "MapStatistics",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./MapStatistics.es6"
-}

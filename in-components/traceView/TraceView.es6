@@ -1,13 +1,13 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import TraceTableHeader from 'in-components/traceView/components/TraceTableHeader';
 import TraceViewHeader from 'in-components/traceView/components/TraceViewHeader';
 import TraceListHeader from 'in-components/traceView/components/TraceListHeader';
-import {enable, disable} from 'in-components/traceView/traceViewStore';
+import {enable, disable} from 'in-components/traceView/stores/traceList';
+import TraceTable from 'in-components/traceView/components/TraceTable';
 import TraceTree from 'in-components/traceView/components/TraceTree';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
-import TraceTableHeader from 'in-components/traceView/components/TraceTableHeader';
-import TraceTable from 'in-components/traceView/components/TraceTable';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 

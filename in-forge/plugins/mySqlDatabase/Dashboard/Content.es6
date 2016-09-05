@@ -1,20 +1,26 @@
 import React from 'react';
 
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
-import WaitEventsTable from 'in-forge/plugins/mySqlDatabase/Dashboard/WaitEventsTable';
-import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
-import {msZeroDecimalPlaces, twoDecimalPlaces} from 'in-services/formatters/number';
+import {
+  msZeroDecimalPlaces,
+  msTwoDecimalPlaces,
+  twoDecimalPlaces
+} from 'in-services/formatters/number';
 import {isPerformanceDataAvailable} from 'in-forge/plugins/mySqlDatabase/util';
+import {emptyList} from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
+const msFormatter = d => d < 0 ? 'No activity' : msTwoDecimalPlaces(d);
 
 export default function MySqlDashboard({snapshot, timeframe}) {
   const data = snapshot.get('data');
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
+  const waitEvents = snapshot.getIn(['data', 'wait_event_names'], emptyList)
+                             .toArray().sort();
   if (sensorConnectionStatus !== 'OK') {
     return (
       <DashboardNotification type='info'>
@@ -137,8 +143,20 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                        }}/>
       </DashboardSection>
       {performanceDataAvailable ?
-        <WaitEventsTable snapshot={snapshot}
-                         timeframe={timeframe} />
+        <DashboardSection title='Wait Events'>
+          <ChartWithLegend snapshotId={snapshotId}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 60
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: waitEvents.map(wEv => 'wait.' + wEv),
+                             labels: waitEvents,
+                             type: 'line',
+                             formatter: msFormatter
+                         }}/>
+        </DashboardSection>
       : null }
       <DashboardSection title='Key Access'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -175,11 +193,6 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                          }}
                          />
       </DashboardSection>
-
-      {performanceDataAvailable ?
-        <DatabasesTable snapshot={snapshot}
-                        timeframe={timeframe} />
-      : null}
     </div>
   );
 }

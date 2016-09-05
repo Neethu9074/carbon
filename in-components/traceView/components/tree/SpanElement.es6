@@ -1,11 +1,12 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {getLabel, getCategory, getCategoryIcon, getTypeLabelSingular, getDirection} from 'in-sdk/tracing';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
+import {getLabel, getCategory, getTypeLabelSingular, getDirection} from 'in-sdk/tracing';
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
-import {highlightedSpanId$} from 'in-components/traceView/traceViewStore';
+import {highlightedSpanId$} from 'in-components/traceView/stores/highlightedSpan';
+import CategoryIcon from 'in-components/traceView/components/tree/CategoryIcon';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getSelfTime} from 'in-components/traceView/util';
 import {hexToRGB} from 'in-services/formatters/color';
@@ -111,15 +112,11 @@ export default connectTo(props => {
           <div className={`${block}__content-wrapper`}>
             <div className={`${block}__header`}
                  onClick={this.toggleDetails}>
-              <img src={getCategoryIcon(category)}
-                   alt={`Icon for the span category ${category}`}
-                   className={`${block}__category-icon`}
-                   style={backgroundInCategoryColorStyle}/>
-
+              <CategoryIcon category={category}
+                            className={`${block}__category-icon`} />
               {direction !== 'exit' ?
                 [
-                  <div className={`${block}__self-time`}
-                       key='0'>
+                  <div key='0'>
                     <span className={`${block}__self-time-label`}>Self: </span>
                     {msZeroDecimalPlaces(selfTime)}<br/>({percentageTwoDecimalPlaces(selfTimePercentage)})
                   </div>,

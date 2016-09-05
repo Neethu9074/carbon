@@ -3,12 +3,11 @@ import React from 'react';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import Controls from 'in-components/RightSidebar/components/Controls';
-import Center from 'in-components/notificationCenter/Center/Center';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import SidebarIncidents from 'in-components/sidebars/Incident';
 import ConnectionStatus from 'in-components/ConnectionStatus';
+import DialogPresenter from 'in-components/DialogPresenter';
 import MapSidebar from 'in-components/Sidebar/MapSidebar';
 import TableView from 'in-components/tableView/TableView';
 import MessageFlyout from 'in-components/MessageFlyout';
@@ -17,6 +16,7 @@ import Timeline from 'in-components/timeline/Timeline';
 import ViewSwitcher from 'in-components/ViewSwitcher';
 import RightSidebar from 'in-components/RightSidebar';
 import AppHeader from 'in-components/AppHeader';
+import Controls from 'in-components/Controls';
 import MapNotes from 'in-components/MapNotes';
 import Settings from 'in-components/Settings';
 import Map from 'in-map/index.es6';
@@ -34,15 +34,14 @@ export default function App(props) {
 
       <section style={{display: shouldShowMap ? 'block' : 'none'}}>
         <Map />
+        <Controls />
         <TableView />
-        <Center />
         <SidebarIncidents />
         <MapSidebar />
         <MapNotes />
       </section>
 
       <RightSidebar />
-      <Controls />
       <Timeline />
 
       {props.children}
@@ -56,6 +55,7 @@ export default function App(props) {
       <ConnectionStatus />
       <MessageFlyout />
       <TemporaryNotificationPresenter />
+      <DialogPresenter />
     </div>
   );
 }
