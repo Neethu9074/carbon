@@ -28,7 +28,7 @@ export default function JVMDashboard({snapshot, timeframe}) {
         <KpiKeyValue label='Memory Used'>
           <MetricValue snapshotId={snapshotId}
                        metric='memory.used'
-                       formatter={bytesTwoDecimalPlaces}/>
+                       formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
