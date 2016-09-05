@@ -109,7 +109,10 @@ export default class ASingleMeshFactory extends Subscriber {
     updateAttribute(this.geometry, 'position', vertices);
     updateAttribute(this.geometry, 'color', colors);
 
-    if (!this.isAddedToScene) {
+    // on startup or shutdown it can happen that there is a rebuild but the transform component was already disposed
+    // or not created. Fragments are skipped then. Because of that it can happen, that there are no vertices on
+    // that rebuild so check for array length to avoid prim_count = 0 warnings
+    if (!this.isAddedToScene && vertices.length > 0) {
       addSceneObject(this.mesh);
       this.isAddedToScene = true;
     }
