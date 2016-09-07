@@ -17,6 +17,9 @@ export default function JbossDataGridInfo({snapshot}) {
           <DescriptionItem title='JGroups Version'>
             {data.get('jGroupsVersion')}
           </DescriptionItem>
+          <DescriptionItem title='HotRod Max Worker Threads'>
+            {data.get('hotRod.numberOfWorkerThreads')}
+          </DescriptionItem>
         </DescriptionList>
       </Collapsible.Content>
     </Collapsible>
