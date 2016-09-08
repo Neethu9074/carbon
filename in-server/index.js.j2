@@ -1,6 +1,11 @@
 'use strict';
 
-require('instana-nodejs-sensor')();
+require('instana-nodejs-sensor')({
+  level: 'info',
+  tracing: {
+    enabled: true
+  }
+});
 
 const express = require('express');
 const cookieParser = require('cookie-parser');
