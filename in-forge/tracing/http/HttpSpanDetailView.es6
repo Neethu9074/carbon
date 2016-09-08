@@ -27,6 +27,9 @@ export default function HttpSpanDetailView({span}) {
         <DescriptionItem title='Remote Port'>
           {span.getIn(['data', 'peer', 'port'])}
         </DescriptionItem>
+        <DescriptionItem title='Error'>
+          {span.getIn(['data', 'http', 'error'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );
