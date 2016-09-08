@@ -38,9 +38,14 @@ export default function NodejsDashboard({snapshot, timeframe}) {
                        metric='memory.heapUsed'
                        formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label='Total time spent in loop'>
+        <KpiKeyValue label='Total time spent in loop per second'>
           <MetricValue snapshotId={snapshotId}
                        metric='libuv.num'
+                       formatter={time} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Event loop lag'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='libuv.lag'
                        formatter={time} />
         </KpiKeyValue>
       </KpiSection>
