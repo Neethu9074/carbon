@@ -5,7 +5,6 @@ registerSpanDefinition({
   type: 'node.http.client',
   category: 'http',
   direction: 'exit',
-  searchAliases: ['node', 'node.js', 'http'],
 
   typeName: {
     singular: 'HTTP Call',
