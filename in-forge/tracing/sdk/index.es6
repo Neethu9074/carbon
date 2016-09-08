@@ -7,6 +7,7 @@ registerSpanDefinition({
     const type = span.getIn(['data', 'sdk', 'type']);
     return type ? type.toLowerCase() : 'entryAndExit';
   },
+  searchAliases: ['sdk'],
 
   typeName: {
     singular: 'Call',
