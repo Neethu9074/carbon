@@ -94,14 +94,18 @@ export default function createAnimatableContentRenderer(config) {
     const ticks = [];
     const width = x.getRangeTo();
 
+    let previousTickRange = Number.NEGATIVE_INFINITY;
     let lastTickDomain = formatting.ceilToNearestStep(x.getDomainFrom());
     let lastTickRange = x.getRange(lastTickDomain);
 
     while (lastTickRange <= width) {
-      ticks.push({
-        range: lastTickRange,
-        domain: lastTickDomain
-      });
+      if (previousTickRange + config.xAxisFormattingConfig.expectLabelWidth < lastTickRange) {
+        ticks.push({
+          range: lastTickRange,
+          domain: lastTickDomain
+        });
+        previousTickRange = lastTickRange;
+      }
 
       lastTickDomain += formatting.stepSize;
       lastTickRange = x.getRange(lastTickDomain);

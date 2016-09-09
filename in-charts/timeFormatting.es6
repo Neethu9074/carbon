@@ -5,6 +5,7 @@ const timeFormats = [
     maxMillis: 10,
     formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 60,
     stepSize: 1,
     ceilToNearestStep: a => a
   },
@@ -12,6 +13,7 @@ const timeFormats = [
     maxMillis: 100,
     formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 60,
     stepSize: 10,
     ceilToNearestStep: composeCeil(ceilTo10Millis)
   },
@@ -19,6 +21,7 @@ const timeFormats = [
     maxMillis: 1000,
     formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 60,
     stepSize: 100,
     ceilToNearestStep: composeCeil(ceilTo100Millis)
   },
@@ -26,6 +29,7 @@ const timeFormats = [
     maxMillis: 1000 * 10,
     formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 60,
     stepSize: 1000,
     ceilToNearestStep: composeCeil(ceilToFullSecond)
   },
@@ -33,6 +37,7 @@ const timeFormats = [
     maxMillis: 1000 * 60,
     formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 60,
     stepSize: 1000 * 10,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilTo10Seconds)
   },
@@ -40,6 +45,7 @@ const timeFormats = [
     maxMillis: 1000 * 60 * 11,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 30,
     stepSize: 1000 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
   },
@@ -47,6 +53,7 @@ const timeFormats = [
     maxMillis: 1000 * 60 * 60,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 30,
     stepSize: 1000 * 60 * 5,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFiveMinuteStep)
   },
@@ -54,6 +61,7 @@ const timeFormats = [
     maxMillis: 1000 * 60 * 60 * 12,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 30,
     stepSize: 1000 * 60 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
   },
@@ -61,12 +69,14 @@ const timeFormats = [
     maxMillis: 1000 * 60 * 60 * 24,
     formatter: formatDateTime,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 90,
     stepSize: 1000 * 60 * 60 * 2,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToTwoHourStep)
   },
   {
     maxMillis: 1000 * 60 * 60 * 24 * 14,
     formatter: formatDate,
+    expectLabelWidth: 70,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60 * 24,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToFullDay)
@@ -75,6 +85,7 @@ const timeFormats = [
     maxMillis: Number.MAX_VALUE,
     formatter: formatDate,
     relativeFormatter: msZeroDecimalPlaces,
+    expectLabelWidth: 70,
     stepSize: 1000 * 60 * 60 * 24 * 7,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToFullDay, ceilToStartOfWeek)
   }
