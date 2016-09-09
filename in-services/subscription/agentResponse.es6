@@ -6,7 +6,7 @@ export default createSubscription(
   'subscribe-agent-response',
 
   // getID
-  ({action, target, args}) => action + JSON.stringify(target.toJS()) + JSON.stringify(args),
+  ({action, target, args, time}) => action + JSON.stringify(target.toJS()) + JSON.stringify(args) + time,
 
   // data to be send for subscription
   (subscriptionId, {target, action, args}) => {
@@ -19,8 +19,5 @@ export default createSubscription(
   },
 
   // data transformation on onData
-  x => x,
-
-  // memoize only for three seconds
-  0
+  x => x
 );

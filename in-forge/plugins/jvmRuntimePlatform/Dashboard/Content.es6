@@ -33,7 +33,7 @@ export default function JVMDashboard({snapshot, timeframe}) {
       </KpiSection>
 
       <DashboardSection title='Threads'>
-        <Button onClick={() => setActiveDialog(<ThreadDumpDialog snapshot={snapshot}/>)}
+        <Button onClick={() => setActiveDialog(<ThreadDumpDialog snapshot={snapshot} time={Date.now()}/>)}
                 className='in-jvm-dashboard-thread-dump-button'>
           Get Thread Dump
         </Button>
