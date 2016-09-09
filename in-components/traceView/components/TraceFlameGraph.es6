@@ -15,7 +15,7 @@ const block = 'in-trace-view-flame-graph';
 const margin = 3;
 const height = 7;
 const timeAxisOffset = 16;
-
+const tooltipAlignment = 'topMiddle';
 
 function FlameGraphElement({span, currentDepth, scale}) {
   const top = (currentDepth - 1) * (margin + height);
@@ -39,7 +39,8 @@ function FlameGraphElement({span, currentDepth, scale}) {
       )}
 
       {getDirection(span) === 'entry' && currentDepth > 1 ?
-        <Tooltip content='Network and Serialization'>
+        <Tooltip content='Network and Serialization'
+                 align={tooltipAlignment}>
           <div className={`${block}__network`}
                style={{
                  top: `${top - 1}px`,
@@ -50,7 +51,8 @@ function FlameGraphElement({span, currentDepth, scale}) {
         </Tooltip>
       : null}
 
-      <Tooltip content={getLabel(span)}>
+      <Tooltip content={getLabel(span)}
+               align={tooltipAlignment}>
         <div className={classesForSpanElement}
              style={{
                top: `${top}px`,

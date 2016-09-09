@@ -1,5 +1,5 @@
 export function getLabel(span) {
-  const url = span.getIn(['data', 'http', 'url']);
+  const url = removeUrlParameters(span.getIn(['data', 'http', 'url']));
   const method = span.getIn(['data', 'http', 'method']);
 
   if (url && method) {
@@ -10,4 +10,11 @@ export function getLabel(span) {
     return method;
   }
   return null;
+}
+
+function removeUrlParameters(url) {
+  if (url == null) {
+    return url;
+  }
+  return url.replace(/\?.*/i, '');
 }
