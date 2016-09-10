@@ -6,6 +6,9 @@ export default function HttpSpanDetailView({span}) {
   return (
     <div>
       <DescriptionList>
+        <DescriptionItem title='Host'>
+          {span.getIn(['data', 'http', 'host'])}
+        </DescriptionItem>
         <DescriptionItem title='URL'>
           {span.getIn(['data', 'http', 'url'])}
         </DescriptionItem>
