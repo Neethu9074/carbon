@@ -9,6 +9,7 @@ export default class TouchControlsDecorator extends Decorator {
   constructor(controller, canvas) {
     super(controller);
 
+    this.isDisposed = false;
     this.canvas = canvas;
 
     this.timeSinceLastTap = Date.now();
@@ -119,6 +120,10 @@ export default class TouchControlsDecorator extends Decorator {
   }
 
   setCursorToEvent(event) {
+    if (this.isDisposed) {
+      return;
+    }
+
     const pointer = event.pointers[0];
     this.cursor.x = pointer.clientX;
     this.cursor.y = pointer.clientY;
@@ -137,6 +142,7 @@ export default class TouchControlsDecorator extends Decorator {
   }
 
   dispose() {
+    this.isDisposed = true;
     this.eventHandler.destroy();
 
     super.dispose();

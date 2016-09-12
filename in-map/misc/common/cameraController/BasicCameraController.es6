@@ -5,6 +5,7 @@ import {requestRendering} from 'in-map/stores/renderingStore';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {getFactory} from 'in-map/stores/factoriesStore';
 import {Object3D, Vector3} from 'in-map/3DLibProvider';
+import Camera from 'in-map/misc/OrthographicCamera';
 import {emptyArray} from 'in-services/fixedObjects';
 import {clearSelectedEvent} from 'in-stores/events';
 import {goToDashboard} from 'in-stores/navigation';
@@ -19,10 +20,9 @@ const BOTTOM_MARGIN_IN_PX = activeTheme.footer.heightExpanded;
 
 export default class BasicCameraController extends Subscriber {
 
-  constructor(camera, factoryIdForFocusCalculation) {
+  constructor(factoryIdForFocusCalculation) {
     super();
 
-    this.camera = camera;
     this.eventEmitter = new RoEmitter('control event emitter');
 
     // the starting angle for yaw axis
@@ -35,6 +35,9 @@ export default class BasicCameraController extends Subscriber {
   }
 
   init() {
+    this.camera = new Camera();
+    this.camera.initEvents();
+
     // transformation helper. need this to move on the ground
     this.camTransformObject = new Object3D();
     this.camTransformObject.position.set(0, 0, 0);
@@ -77,6 +80,10 @@ export default class BasicCameraController extends Subscriber {
         }
       })
     ]);
+  }
+
+  getRenderableCamera() {
+    return this.camera.getRenderableCamera();
   }
 
   moveRelative(dx, dz) {
@@ -161,7 +168,9 @@ export default class BasicCameraController extends Subscriber {
   zoom() {}
 
   // default update implementation
-  update() {}
+  update(dt) {
+    this.camera.update(dt);
+  }
 
   updateCamera() {
     this.camTransformObject.updateMatrixWorld();
@@ -197,6 +206,8 @@ export default class BasicCameraController extends Subscriber {
     super.dispose();
 
     this.eventEmitter.dispose();
+
+    this.camera.dispose();
     this.camera = null;
   }
 }

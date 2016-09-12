@@ -1,5 +1,6 @@
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import createNullService from 'in-map/misc/serviceLocator/cameraController/CameraControllerNullService';
+import createWebVRController from 'in-map/misc/common/cameraController/WebVRCameraController';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {eventBus} from 'in-map/services/eventBus';
 import {canvas$} from 'in-map/stores/indexStore';
@@ -8,7 +9,7 @@ import {canvas$} from 'in-map/stores/indexStore';
 export default class Map extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     // the size of the map in world units (sizeXsize)
     this.size = 1000;
@@ -25,10 +26,17 @@ export default class Map extends SceneObject {
     super.initEvents();
 
     this.addSubscriptions([
-      canvas$.subscribe(canvas =>
-        CameraControllerServiceLocator.provide(this.createController()(canvas, this.scene.camera, this))),
+      canvas$.once(canvas => {
+        if (canvas) {
+          CameraControllerServiceLocator.provide(this.webVRMode
+            ? createWebVRController(canvas)
+            : this.createController()(canvas, this));
+        } else {
+          CameraControllerServiceLocator.provide(createNullService());
+        }
+      }),
 
-        eventBus.on('update').subscribe(CameraControllerServiceLocator.update)
+      eventBus.on('update').subscribe(CameraControllerServiceLocator.update)
     ]);
   }
 

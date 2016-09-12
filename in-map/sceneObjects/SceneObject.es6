@@ -13,10 +13,12 @@ const logger = createLogger('in-map-sceneObject');
 
 export default class SceneObject extends Subscriber {
 
-  constructor(id) {
+  constructor(params) {
     super();
 
-    this.id = id;
+    this.id = params.id;
+    this.webVRMode = params.webVRMode;
+
     this.components = {};
     this.eventEmitter = new RoEmitter(this.id);
   }

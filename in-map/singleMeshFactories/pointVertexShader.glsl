@@ -3,6 +3,7 @@ precision mediump int;
 
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
+uniform float distance;
 
 attribute float pointSize;
 attribute vec3 position;
@@ -18,7 +19,7 @@ void main() {
   vUv = uv;
   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
-  float pointSize = pointSize * ( 1500.0 / length( mvPosition.xyz ) );
+  float pointSize = pointSize * ( distance / length( mvPosition.xyz ) );
   gl_PointSize = pointSize;
 
   if ( pointSize < 10.0 ) {

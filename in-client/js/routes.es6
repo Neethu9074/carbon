@@ -5,6 +5,7 @@ import React from 'react';
 
 import TraceView from 'in-components/traceView/TraceView';
 import GraphView from 'in-components/graphView/GraphView';
+import WebVRView from 'in-components/webVRView/WebVRView';
 import Dashboard from 'in-components/Dashboard';
 import NoopRoute from 'in-client/js/NoopRoute';
 import App from 'in-client/js/App';
@@ -31,6 +32,9 @@ export default (
 
     <Route component={GraphView}
            path='graph' />
+
+    <Route component={WebVRView}
+           path='webVR' />
 
     {/* Legacy routes */}
     <Redirect from='dashboard' to='physical/dashboard' />

@@ -1,6 +1,7 @@
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
+import FCCP from 'in-map/singleMeshFactories/ContentProvider/FullCubeContentProvider';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Physical';
@@ -22,7 +23,7 @@ import {theme} from 'in-services/theme';
 export default class Node extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     this.group = params.group;
     this.layer = createObjectCollectionStream();
@@ -40,25 +41,40 @@ export default class Node extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
+    if (this.webVRMode) {
+      this.addComponent('mesh', new MeshComponent(this, FCCP, 'nodes'));
+
+      this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
+        return {
+          x: 0,
+          y: scale.y + 0.25,
+          z: 0
+        };
+      }));
+
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, FCCP, 'solid'));
+
+    } else {
+      this.addComponent('mesh', new MeshComponent(this, CCP, 'nodes'));
+
+      this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
+        return {
+          x: scale.x / 2,
+          y: scale.y + 0.25,
+          z: -scale.z / 2
+        };
+      }));
+
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid'));
+    }
 
     this.addComponent('collision', new CollisionComponent(this,
                                                           PREDEFINED_COLLISION_OBJECTS.BOX,
                                                           OCTREE_LAYER.NODES));
 
-    this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
-      return {
-        x: scale.x / 2,
-        y: scale.y + 0.25,
-        z: -scale.z / 2
-      };
-    }));
-
     this.addComponent('snapshot', new SnapshotComponent(this));
 
     this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
-
-    this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid'));
 
     this.addComponent('health', new HealthComponent(this));
 

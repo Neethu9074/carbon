@@ -1,10 +1,12 @@
 import {on} from 'reactive-observables';
 
 import {
-  frame$, requestRendering,
   clear as clearRenderingStore,
-  updatesEnabled$
+  requestRendering,
+  updatesEnabled$,
+  frame$
 } from 'in-map/stores/renderingStore';
+import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/misc/time';
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
@@ -15,14 +17,14 @@ import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {setDimensions} from 'in-map/stores/indexStore';
-import Camera from 'in-map/misc/OrthographicCamera';
+import VREffect from 'in-map/lib/VREffect';
 import {theme} from 'in-services/theme';
 
 
 export default class MainScene extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     // clears the old one and fires up a new to remove all stored messages
     createEventBus();
@@ -46,7 +48,7 @@ export default class MainScene extends SceneObject {
 
     this.setupRenderer();
     this.setupScene();
-    this.setupCamera();
+
 
     setScene(this);
   }
@@ -88,13 +90,16 @@ export default class MainScene extends SceneObject {
     const dt = getDeltaTime();
 
     eventBus.emit('update', dt);
-    this.camera.update();
 
     if (this.shouldRenderScene) {
       this.shouldRenderScene = false;
 
       eventBus.emit('willRenderObject', true);
-      this.renderer.render(this.scene, this.camera.getRenderableCamera());
+
+      const camera = CameraControllerServiceLocator.getRenderableCamera();
+      if (camera) {
+        this.renderTarget.render(this.scene, camera);
+      }
     }
   }
 
@@ -109,18 +114,19 @@ export default class MainScene extends SceneObject {
 
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
+
+    this.renderTarget = this.webVRMode
+      ? new VREffect(renderer)
+      : renderer;
   }
 
   setupScene() {
     this.scene = new Scene();
   }
 
-  setupCamera() {
-    this.camera = new Camera();
-  }
-
   onWindowResize() {
-    const height = window.innerHeight - (theme.header.height + theme.footer.height);
+    const offset = this.webVRMode ? 0 : theme.header.height + theme.footer.height;
+    const height = window.innerHeight - offset;
     const width = window.innerWidth;
 
     setDimensions(width, height);
@@ -131,8 +137,6 @@ export default class MainScene extends SceneObject {
     this.canvas.style.height = `${height}px`;
 
     this.renderer.setSize(width, height);
-
-    this.camera.updateCameraFromSize();
 
     // refresh to show the current state
     requestRendering();
@@ -166,11 +170,9 @@ export default class MainScene extends SceneObject {
 
     PhysicsServiceLocator.provide(createNullService());
 
-    this.camera.dispose();
-    this.camera = null;
-
     this.updateSceneObjects = null;
     this.shouldRenderScene = null;
+    this.renderTarget = null;
     this.antialias = null;
     this.renderer = null;
     this.canvas = null;

@@ -16,7 +16,7 @@ import {theme} from 'in-services/theme';
 export default class Layer extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     this._cachedPlugin = 'unknown';
     this.node = params.node;

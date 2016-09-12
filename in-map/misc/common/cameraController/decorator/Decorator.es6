@@ -41,6 +41,10 @@ export default class Decorator {
     this.inner.focusMap();
   }
 
+  getRenderableCamera() {
+    return this.inner.getRenderableCamera();
+  }
+
   zoom(dt, centeredZoom) {
     this.inner.zoom(dt, centeredZoom);
   }

@@ -123,9 +123,7 @@ export default class MouseControlDecorator extends Decorator {
   }
 
   update(dt) {
-    // normally the update method will be passed through the hole decorator chain.
-    // since no other decotrator implements update, we save this call
-    // super.update(dt);
+    super.update(dt);
 
     const deltaZoomLevel = this.zoomLevel - this.cameraController.zoomLevel;
     if (Math.abs(deltaZoomLevel) <= this.minDistanceBetweenCurrentAndTargetZoomLevel) {

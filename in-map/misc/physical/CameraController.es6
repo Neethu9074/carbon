@@ -4,12 +4,11 @@ import RayCasterDecorator from 'in-map/misc/common/cameraController/decorator/Ra
 import BasicCameraController from 'in-map/misc/common/cameraController/BasicCameraController';
 
 
-export default function createCameraController(canvas, camera, map) {
+export default function createCameraController(canvas, map) {
   return new TouchControlsDecorator(
            new RayCasterDecorator(
              new MouseControlsDecorator(
-               new BasicCameraController(camera,
-                                        'lines'),
+               new BasicCameraController('lines'),
                canvas),
              map),
             canvas);

@@ -128,8 +128,5 @@ export default class ASingleMeshFactory extends Subscriber {
     super.dispose();
 
     removeSceneObject(this.mesh);
-
-    this.eventEmitter.dispose();
-    this.eventEmitter = null;
   }
 }

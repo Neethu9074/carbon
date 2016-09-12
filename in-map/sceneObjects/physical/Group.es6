@@ -15,7 +15,7 @@ import {eventBus} from 'in-map/services/eventBus';
 export default class Group extends SceneObject {
 
   constructor(params) {
-    super(params.id);
+    super(params);
 
     this._cachedLabel = this.id;
     this.nodes = createObjectCollection();
@@ -24,13 +24,15 @@ export default class Group extends SceneObject {
   init() {
     super.init();
 
-    stickyNotes.add(this.id, {
-      type: GroundStickyNote,
-      eventEmitter: this.eventEmitter,
-      props: {
-        id: this.id
-      }
-    });
+    if (!this.webVRMode) {
+      stickyNotes.add(this.id, {
+        type: GroundStickyNote,
+        eventEmitter: this.eventEmitter,
+        props: {
+          id: this.id
+        }
+      });
+    }
   }
 
   initComponents() {
@@ -38,13 +40,15 @@ export default class Group extends SceneObject {
 
     this.addComponent('mesh', new MeshComponent(this, FCP, 'lines'));
 
-    this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
-      return {
-        x: pos.x,
-        y: pos.y,
-        z: pos.z + scale.z / 2
-      };
-    }));
+    if (!this.webVRMode) {
+      this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
+        return {
+          x: pos.x,
+          y: pos.y,
+          z: pos.z + scale.z / 2
+        };
+      }));
+    }
 
     this.getComponent('color').setColor(getColorPool('groups').getColorRGB(this.id));
 

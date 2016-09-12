@@ -32,14 +32,17 @@ export default function App(props) {
       <AppHeader />
       <ViewSwitcher />
 
-      <section style={{display: shouldShowMap ? 'block' : 'none'}}>
-        <Map />
-        <Controls />
-        <TableView />
-        <SidebarIncidents />
-        <MapSidebar />
-        <MapNotes />
-      </section>
+      {shouldShowMap
+        ? <section>
+            <Map />
+            <Controls />
+            <TableView />
+            <SidebarIncidents />
+            <MapSidebar />
+            <MapNotes />
+          </section>
+        : null
+      }
 
       <RightSidebar />
       <Timeline />
