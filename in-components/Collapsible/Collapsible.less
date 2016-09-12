@@ -13,6 +13,10 @@
 
     transition: color .25s ease-in-out;
 
+    .in-browser-ff & {
+      word-break: break-all;
+    }
+
     &:hover {
       color: lighten(#6B8088, 20%);
 
