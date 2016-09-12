@@ -40,7 +40,7 @@ export default getElementDimensions(connectTo({
     return (
       <div className={block}>
         {this.props.traces.length === 0 ?
-          <p clasnName={`${block}__no-traces`}>
+          <p className={`${block}__no-traces`}>
             There are no traces in the selected time window.
           </p>
         : null}
