@@ -19,10 +19,6 @@ export default class VRCamera extends Subscriber {
     );
 
     camera.projection = new Matrix4();
-
-    // set static
-    camera.rotationAutoUpdate = false;
-    camera.matrixAutoUpdate = false;
   }
 
   initEvents() {

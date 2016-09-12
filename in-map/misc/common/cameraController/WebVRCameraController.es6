@@ -13,12 +13,12 @@ class WebVRCameraController {
     this.camera = new WebVRCamera();
 
     this.camTransformObject = new Object3D();
-    this.camTransformObject.position.set(0, 0, 0);
+    this.camTransformObject.position.set(0, 1.8, 20);
 
     this.camTransformObject.add(this.camera.getRenderableCamera());
     this.camTransformObject.updateMatrixWorld();
 
-    this.vrControls = new VRControls(this.camTransformObject, e => {
+    this.vrControls = new VRControls(this.camera.getRenderableCamera(), e => {
       console.log('ERROR WHEN CREATING VR CONTROLS:', e);
     });
 
@@ -29,24 +29,19 @@ class WebVRCameraController {
     this.camera.initEvents();
   }
 
-  flyToPosition() {
-  }
-
-  focusMap() {
-  }
+  flyToPosition() {}
+  focusMap() {}
+  zoom() {}
 
   getRenderableCamera() {
     return this.camera.getRenderableCamera();
-  }
-
-  zoom() {
   }
 
   update() {
     this.vrControls.update();
     this.camTransformObject.updateMatrixWorld();
 
-    this.camera.update();
+    this.updateCamera();
   }
 
   updateCamera() {
