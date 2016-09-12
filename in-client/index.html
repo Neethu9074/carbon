@@ -29,7 +29,7 @@
     if (!window.instana.user || window.instana.user.error) {
       window.instana.user = null;
     }
-    if (window.instana.config.environment !== 'demo' && !window.instana.user) {
+    if (!window.instana.user) {
       window.location.href = '/auth/signIn?returnUrl=' +
         encodeURIComponent(window.location.href);
     }

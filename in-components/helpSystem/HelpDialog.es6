@@ -13,9 +13,6 @@ const block = 'in-help-dialog';
 
 const rpt = React.PropTypes;
 
-const context = require.context('./articles', true, /\/[a-zA-Z0-9]+\.mmd$/);
-
-
 const HelpDialog = React.createClass({
   mixins: [PureRenderMixin],
 
@@ -43,10 +40,10 @@ const HelpDialog = React.createClass({
 
     const self = this;
     try {
-      require.ensure([], function onModLoad() {
+      require(['./articles/' + id + '.mmd'], function onModLoad(article) {
         try {
           self.setState({
-            article: context('./' + id + '.mmd'),
+            article: article,
             error: null
           });
         } catch (e) {
