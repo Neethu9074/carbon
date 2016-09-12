@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {isWebVRSupported/* , createNoWebVRDialog*/} from 'in-map/services/webVR';
-// import {setActiveDialog} from 'in-components/DialogPresenter/store';
+import {isWebVRSupported, createNoWebVRDialog} from 'in-map/services/webVR';
+import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {canvas$, setCanvas, clear} from 'in-map/stores/indexStore';
 import SceneComponent from 'in-map/components/SceneComponent';
 import {isWebGLSupported} from 'in-map/services/webGL';
@@ -31,8 +31,8 @@ React.createClass({
       showHelp('webglNotSupported');
     } else if (this.props.webVRMode && !isWebVRSupported()) {
       // diasable this for a while to allow working with this branch without any VR headset connected
-      // setActiveDialog(createNoWebVRDialog());
-      setCanvas(this.refs.mainCanvas);
+      setActiveDialog(createNoWebVRDialog());
+      // setCanvas(this.refs.mainCanvas);
     } else {
       setCanvas(this.refs.mainCanvas);
     }
