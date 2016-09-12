@@ -1,7 +1,12 @@
 import React from 'react';
 
-import {muSecondsToMillisZeroDecimalPlaces} from 'in-services/formatters/number';
+import {
+  muSecondsToMillisZeroDecimalPlaces,
+  bytesZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import ClusterSummary from 'in-forge/plugins/cassandraCluster/ClusterSummary';
+import KeyspacesTable from 'in-forge/plugins/cassandraCluster/Dashboard/KeyspacesTable.es6';
+import ClusterNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterNodesTable.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {capitalize} from 'in-services/formatters/string';
@@ -59,6 +64,30 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
                            }}/>
           </DashboardSection>
       )}
+
+      <DashboardSection title='Overall Disk Size'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: bytesZeroDecimalPlaces,
+                           metrics: [
+                             'overallDiskSize'
+                           ],
+                           labels: [
+                             'Overall Disk Size'
+                           ],
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
+      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}
+                         timeframe={timeframe} />
+
+      <KeyspacesTable snapshot={snapshot}
+                    timeframe={timeframe} />
     </div>
   );
 }
