@@ -49,7 +49,6 @@ export default class MainScene extends SceneObject {
     this.setupRenderer();
     this.setupScene();
 
-
     setScene(this);
   }
 
@@ -63,6 +62,16 @@ export default class MainScene extends SceneObject {
 
       updatesEnabled$.subscribe(isEnabled => this.updateSceneObjects = isEnabled)
     ]);
+
+    if (this.webVRMode) {
+      this.addSubscription(
+        eventBus.on('enterFullscreen').subscribe(shouldEnter => {
+          if (shouldEnter) {
+            this.renderTarget.requestPresent();
+          }
+          eventBus.emit('enterFullscreen', false);
+        }));
+    }
 
     this.handleLostContext();
     this.handleAnimationFrames(0);
@@ -115,9 +124,7 @@ export default class MainScene extends SceneObject {
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
 
-    this.renderTarget = this.webVRMode
-      ? new VREffect(renderer)
-      : renderer;
+    this.renderTarget = this.webVRMode ? new VREffect(renderer) : renderer;
   }
 
   setupScene() {

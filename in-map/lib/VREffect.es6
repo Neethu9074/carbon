@@ -25,13 +25,13 @@ export default function VREffect(renderer, onError) {
 
   function gotVRDevices(devices) {
     for (var i = 0; i < devices.length; i ++) {
-      if ('VRDisplay' in window && devices[ i ] instanceof VRDisplay) {
-        vrHMD = devices[ i ];
+      if ('VRDisplay' in window && devices[i] instanceof VRDisplay) {
+        vrHMD = devices[i];
         isDeprecatedAPI = false;
         break; // We keep the first we encounter
 
-      } else if ('HMDVRDevice' in window && devices[ i ] instanceof HMDVRDevice) {
-        vrHMD = devices[ i ];
+      } else if ('HMDVRDevice' in window && devices[i] instanceof HMDVRDevice) {
+        vrHMD = devices[i];
         isDeprecatedAPI = true;
         break; // We keep the first we encounter
       }
@@ -39,6 +39,8 @@ export default function VREffect(renderer, onError) {
 
     if (vrHMD === undefined) {
       if (onError) onError('HMD not available');
+    } else {
+      console.log('display initialized:', vrHMD);
     }
   }
 
@@ -124,7 +126,7 @@ export default function VREffect(renderer, onError) {
 
       if (! isDeprecatedAPI) {
         if (boolean) {
-          resolve(vrHMD.requestPresent([ { source: canvas } ]));
+          resolve(vrHMD.requestPresent([{ source: canvas }]));
         } else {
           resolve(vrHMD.exitPresent());
         }
@@ -152,7 +154,6 @@ export default function VREffect(renderer, onError) {
   };
 
   // render
-
   var cameraL = new PerspectiveCamera();
   cameraL.layers.enable(1);
 
@@ -171,7 +172,7 @@ export default function VREffect(renderer, onError) {
       var eyeParamsL = vrHMD.getEyeParameters('left');
       var eyeParamsR = vrHMD.getEyeParameters('right');
 
-      if (! isDeprecatedAPI) {
+      if (!isDeprecatedAPI) {
         eyeTranslationL.fromArray(eyeParamsL.offset);
         eyeTranslationR.fromArray(eyeParamsR.offset);
         eyeFOVL = eyeParamsL.fieldOfView;
@@ -186,7 +187,7 @@ export default function VREffect(renderer, onError) {
 
       if (Array.isArray(scene)) {
         console.warn('VREffect.render() no longer supports arrays. Use object.layers instead.');
-        scene = scene[ 0 ];
+        scene = scene[0];
       }
 
       // When rendering we don't care what the recommended size is, only what the actual size
@@ -244,7 +245,7 @@ export default function VREffect(renderer, onError) {
     var pxoffset = (fov.leftTan - fov.rightTan) * pxscale * 0.5;
     var pyscale = 2.0 / (fov.upTan + fov.downTan);
     var pyoffset = (fov.upTan - fov.downTan) * pyscale * 0.5;
-    return { scale: [ pxscale, pyscale ], offset: [ pxoffset, pyoffset ] };
+    return { scale: [pxscale, pyscale], offset: [pxoffset, pyoffset] };
   }
 
   function fovPortToProjection(fov, rightHanded, zNear, zFar) {
@@ -262,30 +263,30 @@ export default function VREffect(renderer, onError) {
     var scaleAndOffset = fovToNDCScaleOffset(fov);
 
     // X result, map clip edges to [-w,+w]
-    m[ 0 * 4 + 0 ] = scaleAndOffset.scale[ 0 ];
-    m[ 0 * 4 + 1 ] = 0.0;
-    m[ 0 * 4 + 2 ] = scaleAndOffset.offset[ 0 ] * handednessScale;
-    m[ 0 * 4 + 3 ] = 0.0;
+    m[0 * 4 + 0] = scaleAndOffset.scale[0];
+    m[0 * 4 + 1] = 0.0;
+    m[0 * 4 + 2] = scaleAndOffset.offset[0] * handednessScale;
+    m[0 * 4 + 3] = 0.0;
 
     // Y result, map clip edges to [-w,+w]
     // Y offset is negated because this proj matrix transforms from world coords with Y=up,
     // but the NDC scaling has Y=down (thanks D3D?)
-    m[ 1 * 4 + 0 ] = 0.0;
-    m[ 1 * 4 + 1 ] = scaleAndOffset.scale[ 1 ];
-    m[ 1 * 4 + 2 ] = - scaleAndOffset.offset[ 1 ] * handednessScale;
-    m[ 1 * 4 + 3 ] = 0.0;
+    m[1 * 4 + 0] = 0.0;
+    m[1 * 4 + 1] = scaleAndOffset.scale[1];
+    m[1 * 4 + 2] = - scaleAndOffset.offset[1] * handednessScale;
+    m[1 * 4 + 3] = 0.0;
 
     // Z result (up to the app)
-    m[ 2 * 4 + 0 ] = 0.0;
-    m[ 2 * 4 + 1 ] = 0.0;
-    m[ 2 * 4 + 2 ] = zFar / (zNear - zFar) * - handednessScale;
-    m[ 2 * 4 + 3 ] = (zFar * zNear) / (zNear - zFar);
+    m[2 * 4 + 0] = 0.0;
+    m[2 * 4 + 1] = 0.0;
+    m[2 * 4 + 2] = zFar / (zNear - zFar) * - handednessScale;
+    m[2 * 4 + 3] = (zFar * zNear) / (zNear - zFar);
 
     // W result (= Z in)
-    m[ 3 * 4 + 0 ] = 0.0;
-    m[ 3 * 4 + 1 ] = 0.0;
-    m[ 3 * 4 + 2 ] = handednessScale;
-    m[ 3 * 4 + 3 ] = 0.0;
+    m[3 * 4 + 0] = 0.0;
+    m[3 * 4 + 1] = 0.0;
+    m[3 * 4 + 2] = handednessScale;
+    m[3 * 4 + 3] = 0.0;
 
     mobj.transpose();
 

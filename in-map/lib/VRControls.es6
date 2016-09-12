@@ -6,7 +6,6 @@ import {Matrix4} from 'in-map/3DLibProvider';
  */
 
 export default function VRControls(object, onError) {
-  var scope = this;
   var vrDisplay, vrDisplays;
   var standingMatrix = new Matrix4();
 
@@ -14,8 +13,8 @@ export default function VRControls(object, onError) {
     vrDisplays = displays;
 
     for (var i = 0; i < displays.length; i ++) {
-      if (('VRDisplay' in window && displays[ i ] instanceof VRDisplay) ||
-          ('PositionSensorVRDevice' in window && displays[ i ] instanceof PositionSensorVRDevice)) {
+      if (('VRDisplay' in window && displays[i] instanceof VRDisplay) ||
+          ('PositionSensorVRDevice' in window && displays[i] instanceof PositionSensorVRDevice)) {
         vrDisplay = displays[i];
         break;  // We keep the first we encounter
       }
@@ -96,7 +95,7 @@ export default function VRControls(object, onError) {
           object.position.setY(object.position.y + this.userHeight);
         }
       }
-      object.position.multiplyScalar(scope.scale);
+      object.position.multiplyScalar(this.scale);
     }
   };
 
