@@ -40,7 +40,7 @@ export default connectTo({
                onFocus={onFocus}
                onBlur={onBlur}/>
 
-        <HelpLink helpId='209722505'
+        <HelpLink helpId='usingTheSearchBar'
                   className={`${block}__help`}>
           ?
         </HelpLink>

@@ -8,9 +8,9 @@ export function init() {
   isMonitoring$.subscribe(isMonitoring => {
     if (isMonitoring === false && notMonitoringDialogShownBefore === false) {
       notMonitoringDialogShownBefore = true;
-      showHelp(203860032);
+      showHelp('notMonitoring');
     } else if (isMonitoring) {
-      closeHelpIfOpen(203860032);
+      closeHelpIfOpen('notMonitoring');
     }
   });
 }

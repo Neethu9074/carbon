@@ -51,7 +51,7 @@ function createHeader(context) {
         <th>Capacity</th>
         <th>Free</th>
         <th>
-          <HelpLink helpId='203876231'>
+          <HelpLink helpId='leakedDiskSpace'>
             Leaked
           </HelpLink>
         </th>

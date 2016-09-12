@@ -54,6 +54,9 @@ module.exports = {
       test: /\.djs$/,
       loader: 'dogescript'
     }, {
+      test: /\.mmd$/,
+      loader: 'json!meta-marked'
+    }, {
       test: /\.md$/,
       loader: 'html!markdown'
     }, {

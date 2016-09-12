@@ -28,7 +28,7 @@ React.createClass({
 
   componentDidMount() {
     if (!isWebGLSupported(this.refs.mainCanvas)) {
-      showHelp(203889331);
+      showHelp('webglNotSupported');
     } else if (this.props.webVRMode && !isWebVRSupported()) {
       // diasable this for a while to allow working with this branch without any VR headset connected
       // setActiveDialog(createNoWebVRDialog());

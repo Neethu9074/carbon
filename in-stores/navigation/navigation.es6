@@ -242,7 +242,7 @@ export const traceViewLink$ = navigationParameters$
 
 export function showHelp(id) {
   mutateUrl(navParams => {
-    navParams.query.help = id;
+    navParams.query.help = encodeURIComponent(id);
     return navParams;
   });
 }
@@ -250,7 +250,7 @@ export function showHelp(id) {
 
 export function closeHelpIfOpen(id) {
   mutateUrl(navParams => {
-    if (navParams.query.help && parseInt(navParams.query.help, 10) === id) {
+    if (navParams.query.help && decodeURIComponent(navParams.query.help) === id) {
       delete navParams.query.help;
     }
     return navParams;

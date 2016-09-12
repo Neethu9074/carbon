@@ -7,6 +7,11 @@
       "from": "abbrev@>=1.0.0 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/abbrev/-/abbrev-1.0.9.tgz"
     },
+    "meta-marked-loader": {
+      "version": "1.1.0",
+      "from": "meta-marked-loader@>=1.1.0 <2.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/meta-marked-loader/-/meta-marked-loader-1.1.0.tgz"
+    },
     "accepts": {
       "version": "1.3.3",
       "from": "accepts@>=1.3.3 <1.4.0",
