@@ -30,7 +30,7 @@ connectTo(props => {
 }, NodeComponent)
 );
 
-function NodeComponent({entity, activeMetric, includedIds, sceneObject, isHighlighted}) {
+function NodeComponent({entity, activeMetric, includedIds, sceneObject, isHighlighted, webVRMode}) {
   const layer = [];
   entity.get('children').forEach(layerEntity => {
     const layerId = layerEntity.get('id');
@@ -44,7 +44,8 @@ function NodeComponent({entity, activeMetric, includedIds, sceneObject, isHighli
       {!activeMetric
         ? layer.map(layerEntity => <LayerComponent key={layerEntity.get('id')}
                                                    node={sceneObject}
-                                                   entity={layerEntity} />)
+                                                   entity={layerEntity}
+                                                   webVRMode={webVRMode} />)
         : <Metric node={sceneObject} />
       }
       {isHighlighted ? <Connections entity={entity} /> : null}

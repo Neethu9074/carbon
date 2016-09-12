@@ -22,7 +22,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
       transparent: true,
-      depthTest: false,
+      depthWrite: true,
       uniforms: {
         texture: {
           type: 't',

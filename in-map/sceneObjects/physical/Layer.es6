@@ -1,5 +1,6 @@
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
+import FCCP from 'in-map/singleMeshFactories/ContentProvider/FullCubeContentProvider';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
@@ -25,7 +26,15 @@ export default class Layer extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
+    if (this.webVRMode) {
+      this.addComponent('mesh', new MeshComponent(this, FCCP, 'layer'));
+
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, FCCP, 'solid_layer'));
+    } else {
+      this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
+
+      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid_layer'));
+    }
 
     this.addComponent('collision', new CollisionComponent(this,
                                                           PREDEFINED_COLLISION_OBJECTS.BOX,
@@ -34,8 +43,6 @@ export default class Layer extends SceneObject {
     this.addComponent('snapshot', new SnapshotComponent(this));
 
     this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
-
-    this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid_layer'));
 
     this.addComponent('health', new HealthComponent(this));
 
