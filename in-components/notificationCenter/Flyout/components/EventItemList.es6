@@ -78,9 +78,9 @@ export default connectTo({
       const yesterday = new Date(today);
       yesterday.setDate(today.getDate() - 1);
 
-      if (dateString === this.getDateString(today)) {
+      if (dateString === formatDate(today)) {
         return 'Today';
-      } else if (dateString === this.getDateString(yesterday)) {
+      } else if (dateString === formatDate(yesterday)) {
         return 'Yesterday';
       }
       return dateString;
