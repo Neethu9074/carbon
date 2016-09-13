@@ -3,7 +3,7 @@
   color: #6B8088;
   font-size: .688rem;
 
-  &__cell {
+  &__cell, &__incident-cell {
     position: relative;
 
     display: inline-block;
@@ -21,13 +21,25 @@
       font-weight: bold;
       background: #92A5AE;
     }
+  }
 
+  &__cell {
     &:first-child {
       width: 10%;
     }
 
     &:nth-child(4) {
       width: 45%;
+    }
+  }
+
+  &__incident-cell {
+    &:nth-child(3) {
+      width: 45%;
+    }
+
+    &:nth-child(4) {
+      width: 25%;
     }
   }
 

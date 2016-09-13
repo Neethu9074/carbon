@@ -28,30 +28,27 @@ React.createClass({
   },
 
   render() {
+    const tableDefinition = this.props.eventFilter === FILTER.INCIDENTS
+      ? this.incidentTableDefinition
+      : this.eventTableDefinition;
+
     return (
       <div className={block}>
-        {this.renderCell('Type')}
-        {this.renderCell('Started')}
-        {this.renderCell('Ended')}
-        {this.renderCell('Problem Text')}
-
-        {this.props.eventFilter === FILTER.INCIDENTS
-          ? this.renderCell('Affected')
-          : this.renderCell('Entity')
-        }
+        {tableDefinition()}
       </div>
     );
   },
 
-  renderCell(name) {
+  renderCell(name, isIncident = false) {
     const isSelected = this.state.expandedCell === name;
-    let className = `${block}__cell`;
+    let className = block + (isIncident ? '__incident-cell' : '__cell');
     if (isSelected) {
       className += ` ${className}--selected`;
     }
 
     return (
-      <div className={className}
+      <div key={name}
+           className={className}
            onClick={() => {
              this.setState({
                expandedCell: isSelected ? null : name
@@ -66,5 +63,24 @@ React.createClass({
         }
       </div>
     );
+  },
+
+  eventTableDefinition() {
+    return [
+      this.renderCell('Type'),
+      this.renderCell('Started'),
+      this.renderCell('Ended'),
+      this.renderCell('Problem Text'),
+      this.renderCell('Entity')
+    ];
+  },
+
+  incidentTableDefinition() {
+    return [
+      this.renderCell('Started', true),
+      this.renderCell('Ended', true),
+      this.renderCell('Triggered by', true),
+      this.renderCell('On', true)
+    ];
   }
 }));
