@@ -58,7 +58,7 @@ function createHeader() {
         <th>Name</th>
         <th>Version</th>
         <th>Nr. of Keyspaces</th>
-        <th>Overall Disk Size</th>
+        <th>Size of Store</th>
       </tr>
     </thead>
   );
