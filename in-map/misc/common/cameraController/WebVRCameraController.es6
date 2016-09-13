@@ -1,8 +1,12 @@
+import {createLogger} from 'instalog';
+
 import {requestRendering} from 'in-map/stores/renderingStore';
 import WebVRCamera from 'in-map/misc/WebVRCamera';
 import VRControls from 'in-map/lib/VRControls';
 import {Object3D} from 'in-map/3DLibProvider';
 
+
+const logger = createLogger('WebVRCameraController');
 
 class WebVRCameraController {
   constructor(canvas) {
@@ -18,9 +22,8 @@ class WebVRCameraController {
     this.camTransformObject.add(this.camera.getRenderableCamera());
     this.camTransformObject.updateMatrixWorld();
 
-    this.vrControls = new VRControls(this.camera.getRenderableCamera(), e => {
-      console.log('ERROR WHEN CREATING VR CONTROLS:', e);
-    });
+    this.vrControls = new VRControls(this.camera.getRenderableCamera(), e =>
+      logger.error('Failed to create VR controls', e));
 
     this.updateCamera();
   }
