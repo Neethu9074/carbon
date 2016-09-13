@@ -1,9 +1,9 @@
 import {TransitionMotion, spring} from 'react-motion';
 import {create} from 'reactive-observables';
-import moment from 'moment';
 import React from 'react';
 
 import {timeframe$, isCollapsed$} from 'in-components/timeline/timelineStore';
+import {formatDuration} from 'in-services/formatters/date';
 import connectTo from 'in-hoc/connectTo';
 
 import './SelectedWindowSizePresenter.less';
@@ -66,7 +66,7 @@ export default connectTo({
                        opacity: config.style.opacity
                      }}>
                   <div className={block + '__time'}>
-                    {moment.duration(config.data).humanize()}
+                    {formatDuration(config.data)}
                   </div>
                 </div>
               );

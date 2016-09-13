@@ -43,7 +43,8 @@ export default connectTo({
       autoCollapseTimeline: false,
       showMaintenanceNotes: false,
       zoomPanelIsActive: true,
-      chartAdaptToDevicePixelRatio: true
+      chartAdaptToDevicePixelRatio: true,
+      formatTimestampsAsUtc: false
     };
   },
 
@@ -64,7 +65,8 @@ export default connectTo({
         autoCollapseTimeline: data.getIn(['autoCollapseTimeline']),
         showMaintenanceNotes: data.getIn(['showMaintenanceNotes']),
         zoomPanelIsActive: data.getIn(['zoomPanelIsActive'], true),
-        chartAdaptToDevicePixelRatio: data.getIn(['charts', 'adaptToDevicePixelRatio'])
+        chartAdaptToDevicePixelRatio: data.getIn(['charts', 'adaptToDevicePixelRatio']),
+        formatTimestampsAsUtc: data.getIn(['formatTimestampsAsUtc'])
       });
     }));
 
@@ -197,6 +199,18 @@ export default connectTo({
             </SettingEntry.Content>
             <SettingEntry.HelpText text={'Toggle the quality of chart rendering. Disable this to have fluent ' +
               'chart animations on slower systems.'} />
+          </SettingEntry>
+
+          <SettingEntry>
+            <SettingEntry.Header text='Format time according to UTC' />
+            <SettingEntry.Content>
+              <CheckBox onClick={() => toggleIn(['formatTimestampsAsUtc'])}
+                        defaultChecked={this.state.formatTimestampsAsUtc}/>
+            </SettingEntry.Content>
+            <SettingEntry.HelpText text={'By default, Instana will format all times according to the browser ' +
+              'configured time zone. Sometimes though, this is not helpful, especially when manually ' +
+              'correlating times with log files or other tools. Check this to format and parse all times according ' +
+              'to UTC. Requires refresh to become active.'} />
           </SettingEntry>
         </div>
       </Dialog>

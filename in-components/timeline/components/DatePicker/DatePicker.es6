@@ -2,10 +2,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {dateUtils} from 'react-day-picker/utils';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
-import moment from 'moment';
 import React from 'react';
 
-import {timeFormat, dateFormat, formatDate} from 'in-services/formatters/date';
+import {formatDate, parseDate, parseTime, mergeDates, dateFormat, timeFormat} from 'in-services/formatters/date';
 import {toggleShowTimeSelector, interactableTimelineHeight$} from 'in-components/timeline/timelineStore';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {timeframe$} from 'in-components/timeline/timelineStore';
@@ -142,17 +141,9 @@ export default connectTo({
         return undefined;
       }
 
-      const date = moment(this.props.dateString, dateFormat);
-      const time = moment(this.props.timeString, timeFormat);
-
-      const dateTime = new Date();
-      dateTime.setFullYear(date.year());
-      dateTime.setMonth(date.month());
-      dateTime.setDate(date.date());
-      dateTime.setHours(time.hour());
-      dateTime.setMinutes(time.minute());
-      dateTime.setSeconds(time.second());
-      return dateTime;
+      const date = parseDate(this.props.dateString);
+      const time = parseTime(this.props.timeString);
+      return mergeDates(date, time);
     },
 
     onMouseUp(e) {

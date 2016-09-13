@@ -36,6 +36,7 @@ function loadDefault() {
   setDefaultConfigValue(['showMaintenanceNotes'], true);
   setDefaultConfigValue(['zoomPanelIsActive'], true);
   setDefaultConfigValue(['charts', 'adaptToDevicePixelRatio'], true);
+  setDefaultConfigValue(['formatTimestampsAsUtc'], false);
 
   setIn(['dataSource'], 'defaults');
 }

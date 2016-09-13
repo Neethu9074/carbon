@@ -15,7 +15,7 @@ describe('timeFormatting', () => {
 
     it('must format large time windows as date time', () => {
       formatter = getAxisConfig(1000 * 60 * 60 * 23).formatter;
-      expect(formatter(1457124309542)).to.equal('2016-03-04 21:45');
+      expect(formatter(1457124309542)).to.equal('2016-03-04 21:45:09');
     });
   });
 

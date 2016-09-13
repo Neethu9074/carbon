@@ -1,7 +1,6 @@
 import {combineLatest} from 'reactive-observables';
-import moment from 'moment';
 
-import {formatTime, dateFormat, timeFormat, formatDate} from 'in-services/formatters/date';
+import {formatTime, formatDate, parseDateTime, parseDate} from 'in-services/formatters/date';
 import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
@@ -30,31 +29,33 @@ export const isDateTimeValid$ =
     serverTime = cutMillis(serverTime);
     bigBangTimestamp = cutMillis(bigBangTimestamp);
 
-    const isValid = {
-      date: true,
-      time: true
-    };
-
-    const date = moment(dateAsString, dateFormat);
-    const dateAsTimestamp = date.valueOf();
-    const serverTimeAsDateTimestamp = moment(serverTime).valueOf();
-    const bigBangAsDateTimestamp = moment(formatDate(bigBangTimestamp), dateFormat).valueOf();
-
-    const dateTime = cutMillis(moment(dateAsString + timeAsString, dateFormat + timeFormat).valueOf());
-
-    // if the selected timestamp is bigger than the servertime
-    // this can only happen if at least the time is "to big"
-    isValid.time = (dateTime > serverTime || dateTime < bigBangTimestamp)
-      ? false
-      : isValid.time;
-
-    // if the only date is out of range, set it to false
-    isValid.date = (dateAsTimestamp < bigBangAsDateTimestamp || dateAsTimestamp > serverTimeAsDateTimestamp)
-      ? false
-      : isValid.date;
-
-    return isValid;
+    return validateTime(parseDateTime(dateAsString + ' ' + timeAsString).getTime(), bigBangTimestamp, serverTime);
   });
+
+
+export function validateTime(time, from, to) {
+  const isValid = {
+    date: true,
+    time: true
+  };
+
+  const timeDateComponent = parseDate(formatDate(time)).getTime();
+  const fromDateComponent = parseDate(formatDate(from)).getTime();
+  const toDateComponent = parseDate(formatDate(to)).getTime();
+
+  isValid.date = fromDateComponent <= timeDateComponent && timeDateComponent <= toDateComponent;
+
+  if (!isValid.date) {
+    // we don't want to validate the time when the date is already invalid. Makes no sense to validate
+    // it since our basis for invalidation is not existing.
+    isValid.time = true;
+  } else {
+    isValid.time = from <= time && time <= to;
+  }
+
+  return isValid;
+}
+
 
 function cutMillis(time) {
   return ((time / 1000) | 0) * 1000;

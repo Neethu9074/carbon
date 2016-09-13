@@ -1,9 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import moment from 'moment';
 import React from 'react';
 
 import {event$, selectedNotificationFilter} from 'in-components/notificationCenter/Flyout/stores/flyoutStore';
 import EventDescription from 'in-components/EventDescription';
+import {formatDate} from 'in-services/formatters/date';
 import {selectedEventId$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -90,8 +90,7 @@ export default connectTo({
       const days = {};
 
       events.forEach(event => {
-        const eventStartingDate = new Date(event.get('start'));
-        const dateString = this.getDateString(eventStartingDate);
+        const dateString = formatDate(event.get('start'));
         if (!days[dateString]) {
           days[dateString] = [];
         }
@@ -99,10 +98,6 @@ export default connectTo({
       });
 
       return days;
-    },
-
-    getDateString(date) {
-      return moment(date).format('YYYY-MM-DD');
     }
   })
 );

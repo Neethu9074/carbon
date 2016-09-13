@@ -1,9 +1,10 @@
+import {formatTimeWithoutSeconds, formatTime, formatDateTime, formatDate} from 'in-services/formatters/date';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 
 const timeFormats = [
   {
     maxMillis: 10,
-    formatter: formatTimeWithSeconds,
+    formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 60,
     stepSize: 1,
@@ -11,7 +12,7 @@ const timeFormats = [
   },
   {
     maxMillis: 100,
-    formatter: formatTimeWithSeconds,
+    formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 60,
     stepSize: 10,
@@ -19,7 +20,7 @@ const timeFormats = [
   },
   {
     maxMillis: 1000,
-    formatter: formatTimeWithSeconds,
+    formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 60,
     stepSize: 100,
@@ -27,7 +28,7 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 10,
-    formatter: formatTimeWithSeconds,
+    formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 60,
     stepSize: 1000,
@@ -35,7 +36,7 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 60,
-    formatter: formatTimeWithSeconds,
+    formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 60,
     stepSize: 1000 * 10,
@@ -43,7 +44,7 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 60 * 11,
-    formatter: formatTime,
+    formatter: formatTimeWithoutSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 30,
     stepSize: 1000 * 60,
@@ -51,7 +52,7 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 60 * 60,
-    formatter: formatTime,
+    formatter: formatTimeWithoutSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 30,
     stepSize: 1000 * 60 * 5,
@@ -59,7 +60,7 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 60 * 60 * 12,
-    formatter: formatTime,
+    formatter: formatTimeWithoutSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 30,
     stepSize: 1000 * 60 * 60,
@@ -100,52 +101,6 @@ export function getAxisConfig(timerangeMillis) {
     }
   }
   throw new Error(`No axis config known for time range: ${timerangeMillis}.`);
-}
-
-
-function formatTimeWithSeconds(millis) {
-  const date = new Date(millis);
-  const hours = ensureTwoChars(date.getHours());
-  const minutes = ensureTwoChars(date.getMinutes());
-  const seconds = ensureTwoChars(date.getSeconds());
-  return `${hours}:${minutes}:${seconds}`;
-}
-
-
-function formatTime(millis) {
-  const date = new Date(millis);
-  const hours = ensureTwoChars(date.getHours());
-  const minutes = ensureTwoChars(date.getMinutes());
-  return `${hours}:${minutes}`;
-}
-
-
-function formatDateTime(millis) {
-  const date = new Date(millis);
-  const year = date.getFullYear();
-  const month = ensureTwoChars(date.getMonth() + 1);
-  const day = ensureTwoChars(date.getDate());
-  const hours = ensureTwoChars(date.getHours());
-  const minutes = ensureTwoChars(date.getMinutes());
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
-
-
-function formatDate(millis) {
-  const date = new Date(millis);
-  const year = date.getFullYear();
-  const month = ensureTwoChars(date.getMonth() + 1);
-  const day = ensureTwoChars(date.getDate());
-  return `${year}-${month}-${day}`;
-}
-
-
-function ensureTwoChars(s) {
-  s = String(s);
-  if (s.length === 1) {
-    return `0${s}`;
-  }
-  return s;
 }
 
 
