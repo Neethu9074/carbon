@@ -78,7 +78,6 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   if (typeof num !== 'number' || isNaN(num)) {
     throw new TypeError('Expected a number');
   }
-
   let exponent;
   let unit;
   const neg = num < 0;
@@ -89,7 +88,8 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   }
 
   if (num < 1) {
-    return (neg ? '-' : '') + num + ' B';
+    return (neg ? '-' : '') +
+           ( num === 0 ? '0' : num.toFixed(numberOfDecimalPlaces)) + ' B';
   }
 
   exponent = Math.min(Math.floor(Math.log(num) / Math.log(byteBase)), units.length - 1);
