@@ -124,8 +124,8 @@ export default connectTo({
           </SettingEntry>
 
           {__DEV__ ?
-            <SettingEntry>
-              <SettingEntry.Header text={'Theme (requires browser refresh)'} />
+            <SettingEntry requiresRefresh={true}>
+              <SettingEntry.Header text={'Theme'} />
               <SettingEntry.Content>
                 <ComboBox onChange={e => setActiveTheme(e.target.value)}
                           value={this.state.activeTheme}>
@@ -201,7 +201,7 @@ export default connectTo({
               'chart animations on slower systems.'} />
           </SettingEntry>
 
-          <SettingEntry>
+          <SettingEntry requiresRefresh={true}>
             <SettingEntry.Header text='Format time according to UTC' />
             <SettingEntry.Content>
               <CheckBox onClick={() => toggleIn(['formatTimestampsAsUtc'])}
@@ -210,7 +210,7 @@ export default connectTo({
             <SettingEntry.HelpText text={'By default, Instana will format all times according to the browser ' +
               'configured time zone. Sometimes though, this is not helpful, especially when manually ' +
               'correlating times with log files or other tools. Check this to format and parse all times according ' +
-              'to UTC. Requires refresh to become active.'} />
+              'to UTC.'} />
           </SettingEntry>
         </div>
       </Dialog>

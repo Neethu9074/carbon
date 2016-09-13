@@ -14,7 +14,8 @@ const SettingEntry = React.createClass({
   ],
 
   propTypes: {
-    children: rpt.array.isRequired
+    children: rpt.array.isRequired,
+    requiresRefresh: rpt.bool
   },
 
   render() {
@@ -39,6 +40,11 @@ const SettingEntry = React.createClass({
           {this.props.children[0]}
           {this.props.children[1]}
         </div>
+        {this.props.requiresRefresh === true ?
+          <div className={`${block}__requires-refresh`}>
+            Requires refresh to become active
+          </div>
+        : null}
         {this.props.children[2]}
       </div>
     );
