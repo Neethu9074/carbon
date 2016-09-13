@@ -58,7 +58,7 @@ describe('in-stores/events', () => {
       },
       'in-services/subscription/eventUpdates': {default: getEventUpdates},
       'in-services/subscription/events': {default: getEvents},
-      'in-services/subscription/newOpenEvents': {default: () => create()},
+      'in-services/subscription/openEvents': {default: () => create()},
       'in-stores/serverTime': {serverTime$},
       'in-services/stores/highlightedEntityId': {
         setHighlightedEntityId() {},

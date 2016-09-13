@@ -7,9 +7,9 @@ import {focusedMoment$, timeframe$, to$, from$} from 'in-stores/timeline';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import getOpenEvents from 'in-services/subscription/newOpenEvents';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {createStore, createTrackingStore} from 'in-stores/store';
+import getOpenEvents from 'in-services/subscription/openEvents';
 import getEvents from 'in-services/subscription/events';
 import {theme} from 'in-services/theme';
 

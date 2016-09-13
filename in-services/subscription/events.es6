@@ -5,8 +5,7 @@ import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription(
   // event ID
-  // TODO rename event
-  'subscribe-new-events',
+  'subscribe-events',
 
   // getID
   timeframe => timeframe.to + ',' + timeframe.windowSize,
