@@ -41,6 +41,7 @@ export const isLoading$ = isLoadingStore.observable;
 export function enable() {
   initPhase = true;
   subscriptions = [];
+  clearInterval(autoUpdateHandle);
 
   subscriptions.push(timeframe$.subscribe(refresh));
   subscriptions.push(sortBy$.subscribe(_sortBy => {

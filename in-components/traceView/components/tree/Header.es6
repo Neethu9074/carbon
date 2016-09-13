@@ -3,18 +3,24 @@ import React from 'react';
 
 import {getErrorCount, getDepth, getCalls, getPerCategorySummary} from 'in-components/traceView/util';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
+import {getCurrentViewWithTimelineCenteredAt} from 'in-stores/navigation/timeline';
 import CategoryIcon from 'in-components/traceView/components/tree/CategoryIcon';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
 import Tooltip from 'in-components/Tooltip';
+import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/tracing';
 
 import './Header.less';
 
 const block = 'in-trace-view-details-header';
 
-export default function TraceHeader({trace}) {
+export default connectTo(props => {
+  return {
+    timelineLink: getCurrentViewWithTimelineCenteredAt(props.trace.get('start'))
+  };
+}, function TraceHeader({trace, timelineLink}) {
   const errorCount = getErrorCount(trace);
   const depth = getDepth(trace);
   const calls = getCalls(trace);
@@ -25,7 +31,12 @@ export default function TraceHeader({trace}) {
   return (
     <div className={block}>
       <div className={`${block}__date`}>
-        {formatDateTime(trace.get('start'))}
+        <Tooltip content="Center timeline around this trace's start time.">
+          <a href={timelineLink}
+             className={`${block}__timeline-link`}>
+            {formatDateTime(trace.get('start'))}
+          </a>
+        </Tooltip>
       </div>
       <div className={`${block}__description`}>
         <h1 className={`${block}__title`}>
@@ -82,4 +93,4 @@ export default function TraceHeader({trace}) {
       </div>
     </div>
   );
-}
+});
