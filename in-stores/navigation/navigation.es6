@@ -7,7 +7,7 @@ import {createStore} from 'in-stores/store';
 export const PATH_NAMES = {
   DASHBOARD: '/dashboard',
   TRACES: '/traces',
-  EVENTS: '/event_center',
+  EVENTS: '/incidents',
   GRAPH: '/graph',
   MAP: '/',
   HOME: '/'
@@ -227,6 +227,23 @@ export function goToTraceView() {
     return navParams;
   });
 }
+
+export function goToEventsView() {
+  mutateUrl(navParams => {
+    navParams.pathname = PATH_NAMES.EVENTS;
+    return navParams;
+  });
+}
+
+export const eventsLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = PATH_NAMES.EVENTS;
+    delete params.query.q;
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
 
 
 export const traceViewLink$ = navigationParameters$

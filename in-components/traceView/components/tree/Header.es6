@@ -3,8 +3,8 @@ import React from 'react';
 
 import {getErrorCount, getDepth, getCalls, getPerCategorySummary} from 'in-components/traceView/util';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
-import LabeledValue from 'in-components/traceView/components/tree/LabeledValue';
 import CategoryIcon from 'in-components/traceView/components/tree/CategoryIcon';
+import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
 import Tooltip from 'in-components/Tooltip';

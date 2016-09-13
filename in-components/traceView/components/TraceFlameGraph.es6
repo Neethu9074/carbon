@@ -1,9 +1,9 @@
 import React from 'react';
 
 import {highlightSpanId} from 'in-components/traceView/stores/highlightedSpan';
-import {getStart, getEnd} from 'in-components/traceView/util';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
 import {getLabel, getCategory, getDirection} from 'in-sdk/tracing';
+import {getStart, getEnd} from 'in-components/traceView/util';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {getTickPositions} from 'in-charts/timeAxis';
 import Tooltip from 'in-components/Tooltip';

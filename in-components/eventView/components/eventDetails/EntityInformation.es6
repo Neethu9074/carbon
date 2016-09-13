@@ -1,0 +1,41 @@
+import React from 'react';
+
+import DashboardLink from 'in-components/Link/DashboardLink';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
+import {getSnapshot} from 'in-stores/snapshot';
+import {getSingular} from 'in-sdk/pluginName';
+import connectTo from 'in-hoc/connectTo';
+
+import './EntityInformation.less';
+
+
+const block = 'in-event-view-event-information';
+
+export default connectTo(props => {
+  return {
+    snapshot: getSnapshot(props.event.get('snapshotId'))
+  };
+},
+function EntityInformation({snapshot}) {
+  if (!snapshot) {
+    return null;
+  }
+
+  const entityType = getSingular(snapshot.get('plugin'));
+
+  return (
+    <div className={block}>
+      <span className={`${block}__on`}>
+        On:
+      </span>
+
+      <img src={getIcon(snapshot)}
+           alt={`Icon for entities of type ${entityType}`}
+           className={`${block}__entity-icon`}/>
+
+      <DashboardLink snapshotId={snapshot.get('id')}>
+        {getLabel(snapshot)}
+      </DashboardLink>
+    </div>
+  );
+});

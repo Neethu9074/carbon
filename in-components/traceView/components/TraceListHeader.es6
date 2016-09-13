@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TotalTraceCount from 'in-components/traceView/components/TotalTraceCount';
-import TraceViewHeader from 'in-components/traceView/components/TraceViewHeader';
+import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import AutoUpdate from 'in-components/traceView/components/AutoUpdate';
 import {refresh} from 'in-components/traceView/stores/traceList';
 import SvgIcon from 'in-components/SvgIcon';
@@ -12,7 +12,7 @@ const block = 'in-trace-list-header';
 
 export default function TraceListHeader() {
   return (
-    <TraceViewHeader className={block}>
+    <ViewHeader className={block}>
       <div className={`${block}__left-side`}>
         <h1 className={`${block}__title`}>Traces</h1>
         <TotalTraceCount />
@@ -25,6 +25,6 @@ export default function TraceListHeader() {
                  className={`${block}__refresh`}/>
         <AutoUpdate />
       </div>
-    </TraceViewHeader>
+    </ViewHeader>
   );
 }

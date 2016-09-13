@@ -1,6 +1,6 @@
 @import "~in-themes/active.less";
 
-.in-trace-view {
+.in-two-column-view {
   position: absolute;
   top: @header__height * 1px;
   left: 0;
@@ -18,7 +18,7 @@
 
   transition: bottom 0.25s ease-in-out;
 
-  &__trace-list, &__trace-details {
+  &__left, &__right {
     float: left;
     position: relative;
     padding: 2.25rem 0 0;
@@ -26,12 +26,12 @@
     height: 100%;
   }
 
-  &__trace-list {
+  &__left {
     max-width: 40rem;
     width: 100%;
   }
 
-  &__trace-details {
+  &__right {
     width: 100%;
     max-width: ~"calc(100% - 40rem)";
   }
