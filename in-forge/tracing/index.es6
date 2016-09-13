@@ -37,3 +37,4 @@ import './spring-batch';
 import './spring-rest';
 import './spring-web';
 import './url';
+import './wicket';
