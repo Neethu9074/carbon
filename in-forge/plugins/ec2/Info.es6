@@ -12,9 +12,7 @@ export default function Info({snapshot}) {
         <DescriptionItem title='Public Hostname'>
           {data.get('public-hostname')}
         </DescriptionItem>
-      </DescriptionList>
 
-      <DescriptionList horizontal={true}>
         <DescriptionItem title='Instance ID'>
           {data.get('instance-id')}
         </DescriptionItem>
