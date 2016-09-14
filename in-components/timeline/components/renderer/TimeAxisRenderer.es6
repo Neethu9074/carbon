@@ -62,8 +62,8 @@ export default class TimeAxisRenderer extends BasicRenderer {
     // start
     buffer.fillStyle = '#6b8088';
     buffer.font = font;
-    buffer.fillText(formatDate(scale.getDomainFrom()), 0, 15);
-    buffer.fillText(formatTime(scale.getDomainFrom()), 0, 30);
+    buffer.fillText(formatDate(scale.getDomainFrom()), scale.getRangeFrom(), 15);
+    buffer.fillText(formatTime(scale.getDomainFrom()), scale.getRangeFrom(), 30);
     buffer.textAlign = 'right';
     buffer.fillText(formatDate(scale.getDomainTo()), scale.getRangeTo() - 10, 15);
     buffer.fillText(formatTime(scale.getDomainTo()), scale.getRangeTo() - 10, 30);

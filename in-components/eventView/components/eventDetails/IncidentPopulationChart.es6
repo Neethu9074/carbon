@@ -1,58 +1,47 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import TimeAxis from 'in-components/eventView/components/eventDetails/TimeAxis';
+import createTimelineRenderer from 'in-components/eventView/components/eventDetails/renderer/timelineCanvas';
 import Section from 'in-components/eventView/components/eventDetails/Section';
-import {createColorPool} from 'in-services/util/ColorGenerator';
-import {serverTime$} from 'in-stores/serverTime';
-import createScale from 'in-charts/scale';
-import connectTo from 'in-hoc/connectTo';
 
 import './IncidentPopulationChart.less';
 
 
-const colorPool = createColorPool('events', 10);
 const block = 'in-event-view-event-detail-chart';
 
-export default function IncidentPopulationChart({event}) {
-  const start = event.get('start');
-  const end = event.get('end');
+export default React.createClass({
 
-  return (
-    <Section>
-      <div className={block}>
-        <TimeAxis start={start}
-                          end={end} />
+  displayName: 'IncidentPopulationChart',
 
-        <div className={`${block}__graph-wrapper`}>
-          <Element start={start}
-                   end={end} />
+  mixins: [
+    PureRenderMixin
+  ],
+
+  propTypes: {
+    event: irpt.map.isRequired
+  },
+
+  componentDidMount() {
+    this.renderer = createTimelineRenderer({
+      container: this.refs.container,
+      canvas: this.refs.canvas
+    });
+  },
+
+  componentWillUnmount() {
+    this.renderer.dispose();
+  },
+
+  render() {
+    return (
+      <Section>
+        <div ref='container'
+             className={block}>
+          <canvas ref='canvas'
+                  className={`${block}__canvas`} />
         </div>
-      </div>
-    </Section>
-  );
-}
-
-const Element = connectTo({
-  serverTime: serverTime$
-},
-function Element({start, end, serverTime}) {
-  end = end || serverTime;
-
-  const scale = createScale();
-  scale.setRangeFrom(0);
-  scale.setRangeTo(100);
-  scale.setDomainFrom(start);
-  scale.setDomainTo(end);
-
-  // TODO: use correct type or whatever
-  const color = colorPool.getColorHex('id1');
-
-  return (
-    <div className={`${block}__element`}
-        style={{
-          width: (scale.getRangeTo() - scale.getRangeFrom()) + '%',
-          background: color
-        }}>
-    </div>
-  );
+      </Section>
+    );
+  }
 });

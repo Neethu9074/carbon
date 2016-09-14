@@ -24,10 +24,6 @@ function DetailPanel({selectedEventId, events}) {
     return null;
   }
 
-  if (!events) {
-    return <LoadingIndicator type='dark' />;
-  }
-
   const event = getEventById(events, selectedEventId);
   if (!event) {
     return <LoadingIndicator type='dark' />;
@@ -46,6 +42,10 @@ function DetailPanel({selectedEventId, events}) {
 });
 
 function getEventById(events, id) {
+  if (!events) {
+    return null;
+  }
+
   events = events.incidents.concat(events.issues).concat(events.changes);
   for (let i = 0, length = events.length; i < length; i++) {
     const event = events[i];
