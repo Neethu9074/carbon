@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {twoDecimalPlaces} from 'in-services/formatters/number';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {timeframe$} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
@@ -15,7 +16,13 @@ export default connectTo({
 },
 function EventChart({timeframe, event}) {
   if (!timeframe) {
-    return null;
+    return (
+      <LoadingIndicator inline={true}
+                               type='dark'
+                               style={{
+                                 height: '16px'
+                               }} />
+    );
   }
 
   return (

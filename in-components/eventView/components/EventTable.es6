@@ -2,6 +2,7 @@ import React from 'react';
 
 import {eventFilter$, FILTER} from 'in-components/eventView/stores/eventFilterStore';
 import EventTableRow from 'in-components/eventView/components/EventTableRow';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import {eventsInTimeframe$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -16,7 +17,7 @@ export default connectTo({
 },
 function EventTable({events, eventFilter}) {
   if (!events) {
-    return null;
+    return <LoadingIndicator type='dark' />;
   }
 
   events = getEvents(events, eventFilter);

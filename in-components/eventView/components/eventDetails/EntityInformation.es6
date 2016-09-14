@@ -1,5 +1,6 @@
 import React from 'react';
 
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import DashboardLink from 'in-components/Link/DashboardLink';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -18,7 +19,13 @@ export default connectTo(props => {
 },
 function EntityInformation({snapshot}) {
   if (!snapshot) {
-    return null;
+    return (
+      <LoadingIndicator inline={true}
+                               type='dark'
+                               style={{
+                                 height: '16px'
+                               }} />
+    );
   }
   const entityType = getSingular(snapshot.get('plugin'));
 

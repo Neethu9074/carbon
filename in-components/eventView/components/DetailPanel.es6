@@ -3,6 +3,7 @@ import React from 'react';
 import IncidentContent from 'in-components/eventView/components/eventDetails/IncidentContent';
 import EventContent from 'in-components/eventView/components/eventDetails/EventContent';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import {eventsInTimeframe$} from 'in-stores/events';
 import {selectedEventId$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
@@ -19,13 +20,17 @@ export default connectTo({
   events: eventsInTimeframe$
 },
 function DetailPanel({selectedEventId, events}) {
-  if (!selectedEventId || !events) {
+  if (!selectedEventId) {
     return null;
+  }
+
+  if (!events) {
+    return <LoadingIndicator type='dark' />;
   }
 
   const event = getEventById(events, selectedEventId);
   if (!event) {
-    return null;
+    return <LoadingIndicator type='dark' />;
   }
 
   const eventType = getEventType(event);
