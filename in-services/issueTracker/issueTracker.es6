@@ -87,12 +87,12 @@ export function selectEvent(event) {
   selectEventInStore(event);
 
   if (getEventType(event) === EVENT_TYPES.INCIDENT) {
-    setSelectedIncident(event.get('id'), event.get('start'));
+    setSelectedIncident(event.get('id'));
   } else {
     setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
   }
 }
 
-export function getEvent(eventId, to) {
-  return createEventObservable({eventId, to});
+export function getEvent(eventId) {
+  return createEventObservable({eventId});
 }

@@ -8,14 +8,13 @@ export default createSubscription(
   'subscribe-event',
 
   // getID
-  ({eventId, to}) => eventId + ',' + to,
+  ({eventId}) => eventId,
 
   // data to be send for subscription
-  (subscriptionId, {eventId, to}) => {
+  (subscriptionId, {eventId}) => {
     return {
       subscriptionId,
-      eventId,
-      to
+      eventId
     };
   },
 

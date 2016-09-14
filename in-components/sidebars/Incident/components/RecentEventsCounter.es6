@@ -1,10 +1,12 @@
+import {combineLatest} from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {timeframe, timeframeShape} from 'in-stores/timeline';
+import {emptyList} from 'in-services/fixedImmutables';
 import {emptyArray} from 'in-services/fixedObjects';
+import {getEvent} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/sidebars/Incident/components/RecentEventsCounter.less';
@@ -13,11 +15,13 @@ import 'in-components/sidebars/Incident/components/RecentEventsCounter.less';
 const block = 'in-sidebar-incident-recent-events-counter';
 const rpt = React.PropTypes;
 
-export default getEventsWithinTimerange(
-  connectTo({
+export default connectTo(props => {
+  const idsList = props.incident.get('recentEvents', emptyList).map(id => getEvent(id));
+  return {
+    events: combineLatest(idsList.toArray()),
     _timeframe: timeframe
-  }, RecentEventsCounter)
-);
+  };
+}, RecentEventsCounter);
 
 function RecentEventsCounter({_timeframe, events}) {
   if (!_timeframe || !events || events.size === 0) {

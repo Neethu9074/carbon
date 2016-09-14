@@ -3,14 +3,17 @@ import React from 'react';
 
 import Content from 'in-components/sidebars/Incident/components/Content';
 import Header from 'in-components/sidebars/Incident/components/Header';
-import getSelectedIncident from 'in-hoc/getSelectedIncident';
+import {selectedIncident$} from 'in-stores/incident';
+import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/sidebars/Incident/SidebarIncidents.less';
 
 
 const block = 'in-sidebar-incidents';
 
-export default getSelectedIncident(SidebarIncidents);
+export default connectTo({
+  incident: selectedIncident$
+}, SidebarIncidents);
 
 function SidebarIncidents({incident}) {
   if (!incident) {
@@ -26,6 +29,5 @@ function SidebarIncidents({incident}) {
 }
 
 SidebarIncidents.propTypes = {
-  incidentId: React.PropTypes.string,
   incident: irpt.map
 };

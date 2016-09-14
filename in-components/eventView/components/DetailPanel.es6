@@ -4,7 +4,8 @@ import IncidentContent from 'in-components/eventView/components/eventDetails/Inc
 import EventContent from 'in-components/eventView/components/eventDetails/EventContent';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {eventsInTimeframe$} from 'in-stores/events';
+import {alwaysNull} from 'in-services/fixedStreams';
+import {getEvent} from 'in-services/issueTracker';
 import {selectedEventId$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -15,16 +16,13 @@ const block = 'in-event-view-detail-panel';
 
 export default connectTo({
   selectedEventId: selectedEventId$,
-
-  // event hack ahead: this one needs to be replaced with a "getSnapshot" for events logic
-  events: eventsInTimeframe$
+  event: selectedEventId$.flatMap(id => id ? getEvent(id) : alwaysNull)
 },
-function DetailPanel({selectedEventId, events}) {
+function DetailPanel({selectedEventId, event}) {
   if (!selectedEventId) {
     return null;
   }
 
-  const event = getEventById(events, selectedEventId);
   if (!event) {
     return <LoadingIndicator type='dark' />;
   }
@@ -40,17 +38,3 @@ function DetailPanel({selectedEventId, events}) {
     </div>
   );
 });
-
-function getEventById(events, id) {
-  if (!events) {
-    return null;
-  }
-
-  events = events.incidents.concat(events.issues).concat(events.changes);
-  for (let i = 0, length = events.length; i < length; i++) {
-    const event = events[i];
-    if (event.get('id') === id) {
-      return event;
-    }
-  }
-}
