@@ -37,6 +37,11 @@ describe('in-services.formatter.number', () => {
       expect(twoDecimalPlaces(42.187)).to.equal('42.19');
       expect(twoDecimalPlaces(-42.685)).to.equal('-42.69');
     });
+
+    it('should handle fractions correctly', () => {
+      // 1/5 * 3 is 0.6000000000000001
+      expect(twoDecimalPlaces((1 / 5) * 3)).to.equal('0.60');
+    });
   });
 
   describe('percentages', () => {
@@ -50,6 +55,11 @@ describe('in-services.formatter.number', () => {
       expect(percentageTwoDecimalPlaces(0.42687)).to.equal('42.69%');
       expect(percentageTwoDecimalPlaces(0.42187)).to.equal('42.19%');
       expect(percentageTwoDecimalPlaces(-0.42685)).to.equal('-42.69%');
+    });
+
+    it('should handle fractions correctly', () => {
+      // 1/5 * 3 is 0.6000000000000001
+      expect(percentageTwoDecimalPlaces(((1 / 5) * 3) / 100)).to.equal('0.60%');
     });
   });
 
@@ -66,6 +76,11 @@ describe('in-services.formatter.number', () => {
 
     it('should format bytes with multiple decimal places', () => {
       expect(bytesTwoDecimalPlaces(1089576)).to.equal('1.04 MB');
+    });
+
+    it('should handle fractions correctly', () => {
+      // 1/5 * 3 is 0.6000000000000001
+      expect(bytesTwoDecimalPlaces((1 / 5) * 3)).to.equal('0.60 B');
     });
   });
 
@@ -134,6 +149,11 @@ describe('in-services.formatter.number', () => {
       expect(withSiPrefixThreeDecimalPlaces(4433.123)).to.equal('4.433k');
       expect(withSiPrefixThreeDecimalPlaces(433.123)).to.equal('433.123');
       expect(withSiPrefixThreeDecimalPlaces(433.12345)).to.equal('433.123');
+    });
+
+    it('should handle fractions correctly', () => {
+      // 1/5 * 3 is 0.6000000000000001
+      expect(withSiMultiplyPrefixThreeDecimalPlaces((1 / 5) * 3)).to.equal('0.600');
     });
   });
 
