@@ -210,61 +210,58 @@ describe('data', () => {
   });
 
 
-  it('must remove old data points', () => {
-    data.insertSorted([
-      column([
-        [1, 3],
-        [1, 2],
-        [1, 1]
-      ]),
-      column([
-        [2, 4],
-        [2, 5],
-        [2, 6]
-      ]),
-      column([
-        [3, 4],
-        [3, 5],
-        [3, 6]
-      ])
-    ]);
+  describe('expireDataPointsOlderThan', () => {
+    it('must remove old data points', () => {
+      data.insertSorted([
+        column([
+          [1, 3],
+          [1, 2],
+          [1, 1]
+        ]),
+        column([
+          [2, 4],
+          [2, 5],
+          [2, 6]
+        ]),
+        column([
+          [3, 4],
+          [3, 5],
+          [3, 6]
+        ])
+      ]);
 
-    expect(data.expireDataPointsOlderThan(3)).to.equal(true);
-    expect(data.getDataColumns()).to.deep.equal([
-      column([
-        [2, 4],
-        [2, 5],
-        [2, 6]
-      ]),
-      column([
-        [3, 4],
-        [3, 5],
-        [3, 6]
-      ])
-    ]);
-  });
+      data.expireDataPointsOlderThan(3);
+      expect(data.getDataColumns()).to.deep.equal([
+        column([
+          [3, 4],
+          [3, 5],
+          [3, 6]
+        ])
+      ]);
+    });
 
 
-  it('must not do anything when no data point needs to be removed', () => {
-    data.insertSorted([
-      column([
-        [3, 3],
-        [3, 2],
-        [3, 1]
-      ]),
-      column([
-        [4, 4],
-        [4, 5],
-        [4, 6]
-      ]),
-      column([
-        [5, 4],
-        [5, 5],
-        [5, 6]
-      ])
-    ]);
+    it('must not do anything when no data point needs to be removed', () => {
+      data.insertSorted([
+        column([
+          [3, 3],
+          [3, 2],
+          [3, 1]
+        ]),
+        column([
+          [4, 4],
+          [4, 5],
+          [4, 6]
+        ]),
+        column([
+          [5, 4],
+          [5, 5],
+          [5, 6]
+        ])
+      ]);
 
-    expect(data.expireDataPointsOlderThan(3)).to.equal(false);
-    expect(data.getDataColumns().length).to.equal(3);
+      data.expireDataPointsOlderThan(3);
+      expect(data.getDataColumns().length).to.equal(3);
+    });
   });
 });

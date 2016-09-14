@@ -188,5 +188,11 @@ describe('queue', () => {
       queue.addDataPoint(0, [3, 3]);
       expect(queue.get()).to.deep.equal([]);
     });
+
+    it('must add time property to columns', () => {
+      queue.addDataPoint(0, [2, 3]);
+      queue.addDataPoint(1, [2, 5]);
+      expect(queue.get()[0].time).to.equal(2);
+    });
   });
 });

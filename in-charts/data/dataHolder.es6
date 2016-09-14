@@ -56,15 +56,18 @@ export default function createDataHolder({numberOfSeries}) {
 
 
   function expireDataPointsOlderThan(minTimestamp) {
-    let tooOldDataPointFound = false;
     let i = 0;
-    for (let len = dataColumns.length; i < len && !tooOldDataPointFound; i++) {
-      tooOldDataPointFound = dataColumns[i].time < minTimestamp;
+    const len = dataColumns.length;
+    while (i < len) {
+      if (dataColumns[i].time >= minTimestamp) {
+        break;
+      }
+      i++;
     }
-    if (tooOldDataPointFound) {
+
+    if (i > 0) {
       dataColumns.splice(0, i);
     }
-    return tooOldDataPointFound;
   }
 
 
