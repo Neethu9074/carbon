@@ -14,7 +14,7 @@ import {getLabel} from 'in-sdk/snapshot';
 
 export default function NodejsDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
-
+  const gcStatsSupported = snapshot.getIn(['data', 'gc.statsSupported']);
   return (
     <div>
       {getNativeExtensionHint(snapshot)}
@@ -23,11 +23,13 @@ export default function NodejsDashboard({snapshot, timeframe}) {
         <KpiHeading>
           {getLabel(snapshot)}
         </KpiHeading>
-        <KpiKeyValue label='GC Pause'>
-          <MetricValue snapshotId={snapshotId}
-                       metric='gc.gcPause'
-                       formatter={time} />
-        </KpiKeyValue>
+        {gcStatsSupported ?
+          <KpiKeyValue label='GC Pause'>
+            <MetricValue snapshotId={snapshotId}
+                         metric='gc.gcPause'
+                         formatter={time} />
+          </KpiKeyValue>
+        : null}
         <KpiKeyValue label='RSS'>
           <MetricValue snapshotId={snapshotId}
                        metric='memory.rss'
@@ -38,11 +40,13 @@ export default function NodejsDashboard({snapshot, timeframe}) {
                        metric='memory.heapUsed'
                        formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label='Total time spent in loop per second'>
-          <MetricValue snapshotId={snapshotId}
-                       metric='libuv.num'
-                       formatter={time} />
-        </KpiKeyValue>
+        {snapshot.getIn(['data', 'libuv.statsSupported']) ?
+          <KpiKeyValue label='Total time spent in loop per second'>
+            <MetricValue snapshotId={snapshotId}
+                         metric='libuv.num'
+                         formatter={time} />
+          </KpiKeyValue>
+        : null}
         <KpiKeyValue label='Event loop lag'>
           <MetricValue snapshotId={snapshotId}
                        metric='libuv.lag'
@@ -54,25 +58,28 @@ export default function NodejsDashboard({snapshot, timeframe}) {
         <DashboardSection title='Memory Usage'>
           {renderGcMetrics(snapshot, timeframe)}
         </DashboardSection>
-        <DashboardSection title='GC Activity'>
-          <ChartWithLegend snapshotId={snapshot.get('id')}
-                           timeframe={timeframe}
-                           margins={{
-                             left: 60
-                           }}
 
-                           y1={{
-                             min: 0,
-                             formatter: time,
-                             metrics: [
-                               'gc.gcPause'
-                             ],
-                             labels: [
-                               'GC Pause'
-                             ],
-                             type: 'stackedArea'
-                           }}/>
-        </DashboardSection>
+        {gcStatsSupported ?
+          <DashboardSection title='GC Activity'>
+            <ChartWithLegend snapshotId={snapshot.get('id')}
+                             timeframe={timeframe}
+                             margins={{
+                               left: 60
+                             }}
+
+                             y1={{
+                               min: 0,
+                               formatter: time,
+                               metrics: [
+                                 'gc.gcPause'
+                               ],
+                               labels: [
+                                 'GC Pause'
+                               ],
+                               type: 'stackedArea'
+                             }}/>
+          </DashboardSection>
+        : null}
       </TwoColumnRow>
 
       <HeapSpacesTable snapshot={snapshot}
