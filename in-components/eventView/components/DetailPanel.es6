@@ -1,8 +1,7 @@
 import React from 'react';
 
-import PopulationChart from 'in-components/eventView/components/eventDetails/PopulationChart';
-import Content from 'in-components/eventView/components/eventDetails/Content';
-import Header from 'in-components/eventView/components/eventDetails/Header';
+import IncidentContent from 'in-components/eventView/components/eventDetails/IncidentContent';
+import EventContent from 'in-components/eventView/components/eventDetails/EventContent';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {eventsInTimeframe$} from 'in-stores/events';
 import {selectedEventId$} from 'in-stores/events';
@@ -34,15 +33,8 @@ function DetailPanel({selectedEventId, events}) {
   return (
     <div className={block}>
       {eventType === EVENT_TYPES.INCIDENT
-        ? [
-          <Header key='header'
-                  event={event} />,
-          <PopulationChart key='chart'
-                           event={event} />,
-          <Content key='content'
-                   event={event} />
-        ]
-        : <Content event={event} />
+        ? <IncidentContent event={event} />
+        : <EventContent event={event} />
       }
     </div>
   );

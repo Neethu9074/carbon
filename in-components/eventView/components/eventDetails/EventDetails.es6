@@ -2,12 +2,11 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import EventDependecyGraph from 'in-components/eventView/components/eventDetails/EventDependecyGraph.es6';
-import ShortEventInformation from 'in-components/eventView/components/eventDetails/ShortEventInformation';
 import EntityInformation from 'in-components/eventView/components/eventDetails/EntityInformation';
-import EventTimerange from 'in-components/eventView/components/eventDetails/EventTimerange.es6';
 import EventTraces from 'in-components/eventView/components/eventDetails/EventTraces.es6';
 import EventChart from 'in-components/eventView/components/eventDetails/EventChart.es6';
 import Section from 'in-components/eventView/components/eventDetails/Section';
+import EventIcon from 'in-components/EventIcon/EventIcon';
 import {toHtml} from 'in-services/formatters/markdown';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -21,6 +20,7 @@ export default React.createClass({
   displayName: 'EventDetails',
 
   propTypes: {
+    isCollapsed: React.PropTypes.bool,
     event: irpt.map.isRequired
   },
 
@@ -28,6 +28,12 @@ export default React.createClass({
     return {
       isCollapsed: true
     };
+  },
+
+  componentWillMount() {
+    this.setState({
+      isCollapsed: this.props.isCollapsed
+    });
   },
 
   render() {
@@ -42,14 +48,18 @@ export default React.createClass({
     return (
       <Section>
         <div className={block}>
+
           <div className={headerClassName}
                onClick={() => this.setState({isCollapsed: !isCollapsed})}>
-            <div>
-              <ShortEventInformation event={event} />
-              <br/>
-              <span className={`${block}__problem-text`}>
-                {event.getIn(['problem', 'problemText'])}
-              </span>
+
+            <div className={`${block}__flex-wrapper`}>
+              <EventIcon event={event}
+                         className={`${block}__icon`} />
+              <EntityInformation event={event} />
+              {isCollapsed
+                ? <ProblemTextPreview text={event.getIn(['problem', 'problemText'])} />
+                : null
+              }
             </div>
 
             <SvgIcon type={isCollapsed ? 'plus_without_frame' : 'minus'}
@@ -57,25 +67,38 @@ export default React.createClass({
                      height={10}
                      color={'#7b8e96'} />
           </div>
-          {isCollapsed ? null : <Details event={event}/>}
+
+          {isCollapsed
+            ? null
+            : <FurtherContent event={event}/>
+          }
         </div>
       </Section>
     );
   }
 });
 
-function Details({event}) {
+function ProblemTextPreview({text}) {
+  return (
+    <div className={`${block}__problem-text--preview`}>
+      {text}
+    </div>
+  );
+}
+
+function FurtherContent({event}) {
   const fixSuggestion = toHtml(event.getIn(['problem', 'fixSuggestion']));
 
   return (
     <div>
-      <EntityInformation event={event}/>
+      <span className={`${block}__problem-text`}>
+        {event.getIn(['problem', 'problemText'])}
+      </span>
 
       <div className={`${block}__suggestion`}
            dangerouslySetInnerHTML={{__html: fixSuggestion}} />
 
       <EventChart event={event} />
-      <EventTimerange event={event} />
       <EventDependecyGraph event={event} />
       <EventTraces event={event} />
     </div>

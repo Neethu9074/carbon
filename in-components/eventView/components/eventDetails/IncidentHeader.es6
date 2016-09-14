@@ -1,31 +1,38 @@
 import React from 'react';
 
-import ShortEventInformation from 'in-components/eventView/components/eventDetails/ShortEventInformation';
-import EntityInformation from 'in-components/eventView/components/eventDetails/EntityInformation';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import Section from 'in-components/eventView/components/eventDetails/Section';
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import {formatDateTime} from 'in-services/formatters/date';
+import EventIcon from 'in-components/EventIcon/EventIcon';
 import Tooltip from 'in-components/Tooltip';
 
-import './Header.less';
+import './IncidentHeader.less';
 
 
-const block = 'in-event-view-event-detail-header';
+const block = 'in-event-view-detail-incident-header';
 
 export default function HeaderSwitch({event}) {
-  const eventType = getEventType(event);
+  const end = event.get('end');
 
   return (
     <Section>
       <div>
-        <ShortEventInformation event={event} />
+        <div className={`${block}__flex-wrapper`}>
+          <EventIcon event={event}
+                     className={`${block}__icon`} />
 
-        <br/>
+          <LabeledValue label='Started'>
+            {formatDateTime(event.get('start'))}
+          </LabeledValue>
 
-        {eventType === EVENT_TYPES.INCIDENT
-          ? <IncidentHeader event={event} />
-          : <Header event={event} />
-        }
+          <LabeledValue label='Ended'>
+            {end ? formatDateTime(end) : 'active'}
+          </LabeledValue>
+        </div>
+
+        <div style={{ height: '0.3rem' }} />
+
+        <IncidentHeader event={event} />
       </div>
     </Section>
   );
@@ -36,7 +43,9 @@ function IncidentHeader({event}) {
 
   return (
     <div>
-      <Title title={`Incident (${numberOfRecentEvents})`} />
+      <h2 className={`${block}__title`}>
+        {`Incident (${numberOfRecentEvents})`}
+      </h2>
 
       <Tooltip content='Number of currently active issues'>
         <LabeledValue label='Active Issues'>
@@ -56,19 +65,5 @@ function IncidentHeader({event}) {
         </LabeledValue>
       </Tooltip>
     </div>
-  );
-}
-
-function Header({event}) {
-  return (
-    <EntityInformation event={event}/>
-  );
-}
-
-function Title({title}) {
-  return (
-    <h2 className={`${block}__title`}>
-      {title}
-    </h2>
   );
 }

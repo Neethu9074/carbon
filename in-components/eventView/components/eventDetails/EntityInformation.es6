@@ -20,7 +20,6 @@ function EntityInformation({snapshot}) {
   if (!snapshot) {
     return null;
   }
-
   const entityType = getSingular(snapshot.get('plugin'));
 
   return (

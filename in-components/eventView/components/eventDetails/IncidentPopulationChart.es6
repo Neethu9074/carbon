@@ -7,13 +7,13 @@ import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
 
-import './PopulationChart.less';
+import './IncidentPopulationChart.less';
 
 
 const colorPool = createColorPool('events', 10);
 const block = 'in-event-view-event-detail-chart';
 
-export default function PopulationChart({event}) {
+export default function IncidentPopulationChart({event}) {
   const start = event.get('start');
   const end = event.get('end');
 
