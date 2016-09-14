@@ -4,6 +4,7 @@ import TenantUnitSwitcher from 'in-components/AccountMenu/components/TenantUnitS
 import {isOpen$, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
 import {setSettingsVisibility} from 'in-stores/settings/visibility';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
+import {isInternalEnvironment} from 'in-services/config';
 import {showReleaseNotes} from 'in-stores/releaseNotes';
 import {config, isOnPremise} from 'in-services/config';
 import {goToGraph} from 'in-stores/navigation';
@@ -88,7 +89,7 @@ export default connectTo({
             Graph Showcase
           </a>
 
-          {__DEV__
+          {isInternalEnvironment()
             ? <a className={block + '__link'}
                  href='#/webVR'
                  target='_blank'>
