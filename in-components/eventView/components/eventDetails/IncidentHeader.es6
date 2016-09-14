@@ -25,19 +25,19 @@ export default function HeaderSwitch({event}) {
           <h2 className={`${block}__title`}>
             {`Incident (${numberOfRecentEvents})`}
           </h2>
+
+          <div style={{ width: '0.625rem' }} />
+
+          <LabeledValue label='Started'>
+            {formatDateTime(event.get('start'))}
+          </LabeledValue>
+
+          <LabeledValue label='Ended'>
+            {end ? formatDateTime(end) : 'active'}
+          </LabeledValue>
         </div>
 
-        <div style={{ height: '0.5rem' }} />
-
-        <LabeledValue label='Started'>
-          {formatDateTime(event.get('start'))}
-        </LabeledValue>
-
-        <LabeledValue label='Ended'>
-          {end ? formatDateTime(end) : 'active'}
-        </LabeledValue>
-
-        <div style={{ height: '.4rem' }} />
+        <div style={{ height: '0.4rem' }} />
 
         <Tooltip content='Number of currently active issues'>
           <LabeledValue label='Active Issues'>
