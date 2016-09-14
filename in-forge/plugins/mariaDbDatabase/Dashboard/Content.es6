@@ -1,9 +1,12 @@
 import React from 'react';
 
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import twoDecimalPlaces from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 export default function MariaDbDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -16,20 +19,40 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
   }
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Queries'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='status.QUERIES' />
+        </KpiKeyValue>
+        <KpiKeyValue label='Client Connections'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='status.THREADS_CONNECTED' />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title='Clients'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80
+                           left: 60
                          }}
                          y1={{
+                           min: 0,
                            metrics: [
-                             'status.THREADS_CONNECTED'
+                             'status.THREADS_CONNECTED',
+                             'status.MAX_USED_CONNECTIONS',
+                             'status.ABORTED_CONNECTS'
                            ],
                            labels: [
-                             'Connections'
+                             'Connections',
+                             'Max used connections',
+                             'Aborted connects'
                            ],
-                           type: 'line'
+                           type: 'line',
+                           formatter: twoDecimalPlaces
                        }}/>
       </DashboardSection>
       <DashboardSection title='Slow Queries'>
