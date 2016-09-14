@@ -75,6 +75,7 @@ export function disable() {
   subscriptions.forEach(s => s.dispose());
   disposeExistingLoad();
   clearInterval(autoUpdateHandle);
+  subscriptions = [];
 }
 
 

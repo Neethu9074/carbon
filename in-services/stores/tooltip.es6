@@ -10,7 +10,10 @@ export const TooltipShape = rpt.shape({
     rpt.element,
     rpt.string
   ]),
-  focusedElement: rpt.instanceOf(window.HTMLElement),
+  focusedElement: rpt.oneOfType([
+    rpt.instanceOf(window.HTMLElement),
+    rpt.instanceOf(window.SVGSVGElement)
+  ]),
   focusedPoint: rpt.shape({
     x: rpt.number,
     y: rpt.number

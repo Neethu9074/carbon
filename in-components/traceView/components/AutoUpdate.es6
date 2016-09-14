@@ -16,7 +16,7 @@ export default connectTo({
     <div className={block}>
       <input type='checkbox'
              id={checkboxId}
-             value={autoUpdateActive}
+             checked={autoUpdateActive}
              onChange={toggleAutoUpdate}/>
       <label htmlFor={checkboxId}
              className={`${block}__label`}>
