@@ -8,6 +8,7 @@ import {isCollapsed$, toggleMenu} from 'in-components/timeline/timelineStore';
 import {getIn, toggleIn} from 'in-services/settings';
 import {eventsInTimeframe$} from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -27,8 +28,9 @@ export default connectTo({
 function TimelineMenu({events, isCollapsed, autoCollapseTimeline}) {
   return (
     <div className={block}>
-      <Tooltip content='Toggle automatically collapsing timeline'>
-        <Icon type={autoCollapseTimeline ? 'up' : 'down'}
+      <Tooltip content={autoCollapseTimeline ? 'Always show timeline.' : 'Automatically hide timeline.'}>
+        <SvgIcon type={autoCollapseTimeline ? 'unpin' : 'pinned'}
+              width={autoCollapseTimeline ? 12 : 12}
               className={`${block}__toggle-auto-expand`}
               onClick={() => toggleIn(['autoCollapseTimeline'])}/>
       </Tooltip>
