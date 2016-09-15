@@ -5,6 +5,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import Mtd from 'in-components/Mtd';
 import {emptyList} from 'in-services/fixedImmutables';
+import {zeroDecimalPlaces} from 'in-services/formatters/number';
 
 
 export default function QueuesTable({snapshot, timeframe}) {
@@ -49,10 +50,13 @@ function createRow(queueName, i, context) {
   return ([
     <td>{queueName}</td>,
     <Mtd metric={'queue_map.' + queueName + '.messages_ready'}
+         formatter={zeroDecimalPlaces}
          snapshot={context.snapshot}/>,
     <Mtd metric={'queue_map.' + queueName + '.messages_unacknowledged'}
+         formatter={zeroDecimalPlaces}
          snapshot={context.snapshot}/>,
     <Mtd metric={'queue_map.' + queueName + '.messages'}
+         formatter={zeroDecimalPlaces}
          snapshot={context.snapshot}/>
   ]);
 }
@@ -79,7 +83,8 @@ function createDetails(queueName, i, context) {
                 'Messages unacknowledged',
                 'Messages total'
               ],
-              type: 'line'
+              type: 'line',
+              formatter: zeroDecimalPlaces
             }}/>
     </div>
   );
