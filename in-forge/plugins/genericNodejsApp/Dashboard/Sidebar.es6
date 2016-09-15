@@ -22,8 +22,6 @@ export default function NodejsDashboardSidebar({snapshot}) {
 
       <TagList snapshot={snapshot} />
 
-      <Separator />
-
       <KeyValuePopup header='Dependencies'
                      data={snapshot.getIn(['data', 'dependencies'])} />
     </div>

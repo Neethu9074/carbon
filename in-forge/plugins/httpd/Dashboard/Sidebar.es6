@@ -2,7 +2,6 @@ import React from 'react';
 
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
@@ -16,8 +15,6 @@ export default function HttpdSidebar({snapshot}) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
-      <Separator />
 
       <KeyValuePopup header='Modules'
                      data={snapshot.getIn(['data', 'modules'])} />

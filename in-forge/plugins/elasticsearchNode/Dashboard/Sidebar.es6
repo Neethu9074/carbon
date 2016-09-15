@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -40,6 +41,8 @@ export default function ElasticsearchSidebar({snapshot}) {
                               formatter: bytesTwoDecimalPlaces
                             }
                           ]}/>
+
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

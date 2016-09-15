@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -23,17 +23,13 @@ export default function NodejsDashboardSidebar({snapshot}) {
 
       <TagList snapshot={snapshot} />
 
-      <Separator />
-
       <KeyValuePopup header='Dependencies'
                      data={snapshot.getIn(['data', 'dependencies'])} />
-
-      <Separator />
 
       <KeyValuePopup header='Runtime Versions'
                      data={snapshot.getIn(['data', 'versions'])} />
 
-      <DeployedUnitList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

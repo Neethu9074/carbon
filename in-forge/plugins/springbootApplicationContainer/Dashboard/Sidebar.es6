@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -33,6 +34,8 @@ export default function SpringbootSidebar({snapshot}) {
           </Collapsible.Content>
         </Collapsible>
         : null }
+
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

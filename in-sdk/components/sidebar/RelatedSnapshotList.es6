@@ -53,12 +53,13 @@ export default connectTo(
     const groups = this.getSnapshotsGroupedByPlugin();
     const groupPlugins = Object.keys(groups)
       .sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
-    const groupCount = groupPlugins.length;
 
     return (
       <div>
-        {groupPlugins.map((plugin, i) =>
+        {groupPlugins.map(plugin =>
           <div key={plugin}>
+            <Separator />
+
             <Collapsible initiallyOpen={this.props.initiallyOpen}>
               <Collapsible.Header className={block + '__header'}>
                 <div className={block + '__header'}>
@@ -84,8 +85,6 @@ export default connectTo(
                 </ClickableList>
               </Collapsible.Content>
             </Collapsible>
-
-            {i + 1 < groupCount ? <Separator /> : null}
           </div>
         )}
       </div>

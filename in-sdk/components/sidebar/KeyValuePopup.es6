@@ -6,6 +6,7 @@ import {
   clearContent,
   content$
 } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -49,13 +50,17 @@ export default connectTo({
 
       const title = this.props.header;
       return (
-        <div className={block}>
-          <span className={block + '__header'}>
-            {title}
-          </span>
-          <div className={buttonClassName}
-               onClick={() => toggleContent({title, data})}>
-            <Icon type='popup_pop_up'/>
+        <div>
+          <Separator />
+
+          <div className={block}>
+            <span className={block + '__header'}>
+              {title}
+            </span>
+            <div className={buttonClassName}
+                 onClick={() => toggleContent({title, data})}>
+              <Icon type='popup_pop_up'/>
+            </div>
           </div>
         </div>
       );

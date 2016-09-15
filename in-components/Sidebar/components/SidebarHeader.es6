@@ -1,9 +1,9 @@
 import React from 'react';
 
 import SidebarHealthInfo from 'in-components/Sidebar/components/SidebarHealthInfo';
+import {getLabel, getIcon, getShowZoneInSidebarHeader} from 'in-sdk/snapshot';
 import ZoneTag from 'in-components/Sidebar/components/ZoneTag';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 
 import './SidebarHeader.less';
@@ -27,7 +27,10 @@ export default function SidebarHeader({snapshot}) {
             <span className={`${block}__entity-type`}>
               {entityType}
             </span>
-            <ZoneTag snapshotId={snapshot.get('id')} />
+
+            {getShowZoneInSidebarHeader(snapshot.get('plugin')) ?
+              <ZoneTag snapshotId={snapshot.get('id')} />
+            : null}
           </div>
         </div>
       </div>

@@ -20,3 +20,8 @@ export function getPower(snapshot) {
   }
   return -1;
 }
+
+
+export function getShowZoneInSidebarHeader(plugin) {
+  return getSnapshotDefinition(plugin).showZoneInSidebarHeader === true;
+}

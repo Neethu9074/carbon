@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import ConnectorsInfo from 'in-forge/plugins/activeMQ/ConnectorsInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -28,6 +29,8 @@ export default function ActiveMQSidebar({snapshot}) {
           <ConnectorsInfo snapshot={snapshot}/>
         </Collapsible.Content>
       </Collapsible>
+
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

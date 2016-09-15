@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -23,8 +24,6 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
-      <Separator />
 
       <KeyValuePopup header='Master Configuration'
                      data={data.filter((v, k) => k.indexOf('worker_pool') === -1) } />
@@ -63,8 +62,6 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
             </Collapsible.Content>
           </Collapsible>
 
-          <Separator />
-
           <KeyValuePopup header={`Worker Pool Configuration: ${pool}`}
                          data={data.filter(
                            (v, k) => k.indexOf('worker_pool.' + pool) === 0)
@@ -73,6 +70,8 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
                            } />
         </div>
       )}
+
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

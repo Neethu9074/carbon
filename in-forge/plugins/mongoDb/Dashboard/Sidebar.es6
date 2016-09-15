@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import {emptyList} from 'in-services/fixedImmutables';
@@ -32,6 +33,8 @@ export default function MongoDBSidebar({snapshot}) {
           </List>
         </Collapsible.Content>
       </Collapsible>
+
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import {emptyMap} from 'in-services/fixedImmutables';
@@ -70,6 +71,7 @@ export default function JBossAsSidebar({snapshot}) {
         </Collapsible>
       : null }
       <RunningComponentsList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

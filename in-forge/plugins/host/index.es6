@@ -14,6 +14,7 @@ registerSnapshotDefinition({
     singular: 'Host',
     plural: 'Hosts'
   },
+  showZoneInSidebarHeader: true,
 
   namesForTypeSearch: ['host'],
 

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
@@ -18,6 +19,7 @@ export default function MariaDbSidebar({snapshot}) {
       </Collapsible>
       <TagList snapshot={snapshot} />
       <DeployedUnitList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

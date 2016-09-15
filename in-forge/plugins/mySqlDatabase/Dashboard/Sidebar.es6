@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
@@ -16,6 +17,7 @@ export default function MySqlSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
       <DeployedUnitList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

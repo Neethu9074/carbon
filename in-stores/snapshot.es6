@@ -3,6 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
+import createServiceInstancesObservable from 'in-services/subscription/serviceInstances';
 import createDeployedUnitsObservable from 'in-services/subscription/deployedUnits';
 import createFoundationsObservable from 'in-services/subscription/foundations';
 import createRawPayloadObservable from 'in-services/subscription/rawPayload';
@@ -132,4 +133,9 @@ export function getDeployedUnits(snapshotId) {
 
 export function getRawPayload(snapshotId, payloadName) {
   return createRawPayloadObservable({snapshotId, payloadName});
+}
+
+export function getServiceInstances(snapshotId) {
+  return focusedMoment$.flatMap(focusedMoment =>
+    createServiceInstancesObservable({snapshotId, time: focusedMoment}));
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import AppPoolList from '../AppPoolList.es6';
@@ -28,6 +29,8 @@ export default function MsIISSidebar({snapshot}) {
           <AppPoolList snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }
