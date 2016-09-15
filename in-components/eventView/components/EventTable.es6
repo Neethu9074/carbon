@@ -2,8 +2,8 @@ import React from 'react';
 
 import {eventFilter$, FILTER} from 'in-components/eventView/stores/eventFilterStore';
 import EventTableRow from 'in-components/eventView/components/EventTableRow';
+import {events$} from 'in-components/eventView/stores/eventsStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {eventsInTimeframe$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
 import './EventTable.less';
@@ -12,7 +12,7 @@ import './EventTable.less';
 const block = 'in-event-view-event-table';
 
 export default connectTo({
-  events: eventsInTimeframe$,
+  events: events$,
   eventFilter: eventFilter$
 },
 function EventTable({events, eventFilter}) {

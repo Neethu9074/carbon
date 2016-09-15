@@ -1,5 +1,6 @@
-import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
+import {getNearestEvent, setHighlightedEvent} from 'in-stores/events';
+import {events$} from 'in-components/eventView/stores/eventsStore';
 import {setHighlightedMoment} from 'in-stores/timeline';
 import {onMove} from 'in-services/reactiveMouseEvents';
 
@@ -8,7 +9,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
   let categorizedEvents;
-  const eventsSubscription = eventsInTimeframe$.subscribe(events => categorizedEvents = events);
+  const eventsSubscription = events$.subscribe(events => categorizedEvents = events);
 
   const mouseMoveSubscription = onMove(canvas, e => {
     onMouseMove(e.offsetX, e.x, e.offsetY, e.y);

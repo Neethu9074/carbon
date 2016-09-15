@@ -3,7 +3,7 @@ import React from 'react';
 import {eventFilter$, FILTER} from 'in-components/eventView/stores/eventFilterStore';
 import EventFilterBar from 'in-components/eventView/components/EventFilterBar';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
-import {eventsInTimeframe$} from 'in-stores/events';
+import {events$} from 'in-components/eventView/stores/eventsStore';
 import connectTo from 'in-hoc/connectTo';
 
 import './EventListHeader.less';
@@ -12,7 +12,7 @@ import './EventListHeader.less';
 const block = 'in-event-view-event-list-header';
 
 export default connectTo({
-  events: eventsInTimeframe$,
+  events: events$,
   eventFilter: eventFilter$
 },
 function EventListHeader({events, eventFilter}) {
