@@ -3,23 +3,19 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
+import Mtd from 'in-components/Mtd';
 import {emptyList} from 'in-services/fixedImmutables';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import {
-  bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces,
-  twoDecimalPlaces
-} from 'in-services/formatters/number';
+import {zeroDecimalPlaces} from 'in-services/formatters/number';
 
 
 export default function QueuesTable({snapshot, timeframe}) {
-  const queues = snapshot.getIn(['data', 'queues'], emptyList).sort();
+  const queues = snapshot.getIn(['data', 'monitoredQueues'], emptyList).sort();
   if (queues.size === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title='Queues'>
+    <DashboardSection title='Monitored Queues'>
       <ExpandableTable data={queues}
                        getKey={getKey}
                        createHeader={createHeader}
@@ -27,7 +23,8 @@ export default function QueuesTable({snapshot, timeframe}) {
                        context={{
                          snapshot,
                          timeframe
-                       }} />
+                       }}
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -41,141 +38,63 @@ function createHeader() {
     <thead>
       <tr>
         <th>Queue</th>
+        <th>Messages ready</th>
+        <th>Messages unacknowledged</th>
+        <th>Messages total</th>
       </tr>
     </thead>
   );
 }
 
-function createRow(queueName) {
+function createRow(queueName, i, context) {
   return ([
-    <td>{queueName}</td>
+    <td>{queueName}</td>,
+    <Mtd metric={'queue_map.' + queueName + '.messages_ready'}
+         formatter={zeroDecimalPlaces}
+         snapshot={context.snapshot}/>,
+    <Mtd metric={'queue_map.' + queueName + '.messages_unacknowledged'}
+         formatter={zeroDecimalPlaces}
+         snapshot={context.snapshot}/>,
+    <Mtd metric={'queue_map.' + queueName + '.messages'}
+         formatter={zeroDecimalPlaces}
+         snapshot={context.snapshot}/>
   ]);
 }
 
-/* eslint-disable no-unused-vars */
-// queue metric processing is currently disabled in the backend
 function createDetails(queueName, i, context) {
   const snapshotId = context.snapshot.get('id');
   const timeframe = context.timeframe;
 
   return (
     <div>
-      <TwoColumnRow>
-        <ChartWithLegend snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                metrics: [
-                  'queue_map.' + queueName + '.publish',
-                  'queue_map.' + queueName + '.deliver',
-                  'queue_map.' + queueName + '.ack'
-                ],
-                labels: [
-                  'Published messages',
-                  'Delivered messages',
-                  'Acknowledged messages'
-                ],
-                type: 'line'
-              }}/>
-        <ChartWithLegend snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                metrics: [
-                  'queue_map.' + queueName + '.publish_rate',
-                  'queue_map.' + queueName + '.deliver_rate',
-                  'queue_map.' + queueName + '.ack_rate'
-                ],
-                labels: [
-                  'Publish rate',
-                  'Deliver rate',
-                  'Acknowledge rate'
-                ],
-                type: 'line',
-                min: 0,
-                max: 1,
-                formatter: twoDecimalPlaces
-              }}/>
-      </TwoColumnRow>
-
-      <TwoColumnRow>
-        <ChartWithLegend snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                metrics: [
-                  'queue_map.' + queueName + '.messages_ready',
-                  'queue_map.' + queueName + '.messages_unacknowledged',
-                  'queue_map.' + queueName + '.messages'
-                ],
-                labels: [
-                  'Messages ready',
-                  'Messages unacknowledged',
-                  'Messages total'
-                ],
-                type: 'line'
-              }}/>
-        <ChartWithLegend snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                metrics: [
-                  'queue_map.' + queueName + '.messages_ready_rate',
-                  'queue_map.' + queueName + '.messages_unacknowledged_rate',
-                  'queue_map.' + queueName + '.messages_rate'
-                ],
-                labels: [
-                  'Messages ready rate',
-                  'Unacknowledged rate',
-                  'Messages total rate'
-                ],
-                type: 'line',
-                min: 0,
-                max: 1,
-                formatter: twoDecimalPlaces
-              }}/>
-      </TwoColumnRow>
-
-      <TwoColumnRow>
-        <ChartWithLegend snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                metrics: [
-                  'queue_map.' + queueName + '.consumers'
-                ],
-                labels: [
-                  'Consumers'
-                ],
-                type: 'line'
-              }}/>
-        <ChartWithLegend snapshotId={snapshotId}
-              timeframe={timeframe}
-              margins={{
-                left: 80
-              }}
-              y1={{
-                formatter: bytesZeroDecimalPlaces,
-                tooltipFormatter: bytesTwoDecimalPlaces,
-                metrics: [
-                  'queue_map.' + queueName + '.memory'
-                ],
-                labels: [
-                  'Memory use'
-                ],
-                type: 'line'
-              }}/>
-      </TwoColumnRow>
+      <ChartWithLegend snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              metrics: [
+                'queue_map.' + queueName + '.messages_ready',
+                'queue_map.' + queueName + '.messages_unacknowledged'
+              ],
+              labels: [
+                'Messages ready',
+                'Messages unacknowledged'
+              ],
+              type: 'stackedArea',
+              formatter: zeroDecimalPlaces
+            }}
+            y2={{
+              metrics: [
+                'queue_map.' + queueName + '.messages'
+              ],
+              labels: [
+                'Messages total'
+              ],
+              type: 'line',
+              formatter: zeroDecimalPlaces
+            }}/>
+        />
     </div>
   );
 }
