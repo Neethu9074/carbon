@@ -1,31 +1,35 @@
+import {combineLatest} from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
-import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import {toHtml} from 'in-services/formatters/markdown';
+import {emptyList} from 'in-services/fixedImmutables';
+import {getEvent} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
 
+const rpt = React.PropTypes;
 const block = 'in-event-description';
 
-export default getEventsWithinTimerange(
-  connectTo(props => {
-    if (props.events && props.events.size > 0) {
-      return {
-        color: getColorForEventAtFocusedMomentAsStream(props.events.get(0))
-      };
-    }
-    return {};
-  }, React.createClass({
+export default connectTo(props => {
+  const subscriptions = {
+    events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id)))
+  };
+  if (props.events && props.events.size > 0) {
+    subscriptions.color = getColorForEventAtFocusedMomentAsStream(props.events.get(0));
+  }
+  return subscriptions;
+},
+React.createClass({
 
   displayName: 'IncidentContent',
 
   propTypes: {
     incident: irpt.map.isRequired,
-    color: React.PropTypes.string,
-    events: irpt.list
+    color: rpt.string,
+    events: rpt.array
   },
 
   render() {
@@ -61,4 +65,4 @@ export default getEventsWithinTimerange(
       </div>
     );
   }
-})));
+}));

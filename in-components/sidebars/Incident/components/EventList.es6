@@ -1,27 +1,25 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 import Event from 'in-components/sidebars/Incident/components/Event';
+import {emptyList} from 'in-services/fixedImmutables';
 
 
-export default getEventsWithinTimerange(EventList);
-
-function EventList({events}) {
-  if (!events || events.size === 0) {
+export default function EventList({incident}) {
+  if (!incident) {
     return null;
   }
 
   return (
     <div>
-      {events.map(event =>
-        <Event key={event.get('id')}
-               event={event} />
+      {incident.get('recentEvents', emptyList).map(id =>
+        <Event key={id}
+               eventId={id} />
       )}
     </div>
   );
 }
 
 EventList.propTypes = {
-  events: irpt.list
+  incident: irpt.map
 };

@@ -5,16 +5,13 @@ import {goToRootOfView} from 'in-stores/navigation';
 import {getEvent} from 'in-services/issueTracker';
 
 
-const selectedIncidentIdAndTo$ = createTrackingStore({
-  name: 'selectedIncidentIdAndTo',
+export const selectedIncidentId$ = createTrackingStore({
+  name: 'selectedIncidentId',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
       if ('incidentId' in query) {
-        return {
-          id: decodeURIComponent(query.incidentId),
-          to: decodeURIComponent(query.incidentTo)
-        };
+        return decodeURIComponent(query.incidentId);
       }
 
       return null;
@@ -23,24 +20,13 @@ const selectedIncidentIdAndTo$ = createTrackingStore({
 }).observable;
 
 
-export const selectedIncidentId$ = selectedIncidentIdAndTo$
-  .map(incident => incident ? incident.id : null)
-  .distinct();
-
-
 export const selectedIncident$ = createTrackingStore({
   name: 'selectedIncident',
-  observable: selectedIncidentIdAndTo$
-    .flatMap(incident => {
-      if (incident && incident.id && incident.to) {
-        return getEvent(incident.id, incident.to);
-      }
-      return alwaysNull;
-    })
+  observable: selectedIncidentId$.flatMap(id => id ? getEvent(id) : alwaysNull)
 }).observable;
 
 
-export function setSelectedIncident(id, to) {
+export function setSelectedIncident(id) {
   if (id == null) {
     clearSelectedIncident();
   } else {
@@ -48,7 +34,6 @@ export function setSelectedIncident(id, to) {
     mutateUrl(navParams => {
       delete navParams.query.snapshotId;
       navParams.query.incidentId = encodeURIComponent(id);
-      navParams.query.incidentTo = encodeURIComponent(to);
       return navParams;
     });
   }
@@ -58,7 +43,6 @@ export function setSelectedIncident(id, to) {
 export function clearSelectedIncident() {
   mutateUrl(navParams => {
     delete navParams.query.incidentId;
-    delete navParams.query.incidentTo;
     return navParams;
   });
 }
