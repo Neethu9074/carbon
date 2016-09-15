@@ -1,5 +1,4 @@
 import {combineLatest} from 'reactive-observables';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
@@ -46,8 +45,8 @@ function RecentEventsCounter({_timeframe, events}) {
 }
 
 RecentEventsCounter.propTypes = {
-  timeframe: timeframeShape,
-  events: irpt.list
+  events: React.PropTypes.array,
+  timeframe: timeframeShape
 };
 
 
