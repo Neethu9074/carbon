@@ -75,17 +75,26 @@ function createDetails(queueName, i, context) {
             y1={{
               metrics: [
                 'queue_map.' + queueName + '.messages_ready',
-                'queue_map.' + queueName + '.messages_unacknowledged',
-                'queue_map.' + queueName + '.messages'
+                'queue_map.' + queueName + '.messages_unacknowledged'
               ],
               labels: [
                 'Messages ready',
-                'Messages unacknowledged',
+                'Messages unacknowledged'
+              ],
+              type: 'stackedArea',
+              formatter: zeroDecimalPlaces
+            }}
+            y2={{
+              metrics: [
+                'queue_map.' + queueName + '.messages'
+              ],
+              labels: [
                 'Messages total'
               ],
               type: 'line',
               formatter: zeroDecimalPlaces
             }}/>
+        />
     </div>
   );
 }
