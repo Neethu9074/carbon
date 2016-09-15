@@ -14,9 +14,8 @@ const rpt = React.PropTypes;
 const block = 'in-event-description';
 
 export default connectTo(props => {
-  const idsList = props.incident.get('recentEvents', emptyList).map(id => getEvent(id));
   const subscriptions = {
-    events: combineLatest(idsList.toArray())
+    events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id)))
   };
   if (props.events && props.events.size > 0) {
     subscriptions.color = getColorForEventAtFocusedMomentAsStream(props.events.get(0));
