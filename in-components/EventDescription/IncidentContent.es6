@@ -13,17 +13,13 @@ import connectTo from 'in-hoc/connectTo';
 const block = 'in-event-description';
 
 export default connectTo(props => {
-  const subscriptions = {
+  return {
     events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id)))
   };
-  if (props.events && props.events.size > 0) {
-    subscriptions.color = getColorForEventAtFocusedMomentAsStream(props.events.get(0));
-  }
-  return subscriptions;
 }, IncidentContent);
 
-function IncidentContent({incident, color, events}) {
-  if (!events || events.size === 0 || !color) {
+function IncidentContent({incident, events}) {
+  if (!events || events.size === 0) {
     return null;
   }
 
@@ -40,10 +36,8 @@ function IncidentContent({incident, color, events}) {
         started here:
       </span>
 
-      <div className={block + '__header'}
-           style={{color}}>
-        {problem.get('problemText')}
-      </div>
+      <Header event={firstEvent}
+              text={problem.get('problemText')} />
 
       <div className={block + '__suggestion'}
            dangerouslySetInnerHTML={{__html: toHtml(problem.get('fixSuggestion'))}} />
@@ -54,9 +48,29 @@ function IncidentContent({incident, color, events}) {
   );
 }
 
+const Header = connectTo(props => {
+  return {
+    color: getColorForEventAtFocusedMomentAsStream(props.event)
+  };
+}, ({color, text}) => {
+  return (
+    <div className={block + '__header'}
+         style={{
+           color: color ? color : '#ffffff'
+         }}>
+      {text}
+    </div>
+  );
+});
+
 const rpt = React.PropTypes;
 IncidentContent.propTypes = {
   incident: irpt.map.isRequired,
   color: rpt.string,
   events: rpt.array
+};
+
+Header.propTypes = {
+  event: irpt.map.isRequired,
+  color: rpt.string
 };
