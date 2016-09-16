@@ -37,14 +37,15 @@ export default getElementDimensions(connectTo({
   },
 
   render() {
+
     return (
       <div className={block}>
-        {this.props.traces.length === 0 ?
+        {this.props.traces.length === 0 && !this.props.isInfiniteLoading ?
           <p className={`${block}__no-traces`}>
             There are no traces in the selected time window.
           </p>
         : null}
-        {this.props.height && this.props.traces.length > 0 ?
+        {this.props.height && (this.props.traces.length > 0 || this.props.isInfiniteLoading) ?
           <Infinite containerHeight={this.props.height - 24 /* Height of the header */}
                     elementHeight={26}
                     loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
