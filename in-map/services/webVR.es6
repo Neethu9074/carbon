@@ -52,22 +52,13 @@ export function getVRDevice(method, callback) {
   }
 }
 
-function gotVRInputDevices(displays, callback) {
-  let display;
-
-  for (let i = 0; i < displays.length; i ++) {
-    if (('VRDisplay' in window && displays[i] instanceof window.VRDisplay) ||
-        ('PositionSensorVRDevice' in window && displays[i] instanceof window.PositionSensorVRDevice)) {
-      display = displays[i];
-      break;
-    }
-  }
-
-  if (window.vrDisplay === undefined) {
-    logger.error('VR input not available.');
+function gotVRInputDevices(devices, callback) {
+  if (devices.length > 0) {
+    const device = devices[0];
+    logger.info('device initialized:', device);
+    callback(device);
   } else {
-    logger.error('display initialized:', display);
-    callback(display);
+    logger.error('VR input not available.');
   }
 }
 
@@ -91,7 +82,7 @@ function gotVRDisplayDevices(devices, callback) {
   if (vrHMD === undefined) {
     logger.error('HMD not available');
   } else {
-    logger.error('display initialized:', vrHMD);
+    logger.info('display initialized:', vrHMD);
     callback(vrHMD, isDeprecatedAPI);
   }
 }
