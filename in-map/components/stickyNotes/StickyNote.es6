@@ -45,6 +45,13 @@ export default function StickyNote(ComposedComponent) {
       this.visibilitySubscription = null;
     },
 
+    shouldComponentUpdate(nextProps, nextState) {
+      if (nextState.isVisible === this.state.isVisible) {
+        return false;
+      }
+      return true;
+    },
+
     render() {
       const content = this.state.isVisible
         ? <ComposedComponent {...this.props}
