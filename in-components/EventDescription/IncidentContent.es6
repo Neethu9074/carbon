@@ -23,7 +23,7 @@ function IncidentContent({incident, events}) {
     return null;
   }
 
-  const firstEvent = [0];
+  const firstEvent = events[0];
   const problem = firstEvent.get('problem');
 
   return (
