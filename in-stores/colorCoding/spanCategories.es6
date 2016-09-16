@@ -6,5 +6,6 @@ export default Object.freeze({
   messaging: '#b8f782',
   batch: '#93f9d6',
   generic: '#93f9d6',
-  logger: '#ed6c5d'
+  logger: '#ed6c5d',
+  eum: '#a5bafc'
 });

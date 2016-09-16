@@ -24,6 +24,8 @@ import './node.http.server';
 import './node.http.client';
 import './okhttp';
 import './OpenEJB';
+import './page';
+import './page.res';
 import './pdo';
 import './php';
 import './play2';
