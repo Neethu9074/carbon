@@ -4,7 +4,7 @@ import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import createObjectCollection from 'in-map/stores/ObjectColletionStream';
+import createObjectCollection from 'in-map/stores/ObjectCollectionStream';
 
 
 describe('in-map', () => {

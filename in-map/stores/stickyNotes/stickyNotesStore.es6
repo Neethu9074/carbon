@@ -1,4 +1,4 @@
-import createCollection from 'in-map/stores/ObjectColletionStream';
+import createCollection from 'in-map/stores/ObjectCollectionStream';
 
 
 const stickyNotes = createCollection();

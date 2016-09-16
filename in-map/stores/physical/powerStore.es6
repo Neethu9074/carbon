@@ -1,4 +1,4 @@
-import createCollection from 'in-map/stores/ObjectColletionStream';
+import createCollection from 'in-map/stores/ObjectCollectionStream';
 import {POWER_CHECKING} from 'in-map/misc/TimingConfig';
 
 

@@ -1,7 +1,7 @@
 import RoEmitter from 'roemitter';
 
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
-import createCollection from 'in-map/stores/ObjectColletionStream';
+import createCollection from 'in-map/stores/ObjectCollectionStream';
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {BufferGeometry} from 'in-map/3DLibProvider';

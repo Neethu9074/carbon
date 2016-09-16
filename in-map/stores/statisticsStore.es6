@@ -1,4 +1,4 @@
-import createCollection from 'in-map/stores/ObjectColletionStream';
+import createCollection from 'in-map/stores/ObjectCollectionStream';
 import services from 'in-map/stores/logical/servicesStore';
 import {groups} from 'in-map/stores/physical/groupsStore';
 import connections from 'in-map/stores/connectionsStore';
