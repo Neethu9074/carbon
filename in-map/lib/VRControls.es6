@@ -19,27 +19,7 @@ export default function VRControls ( object, onError ) {
     frameData = new VRFrameData();
   }
 
-  function gotVRDisplays( displays ) {
-
-    vrDisplays = displays;
-
-    if ( displays.length > 0 ) {
-
-      vrDisplay = displays[ 0 ];
-
-    } else {
-
-      if ( onError ) onError( 'VR input not available.' );
-
-    }
-
-  }
-
-  if ( navigator.getVRDisplays ) {
-
-    navigator.getVRDisplays().then( gotVRDisplays );
-
-  }
+  getVRInput(display => vrDisplay = display);
 
   // the Rift SDK returns the position in meters
   // this scale factor allows the user to define how meters
