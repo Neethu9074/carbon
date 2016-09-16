@@ -15,9 +15,8 @@ const block = 'in-sidebar-incident-recent-events-counter';
 const rpt = React.PropTypes;
 
 export default connectTo(props => {
-  const idsList = props.incident.get('recentEvents', emptyList).map(id => getEvent(id));
   return {
-    events: combineLatest(idsList.toArray()),
+    events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id))),
     _timeframe: timeframe
   };
 }, RecentEventsCounter);
