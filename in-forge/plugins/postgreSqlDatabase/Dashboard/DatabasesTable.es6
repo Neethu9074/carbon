@@ -6,7 +6,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-
+import Mtd from 'in-components/Mtd';
 
 const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 const queriesFormatter = d => d < 0 ? 'No activity' : zeroDecimalPlaces(d);
@@ -41,14 +41,50 @@ function createHeader() {
     <thead>
       <tr>
         <th>Database</th>
+        <th>Queries</th>
+        <th>Queries active</th>
+        <th>Queries waiting</th>
+        <th>Committed transactions</th>
+        <th>Rolled back transactions</th>
+        <th>Cache Hit Ratio</th>
+        <th>Standby Conflicts</th>
+        <th>Tuple read</th>
+        <th>Tuple fetch</th>
       </tr>
     </thead>
   );
 }
 
-function createRow(db) {
+function createRow(db, i, context) {
   return ([
-    <td>{db}</td>
+    <td>{db}</td>,
+    <Mtd metric={'databases.' + db + '.queries'}
+         snapshot={context.snapshot}
+         formatter={queriesFormatter} />,
+    <Mtd metric={'databases.' + db + '.queries_active'}
+        snapshot={context.snapshot}
+        formatter={queriesFormatter} />,
+    <Mtd metric={'databases.' + db + '.queries_waiting'}
+        snapshot={context.snapshot}
+        formatter={queriesFormatter} />,
+    <Mtd metric={'databases.' + db + '.xact_commit'}
+        snapshot={context.snapshot}
+        formatter={queriesFormatter} />,
+    <Mtd metric={'databases.' + db + '.xact_rollback'}
+        snapshot={context.snapshot}
+        formatter={queriesFormatter} />,
+    <Mtd metric={'databases.' + db + '.blks_hit_rate'}
+        snapshot={context.snapshot}
+        formatter={hitRateFormatter} />,
+    <Mtd metric={'databases.' + db + '.conflicts'}
+        snapshot={context.snapshot}
+        formatter={zeroDecimalPlaces} />,
+    <Mtd metric={'databases.' + db + '.idx_tup_read'}
+        snapshot={context.snapshot}
+        formatter={zeroDecimalPlaces} />,
+    <Mtd metric={'databases.' + db + '.idx_tup_fetch'}
+        snapshot={context.snapshot}
+        formatter={zeroDecimalPlaces} />
   ]);
 }
 
