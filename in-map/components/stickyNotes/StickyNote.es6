@@ -46,7 +46,8 @@ export default function StickyNote(ComposedComponent) {
     },
 
     shouldComponentUpdate(nextProps, nextState) {
-      if (nextState.isVisible === this.state.isVisible) {
+      if (nextState.isVisible === this.state.isVisible &&
+          this.props.id === nextProps.id) {
         return false;
       }
       return true;
@@ -55,7 +56,6 @@ export default function StickyNote(ComposedComponent) {
     render() {
       const content = this.state.isVisible
         ? <ComposedComponent {...this.props}
-                             {...this.state}
                              wrapper={this.refs.stickyNote} />
         : null;
 
