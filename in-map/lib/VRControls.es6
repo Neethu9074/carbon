@@ -1,38 +1,12 @@
+import {getVRInput} from 'in-map/services/webVR';
 import {Matrix4} from 'in-map/3DLibProvider';
 
-/**
- * @author dmarcos / https://github.com/dmarcos
- * @author mrdoob / http://mrdoob.com
- */
 
 export default function VRControls(object, onError) {
   var vrDisplay, vrDisplays;
   var standingMatrix = new Matrix4();
 
-  function gotVRDisplays(displays) {
-    vrDisplays = displays;
-
-    for (var i = 0; i < displays.length; i ++) {
-      if (('VRDisplay' in window && displays[i] instanceof VRDisplay) ||
-          ('PositionSensorVRDevice' in window && displays[i] instanceof PositionSensorVRDevice)) {
-        vrDisplay = displays[i];
-        break;  // We keep the first we encounter
-      }
-    }
-
-    if (vrDisplay === undefined) {
-      if (onError) onError('VR input not available.');
-    } else {
-      console.log('display initialized:', vrDisplay);
-    }
-  }
-
-  if (navigator.getVRDisplays) {
-    navigator.getVRDisplays().then(gotVRDisplays);
-  } else if (navigator.getVRDevices) {
-    // Deprecated API.
-    navigator.getVRDevices().then(gotVRDisplays);
-  }
+  getVRInput(display => vrDisplay = display);
 
   // the Rift SDK returns the position in meters
   // this scale factor allows the user to define how meters

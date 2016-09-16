@@ -3,18 +3,9 @@ import {
   Matrix4,
   Vector3
 } from 'in-map/3DLibProvider';
+import {getVRDisplay} from 'in-map/services/webVR';
 
 
-/**
- * @author dmarcos / https://github.com/dmarcos
- * @author mrdoob / http://mrdoob.com
- *
- * WebVR Spec: http://mozvr.github.io/webvr-spec/webvr.html
- *
- * Firefox: http://mozvr.com/downloads/
- * Chromium: https://drive.google.com/folderview?id=0BzudLt22BqGRbW9WTHMtOWMzNjQ&usp=sharing#list
- *
- */
 export default function VREffect(renderer, onError) {
   var vrHMD;
   var isDeprecatedAPI = false;
@@ -23,33 +14,10 @@ export default function VREffect(renderer, onError) {
   var renderRectL, renderRectR;
   var eyeFOVL, eyeFOVR;
 
-  function gotVRDevices(devices) {
-    for (var i = 0; i < devices.length; i ++) {
-      if ('VRDisplay' in window && devices[i] instanceof VRDisplay) {
-        vrHMD = devices[i];
-        isDeprecatedAPI = false;
-        break; // We keep the first we encounter
-
-      } else if ('HMDVRDevice' in window && devices[i] instanceof HMDVRDevice) {
-        vrHMD = devices[i];
-        isDeprecatedAPI = true;
-        break; // We keep the first we encounter
-      }
-    }
-
-    if (vrHMD === undefined) {
-      if (onError) onError('HMD not available');
-    } else {
-      console.log('display initialized:', vrHMD);
-    }
-  }
-
-  if (navigator.getVRDisplays) {
-    navigator.getVRDisplays().then(gotVRDevices);
-  } else if (navigator.getVRDevices) {
-    // Deprecated API.
-    navigator.getVRDevices().then(gotVRDevices);
-  }
+  getVRDisplay((_vrHMD, _isDeprecatedAPI) => {
+    vrHMD = _vrHMD;
+    isDeprecatedAPI = _isDeprecatedAPI;
+  });
 
   this.scale = 1;
 
