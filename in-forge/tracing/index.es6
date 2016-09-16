@@ -4,6 +4,7 @@ import './cassandra';
 import './corba';
 import './elasticsearch';
 import './file';
+import './ftp';
 import './hc';
 import './http';
 import './ibmdb2';
