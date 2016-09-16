@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {FILTER} from 'in-components/eventView/stores/eventFilterStore';
+import {selectEvent, clearEvent} from 'in-services/issueTracker';
 import {formatDateTime} from 'in-services/formatters/date';
-import {selectEvent} from 'in-services/issueTracker';
 import {selectedEventId$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -10,8 +10,6 @@ import './EventTableRow.less';
 
 
 const block = 'in-event-view-event-table-row';
-const cellClassName = block + '__cell';
-const incidentCellClassName = block + '__incident-cell';
 
 export default connectTo({
   selectedEventId: selectedEventId$
@@ -28,16 +26,21 @@ export default connectTo({
 
   return (
     <div className={className}
-         onClick={() => selectEvent(event)}>
+         onClick={() => toggleEvent(event, selectedEventId)}>
       {rowDefinition(event)}
     </div>
   );
 });
 
+function toggleEvent(event, selectedEventId) {
+  event.get('id') !== selectedEventId
+    ? selectEvent(event)
+    : clearEvent(event);
+}
 
 function Cell({content, isIncident}) {
   return (
-    <span className={isIncident ? incidentCellClassName : cellClassName}>
+    <span className={isIncident ? `${block}__incident-cell` : `${block}__cell`}>
       {content}
     </span>
   );
