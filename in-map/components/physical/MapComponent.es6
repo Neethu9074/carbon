@@ -30,7 +30,9 @@ function MapComponent({structure, webVRMode}) {
   const groups = structure.viewStructure.get('children');
 
   return (
-    <div>
+    <div style={{
+      display: 'none'
+    }}>
       {groups.map(groupEntity => {
         const groupId = groupEntity.get('id');
         if (!includedGroupIds[groupId]) {

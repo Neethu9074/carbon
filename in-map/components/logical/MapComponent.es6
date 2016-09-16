@@ -31,7 +31,9 @@ function MapComponent({structure}) {
   }
 
   return (
-    <div>
+    <div style={{
+      display: 'none'
+    }}>
       {services.map(serviceEntity => {
         const serviceId = serviceEntity.get('id');
         if (!structure.includedIds.serviceIds[serviceId]) {
