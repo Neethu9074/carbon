@@ -22,7 +22,7 @@ export default connectTo(props => {
 }, RecentEventsCounter);
 
 function RecentEventsCounter({_timeframe, events}) {
-  if (!_timeframe || !events || events.size === 0) {
+  if (!_timeframe || !events || events.length === 0) {
     return null;
   }
 

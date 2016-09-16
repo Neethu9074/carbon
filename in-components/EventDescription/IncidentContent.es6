@@ -19,11 +19,11 @@ export default connectTo(props => {
 }, IncidentContent);
 
 function IncidentContent({incident, events}) {
-  if (!events || events.size === 0) {
+  if (!events || events.length === 0) {
     return null;
   }
 
-  const firstEvent = events.get(0);
+  const firstEvent = [0];
   const problem = firstEvent.get('problem');
 
   return (
