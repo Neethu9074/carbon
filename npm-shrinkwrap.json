@@ -9273,9 +9273,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-router/-/react-router-2.8.1.tgz"
     },
     "reactive-observables": {
-      "version": "1.31.0",
-      "from": "reactive-observables@>=1.31.0 <2.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/reactive-observables/-/reactive-observables-1.31.0.tgz"
+      "version": "1.32.0",
+      "from": "reactive-observables@>=1.32.0 <2.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/reactive-observables/-/reactive-observables-1.32.0.tgz"
     },
     "read": {
       "version": "1.0.7",
