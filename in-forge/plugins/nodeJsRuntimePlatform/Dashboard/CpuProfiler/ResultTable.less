@@ -1,0 +1,67 @@
+.in-nodejs-cpu-profiling-table {
+  overflow-x: auto;
+  width: 100%;
+  border-spacing: 0;
+  margin: 1rem 0 0 0;
+
+  th, td {
+    padding: .438rem;
+    font-size: .688rem;
+    color: #2D4048;
+  }
+
+  th {
+    text-align: left;
+    text-transform: uppercase;
+    background: #E2E9EC;
+    color: #6B8088;
+    font-weight: normal;
+  }
+
+  td {
+    background: transparent;
+    border-bottom: 1px solid #E2E9EC;
+    cursor: pointer;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  &__row {
+    &:hover {
+      .in-nodejs-cpu-profiling-table__expand {
+        fill: #fff;
+      }
+
+      & > td {
+        background: #92A5AE;
+        color: #fff;
+      }
+    }
+  }
+  &__self {
+    text-align: right;
+     width: 8rem;
+  }
+
+  &__total {
+    text-align: right;
+    width: 8rem;
+  }
+
+  &__function {
+
+  }
+
+  &__expand {
+    fill: #92A5AE;
+    margin-right: .313rem;
+  }
+
+  &__file {
+    color: #555;
+    font-style: italic;
+    float: right;
+  }
+}

@@ -4,6 +4,7 @@ import {time, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces} f
 import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
@@ -88,6 +89,12 @@ export default function NodejsDashboard({snapshot, timeframe}) {
       <DashboardSection title='Event Loop'>
         {renderEventLoopMetrics(snapshot, timeframe)}
       </DashboardSection>
+
+      {__DEV__ ?
+        <DashboardSection title='CPU Profiling'>
+          <CpuProfiler snapshot={snapshot} />
+        </DashboardSection>
+      : null}
 
       <HttpServersTable snapshot={snapshot}
                         timeframe={timeframe} />
@@ -244,7 +251,7 @@ function getNativeExtensionHint(snapshot) {
       <strong>{missingNativeExtensions.join(' and ')}</strong>{' '}monitoring. As a result, Instana
       can only show you a limited set of metrics. Please contact us for installation support or
       refer to the{' '}
-      <a href='http://docs.instana.com/articles/instana-agent-nodejs.html'>
+      <a href='https://github.com/instana/nodejs-sensor'>
         Node.js sensor installation instructions
       </a>.
     </DashboardNotification>

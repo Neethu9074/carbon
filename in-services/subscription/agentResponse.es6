@@ -29,7 +29,7 @@ export default function createAgentResponseObservable({action, target, args}) {
     }
   });
 
-  return observable;
+  return observable.delayedStop(10000);
 
   function onData(data) {
     observable.emit(data);
