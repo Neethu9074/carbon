@@ -2,7 +2,7 @@ import {on, create} from 'reactive-observables';
 
 import HighlightedMomentRenderer from 'in-components/timeline/components/renderer/HighlightedMomentRenderer';
 import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
-import FocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
+import createEventsRenderer from 'in-components/eventView/components/eventDetails/renderer/EventsRenderer';
 import createMouseEvents from 'in-components/eventView/components/eventDetails/renderer/mouseEvents';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
@@ -36,13 +36,14 @@ export default function createTimelineRenderer({container, canvas}) {
   realtimeDrawStream.emit(changeSignal);
 
   const timeAxisRenderer = new TimeAxisRenderer(screenBuffer, scale);
-  const focusedMomentRenderer = new FocusedMomentRenderer(screenBuffer, scale);
+  const eventsRenderer = createEventsRenderer(screenBuffer, scale);
   const highlightedMomentRenderer = new HighlightedMomentRenderer(screenBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(screenBuffer, scale, height);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
+    eventsRenderer.setHighlightedEvent(event);
     changes.emit(changeSignal);
   });
 
@@ -72,6 +73,7 @@ export default function createTimelineRenderer({container, canvas}) {
     width = container.clientWidth;
     scale.setRangeTo(width);
     backgroundRenderer.setWidth(width);
+    eventsRenderer.setWidth(width);
     updateCanvasDimensions(screenBufferCanvas, screenBuffer, width, height);
 
     changes.emit(changeSignal);
@@ -80,7 +82,7 @@ export default function createTimelineRenderer({container, canvas}) {
   function draw() {
     backgroundRenderer.draw();
     timeAxisRenderer.draw(axisConfig);
-    focusedMomentRenderer.draw();
+    eventsRenderer.draw();
     highlightedMomentRenderer.draw();
   }
 
@@ -92,8 +94,8 @@ export default function createTimelineRenderer({container, canvas}) {
     highlightedMomentRenderer.dispose();
     realtimeDrawSubscription.dispose();
     hoveredEventLineRenderer.dispose();
-    focusedMomentRenderer.dispose();
     resizeSubscription.dispose();
     drawSubscription.dispose();
+    eventsRenderer.dispose();
   }
 }
