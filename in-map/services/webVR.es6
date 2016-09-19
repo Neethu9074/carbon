@@ -39,17 +39,19 @@ function getErrorMessage() {
 
 
 // define gloval object so that the import works, because three uses THREE object to declare further implementation
-const THREE = {
+window.THREE = {
   Matrix4,
   Vector3,
   Quaternion,
   PerspectiveCamera
 };
 
-export function getVRControlsWrapper() {
-  return require('three/examples/js/controls/VRControls.js');
+export function loadVRControlsWrapper() {
+  require('three/examples/js/controls/VRControls.js');
+  return window.THREE.VRControls;
 }
 
-export function getVREffectWrapper() {
-  return require('three/examples/js/effects/VREffect.js');
+export function loadVREffectWrapper() {
+  require('three/examples/js/effects/VREffect.js');
+  return window.THREE.VREffect;
 }

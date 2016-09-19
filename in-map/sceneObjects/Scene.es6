@@ -16,7 +16,7 @@ import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {getVREffectWrapper} from 'in-map/services/webVR';
+import {loadVREffectWrapper} from 'in-map/services/webVR';
 import {setDimensions} from 'in-map/stores/indexStore';
 import {theme} from 'in-services/theme';
 
@@ -124,7 +124,12 @@ export default class MainScene extends SceneObject {
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
 
-    this.renderTarget = this.webVRMode ? getVREffectWrapper()(renderer) : renderer;
+    if (this.webVRMode) {
+      const VREffectClass = loadVREffectWrapper();
+      this.renderTarget = new VREffectClass(renderer);
+    } else {
+      this.renderTarget = renderer;
+    }
   }
 
   setupScene() {
