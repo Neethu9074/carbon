@@ -10217,9 +10217,9 @@
       "resolved": "https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz"
     },
     "three": {
-      "version": "0.80.1",
-      "from": "three@>=0.80.0 <0.81.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/three/-/three-0.80.1.tgz"
+      "version": "0.81.0",
+      "from": "three@>=0.81.0 <0.82.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/three/-/three-0.81.0.tgz"
     },
     "through": {
       "version": "2.3.8",
