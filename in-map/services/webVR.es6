@@ -1,12 +1,17 @@
-import {createLogger} from 'instalog';
+/* global require:false */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 
+import {
+  Matrix4,
+  Vector3,
+  Quaternion,
+  PerspectiveCamera
+} from 'in-map/3DLibProvider';
 import DialogNotification from 'in-components/DialogNotification';
 import {close} from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
 
-
-const logger = createLogger('webVR');
 
 export function isWebVRSupported() {
   return (navigator.getVRDevices || navigator.getVRDisplays) ? true : false;
@@ -33,56 +38,18 @@ function getErrorMessage() {
 }
 
 
-export function getVRInput(callback) {
-  getVRDevice(gotVRInputDevices, callback);
+// define gloval object so that the import works, because three uses THREE object to declare further implementation
+const THREE = {
+  Matrix4,
+  Vector3,
+  Quaternion,
+  PerspectiveCamera
+};
+
+export function getVRControlsWrapper() {
+  return require('three/examples/js/controls/VRControls.js');
 }
 
-export function getVRDisplay(callback) {
-  getVRDevice(gotVRDisplayDevices, callback);
-}
-
-export function getVRDevice(method, callback) {
-  if (navigator.getVRDisplays) {
-    navigator.getVRDisplays().then(display => method(display, callback));
-  } else if (navigator.getVRDevices) {
-    // Deprecated API.
-    navigator.getVRDevices().then(device => method(device, callback));
-  } else {
-    logger.error('there is no WebVR API available');
-  }
-}
-
-function gotVRInputDevices(devices, callback) {
-  if (devices.length > 0) {
-    const device = devices[0];
-    logger.info('device initialized:', device);
-    callback(device);
-  } else {
-    logger.error('VR input not available.');
-  }
-}
-
-function gotVRDisplayDevices(devices, callback) {
-  let isDeprecatedAPI;
-  let vrHMD;
-
-  for (let i = 0; i < devices.length; i ++) {
-    if ('VRDisplay' in window && devices[i] instanceof window.VRDisplay) {
-      vrHMD = devices[i];
-      isDeprecatedAPI = false;
-      break;
-
-    } else if ('HMDVRDevice' in window && devices[i] instanceof window.HMDVRDevice) {
-      vrHMD = devices[i];
-      isDeprecatedAPI = true;
-      break;
-    }
-  }
-
-  if (vrHMD === undefined) {
-    logger.error('HMD not available');
-  } else {
-    logger.info('display initialized:', vrHMD);
-    callback(vrHMD, isDeprecatedAPI);
-  }
+export function getVREffectWrapper() {
+  return require('three/examples/js/effects/VREffect.js');
 }

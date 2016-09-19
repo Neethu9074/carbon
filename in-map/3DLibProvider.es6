@@ -17,6 +17,7 @@ import {
   PerspectiveCamera as ThreePerspectiveCamera,
   PlaneBufferGeometry as ThreePlaneBufferGeometry,
   Points as ThreePoints,
+  Quaternion as ThreeQuaternion,
   RawShaderMaterial as ThreeRawShaderMaterial,
   Raycaster as ThreeRaycaster,
   RepeatWrapping as ThreeRepeatWrapping,
@@ -45,6 +46,7 @@ export const OrthographicCamera = ThreeOrthographicCamera;
 export const PerspectiveCamera = ThreePerspectiveCamera;
 export const PlaneBufferGeometry = ThreePlaneBufferGeometry;
 export const Points = ThreePoints;
+export const Quaternion = ThreeQuaternion;
 export const RawShaderMaterial = ThreeRawShaderMaterial;
 export const Raycaster = ThreeRaycaster;
 export const RepeatWrapping = ThreeRepeatWrapping;
