@@ -21,8 +21,6 @@ export default function HostSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
-
       <TagList snapshot={snapshot} />
 
       <Separator />
