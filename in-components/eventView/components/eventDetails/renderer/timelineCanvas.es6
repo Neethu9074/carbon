@@ -11,12 +11,14 @@ import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {highlightedEvent$} from 'in-stores/events';
 import {getEvent} from 'in-services/issueTracker';
+import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
 
 export default function createTimelineRenderer({container, canvas, incidentId}) {
   const changeSignal = true;
   const height = 112;
+  const timeOffset = 1000 * 10;
   let width;
 
   const screenBufferCanvas = canvas;
@@ -42,17 +44,19 @@ export default function createTimelineRenderer({container, canvas, incidentId}) 
   const backgroundRenderer = new BackgroundRenderer(screenBuffer, scale, height);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
 
+  let servertimeSubscription;
   const incidentSubscription = getEvent(incidentId).subscribe(event => {
     if (event) {
-      const timeoffset = 1000 * 10;
-      const start = event.get('start') - timeoffset;
-      // TODO: replace with servertime
-      const end = event.get('end', Date.now()) + timeoffset;
-
+      const start = event.get('start') - timeOffset;
       scale.setDomainFrom(start);
-      scale.setDomainTo(end);
 
-      axisConfig = getAxisConfig(end - start);
+      const end = event.get('end');
+      if (end) {
+        disposeServertimeSubscription();
+        setScaleTo(end);
+      } else {
+        setupServertimeSubscription();
+      }
     }
   });
 
@@ -83,6 +87,24 @@ export default function createTimelineRenderer({container, canvas, incidentId}) 
     canvas: screenBufferCanvas,
     dispose
   };
+
+  function setupServertimeSubscription() {
+    disposeServertimeSubscription();
+    servertimeSubscription = serverTime$.subscribe(time => setScaleTo(time));
+  }
+
+  function disposeServertimeSubscription() {
+    if (servertimeSubscription) {
+      servertimeSubscription.dispose();
+      servertimeSubscription = null;
+    }
+  }
+
+  function setScaleTo(to) {
+    scale.setDomainTo(to + timeOffset);
+    axisConfig = getAxisConfig(scale.getDomainTo() - scale.getDomainFrom());
+    realtimeDrawStream.emit(changeSignal);
+  }
 
   function resize() {
     width = container.clientWidth;
