@@ -34,6 +34,15 @@ export default React.createClass({
     this.renderer.dispose();
   },
 
+  componentDidUpdate() {
+    this.renderer.dispose();
+    this.renderer = createTimelineRenderer({
+      container: this.refs.container,
+      canvas: this.refs.canvas,
+      incidentId: this.props.event.get('id')
+    });
+  },
+
   render() {
     return (
       <Section>
