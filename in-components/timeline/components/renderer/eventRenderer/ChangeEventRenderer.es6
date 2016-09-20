@@ -4,8 +4,8 @@ import {getColorForEvent} from 'in-services/issueTracker';
 
 export default class ChangeEventRenderer extends BasicEventRenderer {
 
-  constructor(backBuffer, scale, iconSize) {
-    super(backBuffer, scale, 111, iconSize);
+  constructor(backBuffer, scale, iconSize, yOffset = 111) {
+    super(backBuffer, scale, yOffset, iconSize);
   }
 
   draw(event, isHighlighted) {
