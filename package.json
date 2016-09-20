@@ -58,6 +58,7 @@
     "react-router": "^2.8.0",
     "reactive-observables": "^1.32.0",
     "roemitter": "^2.0.0",
+    "semver": "5.3.0",
     "socket.io-client": "1.4.8",
     "three": "^0.81.0",
     "tween.js": "^15.0.0"

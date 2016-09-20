@@ -90,11 +90,7 @@ export default function NodejsDashboard({snapshot, timeframe}) {
         {renderEventLoopMetrics(snapshot, timeframe)}
       </DashboardSection>
 
-      {__DEV__ ?
-        <DashboardSection title='CPU Profiling'>
-          <CpuProfiler snapshot={snapshot} />
-        </DashboardSection>
-      : null}
+      <CpuProfiler snapshot={snapshot} />
 
       <HttpServersTable snapshot={snapshot}
                         timeframe={timeframe} />
