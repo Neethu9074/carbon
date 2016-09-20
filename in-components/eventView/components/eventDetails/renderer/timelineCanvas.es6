@@ -10,10 +10,11 @@ import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpda
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {highlightedEvent$} from 'in-stores/events';
+import {getEvent} from 'in-services/issueTracker';
 import createScale from 'in-charts/scale';
 
 
-export default function createTimelineRenderer({container, canvas}) {
+export default function createTimelineRenderer({container, canvas, incidentId}) {
   const changeSignal = true;
   const height = 112;
   let width;
@@ -31,7 +32,7 @@ export default function createTimelineRenderer({container, canvas}) {
   scale.setDomainFrom(Date.now() - 1000 * 60 * 60);
   scale.setDomainTo(Date.now());
 
-  const axisConfig = getAxisConfig(1000 * 60 * 60);
+  let axisConfig = getAxisConfig(1000 * 60 * 60);
 
   realtimeDrawStream.emit(changeSignal);
 
@@ -40,6 +41,20 @@ export default function createTimelineRenderer({container, canvas}) {
   const highlightedMomentRenderer = new HighlightedMomentRenderer(screenBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(screenBuffer, scale, height);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
+
+  const incidentSubscription = getEvent(incidentId).subscribe(event => {
+    if (event) {
+      const timeoffset = 1000 * 10;
+      const start = event.get('start') - timeoffset;
+      // TODO: replace with servertime
+      const end = event.get('end', Date.now()) + timeoffset;
+
+      scale.setDomainFrom(start);
+      scale.setDomainTo(end);
+
+      axisConfig = getAxisConfig(end - start);
+    }
+  });
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
@@ -89,6 +104,7 @@ export default function createTimelineRenderer({container, canvas}) {
   function dispose() {
     mouseEvents.dispose();
 
+    incidentSubscription.dispose();
     realtimeUpdateEvents.dispose();
     highlightedEventIdSubscription.dispose();
     highlightedMomentRenderer.dispose();

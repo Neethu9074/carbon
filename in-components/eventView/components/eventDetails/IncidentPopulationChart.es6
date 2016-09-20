@@ -25,7 +25,8 @@ export default React.createClass({
   componentDidMount() {
     this.renderer = createTimelineRenderer({
       container: this.refs.container,
-      canvas: this.refs.canvas
+      canvas: this.refs.canvas,
+      incidentId: this.props.event.get('id')
     });
   },
 
