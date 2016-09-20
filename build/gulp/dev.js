@@ -172,6 +172,12 @@ gulp.task('askForDevOptions', cb => {
     },
     {
       type: 'confirm',
+      name: 'withMonitoring',
+      message: 'Run with Instana Node.js sensor?',
+      default: false
+    },
+    {
+      type: 'confirm',
       name: 'withDashboard',
       message: 'Use dashboard in dev mode?',
       default: true
@@ -179,6 +185,14 @@ gulp.task('askForDevOptions', cb => {
   ];
 
   inquirer.prompt(questions, (selectedOptions) => {
+    if (selectedOptions.withMonitoring) {
+      require('instana-nodejs-sensor')({
+        tracing: {
+          enabled: true
+        }
+      });
+    }
+
     // no premade target selected, we need to build it up!
     if (selectedOptions.target.groundskeeperUrl == null) {
       selectedOptions.target = {
