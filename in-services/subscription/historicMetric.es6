@@ -20,7 +20,9 @@ export default createSubscription(
   },
 
   // data transformation on onData
-  v => v
+  v => v,
+
+  100
 );
 
 function getId({snapshotId, metric, time, aggregation, rollup}) {

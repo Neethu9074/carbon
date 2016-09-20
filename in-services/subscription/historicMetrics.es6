@@ -25,7 +25,9 @@ export default createSubscription(
       dataPoints[i].time = dataPoints[i][0];
     }
     return dataPoints;
-  }
+  },
+
+  100
 );
 
 function getId({snapshotId, metric, timeframe, aggregation, rollup}) {
