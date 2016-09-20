@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {eventFilter$, FILTER} from 'in-components/eventView/stores/eventFilterStore';
+import {shedEventList$} from 'in-components/eventView/stores/shedEventListStore';
 import EventTableRow from 'in-components/eventView/components/EventTableRow';
-import {events$} from 'in-components/eventView/stores/eventsStore';
+import {isLoading$} from 'in-components/eventView/stores/isLoadingStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,8 +13,9 @@ import './EventTable.less';
 const block = 'in-event-view-event-table';
 
 export default connectTo({
-  events: events$,
-  eventFilter: eventFilter$
+  events: shedEventList$,
+  eventFilter: eventFilter$,
+  isInfiniteLoading: isLoading$
 },
 function EventTable({events, eventFilter}) {
   if (!events) {
