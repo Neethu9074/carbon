@@ -32,7 +32,7 @@ export default connectTo({
         </DashboardNotification>
       : null}
 
-      {lastProfilingResult && typeof lastProfilingResult.data !== 'string' ?
+      {lastProfilingResult && typeof lastProfilingResult.data === 'object' ?
         <ResultTable result={lastProfilingResult.data} />
       : null}
     </div>
