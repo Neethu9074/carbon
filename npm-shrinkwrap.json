@@ -62,6 +62,11 @@
       "from": "anymatch@>=1.3.0 <2.0.0",
       "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/anymatch/-/anymatch-1.3.0.tgz"
     },
+    "aproba": {
+      "version": "1.0.4",
+      "from": "aproba@>=1.0.3 <2.0.0",
+      "resolved": "https://registry.npmjs.org/aproba/-/aproba-1.0.4.tgz"
+    },
     "archive-type": {
       "version": "3.2.0",
       "from": "archive-type@>=3.0.1 <4.0.0",
@@ -71,6 +76,11 @@
       "version": "1.0.0",
       "from": "archy@>=1.0.0 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/archy/-/archy-1.0.0.tgz"
+    },
+    "are-we-there-yet": {
+      "version": "1.1.2",
+      "from": "are-we-there-yet@>=1.1.2 <1.2.0",
+      "resolved": "https://registry.npmjs.org/are-we-there-yet/-/are-we-there-yet-1.1.2.tgz"
     },
     "argparse": {
       "version": "1.0.7",
@@ -176,6 +186,16 @@
       "version": "1.1.0",
       "from": "async-each-series@>=1.1.0 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async-each-series/-/async-each-series-1.1.0.tgz"
+    },
+    "async-hook": {
+      "version": "1.6.0",
+      "from": "async-hook@1.6.0",
+      "resolved": "https://registry.npmjs.org/async-hook/-/async-hook-1.6.0.tgz"
+    },
+    "asynckit": {
+      "version": "0.4.0",
+      "from": "asynckit@>=0.4.0 <0.5.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/asynckit/-/asynckit-0.4.0.tgz"
     },
     "autoprefixer": {
       "version": "6.3.6",
@@ -712,9 +732,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babel-types/-/babel-types-6.15.0.tgz"
     },
     "babylon": {
-      "version": "6.9.2",
+      "version": "6.10.0",
       "from": "babylon@>=6.9.0 <7.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babylon/-/babylon-6.9.2.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/babylon/-/babylon-6.10.0.tgz"
     },
     "backo2": {
       "version": "1.0.2",
@@ -801,7 +821,14 @@
     "bin-version-check": {
       "version": "2.1.0",
       "from": "bin-version-check@>=2.1.0 <3.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/bin-version-check/-/bin-version-check-2.1.0.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/bin-version-check/-/bin-version-check-2.1.0.tgz",
+      "dependencies": {
+        "semver": {
+          "version": "4.3.6",
+          "from": "semver@>=4.0.3 <5.0.0",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-4.3.6.tgz"
+        }
+      }
     },
     "bin-wrapper": {
       "version": "3.0.2",
@@ -839,6 +866,11 @@
       "version": "0.0.4",
       "from": "blob@0.0.4",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/blob/-/blob-0.0.4.tgz"
+    },
+    "block-stream": {
+      "version": "0.0.9",
+      "from": "block-stream@*",
+      "resolved": "https://registry.npmjs.org/block-stream/-/block-stream-0.0.9.tgz"
     },
     "bluebird": {
       "version": "3.4.6",
@@ -929,6 +961,11 @@
       "from": "builtin-modules@>=1.0.0 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/builtin-modules/-/builtin-modules-1.1.1.tgz"
     },
+    "bunyan": {
+      "version": "1.8.1",
+      "from": "bunyan@>=1.5.1 <2.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/bunyan/-/bunyan-1.8.1.tgz"
+    },
     "bytes": {
       "version": "2.3.0",
       "from": "bytes@2.3.0",
@@ -955,9 +992,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000529",
+      "version": "1.0.30000534",
       "from": "caniuse-db@>=1.0.30000444 <2.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/caniuse-db/-/caniuse-db-1.0.30000529.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/caniuse-db/-/caniuse-db-1.0.30000534.tgz"
     },
     "capture-stack-trace": {
       "version": "1.0.0",
@@ -1255,6 +1292,11 @@
       "from": "console-browserify@>=1.1.0 <1.2.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/console-browserify/-/console-browserify-1.1.0.tgz"
     },
+    "console-control-strings": {
+      "version": "1.1.0",
+      "from": "console-control-strings@>=1.1.0 <1.2.0",
+      "resolved": "https://registry.npmjs.org/console-control-strings/-/console-control-strings-1.1.0.tgz"
+    },
     "console-stream": {
       "version": "0.1.1",
       "from": "console-stream@>=0.1.1 <0.2.0",
@@ -1311,21 +1353,9 @@
       "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz"
     },
     "coveralls": {
-      "version": "2.11.12",
+      "version": "2.11.14",
       "from": "coveralls@>=2.11.2 <3.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/coveralls/-/coveralls-2.11.12.tgz",
-      "dependencies": {
-        "argparse": {
-          "version": "0.1.16",
-          "from": "argparse@>=0.1.11 <0.2.0",
-          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/argparse/-/argparse-0.1.16.tgz"
-        },
-        "js-yaml": {
-          "version": "3.0.1",
-          "from": "js-yaml@3.0.1",
-          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/js-yaml/-/js-yaml-3.0.1.tgz"
-        }
-      }
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/coveralls/-/coveralls-2.11.14.tgz"
     },
     "create-error-class": {
       "version": "3.0.2",
@@ -1382,14 +1412,14 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cssesc/-/cssesc-0.1.0.tgz"
     },
     "cssnano": {
-      "version": "3.7.4",
+      "version": "3.7.5",
       "from": "cssnano@>=2.6.1 <4.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cssnano/-/cssnano-3.7.4.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/cssnano/-/cssnano-3.7.5.tgz"
     },
     "csso": {
-      "version": "2.0.0",
-      "from": "csso@>=2.0.0 <2.1.0",
-      "resolved": "https://registry.npmjs.org/csso/-/csso-2.0.0.tgz"
+      "version": "2.2.1",
+      "from": "csso@>=2.2.1 <2.3.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/csso/-/csso-2.2.1.tgz"
     },
     "cssom": {
       "version": "0.3.1",
@@ -1729,6 +1759,11 @@
       "from": "delayed-stream@>=1.0.0 <1.1.0",
       "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/delayed-stream/-/delayed-stream-1.0.0.tgz"
     },
+    "delegates": {
+      "version": "1.0.0",
+      "from": "delegates@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/delegates/-/delegates-1.0.0.tgz"
+    },
     "depd": {
       "version": "1.1.0",
       "from": "depd@>=1.1.0 <1.2.0",
@@ -1908,6 +1943,11 @@
           "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/vinyl-fs/-/vinyl-fs-2.4.3.tgz"
         }
       }
+    },
+    "dtrace-provider": {
+      "version": "0.6.0",
+      "from": "dtrace-provider@>=0.6.0 <0.7.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/dtrace-provider/-/dtrace-provider-0.6.0.tgz"
     },
     "duplexer": {
       "version": "0.1.1",
@@ -2110,9 +2150,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/escope/-/escope-3.6.0.tgz"
     },
     "esprima": {
-      "version": "1.0.4",
-      "from": "esprima@>=1.0.2 <1.1.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/esprima/-/esprima-1.0.4.tgz"
+      "version": "2.7.3",
+      "from": "esprima@>=2.6.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/esprima/-/esprima-2.7.3.tgz"
     },
     "esrecurse": {
       "version": "4.1.0",
@@ -2150,6 +2190,28 @@
       "version": "0.3.4",
       "from": "event-emitter@>=0.3.4 <0.4.0",
       "resolved": "https://registry.npmjs.org/event-emitter/-/event-emitter-0.3.4.tgz"
+    },
+    "event-loop-lag": {
+      "version": "1.1.0",
+      "from": "event-loop-lag@1.1.0",
+      "resolved": "https://registry.npmjs.org/event-loop-lag/-/event-loop-lag-1.1.0.tgz",
+      "dependencies": {
+        "debug": {
+          "version": "1.0.4",
+          "from": "debug@1.0.4",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/debug/-/debug-1.0.4.tgz"
+        },
+        "ms": {
+          "version": "0.6.2",
+          "from": "ms@0.6.2",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ms/-/ms-0.6.2.tgz"
+        }
+      }
+    },
+    "event-loop-stats": {
+      "version": "1.0.0",
+      "from": "event-loop-stats@1.0.0",
+      "resolved": "https://registry.npmjs.org/event-loop-stats/-/event-loop-stats-1.0.0.tgz"
     },
     "eventemitter3": {
       "version": "1.2.0",
@@ -2418,9 +2480,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/flatten/-/flatten-1.0.2.tgz"
     },
     "for-in": {
-      "version": "0.1.5",
+      "version": "0.1.6",
       "from": "for-in@>=0.1.5 <0.2.0",
-      "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/for-in/-/for-in-0.1.5.tgz"
+      "resolved": "https://registry.npmjs.org/for-in/-/for-in-0.1.6.tgz"
     },
     "for-own": {
       "version": "0.1.4",
@@ -2438,16 +2500,9 @@
       "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/forever-agent/-/forever-agent-0.6.1.tgz"
     },
     "form-data": {
-      "version": "1.0.1",
-      "from": "form-data@>=1.0.0-rc4 <1.1.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/form-data/-/form-data-1.0.1.tgz",
-      "dependencies": {
-        "async": {
-          "version": "2.0.1",
-          "from": "async@>=2.0.1 <3.0.0",
-          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/async/-/async-2.0.1.tgz"
-        }
-      }
+      "version": "2.0.0",
+      "from": "form-data@>=2.0.0 <2.1.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/form-data/-/form-data-2.0.0.tgz"
     },
     "formatio": {
       "version": "1.1.1",
@@ -3091,15 +3146,42 @@
         }
       }
     },
+    "fstream": {
+      "version": "1.0.10",
+      "from": "fstream@>=1.0.2 <2.0.0",
+      "resolved": "https://registry.npmjs.org/fstream/-/fstream-1.0.10.tgz"
+    },
+    "fstream-ignore": {
+      "version": "1.0.5",
+      "from": "fstream-ignore@>=1.0.5 <1.1.0",
+      "resolved": "https://registry.npmjs.org/fstream-ignore/-/fstream-ignore-1.0.5.tgz",
+      "dependencies": {
+        "minimatch": {
+          "version": "3.0.3",
+          "from": "minimatch@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.0.3.tgz"
+        }
+      }
+    },
     "function-bind": {
       "version": "1.1.0",
       "from": "function-bind@>=1.0.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.0.tgz"
     },
+    "gauge": {
+      "version": "2.6.0",
+      "from": "gauge@>=2.6.0 <2.7.0",
+      "resolved": "https://registry.npmjs.org/gauge/-/gauge-2.6.0.tgz"
+    },
     "gaze": {
       "version": "0.5.2",
       "from": "gaze@>=0.5.1 <0.6.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/gaze/-/gaze-0.5.2.tgz"
+    },
+    "gcstats.js": {
+      "version": "1.0.0",
+      "from": "gcstats.js@1.0.0",
+      "resolved": "https://registry.npmjs.org/gcstats.js/-/gcstats.js-1.0.0.tgz"
     },
     "generate-function": {
       "version": "2.0.0",
@@ -3299,7 +3381,14 @@
     "gulp": {
       "version": "3.9.1",
       "from": "gulp@>=3.8.7 <4.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/gulp/-/gulp-3.9.1.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/gulp/-/gulp-3.9.1.tgz",
+      "dependencies": {
+        "semver": {
+          "version": "4.3.6",
+          "from": "semver@>=4.1.0 <5.0.0",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-4.3.6.tgz"
+        }
+      }
     },
     "gulp-concat": {
       "version": "2.6.0",
@@ -3506,7 +3595,7 @@
     },
     "has-color": {
       "version": "0.1.7",
-      "from": "has-color@>=0.1.0 <0.2.0",
+      "from": "has-color@>=0.1.7 <0.2.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/has-color/-/has-color-0.1.7.tgz"
     },
     "has-cors": {
@@ -3523,6 +3612,11 @@
       "version": "0.1.0",
       "from": "has-gulplog@>=0.1.0 <0.2.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/has-gulplog/-/has-gulplog-0.1.0.tgz"
+    },
+    "has-unicode": {
+      "version": "2.0.1",
+      "from": "has-unicode@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/has-unicode/-/has-unicode-2.0.1.tgz"
     },
     "hawk": {
       "version": "3.1.3",
@@ -3628,9 +3722,9 @@
       }
     },
     "http-proxy": {
-      "version": "1.15.0",
+      "version": "1.15.1",
       "from": "http-proxy@>=1.14.0 <2.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/http-proxy/-/http-proxy-1.15.0.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/http-proxy/-/http-proxy-1.15.1.tgz"
     },
     "http-proxy-middleware": {
       "version": "0.17.1",
@@ -3795,10 +3889,20 @@
       "from": "imagemin-svgo@>=4.0.0 <5.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/imagemin-svgo/-/imagemin-svgo-4.2.1.tgz",
       "dependencies": {
+        "csso": {
+          "version": "2.0.0",
+          "from": "csso@>=2.0.0 <2.1.0",
+          "resolved": "https://registry.npmjs.org/csso/-/csso-2.0.0.tgz"
+        },
         "is-svg": {
           "version": "1.1.1",
           "from": "is-svg@>=1.0.0 <2.0.0",
           "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-svg/-/is-svg-1.1.1.tgz"
+        },
+        "svgo": {
+          "version": "0.6.6",
+          "from": "svgo@>=0.6.0 <0.7.0",
+          "resolved": "https://registry.npmjs.org/svgo/-/svgo-0.6.6.tgz"
         }
       }
     },
@@ -4114,9 +4218,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-lower-case/-/is-lower-case-1.1.3.tgz"
     },
     "is-my-json-valid": {
-      "version": "2.13.1",
+      "version": "2.14.0",
       "from": "is-my-json-valid@>=2.12.4 <3.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-my-json-valid/-/is-my-json-valid-2.13.1.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/is-my-json-valid/-/is-my-json-valid-2.14.0.tgz"
     },
     "is-natural-number": {
       "version": "2.1.1",
@@ -4335,14 +4439,7 @@
     "js-yaml": {
       "version": "3.6.1",
       "from": "js-yaml@>=3.3.1 <4.0.0",
-      "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.6.1.tgz",
-      "dependencies": {
-        "esprima": {
-          "version": "2.7.3",
-          "from": "esprima@>=2.6.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/esprima/-/esprima-2.7.3.tgz"
-        }
-      }
+      "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.6.1.tgz"
     },
     "jsbn": {
       "version": "0.1.0",
@@ -4424,9 +4521,9 @@
       "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/json5/-/json5-0.4.0.tgz"
     },
     "jsonfile": {
-      "version": "2.3.1",
+      "version": "2.4.0",
       "from": "jsonfile@>=2.1.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-2.3.1.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/jsonfile/-/jsonfile-2.4.0.tgz"
     },
     "jsonify": {
       "version": "0.0.0",
@@ -4506,9 +4603,9 @@
       "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/lcid/-/lcid-1.0.0.tgz"
     },
     "lcov-parse": {
-      "version": "0.0.6",
-      "from": "lcov-parse@0.0.6",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lcov-parse/-/lcov-parse-0.0.6.tgz"
+      "version": "0.0.10",
+      "from": "lcov-parse@0.0.10",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lcov-parse/-/lcov-parse-0.0.10.tgz"
     },
     "leven": {
       "version": "1.0.2",
@@ -4541,9 +4638,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/load-json-file/-/load-json-file-1.1.0.tgz"
     },
     "loader-utils": {
-      "version": "0.2.15",
+      "version": "0.2.16",
       "from": "loader-utils@>=0.2.11 <0.3.0",
-      "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.15.tgz",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/loader-utils/-/loader-utils-0.2.16.tgz",
       "dependencies": {
         "json5": {
           "version": "0.5.0",
@@ -4553,9 +4650,9 @@
       }
     },
     "lodash": {
-      "version": "4.15.0",
+      "version": "4.16.0",
       "from": "lodash@>=4.15.0 <5.0.0",
-      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.15.0.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lodash/-/lodash-4.16.0.tgz"
     },
     "lodash._arraycopy": {
       "version": "3.0.0",
@@ -4812,9 +4909,9 @@
       "resolved": "https://registry.npmjs.org/lodash.toplainobject/-/lodash.toplainobject-3.0.0.tgz"
     },
     "log-driver": {
-      "version": "1.2.4",
-      "from": "log-driver@1.2.4",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/log-driver/-/log-driver-1.2.4.tgz"
+      "version": "1.2.5",
+      "from": "log-driver@1.2.5",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/log-driver/-/log-driver-1.2.5.tgz"
     },
     "log-symbols": {
       "version": "1.0.2",
@@ -4975,11 +5072,6 @@
       "from": "meta-marked@0.4.2",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/meta-marked/-/meta-marked-0.4.2.tgz",
       "dependencies": {
-        "esprima": {
-          "version": "2.7.3",
-          "from": "esprima@>=2.6.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/esprima/-/esprima-2.7.3.tgz"
-        },
         "js-yaml": {
           "version": "3.5.5",
           "from": "js-yaml@>=3.5.5 <3.6.0",
@@ -5003,14 +5095,14 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mime/-/mime-1.3.4.tgz"
     },
     "mime-db": {
-      "version": "1.23.0",
-      "from": "mime-db@>=1.23.0 <1.24.0",
-      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.23.0.tgz"
+      "version": "1.24.0",
+      "from": "mime-db@>=1.24.0 <1.25.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mime-db/-/mime-db-1.24.0.tgz"
     },
     "mime-types": {
-      "version": "2.1.11",
+      "version": "2.1.12",
       "from": "mime-types@>=2.1.7 <2.2.0",
-      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.11.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mime-types/-/mime-types-2.1.12.tgz"
     },
     "minimatch": {
       "version": "2.0.10",
@@ -5059,6 +5151,23 @@
       "from": "mute-stream@0.0.5",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mute-stream/-/mute-stream-0.0.5.tgz"
     },
+    "mv": {
+      "version": "2.1.1",
+      "from": "mv@>=2.0.0 <3.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/mv/-/mv-2.1.1.tgz",
+      "dependencies": {
+        "glob": {
+          "version": "6.0.4",
+          "from": "glob@>=6.0.1 <7.0.0",
+          "resolved": "https://registry.npmjs.org/glob/-/glob-6.0.4.tgz"
+        },
+        "rimraf": {
+          "version": "2.4.5",
+          "from": "rimraf@>=2.4.0 <2.5.0",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/rimraf/-/rimraf-2.4.5.tgz"
+        }
+      }
+    },
     "nan": {
       "version": "2.4.0",
       "from": "nan@>=2.3.0 <3.0.0",
@@ -5075,9 +5184,9 @@
       "resolved": "https://registry.npmjs.org/natural-compare/-/natural-compare-1.2.2.tgz"
     },
     "ncp": {
-      "version": "0.4.2",
-      "from": "ncp@>=0.4.0 <0.5.0",
-      "resolved": "https://registry.npmjs.org/ncp/-/ncp-0.4.2.tgz"
+      "version": "2.0.0",
+      "from": "ncp@>=2.0.0 <2.1.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/ncp/-/ncp-2.0.0.tgz"
     },
     "negotiator": {
       "version": "0.6.1",
@@ -5093,6 +5202,11 @@
       "version": "1.6.1",
       "from": "node-fetch@>=1.0.1 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/node-fetch/-/node-fetch-1.6.1.tgz"
+    },
+    "node-pre-gyp": {
+      "version": "0.6.30",
+      "from": "node-pre-gyp@>=0.6.5 <0.7.0",
+      "resolved": "https://registry.npmjs.org/node-pre-gyp/-/node-pre-gyp-0.6.30.tgz"
     },
     "node-status-codes": {
       "version": "1.0.0",
@@ -5128,18 +5242,13 @@
           "version": "0.1.1",
           "from": "strip-ansi@>=0.1.0 <0.2.0",
           "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/strip-ansi/-/strip-ansi-0.1.1.tgz"
-        },
-        "underscore": {
-          "version": "1.6.0",
-          "from": "underscore@>=1.6.0 <1.7.0",
-          "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.6.0.tgz"
         }
       }
     },
     "nopt": {
-      "version": "2.2.1",
-      "from": "nopt@>=2.2.0 <3.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/nopt/-/nopt-2.2.1.tgz"
+      "version": "3.0.6",
+      "from": "nopt@>=3.0.1 <3.1.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/nopt/-/nopt-3.0.6.tgz"
     },
     "normalize-package-data": {
       "version": "2.3.5",
@@ -7620,8 +7729,18 @@
               "from": "write-file-atomic@>=1.1.4 <1.2.0"
             }
           }
+        },
+        "semver": {
+          "version": "4.3.6",
+          "from": "semver@>=4.1.0 <5.0.0",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-4.3.6.tgz"
         }
       }
+    },
+    "npmlog": {
+      "version": "4.0.0",
+      "from": "npmlog@>=4.0.0 <5.0.0",
+      "resolved": "https://registry.npmjs.org/npmlog/-/npmlog-4.0.0.tgz"
     },
     "num2fraction": {
       "version": "1.2.2",
@@ -8917,9 +9036,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-calc/-/postcss-calc-5.3.1.tgz"
     },
     "postcss-colormin": {
-      "version": "2.2.0",
+      "version": "2.2.1",
       "from": "postcss-colormin@>=2.1.8 <3.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-colormin/-/postcss-colormin-2.2.0.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-colormin/-/postcss-colormin-2.2.1.tgz"
     },
     "postcss-convert-values": {
       "version": "2.4.0",
@@ -9047,9 +9166,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-selector-parser/-/postcss-selector-parser-2.2.1.tgz"
     },
     "postcss-svgo": {
-      "version": "2.1.4",
+      "version": "2.1.5",
       "from": "postcss-svgo@>=2.1.1 <3.0.0",
-      "resolved": "https://registry.npmjs.org/postcss-svgo/-/postcss-svgo-2.1.4.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/postcss-svgo/-/postcss-svgo-2.1.5.tgz"
     },
     "postcss-unique-selectors": {
       "version": "2.0.2",
@@ -9209,9 +9328,9 @@
       }
     },
     "react": {
-      "version": "15.3.1",
+      "version": "15.3.2",
       "from": "react@>=15.3.1 <16.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react/-/react-15.3.1.tgz",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react/-/react-15.3.2.tgz",
       "dependencies": {
         "fbjs": {
           "version": "0.8.4",
@@ -9226,9 +9345,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-addons-perf/-/react-addons-perf-15.3.1.tgz"
     },
     "react-addons-pure-render-mixin": {
-      "version": "15.3.1",
+      "version": "15.3.2",
       "from": "react-addons-pure-render-mixin@>=15.3.1 <16.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-addons-pure-render-mixin/-/react-addons-pure-render-mixin-15.3.1.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-addons-pure-render-mixin/-/react-addons-pure-render-mixin-15.3.2.tgz"
     },
     "react-day-picker": {
       "version": "2.4.1",
@@ -9236,9 +9355,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-day-picker/-/react-day-picker-2.4.1.tgz"
     },
     "react-dom": {
-      "version": "15.3.1",
+      "version": "15.3.2",
       "from": "react-dom@>=15.3.1 <16.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-dom/-/react-dom-15.3.1.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-dom/-/react-dom-15.3.2.tgz"
     },
     "react-immutable-proptypes": {
       "version": "2.1.0",
@@ -9308,6 +9427,11 @@
           "version": "3.0.11",
           "from": "graceful-fs@>=2.0.0 <3.0.0||>=3.0.0 <4.0.0",
           "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/graceful-fs/-/graceful-fs-3.0.11.tgz"
+        },
+        "semver": {
+          "version": "4.3.6",
+          "from": "semver@>=2.0.0 <3.0.0||>=3.0.0 <4.0.0||>=4.0.0 <5.0.0",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-4.3.6.tgz"
         }
       }
     },
@@ -9330,6 +9454,11 @@
           "version": "1.0.3",
           "from": "normalize-package-data@>=1.0.0 <2.0.0",
           "resolved": "https://registry.npmjs.org/normalize-package-data/-/normalize-package-data-1.0.3.tgz"
+        },
+        "semver": {
+          "version": "4.3.6",
+          "from": "semver@>=2.0.0 <3.0.0||>=3.0.0 <4.0.0||>=4.0.0 <5.0.0",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-4.3.6.tgz"
         }
       }
     },
@@ -9449,14 +9578,7 @@
     "regexpu": {
       "version": "1.3.0",
       "from": "regexpu@>=1.3.0 <2.0.0",
-      "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/regexpu/-/regexpu-1.3.0.tgz",
-      "dependencies": {
-        "esprima": {
-          "version": "2.7.3",
-          "from": "esprima@>=2.6.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/esprima/-/esprima-2.7.3.tgz"
-        }
-      }
+      "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/regexpu/-/regexpu-1.3.0.tgz"
     },
     "regexpu-core": {
       "version": "2.0.0",
@@ -9504,9 +9626,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/replace-ext/-/replace-ext-0.0.1.tgz"
     },
     "request": {
-      "version": "2.74.0",
-      "from": "request@2.74.0",
-      "resolved": "https://registry.npmjs.org/request/-/request-2.74.0.tgz",
+      "version": "2.75.0",
+      "from": "request@2.75.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/request/-/request-2.75.0.tgz",
       "dependencies": {
         "bl": {
           "version": "1.1.2",
@@ -9602,6 +9724,11 @@
       "from": "rx-lite@>=3.1.2 <4.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/rx-lite/-/rx-lite-3.1.2.tgz"
     },
+    "safe-json-stringify": {
+      "version": "1.0.3",
+      "from": "safe-json-stringify@>=1.0.0 <2.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/safe-json-stringify/-/safe-json-stringify-1.0.3.tgz"
+    },
     "samsam": {
       "version": "1.1.2",
       "from": "samsam@1.1.2",
@@ -9625,21 +9752,14 @@
       }
     },
     "semver": {
-      "version": "4.3.6",
-      "from": "semver@>=4.1.0 <5.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-4.3.6.tgz"
+      "version": "5.3.0",
+      "from": "semver@5.3.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-5.3.0.tgz"
     },
     "semver-diff": {
       "version": "2.1.0",
       "from": "semver-diff@>=2.0.0 <3.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver-diff/-/semver-diff-2.1.0.tgz",
-      "dependencies": {
-        "semver": {
-          "version": "5.3.0",
-          "from": "semver@>=5.0.3 <6.0.0",
-          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-5.3.0.tgz"
-        }
-      }
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver-diff/-/semver-diff-2.1.0.tgz"
     },
     "semver-regex": {
       "version": "1.0.0",
@@ -9649,14 +9769,7 @@
     "semver-truncate": {
       "version": "1.1.2",
       "from": "semver-truncate@>=1.0.0 <2.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver-truncate/-/semver-truncate-1.1.2.tgz",
-      "dependencies": {
-        "semver": {
-          "version": "5.3.0",
-          "from": "semver@>=5.3.0 <6.0.0",
-          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver/-/semver-5.3.0.tgz"
-        }
-      }
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/semver-truncate/-/semver-truncate-1.1.2.tgz"
     },
     "semver-utils": {
       "version": "1.1.1",
@@ -9687,6 +9800,11 @@
       "version": "1.11.1",
       "from": "serve-static@>=1.11.1 <1.12.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/serve-static/-/serve-static-1.11.1.tgz"
+    },
+    "set-blocking": {
+      "version": "2.0.0",
+      "from": "set-blocking@>=2.0.0 <2.1.0",
+      "resolved": "https://registry.npmjs.org/set-blocking/-/set-blocking-2.0.0.tgz"
     },
     "set-immediate-shim": {
       "version": "1.0.1",
@@ -9905,6 +10023,11 @@
       "from": "stable@>=0.1.3 <0.2.0",
       "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/stable/-/stable-0.1.5.tgz"
     },
+    "stack-chain": {
+      "version": "1.3.7",
+      "from": "stack-chain@>=1.3.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/stack-chain/-/stack-chain-1.3.7.tgz"
+    },
     "stack-trace": {
       "version": "0.0.9",
       "from": "stack-trace@>=0.0.0 <0.1.0",
@@ -10075,9 +10198,9 @@
       "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-2.0.0.tgz"
     },
     "svgo": {
-      "version": "0.6.6",
-      "from": "svgo@>=0.6.1 <0.7.0",
-      "resolved": "https://registry.npmjs.org/svgo/-/svgo-0.6.6.tgz"
+      "version": "0.7.0",
+      "from": "svgo@>=0.7.0 <0.8.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/svgo/-/svgo-0.7.0.tgz"
     },
     "swap-case": {
       "version": "1.1.2",
@@ -10159,6 +10282,28 @@
       "version": "0.1.10",
       "from": "tapable@>=0.1.8 <0.2.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/tapable/-/tapable-0.1.10.tgz"
+    },
+    "tar": {
+      "version": "2.2.1",
+      "from": "tar@>=2.2.0 <2.3.0",
+      "resolved": "https://registry.npmjs.org/tar/-/tar-2.2.1.tgz"
+    },
+    "tar-pack": {
+      "version": "3.1.4",
+      "from": "tar-pack@>=3.1.0 <3.2.0",
+      "resolved": "https://registry.npmjs.org/tar-pack/-/tar-pack-3.1.4.tgz",
+      "dependencies": {
+        "isarray": {
+          "version": "1.0.0",
+          "from": "isarray@>=1.0.0 <1.1.0",
+          "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/isarray/-/isarray-1.0.0.tgz"
+        },
+        "readable-stream": {
+          "version": "2.1.5",
+          "from": "readable-stream@>=2.1.4 <2.2.0",
+          "resolved": "http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/readable-stream/-/readable-stream-2.1.5.tgz"
+        }
+      }
     },
     "tar-stream": {
       "version": "1.5.2",
@@ -10394,9 +10539,9 @@
       "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.10.tgz"
     },
     "uc.micro": {
-      "version": "1.0.2",
+      "version": "1.0.3",
       "from": "uc.micro@>=1.0.1 <2.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uc.micro/-/uc.micro-1.0.2.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uc.micro/-/uc.micro-1.0.3.tgz"
     },
     "uglify-js": {
       "version": "2.4.6",
@@ -10415,6 +10560,11 @@
       "from": "uglify-to-browserify@>=1.0.0 <1.1.0",
       "resolved": "https://registry.npmjs.org/uglify-to-browserify/-/uglify-to-browserify-1.0.2.tgz"
     },
+    "uid-number": {
+      "version": "0.0.6",
+      "from": "uid-number@>=0.0.6 <0.1.0",
+      "resolved": "https://registry.npmjs.org/uid-number/-/uid-number-0.0.6.tgz"
+    },
     "ultron": {
       "version": "1.0.2",
       "from": "ultron@>=1.0.0 <1.1.0",
@@ -10426,14 +10576,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/unc-path-regex/-/unc-path-regex-0.1.2.tgz"
     },
     "underscore": {
-      "version": "1.7.0",
-      "from": "underscore@>=1.7.0 <1.8.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/underscore/-/underscore-1.7.0.tgz"
-    },
-    "underscore.string": {
-      "version": "2.4.0",
-      "from": "underscore.string@>=2.4.0 <2.5.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/underscore.string/-/underscore.string-2.4.0.tgz"
+      "version": "1.6.0",
+      "from": "underscore@>=1.6.0 <1.7.0",
+      "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.6.0.tgz"
     },
     "unicode-length": {
       "version": "1.0.3",
@@ -10554,7 +10699,14 @@
     "utile": {
       "version": "0.2.1",
       "from": "utile@>=0.2.0 <0.3.0",
-      "resolved": "https://registry.npmjs.org/utile/-/utile-0.2.1.tgz"
+      "resolved": "https://registry.npmjs.org/utile/-/utile-0.2.1.tgz",
+      "dependencies": {
+        "ncp": {
+          "version": "0.4.2",
+          "from": "ncp@>=0.4.0 <0.5.0",
+          "resolved": "https://registry.npmjs.org/ncp/-/ncp-0.4.2.tgz"
+        }
+      }
     },
     "utils-merge": {
       "version": "1.0.0",
@@ -10562,9 +10714,14 @@
       "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.0.tgz"
     },
     "uuid": {
-      "version": "2.0.2",
+      "version": "2.0.3",
       "from": "uuid@>=2.0.1 <3.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uuid/-/uuid-2.0.2.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uuid/-/uuid-2.0.3.tgz"
+    },
+    "v8-profiler": {
+      "version": "5.6.5",
+      "from": "v8-profiler@5.6.5",
+      "resolved": "https://registry.npmjs.org/v8-profiler/-/v8-profiler-5.6.5.tgz"
     },
     "v8flags": {
       "version": "2.0.11",
@@ -10848,6 +11005,11 @@
       "version": "1.2.11",
       "from": "which@>=1.2.10 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/which/-/which-1.2.11.tgz"
+    },
+    "wide-align": {
+      "version": "1.1.0",
+      "from": "wide-align@>=1.1.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/wide-align/-/wide-align-1.1.0.tgz"
     },
     "window-size": {
       "version": "0.1.0",
