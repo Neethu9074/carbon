@@ -20,3 +20,17 @@ export function toggleExpandedNode(nodeId) {
 export function clearExpansionState() {
   expandedNodesStore.mutateTo({});
 }
+
+export function collapseNode(nodeId) {
+  expandedNodesStore.applyStateMutation(expanded => {
+    delete expanded[nodeId];
+    return expanded;
+  });
+}
+
+export function expandNode(nodeId) {
+  expandedNodesStore.applyStateMutation(expanded => {
+    expanded[nodeId] = true;
+    return expanded;
+  });
+}

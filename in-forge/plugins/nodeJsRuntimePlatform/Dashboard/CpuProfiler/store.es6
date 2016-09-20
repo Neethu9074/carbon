@@ -1,3 +1,5 @@
+import {create} from 'reactive-observables';
+
 import {clearExpansionState} from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/expandedNodes';
 import subscribeToAgentResponse from 'in-services/subscription/agentResponse';
 import {selectedSnapshotId$} from 'in-stores/snapshot';
@@ -8,11 +10,7 @@ let nodeIdCounter = 0;
 let lastProfilingSubscription;
 let lastProfilingSnapshot;
 
-const lastProfilingResultStore = createStore({
-  name: 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/store/lastProfilingResult',
-  initialValue: null
-});
-export const lastProfilingResult$ = lastProfilingResultStore.observable;
+export const lastProfilingResult$ = create().emit(null);
 
 
 const isProfilingStore = createStore({
@@ -37,16 +35,16 @@ export function startProfiling(snapshot, duration) {
   }).subscribe(response => {
     const dataIsString = typeof response.data === 'string';
     if (!dataIsString && response.data) {
-      addIdsToAllNodes(response.data);
+      processProfile(response.data);
     }
-    lastProfilingResultStore.mutateTo(response);
+    lastProfilingResult$.emit(response);
     isProfilingStore.mutateTo(dataIsString);
   });
 }
 
 
 export function stopProfiling() {
-  lastProfilingResultStore.mutateTo(null);
+  lastProfilingResult$.emit(null);
   isProfilingStore.mutateTo(false);
   clearExpansionState();
 
@@ -68,7 +66,17 @@ export function stopProfiling() {
 }
 
 
-function addIdsToAllNodes(node) {
-  node.id = nodeIdCounter++;
-  node.c.forEach(addIdsToAllNodes);
+function processProfile(node, parent, indexInParent) {
+  node.id = String(nodeIdCounter++);
+  node.parent = parent;
+  node.indexInParent = indexInParent;
+  node.c.sort((a, b) => {
+    const c = a.t - b.t;
+    if (c !== 0) {
+      return c;
+    }
+    return a.f.localeCompare(b.f);
+  });
+  node.c.reverse();
+  node.c.forEach((c, i) => processProfile(c, node, i));
 }
