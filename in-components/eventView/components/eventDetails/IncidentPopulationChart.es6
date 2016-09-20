@@ -25,22 +25,19 @@ export default React.createClass({
   componentDidMount() {
     this.renderer = createTimelineRenderer({
       container: this.refs.container,
-      canvas: this.refs.canvas,
-      incidentId: this.props.event.get('id')
+      canvas: this.refs.canvas
     });
+    this.renderer.setIncidentId(this.props.event.get('id'));
   },
 
   componentWillUnmount() {
     this.renderer.dispose();
   },
 
-  componentDidUpdate() {
-    this.renderer.dispose();
-    this.renderer = createTimelineRenderer({
-      container: this.refs.container,
-      canvas: this.refs.canvas,
-      incidentId: this.props.event.get('id')
-    });
+  componentDidUpdate(prevProps) {
+    if (prevProps.event !== this.props.event) {
+      this.renderer.setIncidentId(this.props.event.get('id'));
+    }
   },
 
   render() {

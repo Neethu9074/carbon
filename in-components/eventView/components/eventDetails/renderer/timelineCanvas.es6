@@ -15,7 +15,7 @@ import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
 
-export default function createTimelineRenderer({container, canvas, incidentId}) {
+export default function createTimelineRenderer({container, canvas}) {
   const changeSignal = true;
   const height = 112;
   const timeOffset = 1000 * 10;
@@ -45,20 +45,7 @@ export default function createTimelineRenderer({container, canvas, incidentId}) 
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
 
   let servertimeSubscription;
-  const incidentSubscription = getEvent(incidentId).subscribe(event => {
-    if (event) {
-      const start = event.get('start') - timeOffset;
-      scale.setDomainFrom(start);
-
-      const end = event.get('end');
-      if (end) {
-        disposeServertimeSubscription();
-        setScaleTo(end);
-      } else {
-        setupServertimeSubscription();
-      }
-    }
-  });
+  let incidentSubscription;
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
@@ -85,8 +72,41 @@ export default function createTimelineRenderer({container, canvas, incidentId}) 
 
   return {
     canvas: screenBufferCanvas,
+    setIncidentId,
     dispose
   };
+
+  function setIncidentId(id) {
+    if (!id) {
+      return;
+    }
+    setupIncidentSubscription(id);
+  }
+
+  function setupIncidentSubscription(incidentId) {
+    disposeIncidentSubscription();
+    incidentSubscription = getEvent(incidentId).subscribe(event => {
+      if (event) {
+        const start = event.get('start') - timeOffset;
+        scale.setDomainFrom(start);
+
+        const end = event.get('end');
+        if (end) {
+          disposeServertimeSubscription();
+          setScaleTo(end);
+        } else {
+          setupServertimeSubscription();
+        }
+      }
+    });
+  }
+
+  function disposeIncidentSubscription() {
+    if (incidentSubscription) {
+      incidentSubscription.dispose();
+      incidentSubscription = null;
+    }
+  }
 
   function setupServertimeSubscription() {
     disposeServertimeSubscription();
@@ -126,7 +146,8 @@ export default function createTimelineRenderer({container, canvas, incidentId}) 
   function dispose() {
     mouseEvents.dispose();
 
-    incidentSubscription.dispose();
+    disposeIncidentSubscription();
+    disposeServertimeSubscription();
     realtimeUpdateEvents.dispose();
     highlightedEventIdSubscription.dispose();
     highlightedMomentRenderer.dispose();
