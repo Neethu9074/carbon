@@ -1,6 +1,5 @@
 import React from 'react';
 
-import keyCodes from 'in-components/keyCodes';
 import {
   expandedNodes$,
   toggleExpandedNode,
@@ -12,6 +11,9 @@ import {
   setSelectedNode
 } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/selectedNode';
 import PercentageIndicator from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/PercentageIndicator';
+import CodeRetrievalDialog from 'in-components/CodeRetrievalDialog';
+import {setActiveDialog} from 'in-components/DialogPresenter/store';
+import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -22,7 +24,7 @@ const block = 'in-nodejs-cpu-profiling-table';
 export default connectTo({
   expandedNodes: expandedNodes$,
   selectedNode: selectedNode$
-}, function ResultTable({result, expandedNodes, selectedNode}) {
+}, function ResultTable({result, expandedNodes, selectedNode, snapshot}) {
   return (
     <div className={`${block}__wrapper`}>
       <table className={block}
@@ -36,7 +38,7 @@ export default connectTo({
           </tr>
         </thead>
         <tbody>
-          {createRowForNode(result, 0, expandedNodes, selectedNode, result)}
+          {createRowForNode(result, 0, expandedNodes, selectedNode, result, snapshot)}
         </tbody>
       </table>
     </div>
@@ -44,7 +46,7 @@ export default connectTo({
 });
 
 
-function createRowForNode(node, level, expandedNodes, selectedNode, rootNode) {
+function createRowForNode(node, level, expandedNodes, selectedNode, rootNode, snapshot) {
   const isExpanded = expandedNodes[node.id] === true;
   let indentationPx = level * 10;
   if (node.c.length === 0) {
@@ -78,7 +80,7 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode) {
                      height={10}/>
           : null}
 
-          <NodeLabel node={node} />
+          <NodeLabel node={node} snapshot={snapshot} />
         </div>
       </td>
     </tr>
@@ -86,7 +88,7 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode) {
 
   if (isExpanded) {
     node.c.forEach(n => {
-      result = result.concat(createRowForNode(n, level + 1, expandedNodes, selectedNode, rootNode));
+      result = result.concat(createRowForNode(n, level + 1, expandedNodes, selectedNode, rootNode, snapshot));
     });
   }
 
@@ -94,19 +96,37 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode) {
 }
 
 
-function NodeLabel({node}) {
+function NodeLabel({node, snapshot}) {
   return (
     <span className={`${block}__node-label`}>
       {node.f || '<anonymous>'}
 
       {node.u ?
-        <span className={`${block}__file`}>
+        <a className={`${block}__file`}
+           href=''
+           onClick={e => showCodeView(e, snapshot, node.u)}>
           {node.u}
           {node.l != null ? `:${node.l}` : null}
-        </span>
+        </a>
       : null}
     </span>
   );
+}
+
+
+function showCodeView(e, snapshot, file) {
+  e.preventDefault();
+  e.stopPropagation();
+  setActiveDialog(<CodeRetrievalDialog snapshot={snapshot}
+                                       file={file}
+                                       agentRequest={{
+                                         action: 'node.source',
+                                         target: snapshot.get('volatileId'),
+                                         args: {
+                                           file
+                                         }
+                                       }}
+                                       lang='java' />);
 }
 
 

@@ -14,13 +14,7 @@ const block = 'in-code-retrieval-dialog';
 
 export default connectTo(props => {
   return {
-    response: createAgentResponseObservable({
-      action: 'java.class',
-      target: props.snapshot.get('volatileId'),
-      args: {
-        className: props.file
-      }
-    })
+    response: createAgentResponseObservable(props.agentRequest)
   };
 }, function CodeDialog({file, response, lang}) {
   let header;

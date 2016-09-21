@@ -21,6 +21,13 @@ export default function ShowCodeButton({snapshot, file}) {
     e.stopPropagation();
     setActiveDialog(<CodeRetrievalDialog snapshot={snapshot}
                                          file={file}
-                                         lang='java' />);
+                                         agentRequest={{
+                                           action: 'java.class',
+                                           target: snapshot.get('volatileId'),
+                                           args: {
+                                             className: file
+                                           }
+                                         }}
+                                         lang='javascript' />);
   }
 }

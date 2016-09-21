@@ -9,7 +9,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo({
   lastProfilingResult: lastProfilingResult$,
   isProfiling: isProfiling$
-}, function ResultPresenter({isProfiling, lastProfilingResult}) {
+}, function ResultPresenter({isProfiling, lastProfilingResult, snapshot}) {
   if (!isProfiling && lastProfilingResult == null) {
     return null;
   }
@@ -33,7 +33,8 @@ export default connectTo({
       : null}
 
       {lastProfilingResult && typeof lastProfilingResult.data === 'object' ?
-        <ResultTable result={lastProfilingResult.data} />
+        <ResultTable result={lastProfilingResult.data}
+                     snapshot={snapshot}/>
       : null}
     </div>
   );
