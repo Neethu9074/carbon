@@ -1,9 +1,10 @@
+import Infinite from 'react-infinite';
 import React from 'react';
 
-import {eventFilter$, FILTER} from 'in-components/eventView/stores/eventFilterStore';
-import {shedEventList$} from 'in-components/eventView/stores/shedEventListStore';
+import {shedEventList$, loadMoreShedEvents} from 'in-components/eventView/stores/shedEventListStore';
 import EventTableRow from 'in-components/eventView/components/EventTableRow';
 import {isLoading$} from 'in-components/eventView/stores/isLoadingStore';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,33 +13,63 @@ import './EventTable.less';
 
 const block = 'in-event-view-event-table';
 
-export default connectTo({
+export default getElementDimensions(connectTo({
   events: shedEventList$,
-  eventFilter: eventFilter$,
   isInfiniteLoading: isLoading$
-},
-function EventTable({events, eventFilter}) {
+}, EventTable));
+
+function EventTable({events, height, isInfiniteLoading}) {
   if (!events) {
     return <LoadingIndicator type='dark' />;
   }
 
-  events = getEvents(events, eventFilter);
-
   return (
     <div className={block}>
-      {events.map(event => {
-        return (
-          <EventTableRow key={event.get('id')}
-                         activeEventFilter={eventFilter}
-                         event={event} />
-        );
-      })}
+      <NoEventsMessage events={events}
+                       isInfiniteLoading={isInfiniteLoading} />
+      <InfiniteTable height={height}
+                     events={events}
+                     isInfiniteLoading={isInfiniteLoading} />
     </div>
   );
-});
+}
 
-function getEvents(events, eventFilter) {
-  return eventFilter === FILTER.INCIDENTS
-    ? events.incidents
-    :  events.issues.concat(events.changes);
+const rpt = React.PropTypes;
+EventTable.propTypes = {
+  isInfiniteLoading: rpt.bool.isRequired,
+  events: rpt.array.isRequired,
+  height: rpt.number
+};
+
+function NoEventsMessage({events, isInfiniteLoading}) {
+  if (!isInfiniteLoading && events.length > 0) {
+    return null;
+  }
+
+  return (
+    <p className={`${block}__no-events`}>
+      There are no events in the selected time window.
+    </p>
+  );
+}
+
+function InfiniteTable({height, events, isInfiniteLoading}) {
+  if (!height || events.length === 0 || isInfiniteLoading) {
+    return null;
+  }
+
+  return (
+    <Infinite className={`${block}__scroll-area`}
+              containerHeight={height - 24 /* Height of the header */}
+              elementHeight={26}
+              loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
+              infiniteLoadBeginEdgeOffset={height * 0.5}
+              onInfiniteLoad={loadMoreShedEvents}
+              isInfiniteLoading={isInfiniteLoading}>
+      {events.map(event =>
+        <EventTableRow key={event.id}
+                       event={event} />
+      )}
+    </Infinite>
+  );
 }

@@ -2,6 +2,7 @@ import createShedEventsObservable from 'in-services/subscription/shedEvents';
 import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-components/eventView/stores/isLoadingStore';
 import {sortBy$} from 'in-components/eventView/stores/sortBy';
+import {formatDateTime} from 'in-services/formatters/date';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
 import {luceneQuery$ as query$} from 'in-stores/search';
 import {emptyArray} from 'in-services/fixedObjects';
@@ -25,7 +26,7 @@ let query;
 
 const shedEventList = createStore({
   name: 'eventView/shedEventsStore',
-  initialValue: getEmptyEventsList()
+  initialValue: []
 });
 export const shedEventList$ = shedEventList.observable;
 
@@ -57,7 +58,7 @@ export function enable() {
 }
 
 export function disable() {
-  shedEventList.mutateTo(getEmptyEventsList());
+  shedEventList.mutateTo([]);
   subscriptions.forEach(s => s.dispose());
   disposeExistingLoad();
   subscriptions = emptyArray;
@@ -71,12 +72,12 @@ function refresh() {
   // get necessary params to load more events
   to$.once(to => maxTimestamp = to);
   from$.once(from => minTimestamp = from);
-  shedEventList.mutateTo(getEmptyEventsList());
+  shedEventList.mutateTo([]);
 
   loadMoreShedEvents();
 }
 
-function loadMoreShedEvents() {
+export function loadMoreShedEvents() {
   disposeExistingLoad();
   setIsLoading(true);
 
@@ -106,8 +107,26 @@ function getMaxStartMillis(events, fallback) {
   return max;
 }
 
-function addNewEvents() {
-  console.log('add events');
+function addNewEvents(newEvents) {
+  const transformedEvents = newEvents.map(event => {
+    return {
+      // required for inifinity scroll and loading of additional events. see getMaxStartMillis()
+      startMillis: event.get('start'),
+
+      id: event.get('id'),
+      start: formatDateTime(event.get('start')),
+      end: event.get('end') ? formatDateTime(event.get('end')) : 'active',
+      title: event.get('title'),
+      severity: event.get('severity')
+    };
+  });
+  shedEventList.applyStateMutation(existingEvents => {
+    // TODO: remove this when backend provides shedEvents
+    if (existingEvents.length > 0) {
+      return existingEvents;
+    }
+    return existingEvents.concat(transformedEvents);
+  });
   setIsLoading(false);
 }
 
@@ -116,12 +135,4 @@ function disposeExistingLoad() {
     loadSubscription.dispose();
     loadSubscription = null;
   }
-}
-
-function getEmptyEventsList() {
-  return {
-    incidents: [],
-    issues: [],
-    changes: []
-  };
 }

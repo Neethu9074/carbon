@@ -1,6 +1,17 @@
 .in-event-view-event-table {
   position: relative;
-
   height: 100%;
-  overflow-y: auto;
+
+  &__no-events {
+    text-align: center;
+    font-style: italic;
+  }
+
+  &__scroll-area {
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 }
