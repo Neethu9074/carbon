@@ -11,19 +11,28 @@ const block = 'in-event-filter-menu';
 export default connectTo({
 
 },
-function FilterMenu({}) {
+function FilterMenu({field, onApplyClicked, onCancelClicked}) {
   return (
     <div className={block}>
-      wow, much filters
+      wow, much filters for {field}
 
-      <div className={`${block}__buttons`}>
-        <Button>
+      <Row>
+        <Button onClick={onApplyClicked}>
           Apply
         </Button>
-        <Button kind='secondary'>
+        <Button onClick={onCancelClicked}
+                kind='secondary'>
           Cancel
         </Button>
-      </div>
+      </Row>
     </div>
   );
 });
+
+function Row({children}) {
+  return (
+    <div className={`${block}__row`}>
+      {children}
+    </div>
+  );
+}

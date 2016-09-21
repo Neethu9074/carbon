@@ -47,22 +47,27 @@ React.createClass({
 
 function Cell({expandedCell, onClick, name}) {
   const isSelected = expandedCell === name;
-  let className = `${block}__cell`;
+  let toggleClassName = `${block}__cell-toggle`;
   if (isSelected) {
-    className += ` ${className}--selected`;
+    toggleClassName += ` ${toggleClassName}--selected`;
   }
 
   return (
     <div key={name}
-         className={className}
-         onClick={() => onClick(isSelected ? null : name)}>
-      {name}
-      {isSelected
-        ? <div className={`${block}__filter`}>
-            <FilterMenu />
-          </div>
-        : null
-      }
+         className={`${block}__cell`}>
+
+        {isSelected
+          ? <div className={`${block}__filter`}>
+              <FilterMenu field={name}
+                          onApplyClicked={() => console.log('apply')}
+                          onCancelClicked={() => console.log('cancel')} />
+            </div>
+          : null
+        }
+      <div className={toggleClassName}
+           onClick={() => onClick(isSelected ? null : name)}>
+        {name}
+      </div>
     </div>
   );
 }

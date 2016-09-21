@@ -5,22 +5,10 @@
 
   &__cell {
     position: relative;
-
     display: inline-block;
     box-sizing: border-box;
 
     width: 20%;
-    padding-left: 10px;
-
-    line-height: 1.5rem;
-    background: #D5DFE4;
-    cursor: pointer;
-
-    &:hover, &--selected {
-      color: #fff;
-      font-weight: bold;
-      background: #92A5AE;
-    }
 
     &:nth-child(3) {
       width: 50%;
@@ -28,6 +16,19 @@
 
     &:nth-child(4) {
       width: 10%;
+    }
+  }
+
+  &__cell-toggle {
+    padding-left: 10px;
+    background: #D5DFE4;
+    line-height: 1.5rem;
+    cursor: pointer;
+
+    &:hover, &--selected {
+      background: #92A5AE;
+      color: #fff;
+      font-weight: bold;
     }
   }
 
