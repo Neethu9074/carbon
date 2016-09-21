@@ -25,6 +25,11 @@ function EventChart({timeframe, event}) {
     );
   }
 
+  const triggeringMetric = event.get('triggeringMetric');
+  if (!triggeringMetric) {
+    return null;
+  }
+
   return (
     <div className={block}>
       <ChartWithLegend snapshotId={event.get('snapshotId')}
