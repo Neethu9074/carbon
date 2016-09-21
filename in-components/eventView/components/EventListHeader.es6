@@ -36,6 +36,8 @@ const Count = connectTo({
     );
   }
   return (
-    totalShedEventsCount
+    <span>
+      {totalShedEventsCount}
+    </span>
   );
 });
