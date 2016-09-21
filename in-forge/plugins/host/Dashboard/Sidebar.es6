@@ -31,8 +31,6 @@ export default function HostSidebar({snapshot}) {
 
       <HostHardware snapshotId={snapshot.get('id')} />
 
-      <Separator />
-
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>
   );
