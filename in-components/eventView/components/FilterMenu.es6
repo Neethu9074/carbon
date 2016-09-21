@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {setSortDirection} from 'in-components/eventView/stores/sortDirection';
+import {setSortBy} from 'in-components/eventView/stores/sortBy';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -11,19 +13,34 @@ const block = 'in-event-filter-menu';
 export default connectTo({
 
 },
-function FilterMenu({field, onApplyClicked, onCancelClicked}) {
+function FilterMenu({field, closeMenu}) {
   return (
     <div className={block}>
-      wow, much filters for {field}
+      <Row>
+        <Entry onClick={() =>  {
+          setSortDirection('asc');
+          setSortBy(field);
+          closeMenu();
+        }}>
+          Sort A &rarr; Z
+        </Entry>
+        <Entry onClick={() => {
+          setSortDirection('desc');
+          setSortBy(field);
+          closeMenu();
+        }}>
+          Sort Z &rarr; A
+        </Entry>
+      </Row>
 
       <Row>
-        <Button onClick={onApplyClicked}>
+        <Entry onClick={closeMenu}>
           Apply
-        </Button>
-        <Button onClick={onCancelClicked}
+        </Entry>
+        <Entry onClick={closeMenu}
                 kind='secondary'>
           Cancel
-        </Button>
+        </Entry>
       </Row>
     </div>
   );
@@ -34,5 +51,15 @@ function Row({children}) {
     <div className={`${block}__row`}>
       {children}
     </div>
+  );
+}
+
+function Entry({onClick, children, kind}) {
+  return (
+    <Button className={`${block}__button`}
+            kind={kind ? kind : null}
+            onClick={onClick}>
+      {children}
+    </Button>
   );
 }

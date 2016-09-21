@@ -59,8 +59,7 @@ function Cell({expandedCell, onClick, name}) {
         {isSelected
           ? <div className={`${block}__filter`}>
               <FilterMenu field={name}
-                          onApplyClicked={() => console.log('apply')}
-                          onCancelClicked={() => console.log('cancel')} />
+                          closeMenu={() => onClick(null)} />
             </div>
           : null
         }
