@@ -14,19 +14,20 @@ export default connectTo({
 
 },
 function FilterMenu({field, closeMenu}) {
+
   return (
     <div className={block}>
       <Row>
         <Entry onClick={() =>  {
           setSortDirection('asc');
-          setSortBy(field);
+          setSortBy(getQueryFieldNameForField(field));
           closeMenu();
         }}>
           Sort A &rarr; Z
         </Entry>
         <Entry onClick={() => {
           setSortDirection('desc');
-          setSortBy(field);
+          setSortBy(getQueryFieldNameForField(field));
           closeMenu();
         }}>
           Sort Z &rarr; A
@@ -62,4 +63,19 @@ function Entry({onClick, children, kind}) {
       {children}
     </Button>
   );
+}
+
+function getQueryFieldNameForField(field) {
+  switch (field) {
+    case 'Start':
+      return 'start';
+    case 'End':
+      return 'end';
+    case 'Title':
+      return 'problem.problemText';
+    case 'Severity':
+      return 'problem.severity';
+    default:
+      return null;
+  }
 }
