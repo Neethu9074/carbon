@@ -72,9 +72,9 @@ function getQueryFieldNameForField(field) {
     case 'End':
       return 'end';
     case 'Title':
-      return 'problem.problemText';
+      return 'event.problemText';
     case 'Severity':
-      return 'problem.severity';
+      return 'event.severity';
     default:
       return null;
   }
