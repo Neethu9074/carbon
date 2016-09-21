@@ -2,7 +2,6 @@ import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import TagList from 'in-sdk/components/sidebar/TagList';
 
 import InterfaceList from 'in-forge/plugins/host/InterfaceList';
@@ -23,11 +22,7 @@ export default function HostSidebar({snapshot}) {
 
       <TagList snapshot={snapshot} />
 
-      <Separator />
-
       <InterfaceList snapshot={snapshot} />
-
-      <Separator />
 
       <HostHardware snapshotId={snapshot.get('id')} />
 
