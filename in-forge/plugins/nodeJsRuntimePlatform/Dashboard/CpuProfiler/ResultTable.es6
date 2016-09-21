@@ -36,7 +36,7 @@ export default connectTo({
           </tr>
         </thead>
         <tbody>
-          {createRowForNode(result, 0, expandedNodes, selectedNode)}
+          {createRowForNode(result, 0, expandedNodes, selectedNode, result)}
         </tbody>
       </table>
     </div>
@@ -44,7 +44,7 @@ export default connectTo({
 });
 
 
-function createRowForNode(node, level, expandedNodes, selectedNode) {
+function createRowForNode(node, level, expandedNodes, selectedNode, rootNode) {
   const isExpanded = expandedNodes[node.id] === true;
   let indentationPx = level * 10;
   if (node.c.length === 0) {
@@ -61,10 +61,10 @@ function createRowForNode(node, level, expandedNodes, selectedNode) {
         onClick={() => setSelectedNode(node.id)}
         data-node-id={node.id}>
       <td className={`${block}__self`}>
-        <PercentageIndicator v={node.s} p={getPercentageOfParent(node, 's')}/>
+        <PercentageIndicator v={node.s} p={getPercentageOfParent(node, 's', rootNode)}/>
       </td>
       <td className={`${block}__total`}>
-        <PercentageIndicator v={node.t} p={getPercentageOfParent(node, 't')}/>
+        <PercentageIndicator v={node.t} p={getPercentageOfParent(node, 't', rootNode)}/>
       </td>
       <td className={`${block}__function`}
           style={{paddingLeft: `${indentationPx}px`}}>
@@ -86,7 +86,7 @@ function createRowForNode(node, level, expandedNodes, selectedNode) {
 
   if (isExpanded) {
     node.c.forEach(n => {
-      result = result.concat(createRowForNode(n, level + 1, expandedNodes, selectedNode));
+      result = result.concat(createRowForNode(n, level + 1, expandedNodes, selectedNode, rootNode));
     });
   }
 
@@ -110,14 +110,14 @@ function NodeLabel({node}) {
 }
 
 
-function getPercentageOfParent(node, prop) {
-  if (!node.parent) {
+function getPercentageOfParent(node, prop, rootNode) {
+  if (node === rootNode) {
     return NaN;
-  } else if (node.parent.t < node[prop]) {
+  } else if (node[prop] > rootNode.t) {
     return NaN;
   }
 
-  return node[prop] / (node.parent.t + 0.000000001);
+  return node[prop] / (rootNode.t + 0.000000001);
 }
 
 
