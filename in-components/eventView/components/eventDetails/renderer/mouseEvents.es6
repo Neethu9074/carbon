@@ -1,6 +1,6 @@
 import {setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
+import {recentEvents$} from 'in-components/eventView/stores/recentEventsStore';
 import {getNearestEvent, setHighlightedEvent} from 'in-stores/events';
-import {events$} from 'in-components/eventView/stores/eventsStore';
 import {setHighlightedMoment} from 'in-stores/timeline';
 import {onMove} from 'in-services/reactiveMouseEvents';
 
@@ -8,8 +8,8 @@ import {onMove} from 'in-services/reactiveMouseEvents';
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
-  let categorizedEvents;
-  const eventsSubscription = events$.subscribe(events => categorizedEvents = events);
+  let events;
+  const eventsSubscription = recentEvents$.subscribe(_events => events = _events);
 
   const mouseMoveSubscription = onMove(canvas, e => {
     onMouseMove(e.offsetX, e.x, e.offsetY, e.y);
@@ -28,17 +28,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     realtimeDrawStream.emit(changeSignal);
   }
 
-  function getEventAtXY(x, y) {
-    if (!categorizedEvents) {
-      return null;
-    }
-
-    const eventsToCheck = resultDependingOnY(y,
-      categorizedEvents.incidents,
-      categorizedEvents.issues,
-      categorizedEvents.changes);
-
-    if (!eventsToCheck) {
+  function getEventAtXY(x) {
+    if (!events) {
       return null;
     }
 
@@ -47,7 +38,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const timeFrom = scale.getDomain(x - pixelsToCheckForEventMouseOver / 2);
     const maxDistance = Math.abs(timeAtCursor - timeFrom);
 
-    return getNearestEvent(eventsToCheck, scale.getDomain(x), maxDistance);
+    return getNearestEvent(events, scale.getDomain(x), maxDistance);
   }
 
   function resultDependingOnY(y, incidentResult, issueResult, changesResult) {
