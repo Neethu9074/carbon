@@ -13,14 +13,14 @@ const getChecksumForFile = checkSumMod.getChecksumForFile;
 const getSriIntegrityForFile = checkSumMod.getSriIntegrityForFile;
 
 const router = module.exports = express.Router();
-
-const staticFileMaxCachingDurationMs = 1000 * 60 * 60 * 24 * 7;
+const immutableCacheControlHeader = 'max-age=365000000, immutable';
 
 const rawTemplate = fs.readFileSync(
   path.join(__dirname, 'templates', 'index.hbs'),
   {encoding: 'utf8'}
 );
 const compiledTemplate = Handlebars.compile(rawTemplate);
+
 
 const assetDir = path.join(__dirname, 'assets');
 const bundleDir = path.join(assetDir, 'bundle');
@@ -52,7 +52,10 @@ const themes = fs.readdirSync(bundleDir)
 
 // assets directory will be populated with generated JavaScript during the build process.
 router.use(express.static(assetDir, {
-  maxAge: staticFileMaxCachingDurationMs
+  cacheControl: false,
+  setHeaders(res) {
+    res.setHeader('Cache-Control', immutableCacheControlHeader);
+  }
 }));
 
 
@@ -153,7 +156,11 @@ router.get('/bundle/index-*.js', sendIndexJs);
 function sendIndexJs(req, res) {
   res.sendFile(
     path.join(bundleDir, 'index.js'),
-    {maxAge: staticFileMaxCachingDurationMs},
+    {
+      headers: {
+        'Cache-Control': immutableCacheControlHeader
+      }
+    },
     err => {
       if (err) {
         console.error('Failed to send file. Cannot complete request.', err);
@@ -174,7 +181,11 @@ router.get('/bundle/theme-*.css', (req, res) => {
   const themeName = match[1];
   res.sendFile(
     path.join(bundleDir, 'theme-' + themeName + '.css'),
-    {maxAge: staticFileMaxCachingDurationMs},
+    {
+      headers: {
+        'Cache-Control': immutableCacheControlHeader
+      }
+    },
     err => {
       if (err) {
         res.sendStatus(404);
