@@ -13,7 +13,7 @@ const block = 'in-event-incident-event-list';
 
 export default connectTo(props => {
   return {
-    events: combineLatest(props.toArray().map(id => getEvent(id)))
+    events: combineLatest(props.ids.map(id => getEvent(id)))
   };
 },
 function IncidentEventList({events}) {
