@@ -24,6 +24,10 @@ export default function createEventsRenderer(screenBuffer, scale) {
   }
 
   function draw() {
+    if (!events) {
+      return;
+    }
+
     changesRenderer.drawEvents(events.filter(event => getEventType(event) === EVENT_TYPES.CHANGE));
     issuesRenderer.drawEvents(events.filter(event => {
       const type = getEventType(event);

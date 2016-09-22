@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import {on, create} from 'reactive-observables';
 
 import HighlightedMomentRenderer from 'in-components/timeline/components/renderer/HighlightedMomentRenderer';
@@ -10,7 +11,7 @@ import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpda
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {highlightedEvent$} from 'in-stores/events';
-import {getEvent} from 'in-services/issueTracker';
+// import {getEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
@@ -83,9 +84,14 @@ export default function createTimelineRenderer({container, canvas}) {
     setupIncidentSubscription(id);
   }
 
-  function setupIncidentSubscription(incidentId) {
+  function setupIncidentSubscription(/* incidentId*/) {
     disposeIncidentSubscription();
-    incidentSubscription = getEvent(incidentId).subscribe(event => {
+
+    // HACK FOR FAKE EVENTS
+    // incidentSubscription = getEvent(incidentId).subscribe(event => {
+    incidentSubscription = create().startWith(Immutable.fromJS({
+      start: Date.now() - 1000 * 40 * 10
+    })).subscribe(event => {
       if (event) {
         const start = event.get('start') - timeOffset;
         scale.setDomainFrom(start);

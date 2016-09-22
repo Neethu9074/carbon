@@ -1,3 +1,5 @@
+import {create} from 'reactive-observables';
+import Immutable from 'immutable';
 import React from 'react';
 
 import IncidentContent from 'in-components/eventView/components/eventDetails/IncidentContent';
@@ -15,8 +17,19 @@ import './DetailPanel.less';
 const block = 'in-event-view-detail-panel';
 
 export default connectTo({
-  selectedEventId: selectedEventId$,
-  event: selectedEventId$.flatMap(id => id ? getEvent(id) : alwaysNull)
+  // HACK FOR FAKE EVENTS
+  selectedEventId: create().startWith('id1'),
+  selectedEventId2: selectedEventId$,
+
+  event: create().startWith(Immutable.fromJS({
+    id: 'id1',
+    type: 'incident',
+    start: Date.now() - 1000 * 40,
+    recentEvents: ['id2', 'id3'],
+    title: 'incident incoming',
+    severity: 5
+  })),
+  event2: selectedEventId$.flatMap(id => id ? getEvent(id) : alwaysNull)
 },
 function DetailPanel({selectedEventId, event}) {
   if (!selectedEventId) {

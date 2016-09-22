@@ -1,3 +1,4 @@
+import {create} from 'reactive-observables';
 import Infinite from 'react-infinite';
 import React from 'react';
 
@@ -14,8 +15,16 @@ import './EventTable.less';
 const block = 'in-event-view-event-table';
 
 export default getElementDimensions(connectTo({
-  events: shedEventList$,
-  isInfiniteLoading: isLoading$
+  // HACK FOR FAKE EVENTS
+  events: create().startWith([{
+    id: 'event1',
+    start: Date.now() - 1000 * 60,
+    title: 'this is a real shit problem',
+    severity: 10
+  }]),
+  events2: shedEventList$,
+  isInfiniteLoading: create().startWith(false),
+  isInfiniteLoading2: isLoading$
 }, EventTable));
 
 function EventTable({events, height, isInfiniteLoading}) {

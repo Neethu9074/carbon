@@ -57,7 +57,7 @@ export default React.createClass({
                          className={`${block}__icon`} />
               <EntityInformation event={event} />
               {isCollapsed
-                ? <ProblemTextPreview text={event.getIn(['problem', 'problemText'])} />
+                ? <ProblemTextPreview text={event.get('title')} />
                 : null
               }
             </div>
@@ -92,7 +92,7 @@ function FurtherContent({event}) {
   return (
     <div>
       <span className={`${block}__problem-text`}>
-        {event.getIn(['problem', 'problemText'])}
+        {event.get('title')}
       </span>
 
       <div className={`${block}__suggestion`}
