@@ -61,10 +61,10 @@ function onKeyDown(e) {
   if (e.keyCode === keyCodes.enter) {
     e.preventDefault();
     selectHighlightedSuggestion();
-  } else if (e.keyCode === keyCodes.arrow.top) {
+  } else if (e.keyCode === keyCodes.arrows.top) {
     e.preventDefault();
     highlightPreviousSuggestion();
-  } else if (e.keyCode === keyCodes.arrow.bottom) {
+  } else if (e.keyCode === keyCodes.arrows.bottom) {
     e.preventDefault();
     highlightNextSuggestion();
   }
