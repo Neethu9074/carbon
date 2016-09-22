@@ -6,6 +6,7 @@ import sinon from 'sinon';
 
 import {activeControl$} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
 import {CONTROL_TYPES} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
+import keyCodes from 'in-components/keyCodes';
 
 
 describe('shortcuts/N', () => {
@@ -38,7 +39,7 @@ describe('shortcuts/N', () => {
 
   function pressN() {
     onKeyPressed.emit({
-      keyCode: shortcuts.KEY_CODES.N,
+      keyCode: keyCodes.n,
       target: {
         tagName: ''
       }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {clearActiveControl} from 'in-components/RightSidebar/stores/rightSidebarActiveControlStore';
-import IconOnlyCloseButton from 'in-components/IconOnlyCloseButton';
+import IconOnlyCloseButton from 'in-components/RightSidebar/components/IconOnlyCloseButton';
 
 import './RightSidebarHeader.less';
 

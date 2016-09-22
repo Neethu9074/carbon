@@ -6,6 +6,7 @@ import sinon from 'sinon';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import {resetStoreRegistry} from 'in-stores/store';
+import keyCodes from 'in-components/keyCodes';
 
 
 describe('shortcuts/C', () => {
@@ -50,7 +51,7 @@ describe('shortcuts/C', () => {
 
   function pressF() {
     onKeyPressed.emit({
-      keyCode: shortcuts.KEY_CODES.F,
+      keyCode: keyCodes.f,
       target: {
         tagName: ''
       }

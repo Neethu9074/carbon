@@ -6,6 +6,7 @@ import sinon from 'sinon';
 
 import {resetStoreRegistry} from 'in-stores/store';
 import {PATH_NAMES} from 'in-stores/navigation';
+import keyCodes from 'in-components/keyCodes';
 import {createStore} from 'in-stores/store';
 
 
@@ -74,7 +75,7 @@ describe('shortcuts/dashboard', () => {
 
   function pressEscape() {
     onKeyPressed.emit({
-      keyCode: shortcuts.KEY_CODES.ESC,
+      keyCode: keyCodes.escape,
       target: {
         tagName: ''
       }

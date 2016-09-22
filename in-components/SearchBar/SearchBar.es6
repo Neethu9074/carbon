@@ -4,7 +4,7 @@ import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {rawQuery$, setInputString} from 'in-stores/search';
-import {KEY_CODES} from 'in-services/shortcuts/shortcuts';
+import keyCodes from 'in-components/keyCodes';
 import {
   highlightNextSuggestion,
   highlightPreviousSuggestion,
@@ -58,13 +58,13 @@ function onChange(e) {
 
 function onKeyDown(e) {
   setFocused(true);
-  if (e.keyCode === KEY_CODES.ENTER) {
+  if (e.keyCode === keyCodes.enter) {
     e.preventDefault();
     selectHighlightedSuggestion();
-  } else if (e.keyCode === KEY_CODES.UP_ARROW) {
+  } else if (e.keyCode === keyCodes.arrow.top) {
     e.preventDefault();
     highlightPreviousSuggestion();
-  } else if (e.keyCode === KEY_CODES.DOWN_ARROW) {
+  } else if (e.keyCode === keyCodes.arrow.bottom) {
     e.preventDefault();
     highlightNextSuggestion();
   }
