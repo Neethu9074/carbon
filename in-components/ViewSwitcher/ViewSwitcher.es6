@@ -7,7 +7,7 @@ import {
   traceViewLink$,
   navigationParameters$
 } from 'in-stores/navigation';
-import {eventsInTimeframe$} from 'in-stores/events';
+import {openEventsAtServerTime$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewSwitcher.less';
@@ -70,7 +70,7 @@ function onViewSwitch(e) {
 }
 
 const IncidentsMenuPoint = connectTo({
-  events: eventsInTimeframe$
+  events: openEventsAtServerTime$
 },
 ({pathname, events}) => {
   const numIncidents = events ? events.incidents.length : 0;
