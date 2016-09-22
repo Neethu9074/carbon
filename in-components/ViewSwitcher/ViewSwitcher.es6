@@ -9,8 +9,10 @@ import {
 } from 'in-stores/navigation';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
+import {theme} from 'in-services/theme';
 
 import './ViewSwitcher.less';
+
 
 const block = 'in-view-switcher';
 
@@ -69,25 +71,41 @@ function onViewSwitch(e) {
   e.stopPropagation();
 }
 
-const IncidentsMenuPoint = connectTo({
-  events: openEventsAtServerTime$
-},
-({pathname, events}) => {
-  const numIncidents = events ? events.incidents.length : 0;
-
+function IncidentsMenuPoint({pathname}) {
   return (
     <View href$={eventsLink$}
           active={pathname.indexOf('/incidents') === 0}>
       <div className={`${block}__flex-wrapper`}>
-        Incidents
-
-        {numIncidents > 0 ?
-          <div className={`${block}__counter`}>
-            {numIncidents}
-          </div>
-          : null
-        }
+        Incidents <IncidentsCounter />
       </div>
     </View>
   );
+}
+
+const IncidentsCounter = connectTo({
+  events: openEventsAtServerTime$
+},
+({events}) => {
+  const numIncidents = events ? events.incidents.length : 0;
+  if (numIncidents === 0) {
+    return null;
+  }
+
+  return (
+    <div className={`${block}__counter`}
+         style={{ background: getIncidentColor(events.incidents) }}>
+      {numIncidents}
+    </div>
+  );
 });
+
+function getIncidentColor(events) {
+  let maxSeverity = 0;
+  events.forEach(event => {
+    const severity = event.getIn(['problem', 'severity'], 0);
+    if (severity > maxSeverity) {
+      maxSeverity = severity;
+    }
+  });
+  return maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
+}
