@@ -1,6 +1,5 @@
 import React from 'react';
 
-import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import DialogNotification from 'in-components/DialogNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {close} from 'in-components/DialogPresenter/store';
@@ -14,7 +13,7 @@ const block = 'in-code-retrieval-dialog';
 
 export default connectTo(props => {
   return {
-    response: createAgentResponseObservable(props.agentRequest)
+    response: props.agentResponse$
   };
 }, function CodeDialog({file, response, lang}) {
   let header;

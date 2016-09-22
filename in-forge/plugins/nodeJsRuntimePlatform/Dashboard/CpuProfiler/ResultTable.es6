@@ -11,8 +11,7 @@ import {
   setSelectedNode
 } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/selectedNode';
 import PercentageIndicator from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/PercentageIndicator';
-import CodeRetrievalDialog from 'in-components/CodeRetrievalDialog';
-import {setActiveDialog} from 'in-components/DialogPresenter/store';
+import {showCode} from 'in-forge/plugins/nodeJsRuntimePlatform/codeRetrieval';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -117,16 +116,7 @@ function NodeLabel({node, snapshot}) {
 function showCodeView(e, snapshot, file) {
   e.preventDefault();
   e.stopPropagation();
-  setActiveDialog(<CodeRetrievalDialog snapshot={snapshot}
-                                       file={file}
-                                       agentRequest={{
-                                         action: 'node.source',
-                                         target: snapshot.get('volatileId'),
-                                         args: {
-                                           file
-                                         }
-                                       }}
-                                       lang='java' />);
+  showCode(snapshot, file);
 }
 
 

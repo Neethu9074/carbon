@@ -1,5 +1,6 @@
 import React from 'react';
 
+import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import CodeRetrievalDialog from 'in-components/CodeRetrievalDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 
@@ -21,13 +22,13 @@ export default function ShowCodeButton({snapshot, file}) {
     e.stopPropagation();
     setActiveDialog(<CodeRetrievalDialog snapshot={snapshot}
                                          file={file}
-                                         agentRequest={{
+                                         agentResponse$={createAgentResponseObservable({
                                            action: 'java.class',
                                            target: snapshot.get('volatileId'),
                                            args: {
                                              className: file
                                            }
-                                         }}
-                                         lang='javascript' />);
+                                         })}
+                                         lang='java' />);
   }
 }
