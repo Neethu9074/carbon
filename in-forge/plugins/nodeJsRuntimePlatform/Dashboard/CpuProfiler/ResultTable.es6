@@ -11,7 +11,8 @@ import {
   setSelectedNode
 } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/selectedNode';
 import PercentageIndicator from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/PercentageIndicator';
-import {showCode} from 'in-forge/plugins/nodeJsRuntimePlatform/codeRetrieval';
+import {supportsCodeView, getCodeView} from 'in-sdk/snapshot';
+import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -96,17 +97,32 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode, sn
 
 
 function NodeLabel({node, snapshot}) {
+  if (supportsCodeView(snapshot, node.u)) {
+    return (
+      <span className={`${block}__node-label`}>
+        {node.f || '<anonymous>'}
+
+        {node.u ?
+          <a className={`${block}__file`}
+             href=''
+             onClick={e => showCodeView(e, snapshot, node.u)}>
+            {node.u}
+            {node.l != null ? `:${node.l}` : null}
+          </a>
+        : null}
+      </span>
+    );
+  }
+
   return (
     <span className={`${block}__node-label`}>
       {node.f || '<anonymous>'}
 
       {node.u ?
-        <a className={`${block}__file`}
-           href=''
-           onClick={e => showCodeView(e, snapshot, node.u)}>
+        <span>
           {node.u}
           {node.l != null ? `:${node.l}` : null}
-        </a>
+        </span>
       : null}
     </span>
   );
@@ -116,7 +132,7 @@ function NodeLabel({node, snapshot}) {
 function showCodeView(e, snapshot, file) {
   e.preventDefault();
   e.stopPropagation();
-  showCode(snapshot, file);
+  setActiveDialog(getCodeView(snapshot, file));
 }
 
 

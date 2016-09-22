@@ -1,13 +1,16 @@
-import iconPath from 'in-forge/plugins/tomcatApplicationContainer/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 
+import icon from './icon.svg';
 
 registerSnapshotDefinition({
-  plugin: plugins.tomcat
+  plugin: plugins.tomcat,
+  icon,
+  supportsCodeView,
+  getCodeView
 });
 
 
@@ -32,10 +35,5 @@ addLabelFinder(
     return label;
   }
 );
-
-addIconToRegistry({
-  id: plugins.tomcat,
-  image: iconPath
-});
 
 addSearchableEntityType('tomcat', plugins.tomcat);

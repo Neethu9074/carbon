@@ -3,16 +3,17 @@ import React from 'react';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import CodeRetrievalDialog from 'in-components/CodeRetrievalDialog';
-import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import http from 'in-services/http';
 
-export function showCode(snapshot, file) {
-  setActiveDialog(<CodeRetrievalDialog snapshot={snapshot}
-                                       file={file}
-                                       agentResponse$={getCode(snapshot, file)}
-                                       lang='javascript' />);
-}
 
+export function getCodeView(snapshot, file) {
+  return (
+    <CodeRetrievalDialog snapshot={snapshot}
+                         file={file}
+                         agentResponse$={getCode(snapshot, file)}
+                         lang='javascript' />
+  );
+}
 
 function getCode(snapshot, file) {
   if (!isPartOfStandardLibrary(file)) {

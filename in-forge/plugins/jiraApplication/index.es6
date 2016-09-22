@@ -1,13 +1,16 @@
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {addSearchableEntityType} from 'in-sdk/search';
+import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
 
 import icon from './icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.jira,
-  icon
+  icon,
+  supportsCodeView,
+  getCodeView
 });
 
 setHumanReadablePluginName(

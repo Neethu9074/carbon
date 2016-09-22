@@ -1,4 +1,5 @@
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 
@@ -6,7 +7,9 @@ import icon from './icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.jetty,
-  icon
+  icon,
+  supportsCodeView,
+  getCodeView
 });
 
 setHumanReadablePluginName(

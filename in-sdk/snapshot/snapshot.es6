@@ -25,3 +25,25 @@ export function getPower(snapshot) {
 export function getShowZoneInSidebarHeader(plugin) {
   return getSnapshotDefinition(plugin).showZoneInSidebarHeader === true;
 }
+
+
+export function supportsCodeView(snapshot, file) {
+  const snapshotDefinition = getSnapshotDefinition(snapshot.get('plugin'));
+  const supports = snapshotDefinition.supportsCodeView;
+  if (!snapshotDefinition.getCodeView) {
+    return false;
+  } else if (supports == null) {
+    return true;
+  } else if (supports === true) {
+    return true;
+  } else if (supports === false) {
+    return false;
+  }
+
+  return supports(snapshot, file);
+}
+
+
+export function getCodeView(snapshot, file) {
+  return getSnapshotDefinition(snapshot.get('plugin')).getCodeView(snapshot, file);
+}
