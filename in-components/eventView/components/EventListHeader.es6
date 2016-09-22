@@ -25,10 +25,10 @@ export default function EventListHeader() {
                color={'#33d8d7'} />
 
       <EventFilter filter='incidents'>
-        Incidents (<Count getCounter={counter => counter.get('incidents')}/>)
+        Incidents (<Count getCounter={counter => counter.get('incident')}/>)
       </EventFilter>
       <EventFilter filter='events'>
-        Events (<Count getCounter={counter => counter.get('events')}/>)
+        Events (<Count getCounter={counter => counter.get('issue')}/>)
       </EventFilter>
     </ViewHeader>
   );
