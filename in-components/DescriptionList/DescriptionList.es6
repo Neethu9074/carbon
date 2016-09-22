@@ -32,24 +32,28 @@ export const DescriptionList = React.createClass({
 
       return this.props.children
         .filter(children => children)
-        .map(child => {
-          return this.renderItem(child.props);
+        .map((child, i) => {
+          return this.renderItem(child.props, i);
         });
     }
 
-    return this.renderItem(this.props.children.props);
+    return this.renderItem(this.props.children.props, 0);
   },
 
-  renderItem(descriptionItemProps) {
+  renderItem(descriptionItemProps, i) {
     if (this.isItemEmpty(descriptionItemProps)) {
       return null;
     }
 
     const textClassName = block + '__description-text ';
+    let divClasses = block + '__description-item';
+    if (descriptionItemProps.addSeparator && i > 0) {
+      divClasses = `${divClasses} ${divClasses}--with-separator`;
+    }
 
     return (
-      <div key={descriptionItemProps.title}
-           className={block + '__description-item'}>
+      <div key={descriptionItemProps.id || descriptionItemProps.title}
+           className={divClasses}>
         <dt className={block + '__description-title'}>
           {descriptionItemProps.title}
         </dt>

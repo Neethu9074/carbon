@@ -20,5 +20,5 @@ export default createSubscription(
   },
 
   // data transformation on onData
-  components => Immutable.Set(components)
+  components => Immutable.fromJS(components)
 );

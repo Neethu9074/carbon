@@ -5,7 +5,9 @@ import './LoadingIndicator.less';
 const block = 'in-loading-indicator';
 const rectClass = block + '__rect';
 
-const LoadingIndicator = React.createClass({
+export default React.createClass({
+  displayName: 'LoadingIndicator',
+
   propTypes: {
     type: React.PropTypes.string,
     inline: React.PropTypes.bool,
@@ -46,5 +48,3 @@ const LoadingIndicator = React.createClass({
     );
   }
 });
-
-export default LoadingIndicator;

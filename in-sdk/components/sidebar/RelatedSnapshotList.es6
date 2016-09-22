@@ -4,13 +4,12 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {ClickableSnapshotListItem, ClickableList} from 'in-sdk/components/sidebar/ClickableList';
-import {getSnapshot} from 'in-stores/snapshot';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getPlural} from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
-
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import './RelatedSnapshotList.less';
 
