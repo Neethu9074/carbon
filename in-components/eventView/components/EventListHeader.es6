@@ -25,10 +25,10 @@ export default function EventListHeader() {
                color={'#33d8d7'} />
 
       <EventFilter filter='incidents'>
-        Incidents (<Count />)
+        Incidents (<Count getCounter={counter => counter.get('incidents')}/>)
       </EventFilter>
       <EventFilter filter='events'>
-        Events (<Count />)
+        Events (<Count getCounter={counter => counter.get('events')}/>)
       </EventFilter>
     </ViewHeader>
   );
@@ -52,10 +52,10 @@ const EventFilter = connectTo({
 });
 
 const Count = connectTo({
-  totalShedEventsCount: combineLatest([timeframe$, query$])
+  totalShedEventsCounter: combineLatest([timeframe$, query$])
                         .flatMap(([timeframe, query]) => createTotalShedEventsSubscription({timeframe, query}))
-}, ({totalShedEventsCount}) => {
-  if (!totalShedEventsCount) {
+}, ({getCounter, totalShedEventsCounter}) => {
+  if (!totalShedEventsCounter) {
     return (
       <LoadingIndicator inline={true}
                                style={{
@@ -65,7 +65,7 @@ const Count = connectTo({
   }
   return (
     <span>
-      {totalShedEventsCount}
+      {getCounter(totalShedEventsCounter)}
     </span>
   );
 });

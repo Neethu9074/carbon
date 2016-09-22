@@ -1,4 +1,7 @@
+import Immutable from 'immutable';
+
 import createSubscription from 'in-services/subscription/subscription';
+
 
 export default createSubscription(
   // event ID
@@ -17,5 +20,5 @@ export default createSubscription(
   },
 
   // data transformation on onData
-  count => count
+  counter => Immutable.fromJS(counter)
 );
