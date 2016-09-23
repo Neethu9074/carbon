@@ -35,7 +35,7 @@ export default React.createClass({
 
   subscribe() {
     // nothing to do, snapshot did not change
-    if (this.snapshot.get('id') === this.props.snapshot.get('id')) {
+    if (this.snapshot != null && this.snapshot.get('id') === this.props.snapshot.get('id')) {
       return;
     }
 
