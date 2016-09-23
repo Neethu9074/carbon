@@ -3,7 +3,7 @@ import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 import React from 'react';
 
-import EventDetails from 'in-components/eventView/components/eventDetails/EventDetails';
+import EventDetails from 'in-components/eventView/components/eventDetails/CollapsableEventDetails';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {getEvent} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';

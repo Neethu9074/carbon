@@ -3,20 +3,15 @@ import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 import React from 'react';
 
-import createCanvasRenderer from
-  'in-components/eventView/components/eventDetails/IncidentPopulationChart/canvasRenderer';
 import Events from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/Events';
 import Section from 'in-components/eventView/components/eventDetails/Section';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
-import './IncidentPopulationChart.less';
-
 
 const timeOffset = 1000 * 10;
 const rpt = React.PropTypes;
-const block = 'in-event-view-detail-chart';
 
 export default getElementDimensions(React.createClass({
 
@@ -42,16 +37,10 @@ export default getElementDimensions(React.createClass({
   },
 
   componentDidMount() {
-    this.renderer = createCanvasRenderer({
-      container: this.refs.container,
-      canvas: this.refs.canvas,
-      scale: this.scale
-    });
     this.setupIncidentSubscription();
   },
 
   componentWillUnmount() {
-    this.renderer.dispose();
     this.disposeIncidentSubscription();
     this.disposeServertimeSubscription();
   },
@@ -71,18 +60,9 @@ export default getElementDimensions(React.createClass({
     this.scale.setDomainFrom(this.state.from);
     this.scale.setDomainTo(this.state.to);
 
-    if (this.renderer) {
-      this.renderer.render();
-    }
-
     return (
       <Section>
-        <div ref='container'
-             className={block}>
-          <canvas ref='canvas'
-                  className={`${block}__canvas`} />
-          <Events scale={this.scale} />
-        </div>
+        <Events scale={this.scale} />
       </Section>
     );
   },

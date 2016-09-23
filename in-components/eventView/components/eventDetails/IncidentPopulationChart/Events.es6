@@ -29,12 +29,11 @@ function Events({scale, events}) {
 
   return (
     <div className={block}>
-      {events.map((event, index) => {
+      {events.map(event => {
         return (
           <Event key={event.get('id')}
                  event={event}
-                 scale={scale}
-                 index={index} />
+                 scale={scale} />
         );
       })}
     </div>
@@ -47,7 +46,7 @@ const Event = connectTo(props => {
     color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae')
   };
 },
-({event, scale, color, index}) => {
+({event, scale, color}) => {
   const left = scale.getRange(event.get('start'));
   const end = event.get('end');
   const right = end
@@ -59,8 +58,7 @@ const Event = connectTo(props => {
   return (
     <div className={`${block}__event`}
          style={{
-           left,
-           top: `${index * 1.4 + 1}rem`
+           marginLeft: left
          }}>
 
       <Icon className={block + '__icon'}
