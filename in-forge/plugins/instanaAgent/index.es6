@@ -1,21 +1,18 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
 import icon from './icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.instanaAgent,
-  icon
+  icon,
+
+  pluginName: {
+    singular: 'Instana Agent',
+    plural: 'Instana Agents'
+  },
+
+  getLabel() {
+    return 'Instana Agent';
+  }
 });
-
-setHumanReadablePluginName(
-  plugins.jvm,
-  'Instana Agent',
-  'Instana Agents'
-);
-
-addLabelFinder(
-  plugins.jvm,
-  () => 'Instana Agent'
-);
