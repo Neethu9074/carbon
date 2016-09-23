@@ -49,7 +49,11 @@ const Event = connectTo(props => {
 },
 ({event, scale, color, index}) => {
   const left = scale.getRange(event.get('start'));
-  const right = scale.getRange(event.get('end', scale.getDomainTo()));
+  const end = event.get('end');
+  const right = end
+    ? scale.getRange(end)
+    : scale.getRangeTo() - 16; // sub right padding caused by section component
+
   const eventType = getEventType(event);
 
   return (

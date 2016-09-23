@@ -65,7 +65,7 @@ export default getElementDimensions(React.createClass({
   render() {
     const width = this.props.width;
     if (width) {
-      this.scale.setRangeTo(width);
+      this.scale.setRangeTo(width - 32); // sub left and right padding caused by section component
     }
     this.scale.setRangeFrom(0);
     this.scale.setDomainFrom(this.state.from);
