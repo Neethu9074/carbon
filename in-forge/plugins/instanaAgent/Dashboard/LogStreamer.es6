@@ -1,10 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import ReactDOM from 'react-dom';
 import React from 'react';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import DialogNotification from 'in-components/DialogNotification';
+import {sanitize, ansiToHtml} from 'in-services/formatters/html';
 
 import './LogStreamer.less';
 
@@ -21,7 +21,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      error: null
+      error: null,
+      log: ''
     };
   },
 
@@ -41,28 +42,47 @@ export default React.createClass({
 
     this.disposeSubscription();
     this.snapshot = this.props.snapshot;
-    this.log = '';
-    if (this.state.error != null) {
-      this.setState({error: null});
-    }
-    this.updateLogContent();
+    this.setState({
+      error: null,
+      log: ''
+    });
 
     this.subscription = createAgentResponseObservable({
       action: 'agent.log.start',
       target: this.props.snapshot.get('volatileId'),
       args: {}
-    }).subscribe(response => {
-      if (response.error) {
-        this.setState({error: response.error});
-      } else {
-        this.log += response.data;
-        this.updateLogContent();
+    })
+    .scan((agg, response) => {
+      agg.error = response.error;
+      if (response.data) {
+        agg.log += response.data;
       }
+      return agg;
+    }, {log: '', error: null})
+    .flatMap(aggregated => {
+      return ansiToHtml(aggregated.log)
+        .map(html => {
+          return {
+            log: html,
+            error: aggregated.error
+          };
+        });
+    })
+    .flatMap(aggregated => {
+      return sanitize(aggregated.log)
+        .map(cleanHtml => {
+          return {
+            log: cleanHtml,
+            error: aggregated.error
+          };
+        });
+    })
+    .subscribe(aggregated => {
+      this.setState({
+        error: aggregated.error,
+        log: aggregated.log
+      });
     });
-  },
-
-  updateLogContent() {
-    ReactDOM.findDOMNode(this.refs.log).textContent = this.log;
   },
 
   componentWillUnmount() {
@@ -95,7 +115,7 @@ export default React.createClass({
 
         <pre>
           <code className={`${block}__log`}
-                ref='log' />
+                dangerouslySetInnerHTML={{__html: this.state.log}} />
         </pre>
       </div>
     );
