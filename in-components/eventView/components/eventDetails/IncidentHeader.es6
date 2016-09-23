@@ -3,7 +3,6 @@ import React from 'react';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import Section from 'in-components/eventView/components/eventDetails/Section';
 import {formatDateTime} from 'in-services/formatters/date';
-import EventIcon from 'in-components/EventIcon/EventIcon';
 import Tooltip from 'in-components/Tooltip';
 
 import './IncidentHeader.less';
@@ -13,21 +12,11 @@ const block = 'in-event-view-detail-incident-header';
 
 export default function HeaderSwitch({event}) {
   const end = event.get('end');
-  const numberOfRecentEvents = event.get('recentEvents').size;
 
   return (
     <Section>
       <div>
         <div className={`${block}__flex-wrapper`}>
-          <EventIcon event={event}
-                     className={`${block}__icon`} />
-
-          <h2 className={`${block}__title`}>
-            {`Incident (${numberOfRecentEvents})`}
-          </h2>
-
-          <div style={{ width: '0.625rem' }} />
-
           <LabeledValue label='Started'>
             {formatDateTime(event.get('start'))}
           </LabeledValue>

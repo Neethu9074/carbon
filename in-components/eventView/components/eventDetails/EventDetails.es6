@@ -1,18 +1,16 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import EventDependecyGraph from 'in-components/eventView/components/eventDetails/EventDependecyGraph.es6';
+import EventDetailsContent from 'in-components/eventView/components/eventDetails/EventDetailContent';
 import EntityInformation from 'in-components/eventView/components/eventDetails/EntityInformation';
-import EventTraces from 'in-components/eventView/components/eventDetails/EventTraces.es6';
-import EventChart from 'in-components/eventView/components/eventDetails/EventChart.es6';
 import Section from 'in-components/eventView/components/eventDetails/Section';
 import EventIcon from 'in-components/EventIcon/EventIcon';
-import {toHtml} from 'in-services/formatters/markdown';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './EventDetails.less';
 
 
+const rpt = React.PropTypes;
 const block = 'in-event-view-event-details';
 
 export default React.createClass({
@@ -20,8 +18,9 @@ export default React.createClass({
   displayName: 'EventDetails',
 
   propTypes: {
-    isCollapsed: React.PropTypes.bool,
-    event: irpt.map.isRequired
+    event: irpt.map.isRequired,
+    withEventHeader: rpt.bool,
+    isCollapsed: rpt.bool
   },
 
   getInitialState() {
@@ -57,7 +56,7 @@ export default React.createClass({
                          className={`${block}__icon`} />
               <EntityInformation event={event} />
               {isCollapsed
-                ? <ProblemTextPreview text={event.get('title')} />
+                ? event.get('title')
                 : null
               }
             </div>
@@ -70,37 +69,10 @@ export default React.createClass({
 
           {isCollapsed
             ? null
-            : <FurtherContent event={event}/>
+            : <EventDetailsContent event={event}/>
           }
         </div>
       </Section>
     );
   }
 });
-
-function ProblemTextPreview({text}) {
-  return (
-    <div className={`${block}__problem-text--preview`}>
-      {text}
-    </div>
-  );
-}
-
-function FurtherContent({event}) {
-  const fixSuggestion = toHtml(event.getIn(['problem', 'fixSuggestion']));
-
-  return (
-    <div>
-      <span className={`${block}__problem-text`}>
-        {event.get('title')}
-      </span>
-
-      <div className={`${block}__suggestion`}
-           dangerouslySetInnerHTML={{__html: fixSuggestion}} />
-
-      <EventChart event={event} />
-      <EventDependecyGraph event={event} />
-      <EventTraces event={event} />
-    </div>
-  );
-}

@@ -1,2 +1,2 @@
-import EventDetails from 'in-components/eventView/components/eventDetails/EventDetails';
-export default EventDetails;
+import EventDetailsContent from 'in-components/eventView/components/eventDetails/EventDetailContent';
+export default EventDetailsContent;

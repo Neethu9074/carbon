@@ -5,7 +5,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import {theme} from 'in-services/theme';
 
 
-export default function EventIcon({event, className}) {
+export default function EventIcon({event, className, defaultColor}) {
   const eventType = getEventType(event);
 
   let iconType;
@@ -20,9 +20,10 @@ export default function EventIcon({event, className}) {
   }
 
   const severity = event.get('severity');
+  defaultColor = defaultColor ? defaultColor : '#6B8088';
   const color = (severity > 0  && event.get('state') === 'open')
     ? theme.health[Math.floor(severity)]
-    : '#6B8088';
+    : defaultColor;
 
   return (
     <SvgIcon className={className}

@@ -1,13 +1,11 @@
 import {create} from 'reactive-observables';
-import Immutable from 'immutable';
 import React from 'react';
 
 import IncidentContent from 'in-components/eventView/components/eventDetails/IncidentContent';
 import EventContent from 'in-components/eventView/components/eventDetails/EventContent';
+import {selectedEvent$} from 'in-components/eventView/stores/selectedEventStore';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {alwaysNull} from 'in-services/fixedStreams';
-import {getEvent} from 'in-services/issueTracker';
 import {selectedEventId$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -21,15 +19,7 @@ export default connectTo({
   selectedEventId: create().startWith('id1'),
   selectedEventId2: selectedEventId$,
 
-  event: create().startWith(Immutable.fromJS({
-    id: 'id1',
-    type: 'incident',
-    start: Date.now() - 1000 * 40,
-    recentEvents: ['id2', 'id3'],
-    title: 'incident incoming',
-    severity: 5
-  })),
-  event2: selectedEventId$.flatMap(id => id ? getEvent(id) : alwaysNull)
+  event: selectedEvent$
 },
 function DetailPanel({selectedEventId, event}) {
   if (!selectedEventId) {

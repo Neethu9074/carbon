@@ -1,5 +1,6 @@
 import React from 'react';
 
+import EventIconLabel from 'in-components/eventView/components/eventDetails/EventIconLabel';
 import EventTableHeader from 'in-components/eventView/components/EventTableHeader';
 import {enable, disable} from 'in-components/eventView/stores/shedEventListStore';
 import EventListHeader from 'in-components/eventView/components/EventListHeader';
@@ -39,7 +40,9 @@ function getLeftContent() {
 
 function getRightContent() {
   return [
-    <ViewHeader key='EventViewHeader' />,
+    <ViewHeader key='EventViewHeader'>
+      <EventIconLabel />
+    </ViewHeader>,
     <DetailPanel key='DetailPanel' />
   ];
 }
