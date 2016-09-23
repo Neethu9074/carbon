@@ -23,6 +23,7 @@ import './genericZone';
 import './hAProxy';
 import './host';
 import './httpd';
+import './instanaAgent';
 import './jBossAsApplicationContainer';
 import './jbossDataGrid';
 import './jettyApplicationContainer';
