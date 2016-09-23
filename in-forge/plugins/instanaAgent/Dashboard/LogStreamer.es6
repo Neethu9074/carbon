@@ -48,7 +48,7 @@ export default React.createClass({
     this.updateLogContent();
 
     this.subscription = createAgentResponseObservable({
-      action: 'agent.startLogging',
+      action: 'agent.log.start',
       target: this.props.snapshot.get('volatileId'),
       args: {}
     }).subscribe(response => {
@@ -72,7 +72,7 @@ export default React.createClass({
   disposeSubscription() {
     if (this.snapshot) {
       createAgentResponseObservable({
-        action: 'agent.stopLogging',
+        action: 'agent.log.stop',
         target: this.snapshot.get('volatileId'),
         args: {}
       }).once(() => {});
