@@ -7,11 +7,11 @@ export default function PageResourceRequestSpanDetailView({span}) {
   return (
     <DescriptionList>
       <DescriptionItem title='URL'>
-        {span.getIn(['data', 'page.res', 'url'])}
+        {span.getIn(['data', 'page_res', 'url'])}
       </DescriptionItem>
 
       <DescriptionItem title='Initiator'>
-        {span.getIn(['data', 'page.res', 'initiator'])}
+        {span.getIn(['data', 'page_res', 'initiator'])}
       </DescriptionItem>
     </DescriptionList>
   );

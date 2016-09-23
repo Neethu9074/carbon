@@ -13,6 +13,6 @@ registerSpanDefinition({
   detailView: 'PageResourceRequestSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'page.res', 'url']);
+    return span.getIn(['data', 'page_res', 'url']);
   }
 });

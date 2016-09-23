@@ -3,6 +3,7 @@ export {registry, registerSpanDefinition, getSpanDefinition} from 'in-sdk/tracin
 import {getSpanDefinition} from 'in-sdk/tracing';
 import httpIcon from 'in-sdk/tracing/categoryIcons/http.svg';
 import messagingIcon from 'in-sdk/tracing/categoryIcons/messaging.svg';
+import eumIcon from 'in-sdk/tracing/categoryIcons/eum.svg';
 import databaseIcon from 'in-sdk/tracing/categoryIcons/database.svg';
 import remoteIcon from 'in-sdk/tracing/categoryIcons/remote.svg';
 import genericIcon from 'in-sdk/tracing/categoryIcons/generic.svg';
@@ -16,7 +17,8 @@ const categoryIcons = {
   messaging: messagingIcon,
   batch: messagingIcon,
   generic: genericIcon,
-  logger: loggerIcon
+  logger: loggerIcon,
+  eum: eumIcon
 };
 
 export function getType(span) {
