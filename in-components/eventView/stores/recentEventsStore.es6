@@ -13,18 +13,20 @@ export const recentEvents$ = create().startWith([Immutable.fromJS({
   type: 'issue',
   start: Date.now() - 1000 * 40,
   problem: {
-    fixSuggestion: 'fix it'
+    fixSuggestion: 'fix it',
+    severity: 10
   },
   snapshotId: 'asd',
   title: 'incident incoming',
-  severity: 5
+  severity: 10
 }), Immutable.fromJS({
   id: 'id3',
   type: 'issue',
   start: Date.now() - 1000 * 40 * 10,
-  end: Date.now() - 1000 * 30,
+  end: Date.now() - 1000 * 40 * 4,
   problem: {
-    fixSuggestion: 'fix it'
+    fixSuggestion: 'fix it',
+    severity: 5
   },
   snapshotId: 'asd',
   title: 'incident incoming',
@@ -43,3 +45,6 @@ export const recentEvents$ = create().startWith([Immutable.fromJS({
 //                                                  : alwaysNull;
 //                                              })
 // }).observable;
+
+export const sortedRecentEvents$ = recentEvents$.map(events =>
+  events.slice().sort((a, b) => a.get('start') > b.get('start')));

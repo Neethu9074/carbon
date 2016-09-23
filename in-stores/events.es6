@@ -189,7 +189,7 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
 }
 
 
-export function getColorForEventAtFocusedMomentAsStream(event) {
+export function getColorForEventAtFocusedMomentAsStream(event, defaultColor) {
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
@@ -201,7 +201,7 @@ export function getColorForEventAtFocusedMomentAsStream(event) {
       if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
         return color;
       }
-      return theme.health[0];
+      return defaultColor ? defaultColor : theme.health[0];
     })
     .distinct();
 }
