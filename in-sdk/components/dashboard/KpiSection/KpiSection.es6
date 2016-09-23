@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Button from 'in-components/Button';
 
 import './KpiSection.less';
 
@@ -35,5 +36,15 @@ export function KpiSection({children}) {
                       title='Summary'>
       {children}
     </DashboardSection>
+  );
+}
+
+
+export function KpiTopLevelInteraction({onClick, children}) {
+  return (
+    <Button onClick={onClick}
+            className={`${block}__top-level-interaction`}>
+      {children}
+    </Button>
   );
 }

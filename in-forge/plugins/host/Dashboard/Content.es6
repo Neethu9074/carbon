@@ -13,7 +13,7 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import {enable} from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import {start} from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
@@ -209,7 +209,7 @@ export default function HostDashboard({snapshot, timeframe}) {
           </div>
 
           <div className={`${block}__self-monitoring-controls`}>
-            <Button onClick={() => enable(snapshot)}>
+            <Button onClick={() => start(snapshot)}>
               Enable self monitoring
             </Button>
           </div>
