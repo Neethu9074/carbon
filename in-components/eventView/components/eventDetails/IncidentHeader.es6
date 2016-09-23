@@ -2,8 +2,7 @@ import React from 'react';
 
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import Section from 'in-components/eventView/components/eventDetails/Section';
-import {formatDateTime} from 'in-services/formatters/date';
-import Tooltip from 'in-components/Tooltip';
+import {formatDate, formatTime} from 'in-services/formatters/date';
 
 import './IncidentHeader.less';
 
@@ -16,36 +15,53 @@ export default function HeaderSwitch({event}) {
   return (
     <Section>
       <div>
-        <div className={`${block}__flex-wrapper`}>
-          <LabeledValue label='Started'>
-            {formatDateTime(event.get('start'))}
-          </LabeledValue>
+        <DateTimeString label='Started'
+                        timestamp={event.get('start')} />
 
-          <LabeledValue label='Ended'>
-            {end ? formatDateTime(end) : 'active'}
-          </LabeledValue>
-        </div>
+        <DateTimeString label='Ended'
+                        timestamp={end} />
 
-        <div style={{ height: '0.4rem' }} />
+        <div style={{ height: '0.8rem' }} />
 
-        <Tooltip content='Number of currently active issues'>
-          <LabeledValue label='Active Issues'>
-            0/0
-          </LabeledValue>
-        </Tooltip>
-
-        <Tooltip content='Number of changes'>
-          <LabeledValue label='Changes'>
-            0
-          </LabeledValue>
-        </Tooltip>
-
-        <Tooltip content='Number of affected entities'>
-          <LabeledValue label='Affected'>
-            0
-          </LabeledValue>
-        </Tooltip>
+        {keyValue('Active Issues', '0/0')}
+        {keyValue('Changes', '0')}
+        {keyValue('Affected', '0')}
       </div>
     </Section>
   );
+}
+
+function DateTimeString({label, timestamp}) {
+  if (!timestamp) {
+    return (
+      <LabeledValue label={label}>
+        active
+      </LabeledValue>
+    );
+  }
+  return (
+    <LabeledValue label={label}>
+      <span key='date'
+            className={`${block}__date`}>
+        {`${formatDate(timestamp)} `}
+      </span>
+      <span key='time'
+            className={`${block}__time`}>
+        {formatTime(timestamp)}
+      </span>
+    </LabeledValue>
+  );
+}
+
+function keyValue(key, value) {
+  return [
+    <div key='date'
+          className={`${block}__key`}>
+      {key}
+    </div>,
+    <div key='time'
+          className={`${block}__value`}>
+      {value}
+    </div>
+  ];
 }
