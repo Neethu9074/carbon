@@ -7,12 +7,12 @@ export default function GlassfishDashboard({snapshot}) {
   if (!version) {
     return (
       <DashboardNotification type='warning'>
-        Amx module is not enabled glassfish. Please enable it to be able to collect data.
+        Amx module is not enabled. Please enable the Amx module to support metric collection.
       </DashboardNotification>
     );
   }
+
   return (
-    <div>
-    </div>
+    <div />
   );
 }

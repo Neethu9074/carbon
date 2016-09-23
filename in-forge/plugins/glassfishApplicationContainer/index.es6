@@ -1,30 +1,20 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import iconPath from 'in-forge/plugins/glassfishApplicationContainer/icon.svg';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
-import {addSearchableEntityType} from 'in-sdk/search';
+import icon from 'in-forge/plugins/glassfishApplicationContainer/icon.svg';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
+
 registerSnapshotDefinition({
-  plugin: plugins.glassfish
+  plugin: plugins.glassfish,
+  icon,
+
+  pluginName: {
+    singular: 'Glassfish',
+    plural: 'Glassfish'
+  },
+
+  namesForTypeSearch: ['glassfish'],
+
+  getLabel(snapshot) {
+    return 'Glassfish ' + snapshot.getIn(['data', 'version']);
+  }
 });
-
-setHumanReadablePluginName(
-  plugins.glassfish,
-  'Glassfish',
-  'Glassfish'
-);
-
-addLabelFinder(plugins.glassfish, getLabel);
-
-function getLabel(snapshot) {
-  return 'Glassfish ' + snapshot.getIn(['data', 'version']);
-}
-
-addIconToRegistry({
-  id: plugins.glassfish,
-  image: iconPath
-});
-
-
-addSearchableEntityType('glassfish', plugins.glassfish);
