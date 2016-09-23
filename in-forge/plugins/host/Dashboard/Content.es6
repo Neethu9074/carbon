@@ -13,11 +13,16 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import {enable} from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
+import Button from 'in-components/Button';
 import {getLabel} from 'in-sdk/snapshot';
 
+import './Content.less';
+
+const block = 'in-forge-host-dashboard';
 
 export default function HostDashboard({snapshot, timeframe}) {
   const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
@@ -187,6 +192,29 @@ export default function HostDashboard({snapshot, timeframe}) {
       </DashboardSection>
 
       <ProcessTopList snapshotId={snapshot.get('id')} />
+
+      <DashboardSection title='Agent Self Monitoring'>
+        <div className={`${block}__self-monitoring`}>
+          <div className={`${block}__self-monitoring-description`}>
+            <p>
+              The Instana Agent has self monitoring capabilities which can be used to be inspect the state of the
+              agent for debugging purposes. This is helpful to inspect running sensor versions, as well as discovery
+              times and inventory listings. On top of this, the agent log file can be viewed for convenience via the
+              Instana UI on the click of the button.
+            </p>
+            <p>
+              Instana Agent self monitoring can be enabled via a click of the button to the right. After a few seconds,
+              an Instana agent entity will appear on the map and in the Host entity sidebar.
+            </p>
+          </div>
+
+          <div className={`${block}__self-monitoring-controls`}>
+            <Button onClick={() => enable(snapshot)}>
+              Enable self monitoring
+            </Button>
+          </div>
+        </div>
+      </DashboardSection>
     </div>
   );
 }
