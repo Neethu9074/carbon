@@ -4,8 +4,9 @@ import {
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
 
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ChartWithLegend from 'in-components/ChartWithLegend';
 
 export default function InstanaAgentDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -31,6 +32,7 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                            type: 'stackedArea'
                          }}/>
       </DashboardSection>
+
       <DashboardSection title='Sensors'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
@@ -61,6 +63,10 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line'
                          }}/>
+      </DashboardSection>
+
+      <DashboardSection title='Log Output'>
+        <LogStreamer snapshot={snapshot}/>
       </DashboardSection>
     </div>
   );
