@@ -95,7 +95,7 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
                                'Active Primary',
                                'Initializing',
                                'Relocating',
-                               'Unassinged'
+                               'Unassigned'
                              ],
                              type: 'line'
                            }}/>
