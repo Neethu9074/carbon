@@ -35,12 +35,12 @@ export default React.createClass({
 
   subscribe() {
     // nothing to do, snapshot did not change
-    if (this.snapshotId === this.props.snapshot.get('id')) {
+    if (this.snapshot.get('id') === this.props.snapshot.get('id')) {
       return;
     }
 
     this.disposeSubscription();
-    this.snapshotId = this.props.snapshot.get('id');
+    this.snapshot = this.props.snapshot;
     this.log = '';
     if (this.state.error != null) {
       this.setState({error: null});
@@ -48,7 +48,7 @@ export default React.createClass({
     this.updateLogContent();
 
     this.subscription = createAgentResponseObservable({
-      action: 'agent.log',
+      action: 'agent.startLogging',
       target: this.props.snapshot.get('volatileId'),
       args: {}
     }).subscribe(response => {
@@ -70,6 +70,14 @@ export default React.createClass({
   },
 
   disposeSubscription() {
+    if (this.snapshot) {
+      createAgentResponseObservable({
+        action: 'agent.stopLogging',
+        target: this.snapshot.get('volatileId'),
+        args: {}
+      }).once(() => {});
+    }
+
     if (this.subscription) {
       this.subscription.dispose();
       this.subscription = null;
