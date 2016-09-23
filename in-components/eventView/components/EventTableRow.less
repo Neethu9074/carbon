@@ -1,6 +1,7 @@
 .in-event-view-event-table-row {
   height: 1.625rem;
-  width: 100%;
+  width: ~'calc(100% - 0.5rem)';
+  margin-left: .5rem;
 
   line-height: 1.625rem;
   color: #2D4048;
@@ -8,7 +9,9 @@
   cursor: pointer;
 
   &:hover, &--selected.in-event-view-event-table-row {
-    background: #D5DFE4;
+    border-radius: 3px;
+    background: #2d4048;
+    color: white;
   }
 
   &__cell {
@@ -22,15 +25,20 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     border-bottom: 1px solid #D5DFE4;
+    border-right: 1px solid #D5DFE4;
+
+    &:last-child {
+      border-right: 0;
+    }
 
     &:nth-child(3) {
-      width: 50%;
+      width: 45%;
       padding-left: .938rem;
     }
 
     &:nth-child(4) {
       padding-left: 1.063rem;
-      width: 10%;
+      width: 15%;
     }
   }
 }

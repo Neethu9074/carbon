@@ -21,7 +21,7 @@ export default function EventListHeader() {
   return (
     <ViewHeader className={block}>
       <SvgIcon className={`${block}__icon`}
-               type={'dashboard'}
+               type={'danger_sign'}
                width={20}
                height={20}
                color={'#33d8d7'} />

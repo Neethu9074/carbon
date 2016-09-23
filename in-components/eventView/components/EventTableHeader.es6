@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FilterMenu from 'in-components/eventView/components/FilterMenu';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import './EventTableHeader.less';
@@ -66,7 +67,25 @@ function Cell({expandedCell, onClick, name}) {
       <div className={toggleClassName}
            onClick={() => onClick(isSelected ? null : name)}>
         {name}
+        <Arrow isSelected={isSelected} />
       </div>
+    </div>
+  );
+}
+
+function Arrow({isSelected}) {
+  let toggleClassName = `${block}__icon-wrapper`;
+  if (isSelected) {
+    toggleClassName += ` ${toggleClassName}--selected`;
+  }
+
+  return (
+    <div className={toggleClassName}>
+      <SvgIcon className={`${block}__icon`}
+               type={isSelected ? 'triangle_up' : 'triangle_down'}
+               width={5}
+               height={5}
+               color='#6b8088' />
     </div>
   );
 }

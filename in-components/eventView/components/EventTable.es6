@@ -18,9 +18,22 @@ export default getElementDimensions(connectTo({
   // HACK FOR FAKE EVENTS
   events: create().startWith([{
     id: 'event1',
-    start: Date.now() - 1000 * 60,
+    start: '2016-05-01 16:15:12',
+    end: '2016-05-01 16:15:12',
     title: 'this is a real shit problem',
     severity: 10
+  }, {
+    id: 'event2',
+    start: '2016-05-01 16:15:12',
+    end: '2016-05-01 16:15:12',
+    title: 'this one is not so important',
+    severity: 5
+  }, {
+    id: 'event3',
+    start: '2016-05-01 16:15:12',
+    end: '2016-05-01 16:15:12',
+    title: 'forget this one',
+    severity: 0
   }]),
   events2: shedEventList$,
   isInfiniteLoading: create().startWith(false),
