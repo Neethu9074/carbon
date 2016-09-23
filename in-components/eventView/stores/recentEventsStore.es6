@@ -17,7 +17,7 @@ export const recentEvents$ = create().startWith([Immutable.fromJS({
     severity: 10
   },
   snapshotId: 'asd',
-  title: 'incident incoming',
+  title: 'This is the first issue',
   severity: 10
 }), Immutable.fromJS({
   id: 'id3',
@@ -29,8 +29,19 @@ export const recentEvents$ = create().startWith([Immutable.fromJS({
     severity: 5
   },
   snapshotId: 'asd',
-  title: 'incident incoming',
+  title: 'Big bang issue',
   severity: 5
+}), Immutable.fromJS({
+  id: 'id4',
+  type: 'change',
+  start: Date.now() - 1000 * 40,
+  problem: {
+    fixSuggestion: 'offline',
+    severity: 0
+  },
+  snapshotId: 'asd',
+  title: 'offline',
+  severity: 0
 })]);
 //  createTrackingStore({
 //   name: 'eventView/recentEvents',
