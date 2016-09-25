@@ -15,13 +15,29 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{snapshot.getIn(['entityId', 'host'])}</KpiHeading>
+        <KpiHeading>Instana Agent on {snapshot.getIn(['entityId', 'host'])}</KpiHeading>
 
         <KpiTopLevelInteraction onClick={() => stop(snapshot)}>
           Stop Self Monitoring
         </KpiTopLevelInteraction>
       </KpiSection>
-
+      {snapshot.get('hasCpuLoad') ?
+        <DashboardSection title='CPU Load'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 60
+                           }}
+                           y1={{
+                             min: 0,
+                             type: 'stackedArea',
+                             metrics: [
+                               'cpu.load'
+                             ],
+                             labels: ['Load']
+                           }}/>
+        </DashboardSection>
+      : null}
       <DashboardSection title='Memory'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
@@ -39,7 +55,20 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                            labels: [
                              'Used'
                            ],
-                           type: 'stackedArea'
+                           type: 'line'
+                         }}
+                         y2={{
+                           min: 0,
+                           max: snapshot.getIn(['data', 'memory.nativeTotal']),
+                           formatter: bytesTwoDecimalPlaces,
+                           tooltipFormatter: bytesTwoDecimalPlaces,
+                           metrics: [
+                             'memory.nativeUsed'
+                           ],
+                           labels: [
+                             'Native Used'
+                           ],
+                           type: 'line'
                          }}/>
       </DashboardSection>
 
