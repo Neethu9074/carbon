@@ -1,20 +1,16 @@
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-big-bang-timestamp',
+export default createSubscription({
+  eventId: 'subscribe-big-bang-timestamp',
 
-  // getID
-  () => 'big-bang-timestamp',
+  getId: () => 'big-bang-timestamp',
 
-  // data to be send for subscription
-  (subscriptionId) => {
+  getData: (subscriptionId) => {
     return {
       subscriptionId
     };
   },
 
-  // data transformation on onData
-  timestamp => timestamp
-);
+  transformData: timestamp => timestamp
+});

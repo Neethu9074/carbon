@@ -1,14 +1,12 @@
 import createSubscription from 'in-services/subscription/subscription';
 
-export default createSubscription(
-  // event ID
-  'subscribe-graph',
+export default createSubscription({
+  eventId: 'subscribe-graph',
 
-  // getID
-  time => time,
+  getId: time => time,
 
   // data to be send for subscription
-  (subscriptionId, time) => {
+  getData: (subscriptionId, time) => {
     return {
       subscriptionId,
       time
@@ -16,5 +14,5 @@ export default createSubscription(
   },
 
   // data transformation on onData
-  e => e
-);
+  transformData: e => e
+});

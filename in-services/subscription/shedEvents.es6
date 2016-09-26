@@ -1,15 +1,18 @@
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-shed-event',
+export default createSubscription({
+  eventId: 'subscribe-shed-event',
 
-  // getID
-  getId,
+  getId: ({maxTimestamp, minTimestamp, sortByField, sortMode, query, offset}) => maxTimestamp +
+                                                                                 minTimestamp +
+                                                                                 sortByField +
+                                                                                 sortMode +
+                                                                                 Math.round(Date.now() / 2000) +
+                                                                                 query +
+                                                                                 offset,
 
-  // data to be send for subscription
-  (subscriptionId, {maxTimestamp, minTimestamp, sortByField, sortMode, query, offset}) => {
+  getData: (subscriptionId, {maxTimestamp, minTimestamp, sortByField, sortMode, query, offset}) => {
     return {
       subscriptionId,
       maxTimestamp: maxTimestamp > 0 ? maxTimestamp : undefined,
@@ -21,16 +24,5 @@ export default createSubscription(
     };
   },
 
-  // no need to create an immutable list since we directly transform the data
-  events => events
-);
-
-function getId({maxTimestamp, minTimestamp, sortByField, sortMode, query, offset}) {
-  return maxTimestamp
-        + minTimestamp
-        + sortByField
-        + sortMode
-        + Math.round(Date.now() / 2000)
-        + query
-        + offset;
-}
+  transformData: events => events
+});

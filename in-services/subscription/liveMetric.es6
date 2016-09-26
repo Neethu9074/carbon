@@ -1,14 +1,15 @@
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-live-metric',
+export default createSubscription({
+  eventId: 'subscribe-live-metric',
 
-  getId,
+  getId: ({snapshotId, metric, aggregation, rollup}) => snapshotId +
+                                                        metric +
+                                                        aggregation +
+                                                        rollup,
 
-  // data to be send for subscription
-  (subscriptionId, {snapshotId, metric, aggregation, rollup}) => {
+  getData: (subscriptionId, {snapshotId, metric, aggregation, rollup}) => {
     return {
       subscriptionId,
       aggregation,
@@ -18,13 +19,8 @@ export default createSubscription(
     };
   },
 
-  // data transformation on onData
-  dataPoint => {
+  transformData: dataPoint => {
     dataPoint.time = dataPoint[0];
     return dataPoint;
   }
-);
-
-function getId({snapshotId, metric, aggregation, rollup}) {
-  return snapshotId + metric + aggregation + rollup;
-}
+});

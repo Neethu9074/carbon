@@ -1,20 +1,16 @@
 import createSubscription from 'in-services/subscription/subscription';
 
-export default createSubscription(
-  // event ID
-  'subscribe-graph-universe',
+export default createSubscription({
+  eventId: 'subscribe-graph-universe',
 
-  // getID
-  time => time,
+  getId: time => time,
 
-  // data to be send for subscription
-  (subscriptionId, time) => {
+  getData: (subscriptionId, time) => {
     return {
       subscriptionId,
       time
     };
   },
 
-  // data transformation on onData
-  e => e
-);
+  transformData: e => e
+});

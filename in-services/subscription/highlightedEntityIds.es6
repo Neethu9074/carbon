@@ -1,14 +1,11 @@
 import createSubscription from 'in-services/subscription/subscription';
 
-export default createSubscription(
-  // event ID
-  'subscribe-entities-for-highlighting',
+export default createSubscription({
+  eventId: 'subscribe-entities-for-highlighting',
 
-  // getID
-  ({snapshotId, time}) => snapshotId + time,
+  getId: ({snapshotId, time}) => snapshotId + time,
 
-  // data to be send for subscription
-  (subscriptionId, {snapshotId, time}) => {
+  getData: (subscriptionId, {snapshotId, time}) => {
     return {
       subscriptionId,
       snapshotId,
@@ -16,6 +13,5 @@ export default createSubscription(
     };
   },
 
-  // data transformation on onData
-  data => data
-);
+  transformData: data => data
+});

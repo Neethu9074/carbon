@@ -3,15 +3,12 @@ import Immutable from 'immutable';
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-service-instances',
+export default createSubscription({
+  eventId: 'subscribe-service-instances',
 
-  // getID
-  ({snapshotId, time}) => snapshotId + time,
+  getId: ({snapshotId, time}) => snapshotId + time,
 
-  // data to be send for subscription
-  (subscriptionId, {snapshotId, time}) => {
+  getData: (subscriptionId, {snapshotId, time}) => {
     return {
       subscriptionId,
       snapshotId,
@@ -19,6 +16,5 @@ export default createSubscription(
     };
   },
 
-  // data transformation on onData
-  components => Immutable.fromJS(components)
-);
+  transformData: components => Immutable.fromJS(components)
+});

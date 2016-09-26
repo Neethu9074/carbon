@@ -1,14 +1,16 @@
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-historic-metric-single',
+export default createSubscription({
+  eventId: 'subscribe-historic-metric-single',
 
-  getId,
+  getId: ({snapshotId, metric, time, aggregation, rollup}) => snapshotId +
+                                                              metric +
+                                                              time +
+                                                              aggregation +
+                                                              rollup,
 
-  // data to be send for subscription
-  (subscriptionId, {snapshotId, metric, time, aggregation, rollup}) => {
+  getData: (subscriptionId, {snapshotId, metric, time, aggregation, rollup}) => {
     return {
       subscriptionId,
       aggregation,
@@ -19,12 +21,7 @@ export default createSubscription(
     };
   },
 
-  // data transformation on onData
-  v => v,
+  transformData: v => v,
 
-  100
-);
-
-function getId({snapshotId, metric, time, aggregation, rollup}) {
-  return snapshotId + metric + time + aggregation + rollup;
-}
+  memoizeFor: 100
+});

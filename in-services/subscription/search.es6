@@ -3,15 +3,12 @@ import Immutable from 'immutable';
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-search',
+export default createSubscription({
+  eventId: 'subscribe-search',
 
-  // getID
-  ({query, time, view}) => query + time + view,
+  getId: ({query, time, view}) => query + time + view,
 
-  // data to be send for subscription
-  (subscriptionId, {query, time, view}) => {
+  getData: (subscriptionId, {query, time, view}) => {
     return {
       subscriptionId,
       query,
@@ -20,6 +17,5 @@ export default createSubscription(
     };
   },
 
-  // data transformation on onData
-  data => Immutable.List(data)
-);
+  transformData: data => Immutable.List(data)
+});

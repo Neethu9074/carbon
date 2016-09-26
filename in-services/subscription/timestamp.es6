@@ -1,21 +1,17 @@
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'timestamp',
+export default createSubscription({
+  eventId: 'timestamp',
 
-  // getID
-  ({originate}) => originate,
+  getId: ({originate}) => originate,
 
-  // data to be send for subscription
-  (subscriptionId, {originate}) => {
+  getData: (subscriptionId, {originate}) => {
     return {
       subscriptionId,
       originate
     };
   },
 
-  // data transformation on onData
-  reply => reply
-);
+  transformData: reply => reply
+});

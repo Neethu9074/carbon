@@ -2,21 +2,17 @@ import Immutable from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
-export default createSubscription(
-  // event ID
-  'subscribe-open-events',
+export default createSubscription({
+  eventId: 'subscribe-open-events',
 
-  // getID
-  time => time,
+  getId: time => time,
 
-  // data to be send for subscription
-  (subscriptionId, time) => {
+  getData: (subscriptionId, time) => {
     return {
       subscriptionId,
       time
     };
   },
 
-  // data transformation on onData
-  events => Immutable.fromJS(events)
-);
+  transformData: events => Immutable.fromJS(events)
+});

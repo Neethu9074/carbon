@@ -3,15 +3,12 @@ import Immutable from 'immutable';
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-shed-events-count',
+export default createSubscription({
+  eventId: 'subscribe-shed-events-count',
 
-  // getID
-  ({timeframe, query}) => timeframe.to + timeframe.windowSize + query,
+  getId: ({timeframe, query}) => timeframe.to + timeframe.windowSize + query,
 
-  // data to be send for subscription
-  (subscriptionId, {timeframe, query}) => {
+  getData: (subscriptionId, {timeframe, query}) => {
     return {
       subscriptionId,
       timeframe,
@@ -19,6 +16,5 @@ export default createSubscription(
     };
   },
 
-  // data transformation on onData
-  counter => Immutable.fromJS(counter)
-);
+  transformData: counter => Immutable.fromJS(counter)
+});

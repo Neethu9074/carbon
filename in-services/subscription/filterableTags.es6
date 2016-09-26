@@ -3,23 +3,19 @@ import Immutable from 'immutable';
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-filterable-tags',
+export default createSubscription({
+  eventId: 'subscribe-filterable-tags',
 
-  // getID
-  time => time,
+  getId: time => time,
 
-  // data to be send for subscription
-  (subscriptionId, time) => {
+  getData: (subscriptionId, time) => {
     return {
       subscriptionId,
       time
     };
   },
 
-  // data transformation on onData
-  filterableTags => {
+  transformData: filterableTags => {
     filterableTags.sort((a, b) => {
       return a.localeCompare(b, 'en-US', {
         sensitivity: 'base'
@@ -27,4 +23,4 @@ export default createSubscription(
     });
     return Immutable.List(filterableTags);
   }
-);
+});

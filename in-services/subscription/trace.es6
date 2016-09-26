@@ -3,15 +3,12 @@ import Immutable from 'immutable';
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-trace',
+export default createSubscription({
+  eventId: 'subscribe-trace',
 
-  // getID
-  traceId => traceId,
+  getId: traceId => traceId,
 
-  // data to be send for subscription
-  (subscriptionId, traceId) => {
+  getData: (subscriptionId, traceId) => {
     return {
       subscriptionId,
       traceId,
@@ -19,6 +16,5 @@ export default createSubscription(
     };
   },
 
-  // data transformation on onData
-  trace => Immutable.fromJS(trace)
-);
+  transformData: trace => Immutable.fromJS(trace)
+});

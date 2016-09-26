@@ -1,20 +1,16 @@
 import createSubscription from 'in-services/subscription/subscription';
 
 
-export default createSubscription(
-  // event ID
-  'subscribe-is-monitoring',
+export default createSubscription({
+  eventId: 'subscribe-is-monitoring',
 
-  // getID
-  () => 'isMonitoring',
+  getId: () => 'isMonitoring',
 
-  // data to be send for subscription
-  (subscriptionId) => {
+  getData: (subscriptionId) => {
     return {
       subscriptionId
     };
   },
 
-  // data transformation on onData
-  monitoring => monitoring
-);
+  transformData: monitoring => monitoring
+});
