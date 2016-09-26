@@ -67,7 +67,9 @@ export default class MainScene extends SceneObject {
       this.addSubscription(
         eventBus.on('enterFullscreen').subscribe(shouldEnter => {
           if (shouldEnter) {
-            this.renderTarget.requestPresent();
+            this.renderTarget.isPresenting
+              ? this.renderTarget.exitPresent()
+              : this.renderTarget.requestPresent();
             eventBus.emit('enterFullscreen', false);
           }
         }));

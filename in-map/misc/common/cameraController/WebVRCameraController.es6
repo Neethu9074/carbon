@@ -17,7 +17,7 @@ class WebVRCameraController {
     this.camera = new WebVRCamera();
 
     this.camTransformObject = new Object3D();
-    this.camTransformObject.position.set(0, 1.8, 20);
+    this.camTransformObject.position.set(0, 1.8, 6);
 
     this.camTransformObject.add(this.camera.getRenderableCamera());
     this.camTransformObject.updateMatrixWorld();
