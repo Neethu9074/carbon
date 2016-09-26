@@ -13,6 +13,7 @@ import {
   Mesh as ThreeMesh,
   MeshBasicMaterial as ThreeMeshBasicMaterial,
   Object3D as ThreeObject3D,
+  ObjectLoader as ThreeObjectLoader,
   OrthographicCamera as ThreeOrthographicCamera,
   PerspectiveCamera as ThreePerspectiveCamera,
   PlaneBufferGeometry as ThreePlaneBufferGeometry,
@@ -25,7 +26,15 @@ import {
   Texture as ThreeTexture,
   Vector3 as ThreeVector3,
   VertexColors as ThreeVertexColors,
-  WebGLRenderer as ThreeWebGLRenderer
+  WebGLRenderer as ThreeWebGLRenderer,
+  DefaultLoadingManager as ThreeDefaultLoadingManager,
+  XHRLoader as ThreeXHRLoader,
+  Group as ThreeGroup,
+  LineBasicMaterial as ThreeLineBasicMaterial,
+  MeshPhongMaterial as ThreeMeshPhongMaterial,
+  SmoothShading as ThreeSmoothShading,
+  FlatShading as ThreeFlatShading,
+  MultiMaterial as ThreeMultiMaterial
 } from 'three';
 
 export const BoxGeometry = ThreeBoxGeometry;
@@ -42,6 +51,7 @@ export const Matrix4 = ThreeMatrix4;
 export const Mesh = ThreeMesh;
 export const MeshBasicMaterial = ThreeMeshBasicMaterial;
 export const Object3D = ThreeObject3D;
+export const ObjectLoader = ThreeObjectLoader;
 export const OrthographicCamera = ThreeOrthographicCamera;
 export const PerspectiveCamera = ThreePerspectiveCamera;
 export const PlaneBufferGeometry = ThreePlaneBufferGeometry;
@@ -55,3 +65,11 @@ export const Texture = ThreeTexture;
 export const Vector3 = ThreeVector3;
 export const VertexColors = ThreeVertexColors;
 export const WebGLRenderer = ThreeWebGLRenderer;
+export const DefaultLoadingManager = ThreeDefaultLoadingManager;
+export const XHRLoader = ThreeXHRLoader;
+export const Group = ThreeGroup;
+export const LineBasicMaterial = ThreeLineBasicMaterial;
+export const MeshPhongMaterial = ThreeMeshPhongMaterial;
+export const SmoothShading = ThreeSmoothShading;
+export const FlatShading = ThreeFlatShading;
+export const MultiMaterial = ThreeMultiMaterial;

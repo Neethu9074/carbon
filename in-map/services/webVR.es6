@@ -5,6 +5,7 @@ import React from 'react';
 import {
   Matrix4,
   Vector3,
+  Object3D,
   Quaternion,
   PerspectiveCamera
 } from 'in-map/3DLibProvider';
@@ -42,6 +43,7 @@ function getErrorMessage() {
 window.THREE = {
   Matrix4,
   Vector3,
+  Object3D,
   Quaternion,
   PerspectiveCamera
 };
@@ -54,4 +56,9 @@ export function loadVRControlsWrapper() {
 export function loadVREffectWrapper() {
   require('three/examples/js/effects/VREffect.js');
   return window.THREE.VREffect;
+}
+
+export function loadViveController() {
+  require('three/examples/js/ViveController.js');
+  return window.THREE.ViveController;
 }
