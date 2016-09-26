@@ -12,7 +12,7 @@ import 'in-map/index.less';
 
 
 const rpt = React.PropTypes;
-const block = 'in-new-map';
+const block = 'in-map';
 
 export default connectTo({
   antialias: getIn(['map', 'antialias']),

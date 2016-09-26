@@ -121,7 +121,7 @@ export default class MainScene extends SceneObject {
     });
 
     renderer.setSize(0, 0);
-    renderer.setClearColor(new Color(theme.map.colors.clearColor));
+    renderer.setClearColor(new Color(theme.map.colors.clearColor), 1.0);
 
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
