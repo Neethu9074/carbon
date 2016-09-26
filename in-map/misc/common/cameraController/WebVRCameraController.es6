@@ -1,5 +1,6 @@
 import {createLogger} from 'instalog';
 
+import createKeyboardController from 'in-map/misc/common/KeyboardController/KeyboardController';
 import createViveController from 'in-map/misc/common/ViveController/ViveController';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {loadVRControlsWrapper} from 'in-map/services/webVR';
@@ -29,6 +30,7 @@ class WebVRCameraController {
     this.updateCamera();
 
     this.viveController = createViveController(this.vrControls);
+    this.keyboardController = createKeyboardController(this);
   }
 
   initEvents() {
@@ -49,6 +51,7 @@ class WebVRCameraController {
 
     this.updateCamera();
 
+    this.keyboardController.update();
     this.viveController.update();
   }
 
@@ -62,6 +65,7 @@ class WebVRCameraController {
   dispose() {
     this.vrControls.dispose();
 
+    this.keyboardController.dispose();
     this.viveController.dispose();
 
     this.camera.dispose();

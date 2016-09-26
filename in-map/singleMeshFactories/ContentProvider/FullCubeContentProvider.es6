@@ -45,7 +45,16 @@ const VERTICES = [
 
   -0.5, 0, -0.5,
   0.5, 1, -0.5,
-  -0.5, 1, -0.5
+  -0.5, 1, -0.5,
+
+  // bottom
+  -0.5, 0, 0.5,
+  0.5, 0, 0.5,
+  0.5, 0, -0.5,
+
+  -0.5, 0, 0.5,
+  0.5, 0, -0.5,
+  -0.5, 0, -0.5
 ];
 
 const CUBE_COLOR_FALLOFF_VALUES = theme.map.colors.cubeColorFalloffValues;
@@ -94,7 +103,15 @@ const COLORS = [
 
   BACK, BACK, BACK,
   BACK, BACK, BACK,
-  BACK, BACK, BACK
+  BACK, BACK, BACK,
+
+  TOP.r, TOP.g, TOP.b,
+  TOP.r, TOP.g, TOP.b,
+  TOP.r, TOP.g, TOP.b,
+
+  TOP.r, TOP.g, TOP.b,
+  TOP.r, TOP.g, TOP.b,
+  TOP.r, TOP.g, TOP.b
 ];
 
 export default {

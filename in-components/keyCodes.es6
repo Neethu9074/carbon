@@ -9,7 +9,11 @@ export default {
   enter: 13,
   f: 70,
   n: 78,
-  v: 86
+  v: 86,
+  w: 87,
+  a: 65,
+  s: 83,
+  d: 68
 };
 
 /*
