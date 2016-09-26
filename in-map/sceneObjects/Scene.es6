@@ -68,8 +68,8 @@ export default class MainScene extends SceneObject {
         eventBus.on('enterFullscreen').subscribe(shouldEnter => {
           if (shouldEnter) {
             this.renderTarget.requestPresent();
+            eventBus.emit('enterFullscreen', false);
           }
-          eventBus.emit('enterFullscreen', false);
         }));
     }
 
