@@ -11,6 +11,8 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
 
   constructor(options) {
     super(options);
+
+    this.iconSizeMultiplier = 1;
   }
 
   getMesh(geometry, material) {
@@ -44,6 +46,10 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
     this.material.uniforms.distance.value = distance;
   }
 
+  setIconSizeMultiplier(multiplier) {
+    this.iconSizeMultiplier = multiplier;
+  }
+
   rebuild() {
     super.rebuild();
 
@@ -70,7 +76,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         index += 3;
       }
 
-      pointSizes[i] = fragment.additionalParams.iconSize;
+      pointSizes[i] = fragment.additionalParams.iconSize * this.iconSizeMultiplier;
 
       const xy = config.LUT[fragment.additionalParams.type];
       xy

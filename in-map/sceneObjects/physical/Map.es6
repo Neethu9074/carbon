@@ -40,6 +40,7 @@ export default class Map extends BaseMap {
       // for perspective cameras the distance does matter, so set the "correct" value
       // so that penguins don't grow to big
       getFactory('icons').setDistance(200);
+      getFactory('icons').setIconSizeMultiplier(0.5);
     }
   }
 
