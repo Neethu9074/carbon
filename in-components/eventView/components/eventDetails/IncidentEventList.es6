@@ -7,6 +7,11 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import {getEvent} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
+import 'in-components/eventView/components/eventDetails/IncidentEventList.less';
+
+
+const block = 'in-event-view-incident-event-list';
+
 export default connectTo(props => {
   return {
     // HACK FOR FAKE EVENTS
@@ -20,11 +25,21 @@ function IncidentEventList({events}) {
   }
 
   return (
-    <div>
+    <div className={block}>
+      <TimeMarker text='started' />
       {events.map(event => <EventDetails key={event.get('id')}
                                          event={event}
                                          isCollapsed={true} />)
       }
+      <TimeMarker text='ended' />
     </div>
   );
 });
+
+function TimeMarker({text}) {
+  return (
+    <div className={`${block}__time-marker ${block}__time-marker__${text}`}>
+      {text}
+    </div>
+  );
+}
