@@ -17,6 +17,7 @@ import './log.jul';
 import './log.log4j';
 import './log.log4j2';
 import './log.slf4j';
+import './mail.javamail';
 import './memcache';
 import './mongo';
 import './mysql';
