@@ -3,13 +3,16 @@ import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 import React from 'react';
 
+import TimeAxis from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/TimeAxis';
 import Events from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/Events';
-import Section from 'in-components/eventView/components/eventDetails/Section';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
+import 'in-components/eventView/components/eventDetails/IncidentPopulationChart/IncidentPopulationChart.less';
 
+
+const block = 'in-event-view-detail-chart';
 const timeOffset = 1000 * 10;
 const rpt = React.PropTypes;
 
@@ -54,16 +57,17 @@ export default getElementDimensions(React.createClass({
   render() {
     const width = this.props.width;
     if (width) {
-      this.scale.setRangeTo(width - 32); // sub left and right padding caused by section component
+      this.scale.setRangeTo(width); // sub left and right padding caused by section component
     }
     this.scale.setRangeFrom(0);
     this.scale.setDomainFrom(this.state.from);
     this.scale.setDomainTo(this.state.to);
 
     return (
-      <Section>
+      <div className={block}>
+        <TimeAxis scale={this.scale} />
         <Events scale={this.scale} />
-      </Section>
+      </div>
     );
   },
 

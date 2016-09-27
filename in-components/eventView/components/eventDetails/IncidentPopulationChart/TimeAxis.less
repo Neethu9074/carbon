@@ -1,0 +1,23 @@
+.in-event-view-detail-chart-time-axis {
+  position: absolute;
+  height: ~'calc(100% - 1rem)'; // the parent wrapper has padding of 2rem, so substract it
+
+  border-top: 1px solid #e2e9ec;
+
+  &__topline, &__tick {
+    position: absolute;
+    top: 0;
+    background: #e2e9ec;
+  }
+
+  &__topline {
+    left: 0;
+    height: 1px;
+  }
+
+  &__tick {
+    bottom: 0;
+    width: 1px;
+    color: #6b8088;
+  }
+}

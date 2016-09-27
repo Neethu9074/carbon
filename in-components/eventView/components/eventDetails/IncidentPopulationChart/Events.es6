@@ -49,16 +49,16 @@ const Event = connectTo(props => {
 ({event, scale, color}) => {
   const left = scale.getRange(event.get('start'));
   const end = event.get('end');
-  const right = end
-    ? scale.getRange(end)
-    : scale.getRangeTo() - 16; // sub right padding caused by section component
+  const right = end ? scale.getRange(end) : scale.getRangeTo();
+  const width = right - left;
 
   const eventType = getEventType(event);
 
   return (
     <div className={`${block}__event`}
          style={{
-           marginLeft: left
+           marginLeft: left,
+           width
          }}>
 
       <Icon className={block + '__icon'}
@@ -67,7 +67,7 @@ const Event = connectTo(props => {
 
       <div className={block + '__bar'}
            style={{
-             width: right - left,
+             width,
              background: color
            }}>
       </div>

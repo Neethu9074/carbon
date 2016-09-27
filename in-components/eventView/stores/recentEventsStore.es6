@@ -35,6 +35,7 @@ export const recentEvents$ = create().startWith([Immutable.fromJS({
   id: 'id4',
   type: 'change',
   start: Date.now() - 1000 * 40,
+  end: Date.now() - 1000 * 20,
   problem: {
     fixSuggestion: 'offline',
     severity: 0
