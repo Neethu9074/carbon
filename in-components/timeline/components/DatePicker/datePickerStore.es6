@@ -1,7 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import {formatTime, formatDate, parseDateTime, parseDate} from 'in-services/formatters/date';
-import {bigBangTimestamp$} from 'in-stores/timeline';
+import {bigBangTimestamp$, focusedMoment$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
 
@@ -66,9 +66,17 @@ export function setTimeString(newTime) {
 }
 
 export function reset() {
-  serverTime$.once(timestamp => {
-    const date = new Date(timestamp);
-    setDateString(formatDate(date.getTime()));
-    setTimeString(formatTime(date.getTime()));
+  focusedMoment$.once(_focusedMoment => {
+    if (_focusedMoment) {
+      setTimestamp(_focusedMoment);
+    } else {
+      serverTime$.once(_serverTime => setTimestamp(_serverTime));
+    }
   });
+}
+
+function setTimestamp(timestamp) {
+  const date = new Date(timestamp);
+  setDateString(formatDate(date.getTime()));
+  setTimeString(formatTime(date.getTime()));
 }
