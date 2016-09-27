@@ -34,7 +34,7 @@ class WebVRCameraController {
         e.gamepad.index, e.gamepad.id, e.gamepad.buttons.length, e.gamepad.axes.length);
 
       if (!this.viveController) {
-        this.viveController = createViveController(this.vrControls, e.gamepad.index);
+        this.viveController = createViveController(this.vrControls, e.gamepad.id);
       }
     });
 
