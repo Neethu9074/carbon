@@ -197,14 +197,13 @@ export default function HostDashboard({snapshot, timeframe}) {
         <div className={`${block}__self-monitoring`}>
           <div className={`${block}__self-monitoring-description`}>
             <p>
-              The Instana Agent has self monitoring capabilities which can be used to be inspect the state of the
-              agent for debugging purposes. This is helpful to inspect running sensor versions, as well as discovery
-              times and inventory listings. On top of this, the agent log file can be viewed for convenience via the
-              Instana UI on the click of the button.
+              The Instana Agent has self monitoring capabilities which assist troubleshooting and provide deeper
+              insights without the need to log in and review files. This includes inspecting the agent log, running
+              sensor versions and more.
             </p>
             <p>
-              Instana Agent self monitoring can be enabled via a click of the button to the right. After a few seconds,
-              an Instana agent entity will appear on the map and in the Host entity sidebar.
+              Please click on <em>Enable self monitoring</em> and after a few seconds a new entity <em>Instana
+              Agent</em> will appear exposing the information.
             </p>
           </div>
 
