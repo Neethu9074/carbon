@@ -29,7 +29,24 @@ class WebVRCameraController {
                                           e => logger.error('Failed to create VR controls', e));
     this.updateCamera();
 
-    this.viveController = createViveController(this.vrControls);
+    window.addEventListener('gamepadconnected', e => {
+      logger.info('Gamepad connected at index %d: %s. %d buttons, %d axes.',
+        e.gamepad.index, e.gamepad.id, e.gamepad.buttons.length, e.gamepad.axes.length);
+
+      if (!this.viveController) {
+        this.viveController = createViveController(this.vrControls, e.gamepad.index);
+      }
+    });
+
+    window.addEventListener('gamepaddisconnected', e => {
+      logger.info('Gamepad disconnected from index %d: %s', e.gamepad.index, e.gamepad.id);
+
+      if (this.viveController) {
+        this.viveController.dispose();
+        this.viveController = null;
+      }
+    });
+
     this.keyboardController = createKeyboardController(this);
   }
 
@@ -52,7 +69,10 @@ class WebVRCameraController {
     this.updateCamera();
 
     this.keyboardController.update();
-    this.viveController.update();
+
+    if (this.viveController) {
+      this.viveController.update();
+    }
   }
 
   updateCamera() {
@@ -62,11 +82,18 @@ class WebVRCameraController {
     requestRendering();
   }
 
+  disposeViveController() {
+    if (this.viveController) {
+      this.viveController.dispose();
+      this.viveController = null;
+    }
+  }
+
   dispose() {
     this.vrControls.dispose();
 
+    this.disposeViveController();
     this.keyboardController.dispose();
-    this.viveController.dispose();
 
     this.camera.dispose();
     this.camera = null;

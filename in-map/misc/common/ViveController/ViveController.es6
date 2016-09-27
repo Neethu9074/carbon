@@ -9,10 +9,10 @@ import controllerDiffuseMapPath from 'in-map/misc/common/ViveController/onepoint
 import controllerSpecularMapPath from 'in-map/misc/common/ViveController/onepointfive_spec.png';
 
 
-export default function createViveController(controls) {
+export default function createViveController(controls, index) {
 
   const ViveController = loadViveController();
-  const rightHandController =  new ViveController(0); // 0 = id
+  const rightHandController =  new ViveController(index);
   rightHandController.standingMatrix = controls.getStandingMatrix();
 
   addSceneObject(rightHandController);
