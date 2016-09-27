@@ -21,6 +21,7 @@ import './memcache';
 import './mongo';
 import './mysql';
 import './mysqli';
+import './nanohttpd';
 import './node.http.server';
 import './node.http.client';
 import './okhttp';
