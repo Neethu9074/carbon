@@ -47,12 +47,16 @@ const Event = connectTo(props => {
   };
 },
 ({event, scale, color}) => {
-  const left = scale.getRange(event.get('start'));
+  let left = scale.getRange(event.get('start'));
   const end = event.get('end');
-  const right = end ? scale.getRange(end) : scale.getRangeTo();
+  let right = end ? scale.getRange(end) : scale.getRangeTo();
   const width = right - left;
-
   const eventType = getEventType(event);
+
+  // clamp events so that they are not going beyond the borders of the chart. If they would do, the incident
+  // start and end properties are wrongly calculated
+  left = Math.max(left, 0);
+  right = Math.min(right, scale.getRangeTo());
 
   return (
     <div className={`${block}__event`}
