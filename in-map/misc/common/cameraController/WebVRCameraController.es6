@@ -1,6 +1,7 @@
 import {createLogger} from 'instalog';
 
 import createKeyboardController from 'in-map/misc/common/KeyboardController/KeyboardController';
+import createViveController from 'in-map/misc/common/ViveController/ViveController';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {loadVRControlsWrapper} from 'in-map/services/webVR';
 import WebVRCamera from 'in-map/misc/WebVRCamera';
@@ -28,6 +29,7 @@ class WebVRCameraController {
                                           e => logger.error('Failed to create VR controls', e));
     this.updateCamera();
 
+    this.viveController = createViveController(this.vrControls);
     this.keyboardController = createKeyboardController(this);
   }
 
@@ -50,6 +52,7 @@ class WebVRCameraController {
     this.updateCamera();
 
     this.keyboardController.update();
+    this.viveController.update();
   }
 
   updateCamera() {
@@ -63,6 +66,7 @@ class WebVRCameraController {
     this.vrControls.dispose();
 
     this.keyboardController.dispose();
+    this.viveController.dispose();
 
     this.camera.dispose();
     this.camera = null;
