@@ -57,8 +57,3 @@ export function loadVREffectWrapper() {
   require('three/examples/js/effects/VREffect.js');
   return window.THREE.VREffect;
 }
-
-export function loadViveController() {
-  require('three/examples/js/ViveController.js');
-  return window.THREE.ViveController;
-}
