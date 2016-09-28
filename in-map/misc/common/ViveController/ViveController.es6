@@ -50,9 +50,9 @@ export default function createViveController(wrapper, controls, id) {
       return;
     }
 
-		const x = event.axes[0];
-		const y = event.axes[1];
-		forward = y;
+    const x = event.axes[0];
+    const y = event.axes[1];
+    forward = y;
     strife = x;
   }
 
