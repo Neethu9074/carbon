@@ -1,4 +1,5 @@
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import {toggleParticles} from 'in-map/stores/logical/particlesStore';
 import {loadViveController} from 'in-map/services/webVR';
 import {loadObject} from 'in-map/services/objectLoader';
 import {loadImage} from 'in-map/services/imageLoader';
@@ -21,8 +22,11 @@ export default function createViveController(wrapper, controls, id) {
 
   addSceneObject(rightHandController);
 
-  rightHandController.addEventListener('triggerdown', onTriggerDown);
-  rightHandController.addEventListener('triggerup', onTriggerUp);
+  rightHandController.addEventListener('triggerdown', () => forward = 1);
+  rightHandController.addEventListener('triggerup', () => forward = 0);
+  rightHandController.addEventListener('thumbpaddown', () => forward = -1);
+  rightHandController.addEventListener('thumbpadup', () => forward = 0);
+  rightHandController.addEventListener('menudown', toggleParticles);
 
 
   loadObject(controllerObjectPath, object => {
@@ -43,14 +47,6 @@ export default function createViveController(wrapper, controls, id) {
     rightHandController.add(object.clone());
   });
 
-  function onTriggerDown() {
-    forward = 1;
-  }
-
-  function onTriggerUp() {
-    forward = 0;
-  }
-
   function update() {
     const dt = getDeltaTime();
 
@@ -65,8 +61,11 @@ export default function createViveController(wrapper, controls, id) {
   };
 
   function dispose() {
-    rightHandController.removeEventListener('triggerdown', onTriggerDown);
-    rightHandController.removeEventListener('triggerup', onTriggerUp);
+    rightHandController.removeEventListener('triggerdown');
+    rightHandController.removeEventListener('triggerup');
+    rightHandController.removeEventListener('thumbpaddown');
+    rightHandController.removeEventListener('thumbpadup');
+    rightHandController.removeEventListener('menudown');
 
     removeSceneObject(rightHandController);
   }

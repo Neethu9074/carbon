@@ -1,5 +1,6 @@
 import {on} from 'reactive-observables';
 
+import {toggleParticles} from 'in-map/stores/logical/particlesStore';
 import keyCodes from 'in-components/keyCodes';
 import {getDeltaTime} from 'in-map/misc/time';
 
@@ -10,7 +11,13 @@ export default function createKeyboardController(controls) {
   let strife = 0;
   let forward = 0;
 
-  const keyDownSubscription = on(window, 'keydown').subscribe(e => onKey(e, 1, 1, -1, -1));
+  const keyDownSubscription = on(window, 'keydown').subscribe(e => {
+    onKey(e, 1, 1, -1, -1);
+
+    if (e.keyCode === keyCodes.p) {
+      toggleParticles();
+    }
+  });
   const keyUpSubscription = on(window, 'keyup').subscribe(e => onKey(e, 0, 0, 0, 0));
 
   function onKey(event, w, a, s, d) {
@@ -29,7 +36,6 @@ export default function createKeyboardController(controls) {
         break;
       default:
     }
-
   }
 
   function update() {

@@ -4,7 +4,6 @@ import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
 import onNpressed from 'in-services/shortcuts/shortcuts/N';
 import onFPressed from 'in-services/shortcuts/shortcuts/F';
 import onVPressed from 'in-services/shortcuts/shortcuts/V';
-import onPPressed from 'in-services/shortcuts/shortcuts/P';
 import keyCodes from 'in-components/keyCodes';
 
 
@@ -15,7 +14,6 @@ export function init() {
   registeredShortcuts[keyCodes.n] = onNpressed;
   registeredShortcuts[keyCodes.f] = onFPressed;
   registeredShortcuts[keyCodes.v] = onVPressed;
-  registeredShortcuts[keyCodes.p] = onPPressed;
 
   on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();
