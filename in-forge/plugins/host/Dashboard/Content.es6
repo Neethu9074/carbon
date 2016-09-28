@@ -208,7 +208,10 @@ export default function HostDashboard({snapshot, timeframe}) {
           </div>
 
           <div className={`${block}__self-monitoring-controls`}>
-            <Button onClick={() => start(snapshot)}>
+            <Button onClick={() => start(snapshot)}
+                    style={{
+                      background: '#e2e9ec'
+                    }}>
               Enable self monitoring
             </Button>
           </div>
