@@ -2,7 +2,8 @@ import React from 'react';
 
 import {
   zeroDecimalPlaces,
-  percentageZeroDecimalPlaces
+  percentageZeroDecimalPlaces,
+  msZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -149,6 +150,38 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
+                         }}/>
+      </DashboardSection>
+      <DashboardSection title='Web Requests'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 40,
+                           right: 40
+                         }}
+                         y1={{
+                           metrics: [
+                             'http_request_count',
+                             'http_error'
+                           ],
+                           labels: [
+                             'Requests',
+                             'Errors'
+                           ],
+                           type: 'line',
+                           formatter: zeroDecimalPlaces
+                         }}
+                         y2={{
+                           metrics: [
+                             'http_max_time',
+                             'http_proc_time'
+                           ],
+                           labels: [
+                             'Max Time',
+                             'Processing Time'
+                           ],
+                           type: 'line',
+                           formatter: msZeroDecimalPlaces
                          }}/>
       </DashboardSection>
     </div>
