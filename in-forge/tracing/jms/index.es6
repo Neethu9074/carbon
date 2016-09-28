@@ -14,7 +14,7 @@ registerSpanDefinition({
 
   getLabel(span) {
     const label = span.getIn(['data', 'jms', 'type'], '<unknown type>');
-    const destination = span.getIn(['data', 'jms', 'type']);
+    const destination = span.getIn(['data', 'jms', 'destination']);
     if (destination == null) {
       return label;
     }
