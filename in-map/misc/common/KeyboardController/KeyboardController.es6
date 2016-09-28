@@ -10,7 +10,7 @@ export default function createKeyboardController(controls) {
   let strife = 0;
   let forward = 0;
 
-  const keyDownSubscription = on(window, 'keydown').subscribe(e => onKey(e, -1, -1, 1, 1));
+  const keyDownSubscription = on(window, 'keydown').subscribe(e => onKey(e, 1, 1, -1, -1));
   const keyUpSubscription = on(window, 'keyup').subscribe(e => onKey(e, 0, 0, 0, 0));
 
   function onKey(event, w, a, s, d) {
@@ -35,8 +35,8 @@ export default function createKeyboardController(controls) {
   function update() {
     const dt = getDeltaTime();
 
-    controls.camTransformObject.translateX(strife * dt * moveSpeed);
-    controls.camTransformObject.translateZ(forward * dt * moveSpeed);
+    controls.moveForward(forward * dt * moveSpeed);
+    controls.moveSideStep(strife * dt * moveSpeed);
   }
 
   return {

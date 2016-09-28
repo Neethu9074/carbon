@@ -5,14 +5,13 @@ import {glyphTexture, config} from 'in-map/singleMeshFactories/pluginIconsGlyphT
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {Points, RawShaderMaterial} from 'in-map/3DLibProvider';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 
 
 export default class IconSingleMeshFactory extends ASingleMeshFactory {
 
   constructor(options) {
     super(options);
-
-    this.iconSizeMultiplier = 1;
   }
 
   getMesh(geometry, material) {
@@ -42,17 +41,10 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
     });
   }
 
-  setDistance(distance) {
-    this.material.uniforms.distance.value = distance;
-  }
-
-  setIconSizeMultiplier(multiplier) {
-    this.iconSizeMultiplier = multiplier;
-  }
-
   rebuild() {
     super.rebuild();
 
+    const iconSizeMultiplier = isWebVRActive ? 0.2 : 1;
     const geometry = this.mesh.geometry;
     const fragments = Object.keys(this.fragments.objects).map(key => this.fragments.objects[key]);
 
@@ -76,7 +68,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         index += 3;
       }
 
-      pointSizes[i] = fragment.additionalParams.iconSize * this.iconSizeMultiplier;
+      pointSizes[i] = fragment.additionalParams.iconSize * iconSizeMultiplier;
 
       const xy = config.LUT[fragment.additionalParams.type];
       xy

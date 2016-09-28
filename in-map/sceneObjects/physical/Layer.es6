@@ -11,6 +11,7 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {theme} from 'in-services/theme';
 
 
@@ -26,7 +27,7 @@ export default class Layer extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    if (this.webVRMode) {
+    if (isWebVRActive) {
       this.addComponent('mesh', new MeshComponent(this, FCCP, 'layer'));
 
       this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, FCCP, 'solid_layer'));

@@ -12,8 +12,7 @@ export default sceneObjectComponent(props => {
     InstanceType: Map,
     params: {
       id: 'physical_map',
-      scene: props.scene,
-      webVRMode: props.webVRMode
+      scene: props.scene
     }
   };
 }, connectTo({
@@ -21,7 +20,7 @@ export default sceneObjectComponent(props => {
    }, MapComponent)
 );
 
-function MapComponent({structure, webVRMode}) {
+function MapComponent({structure}) {
   if (!structure) {
     return null;
   }
@@ -41,8 +40,7 @@ function MapComponent({structure, webVRMode}) {
         return (
           <GroupComponent key={groupId}
                           includedIds={structure.includedIds}
-                          entity={groupEntity}
-                          webVRMode={webVRMode} />
+                          entity={groupEntity} />
         );
       })}
     </div>

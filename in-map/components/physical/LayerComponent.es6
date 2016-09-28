@@ -8,8 +8,7 @@ export default sceneObjectComponent(props => {
     params: {
       id: props.entity.get('id'),
       entity: props.entity,
-      node: props.node,
-      webVRMode: props.webVRMode
+      node: props.node
     }
   };
 }, LayerComponent );

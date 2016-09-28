@@ -9,17 +9,19 @@ import {Object3D} from 'in-map/3DLibProvider';
 
 
 const logger = createLogger('WebVRCameraController');
+const height = 1.8; // in meter
 
 class WebVRCameraController {
   constructor(canvas) {
     this.canvas = canvas;
+    this.forward = 0;
   }
 
   init() {
     this.camera = new WebVRCamera();
 
     this.camTransformObject = new Object3D();
-    this.camTransformObject.position.set(0, 1.8, 6);
+    this.camTransformObject.position.set(0, height, 6);
 
     this.camTransformObject.add(this.camera.getRenderableCamera());
     this.camTransformObject.updateMatrixWorld();
@@ -29,24 +31,8 @@ class WebVRCameraController {
                                           e => logger.error('Failed to create VR controls', e));
     this.updateCamera();
 
-    window.addEventListener('gamepadconnected', e => {
-      logger.info('Gamepad connected at index %d: %s. %d buttons, %d axes.',
-        e.gamepad.index, e.gamepad.id, e.gamepad.buttons.length, e.gamepad.axes.length);
-
-      if (!this.viveController) {
-        this.viveController = createViveController(this.vrControls, e.gamepad.id);
-      }
-    });
-
-    window.addEventListener('gamepaddisconnected', e => {
-      logger.info('Gamepad disconnected from index %d: %s', e.gamepad.index, e.gamepad.id);
-
-      if (this.viveController) {
-        this.viveController.dispose();
-        this.viveController = null;
-      }
-    });
-
+    // controller
+    this.viveController = createViveController(this, this.vrControls, 0);
     this.keyboardController = createKeyboardController(this);
   }
 
@@ -62,17 +48,30 @@ class WebVRCameraController {
     return this.camera.getRenderableCamera();
   }
 
+  moveForward(step) {
+    this.forward += step;
+  }
+
+  moveSideStep() {
+    // noop yet
+  }
+
   update() {
     this.vrControls.update();
+
+    this.keyboardController.update();
+    this.viveController.update();
+
+    const camera = this.camera.getRenderableCamera();
+    const direction = camera.getWorldDirection().clone();
+    this.camTransformObject.position.add(direction.multiplyScalar(this.forward));
+    this.camTransformObject.position.setY(height);
     this.camTransformObject.updateMatrixWorld();
 
     this.updateCamera();
 
-    this.keyboardController.update();
-
-    if (this.viveController) {
-      this.viveController.update();
-    }
+    // reset forward cache
+    this.forward = 0;
   }
 
   updateCamera() {
@@ -82,18 +81,14 @@ class WebVRCameraController {
     requestRendering();
   }
 
-  disposeViveController() {
-    if (this.viveController) {
-      this.viveController.dispose();
-      this.viveController = null;
-    }
-  }
-
   dispose() {
     this.vrControls.dispose();
 
-    this.disposeViveController();
+    this.viveController.dispose();
+    this.viveController = null;
+
     this.keyboardController.dispose();
+    this.keyboardController = null;
 
     this.camera.dispose();
     this.camera = null;

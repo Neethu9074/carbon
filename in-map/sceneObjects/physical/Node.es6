@@ -17,6 +17,7 @@ import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import NodeTooltip from 'in-map/components/tooltips/physical/Node';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {nodes} from 'in-map/stores/physical/nodesStore';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {theme} from 'in-services/theme';
 
 
@@ -41,7 +42,7 @@ export default class Node extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    if (this.webVRMode) {
+    if (isWebVRActive) {
       this.addComponent('mesh', new MeshComponent(this, FCCP, 'nodes'));
 
       this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {

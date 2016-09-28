@@ -17,7 +17,6 @@ export default class SceneObject extends Subscriber {
     super();
 
     this.id = params.id;
-    this.webVRMode = params.webVRMode;
 
     this.components = {};
     this.eventEmitter = new RoEmitter(this.id);
