@@ -4,8 +4,8 @@ import createKeyboardController from 'in-map/misc/common/KeyboardController/Keyb
 import createViveController from 'in-map/misc/common/ViveController/ViveController';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {loadVRControlsWrapper} from 'in-map/services/webVR';
+import {Object3D, Vector3} from 'in-map/3DLibProvider';
 import WebVRCamera from 'in-map/misc/WebVRCamera';
-import {Object3D} from 'in-map/3DLibProvider';
 
 
 const logger = createLogger('WebVRCameraController');
@@ -14,7 +14,8 @@ const height = 1.8; // in meter
 class WebVRCameraController {
   constructor(canvas) {
     this.canvas = canvas;
-    this.forward = 0;
+    this.moveDirection = new Vector3(0, 0, 0);
+    this.right = new Vector3();
   }
 
   init() {
@@ -48,12 +49,9 @@ class WebVRCameraController {
     return this.camera.getRenderableCamera();
   }
 
-  moveForward(step) {
-    this.forward += step;
-  }
-
-  moveSideStep() {
-    // noop yet
+  move(forward, side) {
+    this.moveDirection.z += forward;
+    this.moveDirection.x += side;
   }
 
   update() {
@@ -63,15 +61,17 @@ class WebVRCameraController {
     this.viveController.update();
 
     const camera = this.camera.getRenderableCamera();
-    const direction = camera.getWorldDirection().clone();
-    this.camTransformObject.position.add(direction.multiplyScalar(this.forward));
+    const forward = camera.getWorldDirection().clone();
+    this.right.crossVectors(forward, camera.up);
+
+    this.camTransformObject.position.add(forward.multiplyScalar(this.moveDirection.z));
+    this.camTransformObject.position.add(this.right.multiplyScalar(this.moveDirection.x));
     this.camTransformObject.position.setY(height);
     this.camTransformObject.updateMatrixWorld();
 
     this.updateCamera();
 
-    // reset forward cache
-    this.forward = 0;
+    this.moveDirection.set(0, 0, 0);
   }
 
   updateCamera() {

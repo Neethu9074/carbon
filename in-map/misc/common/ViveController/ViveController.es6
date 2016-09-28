@@ -14,6 +14,7 @@ import controllerSpecularMapPath from 'in-map/misc/common/ViveController/onepoin
 export default function createViveController(wrapper, controls, id) {
   const moveSpeed = 3;
   let forward = 0;
+  let strife = 0;
 
   const ViveController = loadViveController();
   const rightHandController =  new ViveController(id);
@@ -22,11 +23,8 @@ export default function createViveController(wrapper, controls, id) {
 
   addSceneObject(rightHandController);
 
-  rightHandController.addEventListener('triggerdown', () => forward = 1);
-  rightHandController.addEventListener('triggerup', () => forward = 0);
-  rightHandController.addEventListener('thumbpaddown', () => forward = -1);
-  rightHandController.addEventListener('thumbpadup', () => forward = 0);
   rightHandController.addEventListener('menudown', toggleParticles);
+  rightHandController.addEventListener('axischanged', onAxisChanged);
 
 
   loadObject(controllerObjectPath, object => {
@@ -47,12 +45,25 @@ export default function createViveController(wrapper, controls, id) {
     rightHandController.add(object.clone());
   });
 
+  function onAxisChanged(event) {
+    if (rightHandController.getButtonState('thumbpad') === false) {
+      forward = 0;
+      strife = 0;
+      return;
+    }
+
+		const x = event.axes[0];
+		const y = event.axes[1];
+		forward = y;
+    strife = x;
+  }
+
   function update() {
     const dt = getDeltaTime();
 
     rightHandController.update();
 
-    wrapper.moveForward(forward * dt * moveSpeed);
+    wrapper.move(forward * dt * moveSpeed, strife * dt * moveSpeed);
   }
 
   return {
@@ -61,11 +72,8 @@ export default function createViveController(wrapper, controls, id) {
   };
 
   function dispose() {
-    rightHandController.removeEventListener('triggerdown');
-    rightHandController.removeEventListener('triggerup');
-    rightHandController.removeEventListener('thumbpaddown');
-    rightHandController.removeEventListener('thumbpadup');
     rightHandController.removeEventListener('menudown');
+    rightHandController.removeEventListener('axischanged');
 
     removeSceneObject(rightHandController);
   }

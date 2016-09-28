@@ -12,7 +12,7 @@ export default function createKeyboardController(controls) {
   let forward = 0;
 
   const keyDownSubscription = on(window, 'keydown').subscribe(e => {
-    onKey(e, 1, 1, -1, -1);
+    onKey(e, 1, -1, -1, 1);
 
     if (e.keyCode === keyCodes.p) {
       toggleParticles();
@@ -41,8 +41,7 @@ export default function createKeyboardController(controls) {
   function update() {
     const dt = getDeltaTime();
 
-    controls.moveForward(forward * dt * moveSpeed);
-    controls.moveSideStep(strife * dt * moveSpeed);
+    controls.move(forward * dt * moveSpeed, strife * dt * moveSpeed);
   }
 
   return {
