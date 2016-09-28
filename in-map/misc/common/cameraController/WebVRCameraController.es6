@@ -6,6 +6,7 @@ import {requestRendering} from 'in-map/stores/renderingStore';
 import {loadVRControlsWrapper} from 'in-map/services/webVR';
 import {Object3D, Vector3} from 'in-map/3DLibProvider';
 import WebVRCamera from 'in-map/misc/WebVRCamera';
+import {getDeltaTime} from 'in-map/misc/time';
 
 
 const logger = createLogger('WebVRCameraController');
@@ -16,6 +17,7 @@ class WebVRCameraController {
     this.canvas = canvas;
     this.moveDirection = new Vector3(0, 0, 0);
     this.right = new Vector3();
+    this.moveSpeed = 5; // units/sec
   }
 
   init() {
@@ -60,12 +62,13 @@ class WebVRCameraController {
     this.keyboardController.update();
     this.viveController.update();
 
+    const speed = getDeltaTime() * this.moveSpeed;
     const camera = this.camera.getRenderableCamera();
     const forward = camera.getWorldDirection().clone();
     this.right.crossVectors(forward, camera.up);
 
-    this.camTransformObject.position.add(forward.multiplyScalar(this.moveDirection.z));
-    this.camTransformObject.position.add(this.right.multiplyScalar(this.moveDirection.x));
+    this.camTransformObject.position.add(forward.multiplyScalar(this.moveDirection.z * speed));
+    this.camTransformObject.position.add(this.right.multiplyScalar(this.moveDirection.x * speed));
     this.camTransformObject.position.setY(height);
     this.camTransformObject.updateMatrixWorld();
 

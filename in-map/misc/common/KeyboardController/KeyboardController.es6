@@ -2,12 +2,9 @@ import {on} from 'reactive-observables';
 
 import {toggleParticles} from 'in-map/stores/logical/particlesStore';
 import keyCodes from 'in-components/keyCodes';
-import {getDeltaTime} from 'in-map/misc/time';
 
 
 export default function createKeyboardController(controls) {
-
-  const moveSpeed = 3;
   let strife = 0;
   let forward = 0;
 
@@ -39,9 +36,7 @@ export default function createKeyboardController(controls) {
   }
 
   function update() {
-    const dt = getDeltaTime();
-
-    controls.move(forward * dt * moveSpeed, strife * dt * moveSpeed);
+    controls.move(forward, strife);
   }
 
   return {

@@ -3,7 +3,6 @@ import {toggleParticles} from 'in-map/stores/logical/particlesStore';
 import {loadViveController} from 'in-map/services/webVR';
 import {loadObject} from 'in-map/services/objectLoader';
 import {loadImage} from 'in-map/services/imageLoader';
-import {getDeltaTime} from 'in-map/misc/time';
 
 import controllerObjectPath from 'in-map/misc/common/ViveController/vr_controller_vive_1_5.obj';
 
@@ -12,7 +11,6 @@ import controllerSpecularMapPath from 'in-map/misc/common/ViveController/onepoin
 
 
 export default function createViveController(wrapper, controls, id) {
-  const moveSpeed = 3;
   let forward = 0;
   let strife = 0;
 
@@ -59,11 +57,8 @@ export default function createViveController(wrapper, controls, id) {
   }
 
   function update() {
-    const dt = getDeltaTime();
-
     rightHandController.update();
-
-    wrapper.move(forward * dt * moveSpeed, strife * dt * moveSpeed);
+    wrapper.move(forward, strife);
   }
 
   return {
