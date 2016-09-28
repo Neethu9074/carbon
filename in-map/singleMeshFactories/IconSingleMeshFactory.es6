@@ -35,7 +35,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         },
         distance: {
           type: 'f',
-          value: 1000
+          value: isWebVRActive ? 200 : 1000
         }
       }
     });
