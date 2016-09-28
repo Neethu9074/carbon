@@ -7,5 +7,6 @@ export default Object.freeze({
   batch: '#93f9d6',
   generic: '#93f9d6',
   logger: '#ed6c5d',
-  eum: '#a5bafc'
+  eum: '#a5bafc',
+  missing: '#999999'
 });
