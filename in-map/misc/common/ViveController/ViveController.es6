@@ -1,13 +1,12 @@
-import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import {toggleParticles} from 'in-map/stores/logical/particlesStore';
 import {loadViveController} from 'in-map/services/webVR';
 import {loadObject} from 'in-map/services/objectLoader';
+import {MeshBasicMaterial} from 'in-map/3DLibProvider';
 import {loadImage} from 'in-map/services/imageLoader';
 
 import controllerObjectPath from 'in-map/misc/common/ViveController/vr_controller_vive_1_5.obj';
 
 import controllerDiffuseMapPath from 'in-map/misc/common/ViveController/onepointfive_texture.png';
-import controllerSpecularMapPath from 'in-map/misc/common/ViveController/onepointfive_spec.png';
 
 
 export default function createViveController(wrapper, controls, id) {
@@ -18,12 +17,10 @@ export default function createViveController(wrapper, controls, id) {
   const rightHandController =  new ViveController(id);
   rightHandController.standingMatrix = controls.getStandingMatrix();
   rightHandController.matrixAutoUpdate = true;
-
-  addSceneObject(rightHandController);
+  wrapper.camTransformObject.add(rightHandController);
 
   rightHandController.addEventListener('menudown', toggleParticles);
   rightHandController.addEventListener('axischanged', onAxisChanged);
-
 
   loadObject(controllerObjectPath, object => {
     if (!object) {
@@ -31,17 +28,16 @@ export default function createViveController(wrapper, controls, id) {
     }
 
     const controller = object.children[0];
-
-    controller.material.map = loadImage(
-      controllerDiffuseMapPath,
-      loadedTexture => loadedTexture.needsUpdate = true);
-    controller.material.specularMap = loadImage(
-      controllerSpecularMapPath,
-      loadedTexture => loadedTexture.needsUpdate = true);
+    controller.material.dispose();
+    controller.material = new MeshBasicMaterial({
+      color: 0xffffff,
+      map: loadImage(controllerDiffuseMapPath, tex => tex.needsUpdate = true)
+    });
 
     console.log('add controller obj', rightHandController);
     rightHandController.add(object.clone());
   });
+
 
   function onAxisChanged(event) {
     if (rightHandController.getButtonState('thumbpad') === false) {
@@ -69,7 +65,5 @@ export default function createViveController(wrapper, controls, id) {
   function dispose() {
     rightHandController.removeEventListener('menudown');
     rightHandController.removeEventListener('axischanged');
-
-    removeSceneObject(rightHandController);
   }
 }

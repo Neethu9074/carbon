@@ -66,7 +66,6 @@ export default class ParticleEmitter {
       side: DoubleSide,
       uniforms: {
         texture: { type: 't', value: texture },
-        particleSize: { type: 'f', value: isWebVRActive ? 0.2 : 1 },
         distance: { type: 'f', value: isWebVRActive ? 200 : 1500 }
       }
     });

@@ -2,6 +2,7 @@ import {createLogger} from 'instalog';
 
 import createKeyboardController from 'in-map/misc/common/KeyboardController/KeyboardController';
 import createViveController from 'in-map/misc/common/ViveController/ViveController';
+import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {loadVRControlsWrapper} from 'in-map/services/webVR';
 import {Object3D, Vector3} from 'in-map/3DLibProvider';
@@ -28,6 +29,8 @@ class WebVRCameraController {
 
     this.camTransformObject.add(this.camera.getRenderableCamera());
     this.camTransformObject.updateMatrixWorld();
+
+    addSceneObject(this.camTransformObject);
 
     const VRControlsClass = loadVRControlsWrapper();
     this.vrControls = new VRControlsClass(this.camera.getRenderableCamera(),
@@ -85,6 +88,8 @@ class WebVRCameraController {
   }
 
   dispose() {
+    removeSceneObject(this.camTransformObject);
+
     this.vrControls.dispose();
 
     this.viveController.dispose();
