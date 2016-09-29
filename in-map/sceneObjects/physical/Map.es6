@@ -4,8 +4,10 @@ import {CONTROL_PRESETS, setControls} from 'in-components/Controls/stores/contro
 import BasicSingleMeshFactory from 'in-map/singleMeshFactories/BasicSingleMeshFactory';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
+import createPentagramLayouter from 'in-map/misc/physical/PentagramLayouter';
 import createCameraController from 'in-map/misc/physical/CameraController';
 import {addFactory, getFactory} from 'in-map/stores/factoriesStore';
+import {layouting$} from 'in-map/stores/physical/layouterStore';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import GroundPlane from 'in-map/misc/physical/GroundPlane';
 import createLayouter from 'in-map/misc/physical/Layouter';
@@ -24,8 +26,6 @@ export default class Map extends BaseMap {
 
   init() {
     super.init();
-
-    this.layouter = createLayouter();
 
     addFactory('nodes', new FadeByDistanceSingleMeshFactory({renderOrder: 3}));
     addFactory('solid_layer', new FadeByDistanceSingleMeshFactory({renderOrder: 2}));
@@ -47,7 +47,7 @@ export default class Map extends BaseMap {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(
+    this.addSubscriptions([
       selectedSnapshotIdForHighlightingInMap$.subscribe(selectedId => {
         if (selectedId) {
           getFactory('nodes').lockOpacity(0.25);
@@ -59,8 +59,17 @@ export default class Map extends BaseMap {
           getFactory('layer').material.depthWrite = true;
         }
         requestRendering();
+      }),
+
+      layouting$.subscribe(type => {
+        if (this.layouter) {
+          this.layouter.dispose();
+        }
+        this.layouter = type === 'physical'
+          ? createLayouter()
+          : createPentagramLayouter();
       })
-    );
+    ]);
   }
 
   createController() {
