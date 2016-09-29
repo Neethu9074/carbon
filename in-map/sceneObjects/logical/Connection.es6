@@ -66,6 +66,8 @@ export default class Connection extends SceneObject {
     this.addComponent('health', new HealthComponent(this));
 
     this.addComponent('particles', new ParticleEmitterComponent(this));
+
+    this.getComponent('transform').setPositionXYZ(0, 0, 0);
   }
 
   initEvents() {

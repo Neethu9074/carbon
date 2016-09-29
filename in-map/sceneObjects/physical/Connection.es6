@@ -31,6 +31,7 @@ export default class Connection extends SceneObject {
     this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
 
     this.getComponent('color').setHex('#bababa');
+    this.getComponent('transform').setPositionXYZ(0, 0, 0);
 
     connections.add(this.id, this);
   }
