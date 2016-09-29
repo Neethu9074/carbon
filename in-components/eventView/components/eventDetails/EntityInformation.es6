@@ -14,7 +14,7 @@ const block = 'in-event-view-event-information';
 
 export default connectTo(props => {
   return {
-    snapshot: getSnapshot(props.event.get('snapshotId'))
+    snapshot: getSnapshot(props.event.getIn(['problem', 'snapshotId']))
   };
 },
 function EntityInformation({snapshot}) {
