@@ -1,8 +1,10 @@
+import Immutable from 'immutable';
+
 import createSubscription from 'in-services/subscription/subscription';
 
 
 export default createSubscription({
-  eventId: 'subscribe-shed-event',
+  eventId: 'subscribe-shed-events',
 
   getId: ({maxTimestamp, minTimestamp, sortByField, sortMode, query, offset}) => maxTimestamp +
                                                                                  minTimestamp +
@@ -24,5 +26,5 @@ export default createSubscription({
     };
   },
 
-  transformData: events => events
+  transformData: events => Immutable.fromJS(events)
 });

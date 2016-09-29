@@ -1,4 +1,3 @@
-import {create} from 'reactive-observables';
 import React from 'react';
 
 import IncidentContent from 'in-components/eventView/components/eventDetails/IncidentContent';
@@ -15,10 +14,7 @@ import './DetailPanel.less';
 const block = 'in-event-view-detail-panel';
 
 export default connectTo({
-  // HACK FOR FAKE EVENTS
-  selectedEventId: create().startWith('id1'),
-  selectedEventId2: selectedEventId$,
-
+  selectedEventId: selectedEventId$,
   event: selectedEvent$
 },
 function DetailPanel({selectedEventId, event}) {

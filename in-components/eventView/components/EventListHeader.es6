@@ -1,6 +1,4 @@
 import {combineLatest} from 'reactive-observables';
-import {create} from 'reactive-observables';
-import Immutable from 'immutable';
 import React from 'react';
 
 import createTotalShedEventsSubscription from 'in-services/subscription/totalShedEventsCount';
@@ -54,10 +52,8 @@ const EventFilter = connectTo({
 });
 
 const Count = connectTo({
-  // HACK FOR FAKE EVENTS
-  totalShedEventsCounter: create().startWith(Immutable.fromJS({incident: 1, issue: 2})),
-  totalShedEventsCounter2: combineLatest([timeframe$, query$])
-                        .flatMap(([timeframe, query]) => createTotalShedEventsSubscription({timeframe, query}))
+  totalShedEventsCounter: combineLatest([timeframe$, query$])
+                          .flatMap(([timeframe, query]) => createTotalShedEventsSubscription({timeframe, query}))
 }, ({getCounter, totalShedEventsCounter}) => {
   if (!totalShedEventsCounter) {
     return (

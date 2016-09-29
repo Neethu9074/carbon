@@ -1,11 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {create} from 'reactive-observables';
-import Immutable from 'immutable';
 import React from 'react';
 
 import TimeAxis from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/TimeAxis';
 import Events from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/Events';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import {getEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
@@ -40,7 +39,7 @@ export default getElementDimensions(React.createClass({
   },
 
   componentDidMount() {
-    this.setupIncidentSubscription();
+    this.setupIncidentSubscription(this.props.incidentId);
   },
 
   componentWillUnmount() {
@@ -50,7 +49,7 @@ export default getElementDimensions(React.createClass({
 
   componentDidUpdate(prevProps) {
     if (prevProps.incidentId !== this.props.incidentId) {
-      this.setupIncidentSubscription();
+      this.setupIncidentSubscription(this.props.incidentId);
     }
   },
 
@@ -79,14 +78,10 @@ export default getElementDimensions(React.createClass({
     this.setState({from: from - timeOffset});
   },
 
-  setupIncidentSubscription(/* incidentId*/) {
+  setupIncidentSubscription(incidentId) {
     this.disposeIncidentSubscription();
 
-    // HACK FOR FAKE EVENTS
-    // incidentSubscription = getEvent(incidentId).subscribe(event => {
-    this.incidentSubscription = create().startWith(Immutable.fromJS({
-      start: Date.now() - 1000 * 40 * 10
-    })).subscribe(event => {
+    this.incidentSubscription = getEvent(incidentId).subscribe(event => {
       if (event) {
         this.setFrom(event.get('start'));
 

@@ -1,4 +1,3 @@
-import {create} from 'reactive-observables';
 import React from 'react';
 
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
@@ -11,9 +10,7 @@ import './EventTableRow.less';
 const block = 'in-event-view-event-table-row';
 
 export default connectTo({
-  // HACK FOR FAKE EVENTS
-  selectedEventId: create().startWith('event3'),
-  selectedEventId2: selectedEventId$
+  selectedEventId: selectedEventId$
 },
 ({event, selectedEventId}) => {
   let className = block;
