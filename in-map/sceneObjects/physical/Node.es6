@@ -66,24 +66,25 @@ export default class Node extends SceneObject {
         };
       }));
 
+      this.addComponent('screenPosition', new ScreenPositionComponent(this));
+
       this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid'));
+
+      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
+
+      this.addComponent('tooltip', new TooltipComponent(this, NodeTooltip));
+
+      this.addComponent('collision', new CollisionComponent(this,
+                                                            PREDEFINED_COLLISION_OBJECTS.BOX,
+                                                            OCTREE_LAYER.NODES));
     }
 
-    this.addComponent('collision', new CollisionComponent(this,
-                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
-                                                          OCTREE_LAYER.NODES));
 
     this.addComponent('snapshot', new SnapshotComponent(this));
-
-    this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
 
     this.addComponent('health', new HealthComponent(this));
 
     this.addComponent('power', new PowerComponent(this));
-
-    this.addComponent('screenPosition', new ScreenPositionComponent(this));
-
-    this.addComponent('tooltip', new TooltipComponent(this, NodeTooltip));
   }
 
   initEvents() {

@@ -31,23 +31,25 @@ export default class Layer extends SceneObject {
       this.addComponent('mesh', new MeshComponent(this, FCCP, 'layer'));
 
       this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, FCCP, 'solid_layer'));
+
     } else {
       this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
 
       this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid_layer'));
-    }
 
-    this.addComponent('collision', new CollisionComponent(this,
-                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
-                                                          OCTREE_LAYER.LAYER));
+      this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
+
+      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
+
+
+      this.addComponent('collision', new CollisionComponent(this,
+                                                            PREDEFINED_COLLISION_OBJECTS.BOX,
+                                                            OCTREE_LAYER.LAYER));
+    }
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
-    this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
-
     this.addComponent('health', new HealthComponent(this));
-
-    this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
 
     // only add them after the snapshot was calculated, because they are layouted by _cachedPlugin
     this.node.addLayer(this.id, this);
