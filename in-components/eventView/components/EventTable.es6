@@ -54,7 +54,7 @@ function NoEventsMessage({events, isInfiniteLoading}) {
 }
 
 function InfiniteTable({height, events, isInfiniteLoading}) {
-  if (!height || events.length === 0 || isInfiniteLoading) {
+  if (!height || events.length === 0) {
     return null;
   }
 
