@@ -121,7 +121,18 @@ function addNewEvents(newEvents) {
       severity
     };
   });
-  shedEventList.applyStateMutation(existingEvents => existingEvents.concat(transformedEvents));
+  shedEventList.applyStateMutation(existingEvents => {
+    const seen = {};
+    // remove duplicates based on id
+    return existingEvents.concat(transformedEvents)
+          .filter(item => {
+            if (seen[item.id]) {
+              return false;
+            }
+            seen[item.id] = true;
+            return true;
+          });
+  });
   setIsLoading(false);
 }
 
