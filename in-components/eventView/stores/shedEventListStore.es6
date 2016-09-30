@@ -109,7 +109,6 @@ function getMaxStartMillis(events, fallback) {
 
 function addNewEvents(newEvents) {
   const transformedEvents = newEvents.toArray().map(event => {
-    const severity = Math.max(0, event.get('severity'));
     return {
       // required for inifinity scroll and loading of additional events. see getMaxStartMillis()
       startMillis: event.get('start'),
@@ -118,7 +117,7 @@ function addNewEvents(newEvents) {
       start: formatDateTime(event.get('start')),
       end: event.get('end') ? formatDateTime(event.get('end')) : 'active',
       title: event.get('title'),
-      severity
+      severity: Math.max(0, event.get('severity'))
     };
   });
   shedEventList.applyStateMutation(existingEvents => {

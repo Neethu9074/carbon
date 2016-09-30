@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import {emptyArray} from 'in-services/fixedObjects';
 import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {selectedEventId$} from 'in-stores/events';
@@ -20,4 +21,4 @@ export const recentEvents$ = createTrackingStore({
 }).observable;
 
 export const sortedRecentEvents$ = recentEvents$.map(events =>
-  events.slice().sort((a, b) => a.get('start') > b.get('start')));
+  events ? events.slice().sort((a, b) => a.get('start') > b.get('start')) : emptyArray);

@@ -27,7 +27,6 @@ function DetailPanel({selectedEventId, event}) {
   }
 
   const eventType = getEventType(event);
-
   return (
     <div className={block}>
       {eventType === EVENT_TYPES.INCIDENT
