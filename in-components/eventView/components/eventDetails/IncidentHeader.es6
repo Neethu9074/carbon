@@ -24,6 +24,9 @@ function HeaderSwitch({recentEvents, event}) {
   const openEvents = recentEvents.filter(e => !e.get('end'));
   const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
 
+  const affectedEnties = {};
+  recentEvents.forEach(e => affectedEnties[e.getIn(['problem', 'snapshotId'])] = true);
+
   return (
     <Section>
       <div>
@@ -37,7 +40,7 @@ function HeaderSwitch({recentEvents, event}) {
 
         {keyValue('Active Issues', `${openEvents.length}/${recentEvents.length}`)}
         {keyValue('Changes', `${changes.length}`)}
-        {keyValue('Affected', '0')}
+        {keyValue('Affected', `${Object.keys(affectedEnties).length}`)}
       </div>
     </Section>
   );
