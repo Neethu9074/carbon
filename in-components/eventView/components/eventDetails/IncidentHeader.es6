@@ -1,16 +1,26 @@
 import React from 'react';
 
+import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import Section from 'in-components/eventView/components/eventDetails/Section';
 import {formatDate, formatTime} from 'in-services/formatters/date';
+import connectTo from 'in-hoc/connectTo';
 
 import './IncidentHeader.less';
 
 
 const block = 'in-event-view-detail-incident-header';
 
-export default function HeaderSwitch({event}) {
+export default connectTo({
+  recentEvents: sortedRecentEvents$
+},
+function HeaderSwitch({recentEvents, event}) {
+  if (!recentEvents) {
+    return null;
+  }
+
   const end = event.get('end');
+  const openEvents = recentEvents.filter(e => !e.get('end'));
 
   return (
     <Section>
@@ -23,13 +33,13 @@ export default function HeaderSwitch({event}) {
 
         <div style={{ height: '0.8rem' }} />
 
-        {keyValue('Active Issues', '0/0')}
+        {keyValue('Active Issues', `${openEvents.length}/${recentEvents.length}`)}
         {keyValue('Changes', '0')}
         {keyValue('Affected', '0')}
       </div>
     </Section>
   );
-}
+});
 
 function DateTimeString({label, timestamp}) {
   if (!timestamp) {
