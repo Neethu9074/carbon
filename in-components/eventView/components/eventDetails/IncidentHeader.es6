@@ -4,6 +4,7 @@ import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsSt
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import Section from 'in-components/eventView/components/eventDetails/Section';
 import {formatDate, formatTime} from 'in-services/formatters/date';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
 import './IncidentHeader.less';
@@ -21,6 +22,7 @@ function HeaderSwitch({recentEvents, event}) {
 
   const end = event.get('end');
   const openEvents = recentEvents.filter(e => !e.get('end'));
+  const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
 
   return (
     <Section>
@@ -34,7 +36,7 @@ function HeaderSwitch({recentEvents, event}) {
         <div style={{ height: '0.8rem' }} />
 
         {keyValue('Active Issues', `${openEvents.length}/${recentEvents.length}`)}
-        {keyValue('Changes', '0')}
+        {keyValue('Changes', `${changes.length}`)}
         {keyValue('Affected', '0')}
       </div>
     </Section>
