@@ -1,3 +1,5 @@
+import {create} from 'reactive-observables';
+
 import createShedEventsObservable from 'in-services/subscription/shedEvents';
 import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-components/eventView/stores/isLoadingStore';
@@ -31,30 +33,35 @@ const shedEventList = createStore({
 export const shedEventList$ = shedEventList.observable;
 
 
+// this stream is used to resubscribe for new shed events data. because there are many factors causing a refresh,
+// it is capsuled within a stream to be able to throttle refreshes.
+const refreshStream = create();
+refreshStream.nextFrame().subscribe(refresh);
+
 export function enable() {
   initPhase = true;
 
   subscriptions = [
     sortDirection$.subscribe(_sortDirection => {
       sortDirection = _sortDirection;
-      refresh();
+      refreshStream.emit(true);
     }),
 
     sortBy$.subscribe(_sortBy => {
       sortByField = _sortBy;
-      refresh();
+      refreshStream.emit(true);
     }),
 
-    timeframe$.subscribe(refresh),
+    timeframe$.subscribe(() => refreshStream.emit(true)),
 
     query$.subscribe(_query => {
       query = _query;
-      refresh();
+      refreshStream.emit(true);
     })
   ];
 
   initPhase = false;
-  refresh();
+  refreshStream.emit(true);
 }
 
 export function disable() {
