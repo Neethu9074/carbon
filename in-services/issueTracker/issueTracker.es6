@@ -70,7 +70,7 @@ export function getEventType(event) {
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue':
-      const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity']));
+      const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity'], event.get('severity')));
       if (eventHealth === health.warning) {
         return EVENT_TYPES.ISSUE_WARNING;
       } else if (eventHealth === health.danger) {
