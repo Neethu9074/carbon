@@ -194,7 +194,10 @@ export function getColorForEventAtFocusedMomentAsStream(event, defaultColor) {
   const end = event.get('end');
   const state = event.get('state');
   const severity = event.getIn(['problem', 'severity'], 0);
-  const color = theme.health[severity] || theme.health[0];
+  let color = theme.health[severity];
+  if (severity === 0 && defaultColor) {
+    color = defaultColor;
+  }
 
   return focusedMoment$
     .map(focusedMoment => {
@@ -211,7 +214,7 @@ export function getColorForEventAtFocusedMoment(event, focusedMoment) {
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
-  const color = theme.health[severity] || theme.health[0];
+  const color = theme.health[severity];
 
   // No focused moment? Then it is according to server time which means
   // we color based on the state property.
