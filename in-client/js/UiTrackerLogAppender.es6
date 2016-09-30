@@ -1,5 +1,7 @@
 import http from 'in-services/http';
 
+import {getCurrentUser} from 'in-stores/user';
+
 let totalNumberOfReportedErrors = 0;
 
 export default class UiTrackerLogAppender {
@@ -31,7 +33,7 @@ export default class UiTrackerLogAppender {
 
     const message = {
       logger: opts.name,
-      user: window.instana.user,
+      user: getCurrentUser(),
       version: window.instana.build,
       url: window.location.href,
       userAgent: window.navigator.userAgent,
