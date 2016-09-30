@@ -25,6 +25,7 @@ import {init as initTimeOffsetStore} from 'in-stores/timeOffset';
 import {init as initShortcuts} from 'in-services/shortcuts';
 import {init as initUsageInfo} from 'in-stores/usageInfo';
 import {init as initTracking} from 'in-services/tracking';
+import {init as initUnhandledErrorHandling} from 'in-services/unhandledErrors';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -46,19 +47,6 @@ if (!__DEV__) {
   uiTrackerAppender.setActivePriority(31);
   logging.addAppender(uiTrackerAppender);
 }
-
-const unhandledLogger = logging.createLogger('in-client.unhandled');
-window.addEventListener('error', (e) => {
-  // violation of SOP - we cannot read the error…
-  if (e.message === 'Script error.') {
-    unhandledLogger.error('Unhandled error which we cannot read due to SOP');
-  } else {
-    unhandledLogger.error(`Unhandled error: ${e.message} at ${e.filename}:${e.lineno}`, e.error);
-  }
-
-  // let the default error handler run as well
-  return false;
-}, false);
 
 // expose the React global to analyze performance issues
 if (__DEV__) {
@@ -82,6 +70,7 @@ initExpandedIdsStore();
 initHighlightedSuggestionStore();
 initUsageInfo();
 initMaintenanceNoteStore();
+initUnhandledErrorHandling();
 
 ReactDOM.render((
   <Router history={hashHistory}>

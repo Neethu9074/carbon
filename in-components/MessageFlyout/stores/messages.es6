@@ -7,6 +7,7 @@ let idCounter = 0;
 // {
 //   id: <id>,
 //   type: <info|warning|danger>
+//   icon: <string name of SvgIcon>
 //   content: <react element>
 //   onClick?: <fn>
 // }
@@ -24,7 +25,7 @@ export function addMessage(messageParam, id = null) {
     type: messageParam.type,
     icon: messageParam.icon,
     content: messageParam.content,
-    onClick: messageParam.onClick
+    onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id)
   };
 
   messagesStore.applyStateMutation(messages => {

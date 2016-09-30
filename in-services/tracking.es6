@@ -1,9 +1,10 @@
 /* global ga:false */
 
+import {isInstanaEmployee} from 'in-stores/user';
 import config from 'in-services/config';
 
 export function init() {
-  if (config.analyticsTrackingId && window.instana.user.email.indexOf('@instana.com') === -1) {
+  if (config.analyticsTrackingId && !isInstanaEmployee()) {
     installTracking();
   }
 }
