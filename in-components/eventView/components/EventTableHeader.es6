@@ -1,6 +1,9 @@
 import React from 'react';
 
+import {getQueryFieldNameForField} from 'in-components/eventView/components/FilterMenu';
+import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
 import FilterMenu from 'in-components/eventView/components/FilterMenu';
+import {sortBy$} from 'in-components/eventView/stores/sortBy';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -26,19 +29,19 @@ React.createClass({
 
     return (
       <div className={block}>
-        <Cell name='Start'
+        <Cell name='start'
               expandedCell={expandedCell}
               onClick={cellName => this.setState({expandedCell: cellName})} />
 
-        <Cell name='End'
+        <Cell name='end'
               expandedCell={expandedCell}
               onClick={cellName => this.setState({expandedCell: cellName})} />
 
-        <Cell name='Title'
+        <Cell name='title'
               expandedCell={expandedCell}
               onClick={cellName => this.setState({expandedCell: cellName})} />
 
-        <Cell name='Severity'
+        <Cell name='severity'
               expandedCell={expandedCell}
               onClick={cellName => this.setState({expandedCell: cellName})} />
       </div>
@@ -46,10 +49,17 @@ React.createClass({
   }
 }));
 
-function Cell({expandedCell, onClick, name}) {
+
+const Cell = connectTo({
+  sortDirection: sortDirection$,
+  sortBy: sortBy$
+},
+({expandedCell, onClick, name, sortBy, sortDirection}) => {
   const isSelected = expandedCell === name;
+  const isActive = sortBy === getQueryFieldNameForField(name);
+
   let toggleClassName = `${block}__cell-toggle`;
-  if (isSelected) {
+  if (isSelected || isActive) {
     toggleClassName += ` ${toggleClassName}--selected`;
   }
 
@@ -67,22 +77,33 @@ function Cell({expandedCell, onClick, name}) {
       <div className={toggleClassName}
            onClick={() => onClick(isSelected ? null : name)}>
         {name}
-        <Arrow isSelected={isSelected} />
+        <Arrow isActive={isActive}
+               sortDirection={sortDirection} />
       </div>
     </div>
   );
-}
+});
 
-function Arrow({isSelected}) {
+
+function Arrow({isActive, sortDirection}) {
+  if (!isActive) {
+    return null;
+  }
+
   let toggleClassName = `${block}__icon-wrapper`;
-  if (isSelected) {
-    toggleClassName += ` ${toggleClassName}--selected`;
+  if (isActive) {
+    toggleClassName += ` ${toggleClassName}--active`;
+  }
+
+  let iconType = 'triangle_down';
+  if (isActive && sortDirection === 'desc') {
+    iconType = 'triangle_up';
   }
 
   return (
     <div className={toggleClassName}>
       <SvgIcon className={`${block}__icon`}
-               type={isSelected ? 'triangle_up' : 'triangle_down'}
+               type={iconType}
                width={5}
                height={5}
                color='#6b8088' />

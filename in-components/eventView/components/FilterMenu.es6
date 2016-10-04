@@ -65,17 +65,13 @@ function Entry({onClick, children, kind}) {
   );
 }
 
-function getQueryFieldNameForField(field) {
+export function getQueryFieldNameForField(field) {
   switch (field) {
-    case 'Start':
-      return 'start';
-    case 'End':
-      return 'end';
-    case 'Title':
+    case 'title':
       return 'problem.problemText';
-    case 'Severity':
+    case 'severity':
       return 'problem.severity';
     default:
-      return null;
+      return field;
   }
 }
