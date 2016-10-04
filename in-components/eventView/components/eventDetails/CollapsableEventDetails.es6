@@ -53,15 +53,10 @@ React.createClass({
       headerClassName += ` ${headerClassName}--collapsed`;
     }
 
-    let rightClassName = `${block}__right`;
-    if (!isCollapsed) {
-      rightClassName += ` ${rightClassName}--expanded`;
-    }
-
     return (
       <div className={block}>
         <TimeIndicator event={event} />
-        <div className={rightClassName}
+        <div className={`${block}__right`}
              style={{ borderLeft: `5px solid ${color}` }}>
 
           <div className={headerClassName}
