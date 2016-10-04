@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -31,6 +32,8 @@ export default function CassandraClusterSidebar({snapshot}) {
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>
+
+      <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );
 }
