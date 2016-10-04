@@ -27,18 +27,24 @@ export default function createTooltipRenderer(config) {
 
 
   function showTooltip(_highlightedMoment) {
+    dataPointsExistingAtMoment = null;
     highlightedMoment = _highlightedMoment;
 
-    y1DataColumn = lookForDataPoint('y1');
-    y2DataColumn = config.y2 ? lookForDataPoint('y2') : null;
+    y1DataColumn = lookForDataPoint('y1', highlightedMoment);
+
+    if (y1DataColumn) {
+      dataPointsExistingAtMoment = y1DataColumn.time;
+    }
+
+    y2DataColumn = config.y2 ? lookForDataPoint('y2', dataPointsExistingAtMoment || highlightedMoment) : null;
 
     if (!y1DataColumn && !y2DataColumn) {
       return;
     }
 
-    if (y1DataColumn) {
-      dataPointsExistingAtMoment = y1DataColumn.time;
-    } else if (y2DataColumn) {
+    if (y1DataColumn && y2DataColumn && y2DataColumn.time !== dataPointsExistingAtMoment) {
+      y2DataColumn = null;
+    } else if (!y1DataColumn && y2DataColumn) {
       dataPointsExistingAtMoment = y2DataColumn.time;
     }
 
@@ -93,11 +99,11 @@ export default function createTooltipRenderer(config) {
   }
 
 
-  function lookForDataPoint(axisName) {
+  function lookForDataPoint(axisName, searchFor) {
     const data = config.dataHolders[axisName].getDataColumns();
     const i = sortedIndexBy(
       data,
-      highlightedMoment,
+      searchFor,
       column => {
         if (column.time) {
           return column.time;
@@ -106,6 +112,11 @@ export default function createTooltipRenderer(config) {
         return column;
       }
     );
+
+    const prev = data[i - 1];
+    if (prev && prev.time === searchFor) {
+      return prev;
+    }
     return data[i];
   }
 }
