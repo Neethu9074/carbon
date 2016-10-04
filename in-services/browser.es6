@@ -28,3 +28,7 @@ function getBrowser() {
 
   return null;
 }
+
+export function isSafari() {
+  return getBrowser() === 'safari';
+}
