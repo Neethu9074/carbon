@@ -8,8 +8,14 @@
     margin-bottom: 0.25rem;
     padding: 1rem;
     border-radius: .188rem;
-    background: #fff;
     font-size: .688rem;
+
+    background: #fff;
+    transition: background 0.25s ease-in-out;
+
+    &--expanded, &:hover {
+      background: #D5DFE4;
+    }
   }
 
   &__flex-wrapper {
