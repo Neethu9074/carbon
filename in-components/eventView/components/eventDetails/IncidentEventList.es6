@@ -20,12 +20,17 @@ function IncidentEventList({events}) {
 
   return (
     <div className={block}>
-      <TimeMarker text='started' />
-      {events.map(event => <EventDetails key={event.get('id')}
-                                         event={event}
-                                         isCollapsed={true} />)
-      }
-      <TimeMarker text='ended' />
+      <div className={`${block}__counter`}>
+        {`Events (${events.length})`}
+      </div>
+      <div className={`${block}__timeline`}>
+        <TimeMarker text='started' />
+        {events.map(event => <EventDetails key={event.get('id')}
+                                           event={event}
+                                           isCollapsed={true} />)
+        }
+        <TimeMarker text='ended' />
+      </div>
     </div>
   );
 });

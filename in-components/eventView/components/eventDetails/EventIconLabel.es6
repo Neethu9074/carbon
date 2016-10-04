@@ -18,7 +18,7 @@ export default function HeaderSwitch({event}) {
 
       <span className={`${block}__title`}>
         {type === EVENT_TYPES.INCIDENT
-          ? `Incident (${event.get('recentEvents').size})`
+          ? `Incident`
           : `Event`
         }
       </span>
