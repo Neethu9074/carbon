@@ -2,7 +2,9 @@ const textHeightInPx = 13;
 const textMarginInPx = 5;
 const desiredNumberOfTicks = 5;
 const axisFontColor = '#2d4048';
-const axisFont = '0.625rem "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
+// Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
+// text alignments. This used to work with Safari 9 (and all other browsers).
+const axisFont = '10px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
 const axisTickColor = '#ddd';
 
 export default function createAnimatableContentRenderer(config) {
