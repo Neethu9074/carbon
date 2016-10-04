@@ -12,6 +12,7 @@ import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/mis
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
 import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsService';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
+import {contextIsLost, contextIsAvailable} from 'in-map/services/webGL';
 import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
@@ -28,6 +29,8 @@ export default class MainScene extends SceneObject {
 
     // clears the old one and fires up a new to remove all stored messages
     createEventBus();
+
+    contextIsAvailable();
 
     // init service locator
     PhysicsServiceLocator.provide(createPhysicsService());
@@ -161,7 +164,10 @@ export default class MainScene extends SceneObject {
   // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
   handleLostContext() {
     this.addSubscriptions([
-      on(this.canvas, 'webglcontextlost').subscribe(event => event.preventDefault()),
+      on(this.canvas, 'webglcontextlost').subscribe(event => {
+        event.preventDefault();
+        contextIsLost();
+      }),
 
       on(this.canvas, 'webglcontextrestored').subscribe(() => {
         // at the point that this method is called the browser has reset all state
@@ -169,6 +175,7 @@ export default class MainScene extends SceneObject {
         // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
         // and setup your state (clearColor, blendFunc, depthFunc, etc...)
         // to make it short... reload the page
+        contextIsAvailable();
         window.location.reload();
       })
     ]);
@@ -183,6 +190,7 @@ export default class MainScene extends SceneObject {
     clearFactories();
 
     PhysicsServiceLocator.provide(createNullService());
+    contextIsAvailable();
 
     this.updateSceneObjects = null;
     this.shouldRenderScene = null;
