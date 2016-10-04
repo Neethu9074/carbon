@@ -19,18 +19,20 @@ export const EVENT_TYPES = {
  * grey, if it's open and critical it has a danger color and so on.
  *
  */
-export function getColorForEvent(event) {
-  if (event.get('state') === 'open') {
-    const severity = event.getIn(['problem', 'severity'], 0);
+export function getColorForEvent(event, defaultColor) {
+  defaultColor = defaultColor ? defaultColor : theme.health[0];
 
+  if (event.get('state') === 'open') {
+    const severity = event.getIn(['problem', 'severity'], event.get('severity'));
     const color = theme.health[severity];
+
     if (!color) {
-      return theme.health[0];
+      return defaultColor;
     }
     return color;
   }
 
-  return theme.health[0];
+  return defaultColor;
 }
 
 /**

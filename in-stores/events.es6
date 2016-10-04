@@ -193,7 +193,7 @@ export function getColorForEventAtFocusedMomentAsStream(event, defaultColor) {
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
-  const severity = event.getIn(['problem', 'severity'], 0);
+  const severity = event.getIn(['problem', 'severity'], event.get('severity', 0));
   let color = theme.health[severity];
   if (severity === 0 && defaultColor) {
     color = defaultColor;
