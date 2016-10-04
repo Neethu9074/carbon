@@ -20,8 +20,7 @@ function HeaderSwitch({recentEvents, event}) {
     return null;
   }
 
-  const end = event.get('end');
-  const openEvents = recentEvents.filter(e => !e.get('end'));
+  const openEvents = recentEvents.filter(e => e.get('state') === 'open');
   const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
 
   const affectedEnties = {};
@@ -34,7 +33,7 @@ function HeaderSwitch({recentEvents, event}) {
                         timestamp={event.get('start')} />
 
         <DateTimeString label='Ended'
-                        timestamp={end} />
+                        timestamp={event.get('end')} />
 
         <div style={{ height: '0.8rem' }} />
 

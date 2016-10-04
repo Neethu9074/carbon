@@ -50,9 +50,10 @@ const Event = connectTo(props => {
   // clamp events so that they are not going beyond the borders of the chart. If they would do, the incident
   // start and end properties are wrongly calculated
   const left = Math.max(0, scale.getRange(event.get('start')));
-  const end = event.get('end');
   const eventType = getEventType(event);
-  const right = end ? Math.min(scale.getRange(end), scale.getRangeTo()) : scale.getRangeTo();
+  const right = (event.get('state') === 'open')
+    ? Math.min(scale.getRange(event.get('end')), scale.getRangeTo())
+    : scale.getRangeTo();
   const barWidth = eventType === EVENT_TYPES.CHANGE ? 0 : right - left;
 
   return (

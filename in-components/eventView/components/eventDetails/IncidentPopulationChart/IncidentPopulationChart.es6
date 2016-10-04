@@ -85,12 +85,11 @@ export default getElementDimensions(React.createClass({
       if (event) {
         this.setFrom(event.get('start'));
 
-        const end = event.get('end');
-        if (end) {
-          this.disposeServertimeSubscription();
-          this.setTo(end);
-        } else {
+        if (event.get('state') === 'open') {
           this.setupServertimeSubscription();
+        } else {
+          this.disposeServertimeSubscription();
+          this.setTo(event.get('end'));
         }
       }
     });
