@@ -62,7 +62,8 @@ export default function JVMDashboard({snapshot, timeframe}) {
                              'Blocked',
                              'Terminated'
                            ],
-                           type: 'stackedArea'
+                           type: 'stackedArea',
+                           formatter: twoDecimalPlaces
                          }}/>
       </DashboardSection>
 
