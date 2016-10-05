@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {sortDirection$, toggleSortDirection} from 'in-components/eventView/stores/sortDirection';
 import {getQueryFieldNameForField} from 'in-components/eventView/components/FilterMenu';
-import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
+import {sortBy$, setSortBy} from 'in-components/eventView/stores/sortBy';
 import FilterMenu from 'in-components/eventView/components/FilterMenu';
-import {sortBy$} from 'in-components/eventView/stores/sortBy';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -31,19 +31,19 @@ React.createClass({
       <div className={block}>
         <Cell name='start'
               expandedCell={expandedCell}
-              onClick={cellName => this.setState({expandedCell: cellName})} />
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
         <Cell name='end'
               expandedCell={expandedCell}
-              onClick={cellName => this.setState({expandedCell: cellName})} />
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
         <Cell name='title'
               expandedCell={expandedCell}
-              onClick={cellName => this.setState({expandedCell: cellName})} />
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
         <Cell name='severity'
               expandedCell={expandedCell}
-              onClick={cellName => this.setState({expandedCell: cellName})} />
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
       </div>
     );
   }
@@ -54,7 +54,7 @@ const Cell = connectTo({
   sortDirection: sortDirection$,
   sortBy: sortBy$
 },
-({expandedCell, onClick, name, sortBy, sortDirection}) => {
+({expandedCell, onExpandClick, name, sortBy, sortDirection}) => {
   const isSelected = expandedCell === name;
   const isActive = sortBy === getQueryFieldNameForField(name);
 
@@ -70,26 +70,29 @@ const Cell = connectTo({
         {isSelected
           ? <div className={`${block}__filter`}>
               <FilterMenu field={name}
-                          closeMenu={() => onClick(null)} />
+                          closeMenu={() => onExpandClick(null)} />
             </div>
           : null
         }
       <div className={toggleClassName}
-           onClick={() => onClick(isSelected ? null : name)}>
+           onClick={() => {
+             setSortBy(name);
+             toggleSortDirection();
+           }}>
         {name}
         <Arrow isActive={isActive}
-               sortDirection={sortDirection} />
+               sortDirection={sortDirection}
+               onClick={e => {
+                 e.stopPropagation();
+                 onExpandClick(isSelected ? null : name);
+               }} />
       </div>
     </div>
   );
 });
 
 
-function Arrow({isActive, sortDirection}) {
-  if (!isActive) {
-    return null;
-  }
-
+function Arrow({isActive, sortDirection, onClick}) {
   let toggleClassName = `${block}__icon-wrapper`;
   if (isActive) {
     toggleClassName += ` ${toggleClassName}--active`;
@@ -101,7 +104,8 @@ function Arrow({isActive, sortDirection}) {
   }
 
   return (
-    <div className={toggleClassName}>
+    <div className={toggleClassName}
+         onClick={onClick}>
       <SvgIcon className={`${block}__icon`}
                type={iconType}
                width={5}

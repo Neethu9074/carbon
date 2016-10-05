@@ -10,3 +10,12 @@ export const sortDirection$ = sortDirectionStore.observable;
 export function setSortDirection(newSortDirection) {
   sortDirectionStore.mutateTo(newSortDirection);
 }
+
+export function toggleSortDirection() {
+  sortDirectionStore.applyStateMutation(oldSortDirection => {
+    if (oldSortDirection === 'asc') {
+      return 'desc';
+    }
+    return 'asc';
+  });
+}
