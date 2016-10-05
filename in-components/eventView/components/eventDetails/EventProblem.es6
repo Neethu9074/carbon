@@ -13,11 +13,12 @@ export default function EventProblem({event}) {
 
   return (
     <div className={`${block}`}>
-      <SvgIcon className={`${block}__icon`}
-               type='info_filled'
-               width={20}
-               height={20}
-               color={'#7b8e96'} />
+      <div className={`${block}__icon-wrapper`}>
+        <SvgIcon type='info_filled'
+                 width={20}
+                 height={20}
+                 color={'#7b8e96'} />
+      </div>
 
       <div className={`${block}__text-wrapper`}>
         <span className={`${block}__heading`}>
