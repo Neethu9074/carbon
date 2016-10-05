@@ -1,18 +1,21 @@
-import {setEventTypeFilter as setSearchEventTypeFilter} from 'in-stores/search/events';
-import {createStore} from 'in-stores/store';
+import {setEventTypeFilter as setSearchEventTypeFilter, containsEventTypeFilter} from 'in-stores/search/events';
+import {createTrackingStore} from 'in-stores/store';
+import {rawQuery$} from 'in-stores/search';
 
 
-const eventFilter = createStore({
+export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilterStore',
-  initialValue: null
-});
-export const eventFilter$ = eventFilter.observable;
-
-// set incident as initial filter
-// setEventTypeFilter('incident');
+  observable: rawQuery$.debounce(1000).map(query => {
+    if (containsEventTypeFilter(query, 'incident')) {
+      return 'incident';
+    } else if (containsEventTypeFilter(query, 'issue')) {
+      return 'issue';
+    }
+    return null;
+  })
+}).observable;
 
 
 export function setEventTypeFilter(_filter) {
-  eventFilter.mutateTo(_filter);
   setSearchEventTypeFilter(_filter);
 }
