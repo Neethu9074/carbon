@@ -122,7 +122,7 @@ function addNewEvents(newEvents) {
 
       id: event.get('id'),
       start: formatDateTime(event.get('start')),
-      end: (event.get('state') === 'open') ? 'active' : formatDateTime(event.get('end')),
+      end: event.get('end', ''),
       title: event.get('title'),
       severity: Math.max(0, event.get('severity'))
     };

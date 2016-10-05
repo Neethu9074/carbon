@@ -51,7 +51,8 @@ const Event = connectTo(props => {
   // start and end properties are wrongly calculated
   const left = Math.max(0, scale.getRange(event.get('start')));
   const eventType = getEventType(event);
-  const right = (event.get('state') === 'open')
+  const end = event.get('end');
+  const right = end
     ? Math.min(scale.getRange(event.get('end')), scale.getRangeTo())
     : scale.getRangeTo();
   const barWidth = eventType === EVENT_TYPES.CHANGE ? 0 : right - left;

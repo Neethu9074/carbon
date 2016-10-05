@@ -2,9 +2,11 @@ import React from 'react';
 
 import EntityInformation from 'in-components/eventView/components/eventDetails/EntityInformation';
 import EventDuration from 'in-components/eventView/components/eventDetails/EventDuration';
+import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import EventIcon from 'in-components/EventIcon/EventIcon';
 import {formatTime} from 'in-services/formatters/date';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
 
 import './Header.less';
 
@@ -12,7 +14,12 @@ import './Header.less';
 const block = 'in-event-view-event-details-header';
 const flexWrapperClass = `${block}__flex-wrapper`;
 
-export default function EventDetailsHeader({event, isCollapsed, onClick}) {
+export default connectTo(props => {
+  return {
+    end: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => null, () => props.event.get('end'))
+  };
+},
+function EventDetailsHeader({event, end, isCollapsed, onClick}) {
   let className = `${block}`;
   if (isCollapsed) {
     className += ` ${className}--collapsed`;
@@ -32,11 +39,11 @@ export default function EventDetailsHeader({event, isCollapsed, onClick}) {
               {event.get('title')}
             </span>
             <EventDuration event={event} />
-            {event.get('state') === 'open'
-              ? null
-              : <span className={`${block}__end`}>
-                  {`(${formatTime(event.get('end'))})`}
+            {end
+              ? <span className={`${block}__end`}>
+                  {`(${formatTime(end)})`}
                 </span>
+              : null
             }
           </div>
           <EntityInformation event={event} />
@@ -49,4 +56,4 @@ export default function EventDetailsHeader({event, isCollapsed, onClick}) {
                color='#7b8e96' />
     </div>
   );
-}
+});
