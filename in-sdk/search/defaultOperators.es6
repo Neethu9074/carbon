@@ -99,9 +99,25 @@ addKeywordOperator({
   field: 'total_error_count'
 });
 
+const searchableEventTypes = {
+  issue: 'issue',
+  incident: 'incident'
+};
 addKeywordOperator({
   context: 'event',
-  type: 'string',
+  type: 'selection',
   keyword: 'type',
-  field: 'eventtype'
+  field: 'eventtype',
+  validate(selection, queryPart) {
+    if (this.getSelectableItems().indexOf(selection.toLowerCase()) === -1) {
+      return `Unknown event type ${selection} for key type at row ${queryPart.row}.`;
+    }
+    return null;
+  },
+  getSelectableItems() {
+    return Object.keys(searchableEventTypes);
+  },
+  toValue(selection) {
+    return searchableEventTypes[selection.toLowerCase()];
+  }
 });

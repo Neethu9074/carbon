@@ -1,15 +1,10 @@
-import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
 import {mutateInputString} from 'in-stores/search';
-import {focusedMoment$} from 'in-stores/timeline';
-
-
-export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
 
 
 export function setEventTypeFilter(type) {
   removeEventTypeFilter();
   mutateInputString(inputString => {
-    if (containsTagFilter(inputString, type)) {
+    if (containsEventTypeFilter(inputString, type)) {
       return inputString;
     }
 
@@ -26,12 +21,10 @@ export function removeEventTypeFilter() {
   });
 }
 
-
-// return new RegExp(`${type} *= *("([^"]+)"|([^\\s]+))`, 'ig').test(freeText);
-export function containsTagFilter(freeText, type) {
-  return getRegExpMachingTag(type).test(freeText);
+export function containsEventTypeFilter(freeText, type) {
+  return getRegExpMachingEventType(type).test(freeText);
 }
 
-function getRegExpMachingTag(type) {
+function getRegExpMachingEventType(type) {
   return new RegExp(`(^|\\s)type *= *("${type}"|${type})(\\s|$)`, 'ig');
 }

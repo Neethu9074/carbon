@@ -33,23 +33,23 @@ describe('in-stores/search/events', () => {
   describe('eventtype in input', () => {
     describe('contains eventtype', () => {
       it('must not find unknown eventtype filter', () => {
-        expect(mod.containsTagFilter('type = event', 'issue')).to.equal(false);
+        expect(mod.containsEventTypeFilter('type = event', 'issue')).to.equal(false);
       });
 
       it('must find eventtyper filter', () => {
-        expect(mod.containsTagFilter('type=incident', 'incident')).to.equal(true);
+        expect(mod.containsEventTypeFilter('type=incident', 'incident')).to.equal(true);
       });
 
       it('must find eventtype filter with quotes', () => {
-        expect(mod.containsTagFilter('type ="incident"', 'incident')).to.equal(true);
+        expect(mod.containsEventTypeFilter('type ="incident"', 'incident')).to.equal(true);
       });
 
       it('must not find eventtype filters when other ones exist', () => {
-        expect(mod.containsTagFilter('type ="foobar"', 'blub')).to.equal(false);
+        expect(mod.containsEventTypeFilter('type ="foobar"', 'blub')).to.equal(false);
       });
 
       it('must not find eventtype filters when part of another key type', () => {
-        expect(mod.containsTagFilter('type ="issue"', 'foobar')).to.equal(false);
+        expect(mod.containsEventTypeFilter('type ="issue"', 'foobar')).to.equal(false);
       });
     });
 
