@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
+import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
 import createTotalShedEventsSubscription from 'in-services/subscription/totalShedEventsCount';
-import {eventFilter$, setEventFilter} from 'in-components/eventView/stores/eventFilterStore';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {luceneQuery$ as query$} from 'in-stores/search';
@@ -24,10 +24,10 @@ export default function EventListHeader() {
                height={20}
                color={'#33d8d7'} />
 
-      <EventFilter filter='incidents'>
+      <EventFilter filter='incident'>
         Incidents (<Count getCounter={counter => counter.get('incident')}/>)
       </EventFilter>
-      <EventFilter filter='events'>
+      <EventFilter filter='issue'>
         Events (<Count getCounter={counter => counter.get('issue')}/>)
       </EventFilter>
     </ViewHeader>
@@ -45,7 +45,7 @@ const EventFilter = connectTo({
 
   return (
     <div className={className}
-         onClick={() => setEventFilter(filter)}>
+         onClick={() => setEventTypeFilter(filter)}>
       {children}
     </div>
   );
