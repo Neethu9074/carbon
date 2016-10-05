@@ -1,6 +1,6 @@
 /* global ga:false */
 
-import {isInstanaEmployee} from 'in-stores/user';
+import {isInstanaEmployee, getCurrentUser} from 'in-stores/user';
 import config from 'in-services/config';
 
 export function init() {
@@ -43,5 +43,6 @@ function installEumTracking() {
   })(window,document,'script','//internal-eum.instana.io:447/eum.min.js','ineum');
   ineum('apiKey', config.eumTrackingId);
   ineum('reportingUrl', '//internal-eum.instana.io:447');
+  ineum('meta', 'user', getCurrentUser().email);
   /* eslint-enable */
 }
