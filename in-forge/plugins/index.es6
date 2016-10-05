@@ -75,3 +75,4 @@ import './unknownService';
 import './unmonitoredHost';
 import './varnish';
 import './webAppServiceInstance';
+import './webSphereApplicationContainer';
