@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {emptyMap} from 'in-services/fixedImmutables';
 
 
 export default function PageRequestSpanDetailView({span}) {
@@ -25,6 +26,8 @@ export default function PageRequestSpanDetailView({span}) {
       <DescriptionItem title='Device'>
         {getDevice(span)}
       </DescriptionItem>
+
+      {getMetaData(span)}
     </DescriptionList>
   );
 }
@@ -65,4 +68,19 @@ function getNameVersionPair(span, key) {
   }
 
   return `${name} ${version}`;
+}
+
+
+function getMetaData(span) {
+  return span.getIn(['data', 'page', 'meta'], emptyMap)
+    .map((v, k, i) => {
+      return (
+        <DescriptionItem title={`Meta Data: ${k}`}
+                         key={i}>
+          {v}
+        </DescriptionItem>
+      );
+    })
+    .valueSeq()
+    .toArray();
 }
