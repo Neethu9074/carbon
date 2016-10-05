@@ -18,6 +18,11 @@ function FilterMenu({field, closeMenu}) {
   return (
     <div className={block}>
       <Row>
+        <span className={`${block}__title`}>
+          Filter
+        </span>
+      </Row>
+      <Row>
         <Entry onClick={() =>  {
           setSortDirection('asc');
           setSortBy(getQueryFieldNameForField(field));
@@ -59,6 +64,7 @@ function Entry({onClick, children, kind}) {
   return (
     <Button className={`${block}__button`}
             kind={kind ? kind : null}
+            group='sm'
             onClick={onClick}>
       {children}
     </Button>
