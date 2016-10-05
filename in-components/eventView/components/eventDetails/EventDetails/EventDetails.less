@@ -1,0 +1,24 @@
+.in-event-view-event-details {
+  padding: 1rem;
+  border-radius: .188rem;
+  font-size: .688rem;
+
+  background: #fff;
+  transition: background 0.25s ease-in-out;
+
+  &:hover {
+    background: #D5DFE4;
+  }
+
+  &:nth-child(2) {
+    .in-event-view-event-details__line {
+      top: 1.375rem;
+    }
+  }
+
+  &:nth-last-child(2) {
+    .in-event-view-event-details__line {
+      bottom: ~'calc(100% - 1.375rem)';
+    }
+  }
+}

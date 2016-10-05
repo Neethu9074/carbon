@@ -1,7 +1,7 @@
 import React from 'react';
 
+import EventDetails from 'in-components/eventView/components/eventDetails/EventDetails/EventDetails';
 import IncidentContent from 'in-components/eventView/components/eventDetails/IncidentContent';
-import EventContent from 'in-components/eventView/components/eventDetails/EventContent';
 import {selectedEvent$} from 'in-components/eventView/stores/selectedEventStore';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -31,7 +31,7 @@ function DetailPanel({selectedEventId, event}) {
     <div className={block}>
       {eventType === EVENT_TYPES.INCIDENT
         ? <IncidentContent event={event} />
-        : <EventContent event={event} />
+        : <EventDetails event={event} />
       }
     </div>
   );

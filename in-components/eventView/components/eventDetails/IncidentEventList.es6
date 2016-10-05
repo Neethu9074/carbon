@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EventDetails from 'in-components/eventView/components/eventDetails/CollapsableEventDetails';
+import ListWrapper from 'in-components/eventView/components/eventDetails/EventDetails/ListWrapper';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
@@ -25,9 +25,9 @@ function IncidentEventList({events}) {
       </div>
       <div className={`${block}__timeline`}>
         <TimeMarker text='started' />
-        {events.map(event => <EventDetails key={event.get('id')}
-                                           event={event}
-                                           isCollapsed={true} />)
+        {events.map(event => <ListWrapper key={event.get('id')}
+                                          event={event}
+                                          isCollapsed={true} />)
         }
         <TimeMarker text='ended' />
       </div>
