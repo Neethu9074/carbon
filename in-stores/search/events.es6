@@ -13,13 +13,13 @@ export function setEventTypeFilter(type) {
       return inputString;
     }
 
-    return `${inputString} eventtype="${type}"`.trim();
+    return `${inputString} type="${type}"`.trim();
   });
 }
 
 export function removeEventTypeFilter() {
   mutateInputString(inputString => {
-    return inputString.replace(/(^|\s)eventtype *= *(("([^"]+)")|([^\s]+))/ig, ' ')
+    return inputString.replace(/(^|\s)type *= *(("([^"]+)")|([^\s]+))/ig, ' ')
       // remove excess whitespace
       .replace(/ {2,}/ig, ' ')
       .trim();
@@ -33,5 +33,5 @@ export function containsTagFilter(freeText, type) {
 }
 
 function getRegExpMachingTag(type) {
-  return new RegExp(`(^|\\s)eventType *= *("${type}"|${type})(\\s|$)`, 'ig');
+  return new RegExp(`(^|\\s)type *= *("${type}"|${type})(\\s|$)`, 'ig');
 }

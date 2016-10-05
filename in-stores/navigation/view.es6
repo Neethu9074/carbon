@@ -21,3 +21,7 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$])
 export const isTraceView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/traces') === 0)
   .distinct();
+
+export const isIncidentView$ = navigationParameters$
+  .map(params => params.pathname.indexOf('/incidents') === 0)
+  .distinct();

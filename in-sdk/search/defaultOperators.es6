@@ -64,14 +64,12 @@ addKeywordOperator({
   field: 'logical_destination_service_id'
 });
 
-
 addKeywordOperator({
   context: 'trace',
   type: 'number',
   keyword: 'duration',
   field: 'd'
 });
-
 
 addKeywordOperator({
   context: 'trace',
@@ -99,4 +97,11 @@ addKeywordOperator({
   type: 'number',
   keyword: 'errors',
   field: 'total_error_count'
+});
+
+addKeywordOperator({
+  context: 'event',
+  type: 'string',
+  keyword: 'type',
+  field: 'eventtype'
 });

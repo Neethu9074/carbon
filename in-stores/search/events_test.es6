@@ -33,41 +33,41 @@ describe('in-stores/search/events', () => {
   describe('eventtype in input', () => {
     describe('contains eventtype', () => {
       it('must not find unknown eventtype filter', () => {
-        expect(mod.containsTagFilter('eventtype = event', 'issue')).to.equal(false);
+        expect(mod.containsTagFilter('type = event', 'issue')).to.equal(false);
       });
 
       it('must find eventtyper filter', () => {
-        expect(mod.containsTagFilter('eventtype=incident', 'incident')).to.equal(true);
+        expect(mod.containsTagFilter('type=incident', 'incident')).to.equal(true);
       });
 
       it('must find eventtype filter with quotes', () => {
-        expect(mod.containsTagFilter('eventtype ="incident"', 'incident')).to.equal(true);
+        expect(mod.containsTagFilter('type ="incident"', 'incident')).to.equal(true);
       });
 
       it('must not find eventtype filters when other ones exist', () => {
-        expect(mod.containsTagFilter('eventtype ="foobar"', 'blub')).to.equal(false);
+        expect(mod.containsTagFilter('type ="foobar"', 'blub')).to.equal(false);
       });
 
       it('must not find eventtype filters when part of another key type', () => {
-        expect(mod.containsTagFilter('neweventtype ="issue"', 'foobar')).to.equal(false);
+        expect(mod.containsTagFilter('type ="issue"', 'foobar')).to.equal(false);
       });
     });
 
     it('must add filter', () => {
       mod.setEventTypeFilter('issue');
-      expectQueryToEqual('eventtype="issue"');
+      expectQueryToEqual('type="issue"');
     });
 
     it('must not add filter twice', () => {
-      rawQuery$.emit('eventtype=issue');
+      rawQuery$.emit('type=issue');
       mod.setEventTypeFilter('issue');
-      expectQueryToEqual('eventtype="issue"');
+      expectQueryToEqual('type="issue"');
     });
 
     it('must not add filter twice via button', () => {
       mod.setEventTypeFilter('issue');
       mod.setEventTypeFilter('issue');
-      expectQueryToEqual('eventtype="issue"');
+      expectQueryToEqual('type="issue"');
     });
 
     it('must remove filters', () => {
@@ -77,26 +77,26 @@ describe('in-stores/search/events', () => {
     });
 
     it('must remove filters set via URL', () => {
-      rawQuery$.emit('eventtype=issue');
+      rawQuery$.emit('type=issue');
       mod.removeEventTypeFilter();
       expectQueryToEqual('');
     });
 
     it('must ignore other filters', () => {
-      rawQuery$.emit('host.cpuCount > 2 eventtype=incident');
+      rawQuery$.emit('host.cpuCount > 2 type=incident');
       mod.setEventTypeFilter('issue');
       mod.removeEventTypeFilter();
       expectQueryToEqual('host.cpuCount > 2');
     });
 
     it('must ignore other filters', () => {
-      rawQuery$.emit('host.cpuCount > 2 eventtype=incident');
+      rawQuery$.emit('host.cpuCount > 2 type=incident');
       mod.setEventTypeFilter('issue');
-      expectQueryToEqual('host.cpuCount > 2 eventtype="issue"');
+      expectQueryToEqual('host.cpuCount > 2 type="issue"');
     });
 
     it('must remove all eventtype filters', () => {
-      rawQuery$.emit('host.cpuCount > 2 eventtype="bar"');
+      rawQuery$.emit('host.cpuCount > 2 type="bar"');
       mod.removeEventTypeFilter();
       expectQueryToEqual('host.cpuCount > 2');
     });
