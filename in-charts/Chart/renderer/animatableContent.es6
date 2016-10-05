@@ -1,3 +1,5 @@
+import {twoDecimalPlaces} from 'in-services/formatters/number';
+
 const textHeightInPx = 13;
 const textMarginInPx = 5;
 const desiredNumberOfTicks = 5;
@@ -178,7 +180,7 @@ export default function createAnimatableContentRenderer(config) {
 
   function renderYAxis(axisName) {
     const scale = config.scales[axisName];
-    const formatter = config[axisName].formatter || identity;
+    const formatter = config[axisName].formatter || twoDecimalPlaces;
     const ticks = getYTickPositions(scale);
     const isLeftAxis = axisName === 'y1';
     const tickX = isLeftAxis ? config.bounds.left - 5 : config.bounds.right;
@@ -260,9 +262,4 @@ export default function createAnimatableContentRenderer(config) {
 
     return [min, max];
   }
-}
-
-
-function identity(a) {
-  return a;
 }
