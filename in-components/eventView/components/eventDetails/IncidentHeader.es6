@@ -48,13 +48,15 @@ function HeaderSwitch({recentEvents, event}) {
 function DateTimeString({label, timestamp}) {
   if (!timestamp) {
     return (
-      <LabeledValue label={label}>
+      <LabeledValue label={label}
+                    lightTheme={true} >
         active
       </LabeledValue>
     );
   }
   return (
-    <LabeledValue label={label}>
+    <LabeledValue label={label}
+                  lightTheme={true} >
       <span key='date'
             className={`${block}__date`}>
         {`${formatDate(timestamp)} `}

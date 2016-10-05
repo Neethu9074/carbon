@@ -2,6 +2,7 @@ import React from 'react';
 
 import ListWrapper from 'in-components/eventView/components/eventDetails/EventDetails/ListWrapper';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
+import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
@@ -25,10 +26,12 @@ function IncidentEventList({events}) {
       </div>
       <div className={`${block}__timeline`}>
         <TimeMarker text='started' />
+
         {events.map(event => <ListWrapper key={event.get('id')}
                                           event={event}
                                           isCollapsed={true} />)
         }
+
         <TimeMarker text='ended' />
       </div>
     </div>
@@ -38,7 +41,8 @@ function IncidentEventList({events}) {
 function TimeMarker({text}) {
   return (
     <div className={`${block}__time-marker ${block}__time-marker__${text}`}>
-      {text}
+      <LabeledValue label={text}
+                    lightTheme={true} />
     </div>
   );
 }
