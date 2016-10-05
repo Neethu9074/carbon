@@ -81,6 +81,7 @@ const Cell = connectTo({
            }}>
         {name}
         <Arrow isActive={isActive}
+               isSelected={isSelected}
                sortDirection={sortDirection}
                onClick={e => {
                  e.stopPropagation();
@@ -92,10 +93,10 @@ const Cell = connectTo({
 });
 
 
-function Arrow({isActive, sortDirection, onClick}) {
+function Arrow({isActive, isSelected, sortDirection, onClick}) {
   let toggleClassName = `${block}__icon-wrapper`;
-  if (isActive) {
-    toggleClassName += ` ${toggleClassName}--active`;
+  if (isSelected) {
+    toggleClassName += ` ${toggleClassName}--selected`;
   }
 
   let iconType = 'triangle_down';
