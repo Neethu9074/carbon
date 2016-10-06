@@ -1,8 +1,15 @@
+/* global require:false */
+import {
+  SphereBufferGeometry,
+  PerspectiveCamera,
+  Scene,
+  Mesh,
+  MeshBasicMaterial} from 'in-map/3DLibProvider';
 import createControls from 'in-components/graphView/components/Controls';
-import {PerspectiveCamera, Scene} from 'in-map/3DLibProvider';
+import {loadImage} from 'in-map/services/imageLoader';
 
 
-export default class GraphScene {
+export default class GlobeScene {
   constructor(renderer) {
     this.camera = new PerspectiveCamera(75, 1, 1, 1000);
     this.scene = new Scene();
@@ -17,6 +24,18 @@ export default class GraphScene {
         zoomSpeed: 5
       }
     );
+
+    require(['in-components/globeView/components/world.jpg'], (worldDiffuseMapPath) => {
+      const globe = new Mesh(
+        new SphereBufferGeometry(9, 32, 32),
+        new MeshBasicMaterial({
+          color: 0xffffff,
+          map: loadImage(worldDiffuseMapPath, tex => tex.needsUpdate = true)
+        })
+      );
+
+      this.scene.add(globe);
+    });
   }
 
   resize(width, height) {

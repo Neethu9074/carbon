@@ -1,6 +1,6 @@
 import {create, on} from 'reactive-observables';
 
-import GraphScene from 'in-components/globeView/components/GraphScene';
+import GlobeScene from 'in-components/globeView/components/GlobeScene';
 import {WebGLRenderer, Color} from 'in-map/3DLibProvider';
 
 
@@ -19,7 +19,7 @@ export default function createUniverseRenderer({container, canvas}) {
   renderer.autoClear = true;
   renderer.setClearColor(new Color(0x222222), 1.0);
 
-  const graphScene = new GraphScene(renderer);
+  const graphScene = new GlobeScene(renderer);
 
   const resizeSubscription = on(window, 'resize')
     .debounce(500)

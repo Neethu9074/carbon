@@ -23,6 +23,7 @@ import {
   Raycaster as ThreeRaycaster,
   RepeatWrapping as ThreeRepeatWrapping,
   Scene as ThreeScene,
+  SphereBufferGeometry as ThreeSphereBufferGeometry,
   Texture as ThreeTexture,
   Vector3 as ThreeVector3,
   VertexColors as ThreeVertexColors,
@@ -61,6 +62,7 @@ export const RawShaderMaterial = ThreeRawShaderMaterial;
 export const Raycaster = ThreeRaycaster;
 export const RepeatWrapping = ThreeRepeatWrapping;
 export const Scene = ThreeScene;
+export const SphereBufferGeometry = ThreeSphereBufferGeometry;
 export const Texture = ThreeTexture;
 export const Vector3 = ThreeVector3;
 export const VertexColors = ThreeVertexColors;
