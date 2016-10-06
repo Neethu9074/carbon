@@ -19,6 +19,7 @@ export default function createViveController(wrapper, controls, id) {
   rightHandController.addEventListener('menudown', toggleParticles);
   rightHandController.addEventListener('axischanged', onAxisChanged);
 
+  // load huge files for vive controller async
   require([
     'in-map/misc/common/ViveController/vr_controller_vive_1_5.obj',
     'in-map/misc/common/ViveController/onepointfive_texture.png'
