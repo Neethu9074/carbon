@@ -5,7 +5,7 @@ import {rawQuery$} from 'in-stores/search';
 
 export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilterStore',
-  observable: rawQuery$.debounce(1000).map(query => {
+  observable: rawQuery$.map(query => {
     if (containsEventTypeFilter(query, 'incident')) {
       return 'incident';
     } else if (containsEventTypeFilter(query, 'issue')) {
