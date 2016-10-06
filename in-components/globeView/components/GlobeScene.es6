@@ -21,7 +21,7 @@ export default class GlobeScene {
         cameraMoveSpeed: 4,
         startingWorldDistance: 0,
         startingZoomDistance: 30,
-        maxZoomIn: 15,
+        maxZoomIn: 20,
         maxZoomOut: 40,
         zoomSpeed: 5
       }
@@ -29,7 +29,7 @@ export default class GlobeScene {
 
     require(['in-components/globeView/components/world.jpg'], (worldDiffuseMapPath) => {
       const globe = new Mesh(
-        new SphereBufferGeometry(9, 32, 32),
+        new SphereBufferGeometry(10, 32, 32),
         new MeshBasicMaterial({
           color: 0xffffff,
           map: loadImage(worldDiffuseMapPath, tex => tex.needsUpdate = true)
