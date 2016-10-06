@@ -31,6 +31,10 @@ export default function PageRequestSpanDetailView({span}) {
         {span.getIn(['data', 'page', 'ip'])}
       </DescriptionItem>
 
+      <DescriptionItem title='Location'>
+        {getLocation(span)}
+      </DescriptionItem>
+
       {getMetaData(span)}
     </DescriptionList>
   );
@@ -87,4 +91,14 @@ function getMetaData(span) {
     })
     .valueSeq()
     .toArray();
+}
+
+
+function getLocation(span) {
+  const geo = span.getIn(['data', 'page', 'geo']);
+  if (!geo) {
+    return null;
+  }
+
+  return `${geo.get('city')}, ${geo.get('country')} (${geo.get('continent')})`;
 }
