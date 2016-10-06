@@ -1,43 +1,53 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import ViewBackendTraceButton from 'in-forge/tracing/page/ViewBackendTraceButton';
+import {emptyList} from 'in-services/fixedImmutables';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Tooltip from 'in-components/Tooltip';
 
 
 export default function PageRequestSpanDetailView({span}) {
+  const backendTraceId = span.getIn(['data', 'page', 'backend_traces'], emptyList).first();
+
   return (
-    <DescriptionList>
-      <DescriptionItem title='URL'>
-        {span.getIn(['data', 'page', 'url'])}
-      </DescriptionItem>
+    <div>
+      {backendTraceId ?
+        <ViewBackendTraceButton traceId={backendTraceId} />
+      : null}
 
-      <DescriptionItem title='Platform'>
-        {span.getIn(['data', 'page', 'platform'])}
-      </DescriptionItem>
+      <DescriptionList>
+        <DescriptionItem title='URL'>
+          {span.getIn(['data', 'page', 'url'])}
+        </DescriptionItem>
 
-      <DescriptionItem title='Browser'>
-        {getBrowser(span)}
-      </DescriptionItem>
+        <DescriptionItem title='Platform'>
+          {span.getIn(['data', 'page', 'platform'])}
+        </DescriptionItem>
 
-      <DescriptionItem title='Operating System'>
-        {getOperatingSystem(span)}
-      </DescriptionItem>
+        <DescriptionItem title='Browser'>
+          {getBrowser(span)}
+        </DescriptionItem>
 
-      <DescriptionItem title='Device'>
-        {getDevice(span)}
-      </DescriptionItem>
+        <DescriptionItem title='Operating System'>
+          {getOperatingSystem(span)}
+        </DescriptionItem>
 
-      <DescriptionItem title='IP'>
-        {span.getIn(['data', 'page', 'ip'])}
-      </DescriptionItem>
+        <DescriptionItem title='Device'>
+          {getDevice(span)}
+        </DescriptionItem>
 
-      <DescriptionItem title='Location'>
-        {getLocation(span)}
-      </DescriptionItem>
+        <DescriptionItem title='IP'>
+          {span.getIn(['data', 'page', 'ip'])}
+        </DescriptionItem>
 
-      {getMetaData(span)}
-    </DescriptionList>
+        <DescriptionItem title='Location'>
+          {getLocation(span)}
+        </DescriptionItem>
+
+        {getMetaData(span)}
+      </DescriptionList>
+    </div>
   );
 }
 

@@ -64,7 +64,7 @@ function Entry({onClick, children, kind}) {
   return (
     <Button className={`${block}__button`}
             kind={kind ? kind : null}
-            group='sm'
+            size='sm'
             onClick={onClick}>
       {children}
     </Button>
