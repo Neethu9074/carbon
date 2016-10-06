@@ -2,6 +2,7 @@ import {create, on} from 'reactive-observables';
 
 import GlobeScene from 'in-components/globeView/components/GlobeScene';
 import {WebGLRenderer, Color} from 'in-map/3DLibProvider';
+import {update as updateTime} from 'in-map/misc/time';
 
 
 export default function createUniverseRenderer({container, canvas}) {
@@ -19,7 +20,7 @@ export default function createUniverseRenderer({container, canvas}) {
   renderer.autoClear = true;
   renderer.setClearColor(new Color(0x222222), 1.0);
 
-  const graphScene = new GlobeScene(renderer);
+  const globeScene = new GlobeScene(renderer);
 
   const resizeSubscription = on(window, 'resize')
     .debounce(500)
@@ -27,7 +28,7 @@ export default function createUniverseRenderer({container, canvas}) {
 
   // initial resize
   resize();
-  realtimeUpdate();
+  realtimeUpdate(0);
 
   return {
     canvas,
@@ -42,18 +43,19 @@ export default function createUniverseRenderer({container, canvas}) {
     canvas.width = width;
 
     renderer.setSize(width, height);
-    graphScene.resize(width, height);
+    globeScene.resize(width, height);
 
     changes.emit(changeSignal);
   }
 
-  function realtimeUpdate() {
+  function realtimeUpdate(highResTimestamp) {
+    updateTime(highResTimestamp);
     if (isRunning) {
       requestAnimationFrame(realtimeUpdate);
     }
 
-    graphScene.realtimeUpdate();
-    graphScene.render(renderer);
+    globeScene.realtimeUpdate();
+    globeScene.render(renderer);
   }
 
   function update() {
@@ -65,6 +67,6 @@ export default function createUniverseRenderer({container, canvas}) {
 
     resizeSubscription.dispose();
     updateSubscription.dispose();
-    graphScene.dispose();
+    globeScene.dispose();
   }
 }

@@ -47,9 +47,6 @@ export default class GlobeScene {
     renderer.render(this.scene, this.camera);
   }
 
-  updateGeometry() {
-  }
-
   realtimeUpdate() {
     this.controls.update();
   }
