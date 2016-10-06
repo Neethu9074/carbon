@@ -15,10 +15,10 @@ const block = 'in-trace-view-stack-trace';
 export default connectTo(props => {
   const direction = getDirection(props.parentSpan);
   const side = direction === 'entry' ? 'destinationServiceInstanceId' : 'sourceServiceInstanceId';
-  const serviceInstanceSnapshotId = props.span.getIn(['rels', side]);
+  const serviceInstanceSnapshotId = props.parentSpan.getIn(['rels', side]);
   let snapshot$ = alwaysNull;
   if (serviceInstanceSnapshotId) {
-    const time = props.span.get('start');
+    const time = props.parentSpan.get('start');
     snapshot$ = subscribeToInstanceImplementation({
         time,
         serviceInstanceSnapshotId
