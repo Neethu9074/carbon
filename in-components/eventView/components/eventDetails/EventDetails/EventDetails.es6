@@ -48,13 +48,8 @@ React.createClass({
     const event = this.props.event;
     const color = this.props.color;
 
-    let className = block;
-    if (isCollapsable) {
-      className += ` ${block}__collapsable`;
-    }
-
     return (
-      <div className={className}
+      <div className={block}
            style={{ borderLeft: `5px solid ${color}` }}>
 
         <Header event={event}
