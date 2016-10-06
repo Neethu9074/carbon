@@ -31,7 +31,8 @@ export default function HttpdDashboard({snapshot, timeframe}) {
             <ChartWithLegend snapshotId={snapshot.get('id')}
                              timeframe={timeframe}
                              margins={{
-                               left: 80
+                               left: 80,
+                               right: 60
                              }}
                              y1={{
                                metrics: [
