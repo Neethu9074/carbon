@@ -21,6 +21,8 @@ export default class GlobeScene {
         cameraMoveSpeed: 4,
         startingWorldDistance: 0,
         startingZoomDistance: 30,
+        maxZoomIn: 15,
+        maxZoomOut: 40,
         zoomSpeed: 5
       }
     );
