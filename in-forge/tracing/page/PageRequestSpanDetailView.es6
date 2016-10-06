@@ -2,6 +2,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {emptyMap} from 'in-services/fixedImmutables';
+import Tooltip from 'in-components/Tooltip';
 
 
 export default function PageRequestSpanDetailView({span}) {
@@ -100,5 +101,11 @@ function getLocation(span) {
     return null;
   }
 
-  return `${geo.get('city')}, ${geo.get('country')} (${geo.get('continent')})`;
+  return (
+    <Tooltip content='Geo information by GeoLite2, data created by MaxMind, available from http://www.maxmind.com.'>
+      <div>
+        {`${geo.get('city')}, ${geo.get('country')} (${geo.get('continent')})`}
+      </div>
+    </Tooltip>
+  );
 }
