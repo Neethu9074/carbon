@@ -19,41 +19,56 @@ export default connectTo(props => {
     end: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => null, () => props.event.get('end'))
   };
 },
-function EventDetailsHeader({event, end, isCollapsed, onClick}) {
+function EventDetailsHeader({event, end, isCollapsed, isCollapsable, onClick}) {
   let className = `${block}`;
   if (isCollapsed) {
     className += ` ${className}--collapsed`;
   }
 
-  return (
-    <div className={className}
-         onClick={onClick}>
+  if (isCollapsable) {
+    className += ` ${block}__collapsable`;
+    return (
+      <div className={className}
+           onClick={onClick}>
 
-      <div className={flexWrapperClass}>
-        <EventIcon event={event}
-                   className={`${block}__icon`} />
+        <EventDescription event={event} end={end} />
 
-        <div>
-          <div className={flexWrapperClass}>
-            <span className={`${block}__title`}>
-              {event.get('title')}
-            </span>
-            <EventDuration event={event} />
-            {end
-              ? <span className={`${block}__end`}>
-                  {`(${formatTime(end)})`}
-                </span>
-              : null
-            }
-          </div>
-          <EntityInformation event={event} />
-        </div>
+        <SvgIcon type={isCollapsed ? 'plus_without_frame' : 'minus'}
+                 width={10}
+                 height={10}
+                 color='#7b8e96' />
       </div>
+    );
+  }
 
-      <SvgIcon type={isCollapsed ? 'plus_without_frame' : 'minus'}
-               width={10}
-               height={10}
-               color='#7b8e96' />
+  return (
+    <div className={className}>
+      <EventDescription event={event} end={end} />
     </div>
   );
 });
+
+function EventDescription({event, end}) {
+  return (
+    <div className={flexWrapperClass}>
+      <EventIcon event={event}
+                 className={`${block}__icon`} />
+
+      <div>
+        <div className={flexWrapperClass}>
+          <span className={`${block}__title`}>
+            {event.get('title')}
+          </span>
+          <EventDuration event={event} />
+          {end
+            ? <span className={`${block}__end`}>
+                {`(${formatTime(end)})`}
+              </span>
+            : null
+          }
+        </div>
+        <EntityInformation event={event} />
+      </div>
+    </div>
+  );
+}

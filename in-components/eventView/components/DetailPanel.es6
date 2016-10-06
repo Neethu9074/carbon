@@ -31,7 +31,8 @@ function DetailPanel({selectedEventId, event}) {
     <div className={block}>
       {eventType === EVENT_TYPES.INCIDENT
         ? <IncidentContent event={event} />
-        : <EventDetails event={event} />
+        : <EventDetails event={event}
+                        isCollapsable={false} />
       }
     </div>
   );

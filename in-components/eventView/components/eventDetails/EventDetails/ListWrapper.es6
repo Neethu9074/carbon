@@ -21,7 +21,7 @@ export default function({event}) {
 
       <div className={`${block}__right`}>
         <EventDetails event={event}
-                      isCollapsed={true} />
+                      isCollapsable={true} />
       </div>
     </div>
   );

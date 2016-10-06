@@ -25,8 +25,8 @@ React.createClass({
   displayName: 'EventDetails',
 
   propTypes: {
+    isCollapsable: rpt.bool.isRequired,
     event: irpt.map.isRequired,
-    isCollapsed: rpt.bool,
     color: rpt.string
   },
 
@@ -38,21 +38,28 @@ React.createClass({
 
   componentWillMount() {
     this.setState({
-      isCollapsed: this.props.isCollapsed
+      isCollapsed: this.props.isCollapsable ? true : false
     });
   },
 
   render() {
+    const isCollapsable = this.props.isCollapsable;
     const isCollapsed = this.state.isCollapsed;
     const event = this.props.event;
     const color = this.props.color;
 
+    let className = block;
+    if (isCollapsable) {
+      className += ` ${block}__collapsable`;
+    }
+
     return (
-      <div className={block}
+      <div className={className}
            style={{ borderLeft: `5px solid ${color}` }}>
 
         <Header event={event}
                 isCollapsed={isCollapsed}
+                isCollapsable={isCollapsable}
                 onClick={() => this.setState({isCollapsed: !isCollapsed})} />
 
         {isCollapsed
