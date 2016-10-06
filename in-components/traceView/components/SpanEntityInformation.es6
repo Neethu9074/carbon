@@ -1,10 +1,9 @@
-import {create} from 'reactive-observables';
 import React from 'react';
 
-import {alwaysEmptyImmutableMap, alwaysNull} from 'in-services/fixedStreams';
-import {getConnectedEntities} from 'in-stores/connectedEntities';
+import subscribeToInstanceImplementation from 'in-services/subscription/serviceInstanceImplementation';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import DashboardLink from 'in-components/Link/DashboardLink';
+import {alwaysNull} from 'in-services/fixedStreams';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
@@ -13,33 +12,29 @@ import connectTo from 'in-hoc/connectTo';
 import './SpanEntityInformation.less';
 
 const loadingPlaceholder = {};
-const alwaysLoadingPlaceholder = create().emit(loadingPlaceholder);
 
 const block = 'in-trace-view-span-entity-information';
 
 export default connectTo(props => {
-  const connectionId = props.span.getIn(['rels', 'physicalConnectionId']);
-  const start = props.span.get('start');
-  let connectedEntities$;
-  if (connectionId) {
-    connectedEntities$ = getConnectedEntities(connectionId, start)
-      .startWith(loadingPlaceholder);
-  } else {
-    connectedEntities$ = alwaysEmptyImmutableMap;
+  const serviceInstanceSnapshotId = props.span.getIn(['rels', props.connectionEndpointType + 'ServiceInstanceId']);
+
+  let snapshot$ = alwaysNull;
+  if (serviceInstanceSnapshotId) {
+    const time = props.span.get('start');
+    snapshot$ = subscribeToInstanceImplementation({
+        time,
+        serviceInstanceSnapshotId
+      })
+      .startWith(loadingPlaceholder)
+      .flatMap(serviceInstanceImplementationSnapshotId => {
+        if (!serviceInstanceImplementationSnapshotId) {
+          return alwaysNull;
+        }
+
+        return getSnapshot(serviceInstanceImplementationSnapshotId, time)
+          .startWith(loadingPlaceholder);
+      });
   }
-
-  const snapshot$ = connectedEntities$.flatMap(connectedEntities => {
-    if (connectedEntities === loadingPlaceholder) {
-      return alwaysLoadingPlaceholder;
-    }
-
-    const otherId = connectedEntities.get(props.connectionEndpointType);
-    if (otherId) {
-      return getSnapshot(otherId, start)
-        .startWith(loadingPlaceholder);
-    }
-    return alwaysNull;
-  });
 
   return {
     snapshot: snapshot$
