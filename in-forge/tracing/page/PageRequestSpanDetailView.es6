@@ -27,6 +27,10 @@ export default function PageRequestSpanDetailView({span}) {
         {getDevice(span)}
       </DescriptionItem>
 
+      <DescriptionItem title='IP'>
+        {span.getIn(['data', 'page', 'ip'])}
+      </DescriptionItem>
+
       {getMetaData(span)}
     </DescriptionList>
   );
