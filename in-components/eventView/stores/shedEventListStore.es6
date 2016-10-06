@@ -91,6 +91,7 @@ export function loadMoreShedEvents() {
   shedEventList$.once(events => {
     const offset = events.length;
     const maxTimestampForQuery = getMaxStartMillis(events, maxTimestamp);
+    // console.log(new Date(maxTimestampForQuery));
     loadSubscription = createShedEventsObservable({
       maxTimestamp: maxTimestampForQuery,
       minTimestamp,
@@ -127,18 +128,7 @@ function addNewEvents(newEvents) {
       severity: Math.max(0, event.get('severity'))
     };
   });
-  shedEventList.applyStateMutation(existingEvents => {
-    const seen = {};
-    // remove duplicates based on id
-    return existingEvents.concat(transformedEvents)
-          .filter(item => {
-            if (seen[item.id]) {
-              return false;
-            }
-            seen[item.id] = true;
-            return true;
-          });
-  });
+  shedEventList.applyStateMutation(existingEvents => existingEvents.concat(transformedEvents));
   setIsLoading(false);
 }
 

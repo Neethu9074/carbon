@@ -3,7 +3,7 @@ import {createStore} from 'in-stores/store';
 
 const sortDirectionStore = createStore({
   name: 'eventView/sortDirection',
-  initialValue: 'asc'
+  initialValue: 'desc'
 });
 export const sortDirection$ = sortDirectionStore.observable;
 
