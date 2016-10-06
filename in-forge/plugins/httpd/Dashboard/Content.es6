@@ -53,7 +53,6 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                              }}
                              />
           </DashboardSection>
-
           <DashboardSection title='Traffic per Request'>
               <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
@@ -72,7 +71,6 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                                  formatter: bytesZeroDecimalPlaces
                                 }}/>
           </DashboardSection>
-
           <DashboardSection title='CPU'>
               <ChartWithLegend snapshotId={snapshot.get('id')}
                                timeframe={timeframe}
@@ -96,41 +94,39 @@ export default function HttpdDashboard({snapshot, timeframe}) {
       : null }
 
       { semver.satisfies(ver, '>=2.3.0') ?
-        <div>
-          <DashboardSection title='Connections'>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
-                               timeframe={timeframe}
-                               margins={{
-                                 left: 50,
-                                 right: 40
-                               }}
-                               y1={{
-                                 min: 0,
-                                 metrics: [
-                                   'conns_total'
-                                 ],
-                                 labels: [
-                                  'Connections'
-                                 ],
-                                 type: 'line'
-                               }}
-                               y2={{
-                                 min: 0,
-                                 metrics: [
-                                   'conns_async_writing',
-                                   'conns_async_keep_alive',
-                                   'conns_async_closing'
-                                 ],
-                                 labels: [
-                                  'Async Connections Writing',
-                                  'Async Connections Keep-alive',
-                                  'Async Connections Closing'
-                                 ],
-                                 type: 'line'
-                               }}
-                               />
-          </DashboardSection>
-        </div>
+        <DashboardSection title='Connections'>
+            <ChartWithLegend snapshotId={snapshot.get('id')}
+                             timeframe={timeframe}
+                             margins={{
+                               left: 50,
+                               right: 40
+                             }}
+                             y1={{
+                               min: 0,
+                               metrics: [
+                                 'conns_total'
+                               ],
+                               labels: [
+                                'Connections'
+                               ],
+                               type: 'line'
+                             }}
+                             y2={{
+                               min: 0,
+                               metrics: [
+                                 'conns_async_writing',
+                                 'conns_async_keep_alive',
+                                 'conns_async_closing'
+                               ],
+                               labels: [
+                                'Async Connections Writing',
+                                'Async Connections Keep-alive',
+                                'Async Connections Closing'
+                               ],
+                               type: 'line'
+                             }}
+                             />
+        </DashboardSection>
       : null }
 
       <DashboardSection title='Worker'>
@@ -180,10 +176,10 @@ function extendedStatusInfo(status) {
 
   return (
      <DashboardNotification type='info'>
-       In order to display metrics such as:
+       <p>In order to display metrics such as:
        Traffic, Traffic per Request and CPU,
        &nbsp;<strong>ExtendedStatus</strong> flag should be&nbsp;
-       <strong>enabled</strong> in apache httpd configuration. <br/>
+       <strong>enabled</strong> in apache httpd configuration.</p>
        <a target='_blank'
        href='https://httpd.apache.org/docs/2.4/mod/core.html#extendedstatus'>
          Apache ExtendedStatus Directive
