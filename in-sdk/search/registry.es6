@@ -12,7 +12,8 @@ import invariant from 'invariant';
 // }
 const contexts = {
   entity: [],
-  trace: []
+  trace: [],
+  event: []
 };
 
 // Example for an operatorDefinition:

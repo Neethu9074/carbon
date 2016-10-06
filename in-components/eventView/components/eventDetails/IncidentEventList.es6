@@ -1,10 +1,9 @@
-import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
-import EventDetails from 'in-components/eventView/components/eventDetails/CollapsableEventDetails';
+import ListWrapper from 'in-components/eventView/components/eventDetails/EventDetails/ListWrapper';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
+import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {getEvent} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/eventView/components/eventDetails/IncidentEventList.less';
@@ -12,12 +11,8 @@ import 'in-components/eventView/components/eventDetails/IncidentEventList.less';
 
 const block = 'in-event-view-incident-event-list';
 
-export default connectTo(props => {
-  return {
-    // HACK FOR FAKE EVENTS
-    events: sortedRecentEvents$,
-    events2: combineLatest(props.ids.map(id => getEvent(id)))
-  };
+export default connectTo({
+  events: sortedRecentEvents$
 },
 function IncidentEventList({events}) {
   if (!events) {
@@ -26,12 +21,19 @@ function IncidentEventList({events}) {
 
   return (
     <div className={block}>
-      <TimeMarker text='started' />
-      {events.map(event => <EventDetails key={event.get('id')}
-                                         event={event}
-                                         isCollapsed={true} />)
-      }
-      <TimeMarker text='ended' />
+      <div className={`${block}__counter`}>
+        {`Events (${events.length})`}
+      </div>
+      <div className={`${block}__timeline`}>
+        <TimeMarker text='started' />
+
+        {events.map(event => <ListWrapper key={event.get('id')}
+                                          event={event}
+                                          isCollapsed={true} />)
+        }
+
+        <TimeMarker text='ended' />
+      </div>
     </div>
   );
 });
@@ -39,7 +41,8 @@ function IncidentEventList({events}) {
 function TimeMarker({text}) {
   return (
     <div className={`${block}__time-marker ${block}__time-marker__${text}`}>
-      {text}
+      <LabeledValue label={text}
+                    lightTheme={true} />
     </div>
   );
 }

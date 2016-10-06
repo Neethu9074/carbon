@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {getTickPositions} from 'in-charts/timeAxis';
 
@@ -7,11 +8,16 @@ import './TimeAxis.less';
 
 
 const block = 'in-event-view-detail-chart-time-axis';
+const maxSteps = 5;
 
 export default function TimeAxis({scale}) {
   const windowSize = scale.getDomainTo() - scale.getDomainFrom();
+
+  // clamp the stepSize to give the timestamps enough space
   const axisConfig = getAxisConfig(windowSize);
-  const tickPositions = getTickPositions(scale, axisConfig);
+  axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
+
+  const tickPositions = getTickPositions(scale, axisConfig, true); // true -> ceilToNearestStep
 
   return (
     <div className={block}>
@@ -20,9 +26,11 @@ export default function TimeAxis({scale}) {
              width: `${scale.getRangeTo() - scale.getRangeFrom()}px`
            }}/>
 
-      {tickPositions.map(position => {
+      {tickPositions.map((position, index) => {
         const x = Math.ceil(position.range);
-        const time = axisConfig.formatter(position.domain);
+        const time = index === 0
+          ? formatDateTime(position.domain)
+          : axisConfig.formatter(position.domain);
 
         return (
           <div key={x}

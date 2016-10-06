@@ -18,7 +18,6 @@ import './elasticsearchNode';
 import './gce';
 import './genericHardware';
 import './genericJavaWebapp';
-import './genericNodejsApp';
 import './genericZone';
 import './glassfishApplicationContainer';
 import './hAProxy';

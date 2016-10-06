@@ -64,6 +64,15 @@ export function formatDuration(millis) {
   return moment.duration(millis).humanize();
 }
 
+export function formatDurationRaw(millis) {
+  const duration = moment.duration(millis);
+  return moment({
+    hour: duration.hours(),
+    minute: duration.minutes(),
+    second: duration.seconds()
+  }).format(timeFormat);
+}
+
 
 function formatTimeInternalAccordingToLocalTime(date) {
   const hours = ensureTwoChars(date.getHours());

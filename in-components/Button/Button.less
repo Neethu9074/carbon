@@ -1,16 +1,14 @@
 @import "~in-themes/active.less";
 
 .in-button {
-  padding: 10px 15px;
   background: #9fffff;
   color: black;
   font-family: @common__font-family;
-  font-size: 11px;
   font-weight: bold;
   text-decoration: none;
   text-align: center;
   border: 0;
-  border-radius: 3px;
+  border-radius: .188rem;
   cursor: pointer;
 
   transition: background 0.25s ease-in-out;
@@ -28,5 +26,15 @@
       background: #6B8088;
       color: #fff;
     }
+  }
+
+  &--lg {
+    padding: .625rem .938rem;
+    font-size: .688rem;
+  }
+
+  &--sm {
+    padding: .375rem .625rem;
+    font-size: .625rem;
   }
 }

@@ -9,7 +9,7 @@ import {registry} from 'in-sdk/tracing';
 
 describe('in-stores/colorCoding/spanCategories', () => {
   const categories = Object.keys(registry).map(type => registry[type].category);
-  addTestsEnsuringColorsAreDefinedForAllPossibleValues(spanCategoryColors, categories, 10);
+  addTestsEnsuringColorsAreDefinedForAllPossibleValues(spanCategoryColors, categories, 16);
 });
 
 

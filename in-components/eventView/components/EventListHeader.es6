@@ -1,10 +1,8 @@
 import {combineLatest} from 'reactive-observables';
-import {create} from 'reactive-observables';
-import Immutable from 'immutable';
 import React from 'react';
 
+import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
 import createTotalShedEventsSubscription from 'in-services/subscription/totalShedEventsCount';
-import {eventFilter$, setEventFilter} from 'in-components/eventView/stores/eventFilterStore';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {luceneQuery$ as query$} from 'in-stores/search';
@@ -26,10 +24,10 @@ export default function EventListHeader() {
                height={20}
                color={'#33d8d7'} />
 
-      <EventFilter filter='incidents'>
+      <EventFilter filter='incident'>
         Incidents (<Count getCounter={counter => counter.get('incident')}/>)
       </EventFilter>
-      <EventFilter filter='events'>
+      <EventFilter filter='issue'>
         Events (<Count getCounter={counter => counter.get('issue')}/>)
       </EventFilter>
     </ViewHeader>
@@ -47,17 +45,15 @@ const EventFilter = connectTo({
 
   return (
     <div className={className}
-         onClick={() => setEventFilter(filter)}>
+         onClick={() => setEventTypeFilter(filter)}>
       {children}
     </div>
   );
 });
 
 const Count = connectTo({
-  // HACK FOR FAKE EVENTS
-  totalShedEventsCounter: create().startWith(Immutable.fromJS({incident: 1, issue: 2})),
-  totalShedEventsCounter2: combineLatest([timeframe$, query$])
-                        .flatMap(([timeframe, query]) => createTotalShedEventsSubscription({timeframe, query}))
+  totalShedEventsCounter: combineLatest([timeframe$, query$])
+                          .flatMap(([timeframe, query]) => createTotalShedEventsSubscription({timeframe, query}))
 }, ({getCounter, totalShedEventsCounter}) => {
   if (!totalShedEventsCounter) {
     return (

@@ -1,19 +1,21 @@
 .in-event-view-incident-event-list {
-  position: relative;
-  padding: 2rem 0;
+
+  &__counter {
+    margin: 1rem 0 0 1rem;
+    font-size: 1rem;
+  }
+
+  &__timeline {
+    position: relative;
+    padding: 2rem 0;
+  }
 
   &__time-marker {
     position: absolute;
-    left: .875rem;
 
-    width: 3.125rem;
-    padding: .313rem;
-    border-radius: .188rem;
-
-    background: #02d8d9;
-    color: white;
-    text-transform: uppercase;
-    text-align: center;
+    display: flex;
+    justify-content: flex-end;
+    width: 6.4rem;
 
     &__started {
       top: .625rem;

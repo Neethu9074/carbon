@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {getIconTypeForEventType, getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
-import {getIconTypeForEventType, getEventType} from 'in-services/issueTracker';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
@@ -47,34 +47,36 @@ const Event = connectTo(props => {
   };
 },
 ({event, scale, color}) => {
-  let left = scale.getRange(event.get('start'));
-  const end = event.get('end');
-  let right = end ? scale.getRange(end) : scale.getRangeTo();
-  const width = right - left;
-  const eventType = getEventType(event);
-
   // clamp events so that they are not going beyond the borders of the chart. If they would do, the incident
   // start and end properties are wrongly calculated
-  left = Math.max(left, 0);
-  right = Math.min(right, scale.getRangeTo());
+  const left = Math.max(0, scale.getRange(event.get('start')));
+  const eventType = getEventType(event);
+  const end = event.get('end');
+  const right = end
+    ? Math.min(scale.getRange(event.get('end')), scale.getRangeTo())
+    : scale.getRangeTo();
+  const barWidth = eventType === EVENT_TYPES.CHANGE ? 0 : right - left;
 
   return (
     <div className={`${block}__event`}
          style={{
            marginLeft: left,
-           width
+           width: scale.getRangeTo() - left
          }}>
 
       <Icon className={block + '__icon'}
             type={getIconTypeForEventType(eventType)}
             style={{color}} />
 
-      <div className={block + '__bar'}
-           style={{
-             width,
-             background: color
-           }}>
-      </div>
+      {barWidth > 0
+        ? <div className={block + '__bar'}
+               style={{
+                 width: barWidth,
+                 background: color
+               }}>
+          </div>
+        : null
+      }
     </div>
   );
 });

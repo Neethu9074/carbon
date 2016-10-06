@@ -39,9 +39,13 @@ export default function SvgIcon({
            height: iconHeight + 'px'
          }}
          viewBox={'0 0 ' + icon.width + ' ' + icon.height}
-         onClick={onClick}
-         fill={color}>
-     <path d={icon.path} />
+         fill={color}
+         onClick={onClick}>
+      {/* Ensure that the whole width/height is clickable in Safari */}
+      <rect width='100%'
+            height='100%'
+            fill='rgba(0, 0, 0, 0)' />
+      <path d={icon.path} />
     </svg>
   );
 }

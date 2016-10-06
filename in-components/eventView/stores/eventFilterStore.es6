@@ -1,13 +1,21 @@
-import {createStore} from 'in-stores/store';
+import {setEventTypeFilter as setSearchEventTypeFilter, containsEventTypeFilter} from 'in-stores/search/events';
+import {createTrackingStore} from 'in-stores/store';
+import {rawQuery$} from 'in-stores/search';
 
-const eventFilter = createStore({
+
+export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilterStore',
-  initialValue: 'incidents'
-});
-export const eventFilter$ = eventFilter.observable;
+  observable: rawQuery$.debounce(1000).map(query => {
+    if (containsEventTypeFilter(query, 'incident')) {
+      return 'incident';
+    } else if (containsEventTypeFilter(query, 'issue')) {
+      return 'issue';
+    }
+    return null;
+  })
+}).observable;
 
 
-export function setEventFilter(newSortBy) {
-  console.log('TODO: translate to lucene query');
-  eventFilter.mutateTo(newSortBy);
+export function setEventTypeFilter(_filter) {
+  setSearchEventTypeFilter(_filter);
 }

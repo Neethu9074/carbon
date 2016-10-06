@@ -1,8 +1,12 @@
+import {twoDecimalPlaces} from 'in-services/formatters/number';
+
 const textHeightInPx = 13;
 const textMarginInPx = 5;
 const desiredNumberOfTicks = 5;
 const axisFontColor = '#2d4048';
-const axisFont = '0.625rem "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
+// Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
+// text alignments. This used to work with Safari 9 (and all other browsers).
+const axisFont = '10px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
 const axisTickColor = '#ddd';
 
 export default function createAnimatableContentRenderer(config) {
@@ -176,7 +180,7 @@ export default function createAnimatableContentRenderer(config) {
 
   function renderYAxis(axisName) {
     const scale = config.scales[axisName];
-    const formatter = config[axisName].formatter || identity;
+    const formatter = config[axisName].formatter || twoDecimalPlaces;
     const ticks = getYTickPositions(scale);
     const isLeftAxis = axisName === 'y1';
     const tickX = isLeftAxis ? config.bounds.left - 5 : config.bounds.right;
@@ -258,9 +262,4 @@ export default function createAnimatableContentRenderer(config) {
 
     return [min, max];
   }
-}
-
-
-function identity(a) {
-  return a;
 }

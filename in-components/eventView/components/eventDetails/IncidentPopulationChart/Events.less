@@ -11,7 +11,7 @@
 
     &:hover {
       .in-event-view-detail-chart-events__bar {
-        opacity: 1;
+        opacity: 0.4;
       }
     }
   }
@@ -21,8 +21,10 @@
   }
 
   &__bar {
-    opacity: 0.4;
+    opacity: 1;
     border-radius: 3px;
     height: .625rem;
+
+    transition: opacity 0.25s ease-in-out;
   }
 }

@@ -1,5 +1,8 @@
 import React from 'react';
 
+import {sortDirection$, toggleSortDirection} from 'in-components/eventView/stores/sortDirection';
+import {getQueryFieldNameForField} from 'in-components/eventView/components/FilterMenu';
+import {sortBy$, setSortBy} from 'in-components/eventView/stores/sortBy';
 import FilterMenu from 'in-components/eventView/components/FilterMenu';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -26,30 +29,37 @@ React.createClass({
 
     return (
       <div className={block}>
-        <Cell name='Start'
+        <Cell name='start'
               expandedCell={expandedCell}
-              onClick={cellName => this.setState({expandedCell: cellName})} />
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
-        <Cell name='End'
+        <Cell name='end'
               expandedCell={expandedCell}
-              onClick={cellName => this.setState({expandedCell: cellName})} />
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
-        <Cell name='Title'
+        <Cell name='title'
               expandedCell={expandedCell}
-              onClick={cellName => this.setState({expandedCell: cellName})} />
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
-        <Cell name='Severity'
+        <Cell name='severity'
               expandedCell={expandedCell}
-              onClick={cellName => this.setState({expandedCell: cellName})} />
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
       </div>
     );
   }
 }));
 
-function Cell({expandedCell, onClick, name}) {
+
+const Cell = connectTo({
+  sortDirection: sortDirection$,
+  sortBy: sortBy$
+},
+({expandedCell, onExpandClick, name, sortBy, sortDirection}) => {
   const isSelected = expandedCell === name;
+  const isActive = sortBy === getQueryFieldNameForField(name);
+
   let toggleClassName = `${block}__cell-toggle`;
-  if (isSelected) {
+  if (isSelected || isActive) {
     toggleClassName += ` ${toggleClassName}--selected`;
   }
 
@@ -60,29 +70,45 @@ function Cell({expandedCell, onClick, name}) {
         {isSelected
           ? <div className={`${block}__filter`}>
               <FilterMenu field={name}
-                          closeMenu={() => onClick(null)} />
+                          closeMenu={() => onExpandClick(null)} />
             </div>
           : null
         }
       <div className={toggleClassName}
-           onClick={() => onClick(isSelected ? null : name)}>
+           onClick={() => {
+             setSortBy(name);
+             toggleSortDirection();
+           }}>
         {name}
-        <Arrow isSelected={isSelected} />
+        <Arrow isActive={isActive}
+               isSelected={isSelected}
+               sortDirection={sortDirection}
+               onClick={e => {
+                 e.stopPropagation();
+                 onExpandClick(isSelected ? null : name);
+               }} />
       </div>
     </div>
   );
-}
+});
 
-function Arrow({isSelected}) {
+
+function Arrow({isActive, isSelected, sortDirection, onClick}) {
   let toggleClassName = `${block}__icon-wrapper`;
   if (isSelected) {
     toggleClassName += ` ${toggleClassName}--selected`;
   }
 
+  let iconType = 'triangle_down';
+  if (isActive && sortDirection === 'desc') {
+    iconType = 'triangle_up';
+  }
+
   return (
-    <div className={toggleClassName}>
+    <div className={toggleClassName}
+         onClick={onClick}>
       <SvgIcon className={`${block}__icon`}
-               type={isSelected ? 'triangle_up' : 'triangle_down'}
+               type={iconType}
                width={5}
                height={5}
                color='#6b8088' />

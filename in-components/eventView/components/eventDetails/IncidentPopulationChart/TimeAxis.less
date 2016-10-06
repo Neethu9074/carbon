@@ -1,6 +1,6 @@
 .in-event-view-detail-chart-time-axis {
   position: absolute;
-  height: ~'calc(100% - 1rem)'; // the parent wrapper has padding of 2rem, so substract it
+  height: 100%;
 
   border-top: 1px solid #e2e9ec;
 
@@ -17,7 +17,11 @@
 
   &__tick {
     bottom: 0;
-    width: 1px;
+    width: 0;
+
+    border-left: 1px solid #e2e9ec;
     color: #6b8088;
+    font-size: 11px;
+    white-space: nowrap;
   }
 }

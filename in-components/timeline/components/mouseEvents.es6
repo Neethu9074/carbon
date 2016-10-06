@@ -75,7 +75,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   });
 
   const mouseMoveSubscription = onMove(canvas, e => {
-    onMouseMove(e.offsetX, e.x, e.offsetY, e.y);
+    onMouseMove(e.offsetX, e.clientX, e.offsetY, e.clientY);
     if (isPanning) {
       onPan(e.offsetX);
     }

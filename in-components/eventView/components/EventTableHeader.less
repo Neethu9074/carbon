@@ -1,5 +1,4 @@
 .in-event-view-event-table-header {
-  width: ~'calc(100% - 0.5rem)';
   border-left: 0.5rem solid #6b8088;
   font-size: .688rem;
   color: #fff;
@@ -8,6 +7,7 @@
     position: relative;
     display: inline-block;
     box-sizing: border-box;
+    text-transform: capitalize;
 
     border-right: 1px solid #40535b;
 
@@ -37,7 +37,7 @@
     align-items: center;
     justify-content: space-between;
 
-    height: 2.25rem;
+    height: 1.6rem;
     padding: 0 .625rem;
 
     background: #6b8088;
@@ -64,7 +64,7 @@
     height: 7px;
     width: 7px;
 
-    &--selected {
+    &:hover, &--selected {
       background: white;
     }
   }

@@ -2,10 +2,10 @@ import React from 'react';
 
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
+import {bytesTwoDecimalPlaces, time, twoDecimalPlaces} from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import ThreadDumpDialog from 'in-forge/plugins/jvmRuntimePlatform/ThreadDumpDialog';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import {bytesTwoDecimalPlaces, time} from 'in-services/formatters/number';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
@@ -62,7 +62,8 @@ export default function JVMDashboard({snapshot, timeframe}) {
                              'Blocked',
                              'Terminated'
                            ],
-                           type: 'stackedArea'
+                           type: 'stackedArea',
+                           formatter: twoDecimalPlaces
                          }}/>
       </DashboardSection>
 
@@ -117,7 +118,8 @@ export default function JVMDashboard({snapshot, timeframe}) {
                    labels: collectors.map((name) =>
                               name + ' Invocations'
                             ).toArray(),
-                   type: 'point'
+                   type: 'point',
+                   formatter: twoDecimalPlaces
                  }}/>
         </DashboardSection>
       : null}

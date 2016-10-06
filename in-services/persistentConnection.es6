@@ -1,11 +1,18 @@
 import io from 'socket.io-client';
 
+import {isSafari} from 'in-services/browser';
+
 let transports = ['polling', 'websocket'];
 
 // We only want to use the WebSocket transport during local dev mode as this
 // makes the development life easier: Only one connection needs to be inspected!
 if (__DEV__) {
-  transports = ['websocket'];
+  // Safari does not support websocket connections with invalid SSL certs
+  if (isSafari()) {
+    transports = ['polling'];
+  } else {
+    transports = ['websocket'];
+  }
 
   window.instana.retrievedMessageCount = 0;
 }

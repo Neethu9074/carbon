@@ -1,13 +1,25 @@
 .in-event-filter-menu {
   background: #40535b;
   min-width: 14rem;
+  border-radius: 0 0 .188rem .188rem;
+
+  &__title {
+    width: 100%;
+    padding: .313rem;
+  }
 
   &__row {
     display: flex;
     justify-content: flex-start;
 
-    width: 100%;
+    padding: 0.5rem;
+    border-top: 1px solid #6b8088;
+
+    &:last-child {
+      border-top: 0;
+    }
   }
+
 
   &__button {
     margin: .313rem;

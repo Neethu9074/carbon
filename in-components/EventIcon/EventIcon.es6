@@ -1,11 +1,18 @@
 import React from 'react';
 
+import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import SvgIcon from 'in-components/SvgIcon';
-import {theme} from 'in-services/theme';
+import connectTo from 'in-hoc/connectTo';
 
 
-export default function EventIcon({event, className, defaultColor}) {
+export default connectTo(props => {
+  const defaultColor = props.defaultColor ? props.defaultColor : '#6B8088';
+  return {
+    color: getColorForEventAtFocusedMomentAsStream(props.event, defaultColor)
+  };
+},
+function EventIcon({event, className, color}) {
   const eventType = getEventType(event);
 
   let iconType;
@@ -19,12 +26,6 @@ export default function EventIcon({event, className, defaultColor}) {
     iconType = 'critical';
   }
 
-  const severity = event.get('severity');
-  defaultColor = defaultColor ? defaultColor : '#6B8088';
-  const color = (severity > 0  && event.get('state') === 'open')
-    ? theme.health[Math.floor(severity)]
-    : defaultColor;
-
   return (
     <SvgIcon className={className}
              type={iconType}
@@ -32,4 +33,4 @@ export default function EventIcon({event, className, defaultColor}) {
              height={20}
              color={color} />
   );
-}
+});

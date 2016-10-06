@@ -64,14 +64,12 @@ addKeywordOperator({
   field: 'logical_destination_service_id'
 });
 
-
 addKeywordOperator({
   context: 'trace',
   type: 'number',
   keyword: 'duration',
   field: 'd'
 });
-
 
 addKeywordOperator({
   context: 'trace',
@@ -99,4 +97,27 @@ addKeywordOperator({
   type: 'number',
   keyword: 'errors',
   field: 'total_error_count'
+});
+
+const searchableEventTypes = {
+  issue: 'issue',
+  incident: 'incident'
+};
+addKeywordOperator({
+  context: 'event',
+  type: 'selection',
+  keyword: 'type',
+  field: 'eventtype',
+  validate(selection, queryPart) {
+    if (this.getSelectableItems().indexOf(selection.toLowerCase()) === -1) {
+      return `Unknown event type ${selection} for key type at row ${queryPart.row}.`;
+    }
+    return null;
+  },
+  getSelectableItems() {
+    return Object.keys(searchableEventTypes);
+  },
+  toValue(selection) {
+    return searchableEventTypes[selection.toLowerCase()];
+  }
 });

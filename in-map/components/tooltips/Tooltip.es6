@@ -39,8 +39,10 @@ export default function Tooltip(ComposedComponent) {
     },
 
     componentWillUnmount() {
-      this.positionSubscription.dispose();
-      this.positionSubscription = null;
+      if (this.positionSubscription) {
+        this.positionSubscription.dispose();
+        this.positionSubscription = null;
+      }
     },
 
     render() {

@@ -1,5 +1,6 @@
 import {createStore} from 'in-stores/store';
 
+
 const sortByStore = createStore({
   name: 'eventView/sortByStore',
   initialValue: 'start'

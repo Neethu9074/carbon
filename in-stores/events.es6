@@ -190,28 +190,42 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
 
 
 export function getColorForEventAtFocusedMomentAsStream(event, defaultColor) {
+  return fireCallbacksForEventAtFocusedMomentAsStream(event,
+    // if open
+    ({severity}) => {
+      let color = theme.health[severity];
+      if (severity === 0 && defaultColor) {
+        color = defaultColor;
+      }
+      return color;
+    },
+    // if closed
+    () => defaultColor ? defaultColor : theme.health[0]);
+}
+
+export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifClosed) {
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
-  const severity = event.getIn(['problem', 'severity'], 0);
-  const color = theme.health[severity] || theme.health[0];
+  const severity = event.getIn(['problem', 'severity'], event.get('severity', 0));
 
   return focusedMoment$
     .map(focusedMoment => {
       if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
-        return color;
+        return ifOpen({severity, focusedMoment});
       }
-      return defaultColor ? defaultColor : theme.health[0];
+      return ifClosed({severity, focusedMoment});
     })
     .distinct();
 }
+
 
 export function getColorForEventAtFocusedMoment(event, focusedMoment) {
   const severity = event.getIn(['problem', 'severity'], 0);
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
-  const color = theme.health[severity] || theme.health[0];
+  const color = theme.health[severity];
 
   // No focused moment? Then it is according to server time which means
   // we color based on the state property.

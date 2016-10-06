@@ -10,6 +10,7 @@ export default class TransformationComponent extends SceneObjectComponent {
     super(sceneObject, '_transformation');
 
     this.position = ZERO.clone();
+    this.position.setY(10000);
     this.scale = new Vector3(1, 1, 1);
 
     this.emitToClient('scaleChanged', this.scale);
