@@ -6,6 +6,7 @@ import React from 'react';
 import TraceView from 'in-components/traceView/TraceView';
 import EventView from 'in-components/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
+import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
 import {isInternalEnvironment} from 'in-services/config';
 import Dashboard from 'in-components/Dashboard';
@@ -44,6 +45,11 @@ export default (
 
     <Route component={GraphView}
            path='graph' />
+
+    {isInternalEnvironment()
+      ? <Route component={GlobeView}
+             path='globe' />
+      : null}
 
     <Route component={WebVRView}
            path='webVR'>
