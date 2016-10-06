@@ -18,6 +18,7 @@ import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {loadVREffectWrapper} from 'in-map/services/webVR';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {setDimensions} from 'in-map/stores/indexStore';
 import {theme} from 'in-services/theme';
 
@@ -66,7 +67,7 @@ export default class MainScene extends SceneObject {
       updatesEnabled$.subscribe(isEnabled => this.updateSceneObjects = isEnabled)
     ]);
 
-    if (this.webVRMode) {
+    if (isWebVRActive) {
       this.addSubscription(
         eventBus.on('enterFullscreen').subscribe(shouldEnter => {
           if (shouldEnter) {
@@ -129,7 +130,7 @@ export default class MainScene extends SceneObject {
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
 
-    if (this.webVRMode) {
+    if (isWebVRActive) {
       const VREffectClass = loadVREffectWrapper();
       this.renderTarget = new VREffectClass(renderer);
     } else {
@@ -142,7 +143,7 @@ export default class MainScene extends SceneObject {
   }
 
   onWindowResize() {
-    const offset = this.webVRMode ? 0 : theme.header.height + theme.footer.height;
+    const offset = isWebVRActive ? 0 : theme.header.height + theme.footer.height;
     const height = window.innerHeight - offset;
     const width = window.innerWidth;
 

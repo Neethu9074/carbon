@@ -46,7 +46,14 @@ export default (
            path='graph' />
 
     <Route component={WebVRView}
-           path='webVR' />
+           path='webVR'>
+      <Route path='physical'
+             component={NoopRoute}
+             showMap={true} />
+      <Route path='logical'
+             component={NoopRoute}
+             showMap={true} />
+    </Route>
 
     {/* Legacy routes */}
     <Redirect from='dashboard' to='physical/dashboard' />

@@ -1,8 +1,8 @@
 import CylinderHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import CloudHCP from 'in-map/singleMeshFactories/ContentProvider/CloudHighlightingContentProvider';
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
+import CylinderCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
-import CubeCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
 import CloudCP from 'in-map/singleMeshFactories/ContentProvider/CloudContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Logical';
@@ -17,6 +17,7 @@ import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import {changePosition} from 'in-map/stores/logical/layouterStore';
 import services from 'in-map/stores/logical/servicesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 import DragGhost from 'in-map/misc/logical/DragGhost';
 import {eventBus} from 'in-map/services/eventBus';
 import {theme} from 'in-services/theme';
@@ -50,9 +51,39 @@ export default class Service extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    this.addComponent('collision', new CollisionComponent(this,
-                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
-                                                          OCTREE_LAYER.NODES));
+    if (isWebVRActive) {
+      this.addComponent('mesh', new MeshComponent(this, this.isExternal ? CloudCP : CylinderCP, 'nodes'));
+
+    } else {
+      if (this.isExternal) {
+        this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'));
+
+        this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP));
+
+        this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CloudCP, 'solid'));
+      } else {
+        this.addComponent('mesh', new MeshComponent(this, CylinderCP, 'nodes'));
+
+        this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CylinderHCP));
+
+        this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CylinderCP, 'solid'));
+      }
+
+      this.addComponent('collision', new CollisionComponent(this,
+                                                            PREDEFINED_COLLISION_OBJECTS.BOX,
+                                                            OCTREE_LAYER.NODES));
+
+      // unknown service hack
+      if (!this.isUnknown) {
+        this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
+          return {
+            x: pos.x + scale.x,
+            y: pos.y + scale.y,
+            z: pos.z - scale.z / 2
+          };
+        }));
+      }
+    }
 
     this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
       return {
@@ -63,31 +94,6 @@ export default class Service extends SceneObject {
     }));
 
     this.addComponent('snapshot', new SnapshotComponent(this));
-
-    if (this.isExternal) {
-      this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'));
-
-      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP));
-
-      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CloudCP, 'solid'));
-    } else {
-      this.addComponent('mesh', new MeshComponent(this, CubeCP, 'nodes'));
-
-      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CylinderHCP));
-
-      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CubeCP, 'solid'));
-    }
-
-    // unknown service hack
-    if (!this.isUnknown) {
-      this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
-        return {
-          x: pos.x + scale.x,
-          y: pos.y + scale.y,
-          z: pos.z - scale.z / 2
-        };
-      }));
-    }
 
     this.addComponent('health', new HealthComponent(this));
 

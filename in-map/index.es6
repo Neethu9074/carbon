@@ -5,6 +5,7 @@ import {isWebGLSupported, isContextLost$} from 'in-map/services/webGL';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {canvas$, setCanvas, clear} from 'in-map/stores/indexStore';
 import SceneComponent from 'in-map/components/SceneComponent';
+import {webVRIsActive} from 'in-map/stores/webVRStore';
 import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
@@ -59,14 +60,16 @@ React.createClass({
       className += ` ${block}--webvr`;
     }
 
+    // set global VR flag
+    webVRIsActive(webVRMode ? true : false);
+
     return (
       <div className={className}>
         <canvas ref='mainCanvas'
                 className={`${block}__canvas`}/>
         {(_canvas && antialias)
           ? <SceneComponent canvas={_canvas}
-                            webVRMode={webVRMode}
-                            antialias={antialias}/>
+                            antialias={antialias} />
           : null
         }
       </div>

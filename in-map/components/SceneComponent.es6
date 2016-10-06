@@ -16,8 +16,7 @@ export default sceneObjectComponent(props => {
     params: {
       id: 'main_scene',
       canvas: props.canvas,
-      antialias: props.antialias,
-      webVRMode: props.webVRMode
+      antialias: props.antialias
     }
   };
 }, connectTo({
@@ -25,27 +24,25 @@ export default sceneObjectComponent(props => {
   }, SceneComponent)
 );
 
-function SceneComponent({view, sceneObject, webVRMode}) {
+function SceneComponent({view, sceneObject}) {
   return (
     <div>
       <StickyNoteHoster />
       <TooltipHoster />
-      {currentView(view, sceneObject, webVRMode)}
+      {currentView(view, sceneObject)}
     </div>
   );
 }
 
-function currentView(view, sceneObject, webVRMode) {
+function currentView(view, sceneObject) {
 
   if (view === views.physical) {
     return (
-      <PhysicalMapComponent scene={sceneObject}
-                            webVRMode={webVRMode} />
+      <PhysicalMapComponent scene={sceneObject} />
     );
   } else if (view === views.process) {
     return (
-      <LogicalMapComponent scene={sceneObject}
-                           webVRMode={webVRMode} />
+      <LogicalMapComponent scene={sceneObject} />
     );
   }
 

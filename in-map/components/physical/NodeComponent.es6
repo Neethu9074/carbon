@@ -17,8 +17,7 @@ export default sceneObjectComponent(props => {
     params: {
       id: props.entity.get('id'),
       entity: props.entity,
-      group: props.group,
-      webVRMode: props.webVRMode
+      group: props.group
     }
   };
 },
@@ -30,7 +29,7 @@ connectTo(props => {
 }, NodeComponent)
 );
 
-function NodeComponent({entity, activeMetric, includedIds, sceneObject, isHighlighted, webVRMode}) {
+function NodeComponent({entity, activeMetric, includedIds, sceneObject, isHighlighted}) {
   const layer = [];
   entity.get('children').forEach(layerEntity => {
     const layerId = layerEntity.get('id');
@@ -44,8 +43,7 @@ function NodeComponent({entity, activeMetric, includedIds, sceneObject, isHighli
       {!activeMetric
         ? layer.map(layerEntity => <LayerComponent key={layerEntity.get('id')}
                                                    node={sceneObject}
-                                                   entity={layerEntity}
-                                                   webVRMode={webVRMode} />)
+                                                   entity={layerEntity} />)
         : <Metric node={sceneObject} />
       }
       {isHighlighted ? <Connections entity={entity} /> : null}

@@ -35,13 +35,6 @@ export default class Map extends BaseMap {
     addFactory('layer', new BasicSingleMeshFactory({renderOrder: 2}));
     addFactory('lines', new LineSingleMeshFactory());
     addFactory('icons', new IconSingleMeshFactory({useSceneObjectColors: false}));
-
-    if (this.webVRMode) {
-      // for perspective cameras the distance does matter, so set the "correct" value
-      // so that penguins don't grow to big
-      getFactory('icons').setDistance(200);
-      getFactory('icons').setIconSizeMultiplier(0.5);
-    }
   }
 
   initEvents() {

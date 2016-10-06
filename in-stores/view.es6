@@ -17,7 +17,8 @@ const store = createTrackingStore({
   observable: navigationParameters$
     .map(params => {
       const pathname = params.pathname;
-      if (pathname.indexOf('/logical') === 0) {
+      if (pathname.indexOf('/logical') === 0 ||
+          pathname.indexOf('/webVR/logical') === 0) {
         return types.logical;
       }
       return types.physical;
