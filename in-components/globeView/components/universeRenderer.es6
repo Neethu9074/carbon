@@ -1,10 +1,8 @@
 import {create, on} from 'reactive-observables';
 
-import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
-import GraphScene from 'in-components/graphView/components/GraphScene';
-import Graph from 'in-components/graphView/entities/Graph';
+import GlobeScene from 'in-components/globeView/components/GlobeScene';
+import {WebGLRenderer, Color} from 'in-map/3DLibProvider';
 import {update as updateTime} from 'in-map/misc/time';
-import {WebGLRenderer} from 'in-map/3DLibProvider';
 
 
 export default function createUniverseRenderer({container, canvas}) {
@@ -19,11 +17,10 @@ export default function createUniverseRenderer({container, canvas}) {
     canvas,
     antialias: true
   });
-  renderer.autoClear = false;
+  renderer.autoClear = true;
+  renderer.setClearColor(new Color(0x222222), 1.0);
 
-  const backgroundScene = new BackgroundScene();
-  const graphScene = new GraphScene(renderer);
-  const graph = new Graph();
+  const globeScene = new GlobeScene(renderer);
 
   const resizeSubscription = on(window, 'resize')
     .debounce(500)
@@ -46,7 +43,7 @@ export default function createUniverseRenderer({container, canvas}) {
     canvas.width = width;
 
     renderer.setSize(width, height);
-    graphScene.resize(width, height);
+    globeScene.resize(width, height);
 
     changes.emit(changeSignal);
   }
@@ -57,15 +54,11 @@ export default function createUniverseRenderer({container, canvas}) {
       requestAnimationFrame(realtimeUpdate);
     }
 
-    graphScene.realtimeUpdate();
-
-    backgroundScene.render(renderer);
-    graphScene.render(renderer);
+    globeScene.realtimeUpdate();
+    globeScene.render(renderer);
   }
 
   function update() {
-    graphScene.updateGeometry(graph);
-
     changes.emit(changeSignal);
   }
 
@@ -74,8 +67,6 @@ export default function createUniverseRenderer({container, canvas}) {
 
     resizeSubscription.dispose();
     updateSubscription.dispose();
-    backgroundScene.dispose();
-    graphScene.dispose();
-    graph.dispose();
+    globeScene.dispose();
   }
 }
