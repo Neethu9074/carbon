@@ -74,7 +74,7 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
   update() {
     const isInView = this.isInView();
     if (isInView) {
-      this.emitToClient(this.positionChangedKey, this.screenPosition);
+      this.sceneObject.eventEmitter.emit(this.positionChangedKey, this.screenPosition);
     }
 
     if (isInView && !this.wasInView) {

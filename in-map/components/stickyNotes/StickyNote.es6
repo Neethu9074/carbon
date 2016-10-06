@@ -28,29 +28,18 @@ export default function StickyNote(ComposedComponent) {
     },
 
     componentDidMount() {
-      this.positionSubscription = this.props.eventEmitter.on('screenPositionChanged' + this.props.id)
-        .subscribe(newPosition =>
-          applyTransform(this.refs.stickyNote, `translate3d(${newPosition.x}px,${newPosition.y}px,0)`));
+      this.setupSubscriptions();
+    },
 
-      this.visibilitySubscription = this.props.eventEmitter.on('isVisibleChanged' + this.props.id)
-        .distinct()
-        .subscribe(isVisible => this.setState({isVisible}));
+    componentDidUpdate(prevProps) {
+      if (this.props.id !== prevProps.id ||
+          this.props.eventEmitter !== prevProps.eventEmitter) {
+        this.setupSubscriptions();
+      }
     },
 
     componentWillUnmount() {
-      this.positionSubscription.dispose();
-      this.positionSubscription = null;
-
-      this.visibilitySubscription.dispose();
-      this.visibilitySubscription = null;
-    },
-
-    shouldComponentUpdate(nextProps, nextState) {
-      if (nextState.isVisible === this.state.isVisible &&
-          this.props.id === nextProps.id) {
-        return false;
-      }
-      return true;
+      this.disposeSubscriptions();
     },
 
     render() {
@@ -65,6 +54,30 @@ export default function StickyNote(ComposedComponent) {
           {content}
         </div>
       );
+    },
+
+    setupSubscriptions(props = this.props) {
+      this.disposeSubscriptions();
+
+      this.positionSubscription = props.eventEmitter.on('screenPositionChanged' + props.id)
+        .subscribe(newPosition =>
+          applyTransform(this.refs.stickyNote, `translate3d(${newPosition.x}px,${newPosition.y}px,0)`));
+
+      this.visibilitySubscription = props.eventEmitter.on('isVisibleChanged' + props.id)
+        .distinct()
+        .subscribe(isVisible => this.setState({isVisible}));
+    },
+
+    disposeSubscriptions() {
+      if (this.positionSubscription) {
+        this.positionSubscription.dispose();
+        this.positionSubscription = null;
+      }
+
+      if (this.visibilitySubscription) {
+        this.visibilitySubscription.dispose();
+        this.visibilitySubscription = null;
+      }
     }
   });
 }
