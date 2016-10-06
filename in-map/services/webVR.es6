@@ -49,16 +49,16 @@ window.THREE = {
 };
 
 export function loadVRControlsWrapper() {
-  require('three/examples/js/controls/VRControls.js');
+  require('in-map/lib/VRControls.js');
   return window.THREE.VRControls;
 }
 
 export function loadVREffectWrapper() {
-  require('three/examples/js/effects/VREffect.js');
+  require('in-map/lib/VREffect.js');
   return window.THREE.VREffect;
 }
 
 export function loadViveController() {
-  require('three/examples/js/ViveController.js');
+  require('in-map/lib/ViveController.js');
   return window.THREE.ViveController;
 }
