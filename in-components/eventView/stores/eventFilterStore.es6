@@ -15,7 +15,6 @@ export const eventFilter$ = createTrackingStore({
   })
 }).observable;
 
-
 export function setEventTypeFilter(_filter) {
   setSearchEventTypeFilter(_filter);
 }
