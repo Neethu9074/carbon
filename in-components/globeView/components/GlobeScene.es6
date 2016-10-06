@@ -5,13 +5,14 @@ import {
   Scene,
   Mesh,
   MeshBasicMaterial} from 'in-map/3DLibProvider';
+import {setGlobeSize} from 'in-components/globeView/stores/globeSizeStore';
 import createControls from 'in-components/graphView/components/Controls';
 import {loadImage} from 'in-map/services/imageLoader';
 
 
 export default class GlobeScene {
   constructor(renderer) {
-    this.camera = new PerspectiveCamera(75, 1, 1, 1000);
+    this.camera = new PerspectiveCamera(90, 1, 1, 100);
     this.scene = new Scene();
 
     this.controls = createControls(
@@ -20,9 +21,9 @@ export default class GlobeScene {
       {
         cameraMoveSpeed: 4,
         startingWorldDistance: 0,
-        startingZoomDistance: 30,
-        maxZoomIn: 20,
-        maxZoomOut: 40,
+        startingZoomDistance: 20,
+        maxZoomIn: 17,
+        maxZoomOut: 22,
         zoomSpeed: 5
       }
     );
@@ -51,6 +52,7 @@ export default class GlobeScene {
 
   realtimeUpdate() {
     this.controls.update();
+    setGlobeSize(5.5 / this.camera.position.z);
   }
 
   dispose() {

@@ -1,6 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import createBackgroundRenderer from 'in-components/globeView/components/backgroundRenderer';
 import createUniverseRenderer from 'in-components/globeView/components/universeRenderer';
 import {isWebGLSupported} from 'in-map/services/webGL';
 import {getClassName} from 'in-services/react';
@@ -29,6 +30,10 @@ export default React.createClass({
         container: this.refs.container,
         canvas: this.refs.canvas
       });
+      this.backgroundRenderer = createBackgroundRenderer({
+        container: this.refs.container,
+        canvas: this.refs.canvas2D
+      });
     }
   },
 
@@ -36,12 +41,17 @@ export default React.createClass({
     if (this.renderer) {
       this.renderer.dispose();
     }
+    if (this.backgroundRenderer) {
+      this.backgroundRenderer.dispose();
+    }
   },
 
   render() {
     return (
       <div className={getClassName(this, block)}
            ref='container'>
+        <canvas ref='canvas2D'
+                className={block + '__canvas'} />
         <canvas ref='canvas'
                 className={block + '__canvas'} />
       </div>

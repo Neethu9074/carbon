@@ -17,8 +17,8 @@ export default function createUniverseRenderer({container, canvas}) {
     canvas,
     antialias: true
   });
-  renderer.autoClear = true;
-  renderer.setClearColor(new Color(0x222222), 1.0);
+  renderer.autoClear = false;
+  renderer.setClearColor(new Color(0x222222), 0.0);
 
   const globeScene = new GlobeScene(renderer);
 
