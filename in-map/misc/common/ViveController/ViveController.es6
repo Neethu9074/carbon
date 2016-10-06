@@ -1,12 +1,9 @@
+/* global require:false */
 import {toggleParticles} from 'in-map/stores/logical/particlesStore';
 import {loadViveController} from 'in-map/services/webVR';
 import {loadObject} from 'in-map/services/objectLoader';
 import {MeshBasicMaterial} from 'in-map/3DLibProvider';
 import {loadImage} from 'in-map/services/imageLoader';
-
-import controllerObjectPath from 'in-map/misc/common/ViveController/vr_controller_vive_1_5.obj';
-
-import controllerDiffuseMapPath from 'in-map/misc/common/ViveController/onepointfive_texture.png';
 
 
 export default function createViveController(wrapper, controls, id) {
@@ -22,22 +19,25 @@ export default function createViveController(wrapper, controls, id) {
   rightHandController.addEventListener('menudown', toggleParticles);
   rightHandController.addEventListener('axischanged', onAxisChanged);
 
-  loadObject(controllerObjectPath, object => {
-    if (!object) {
-      return;
-    }
+  require([
+    'in-map/misc/common/ViveController/vr_controller_vive_1_5.obj',
+    'in-map/misc/common/ViveController/onepointfive_texture.png'
+  ], (controllerObjectPath, controllerDiffuseMapPath) => {
+    loadObject(controllerObjectPath, object => {
+      if (!object) {
+        return;
+      }
 
-    const controller = object.children[0];
-    controller.material.dispose();
-    controller.material = new MeshBasicMaterial({
-      color: 0xffffff,
-      map: loadImage(controllerDiffuseMapPath, tex => tex.needsUpdate = true)
+      const controller = object.children[0];
+      controller.material.dispose();
+      controller.material = new MeshBasicMaterial({
+        color: 0xffffff,
+        map: loadImage(controllerDiffuseMapPath, tex => tex.needsUpdate = true)
+      });
+
+      rightHandController.add(object.clone());
     });
-
-    console.log('add controller obj', rightHandController);
-    rightHandController.add(object.clone());
   });
-
 
   function onAxisChanged(event) {
     if (rightHandController.getButtonState('thumbpad') === false) {
