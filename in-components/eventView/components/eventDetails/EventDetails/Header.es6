@@ -16,7 +16,9 @@ const flexWrapperClass = `${block}__flex-wrapper`;
 
 export default connectTo(props => {
   return {
-    end: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => null, () => props.event.get('end'))
+    end: fireCallbacksForEventAtFocusedMomentAsStream(props.event,
+      ({focusedMoment}) => focusedMoment ? props.event.get('end') : null,
+      () => props.event.get('end'))
   };
 },
 function EventDetailsHeader({event, end, isCollapsed, isCollapsable, onClick}) {

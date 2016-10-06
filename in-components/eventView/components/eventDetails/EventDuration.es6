@@ -15,7 +15,7 @@ export default connectTo(props =>{
   return {
     color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae'),
     to: serverTime$.flatMap(serverTime => fireCallbacksForEventAtFocusedMomentAsStream(props.event,
-      () => props.event.get('end', serverTime),
+      ({focusedMoment}) => focusedMoment ? props.event.get('end') : serverTime,
       () => props.event.get('end')
     ))
   };

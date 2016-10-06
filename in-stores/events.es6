@@ -192,7 +192,7 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
 export function getColorForEventAtFocusedMomentAsStream(event, defaultColor) {
   return fireCallbacksForEventAtFocusedMomentAsStream(event,
     // if open
-    severity => {
+    ({severity}) => {
       let color = theme.health[severity];
       if (severity === 0 && defaultColor) {
         color = defaultColor;
@@ -212,9 +212,9 @@ export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifCl
   return focusedMoment$
     .map(focusedMoment => {
       if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
-        return ifOpen(severity);
+        return ifOpen({severity, focusedMoment});
       }
-      return ifClosed(severity);
+      return ifClosed({severity, focusedMoment});
     })
     .distinct();
 }
