@@ -13,7 +13,7 @@ import {loadImage} from 'in-map/services/imageLoader';
 export default class GlobeScene {
   constructor(renderer) {
     this.camera = new PerspectiveCamera(90, 1, 1, 100);
-    this.scene = new Scene();
+    const scene = this.scene = new Scene();
 
     this.controls = createControls(
       renderer.domElement,
@@ -37,7 +37,7 @@ export default class GlobeScene {
         })
       );
 
-      this.scene.add(globe);
+      scene.add(globe);
     });
   }
 

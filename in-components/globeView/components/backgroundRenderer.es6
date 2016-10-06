@@ -38,14 +38,14 @@ export default function createUniverseRenderer({container, canvas}) {
 
   function update() {
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#222222';
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     const radius = globeSize * canvas.height;
     const grd = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2,
                                          radius,
                                          canvas.width / 2, canvas.height / 2,
                                          radius + 100);
-    grd.addColorStop(0, '#cccccc');
+    grd.addColorStop(0, '#ffffff');
     grd.addColorStop(1, 'transparent');
 
     // Fill with gradient
