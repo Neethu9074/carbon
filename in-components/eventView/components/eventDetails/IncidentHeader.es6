@@ -14,13 +14,16 @@ import './IncidentHeader.less';
 
 const block = 'in-event-view-detail-incident-header';
 
-export default connectTo({
-  recentEvents: sortedRecentEvents$,
-  openEvents: sortedRecentEvents$.flatMap(_events => combineLatest(
-    _events.map(_event => fireCallbacksForEventAtFocusedMomentAsStream(_event, () => true, () => false))
-  ))
+export default connectTo(props => {
+  return {
+    recentEvents: sortedRecentEvents$,
+    openEvents: sortedRecentEvents$.flatMap(_events => combineLatest(
+      _events.map(_event => fireCallbacksForEventAtFocusedMomentAsStream(_event, () => true, () => false))
+    )),
+    isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
+  };
 },
-function HeaderSwitch({recentEvents, openEvents, event}) {
+function HeaderSwitch({recentEvents, openEvents, isOpen, event}) {
   if (!recentEvents) {
     return null;
   }
@@ -37,7 +40,7 @@ function HeaderSwitch({recentEvents, openEvents, event}) {
                         timestamp={event.get('start')} />
 
         <DateTimeString label='Ended'
-                        timestamp={event.get('end')} />
+                        timestamp={isOpen ? null : event.get('end')} />
 
         <div style={{ height: '0.8rem' }} />
 
@@ -67,7 +70,7 @@ function DateTimeString({label, timestamp}) {
       </span>
       <span key='time'
             className={`${block}__time`}>
-        {formatTime(timestamp)}
+        {timestamp ? formatTime(timestamp) : 'active'}
       </span>
     </LabeledValue>
   );
