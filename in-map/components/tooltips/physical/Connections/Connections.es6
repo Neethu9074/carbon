@@ -11,6 +11,13 @@ export default createTooltip(
 
     let sourceNodesAreAlwaysTheSame = true;
     const firstConnection = connections[0];
+
+    // TODO: Race condition: nodes are gone but connections are not yet
+    // Can we prevent this?
+    if (!firstConnection.sourceNode) {
+      return null;
+    }
+
     let currentSourceNodeId = firstConnection.sourceNode.id;
     for (let i = 0; i < connections.length; i++) {
       const connection = connections[i];
