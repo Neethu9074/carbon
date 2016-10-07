@@ -37,14 +37,18 @@ export default function createUniverseRenderer({container, canvas}) {
   }
 
   function update() {
+    const width = canvas.width;
+    const height = canvas.height;
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    const radius = globeSize * canvas.height;
-    const grd = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2,
+    ctx.fillRect(0, 0, width, height);
+
+    const heightInPercent = globeSize;
+    const radius = 0.5 * (heightInPercent * height);
+    const grd = ctx.createRadialGradient(width / 2, height / 2,
                                          radius,
-                                         canvas.width / 2, canvas.height / 2,
-                                         radius + 60);
+                                         width / 2, height / 2,
+                                         radius + 100);
     grd.addColorStop(0, '#36475e');
     grd.addColorStop(1, 'transparent');
 

@@ -28,7 +28,7 @@ export default class GlobeScene {
 
     const poi = this.poi = new Object3D();
 
-    const camera = this.camera = new PerspectiveCamera(75, 1, 0.1, 10);
+    const camera = this.camera = new PerspectiveCamera(65, 1, 0.1, 10);
     scene.add(camera);
 
     const globe = this.globe = new Mesh(
@@ -55,7 +55,7 @@ export default class GlobeScene {
       scene.add(globe);
     });
 
-    const pointLight = new PointLight(0xffffff, 0.5, 4);
+    const pointLight = new PointLight(0xffffff, 0.55, 4);
     pointLight.position.set(1, 1, 1);
 
     scene.add(new AmbientLight(0xaaaaaa));
@@ -74,9 +74,9 @@ export default class GlobeScene {
         poi: this.poi,
         cameraMoveSpeed: 4,
         startingWorldDistance: 0,
-        startingZoomDistance: 1.1,
-        maxZoomIn: 0.9,
-        maxZoomOut: 1.7,
+        startingZoomDistance: 1.2,
+        maxZoomIn: 1,
+        maxZoomOut: 2,
         zoomSteps: 0.15,
         zoomSpeed: 4
       }
@@ -91,7 +91,10 @@ export default class GlobeScene {
   update() {
     this.controls.update();
 
-    setGlobeSize(0.35 / this.camera.position.z);
+    const distanceToGlobe = Math.abs(this.camera.position.z);
+    const vFOV = this.camera.fov * Math.PI / 180; // convert vertical fov to radians
+    const height = 2 * Math.tan( vFOV / 2 ) * distanceToGlobe; // visible height
+    setGlobeSize(1 / height);
   }
 
   render(renderer) {
