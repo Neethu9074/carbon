@@ -44,8 +44,8 @@ export default function createUniverseRenderer({container, canvas}) {
     const grd = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2,
                                          radius,
                                          canvas.width / 2, canvas.height / 2,
-                                         radius + 100);
-    grd.addColorStop(0, '#ffffff');
+                                         radius + 60);
+    grd.addColorStop(0, '#36475e');
     grd.addColorStop(1, 'transparent');
 
     // Fill with gradient

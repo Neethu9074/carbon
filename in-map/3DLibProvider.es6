@@ -1,4 +1,5 @@
 import {
+  AmbientLight as ThreeAmbientLight,
   BoxGeometry as ThreeBoxGeometry,
   BufferAttribute as ThreeBufferAttribute,
   BufferGeometry as ThreeBufferGeometry,
@@ -17,6 +18,7 @@ import {
   OrthographicCamera as ThreeOrthographicCamera,
   PerspectiveCamera as ThreePerspectiveCamera,
   PlaneBufferGeometry as ThreePlaneBufferGeometry,
+  PointLight as ThreePointLight,
   Points as ThreePoints,
   Quaternion as ThreeQuaternion,
   RawShaderMaterial as ThreeRawShaderMaterial,
@@ -26,6 +28,7 @@ import {
   SphereBufferGeometry as ThreeSphereBufferGeometry,
   Texture as ThreeTexture,
   Vector3 as ThreeVector3,
+  Vector2 as ThreeVector2,
   VertexColors as ThreeVertexColors,
   WebGLRenderer as ThreeWebGLRenderer,
   DefaultLoadingManager as ThreeDefaultLoadingManager,
@@ -38,6 +41,7 @@ import {
   MultiMaterial as ThreeMultiMaterial
 } from 'three';
 
+export const AmbientLight = ThreeAmbientLight;
 export const BoxGeometry = ThreeBoxGeometry;
 export const BufferAttribute = ThreeBufferAttribute;
 export const BufferGeometry = ThreeBufferGeometry;
@@ -56,6 +60,7 @@ export const ObjectLoader = ThreeObjectLoader;
 export const OrthographicCamera = ThreeOrthographicCamera;
 export const PerspectiveCamera = ThreePerspectiveCamera;
 export const PlaneBufferGeometry = ThreePlaneBufferGeometry;
+export const PointLight = ThreePointLight;
 export const Points = ThreePoints;
 export const Quaternion = ThreeQuaternion;
 export const RawShaderMaterial = ThreeRawShaderMaterial;
@@ -65,6 +70,7 @@ export const Scene = ThreeScene;
 export const SphereBufferGeometry = ThreeSphereBufferGeometry;
 export const Texture = ThreeTexture;
 export const Vector3 = ThreeVector3;
+export const Vector2 = ThreeVector2;
 export const VertexColors = ThreeVertexColors;
 export const WebGLRenderer = ThreeWebGLRenderer;
 export const DefaultLoadingManager = ThreeDefaultLoadingManager;

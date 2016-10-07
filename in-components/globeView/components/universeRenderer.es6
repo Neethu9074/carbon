@@ -53,7 +53,7 @@ export default function createUniverseRenderer({container, canvas}) {
       requestAnimationFrame(realtimeUpdate);
     }
 
-    globeScene.realtimeUpdate();
+    globeScene.update();
     globeScene.render(renderer);
   }
 

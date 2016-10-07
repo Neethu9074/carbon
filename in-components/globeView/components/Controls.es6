@@ -6,6 +6,7 @@ import {getDeltaTime} from 'in-map/misc/time';
 const RAD_2_DEG = Math.PI / 180;
 
 export default function createControls(canvas, camera, {
+  poi = new Object3D(),
   maxZoomIn = 0,
   maxZoomOut = 10000,
   startingWorldDistance = 300,
@@ -22,9 +23,7 @@ export default function createControls(canvas, camera, {
   let currentRotationY = 0;
   let targetZoomDistance = startingZoomDistance;
 
-  const poi = new Object3D();
   poi.position.set(0, 0, startingWorldDistance);
-  poi.add(camera);
   camera.translateZ(startingZoomDistance);
 
   let isPanning = false;
