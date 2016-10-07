@@ -18,7 +18,10 @@ export default function PageRequestSpanDetailView({span}) {
 
       <DescriptionList>
         <DescriptionItem title='URL'>
-          {span.getIn(['data', 'page', 'url'])}
+          <a href={span.getIn(['data', 'page', 'url'])}
+             target='_blank'>
+            {span.getIn(['data', 'page', 'url'])}
+          </a>
         </DescriptionItem>
 
         <DescriptionItem title='Platform'>

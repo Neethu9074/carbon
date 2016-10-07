@@ -7,7 +7,10 @@ export default function PageResourceRequestSpanDetailView({span}) {
   return (
     <DescriptionList>
       <DescriptionItem title='URL'>
-        {span.getIn(['data', 'page_res', 'url'])}
+        <a href={span.getIn(['data', 'page_res', 'url'])}
+           target='_blank'>
+          {span.getIn(['data', 'page_res', 'url'])}
+        </a>
       </DescriptionItem>
 
       <DescriptionItem title='Initiator'>
