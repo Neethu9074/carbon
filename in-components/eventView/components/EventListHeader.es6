@@ -27,7 +27,7 @@ export default function EventListHeader() {
       <EventFilter filter='incident'>
         Incidents (<Count getCounter={counter => counter.get('incident')}/>)
       </EventFilter>
-      <EventFilter filter='issue'>
+      <EventFilter filter='event'>
         Events (<Count getCounter={counter => counter.get('issue')}/>)
       </EventFilter>
     </ViewHeader>

@@ -8,8 +8,8 @@ export const eventFilter$ = createTrackingStore({
   observable: rawQuery$.map(query => {
     if (containsEventTypeFilter(query, 'incident')) {
       return 'incident';
-    } else if (containsEventTypeFilter(query, 'issue')) {
-      return 'issue';
+    } else if (containsEventTypeFilter(query, 'event')) {
+      return 'event';
     }
     return null;
   })

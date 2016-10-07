@@ -100,7 +100,7 @@ addKeywordOperator({
 });
 
 const searchableEventTypes = {
-  issue: 'issue',
+  event: 'issue',
   incident: 'incident'
 };
 addKeywordOperator({
