@@ -22,7 +22,7 @@ export default function EventProblem({event}) {
 
       <div className={`${block}__text-wrapper`}>
         <span className={`${block}__heading`}>
-          Fix suggestion
+          Detail
         </span>
         <span className={`${block}__suggestion`}
               dangerouslySetInnerHTML={{__html: fixSuggestion}} />
