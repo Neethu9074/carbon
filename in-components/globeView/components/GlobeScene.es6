@@ -12,6 +12,7 @@ import {
   MeshPhongMaterial} from 'in-map/3DLibProvider';
 import {setGlobeSize} from 'in-components/globeView/stores/globeSizeStore';
 import createControls from 'in-components/globeView/components/Controls';
+import Clouds from 'in-components/globeView/components/Clouds';
 import {loadImage} from 'in-map/services/imageLoader';
 
 
@@ -55,6 +56,8 @@ export default class GlobeScene {
       scene.add(globe);
     });
 
+    this.clouds = new Clouds(scene);
+
     const pointLight = new PointLight(0xffffff, 0.55, 4);
     pointLight.position.set(1, 1, 1);
 
@@ -95,6 +98,8 @@ export default class GlobeScene {
     const vFOV = this.camera.fov * Math.PI / 180; // convert vertical fov to radians
     const height = 2 * Math.tan( vFOV / 2 ) * distanceToGlobe; // visible height
     setGlobeSize(1 / height);
+
+    this.clouds.update();
   }
 
   render(renderer) {
@@ -104,6 +109,7 @@ export default class GlobeScene {
   dispose() {
     this.controls.dispose();
 
+    this.clouds.dispose();
     this.globe.material.dispose();
     this.globe.geometry.dispose();
   }
