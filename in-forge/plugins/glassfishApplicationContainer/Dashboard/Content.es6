@@ -6,9 +6,12 @@ import {
   msZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 export default function GlassfishDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -22,6 +25,60 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
   }
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Requests'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='http_request_count'
+                       formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Errors'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='http_error'
+                       formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Max Time'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='http_max_time'
+                       formatter={msZeroDecimalPlaces} />
+        </KpiKeyValue>
+      </KpiSection>
+      <DashboardSection title='Web Requests'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 40,
+                           right: 40
+                         }}
+                         y1={{
+                           metrics: [
+                             'http_request_count',
+                             'http_error'
+                           ],
+                           labels: [
+                             'Requests',
+                             'Errors'
+                           ],
+                           min: 0,
+                           type: 'line',
+                           formatter: zeroDecimalPlaces
+                         }}
+                         y2={{
+                           metrics: [
+                             'http_max_time',
+                             'http_proc_time'
+                           ],
+                           labels: [
+                             'Max Time',
+                             'Processing Time'
+                           ],
+                           min: 0,
+                           type: 'line',
+                           formatter: msZeroDecimalPlaces
+                         }}/>
+      </DashboardSection>
       <DashboardSection title='Threads'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
@@ -68,6 +125,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                              'Ticks Total Queued',
                              'Total'
                            ],
+                           min: 0,
                            type: 'line',
                            formatter: zeroDecimalPlaces
                          }}/>
@@ -93,6 +151,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                              'Refusals',
                              'Timeouts'
                            ],
+                           min: 0,
                            type: 'line',
                            formatter: zeroDecimalPlaces
                          }}/>
@@ -117,6 +176,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                              'Info Hits',
                              'Info Misses'
                            ],
+                           min: 0,
                            type: 'line',
                            formatter: zeroDecimalPlaces
                          }}
@@ -148,40 +208,9 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                              'Used',
                              'Free'
                            ],
+                           min: 0,
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
-      </DashboardSection>
-      <DashboardSection title='Web Requests'>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 40,
-                           right: 40
-                         }}
-                         y1={{
-                           metrics: [
-                             'http_request_count',
-                             'http_error'
-                           ],
-                           labels: [
-                             'Requests',
-                             'Errors'
-                           ],
-                           type: 'line',
-                           formatter: zeroDecimalPlaces
-                         }}
-                         y2={{
-                           metrics: [
-                             'http_max_time',
-                             'http_proc_time'
-                           ],
-                           labels: [
-                             'Max Time',
-                             'Processing Time'
-                           ],
-                           type: 'line',
-                           formatter: msZeroDecimalPlaces
                          }}/>
       </DashboardSection>
     </div>
