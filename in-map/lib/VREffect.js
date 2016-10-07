@@ -240,10 +240,6 @@ THREE.VREffect = function ( renderer, onError ) {
 	cameraR.layers.enable( 2 );
 
 	this.render = function ( scene, camera, renderTarget, forceClear ) {
-		if (!vrDisplay ) {
-			console.log('BÄM');
-			return;
-		}
 
 		if ( vrDisplay && scope.isPresenting ) {
 
