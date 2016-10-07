@@ -10,7 +10,7 @@ const allowedOperators = {
 
 const operatorTranslation = {
   '=': '',
-  '!=': '-',
+  '!=': '',
   '<': '<',
   '<=': '<=',
   '>': '>',
@@ -124,7 +124,8 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
 
   const luceneOperator = operatorTranslation[queryPart.operator];
   const luceneValue = luceneValueConverters[type](value, keywordOperator);
-  return `${keywordOperator.field}:${luceneOperator}${luceneValue}`;
+  const prefix = queryPart.operator === '!=' ? '-' : '';
+  return `${prefix}${keywordOperator.field}:${luceneOperator}${luceneValue}`;
 }
 
 
