@@ -3,6 +3,7 @@ import React from 'react';
 import ListWrapper from 'in-components/eventView/components/eventDetails/EventDetails/ListWrapper';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
+import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
@@ -11,10 +12,13 @@ import 'in-components/eventView/components/eventDetails/IncidentEventList.less';
 
 const block = 'in-event-view-incident-event-list';
 
-export default connectTo({
-  events: sortedRecentEvents$
+export default connectTo(props => {
+  return {
+    events: sortedRecentEvents$,
+    isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.incident, () => true, () => false)
+  };
 },
-function IncidentEventList({events}) {
+function IncidentEventList({events, isOpen}) {
   if (!events) {
     return <LoadingIndicator type='dark' />;
   }
@@ -32,7 +36,7 @@ function IncidentEventList({events}) {
                                           isCollapsed={true} />)
         }
 
-        <TimeMarker text='ended' />
+        {isOpen ? <div/> : <TimeMarker text='ended' />}
       </div>
     </div>
   );

@@ -12,7 +12,8 @@ export default function IncidentContent({event}) {
     <div>
       <IncidentHeader event={event} />
       <IncidentPopulationChart incidentId={event.get('id')} />
-      <IncidentEventList ids={event.get('recentEvents', emptyList)}/>
+      <IncidentEventList incident={event}
+                         ids={event.get('recentEvents', emptyList)} />
     </div>
   );
 }
