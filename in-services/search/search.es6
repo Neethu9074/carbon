@@ -4,8 +4,17 @@ import {getKeywordOperators} from 'in-sdk/search';
 
 const allowedOperators = {
   number: ['<', '<=', '=', '>=', '>'],
-  string: ['='],
-  selection: ['=']
+  string: ['=', '!='],
+  selection: ['=', '!=']
+};
+
+const operatorTranslation = {
+  '=': '',
+  '!=': '-',
+  '<': '<',
+  '<=': '<=',
+  '>': '>',
+  '>=': '>='
 };
 
 const valueValidators = {
@@ -113,7 +122,7 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
     validator(queryPart.value, keywordOperator, queryPart);
   }
 
-  const luceneOperator = queryPart.operator === '=' ? '' : queryPart.operator;
+  const luceneOperator = operatorTranslation[queryPart.operator];
   const luceneValue = luceneValueConverters[type](value, keywordOperator);
   return `${keywordOperator.field}:${luceneOperator}${luceneValue}`;
 }

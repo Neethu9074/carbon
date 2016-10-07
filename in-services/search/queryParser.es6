@@ -14,7 +14,7 @@ export function parse(query) {
     row++;
   });
 
-  lexer.addRule(/([a-z0-9._\-]+) *(<=|>=|=|<|>|~) *"(((\\")|[^"])+)"/i, function onMatch(s, key, operator, value) {
+  lexer.addRule(/([a-z0-9._\-]+) *(<=|>=|=|<|>|~|!=) *"(((\\")|[^"])+)"/i, function onMatch(s, key, operator, value) {
     result.push({
       type: 'kv',
       key,
@@ -24,7 +24,7 @@ export function parse(query) {
     });
   });
 
-  lexer.addRule(/([a-z0-9._\-]+) *(<=|>=|=|<|>|~) *([^\s]+)/i, function onMatch(s, key, operator, value) {
+  lexer.addRule(/([a-z0-9._\-]+) *(<=|>=|=|<|>|~|!=) *([^\s]+)/i, function onMatch(s, key, operator, value) {
     result.push({
       type: 'kv',
       key,
