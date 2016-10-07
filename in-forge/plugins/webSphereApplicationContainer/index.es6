@@ -1,6 +1,5 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 
 import icon from './icon.svg';
@@ -9,25 +8,26 @@ registerSnapshotDefinition({
   plugin: plugins.webSphere,
   icon,
   supportsCodeView,
-  getCodeView
-});
+  getCodeView,
+  pluginName: {
+    singular: 'WebSphere',
+    plural: 'WebSpheres'
+  },
 
-setHumanReadablePluginName(
-  plugins.webSphere,
-  'WebSphere',
-  'WebSpheres'
-);
+  namesForTypeSearch: ['websphere'],
 
-addLabelFinder(
-  plugins.webSphere,
-  snapshot => {
-    let label = 'WebSphere';
-    const data = snapshot.get('data');
+  getLabel(s) {
+    const data = s.get('data');
     const nodeName = data.get('nodeName');
     const serverName = data.get('serverName');
     if (nodeName && serverName) {
-      label += ' @ ' + nodeName + ' - ' + serverName;
+      return 'WebSphere @' + nodeName + '-' + serverName;
     }
-    return label;
+    return getFallbackLabel(s);
   }
-);
+});
+
+
+function getFallbackLabel(s) {
+  return 'WebSphere #' + s.get('steadyId');
+}
