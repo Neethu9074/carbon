@@ -213,10 +213,20 @@ THREE.VREffect = function ( renderer, onError ) {
 
 		if ( vrDisplay !== undefined && scope.isPresenting ) {
 
-			vrDisplay.submitFrame();
+			var pose = vrDisplay.getPose();
+
+			if ( pose && pose.position ) {
+
+			  vrDisplay.submitFrame(pose);
+
+			} else {
+
+				// reset stuff
+				this.exitPresent();
+
+			}
 
 		}
-
 	};
 
 	this.autoSubmitFrame = true;
@@ -230,6 +240,10 @@ THREE.VREffect = function ( renderer, onError ) {
 	cameraR.layers.enable( 2 );
 
 	this.render = function ( scene, camera, renderTarget, forceClear ) {
+		if (!vrDisplay ) {
+			console.log('BÄM');
+			return;
+		}
 
 		if ( vrDisplay && scope.isPresenting ) {
 
@@ -388,9 +402,7 @@ THREE.VREffect = function ( renderer, onError ) {
 		}
 
 		// Regular render mode if not HMD
-
 		renderer.render( scene, camera, renderTarget, forceClear );
-
 	};
 
 	this.dispose = function () {
