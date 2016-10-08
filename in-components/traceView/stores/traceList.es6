@@ -148,20 +148,6 @@ function addNewTraces(newTraces) {
   isLoadingStore.mutateTo(false);
 }
 
-tracesStore.observable.subscribe(traces => {
-  const e = {};
-
-  traces.forEach(trace => {
-    e[trace.id] = e[trace.id] || 0;
-    e[trace.id] = e[trace.id] + 1;
-  });
-
-  Object.keys(e).forEach(traceId => {
-    if (e[traceId] > 1) {
-      // console.log('Got %s %s times.', traceId, e[traceId]);
-    }
-  });
-});
 
 function disposeExistingLoad() {
   if (loadSubscription) {
