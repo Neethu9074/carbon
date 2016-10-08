@@ -1,21 +1,13 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import ViewBackendTraceButton from 'in-forge/tracing/page/ViewBackendTraceButton';
-import {emptyList} from 'in-services/fixedImmutables';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Tooltip from 'in-components/Tooltip';
 
 
 export default function PageRequestSpanDetailView({span}) {
-  const backendTraceId = span.getIn(['data', 'page', 'backend_traces'], emptyList).first();
-
   return (
     <div>
-      {backendTraceId ?
-        <ViewBackendTraceButton traceId={backendTraceId} />
-      : null}
-
       <DescriptionList>
         <DescriptionItem title='URL'>
           <a href={span.getIn(['data', 'page', 'url'])}
