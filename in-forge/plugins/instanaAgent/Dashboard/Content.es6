@@ -22,7 +22,7 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
           Stop Self Monitoring
         </KpiTopLevelInteraction>
       </KpiSection>
-      {snapshot.get('hasCpuLoad') ?
+      {snapshot.getIn(['data', 'hasCpuLoad']) ?
         <DashboardSection title='CPU Load'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
