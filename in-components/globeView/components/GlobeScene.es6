@@ -10,8 +10,8 @@ import {
   Object3D,
   MeshBasicMaterial,
   MeshPhongMaterial} from 'in-map/3DLibProvider';
-import {setGlobeSize} from 'in-components/globeView/stores/globeSizeStore';
 import createControls from 'in-components/globeView/components/Controls';
+import Effects from 'in-components/globeView/components/Effects';
 import Clouds from 'in-components/globeView/components/Clouds';
 import {loadImage} from 'in-map/services/imageLoader';
 
@@ -36,6 +36,7 @@ export default class GlobeScene {
       new SphereBufferGeometry(0.5, 100, 100),
       new MeshBasicMaterial({ color: 0x000000 })
     );
+    globe.renderOrder = 1;
 
     require([
       'in-components/globeView/components/diffuse.jpg',
@@ -50,13 +51,15 @@ export default class GlobeScene {
         map: loadImage(worldDiffuseMapPath, tex => tex.needsUpdate = true),
         specularMap: loadImage(worldSpecularMapPath, tex => tex.needsUpdate = true),
         normalMap: loadImage(worldBumpMapPath, tex => tex.needsUpdate = true),
-        normalScale: new Vector2(0.5, 0.5)
+        normalScale: new Vector2(0.5, 0.5),
+        depthWrite: false
       });
 
       scene.add(globe);
     });
 
     this.clouds = new Clouds(scene);
+    this.effects = new Effects(poi);
 
     const pointLight = new PointLight(0xffffff, 0.55, 4);
     pointLight.position.set(1, 1, 1);
@@ -77,8 +80,8 @@ export default class GlobeScene {
         poi: this.poi,
         cameraMoveSpeed: 4,
         startingWorldDistance: 0,
-        startingZoomDistance: 1.2,
-        maxZoomIn: 1,
+        startingZoomDistance: 1.5,
+        maxZoomIn: 1.1,
         maxZoomOut: 2,
         zoomSteps: 0.15,
         zoomSpeed: 4
@@ -94,12 +97,8 @@ export default class GlobeScene {
   update() {
     this.controls.update();
 
-    const distanceToGlobe = Math.abs(this.camera.position.z);
-    const vFOV = this.camera.fov * Math.PI / 180; // convert vertical fov to radians
-    const height = 2 * Math.tan( vFOV / 2 ) * distanceToGlobe; // visible height
-    setGlobeSize(1 / height);
-
     this.clouds.update();
+    this.effects.update(this.camera.position.z);
   }
 
   render(renderer) {
@@ -109,6 +108,7 @@ export default class GlobeScene {
   dispose() {
     this.controls.dispose();
 
+    this.effects.dispose();
     this.clouds.dispose();
     this.globe.material.dispose();
     this.globe.geometry.dispose();

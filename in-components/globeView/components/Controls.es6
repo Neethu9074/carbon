@@ -1,5 +1,5 @@
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
-import {Vector3, Object3D} from 'in-map/3DLibProvider';
+import {Object3D} from 'in-map/3DLibProvider';
 import {getDeltaTime} from 'in-map/misc/time';
 
 
@@ -9,21 +9,18 @@ export default function createControls(canvas, camera, {
   poi = new Object3D(),
   maxZoomIn = 0,
   maxZoomOut = 10000,
-  startingWorldDistance = 300,
   startingZoomDistance = 30,
   cameraMoveSpeed = 10,
   zoomSteps = 1,
   zoomSpeed = 1
 }) {
 
-  const targetPosition = new Vector3(0, 0, 0);
   let targetRotationX = 0;
   let targetRotationY = 0;
   let currentRotationX = 0;
   let currentRotationY = 0;
   let targetZoomDistance = startingZoomDistance;
 
-  poi.position.set(0, 0, startingWorldDistance);
   camera.translateZ(startingZoomDistance);
 
   let isPanning = false;
@@ -64,9 +61,6 @@ export default function createControls(canvas, camera, {
   function update() {
     const dt = getDeltaTime();
 
-    const direction = targetPosition.sub(poi.position);
-    poi.position.add(direction.multiplyScalar(dt * cameraMoveSpeed));
-
     const deltaX = (targetRotationX - currentRotationX) * dt * cameraMoveSpeed;
     const deltaY = (targetRotationY - currentRotationY) * dt * cameraMoveSpeed;
     const rotatedX = deltaX;
@@ -86,10 +80,7 @@ export default function createControls(canvas, camera, {
 
   return {
     dispose,
-    update,
-
-    // export for testing purpose
-    poi
+    update
   };
 
   function dispose() {

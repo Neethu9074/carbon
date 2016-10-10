@@ -1,8 +1,8 @@
 import {create, on} from 'reactive-observables';
 
 import GlobeScene from 'in-components/globeView/components/GlobeScene';
+import {WebGLRenderer, Color} from 'in-map/3DLibProvider';
 import {update as updateTime} from 'in-map/misc/time';
-import {WebGLRenderer} from 'in-map/3DLibProvider';
 
 
 export default function createUniverseRenderer({container, canvas}) {
@@ -17,7 +17,9 @@ export default function createUniverseRenderer({container, canvas}) {
     canvas,
     antialias: true
   });
-  renderer.autoClear = false;
+  renderer.sortObjects = false;
+  renderer.autoClear = true;
+  renderer.setClearColor(new Color(0x0b0c0d), 1.0);
 
   const globeScene = new GlobeScene(renderer);
 
