@@ -70,8 +70,7 @@ function onClick(sortBy, currentSortBy, sortDirection) {
 
 function getSortIcon(cell, sortDirection, sortBy) {
   if (sortBy === cell) {
-    let toggleClassName = `${block}__icon-wrapper`;
-    toggleClassName += ` ${toggleClassName}--selected`;
+    const toggleClassName = `${block}__icon-wrapper`;
 
     let iconType = 'triangle_down';
     if (sortDirection === 'asc') {
