@@ -4,6 +4,7 @@ import React from 'react';
 import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
 import createTotalShedEventsSubscription from 'in-services/subscription/totalShedEventsCount';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
+import {refresh} from 'in-components/eventView/stores/shedEventListStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {luceneQuery$ as query$} from 'in-stores/search';
 import {timeframe$} from 'in-stores/timeline';
@@ -18,18 +19,26 @@ const block = 'in-event-view-event-list-header';
 export default function EventListHeader() {
   return (
     <ViewHeader className={block}>
-      <SvgIcon className={`${block}__icon`}
-               type={'danger_sign'}
-               width={20}
-               height={20}
-               color={'#33d8d7'} />
+      <div className={`${block}__left-side`}>
+        <SvgIcon className={`${block}__icon`}
+                 type={'danger_sign'}
+                 width={20}
+                 height={20}
+                 color={'#33d8d7'} />
 
-      <EventFilter filter='incident'>
-        Incidents (<Count getCounter={counter => counter.get('incident')}/>)
-      </EventFilter>
-      <EventFilter filter='event'>
-        Events (<Count getCounter={counter => counter.get('issue')}/>)
-      </EventFilter>
+        <EventFilter filter='incident'>
+          Incidents (<Count getCounter={counter => counter.get('incident')}/>)
+        </EventFilter>
+        <EventFilter filter='event'>
+          Events (<Count getCounter={counter => counter.get('issue')}/>)
+        </EventFilter>
+      </div>
+      <div className={`${block}__right-side`}>
+        <SvgIcon className={`${block}__refresh`}
+                 type='refresh'
+                 onClick={refresh}
+                 height={15} />
+      </div>
     </ViewHeader>
   );
 }

@@ -71,7 +71,7 @@ export function disable() {
   subscriptions = emptyArray;
 }
 
-function refresh() {
+export function refresh() {
   if (initPhase) {
     return;
   }

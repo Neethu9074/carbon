@@ -1,6 +1,15 @@
 .in-event-view-event-list-header {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+
+  &__left-side, &__right-side {
+    display: flex;
+    align-items: center;
+  }
+
+  &__right-side {
+    margin-right: 1rem;
+  }
 
   &__title, &__icon {
     margin-left: 1rem;
@@ -20,6 +29,18 @@
     &:hover, &--selected {
       color: white;
       border-bottom: 2px solid white;
+    }
+  }
+
+  &__refresh {
+    cursor: pointer;
+
+    path {
+      fill: #D5DFE4;
+    }
+
+    &:hover path {
+      fill: #fff;
     }
   }
 }
