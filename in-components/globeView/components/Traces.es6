@@ -57,8 +57,5 @@ export default class Traces {
   }
 
   dispose() {
-    this.traces.geometry.dispose();
-    this.traces.material.dispose();
-    this.traces = null;
   }
 }
