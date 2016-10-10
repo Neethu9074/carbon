@@ -24,9 +24,7 @@ describe('issueTracker', () => {
     beforeEach(() => {
       event = Immutable.fromJS({
         id: '1',
-        problem: {
-          severity: 10
-        },
+        severity: 10,
         type: 'issue',
         state: 'open'
       });

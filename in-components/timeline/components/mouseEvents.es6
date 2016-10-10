@@ -143,7 +143,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     if (eventAtCursor) {
       selectEvent(eventAtCursor);
 
-      if (eventAtCursor.getIn(['problem', 'problemText'], '').toLowerCase().indexOf('offline') !== -1) {
+      if (eventAtCursor.get('title', '').toLowerCase().indexOf('offline') !== -1) {
         setFocusedMoment(eventAtCursor.get('start') - 1);
       } else {
         setFocusedMoment(eventAtCursor.get('start') + 1);

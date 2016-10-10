@@ -133,7 +133,7 @@ export const getOpenIssuesAtFocusedMoment = memoize(
   // maintain than actually to loop?
   snapshotId => openEventsAtFocusedMoment$.map(events => {
       return Immutable.List(events.issues
-        .filter(event => event.get('snapshotId') === snapshotId));
+        .filter(event => event.getIn(['problem', 'snapshotId']) === snapshotId));
     }),
 
   id => id,
@@ -152,7 +152,7 @@ export const getHealthInfoAtFocusedMoment = memoize(
       };
 
       issues.forEach(issue => {
-        const severity = issue.getIn(['problem', 'severity'], 0);
+        const severity = issue.get('severity', 0);
         if (severity >= nextHealthInfo.maxSeverity) {
           nextHealthInfo.maxSeverity = severity;
           nextHealthInfo.issueWithMaxSeverity = issue;
@@ -207,7 +207,7 @@ export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifCl
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
-  const severity = event.getIn(['problem', 'severity'], event.get('severity', 0));
+  const severity = event.get('severity', 0);
 
   return focusedMoment$
     .map(focusedMoment => {
@@ -221,7 +221,7 @@ export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifCl
 
 
 export function getColorForEventAtFocusedMoment(event, focusedMoment) {
-  const severity = event.getIn(['problem', 'severity'], 0);
+  const severity = event.get('severity', 0);
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
@@ -336,7 +336,7 @@ export const highlightedEvent$ = highlightedEvent.observable.distinct()
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);
   if (event) {
-    setHighlightedEntityId(event.get('snapshotId'));
+    setHighlightedEntityId(event.getIn(['problem', 'snapshotId']));
   } else {
     clearHighlightedEntityId();
   }

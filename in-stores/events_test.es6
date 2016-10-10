@@ -418,7 +418,9 @@ describe('in-stores/events', () => {
         'start': 5,
         'end': 10,
         'type': 'issue',
-        snapshotId
+        problem: {
+          snapshotId
+        }
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -426,7 +428,9 @@ describe('in-stores/events', () => {
         'start': 0,
         'end': 7,
         'type': 'issue',
-        snapshotId
+        problem: {
+          snapshotId
+        }
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -434,7 +438,9 @@ describe('in-stores/events', () => {
         'start': 19,
         'end': 10,
         'type': 'issue',
-        snapshotId: 'watAnderes'
+        problem: {
+          snapshotId: 'watAnderes'
+        }
       }]));
 
       expect(subscriber.callCount).to.equal(5);
@@ -455,7 +461,9 @@ describe('in-stores/events', () => {
         'start': 5,
         'end': 10,
         'type': 'issue',
-        snapshotId
+        problem: {
+          snapshotId
+        }
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -463,7 +471,9 @@ describe('in-stores/events', () => {
         'start': 0,
         'end': 7,
         'type': 'issue',
-        snapshotId
+        problem: {
+          snapshotId
+        }
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -471,7 +481,9 @@ describe('in-stores/events', () => {
         'start': 19,
         'end': 10,
         'type': 'issue',
-        snapshotId: 'watAnderes'
+        problem: {
+          snapshotId: 'watAnderes'
+        }
       }]));
 
       expect(subscriber.callCount).to.equal(5);
@@ -495,9 +507,9 @@ describe('in-stores/events', () => {
         'start': 5,
         'end': 10,
         'type': 'issue',
-        snapshotId,
-        'problem': {
-          severity: 6
+        severity: 6,
+        problem: {
+          snapshotId
         }
       }]));
 
@@ -506,10 +518,10 @@ describe('in-stores/events', () => {
         'start': 0,
         'end': 7,
         'type': 'issue',
-        snapshotId,
-        'problem': {
-          severity: 3
-        }
+        problem: {
+          snapshotId
+        },
+        severity: 3
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -517,7 +529,9 @@ describe('in-stores/events', () => {
         'start': 19,
         'end': 10,
         'type': 'issue',
-        snapshotId: 'watAnderes'
+        problem: {
+          snapshotId: 'watAnderes'
+        }
       }]));
 
       expect(subscriber.callCount).to.equal(2);
@@ -529,9 +543,7 @@ describe('in-stores/events', () => {
         end: 6,
         type: 'issue',
         snapshotId,
-        problem: {
-          severity: 6
-        }
+        severity: 6
       }]));
 
       expect(subscriber.callCount).to.equal(3);
@@ -660,9 +672,7 @@ describe('in-stores/events', () => {
         'end': 20,
         'state': 'closed',
         'type': 'issue',
-        'problem': {
-          'severity': 9
-        }
+        'severity': 9
       });
       focusedMoment$.emit(null);
 
@@ -678,9 +688,7 @@ describe('in-stores/events', () => {
         'end': 20,
         'state': 'open',
         'type': 'issue',
-        'problem': {
-          'severity': 9
-        }
+        'severity': 9
       });
       focusedMoment$.emit(null);
 
@@ -696,9 +704,7 @@ describe('in-stores/events', () => {
         'end': 20,
         'state': 'closed',
         'type': 'issue',
-        'problem': {
-          'severity': 9
-        }
+        'severity': 9
       });
       focusedMoment$.emit(20);
 
@@ -714,9 +720,7 @@ describe('in-stores/events', () => {
         'end': 20,
         'state': 'closed',
         'type': 'issue',
-        'problem': {
-          'severity': 9
-        }
+        'severity': 9
       });
       focusedMoment$.emit(19);
 
@@ -747,9 +751,7 @@ describe('in-stores/events', () => {
         'start': 5,
         'state': 'open',
         'type': 'issue',
-        'problem': {
-          'severity': 9
-        }
+        'severity': 9
       });
       focusedMoment$.emit(null);
 

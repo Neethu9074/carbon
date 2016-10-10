@@ -37,7 +37,7 @@ export default React.createClass({
       <div>
         <div className={block + '__header'}
              style={{color}}>
-          {event.getIn(['problem', 'problemText'])}
+          {event.get('title')}
         </div>
 
         <div className={block + '__suggestion'}

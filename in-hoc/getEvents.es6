@@ -41,7 +41,7 @@ export default function getEvents(ComposedComponent) {
         this.subscription = getOpenIssuesAtFocusedMoment(snapshotId).subscribe(allEvents => {
           const events = allEvents && allEvents.size > 0 ?
             allEvents.toArray().sort((i1, i2) =>
-              i1.getIn(['problem', 'severity']) > i2.getIn(['problem', 'severity'])) :
+              i1.get('severity') > i2.get('severity')) :
             null;
           this.setState({
             events

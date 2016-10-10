@@ -102,7 +102,7 @@ const IncidentsCounter = connectTo({
 function getIncidentColor(events) {
   let maxSeverity = 0;
   events.forEach(event => {
-    const severity = event.getIn(['problem', 'severity'], 0);
+    const severity = event.get('severity', 0);
     if (severity > maxSeverity) {
       maxSeverity = severity;
     }
