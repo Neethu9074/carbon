@@ -10,7 +10,7 @@ import {getDeltaTime} from 'in-map/misc/time';
 export default class Clouds {
 
   constructor(scene) {
-    this.rotationSpeed = 0.003;
+    this.rotationSpeed = 0.005;
 
     require([
       'in-components/globeView/components/cloudAlphaMap.jpg'
