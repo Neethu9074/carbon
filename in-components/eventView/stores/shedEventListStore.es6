@@ -90,7 +90,13 @@ export function loadMoreShedEvents() {
 
   shedEventList$.once(events => {
     const offset = events.length;
-    const maxTimestampForQuery = getMaxStartMillis(events, maxTimestamp);
+    const isAscTimestampSort =
+      (sortByField === 'start' || sortByField === 'end') &&
+      sortDirection === 'asc';
+    const maxTimestampForQuery = isAscTimestampSort
+      ? maxTimestamp
+      : getMaxStartMillis(events, maxTimestamp);
+
     // console.log(new Date(maxTimestampForQuery));
     loadSubscription = createShedEventsObservable({
       maxTimestamp: maxTimestampForQuery,
@@ -128,7 +134,17 @@ function addNewEvents(newEvents) {
       severity: Math.max(0, event.get('severity'))
     };
   });
-  shedEventList.applyStateMutation(existingEvents => existingEvents.concat(transformedEvents));
+
+  // there may be multiple successive events requests with the same data
+  // protect against this and remove duplicates
+  shedEventList.applyStateMutation(existingEvents => {
+     const existingEventIds = {};
+     existingEvents.forEach(trace => {
+       existingEventIds[trace.id] = true;
+     });
+     return existingEvents.concat(transformedEvents.filter(trace => !existingEventIds[trace.id]));
+   });
+
   setIsLoading(false);
 }
 
