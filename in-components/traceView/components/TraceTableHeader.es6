@@ -21,9 +21,13 @@ function TraceTableHeader({sortDirection, sortBy}) {
   return (
     <div className={block}>
       {renderCell('Timestamp', 'ts', sortDirection, sortBy)}
-      <span className={cellClassName}>
-        Call
-      </span>
+
+      <div className={cellClassName}>
+        <div className={`${block}__cell-toggle`}>
+          Call
+        </div>
+      </div>
+
       {renderCell('Resp. Time', 'd', sortDirection, sortBy)}
       {renderCell('Error Count', 'total_error_count', sortDirection, sortBy)}
     </div>
@@ -36,11 +40,20 @@ TraceTableHeader.propTypes = {
 };
 
 function renderCell(name, field, sortDirection, sortBy) {
+  const isSelected = sortBy === field;
+
+  let toggleClassName = `${block}__cell-toggle`;
+  if (isSelected) {
+    toggleClassName += ` ${toggleClassName}--selected`;
+  }
+
   return (
     <div onClick={() => onClick(field, sortBy, sortDirection)}
          className={cellClassName + getCellClassName(field, sortBy)}>
-      {name}
-      {getSortIcon(field, sortDirection, sortBy)}
+      <div className={toggleClassName}>
+        {name}
+        {getSortIcon(field, sortDirection, sortBy)}
+      </div>
     </div>
   );
 }
@@ -57,17 +70,23 @@ function onClick(sortBy, currentSortBy, sortDirection) {
 
 function getSortIcon(cell, sortDirection, sortBy) {
   if (sortBy === cell) {
+    let toggleClassName = `${block}__icon-wrapper`;
+    toggleClassName += ` ${toggleClassName}--selected`;
+
+    let iconType = 'triangle_down';
     if (sortDirection === 'asc') {
-      return (
-        <SvgIcon type='chevron_up'
-                 className={cellClassName + '__sort-icon'}
-                 width={8} />
-      );
+      iconType = 'triangle_up';
     }
+
     return (
-      <SvgIcon className={cellClassName + '__sort-icon'}
-               type='chevron_down'
-               width={8} />
+      <div className={toggleClassName}
+           onClick={onClick}>
+        <SvgIcon className={`${block}__icon`}
+                 type={iconType}
+                 width={5}
+                 height={5}
+                 color='#6b8088' />
+      </div>
     );
   }
   return null;

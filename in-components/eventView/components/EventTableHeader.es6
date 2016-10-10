@@ -99,9 +99,9 @@ function Arrow({isActive, isSelected, sortDirection, onClick}) {
     toggleClassName += ` ${toggleClassName}--selected`;
   }
 
-  let iconType = 'triangle_down';
+  let iconType = 'triangle_up';
   if (isActive && sortDirection === 'desc') {
-    iconType = 'triangle_up';
+    iconType = 'triangle_down';
   }
 
   return (
