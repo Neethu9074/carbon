@@ -4,6 +4,7 @@ import ListWrapper from 'in-components/eventView/components/eventDetails/EventDe
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
+import {formatDate, formatTime} from 'in-services/formatters/date';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
@@ -18,7 +19,7 @@ export default connectTo(props => {
     isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.incident, () => true, () => false)
   };
 },
-function IncidentEventList({events, isOpen}) {
+function IncidentEventList({events, isOpen, incident}) {
   if (!events) {
     return <LoadingIndicator type='dark' />;
   }
@@ -29,24 +30,38 @@ function IncidentEventList({events, isOpen}) {
         {`Events (${events.length})`}
       </div>
       <div className={`${block}__timeline`}>
-        <TimeMarker text='started' />
+        <TimeMarker text='started'
+                    timestamp={incident.get('start')} />
 
         {events.map(event => <ListWrapper key={event.get('id')}
                                           event={event}
                                           isCollapsed={true} />)
         }
 
-        {isOpen ? <div/> : <TimeMarker text='ended' />}
+        {isOpen
+          ? <div/>
+          : <TimeMarker text='ended'
+                        timestamp={incident.get('end')} />
+        }
       </div>
     </div>
   );
 });
 
-function TimeMarker({text}) {
+function TimeMarker({text, timestamp}) {
   return (
     <div className={`${block}__time-marker ${block}__time-marker__${text}`}>
       <LabeledValue label={text}
-                    lightTheme={true} />
+                    lightTheme={true}>
+        <span key='date'
+              className={`${block}__date`}>
+          {`${formatDate(timestamp)} `}
+        </span>
+        <span key='time'
+              className={`${block}__time`}>
+          {timestamp ? formatTime(timestamp) : 'active'}
+        </span>
+      </LabeledValue>
     </div>
   );
 }
