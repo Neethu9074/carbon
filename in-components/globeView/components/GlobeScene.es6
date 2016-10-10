@@ -13,6 +13,7 @@ import {
 import createControls from 'in-components/globeView/components/Controls';
 import Effects from 'in-components/globeView/components/Effects';
 import Clouds from 'in-components/globeView/components/Clouds';
+import Traces from 'in-components/globeView/components/Traces';
 import {loadImage} from 'in-map/services/imageLoader';
 
 
@@ -36,7 +37,7 @@ export default class GlobeScene {
       new SphereBufferGeometry(0.5, 100, 100),
       new MeshBasicMaterial({ color: 0x000000 })
     );
-    globe.renderOrder = 1;
+    globe.renderOrder = 2;
 
     require([
       'in-components/globeView/components/diffuse.jpg',
@@ -58,6 +59,7 @@ export default class GlobeScene {
       scene.add(globe);
     });
 
+    this.traces = new Traces(scene);
     this.clouds = new Clouds(scene);
     this.effects = new Effects(poi);
 
@@ -108,6 +110,7 @@ export default class GlobeScene {
   dispose() {
     this.controls.dispose();
 
+    this.traces.dispose();
     this.effects.dispose();
     this.clouds.dispose();
     this.globe.material.dispose();

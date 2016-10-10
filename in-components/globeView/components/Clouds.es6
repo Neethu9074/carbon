@@ -7,7 +7,7 @@ import {loadImage} from 'in-map/services/imageLoader';
 import {getDeltaTime} from 'in-map/misc/time';
 
 
-export default class GlobeScene {
+export default class Clouds {
 
   constructor(scene) {
     this.rotationSpeed = 0.003;
@@ -24,6 +24,7 @@ export default class GlobeScene {
         })
       );
 
+      clouds.renderOrder = 3;
       scene.add(clouds);
     });
   }
@@ -41,6 +42,7 @@ export default class GlobeScene {
     if (this.clouds) {
       this.clouds.material.dispose();
       this.clouds.geometry.dispose();
+      this.clouds = null;
     }
   }
 }

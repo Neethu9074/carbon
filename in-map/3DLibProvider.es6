@@ -4,6 +4,7 @@ import {
   BufferAttribute as ThreeBufferAttribute,
   BufferGeometry as ThreeBufferGeometry,
   Color as ThreeColor,
+  BoxBufferGeometry as ThreeBoxBufferGeometry,
   CylinderBufferGeometry as ThreeCylinderBufferGeometry,
   DoubleSide as ThreeDoubleSide,
   ImageLoader as ThreeImageLoader,
@@ -46,6 +47,7 @@ export const BoxGeometry = ThreeBoxGeometry;
 export const BufferAttribute = ThreeBufferAttribute;
 export const BufferGeometry = ThreeBufferGeometry;
 export const Color = ThreeColor;
+export const BoxBufferGeometry = ThreeBoxBufferGeometry;
 export const CylinderBufferGeometry = ThreeCylinderBufferGeometry;
 export const DoubleSide = ThreeDoubleSide;
 export const ImageLoader = ThreeImageLoader;

@@ -7,7 +7,7 @@ import {
 import {loadImage} from 'in-map/services/imageLoader';
 
 
-export default class GlobeScene {
+export default class Effects {
 
   constructor(parent) {
     require([
@@ -24,7 +24,7 @@ export default class GlobeScene {
         })
       );
 
-      effectPlane.renderOrder = 2;
+      effectPlane.renderOrder = 10;
       parent.add(effectPlane);
     });
   }
@@ -51,6 +51,7 @@ export default class GlobeScene {
     if (this.effectPlane) {
       this.effectPlane.material.dispose();
       this.effectPlane.geometry.dispose();
+      this.effectPlane = null;
     }
   }
 }
