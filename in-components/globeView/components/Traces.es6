@@ -8,6 +8,8 @@ import TraceBufferGeometry from 'in-components/globeView/components/TraceGeometr
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
+const degToRad = Math.PI / 180;
+
 export default class Traces {
 
   constructor(parent) {
@@ -17,8 +19,8 @@ export default class Traces {
 
     const xOffset = -90;
     const yOffset = 0;
-    wrapper.rotateX(xOffset * Math.PI / 180);
-    wrapper.rotateY(yOffset * Math.PI / 180);
+    wrapper.rotateX(xOffset * degToRad);
+    wrapper.rotateY(yOffset * degToRad);
 
 
     // north pole
@@ -32,8 +34,8 @@ export default class Traces {
   }
 
   addTrace({latitude, longitude}) {
-    latitude *= Math.PI / 180;
-    longitude *= Math.PI / 180;
+    latitude *= degToRad;
+    longitude *= degToRad;
 
     const rho = 0.5; // distance from the center
     const x = Math.cos(latitude) * Math.cos(longitude) * rho;
@@ -53,9 +55,11 @@ export default class Traces {
     this.wrapper.add(cube);
   }
 
-  update() {
-  }
-
   dispose() {
+    for (let i = 0; i < this.wrapper.children.length; i++) {
+      const mesh = this.wrapper.children[i];
+      mesh.geometry.dispose();
+      mesh.material.dispose();
+    }
   }
 }
