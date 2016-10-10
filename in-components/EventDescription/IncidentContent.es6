@@ -37,7 +37,7 @@ function IncidentContent({incident, events}) {
       </span>
 
       <Header event={firstEvent}
-              text={event.get('title')} />
+              text={firstEvent.get('title')} />
 
       <div className={block + '__suggestion'}
            dangerouslySetInnerHTML={{__html: toHtml(problem.get('fixSuggestion'))}} />
