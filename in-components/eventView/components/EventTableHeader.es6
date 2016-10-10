@@ -38,10 +38,12 @@ React.createClass({
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
         <Cell name='title'
+              field='problem.problemText'
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
         <Cell name='severity'
+              field='problem.severity'
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
       </div>
@@ -54,7 +56,7 @@ const Cell = connectTo({
   sortDirection: sortDirection$,
   sortBy: sortBy$
 },
-({expandedCell, onExpandClick, name, sortBy, sortDirection}) => {
+({expandedCell, onExpandClick, name, field = name, sortBy, sortDirection}) => {
   const isSelected = expandedCell === name;
   const isActive = sortBy === getQueryFieldNameForField(name);
 
@@ -76,7 +78,7 @@ const Cell = connectTo({
         }
       <div className={toggleClassName}
            onClick={() => {
-             setSortBy(name);
+             setSortBy(field);
              toggleSortDirection();
            }}>
         {name}
