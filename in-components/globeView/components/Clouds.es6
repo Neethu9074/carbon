@@ -3,6 +3,7 @@ import {
   SphereBufferGeometry,
   Mesh,
   MeshBasicMaterial} from 'in-map/3DLibProvider';
+import {resourceLoaded} from 'in-components/globeView/stores/isLoadingStore';
 import {loadImage} from 'in-map/services/imageLoader';
 import {getDeltaTime} from 'in-map/misc/time';
 
@@ -20,7 +21,10 @@ export default class Clouds {
         new MeshBasicMaterial({
           color: 0xffffff,
           transparent: true,
-          alphaMap: loadImage(cloudsAlphaPath, tex => tex.needsUpdate = true)
+          alphaMap: loadImage(cloudsAlphaPath, tex => {
+            tex.needsUpdate = true;
+            resourceLoaded('cloudAlphaMap');
+          })
         })
       );
 

@@ -10,6 +10,7 @@ import {
   Object3D,
   MeshBasicMaterial,
   MeshPhongMaterial} from 'in-map/3DLibProvider';
+import {resourceLoaded} from 'in-components/globeView/stores/isLoadingStore';
 import createControls from 'in-components/globeView/components/Controls';
 import Effects from 'in-components/globeView/components/Effects';
 import Clouds from 'in-components/globeView/components/Clouds';
@@ -49,9 +50,18 @@ export default class GlobeScene {
         color: 0xffffff,
         specular: 0xffffff,
         shininess: 10,
-        map: loadImage(worldDiffuseMapPath, tex => tex.needsUpdate = true),
-        specularMap: loadImage(worldSpecularMapPath, tex => tex.needsUpdate = true),
-        normalMap: loadImage(worldBumpMapPath, tex => tex.needsUpdate = true),
+        map: loadImage(worldDiffuseMapPath, tex => {
+          tex.needsUpdate = true;
+          resourceLoaded('globeDiffuseMap');
+        }),
+        specularMap: loadImage(worldSpecularMapPath, tex => {
+          tex.needsUpdate = true;
+          resourceLoaded('globeSpecularMap');
+        }),
+        normalMap: loadImage(worldBumpMapPath, tex => {
+          tex.needsUpdate = true;
+          resourceLoaded('globeNormalMap');
+        }),
         normalScale: new Vector2(0.5, 0.5),
         depthWrite: false
       });

@@ -4,6 +4,7 @@ import {
   Mesh,
   DoubleSide,
   MeshBasicMaterial} from 'in-map/3DLibProvider';
+import {resourceLoaded} from 'in-components/globeView/stores/isLoadingStore';
 import {loadImage} from 'in-map/services/imageLoader';
 
 
@@ -20,7 +21,10 @@ export default class Effects {
           side: DoubleSide,
           transparent: true,
           depthWrite: false,
-          map: loadImage(effectMapPath, tex => tex.needsUpdate = true)
+          map: loadImage(effectMapPath, tex => {
+            tex.needsUpdate = true;
+            resourceLoaded('globeEffectMap');
+          })
         })
       );
 
