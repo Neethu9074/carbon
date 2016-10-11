@@ -5,9 +5,12 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import MetricValue from 'in-components/MetricValue';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import {getLabel} from 'in-sdk/snapshot';
 
 const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 
@@ -23,6 +26,21 @@ export default function VarnishDashboard({snapshot, timeframe}) {
   }
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='Requests'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='client_req'
+                       formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Cache Hit Rate'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='cache_hit_rate'
+                       formatter={hitRateFormatter} />
+        </KpiKeyValue>
+      </KpiSection>
       <DashboardSection title='Client'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
