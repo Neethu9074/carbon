@@ -43,8 +43,7 @@ export default function EventListHeader() {
 
 const EventFilter = connectTo({
   eventFilter: eventFilter$
-},
-({eventFilter, children, filter}) => {
+}, function EventFilter({eventFilter, children, filter}) {
   let className = `${block}__title`;
   if (eventFilter === filter) {
     className += ` ${className}--selected`;
@@ -60,7 +59,7 @@ const EventFilter = connectTo({
 
 const Count = connectTo({
   totalShedEventsCounter: timeframe$.flatMap(timeframe => createTotalShedEventsSubscription({timeframe}))
-}, ({getCounter, totalShedEventsCounter}) => {
+}, function Count({getCounter, totalShedEventsCounter}) {
   if (!totalShedEventsCounter) {
     return (
       <LoadingIndicator inline={true}

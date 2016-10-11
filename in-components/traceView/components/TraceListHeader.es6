@@ -1,6 +1,9 @@
 import React from 'react';
 
-import TotalTraceCount from 'in-components/traceView/components/TotalTraceCount';
+import {totalTraceCountNoFiltering$, totalTraceCountWithoutEum$, totalTraceCountOnlyEum$} from 'in-stores/traces';
+import {setTraceTypeFilter, removeTraceTypeFilter} from 'in-components/traceView/stores/filters';
+import TraceListFilterToggle from 'in-components/traceView/components/TraceListFilterToggle';
+import Count from 'in-components/traceView/components/Count';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import AutoUpdate from 'in-components/traceView/components/AutoUpdate';
 import {refresh} from 'in-components/traceView/stores/traceList';
@@ -15,7 +18,24 @@ export default function TraceListHeader() {
     <ViewHeader className={block}>
       <div className={`${block}__left-side`}>
         <h1 className={`${block}__title`}>Traces</h1>
-        <TotalTraceCount />
+
+        <TraceListFilterToggle filter='all'
+                               onClick={removeTraceTypeFilter}>
+          All Calls
+          <Count count$={totalTraceCountNoFiltering$} />
+        </TraceListFilterToggle>
+
+        <TraceListFilterToggle filter='without-eum'
+                               onClick={() => setTraceTypeFilter('eum', '!=')}>
+          Server Calls
+          <Count count$={totalTraceCountWithoutEum$} />
+        </TraceListFilterToggle>
+
+        <TraceListFilterToggle filter='eum'
+                               onClick={() => setTraceTypeFilter('eum')}>
+          EUM Calls
+          <Count count$={totalTraceCountOnlyEum$} />
+        </TraceListFilterToggle>
       </div>
 
       <div className={`${block}__right-side`}>

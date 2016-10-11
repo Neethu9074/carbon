@@ -14,12 +14,12 @@ export function removeTraceTypeFilter() {
 }
 
 function removeExistingTypeFilter(inputString) {
-  return inputString.replace(/(^|\s)type *= *(("([^"]+)")|([^\s]+))/ig, ' ')
+  return inputString.replace(/(^|\s)type *!?= *(("([^"]+)")|([^\s]+))/ig, ' ')
     // remove excess whitespace
     .replace(/ {2,}/ig, ' ')
     .trim();
 }
 
-export function containsTraceTypeFilter(freeText, type) {
-  return new RegExp(`(^|\\s)type *= *("${type}"|${type})(\\s|$)`, 'ig').test(freeText);
+export function containsTraceTypeFilter(freeText, type, operator = '=') {
+  return new RegExp(`(^|\\s)type *${operator} *("${type}"|${type})(\\s|$)`, 'ig').test(freeText);
 }
