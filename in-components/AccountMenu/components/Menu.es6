@@ -102,7 +102,7 @@ export default connectTo({
              href='https://docs.instana.com'
              onClick={closeMenu}
              target='_block'>
-            Help
+            Documentation
           </a>
 
           <Separator />
