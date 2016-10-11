@@ -2,7 +2,6 @@ import React from 'react';
 
 import {selectedEventId$, isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
-import {EVENT_TYPES} from 'in-services/issueTracker';
 import {focusedMoment$} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -68,16 +67,17 @@ const Icon = connectTo(props => {
   const eventType = event.type;
 
   let iconType;
-  if (eventType === EVENT_TYPES.INCIDENT) {
+  if (eventType === 'incident') {
     iconType = 'incidents';
-  } else if (eventType === EVENT_TYPES.CHANGE) {
+  } else if (eventType === 'change') {
     iconType = 'change2';
-  } else if (eventType === EVENT_TYPES.ISSUE_WARNING) {
-    iconType = 'warning';
-  } else {
-    iconType = 'critical';
+  } else if (eventType === 'issue') {
+    if (event.severity < 10) {
+      iconType = 'warning';
+    } else {
+      iconType = 'critical';
+    }
   }
-
   return (
     <SvgIcon className={`${block}__icon`}
              type={iconType}

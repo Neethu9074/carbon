@@ -132,7 +132,8 @@ function addNewEvents(newEvents) {
       end: formatDateTime(event.get('end', '')),
       title: event.get('title'),
       severity: Math.max(0, event.get('severity')),
-      state: event.get('state')
+      state: event.get('state'),
+      type: event.get('type')
     };
   });
 
