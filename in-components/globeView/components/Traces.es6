@@ -1,3 +1,5 @@
+import logging from 'instalog';
+
 import {
   Mesh,
   Color,
@@ -13,10 +15,16 @@ const sizeForMaxColor = 100;
 const fromColor = { r: 0, g: 0.5, b: 1 };
 const toColor = { r: 1, g: 0.5, b: 0 };
 const degToRad = Math.PI / 180;
+const logger = logging.createLogger('globeview');
 
 export default class Traces {
 
   constructor(parent) {
+
+    logger.info('TODO: change effect depth test to avoid overlay of traces');
+    logger.info('to do that, put plane into front for max depth values and recaluclate');
+    logger.info('scaling function -> affenarbeit');
+
     const wrapper = this.wrapper = new Object3D();
     wrapper.renderOrder = 1;
     parent.add(wrapper);
