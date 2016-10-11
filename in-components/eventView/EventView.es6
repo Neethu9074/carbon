@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
 import EventDetailHeader from 'in-components/eventView/components/EventDetailHeader';
 import EventTableHeader from 'in-components/eventView/components/EventTableHeader';
 import {enable, disable} from 'in-components/eventView/stores/shedEventListStore';
@@ -16,7 +15,6 @@ export default React.createClass({
   displayName: 'EventView',
 
   componentWillMount() {
-    eventFilter$.once(filter => filter ? null : setEventTypeFilter('incident'));
     enable();
   },
 

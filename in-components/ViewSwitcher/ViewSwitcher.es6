@@ -1,10 +1,12 @@
 import React from 'react';
 
 import {
+  traceViewLinkWithoutEumTraces$,
+  eventsLinkOnlyIncidents$
+} from 'in-stores/navigation/view';
+import {
   logicalViewLink$,
   physicalViewLink$,
-  eventsLink$,
-  traceViewLink$,
   navigationParameters$
 } from 'in-stores/navigation';
 import {openEventsAtServerTime$} from 'in-stores/events';
@@ -35,7 +37,7 @@ export default connectTo({
           Logical
         </View>
 
-        <View href$={traceViewLink$}
+        <View href$={traceViewLinkWithoutEumTraces$}
               active={pathname.indexOf('/traces') === 0}>
           Trace
         </View>
@@ -73,8 +75,8 @@ function onViewSwitch(e) {
 
 function IncidentsMenuPoint({pathname}) {
   return (
-    <View href$={eventsLink$}
-          active={pathname.indexOf('/incidents') === 0}>
+    <View href$={eventsLinkOnlyIncidents$}
+          active={pathname.indexOf('/events') === 0}>
       <div className={`${block}__flex-wrapper`}>
         Incidents <IncidentsCounter />
       </div>

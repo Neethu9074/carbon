@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import {navigationParameters$} from 'in-stores/navigation/navigation';
+import {navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navigation';
 
 
 export const isPhysicalMapView$ = navigationParameters$
@@ -17,11 +17,32 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$])
   .map(([physical, logical]) => physical || logical)
   .distinct();
 
+export const traceViewLinkWithoutEumTraces$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/traces';
+    params.query.q = encodeURIComponent('type!=eum');
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
+
 
 export const isTraceView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/traces') === 0)
   .distinct();
 
-export const isIncidentView$ = navigationParameters$
-  .map(params => params.pathname.indexOf('/incidents') === 0)
+export const eventsLinkOnlyIncidents$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/events';
+    params.query.q = encodeURIComponent('type=incident');
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
+
+
+export const isEventView$ = navigationParameters$
+  .map(params => params.pathname.indexOf('/events') === 0)
   .distinct();

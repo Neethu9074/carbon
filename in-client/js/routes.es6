@@ -35,12 +35,12 @@ export default (
 
     {isInternalEnvironment()
       ? <Route component={EventView}
-               path='incidents' />
+               path='events' />
       : null}
 
     {isInternalEnvironment()
       ? <Route component={EventView}
-               path='incidents/dashboard' />
+               path='events/dashboard' />
       : null}
 
     <Route component={GraphView}
