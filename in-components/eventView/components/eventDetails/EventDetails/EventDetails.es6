@@ -6,6 +6,7 @@ import Header from 'in-components/eventView/components/eventDetails/EventDetails
 import EventProblem from 'in-components/eventView/components/eventDetails/EventProblem';
 import EventTraces from 'in-components/eventView/components/eventDetails/EventTraces';
 import EventChart from 'in-components/eventView/components/eventDetails/EventChart';
+import {highlightedEventId$} from 'in-components/eventView/stores/highlightedEvent';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,7 +18,8 @@ const block = 'in-event-view-event-details';
 
 export default connectTo(props => {
   return {
-    color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae')
+    color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae'),
+    highlightedEventId: highlightedEventId$
   };
 },
 React.createClass({
@@ -26,6 +28,7 @@ React.createClass({
 
   propTypes: {
     isCollapsable: rpt.bool.isRequired,
+    highlightedEventId: rpt.string,
     event: irpt.map.isRequired,
     color: rpt.string
   },
@@ -48,8 +51,13 @@ React.createClass({
     const event = this.props.event;
     const color = this.props.color;
 
+    let className = block;
+    if (this.props.highlightedEventId === event.get('id')) {
+      className += ` ${block}--highlighted`;
+    }
+
     return (
-      <div className={block}
+      <div className={className}
            style={{ borderLeft: `5px solid ${color}` }}>
 
         <Header event={event}

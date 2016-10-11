@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {getIconTypeForEventType, getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import {highlightEventId} from 'in-components/eventView/stores/highlightedEvent';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -31,7 +32,8 @@ function Event({event, scale, color}) {
          style={{
            marginLeft: left,
            width: scale.getRangeTo() - left
-         }}>
+         }}
+         onClick={() => onEventClick(event)}>
 
       <Icon className={`${block}__icon`}
             type={getIconTypeForEventType(eventType)}
@@ -49,3 +51,16 @@ function Event({event, scale, color}) {
     </div>
   );
 });
+
+function onEventClick(event) {
+  const eventId = event.get('id');
+  highlightEventId(eventId);
+
+  const scrollElement = document.querySelector('.in-trace-view-tree');
+  const spanElement = document.getElementById(`span-${eventId}`);
+  if (!scrollElement || !spanElement) {
+    return;
+  }
+
+  scrollElement.scrollTop = spanElement.offsetTop;
+}
