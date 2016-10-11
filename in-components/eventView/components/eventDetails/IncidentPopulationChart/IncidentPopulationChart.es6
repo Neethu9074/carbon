@@ -3,6 +3,7 @@ import React from 'react';
 
 import TimeAxis from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/TimeAxis';
 import Events from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/Events';
+import Section from 'in-components/eventView/components/eventDetails/Section';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import {getEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
@@ -56,17 +57,19 @@ export default getElementDimensions(React.createClass({
   render() {
     const width = this.props.width;
     if (width) {
-      this.scale.setRangeTo(width); // sub left and right padding caused by section component
+      this.scale.setRangeTo(width - 32); // sub left and right padding caused by section component
     }
     this.scale.setRangeFrom(0);
     this.scale.setDomainFrom(this.state.from);
     this.scale.setDomainTo(this.state.to);
 
     return (
-      <div className={block}>
-        <TimeAxis scale={this.scale} />
-        <Events scale={this.scale} />
-      </div>
+      <Section>
+        <div className={block}>
+          <TimeAxis scale={this.scale} />
+          <Events scale={this.scale} />
+        </div>
+      </Section>
     );
   },
 
