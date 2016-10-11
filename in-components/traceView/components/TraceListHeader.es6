@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {totalTraceCountNoFiltering$, totalTraceCountWithoutEum$, totalTraceCountOnlyEum$} from 'in-stores/traces';
+import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$} from 'in-stores/traces';
 import {setTraceTypeFilter, removeTraceTypeFilter} from 'in-components/traceView/stores/filters';
 import TraceListFilterToggle from 'in-components/traceView/components/TraceListFilterToggle';
 import Count from 'in-components/traceView/components/Count';
@@ -22,7 +22,6 @@ export default function TraceListHeader() {
         <TraceListFilterToggle filter='all'
                                onClick={removeTraceTypeFilter}>
           All Calls
-          <Count count$={totalTraceCountNoFiltering$} />
         </TraceListFilterToggle>
 
         <TraceListFilterToggle filter='without-eum'
