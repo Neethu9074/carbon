@@ -11,7 +11,8 @@ export default createSubscription({
   getData: (subscriptionId, {timeframe}) => {
     return {
       subscriptionId,
-      timeframe
+      timeframe,
+      query: ''
     };
   },
 
