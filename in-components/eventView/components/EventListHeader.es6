@@ -1,4 +1,3 @@
-import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
@@ -6,7 +5,6 @@ import createTotalShedEventsSubscription from 'in-services/subscription/totalShe
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import {refresh} from 'in-components/eventView/stores/shedEventListStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {luceneQuery$ as query$} from 'in-stores/search';
 import {timeframe$} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -61,8 +59,7 @@ const EventFilter = connectTo({
 });
 
 const Count = connectTo({
-  totalShedEventsCounter: combineLatest([timeframe$, query$])
-                          .flatMap(([timeframe, query]) => createTotalShedEventsSubscription({timeframe, query}))
+  totalShedEventsCounter: timeframe$.flatMap(timeframe => createTotalShedEventsSubscription({timeframe}))
 }, ({getCounter, totalShedEventsCounter}) => {
   if (!totalShedEventsCounter) {
     return (

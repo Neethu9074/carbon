@@ -6,13 +6,12 @@ import createSubscription from 'in-services/subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-shed-events-count',
 
-  getId: ({timeframe, query}) => timeframe.to + timeframe.windowSize + query,
+  getId: ({timeframe}) => timeframe.to + ',' + timeframe.windowSize,
 
-  getData: (subscriptionId, {timeframe, query}) => {
+  getData: (subscriptionId, {timeframe}) => {
     return {
       subscriptionId,
-      timeframe,
-      query
+      timeframe
     };
   },
 
