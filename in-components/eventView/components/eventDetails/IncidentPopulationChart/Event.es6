@@ -55,12 +55,4 @@ function Event({event, scale, color}) {
 function onEventClick(event) {
   const eventId = event.get('id');
   highlightEventId(eventId);
-
-  const scrollElement = document.querySelector('.in-trace-view-tree');
-  const spanElement = document.getElementById(`span-${eventId}`);
-  if (!scrollElement || !spanElement) {
-    return;
-  }
-
-  scrollElement.scrollTop = spanElement.offsetTop;
 }
