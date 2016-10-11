@@ -1,8 +1,12 @@
 import React from 'react';
 
+import {selectedEventId$, isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
-import {selectedEventId$} from 'in-stores/events';
+import {EVENT_TYPES} from 'in-services/issueTracker';
+import {focusedMoment$} from 'in-stores/timeline';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import {theme} from 'in-services/theme';
 
 import './EventTableRow.less';
 
@@ -22,10 +26,10 @@ export default connectTo({
     <div className={className}
          onClick={() => toggleEvent(event, selectedEventId)}>
 
+      <Cell content={<Icon event={event} />} />
       <Cell content={event.start} />
       <Cell content={event.end} />
       <Cell content={event.title} />
-      <Cell content={event.severity} />
     </div>
   );
 });
@@ -45,3 +49,40 @@ function Cell({content}) {
     </span>
   );
 }
+
+const Icon = connectTo(props => {
+  const event = props.event;
+  const defaultColor = '#92a5ae';
+  return {
+    color: focusedMoment$
+      .map(focusedMoment => {
+        if (isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment)) {
+          return event.severity > 0 ? theme.health[event.severity] : defaultColor;
+        }
+        return defaultColor;
+      })
+      .distinct()
+  };
+},
+({event, color}) => {
+  const eventType = event.type;
+
+  let iconType;
+  if (eventType === EVENT_TYPES.INCIDENT) {
+    iconType = 'incidents';
+  } else if (eventType === EVENT_TYPES.CHANGE) {
+    iconType = 'change2';
+  } else if (eventType === EVENT_TYPES.ISSUE_WARNING) {
+    iconType = 'warning';
+  } else {
+    iconType = 'critical';
+  }
+
+  return (
+    <SvgIcon className={`${block}__icon`}
+             type={iconType}
+             width={12}
+             height={12}
+             color={color} />
+  );
+});

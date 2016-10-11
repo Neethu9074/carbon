@@ -29,6 +29,12 @@ React.createClass({
 
     return (
       <div className={block}>
+        <Cell label=''
+              name='severity'
+              field='problem.severity'
+              expandedCell={expandedCell}
+              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
+
         <Cell name='start'
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
@@ -41,11 +47,6 @@ React.createClass({
               field='problem.problemText'
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
-
-        <Cell name='severity'
-              field='problem.severity'
-              expandedCell={expandedCell}
-              onExpandClick={cellName => this.setState({expandedCell: cellName})} />
       </div>
     );
   }
@@ -56,7 +57,7 @@ const Cell = connectTo({
   sortDirection: sortDirection$,
   sortBy: sortBy$
 },
-({expandedCell, onExpandClick, name, field = name, sortBy, sortDirection}) => {
+({expandedCell, onExpandClick, name, field = name, label = name, sortBy, sortDirection}) => {
   const isSelected = expandedCell === name;
   const isActive = sortBy === getQueryFieldNameForField(name);
 
@@ -81,7 +82,9 @@ const Cell = connectTo({
              setSortBy(field);
              toggleSortDirection();
            }}>
-        {name}
+
+        {label ? label : <div className={`${block}__empty-label`} />}
+
         <Arrow isActive={isActive}
                isSelected={isSelected}
                sortDirection={sortDirection}
