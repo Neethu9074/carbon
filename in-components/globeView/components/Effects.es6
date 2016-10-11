@@ -15,7 +15,7 @@ export default class Effects {
       'in-components/globeView/components/globeEffectMap.png'
     ], (effectMapPath) => {
       const effectPlane = this.effectPlane = new Mesh(
-        new PlaneBufferGeometry(1, 1, 1, 1),
+        new PlaneBufferGeometry(1.2929, 1.2929, 1, 1),
         new MeshBasicMaterial({
           color: 0xffffff,
           side: DoubleSide,
