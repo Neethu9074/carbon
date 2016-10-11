@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {isInternalEnvironment} from 'in-services/config';
 import {
   traceViewLinkWithoutEumTraces$,
   eventsLinkOnlyIncidents$
@@ -42,7 +43,7 @@ export default connectTo({
           Trace
         </View>
 
-        {__DEV__ ? <IncidentsMenuPoint pathname={pathname} /> : null}
+        {isInternalEnvironment() ? <IncidentsMenuPoint pathname={pathname} /> : null}
       </div>
     </div>
   );
