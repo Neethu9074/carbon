@@ -36,7 +36,6 @@ export default createTooltip(
       : (
         <Content className={`${block}__content`}>
           {getLabel(snapshot)}
-          'fdjhbgukjdalfskhgjkdijsakfdjhbgukjdalfskhgjkdijsakfdjhbgukjdalfskhgjkdijsakfdjhbgukjdalfskhgjkdijsak'
           {layer && layer.length > 0
             ? <LayerListing snapshotIds={layer.map(_layer => _layer.id)}/>
             : null}
