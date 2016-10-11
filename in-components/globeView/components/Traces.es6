@@ -1,5 +1,6 @@
 import {
   Mesh,
+  Color,
   Object3D,
   MeshBasicMaterial,
   DoubleSide
@@ -8,6 +9,9 @@ import TraceBufferGeometry from 'in-components/globeView/components/TraceGeometr
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
+const sizeForMaxColor = 100;
+const fromColor = { r: 0, g: 0.5, b: 1 };
+const toColor = { r: 1, g: 0.5, b: 0 };
 const degToRad = Math.PI / 180;
 
 export default class Traces {
@@ -31,9 +35,17 @@ export default class Traces {
 
     // instana Solingen
     this.addTrace({ latitude: 51.1611, longitude: 7.010880000000043 });
+
+    for (let i = 0; i < 20; i++) {
+      this.addTrace({
+        latitude: -90 + Math.random() * 180,
+        longitude: -180 + Math.random() * 360,
+        size: Math.random() * 100
+      });
+    }
   }
 
-  addTrace({latitude, longitude}) {
+  addTrace({latitude, longitude, size = 10}) {
     latitude *= degToRad;
     longitude *= degToRad;
 
@@ -42,17 +54,29 @@ export default class Traces {
     const y = Math.cos(latitude) * Math.sin(longitude) * rho;
     const z = Math.sin(latitude) * rho; //  z is 'up'
 
+    const color = this.getColorFromSize(size);
     const cube = new Mesh(
       new TraceBufferGeometry(),
       new MeshBasicMaterial({
+        color: new Color(color.r, color.g, color.b),
         side: DoubleSide
       })
     );
+    cube.renderOrder = 2;
     cube.position.set(x, y, z);
-    cube.scale.set(1, 1, -10);
+    cube.scale.set(1, 1, -size);
     cube.lookAt(ZERO);
 
     this.wrapper.add(cube);
+  }
+
+  getColorFromSize(size) {
+    const multiplier = Math.min(1, size / sizeForMaxColor);
+    return {
+      r: fromColor.r + (toColor.r - fromColor.r) * multiplier,
+      g: fromColor.g + (toColor.g - fromColor.g) * multiplier,
+      b: fromColor.b + (toColor.b - fromColor.b) * multiplier
+    };
   }
 
   dispose() {

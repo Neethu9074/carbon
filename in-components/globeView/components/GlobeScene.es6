@@ -62,8 +62,7 @@ export default class GlobeScene {
           tex.needsUpdate = true;
           resourceLoaded('globeNormalMap');
         }),
-        normalScale: new Vector2(0.5, 0.5),
-        depthWrite: false
+        normalScale: new Vector2(0.5, 0.5)
       });
 
       scene.add(globe);

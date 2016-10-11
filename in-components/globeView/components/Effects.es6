@@ -21,6 +21,7 @@ export default class Effects {
           side: DoubleSide,
           transparent: true,
           depthWrite: false,
+          depthTest: false,
           map: loadImage(effectMapPath, tex => {
             tex.needsUpdate = true;
             resourceLoaded('globeEffectMap');
