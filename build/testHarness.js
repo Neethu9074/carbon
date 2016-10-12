@@ -44,6 +44,8 @@ global.window.instana = {
   }
 };
 
+global.requestAnimationFrame = fn => fn();
+
 // ensure that the theme information is defined
 setupThemeGlobals();
 
