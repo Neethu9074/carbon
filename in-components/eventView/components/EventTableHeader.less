@@ -12,22 +12,23 @@
     border-right: 1px solid #40535b;
 
     &:nth-child(1) {
-      width: ~'calc(6% - 1px)';
+      width: ~'calc(5% - 1px)';
     }
 
     &:nth-child(2) {
-      width: ~'calc(22% - 1px)';
+      width: ~'calc(16% - 0px)';
     }
 
     &:nth-child(3) {
-      width: ~'calc(22% - 2px)';
+      width: ~'calc(16% - 2px)';
     }
 
     &:nth-child(4) {
-      width: ~'calc(50% + 4px)';
+      width: ~'calc(34% - 2px)';
     }
 
-    &:last-child {
+    &:nth-child(5) {
+      width: ~'calc(29% + 5px)';
       border-right: 0;
     }
   }
@@ -36,16 +37,19 @@
     height: 0.5rem;
   }
 
-  &__cell-toggle {
+  &__cell-toggle, &__cell-simple {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
     height: 1.6rem;
     padding: 0 .625rem;
 
     background: #6b8088;
     line-height: 1.5rem;
+  }
+
+  &__cell-toggle {
+    justify-content: space-between;
     cursor: pointer;
 
     &:hover, &--selected {

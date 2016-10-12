@@ -25,7 +25,8 @@ export default React.createClass({
   render() {
     return (
       <TwoColumnView leftContent={getLeftContent()}
-                     rightContent={getRightContent()} />
+                     rightContent={getRightContent()}
+                     leftWidth='50rem' />
     );
   }
 });

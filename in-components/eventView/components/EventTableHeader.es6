@@ -36,10 +36,12 @@ React.createClass({
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
         <Cell name='start'
+              field='start'
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
         <Cell name='end'
+              field='end'
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
@@ -47,6 +49,8 @@ React.createClass({
               field='problem.problemText'
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
+
+        <Cell name='on' />
       </div>
     );
   }
@@ -57,18 +61,31 @@ const Cell = connectTo({
   sortDirection: sortDirection$,
   sortBy: sortBy$
 },
-({expandedCell, onExpandClick, name, field = name, label = name, sortBy, sortDirection}) => {
+({expandedCell, onExpandClick, name, field, label = name, sortBy, sortDirection}) => {
+  const cellClassName = `${block}__cell`;
+
+  // return a simple, non interactive cell if there is no backend field defined
+  if (!field) {
+    return (
+      <div key={name}
+           className={cellClassName}>
+        <div className={`${cellClassName}-simple`}>
+          {label ? label : <div className={`${block}__empty-label`} />}
+        </div>
+      </div>
+    );
+  }
+
+  let toggleClassName = `${cellClassName}-toggle`;
   const isSelected = expandedCell === name;
   const isActive = sortBy === getQueryFieldNameForField(name);
-
-  let toggleClassName = `${block}__cell-toggle`;
   if (isSelected || isActive) {
     toggleClassName += ` ${toggleClassName}--selected`;
   }
 
   return (
     <div key={name}
-         className={`${block}__cell`}>
+         className={cellClassName}>
 
         {isSelected
           ? <div className={`${block}__filter`}>

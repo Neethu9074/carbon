@@ -132,7 +132,8 @@ function addNewEvents(newEvents) {
       title: event.get('title'),
       severity: event.get('severity'),
       state: event.get('state'),
-      type: event.get('type')
+      type: event.get('type'),
+      snapshotId: event.get('snapshotId')
     };
   });
 

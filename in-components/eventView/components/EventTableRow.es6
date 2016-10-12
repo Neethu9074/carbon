@@ -4,7 +4,9 @@ import {selectedEventId$, isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
+import {getSnapshot} from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -34,6 +36,9 @@ export default connectTo({
         ? 'active'
         : formatDateTime(event.end)} />
       <Cell content={event.title} />
+      <Cell content={
+        <Entity snapshotId={event.snapshotId} />
+      } />
     </div>
   );
 });
@@ -88,5 +93,22 @@ function Icon({event, isOpen}) {
              width={12}
              height={12}
              color={color} />
+  );
+});
+
+const Entity = connectTo(props => {
+  return {
+    snapshot: getSnapshot(props.snapshotId)
+  };
+},
+function EventTableRowEntity({snapshot}) {
+  if (!snapshot) {
+    return null;
+  }
+
+  return (
+    <span>
+      {getLabel(snapshot)}
+    </span>
   );
 });
