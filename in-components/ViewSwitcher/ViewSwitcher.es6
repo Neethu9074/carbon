@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {isInternalEnvironment} from 'in-services/config';
+import {newIncidentViewEnabled} from 'in-services/featureFlags';
 import {
   traceViewLinkWithoutEumTraces$,
   eventsLinkOnlyIncidents$
@@ -43,7 +43,7 @@ export default connectTo({
           Trace
         </View>
 
-        {isInternalEnvironment() ? <IncidentsMenuPoint pathname={pathname} /> : null}
+        {newIncidentViewEnabled ? <IncidentsMenuPoint pathname={pathname} /> : null}
       </div>
     </div>
   );

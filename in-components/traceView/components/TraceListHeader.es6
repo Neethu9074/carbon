@@ -3,10 +3,11 @@ import React from 'react';
 import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$} from 'in-stores/traces';
 import {setTraceTypeFilter, removeTraceTypeFilter} from 'in-components/traceView/stores/filters';
 import TraceListFilterToggle from 'in-components/traceView/components/TraceListFilterToggle';
-import Count from 'in-components/traceView/components/Count';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import AutoUpdate from 'in-components/traceView/components/AutoUpdate';
 import {refresh} from 'in-components/traceView/stores/traceList';
+import Count from 'in-components/traceView/components/Count';
+import {eumTracingEnabled} from 'in-services/featureFlags';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './TraceListHeader.less';
@@ -19,22 +20,28 @@ export default function TraceListHeader() {
       <div className={`${block}__left-side`}>
         <h1 className={`${block}__title`}>Traces</h1>
 
-        <TraceListFilterToggle filter='all'
-                               onClick={removeTraceTypeFilter}>
-          All Calls
-        </TraceListFilterToggle>
+        {eumTracingEnabled ?
+          <TraceListFilterToggle filter='all'
+                                 onClick={removeTraceTypeFilter}>
+            All Calls
+          </TraceListFilterToggle>
+        : null}
 
-        <TraceListFilterToggle filter='without-eum'
-                               onClick={() => setTraceTypeFilter('eum', '!=')}>
-          Server Calls
-          <Count count$={totalTraceCountWithoutEum$} />
-        </TraceListFilterToggle>
+        {eumTracingEnabled ?
+          <TraceListFilterToggle filter='without-eum'
+                                 onClick={() => setTraceTypeFilter('eum', '!=')}>
+            Server Calls
+            <Count count$={totalTraceCountWithoutEum$} />
+          </TraceListFilterToggle>
+        : null}
 
-        <TraceListFilterToggle filter='eum'
-                               onClick={() => setTraceTypeFilter('eum')}>
-          EUM Calls
-          <Count count$={totalTraceCountOnlyEum$} />
-        </TraceListFilterToggle>
+        {eumTracingEnabled ?
+          <TraceListFilterToggle filter='eum'
+                                 onClick={() => setTraceTypeFilter('eum')}>
+            EUM Calls
+            <Count count$={totalTraceCountOnlyEum$} />
+          </TraceListFilterToggle>
+        : null}
       </div>
 
       <div className={`${block}__right-side`}>
