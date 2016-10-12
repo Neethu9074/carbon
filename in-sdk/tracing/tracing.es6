@@ -62,3 +62,7 @@ export function getSpanDetailView(span) {
 export function getCategoryIcon(category) {
   return categoryIcons[category];
 }
+
+export function shouldShowSelfTime(span) {
+  return getSpanDefinition(span.get('name'), span).showSelfTime !== false;
+}
