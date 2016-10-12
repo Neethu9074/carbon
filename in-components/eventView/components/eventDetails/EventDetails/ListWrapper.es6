@@ -10,7 +10,8 @@ const block = 'in-event-view-event-details-list-wrapper';
 
 export default function({event}) {
   return (
-    <div className={block}>
+    <div className={block}
+         id={`event-${event.get('id')}`}>
       <div className={`${block}__time-indicator`}>
         <div className={`${block}__time`}>
           {formatTime(event.get('start'))}
