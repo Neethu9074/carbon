@@ -4,7 +4,7 @@ import createSubscription from 'in-services/subscription/subscription';
 
 
 export default createSubscription({
-  eventId: 'subscribe-shed-events-count',
+  eventId: 'subscribe-raw-events-count',
 
   getId: ({timeframe}) => timeframe.to + ',' + timeframe.windowSize,
 

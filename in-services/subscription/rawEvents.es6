@@ -4,7 +4,7 @@ import createSubscription from 'in-services/subscription/subscription';
 
 
 export default createSubscription({
-  eventId: 'subscribe-shed-events',
+  eventId: 'subscribe-raw-events',
 
   getId: ({maxTimestamp, minTimestamp, sortByField, sortMode, query, offset}) => maxTimestamp +
                                                                                  minTimestamp +

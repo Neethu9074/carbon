@@ -59,7 +59,7 @@ function EventDescription({event, end}) {
       <div>
         <div className={flexWrapperClass}>
           <span className={`${block}__title`}>
-            {event.get('title')}
+            {event.getIn(['problem', 'problemText'])}
           </span>
           <EventDuration event={event} />
           {end

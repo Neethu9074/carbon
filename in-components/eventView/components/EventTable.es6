@@ -1,7 +1,7 @@
 import Infinite from 'react-infinite';
 import React from 'react';
 
-import {shedEventList$, loadMoreShedEvents} from 'in-components/eventView/stores/shedEventListStore';
+import {rawEventList$, loadMoreRawEvents} from 'in-components/eventView/stores/rawEventListStore';
 import EventTableRow from 'in-components/eventView/components/EventTableRow';
 import {isLoading$} from 'in-components/eventView/stores/isLoadingStore';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -14,7 +14,7 @@ import './EventTable.less';
 const block = 'in-event-view-event-table';
 
 export default getElementDimensions(connectTo({
-  events: shedEventList$,
+  events: rawEventList$,
   isInfiniteLoading: isLoading$
 }, EventTable));
 
@@ -64,7 +64,7 @@ function InfiniteTable({height, events, isInfiniteLoading}) {
               elementHeight={26}
               loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
               infiniteLoadBeginEdgeOffset={height * 0.5}
-              onInfiniteLoad={loadMoreShedEvents}
+              onInfiniteLoad={loadMoreRawEvents}
               isInfiniteLoading={isInfiniteLoading}>
       {events.map(event =>
         <EventTableRow key={event.id}

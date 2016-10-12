@@ -1,9 +1,9 @@
 import React from 'react';
 
 import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
-import createTotalShedEventsSubscription from 'in-services/subscription/totalShedEventsCount';
+import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
-import {refresh} from 'in-components/eventView/stores/shedEventListStore';
+import {refresh} from 'in-components/eventView/stores/rawEventListStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {timeframe$} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
@@ -58,9 +58,9 @@ const EventFilter = connectTo({
 });
 
 const Count = connectTo({
-  totalShedEventsCounter: timeframe$.flatMap(timeframe => createTotalShedEventsSubscription({timeframe}))
-}, function Count({getCounter, totalShedEventsCounter}) {
-  if (!totalShedEventsCounter) {
+  eventCounter: timeframe$.flatMap(timeframe => createTotalRawEventsSubscription({timeframe}))
+}, function Count({getCounter, eventCounter}) {
+  if (!eventCounter) {
     return (
       <LoadingIndicator inline={true}
                                style={{
@@ -70,7 +70,7 @@ const Count = connectTo({
   }
   return (
     <span>
-      {getCounter(totalShedEventsCounter)}
+      {getCounter(eventCounter)}
     </span>
   );
 });

@@ -672,7 +672,9 @@ describe('in-stores/events', () => {
         'end': 20,
         'state': 'closed',
         'type': 'issue',
-        'severity': 9
+        problem: {
+          severity: 9
+        }
       });
       focusedMoment$.emit(null);
 
@@ -688,7 +690,9 @@ describe('in-stores/events', () => {
         'end': 20,
         'state': 'open',
         'type': 'issue',
-        'severity': 9
+        problem: {
+          severity: 9
+        }
       });
       focusedMoment$.emit(null);
 
@@ -704,7 +708,9 @@ describe('in-stores/events', () => {
         'end': 20,
         'state': 'closed',
         'type': 'issue',
-        'severity': 9
+        problem: {
+          severity: 9
+        }
       });
       focusedMoment$.emit(20);
 
@@ -720,7 +726,9 @@ describe('in-stores/events', () => {
         'end': 20,
         'state': 'closed',
         'type': 'issue',
-        'severity': 9
+        problem: {
+          severity: 9
+        }
       });
       focusedMoment$.emit(19);
 
@@ -751,7 +759,9 @@ describe('in-stores/events', () => {
         'start': 5,
         'state': 'open',
         'type': 'issue',
-        'severity': 9
+        problem: {
+          severity: 9
+        }
       });
       focusedMoment$.emit(null);
 

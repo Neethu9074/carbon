@@ -63,7 +63,7 @@ export default connectTo({
 
     getSeverity(maxSeverity, events) {
       events.forEach(event => {
-        const severity = event.get('severity');
+        const severity = event.getIn(['problem', 'severity']);
         if (severity > maxSeverity) {
           maxSeverity = severity;
         }

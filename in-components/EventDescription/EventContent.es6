@@ -27,7 +27,6 @@ export default React.createClass({
     const event = this.props.event;
     const color = this.props.color;
 
-
     let fixSuggestion = event.getIn(['problem', 'fixSuggestion']);
     fixSuggestion = (!showFullTextIfToLong && fixSuggestion.length > MAX_PROBLEM_TEXT_LENGTH) ?
       'further information are available in the notification center' :
@@ -37,7 +36,7 @@ export default React.createClass({
       <div>
         <div className={block + '__header'}
              style={{color}}>
-          {event.get('title')}
+          {event.getIn(['problem', 'problemText'])}
         </div>
 
         <div className={block + '__suggestion'}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import EventDetailHeader from 'in-components/eventView/components/EventDetailHeader';
 import EventTableHeader from 'in-components/eventView/components/EventTableHeader';
-import {enable, disable} from 'in-components/eventView/stores/shedEventListStore';
+import {enable, disable} from 'in-components/eventView/stores/rawEventListStore';
 import EventListHeader from 'in-components/eventView/components/EventListHeader';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import DetailPanel from 'in-components/eventView/components/DetailPanel';

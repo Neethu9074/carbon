@@ -1,8 +1,8 @@
 import {create} from 'reactive-observables';
 
-import createShedEventsObservable from 'in-services/subscription/shedEvents';
 import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-components/eventView/stores/isLoadingStore';
+import createRawEventsObservable from 'in-services/subscription/rawEvents';
 import {sortBy$} from 'in-components/eventView/stores/sortBy';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
 import {luceneQuery$ as query$} from 'in-stores/search';
@@ -25,14 +25,14 @@ let sortByField;
 let query;
 
 
-const shedEventList = createStore({
-  name: 'eventView/shedEventsStore',
+const rawEventList = createStore({
+  name: 'eventView/rawEventsStore',
   initialValue: []
 });
-export const shedEventList$ = shedEventList.observable;
+export const rawEventList$ = rawEventList.observable;
 
 
-// this stream is used to resubscribe for new shed events data. because there are many factors causing a refresh,
+// this stream is used to resubscribe for new raw events data. because there are many factors causing a refresh,
 // it is capsuled within a stream to be able to throttle refreshes.
 const refreshStream = create();
 refreshStream.nextFrame().subscribe(refresh);
@@ -64,7 +64,7 @@ export function enable() {
 }
 
 export function disable() {
-  shedEventList.mutateTo([]);
+  rawEventList.mutateTo([]);
   subscriptions.forEach(s => s.dispose());
   disposeExistingLoad();
   subscriptions = emptyArray;
@@ -78,16 +78,16 @@ export function refresh() {
   // get necessary params to load more events
   to$.once(to => maxTimestamp = to);
   from$.once(from => minTimestamp = from);
-  shedEventList.mutateTo([]);
+  rawEventList.mutateTo([]);
 
-  loadMoreShedEvents();
+  loadMoreRawEvents();
 }
 
-export function loadMoreShedEvents() {
+export function loadMoreRawEvents() {
   disposeExistingLoad();
   setIsLoading(true);
 
-  shedEventList$.once(events => {
+  rawEventList$.once(events => {
     const offset = events.length;
     const isAscTimestampSort =
       (sortByField === 'start' || sortByField === 'end') &&
@@ -97,7 +97,7 @@ export function loadMoreShedEvents() {
       : getMaxStartMillis(events, maxTimestamp);
 
     // console.log(new Date(maxTimestampForQuery));
-    loadSubscription = createShedEventsObservable({
+    loadSubscription = createRawEventsObservable({
       maxTimestamp: maxTimestampForQuery,
       minTimestamp,
       sortByField,
@@ -138,7 +138,7 @@ function addNewEvents(newEvents) {
 
   // there may be multiple successive events requests with the same data
   // protect against this and remove duplicates
-  shedEventList.applyStateMutation(existingEvents => {
+  rawEventList.applyStateMutation(existingEvents => {
      const existingEventIds = {};
      existingEvents.forEach(trace => {
        existingEventIds[trace.id] = true;

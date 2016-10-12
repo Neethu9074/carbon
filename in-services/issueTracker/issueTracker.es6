@@ -23,7 +23,7 @@ export function getColorForEvent(event, defaultColor) {
   defaultColor = defaultColor ? defaultColor : theme.health[0];
 
   if (event.get('state') === 'open') {
-    const severity = event.get('severity');
+    const severity = event.getIn(['problem', 'severity'], 0);
     const color = theme.health[severity];
 
     if (!color) {
@@ -72,7 +72,7 @@ export function getEventType(event) {
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue':
-      const eventHealth = mapSeverityToHealth(event.get('severity'));
+      const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity'], 0));
       if (eventHealth === health.warning) {
         return EVENT_TYPES.ISSUE_WARNING;
       } else if (eventHealth === health.danger) {
