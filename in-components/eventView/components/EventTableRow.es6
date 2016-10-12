@@ -37,7 +37,8 @@ export default connectTo({
         : formatDateTime(event.end)} />
       <Cell content={event.title} />
       <Cell content={
-        <Entity snapshotId={event.snapshotId} />
+        <Entity snapshotId={event.snapshotId}
+                time={event.start} />
       } />
     </div>
   );
@@ -98,7 +99,7 @@ function Icon({event, isOpen}) {
 
 const Entity = connectTo(props => {
   return {
-    snapshot: getSnapshot(props.snapshotId)
+    snapshot: getSnapshot(props.snapshotId, props.time)
   };
 },
 function EventTableRowEntity({snapshot}) {
