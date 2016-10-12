@@ -5,6 +5,7 @@ registerSpanDefinition({
   category: 'eum',
   direction: 'entry',
   searchAliases: ['page', 'eum'],
+  showSelfTime: false,
 
   typeName: {
     singular: 'Page Request',

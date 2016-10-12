@@ -1,9 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {getLabel, getCategory, getTypeLabelSingular, getDirection, shouldShowSelfTime} from 'in-sdk/tracing';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
-import {getLabel, getCategory, getTypeLabelSingular, getDirection} from 'in-sdk/tracing';
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
 import {highlightedSpanId$} from 'in-components/traceView/stores/highlightedSpan';
 import CategoryIcon from 'in-components/traceView/components/tree/CategoryIcon';
@@ -114,7 +114,7 @@ export default connectTo(props => {
                  onClick={this.toggleDetails}>
               <CategoryIcon category={category}
                             className={`${block}__category-icon`} />
-              {direction !== 'exit' ?
+              {direction !== 'exit' && shouldShowSelfTime(span) ?
                 [
                   <div key='0'>
                     <span className={`${block}__self-time-label`}>Self: </span>
