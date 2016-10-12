@@ -1,6 +1,5 @@
 import React from 'react';
 
-import EventIconLabel from 'in-components/eventView/components/eventDetails/EventIconLabel';
 import {selectedEvent$} from 'in-components/eventView/stores/selectedEventStore';
 import {clearEvent} from 'in-services/issueTracker';
 import SvgIcon from 'in-components/SvgIcon';
@@ -21,7 +20,6 @@ function EventDetailHeader({event}) {
 
   return (
     <div className={block}>
-      <EventIconLabel event={event} />
       <div className={`${block}__icon`}
            onClick={() => clearEvent(event)}>
         <SvgIcon type='x'
