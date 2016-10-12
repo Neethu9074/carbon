@@ -54,10 +54,13 @@ function Cell({content}) {
   );
 }
 
-const Icon = connectTo({
-  selectedEventId: selectedEventId$,
-  isOpen: focusedMoment$.map(focusedMoment =>
-    isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment)).distinct()
+const Icon = connectTo(props => {
+  const event = props.event;
+  return {
+    selectedEventId: selectedEventId$,
+    isOpen: focusedMoment$.map(focusedMoment =>
+      isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment)).distinct()
+  };
 },
 function Icon({event, isOpen}) {
   const eventType = event.type;
