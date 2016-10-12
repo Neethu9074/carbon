@@ -8,8 +8,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import {getType, getSpanDetailView} from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
-const context = require.context('../../../in-forge/tracing', true, /\/[a-zA-Z0-9]+\.es6$/);
-
 const block = 'in-span-forge-details';
 
 export default React.createClass({
@@ -43,10 +41,10 @@ export default React.createClass({
 
     if (detailViewPath) {
       const self = this;
-      require.ensure([], function onModLoad() {
+      require(['./forgeDetailProvider.es6'], (loadSpanDetailComponent) => {
         self.setState({
           componentType: type,
-          Component: context('./' + type + '/' + detailViewPath + '.es6').default
+          Component: loadSpanDetailComponent.default(type, detailViewPath)
         });
       });
     }
