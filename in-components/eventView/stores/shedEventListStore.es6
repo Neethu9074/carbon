@@ -4,7 +4,6 @@ import createShedEventsObservable from 'in-services/subscription/shedEvents';
 import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-components/eventView/stores/isLoadingStore';
 import {sortBy$} from 'in-components/eventView/stores/sortBy';
-import {formatDateTime} from 'in-services/formatters/date';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
 import {luceneQuery$ as query$} from 'in-stores/search';
 import {emptyArray} from 'in-services/fixedObjects';
@@ -128,10 +127,10 @@ function addNewEvents(newEvents) {
       startMillis: event.get('start'),
 
       id: event.get('id'),
-      start: formatDateTime(event.get('start')),
-      end: formatDateTime(event.get('end', '')),
+      start: event.get('start'),
+      end: event.get('end'),
       title: event.get('title'),
-      severity: Math.max(0, event.get('severity')),
+      severity: event.get('severity'),
       state: event.get('state'),
       type: event.get('type')
     };

@@ -2,6 +2,7 @@ import React from 'react';
 
 import {selectedEventId$, isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
+import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -25,9 +26,13 @@ export default connectTo({
     <div className={className}
          onClick={() => toggleEvent(event, selectedEventId)}>
 
-      <Cell content={<Icon event={event} />} />
-      <Cell content={event.start} />
-      <Cell content={event.end} />
+      <Cell content={
+        <Icon event={event} />
+      } />
+      <Cell content={formatDateTime(event.start)} />
+      <Cell content={event.state === 'open'
+        ? 'active'
+        : formatDateTime(event.end)} />
       <Cell content={event.title} />
     </div>
   );
@@ -49,22 +54,18 @@ function Cell({content}) {
   );
 }
 
-const Icon = connectTo(props => {
-  const event = props.event;
-  const defaultColor = '#92a5ae';
-  return {
-    color: focusedMoment$
-      .map(focusedMoment => {
-        if (isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment)) {
-          return event.severity > 0 ? theme.health[event.severity] : defaultColor;
-        }
-        return defaultColor;
-      })
-      .distinct()
-  };
+const Icon = connectTo({
+  selectedEventId: selectedEventId$,
+  isOpen: focusedMoment$.map(focusedMoment =>
+    isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment)).distinct()
 },
-({event, color}) => {
+function Icon({event, isOpen}) {
   const eventType = event.type;
+  const defaultColor = '#92a5ae';
+  let color = defaultColor;
+  if (isOpen) {
+    color = event.severity > 0 ? theme.health[event.severity] : defaultColor;
+  }
 
   let iconType;
   if (eventType === 'incident') {
