@@ -85,7 +85,8 @@ export function mutateInputString(fn) {
 }
 
 
-combineLatest([searchContexts$, rawQuery$.debounce(500)])
+combineLatest([searchContexts$, rawQuery$])
+  .nextFrame()
   .subscribe(([searchContexts, rawQuery]) => {
     try {
       const parsedQuery = transformQuery(rawQuery, searchContexts);
