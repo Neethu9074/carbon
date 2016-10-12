@@ -13,6 +13,12 @@ nice -19 npm install
 nice -19 npm run test
 nice -19 npm run build
 
+# archive artifact in Nexus to build a package
+if [[ "$INSTANA_UICLIENT_BRANCH" == "master" ]]; then
+  tar cfv /tmp/ui-client-${INSTANA_UICLIENT_BRANCH}.tar target/*; gzip /tmp/ui-client-${INSTANA_UICLIENT_BRANCH}.tar
+  mvn deploy:deploy-file -DgroupId=com.instana -DartifactId=ui-client-${INSTANA_UICLIENT_BRANCH} -Dversion=0.0.1-SNAPSHOT -Dpackaging=tar.gz -DrepositoryId=instana-snapshots -Durl=https://repo-internal.instana.io/nexus/content/repositories/instana-snapshots -Dfile=/tmp/ui-client-${INSTANA_UICLIENT_BRANCH}.tar.gz
+fi
+
 /var/lib/jenkins/ENV/bin/j2 deployment/Dockerfile.j2 > target/Dockerfile
 
 # Clear data from previous build to avoid retention of artefacts
