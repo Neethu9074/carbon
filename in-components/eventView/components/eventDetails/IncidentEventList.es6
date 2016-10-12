@@ -1,10 +1,11 @@
-import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
-import EventDetails from 'in-components/eventView/components/eventDetails/CollapsableEventDetails';
+import ListWrapper from 'in-components/eventView/components/eventDetails/EventDetails/ListWrapper';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
+import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
+import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
+import {formatDate, formatTime} from 'in-services/formatters/date';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {getEvent} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/eventView/components/eventDetails/IncidentEventList.less';
@@ -14,32 +15,53 @@ const block = 'in-event-view-incident-event-list';
 
 export default connectTo(props => {
   return {
-    // HACK FOR FAKE EVENTS
     events: sortedRecentEvents$,
-    events2: combineLatest(props.ids.map(id => getEvent(id)))
+    isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.incident, () => true, () => false)
   };
 },
-function IncidentEventList({events}) {
+function IncidentEventList({events, isOpen, incident}) {
   if (!events) {
     return <LoadingIndicator type='dark' />;
   }
 
   return (
     <div className={block}>
-      <TimeMarker text='started' />
-      {events.map(event => <EventDetails key={event.get('id')}
-                                         event={event}
-                                         isCollapsed={true} />)
-      }
-      <TimeMarker text='ended' />
+      <div className={`${block}__counter`}>
+        {`Events (${events.length})`}
+      </div>
+      <div className={`${block}__timeline`}>
+        <TimeMarker text='started'
+                    timestamp={incident.get('start')} />
+
+        {events.map(event => <ListWrapper key={event.get('id')}
+                                          event={event}
+                                          isCollapsed={true} />)
+        }
+
+        {isOpen
+          ? <div/>
+          : <TimeMarker text='ended'
+                        timestamp={incident.get('end')} />
+        }
+      </div>
     </div>
   );
 });
 
-function TimeMarker({text}) {
+function TimeMarker({text, timestamp}) {
   return (
     <div className={`${block}__time-marker ${block}__time-marker__${text}`}>
-      {text}
+      <LabeledValue label={text}
+                    lightTheme={true}>
+        <span key='date'
+              className={`${block}__date`}>
+          {`${formatDate(timestamp)} `}
+        </span>
+        <span key='time'
+              className={`${block}__time`}>
+          {timestamp ? formatTime(timestamp) : 'active'}
+        </span>
+      </LabeledValue>
     </div>
   );
 }

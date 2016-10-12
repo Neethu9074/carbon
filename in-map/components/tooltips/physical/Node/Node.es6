@@ -9,6 +9,10 @@ import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
+import 'in-map/components/tooltips/physical/Node/Node.less';
+
+
+const block = 'in-map-tooltip-node';
 
 export default createTooltip(
   connectTo(props => {
@@ -30,7 +34,7 @@ export default createTooltip(
                           snapshotId={snapshot.get('id')}/>
       )
       : (
-        <Content>
+        <Content className={`${block}__content`}>
           {getLabel(snapshot)}
           {layer && layer.length > 0
             ? <LayerListing snapshotIds={layer.map(_layer => _layer.id)}/>

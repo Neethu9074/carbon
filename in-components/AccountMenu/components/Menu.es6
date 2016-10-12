@@ -98,6 +98,13 @@ export default connectTo({
             : null
           }
 
+          <a className={block + '__link'}
+             href='https://docs.instana.com'
+             onClick={closeMenu}
+             target='_block'>
+            Documentation
+          </a>
+
           <Separator />
 
           <form action='/auth/signOut' method='post'>

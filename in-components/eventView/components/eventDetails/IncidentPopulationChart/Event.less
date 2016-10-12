@@ -1,0 +1,25 @@
+.in-event-view-detail-chart-event {
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+  overflow-x: hidden;
+
+  &:hover {
+    .in-event-view-detail-chart-event__bar {
+      opacity: 0.4;
+    }
+  }
+
+  &__icon {
+    font-size: 1.4rem;
+  }
+
+  &__bar {
+    opacity: 1;
+    border-radius: 3px;
+    height: .625rem;
+
+    transition: opacity 0.25s ease-in-out;
+  }
+}

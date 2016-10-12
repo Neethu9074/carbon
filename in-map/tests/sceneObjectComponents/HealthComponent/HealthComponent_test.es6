@@ -22,7 +22,9 @@ describe('in-map', () => {
       const Component = proxyquire('in-map/sceneObjectComponents/HealthComponent/HealthComponent', {
         'in-stores/events': {
           getHealthInfoAtFocusedMoment: () => create().startWith(Immutable.fromJS({
-            severity: 5
+            problem: {
+              severity: 5
+            }
           }))
         }
       }).default;
@@ -39,7 +41,7 @@ describe('in-map', () => {
 
     it('should redirect health to client', () => {
       expect(healthChanged).to.have.callCount(1);
-      expect(healthChanged.getCall(0).args[0].get('severity')).to.equal(5);
+      expect(healthChanged.getCall(0).args[0].getIn(['problem', 'severity'])).to.equal(5);
     });
   });
 });

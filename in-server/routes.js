@@ -115,7 +115,7 @@ router.get('/', (req, res) => {
         "script-src 'self' " +
           append +
           nonces.map(n => "'nonce-" + n + "'").join(' ') +
-          ' https://www.google-analytics.com'
+          ' https://www.google-analytics.com *.instana.io:447 *.instana.io'
       );
     }
 

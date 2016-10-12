@@ -46,7 +46,7 @@ export default connectTo(props => {
         <div className={`${block}__entity`}>
           <SpanEntityInformation span={trace}
                                  label='On:'
-                                 connectionEndpointType='destinationId' />
+                                 connectionEndpointType='destination' />
         </div>
 
         <div className={`${block}__stats`}>

@@ -14,6 +14,7 @@ const categoryIcons = {
   batch: messagingIcon,
   database: databaseIcon,
   eum: eumIcon,
+  eumResource: eumIcon,
   generic: genericIcon,
   http: httpIcon,
   io: remoteIcon,

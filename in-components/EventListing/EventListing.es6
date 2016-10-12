@@ -30,7 +30,7 @@ export default getEvents(
         return null;
       }
 
-      events = events.sort((a, b) => a.getIn(['problem', 'severity']) < b.getIn(['problem', 'severity']));
+      events = events.sort((a, b) => a.get('severity') < b.get('severity'));
 
       return (
         <div className={block}>

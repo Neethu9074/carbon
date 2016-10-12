@@ -15,8 +15,13 @@ describe('in-map', () => {
     let sceneObject2;
     let isHighlighted;
     let isHighlighted2;
+    let highlightedEntityId;
+    let highlightedEntityIds;
 
     beforeEach(() => {
+      highlightedEntityId = create();
+      highlightedEntityIds = create();
+
       sceneObject = createSceneObject('id1');
       sceneObject2 = createSceneObject('id2');
 
@@ -27,10 +32,13 @@ describe('in-map', () => {
 
       const Component = proxyquire('in-map/sceneObjectComponents/HighlightingComponent/HighlightingComponent', {
         'in-services/stores/highlightedEntityId': {
-          highlightedEntityId$: create().startWith('id2')
+          highlightedEntityId$: highlightedEntityId
         },
         'in-map/stores/selectedMapSceneObjectStore': {
           selectedSnapshotIdForHighlightingInMap$: create().startWith(null)
+        },
+        'in-stores/highlightedEntityIds': {
+          highlightedEntityIds$: highlightedEntityIds
         }
       }).default;
 
@@ -51,7 +59,21 @@ describe('in-map', () => {
       sceneObject2.dispose();
     });
 
-    it('should only call highlighted entitys highlighting event', () => {
+    it('should only call highlighted entities highlighting event', () => {
+      highlightedEntityId.emit('id2');
+      highlightedEntityIds.emit([]);
+
+      expect(isHighlighted).to.have.callCount(1);
+      expect(isHighlighted2).to.have.callCount(1);
+
+      expect(isHighlighted.getCall(0).args[0]).to.equal(false);
+      expect(isHighlighted2.getCall(0).args[0]).to.equal(true);
+    });
+
+    it('should also highlight if the entity is inside highlightedEntityIds', () => {
+      highlightedEntityId.emit('id3');
+      highlightedEntityIds.emit(['id4', 'id2']);
+
       expect(isHighlighted).to.have.callCount(1);
       expect(isHighlighted2).to.have.callCount(1);
 

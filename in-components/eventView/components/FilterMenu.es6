@@ -59,23 +59,20 @@ function Entry({onClick, children, kind}) {
   return (
     <Button className={`${block}__button`}
             kind={kind ? kind : null}
+            size='sm'
             onClick={onClick}>
       {children}
     </Button>
   );
 }
 
-function getQueryFieldNameForField(field) {
+export function getQueryFieldNameForField(field) {
   switch (field) {
-    case 'Start':
-      return 'start';
-    case 'End':
-      return 'end';
-    case 'Title':
-      return 'event.problemText';
-    case 'Severity':
-      return 'event.severity';
+    case 'title':
+      return 'problem.problemText';
+    case 'severity':
+      return 'problem.severity';
     default:
-      return null;
+      return field;
   }
 }

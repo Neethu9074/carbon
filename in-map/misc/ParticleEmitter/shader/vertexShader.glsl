@@ -3,6 +3,7 @@ precision mediump int;
 
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
+uniform float distance;
 
 attribute float severity;
 attribute float progress;
@@ -19,7 +20,7 @@ void main() {
                                                   position.z + progress ),
                                             1.0 );
 
-  float pointSize = 1.0 * ( 1500.0 / length( mvPosition.xyz ) );
+  float pointSize = ( distance / length( mvPosition.xyz ) );
 
   gl_PointSize = pointSize;
   gl_Position = projectionMatrix * mvPosition;

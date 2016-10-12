@@ -30,7 +30,7 @@ function EventChart({timeframe, event}) {
   return (
     <div>
       <Separator />
-      <ChartWithLegend snapshotId={event.get('snapshotId')}
+      <ChartWithLegend snapshotId={event.getIn(['problem', 'snapshotId'])}
                        timeframe={timeframe}
                        margins={{
                          left: 0

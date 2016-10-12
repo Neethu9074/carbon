@@ -7,5 +7,19 @@
     overflow: auto;
     max-height: 25rem;
     display: block;
+    background: #172429;
+    padding: 0.5rem 0.6rem;
+    border-radius: 2px;
+
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 8px;
+      height: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #43565E;
+      -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+    }
   }
 }

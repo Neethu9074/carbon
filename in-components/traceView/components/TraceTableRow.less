@@ -1,42 +1,41 @@
 .in-trace-table-row {
-  // needs to be kept in sync with the react infinite configuration
   height: 1.625rem;
+  margin-left: .5rem;
+
   line-height: 1.625rem;
-  cursor: pointer;
   color: #2D4048;
   font-size: .688rem;
-  border-radius: .125rem;
-  box-sizing: border-box;
+  cursor: pointer;
 
   &:hover, &--selected.in-trace-table-row {
-    background: #D5DFE4;
+    border-radius: 3px;
+    background: #2d4048;
+    color: white;
   }
 
   &__cell {
     display: inline-block;
     box-sizing: border-box;
 
-    // we cannot flow into new lines as this would break infinite scrolling
+    width: 20%;
+    padding-left: 10px;
+
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     border-bottom: 1px solid #D5DFE4;
-    width: 5.837rem;
-
-    &:first-child {
-      width: 8.562rem;
-      margin-left: .813rem;
-      padding-right: .813rem;
-    }
+    border-right: 1px solid #D5DFE4;
 
     &:nth-child(2) {
-      width: ~'calc(100% - 22.4rem)';
-      padding: 0 .813rem;
+      width: ~'calc(40% + 2px)';
+    }
+
+    &:nth-child(3) {
+      width: ~'calc(20% - 2px)';
     }
 
     &:last-child {
-      width: 7.137rem;
-      padding-left: 1.3rem;
+      border-right: 0;
     }
   }
 }

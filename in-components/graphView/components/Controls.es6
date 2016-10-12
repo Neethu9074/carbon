@@ -6,9 +6,12 @@ import {getDeltaTime} from 'in-map/misc/time';
 const RAD_2_DEG = Math.PI / 180;
 
 export default function createControls(canvas, camera, {
+  maxZoomIn = 0,
+  maxZoomOut = 10000,
   startingWorldDistance = 300,
   startingZoomDistance = 30,
   cameraMoveSpeed = 10,
+  zoomSteps = 1,
   zoomSpeed = 1
 }) {
 
@@ -55,8 +58,8 @@ export default function createControls(canvas, camera, {
 
   function onMouseWheel(event) {
     targetZoomDistance = camera.position.z;
-    targetZoomDistance += event.scrollSpeed * event.scrollDirection;
-    targetZoomDistance = Math.max(0, targetZoomDistance);
+    targetZoomDistance += event.scrollSpeed * event.scrollDirection * zoomSteps;
+    targetZoomDistance = Math.min(maxZoomOut, Math.max(maxZoomIn, targetZoomDistance));
   }
 
   function update() {

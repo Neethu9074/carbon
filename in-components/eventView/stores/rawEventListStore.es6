@@ -1,0 +1,158 @@
+import {create} from 'reactive-observables';
+
+import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
+import {setIsLoading} from 'in-components/eventView/stores/isLoadingStore';
+import createRawEventsObservable from 'in-services/subscription/rawEvents';
+import {sortBy$} from 'in-components/eventView/stores/sortBy';
+import {timeframe$, from$, to$} from 'in-stores/timeline';
+import {luceneQuery$ as query$} from 'in-stores/search';
+import {emptyArray} from 'in-services/fixedObjects';
+import {createStore} from 'in-stores/store';
+
+
+let subscriptions = emptyArray;
+let initPhase = false;
+let loadSubscription;
+
+// Timestamp bounds to use for queries. Will only be updated when the view
+// becomes visible, when the timeframe changes or when the user explicitly
+// hits refresh (or via auto refresh).
+let maxTimestamp;
+let minTimestamp;
+
+let sortDirection;
+let sortByField;
+let query;
+
+
+const rawEventList = createStore({
+  name: 'eventView/rawEventsStore',
+  initialValue: []
+});
+export const rawEventList$ = rawEventList.observable;
+
+
+// this stream is used to resubscribe for new raw events data. because there are many factors causing a refresh,
+// it is capsuled within a stream to be able to throttle refreshes.
+const refreshStream = create();
+refreshStream.nextFrame().subscribe(refresh);
+
+export function enable() {
+  initPhase = true;
+
+  subscriptions = [
+    sortDirection$.subscribe(_sortDirection => {
+      sortDirection = _sortDirection;
+      refreshStream.emit(true);
+    }),
+
+    sortBy$.subscribe(_sortBy => {
+      sortByField = _sortBy;
+      refreshStream.emit(true);
+    }),
+
+    timeframe$.subscribe(() => refreshStream.emit(true)),
+
+    query$.subscribe(_query => {
+      query = _query;
+      refreshStream.emit(true);
+    })
+  ];
+
+  initPhase = false;
+  refreshStream.emit(true);
+}
+
+export function disable() {
+  rawEventList.mutateTo([]);
+  subscriptions.forEach(s => s.dispose());
+  disposeExistingLoad();
+  subscriptions = emptyArray;
+}
+
+export function refresh() {
+  if (initPhase) {
+    return;
+  }
+
+  // get necessary params to load more events
+  to$.once(to => maxTimestamp = to);
+  from$.once(from => minTimestamp = from);
+  rawEventList.mutateTo([]);
+
+  loadMoreRawEvents();
+}
+
+export function loadMoreRawEvents() {
+  disposeExistingLoad();
+  setIsLoading(true);
+
+  rawEventList$.once(events => {
+    const offset = events.length;
+    const isAscTimestampSort =
+      (sortByField === 'start' || sortByField === 'end') &&
+      sortDirection === 'asc';
+    const maxTimestampForQuery = isAscTimestampSort
+      ? maxTimestamp
+      : getMaxStartMillis(events, maxTimestamp);
+
+    // console.log(new Date(maxTimestampForQuery));
+    loadSubscription = createRawEventsObservable({
+      maxTimestamp: maxTimestampForQuery,
+      minTimestamp,
+      sortByField,
+      sortMode: sortDirection,
+      query,
+      offset
+    })
+    .once(addNewEvents);
+  });
+}
+
+function getMaxStartMillis(events, fallback) {
+  if (events.length === 0) {
+    return fallback;
+  }
+  let max = Number.NEGATIVE_INFINITY;
+  for (let i = 0, len = events.length; i < len; i++) {
+    max = Math.max(max, events[i].startMillis);
+  }
+  return max;
+}
+
+function addNewEvents(newEvents) {
+  const transformedEvents = newEvents.toArray().map(event => {
+    return {
+      // required for inifinity scroll and loading of additional events. see getMaxStartMillis()
+      startMillis: event.get('start'),
+
+      id: event.get('id'),
+      start: event.get('start'),
+      end: event.get('end'),
+      title: event.get('title'),
+      severity: event.get('severity'),
+      state: event.get('state'),
+      type: event.get('type'),
+      snapshotId: event.get('snapshotId')
+    };
+  });
+
+  // there may be multiple successive events requests with the same data
+  // protect against this and remove duplicates
+  rawEventList.applyStateMutation(existingEvents => {
+     const existingEventIds = {};
+     existingEvents.forEach(trace => {
+       existingEventIds[trace.id] = true;
+     });
+     return existingEvents.concat(transformedEvents.filter(trace => !existingEventIds[trace.id]));
+   });
+
+  setIsLoading(false);
+}
+
+function disposeExistingLoad() {
+  if (loadSubscription) {
+    loadSubscription.dispose();
+    loadSubscription = null;
+  }
+}

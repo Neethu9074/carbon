@@ -133,7 +133,7 @@ export const getOpenIssuesAtFocusedMoment = memoize(
   // maintain than actually to loop?
   snapshotId => openEventsAtFocusedMoment$.map(events => {
       return Immutable.List(events.issues
-        .filter(event => event.get('snapshotId') === snapshotId));
+        .filter(event => event.getIn(['problem', 'snapshotId']) === snapshotId));
     }),
 
   id => id,
@@ -190,28 +190,42 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
 
 
 export function getColorForEventAtFocusedMomentAsStream(event, defaultColor) {
+  return fireCallbacksForEventAtFocusedMomentAsStream(event,
+    // if open
+    ({severity}) => {
+      let color = theme.health[severity];
+      if (severity === 0 && defaultColor) {
+        color = defaultColor;
+      }
+      return color;
+    },
+    // if closed
+    () => defaultColor ? defaultColor : theme.health[0]);
+}
+
+export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifClosed) {
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
   const severity = event.getIn(['problem', 'severity'], 0);
-  const color = theme.health[severity] || theme.health[0];
 
   return focusedMoment$
     .map(focusedMoment => {
       if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
-        return color;
+        return ifOpen({severity, focusedMoment});
       }
-      return defaultColor ? defaultColor : theme.health[0];
+      return ifClosed({severity, focusedMoment});
     })
     .distinct();
 }
+
 
 export function getColorForEventAtFocusedMoment(event, focusedMoment) {
   const severity = event.getIn(['problem', 'severity'], 0);
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
-  const color = theme.health[severity] || theme.health[0];
+  const color = theme.health[severity];
 
   // No focused moment? Then it is according to server time which means
   // we color based on the state property.
@@ -224,7 +238,7 @@ export function getColorForEventAtFocusedMoment(event, focusedMoment) {
   return theme.health[0];
 }
 
-function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
+export function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
   // No focused moment? Then it is according to server time which means
   // we color based on the state property.
   return (focusedMoment == null && state === 'open') ||
@@ -322,7 +336,7 @@ export const highlightedEvent$ = highlightedEvent.observable.distinct()
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);
   if (event) {
-    setHighlightedEntityId(event.get('snapshotId'));
+    setHighlightedEntityId(event.getIn(['problem', 'snapshotId']));
   } else {
     clearHighlightedEntityId();
   }

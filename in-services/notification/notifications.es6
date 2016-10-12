@@ -39,9 +39,9 @@ function startTracking() {
         const eventId = event.get('id');
         if (previousEvents[eventId] !== 1) {
           previousEvents[eventId] = 1;
-          const severity = mapSeverityToHealth(problem.get('severity'));
+          const severity = mapSeverityToHealth(event.getIn(['problem', 'severity'], 0));
           if (severity === health.warning || severity === health.danger) {
-            showMessage(getLabel(snapshot), problem.get('problemText'));
+            showMessage(getLabel(snapshot), event.getIn(['problem', 'problemText']));
           }
         }
       });

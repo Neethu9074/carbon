@@ -1,14 +1,14 @@
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import FCP from 'in-map/singleMeshFactories/ContentProvider/FrameContentProvider';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
-import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
-
 import GroundStickyNote from 'in-map/components/stickyNotes/physical/Group';
+import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import createObjectCollection from 'in-map/stores/ObjectCollection';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {groups} from 'in-map/stores/physical/groupsStore';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {eventBus} from 'in-map/services/eventBus';
 
 
@@ -24,7 +24,7 @@ export default class Group extends SceneObject {
   init() {
     super.init();
 
-    if (!this.webVRMode) {
+    if (!isWebVRActive) {
       stickyNotes.add(this.id, {
         type: GroundStickyNote,
         eventEmitter: this.eventEmitter,
@@ -40,7 +40,7 @@ export default class Group extends SceneObject {
 
     this.addComponent('mesh', new MeshComponent(this, FCP, 'lines'));
 
-    if (!this.webVRMode) {
+    if (!isWebVRActive) {
       this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
         return {
           x: pos.x,

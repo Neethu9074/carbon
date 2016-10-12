@@ -1,13 +1,10 @@
-import {combineLatest} from 'reactive-observables';
-import {create} from 'reactive-observables';
-import Immutable from 'immutable';
 import React from 'react';
 
-import createTotalShedEventsSubscription from 'in-services/subscription/totalShedEventsCount';
-import {eventFilter$, setEventFilter} from 'in-components/eventView/stores/eventFilterStore';
+import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
+import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
+import {refresh} from 'in-components/eventView/stores/rawEventListStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {luceneQuery$ as query$} from 'in-stores/search';
 import {timeframe$} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -20,26 +17,33 @@ const block = 'in-event-view-event-list-header';
 export default function EventListHeader() {
   return (
     <ViewHeader className={block}>
-      <SvgIcon className={`${block}__icon`}
-               type={'danger_sign'}
-               width={20}
-               height={20}
-               color={'#33d8d7'} />
+      <div className={`${block}__left-side`}>
+        <SvgIcon className={`${block}__icon`}
+                 type='danger_sign'
+                 width={20}
+                 height={20}
+                 color='#33d8d7' />
 
-      <EventFilter filter='incidents'>
-        Incidents (<Count getCounter={counter => counter.get('incident')}/>)
-      </EventFilter>
-      <EventFilter filter='events'>
-        Events (<Count getCounter={counter => counter.get('issue')}/>)
-      </EventFilter>
+        <EventFilter filter='incident'>
+          Incidents (<Count getCounter={counter => counter.get('incident')}/>)
+        </EventFilter>
+        <EventFilter filter='event'>
+          Events (<Count getCounter={counter => counter.get('issue')}/>)
+        </EventFilter>
+      </div>
+      <div className={`${block}__right-side`}>
+        <SvgIcon className={`${block}__refresh`}
+                 type='refresh'
+                 onClick={refresh}
+                 height={15} />
+      </div>
     </ViewHeader>
   );
 }
 
 const EventFilter = connectTo({
   eventFilter: eventFilter$
-},
-({eventFilter, children, filter}) => {
+}, function EventFilter({eventFilter, children, filter}) {
   let className = `${block}__title`;
   if (eventFilter === filter) {
     className += ` ${className}--selected`;
@@ -47,19 +51,16 @@ const EventFilter = connectTo({
 
   return (
     <div className={className}
-         onClick={() => setEventFilter(filter)}>
+         onClick={() => setEventTypeFilter(filter)}>
       {children}
     </div>
   );
 });
 
 const Count = connectTo({
-  // HACK FOR FAKE EVENTS
-  totalShedEventsCounter: create().startWith(Immutable.fromJS({incident: 1, issue: 2})),
-  totalShedEventsCounter2: combineLatest([timeframe$, query$])
-                        .flatMap(([timeframe, query]) => createTotalShedEventsSubscription({timeframe, query}))
-}, ({getCounter, totalShedEventsCounter}) => {
-  if (!totalShedEventsCounter) {
+  eventCounter: timeframe$.flatMap(timeframe => createTotalRawEventsSubscription({timeframe}))
+}, function Count({getCounter, eventCounter}) {
+  if (!eventCounter) {
     return (
       <LoadingIndicator inline={true}
                                style={{
@@ -69,7 +70,7 @@ const Count = connectTo({
   }
   return (
     <span>
-      {getCounter(totalShedEventsCounter)}
+      {getCounter(eventCounter)}
     </span>
   );
 });

@@ -1,9 +1,10 @@
 import React from 'react';
 
+import {emptyMap} from 'in-services/fixedImmutables';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 export default function Info({snapshot}) {
-  const data = snapshot.get('data');
+  const data = snapshot.getIn(['data', 'java'], emptyMap);
 
   return (
     <DescriptionList>

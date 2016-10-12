@@ -5,8 +5,15 @@ import './Button.less';
 const rpt = React.PropTypes;
 const block = 'in-button';
 
-export default function Button({className, kind = 'default', type = 'button', onClick, style, children, href}) {
-  let classes = `${block} ${block}--${kind}`;
+export default function Button({className,
+                                kind = 'default',
+                                type = 'button',
+                                size = 'lg',
+                                onClick,
+                                style,
+                                children,
+                                href}) {
+  let classes = `${block} ${block}--${kind} ${block}--${size}`;
   if (className) {
     classes = `${classes} ${className}`;
   }
@@ -39,6 +46,7 @@ Button.propTypes = {
   children: rpt.any.isRequired,
   type: rpt.oneOf(['button', 'submit']),
   kind: rpt.oneOf(['default', 'secondary']),
+  size: rpt.oneOf(['lg', 'sm']),
   onClick: rpt.func,
   href: rpt.string
 };

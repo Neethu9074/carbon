@@ -1,24 +1,46 @@
 .in-event-view-event-list-header {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+
+  &__left-side, &__right-side {
+    display: flex;
+    align-items: center;
+  }
+
+  &__right-side {
+    margin-right: 1rem;
+  }
 
   &__title, &__icon {
     margin-left: 1rem;
   }
 
   &__title {
-    display: flex;
-    align-items: center;
+    height: 1.5rem;
+    margin-top: .563rem;
 
-    height: ~'calc(100% - 2px)';
-    color: #91a3ac;
     font-size: .688rem;
     cursor: pointer;
     border-bottom: 2px solid transparent;
 
+    color: #91a3ac;
+    transition: color 0.25s ease-in-out;
+
     &:hover, &--selected {
       color: white;
       border-bottom: 2px solid white;
+    }
+  }
+
+  &__refresh {
+    cursor: pointer;
+
+    path {
+      fill: #D5DFE4;
+    }
+
+    &:hover path {
+      fill: #fff;
     }
   }
 }

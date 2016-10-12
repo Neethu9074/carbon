@@ -2,7 +2,8 @@ import React from 'react';
 
 import {
   muSecondsToMillisZeroDecimalPlaces,
-  bytesZeroDecimalPlaces
+  bytesZeroDecimalPlaces,
+  zeroDecimalPlaces
 } from 'in-services/formatters/number';
 import ClusterSummary from 'in-forge/plugins/cassandraCluster/ClusterSummary';
 import KeyspacesTable from 'in-forge/plugins/cassandraCluster/Dashboard/KeyspacesTable.es6';
@@ -33,7 +34,8 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
                              'Read',
                              'Write'
                            ],
-                           type: 'stackedArea'
+                           type: 'line',
+                           formatter: zeroDecimalPlaces
                          }}/>
       </DashboardSection>
 

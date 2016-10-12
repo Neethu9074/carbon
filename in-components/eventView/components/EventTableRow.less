@@ -1,6 +1,5 @@
 .in-event-view-event-table-row {
   height: 1.625rem;
-  width: ~'calc(100% - 0.5rem)';
   margin-left: .5rem;
 
   line-height: 1.625rem;
@@ -18,7 +17,6 @@
     display: inline-block;
     box-sizing: border-box;
 
-    width: 20%;
     padding-left: 10px;
 
     overflow: hidden;
@@ -27,18 +25,25 @@
     border-bottom: 1px solid #D5DFE4;
     border-right: 1px solid #D5DFE4;
 
-    &:last-child {
-      border-right: 0;
+    &:nth-child(1) {
+      width: 5%;
+      padding-left: 10px;
     }
 
-    &:nth-child(3) {
-      width: 45%;
-      padding-left: .938rem;
+    &:nth-child(2), &:nth-child(3) {
+      width: 16%;
     }
 
     &:nth-child(4) {
-      padding-left: 1.063rem;
-      width: 15%;
+      width: 34%;
+    }
+
+    &:nth-child(5) {
+      width: 29%;
+    }
+
+    &:last-child {
+      border-right: 0;
     }
   }
 }

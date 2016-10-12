@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {
-  bytesTwoDecimalPlaces
+  bytesTwoDecimalPlaces,
+  bytesPerSecondTwoDecimalPlaces
 } from 'in-services/formatters/number';
 
 import {KpiSection, KpiHeading, KpiTopLevelInteraction} from 'in-sdk/components/dashboard/KpiSection';
@@ -21,7 +22,7 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
           Stop Self Monitoring
         </KpiTopLevelInteraction>
       </KpiSection>
-      {snapshot.get('hasCpuLoad') ?
+      {snapshot.getIn(['data', 'hasCpuLoad']) ?
         <DashboardSection title='CPU Load'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
                            timeframe={timeframe}
@@ -71,7 +72,27 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                            type: 'line'
                          }}/>
       </DashboardSection>
-
+      <DashboardSection title='Network'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 100
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: bytesPerSecondTwoDecimalPlaces,
+                           tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
+                           metrics: [
+                             'net.rx',
+                             'net.tx'
+                           ],
+                           labels: [
+                             'Received',
+                             'Sent'
+                           ],
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
       <DashboardSection title='Sensors'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}

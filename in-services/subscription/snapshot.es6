@@ -15,10 +15,12 @@ function getId({snapshotId, time}) {
 }
 
 function createSnapshotObservable({snapshotId, time}) {
-  invariant(
-    snapshotId,
-    'A snapshotId is required in order to retrieve snapshots.'
-  );
+  if (__DEV__) {
+    invariant(
+      typeof(snapshotId) === 'string',
+      'A snapshotId (string) is required in order to retrieve snapshots. Got: \n' + JSON.stringify(snapshotId, 0, 2)
+    );
+  }
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 

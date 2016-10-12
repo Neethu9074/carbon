@@ -12,11 +12,13 @@ import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/mis
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
 import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsService';
 import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
+import {contextIsLost, contextIsAvailable} from 'in-map/services/webGL';
 import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
 import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {loadVREffectWrapper} from 'in-map/services/webVR';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {setDimensions} from 'in-map/stores/indexStore';
 import {theme} from 'in-services/theme';
 
@@ -28,6 +30,8 @@ export default class MainScene extends SceneObject {
 
     // clears the old one and fires up a new to remove all stored messages
     createEventBus();
+
+    contextIsAvailable();
 
     // init service locator
     PhysicsServiceLocator.provide(createPhysicsService());
@@ -63,7 +67,7 @@ export default class MainScene extends SceneObject {
       updatesEnabled$.subscribe(isEnabled => this.updateSceneObjects = isEnabled)
     ]);
 
-    if (this.webVRMode) {
+    if (isWebVRActive) {
       this.addSubscription(
         eventBus.on('enterFullscreen').subscribe(shouldEnter => {
           if (shouldEnter) {
@@ -126,7 +130,7 @@ export default class MainScene extends SceneObject {
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
 
-    if (this.webVRMode) {
+    if (isWebVRActive) {
       const VREffectClass = loadVREffectWrapper();
       this.renderTarget = new VREffectClass(renderer);
     } else {
@@ -139,7 +143,7 @@ export default class MainScene extends SceneObject {
   }
 
   onWindowResize() {
-    const offset = this.webVRMode ? 0 : theme.header.height + theme.footer.height;
+    const offset = isWebVRActive ? 0 : theme.header.height + theme.footer.height;
     const height = window.innerHeight - offset;
     const width = window.innerWidth;
 
@@ -161,7 +165,10 @@ export default class MainScene extends SceneObject {
   // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
   handleLostContext() {
     this.addSubscriptions([
-      on(this.canvas, 'webglcontextlost').subscribe(event => event.preventDefault()),
+      on(this.canvas, 'webglcontextlost').subscribe(event => {
+        event.preventDefault();
+        contextIsLost();
+      }),
 
       on(this.canvas, 'webglcontextrestored').subscribe(() => {
         // at the point that this method is called the browser has reset all state
@@ -169,6 +176,7 @@ export default class MainScene extends SceneObject {
         // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
         // and setup your state (clearColor, blendFunc, depthFunc, etc...)
         // to make it short... reload the page
+        contextIsAvailable();
         window.location.reload();
       })
     ]);
@@ -183,6 +191,7 @@ export default class MainScene extends SceneObject {
     clearFactories();
 
     PhysicsServiceLocator.provide(createNullService());
+    contextIsAvailable();
 
     this.updateSceneObjects = null;
     this.shouldRenderScene = null;

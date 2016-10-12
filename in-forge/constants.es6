@@ -58,7 +58,6 @@ export const plugins = {
   mysql: 'mySqlDatabase',
   nginx: 'nginx',
   nodejs: 'nodeJsRuntimePlatform',
-  nodejsApp: 'genericNodejsApp',
   nodejsCluster: 'nodeJsCluster',
   oracledb: 'oracleDB',
   os: 'host',
@@ -76,7 +75,8 @@ export const plugins = {
   unknownService: 'unknownService',
   unmonitoredHost: 'unmonitoredHost',
   varnish: 'varnish',
-  webAppServiceInstance: 'webAppServiceInstance'
+  webAppServiceInstance: 'webAppServiceInstance',
+  webSphere: 'webSphereApplicationContainer'
 };
 
 export const fullyQualifiedPlugins = {
@@ -98,7 +98,6 @@ export const fullyQualifiedPlugins = {
   gce: 'com.instana.forge.hardware.virtual.gce.Gce',
   genericHardware: 'com.instana.forge.hardware.GenericHardware',
   genericJavaWebapp: 'com.instana.forge.infrastructure.application.java.GenericJavaWebapp',
-  genericNodejsApp: 'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp',
   genericZone: 'com.instana.forge.hardware.GenericZone',
   glassfishApplicationContainer: 'com.instana.forge.infrastructure.application.glassfish.GlassfishApplicationContainer',
   hAProxy: 'com.instana.forge.infrastructure.loadbalancer.haproxy.HAProxy',
@@ -155,5 +154,6 @@ export const fullyQualifiedPlugins = {
   unknownService: 'com.instana.forge.connection.UnknownService',
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
-  webAppServiceInstance: 'com.instana.forge.connection.http.logical.WebAppServiceInstance'
+  webAppServiceInstance: 'com.instana.forge.connection.http.logical.WebAppServiceInstance',
+  webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer'
 };

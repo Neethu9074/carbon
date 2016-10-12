@@ -18,4 +18,5 @@ j2 /opt/www/config.json.j2 > /opt/www/assets/config.json
 j2 /opt/www/serverConfig.json.j2 > /opt/www/serverConfig.json
 j2 /opt/www/index.js.j2 > /opt/www/index.js
 
+export NODE_ENV=production
 exec /sbin/setuser $USER node /opt/www/index.js | /sbin/setuser $USER /opt/www/node_modules/.bin/bunyan 2>&1 | logger -t ui-client-in-server

@@ -11,6 +11,7 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {theme} from 'in-services/theme';
 
 
@@ -26,27 +27,29 @@ export default class Layer extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    if (this.webVRMode) {
+    if (isWebVRActive) {
       this.addComponent('mesh', new MeshComponent(this, FCCP, 'layer'));
 
       this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, FCCP, 'solid_layer'));
+
     } else {
       this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
 
       this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid_layer'));
-    }
 
-    this.addComponent('collision', new CollisionComponent(this,
-                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
-                                                          OCTREE_LAYER.LAYER));
+      this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
+
+      this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
+
+
+      this.addComponent('collision', new CollisionComponent(this,
+                                                            PREDEFINED_COLLISION_OBJECTS.BOX,
+                                                            OCTREE_LAYER.LAYER));
+    }
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
-    this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
-
     this.addComponent('health', new HealthComponent(this));
-
-    this.addComponent('tooltip', new TooltipComponent(this, LayerTooltip));
 
     // only add them after the snapshot was calculated, because they are layouted by _cachedPlugin
     this.node.addLayer(this.id, this);

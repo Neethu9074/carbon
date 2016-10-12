@@ -1,12 +1,13 @@
 export default Object.freeze({
   database: '#f3a771',
-  remote: '#a5bafc',
-  io: '#93f9d6',
-  http: '#9ce7fb',
-  messaging: '#b8f782',
-  batch: '#93f9d6',
-  generic: '#93f9d6',
-  logger: '#ed6c5d',
-  eum: '#a5bafc',
+  remote: '#c2aefd',
+  io: '#97faec',
+  http: '#a2cafb',
+  messaging: '#c0f681',
+  batch: '#9ce7fb',
+  generic: '#f4d776',
+  logger: '#a8b0fc',
+  eum: '#e7f57b',
+  eumResource: '#fec5d9',
   missing: '#999999'
 });

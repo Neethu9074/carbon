@@ -3,6 +3,7 @@ import {create, on} from 'reactive-observables';
 import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
 import GraphScene from 'in-components/graphView/components/GraphScene';
 import Graph from 'in-components/graphView/entities/Graph';
+import {update as updateTime} from 'in-map/misc/time';
 import {WebGLRenderer} from 'in-map/3DLibProvider';
 
 
@@ -30,7 +31,7 @@ export default function createUniverseRenderer({container, canvas}) {
 
   // initial resize
   resize();
-  realtimeUpdate();
+  realtimeUpdate(0);
 
   return {
     canvas,
@@ -50,7 +51,8 @@ export default function createUniverseRenderer({container, canvas}) {
     changes.emit(changeSignal);
   }
 
-  function realtimeUpdate() {
+  function realtimeUpdate(highResTimestamp) {
+    updateTime(highResTimestamp);
     if (isRunning) {
       requestAnimationFrame(realtimeUpdate);
     }

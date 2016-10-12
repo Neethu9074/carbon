@@ -97,9 +97,16 @@ export function loadMoreTraces() {
 
   traces$.once(traces => {
     const offset = traces.length;
-    const maxTimestampForQuery = getMaxStartMillis(traces, maxTimestamp);
-    loadSubscription = createTracesObservable(
-        {maxTimestamp: maxTimestampForQuery, minTimestamp, sortByField, sortMode: sortDirection, query, offset})
+    const isAscTsSort = sortByField === 'ts' && sortDirection === 'asc';
+    const maxTimestampForQuery = isAscTsSort ? maxTimestamp : getMaxStartMillis(traces, maxTimestamp);
+    loadSubscription = createTracesObservable({
+        maxTimestamp: maxTimestampForQuery,
+        minTimestamp,
+        sortByField,
+        sortMode: sortDirection,
+        query,
+        offset
+      })
       .once(addNewTraces);
   });
 }
@@ -129,9 +136,18 @@ function addNewTraces(newTraces) {
       totalErrorCount: trace.get('totalErrorCount', 0)
     };
   });
-  tracesStore.applyStateMutation(existingTraces => existingTraces.concat(transformedTraces));
+  tracesStore.applyStateMutation(existingTraces => {
+    // There may be multiple successive traces requests with the same data. Protect against
+    // this.
+    const existingTraceIds = {};
+    existingTraces.forEach(trace => {
+      existingTraceIds[trace.id] = true;
+    });
+    return existingTraces.concat(transformedTraces.filter(trace => !existingTraceIds[trace.id]));
+  });
   isLoadingStore.mutateTo(false);
 }
+
 
 function disposeExistingLoad() {
   if (loadSubscription) {

@@ -1,3 +1,4 @@
+
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 
@@ -25,19 +26,17 @@ export const DescriptionList = React.createClass({
       return null;
     }
 
-    if (this.props.children instanceof Array) {
-      if (this.props.children.length === 0) {
-        return null;
-      }
+    const children = React.Children.toArray(this.props.children);
 
-      return this.props.children
-        .filter(children => children)
-        .map((child, i) => {
-          return this.renderItem(child.props, i);
-        });
+    if (children.length === 0) {
+      return null;
     }
 
-    return this.renderItem(this.props.children.props, 0);
+    return children
+      .filter(child => child)
+      .map((child, i) => {
+        return this.renderItem(child.props, i);
+      });
   },
 
   renderItem(descriptionItemProps, i) {

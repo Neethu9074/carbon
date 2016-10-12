@@ -136,19 +136,19 @@ export default connectTo(props => {
                     <span>
                       <SpanEntityInformation span={span}
                                              label='From:'
-                                             connectionEndpointType='sourceId' />
+                                             connectionEndpointType='source' />
                       <SpanEntityInformation span={span}
                                              label='On:'
-                                             connectionEndpointType='destinationId' />
+                                             connectionEndpointType='destination' />
                     </span>
                   :
                     <span>
                       <SpanEntityInformation span={span}
                                              label='On:'
-                                             connectionEndpointType='sourceId' />
+                                             connectionEndpointType='source' />
                       <SpanEntityInformation span={span}
                                              label='To:'
-                                             connectionEndpointType='destinationId' />
+                                             connectionEndpointType='destination' />
                     </span>
                   }
                 </div>

@@ -6,6 +6,7 @@ import React from 'react';
 import TraceView from 'in-components/traceView/TraceView';
 import EventView from 'in-components/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
+import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
 import {isInternalEnvironment} from 'in-services/config';
 import Dashboard from 'in-components/Dashboard';
@@ -34,19 +35,31 @@ export default (
 
     {isInternalEnvironment()
       ? <Route component={EventView}
-               path='incidents' />
+               path='events' />
       : null}
 
     {isInternalEnvironment()
       ? <Route component={EventView}
-               path='incidents/dashboard' />
+               path='events/dashboard' />
       : null}
 
     <Route component={GraphView}
            path='graph' />
 
+    {isInternalEnvironment()
+      ? <Route component={GlobeView}
+             path='globe' />
+      : null}
+
     <Route component={WebVRView}
-           path='webVR' />
+           path='webVR'>
+      <Route path='physical'
+             component={NoopRoute}
+             showMap={true} />
+      <Route path='logical'
+             component={NoopRoute}
+             showMap={true} />
+    </Route>
 
     {/* Legacy routes */}
     <Redirect from='dashboard' to='physical/dashboard' />

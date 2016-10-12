@@ -1,31 +1,48 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {emptyMap} from 'in-services/fixedImmutables';
+import Tooltip from 'in-components/Tooltip';
 
 
 export default function PageRequestSpanDetailView({span}) {
   return (
-    <DescriptionList>
-      <DescriptionItem title='URL'>
-        {span.getIn(['data', 'page', 'url'])}
-      </DescriptionItem>
+    <div>
+      <DescriptionList>
+        <DescriptionItem title='URL'>
+          <a href={span.getIn(['data', 'page', 'url'])}
+             target='_blank'>
+            {span.getIn(['data', 'page', 'url'])}
+          </a>
+        </DescriptionItem>
 
-      <DescriptionItem title='Platform'>
-        {span.getIn(['data', 'page', 'platform'])}
-      </DescriptionItem>
+        <DescriptionItem title='Platform'>
+          {span.getIn(['data', 'page', 'platform'])}
+        </DescriptionItem>
 
-      <DescriptionItem title='Browser'>
-        {getBrowser(span)}
-      </DescriptionItem>
+        <DescriptionItem title='Browser'>
+          {getBrowser(span)}
+        </DescriptionItem>
 
-      <DescriptionItem title='Operating System'>
-        {getOperatingSystem(span)}
-      </DescriptionItem>
+        <DescriptionItem title='Operating System'>
+          {getOperatingSystem(span)}
+        </DescriptionItem>
 
-      <DescriptionItem title='Device'>
-        {getDevice(span)}
-      </DescriptionItem>
-    </DescriptionList>
+        <DescriptionItem title='Device'>
+          {getDevice(span)}
+        </DescriptionItem>
+
+        <DescriptionItem title='IP'>
+          {span.getIn(['data', 'page', 'ip'])}
+        </DescriptionItem>
+
+        <DescriptionItem title='Location'>
+          {getLocation(span)}
+        </DescriptionItem>
+
+        {getMetaData(span)}
+      </DescriptionList>
+    </div>
   );
 }
 
@@ -65,4 +82,35 @@ function getNameVersionPair(span, key) {
   }
 
   return `${name} ${version}`;
+}
+
+
+function getMetaData(span) {
+  return span.getIn(['data', 'page', 'meta'], emptyMap)
+    .map((v, k, i) => {
+      return (
+        <DescriptionItem title={`Meta Data: ${k}`}
+                         key={i}>
+          {v}
+        </DescriptionItem>
+      );
+    })
+    .valueSeq()
+    .toArray();
+}
+
+
+function getLocation(span) {
+  const geo = span.getIn(['data', 'page', 'geo']);
+  if (!geo) {
+    return null;
+  }
+
+  return (
+    <Tooltip content='Geo information by GeoLite2, data created by MaxMind, available from http://www.maxmind.com.'>
+      <div>
+        {`${geo.get('city')}, ${geo.get('country')} (${geo.get('continent')})`}
+      </div>
+    </Tooltip>
+  );
 }

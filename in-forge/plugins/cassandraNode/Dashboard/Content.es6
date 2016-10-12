@@ -4,7 +4,8 @@ import {
   muSecondsToMillisTwoDecimalPlaces,
   muSecondsToMillisZeroDecimalPlaces,
   percentageTwoDecimalPlaces,
-  twoDecimalPlaces
+  twoDecimalPlaces,
+  zeroDecimalPlaces
 } from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
@@ -60,8 +61,8 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                              'Read',
                              'Write'
                            ],
-                           type: 'stackedArea',
-                           formatter: twoDecimalPlaces
+                           type: 'line',
+                           formatter: zeroDecimalPlaces
                          }}/>
       </DashboardSection>
 

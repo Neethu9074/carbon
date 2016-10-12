@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ "$ENVIRONMENT" = "internal" ]]; then
+  echo "Internal environment. Not starting the nginx."
+  sleep 600
+fi
+
 USER=root
 if [[ "$USER_AND_GROUP_NAME" != "" ]]; then
   grep "${USER_AND_GROUP_NAME}:" /etc/passwd

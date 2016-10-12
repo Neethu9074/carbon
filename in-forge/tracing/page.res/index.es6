@@ -2,12 +2,12 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'page.res',
-  category: 'eum',
+  category: 'eumResource',
   direction: 'exit',
 
   typeName: {
-    singular: 'Page Resource Request',
-    plural: 'Page Resource Requests'
+    singular: 'Resource Request',
+    plural: 'Resource Requests'
   },
 
   detailView: 'PageResourceRequestSpanDetailView',

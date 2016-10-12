@@ -2,7 +2,7 @@ import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 
-import icon from './icon.svg';
+import icon from 'in-forge/plugins/elasticsearchNode/icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.elasticsearchCluster,

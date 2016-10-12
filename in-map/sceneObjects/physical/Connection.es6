@@ -31,12 +31,19 @@ export default class Connection extends SceneObject {
     this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
 
     this.getComponent('color').setHex('#bababa');
+    this.getComponent('transform').setPositionXYZ(0, 0, 0);
 
     connections.add(this.id, this);
   }
 
   initEvents() {
     super.initEvents();
+
+    // if source and destination nodes were disposed, this check is true. This can happen when nodes
+    // vanish and the conenctions are still active
+    if (!this.sourceNode.eventEmitter || !this.destinationNode.eventEmitter) {
+      return;
+    }
 
     this.addSubscriptions([
       combineLatest([

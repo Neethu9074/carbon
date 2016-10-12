@@ -1,8 +1,7 @@
-import {create} from 'reactive-observables';
 import React from 'react';
 
+import EventDetails from 'in-components/eventView/components/eventDetails/EventDetails/EventDetails';
 import IncidentContent from 'in-components/eventView/components/eventDetails/IncidentContent';
-import EventContent from 'in-components/eventView/components/eventDetails/EventContent';
 import {selectedEvent$} from 'in-components/eventView/stores/selectedEventStore';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -15,10 +14,7 @@ import './DetailPanel.less';
 const block = 'in-event-view-detail-panel';
 
 export default connectTo({
-  // HACK FOR FAKE EVENTS
-  selectedEventId: create().startWith('id1'),
-  selectedEventId2: selectedEventId$,
-
+  selectedEventId: selectedEventId$,
   event: selectedEvent$
 },
 function DetailPanel({selectedEventId, event}) {
@@ -31,12 +27,12 @@ function DetailPanel({selectedEventId, event}) {
   }
 
   const eventType = getEventType(event);
-
   return (
     <div className={block}>
       {eventType === EVENT_TYPES.INCIDENT
         ? <IncidentContent event={event} />
-        : <EventContent event={event} />
+        : <EventDetails event={event}
+                        isCollapsable={false} />
       }
     </div>
   );

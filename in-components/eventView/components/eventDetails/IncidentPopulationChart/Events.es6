@@ -1,11 +1,9 @@
 import React from 'react';
 
+import Event from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/Event';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
-import {getIconTypeForEventType, getEventType} from 'in-services/issueTracker';
-import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './Events.less';
 
@@ -36,45 +34,6 @@ function Events({scale, events}) {
                  scale={scale} />
         );
       })}
-    </div>
-  );
-});
-
-
-const Event = connectTo(props => {
-  return {
-    color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae')
-  };
-},
-({event, scale, color}) => {
-  let left = scale.getRange(event.get('start'));
-  const end = event.get('end');
-  let right = end ? scale.getRange(end) : scale.getRangeTo();
-  const width = right - left;
-  const eventType = getEventType(event);
-
-  // clamp events so that they are not going beyond the borders of the chart. If they would do, the incident
-  // start and end properties are wrongly calculated
-  left = Math.max(left, 0);
-  right = Math.min(right, scale.getRangeTo());
-
-  return (
-    <div className={`${block}__event`}
-         style={{
-           marginLeft: left,
-           width
-         }}>
-
-      <Icon className={block + '__icon'}
-            type={getIconTypeForEventType(eventType)}
-            style={{color}} />
-
-      <div className={block + '__bar'}
-           style={{
-             width,
-             background: color
-           }}>
-      </div>
     </div>
   );
 });

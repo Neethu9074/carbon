@@ -1,9 +1,14 @@
-import {create} from 'reactive-observables';
 import React from 'react';
 
+import {selectedEventId$, isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
-import {selectedEventId$} from 'in-stores/events';
+import {formatDateTime} from 'in-services/formatters/date';
+import {focusedMoment$} from 'in-stores/timeline';
+import {getSnapshot} from 'in-stores/snapshot';
+import SvgIcon from 'in-components/SvgIcon';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import {theme} from 'in-services/theme';
 
 import './EventTableRow.less';
 
@@ -11,9 +16,7 @@ import './EventTableRow.less';
 const block = 'in-event-view-event-table-row';
 
 export default connectTo({
-  // HACK FOR FAKE EVENTS
-  selectedEventId: create().startWith('event3'),
-  selectedEventId2: selectedEventId$
+  selectedEventId: selectedEventId$
 },
 ({event, selectedEventId}) => {
   let className = block;
@@ -25,10 +28,18 @@ export default connectTo({
     <div className={className}
          onClick={() => toggleEvent(event, selectedEventId)}>
 
-      <Cell content={event.start} />
-      <Cell content={event.end} />
+      <Cell content={
+        <Icon event={event} />
+      } />
+      <Cell content={formatDateTime(event.start)} />
+      <Cell content={event.state === 'open'
+        ? 'active'
+        : formatDateTime(event.end)} />
       <Cell content={event.title} />
-      <Cell content={event.severity} />
+      <Cell content={
+        <Entity snapshotId={event.snapshotId}
+                time={event.start} />
+      } />
     </div>
   );
 });
@@ -48,3 +59,57 @@ function Cell({content}) {
     </span>
   );
 }
+
+const Icon = connectTo(props => {
+  const event = props.event;
+  return {
+    selectedEventId: selectedEventId$,
+    isOpen: focusedMoment$.map(focusedMoment =>
+      isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment)).distinct()
+  };
+},
+function Icon({event, isOpen}) {
+  const eventType = event.type;
+  const defaultColor = '#92a5ae';
+  let color = defaultColor;
+  if (isOpen) {
+    color = event.severity > 0 ? theme.health[event.severity] : defaultColor;
+  }
+
+  let iconType;
+  if (eventType === 'incident') {
+    iconType = 'incidents';
+  } else if (eventType === 'change') {
+    iconType = 'change2';
+  } else if (eventType === 'issue') {
+    if (event.severity < 10) {
+      iconType = 'warning';
+    } else {
+      iconType = 'critical';
+    }
+  }
+  return (
+    <SvgIcon className={`${block}__icon`}
+             type={iconType}
+             width={12}
+             height={12}
+             color={color} />
+  );
+});
+
+const Entity = connectTo(props => {
+  return {
+    snapshot: getSnapshot(props.snapshotId, props.time)
+  };
+},
+function EventTableRowEntity({snapshot}) {
+  if (!snapshot) {
+    return null;
+  }
+
+  return (
+    <span>
+      {getLabel(snapshot)}
+    </span>
+  );
+});
