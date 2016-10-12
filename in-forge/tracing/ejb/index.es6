@@ -1,7 +1,7 @@
 import {registerSpanDefinition} from 'in-sdk/tracing';
 
 registerSpanDefinition({
-  type: 'OpenEJB',
+  type: 'ejb',
   category: 'remote',
   direction: 'entryAndExit',
 
