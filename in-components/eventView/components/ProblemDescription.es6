@@ -3,16 +3,21 @@ import React from 'react';
 import {toHtml} from 'in-services/formatters/markdown';
 import SvgIcon from 'in-components/SvgIcon';
 
-import './EventProblem.less';
+import 'in-components/eventView/components/ProblemDescription.less';
 
 
 const block = 'in-event-view-event-problem';
 
-export default function EventProblem({event}) {
+export default function EventProblem({event, className}) {
   const fixSuggestion = toHtml(event.getIn(['problem', 'fixSuggestion']));
 
+  let blockClassName = block;
+  if (className) {
+    blockClassName += ` ${className}`;
+  }
+
   return (
-    <div className={`${block}`}>
+    <div className={blockClassName}>
       <div className={`${block}__icon-wrapper`}>
         <SvgIcon type='info_filled'
                  width={20}

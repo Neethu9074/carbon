@@ -1,15 +1,14 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import TimeAxis from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/TimeAxis';
-import Events from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/Events';
-import Section from 'in-components/eventView/components/eventDetails/Section';
+import TimeAxis from 'in-components/eventView/components/Incident/PopulationChart/TimeAxis';
+import Events from 'in-components/eventView/components/Incident/PopulationChart/Events';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import {getEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
-import 'in-components/eventView/components/eventDetails/IncidentPopulationChart/IncidentPopulationChart.less';
+import 'in-components/eventView/components/Incident/PopulationChart/Chart.less';
 
 
 const block = 'in-event-view-detail-chart';
@@ -18,7 +17,7 @@ const rpt = React.PropTypes;
 
 export default getElementDimensions(React.createClass({
 
-  displayName: 'IncidentPopulationChart',
+  displayName: 'PopulationChart',
 
   scale: createScale(),
 
@@ -57,19 +56,17 @@ export default getElementDimensions(React.createClass({
   render() {
     const width = this.props.width;
     if (width) {
-      this.scale.setRangeTo(width - 32); // sub left and right padding caused by section component
+      this.scale.setRangeTo(width - (2 * 16)); // sub left and right padding caused by section component
     }
     this.scale.setRangeFrom(0);
     this.scale.setDomainFrom(this.state.from);
     this.scale.setDomainTo(this.state.to);
 
     return (
-      <Section>
-        <div className={block}>
-          <TimeAxis scale={this.scale} />
-          <Events scale={this.scale} />
-        </div>
-      </Section>
+      <div className={block}>
+        <TimeAxis scale={this.scale} />
+        <Events scale={this.scale} />
+      </div>
     );
   },
 
@@ -98,16 +95,16 @@ export default getElementDimensions(React.createClass({
     });
   },
 
+  setupServertimeSubscription() {
+    this.disposeServertimeSubscription();
+    this.servertimeSubscription = serverTime$.subscribe(time => this.setTo(time));
+  },
+
   disposeIncidentSubscription() {
     if (this.incidentSubscription) {
       this.incidentSubscription.dispose();
       this.incidentSubscription = null;
     }
-  },
-
-  setupServertimeSubscription() {
-    this.disposeServertimeSubscription();
-    this.servertimeSubscription = serverTime$.subscribe(time => this.setTo(time));
   },
 
   disposeServertimeSubscription() {

@@ -1,23 +1,23 @@
 import React from 'react';
 
-import EventDetails from 'in-components/eventView/components/eventDetails/EventDetails/EventDetails';
-import IncidentContent from 'in-components/eventView/components/eventDetails/IncidentContent';
+import IncidentContent from 'in-components/eventView/components/Incident/Content';
 import {selectedEvent$} from 'in-components/eventView/stores/selectedEventStore';
+import EventContent from 'in-components/eventView/components/Event/Content';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {selectedEventId$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
-import './DetailPanel.less';
+import './EventDetails.less';
 
 
-const block = 'in-event-view-detail-panel';
+const block = 'in-event-view-details';
 
 export default connectTo({
   selectedEventId: selectedEventId$,
   event: selectedEvent$
 },
-function DetailPanel({selectedEventId, event}) {
+function EventDetails({selectedEventId, event}) {
   if (!selectedEventId) {
     return null;
   }
@@ -31,8 +31,7 @@ function DetailPanel({selectedEventId, event}) {
     <div className={block}>
       {eventType === EVENT_TYPES.INCIDENT
         ? <IncidentContent event={event} />
-        : <EventDetails event={event}
-                        isCollapsable={false} />
+        : <EventContent event={event} />
       }
     </div>
   );

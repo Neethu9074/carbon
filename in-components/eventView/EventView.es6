@@ -5,7 +5,7 @@ import EventTableHeader from 'in-components/eventView/components/EventTableHeade
 import {enable, disable} from 'in-components/eventView/stores/rawEventListStore';
 import EventListHeader from 'in-components/eventView/components/EventListHeader';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
-import DetailPanel from 'in-components/eventView/components/DetailPanel';
+import EventDetails from 'in-components/eventView/components/EventDetails';
 import EventTable from 'in-components/eventView/components/EventTable';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 
@@ -44,6 +44,6 @@ function getRightContent() {
     <ViewHeader key='EventViewHeader'>
       <EventDetailHeader />
     </ViewHeader>,
-    <DetailPanel key='DetailPanel' />
+    <EventDetails key='EventDetails' />
   ];
 }
