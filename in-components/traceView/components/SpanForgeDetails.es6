@@ -52,9 +52,9 @@ export default React.createClass({
 
   render() {
     if (!this.state.Component) {
-      return <LoadingIndicator />;
+      return <LoadingIndicator type='dark' />;
     } else if (this.state.componentType !== getType(this.props.span)) {
-      return <LoadingIndicator />;
+      return <LoadingIndicator type='dark' />;
     }
 
     return (
