@@ -11,8 +11,7 @@ const block = 'in-globe-view';
 
 export default connectTo({
   isLoading: isLoading$
-},
-function GlobeView({isLoading}) {
+}, function GlobeView({isLoading}) {
   return (
     <div className={block}>
       <Universe className={`${block}__universe`} />

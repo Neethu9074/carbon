@@ -3,63 +3,53 @@
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
+import {newIncidentViewEnabled} from 'in-services/featureFlags';
 import TraceView from 'in-components/traceView/TraceView';
 import EventView from 'in-components/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
-import {isInternalEnvironment} from 'in-services/config';
 import Dashboard from 'in-components/Dashboard';
-import NoopRoute from 'in-client/js/NoopRoute';
 import App from 'in-client/js/App';
+import Map from 'in-map/index';
 
 export default (
   <Route path='/'
          component={App}>
     <Route path='physical'
-           component={NoopRoute}
-           showMap={true} />
-    <Route path='physical/dashboard'
-           component={Dashboard} />
+           component={Map}>
+      <Route path='dashboard'
+             component={Dashboard} />
+    </Route>
 
     <Route path='logical'
-           component={NoopRoute}
-           showMap={true} />
-    <Route path='logical/dashboard'
-           component={Dashboard} />
+           component={Map}>
+      <Route path='dashboard'
+             component={Dashboard} />
+    </Route>
 
     <Route component={TraceView}
-           path='traces' />
-    <Route path='traces/dashboard'
-           component={Dashboard} />
+           path='traces'>
+      <Route path='dashboard'
+             component={Dashboard} />
+    </Route>
 
-    {isInternalEnvironment()
-      ? <Route component={EventView}
-               path='events' />
-      : null}
-
-    {isInternalEnvironment()
-      ? <Route component={EventView}
-               path='events/dashboard' />
-      : null}
+    {newIncidentViewEnabled ?
+      <Route component={EventView}
+             path='events'>
+        <Route component={Dashboard}
+               path='dashboard' />
+      </Route>
+    : null}
 
     <Route component={GraphView}
            path='graph' />
-
-    {isInternalEnvironment()
-      ? <Route component={GlobeView}
-             path='globe' />
-      : null}
-
+    <Route component={GlobeView}
+           path='globe' />
     <Route component={WebVRView}
-           path='webVR'>
-      <Route path='physical'
-             component={NoopRoute}
-             showMap={true} />
-      <Route path='logical'
-             component={NoopRoute}
-             showMap={true} />
-    </Route>
+           path='webVR/physical' />
+    <Route component={WebVRView}
+           path='webVR/logical' />
 
     {/* Legacy routes */}
     <Redirect from='dashboard' to='physical/dashboard' />

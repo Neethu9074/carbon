@@ -8,40 +8,36 @@ import {enable, disable} from 'in-components/traceView/stores/traceList';
 import TraceTable from 'in-components/traceView/components/TraceTable';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import TraceTree from 'in-components/traceView/components/TraceTree';
-import {timelineHeight$} from 'in-components/timeline/timelineStore';
-import connectTo from 'in-hoc/connectTo';
-
 
 const rpt = React.PropTypes;
 
-export default connectTo({
-    timelineHeight: timelineHeight$
-  }, React.createClass({
+export default React.createClass({
+  displayName: 'TraceView',
 
-    displayName: 'TraceView',
+  mixins: [PureRenderMixin],
 
-    mixins: [PureRenderMixin],
+  propTypes: {
+    children: rpt.any
+  },
 
-    propTypes: {
-      timelineHeight: rpt.number.isRequired,
-      height: rpt.number
-    },
+  componentWillMount() {
+    enable();
+  },
 
-    componentWillMount() {
-      enable();
-    },
+  componentWillUnmount() {
+    disable();
+  },
 
-    componentWillUnmount() {
-      disable();
-    },
-
-    render() {
-      return (
+  render() {
+    return (
+      <div>
         <TwoColumnView leftContent={getLeftContent()}
                        rightContent={getRightContent()} />
-      );
-    }
-}));
+        {this.props.children}
+      </div>
+    );
+  }
+});
 
 function getLeftContent() {
   return [

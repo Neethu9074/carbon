@@ -11,8 +11,11 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 
 
 export default React.createClass({
-
   displayName: 'EventView',
+
+  propTypes: {
+    children: React.PropTypes.any
+  },
 
   componentWillMount() {
     enable();
@@ -24,9 +27,13 @@ export default React.createClass({
 
   render() {
     return (
-      <TwoColumnView leftContent={getLeftContent()}
-                     rightContent={getRightContent()}
-                     leftWidth='50rem' />
+      <div>
+        <TwoColumnView leftContent={getLeftContent()}
+                       rightContent={getRightContent()}
+                       leftWidth='50rem' />
+
+        {this.props.children}
+      </div>
     );
   }
 });

@@ -91,7 +91,7 @@ export default connectTo({
 
           {isInternalEnvironment()
             ? <a className={block + '__link'}
-                 href='#/webVR'
+                 href='#/webVR/physical'
                  target='_blank'>
                 WebVR Showcase
               </a>
