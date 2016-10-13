@@ -21,7 +21,7 @@ const block = 'in-event-view-incident-event-list-item';
 
 export default connectTo(props => {
   return {
-    color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae'),
+    background: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae'),
     highlightedEventId: highlightedEventId$
   };
 },
@@ -32,7 +32,7 @@ React.createClass({
   propTypes: {
     highlightedEventId: rpt.string,
     event: irpt.map.isRequired,
-    color: rpt.string
+    background: rpt.string
   },
 
   getInitialState() {
@@ -43,8 +43,8 @@ React.createClass({
 
   render() {
     const isExpanded = this.state.isExpanded;
+    const background = this.props.background;
     const event = this.props.event;
-    const color = this.props.color;
 
     let className = `${block}__right`;
     if (this.props.highlightedEventId === event.get('id')) {
@@ -57,23 +57,33 @@ React.createClass({
 
         <TimeIndicator event={event} />
 
-        <div className={className}
-             style={{
-               border: `1px solid ${color}`,
-               borderLeft: `5px solid ${color}`
-             }}>
-          <DetailsHeader event={event}
-                         iconType={isExpanded ? 'minus' : 'plus_without_frame'}
-                         onClick={() => this.setState({ isExpanded: !isExpanded })} />
-          {isExpanded
-            ? <div className={`${block}__expanded-details`}>
-                <ProblemDescription event={event} />
-                <EventChart event={event} />
-                <EventDependecyGraph event={event} />
-                <EventTraces event={event} />
-              </div>
-            : null
-          }
+        <div className={className}>
+          <div className={`${block}__background`}
+               style={{ background }}/>
+
+          <div className={`${block}__left-border`}
+               style={{ background }}/>
+
+          <div className={`${block}__content-wrapper`}>
+            <DetailsHeader event={event}
+                           iconType={isExpanded ? 'timeline_close' : 'timeline_open'}
+                           color={background}
+                           onClick={() => this.setState({ isExpanded: !isExpanded })} />
+            {isExpanded
+              ? <div className={`${block}__border`}
+                     style={{ background }}/>
+              : null
+            }
+            {isExpanded
+              ? <div className={`${block}__expanded-details`}>
+                  <ProblemDescription event={event} />
+                  <EventChart event={event} />
+                  <EventDependecyGraph event={event} />
+                  <EventTraces event={event} />
+                </div>
+              : null
+            }
+          </div>
         </div>
       </div>
     );
@@ -93,8 +103,10 @@ function TimeIndicator({event}) {
 }
 
 function DetailsHeader({event, onClick, iconType}) {
+  const className = `${block}__details`;
+
   return (
-    <div className={`${block}__details`}
+    <div className={className}
          id={`event-${event.get('id')}`}
          onClick={onClick}>
 
@@ -108,8 +120,7 @@ function DetailsHeader({event, onClick, iconType}) {
       </div>
 
       <SvgIcon type={iconType}
-               width={10}
-               height={10}
+               width={12}
                color='#7b8e96' />
     </div>
   );
