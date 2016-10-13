@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Separator from 'in-components/eventView/components/eventDetails/Seperator';
 import {twoDecimalPlaces} from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -29,7 +28,6 @@ function EventChart({timeframe, event}) {
 
   return (
     <div>
-      <Separator />
       <ChartWithLegend snapshotId={event.getIn(['problem', 'snapshotId'])}
                        timeframe={timeframe}
                        margins={{

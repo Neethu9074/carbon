@@ -56,13 +56,12 @@ function onEventClick(event) {
   const eventId = event.get('id');
   highlightEventId(eventId);
 
-  const scrollElement = document.querySelector('.in-event-view-detail-panel');
-  const spanElement = document.getElementById(`event-${eventId}`);
+  const scrollElement = document.querySelector('.in-event-view-details');
+  const eventElement = document.getElementById(`event-${eventId}`);
 
-  console.log(scrollElement, spanElement);
-  if (!scrollElement || !spanElement) {
+  if (!scrollElement || !eventElement) {
     return;
   }
 
-  scrollElement.scrollTop = spanElement.offsetTop;
+  scrollElement.scrollTop = eventElement.offsetTop;
 }

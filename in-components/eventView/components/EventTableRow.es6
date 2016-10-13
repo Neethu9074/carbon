@@ -54,9 +54,9 @@ function toggleEvent(event, selectedEventId) {
 
 function Cell({content}) {
   return (
-    <span className={`${block}__cell`}>
+    <div className={`${block}__cell`}>
       {content}
-    </span>
+    </div>
   );
 }
 
@@ -91,7 +91,6 @@ function Icon({event, isOpen}) {
   return (
     <SvgIcon className={`${block}__icon`}
              type={iconType}
-             width={12}
              height={12}
              color={color} />
   );

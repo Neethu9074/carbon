@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Event from 'in-components/eventView/components/eventDetails/IncidentPopulationChart/Event';
+import Event from 'in-components/eventView/components/Incident/PopulationChart/Event';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
