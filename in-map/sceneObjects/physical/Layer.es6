@@ -30,8 +30,6 @@ export default class Layer extends SceneObject {
     if (isWebVRActive) {
       this.addComponent('mesh', new MeshComponent(this, FCCP, 'layer'));
 
-      this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, FCCP, 'solid_layer'));
-
     } else {
       this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
 

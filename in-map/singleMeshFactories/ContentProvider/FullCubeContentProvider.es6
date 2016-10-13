@@ -39,13 +39,13 @@ const VERTICES = [
   0.5, 1, -0.5,
 
   // back
-  -0.5, 0, -0.5,
+  0.5, 1, -0.5,
   0.5, 0, -0.5,
-  0.5, 1, -0.5,
-
   -0.5, 0, -0.5,
-  0.5, 1, -0.5,
+
   -0.5, 1, -0.5,
+  0.5, 1, -0.5,
+  -0.5, 0, -0.5,
 
   // bottom
   -0.5, 0, 0.5,
@@ -97,13 +97,13 @@ const COLORS = [
   RIGHT, RIGHT, RIGHT,
   RIGHT, RIGHT, RIGHT,
 
-  BACK, BACK, BACK,
-  BACK, BACK, BACK,
-  BACK, BACK, BACK,
+  BACK.r, BACK.g, BACK.b,
+  BACK.r, BACK.g, BACK.b,
+  BACK.r, BACK.g, BACK.b,
 
-  BACK, BACK, BACK,
-  BACK, BACK, BACK,
-  BACK, BACK, BACK,
+  BACK.r, BACK.g, BACK.b,
+  BACK.r, BACK.g, BACK.b,
+  BACK.r, BACK.g, BACK.b,
 
   TOP.r, TOP.g, TOP.b,
   TOP.r, TOP.g, TOP.b,
