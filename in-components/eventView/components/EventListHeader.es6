@@ -1,11 +1,10 @@
 import React from 'react';
 
 import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
-import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import {refresh} from 'in-components/eventView/stores/rawEventListStore';
+import getTotalRawEventsCount from 'in-stores/totalRawEventsCount';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {timeframe$} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -58,7 +57,7 @@ const EventFilter = connectTo({
 });
 
 const Count = connectTo({
-  eventCounter: timeframe$.flatMap(timeframe => createTotalRawEventsSubscription({timeframe}))
+  eventCounter: getTotalRawEventsCount()
 }, function Count({getCounter, eventCounter}) {
   if (!eventCounter) {
     return (
