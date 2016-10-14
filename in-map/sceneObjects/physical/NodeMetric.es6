@@ -4,13 +4,18 @@ import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
-import {Mesh, RawShaderMaterial} from 'in-map/3DLibProvider';
+import {Mesh, RawShaderMaterial, DoubleSide} from 'in-map/3DLibProvider';
 
 import {
   NUM_POINTS_PER_SLICE,
   getSlicedGeometry,
   INDEX_MASK
 } from 'in-map/singleMeshFactories/ContentProvider/PredefinedSlicedCubes';
+import {
+  NUM_POINTS_PER_SLICE as NUM_FULL_POINTS_PER_SLICE,
+  getSlicedGeometry as getSlicedFullGeometry,
+  INDEX_MASK as FULL_INDEX_MASK
+} from 'in-map/singleMeshFactories/ContentProvider/PredefinedFullSlicedCubes';
 import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import NodeMetricTooltip from 'in-map/components/tooltips/physical/NodeMetric';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
@@ -19,6 +24,7 @@ import {updateAttribute} from 'in-map/services/geometryAttributes';
 import AnimationController from 'in-map/misc/AnimationController';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
+import {isWebVRActive} from 'in-map/stores/webVRStore';
 
 
 const METRIC_MARGIN = 0.9;
@@ -30,16 +36,21 @@ export default class NodeMetric extends SceneObject {
 
     this.parentNode = params.node;
     this.numSlices = 1;
+
+    this.getGeometry = isWebVRActive ? getSlicedFullGeometry : getSlicedGeometry;
+    this.numPointsPerSlice = isWebVRActive ? NUM_FULL_POINTS_PER_SLICE : NUM_POINTS_PER_SLICE;
+    this.indexMask = isWebVRActive ? FULL_INDEX_MASK : INDEX_MASK;
   }
 
   init() {
     super.init();
 
     const sceneObject = this.sceneObject = new Mesh(
-      getSlicedGeometry(1),
+      this.getGeometry(1),
       new RawShaderMaterial({
         fragmentShader: fragmentShader,
         vertexShader: vertexShader,
+        side: DoubleSide,
         uniforms: {
           progress: {
             type: 'f',
@@ -103,7 +114,7 @@ export default class NodeMetric extends SceneObject {
       this.numSlices = values.length;
 
       this.sceneObject.geometry.dispose();
-      this.sceneObject.geometry = getSlicedGeometry(this.numSlices);
+      this.sceneObject.geometry = this.getGeometry(this.numSlices);
     }
 
     const newHeights = [];
@@ -116,8 +127,8 @@ export default class NodeMetric extends SceneObject {
 
     let currentIndex = 0;
     for (let i = 0; i < values.length; i++) {
-      for (let j = 0; j < NUM_POINTS_PER_SLICE; j++) {
-        newHeights[currentIndex] = stackedValues[INDEX_MASK[currentIndex]];
+      for (let j = 0; j < this.numPointsPerSlice; j++) {
+        newHeights[currentIndex] = stackedValues[this.indexMask[currentIndex]];
         currentIndex++;
       }
     }
