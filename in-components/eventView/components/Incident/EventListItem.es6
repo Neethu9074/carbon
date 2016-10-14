@@ -103,7 +103,7 @@ function TimeIndicator({event}) {
 }
 
 function DetailsHeader({event, onClick, iconType}) {
-  const className = `${block}__details`;
+  const className = `${block}__heading`;
 
   return (
     <div className={className}

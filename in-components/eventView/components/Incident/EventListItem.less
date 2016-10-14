@@ -53,7 +53,6 @@
 
     width: 100%;
     margin-bottom: 0.25rem;
-    border-radius: .25rem;
 
     transition: background 0.25s ease-in-out;
     &--highlighted {
@@ -69,9 +68,10 @@
 
   &__background {
     right: 0;
-    left: .438rem;
+    left: .2rem;
     z-index: 1;
     opacity: .1;
+    border-radius: 0 .25rem .25rem  0;
 
     transition: opacity 0.25s ease-in-out;
     .in-event-view-incident-event-list-item:hover & {
@@ -81,7 +81,7 @@
 
   &__left-border {
     left: 0;
-    width: .438rem;
+    width: 4px;
     z-index: 2;
     opacity: .3;
     border-top-left-radius: .25rem;
@@ -105,12 +105,12 @@
     z-index: 4;
   }
 
-  &__details {
+  &__heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0.625rem;
+    padding: 0.1rem 1rem 0.25rem;
     cursor: pointer;
   }
 
