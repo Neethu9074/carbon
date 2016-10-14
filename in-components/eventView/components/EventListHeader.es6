@@ -23,11 +23,14 @@ export default function EventListHeader() {
                  height={20}
                  color='#33d8d7' />
 
+        <EventFilter>
+          All (<Count getCounter={counter => counter.get('incident', 0) + counter.get('issue', 0)}/>)
+        </EventFilter>
         <EventFilter filter='incident'>
-          Incidents (<Count getCounter={counter => counter.get('incident')}/>)
+          Incidents (<Count getCounter={counter => counter.get('incident', 0)}/>)
         </EventFilter>
         <EventFilter filter='event'>
-          Events (<Count getCounter={counter => counter.get('issue')}/>)
+          Events (<Count getCounter={counter => counter.get('issue', 0)}/>)
         </EventFilter>
       </div>
       <div className={`${block}__right-side`}>
@@ -44,7 +47,7 @@ const EventFilter = connectTo({
   eventFilter: eventFilter$
 }, function EventFilter({eventFilter, children, filter}) {
   let className = `${block}__title`;
-  if (eventFilter === filter) {
+  if ((filter && eventFilter === filter) || (!eventFilter && !filter)) {
     className += ` ${className}--selected`;
   }
 

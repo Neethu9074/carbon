@@ -87,7 +87,6 @@ export const eventsInTimeframe$ = combineLatest([
     }
   });
 
-
 export const openEventsAtServerTime$ = createTrackingStore({
   name: 'openEventsAtServerTime',
   observable: retrievedEvents$.map(events => {

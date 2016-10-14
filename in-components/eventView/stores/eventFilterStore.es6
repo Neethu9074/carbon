@@ -1,4 +1,8 @@
-import {setEventTypeFilter as setSearchEventTypeFilter, containsEventTypeFilter} from 'in-stores/search/events';
+import {
+  setEventTypeFilter as setSearchEventTypeFilter,
+  removeEventTypeFilter,
+  containsEventTypeFilter
+} from 'in-stores/search/events';
 import {createTrackingStore} from 'in-stores/store';
 import {rawQuery$} from 'in-stores/search';
 
@@ -16,5 +20,7 @@ export const eventFilter$ = createTrackingStore({
 }).observable;
 
 export function setEventTypeFilter(_filter) {
-  setSearchEventTypeFilter(_filter);
+  _filter
+    ? setSearchEventTypeFilter(_filter)
+    : removeEventTypeFilter();
 }
