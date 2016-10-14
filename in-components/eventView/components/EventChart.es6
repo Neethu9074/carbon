@@ -14,10 +14,8 @@ function EventChart({timeframe, event}) {
   if (!timeframe) {
     return (
       <LoadingIndicator inline={true}
-                               type='dark'
-                               style={{
-                                 height: '16px'
-                               }} />
+                        type='dark'
+                        style={{ height: '16px' }} />
     );
   }
 
