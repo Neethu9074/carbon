@@ -1,4 +1,3 @@
-import {createLogger} from 'instalog';
 import React from 'react';
 
 import {highlightEventId} from 'in-components/eventView/stores/highlightedEvent';
@@ -10,7 +9,6 @@ import connectTo from 'in-hoc/connectTo';
 import './Event.less';
 
 
-const logger = createLogger('eventView/PopulationChart/Event');
 const block = 'in-event-view-detail-chart-event';
 
 export default connectTo(props => {
@@ -22,10 +20,6 @@ function Event({event, scale, color}) {
   // clamp events so that they are not going beyond the borders of the chart.
   // If they would do, the incident start and end properties are wrongly calculated
   const left = scale.getRange(event.get('start'));
-  if (left < 0) {
-    logger.error('there is an event wit ha start date smaller than incidents start date: ' +
-                 `event:${event.get('id')} incident start date:${scale.getRangeFrom()}`);
-  }
 
   const eventType = getEventType(event);
   const end = event.get('end');
