@@ -182,7 +182,7 @@ function extendedStatusInfo(status) {
        &nbsp;<strong>ExtendedStatus</strong> flag should be&nbsp;
        <strong>enabled</strong> in apache httpd configuration.</p>
        <a target='_blank'
-       href='https://httpd.apache.org/docs/2.4/mod/core.html#extendedstatus'>
+       href='https://httpd.apache.org/docs/trunk/mod/core.html#extendedstatus'>
          Apache ExtendedStatus Directive
        </a>.
      </DashboardNotification>
