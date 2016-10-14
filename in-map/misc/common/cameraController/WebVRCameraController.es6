@@ -1,14 +1,19 @@
 import {createLogger} from 'instalog';
+import Immutable from 'immutable';
 
 import createKeyboardController from 'in-map/misc/common/KeyboardController/KeyboardController';
 import createViveController from 'in-map/misc/common/ViveController/ViveController';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import {toggleParticles} from 'in-map/stores/logical/particlesStore';
+import {setActiveMetric, clearActiveMetric} from 'in-stores/metric';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {loadVRControlsWrapper} from 'in-map/services/webVR';
 import {Object3D, Vector3} from 'in-map/3DLibProvider';
 import WebVRCamera from 'in-map/misc/WebVRCamera';
 import {getDeltaTime} from 'in-map/misc/time';
 
+
+let currentMetric = undefined;
 
 const logger = createLogger('WebVRCameraController');
 const height = 1.8; // in meter
@@ -40,6 +45,38 @@ class WebVRCameraController {
     // controller
     this.viveController = createViveController(this, this.vrControls, 0);
     this.keyboardController = createKeyboardController(this);
+  }
+
+  toggleMetrics() {
+    toggleParticles();
+
+    switch (currentMetric) {
+      case 'load':
+        currentMetric = 'usage';
+        setActiveMetric(Immutable.fromJS({
+          name: 'Usage',
+          longLabel: `CPU Usage`,
+          metrics: [
+            {name: 'cpu.user', label: 'User'},
+            {name: 'cpu.sys', label: 'System'},
+            {name: 'cpu.wait', label: 'Wait'},
+            {name: 'cpu.nice', label: 'Nice'},
+            {name: 'cpu.steal', label: 'Steal'}
+          ]
+        }));
+        break;
+      case 'usage':
+        currentMetric = undefined;
+        clearActiveMetric();
+        break;
+      default:
+        currentMetric = 'load';
+        setActiveMetric(Immutable.fromJS({
+          name: 'Load',
+          longLabel: `CPU Load`,
+          metrics: [{name: 'load.1min', label: 'Load'}]
+        }));
+    }
   }
 
   initEvents() {

@@ -100,6 +100,11 @@ export default class Node extends SceneObject {
         this.getComponent('color').setHex(color);
       })
     ]);
+
+    // enable visibility for metric pillars
+    if (isWebVRActive) {
+      this.eventEmitter.emit('isVisibleChanged' + this.id, true);
+    }
   }
 
   initialized() {

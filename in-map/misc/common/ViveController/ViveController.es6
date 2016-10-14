@@ -1,5 +1,4 @@
 /* global require:false */
-import {toggleParticles} from 'in-map/stores/logical/particlesStore';
 import {loadViveController} from 'in-map/services/webVR';
 import {loadObject} from 'in-map/services/objectLoader';
 import {MeshBasicMaterial} from 'in-map/3DLibProvider';
@@ -16,7 +15,7 @@ export default function createViveController(wrapper, controls, id) {
   rightHandController.matrixAutoUpdate = true;
   wrapper.camTransformObject.add(rightHandController);
 
-  rightHandController.addEventListener('menudown', toggleParticles);
+  rightHandController.addEventListener('menudown', wrapper.toggleMetrics);
   rightHandController.addEventListener('axischanged', onAxisChanged);
 
   // load huge files for vive controller async

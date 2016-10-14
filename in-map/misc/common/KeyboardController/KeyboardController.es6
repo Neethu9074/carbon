@@ -1,6 +1,5 @@
 import {on} from 'reactive-observables';
 
-import {toggleParticles} from 'in-map/stores/logical/particlesStore';
 import keyCodes from 'in-components/keyCodes';
 
 
@@ -12,7 +11,7 @@ export default function createKeyboardController(controls) {
     onKey(e, 1, -1, -1, 1);
 
     if (e.keyCode === keyCodes.p) {
-      toggleParticles();
+      controls.toggleMetrics();
     }
   });
   const keyUpSubscription = on(window, 'keyup').subscribe(e => onKey(e, 0, 0, 0, 0));

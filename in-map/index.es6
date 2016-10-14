@@ -11,7 +11,7 @@ export default function MapHandler(props) {
   return (
     <div>
       <section>
-        <Map />
+        <Map webVRMode={props.webVRMode} />
         <Controls />
         <TableView />
         <SidebarIncidents />
