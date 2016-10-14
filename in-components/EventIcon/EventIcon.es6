@@ -15,14 +15,14 @@ export default connectTo(props => {
       : getColorForEventAtFocusedMomentAsStream(props.event, defaultColor)
   };
 },
-function EventIcon({event, className, color, size = 16}) {
+function EventIcon({event, className, color, size = 16, useAlternativeChangeIcon = true}) {
   const eventType = getEventType(event);
 
   let iconType;
   if (eventType === EVENT_TYPES.INCIDENT) {
     iconType = 'incidents';
   } else if (eventType === EVENT_TYPES.CHANGE) {
-    iconType = 'change2';
+    iconType = useAlternativeChangeIcon ? 'change2' : 'change';
   } else if (eventType === EVENT_TYPES.ISSUE_WARNING) {
     iconType = 'warning';
   } else {
