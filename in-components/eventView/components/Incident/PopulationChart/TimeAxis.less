@@ -1,22 +1,21 @@
 .in-event-view-detail-chart-time-axis {
-  &__topline, &__tick {
-    position: absolute;
-    top: 0;
-    background: #e2e9ec;
-  }
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-  &__topline {
-    left: 0;
-    height: 1px;
-  }
+  z-index: 1;
 
   &__tick {
+    position: absolute;
+    top: 0;
     bottom: 0;
-    width: 0;
 
-    border-left: 1px solid #e2e9ec;
+    border-left: 1px dashed #92a5ae;
     color: #6b8088;
-    font-size: 11px;
+
+    font-size: 0.625rem;
     white-space: nowrap;
   }
 }

@@ -17,15 +17,11 @@ export default function TimeAxis({scale}) {
   const axisConfig = getAxisConfig(windowSize);
   axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
 
-  const tickPositions = getTickPositions(scale, axisConfig, true); // true -> ceilToNearestStep
+  const ceilToNearestStep = true;
+  const tickPositions = getTickPositions(scale, axisConfig, ceilToNearestStep);
 
   return (
     <div className={block}>
-      <div className={`${block}__topline`}
-           style={{
-             width: `${scale.getRangeTo() - scale.getRangeFrom()}px`
-           }}/>
-
       {tickPositions.map((position, index) => {
         const x = Math.ceil(position.range);
         const time = index === 0

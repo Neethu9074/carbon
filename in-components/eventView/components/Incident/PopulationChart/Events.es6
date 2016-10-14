@@ -18,22 +18,17 @@ function Events({scale, events}) {
     return (
       <div className={block}>
         <LoadingIndicator type='dark'
-                          style={{
-                            height: '1rem'
-                          }} />
+                          style={{ height: '1rem' }} />
       </div>
     );
   }
 
   return (
     <div className={block}>
-      {events.map(event => {
-        return (
-          <Event key={event.get('id')}
-                 event={event}
-                 scale={scale} />
-        );
-      })}
+      {events.map(event => <Event key={event.get('id')}
+                                  event={event}
+                                  scale={scale} />
+      )}
     </div>
   );
 });

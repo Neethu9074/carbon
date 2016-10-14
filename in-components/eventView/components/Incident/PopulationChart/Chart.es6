@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import TimeAxis from 'in-components/eventView/components/Incident/PopulationChart/TimeAxis';
@@ -12,18 +11,13 @@ import 'in-components/eventView/components/Incident/PopulationChart/Chart.less';
 
 
 const block = 'in-event-view-detail-chart';
-const timeOffset = 1000 * 10;
 const rpt = React.PropTypes;
 
 export default getElementDimensions(React.createClass({
 
-  displayName: 'PopulationChart',
+  displayName: 'IncidentPopulationChart',
 
   scale: createScale(),
-
-  mixins: [
-    PureRenderMixin
-  ],
 
   propTypes: {
     incidentId: rpt.string.isRequired,
@@ -39,7 +33,7 @@ export default getElementDimensions(React.createClass({
   },
 
   componentDidMount() {
-    this.setupIncidentSubscription(this.props.incidentId);
+    this.setupIncidentSubscription();
   },
 
   componentWillUnmount() {
@@ -49,47 +43,40 @@ export default getElementDimensions(React.createClass({
 
   componentDidUpdate(prevProps) {
     if (prevProps.incidentId !== this.props.incidentId) {
-      this.setupIncidentSubscription(this.props.incidentId);
+      this.setupIncidentSubscription();
     }
   },
 
   render() {
+    const scale = this.scale;
     const width = this.props.width;
     if (width) {
-      this.scale.setRangeTo(width - (2 * 16)); // sub left and right padding caused by section component
+      scale.setRangeTo(width);
     }
-    this.scale.setRangeFrom(0);
-    this.scale.setDomainFrom(this.state.from);
-    this.scale.setDomainTo(this.state.to);
+    scale.setDomainFrom(this.state.from);
+    scale.setDomainTo(this.state.to);
 
     return (
       <div className={block}>
-        <TimeAxis scale={this.scale} />
-        <Events scale={this.scale} />
+        <TimeAxis scale={scale} />
+        <Events scale={scale} />
       </div>
     );
   },
 
-  setTo(to) {
-    this.setState({to: to + timeOffset});
-  },
-
-  setFrom(from) {
-    this.setState({from: from - timeOffset});
-  },
-
-  setupIncidentSubscription(incidentId) {
+  setupIncidentSubscription() {
+    // dispose the old subscription because it's null or uses an old incidentId
     this.disposeIncidentSubscription();
 
-    this.incidentSubscription = getEvent(incidentId).subscribe(event => {
-      if (event) {
-        this.setFrom(event.get('start'));
+    this.incidentSubscription = getEvent(this.props.incidentId).subscribe(incident => {
+      if (incident) {
+        this.setState({from: incident.get('start')});
 
-        if (!event.get('end')) {
+        if (!incident.get('end')) {
           this.setupServertimeSubscription();
         } else {
           this.disposeServertimeSubscription();
-          this.setTo(event.get('end'));
+          this.setState({to: incident.get('end')});
         }
       }
     });
@@ -97,7 +84,8 @@ export default getElementDimensions(React.createClass({
 
   setupServertimeSubscription() {
     this.disposeServertimeSubscription();
-    this.servertimeSubscription = serverTime$.subscribe(time => this.setTo(time));
+
+    this.servertimeSubscription = serverTime$.subscribe(to => this.setState({to}));
   },
 
   disposeIncidentSubscription() {

@@ -12,7 +12,7 @@ export default connectTo(props => {
     color: getColorForEventAtFocusedMomentAsStream(props.event, defaultColor)
   };
 },
-function EventIcon({event, className, color}) {
+function EventIcon({event, className, color, size = 16}) {
   const eventType = getEventType(event);
 
   let iconType;
@@ -29,8 +29,8 @@ function EventIcon({event, className, color}) {
   return (
     <SvgIcon className={className}
              type={iconType}
-             width={16}
-             height={16}
+             width={size}
+             height={size}
              color={color} />
   );
 });

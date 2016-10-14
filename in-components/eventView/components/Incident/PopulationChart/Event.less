@@ -3,23 +3,20 @@
   align-items: center;
 
   cursor: pointer;
-  overflow-x: hidden;
-
-  &:hover {
-    .in-event-view-detail-chart-event__bar {
-      opacity: 0.4;
-    }
-  }
 
   &__icon {
-    font-size: 1.4rem;
+    width: 10px;
+    margin-right: 2px;
   }
 
   &__bar {
     opacity: 1;
-    border-radius: 3px;
-    height: .625rem;
+    border-radius: 2px;
+    height: 0.438rem;
 
     transition: opacity 0.25s ease-in-out;
+    .in-event-view-detail-chart-event:hover & {
+      opacity: .6;
+    }
   }
 }
