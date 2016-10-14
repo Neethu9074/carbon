@@ -4,7 +4,7 @@ import React from 'react';
 import {highlightEventId} from 'in-components/eventView/stores/highlightedEvent';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
-import EventIcon from 'in-components/EventIcon/EventIcon';
+import EventIcon from 'in-components/EventIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import './Event.less';
@@ -47,6 +47,7 @@ function Event({event, scale, color}) {
 
       <div className={`${block}__icon`}>
         <EventIcon event={event}
+                   color={color}
                    size={10} />
       </div>
 

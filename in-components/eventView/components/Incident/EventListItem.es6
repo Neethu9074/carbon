@@ -67,7 +67,7 @@ React.createClass({
           <div className={`${block}__content-wrapper`}>
             <DetailsHeader event={event}
                            iconType={isExpanded ? 'timeline_close' : 'timeline_open'}
-                           color={background}
+                           background={background}
                            onClick={() => this.setState({ isExpanded: !isExpanded })} />
             {isExpanded
               ? <div className={`${block}__border`}
@@ -102,7 +102,7 @@ function TimeIndicator({event}) {
   );
 }
 
-function DetailsHeader({event, onClick, iconType}) {
+function DetailsHeader({event, onClick, iconType, background}) {
   const className = `${block}__heading`;
 
   return (
@@ -111,8 +111,13 @@ function DetailsHeader({event, onClick, iconType}) {
          onClick={onClick}>
 
       <div className={`${block}__left`}>
-        <EventIcon event={event}
-                   className={`${block}__icon`} />
+        <div className={`${block}__icon-wrapper`}
+             style={{ background }}>
+          <EventIcon event={event}
+                     color='#ffffff'
+                     size={14} />
+        </div>
+
         <div>
           {event.getIn(['problem', 'problemText'])}
           <EntityInformation event={event} />

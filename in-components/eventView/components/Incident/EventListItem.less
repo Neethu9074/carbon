@@ -68,7 +68,7 @@
 
   &__background {
     right: 0;
-    left: .24rem;
+    left: .438rem;;
     z-index: 1;
     opacity: .1;
     border-radius: 0 .25rem .25rem  0;
@@ -81,7 +81,7 @@
 
   &__left-border {
     left: 0;
-    width: 4px;
+    width: .438rem;
     z-index: 2;
     opacity: .3;
     border-top-left-radius: .25rem;
@@ -110,17 +110,25 @@
     align-items: center;
     justify-content: space-between;
 
-    padding: 0.1rem 1rem 0.25rem;
+    padding: 0.1rem 1rem 0.25rem 1rem;
     cursor: pointer;
   }
 
   &__expanded-details{
     padding: 0.5rem;
-    padding-left: 0.962rem;
+    padding-left: 1rem;
   }
 
-  &__icon {
+  &__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: .5;
+    min-width: 1.625rem;
+    min-height: 1.625rem;
     margin-right: 0.5rem;
+    border-radius: 50%;
   }
 
   &__left {
