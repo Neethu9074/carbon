@@ -91,13 +91,13 @@ function Icon({event, isOpen}) {
   }
   return (
     <div style={{
-      background: color,
-      paddingLeft: '0.75rem'
-    }}>
-    <SvgIcon className={`${block}__icon`}
-             type={iconType}
-             height={12}
-             color='#40535b' />
+      background: color
+    }}
+    className={`${block}__icon-cell`}>
+      <SvgIcon className={`${block}__icon`}
+               type={iconType}
+               height={12}
+               color='#40535b' />
     </div>
   );
 });
