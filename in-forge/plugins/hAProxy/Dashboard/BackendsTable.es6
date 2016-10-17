@@ -18,7 +18,7 @@ export default function BackendsTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Backends'>
+    <DashboardSection title={`Backends (${backends.size})`}>
       <ExpandableTable data={backends}
                        getKey={getKey}
                        createHeader={createHeader}

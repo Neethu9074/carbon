@@ -19,7 +19,7 @@ export default function FrontendsTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Frontends'>
+    <DashboardSection title={`Frontends (${frontends.size})`}>
       <ExpandableTable data={frontends}
                        getKey={getKey}
                        createHeader={createHeader}
