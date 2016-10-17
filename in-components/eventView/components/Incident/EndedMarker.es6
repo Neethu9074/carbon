@@ -1,14 +1,21 @@
 import React from 'react';
 
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
+import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {formatDate, formatTime} from 'in-services/formatters/date';
+import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/eventView/components/Incident/Marker.less';
 
 
-export default function EndedMarker({event}) {
+export default connectTo(props => {
+  return {
+    isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
+  };
+},
+function EndedMarker({event, isOpen}) {
   const timestamp = event.get('end');
-  if (!timestamp) {
+  if (!timestamp || isOpen) {
     return null;
   }
 
@@ -22,4 +29,4 @@ export default function EndedMarker({event}) {
       </span>
     </LabeledValue>
   );
-}
+});
