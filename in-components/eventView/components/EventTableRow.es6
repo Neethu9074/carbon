@@ -4,9 +4,10 @@ import {selectedEventId$, isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
+import {getSingular} from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
-import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -48,7 +49,7 @@ function toggleEvent(event, selectedEventId) {
   getEvent(event.id).once(_event => {
     event.id !== selectedEventId
     ? selectEvent(_event)
-    : clearEvent(_event);
+    : clearEvent();
   });
 }
 
@@ -89,10 +90,15 @@ function Icon({event, isOpen}) {
     }
   }
   return (
+    <div style={{
+      background: color,
+      paddingLeft: '0.5rem'
+    }}>
     <SvgIcon className={`${block}__icon`}
              type={iconType}
              height={12}
-             color={color} />
+             color='#40535b' />
+    </div>
   );
 });
 
@@ -105,10 +111,16 @@ function EventTableRowEntity({snapshot}) {
   if (!snapshot) {
     return null;
   }
+  const entityType = getSingular(snapshot.get('plugin'));
 
   return (
-    <span>
-      {getLabel(snapshot)}
-    </span>
+    <div className={`${block}__entity-wrapper`}>
+      <img src={getIcon(snapshot)}
+           alt={`Icon for entities of type ${entityType}`}
+           className={`${block}__entity-icon`}/>
+      <span>
+        {getLabel(snapshot)}
+      </span>
+    </div>
   );
 });

@@ -2,7 +2,6 @@ import RoEmitter from 'roemitter';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import {requestRendering} from 'in-map/stores/renderingStore';
-import {clearSelectedIncident} from 'in-stores/incident';
 import {getFactory} from 'in-map/stores/factoriesStore';
 import {Object3D, Vector3} from 'in-map/3DLibProvider';
 import Camera from 'in-map/misc/OrthographicCamera';
@@ -67,7 +66,6 @@ export default class BasicCameraController extends Subscriber {
         } else if (connections.length === 0) {
           // the was something clicked but no object or connection available -> reset
           clearSelectedSnapshotId();
-          clearSelectedIncident();
           clearSelectedEvent();
         } else {
           setSelectedSnapshotId(connections[0].id);

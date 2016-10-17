@@ -6,7 +6,6 @@ import BasicEventRenderer from 'in-components/timeline/components/renderer/event
 import {setHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {setFocusedMoment} from 'in-components/timeline/timelineStore';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
-import {setSelectedIncident} from 'in-stores/incident';
 
 
 describe('BasicEventRenderer', () => {
@@ -14,7 +13,6 @@ describe('BasicEventRenderer', () => {
 
   beforeEach(() => {
     setFocusedMoment(null);
-    setSelectedIncident(null);
     setSelectedSnapshotId(null);
     setHighlightedEntityId(null);
   });

@@ -1,5 +1,6 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {selectedIncidentId$} from 'in-stores/incident';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker/issueTracker';
+import {selectedIncident$} from 'in-stores/events';
 
 
 const white = '#ffffff';
@@ -10,7 +11,11 @@ export default class MarkedIncidentRenderer extends BasicRenderer {
     super(backBuffer, scale);
 
     this.selectedIncidentId = null;
-    this.selectedIncidentSubscription = selectedIncidentId$.subscribe(si => this.selectedIncidentId = si);
+    this.selectedIncidentSubscription = selectedIncident$.subscribe(_event => {
+      this.selectedIncidentId = (_event && getEventType(_event) === EVENT_TYPES.INCIDENT)
+        ? _event.get('id')
+        : null;
+    });
   }
 
   draw(incidents) {

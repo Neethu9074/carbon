@@ -1,7 +1,10 @@
 import React from 'react';
 
+import {
+  getColorForEventAtFocusedMomentAsStream,
+  fireCallbacksForEventAtFocusedMomentAsStream
+} from 'in-stores/events';
 import {highlightEventId} from 'in-components/eventView/stores/highlightedEvent';
-import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import EventIcon from 'in-components/EventIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -13,17 +16,20 @@ const block = 'in-event-view-detail-chart-event';
 
 export default connectTo(props => {
   return {
-    color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae')
+    color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae'),
+    isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
   };
 },
-function Event({event, scale, color}) {
+function Event({event, scale, color, isOpen}) {
   // clamp events so that they are not going beyond the borders of the chart.
   // If they would do, the incident start and end properties are wrongly calculated
   const left = scale.getRange(event.get('start'));
 
+  const iconSize = 10;
+  const barOffset = iconSize + 2;
   const eventType = getEventType(event);
   const end = event.get('end');
-  const right = end
+  const right = end || isOpen
     ? scale.getRange(end)
 
     // add 2 because we want to cut off the border of the events div
@@ -34,8 +40,10 @@ function Event({event, scale, color}) {
   return (
     <div className={block}
          style={{
-           marginLeft: left,
-           width: scale.getRangeTo() - left // use full width to make event small events clickable over the hole line
+           marginLeft: left - barOffset,
+
+           // use full width to make event small events clickable over the hole line
+           width: scale.getRangeTo() - left + barOffset
          }}
          onClick={() => onEventClick(event)}>
 
@@ -43,7 +51,7 @@ function Event({event, scale, color}) {
         <EventIcon event={event}
                    color={color}
                    useAlternativeChangeIcon={false}
-                   size={10} />
+                   size={iconSize} />
       </div>
 
       {barWidth > 0

@@ -1,11 +1,11 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker/issueTracker';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {selectedIncident$, selectedEventId$} from 'in-stores/events';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import {getColorForEvent} from 'in-services/issueTracker';
 import {selectedSnapshotId} from 'in-stores/snapshot';
-import {selectedIncident$} from 'in-stores/incident';
 import {emptyArray} from 'in-services/fixedObjects';
-import {selectedEventId$} from 'in-stores/events';
 
 
 const highlightedColor = '#ffffff';
@@ -23,17 +23,18 @@ export default class EventRenderer extends BasicRenderer {
     this.selectedIncident = null;
     this.recentEventIds = emptyArray;
 
-    this.selectedIncidentSubscription = selectedIncident$.subscribe(_selectedIncident => {
-      this.selectedIncident = _selectedIncident;
-      if (_selectedIncident) {
-        this.recentEventIds = _selectedIncident.get('recentEvents').toArray();
-
-        // add the incident itself to highlight it, too
-        this.recentEventIds.push(_selectedIncident.get('id'));
-
-      } else {
+    this.selectedIncidentSubscription = selectedIncident$.subscribe(_event => {
+      if (!_event || getEventType(_event) !== EVENT_TYPES.INCIDENT) {
         this.recentEventIds = emptyArray;
+        this.selectedIncident = null;
+        return;
       }
+
+      this.selectedIncident = _event;
+      this.recentEventIds = _event.get('recentEvents', emptyArray).toArray();
+
+      // add the incident itself to highlight it, too
+      this.recentEventIds.push(_event.get('id'));
     });
 
     this.focusedMoment = null;

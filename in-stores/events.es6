@@ -3,14 +3,15 @@ import {sortedIndexBy} from 'lodash';
 import Immutable from 'immutable';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {getEvent, getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {focusedMoment$, timeframe$, to$, from$} from 'in-stores/timeline';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import getOpenEvents from 'in-services/subscription/openEvents';
 import getEvents from 'in-services/subscription/events';
+import {alwaysNull} from 'in-services/fixedStreams';
 import {theme} from 'in-services/theme';
 
 
@@ -374,6 +375,13 @@ export const selectedEventId$ = createTrackingStore({
       }
       return null;
     })
+    .distinct()
+}).observable;
+
+export const selectedIncident$ = createTrackingStore({
+  name: 'selectedIncident',
+  observable: selectedEventId$
+    .flatMap(id => id ? getEvent(id) : alwaysNull)
     .distinct()
 }).observable;
 

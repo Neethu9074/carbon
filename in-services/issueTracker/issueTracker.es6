@@ -1,6 +1,5 @@
 import {selectEvent as selectEventInStore, clearSelectedEvent} from 'in-stores/events';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {setSelectedIncident, clearSelectedIncident} from 'in-stores/incident';
 import createEventObservable from 'in-services/subscription/event';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import {theme} from 'in-services/theme';
@@ -88,21 +87,14 @@ export function getEventType(event) {
 export function selectEvent(event) {
   selectEventInStore(event);
 
-  if (getEventType(event) === EVENT_TYPES.INCIDENT) {
-    setSelectedIncident(event.get('id'));
-  } else {
+  if (getEventType(event) !== EVENT_TYPES.INCIDENT) {
     setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
   }
 }
 
-export function clearEvent(event) {
+export function clearEvent() {
   clearSelectedEvent();
-
-  if (getEventType(event) === EVENT_TYPES.INCIDENT) {
-    clearSelectedIncident();
-  } else {
-    clearSelectedSnapshotId();
-  }
+  clearSelectedSnapshotId();
 }
 
 

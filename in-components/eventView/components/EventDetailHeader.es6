@@ -21,7 +21,7 @@ function EventDetailHeader({event}) {
   return (
     <div className={block}>
       <div className={`${block}__icon`}
-           onClick={() => clearEvent(event)}>
+           onClick={clearEvent}>
         <SvgIcon type='x'
                  width={6}
                  height={6}

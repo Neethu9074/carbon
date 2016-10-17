@@ -1,6 +1,5 @@
 .in-event-view-event-table-row {
   height: 1.625rem;
-  margin-left: .5rem;
 
   line-height: 1.625rem;
   color: #2D4048;
@@ -10,6 +9,10 @@
   &:hover, &--selected.in-event-view-event-table-row {
     background: #2d4048;
     color: white;
+
+    .in-event-view-event-table-row__entity-icon {
+      filter: brightness(1);
+    }
   }
 
   &__cell {
@@ -26,7 +29,6 @@
 
     &:nth-child(1) {
       width: 5%;
-      padding-left: 10px;
     }
 
     &:nth-child(2), &:nth-child(3) {
@@ -34,15 +36,27 @@
     }
 
     &:nth-child(4) {
-      width: 34%;
+      width: 29%;
     }
 
     &:nth-child(5) {
-      width: 29%;
+      width: 34%;
     }
 
     &:last-child {
       border-right: 0;
     }
+  }
+
+  &__entity-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__entity-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    margin-right: 0.313rem;
+    filter: brightness(0);
   }
 }

@@ -2,7 +2,6 @@ import React from 'react';
 
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import {clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {clearSelectedIncident} from 'in-stores/incident';
 import {clearSelectedEvent} from 'in-stores/events';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -25,7 +24,6 @@ export default connectTo(
     return (
       <div className={block}
            onClick={() => {
-             clearSelectedIncident();
              clearSelectedSnapshotId();
              clearSelectedEvent();
            }}
