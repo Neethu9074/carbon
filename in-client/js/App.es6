@@ -11,7 +11,6 @@ import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import ViewSwitcher from 'in-components/ViewSwitcher';
-import RightSidebar from 'in-components/RightSidebar';
 import AppHeader from 'in-components/AppHeader';
 import Settings from 'in-components/Settings';
 
@@ -22,8 +21,6 @@ export default function App(props) {
     <div>
       <AppHeader />
       <ViewSwitcher />
-
-      <RightSidebar />
       <Timeline />
 
       {props.children}

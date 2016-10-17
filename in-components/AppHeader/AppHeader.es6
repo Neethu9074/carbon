@@ -1,6 +1,5 @@
 import React from 'react';
 
-import NotificationCenterHeaderModule from 'in-components/notificationCenter/HeaderModule';
 import AccountMenu from 'in-components/AccountMenu';
 import SearchBar from 'in-components/SearchBar';
 import Lettering from 'in-components/Lettering';
@@ -25,10 +24,7 @@ export default connectTo({
         <SearchBar className={block + '__search'} />
       </div>
 
-      <div className={block + '__menu'}>
-        <AccountMenu />
-        <NotificationCenterHeaderModule />
-      </div>
+      <AccountMenu />
     </div>
   );
 });
