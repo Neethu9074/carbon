@@ -92,7 +92,7 @@ function Icon({event, isOpen}) {
   return (
     <div style={{
       background: color,
-      paddingLeft: '0.5rem'
+      paddingLeft: '0.75rem'
     }}>
     <SvgIcon className={`${block}__icon`}
              type={iconType}
