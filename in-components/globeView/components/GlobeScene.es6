@@ -88,14 +88,7 @@ export default class GlobeScene {
       renderer.domElement,
       this.camera,
       {
-        poi: this.poi,
-        cameraMoveSpeed: 4,
-        startingWorldDistance: 0,
-        startingZoomDistance: 1.5,
-        maxZoomIn: 1.1,
-        maxZoomOut: 2,
-        zoomSteps: 0.15,
-        zoomSpeed: 4
+        poi: this.poi
       }
     );
   }

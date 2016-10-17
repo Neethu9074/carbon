@@ -1,20 +1,19 @@
 import Hammer from 'hammerjs';
 
 import {onWheel} from 'in-services/reactiveMouseEvents';
-import {Object3D} from 'in-map/3DLibProvider';
 import {getDeltaTime} from 'in-map/misc/time';
 
 
 const RAD_2_DEG = Math.PI / 180;
 
 export default function createControls(canvas, camera, {
-  poi = new Object3D(),
-  maxZoomIn = 0,
-  maxZoomOut = 10000,
-  startingZoomDistance = 30,
-  cameraMoveSpeed = 10,
-  zoomSteps = 1,
-  zoomSpeed = 1
+  poi,
+  cameraMoveSpeed = 4,
+  startingZoomDistance = 1.5,
+  maxZoomIn = 1.1,
+  maxZoomOut = 2,
+  zoomSpeed = 3,
+  zoomSteps = 0.025
 }) {
 
   let targetRotationX = 0;
@@ -73,7 +72,6 @@ export default function createControls(canvas, camera, {
   }
 
   function onZoom(delta) {
-    targetZoomDistance = camera.position.z;
     targetZoomDistance += delta * zoomSteps;
     targetZoomDistance = Math.min(maxZoomOut, Math.max(maxZoomIn, targetZoomDistance));
   }
@@ -95,7 +93,8 @@ export default function createControls(canvas, camera, {
     poi.updateMatrixWorld();
 
     const deltaZoomDistance = targetZoomDistance - camera.position.z;
-    camera.translateZ(deltaZoomDistance * dt * zoomSpeed);
+    const newZPosition = camera.position.z + deltaZoomDistance * dt * zoomSpeed;
+    camera.position.z = Math.min(maxZoomOut, Math.max(maxZoomIn, newZPosition));
   }
 
   return {
