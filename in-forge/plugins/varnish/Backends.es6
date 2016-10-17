@@ -7,10 +7,10 @@ export default function Backends({snapshot, backend}) {
   return (
     <DescriptionList>
       <DescriptionItem title='Host'>
-        {data.get('backends').get(backend).get('host')}
+        {data.getIn(['backends', backend, 'host'])}
       </DescriptionItem>
       <DescriptionItem title='Port'>
-        {data.get('backends').get(backend).get('port')}
+        {data.getIn(['backends', backend, 'port'])}
       </DescriptionItem>
     </DescriptionList>
   );
