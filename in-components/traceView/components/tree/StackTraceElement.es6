@@ -51,15 +51,16 @@ export default connectTo(props => {
 
   render() {
     let stackTrace = this.props.stackTrace;
+    const stackTraceLength = stackTrace.length;
     if (!this.state.showAllElements) {
-      stackTrace = [stackTrace[stackTrace.length - 1]];
+      stackTrace = [stackTrace[stackTraceLength - 1]];
     }
 
     return (
       <div className={block}
-           onClick={this.toggle}>
+           onClick={stackTraceLength > 1 ? this.toggle : undefined}>
 
-        {this.props.stackTrace.length > 1 ?
+        {stackTraceLength > 1 ?
           <SvgIcon type={this.state.showAllElements ? 'timeline_close' : 'timeline_open'}
                    className={`${block}__toggle-details`}
                    width={12} />
