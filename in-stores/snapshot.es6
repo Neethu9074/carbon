@@ -5,6 +5,7 @@ import createPhysicalHierarchyObservable from 'in-services/subscription/physical
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
 import createServiceInstancesObservable from 'in-services/subscription/serviceInstances';
 import createDeployedUnitsObservable from 'in-services/subscription/deployedUnits';
+import createrIsEntityOnlineObservable from 'in-services/subscription/isOnline';
 import createFoundationsObservable from 'in-services/subscription/foundations';
 import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
@@ -138,4 +139,8 @@ export function getRawPayload(snapshotId, payloadName) {
 export function getServiceInstances(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
     createServiceInstancesObservable({snapshotId, time: focusedMoment}));
+}
+
+export function isEntityOnline(snapshotId) {
+  return createrIsEntityOnlineObservable({snapshotId});
 }

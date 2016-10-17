@@ -12,10 +12,20 @@ export default function Button({className,
                                 onClick,
                                 style,
                                 children,
-                                href}) {
+                                href,
+                                disabled}) {
   let classes = `${block} ${block}--${kind} ${block}--${size}`;
   if (className) {
     classes = `${classes} ${className}`;
+  }
+
+  // Do not use the disabled attribute as we want to continue to retrieve mouse events
+  if (disabled) {
+    classes = `${classes} ${block}--disabled`;
+  }
+
+  if (onClick && disabled) {
+    onClick = stopPropagation;
   }
 
   if (!href) {
