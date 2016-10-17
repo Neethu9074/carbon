@@ -42,6 +42,7 @@ React.createClass({
   },
 
   componentWillUnmount() {
+    // 🚚!
     clear();
   },
 

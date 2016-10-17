@@ -13,7 +13,7 @@ const getChecksumForFile = checkSumMod.getChecksumForFile;
 const getSriIntegrityForFile = checkSumMod.getSriIntegrityForFile;
 
 const router = module.exports = express.Router();
-const immutableCacheControlHeader = 'public, max-age=365000000, immutable';
+const immutableCacheControlHeader = 'max-age=365000000, immutable';
 
 const rawTemplate = fs.readFileSync(
   path.join(__dirname, 'templates', 'index.hbs'),
