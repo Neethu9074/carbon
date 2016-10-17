@@ -1,29 +1,14 @@
 .in-event-view-event-problem {
-  display: flex;
-  align-items: center;
-
-  padding: 0 1rem;
-
-  background: #41545c;
-  background: linear-gradient(#2d4048, #43565e);
-  border-radius: 0.25rem;
-
-  &__icon-wrapper {
-    width: 20px;
-  }
-
-  &__text-wrapper {
-    margin: 0.625rem 0 0 1rem;
-  }
-
-  &__heading {
-    color: white;
-    font-size: .75rem;
-  }
 
   &__suggestion {
-    font-size: .688rem;
-    color: #92a5ae;
     word-break: break-word;
+
+    & > :first-child {
+      margin-top: 0;
+    }
+
+    & > :last-child {
+      margin-bottom: 0;
+    }
   }
 }
