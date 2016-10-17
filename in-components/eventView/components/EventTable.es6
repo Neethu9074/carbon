@@ -23,10 +23,18 @@ function EventTable({events, height, isInfiniteLoading}) {
     return <LoadingIndicator type='dark' />;
   }
 
+  if (!isInfiniteLoading && events.length === 0) {
+    return (
+      <div className={block}>
+        <p className={`${block}__no-events`}>
+          There are no events in the selected time window.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className={block}>
-      <NoEventsMessage events={events}
-                       isInfiniteLoading={isInfiniteLoading} />
       <InfiniteTable height={height}
                      events={events}
                      isInfiniteLoading={isInfiniteLoading} />
@@ -40,18 +48,6 @@ EventTable.propTypes = {
   events: rpt.array.isRequired,
   height: rpt.number
 };
-
-function NoEventsMessage({events, isInfiniteLoading}) {
-  if (!isInfiniteLoading && events.length > 0) {
-    return null;
-  }
-
-  return (
-    <p className={`${block}__no-events`}>
-      There are no events in the selected time window.
-    </p>
-  );
-}
 
 function InfiniteTable({height, events, isInfiniteLoading}) {
   if (!height || events.length === 0) {
