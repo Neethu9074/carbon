@@ -59,9 +59,11 @@ export default connectTo(props => {
       <div className={block}
            onClick={this.toggle}>
 
-        <SvgIcon type={this.state.showAllElements ? 'timeline_close' : 'timeline_open'}
-                 className={`${block}__toggle-details`}
-                 width={12} />
+        {this.props.stackTrace.length > 1 ?
+          <SvgIcon type={this.state.showAllElements ? 'timeline_close' : 'timeline_open'}
+                   className={`${block}__toggle-details`}
+                   width={12} />
+        : null}
 
         <ol className={`${block}__list`}>
           {stackTrace.map((st, i) =>
