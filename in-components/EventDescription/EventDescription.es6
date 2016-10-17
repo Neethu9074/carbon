@@ -1,7 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
+import {
+  getColorForEventAtFocusedMomentAsStream,
+  fireCallbacksForEventAtFocusedMomentAsStream
+} from 'in-stores/events';
 import {formatDateTime} from 'in-services/formatters/date';
 import {
   getIconTypeForEventType,
@@ -26,7 +29,8 @@ const rpt = React.PropTypes;
 export default connectTo(props => {
     return {
       // TODO respect context: Is this relative to focused moment or relative to server time?
-      color: getColorForEventAtFocusedMomentAsStream(props.event)
+      color: getColorForEventAtFocusedMomentAsStream(props.event),
+      isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
     };
   }, React.createClass({
   displayName: 'EventDescription',
@@ -36,7 +40,8 @@ export default connectTo(props => {
     showFullTextIfToLong: rpt.bool,
     color: rpt.string.isRequired,
     event: irpt.map.isRequired,
-    className: rpt.string
+    className: rpt.string,
+    isOpen: rpt.bool
   },
 
   render() {
@@ -59,7 +64,7 @@ export default connectTo(props => {
               {formatDateTime(start)}
             </Col>
 
-            {end && start !== end ?
+            {!this.props.isOpen && start !== end ?
               <Col cols={6}
                    className={block + '__end'}>
                 Ended:<br/>{formatDateTime(end)}
