@@ -72,7 +72,7 @@ export default getElementDimensions(React.createClass({
       if (incident) {
         this.setState({from: incident.get('start')});
 
-        if (!incident.get('end')) {
+        if (incident.get('state') === 'open') {
           this.setupServertimeSubscription();
         } else {
           this.disposeServertimeSubscription();
