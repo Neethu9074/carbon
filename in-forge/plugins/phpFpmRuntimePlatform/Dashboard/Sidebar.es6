@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import {formatDateTime} from 'in-services/formatters/date';
@@ -22,11 +22,13 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
         </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
+
+          <KeyValuePopupButton title='Master Configuration'
+                               data={data.filter((v, k) => k.indexOf('worker_pool') === -1) } >
+            Show Configuration
+          </KeyValuePopupButton>
         </Collapsible.Content>
       </Collapsible>
-
-      <KeyValuePopup header='Master Configuration'
-                     data={data.filter((v, k) => k.indexOf('worker_pool') === -1) } />
 
       {pools.map(pool =>
         <div key={pool}>
@@ -39,7 +41,7 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
                 {
                   data.get('worker_pool.' + pool + '.start_time')
                   ? <DescriptionItem title='Start Time'>
-                    {formatDateTime(data.get('worker_pool.' + pool + '.start_time') * 1000)}
+                      {formatDateTime(data.get('worker_pool.' + pool + '.start_time') * 1000)}
                     </DescriptionItem>
                   : null
                 }
@@ -59,15 +61,15 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
                   {data.get('worker_pool.' + pool + '.group')}
                 </DescriptionItem>
               </DescriptionList>
+
+              <KeyValuePopupButton title={`Worker Pool Configuration: ${pool}`}
+                                   data={data
+                                     .filter((v, k) => k.indexOf('worker_pool.' + pool) === 0)
+                                     .mapKeys(k => k.split('worker_pool.' + pool + '.')[1])}>
+                Show Configuration
+              </KeyValuePopupButton>
             </Collapsible.Content>
           </Collapsible>
-
-          <KeyValuePopup header={`Worker Pool Configuration: ${pool}`}
-                         data={data.filter(
-                           (v, k) => k.indexOf('worker_pool.' + pool) === 0)
-                           .mapKeys(
-                             k => k.split('worker_pool.' + pool + '.')[1])
-                           } />
         </div>
       )}
 
