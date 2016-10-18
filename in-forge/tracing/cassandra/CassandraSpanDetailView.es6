@@ -21,6 +21,9 @@ export default function CassandraSpanDetailView({span}) {
         <DescriptionItem title='Query'>
           {span.getIn(['data', 'cassandra', 'query'])}
         </DescriptionItem>
+        <DescriptionItem title='Error'>
+          {span.getIn(['data', 'cassandra', 'error'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );
