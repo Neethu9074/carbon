@@ -5,7 +5,6 @@ import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
 import getGraph from 'in-services/subscription/graph';
-// import getGraphUniverse from 'in-services/subscription/graphUniverse';
 import {focusedMoment$} from 'in-stores/timeline';
 
 export default class Graph {
@@ -24,11 +23,6 @@ export default class Graph {
           .throttle(60000);
       })
       .once(this.processEdgeModifications.bind(this));
-
-    // this.graphSubscription = focusedMoment$
-    //   .flatMap(getGraphUniverse)
-    //   .once(this.processGraphRetrieval.bind(this));
-
   }
 
   processEdgeModifications(edgeModifications) {
