@@ -305,7 +305,10 @@ const VERTICES = [
 ];
 
 const indexWhereTopMeshBegins = 340;
-const COLORS = new Array(VERTICES.length).fill(1);
+const COLORS = new Array(VERTICES.length);
+for (let i = 0, length = COLORS.length; i < length; i++) {
+  COLORS[i] = 1;
+}
 for (let i = 0; i <= indexWhereTopMeshBegins; i++) {
   COLORS[i] = 0.9;
 }

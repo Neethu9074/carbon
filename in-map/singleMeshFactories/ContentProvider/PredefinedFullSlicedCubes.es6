@@ -4,7 +4,7 @@ import {BufferGeometry} from 'in-map/3DLibProvider';
 import {theme} from 'in-services/theme';
 
 
-export const NUM_POINTS_PER_SLICE = 54;
+export const NUM_POINTS_PER_SLICE = 90;
 const FRONT = theme.map.colors.cubeColorFalloffValues.right;
 const TOP = theme.map.colors.cubeColorFalloffValues.top;
 const DEFAULT_FALLOFF_COLORS = [
@@ -30,7 +30,23 @@ const DEFAULT_FALLOFF_COLORS = [
 
   1, 1, 1,
   1, 1, 1,
-  1, 1, 1
+  1, 1, 1,
+
+  1, 1, 1,
+  1, 1, 1,
+  1, 1, 1,
+
+  1, 1, 1,
+  1, 1, 1,
+  1, 1, 1,
+
+  FRONT.r, FRONT.g, FRONT.b,
+  FRONT.r, FRONT.g, FRONT.b,
+  FRONT.r, FRONT.g, FRONT.b,
+
+  FRONT.r, FRONT.g, FRONT.b,
+  FRONT.r, FRONT.g, FRONT.b,
+  FRONT.r, FRONT.g, FRONT.b
 ];
 
 const ALL_COLORS = [];
@@ -107,7 +123,25 @@ function calculateVertices(numSlices) {
 
       -0.5, 0, 0.5,
       -0.5, 1, 0.5,
-      -0.5, 1, -0.5
+      -0.5, 1, -0.5,
+
+      // right
+      0.5, 0, -0.5,
+      0.5, 0, 0.5,
+      0.5, 1, -0.5,
+
+      0.5, 0, 0.5,
+      0.5, 1, 0.5,
+      0.5, 1, -0.5,
+
+      // back
+      0.5, 1, -0.5,
+      0.5, 0, -0.5,
+      -0.5, 0, -0.5,
+
+      -0.5, 1, -0.5,
+      0.5, 1, -0.5,
+      -0.5, 0, -0.5
     );
   }
   return vertices;
@@ -141,6 +175,24 @@ for (let i = 0; i < theme.chart.strokeColors.length; i++) {
 
     i,
     i + 1,
-    i + 1
+    i + 1,
+
+    // right
+    i,
+    i,
+    i + 1,
+
+    i,
+    i + 1,
+    i + 1,
+
+    // back
+    i + 1,
+    i,
+    i,
+
+    i + 1,
+    i + 1,
+    i
   );
 }
