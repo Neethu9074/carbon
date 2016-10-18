@@ -3,8 +3,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
+import {sanitize, ansiToHtml, replaceHtmlChars} from 'in-services/formatters/html';
 import DialogNotification from 'in-components/DialogNotification';
-import {sanitize, ansiToHtml} from 'in-services/formatters/html';
 
 import './LogStreamer.less';
 
@@ -59,6 +59,12 @@ export default React.createClass({
       }
       return agg;
     }, {log: '', error: null})
+    .map(aggregated => {
+      return {
+        log: replaceHtmlChars(aggregated.log),
+        error: aggregated.error
+      };
+    })
     .flatMap(aggregated => {
       return ansiToHtml(aggregated.log)
         .map(html => {
