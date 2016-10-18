@@ -23,7 +23,7 @@ export default function HttpdDashboard({snapshot, timeframe}) {
   }
   return (
     <div>
-      {extendedStatusInfo(status)}
+      {extendedStatusInfo(status, ver)}
 
       { status !== 'EXTENDED_INFO_DISABLED' ?
         <div>
@@ -168,23 +168,35 @@ export default function HttpdDashboard({snapshot, timeframe}) {
       </DashboardSection>
     </div>
   );
+
 }
 
-function extendedStatusInfo(status) {
+function extendedStatusInfo(status, ver) {
   if (status !== 'EXTENDED_INFO_DISABLED') {
     return null;
   }
 
   return (
      <DashboardNotification type='info'>
-       <p>In order to display metrics such as:
+       In order to display metrics such as:
        Traffic, Traffic per Request and CPU,
        &nbsp;<strong>ExtendedStatus</strong> flag should be&nbsp;
-       <strong>enabled</strong> in apache httpd configuration.</p>
+       <strong>enabled</strong> in apache httpd configuration.&nbsp;
        <a target='_blank'
-       href='https://httpd.apache.org/docs/2.4/mod/core.html#extendedstatus'>
+       href={getModStatusDoc(ver)}>
          Apache ExtendedStatus Directive
        </a>.
      </DashboardNotification>
   );
+}
+
+function getModStatusDoc(v) {
+    if (semver.satisfies(v, '>=2.4.0')) {
+      return 'https://httpd.apache.org/docs/2.4/mod/core.html#extendedstatus';
+    } else if (semver.satisfies(v, '>=2.2.0')) {
+      return 'https://httpd.apache.org/docs/2.2/mod/core.html#extendedstatus';
+    } else if (semver.satisfies(v, '>=2.0.0')) {
+      return 'https://httpd.apache.org/docs/2.0/mod/core.html#extendedstatus';
+    }
+    return 'http://httpd.apache.org/docs/current/mod/mod_status.html#extendedstatus';
 }
