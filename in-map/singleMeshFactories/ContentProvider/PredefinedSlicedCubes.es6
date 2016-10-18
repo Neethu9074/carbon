@@ -65,7 +65,10 @@ export function getSlicedGeometry(numSlices) {
     colors = PREDEFINED_COLORS[numSlices] = ALL_COLORS.slice(0, NUM_POINTS_PER_SLICE * numSlices);
   }
 
-  const sharedHeights = new Array(numSlices * NUM_POINTS_PER_SLICE).fill(0);
+  const sharedHeights = new Array(numSlices * NUM_POINTS_PER_SLICE);
+  for (let i = 0, length = sharedHeights.length; i < length; i++) {
+    sharedHeights[i] = 0;
+  }
 
   const geometry = new BufferGeometry();
   updateAttribute(geometry, 'position', vertices);
