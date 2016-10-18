@@ -23,10 +23,10 @@ export default function ProcessSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
 
       {args && args.size > 0 ?
         <div>
+          <Separator />
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>
               Arguments
@@ -35,8 +35,6 @@ export default function ProcessSidebar({snapshot}) {
               <ArgList snapshot={snapshot} />
             </Collapsible.Content>
           </Collapsible>
-
-          <Separator />
         </div>
         : null
       }

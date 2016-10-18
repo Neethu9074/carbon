@@ -21,10 +21,9 @@ export default function JvmRuntimeSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
-
       {args ?
         <div>
+          <Separator />
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>JVM Arguments</Collapsible.Header>
             <Collapsible.Content>
@@ -33,8 +32,6 @@ export default function JvmRuntimeSidebar({snapshot}) {
               </List>
             </Collapsible.Content>
           </Collapsible>
-
-          <Separator />
         </div>
       : null}
 

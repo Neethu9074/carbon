@@ -22,12 +22,10 @@ export default function DockerSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
+      {labels && labels.size > 0 ? <Separator /> : null}
 
       <KeyValuePopup header='Container Labels'
                      data={labels} />
-
-      <Separator />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>

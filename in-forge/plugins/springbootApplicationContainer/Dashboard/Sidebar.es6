@@ -21,18 +21,20 @@ export default function SpringbootSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
 
       { applicationConfig ?
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Application Config</Collapsible.Header>
-          <Collapsible.Content>
-            {applicationConfig.map((applicationConfigData, applicationConfigPath) =>
-                <KeyValuePopup key={applicationConfigPath} header={applicationConfigPath}
-                               data={applicationConfigData}/>
-            ).valueSeq().toArray()}
-          </Collapsible.Content>
-        </Collapsible>
+        <div>
+          <Separator />
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Application Config</Collapsible.Header>
+            <Collapsible.Content>
+              {applicationConfig.map((applicationConfigData, applicationConfigPath) =>
+                  <KeyValuePopup key={applicationConfigPath} header={applicationConfigPath}
+                                 data={applicationConfigData}/>
+              ).valueSeq().toArray()}
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
         : null }
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />

@@ -48,21 +48,22 @@ export default function CassandraSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
-
       {tokens && tokens.size > 0 ?
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>
-            Tokens ({tokens.size})
-          </Collapsible.Header>
-          <Collapsible.Content>
-            <List>
-              {tokens.toArray().sort().map((token, i) =>
-                <List.Item key={i}>{token}</List.Item>
-              )}
-            </List>
-          </Collapsible.Content>
-        </Collapsible>
+        <div>
+          <Separator />
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>
+              Tokens ({tokens.size})
+            </Collapsible.Header>
+            <Collapsible.Content>
+              <List>
+                {tokens.toArray().sort().map((token, i) =>
+                  <List.Item key={i}>{token}</List.Item>
+                )}
+              </List>
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
         : null
       }
 
