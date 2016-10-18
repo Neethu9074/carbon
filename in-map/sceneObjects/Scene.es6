@@ -147,14 +147,15 @@ export default class MainScene extends SceneObject {
     const height = window.innerHeight - offset;
     const width = window.innerWidth;
 
-    setDimensions(width, height);
+    const canvas = this.canvas;
+    const ratio = isWebVRActive ? window.devicePixelRatio || 1 : 1;
 
-    this.canvas.setAttribute('width', width);
-    this.canvas.setAttribute('height', height);
-    this.canvas.style.width = `${width}px`;
-    this.canvas.style.height = `${height}px`;
-
-    this.renderer.setSize(width, height);
+    this.renderer.setSize(width * ratio, height * ratio);
+    setDimensions(width * ratio, height * ratio);
+    canvas.setAttribute('width', width * ratio);
+    canvas.setAttribute('height', height * ratio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
 
     // refresh to show the current state
     requestRendering();
