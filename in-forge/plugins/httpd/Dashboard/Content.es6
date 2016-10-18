@@ -183,7 +183,7 @@ function extendedStatusInfo(status, ver) {
        &nbsp;<strong>ExtendedStatus</strong> flag should be&nbsp;
        <strong>enabled</strong> in apache httpd configuration.&nbsp;
        <a target='_blank'
-       href={getModStatusDoc(ver)}>
+          href={getModStatusDoc(ver)}>
          Apache ExtendedStatus Directive
        </a>.
      </DashboardNotification>
@@ -191,12 +191,12 @@ function extendedStatusInfo(status, ver) {
 }
 
 function getModStatusDoc(v) {
-    if (semver.satisfies(v, '>=2.4.0')) {
-      return 'https://httpd.apache.org/docs/2.4/mod/core.html#extendedstatus';
-    } else if (semver.satisfies(v, '>=2.2.0')) {
-      return 'https://httpd.apache.org/docs/2.2/mod/core.html#extendedstatus';
-    } else if (semver.satisfies(v, '>=2.0.0')) {
-      return 'https://httpd.apache.org/docs/2.0/mod/core.html#extendedstatus';
-    }
-    return 'http://httpd.apache.org/docs/current/mod/mod_status.html#extendedstatus';
+  if (semver.satisfies(v, '>=2.4.0')) {
+    return 'https://httpd.apache.org/docs/2.4/mod/core.html#extendedstatus';
+  } else if (semver.satisfies(v, '>=2.2.0')) {
+    return 'https://httpd.apache.org/docs/2.2/mod/core.html#extendedstatus';
+  } else if (semver.satisfies(v, '>=2.0.0')) {
+    return 'https://httpd.apache.org/docs/2.0/mod/core.html#extendedstatus';
+  }
+  return 'http://httpd.apache.org/docs/current/mod/mod_status.html#extendedstatus';
 }
