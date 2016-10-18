@@ -18,7 +18,7 @@ export function clearTemporaryNotification() {
 
 // automatically clear temporary notifications after 6 seconds
 temporaryNotification$
-  .debounce(6000, {leading: false})
+  .debounce(3000, {leading: false})
   .subscribe(notification => {
     if (!notification) {
       return;

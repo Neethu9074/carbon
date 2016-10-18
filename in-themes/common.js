@@ -35,11 +35,11 @@ module.exports = {
     mapNotes: zIndex++,
     toast: zIndex++,
     tooltips: zIndex++,
-    temporaryNotification: zIndex++,
     maintenanceNote: zIndex++,
     messageFlyout: zIndex++,
     backdrop: zIndex++,
     dialog: zIndex++,
-    demoSignIn: zIndex++
+    demoSignIn: zIndex++,
+    temporaryNotification: zIndex++
   }
 };

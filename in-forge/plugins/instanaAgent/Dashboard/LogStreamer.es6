@@ -4,6 +4,7 @@ import React from 'react';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 import {sanitize, ansiToHtml, replaceHtmlChars} from 'in-services/formatters/html';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DialogNotification from 'in-components/DialogNotification';
 
 import './LogStreamer.less';
@@ -122,6 +123,8 @@ export default React.createClass({
             Error: {this.state.error}
           </DialogNotification>
         : null}
+
+        <CopyToClipboardButton getText={() => this.refs.code.textContent}/>
 
         <pre>
           <code className={`${block}__log`}

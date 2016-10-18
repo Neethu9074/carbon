@@ -1,11 +1,12 @@
 import React from 'react';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import CenterAlignment from 'in-components/layout/CenterAlignment';
 import DialogNotification from 'in-components/DialogNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {close} from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
-import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -18,14 +19,20 @@ export default connectTo(props => {
       time: props.time
     })
   };
-}, function CodeDialog({snapshot, response}) {
+}, function CodeDialog({response}) {
   let header;
   if (!response) {
-    header = `Retrieving thread dump for JVM: ${getLabel(snapshot)}`;
+    header = `Retrieving thread dump for JVM…`;
   } else if (response.error) {
-    header = `Failed to retrieve thread dump for JVM: ${getLabel(snapshot)}`;
+    header = `Failed to retrieve thread dump`;
   } else {
-    header = `Thread dump for JVM: ${getLabel(snapshot)}`;
+    header = (
+      <CenterAlignment>
+        Thread dump
+
+        <CopyToClipboardButton getText={() => response.data}/>
+      </CenterAlignment>
+    );
   }
 
   return (

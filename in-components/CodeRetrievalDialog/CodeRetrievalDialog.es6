@@ -1,5 +1,7 @@
 import React from 'react';
 
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import CenterAlignment from 'in-components/layout/CenterAlignment';
 import DialogNotification from 'in-components/DialogNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {close} from 'in-components/DialogPresenter/store';
@@ -22,7 +24,13 @@ export default connectTo(props => {
   } else if (response.error) {
     header = `Failed to retrieve file: ${file}`;
   } else {
-    header = `File: ${file}`;
+    header = (
+      <CenterAlignment>
+        <span>File: ${file}</span>
+
+        <CopyToClipboardButton getText={() => response.data}/>
+      </CenterAlignment>
+    );
   }
 
   return (
