@@ -43,6 +43,6 @@ cd in-server
 npm install
 
 # install tools that everyone needs ;)
-npm install -g ec2c proxrox tldr commitizen diff-so-fancy
+npm install -g ec2c proxrox tldr commitizen diff-so-fancy yarn
 
 echo 'Great success, Node.js is now up to date!'
