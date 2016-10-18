@@ -23,6 +23,10 @@ export default function JdbcSpanDetailView({span}) {
         <DescriptionItem title='Result Size'>
           {span.getIn(['data', 'jdbc', 'size'])}
         </DescriptionItem>
+        <DescriptionItem title='Error'>
+          {span.getIn(['data', 'jdbc', 'error'])}
+        </DescriptionItem>
+
         {statement ?
           <DescriptionItem title='Statement'>
             <Code code={formatSql(statement)}
