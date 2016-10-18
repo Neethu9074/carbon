@@ -66,16 +66,17 @@ export default function VarnishDashboard({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshotId}
                         timeframe={timeframe}
                         margins={{
-                          left: 80
+                          left: 80,
+                          right: 40
                         }}
                         y1={{
                           min: 0,
-                              metrics: [
+                          metrics: [
                             'cache_hit',
                             'cache_miss',
                             'cache_hitpass'
                           ],
-                              labels: [
+                          labels: [
                             'Cache Hits',
                             'Cache Misses',
                             'Hits pass file'
