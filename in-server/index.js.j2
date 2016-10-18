@@ -3,7 +3,8 @@
 require('instana-nodejs-sensor')({
   level: 'info',
   tracing: {
-    enabled: true
+    enabled: true,
+    exposeTraceIdForEumTracing: true
   }
 });
 
