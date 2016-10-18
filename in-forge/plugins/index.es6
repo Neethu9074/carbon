@@ -67,6 +67,7 @@ import './postgreSqlDatabase';
 import './process';
 import './rabbitMq';
 import './redis';
+import './rubyRuntimePlatform';
 import './sdkLogicalConnection';
 import './sdkLogicalService';
 import './sdkServiceInstance';
