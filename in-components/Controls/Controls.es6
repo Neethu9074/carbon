@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import {controls$} from 'in-components/Controls/stores/controlsStore';
+import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import Menu from 'in-components/Controls/components/Menu';
+import {isWebVRActive$} from 'in-map/stores/webVRStore';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
@@ -13,10 +14,11 @@ const block = 'in-controls';
 
 export default connectTo({
   timelineHeight: timelineHeight$,
+  isWebVRActive: isWebVRActive$.debounce(1000),
   controls: controls$
 },
-function Controls({controls, timelineHeight}) {
-  if (!controls) {
+function Controls({controls, isWebVRActive, timelineHeight}) {
+  if (!controls || isWebVRActive) {
     return null;
   }
 
