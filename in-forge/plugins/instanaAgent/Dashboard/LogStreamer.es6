@@ -32,6 +32,10 @@ export default React.createClass({
 
   componentDidUpdate() {
     this.subscribe();
+
+    if (this.refs.code) {
+      this.refs.code.scrollTop = Number.MAX_VALUE;
+    }
   },
 
   subscribe() {
@@ -121,7 +125,8 @@ export default React.createClass({
 
         <pre>
           <code className={`${block}__log`}
-                dangerouslySetInnerHTML={{__html: this.state.log}} />
+                dangerouslySetInnerHTML={{__html: this.state.log}}
+                ref='code'/>
         </pre>
       </div>
     );
