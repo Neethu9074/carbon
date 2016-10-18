@@ -15,8 +15,6 @@ export default function ServiceSidebar({snapshot}) {
 
       <ServiceKpiSparkCharts snapshot={snapshot} />
 
-      <Separator />
-
       <ClusterMemberList snapshotId={snapshot.get('id')} />
 
       <Separator />
