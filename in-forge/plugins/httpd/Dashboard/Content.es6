@@ -4,6 +4,8 @@ import React from 'react';
 import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import MetricValue from 'in-components/MetricValue';
 
 import {
   bytesZeroDecimalPlaces,
@@ -13,6 +15,7 @@ import {
 export default function HttpdDashboard({snapshot, timeframe}) {
   const status = snapshot.getIn(['data', 'server-status']);
   const ver = snapshot.getIn(['data', 'version']).replace(/[^\d.]/g, '');
+  const snapshotId = snapshot.get('id');
 
   if (status !== 'OK' && status !== 'EXTENDED_INFO_DISABLED') {
     return (
@@ -23,110 +26,92 @@ export default function HttpdDashboard({snapshot, timeframe}) {
   }
   return (
     <div>
+      <KpiSection>
+        <KpiHeading>{snapshot.getIn(['data', 'version'])}</KpiHeading>
+        { status !== 'EXTENDED_INFO_DISABLED' ?
+          <KpiKeyValue label='Requests'>
+            <MetricValue snapshotId={snapshotId}
+                         metric='requests' />
+          </KpiKeyValue>
+          : null }
+        { status !== 'EXTENDED_INFO_DISABLED' ?
+          <KpiKeyValue label='kBytes Traffic'>
+            <MetricValue snapshotId={snapshotId}
+                         metric='kBytes' />
+          </KpiKeyValue>
+          : null }
+        <KpiKeyValue label='Busy Worker'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='busy_workers' />
+        </KpiKeyValue>
+      </KpiSection>
+
       {extendedStatusInfo(status, ver)}
 
       { status !== 'EXTENDED_INFO_DISABLED' ?
-        <div>
-          <DashboardSection title='Traffic'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             margins={{
-                               left: 80,
-                               right: 60
-                             }}
-                             y1={{
-                               metrics: [
-                                 'requests'
-                               ],
-                               labels: [
-                                 'Requests'
-                               ],
-                               type: 'line'
-                             }}
-                             y2={{
-                               metrics: [
-                                 'kBytes'
-                               ],
-                               labels: [
-                                 'kBytes'
-                               ],
-                               type: 'line'
-                             }}
-                             />
-          </DashboardSection>
-          <DashboardSection title='Traffic per Request'>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
-                               timeframe={timeframe}
-                               margins={{
-                                 left: 60
-                               }}
-                               y1={{
-                                 min: 0,
-                                 metrics: [
-                                   'bytes_per_req'
-                                 ],
-                                 labels: [
-                                   'Traffic per request'
-                                 ],
-                                 type: 'line',
-                                 formatter: bytesZeroDecimalPlaces
-                                }}/>
-          </DashboardSection>
-          <DashboardSection title='CPU'>
-              <ChartWithLegend snapshotId={snapshot.get('id')}
-                               timeframe={timeframe}
-                               margins={{
-                                 left: 60
-                               }}
-                               y1={{
-                                 min: 0,
-                                 metrics: [
-                                   'cpu_load'
-                                 ],
-                                 labels: [
-                                   'CPU load'
-                                 ],
-                                 type: 'line',
-                                 formatter: percentageZeroDecimalPlaces
-                               }}
-                               />
-          </DashboardSection>
-        </div>
+        <DashboardSection title='Traffic'>
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 80,
+                             right: 60
+                           }}
+                           y1={{
+                             metrics: [
+                               'requests'
+                             ],
+                             labels: [
+                               'Requests'
+                             ],
+                             type: 'line'
+                           }}
+                           y2={{
+                             metrics: [
+                               'kBytes'
+                             ],
+                             labels: [
+                               'kBytes'
+                             ],
+                             type: 'line'
+                           }}
+                           />
+        </DashboardSection>
       : null }
 
-      { semver.satisfies(ver, '>=2.3.0') ?
+      { snapshot.getIn(['data', 'mpm']) === 'event' &&
+        semver.satisfies(ver, '>=2.3.0') ?
         <DashboardSection title='Connections'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             margins={{
-                               left: 50,
-                               right: 40
-                             }}
-                             y1={{
-                               min: 0,
-                               metrics: [
-                                 'conns_total'
-                               ],
-                               labels: [
-                                'Connections'
-                               ],
-                               type: 'line'
-                             }}
-                             y2={{
-                               min: 0,
-                               metrics: [
-                                 'conns_async_writing',
-                                 'conns_async_keep_alive',
-                                 'conns_async_closing'
-                               ],
-                               labels: [
-                                'Async Connections Writing',
-                                'Async Connections Keep-alive',
-                                'Async Connections Closing'
-                               ],
-                               type: 'line'
-                             }}
-                             />
+          <ChartWithLegend snapshotId={snapshot.get('id')}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 50,
+                             right: 40
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'conns_total'
+                             ],
+                             labels: [
+                              'Connections'
+                             ],
+                             type: 'line'
+                           }}
+                           y2={{
+                             min: 0,
+                             metrics: [
+                               'conns_async_writing',
+                               'conns_async_keep_alive',
+                               'conns_async_closing'
+                             ],
+                             labels: [
+                              'Async Connections Writing',
+                              'Async Connections Keep-alive',
+                              'Async Connections Closing'
+                             ],
+                             type: 'line'
+                           }}
+                           />
         </DashboardSection>
       : null }
 
@@ -166,6 +151,49 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                            type: 'stackedArea'
                          }}/>
       </DashboardSection>
+
+      { status !== 'EXTENDED_INFO_DISABLED' ?
+        <div>
+          <DashboardSection title='CPU'>
+              <ChartWithLegend snapshotId={snapshot.get('id')}
+                               timeframe={timeframe}
+                               margins={{
+                                 left: 60
+                               }}
+                               y1={{
+                                 min: 0,
+                                 metrics: [
+                                   'cpu_load'
+                                 ],
+                                 labels: [
+                                   'CPU load'
+                                 ],
+                                 type: 'line',
+                                 formatter: percentageZeroDecimalPlaces
+                               }}
+                               />
+          </DashboardSection>
+          <DashboardSection title='Traffic per Request'>
+              <ChartWithLegend snapshotId={snapshot.get('id')}
+                               timeframe={timeframe}
+                               margins={{
+                                 left: 60
+                               }}
+                               y1={{
+                                 min: 0,
+                                 metrics: [
+                                   'bytes_per_req'
+                                 ],
+                                 labels: [
+                                   'Traffic per request'
+                                 ],
+                                 type: 'line',
+                                 formatter: bytesZeroDecimalPlaces
+                                }}/>
+          </DashboardSection>
+        </div>
+      : null }
+
     </div>
   );
 

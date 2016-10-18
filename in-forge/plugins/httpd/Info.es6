@@ -26,7 +26,7 @@ export default function HttpdInfo({snapshot}) {
       <DescriptionItem title='MPM'>
         {data.get('mpm')}
       </DescriptionItem>
-      <DescriptionItem title='Ports'>
+      <DescriptionItem title='Listen'>
         {data.get('ports', []).join(', ')}
       </DescriptionItem>
     </DescriptionList>
