@@ -3,7 +3,6 @@ import React from 'react';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from 'in-forge/plugins/docker/Info';
 
@@ -21,8 +20,6 @@ export default function DockerSidebar({snapshot}) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
-      {labels && labels.size > 0 ? <Separator /> : null}
 
       <KeyValuePopup header='Container Labels'
                      data={labels} />
