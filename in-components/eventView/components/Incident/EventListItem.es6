@@ -124,7 +124,9 @@ function DetailsHeader({event, onClick, iconType, background}) {
         </div>
       </div>
 
-      <SvgIcon type={iconType}
+      <SvgIcon className={`${block}__expand-icon`}
+               type={iconType}
+               height={12}
                width={12}
                color='#7b8e96' />
     </div>

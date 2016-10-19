@@ -21,6 +21,7 @@ export default function EventHeader({event}) {
           {event.getIn(['problem', 'problemText'])}
         </h1>
         <EntityInformation event={event} />
+
         <div style={{ height: '0.5rem' }} />
         <StartedMarker event={event} />
         <EventDuration event={event} />
