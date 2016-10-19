@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ToggleChangesButton from 'in-components/eventView/components/Incident/PopulationChart/ToggleChangesButton';
 import TimeAxis from 'in-components/eventView/components/Incident/PopulationChart/TimeAxis';
 import Events from 'in-components/eventView/components/Incident/PopulationChart/Events';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -58,8 +59,11 @@ export default getElementDimensions(React.createClass({
 
     return (
       <div className={block}>
-        <TimeAxis scale={scale} />
-        <Events scale={scale} />
+        <ToggleChangesButton />
+        <div className={`${block}__chart-wrapper`}>
+          <TimeAxis scale={scale} />
+          <Events scale={scale} />
+        </div>
       </div>
     );
   },

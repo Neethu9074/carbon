@@ -1,7 +1,9 @@
 import React from 'react';
 
+import {changesAreVisible$} from 'in-components/eventView/stores/changesVisibilityStore';
 import Event from 'in-components/eventView/components/Incident/PopulationChart/Event';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
@@ -11,9 +13,10 @@ import './Events.less';
 const block = 'in-event-view-detail-chart-events';
 
 export default connectTo({
+  changesAreVisible: changesAreVisible$,
   events: sortedRecentEvents$
 },
-function Events({scale, events}) {
+function Events({scale, events, changesAreVisible}) {
   if (!events) {
     return (
       <div className={block}>
@@ -22,6 +25,10 @@ function Events({scale, events}) {
       </div>
     );
   }
+
+  events = changesAreVisible
+    ? events
+    : events.filter(_event => getEventType(_event) !== EVENT_TYPES.CHANGE);
 
   return (
     <div className={block}>
