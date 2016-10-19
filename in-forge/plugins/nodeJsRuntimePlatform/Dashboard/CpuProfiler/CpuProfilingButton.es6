@@ -1,7 +1,6 @@
 import React from 'react';
 
-import ThreadDumpDialog from 'in-forge/plugins/jvmRuntimePlatform/ThreadDumpDialog';
-import {setActiveDialog} from 'in-components/DialogPresenter/store';
+import {startProfiling} from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/store';
 import {isEntityOnline} from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
@@ -11,12 +10,11 @@ export default connectTo(props => {
   return {
     isOnline: isEntityOnline(props.snapshot.get('id'))
   };
-}, function ThreadDumpButton({snapshot, className, isOnline}) {
+}, function CpuProfilingDumpButton({snapshot, isOnline}) {
   const button = (
     <Button onClick={onClick}
-            className={className}
             disabled={!isOnline}>
-      Get Thread Dump
+      Gather CPU Profile for 10 seconds
     </Button>
   );
 
@@ -25,15 +23,14 @@ export default connectTo(props => {
   }
 
   return (
-    <Tooltip content='Thread dumps can only be retrieved for entities which are still under monitoring by Instana.'>
+    <Tooltip content='CPU profiling is only available for entities which are still under monitoring by Instana.'>
       {button}
     </Tooltip>
   );
 
   function onClick() {
     if (isOnline) {
-      setActiveDialog(<ThreadDumpDialog snapshot={snapshot}
-                                        time={Date.now()}/>);
+      startProfiling(snapshot, 1000 * 10);
     }
   }
 });

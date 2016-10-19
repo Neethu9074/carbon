@@ -2,8 +2,8 @@ import React from 'react';
 
 import subscribeToInstanceImplementation from 'in-services/subscription/serviceInstanceImplementation';
 import ShowCodeButton from 'in-components/traceView/components/tree/ShowCodeButton';
-import {alwaysNull} from 'in-services/fixedStreams';
-import {getSnapshot} from 'in-stores/snapshot';
+import {alwaysNull, alwaysFalse} from 'in-services/fixedStreams';
+import {getSnapshot, isEntityOnline} from 'in-stores/snapshot';
 import {getDirection} from 'in-sdk/tracing';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -33,14 +33,22 @@ export default connectTo(props => {
   }
 
   return {
-    snapshot: snapshot$
+    snapshot: snapshot$,
+    online: snapshot$
+      .flatMap(snapshot => {
+        if (!snapshot) {
+          return alwaysFalse;
+        }
+        return isEntityOnline(snapshot.get('id'));
+      })
   };
 }, React.createClass({
   displayName: 'TreeStackTraceElement',
 
   propTypes: {
     stackTrace: React.PropTypes.array.isRequired,
-    snapshot: React.PropTypes.object
+    snapshot: React.PropTypes.object,
+    online: React.PropTypes.bool
   },
 
   getInitialState() {
@@ -73,7 +81,7 @@ export default connectTo(props => {
               <span className={`${block}__method`}> {st.get('m')} </span>
               <span className={`${block}__in`}>in</span>
               <span className={`${block}__file`}> {st.get('c')}{st.get('n') ? `:${st.get('n')}` : ''}</span>
-              {this.props.snapshot != null ?
+              {this.props.snapshot != null && this.props.online ?
                 <ShowCodeButton snapshot={this.props.snapshot}
                                 file={st.get('c')}
                                 line={st.get('n')}/>

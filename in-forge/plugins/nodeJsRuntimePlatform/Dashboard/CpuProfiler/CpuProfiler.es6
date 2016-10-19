@@ -1,10 +1,9 @@
 import semver from 'semver';
 import React from 'react';
 
+import CpuProfilingButton from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/CpuProfilingButton';
 import ResultPresenter from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/ResultPresenter';
-import {startProfiling} from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/store';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Button from 'in-components/Button';
 
 export default function CpuProfiler({snapshot}) {
   const sensorVersion = snapshot.getIn(['data', 'sensorVersion']);
@@ -15,9 +14,7 @@ export default function CpuProfiler({snapshot}) {
 
   return (
     <DashboardSection title='CPU Profiling'>
-      <Button onClick={() => startProfiling(snapshot, 1000 * 10)}>
-        Gather CPU Profile for 10 seconds
-      </Button>
+      <CpuProfilingButton snapshot={snapshot} />
 
       <ResultPresenter snapshot={snapshot} />
     </DashboardSection>
