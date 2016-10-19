@@ -1,30 +1,40 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {addSearchableEntityType} from 'in-sdk/search';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
 import icon from './icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.docker,
-  icon
+  icon,
+
+  namesForTypeSearch: ['docker'],
+
+  pluginName: {
+    singular: 'Docker Container',
+    plural: 'Docker Containers'
+  },
+
+  getLabel
 });
 
-setHumanReadablePluginName(
-  plugins.docker,
-  'Docker Container',
-  'Docker Containers'
-);
 
-addLabelFinder(
-  plugins.docker,
-  s => {
-    const names = s.getIn(['data', 'Names']);
-    if (names) {
-      return names.join(', ');
-    }
-    return undefined;
+function getLabel(s) {
+  const image = s.getIn(['data', 'Image']);
+  if (!image) {
+    return getFallbackLabel(s);
   }
-);
+  const match = image.match(/(^|\/)(([^\/]+)\/)?([^\/:]+)([^/]*)$/);
+  if (!match) {
+    return getFallbackLabel(s);
+  }
+  if (match[3]) {
+    return `${match[3]}/${match[4]}`;
+  }
+  return match[4];
+}
 
-addSearchableEntityType('docker', plugins.docker);
+
+function getFallbackLabel(s) {
+  const names = s.getIn(['data', 'Names']);
+  return names ? names.join(', ') : undefined;
+}
