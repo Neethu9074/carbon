@@ -24,10 +24,28 @@ function Event({event, scale, color, isOpen}) {
   // clamp events so that they are not going beyond the borders of the chart.
   // If they would do, the incident start and end properties are wrongly calculated
   const left = scale.getRange(event.get('start'));
+  const eventType = getEventType(event);
+
+  if (eventType === EVENT_TYPES.CHANGE) {
+    return (
+      <div className={block}
+           style={{
+             marginLeft: left,
+             marginBottom: 4,
+
+             // use full width to make event small events clickable over the hole line
+             width: scale.getRangeTo() - left
+           }}
+           onClick={() => onEventClick(event)}>
+
+          <div className={`${block}__change`} />
+        }
+      </div>
+    );
+  }
 
   const iconSize = 10;
   const barOffset = iconSize + 2;
-  const eventType = getEventType(event);
   const end = event.get('end');
   const right = end || isOpen
     ? scale.getRange(end)
@@ -35,7 +53,7 @@ function Event({event, scale, color, isOpen}) {
     // add 2 because we want to cut off the border of the events div
     : scale.getRangeTo() + 2;
 
-  const barWidth = eventType === EVENT_TYPES.CHANGE ? 0 : right - left;
+  const barWidth = right - left;
 
   return (
     <div className={block}
@@ -50,19 +68,15 @@ function Event({event, scale, color, isOpen}) {
       <div className={`${block}__icon`}>
         <EventIcon event={event}
                    color={color}
-                   useAlternativeChangeIcon={true}
+                   useAlternativeChangeIcon={false}
                    size={iconSize} />
       </div>
 
-      {barWidth > 0
-        ? <div className={`${block}__bar`}
-               style={{
-                 width: barWidth,
-                 background: color
-               }}>
-          </div>
-        : null
-      }
+      <div className={`${block}__bar`}
+           style={{
+             width: barWidth,
+             background: color
+           }} />
     </div>
   );
 });
