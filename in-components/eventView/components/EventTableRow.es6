@@ -16,12 +16,19 @@ import './EventTableRow.less';
 
 const block = 'in-event-view-event-table-row';
 
-export default connectTo({
-  selectedEventId: selectedEventId$
+export default connectTo(props => {
+  return {
+    event: getEvent(props.rawEvent.id),
+    selectedEventId: selectedEventId$
+  };
 },
-({event, selectedEventId}) => {
+({rawEvent, event, selectedEventId}) => {
+  if (!event) {
+    return null;
+  }
+
   let className = block;
-  if (selectedEventId === event.id) {
+  if (selectedEventId === rawEvent.id) {
     className += ` ${className}--selected`;
   }
 
@@ -32,25 +39,23 @@ export default connectTo({
       <Cell content={
         <Icon event={event} />
       } />
-      <Cell content={formatDateTime(event.start)} />
-      <Cell content={event.state === 'open'
+      <Cell content={formatDateTime(event.get('start'))} />
+      <Cell content={event.get('state') === 'open'
         ? 'active'
-        : formatDateTime(event.end)} />
-      <Cell content={event.title} />
+        : formatDateTime(event.get('end'))} />
+      <Cell content={rawEvent.title} />
       <Cell content={
-        <Entity snapshotId={event.snapshotId}
-                time={event.start} />
+        <Entity snapshotId={rawEvent.snapshotId}
+                time={event.get('start')} />
       } />
     </div>
   );
 });
 
 function toggleEvent(event, selectedEventId) {
-  getEvent(event.id).once(_event => {
-    event.id !== selectedEventId
-    ? selectEvent(_event)
+  event.get('id') !== selectedEventId
+    ? selectEvent(event)
     : clearEvent();
-  });
 }
 
 function Cell({content}) {
@@ -66,15 +71,21 @@ const Icon = connectTo(props => {
   return {
     selectedEventId: selectedEventId$,
     isOpen: focusedMoment$.map(focusedMoment =>
-      isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment)).distinct()
+      isEventOpenAtFocusedMoment(
+        event.get('start'),
+        event.get('end'),
+        event.get('state'),
+        focusedMoment))
+      .distinct()
   };
 },
 function Icon({event, isOpen}) {
-  const eventType = event.type;
+  const eventType = event.get('type');
+  const severity = event.getIn(['problem', 'severity']);
   const defaultColor = '#92a5ae';
   let color = defaultColor;
   if (isOpen) {
-    color = event.severity > 0 ? theme.health[event.severity] : defaultColor;
+    color = severity > 0 ? theme.health[severity] : defaultColor;
   }
 
   let iconType;
@@ -83,7 +94,7 @@ function Icon({event, isOpen}) {
   } else if (eventType === 'change') {
     iconType = 'change2';
   } else if (eventType === 'issue') {
-    if (event.severity < 10) {
+    if (severity < 10) {
       iconType = 'warning';
     } else {
       iconType = 'critical';

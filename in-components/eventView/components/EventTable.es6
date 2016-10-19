@@ -64,7 +64,7 @@ function InfiniteTable({height, events, isInfiniteLoading}) {
               isInfiniteLoading={isInfiniteLoading}>
       {events.map(event =>
         <EventTableRow key={event.id}
-                       event={event} />
+                       rawEvent={event} />
       )}
     </Infinite>
   );
