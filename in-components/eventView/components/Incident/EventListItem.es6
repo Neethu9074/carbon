@@ -5,6 +5,7 @@ import EventDependecyGraph from 'in-components/eventView/components/EventDepende
 import ProblemDescription from 'in-components/eventView/components/ProblemDescription';
 import EntityInformation from 'in-components/eventView/components/EntityInformation';
 import {highlightedEventId$} from 'in-components/eventView/stores/highlightedEvent';
+import EventDuration from 'in-components/eventView/components/EventDuration';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import EventTraces from 'in-components/eventView/components/EventTraces';
 import EventChart from 'in-components/eventView/components/EventChart';
@@ -119,7 +120,10 @@ function DetailsHeader({event, onClick, iconType, background}) {
         </div>
 
         <div>
-          {event.getIn(['problem', 'problemText'])}
+          <span className={`${block}__problem-text`}>
+            {event.getIn(['problem', 'problemText'])}
+          </span>
+          <EventDuration event={event} />
           <EntityInformation event={event} />
         </div>
       </div>
