@@ -52,7 +52,7 @@ function IncidentHeader({event, recentEvents, openEvents}) {
           {`${changes.length}`}
         </LabeledValue>
 
-        <LabeledValue label='affected' >
+        <LabeledValue label='affected entities' >
           {`${Object.keys(affectedEnties).length}`}
         </LabeledValue>
       </div>
