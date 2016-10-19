@@ -50,7 +50,7 @@ function Event({event, scale, color, isOpen}) {
       <div className={`${block}__icon`}>
         <EventIcon event={event}
                    color={color}
-                   useAlternativeChangeIcon={false}
+                   useAlternativeChangeIcon={true}
                    size={iconSize} />
       </div>
 
