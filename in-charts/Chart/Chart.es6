@@ -1,6 +1,8 @@
 import {on, create} from 'reactive-observables';
 
+import {setHighlightedTimeframe, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
 import {highlightedMoment$, clearHighlightedMoment, setHighlightedMoment} from 'in-stores/timeline';
+import createHighlightedTimeframeRenderer from 'in-charts/Chart/renderer/highlightedTimeframe';
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
 import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
@@ -37,11 +39,13 @@ export default function createChart(config) {
   const animatableContentRenderer = createAnimatableContentRenderer(config);
   const borderRenderer = createBorderRenderer(config);
   const tooltipRenderer = createTooltipRenderer(config);
+  const highlightedTimeframeRenderer = createHighlightedTimeframeRenderer(config);
 
   let isRendering = false;
   let restartRenderingSubscription;
   let renderTimeAndDataIntervalHandle;
   let animationCopyHandle;
+  let timeframeHighlightDraggingStart = null;
 
   addWindowResizeSupport();
   addVisibilityChangeSupport();
@@ -74,18 +78,64 @@ export default function createChart(config) {
 
     config.subscriptions.push(
       on(config.dom.glassPane, 'mousemove')
-      .subscribe(e => {
-        const time = config.scales.x.getDomain(e.offsetX);
-        if (time >= config.scales.x.getDomainFrom() && time <= config.scales.x.getDomainTo()) {
-          setHighlightedMoment(time);
-        } else {
-          clearHighlightedMoment();
-        }
-      }));
+      .subscribe(onMouseMove));
 
     config.subscriptions.push(
       on(config.dom.glassPane, 'mouseleave')
-      .subscribe(clearHighlightedMoment));
+      .subscribe(onMouseLeave));
+
+    config.subscriptions.push(
+      on(config.dom.glassPane, 'mousedown')
+      .subscribe(onMouseDown));
+
+    config.subscriptions.push(
+      on(config.dom.glassPane, 'mouseup')
+      .subscribe(onMouseUp));
+  }
+
+
+  function onMouseMove(e) {
+    const time = config.scales.x.getDomain(e.offsetX);
+    if (time >= config.scales.x.getDomainFrom() && time <= config.scales.x.getDomainTo()) {
+      setHighlightedMoment(time);
+    } else {
+      clearHighlightedMoment();
+    }
+
+    if (timeframeHighlightDraggingStart != null) {
+      setHighlightedTimeframe(timeframeHighlightDraggingStart, getTimeAtPosition(e.offsetX));
+    }
+
+    e.preventDefault();
+  }
+
+
+  function onMouseLeave() {
+    clearHighlightedMoment();
+    timeframeHighlightDraggingStart = null;
+  }
+
+
+  function onMouseDown(e) {
+    e.preventDefault();
+
+    if (!e.shiftKey) {
+      clearHighlightedTimeframe();
+      return;
+    }
+
+    timeframeHighlightDraggingStart = getTimeAtPosition(e.offsetX);
+  }
+
+
+  function onMouseUp() {
+    timeframeHighlightDraggingStart = null;
+  }
+
+
+  function getTimeAtPosition(x) {
+    const time = config.scales.x.getDomain(x);
+    return Math.max(Math.min(time, config.scales.x.getDomainTo()), config.scales.x.getDomainFrom());
   }
 
 
@@ -172,6 +222,7 @@ export default function createChart(config) {
 
       tooltipRenderer.repositionTooltip();
       copyBackBufferToScreenBuffer();
+      highlightedTimeframeRenderer.render();
     };
 
     animationCopyHandle = requestAnimationFrameWithFps(animate, maxFps);
