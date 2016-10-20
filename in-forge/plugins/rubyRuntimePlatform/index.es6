@@ -15,7 +15,7 @@ registerSnapshotDefinition({
 
   getLabel(s) {
     const data = s.get('data');
-    const rubyVersion = data.getIn(['versions', 'ruby']);
+    const rubyVersion = data.get('rubyVersion');
     if (!rubyVersion) {
       return getFallbackLabel(s);
     }

@@ -8,17 +8,8 @@ export default function RubyInfo({snapshot}) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title='Name'>
-        {data.get('name')}
-      </DescriptionItem>
-      <DescriptionItem title='Version'>
-        {data.get('version')}
-      </DescriptionItem>
-      <DescriptionItem title='Description'>
-        {data.get('description')}
-      </DescriptionItem>
-      <DescriptionItem title='Application Arguments'>
-        {data.get('args', []).join(' ')}
+      <DescriptionItem title='Ruby Version'>
+        {data.get('rubyVersion')}
       </DescriptionItem>
       <DescriptionItem title='Runtime Arguments'>
         {data.get('execArgs', []).join(' ')}
