@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import DrillDownButton from 'in-components/sidebars/Incident/components/DrillDownButton';
 import EventList from 'in-components/sidebars/Incident/components//EventList';
 
 import 'in-components/sidebars/Incident/components/Content.less';
@@ -10,7 +11,6 @@ import 'in-components/sidebars/Incident/components/Content.less';
 const block = 'in-sidebar-incident-content';
 
 export default React.createClass({
-
   displayName: 'Content',
 
   mixins: [
@@ -41,9 +41,14 @@ export default React.createClass({
     return (
       <div className={block}
            style={{ maxHeight: this.state.windowHeight }}>
-        <h2 className={block + '__heading'}>
-          What happened?
-        </h2>
+
+        <div className={`${block}__heading-wrapper`}>
+          <h2 className={block + '__heading'}>
+            What happened?
+          </h2>
+
+          <DrillDownButton incidentId={incident.get('id')}/>
+        </div>
 
         <EventList incident={incident}/>
       </div>

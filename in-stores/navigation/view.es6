@@ -51,3 +51,16 @@ export const eventsLinkOnlyIncidents$ = navigationParameters$
 export const isEventView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/events') === 0)
   .distinct();
+
+export function getEventViewWithIncident(incidentId) {
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(params => {
+      params.pathname = '/events';
+      params.query.q = encodeURIComponent('type=incident');
+      params.eventId = encodeURIComponent(incidentId);
+      return params;
+    })
+    .map(toUrl)
+    .distinct();
+}
