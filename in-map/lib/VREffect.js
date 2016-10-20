@@ -214,7 +214,13 @@ THREE.VREffect = function ( renderer, onError ) {
 
 		if ( vrDisplay !== undefined && scope.isPresenting ) {
 
-			var pose = vrDisplay.getPose();
+			var pose;
+			if ( vrDisplay.getFrameData ) {
+				vrDisplay.getFrameData( frameData );
+				pose = frameData.pose;
+			} else if ( vrDisplay.getPose ) {
+				pose = vrDisplay.getPose();
+			}
 
 			if ( pose && pose.position ) {
 
