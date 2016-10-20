@@ -27,6 +27,7 @@ THREE.VRControls = function ( object, onError ) {
 		if ( displays.length > 0 ) {
 
 			vrDisplay = displays[ 0 ];
+
 			console.log('got display for controls');
 
 		} else {

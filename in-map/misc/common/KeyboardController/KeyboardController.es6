@@ -1,5 +1,6 @@
 import {on} from 'reactive-observables';
 
+import {isLogicalMapView$, goToPhysicalView, goToLogicalView} from 'in-stores/navigation/navigationWebVR';
 import keyCodes from 'in-components/keyCodes';
 
 
@@ -12,6 +13,9 @@ export default function createKeyboardController(controls) {
 
     if (e.keyCode === keyCodes.p) {
       controls.toggleMetrics();
+    } else if (e.keyCode === keyCodes.n) {
+      // toggle physical and logical view
+      isLogicalMapView$.once(isLogicalMapView => isLogicalMapView ? goToPhysicalView() : goToLogicalView());
     }
   });
   const keyUpSubscription = on(window, 'keyup').subscribe(e => onKey(e, 0, 0, 0, 0));
