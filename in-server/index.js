@@ -11,6 +11,7 @@ require('instana-nodejs-sensor')({
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const errorPages = require('./errorPages.js');
+const serverConfig = require('./serverConfig.js');
 
 const routes = require('./routes');
 
@@ -25,7 +26,7 @@ app.use((req, res) => {
   errorPages.send404(req, res);
 });
 
-const server = app.listen({% if OPERATION_MODE == 'fleet' %} {{ NOMAD_PORT_node}} {% else %} 3131 {% endif %}, '127.0.0.1', () => {
+const server = app.listen(serverConfig.port, '127.0.0.1', () => {
   const host = server.address().address;
   const port = server.address().port;
 

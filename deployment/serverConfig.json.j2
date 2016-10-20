@@ -1,4 +1,5 @@
 {
   "baseUrl": "https://{{PUBLIC_DOMAIN}}",
-  "uiBackendBaseUrl": "http://{{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}}"
+  "uiBackendBaseUrl": "http://{{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}}",
+  "port": {% if OPERATION_MODE == 'fleet' %} {{ NOMAD_PORT_node}} {% else %} 3131 {% endif %}
 }
