@@ -98,6 +98,7 @@ THREE.VRControls = function ( object, onError ) {
 
 			if (!pose) {
 				vrDisplay = null;
+				return;
 			}
 
 			if ( pose.orientation !== null ) {
