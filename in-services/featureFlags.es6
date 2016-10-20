@@ -1,4 +1,4 @@
-import {isInternalEnvironment} from 'in-services/config';
+import {isInternalEnvironment, isInstanaTenant} from 'in-services/config';
 
 export const eumTracingEnabled = isInternalEnvironment();
-export const newIncidentViewEnabled = isInternalEnvironment();
+export const webVrEnabled = isInstanaTenant();

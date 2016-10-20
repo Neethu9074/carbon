@@ -3,7 +3,6 @@
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
-import {newIncidentViewEnabled} from 'in-services/featureFlags';
 import TraceView from 'in-components/traceView/TraceView';
 import EventView from 'in-components/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
@@ -34,13 +33,11 @@ export default (
              component={Dashboard} />
     </Route>
 
-    {newIncidentViewEnabled ?
-      <Route component={EventView}
-             path='events'>
-        <Route component={Dashboard}
-               path='dashboard' />
-      </Route>
-    : null}
+    <Route component={EventView}
+           path='events'>
+      <Route component={Dashboard}
+             path='dashboard' />
+    </Route>
 
     <Route component={GraphView}
            path='graph' />

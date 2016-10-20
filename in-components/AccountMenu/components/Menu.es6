@@ -4,9 +4,9 @@ import TenantUnitSwitcher from 'in-components/AccountMenu/components/TenantUnitS
 import {isOpen$, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
 import {setSettingsVisibility} from 'in-stores/settings/visibility';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
-import {isInternalEnvironment} from 'in-services/config';
 import {showReleaseNotes} from 'in-stores/releaseNotes';
 import {config, isOnPremise} from 'in-services/config';
+import {webVrEnabled} from 'in-services/featureFlags';
 import {goToGraph} from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -89,14 +89,13 @@ export default connectTo({
             Graph Showcase
           </a>
 
-          {isInternalEnvironment()
-            ? <a className={block + '__link'}
-                 href='#/webVR/physical'
-                 target='_blank'>
-                WebVR Showcase
-              </a>
-            : null
-          }
+          {webVrEnabled ?
+            <a className={block + '__link'}
+               href='#/webVR/physical'
+               target='_blank'>
+              WebVR Showcase
+            </a>
+          : null}
 
           <a className={block + '__link'}
              href='https://docs.instana.com'

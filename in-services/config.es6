@@ -11,3 +11,7 @@ export function isInternalEnvironment() {
 export function isOnPremise() {
   return theConfig.operationMode === 'on-prem';
 }
+
+export function isInstanaTenant() {
+  return config.tenant === 'instana';
+}

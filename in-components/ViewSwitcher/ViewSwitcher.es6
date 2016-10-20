@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {newIncidentViewEnabled} from 'in-services/featureFlags';
 import {
   traceViewLinkWithoutEumTraces$,
   eventsLinkOnlyIncidents$
@@ -43,7 +42,7 @@ export default connectTo({
           Trace
         </View>
 
-        {newIncidentViewEnabled ? <IncidentsMenuPoint pathname={pathname} /> : null}
+        <IncidentsMenuPoint pathname={pathname} />
       </div>
     </div>
   );
