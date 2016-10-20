@@ -13,6 +13,8 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
+const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
+
 export default function GlassfishDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
   const version = snapshot.getIn(['data', 'version']);
@@ -181,6 +183,8 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                            formatter: zeroDecimalPlaces
                          }}
                          y2={{
+                           min: 0,
+                           max: 1,
                            metrics: [
                              'file_cache_rate',
                              'file_cache_info_rate'
@@ -190,7 +194,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                              'Info hit rate'
                            ],
                            type: 'line',
-                           formatter: percentageZeroDecimalPlaces
+                           formatter: hitRateFormatter
                          }}/>
       </DashboardSection>
       <DashboardSection title='JDBC Connections'>
