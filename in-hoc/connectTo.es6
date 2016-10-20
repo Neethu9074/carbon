@@ -39,7 +39,7 @@ export default function connectTo(createObservables, ComposedComponent) {
 
         if (prevObservable === newObservable) {
           // Nothing to do, we have the same observable
-          return;
+          continue;
         }
 
         const oldSubscription = this.subscriptions[property];

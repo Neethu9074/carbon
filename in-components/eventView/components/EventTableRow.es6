@@ -1,11 +1,10 @@
 import React from 'react';
 
 import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
-import {selectedEventId$, isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
 import {formatDateTime} from 'in-services/formatters/date';
-import {focusedMoment$} from 'in-stores/timeline';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
+import {selectedEventId$} from 'in-stores/events';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
