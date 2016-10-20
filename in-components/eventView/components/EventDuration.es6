@@ -6,45 +6,45 @@ import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {formatDurationRaw} from 'in-services/formatters/date';
 import {formatTime} from 'in-services/formatters/date';
 import {serverTime$} from 'in-stores/serverTime';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import {theme} from 'in-services/theme';
 
 
-export default connectTo(props =>{
+export default connectTo(props => {
+  const end = props.event.get('end');
+
   return {
     config: serverTime$.flatMap(serverTime => fireCallbacksForEventAtFocusedMomentAsStream(props.event,
-      ({focusedMoment, severity}) => {
+      ({focusedMoment}) => {
         return {
-          to: focusedMoment ? props.event.get('end') : serverTime,
-          end: focusedMoment ? props.event.get('end') : null,
-          color: severity <= 0 ? '#92a5ae' : theme.health[severity]
+          to: focusedMoment ? end : serverTime,
+          end: focusedMoment ? end : null
         };
       },
       () => {
         return {
-          to: props.event.get('end'),
-          end: props.event.get('end'),
-          color: '#92a5ae'
+          to: end,
+          end
         };
       }
-    )).distinct()
+    ))
   };
 },
 function EventDuration({event, config}) {
+  // in theory, changes have a duration but we dont want to show it
   if (!config || getEventType(event) === EVENT_TYPES.CHANGE) {
     return null;
   }
 
   const from = event.get('start');
-
   return (
-    <LabeledValue label={`${formatDurationRaw(config.to - from)}`}>
-      {config.end
-        ? <span>
-            {`(${formatTime(config.end)})`}
-          </span>
-        : null
-      }
-    </LabeledValue>
+    <Tooltip content={'Duration of the event'}>
+      <LabeledValue label={`${formatDurationRaw(config.to - from)}`}>
+        {config.end
+          ? `(${formatTime(config.end)})`
+          : null
+        }
+      </LabeledValue>
+    </Tooltip>
   );
 });
