@@ -40,11 +40,12 @@ THREE.VREffect = function ( renderer, onError ) {
 
 	}
 
-	if ( navigator.getVRDisplays ) {
+	setInterval(() => {
+		if ( navigator.getVRDisplays && !vrDisplay ) {
+			navigator.getVRDisplays().then( gotVRDisplays );
+		}
+	}, 1000);
 
-		navigator.getVRDisplays().then( gotVRDisplays.bind(this) );
-
-	}
 
 	//
 
@@ -225,6 +226,8 @@ THREE.VREffect = function ( renderer, onError ) {
 
 			  vrDisplay.submitFrame(pose);
 
+			} else {
+				vrDisplay = null;
 			}
 
 		}

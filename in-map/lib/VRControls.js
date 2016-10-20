@@ -35,11 +35,12 @@ THREE.VRControls = function ( object, onError ) {
 
 	}
 
-	if ( navigator.getVRDisplays ) {
+	setInterval(() => {
+		if ( navigator.getVRDisplays && !vrDisplay ) {
+			navigator.getVRDisplays().then( gotVRDisplays );
+		}
+	}, 1000);
 
-		navigator.getVRDisplays().then( gotVRDisplays );
-
-	}
 
 	// the Rift SDK returns the position in meters
 	// this scale factor allows the user to define how meters
@@ -95,6 +96,8 @@ THREE.VRControls = function ( object, onError ) {
 
 				pose = vrDisplay.getPose();
 
+			} else {
+				vrDisplay = null;
 			}
 
 			if ( pose.orientation !== null ) {
