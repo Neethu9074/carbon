@@ -1,6 +1,7 @@
 import {on, create} from 'reactive-observables';
 
 import CombinedEventsRenderer from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
+import HighlightedTimeframeRenderer from 'in-components/timeline/components/renderer/HighlightedTimeframeRenderer';
 import HighlightedMomentRenderer from 'in-components/timeline/components/renderer/HighlightedMomentRenderer';
 import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
 import MarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';
@@ -62,6 +63,7 @@ export default function createTimelineRenderer({container, canvas}) {
   const backgroundRenderer = new BackgroundRenderer(screenBuffer, scale, height);
   const eventsGraphRenderer = new EventsGraphRenderer(screenBuffer, scale, height);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
+  const highlightedTimeframeRenderer = new HighlightedTimeframeRenderer(screenBuffer, scale, height);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
@@ -143,6 +145,7 @@ export default function createTimelineRenderer({container, canvas}) {
       }
     }
 
+    highlightedTimeframeRenderer.draw();
     focusedMomentRenderer.draw();
     highlightedMomentRenderer.draw();
   }
@@ -153,6 +156,7 @@ export default function createTimelineRenderer({container, canvas}) {
     realtimeUpdateEvents.dispose();
     highlightedEventIdSubscription.dispose();
     highlightedMomentRenderer.dispose();
+    highlightedTimeframeRenderer.dispose();
     realtimeDrawSubscription.dispose();
     hoveredEventLineRenderer.dispose();
     markedIncidentRenderer.dispose();
