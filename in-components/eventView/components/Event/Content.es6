@@ -13,9 +13,7 @@ import 'in-components/eventView/components/Event/Content.less';
 export default function EventContent({event}) {
   return (
     <div>
-      <Section>
-        <Header event={event} />
-      </Section>
+      <Header event={event} />
 
       <Section>
         <ProblemDescription event={event}

@@ -4,19 +4,28 @@ import StartedMarker from 'in-components/eventView/components/Incident/StartedMa
 import EntityInformation from 'in-components/eventView/components/EntityInformation';
 import EndedMarker from 'in-components/eventView/components/Incident/EndedMarker';
 import EventDuration from 'in-components/eventView/components/EventDuration';
+import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import EventIcon from 'in-components/EventIcon';
+import connectTo from 'in-hoc/connectTo';
 
 import './Header.less';
 
 
 const block = 'in-event-view-event-header';
 
-export default function EventHeader({event}) {
+export default connectTo(props => {
+  return {
+    color: getColorForEventAtFocusedMomentAsStream(props.event, '#6B8088')
+  };
+},
+function EventHeader({event, color}) {
   return (
     <div className={block}>
-      <EventIcon event={event}
-                 className={`${block}__icon`} />
-
+      <div className={`${block}__icon-wrapper`}
+           style={{ background: color }}>
+        <EventIcon event={event}
+                   color='#fff' />
+      </div>
       <div>
         <h1 className={`${block}__title`}>
           {event.getIn(['problem', 'problemText'])}
@@ -30,4 +39,4 @@ export default function EventHeader({event}) {
       </div>
     </div>
   );
-}
+});

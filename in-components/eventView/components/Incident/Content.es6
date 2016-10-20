@@ -10,9 +10,7 @@ import {emptyList} from 'in-services/fixedImmutables';
 export default function IncidentContent({event}) {
   return (
     <div>
-      <Section>
-        <Header event={event} />
-      </Section>
+      <Header event={event} />
 
       <Section>
         <PopulationChart incidentId={event.get('id')} />
