@@ -8,33 +8,30 @@ registerSnapshotDefinition({
   plugin: plugins.nodejs,
   icon,
   pluginName: {
-    singular: 'Node.js Runtime',
-    plural: 'Node.js Runtimes'
+    singular: 'Node.js Application',
+    plural: 'Node.js Applications'
   },
 
   namesForTypeSearch: ['node', 'node.js', 'nodejs'],
 
   getLabel(s) {
     const data = s.get('data');
-    const nodeJsVersion = data.getIn(['versions', 'node']);
-    if (!nodeJsVersion) {
-      return getFallbackLabel(s);
+    const appVersion = data.get('version');
+    const appName = data.get('name');
+
+    if (appName && appVersion) {
+      return `${appName} v${appVersion}`;
+    } else if (appName) {
+      return appName;
     }
 
-    const label = 'Node.js v' + nodeJsVersion;
-
-    const name = data.get('name');
-    if (!name) {
-      return label;
-    }
-
-    return label + ' executing ' + name;
+    return getFallbackLabel();
   },
 
   getCodeView
 });
 
 
-function getFallbackLabel(s) {
-  return 'Node.js#' + s.get('steadyId');
+function getFallbackLabel() {
+  return 'Unknown Node.js App';
 }
