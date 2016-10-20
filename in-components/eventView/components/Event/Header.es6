@@ -2,6 +2,7 @@ import React from 'react';
 
 import StartedMarker from 'in-components/eventView/components/Incident/StartedMarker';
 import EntityInformation from 'in-components/eventView/components/EntityInformation';
+import EndedMarker from 'in-components/eventView/components/Incident/EndedMarker';
 import EventDuration from 'in-components/eventView/components/EventDuration';
 import EventIcon from 'in-components/EventIcon';
 
@@ -25,6 +26,7 @@ export default function EventHeader({event}) {
         <div style={{ height: '0.5rem' }} />
         <StartedMarker event={event} />
         <EventDuration event={event} />
+        <EndedMarker event={event} />
       </div>
     </div>
   );
