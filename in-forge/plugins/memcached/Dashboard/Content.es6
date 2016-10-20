@@ -12,6 +12,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
+const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 
 export default function MemcachedDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -43,7 +44,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <KpiKeyValue label='Get hit ratio'>
         <MetricValue snapshotId={snapshotId}
                      metric='get_hit_rate'
-                     formatter={percentageZeroDecimalPlaces} />
+                     formatter={hitRateFormatter} />
       </KpiKeyValue>
     </KpiSection>
 
@@ -106,6 +107,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                          }}
                          y2={{
                            min: 0,
+                           max: 1,
                            metrics: [
                              'get_hit_rate'
                            ],
@@ -113,7 +115,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                              'Get hit ratio'
                            ],
                            type: 'line',
-                           formatter: percentageZeroDecimalPlaces
+                           formatter: hitRateFormatter
                          }}/>
       </DashboardSection>
       <DashboardSection title='Delete Hits/Misses'>
@@ -137,6 +139,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                          }}
                          y2={{
                            min: 0,
+                           max: 1,
                            metrics: [
                              'delete_hit_rate'
                            ],
@@ -144,7 +147,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                              'Delete hit ratio'
                            ],
                            type: 'line',
-                           formatter: percentageZeroDecimalPlaces
+                           formatter: hitRateFormatter
                          }}/>
       </DashboardSection>
       <DashboardSection title='Flush command'>
