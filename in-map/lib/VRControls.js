@@ -89,17 +89,14 @@ THREE.VRControls = function ( object, onError ) {
 		if ( vrDisplay ) {
 
 			var pose;
-
 			if ( vrDisplay.getFrameData ) {
-
 				vrDisplay.getFrameData( frameData );
 				pose = frameData.pose;
-
 			} else if ( vrDisplay.getPose ) {
-
 				pose = vrDisplay.getPose();
+			}
 
-			} else {
+			if (!pose) {
 				vrDisplay = null;
 			}
 
