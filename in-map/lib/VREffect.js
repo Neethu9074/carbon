@@ -31,7 +31,6 @@ THREE.VREffect = function ( renderer, onError ) {
 		if ( displays.length > 0 ) {
 
 			vrDisplay = displays[ 0 ];
-			this.requestPresent();
 
 		} else {
 
