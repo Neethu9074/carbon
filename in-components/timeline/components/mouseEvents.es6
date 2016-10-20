@@ -1,3 +1,4 @@
+import {setHighlightedTimeframe, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
 import {
   setTo,
   setHighlightedEventScreenPosition,
@@ -31,6 +32,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let isFocusedMomentPanning = false;
   let xPositionOnMouseDown = null;
+  let timeframeHighlightDraggingStart = null;
   let lastXPosOnPan = null;
   let isPanning = false;
 
@@ -155,6 +157,13 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onMouseDown(e) {
+    if (e.shiftKey) {
+      timeframeHighlightDraggingStart = scale.getDomain(e.offsetX);
+      return;
+    }
+
+    clearHighlightedTimeframe();
+
     xPositionOnMouseDown = e.offsetX;
 
     // if the distance of the cursor
@@ -170,6 +179,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     }
 
     xPositionOnMouseDown = null;
+    timeframeHighlightDraggingStart = null;
     onPanEnd();
   }
 
@@ -205,6 +215,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     } : null);
 
     realtimeDrawStream.emit(changeSignal);
+
+    if (timeframeHighlightDraggingStart) {
+      setHighlightedTimeframe(timeframeHighlightDraggingStart, scale.getDomain(x));
+    }
   }
 
   function onPanStart(x) {
