@@ -15,7 +15,8 @@ export default connectTo({
 function ToggleChangesButton({changesAreVisible}) {
   return (
     <Button className={block}
-            onClick={toggle}>
+            onClick={toggle}
+            kind='secondary'>
       {changesAreVisible ? 'Hide changes' : 'Show changes'}
     </Button>
   );
