@@ -32,6 +32,8 @@ THREE.VREffect = function ( renderer, onError ) {
 
 			vrDisplay = displays[ 0 ];
 
+			console.log('got display for effect');
+
 		} else {
 
 			if ( onError ) onError( 'HMD not available' );
