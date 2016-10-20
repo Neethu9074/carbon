@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {selectedEventId$, isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
 import {formatDateTime} from 'in-services/formatters/date';
@@ -67,16 +68,9 @@ function Cell({content}) {
 }
 
 const Icon = connectTo(props => {
-  const event = props.event;
   return {
     selectedEventId: selectedEventId$,
-    isOpen: focusedMoment$.map(focusedMoment =>
-      isEventOpenAtFocusedMoment(
-        event.get('start'),
-        event.get('end'),
-        event.get('state'),
-        focusedMoment))
-      .distinct()
+    isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
   };
 },
 function Icon({event, isOpen}) {
