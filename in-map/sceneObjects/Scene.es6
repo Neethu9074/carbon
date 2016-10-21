@@ -1,12 +1,7 @@
 import {on} from 'reactive-observables';
 
-import {
-  clear as clearRenderingStore,
-  requestRendering,
-  updatesEnabled$,
-  frame$
-} from 'in-map/stores/renderingStore';
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
+import {clear as clearRenderingStore, requestRendering, frame$} from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/misc/time';
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
@@ -42,7 +37,6 @@ export default class MainScene extends SceneObject {
     this.isDisposed = false;
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
-    this.updateSceneObjects = true;
     this.antialias = params.antialias;
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
   }
@@ -62,9 +56,7 @@ export default class MainScene extends SceneObject {
     this.addSubscriptions([
       frame$.subscribe(() => this.shouldRenderScene = true),
 
-      on(window, 'resize').subscribe(this.onWindowResize.bind(this)),
-
-      updatesEnabled$.subscribe(isEnabled => this.updateSceneObjects = isEnabled)
+      on(window, 'resize').subscribe(this.onWindowResize.bind(this))
     ]);
 
     if (isWebVRActive) {
@@ -95,9 +87,7 @@ export default class MainScene extends SceneObject {
     // recall this to keep the update loop
     requestAnimationFrame(this.handleAnimationFrames);
 
-    if (this.updateSceneObjects) {
-      this.update(highResTimestamp);
-    }
+    this.update(highResTimestamp);
   }
 
   update(highResTimestamp) {
@@ -194,7 +184,6 @@ export default class MainScene extends SceneObject {
     PhysicsServiceLocator.provide(createNullService());
     contextIsAvailable();
 
-    this.updateSceneObjects = null;
     this.shouldRenderScene = null;
     this.renderTarget = null;
     this.antialias = null;
