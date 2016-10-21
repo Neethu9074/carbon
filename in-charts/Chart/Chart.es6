@@ -11,6 +11,7 @@ import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
 import {toServerTime} from 'in-stores/timeOffset';
 import {getIn} from 'in-services/settings';
+import {config as appConfig} from 'in-services/config';
 
 import './Chart.less';
 
@@ -236,7 +237,8 @@ export default function createChart(config) {
 
     // The next expected point is the point at we which we would expect a next data point
     // to exist. We add a small margin to this to account for errors and delays.
-    const expectedNextPoint = config.scales.x.getDomainFrom() + config.rollup * 2;
+    const expectedNextPoint = config.scales.x.getDomainFrom() + config.rollup *
+      (appConfig.tenant === 'douglas' ? 6 : 1.5);
     const maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
     config.maxDistanceBetweenPoints = maxDistanceBetweenPoints;
   }
