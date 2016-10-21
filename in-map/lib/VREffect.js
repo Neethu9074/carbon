@@ -42,11 +42,13 @@ THREE.VREffect = function ( renderer, onError ) {
 
 	}
 
-	setInterval(() => {
+	setInterval(findVRDisplay, 1000);
+
+	function findVRDisplay() {
 		if ( navigator.getVRDisplays && !vrDisplay ) {
 			navigator.getVRDisplays().then( gotVRDisplays );
 		}
-	}, 1000);
+	}
 
 
 	//
@@ -214,7 +216,7 @@ THREE.VREffect = function ( renderer, onError ) {
 
 	this.submitFrame = function () {
 
-		if ( vrDisplay !== undefined && scope.isPresenting ) {
+		if ( vrDisplay && scope.isPresenting ) {
 
 			var pose;
 			if ( vrDisplay.getFrameData ) {
@@ -229,7 +231,7 @@ THREE.VREffect = function ( renderer, onError ) {
 			  vrDisplay.submitFrame(pose);
 
 			} else {
-				vrDisplay = null;
+				vrDisplay = undefined;
 			}
 
 		}
@@ -411,6 +413,7 @@ THREE.VREffect = function ( renderer, onError ) {
 
 		window.removeEventListener( 'vrdisplaypresentchange', onVRDisplayPresentChange, false );
 
+		clearInterval(findVRDisplay);
 	};
 
 	//

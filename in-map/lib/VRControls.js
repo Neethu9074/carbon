@@ -38,11 +38,13 @@ THREE.VRControls = function ( object, onError ) {
 
 	}
 
-	setInterval(() => {
+	setInterval(findVRDisplay, 1000);
+
+	function findVRDisplay() {
 		if ( navigator.getVRDisplays && !vrDisplay ) {
 			navigator.getVRDisplays().then( gotVRDisplays );
 		}
-	}, 1000);
+	}
 
 
 	// the Rift SDK returns the position in meters
@@ -167,6 +169,8 @@ THREE.VRControls = function ( object, onError ) {
 	this.dispose = function () {
 
 		vrDisplay = null;
+
+		clearInterval(findVRDisplay);
 
 	};
 
