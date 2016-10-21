@@ -10,8 +10,6 @@ export default class HighlightingComponent extends SceneObjectComponent {
 
   constructor(sceneObject) {
     super(sceneObject, '_highlighting');
-
-    this.emitToClient('isHighlighted', false);
   }
 
   initEvents() {

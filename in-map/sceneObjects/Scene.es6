@@ -10,7 +10,7 @@ import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
 import {contextIsLost, contextIsAvailable} from 'in-map/services/webGL';
 import {clear as clearFactories} from 'in-map/stores/factoriesStore';
 import {eventBus, createEventBus} from 'in-map/services/eventBus';
-import {WebGLRenderer, Scene, Color} from 'in-map/3DLibProvider';
+import {WebGLRenderer, Scene} from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {loadVREffectWrapper} from 'in-map/services/webVR';
 import {isWebVRActive} from 'in-map/stores/webVRStore';
@@ -111,11 +111,12 @@ export default class MainScene extends SceneObject {
   setupRenderer() {
     const renderer = this.renderer = new WebGLRenderer({
       canvas: this.canvas,
-      antialias: this.antialias === 'browserAA' ? true : false
+      antialias: this.antialias === 'browserAA' ? true : false,
+      alpha: false
     });
 
     renderer.setSize(0, 0);
-    renderer.setClearColor(new Color(theme.map.colors.clearColor), 1.0);
+    renderer.setClearColor(0x445b63);
 
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;

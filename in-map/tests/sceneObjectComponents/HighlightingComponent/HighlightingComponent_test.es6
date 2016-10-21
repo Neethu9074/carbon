@@ -59,34 +59,26 @@ describe('in-map', () => {
       sceneObject2.dispose();
     });
 
-    it('should send no highlighting by default', () => {
-      expect(isHighlighted).to.have.callCount(1);
-      expect(isHighlighted2).to.have.callCount(1);
-
-      expect(isHighlighted.getCall(0).args[0]).to.equal(false);
-      expect(isHighlighted2.getCall(0).args[0]).to.equal(false);
-    });
-
     it('should only call highlighted entities highlighting event', () => {
       highlightedEntityId.emit('id2');
       highlightedEntityIds.emit([]);
 
-      expect(isHighlighted).to.have.callCount(2);
-      expect(isHighlighted2).to.have.callCount(2);
+      expect(isHighlighted).to.have.callCount(1);
+      expect(isHighlighted2).to.have.callCount(1);
 
-      expect(isHighlighted.getCall(1).args[0]).to.equal(false);
-      expect(isHighlighted2.getCall(1).args[0]).to.equal(true);
+      expect(isHighlighted.getCall(0).args[0]).to.equal(false);
+      expect(isHighlighted2.getCall(0).args[0]).to.equal(true);
     });
 
     it('should also highlight if the entity is inside highlightedEntityIds', () => {
       highlightedEntityId.emit('id3');
       highlightedEntityIds.emit(['id4', 'id2']);
 
-      expect(isHighlighted).to.have.callCount(2);
-      expect(isHighlighted2).to.have.callCount(2);
+      expect(isHighlighted).to.have.callCount(1);
+      expect(isHighlighted2).to.have.callCount(1);
 
-      expect(isHighlighted.getCall(1).args[0]).to.equal(false);
-      expect(isHighlighted2.getCall(1).args[0]).to.equal(true);
+      expect(isHighlighted.getCall(0).args[0]).to.equal(false);
+      expect(isHighlighted2.getCall(0).args[0]).to.equal(true);
     });
   });
 });
