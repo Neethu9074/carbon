@@ -112,11 +112,11 @@ export default class MainScene extends SceneObject {
     const renderer = this.renderer = new WebGLRenderer({
       canvas: this.canvas,
       antialias: this.antialias === 'browserAA' ? true : false,
-      alpha: false
+      alpha: true
     });
 
     renderer.setSize(0, 0);
-    renderer.setClearColor(0x445b63);
+    renderer.setClearColor(0x445b63, 1.0);
 
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
