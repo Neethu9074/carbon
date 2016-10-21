@@ -21,7 +21,11 @@ export default connectTo(props => {
   );
 
   if (isOnline) {
-    return button;
+    return (
+      <Tooltip content='Thread dumps are always live.'>
+        {button}
+      </Tooltip>
+    );
   }
 
   return (

@@ -19,7 +19,11 @@ export default connectTo(props => {
   );
 
   if (isOnline) {
-    return button;
+    return (
+      <Tooltip content='CPU profiling is always live.'>
+        {button}
+      </Tooltip>
+    );
   }
 
   return (
