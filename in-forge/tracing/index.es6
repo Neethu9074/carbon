@@ -23,6 +23,8 @@ import './mail.javamail';
 import './memcache';
 import './missing';
 import './mongo';
+import './mule.client';
+import './mule.server';
 import './mysql';
 import './mysqli';
 import './nanohttpd';
