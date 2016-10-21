@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {closeTableView} from 'in-components/tableView/stores/visibility';
 import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
+import {closePhysicalTableView} from 'in-stores/navigation/view';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
 import {focusId} from 'in-map/services/focus';
@@ -65,7 +65,7 @@ function FocusButton({focusedMoment, snapshot, focusableSceneObjects}) {
 });
 
 function focusSnapshotId(id) {
-  closeTableView();
+  closePhysicalTableView();
   focusId(id);
 }
 

@@ -5,10 +5,10 @@ import ExpandCollapseAll from 'in-components/tableView/components/ExpandCollapse
 import PhysicalSummary from 'in-components/tableView/components/PhysicalSummary';
 import {excludeUnmonitoredHosts$} from 'in-stores/settings/unmonitoredHosts';
 import HealthSlider from 'in-components/tableView/components/HealthSlider';
-import {closeTableView} from 'in-components/tableView/stores/visibility';
 import ChildList from 'in-components/tableView/components/ChildList';
 import ZoneEntry from 'in-components/tableView/components/ZoneEntry';
 import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
+import {closePhysicalTableView} from 'in-stores/navigation/view';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {physicalViewStructure$} from 'in-stores/view';
 import Button from 'in-components/Button';
@@ -51,7 +51,7 @@ export default connectTo({
 
           <div className={block + '__header-left'}>
             <HealthSlider />
-            <Button onClick={closeTableView}>
+            <Button onClick={closePhysicalTableView}>
               Close
             </Button>
           </div>

@@ -11,7 +11,6 @@ import logging from 'instalog';
 import React from 'react';
 
 import {init as initHighlightedSuggestionStore} from 'in-components/SearchBar/stores/highlightedSuggestion';
-import {init as initTableViewVisibilityStore} from 'in-components/tableView/stores/visibility';
 import {init as initSubscriptonManager} from 'in-services/subscription/subscriptionManager';
 import {init as initNotMonitoringPresenter} from 'in-services/notMonitoringDialogPresenter';
 import {init as initLayouterStorage} from 'in-map/services/logical/logicalLayouterStorage';
@@ -65,7 +64,6 @@ initMessageStore();
 initShortcuts();
 initTracking();
 initNotMonitoringPresenter();
-initTableViewVisibilityStore();
 initExpandedIdsStore();
 initHighlightedSuggestionStore();
 initUsageInfo();
