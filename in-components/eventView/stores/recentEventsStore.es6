@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import {emptyList} from 'in-services/fixedImmutables';
 import {emptyArray} from 'in-services/fixedObjects';
 import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
@@ -11,7 +12,7 @@ export const recentEvents$ = createTrackingStore({
   name: 'eventView/recentEvents',
   observable: selectedIncident$.flatMap(incident => {
     const recentEvents = incident
-      ? incident.get('recentEvents', emptyArray)
+      ? incident.get('recentEvents', emptyList)
       : null;
     return recentEvents
      ? combineLatest(recentEvents.toArray().map(id => getEvent(id)))
