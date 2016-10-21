@@ -99,7 +99,7 @@ THREE.VRControls = function ( object, onError ) {
 			}
 
 			if (!pose) {
-				vrDisplay = null;
+				vrDisplay = undefined;
 				return;
 			}
 

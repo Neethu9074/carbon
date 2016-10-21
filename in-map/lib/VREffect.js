@@ -230,7 +230,9 @@ THREE.VREffect = function ( renderer, onError ) {
 
 			  vrDisplay.submitFrame(pose);
 
-			} else {
+			}
+
+			if (!pose) {
 				vrDisplay = undefined;
 			}
 
