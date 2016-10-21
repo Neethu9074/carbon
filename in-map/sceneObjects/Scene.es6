@@ -111,8 +111,7 @@ export default class MainScene extends SceneObject {
   setupRenderer() {
     const renderer = this.renderer = new WebGLRenderer({
       canvas: this.canvas,
-      antialias: this.antialias === 'browserAA' ? true : false,
-      alpha: true
+      antialias: this.antialias === 'browserAA' ? true : false
     });
 
     renderer.setSize(0, 0);
