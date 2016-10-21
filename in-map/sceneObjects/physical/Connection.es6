@@ -11,6 +11,7 @@ import {
   intersects,
   flatten
 } from 'in-map/misc/Connections';
+import {requestRendering} from 'in-map/stores/renderingStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 
@@ -54,6 +55,8 @@ export default class Connection extends SceneObject {
           this.collisionLine.geometry.dispose();
         }
         this.collisionLine = calculatePhysicalCollisionMesh(from, to);
+        this.eventEmitter.emit('positionChanged', this.getComponent('transform').getPosition());
+        requestRendering();
       })
     ]);
   }
