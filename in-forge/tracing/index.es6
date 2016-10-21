@@ -13,6 +13,7 @@ import './jdbc';
 import './jersey';
 import './jms';
 import './kafka';
+import './ldap';
 import './log.jul';
 import './log.log4j';
 import './log.log4j2';
