@@ -94,9 +94,8 @@ export function loadMoreRawEvents() {
       sortDirection === 'asc';
     const maxTimestampForQuery = isAscTimestampSort
       ? maxTimestamp
-      : getMaxStartMillis(events, maxTimestamp);
+      : Math.max(minTimestamp, getMaxStartMillis(events, maxTimestamp));
 
-    // console.log(new Date(maxTimestampForQuery));
     loadSubscription = createRawEventsObservable({
       maxTimestamp: maxTimestampForQuery,
       minTimestamp,
