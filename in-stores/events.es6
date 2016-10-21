@@ -11,6 +11,7 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import getOpenEvents from 'in-services/subscription/openEvents';
 import getEvents from 'in-services/subscription/events';
+import {selectedSnapshotId$} from 'in-stores/snapshot';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {theme} from 'in-services/theme';
 
@@ -378,11 +379,21 @@ export const selectedEventId$ = createTrackingStore({
     .distinct()
 }).observable;
 
-export const selectedIncident$ = createTrackingStore({
-  name: 'selectedIncident',
+export const selectedEvent$ = createTrackingStore({
+  name: 'selectedEvent',
   observable: selectedEventId$
     .flatMap(id => id ? getEvent(id) : alwaysNull)
     .distinct()
+}).observable;
+
+export const selectedIncident$ = createTrackingStore({
+  name: 'selectedIncident',
+  observable: combineLatest([
+    selectedEventId$,
+    selectedSnapshotId$
+  ])
+  .flatMap(([eventId, snapshotId]) => (eventId && !snapshotId) ? getEvent(eventId) : alwaysNull)
+  .distinct()
 }).observable;
 
 

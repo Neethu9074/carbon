@@ -1,5 +1,4 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker/issueTracker';
 import {selectedIncident$} from 'in-stores/events';
 
 
@@ -11,11 +10,8 @@ export default class MarkedIncidentRenderer extends BasicRenderer {
     super(backBuffer, scale);
 
     this.selectedIncidentId = null;
-    this.selectedIncidentSubscription = selectedIncident$.subscribe(_event => {
-      this.selectedIncidentId = (_event && getEventType(_event) === EVENT_TYPES.INCIDENT)
-        ? _event.get('id')
-        : null;
-    });
+    this.selectedIncidentSubscription = selectedIncident$.subscribe(incident =>
+      this.selectedIncidentId = incident ? incident.get('id') : null);
   }
 
   draw(incidents) {

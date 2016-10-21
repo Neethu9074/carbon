@@ -1,7 +1,7 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker/issueTracker';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import {selectedIncident$, selectedEventId$} from 'in-stores/events';
+import {selectedEvent$, selectedEventId$} from 'in-stores/events';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import {getColorForEvent} from 'in-services/issueTracker';
 import {selectedSnapshotId} from 'in-stores/snapshot';
@@ -20,17 +20,17 @@ export default class EventRenderer extends BasicRenderer {
     this.width = 0;
     this.y = y;
 
-    this.selectedIncident = null;
+    this.selectedEvent = null;
     this.recentEventIds = emptyArray;
 
-    this.selectedIncidentSubscription = selectedIncident$.subscribe(_event => {
+    this.selectedIncidentSubscription = selectedEvent$.subscribe(_event => {
       if (!_event || getEventType(_event) !== EVENT_TYPES.INCIDENT) {
         this.recentEventIds = emptyArray;
-        this.selectedIncident = null;
+        this.selectedEvent = null;
         return;
       }
 
-      this.selectedIncident = _event;
+      this.selectedEvent = _event;
       this.recentEventIds = _event.get('recentEvents', emptyArray).toArray();
 
       // add the incident itself to highlight it, too
@@ -76,7 +76,7 @@ export default class EventRenderer extends BasicRenderer {
     // the event is active (which means that it will be drawn normally) if there is no incident selected
     // and the events range must cross the focused moment so it currentyl active
     // and it has to contain to cetrain selected entityId (if available)
-    if (!this.selectedIncident &&
+    if (!this.selectedEvent &&
        (!this.focusedMoment || event.get('start') <= this.focusedMoment) &&
        (!this.highlightedEntityId || snapshotId === this.highlightedEntityId) &&
        (!this.selectedSnapshotId || snapshotId === this.selectedSnapshotId)) {

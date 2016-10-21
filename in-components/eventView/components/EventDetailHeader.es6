@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {selectedEvent$} from 'in-components/eventView/stores/selectedEventStore';
 import {clearEvent} from 'in-services/issueTracker';
+import {selectedEvent$} from 'in-stores/events';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 

@@ -1,11 +1,10 @@
 import React from 'react';
 
 import IncidentContent from 'in-components/eventView/components/Incident/Content';
-import {selectedEvent$} from 'in-components/eventView/stores/selectedEventStore';
 import EventContent from 'in-components/eventView/components/Event/Content';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import {selectedEventId$, selectedEvent$} from 'in-stores/events';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {selectedEventId$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
 import './EventDetails.less';

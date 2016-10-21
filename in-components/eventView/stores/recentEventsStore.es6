@@ -9,9 +9,9 @@ import {getEvent} from 'in-services/issueTracker';
 
 export const recentEvents$ = createTrackingStore({
   name: 'eventView/recentEvents',
-  observable: selectedIncident$.flatMap(event => {
-    const recentEvents = event
-      ? event.get('recentEvents')
+  observable: selectedIncident$.flatMap(incident => {
+    const recentEvents = incident
+      ? incident.get('recentEvents', emptyArray)
       : null;
     return recentEvents
      ? combineLatest(recentEvents.toArray().map(id => getEvent(id)))

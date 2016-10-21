@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker/issueTracker';
 import Content from 'in-components/sidebars/Incident/components/Content';
 import Header from 'in-components/sidebars/Incident/components/Header';
 import {selectedIncident$} from 'in-stores/events';
@@ -13,18 +12,18 @@ import 'in-components/sidebars/Incident/SidebarIncidents.less';
 const block = 'in-sidebar-incidents';
 
 export default connectTo({
-  event: selectedIncident$
+  incident: selectedIncident$
 }, SidebarIncidents);
 
-function SidebarIncidents({event}) {
-  if (!event || getEventType(event) !== EVENT_TYPES.INCIDENT) {
+function SidebarIncidents({incident}) {
+  if (!incident) {
     return null;
   }
 
   return (
     <div className={block}>
-      <Header incident={event}/>
-      <Content incident={event} />
+      <Header incident={incident}/>
+      <Content incident={incident} />
     </div>
   );
 }

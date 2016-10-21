@@ -3,14 +3,15 @@ import React from 'react';
 
 import SidebarBreadcrumb from 'in-components/Sidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-components/Sidebar/components/MapSidebarHeader';
-import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import SidebarContent from 'in-components/Sidebar/components/SidebarContent';
+import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import getForgeComponent from 'in-services/getForgeComponent';
 import {selectedSnapshot$} from 'in-stores/snapshot';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
 import './MapSidebar.less';
+
 
 const block = 'in-map-sidebar';
 
