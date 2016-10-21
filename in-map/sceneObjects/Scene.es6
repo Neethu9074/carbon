@@ -96,8 +96,8 @@ export default class MainScene extends SceneObject {
 
     eventBus.emit('update', dt);
 
-    // if (this.shouldRenderScene) {
-      // this.shouldRenderScene = false;
+    if (this.shouldRenderScene) {
+      this.shouldRenderScene = false;
 
       eventBus.emit('willRenderObject', true);
 
@@ -105,7 +105,7 @@ export default class MainScene extends SceneObject {
       if (camera) {
         this.renderTarget.render(this.scene, camera);
       }
-    // }
+    }
   }
 
   setupRenderer() {
