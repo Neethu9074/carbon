@@ -1,17 +1,19 @@
 import React from 'react';
 
-import {twoDecimalPlaces} from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import {timeframe$} from 'in-stores/timeline';
+import {emptyArray} from 'in-services/fixedObjects';
+import {always} from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
+import {to$} from 'in-stores/timeline';
 
 
-export default connectTo({
-  timeframe: timeframe$
+export default connectTo(props => {
+  return {
+    to: props.event.get('end') ? always(props.event.get('end')) : to$
+  };
 },
-function EventChart({timeframe, event}) {
-  if (!timeframe) {
+function EventChart({to, event}) {
+  if (!to) {
     return (
       <LoadingIndicator inline={true}
                         type='dark'
@@ -19,30 +21,25 @@ function EventChart({timeframe, event}) {
     );
   }
 
-  const triggeringMetric = event.get('triggeringMetric');
-  if (!triggeringMetric) {
+  const triggeringMetrics = event.getIn(['metadata', 'metrics'], emptyArray);
+  if (triggeringMetrics.length === 0) {
     return null;
   }
 
   return (
     <div>
-      <ChartWithLegend snapshotId={event.getIn(['problem', 'snapshotId'])}
-                       timeframe={timeframe}
-                       margins={{
-                         left: 0
-                       }}
-                       y1={{
-                         min: 0,
-                         max: 1,
-                         formatter: twoDecimalPlaces,
-                         metrics: [
-                           'awesome_metric'
-                         ],
-                         labels: [
-                           'Awesome metric'
-                         ],
-                         type: 'line'
-                       }}/>
+      {triggeringMetrics.map(metric => {
+        const snapshotId = metric.get('snapshotId');
+        const metricName = metric.get('metric');
+        const start = metric.get('start');
+
+        return (
+          <div>
+            `${snapshotId} - ${metricName} - ${start} - ${to}`
+          </div>
+        );
+      }
+      )}
     </div>
   );
 });
