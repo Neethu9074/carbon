@@ -28,7 +28,7 @@ function EventChart({to, event}) {
     );
   }
 
-  const triggeringMetrics = event.getIn(['metadata', 'cs'], emptyList);
+  const triggeringMetrics = event.getIn(['metadata', 'metrics'], emptyList);
   if (triggeringMetrics.size === 0) {
     return null;
   }
@@ -68,6 +68,6 @@ function EventChart({to, event}) {
   );
 }),
   event => {
-    return event.getIn(['metadata', 'cs'], emptyList).size > 0;
+    return event.getIn(['metadata', 'metrics'], emptyList).size > 0;
   }
 );
