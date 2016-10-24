@@ -3,7 +3,6 @@ import React from 'react';
 import AffectedServiceMarker from 'in-components/eventView/components/AffectedServiceMarker';
 import StartedMarker from 'in-components/eventView/components/Incident/StartedMarker';
 import EntityInformation from 'in-components/eventView/components/EntityInformation';
-import EndedMarker from 'in-components/eventView/components/Incident/EndedMarker';
 import EventDuration from 'in-components/eventView/components/EventDuration';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import EventIcon from 'in-components/EventIcon';
@@ -42,7 +41,6 @@ function EventHeader({event, color}) {
           }
           <StartedMarker event={event} />
           <EventDuration event={event} />
-          <EndedMarker event={event} />
         </div>
       </div>
     </div>

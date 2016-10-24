@@ -3,9 +3,9 @@ import React from 'react';
 
 import StartedMarker from 'in-components/eventView/components/Incident/StartedMarker';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
-import EndedMarker from 'in-components/eventView/components/Incident/EndedMarker';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
+import EventDuration from 'in-components/eventView/components/EventDuration';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import EventIcon from 'in-components/EventIcon';
@@ -49,7 +49,7 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
         </h1>
 
         <StartedMarker event={event} />
-        <EndedMarker event={event} />
+        <EventDuration event={event} />
 
         <LabeledValue label='active' >
           {`${numOpenEvents}/${recentEvents.length}`}
