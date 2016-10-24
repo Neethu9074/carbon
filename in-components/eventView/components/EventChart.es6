@@ -1,5 +1,6 @@
 import React from 'react';
 
+import addSection from 'in-components/eventView/hocs/addSection';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {emptyArray} from 'in-services/fixedObjects';
 import {always} from 'in-services/fixedStreams';
@@ -7,7 +8,7 @@ import connectTo from 'in-hoc/connectTo';
 import {to$} from 'in-stores/timeline';
 
 
-export default connectTo(props => {
+export default addSection(connectTo(props => {
   return {
     to: props.event.get('end') ? always(props.event.get('end')) : to$
   };
@@ -42,4 +43,6 @@ function EventChart({to, event}) {
       )}
     </div>
   );
-});
+}),
+  event => event.getIn(['metadata', 'metrics'], emptyArray).length > 0
+);

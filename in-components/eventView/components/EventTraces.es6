@@ -1,11 +1,13 @@
 import React from 'react';
 
+import addSection from 'in-components/eventView/hocs/addSection';
+
 import './EventTraces.less';
 
 
 const block = 'in-event-details-traces';
 
-export default function EventTraces({isProvided}) {
+export default addSection(function EventTraces({isProvided}) {
   if (!isProvided) {
     return null;
   }
@@ -15,4 +17,4 @@ export default function EventTraces({isProvided}) {
       Traces
     </div>
   );
-}
+});

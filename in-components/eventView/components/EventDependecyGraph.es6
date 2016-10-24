@@ -1,11 +1,13 @@
 import React from 'react';
 
+import addSection from 'in-components/eventView/hocs/addSection';
+
 import './EventDependecyGraph.less';
 
 
 const block = 'in-event-details-dependency-graph';
 
-export default function EventDependecyGraph({isProvided}) {
+export default addSection(function EventDependecyGraph({isProvided}) {
   if (!isProvided) {
     return null;
   }
@@ -15,4 +17,4 @@ export default function EventDependecyGraph({isProvided}) {
       Dependency Graph
     </div>
   );
-}
+});

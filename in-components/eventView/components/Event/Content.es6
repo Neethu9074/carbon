@@ -3,7 +3,6 @@ import React from 'react';
 import ProblemDescription from 'in-components/eventView/components/ProblemDescription';
 import EventChart from 'in-components/eventView/components/EventChart';
 import Header from 'in-components/eventView/components/Event/Header';
-import Section from 'in-components/eventView/components/Section';
 
 import 'in-components/eventView/components/Event/Content.less';
 // import EventDependecyGraph from 'in-components/eventView/components/EventDependecyGraph';
@@ -15,22 +14,18 @@ export default function EventContent({event}) {
     <div>
       <Header event={event} />
 
-      <Section>
         <ProblemDescription event={event}
+                            sectionized={true}
                             className='in-event-view-event-content' />
-      </Section>
 
-      <Section>
-        <EventChart event={event} />
-      </Section>
+        <EventChart event={event}
+                    sectionized={true} />
     </div>
   );
-  //
-  // <Section>
-  //   <EventDependecyGraph event={event} />
-  // </Section>
-  //
-  // <Section>
-  //   <EventTraces event={event} />
-  // </Section>
+
+// <EventDependecyGraph event={event}
+//                      sectionized={true} />
+//
+// <EventTraces event={event}
+//              sectionized={true} />
 }

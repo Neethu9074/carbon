@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import addSection from 'in-components/eventView/hocs/addSection';
 import {toHtml} from 'in-services/formatters/markdown';
 
 import 'in-components/eventView/components/ProblemDescription.less';
@@ -8,7 +9,7 @@ import 'in-components/eventView/components/ProblemDescription.less';
 
 const block = 'in-event-view-event-problem';
 
-export default function EventProblem({event}) {
+export default addSection(function EventProblem({event}) {
   const fixSuggestion = toHtml(event.getIn(['problem', 'fixSuggestion']));
 
   return (
@@ -19,4 +20,4 @@ export default function EventProblem({event}) {
       </DescriptionItem>
     </DescriptionList>
   );
-}
+});
