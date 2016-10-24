@@ -1,8 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import Content from 'in-components/sidebars/Incident/components/Content';
-import Header from 'in-components/sidebars/Incident/components/Header';
+import IncidentContent from 'in-components/eventView/components/Incident/Content';
 import {selectedIncident$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
@@ -22,8 +21,7 @@ function SidebarIncidents({incident}) {
 
   return (
     <div className={block}>
-      <Header incident={incident}/>
-      <Content incident={incident} />
+      <IncidentContent event={incident} />
     </div>
   );
 }
