@@ -45,7 +45,7 @@ function EventChart({to, event}) {
 
         return (
           <ChartWithLegend key={metricName}
-                           snapshotId={metric.get('snapshotId')}
+                           snapshotId={event.getIn(['problem', 'snapshotId'])}
                            timeframe={timeframe}
                            margins={{
                              left: 80
