@@ -47,18 +47,29 @@ React.createClass({
     const background = this.props.background;
     const event = this.props.event;
 
-    let className = `${block}__right`;
+    let rightClassName = `${block}__right`;
     if (this.props.highlightedEventId === event.get('id')) {
-      className += ` ${className}--highlighted`;
+      rightClassName += ` ${rightClassName}--highlighted`;
+    }
+
+    const hasServiceImpact = event.get('affectedService');
+    let className = block;
+    if (hasServiceImpact) {
+      className += ` ${className}__service-impact`;
     }
 
     return (
-      <div className={block}
+      <div className={className}
            id={`event-${event.get('id')}`}>
+
+        {hasServiceImpact
+          ? <AffectedServiceLabel />
+          : null
+        }
 
         <TimeIndicator event={event} />
 
-        <div className={className}>
+        <div className={rightClassName}>
           <div className={`${block}__background`}
                style={{ background }}/>
 
@@ -133,6 +144,14 @@ function DetailsHeader({event, onClick, iconType, background}) {
                height={12}
                width={12}
                color='#7b8e96' />
+    </div>
+  );
+}
+
+function AffectedServiceLabel() {
+  return (
+    <div className={`${block}__affected-service-label`}>
+      service impact
     </div>
   );
 }
