@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CloseTableViewButton from 'in-views/tableView/components/CloseTableViewButton';
 import HeaderTitle from 'in-views/tableView/components/HeaderTitle';
 
 import './Header.less';
@@ -12,6 +13,8 @@ export default function Header() {
       <HeaderTitle>
         Hosts
       </HeaderTitle>
+
+      <CloseTableViewButton />
     </header>
   );
 }

@@ -53,7 +53,7 @@ export default connectTo(props => {
       </div>
       <div className={cellClassName}>
         <DashboardLink snapshotId={snapshot.get('id')}>
-          {data.get('fqdn')}
+          {data.get('fqdn', data.get('hostname'))}
         </DashboardLink>
       </div>
       <div className={cellClassName}>
