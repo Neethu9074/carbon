@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AffectedServiceMarker from 'in-components/eventView/components/AffectedServiceMarker';
 import StartedMarker from 'in-components/eventView/components/Incident/StartedMarker';
 import EntityInformation from 'in-components/eventView/components/EntityInformation';
 import EndedMarker from 'in-components/eventView/components/Incident/EndedMarker';
@@ -19,6 +20,8 @@ export default connectTo(props => {
   };
 },
 function EventHeader({event, color}) {
+  const hasServiceImpact = event.get('affectedService');
+
   return (
     <div className={block}>
       <div className={`${block}__icon-wrapper`}
@@ -32,10 +35,15 @@ function EventHeader({event, color}) {
         </h1>
         <EntityInformation event={event} />
 
-        <div style={{ height: '0.5rem' }} />
-        <StartedMarker event={event} />
-        <EventDuration event={event} />
-        <EndedMarker event={event} />
+        <div className={`${block}__status-line`}>
+          {hasServiceImpact
+            ? <AffectedServiceMarker className={`${block}__affected-service-marker`} />
+            : null
+          }
+          <StartedMarker event={event} />
+          <EventDuration event={event} />
+          <EndedMarker event={event} />
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import AffectedServiceMarker from 'in-components/eventView/components/AffectedServiceMarker';
 import EventDependecyGraph from 'in-components/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-components/eventView/components/ProblemDescription';
 import EntityInformation from 'in-components/eventView/components/EntityInformation';
@@ -63,7 +64,7 @@ React.createClass({
            id={`event-${event.get('id')}`}>
 
         {hasServiceImpact
-          ? <AffectedServiceLabel />
+          ? <AffectedServiceMarker className={`${block}__affected-service-marker`} />
           : null
         }
 
@@ -144,14 +145,6 @@ function DetailsHeader({event, onClick, iconType, background}) {
                height={12}
                width={12}
                color='#7b8e96' />
-    </div>
-  );
-}
-
-function AffectedServiceLabel() {
-  return (
-    <div className={`${block}__affected-service-label`}>
-      service impact
     </div>
   );
 }
