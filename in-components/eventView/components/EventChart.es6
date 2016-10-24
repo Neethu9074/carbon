@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import addSection from 'in-components/eventView/hocs/addSection';
 import {twoDecimalPlaces} from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -16,10 +17,11 @@ const block = 'in-event-detail-chart';
 
 export default addSection(connectTo(props => {
   return {
+    isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false),
     to: props.event.get('end') ? always(props.event.get('end')) : to$
   };
 },
-function EventChart({to, event}) {
+function EventChart({isOpen, to, event}) {
   if (!to) {
     return (
       <LoadingIndicator inline={true}
@@ -39,7 +41,7 @@ function EventChart({to, event}) {
         const metricName = metric.get('metricName');
         const from = event.get('start');
         const timeframe = {
-          to,
+          to: isOpen ? null : to,
           windowSize: to - from
         };
 
