@@ -40,6 +40,20 @@ export default function createChart(config) {
   const borderRenderer = createBorderRenderer(config);
   const tooltipRenderer = createTooltipRenderer(config);
   const highlightedTimeframeRenderer = createHighlightedTimeframeRenderer(config);
+  let timeframeSubscription;
+
+  let chartTo;
+  let windowSize = 0;
+   if (config.timeframe$) {
+    timeframeSubscription = config.timeframe$.subscribe(_timeframe => {
+      chartTo = _timeframe.to;
+      windowSize = _timeframe.windowSize;
+    });
+  } else if (config.timeframe) {
+    chartTo = config.timeframe.to;
+    windowSize = config.timeframe.windowSize;
+  }
+
 
   let isRendering = false;
   let restartRenderingSubscription;
@@ -149,6 +163,11 @@ export default function createChart(config) {
 
 
   function dispose() {
+    if (timeframeSubscription) {
+      timeframeSubscription.dispose();
+      timeframeSubscription = null;
+    }
+
     tooltipRenderer.dispose();
     domController.dispose();
     axisController.dispose();
@@ -204,12 +223,12 @@ export default function createChart(config) {
     let prev = 0;
     const animate = () => {
       const now = Date.now();
-      const to = config.timeframe.to || (toServerTime(now, config.serverTimeOffset) - config.chartWiggleRoom);
-      config.scales.x.setDomainFrom(to - config.timeframe.windowSize + config.chartWiggleRoom);
+      const to = chartTo || (toServerTime(now, config.serverTimeOffset) - config.chartWiggleRoom);
+      config.scales.x.setDomainFrom(to - windowSize + config.chartWiggleRoom);
       config.scales.x.setDomainTo(to);
 
       if (now - prev >= animationDuration) {
-        config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize + config.chartWiggleRoom);
+        config.scales.bufferX.setDomainFrom(to - windowSize + config.chartWiggleRoom);
         config.scales.bufferX.setDomainTo(to + animationDuration);
         config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + animationDuration));
 
@@ -231,7 +250,7 @@ export default function createChart(config) {
 
   function calculateMaxDistanceBetweenPoints() {
     const now = Date.now();
-    config.scales.x.setDomainFrom(now - config.timeframe.windowSize);
+    config.scales.x.setDomainFrom(now - windowSize);
     config.scales.x.setDomainTo(now);
 
     // The next expected point is the point at we which we would expect a next data point

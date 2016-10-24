@@ -24,6 +24,7 @@ export default connectTo({
     margins: rpt.object,
 
     timeframe: timeframeShape,
+    timeframe$: rpt.object,
 
     snapshotId: rpt.string.isRequired,
     y1: rpt.object.isRequired,
@@ -50,6 +51,7 @@ export default connectTo({
 
         <Chart snapshotId={this.props.snapshotId}
                timeframe={this.props.timeframe}
+               timeframe$={this.props.timeframe$}
                height={this.props.height || 150}
                y1={this.props.y1}
                y2={this.props.y2}
