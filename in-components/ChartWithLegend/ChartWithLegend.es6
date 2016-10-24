@@ -50,7 +50,6 @@ export default connectTo({
                      filterStore={this.state.filterStore} />
 
         <Chart snapshotId={this.props.snapshotId}
-               timeframe={this.props.timeframe}
                timeframe$={this.props.timeframe$}
                height={this.props.height || 150}
                y1={this.props.y1}
