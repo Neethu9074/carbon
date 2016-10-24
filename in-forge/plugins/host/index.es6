@@ -4,9 +4,9 @@ import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.svg';
 import linuxIconPath from 'in-forge/plugins/host/icons/instana_server_linux.svg';
 import appleIconPath from 'in-forge/plugins/host/icons/instana_server_apple.svg';
+import tableDefinition from 'in-forge/plugins/host/tableDefinition';
 import {plugins} from 'in-forge/constants';
-
-import './metrics';
+import 'in-forge/plugins/host/metrics';
 
 registerSnapshotDefinition({
   plugin: plugins.os,
@@ -15,6 +15,7 @@ registerSnapshotDefinition({
     plural: 'Hosts'
   },
   showZoneInSidebarHeader: true,
+  tableDefinition,
 
   namesForTypeSearch: ['host'],
 
