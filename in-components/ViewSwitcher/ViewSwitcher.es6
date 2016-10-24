@@ -28,7 +28,7 @@ export default connectTo({
       <div className={block + '__wrapper'}>
 
         <View href$={physicalViewLink$}
-              active={pathname.indexOf('/physical') === 0}>
+              active={pathname.indexOf('/physical') === 0 || pathname.indexOf('/table') === 0}>
           Physical
         </View>
 

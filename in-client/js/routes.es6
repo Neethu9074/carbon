@@ -3,12 +3,12 @@
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
-import TableView from 'in-components/tableView/TableView';
 import TraceView from 'in-components/traceView/TraceView';
 import EventView from 'in-components/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
+import TableView from 'in-views/tableView/TableView';
 import Dashboard from 'in-components/Dashboard';
 import App from 'in-client/js/App';
 import Map from 'in-map/index';
@@ -20,8 +20,6 @@ export default (
            component={Map}>
       <Route path='dashboard'
              component={Dashboard} />
-      <Route path='table'
-             component={TableView} />
     </Route>
 
     <Route path='logical'
@@ -38,6 +36,12 @@ export default (
 
     <Route component={EventView}
            path='events'>
+      <Route component={Dashboard}
+             path='dashboard' />
+    </Route>
+
+    <Route component={TableView}
+           path='table'>
       <Route component={Dashboard}
              path='dashboard' />
     </Route>

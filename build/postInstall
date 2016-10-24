@@ -13,6 +13,7 @@ ln -s ../in-stores node_modules/in-stores
 ln -s ../in-hoc node_modules/in-hoc
 ln -s ../in-client node_modules/in-client
 ln -s ../in-charts node_modules/in-charts
+ln -s ../in-views node_modules/in-views
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"

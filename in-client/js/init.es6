@@ -15,7 +15,6 @@ import {init as initSubscriptonManager} from 'in-services/subscription/subscript
 import {init as initNotMonitoringPresenter} from 'in-services/notMonitoringDialogPresenter';
 import {init as initLayouterStorage} from 'in-map/services/logical/logicalLayouterStorage';
 import {init as initMessageStore} from 'in-components/MessageDialog/MessageDialogStores';
-import {init as initExpandedIdsStore} from 'in-components/tableView/stores/expandedIds';
 import {init as initPersistentConnection} from 'in-services/persistentConnection';
 import {init as initTimelineStore} from 'in-components/timeline/timelineStore';
 import {init as initMaintenanceNoteStore} from 'in-stores/maintenance';
@@ -64,7 +63,6 @@ initMessageStore();
 initShortcuts();
 initTracking();
 initNotMonitoringPresenter();
-initExpandedIdsStore();
 initHighlightedSuggestionStore();
 initUsageInfo();
 initMaintenanceNoteStore();

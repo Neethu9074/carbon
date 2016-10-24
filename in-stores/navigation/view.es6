@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import {navigationParameters$, cloneDeep, toUrl, mutateUrl} from 'in-stores/navigation/navigation';
+import {navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navigation';
 import {eumTracingEnabled} from 'in-services/featureFlags';
 
 
@@ -65,16 +65,16 @@ export function getEventViewWithIncident(incidentId) {
     .distinct();
 }
 
-export function goToPhysicalTableView() {
-  mutateUrl(navParams => {
-    navParams.pathname = '/physical/table';
-    return navParams;
-  });
-}
+export const tableViewLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/table';
+    delete params.query.q;
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
 
-export function closePhysicalTableView() {
-  mutateUrl(navParams => {
-    navParams.pathname = '/physical';
-    return navParams;
-  });
+export function goToTableView() {
+  tableViewLink$.once(link => window.location.href = link);
 }
