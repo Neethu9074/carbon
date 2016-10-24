@@ -7,7 +7,7 @@ import {eventBus} from 'in-map/services/eventBus';
 
 export default class MouseControlDecorator extends Decorator {
 
-  constructor(controller, canvas, zoomLevelStore) {
+  constructor(controller, canvas) {
     super(controller);
 
     this.canvas = canvas;
@@ -15,14 +15,11 @@ export default class MouseControlDecorator extends Decorator {
     // units / sec
     this.zoomSpeed = 10;
 
-    this.zoomLevelStore = zoomLevelStore;
-
     // if the cam is nearly at the target zoomLevel, abort calculations and with that, redraws
     this.minDistanceBetweenCurrentAndTargetZoomLevel = 0.01;
 
-    this.zoomLevel = zoomLevelStore.getZoomLevel() || 500;
-
-    this.addProperty('zoomLevel', this.zoomLevel);
+    this.zoomLevel = 600;
+    this.addProperty('zoomLevel', 600);
     this.addProperty('minZoomLevel', 20);
     this.addProperty('maxZoomLevel', 2000);
     this.addProperty('cursorPosition', {x: 0, y: 0});
@@ -34,7 +31,7 @@ export default class MouseControlDecorator extends Decorator {
   init() {
     super.init();
 
-    this.zoom(-0.1);
+    this.zoom(-100);
   }
 
   initEvents() {
@@ -91,10 +88,6 @@ export default class MouseControlDecorator extends Decorator {
 
     this.cameraController.zoomLevel = zoomLevel;
     eventBus.emit('zoomLevelChanged', zoomLevel);
-
-    // store current zoomLevel to store
-    this.zoomLevelStore.setZoomLevel(zoomLevel);
-
     requestRendering();
   }
 
