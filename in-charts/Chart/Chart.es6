@@ -14,6 +14,7 @@ import {getIn} from 'in-services/settings';
 
 import './Chart.less';
 
+
 const signalRoSpec = {emitLatestOnSubscribe: false};
 const animationDuration = 2000;
 const maxFps = 15;
@@ -205,14 +206,18 @@ export default function createChart(config) {
     let prev = 0;
     const animate = () => {
       const now = Date.now();
-      const to = config.timeframe.to || (toServerTime(now, config.serverTimeOffset) - config.chartWiggleRoom);
-      config.scales.x.setDomainFrom(to - config.timeframe.windowSize + config.chartWiggleRoom);
-      config.scales.x.setDomainTo(to);
+      const scales = config.scales;
+      const windowSize = config.timeframe.windowSize;
+      const chartWiggleRoom = config.chartWiggleRoom;
+      const to = config.timeframe.to || (toServerTime(now, config.serverTimeOffset) - chartWiggleRoom);
+
+      scales.x.setDomainFrom(to - windowSize + chartWiggleRoom);
+      scales.x.setDomainTo(to);
 
       if (now - prev >= animationDuration) {
-        config.scales.bufferX.setDomainFrom(to - config.timeframe.windowSize + config.chartWiggleRoom);
-        config.scales.bufferX.setDomainTo(to + animationDuration);
-        config.scales.bufferX.setRangeTo(config.scales.x.getRange(to + animationDuration));
+        scales.bufferX.setDomainFrom(to - windowSize + chartWiggleRoom);
+        scales.bufferX.setDomainTo(to + animationDuration);
+        scales.bufferX.setRangeTo(scales.x.getRange(to + animationDuration));
 
         config.ctx.staticScreen.clearRect(0, 0, config.width, config.height);
         config.ctx.animationBuffer.clearRect(0, 0, config.bufferWidth, config.height);

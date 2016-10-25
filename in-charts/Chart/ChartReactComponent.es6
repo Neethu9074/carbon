@@ -4,9 +4,11 @@ import React from 'react';
 
 import createChart from 'in-charts/Chart/Chart';
 
+
 const rpt = React.PropTypes;
 
 export default React.createClass({
+
   displayName: 'ChartReactComponent',
 
   propTypes: {
@@ -32,16 +34,16 @@ export default React.createClass({
   },
 
   renderChart() {
-    // Copy all props to separate chart config object from React lifecycle and
-    // prop immutability.
+    // Copy all props to separate chart config object from React lifecycle and prop immutability.
+    const props = this.props;
     const config = {
-      height: this.props.height,
-      margins: this.props.margins,
-      timeframe$: this.props.timeframe$,
-      snapshotId: this.props.snapshotId,
-      y1: this.props.y1,
-      y2: this.props.y2,
-      activeFilters$: this.props.activeFilters$
+      height: props.height,
+      margins: props.margins,
+      timeframe$: props.timeframe$,
+      snapshotId: props.snapshotId,
+      y1: props.y1,
+      y2: props.y2,
+      activeFilters$: props.activeFilters$
     };
     config.container = ReactDOM.findDOMNode(this);
     this.chart = createChart(config);
