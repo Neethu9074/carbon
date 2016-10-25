@@ -13,7 +13,7 @@ import 'in-components/eventView/components/EventChart.less';
 // Our current chart implementation can't handle dynamic windowSizes (dynamic = 1change/sec)
 // If an event is open, we will subscribe to live metrics which couses in mocing timewindows
 // To avoid that the cahrt will run out of scope we add an offset to the windowSize
-const chartOffset = 10 * 1000; // 10 min
+const chartOffset = 5 * 60 * 1000; // 5 min
 const block = 'in-event-detail-chart';
 
 export default addSection(connectTo(props => {
@@ -39,7 +39,7 @@ function EventChart({to, event}) {
           windowSize: event.get('end') - from
         };
 
-        if (event.get('state') === 'opemn') {
+        if (event.get('state') === 'open') {
           timeframe.windowSize += chartOffset;
         }
 
