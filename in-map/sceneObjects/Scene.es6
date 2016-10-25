@@ -34,6 +34,10 @@ export default class MainScene extends SceneObject {
     // reset the time and clear all listeners
     resetTime();
 
+    const chromeVersion = this.getChromeVersion();
+    this.enableContinousRenderingEach30Frame = (chromeVersion && chromeVersion >= 53 && chromeVersion <= 54);
+    this.frameCounter = 0;
+
     this.isDisposed = false;
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
@@ -95,6 +99,14 @@ export default class MainScene extends SceneObject {
     const dt = getDeltaTime();
 
     eventBus.emit('update', dt);
+
+    if (this.enableContinousRenderingEach30Frame) {
+      this.frameCounter++;
+      if (this.frameCounter >= 30) {
+        this.frameCounter = 0;
+        requestRendering();
+      }
+    }
 
     if (this.shouldRenderScene) {
       this.shouldRenderScene = false;
@@ -171,6 +183,11 @@ export default class MainScene extends SceneObject {
         window.location.reload();
       })
     ]);
+  }
+
+  getChromeVersion() {
+    const raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+    return raw ? parseInt(raw[2], 10) : false;
   }
 
   dispose() {
