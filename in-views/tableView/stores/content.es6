@@ -101,7 +101,8 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
     content: '',
     sortable: defaultSortable,
     contentSubscription: null,
-    sortableSubscription: null
+    sortableSubscription: null,
+    style: columnDefinition.style
   };
 
   const result = columnDefinition.get(snapshotData.snapshot);

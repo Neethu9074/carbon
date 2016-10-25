@@ -1,8 +1,9 @@
+import tableDefinition from 'in-forge/plugins/nodeJsRuntimePlatform/tableDefinition';
+import icon from 'in-forge/plugins/nodeJsRuntimePlatform/icon.svg';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {getCodeView} from 'in-forge/codeView/node';
 import {plugins} from 'in-forge/constants';
 
-import icon from './icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.nodejs,
@@ -12,6 +13,7 @@ registerSnapshotDefinition({
     plural: 'Node.js Applications'
   },
 
+  tableDefinition,
   namesForTypeSearch: ['node', 'node.js', 'nodejs'],
 
   getLabel(s) {

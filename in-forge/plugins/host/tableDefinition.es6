@@ -69,14 +69,20 @@ export default [
     }
   }, {
     title: '#CPUs',
-    maxWidth: '5rem',
+    style: {
+      maxWidth: '5rem',
+      textAlign: 'right'
+    },
     sortableType: Number,
     get(snapshot) {
       return snapshot.getIn(['data', 'cpu.count']);
     }
   }, {
     title: 'CPU Usage',
-    maxWidth: '5rem',
+    style: {
+      maxWidth: '5rem',
+      textAlign: 'right'
+    },
     sortableType: Number,
     get(snapshot) {
       const valueStream = getMetricForFocusedMoment({
@@ -96,7 +102,10 @@ export default [
     }
   }, {
     title: 'Memory',
-    maxWidth: '6.25rem',
+    style: {
+      maxWidth: '6.25rem',
+      textAlign: 'right'
+    },
     sortableType: Number,
     get(snapshot) {
       const memoryTotal = snapshot.getIn(['data', 'memory.total']);
@@ -107,7 +116,10 @@ export default [
     }
   }, {
     title: 'Memory Usage',
-    maxWidth: '6.25rem',
+    style: {
+      maxWidth: '6.25rem',
+      textAlign: 'right'
+    },
     sortableType: Number,
     get(snapshot) {
       const memoryTotal = snapshot.getIn(['data', 'memory.total']);

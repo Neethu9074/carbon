@@ -14,6 +14,7 @@ export default function TableHeader({plugin}) {
     <div className={block}>
       {tableDefinition.map((column, i) =>
         <p className={cellClassName}
+           style={column.style}
            key={i}>
           {column.title}
         </p>

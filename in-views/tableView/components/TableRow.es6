@@ -22,6 +22,7 @@ export default connectTo(props => {
     <div className={block}>
       {rowData.columns.map((column, i) =>
         <div className={cellClassName}
+             style={column.style}
              key={i}>
           {column.content || <span>&nbsp;</span>}
         </div>
