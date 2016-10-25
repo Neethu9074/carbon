@@ -19,8 +19,6 @@ export default connectTo(props => {
   };
 },
 function EventHeader({event, color}) {
-  const hasServiceImpact = event.get('affectedService');
-
   return (
     <div className={block}>
       <div className={`${block}__icon-wrapper`}
@@ -35,10 +33,8 @@ function EventHeader({event, color}) {
         <EntityInformation event={event} />
 
         <div className={`${block}__status-line`}>
-          {hasServiceImpact
-            ? <AffectedServiceMarker className={`${block}__affected-service-marker`} />
-            : null
-          }
+          <AffectedServiceMarker className={`${block}__affected-service-marker`}
+                                 event={event} />
           <StartedMarker event={event} />
           <EventDuration event={event} />
         </div>

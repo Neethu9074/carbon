@@ -9,6 +9,7 @@ import {highlightedEventId$} from 'in-components/eventView/stores/highlightedEve
 import EventDuration from 'in-components/eventView/components/EventDuration';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import EventTraces from 'in-components/eventView/components/EventTraces';
+import Spacer from 'in-components/eventView/components/Incident/Spacer';
 import EventChart from 'in-components/eventView/components/EventChart';
 import {formatTime} from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
@@ -53,7 +54,7 @@ React.createClass({
       rightClassName += ` ${rightClassName}--highlighted`;
     }
 
-    const hasServiceImpact = event.get('affectedService');
+    const hasServiceImpact = event.getIn(['metadata', 'triggering']);
     let className = block;
     if (hasServiceImpact) {
       className += ` ${className}__service-impact`;
@@ -63,10 +64,8 @@ React.createClass({
       <div className={className}
            id={`event-${event.get('id')}`}>
 
-        {hasServiceImpact
-          ? <AffectedServiceMarker className={`${block}__affected-service-marker`} />
-          : null
-        }
+        <AffectedServiceMarker className={`${block}__affected-service-marker`}
+                               event={event} />
 
         <TimeIndicator event={event} />
 
@@ -90,8 +89,11 @@ React.createClass({
             {isExpanded
               ? <div className={`${block}__expanded-details`}>
                   <ProblemDescription event={event} />
+                  <Spacer />
                   <EventChart event={event} />
+                  <Spacer />
                   <EventDependecyGraph event={event} />
+                  <Spacer />
                   <EventTraces event={event} />
                 </div>
               : null
