@@ -64,8 +64,11 @@ React.createClass({
       <div className={className}
            id={`event-${event.get('id')}`}>
 
-        <AffectedServiceMarker className={`${block}__affected-service-marker`}
-                               event={event} />
+        {(hasServiceImpact && !isExpanded)
+          ? <AffectedServiceMarker className={`${block}__affected-service-marker`}
+                                   event={event} />
+          : null
+        }
 
         <TimeIndicator event={event} />
 
