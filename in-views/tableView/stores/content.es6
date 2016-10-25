@@ -1,4 +1,5 @@
 import {create} from 'reactive-observables';
+import {isEqual} from 'lodash';
 
 import {physicalViewStructure$} from 'in-stores/view';
 import {getTableDefinition} from 'in-sdk/snapshot';
@@ -7,6 +8,7 @@ import {getSnapshot} from 'in-stores/snapshot';
 let snapshotsSubscription;
 
 // snapshotId => {
+//   mutationCount (used for change detection in react)
 //   marked (used for mark/sweep)
 //   snapshotId
 //   snapshot
@@ -22,8 +24,16 @@ let snapshotsSubscription;
 //   ]
 // }
 const data = {};
+export const data$ = create({
+  start: enable,
+  stop: disable
+});
 
-const hasChanges = create();
+
+// potentially add sorting here
+export const snapshotIds$ = data$
+  .map(d => Object.keys(d).sort())
+  .distinct((a, b) => !isEqual(a, b));
 
 
 export function enable() {
@@ -85,13 +95,14 @@ export function disable() {
 
 
 function addSnapshotId(snapshotId) {
-  const snapshotData = data[snapshotId];
+  let snapshotData = data[snapshotId];
   if (snapshotData) {
     snapshotData.marked = false;
     return;
   }
 
   snapshotData = data[snapshotId] = {
+    mutationCount: 0,
     marked: false,
     columns: []
   };
@@ -106,6 +117,8 @@ function addSnapshotId(snapshotId) {
       tableDefinition.forEach((columnDefinition, i) => {
         establishColumnSubscription(snapshotData, columnDefinition, i);
       });
+
+      notifyAboutDataChanges(snapshotData);
     });
 }
 
@@ -132,9 +145,14 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   }
 
   if (typeof result.subscribe === 'function') {
-    snapshotData.contentSubscription = result.subscribe(columnContentDefinition => {
-        columnData.content = columnContentDefinition.content;
+    snapshotData.contentSubscription = result
+      .subscribe(columnContentDefinition => {
         columnData.sortable = columnContentDefinition.sortable;
+
+        if (columnData.content !== columnContentDefinition.content) {
+          columnData.content = columnContentDefinition.content;
+          notifyAboutDataChanges(snapshotData);
+        }
       });
     return;
   }
@@ -142,23 +160,31 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   if (result.content != null) {
     columnData.content = result.content;
   } else if (result.content$ != null) {
-    snapshotData.contentSubscription = result.content$.subscribe(columnContentDefinition => {
+    snapshotData.contentSubscription = result.content$
+      .distinct()
+      .subscribe(columnContentDefinition => {
         columnData.content = columnContentDefinition.content;
+        notifyAboutDataChanges(snapshotData);
       });
   }
 
   if (result.sortable != null) {
     columnData.sortable = result.sortable;
   } else if (result.sortable$ != null) {
-    snapshotData.sortableSubscription = result.sortable$.subscribe(columnContentDefinition => {
+    snapshotData.sortableSubscription = result.sortable$
+      .distinct()
+      .subscribe(columnContentDefinition => {
         columnData.sortable = columnContentDefinition.sortable;
       });
   }
 }
 
 
-function notifyAboutDataChanges() {
-  hasChanges.emit(true);
+function notifyAboutDataChanges(snapshotData) {
+  if (snapshotData) {
+    snapshotData.mutationCount++;
+  }
+  data$.emit(data);
 }
 
 
@@ -187,4 +213,15 @@ function disposeColumnSubscriptions(snapshotData) {
       column.sortableSubscription = null;
     }
   });
+}
+
+
+export function getRowDataForSnapshotId(snapshotId) {
+  let lastMutationCount;
+  return data$
+    .map(d => d[snapshotId])
+    .filter(d => d != null)
+    // simulating a distinct based on value operator
+    .distinct(d => d.mutationCount !== lastMutationCount)
+    .tap(d => lastMutationCount = d.mutationCount);
 }

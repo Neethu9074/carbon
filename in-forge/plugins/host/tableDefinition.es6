@@ -4,8 +4,9 @@ import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/fo
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
 import DashboardLink from 'in-components/Link/DashboardLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
-import {getSnapshot, getLabel} from 'in-stores/snapshot';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {getSnapshot} from 'in-stores/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import {getZone} from 'in-stores/zone';
 
 export default [
@@ -22,7 +23,10 @@ export default [
         })
         .map(zone => {
           if (!zone) {
-            return null;
+            return {
+              content: '',
+              sortable: ''
+            };
           }
 
           const zoneLabel = getLabel(zone);
@@ -40,11 +44,15 @@ export default [
     title: 'FQDN',
     sortableType: String,
     get(snapshot) {
-      return (
-        <DashboardLink snapshotId={snapshot.get('id')}>
-          {snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']))}
-        </DashboardLink>
-      );
+      const fqdn = snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']));
+      return {
+        content: (
+          <DashboardLink snapshotId={snapshot.get('id')}>
+            {fqdn}
+          </DashboardLink>
+        ),
+        sortable: fqdn
+      };
     }
   }, {
     title: 'Hostname',
