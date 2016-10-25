@@ -1,20 +1,26 @@
 import React from 'react';
 
 import CloseTableViewButton from 'in-views/tableView/components/CloseTableViewButton';
+import {plugin$, snapshotIds$} from 'in-views/tableView/stores/snapshotIds';
 import HeaderTitle from 'in-views/tableView/components/HeaderTitle';
+import {getPlural} from 'in-sdk/pluginName';
+import connectTo from 'in-hoc/connectTo';
 
 import './Header.less';
 
 const block = 'in-table-view-header';
 
-export default function Header() {
+export default connectTo({
+  plugin: plugin$,
+  snapshotIds: snapshotIds$
+}, function Header({plugin, snapshotIds}) {
   return (
     <header className={block}>
       <HeaderTitle>
-        Hosts
+        {getPlural(plugin)} ({snapshotIds ? snapshotIds.length : 0})
       </HeaderTitle>
 
       <CloseTableViewButton />
     </header>
   );
-}
+});

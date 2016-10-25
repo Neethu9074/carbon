@@ -1,7 +1,8 @@
 import React from 'react';
 
 import TableHeader from 'in-views/tableView/components/TableHeader';
-import {snapshotIds$} from 'in-views/tableView/stores/content';
+import {sortedSnapshotIds$} from 'in-views/tableView/stores/sorting';
+import {plugin$} from 'in-views/tableView/stores/snapshotIds';
 import TableRow from 'in-views/tableView/components/TableRow';
 import connectTo from 'in-hoc/connectTo';
 
@@ -9,11 +10,10 @@ import './Table.less';
 
 const block = 'in-table-view-table';
 
-const plugin = 'host';
-
 export default connectTo({
-  snapshotIds: snapshotIds$
-}, function Table({snapshotIds}) {
+  snapshotIds: sortedSnapshotIds$,
+  plugin: plugin$
+}, function Table({snapshotIds, plugin}) {
   return (
     <div className={block}>
       <TableHeader plugin={plugin} />

@@ -1,7 +1,6 @@
 import {create} from 'reactive-observables';
-import {isEqual} from 'lodash';
 
-import {physicalViewStructure$} from 'in-stores/view';
+import {snapshotIds$} from 'in-views/tableView/stores/snapshotIds';
 import {getTableDefinition} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
 
@@ -24,42 +23,15 @@ let snapshotsSubscription;
 //   ]
 // }
 const data = {};
-export const data$ = create({
+const data$ = create({
   start: enable,
   stop: disable
 });
 
 
-// potentially add sorting here
-export const snapshotIds$ = data$
-  .map(d => Object.keys(d).sort())
-  .distinct((a, b) => !isEqual(a, b));
-
-
 export function enable() {
-  snapshotsSubscription = getAllSnapshotIds()
+  snapshotsSubscription = snapshotIds$
     .subscribe(onSnapshotIdsUpdate);
-}
-
-
-function getAllSnapshotIds() {
-  return physicalViewStructure$
-    .map(viewStructure => {
-      const hosts = [];
-
-      viewStructure.get('children')
-        .forEach(zone => {
-          zone.get('children')
-            .forEach(host => {
-              const id = host.get('id');
-              if (id.indexOf('unmon-host=') !== 0) {
-                hosts.push(host.get('id'));
-              }
-            });
-        });
-
-      return hosts;
-    });
 }
 
 
@@ -145,7 +117,7 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   }
 
   if (typeof result.subscribe === 'function') {
-    snapshotData.contentSubscription = result
+    columnData.contentSubscription = result
       .subscribe(columnContentDefinition => {
         columnData.sortable = columnContentDefinition.sortable;
 
@@ -160,7 +132,7 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   if (result.content != null) {
     columnData.content = result.content;
   } else if (result.content$ != null) {
-    snapshotData.contentSubscription = result.content$
+    columnData.contentSubscription = result.content$
       .distinct()
       .subscribe(columnContentDefinition => {
         columnData.content = columnContentDefinition.content;
@@ -171,7 +143,7 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   if (result.sortable != null) {
     columnData.sortable = result.sortable;
   } else if (result.sortable$ != null) {
-    snapshotData.sortableSubscription = result.sortable$
+    columnData.sortableSubscription = result.sortable$
       .distinct()
       .subscribe(columnContentDefinition => {
         columnData.sortable = columnContentDefinition.sortable;
