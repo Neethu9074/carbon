@@ -48,20 +48,22 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
           Incident
         </h1>
 
-        <StartedMarker event={event} />
-        <EventDuration event={event} />
+        <div className={`${block}__status-line`}>
+          <StartedMarker event={event} />
+          <EventDuration event={event} />
 
-        <LabeledValue label='active' >
-          {`${numOpenEvents}/${recentEvents.length}`}
-        </LabeledValue>
+          <LabeledValue label='active' >
+            {`${numOpenEvents}/${recentEvents.length}`}
+          </LabeledValue>
 
-        <LabeledValue label='changes' >
-          {`${changes.length}`}
-        </LabeledValue>
+          <LabeledValue label='changes' >
+            {`${changes.length}`}
+          </LabeledValue>
 
-        <LabeledValue label='affected entities' >
-          {`${Object.keys(affectedEnties).length}`}
-        </LabeledValue>
+          <LabeledValue label='affected entities' >
+            {`${Object.keys(affectedEnties).length}`}
+          </LabeledValue>
+        </div>
       </div>
     </div>
   );
