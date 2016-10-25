@@ -2,6 +2,7 @@ import React from 'react';
 
 import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
+import DashboardLink from 'in-components/Link/DashboardLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {getSnapshot, getLabel} from 'in-stores/snapshot';
 import {alwaysNull} from 'in-services/fixedStreams';
@@ -10,6 +11,7 @@ import {getZone} from 'in-stores/zone';
 export default [
   {
     title: 'Zone',
+    sortableType: String,
     get(snapshot) {
       return getZone(snapshot.get('id'))
         .flatMap(zoneId => {
@@ -20,23 +22,39 @@ export default [
         })
         .map(zone => {
           if (!zone) {
-            return zone;
+            return null;
           }
-          return getLabel(zone);
+
+          const zoneLabel = getLabel(zone);
+          return {
+            content: (
+              <DashboardLink snapshotId={zone.get('id')}>
+                {zoneLabel}
+              </DashboardLink>
+            ),
+            sortable: zoneLabel
+          };
         });
     }
   }, {
     title: 'FQDN',
+    sortableType: String,
     get(snapshot) {
-      return snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']));
+      return (
+        <DashboardLink snapshotId={snapshot.get('id')}>
+          {snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']))}
+        </DashboardLink>
+      );
     }
   }, {
     title: 'Hostname',
+    sortableType: String,
     get(snapshot) {
       return snapshot.getIn(['data', 'hostname']);
     }
   }, {
     title: 'OS',
+    sortableType: String,
     get(snapshot) {
       const data = snapshot.get('data');
       return `${data.get('os.name', '')} ${data.get('os.arch', '')} ${data.get('os.version', '')}`;
@@ -44,12 +62,14 @@ export default [
   }, {
     title: '#CPUs',
     maxWidth: '5rem',
+    sortableType: Number,
     get(snapshot) {
       return snapshot.getIn(['data', 'cpu.count']);
     }
   }, {
     title: 'CPU Usage',
     maxWidth: '5rem',
+    sortableType: Number,
     get(snapshot) {
       const valueStream = getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
@@ -63,18 +83,24 @@ export default [
                                createMetricValueStream={() => valueStream}
                                formatter={percentageZeroDecimalPlaces}/>
         ),
-        sortable: valueStream
+        sortable$: valueStream
       };
     }
   }, {
     title: 'Memory',
     maxWidth: '6.25rem',
+    sortableType: Number,
     get(snapshot) {
-      return bytesTwoDecimalPlaces(snapshot.getIn(['data', 'memory.total']));
+      const memoryTotal = snapshot.getIn(['data', 'memory.total']);
+      return {
+        content: bytesTwoDecimalPlaces(memoryTotal),
+        sortable: memoryTotal
+      };
     }
   }, {
     title: 'Memory Usage',
     maxWidth: '6.25rem',
+    sortableType: Number,
     get(snapshot) {
       const memoryTotal = snapshot.getIn(['data', 'memory.total']);
       const valueStream = getMetricForFocusedMoment({
@@ -89,7 +115,7 @@ export default [
                                createMetricValueStream={() => valueStream}
                                formatter={percentageZeroDecimalPlaces}/>
         ),
-        sortable: valueStream
+        sortable$: valueStream
       };
     }
   }
