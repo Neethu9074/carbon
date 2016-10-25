@@ -1,4 +1,8 @@
+import React from 'react';
+
+import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import {addMapping as addIconMapping} from 'in-sdk/iconRegistry';
+import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
@@ -11,6 +15,7 @@ export const registry = {};
 
 export function registerSnapshotDefinition(snapshotDefinition) {
   registry[snapshotDefinition.plugin] = snapshotDefinition;
+  enrichTableDefinition(snapshotDefinition);
   registerLegacySdkHooks(snapshotDefinition);
   registerSearchHooks(snapshotDefinition);
 }
@@ -22,6 +27,32 @@ export function getSnapshotDefinition(plugin) {
     throw new Error(`Unknown snapshot type: ${plugin}`);
   }
   return defintion;
+}
+
+
+function enrichTableDefinition(snapshotDefinition) {
+  if (!snapshotDefinition.tableDefinition) {
+    return;
+  }
+
+  snapshotDefinition.tableDefinition.push({
+    title: 'Health',
+    sortableType: Number,
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      maxWidth: '9.375rem'
+    },
+    get(snapshot) {
+      return {
+        content: (
+          <AnnotatedHealthBar snapshotId={snapshot.get('id')} />
+        ),
+        sortable$: getHealthInfoAtFocusedMoment(snapshot.get('id'))
+          .map(healthInfo => healthInfo.get('maxSeverity'))
+      };
+    }
+  });
 }
 
 

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {getRowDataForSnapshotId} from 'in-views/tableView/stores/content';
-import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import connectTo from 'in-hoc/connectTo';
 
 import './TableRow.less';
@@ -13,7 +12,7 @@ export default connectTo(props => {
   return {
     rowData: getRowDataForSnapshotId(props.snapshotId)
   };
-}, function TableRow({rowData, snapshotId}) {
+}, function TableRow({rowData}) {
   if (!rowData || rowData.columns.length === 0) {
     return null;
   }
@@ -27,9 +26,6 @@ export default connectTo(props => {
           {column.content || <span>&nbsp;</span>}
         </div>
       )}
-      <div className={cellClassName}>
-        <AnnotatedHealthBar snapshotId={snapshotId} />
-      </div>
     </div>
   );
 });
