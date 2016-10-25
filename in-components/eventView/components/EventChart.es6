@@ -1,14 +1,11 @@
 import React from 'react';
 
-import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import addSection from 'in-components/eventView/hocs/addSection';
 import {twoDecimalPlaces} from 'in-services/formatters/number';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {always, alwaysNull} from 'in-services/fixedStreams';
 import {emptyList} from 'in-services/fixedImmutables';
-import {always} from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
-import {to$} from 'in-stores/timeline';
 
 import 'in-components/eventView/components/EventChart.less';
 
@@ -17,19 +14,12 @@ const block = 'in-event-detail-chart';
 
 export default addSection(connectTo(props => {
   return {
-    isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false),
-    to: props.event.get('end') ? always(props.event.get('end')) : to$
+    to: (props.event.get('state') === 'closed')
+      ? always(props.event.get('end'))
+      : alwaysNull
   };
 },
-function EventChart({isOpen, to, event}) {
-  if (!to) {
-    return (
-      <LoadingIndicator inline={true}
-                        type='dark'
-                        style={{ height: '16px' }} />
-    );
-  }
-
+function EventChart({to, event}) {
   const triggeringMetrics = event.getIn(['metadata', 'metrics'], emptyList);
   if (triggeringMetrics.size === 0) {
     return null;
@@ -41,9 +31,13 @@ function EventChart({isOpen, to, event}) {
         const metricName = metric.get('metricName');
         const from = event.get('start');
         const timeframe = {
-          to: isOpen ? null : to,
-          windowSize: to - from
+          to,
+          windowSize: event.get('end') - from
         };
+
+        if (event.get('state') === 'opemn') {
+          timeframe.windowSize *= 2;
+        }
 
         return (
           <ChartWithLegend key={metricName}
