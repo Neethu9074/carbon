@@ -4,7 +4,7 @@ import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.svg';
 import linuxIconPath from 'in-forge/plugins/host/icons/instana_server_linux.svg';
 import appleIconPath from 'in-forge/plugins/host/icons/instana_server_apple.svg';
-import tableDefinition from 'in-forge/plugins/host/tableDefinition';
+import tableDefinition from 'in-forge/plugins/host/tableDefinition.es6';
 import {plugins} from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
 

@@ -6,15 +6,19 @@ import DashboardLink from 'in-components/Link/DashboardLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getFoundations} from 'in-stores/snapshot';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {always} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
-import {getLabel} from 'in-sdk/snapshot';
 import {getZone} from 'in-stores/zone';
+
+import 'in-forge/plugins/host/tableDefinition.less';
 
 const nonVirtualized$ = always({
   content: '',
   sortable: ''
 });
+
+const block = 'in-host-table';
 
 export default [
   {
@@ -77,9 +81,6 @@ export default [
   }, {
     title: 'Type',
     sortableType: String,
-    style: {
-      maxWidth: '6rem'
-    },
     get(snapshot) {
       return getFoundations(snapshot.get('id'))
         .flatMap(foundations => {
@@ -90,9 +91,18 @@ export default [
           const foundationId = foundations.first();
           return getSnapshot(foundationId)
             .map(foundation => {
+              const iconPath = getIcon(foundation);
               const instanceType = foundation.getIn(['data', 'instance-type']) || '';
               return {
-                content: instanceType,
+                content: (
+                  <div className={`${block}__type`}>
+                    <img src={iconPath}
+                         alt='Instance hosting provider icon'
+                         className={`${block}__type-icon`}/>
+
+                    {instanceType}
+                  </div>
+                ),
                 sortable: instanceType
               };
             });
@@ -101,7 +111,6 @@ export default [
   }, {
     title: '#CPUs',
     style: {
-      maxWidth: '5rem',
       textAlign: 'right'
     },
     sortableType: Number,
@@ -111,7 +120,6 @@ export default [
   }, {
     title: 'CPU Usage',
     style: {
-      maxWidth: '5rem',
       textAlign: 'right'
     },
     sortableType: Number,
@@ -134,7 +142,6 @@ export default [
   }, {
     title: 'Memory',
     style: {
-      maxWidth: '6.25rem',
       textAlign: 'right'
     },
     sortableType: Number,
@@ -148,7 +155,6 @@ export default [
   }, {
     title: 'Memory Usage',
     style: {
-      maxWidth: '6.25rem',
       textAlign: 'right'
     },
     sortableType: Number,

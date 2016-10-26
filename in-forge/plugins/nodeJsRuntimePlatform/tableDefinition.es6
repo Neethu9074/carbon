@@ -28,7 +28,6 @@ export default [
     title: 'Heap Used',
     sortableType: Number,
     style: {
-      maxWidth: '6.25rem',
       textAlign: 'right'
     },
     get(snapshot) {
@@ -48,7 +47,6 @@ export default [
     title: 'GC Pause/s',
     sortableType: Number,
     style: {
-      maxWidth: '6.25rem',
       textAlign: 'right'
     },
     get(snapshot) {
@@ -79,7 +77,6 @@ export default [
     title: 'Event Loop Lag',
     sortableType: Number,
     style: {
-      maxWidth: '6.25rem',
       textAlign: 'right'
     },
     get(snapshot) {

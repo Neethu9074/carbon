@@ -13,9 +13,10 @@ export default function TableHeader({plugin}) {
     <div className={block}>
       {tableDefinition.map((column, i) => {
         let style;
-        if (column.style && column.style.maxWidth) {
+        if (column.style && (column.style.maxWidth || column.style.minWidth)) {
           style = {
-            maxWidth: column.style.maxWidth
+            maxWidth: column.style.maxWidth,
+            minWidth: column.style.minWidth
           };
         }
         return (
