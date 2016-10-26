@@ -4,6 +4,7 @@ import {filterStoreShape} from 'in-components/ChartWithLegend/dataseriesFilterSt
 import {hexToRGB} from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
 import MetricValue from 'in-components/MetricValue';
+import {alwaysNull} from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -21,7 +22,8 @@ const axisConfigShape = rpt.shape({
 
 export default connectTo(props => {
   return {
-    activeFilters: props.filterStore.activeFilters$
+    activeFilters: props.filterStore.activeFilters$,
+    timeframeTo: props.timeframe$ ? props.timeframe$.map(timeframe => timeframe.to) : alwaysNull
   };
 },
 React.createClass({
@@ -32,6 +34,7 @@ React.createClass({
     activeFilters: rpt.object.isRequired,
     snapshotId: rpt.string.isRequired,
     y1: axisConfigShape.isRequired,
+    timeframeTo: rpt.number,
     y2: axisConfigShape
   },
 
@@ -48,6 +51,7 @@ React.createClass({
 
   renderList(axis, modifier, themeMetricOffset) {
     const classname = block + '__metrics';
+    const props = this.props;
 
     return (
       <dl className={classname + ' ' + classname + '--' + modifier}>
@@ -58,10 +62,10 @@ React.createClass({
           return (
             <div className={classnames({
                  [block + '__metric']: true,
-                 [block + '__metric--disabled']: this.props.activeFilters[label]
+                 [block + '__metric--disabled']: props.activeFilters[label]
                })}
                key={metric}
-               onClick={() => this.props.filterStore.toggleFilter(label)}
+               onClick={() => props.filterStore.toggleFilter(label)}
                style={{
                  background: toBackground(color)
                }}>
@@ -72,8 +76,9 @@ React.createClass({
               {label}
             </dt>
             <dd className={block + '__metric-value'}>
-              <MetricValue snapshotId={this.props.snapshotId}
+              <MetricValue snapshotId={props.snapshotId}
                            metric={metric}
+                           timeframeTo={props.timeframeTo}
                            formatter={axis.formatter}
                            initialValue='?' />
             </dd>

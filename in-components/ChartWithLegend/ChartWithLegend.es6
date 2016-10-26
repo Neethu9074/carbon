@@ -56,7 +56,8 @@ React.createClass({
         <ChartLegend snapshotId={props.snapshotId}
                      y1={props.y1}
                      y2={props.y2}
-                     filterStore={this.state.filterStore} />
+                     filterStore={this.state.filterStore}
+                     timeframe$={props.timeframe$} />
 
         <Chart snapshotId={props.snapshotId}
                timeframe$={props.timeframe$}
