@@ -3,20 +3,42 @@
 import Immutable from 'immutable';
 import {expect} from 'chai';
 
+import {transform, withoutDuplicatatedStackTraceLines} from 'in-components/traceView/longTraceBuilder';
 import {compress} from 'in-components/traceView/longTraceCompressor';
-import {transform} from 'in-components/traceView/longTraceBuilder';
 
 describe('in-components/traceView', () => {
 
   describe('longTraceBuilder', () => {
-    testFile('simpleTrace', transformToLongStackTrace);
-    testFile('networkCallToServer', transformToLongStackTrace);
-    testFile('withStackTrace', transformToLongStackTrace);
-    testFile('withStackTraceAndCommonRoot', transformToLongStackTrace);
+    describe('transformation', () => {
+      testFile('simpleTrace', transformToLongStackTrace);
+      testFile('networkCallToServer', transformToLongStackTrace);
+      testFile('withStackTrace', transformToLongStackTrace);
+      testFile('withStackTraceAndCommonRoot', transformToLongStackTrace);
+      testFile('withStackTraceAndCommonRootFromEntrySpan', transformToLongStackTrace);
 
-    function transformToLongStackTrace(given) {
-      return transform(Immutable.fromJS(given));
-    }
+      function transformToLongStackTrace(given) {
+        return transform(Immutable.fromJS(given));
+      }
+    });
+
+    describe('withoutDuplicatatedStackTraceLines', () => {
+      it('must remove duplicate stack trace lines', () => {
+        const span = Immutable.fromJS([
+          {c: 'a', m: '', n: 1},
+          {c: 'b', m: '', n: 2},
+          {c: 'c', m: '', n: 3},
+          {c: 'd', m: '', n: 4}
+        ]);
+
+        const parent = Immutable.fromJS([
+          {c: 'b', m: '', n: 2}
+        ]);
+
+        expect(withoutDuplicatatedStackTraceLines(parent, span).map(v => v.toJS())).to.deep.equal([
+          {c: 'a', m: '', n: 1}
+        ]);
+      });
+    });
   });
 
   describe('longTraceCompressor', () => {

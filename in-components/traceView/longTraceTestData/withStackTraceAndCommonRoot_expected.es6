@@ -3,34 +3,28 @@ export default {
   type: 'span',
   children: [
     {
-      id: 'Thread#run',
+      id: 'ShoppingResource#checkout:65',
       type: 'stackTrace',
       children: [
         {
-          id: 'ShoppingResource#checkout:63',
+          id: 'ShoppingDao#store:45',
           type: 'stackTrace',
           children: [
             {
-              id: 'ShoppingDao#store:45',
-              type: 'stackTrace',
-              children: [
-                {
-                  id: '2',
-                  type: 'span',
-                  children: []
-                }
-              ]
-            },
+              id: '2',
+              type: 'span',
+              children: []
+            }
+          ]
+        },
+        {
+          id: 'ShoppingDao#update:90',
+          type: 'stackTrace',
+          children: [
             {
-              id: 'ShoppingDao#update:90',
-              type: 'stackTrace',
-              children: [
-                {
-                  id: '3',
-                  type: 'span',
-                  children: []
-                }
-              ]
+              id: '3',
+              type: 'span',
+              children: []
             }
           ]
         }

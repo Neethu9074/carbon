@@ -11,7 +11,7 @@ export default {
     {
       c: 'ShoppingResource',
       m: 'checkout',
-      n: 63
+      n: 65
     },
     {
       c: 'Thread',
