@@ -155,6 +155,17 @@ describe('in-services.formatter.number', () => {
       // 1/5 * 3 is 0.6000000000000001
       expect(withSiMultiplyPrefixThreeDecimalPlaces((1 / 5) * 3)).to.equal('0.600');
     });
+
+    it('should support negative values', () => {
+      expect(withSiPrefixThreeDecimalPlaces(-1.5)).to.equal('-1.500');
+      expect(withSiPrefixThreeDecimalPlaces(-1.53)).to.equal('-1.530');
+      expect(withSiPrefixThreeDecimalPlaces(-1.536)).to.equal('-1.536');
+      expect(withSiPrefixThreeDecimalPlaces(-5)).to.equal('-5.000');
+      expect(withSiPrefixThreeDecimalPlaces(-433)).to.equal('-433.000');
+      expect(withSiPrefixThreeDecimalPlaces(-4433.123)).to.equal('-4.433k');
+      expect(withSiPrefixThreeDecimalPlaces(-433.123)).to.equal('-433.123');
+      expect(withSiPrefixThreeDecimalPlaces(-433.12345)).to.equal('-433.123');
+    });
   });
 
   describe('time', () => {
