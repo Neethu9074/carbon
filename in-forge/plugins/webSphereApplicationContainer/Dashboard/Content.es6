@@ -17,7 +17,7 @@ export default function WebSphereDashboard({snapshot, timeframe}) {
                  left: 80
                }}
                y1={{
-               formatter: zeroDecimalPlaces,
+                 formatter: zeroDecimalPlaces,
                  metrics: [
                    'threadPools.webContainer.activeThreads',
                    'threadPools.webContainer.poolSize'
