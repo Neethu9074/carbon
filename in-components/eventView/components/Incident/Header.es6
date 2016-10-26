@@ -34,6 +34,12 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
   const numOpenEvents = openEvents ? openEvents.filter(e => e).length : '';
   const affectedEnties = {};
   recentEvents.forEach(e => affectedEnties[e.getIn(['problem', 'snapshotId'])] = true);
+  const affectedServices = {};
+  recentEvents.forEach(e => {
+    if (e.getIn(['metadata', 'triggering'])) {
+      affectedServices[e.getIn(['problem', 'snapshotId'])] = true;
+    }
+  });
 
   return (
     <div className={block}>
@@ -48,20 +54,28 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
           Incident
         </h1>
 
-        <StartedMarker event={event} />
-        <EventDuration event={event} />
+        <div className={`${block}__row`}>
+          <StartedMarker event={event} />
+          <EventDuration event={event} />
+        </div>
 
-        <LabeledValue label='active' >
-          {`${numOpenEvents}/${recentEvents.length}`}
-        </LabeledValue>
+        <div className={`${block}__row`}>
+          <LabeledValue label='active' >
+            {`${numOpenEvents}/${recentEvents.length}`}
+          </LabeledValue>
 
-        <LabeledValue label='changes' >
-          {`${changes.length}`}
-        </LabeledValue>
+          <LabeledValue label='changes' >
+            {`${changes.length}`}
+          </LabeledValue>
 
-        <LabeledValue label='affected entities' >
-          {`${Object.keys(affectedEnties).length}`}
-        </LabeledValue>
+          <LabeledValue label='affected entities' >
+            {`${Object.keys(affectedEnties).length}`}
+          </LabeledValue>
+
+          <LabeledValue label='affected services' >
+            {`${Object.keys(affectedServices).length}`}
+          </LabeledValue>
+        </div>
       </div>
     </div>
   );
