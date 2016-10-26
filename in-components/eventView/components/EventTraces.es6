@@ -17,7 +17,7 @@ export default addSection(connectTo(props => {
   const event = props.event;
 
   const from = event.get('start');
-  const to = event.get('end');
+  let to = event.get('end');
   const windowSize = to - from;
   if (event.get('state') === 'open') {
     to = null;
