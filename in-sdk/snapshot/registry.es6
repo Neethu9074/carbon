@@ -38,6 +38,7 @@ function enrichTableDefinition(snapshotDefinition) {
   snapshotDefinition.tableDefinition.push({
     title: 'Health',
     sortableType: Number,
+    defaultSortDirection: 'desc',
     style: {
       display: 'flex',
       alignItems: 'center',

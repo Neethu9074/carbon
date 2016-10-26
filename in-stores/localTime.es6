@@ -1,21 +1,8 @@
-import {create} from 'reactive-observables';
+import {interval} from 'reactive-observables';
 
 import {createTrackingStore} from 'in-stores/store';
 
-
-let localTimeIntervalHandle;
 export const localTime = createTrackingStore({
   name: 'localTime',
-  observable: create({
-    start(observable) {
-      observable.emit(Date.now());
-      localTimeIntervalHandle = setInterval(() => {
-        observable.emit(Date.now());
-      }, 1000);
-    },
-
-    stop() {
-      clearInterval(localTimeIntervalHandle);
-    }
-  })
+  observable: interval(1000)
 }).observable;

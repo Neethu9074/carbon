@@ -23,11 +23,10 @@ let snapshotsSubscription;
 //   ]
 // }
 const data = {};
-const data$ = create({
+export const data$ = create({
   start: enable,
   stop: disable
 });
-
 
 export function enable() {
   snapshotsSubscription = snapshotIds$
@@ -74,6 +73,7 @@ function addSnapshotId(snapshotId) {
   }
 
   snapshotData = data[snapshotId] = {
+    snapshotId,
     mutationCount: 0,
     marked: false,
     columns: []
@@ -120,11 +120,13 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   if (typeof result.subscribe === 'function') {
     columnData.contentSubscription = result
       .subscribe(columnContentDefinition => {
-        columnData.sortable = columnContentDefinition.sortable;
-
         if (columnData.content !== columnContentDefinition.content) {
           columnData.content = columnContentDefinition.content;
           notifyAboutDataChanges(snapshotData);
+        }
+
+        if (columnData.sortable !== columnContentDefinition.sortable) {
+          columnData.sortable = columnContentDefinition.sortable;
         }
       });
     return;
@@ -135,8 +137,8 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   } else if (result.content$ != null) {
     columnData.contentSubscription = result.content$
       .distinct()
-      .subscribe(columnContentDefinition => {
-        columnData.content = columnContentDefinition.content;
+      .subscribe(content => {
+        columnData.content = content;
         notifyAboutDataChanges(snapshotData);
       });
   }
@@ -146,8 +148,8 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   } else if (result.sortable$ != null) {
     columnData.sortableSubscription = result.sortable$
       .distinct()
-      .subscribe(columnContentDefinition => {
-        columnData.sortable = columnContentDefinition.sortable;
+      .subscribe(sortable => {
+        columnData.sortable = sortable;
       });
   }
 }

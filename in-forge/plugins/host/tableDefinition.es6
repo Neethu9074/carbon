@@ -123,6 +123,7 @@ export default [
       textAlign: 'right'
     },
     sortableType: Number,
+    defaultSortDirection: 'desc',
     get(snapshot) {
       const valueStream = getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
@@ -158,6 +159,7 @@ export default [
       textAlign: 'right'
     },
     sortableType: Number,
+    defaultSortDirection: 'desc',
     get(snapshot) {
       const memoryTotal = snapshot.getIn(['data', 'memory.total']);
       const valueStream = getMetricForFocusedMoment({
