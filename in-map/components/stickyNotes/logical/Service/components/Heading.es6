@@ -15,7 +15,7 @@ export default connectTo(props => {
     snapshot: getSnapshot(props.snapshotId)
   };
 },
-function Icon({children, snapshot, highlighted, expanded, onHighlight, onClick}) {
+function Icon({children, snapshot, highlighted, expanded, onClick}) {
   if (!snapshot) {
     return null;
   }
@@ -30,8 +30,6 @@ function Icon({children, snapshot, highlighted, expanded, onHighlight, onClick})
   return childrenAreAvailable
     ? (
       <div className={headerClassName}
-           onMouseEnter={() => onHighlight(true)}
-           onMouseLeave={() => onHighlight(false)}
            onClick={onClick}>
         {getLabel(snapshot) + ' (' + children.size + ')'}
         <ExpandIcon expanded={expanded} />

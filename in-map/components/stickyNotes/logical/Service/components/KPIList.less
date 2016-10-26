@@ -6,17 +6,34 @@
   left: 0;
 
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
 
-  border-radius: 4px;
+  border-radius: 0.188rem;
   background: rgba(45, 64, 75, 0.5);
   font-size: 0.75rem;
-  padding: 6px 10px;
+  padding: 0.375rem 0.625rem;
 
   &--highlighted {
-    width: 300px;
+    width: 18.75rem;
     background: #2d4048;
+  }
+
+  &__icon-wrapper {
+    cursor: pointer;
+  }
+
+  &__kpi-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__expand-icon {
+    margin-right: 0.625rem;
+
+    &:hover {
+      fill: white;
+    }
   }
 
   &__spark-chart {

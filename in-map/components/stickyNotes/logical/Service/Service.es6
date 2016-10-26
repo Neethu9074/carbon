@@ -45,7 +45,6 @@ export default createStickyNote(
 
     getInitialState() {
       return {
-        highlighted: false,
         expanded: false
       };
     },
@@ -73,8 +72,6 @@ export default createStickyNote(
           <Heading expanded={isExpanded}
                    snapshotId={this.props.id}
                    children={children}
-                   highlighted={this.state.highlighted}
-                   onHighlight={isHighlighted => this.setState({highlighted: isHighlighted})}
                    onClick={() => this.setState({expanded: !this.state.expanded})} />
 
           {(isExpanded && childrenAreAvailable) ?
