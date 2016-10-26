@@ -54,6 +54,7 @@ export default [
           snapshotId: snapshot.get('id'),
           metric: 'memory.used'
         })
+        .map(v => v[1])
       };
     }
   }

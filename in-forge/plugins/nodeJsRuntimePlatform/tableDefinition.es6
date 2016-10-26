@@ -40,7 +40,7 @@ export default [
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
           metric: 'memory.heapUsed'
-        })
+        }).map(v => v[1])
       };
     }
   }, {
@@ -89,7 +89,7 @@ export default [
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
           metric: 'libuv.lag'
-        })
+        }).map(v => v[1])
       };
     }
   }
