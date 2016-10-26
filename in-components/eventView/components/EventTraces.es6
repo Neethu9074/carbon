@@ -1,5 +1,6 @@
 import React from 'react';
 
+import createTraceInformationObservable from 'in-services/subscription/traceInformationByServiceId';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import addSection from 'in-components/eventView/hocs/addSection';
 import SvgIcon from 'in-components/SvgIcon';
@@ -12,9 +13,33 @@ import './EventTraces.less';
 const block = 'in-event-details-traces';
 const itemClassName = `${block}__item`;
 
-export default addSection(connectTo({
+export default addSection(connectTo(props => {
+  const event = props.event;
+
+  const from = event.get('start');
+  const to = event.get('end');
+  const windowSize = to - from;
+  if (event.get('state') === 'open') {
+    to = null;
+  }
+  const timeframe = {
+    to,
+    windowSize
+  };
+
+  return {
+    traceInformation: createTraceInformationObservable({
+      // TODO: replace with triggering id
+      snapshotId: event.getIn(['problem', 'snapshotId']),
+      timeframe
+    })
+  };
 },
-function EventTraces({}) {
+function EventTraces({traceInformation}) {
+  if (!traceInformation) {
+    return null;
+  }
+
   return (
     <DescriptionList className={block}>
       <DescriptionItem id='title'
@@ -37,19 +62,19 @@ function EventTraces({}) {
         <DescriptionList className={`${block}__metrics`}>
           <DescriptionItem className={itemClassName}
                            title='Number of traces'>
-            10
+            {traceInformation.get('numberOfTraces')}
           </DescriptionItem>
           <DescriptionItem className={itemClassName}
                            title='Avg response time'>
-            0.5
+            {traceInformation.get('averageResponseTime')}
           </DescriptionItem>
           <DescriptionItem className={itemClassName}
                            title='Highest response time'>
-            4.2
+            {traceInformation.get('highestResponseTime')}
           </DescriptionItem>
           <DescriptionItem className={itemClassName}
                            title='Avg error count'>
-            3
+            {traceInformation.get('averageErrorCount')}
           </DescriptionItem>
         </DescriptionList>
       </DescriptionItem>
