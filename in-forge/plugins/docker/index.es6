@@ -19,6 +19,11 @@ registerSnapshotDefinition({
 
 
 function getLabel(s) {
+  const podName = s.getIn(['data', 'Labels', 'io.kubernetes.pod.name']);
+  if (podName) {
+    return podName;
+  }
+
   const image = s.getIn(['data', 'Image']);
   if (!image) {
     return getFallbackLabel(s);
