@@ -2,7 +2,10 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 
+import {getClassName} from 'in-services/react';
+
 import './DescriptionList.less';
+
 
 const rpt = React.PropTypes;
 const block = 'in-detail-pane';
@@ -10,12 +13,13 @@ const block = 'in-detail-pane';
 export const DescriptionList = React.createClass({
 
   propTypes: {
+    className: rpt.string,
     children: rpt.any
   },
 
   render() {
     return (
-      <dl className={block + '__description-list'}>
+      <dl className={getClassName(this, block + '__description-list')}>
         {this.renderItems()}
       </dl>
     );
@@ -52,7 +56,7 @@ export const DescriptionList = React.createClass({
 
     return (
       <div key={descriptionItemProps.id || descriptionItemProps.title}
-           className={divClasses}>
+           className={getClassName({props: descriptionItemProps}, divClasses)}>
         <dt className={block + '__description-title'}>
           {descriptionItemProps.title}
         </dt>
@@ -84,6 +88,10 @@ export const DescriptionList = React.createClass({
 
 
 export const DescriptionItem = React.createClass({
+  propTypes: {
+    className: rpt.string
+  },
+
   render() {
     return null;
   }

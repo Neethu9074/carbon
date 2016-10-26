@@ -25,10 +25,6 @@ export default addSection(connectTo(props => {
 },
 function EventChart({to, event}) {
   const triggeringMetrics = event.getIn(['metadata', 'metrics'], emptyList);
-  if (triggeringMetrics.size === 0) {
-    return null;
-  }
-
   return (
     <div className={block}>
       {triggeringMetrics.map(metric => {
@@ -67,7 +63,9 @@ function EventChart({to, event}) {
     </div>
   );
 }),
-  event => {
-    return event.getIn(['metadata', 'metrics'], emptyList).size > 0;
-  }
+isVisible
 );
+
+function isVisible(event) {
+  return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
+}
