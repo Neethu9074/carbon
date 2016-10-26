@@ -5,6 +5,7 @@ import './availabilityZone';
 import './cassandraCluster';
 import './cassandraKeyspaceServiceInstance';
 import './cassandraNode';
+import './clrRuntimePlatform';
 import './databaseServiceInstance';
 import './defaultLogicalConnection';
 import './defaultLogicalService';
