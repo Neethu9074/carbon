@@ -76,7 +76,18 @@ export default [
     sortableType: String,
     get(snapshot) {
       const data = snapshot.get('data');
-      return `${data.get('os.name', '')} ${data.get('os.arch', '')} ${data.get('os.version', '')}`;
+      return {
+        content: (
+          <div className={`${block}__type`}>
+            <img src={getIcon(snapshot)}
+                 alt='Operating system'
+                 className={`${block}__type-icon`}/>
+
+            {data.get('os.version', '')} ({data.get('os.arch', '')})
+          </div>
+        ),
+        sortable: `${data.get('os.name', '')} ${data.get('os.version', '')} (${data.get('os.arch', '')})`
+      };
     }
   }, {
     title: 'Type',
@@ -91,12 +102,11 @@ export default [
           const foundationId = foundations.first();
           return getSnapshot(foundationId)
             .map(foundation => {
-              const iconPath = getIcon(foundation);
               const instanceType = foundation.getIn(['data', 'instance-type']) || '';
               return {
                 content: (
                   <div className={`${block}__type`}>
-                    <img src={iconPath}
+                    <img src={getIcon(foundation)}
                          alt='Instance hosting provider icon'
                          className={`${block}__type-icon`}/>
 
