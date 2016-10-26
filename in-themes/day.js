@@ -2,7 +2,6 @@
 /* eslint-disable no-var */
 
 var defaultsDeep = require('lodash/defaultsDeep');
-var base = require('instana-ui-theme/dist/night/config.json');
 
 var common = require('./common');
 
@@ -30,6 +29,54 @@ var health = [
 ];
 
 module.exports = defaultsDeep({
+  common: {
+    fontColor: '#333',
+    backgroundColor: 'white',
+    highlightColor: 'blue',
+    subtleText: '#999',
+    panelBackgroundColor: '#2d4047',
+    textfieldBackgroundColor: '#435b65',
+    textfieldForegroundColor: '#fff',
+    fontFamily: '\'Open Sans\', \'Helvetica Neue\', Helvetica, Arial, sans-serif'
+  },
+  tenantSwitcher: {
+    headlineBackgroundColor: '#435b65',
+    headlineBorderColor: '#2d4048',
+    fontColor: '#fff',
+    linkHoverColor: '#6c8087',
+    linkColor: '#fff',
+    triangleColor: '#6b7f88',
+    tagColor: '#62c0ec'
+  },
+  fontFamilySansSerif: '"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  fontFamilySerif: 'Georgia, "Times New Roman", Times, serif',
+  fontFamilyMonospace: 'Menlo, Monaco, Consolas, "Courier New", monospace',
+  chart: {
+    strokeColors: [
+      '#5da6da',
+      '#61bd68',
+      '#decf3f',
+      '#c39eff',
+      '#ff57a8',
+      '#ff9800',
+      '#d03035',
+      '#d0e035',
+      '#9999cc',
+      '#965742'
+    ],
+    fillColors: [
+      'rgba(93, 166, 218, 0.3)',
+      'rgba(97, 189, 104, 0.3)',
+      'rgba(222, 207, 63, 0.3)',
+      'rgba(195, 158, 255, 0.3)',
+      'rgba(255, 87, 168, 0.3)',
+      'rgba(255, 152, 0, 0.3)',
+      'rgba(208, 48, 53, 0.3)',
+      'rgba(208, 224, 53, 0.3)',
+      'rgba(153, 153, 204, 0.3)',
+      'rgba(150, 87, 66, 0.3)'
+    ]
+  },
   sidebar: {
     width: 342,
     header: {
@@ -239,4 +286,4 @@ module.exports = defaultsDeep({
       danger: health[10]
     }
   }
-}, base, common);
+}, common);
