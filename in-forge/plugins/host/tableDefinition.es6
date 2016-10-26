@@ -5,9 +5,16 @@ import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
 import DashboardLink from 'in-components/Link/DashboardLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {getFoundations} from 'in-stores/snapshot';
+import {always} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import {getZone} from 'in-stores/zone';
+
+const nonVirtualized$ = always({
+  content: '',
+  sortable: ''
+});
 
 export default [
   {
@@ -66,6 +73,30 @@ export default [
     get(snapshot) {
       const data = snapshot.get('data');
       return `${data.get('os.name', '')} ${data.get('os.arch', '')} ${data.get('os.version', '')}`;
+    }
+  }, {
+    title: 'Type',
+    sortableType: String,
+    style: {
+      maxWidth: '6rem'
+    },
+    get(snapshot) {
+      return getFoundations(snapshot.get('id'))
+        .flatMap(foundations => {
+          if (foundations.size === 0) {
+            return nonVirtualized$;
+          }
+
+          const foundationId = foundations.first();
+          return getSnapshot(foundationId)
+            .map(foundation => {
+              const instanceType = foundation.getIn(['data', 'instance-type']) || '';
+              return {
+                content: instanceType,
+                sortable: instanceType
+              };
+            });
+        });
     }
   }, {
     title: '#CPUs',
