@@ -1,13 +1,14 @@
 import React from 'react';
 
-import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$} from 'in-stores/traces';
 import {setTraceTypeFilter, removeTraceTypeFilter} from 'in-components/traceView/stores/filters';
 import TraceListFilterToggle from 'in-components/traceView/components/TraceListFilterToggle';
+import {toggleAutoUpdate, autoUpdate$} from 'in-components/traceView/stores/autoUpdate';
+import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$} from 'in-stores/traces';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
-import AutoUpdate from 'in-components/traceView/components/AutoUpdate';
 import {refresh} from 'in-components/traceView/stores/traceList';
 import Count from 'in-components/traceView/components/Count';
 import {eumTracingEnabled} from 'in-services/featureFlags';
+import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './TraceListHeader.less';
@@ -49,7 +50,9 @@ export default function TraceListHeader() {
                  onClick={refresh}
                  height={15}
                  className={`${block}__refresh`}/>
-        <AutoUpdate />
+        <AutoUpdate checkboxId='trace-view-auto-update'
+                    autoUpdate$={autoUpdate$}
+                    toggleAutoUpdate={toggleAutoUpdate} />
       </div>
     </ViewHeader>
   );

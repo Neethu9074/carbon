@@ -3,6 +3,7 @@ import {create} from 'reactive-observables';
 import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-components/eventView/stores/isLoadingStore';
 import createRawEventsObservable from 'in-services/subscription/rawEvents';
+import {autoUpdate$} from 'in-components/eventView/stores/autoUpdate';
 import {sortBy$} from 'in-components/eventView/stores/sortBy';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
 import {luceneQuery$ as query$} from 'in-stores/search';
@@ -19,6 +20,8 @@ let loadSubscription;
 // hits refresh (or via auto refresh).
 let maxTimestamp;
 let minTimestamp;
+
+let autoUpdateHandle;
 
 let sortDirection;
 let sortByField;
@@ -40,6 +43,7 @@ refreshStream.nextFrame().subscribe(refresh);
 export function enable() {
   initPhase = true;
 
+  clearInterval(autoUpdateHandle);
   subscriptions = [
     sortDirection$.subscribe(_sortDirection => {
       sortDirection = _sortDirection;
@@ -56,6 +60,17 @@ export function enable() {
     query$.subscribe(_query => {
       query = _query;
       refreshStream.emit(true);
+    }),
+
+    autoUpdate$.subscribe(autoUpdate => {
+      clearInterval(autoUpdateHandle);
+
+      if (autoUpdate) {
+        refreshStream.emit(true);
+        autoUpdateHandle = setInterval(() => {
+          refreshStream.emit(true);
+        }, 10000);
+      }
     })
   ];
 
@@ -67,6 +82,7 @@ export function disable() {
   rawEventList.mutateTo([]);
   subscriptions.forEach(s => s.dispose());
   disposeExistingLoad();
+  clearInterval(autoUpdateHandle);
   subscriptions = emptyArray;
 }
 

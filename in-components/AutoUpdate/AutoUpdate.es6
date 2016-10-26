@@ -1,17 +1,18 @@
 import React from 'react';
 
-import {toggleAutoUpdate, autoUpdate$} from 'in-components/traceView/stores/autoUpdate';
 import connectTo from 'in-hoc/connectTo';
 
 import './AutoUpdate.less';
 
 
-const block = 'in-trace-auto-update';
-const checkboxId = 'trace-view-auto-update';
+const block = 'in-auto-update';
 
-export default connectTo({
-  autoUpdateActive: autoUpdate$
-}, function AutoUpdate({autoUpdateActive}) {
+export default connectTo(props => {
+  return {
+    autoUpdateActive: props.autoUpdate$
+  };
+},
+function AutoUpdate({toggleAutoUpdate, checkboxId, autoUpdateActive}) {
   return (
     <div className={block}>
       <input type='checkbox'

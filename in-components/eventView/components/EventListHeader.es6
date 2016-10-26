@@ -1,10 +1,12 @@
 import React from 'react';
 
 import {eventFilter$, setEventTypeFilter} from 'in-components/eventView/stores/eventFilterStore';
+import {toggleAutoUpdate, autoUpdate$} from 'in-components/eventView/stores/autoUpdate';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import {refresh} from 'in-components/eventView/stores/rawEventListStore';
 import getTotalRawEventsCount from 'in-stores/totalRawEventsCount';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -38,6 +40,9 @@ export default function EventListHeader() {
                  type='refresh'
                  onClick={refresh}
                  height={15} />
+        <AutoUpdate checkboxId='event-view-auto-update'
+                    autoUpdate$={autoUpdate$}
+                    toggleAutoUpdate={toggleAutoUpdate} />
       </div>
     </ViewHeader>
   );
