@@ -33,6 +33,7 @@ export function setColumn(column) {
 
 
 export const sortedSnapshotIds$ = combineLatest([data$, direction$, column$, interval(3000).startWith(0)])
+  .nextFrame()
   .map(([data, direction, column]) => {
     if (column == null) {
       return Object.keys(data).sort();
