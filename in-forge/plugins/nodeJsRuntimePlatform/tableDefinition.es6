@@ -39,7 +39,7 @@ export default [
         ),
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
-          metric: 'libuv.lag'
+          metric: 'memory.heapUsed'
         })
       };
     }
