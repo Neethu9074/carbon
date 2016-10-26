@@ -18,7 +18,7 @@ setHumanReadablePluginName(
 
 addLabelFinder(
   plugins.clrRuntimePlatform,
-  snapshot => 'CLR ' + snapshot.getIn(['data', 'name']) + ' ' + snapshot.getIn(['data', 'runtimeVersion'])
+  snapshot => snapshot.getIn(['data', 'name'])
 );
 
 addSearchableEntityType('clr', plugins.clrRuntimePlatform);

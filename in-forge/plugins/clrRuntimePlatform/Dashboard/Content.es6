@@ -6,9 +6,6 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {getLabel} from 'in-sdk/snapshot';
 
-import './Content.less';
-
-
 export default function CLRDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
 
