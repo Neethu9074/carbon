@@ -1,9 +1,9 @@
 import React from 'react';
 
 import createDataSeriesFilterStore from 'in-components/ChartWithLegend/dataseriesFilterStore';
+import {currentRollup$, getRollupForTimeframe} from 'in-stores/metric';
 import Chart from 'in-charts/Chart/ChartReactComponent';
 import ChartLegend from 'in-components/ChartLegend';
-import {currentRollup$} from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
 
 import './ChartWithLegend.less';
@@ -12,13 +12,18 @@ import './ChartWithLegend.less';
 const rpt = React.PropTypes;
 const block = 'in-chart-with-legend';
 
-export default connectTo({
-    currentRollup: currentRollup$
-  }, React.createClass({
+export default connectTo(props => {
+  return {
+    currentRollup: props.timeframe$
+      ? props.timeframe$.map(getRollupForTimeframe)
+      : currentRollup$
+  };
+},
+React.createClass({
   displayName: 'ChartWithLegend',
 
   propTypes: {
-    currentRollup: rpt.string.isRequired,
+    currentRollup: rpt.string,
 
     height: rpt.number,
     margins: rpt.object,
@@ -38,12 +43,15 @@ export default connectTo({
 
   render() {
     const props = this.props;
+    if (!props.currentRollup) {
+      return null;
+    }
 
     return (
       <div className={block}>
-          <div className={block + '__rollup-indicator'}>
-            Rollup {props.currentRollup}
-          </div>
+        <div className={block + '__rollup-indicator'}>
+          Rollup {props.currentRollup}
+        </div>
 
         <ChartLegend snapshotId={props.snapshotId}
                      y1={props.y1}
