@@ -1,2 +1,2 @@
-import Details from '../Dashboard/Sidebar';
+import Details from 'in-forge/plugins/rubyRuntimePlatform/Dashboard/Sidebar';
 export default Details;

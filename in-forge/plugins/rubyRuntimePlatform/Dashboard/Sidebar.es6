@@ -1,12 +1,10 @@
 import React from 'react';
 
-import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
-
-import Info from '../Info';
-
+import Info from 'in-forge/plugins/rubyRuntimePlatform/Info';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 
 export default function RubyDashboardSidebar({snapshot}) {
   return (

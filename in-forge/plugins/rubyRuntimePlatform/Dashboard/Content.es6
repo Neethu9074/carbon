@@ -1,32 +1,38 @@
 import React from 'react';
 
-import {twoDecimalPlaces} from 'in-services/formatters/number';
-import {KpiSection, KpiHeading} from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {getLabel} from 'in-sdk/snapshot';
-
+import {twoDecimalPlaces} from 'in-services/formatters/number';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 
 export default function RubyDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <KpiSection>
-        <KpiHeading>
-          {getLabel(snapshot)}
-        </KpiHeading>
-      </KpiSection>
-
       <TwoColumnRow>
         <DashboardSection title='GC Activity'>
-          {renderGcMetrics(snapshot, timeframe)}
+          <GcMetrics snapshot={snapshot} timeframe={timeframe} />
+        </DashboardSection>
+      </TwoColumnRow>
+      <TwoColumnRow>
+        <DashboardSection title='Time Spent in GC'>
+          <GcTime snapshot={snapshot} timeframe={timeframe} />
+        </DashboardSection>
+      </TwoColumnRow>
+      <TwoColumnRow>
+        <DashboardSection title='Memory Usage'>
+          <MemoryMetrics snapshot={snapshot} timeframe={timeframe} />
+        </DashboardSection>
+      </TwoColumnRow>
+      <TwoColumnRow>
+        <DashboardSection title='Threads'>
+          <ThreadMetrics snapshot={snapshot} timeframe={timeframe} />
         </DashboardSection>
       </TwoColumnRow>
     </div>
   );
 }
 
-function renderGcMetrics(snapshot, timeframe) {
+function GcMetrics({snapshot, timeframe}) {
     return (
       <ChartWithLegend snapshotId={snapshot.get('id')}
                        timeframe={timeframe}
@@ -51,3 +57,71 @@ function renderGcMetrics(snapshot, timeframe) {
     );
 }
 
+function GcTime({snapshot, timeframe}) {
+    return (
+      <ChartWithLegend snapshotId={snapshot.get('id')}
+                       timeframe={timeframe}
+                       margins={{
+                         left: 60,
+                         right: 60
+                       }}
+
+                       y1={{
+                         min: 0,
+                         formatter: twoDecimalPlaces,
+                         metrics: [
+                           'gc.totalTime'
+                         ],
+                         labels: [
+                           '#GC Run Duration'
+                         ],
+                         type: 'point'
+                       }}/>
+    );
+}
+
+function MemoryMetrics({snapshot, timeframe}) {
+    return (
+      <ChartWithLegend snapshotId={snapshot.get('id')}
+                       timeframe={timeframe}
+                       margins={{
+                         left: 60,
+                         right: 60
+                       }}
+
+                       y1={{
+                         min: 0,
+                         formatter: twoDecimalPlaces,
+                         metrics: [
+                           'memory.size_kb'
+                         ],
+                         labels: [
+                           '#RSS Size'
+                         ],
+                         type: 'line'
+                       }}/>
+    );
+}
+
+function ThreadMetrics({snapshot, timeframe}) {
+    return (
+      <ChartWithLegend snapshotId={snapshot.get('id')}
+                       timeframe={timeframe}
+                       margins={{
+                         left: 60,
+                         right: 60
+                       }}
+
+                       y1={{
+                         min: 0,
+                         formatter: twoDecimalPlaces,
+                         metrics: [
+                           'thread.count'
+                         ],
+                         labels: [
+                           '#Thread Count'
+                         ],
+                         type: 'line'
+                       }}/>
+    );
+}
