@@ -1,6 +1,7 @@
 import React from 'react';
 
 import createTraceInformationObservable from 'in-services/subscription/traceInformationByServiceId';
+import {twoDecimalPlaces, timeByMillisTwoDecimalPlaces} from 'in-services/formatters/number';
 import {getTraceViewFilteredBySnapshotIdAndTimeframe} from 'in-stores/navigation/search';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import addSection from 'in-components/eventView/hocs/addSection';
@@ -70,15 +71,15 @@ function EventTraces({href, traceInformation}) {
           </DescriptionItem>
           <DescriptionItem className={itemClassName}
                            title='Avg response time'>
-            {traceInformation.get('averageResponseTime')}
+            {timeByMillisTwoDecimalPlaces(traceInformation.get('averageResponseTime'))}
           </DescriptionItem>
           <DescriptionItem className={itemClassName}
                            title='Highest response time'>
-            {traceInformation.get('highestResponseTime')}
+            {timeByMillisTwoDecimalPlaces(traceInformation.get('highestResponseTime'))}
           </DescriptionItem>
           <DescriptionItem className={itemClassName}
                            title='Avg error count'>
-            {traceInformation.get('averageErrorCount')}
+            {twoDecimalPlaces(traceInformation.get('averageErrorCount'))}
           </DescriptionItem>
         </DescriptionList>
       </DescriptionItem>
