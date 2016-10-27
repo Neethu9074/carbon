@@ -1,6 +1,7 @@
 import React from 'react';
 
 import createTraceInformationObservable from 'in-services/subscription/traceInformationByServiceId';
+import {getTraceViewFilteredBySnapshotIdAndTimeframe} from 'in-stores/navigation/search';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import addSection from 'in-components/eventView/hocs/addSection';
 import SvgIcon from 'in-components/SvgIcon';
@@ -15,24 +16,30 @@ const itemClassName = `${block}__item`;
 
 export default addSection(connectTo(props => {
   const event = props.event;
-
   const from = event.get('start');
-
   let to = event.get('end');
   if (event.get('state') === 'open') {
     to = null;
   }
 
+  // TODO: replace with triggering id
+  const serviceId = event.getIn(['problem', 'snapshotId']);
+
   return {
+    href: getTraceViewFilteredBySnapshotIdAndTimeframe({
+      snapshotId: serviceId,
+      from,
+      to: event.get('end')
+    }).nextFrame(),
+
     traceInformation: createTraceInformationObservable({
-      // TODO: replace with triggering id
-      snapshotId: event.getIn(['problem', 'snapshotId']),
+      snapshotId: serviceId,
       from,
       to
     })
   };
 },
-function EventTraces({traceInformation}) {
+function EventTraces({href, traceInformation}) {
   if (!traceInformation) {
     return null;
   }
@@ -52,7 +59,7 @@ function EventTraces({traceInformation}) {
         <Button className={`${block}__button`}
                 kind='secondary'
                 size='sm'
-                onClick={() => console.log('view')}>
+                href={href}>
           View
         </Button>
 
