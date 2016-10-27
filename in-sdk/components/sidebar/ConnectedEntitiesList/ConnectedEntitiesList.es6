@@ -1,18 +1,15 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {ClickableList, ClickableSnapshotListItem} from 'in-sdk/components/sidebar/ClickableList';
+import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import SnapshotLabel from 'in-sdk/components/sidebar/SnapshotLabel';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {emptyMap} from 'in-services/fixedImmutables';
-import Collapsible from 'in-components/Collapsible';
 import {getSnapshot} from 'in-stores/snapshot';
-import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import './ConnectedEntitiesList.less';
-
-const block = 'in-connected-entities-list';
 
 export default connectTo(
   props => {
@@ -35,9 +32,7 @@ function ConnectedEntitiesList({connectedEntities}) {
   return (
     <div>
       {sourceId ? <Entity snapshotId={sourceId} title={'Connection From (1)'} /> : null}
-      {sourceId && destinationId ?
-        <Separator />
-      : null}
+      {sourceId && destinationId ? <Separator />  : null}
       {destinationId ? <Entity snapshotId={destinationId} title={'Connection To (1)'} /> : null}
     </div>
   );
@@ -51,21 +46,17 @@ const Entity = connectTo(props => {
   if (!snapshot) {
     return null;
   }
-  const id = snapshot.get('id');
+  const snapshotId = snapshot.get('id');
 
   return (
-    <Collapsible>
-      <Collapsible.Header>
-        {title}
-      </Collapsible.Header>
-      <Collapsible.Content className={`${block}__snapshot-list`}>
-        <ClickableList>
-          <ClickableSnapshotListItem snapshotId={id}>
-            {getLabel(snapshot)}
-          </ClickableSnapshotListItem>
-        </ClickableList>
-      </Collapsible.Content>
-    </Collapsible>
+    <DescriptionList>
+      <DescriptionItem title={title}>
+        <SnapshotLink key={snapshotId}
+                      snapshotId={snapshotId}>
+          <SnapshotLabel snapshotId={snapshotId}/>
+        </SnapshotLink>
+      </DescriptionItem>
+    </DescriptionList>
   );
 });
 
