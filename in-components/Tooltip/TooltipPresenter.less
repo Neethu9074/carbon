@@ -1,4 +1,5 @@
 @import "~in-themes/active.less";
+@import "~in-themes/mixins.less";
 
 .in-tooltip-presenter {
   @background: @map__tooltips__background;
@@ -13,11 +14,7 @@
   padding: 0.3rem 0.5rem;
   border-radius: 4px;
   max-width: 50vw;
-  word-break: break-word;
-
-  .in-browser-ff & {
-    word-break: break-all;
-  }
+  .breakWord();
 
   @size: 6px;
   &::after {

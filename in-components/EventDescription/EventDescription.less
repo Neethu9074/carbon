@@ -1,4 +1,5 @@
 @import "~in-themes/active.less";
+@import "~in-themes/mixins.less";
 
 .in-event-description {
   display: flex;
@@ -21,22 +22,14 @@
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 3px;
-    word-break: break-word;
-
-    .in-browser-ff & {
-      word-break: break-all;
-    }
+    .breakWord();
   }
 
   &__suggestion {
     font-size: .688rem;
     color: #818a8f;
     margin: 0px 0 10px 0;
-    word-break: break-word;
-
-    .in-browser-ff & {
-      word-break: break-all;
-    }
+    .breakWord();
   }
 
   &__time {

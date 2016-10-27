@@ -1,4 +1,5 @@
 @import "~in-themes/active.less";
+@import "~in-themes/mixins.less";
 
 .in-sidebar-incident-recent-events-counter {
   display: flex;
@@ -30,11 +31,7 @@
     &__title {
       margin: 0;
       font-size: 0.75rem;
-      word-break: break-word;
-
-      .in-browser-ff & {
-        word-break: break-all;
-      }
+      .breakWord();
     }
   }
 }
