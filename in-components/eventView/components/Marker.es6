@@ -1,11 +1,11 @@
 import React from 'react';
 
-import './AffectedServiceMarker.less';
+import './Marker.less';
 
 
-const block = 'in-event-view-affected-service-marker';
+const block = 'in-event-view-marker';
 
-export default function AffectedServiceMarker({event, className}) {
+export default function Marker({event, className, label}) {
   const hasServiceImpact = event.getIn(['metadata', 'triggering']);
   if (!hasServiceImpact) {
     return null;
@@ -18,7 +18,7 @@ export default function AffectedServiceMarker({event, className}) {
 
   return (
     <span className={name}>
-      service impact
+      {label}
     </span>
   );
 }

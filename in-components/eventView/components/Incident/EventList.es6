@@ -20,6 +20,8 @@ function IncidentEventList({events, incident}) {
     return <LoadingIndicator type='dark' />;
   }
 
+  const triggeringProblemId = incident.getIn(['problem', 'id']);
+
   return (
     <div className={block}>
       <div className={`${block}__counter`}>
@@ -27,16 +29,18 @@ function IncidentEventList({events, incident}) {
       </div>
 
       <StartedMarker event={incident} />
-      <List events={events} />
+      <List events={events}
+            triggeringProblemId={triggeringProblemId} />
       <EndedMarker event={incident} />
     </div>
   );
 });
 
-function List({events}) {
+function List({events, triggeringProblemId}) {
   return (
     <div className={`${block}__timeline`}>
       {events.map(_event => <EventListItem key={_event.get('id')}
+                                           triggeringProblemId={triggeringProblemId}
                                            event={_event} />)
       }
     </div>

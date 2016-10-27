@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import AffectedServiceMarker from 'in-components/eventView/components/AffectedServiceMarker';
 import EventDependecyGraph from 'in-components/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-components/eventView/components/ProblemDescription';
 import EntityInformation from 'in-components/eventView/components/EntityInformation';
@@ -11,6 +10,7 @@ import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import EventTraces from 'in-components/eventView/components/EventTraces';
 import Spacer from 'in-components/eventView/components/Incident/Spacer';
 import EventChart from 'in-components/eventView/components/EventChart';
+import Marker from 'in-components/eventView/components/Marker';
 import {formatTime} from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
@@ -33,6 +33,7 @@ React.createClass({
   displayName: 'EventListItem',
 
   propTypes: {
+    triggeringProblemId: rpt.string,
     highlightedEventId: rpt.string,
     event: irpt.map.isRequired,
     background: rpt.string
@@ -45,6 +46,7 @@ React.createClass({
   },
 
   render() {
+    const triggeringProblemId = this.props.triggeringProblemId;
     const isExpanded = this.state.isExpanded;
     const background = this.props.background;
     const event = this.props.event;
@@ -60,13 +62,23 @@ React.createClass({
       className += ` ${className}__service-impact`;
     }
 
+    const isTriggeringEvent = triggeringProblemId === event.getIn(['problem', 'id']);
+
     return (
       <div className={className}
            id={`event-${event.get('id')}`}>
 
         {(hasServiceImpact)
-          ? <AffectedServiceMarker className={`${block}__affected-service-marker`}
-                                   event={event} />
+          ? <Marker className={`${block}__affected-service-marker`}
+                    label='service impact'
+                    event={event} />
+          : null
+        }
+
+        {isTriggeringEvent
+          ? <Marker className={`${block}__triggering-event-marker`}
+                    label='triggering event'
+                    event={event} />
           : null
         }
 
@@ -74,10 +86,10 @@ React.createClass({
 
         <div className={rightClassName}>
           <div className={`${block}__background`}
-               style={{ background }}/>
+               style={{ background }} />
 
           <div className={`${block}__left-border`}
-               style={{ background }}/>
+               style={{ background }} />
 
           <div className={`${block}__content-wrapper`}>
             <DetailsHeader event={event}
