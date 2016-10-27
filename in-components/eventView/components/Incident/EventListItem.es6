@@ -64,7 +64,7 @@ React.createClass({
       <div className={className}
            id={`event-${event.get('id')}`}>
 
-        {(hasServiceImpact && !isExpanded)
+        {(hasServiceImpact)
           ? <AffectedServiceMarker className={`${block}__affected-service-marker`}
                                    event={event} />
           : null
