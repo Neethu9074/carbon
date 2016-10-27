@@ -28,3 +28,13 @@ export function stop(snapshot) {
     logger.info('Self monitoring stop response', response);
   });
 }
+
+export function reset(snapshot) {
+  createAgentResponseObservable({
+    action: 'agent.reset',
+    target: snapshot.get('volatileId'),
+    args: {}
+  }).once(response => {
+    logger.info('Agent reset response', response);
+  });
+}
