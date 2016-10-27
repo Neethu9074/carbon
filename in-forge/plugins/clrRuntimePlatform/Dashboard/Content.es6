@@ -1,12 +1,21 @@
 import React from 'react';
 
-import {zeroDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
-import {KpiSection, KpiHeading} from 'in-sdk/components/dashboard/KpiSection';
+import {
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  bytesZeroDecimalPlaces
+} from 'in-services/formatters/number';
+import {
+  KpiSection,
+  KpiHeading,
+  KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {getLabel} from 'in-sdk/snapshot';
+import MetricValue from 'in-components/MetricValue';
 
-export default function CLRDashboard({snapshot, timeframe}) {
+export default function ClrDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -15,6 +24,26 @@ export default function CLRDashboard({snapshot, timeframe}) {
         <KpiHeading>
           {getLabel(snapshot)}
         </KpiHeading>
+        <KpiKeyValue label='All heaps'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='mem.all_heaps'
+                       formatter={bytesZeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='% Time in GC'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='mem.time_in_gc'
+                       formatter={twoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Contention-Rate'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='threads.lck_crs'
+                       formatter={twoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='Queue-Length'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='threads.lck_cql'
+                       formatter={zeroDecimalPlaces} />
+        </KpiKeyValue>
       </KpiSection>
 
       <DashboardSection title='Garbage Collections'>
@@ -64,6 +93,38 @@ export default function CLRDashboard({snapshot, timeframe}) {
                            type: 'stackedArea'
                          }}/>
       </DashboardSection>
+      <DashboardSection title='Thread-Locks and Contention'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 100
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: zeroDecimalPlaces,
+                           tooltipFormatter: zeroDecimalPlaces,
+                           metrics: [
+                             'threads.lck_cql'
+                           ],
+                           labels: [
+                             'Queue-Length'
+                           ],
+                           type: 'line'
+                         }}
+                         y2={{
+                           min: 0,
+                           formatter: twoDecimalPlaces,
+                           tooltipFormatter: twoDecimalPlaces,
+                           metrics: [
+                             'threads.lck_crs'
+                           ],
+                           labels: [
+                             'Contention-Rate'
+                           ],
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
+
     </div>
   );
 }

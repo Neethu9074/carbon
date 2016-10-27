@@ -18,7 +18,7 @@ setHumanReadablePluginName(
 
 addLabelFinder(
   plugins.clrRuntimePlatform,
-  snapshot => snapshot.getIn(['data', 'name'])
+  snapshot => '.NET-App ' + snapshot.getIn(['data', 'name'])
 );
 
 addSearchableEntityType('clr', plugins.clrRuntimePlatform);
