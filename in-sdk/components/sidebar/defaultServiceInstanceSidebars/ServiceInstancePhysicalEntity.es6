@@ -3,6 +3,7 @@ import React from 'react';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import SnapshotForgeInfo from 'in-sdk/components/sidebar/SnapshotForgeInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {alwaysNull} from 'in-services/fixedStreams';
@@ -26,20 +27,24 @@ export default connectTo(props => {
   const pluginLabel = getSingular(snapshot.get('plugin'));
 
   return (
-    <Collapsible initiallyOpen={true}>
-      <Collapsible.Header>
-        Component
-      </Collapsible.Header>
-      <Collapsible.Content>
-        <DescriptionList>
-          <DescriptionItem title={pluginLabel}>
-            <SnapshotLink snapshotId={snapshot.get('id')}>
-              {getLabel(snapshot)}
-            </SnapshotLink>
-          </DescriptionItem>
-        </DescriptionList>
-        <SnapshotForgeInfo snapshot={snapshot} />
-      </Collapsible.Content>
-    </Collapsible>
+    <div>
+      <Separator />
+
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>
+          Component
+        </Collapsible.Header>
+        <Collapsible.Content>
+          <DescriptionList>
+            <DescriptionItem title={pluginLabel}>
+              <SnapshotLink snapshotId={snapshot.get('id')}>
+                {getLabel(snapshot)}
+              </SnapshotLink>
+            </DescriptionItem>
+          </DescriptionList>
+          <SnapshotForgeInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+    </div>
   );
 });

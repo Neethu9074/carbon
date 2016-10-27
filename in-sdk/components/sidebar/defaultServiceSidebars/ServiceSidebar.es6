@@ -4,7 +4,6 @@ import ServiceKpiSparkCharts from 'in-sdk/components/sidebar/defaultServiceSideb
 import JumpToTracesButton from 'in-sdk/components/sidebar/JumpToTracesButton';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 
 export default function ServiceSidebar({snapshot}) {
@@ -16,8 +15,6 @@ export default function ServiceSidebar({snapshot}) {
       <ServiceKpiSparkCharts snapshot={snapshot} />
 
       <ClusterMemberList snapshotId={snapshot.get('id')} />
-
-      <Separator />
 
       <ConnectionList snapshotId={snapshot.get('id')} />
     </div>

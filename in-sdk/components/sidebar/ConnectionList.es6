@@ -1,5 +1,4 @@
 import {combineLatest} from 'reactive-observables';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {ClickableList, ClickableSnapshotListItem} from 'in-sdk/components/sidebar/ClickableList';
@@ -12,46 +11,43 @@ import connectTo from 'in-hoc/connectTo';
 
 import './ConnectionList.less';
 
-
 const block = 'in-connection-list';
-const rpt = React.PropTypes;
 
-export default connectTo(
-  props => {
-    return {
-      connections: viewStructure
-      .map(root => {
-        for (let i = 0, length = root.get('children').size; i < length; i++) {
-          const item = root.getIn(['children', i]);
-          if (item.get('id') === props.snapshotId) {
-            return {
-              outgoing: item.get('outgoingConnections'),
-              incoming: item.get('incomingConnections')
-            };
-          }
+export default connectTo(props => {
+  return {
+    connections: viewStructure
+    .map(root => {
+      for (let i = 0, length = root.get('children').size; i < length; i++) {
+        const item = root.getIn(['children', i]);
+        if (item.get('id') === props.snapshotId) {
+          return {
+            outgoing: item.get('outgoingConnections'),
+            incoming: item.get('incomingConnections')
+          };
         }
-      })
-    };
-  }, ConnectionList
-);
-
-function ConnectionList({connections}) {
+      }
+    })
+  };
+}, function ConnectionList({connections}) {
   if (!connections || (connections.outgoing.size === 0 && connections.incoming.size === 0)) {
     return null;
   }
 
   return (
     <div>
-
       {connections.incoming.size === 0 ? null :
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>
-            {'Inbound Connections (' + connections.incoming.size + ')'}
-          </Collapsible.Header>
-          <Collapsible.Content className={`${block}__snapshot-list`}>
-            <SnapshotList connections={connections.incoming} />
-          </Collapsible.Content>
-        </Collapsible>
+        <div>
+          <Separator />
+
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>
+              {'Inbound Connections (' + connections.incoming.size + ')'}
+            </Collapsible.Header>
+            <Collapsible.Content className={`${block}__snapshot-list`}>
+              <SnapshotList connections={connections.incoming} />
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
       }
 
       {connections.incoming.size > 0 && connections.outgoing.size > 0 ? <Separator /> : null}
@@ -68,14 +64,13 @@ function ConnectionList({connections}) {
       }
     </div>
   );
-}
+});
 
 const SnapshotList = connectTo(props => {
   return {
     snapshots: combineLatest(props.connections.map(connection => getSnapshot(connection.get('id'))))
   };
-},
-function SnapshotList({snapshots}) {
+}, function SnapshotList({snapshots}) {
   if (!snapshots) {
     return null;
   }
@@ -91,11 +86,3 @@ function SnapshotList({snapshots}) {
     </ClickableList>
   );
 });
-
-ConnectionList.propTypes = {
-  snapshotId: rpt.string.isRequired,
-  connections: rpt.shape({
-    outgoing: irpt.list.isRequired,
-    incoming: irpt.list.isRequired
-  })
-};
