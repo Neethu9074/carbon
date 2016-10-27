@@ -8,7 +8,7 @@ import {
 import {KpiSection, KpiHeading, KpiTopLevelInteraction} from 'in-sdk/components/dashboard/KpiSection';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import {stop} from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import {stop, reset} from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 export default function InstanaAgentDashboard({snapshot, timeframe}) {
@@ -18,6 +18,9 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
       <KpiSection>
         <KpiHeading>Instana Agent on {snapshot.getIn(['entityId', 'host'])}</KpiHeading>
 
+        <KpiTopLevelInteraction onClick={() => reset(snapshot)}>
+          Reset Agent
+        </KpiTopLevelInteraction>
         <KpiTopLevelInteraction onClick={() => stop(snapshot)}>
           Stop Self Monitoring
         </KpiTopLevelInteraction>
