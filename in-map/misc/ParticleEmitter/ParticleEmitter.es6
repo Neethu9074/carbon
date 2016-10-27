@@ -118,10 +118,14 @@ export default class ParticleEmitter {
     this.isRunning = true;
 
     this.metricSubscription = combineLatest([
-      getMetricForFocusedMoment({snapshotId: this.id, metric: 'count'}),
+      getMetricForFocusedMoment({snapshotId: this.id, metric: 'count'})
+        .map(metric => metric[1])
+        .distinct(),
       getMetricForFocusedMoment({snapshotId: this.id, metric: 'error_rate'})
+        .map(metric => metric[1])
+        .distinct()
     ]).subscribe(([countMetric, errorRateMetric]) =>
-      this.setNumparticlesPerSecond(countMetric[1], errorRateMetric[1])
+      this.setNumparticlesPerSecond(countMetric, errorRateMetric)
     );
   }
 
@@ -239,7 +243,7 @@ export default class ParticleEmitter {
     this.progressNeedsUpdate();
   }
 
-  setNumparticlesPerSecond(particlesPerSecond = 10, errorRate = 0) {
+  setNumparticlesPerSecond(particlesPerSecond = 0, errorRate = 0) {
     // clamp number of spawning particles to max number of particles during lifetime
     particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * this.maxParticles);
 
