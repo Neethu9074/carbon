@@ -6,13 +6,14 @@ import createSubscription from 'in-services/subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-traces-by-service-id',
 
-  getId: ({timeframe, snapshotId}) => timeframe.to + timeframe.windowSize + snapshotId,
+  getId: ({from, to, snapshotId}) => from + to + snapshotId,
 
-  getData: (subscriptionId, {timeframe, snapshotId}) => {
+  getData: (subscriptionId, {from, to, snapshotId}) => {
     return {
       subscriptionId,
-      timeframe,
-      snapshotId
+      snapshotId,
+      from,
+      to
     };
   },
 

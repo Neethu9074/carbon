@@ -17,21 +17,18 @@ export default addSection(connectTo(props => {
   const event = props.event;
 
   const from = event.get('start');
+
   let to = event.get('end');
-  const windowSize = to - from;
   if (event.get('state') === 'open') {
     to = null;
   }
-  const timeframe = {
-    to,
-    windowSize
-  };
 
   return {
     traceInformation: createTraceInformationObservable({
       // TODO: replace with triggering id
       snapshotId: event.getIn(['problem', 'snapshotId']),
-      timeframe
+      from,
+      to
     })
   };
 },
