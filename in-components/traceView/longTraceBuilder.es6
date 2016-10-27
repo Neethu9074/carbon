@@ -32,7 +32,7 @@ function insertSpanIntoParent(parentResult, span, parentSpan) {
   let currentParent = parentResult;
 
   if (getDirection(span) !== 'entry') {
-    span.get('stackTrace')
+    withoutDuplicatatedStackTraceLines(parentSpan.get('stackTrace'), span.get('stackTrace'))
       .reverse()
       .forEach(stackTraceElement => {
         currentParent = getOrAddStackTraceElementToParent(stackTraceElement);
@@ -63,6 +63,29 @@ function insertSpanIntoParent(parentResult, span, parentSpan) {
     currentParent.children.push(newParent);
     return newParent;
   }
+}
+
+
+export function withoutDuplicatatedStackTraceLines(parentSpanStackTrace, spanStackTrace) {
+  let result = spanStackTrace.toArray();
+
+  parentSpanStackTrace.forEach(parentStackTraceElement => {
+    let splitPoint;
+    for (let i = 0, len = result.length; i < len && splitPoint == null; i++) {
+      const childStackTraceElement = result[i];
+      if (childStackTraceElement.get('c') === parentStackTraceElement.get('c') &&
+          childStackTraceElement.get('m') === parentStackTraceElement.get('m') &&
+          childStackTraceElement.get('n') === parentStackTraceElement.get('n')) {
+        splitPoint = i;
+      }
+    }
+
+    if (splitPoint != null) {
+      result = result.slice(0, splitPoint);
+    }
+  });
+
+  return result;
 }
 
 

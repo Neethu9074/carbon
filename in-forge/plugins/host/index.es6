@@ -4,30 +4,31 @@ import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.svg';
 import linuxIconPath from 'in-forge/plugins/host/icons/instana_server_linux.svg';
 import appleIconPath from 'in-forge/plugins/host/icons/instana_server_apple.svg';
+import tableDefinition from 'in-forge/plugins/host/tableDefinition.es6';
 import {plugins} from 'in-forge/constants';
-
-import './metrics';
+import 'in-forge/plugins/host/metrics';
 
 registerSnapshotDefinition({
-  plugin: plugins.os,
+  plugin: plugins.host,
   pluginName: {
     singular: 'Host',
     plural: 'Hosts'
   },
   showZoneInSidebarHeader: true,
+  tableDefinition,
 
   namesForTypeSearch: ['host'],
 
   icons: {
-    [plugins.os + '_linux']: linuxIconPath,
-    [plugins.os + '_apple']: appleIconPath,
-    [plugins.os + '_windows']: windowsIconPath
+    [plugins.host + '_linux']: linuxIconPath,
+    [plugins.host + '_apple']: appleIconPath,
+    [plugins.host + '_windows']: windowsIconPath
   },
 
   getIcon(snapshot) {
     let type = snapshot.get('plugin');
 
-    const osPlugin = plugins.os;
+    const osPlugin = plugins.host;
     if (type === osPlugin) {
       const os = snapshot.getIn(['data', 'os.name']);
       type = osPlugin + '_linux'; // linux as default
@@ -59,26 +60,26 @@ addKeywordOperator({
   context: 'entity',
   type: 'number',
   keyword: 'host.cpuCount',
-  field: createPluginFieldPath(plugins.os, ['cpuCount'])
+  field: createPluginFieldPath(plugins.host, ['cpuCount'])
 });
 
 addKeywordOperator({
   context: 'entity',
   type: 'string',
   keyword: 'host.hostname',
-  field: createPluginFieldPath(plugins.os, ['hostname'])
+  field: createPluginFieldPath(plugins.host, ['hostname'])
 });
 
 addKeywordOperator({
   context: 'entity',
   type: 'string',
   keyword: 'host.fqdn',
-  field: createPluginFieldPath(plugins.os, ['fqdn'])
+  field: createPluginFieldPath(plugins.host, ['fqdn'])
 });
 
 addKeywordOperator({
   context: 'entity',
   type: 'number',
   keyword: 'host.memory',
-  field: createPluginFieldPath(plugins.os, ['memory'])
+  field: createPluginFieldPath(plugins.host, ['memory'])
 });

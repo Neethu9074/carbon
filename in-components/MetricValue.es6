@@ -1,8 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 
-import {getMetricForFocusedMoment} from 'in-stores/metric';
+import {getMetricForFocusedMoment, getHistoricMetric} from 'in-stores/metric';
+
 
 const rpt = React.PropTypes;
 export default React.createClass({
@@ -11,12 +12,13 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    snapshotId: rpt.string.isRequired,
     createMetricValueStream: rpt.func,
+    snapshotId: rpt.string.isRequired,
     metric: rpt.string.isRequired,
     initialValue: rpt.string,
-    formatter: rpt.func,
-    className: rpt.string
+    timeframeTo: rpt.number,
+    className: rpt.string,
+    formatter: rpt.func
   },
 
   componentDidMount() {
@@ -26,6 +28,14 @@ export default React.createClass({
   getStream(props) {
     if (props.createMetricValueStream) {
       return props.createMetricValueStream();
+    }
+
+    if (props.timeframeTo) {
+      return getHistoricMetric({
+        snapshotId: props.snapshotId,
+        metric: props.metric,
+        time: props.timeframeTo
+      });
     }
 
     return getMetricForFocusedMoment({
@@ -78,5 +88,4 @@ export default React.createClass({
   render() {
     return <span className={this.props.className} />;
   }
-
 });

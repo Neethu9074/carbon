@@ -5,7 +5,12 @@ import './AffectedServiceMarker.less';
 
 const block = 'in-event-view-affected-service-marker';
 
-export default function AffectedServiceMarker({className}) {
+export default function AffectedServiceMarker({event, className}) {
+  const hasServiceImpact = event.getIn(['metadata', 'triggering']);
+  if (!hasServiceImpact) {
+    return null;
+  }
+
   let name = block;
   if (className) {
     name += ` ${className}`;

@@ -34,6 +34,12 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
   const numOpenEvents = openEvents ? openEvents.filter(e => e).length : '';
   const affectedEnties = {};
   recentEvents.forEach(e => affectedEnties[e.getIn(['problem', 'snapshotId'])] = true);
+  const affectedServices = {};
+  recentEvents.forEach(e => {
+    if (e.getIn(['metadata', 'triggering'])) {
+      affectedServices[e.getIn(['problem', 'snapshotId'])] = true;
+    }
+  });
 
   return (
     <div className={block}>
@@ -51,7 +57,6 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
         <div className={`${block}__status-line`}>
           <StartedMarker event={event} />
           <EventDuration event={event} />
-
           <LabeledValue label='active' >
             {`${numOpenEvents}/${recentEvents.length}`}
           </LabeledValue>

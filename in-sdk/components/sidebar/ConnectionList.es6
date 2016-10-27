@@ -12,8 +12,9 @@ import connectTo from 'in-hoc/connectTo';
 
 import './ConnectionList.less';
 
-const rpt = React.PropTypes;
+
 const block = 'in-connection-list';
+const rpt = React.PropTypes;
 
 export default connectTo(
   props => {
@@ -41,6 +42,7 @@ function ConnectionList({connections}) {
 
   return (
     <div>
+
       {connections.incoming.size === 0 ? null :
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>
@@ -72,7 +74,8 @@ const SnapshotList = connectTo(props => {
   return {
     snapshots: combineLatest(props.connections.map(connection => getSnapshot(connection.get('id'))))
   };
-}, function SnapshotList({snapshots}) {
+},
+function SnapshotList({snapshots}) {
   if (!snapshots) {
     return null;
   }

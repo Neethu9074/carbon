@@ -25,11 +25,13 @@ export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, 2);
 export const withSiPrefixZeroDecimalPlaces = format(',.0s');
 const siPrefixThreeDecimalPlacesFormatRule = format(',.6s');
 export const withSiPrefixThreeDecimalPlaces = d => {
-  const match = siPrefixThreeDecimalPlacesFormatRule(d).match(/^(\d+)\.(\d+)(.*)$/i);
+  const s = siPrefixThreeDecimalPlacesFormatRule(d);
+  const match = s.match(/^(-|\+)?(\d+)\.(\d+)(.*)$/i);
 
-  const major = match[1];
-  let minor = match[2];
-  const prefix = match[3];
+  const sign = match[1] || '';
+  const major = match[2];
+  let minor = match[3];
+  const prefix = match[4];
 
   while (minor.length < 3) {
     minor += '0';
@@ -39,7 +41,7 @@ export const withSiPrefixThreeDecimalPlaces = d => {
     minor = minor.substring(0, 3);
   }
 
-  return `${major}.${minor}${prefix}`;
+  return `${sign}${major}.${minor}${prefix}`;
 };
 
 export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiPrefixZeroDecimalPlaces(d | 0);

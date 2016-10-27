@@ -79,7 +79,7 @@ function getSortIcon(cell, sortDirection, sortBy) {
 
     return (
       <div className={toggleClassName}
-           onClick={onClick}>
+           onClick={() => onClick(cell, sortBy, sortDirection)}>
         <SvgIcon className={`${block}__icon`}
                  type={iconType}
                  width={5}

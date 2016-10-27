@@ -1,7 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
 import {navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navigation';
-import {eumTracingEnabled} from 'in-services/featureFlags';
 
 
 export const isPhysicalMapView$ = navigationParameters$
@@ -22,11 +21,7 @@ export const traceViewLinkWithoutEumTraces$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/traces';
-    if (eumTracingEnabled) {
-      params.query.q = encodeURIComponent('type!=eum');
-    } else {
-      delete params.query.q;
-    }
+    params.query.q = encodeURIComponent('type!=eum');
     return params;
   })
   .map(toUrl)
@@ -74,6 +69,11 @@ export const tableViewLink$ = navigationParameters$
   })
   .map(toUrl)
   .distinct();
+
+export const isTableView$ = navigationParameters$
+  .map(params => params.pathname.indexOf('/table') === 0)
+  .distinct();
+
 
 export function goToTableView() {
   tableViewLink$.once(link => window.location.href = link);

@@ -26,7 +26,7 @@ export default connectTo(props => {
   const pluginLabel = getSingular(snapshot.get('plugin'));
 
   return (
-    <Collapsible initiallyOpen={false}>
+    <Collapsible initiallyOpen={true}>
       <Collapsible.Header>
         Component
       </Collapsible.Header>

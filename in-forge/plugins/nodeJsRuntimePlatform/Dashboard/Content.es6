@@ -90,6 +90,27 @@ export default function NodejsDashboard({snapshot, timeframe}) {
         {renderEventLoopMetrics(snapshot, timeframe)}
       </DashboardSection>
 
+      <DashboardSection title='Handles & Requests'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 60
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: twoDecimalPlaces,
+                           metrics: [
+                             'activeHandles',
+                             'activeRequests'
+                           ],
+                           labels: [
+                             '#Handles',
+                             '#Requests'
+                           ],
+                           type: 'line'
+                         }}/>
+      </DashboardSection>
+
       <CpuProfiler snapshot={snapshot} />
 
       <HttpServersTable snapshot={snapshot}

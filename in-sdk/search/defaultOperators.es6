@@ -24,12 +24,14 @@ addKeywordOperator({
   getSelectableItems() {
     return Object.keys(searchableEntityTypes);
   },
-  toValue(selection) {
-    return searchableEntityTypes[selection.toLowerCase()];
-  }
+  toValue: translateSearchableEntityTypeToFullyQualifiedPluginId
 });
 export function addSearchableEntityType(label, shortPluginId) {
   searchableEntityTypes[label.toLowerCase()] = fullyQualifiedPlugins[shortPluginId];
+}
+
+export function translateSearchableEntityTypeToFullyQualifiedPluginId(type) {
+  return searchableEntityTypes[type.toLowerCase()];
 }
 
 

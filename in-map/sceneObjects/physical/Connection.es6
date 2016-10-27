@@ -62,6 +62,10 @@ export default class Connection extends SceneObject {
   }
 
   getVertices() {
+    if (!this.sourceNode || !this.destinationNode) {
+      return [];
+    }
+
     const from = this.sourceNode.getComponent('transform').getPosition();
     const to = this.destinationNode.getComponent('transform').getPosition();
 

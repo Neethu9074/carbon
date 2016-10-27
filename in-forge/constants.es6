@@ -60,7 +60,7 @@ export const plugins = {
   nodejs: 'nodeJsRuntimePlatform',
   nodejsCluster: 'nodeJsCluster',
   oracledb: 'oracleDB',
-  os: 'host',
+  host: 'host',
   phpfpm: 'phpFpmRuntimePlatform',
   postgresql: 'postgreSqlDatabase',
   process: 'process',

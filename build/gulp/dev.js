@@ -245,8 +245,7 @@ gulp.task('enableDevWatches', () => {
   const themeFiles = [
     path.join(themeBase, 'common.js'),
     path.join(themeBase, 'day.js'),
-    path.join(themeBase, 'night.js'),
-    path.join(paths.rootDir, 'node_modules/instana-ui-theme/dist/**/*')
+    path.join(themeBase, 'night.js')
   ];
   gulp.watch(themeFiles, ['translateThemeConfigs']);
 

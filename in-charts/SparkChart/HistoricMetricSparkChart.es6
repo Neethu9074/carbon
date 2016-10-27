@@ -31,7 +31,6 @@ export default connectTo(props => {
     width: rpt.number.isRequired,
     tooltipFormatter: rpt.func,
     aggregation: rpt.string,
-    className: rpt.string,
     design: rpt.string,
     rollup: rpt.number
   },

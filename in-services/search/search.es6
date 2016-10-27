@@ -68,7 +68,7 @@ export function transformQuery(query, contexts = ['entity']) {
   const keywordOperators = createKeywordBasedIndex(getKeywordOperators(contexts));
   const result = {
     luceneQuery: '',
-    queryParts
+    queryParts: queryParts.slice()
   };
 
   while (queryParts.length > 0) {

@@ -18,7 +18,7 @@ export default connectTo({
 },
 function EventDetails({selectedEventId, event}) {
   if (!selectedEventId) {
-    return null;
+    return <p className={`${block}__no-event-selected`}>No event selected.</p>;
   }
 
   if (!event) {

@@ -1,46 +1,28 @@
 import React from 'react';
 
 import TableHeader from 'in-views/tableView/components/TableHeader';
+import {sortedSnapshotIds$} from 'in-views/tableView/stores/sorting';
+import {plugin$} from 'in-views/tableView/stores/snapshotIds';
 import TableRow from 'in-views/tableView/components/TableRow';
-import {physicalViewStructure$} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 
 import './Table.less';
 
 const block = 'in-table-view-table';
 
-const hosts$ = physicalViewStructure$
-  .map(viewStructure => {
-    const hosts = [];
-
-    viewStructure.get('children')
-      .forEach(zone => {
-        zone.get('children')
-          .forEach(host => {
-            const id = host.get('id');
-            if (id.indexOf('unmon-host=') !== 0) {
-              hosts.push(host.get('id'));
-            }
-          });
-      });
-
-    return hosts;
-  });
-
 export default connectTo({
-  hosts: hosts$
-}, function Table({hosts}) {
+  snapshotIds: sortedSnapshotIds$,
+  plugin: plugin$
+}, function Table({snapshotIds, plugin}) {
   return (
     <div className={block}>
-      <TableHeader />
+      <TableHeader plugin={plugin} />
 
       <div className={`${block}__rows`}>
-        {hosts ?
-          hosts.map(host =>
-            <TableRow snapshotId={host}
-                      key={host} />
-          )
-        : null}
+        {snapshotIds ? snapshotIds.map(snapshotId =>
+            <TableRow snapshotId={snapshotId}
+                      key={snapshotId} />
+        ) : null}
       </div>
     </div>
   );

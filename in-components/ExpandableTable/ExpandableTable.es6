@@ -27,7 +27,7 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      selectedKey: null
+      selectedKeys: {}
     };
   },
 
@@ -81,7 +81,7 @@ export default React.createClass({
   createRow(val, index, context) {
     const key = this.props.getKey(val, index, context);
     const rowContent = this.props.createRow(val, index, context);
-    const isSelected = key === this.state.selectedKey;
+    const isSelected = key in this.state.selectedKeys;
 
     // create row this way to avoid usage of child element arrays (which would result in
     // warnings due to missing key props).
@@ -113,14 +113,15 @@ export default React.createClass({
 
 
   onClick(key) {
-    if (this.state.selectedKey === key) {
-      this.setState({
-        selectedKey: null
-      });
-    } else {
-      this.setState({
-        selectedKey: key
-      });
-    }
+    this.setState(state => {
+      if (key in state.selectedKeys) {
+        delete state.selectedKeys[key];
+      } else {
+        state.selectedKeys[key] = true;
+      }
+      return {
+        selectedKeys: state.selectedKeys
+      };
+    });
   }
 });

@@ -1,5 +1,6 @@
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
+import tableDefinition from 'in-forge/plugins/jvmRuntimePlatform/tableDefinition';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
@@ -11,7 +12,8 @@ registerSnapshotDefinition({
   plugin: plugins.jvm,
   icon,
   supportsCodeView,
-  getCodeView
+  getCodeView,
+  tableDefinition
 });
 
 setHumanReadablePluginName(

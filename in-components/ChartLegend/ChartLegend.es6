@@ -4,10 +4,12 @@ import {filterStoreShape} from 'in-components/ChartWithLegend/dataseriesFilterSt
 import {hexToRGB} from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
 import MetricValue from 'in-components/MetricValue';
+import {alwaysNull} from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
 import './ChartLegend.less';
+
 
 const rpt = React.PropTypes;
 const block = 'in-chart-legend';
@@ -19,18 +21,21 @@ const axisConfigShape = rpt.shape({
 });
 
 export default connectTo(props => {
-    return {
-      activeFilters: props.filterStore.activeFilters$
-    };
-  }, React.createClass({
+  return {
+    activeFilters: props.filterStore.activeFilters$,
+    timeframeTo: props.timeframe$ ? props.timeframe$.map(timeframe => timeframe.to) : alwaysNull
+  };
+},
+React.createClass({
   displayName: 'ChartLegend',
 
   propTypes: {
+    filterStore: filterStoreShape.isRequired,
+    activeFilters: rpt.object.isRequired,
     snapshotId: rpt.string.isRequired,
     y1: axisConfigShape.isRequired,
-    y2: axisConfigShape,
-    filterStore: filterStoreShape.isRequired,
-    activeFilters: rpt.object.isRequired
+    timeframeTo: rpt.number,
+    y2: axisConfigShape
   },
 
   render() {
@@ -46,33 +51,40 @@ export default connectTo(props => {
 
   renderList(axis, modifier, themeMetricOffset) {
     const classname = block + '__metrics';
+    const props = this.props;
 
     return (
       <dl className={classname + ' ' + classname + '--' + modifier}>
-        {axis.metrics.map((metric, i) =>
-          <div className={classnames({
+        {axis.metrics.map((metric, i) => {
+          const color = theme.chart.strokeColors[themeMetricOffset + i];
+          const label = axis.labels[i];
+
+          return (
+            <div className={classnames({
                  [block + '__metric']: true,
-                 [block + '__metric--disabled']: this.props.activeFilters[axis.labels[i]]
+                 [block + '__metric--disabled']: props.activeFilters[label]
                })}
                key={metric}
-               onClick={() => this.props.filterStore.toggleFilter(axis.labels[i])}
+               onClick={() => props.filterStore.toggleFilter(label)}
                style={{
-                 background: toBackground(theme.chart.strokeColors[themeMetricOffset + i])
+                 background: toBackground(color)
                }}>
             <dt className={block + '__metric-label'}
                 style={{
-                  color: theme.chart.strokeColors[themeMetricOffset + i]
+                  color
                 }}>
-              {axis.labels[i]}
+              {label}
             </dt>
             <dd className={block + '__metric-value'}>
-              <MetricValue snapshotId={this.props.snapshotId}
+              <MetricValue snapshotId={props.snapshotId}
                            metric={metric}
+                           timeframeTo={props.timeframeTo}
                            formatter={axis.formatter}
                            initialValue='?' />
             </dd>
           </div>
-        )}
+        );
+      })}
       </dl>
     );
   }

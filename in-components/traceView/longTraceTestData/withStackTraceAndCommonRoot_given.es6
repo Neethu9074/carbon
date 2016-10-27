@@ -7,7 +7,17 @@ export default {
   'duration': 108,
   'async': false,
   'name': 'spring-web',
-  'stackTrace': [],
+  'stackTrace': [
+    {
+      c: 'ShoppingResource',
+      m: 'checkout',
+      n: 63
+    },
+    {
+      c: 'Thread',
+      m: 'run'
+    }
+  ],
   'childSpans': [
     {
       'start': 1468562943771,
@@ -26,7 +36,7 @@ export default {
         {
           c: 'ShoppingResource',
           m: 'checkout',
-          n: 63
+          n: 65
         },
         {
           c: 'Thread',
@@ -52,7 +62,7 @@ export default {
         {
           c: 'ShoppingResource',
           m: 'checkout',
-          n: 63
+          n: 65
         },
         {
           c: 'Thread',

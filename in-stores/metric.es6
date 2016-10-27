@@ -159,16 +159,20 @@ export function getDefaultMetricRollupDuration(timeframe) {
 }
 
 export const currentRollup$ = timeframe$
-  .map(getDefaultMetricRollupDuration)
-  .map(rollup => {
-    for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
-      if (rollupDurationThresholds[i].rollup === rollup) {
-        return rollupDurationThresholds[i].label;
-      }
-    }
+  .map(getRollupForTimeframe);
 
-    return 'Unknown rollup';
-  });
+
+export function getRollupForTimeframe(timeframe) {
+  const rollup = getDefaultMetricRollupDuration(timeframe);
+
+  for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
+    if (rollupDurationThresholds[i].rollup === rollup) {
+      return rollupDurationThresholds[i].label;
+    }
+  }
+
+  return 'Unknown rollup';
+}
 
 
 export const activeMetric = createStore({

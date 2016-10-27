@@ -16,5 +16,5 @@ export default createSubscription({
     };
   },
 
-  transformData: foundations => Immutable.fromJS(foundations)
+  transformData: foundations => Immutable.Set(foundations)
 });
