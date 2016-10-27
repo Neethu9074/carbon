@@ -8,7 +8,13 @@ import {isInstanaEmployee} from 'in-stores/user';
 const unhandledLogger = logging.createLogger('in-services/unhandledErrors');
 
 export function init() {
-  setUnhandledErrorHandler(onUnhandledError);
+  setUnhandledErrorHandler(e => {
+    unhandledLogger.error(`Unhandled error in observable chain: ${e.message}`, e);
+
+    if (isInstanaEmployee()) {
+      showUnhandledErrorMessage(e);
+    }
+  });
 
   window.addEventListener('error', (e) => {
     onUnhandledError(e);
