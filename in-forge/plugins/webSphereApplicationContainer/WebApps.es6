@@ -8,8 +8,7 @@ import {formatDateTime} from 'in-services/formatters/date';
 
 
 export default function WebApps({snapshot}) {
-  const data = snapshot.get('data');
-  const webApps = data.get('appInfo', emptyMap).toOrderedMap();
+  const webApps = snapshot.getIn(['data', 'appInfo'], emptyMap).toOrderedMap();
   if (webApps.size === 0) {
     return null;
   }

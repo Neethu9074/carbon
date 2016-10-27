@@ -12,27 +12,27 @@ export default function WebSphereDashboard({snapshot, timeframe}) {
     <div>
       <DashboardSection title='Web Container Thread Pool'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
-               timeframe={timeframe}
-               margins={{
-                 left: 80
-               }}
-               y1={{
-                 formatter: zeroDecimalPlaces,
-                 metrics: [
-                   'threadPools.webContainer.activeThreads',
-                   'threadPools.webContainer.poolSize'
-                 ],
-                 labels: [
-                   'Active Threads',
-                   'Pool Size'
-                 ],
-                 type: 'line'
-               }}/>
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           formatter: zeroDecimalPlaces,
+                           metrics: [
+                             'threadPools.webContainer.activeThreads',
+                             'threadPools.webContainer.poolSize'
+                           ],
+                           labels: [
+                             'Active Threads',
+                             'Pool Size'
+                           ],
+                           type: 'line'
+                         }}/>
       </DashboardSection>
       <WebModulesTable snapshot={snapshot}
-                    timeframe={timeframe} />
+                       timeframe={timeframe}/>
       <DatasourcesTable snapshot={snapshot}
-                       timeframe={timeframe} />
+                        timeframe={timeframe}/>
     </div>
   );
 }
