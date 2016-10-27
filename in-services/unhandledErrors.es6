@@ -38,7 +38,6 @@ function showUnhandledErrorMessage(e) {
   // this message makes it to the user.
   setTimeout(() => {
     addMessage({
-      id: 'unhandled-error',
       type: 'error',
       icon: 'error',
       content: (
@@ -46,6 +45,6 @@ function showUnhandledErrorMessage(e) {
           An unhandled error occured. Please report this error and how you produced it. Error message: {e.message}
         </p>
       )
-    });
+    }, 'unhandled-error');
   }, 0);
 }
