@@ -5,6 +5,7 @@ import {twoDecimalPlaces, timeByMillisTwoDecimalPlaces} from 'in-services/format
 import {getTraceViewFilteredBySnapshotIdAndTimeframe} from 'in-stores/navigation/search';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import addSection from 'in-components/eventView/hocs/addSection';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -42,7 +43,11 @@ export default addSection(connectTo(props => {
 },
 function EventTraces({href, traceInformation}) {
   if (!traceInformation) {
-    return null;
+    return (
+      <LoadingIndicator inline={true}
+                               type='dark'
+                               style={{ height: '16px' }} />
+    );
   }
 
   return (
