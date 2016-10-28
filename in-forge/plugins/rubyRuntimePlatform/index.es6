@@ -15,7 +15,7 @@ registerSnapshotDefinition({
 
   getLabel(s) {
     const data = s.get('data');
-    const rubyVersion = data.get('rubyVersion');
+    const rubyVersion = data.get('ruby_version');
     if (!rubyVersion) {
       return getFallbackLabel(s);
     }
@@ -32,7 +32,6 @@ registerSnapshotDefinition({
 
 });
 
-
 function getFallbackLabel(s) {
-  return 'Ruby#' + s.get('steadyId');
+  return 'Ruby#' + s.get('data').get('pid');
 }
