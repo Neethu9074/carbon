@@ -1,27 +1,37 @@
 .in-message-flyout-message {
-  background: hsla(198, 23%, 23%, 0.9);
-  font-size: 0.8rem;
   max-width: 19rem;
-  padding: 0rem 1.075rem;
   margin: 0 0 1rem;
+  padding: 0rem 1.075rem;
   border-radius: 4px;
+
+  background: rgba(23, 36, 40, 0.75);
+  font-size: 0.688rem;
 
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  border: 2px solid #92a5ae;
 
   &--clickable {
     cursor: pointer;
   }
 
   &__icon {
-    fill: #9FFFFF;
+    fill: #92a5ae;
     margin-right: 0.75rem;
     min-width: 18px;
   }
 
   &__content {
     color: #92A5AE;
+
+    &:hover {
+      color: white;
+
+      .in-message-flyout-message__icon {
+        fill: white;
+      }
+    }
 
     em {
       color: #fff;
