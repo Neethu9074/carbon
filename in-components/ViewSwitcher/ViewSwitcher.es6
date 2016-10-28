@@ -88,8 +88,13 @@ const IncidentsMenuPoint = connectTo({
 },
 function IncidentsMenuPoint({pathname, events}) {
   const numIncidents = events ? events.incidents.length : 0;
-  const color = (numIncidents > 0) ? getIncidentColor(events.incidents) : '#22d8d8';
-  const title = (numIncidents > 0) ? `${numIncidents} Incidents` : 'Incidents';
+  let color = '#22d8d8';
+  let title = 'Incidents';
+
+  if (numIncidents > 0) {
+    title = numIncidents === 1 ? `1 Incident` : `${numIncidents} Incidents`;
+    color = getIncidentColor(events.incidents);
+  }
 
   return (
     <View href$={eventsLinkOnlyIncidents$}
