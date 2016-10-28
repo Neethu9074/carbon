@@ -15,6 +15,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
+
 export default function ClrDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
 

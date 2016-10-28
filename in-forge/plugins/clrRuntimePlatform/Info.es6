@@ -2,6 +2,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
+
 export default function CLRInfo({snapshot}) {
   const data = snapshot.get('data');
 
