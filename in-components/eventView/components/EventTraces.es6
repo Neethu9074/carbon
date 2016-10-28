@@ -49,14 +49,14 @@ function EventTraces({href, traceInformation}) {
     <DescriptionList className={block}>
       <DescriptionItem id='title'
                        title={
-        <div className={`${block}__title-wrapper`}>
-          <SvgIcon className={`${block}__icon`}
-                   type='traces'
-                   width={24}
-                   color={'#22d8d8'} />
-          Traces
-        </div>
-      }>
+                         <div className={`${block}__title-wrapper`}>
+                           <SvgIcon className={`${block}__icon`}
+                                    type='traces'
+                                    width={24}
+                                    color={'#22d8d8'} />
+                           Traces
+                         </div>
+                       }>
         <Button className={`${block}__button`}
                 kind='secondary'
                 size='sm'
@@ -65,22 +65,18 @@ function EventTraces({href, traceInformation}) {
         </Button>
 
         <DescriptionList className={`${block}__metrics`}>
-          <DescriptionItem className={itemClassName}
-                           title='Number of traces'>
-            {traceInformation.get('numberOfTraces')}
-          </DescriptionItem>
-          <DescriptionItem className={itemClassName}
-                           title='Avg response time'>
-            {timeByMillisTwoDecimalPlaces(traceInformation.get('averageResponseTime'))}
-          </DescriptionItem>
-          <DescriptionItem className={itemClassName}
-                           title='Highest response time'>
-            {timeByMillisTwoDecimalPlaces(traceInformation.get('highestResponseTime'))}
-          </DescriptionItem>
-          <DescriptionItem className={itemClassName}
-                           title='Avg error count'>
-            {twoDecimalPlaces(traceInformation.get('averageErrorCount'))}
-          </DescriptionItem>
+          {traceInfo('Number of traces',
+                     traceInformation.get('numberOfTraces', null))}
+
+          {traceInfo('Avg response time',
+                     traceInformation.get('averageResponseTime', null),
+                      timeByMillisTwoDecimalPlaces)}
+          {traceInfo('Highest response time',
+                     traceInformation.get('highestResponseTime', null),
+                     timeByMillisTwoDecimalPlaces)}
+          {traceInfo('Avg error count',
+                     traceInformation.get('averageErrorCount', null),
+                     twoDecimalPlaces)}
         </DescriptionList>
       </DescriptionItem>
     </DescriptionList>
@@ -88,6 +84,19 @@ function EventTraces({href, traceInformation}) {
 }),
 isVisible
 );
+
+function traceInfo(title, value, formatter) {
+  if (value == null) {
+    return null;
+  }
+
+  return (
+    <DescriptionItem className={itemClassName}
+                     title={title}>
+      {formatter ? formatter(value) : value}
+    </DescriptionItem>
+  );
+}
 
 function isVisible(event) {
   return (event && event.getIn(['metadata', 'triggering']));
