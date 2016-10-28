@@ -31,7 +31,7 @@ export default class ParticleEmitter {
   constructor(sceneObject) {
     this.id = sceneObject.id;
 
-    this.maxParticles = 50;
+    this.maxParticles = 100;
     this.setNumparticlesPerSecond(0);
 
     // the current index in the ringbuffer array for the next spawning particle
@@ -118,15 +118,15 @@ export default class ParticleEmitter {
     this.isRunning = true;
 
     this.metricSubscription = combineLatest([
-      getMetricForFocusedMoment({snapshotId: this.id, metric: 'count'})
-        .map(metric => metric[1])
-        .distinct(),
-      getMetricForFocusedMoment({snapshotId: this.id, metric: 'error_rate'})
-        .map(metric => metric[1])
-        .distinct()
-    ]).subscribe(([countMetric, errorRateMetric]) =>
-      this.setNumparticlesPerSecond(countMetric, errorRateMetric)
-    );
+      this.getMetric('count'),
+      this.getMetric('error_rate')
+    ]).subscribe(([countMetric, errorRateMetric]) => this.setNumparticlesPerSecond(countMetric, errorRateMetric));
+  }
+
+  getMetric(metric) {
+    return getMetricForFocusedMoment({snapshotId: this.id, metric})
+      .map(_metric => _metric[1])
+      .distinct();
   }
 
   update(dt) {
@@ -138,20 +138,20 @@ export default class ParticleEmitter {
     for (let i = 0, length = particles.length; i < length; i++) {
       const particle = particles[i];
       particle.timeLived += dt;
-      particle.progress = Math.min(1, particle.timeLived / timeToLife);
-      progresses[particle.index] = particle.progress;
+      particle.progress = particle.timeLived / timeToLife;
+      progresses[particle.index] = Math.min(1, particle.progress);
     }
 
     // remove old particles
     const removed = remove(particles, particle => particle.progress >= 1);
-    removed.forEach(removedParticles => {
-      const index = removedParticles.index * 3;
+    removed.forEach(removedParticle => {
+      const index = removedParticle.index * 3;
       vertices[index] = START_POS;
       vertices[index + 1] = START_POS;
       vertices[index + 2] = START_POS;
 
-      progresses[removedParticles.index] = 0;
-      this.severities[removedParticles.index] = 0;
+      progresses[removedParticle.index] = 0;
+      this.severities[removedParticle.index] = 0;
     });
 
     // spawn new particles
@@ -186,6 +186,9 @@ export default class ParticleEmitter {
       timeLived: 0,
       index: newIndex
     };
+
+    // remove particles from list with the same index to avoid overrides
+    remove(this.particles, _particle => _particle.index === newIndex);
     this.particles.push(particle);
 
     this.severities[newIndex] = hasError ? 1.0 : 0.0;
@@ -245,11 +248,11 @@ export default class ParticleEmitter {
 
   setNumparticlesPerSecond(particlesPerSecond = 0, errorRate = 0) {
     // clamp number of spawning particles to max number of particles during lifetime
-    particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * this.maxParticles);
+    particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * (this.maxParticles * 0.5));
 
     this.particlesPerSecond = particlesPerSecond;
-    this.secToNextParticle = particlesPerSecond > 0 ? 1 / this.particlesPerSecond : Number.MAX_VALUE;
-    this.secToNextError = errorRate > 0 ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
+    this.secToNextParticle = (particlesPerSecond > 0) ? 1 / particlesPerSecond : Number.MAX_VALUE;
+    this.secToNextError = (errorRate > 0) ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
   }
 
   dispose() {
