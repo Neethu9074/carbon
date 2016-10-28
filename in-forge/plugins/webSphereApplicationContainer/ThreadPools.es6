@@ -3,8 +3,8 @@ import React from 'react';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import {yesOrNo} from 'in-services/formatters/boolean';
 
-const formatBoolean = value => value ? 'Yes' : 'No';
 
 export default function JettyThreadsInfo({snapshot}) {
   const data = snapshot.get('data');
@@ -27,7 +27,7 @@ export default function JettyThreadsInfo({snapshot}) {
               {data.get('threadPools.webContainer.inactivityTimeout')}
             </DescriptionItem>
             <DescriptionItem title='Growable'>
-              {formatBoolean(data.get('threadPools.webContainer.growable'))}
+              {yesOrNo(data.get('threadPools.webContainer.growable'))}
             </DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>

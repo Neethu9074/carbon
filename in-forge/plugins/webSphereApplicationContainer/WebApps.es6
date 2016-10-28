@@ -3,8 +3,8 @@ import React from 'react';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import {emptyMap} from 'in-services/fixedImmutables';
 import {formatDateTime} from 'in-services/formatters/date';
+import {emptyMap} from 'in-services/fixedImmutables';
 
 
 export default function WebApps({snapshot}) {
@@ -19,7 +19,9 @@ export default function WebApps({snapshot}) {
       {webApps.map((info, webAppName) =>
         <Collapsible initiallyOpen={false}
                      key={webAppName}>
-          <Collapsible.Header>App [{webAppName}]</Collapsible.Header>
+          <Collapsible.Header>
+            App [{webAppName}]
+          </Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
               <DescriptionItem title='Started At'>

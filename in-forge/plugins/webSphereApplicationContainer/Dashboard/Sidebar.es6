@@ -4,17 +4,19 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import Info from '../Info.es6';
-import WebApps from '../WebApps.es6';
-import ThreadPools from '../ThreadPools.es6';
-import Datasources from '../Datasources.es6';
+import ThreadPools from '../ThreadPools';
+import Datasources from '../Datasources';
+import WebApps from '../WebApps';
+import Info from '../Info';
 
 
 export default function WebSphereSidebar({snapshot}) {
   return (
     <div>
       <Collapsible initiallyOpen={true}>
-        <Collapsible.Header>WebSphere Server Info</Collapsible.Header>
+        <Collapsible.Header>
+          WebSphere Server Info
+        </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

@@ -1,11 +1,12 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import {zeroDecimalPlaces, msZeroDecimalPlaces} from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
+
 
 export default function DatasourcesTable({snapshot, timeframe}) {
   const datasources = snapshot.getIn(['data', 'datasourceNames'], emptyList).sort();

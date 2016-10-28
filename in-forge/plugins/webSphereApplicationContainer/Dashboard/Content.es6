@@ -4,8 +4,9 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import {zeroDecimalPlaces} from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
-import WebModulesTable from './WebModulesTable.es6';
-import DatasourcesTable from './DatasourcesTable.es6';
+import DatasourcesTable from './DatasourcesTable';
+import WebModulesTable from './WebModulesTable';
+
 
 export default function WebSphereDashboard({snapshot, timeframe}) {
   return (
