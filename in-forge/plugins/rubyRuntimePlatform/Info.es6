@@ -9,10 +9,13 @@ export default function RubyInfo({snapshot}) {
   return (
     <DescriptionList>
       <DescriptionItem title='Ruby Version'>
-        {data.get('rubyVersion')}
+        {data.get('ruby_version')}
       </DescriptionItem>
       <DescriptionItem title='Runtime Arguments'>
-        {data.get('execArgs', emptyArray).join(' ')}
+        {data.get('exec_args', emptyArray).join(' ')}
+      </DescriptionItem>
+      <DescriptionItem title='Framework'>
+        {data.get('framework')}
       </DescriptionItem>
       <DescriptionItem title='Process ID'>
         {data.get('pid')}
