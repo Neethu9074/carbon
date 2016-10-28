@@ -10,6 +10,7 @@ import {
   navigationParameters$
 } from 'in-stores/navigation';
 import {openEventsAtServerTime$} from 'in-stores/events';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -28,16 +29,19 @@ export default connectTo({
       <div className={block + '__wrapper'}>
 
         <View href$={physicalViewLink$}
+              iconType='infrastructure'
               active={pathname.indexOf('/physical') === 0 || pathname.indexOf('/table') === 0}>
           Physical
         </View>
 
         <View href$={logicalViewLink$}
+              iconType='application'
               active={pathname.indexOf('/logical') === 0}>
           Logical
         </View>
 
         <View href$={traceViewLinkWithoutEumTraces$}
+              iconType='traces'
               active={pathname.indexOf('/traces') === 0}>
           Trace
         </View>
@@ -53,7 +57,7 @@ const View = connectTo(props => {
   return {
     href: props.href$
   };
-}, function View({href, active, children}) {
+}, function View({href, active, children, iconType, color}) {
   let classes = block + '__item ';
   if (active) {
     classes += block + '__item__active';
@@ -63,6 +67,12 @@ const View = connectTo(props => {
     <a className={classes}
        onClick={onViewSwitch}
        href={href}>
+
+      <SvgIcon className={`${block}__icon`}
+               type={iconType}
+               width={22}
+               height={22}
+               color={color || '#22d8d8'} />
       {children}
     </a>
   );
@@ -73,31 +83,22 @@ function onViewSwitch(e) {
   e.stopPropagation();
 }
 
-function IncidentsMenuPoint({pathname}) {
-  return (
-    <View href$={eventsLinkOnlyIncidents$}
-          active={pathname.indexOf('/events') === 0}>
-      <div className={`${block}__flex-wrapper`}>
-        Incidents <IncidentsCounter />
-      </div>
-    </View>
-  );
-}
-
-const IncidentsCounter = connectTo({
+const IncidentsMenuPoint = connectTo({
   events: openEventsAtServerTime$
 },
-({events}) => {
+function IncidentsMenuPoint({pathname, events}) {
   const numIncidents = events ? events.incidents.length : 0;
-  if (numIncidents === 0) {
-    return null;
-  }
+  const color = (numIncidents > 0) ? getIncidentColor(events.incidents) : '#22d8d8';
 
   return (
-    <div className={`${block}__counter`}
-         style={{ background: getIncidentColor(events.incidents) }}>
-      {numIncidents}
-    </div>
+    <View href$={eventsLinkOnlyIncidents$}
+          iconType='danger_sign'
+          color={color}
+          active={pathname.indexOf('/events') === 0}>
+      <div className={`${block}__flex-wrapper`}>
+        Incidents
+      </div>
+    </View>
   );
 });
 
