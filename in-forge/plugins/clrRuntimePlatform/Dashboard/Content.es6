@@ -12,8 +12,8 @@ import {
   KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {getLabel} from 'in-sdk/snapshot';
 import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
 
 export default function ClrDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -50,7 +50,7 @@ export default function ClrDashboard({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 60
+                           left: 80
                          }}
 
                          y1={{
@@ -74,12 +74,11 @@ export default function ClrDashboard({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 100
+                           left: 80
                          }}
                          y1={{
                            min: 0,
                            formatter: bytesTwoDecimalPlaces,
-                           tooltipFormatter: bytesTwoDecimalPlaces,
                            metrics: [
                              'mem.gen1HeapBytes',
                              'mem.gen2HeapBytes',
@@ -102,7 +101,6 @@ export default function ClrDashboard({snapshot, timeframe}) {
                          y1={{
                            min: 0,
                            formatter: zeroDecimalPlaces,
-                           tooltipFormatter: zeroDecimalPlaces,
                            metrics: [
                              'threads.lck_cql'
                            ],
@@ -114,7 +112,6 @@ export default function ClrDashboard({snapshot, timeframe}) {
                          y2={{
                            min: 0,
                            formatter: twoDecimalPlaces,
-                           tooltipFormatter: twoDecimalPlaces,
                            metrics: [
                              'threads.lck_crs'
                            ],
@@ -124,7 +121,6 @@ export default function ClrDashboard({snapshot, timeframe}) {
                            type: 'line'
                          }}/>
       </DashboardSection>
-
     </div>
   );
 }
