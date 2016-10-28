@@ -89,6 +89,7 @@ const IncidentsMenuPoint = connectTo({
 function IncidentsMenuPoint({pathname, events}) {
   const numIncidents = events ? events.incidents.length : 0;
   const color = (numIncidents > 0) ? getIncidentColor(events.incidents) : '#22d8d8';
+  const title = (numIncidents > 0) ? `${numIncidents} Incidents` : 'Incidents';
 
   return (
     <View href$={eventsLinkOnlyIncidents$}
@@ -96,7 +97,7 @@ function IncidentsMenuPoint({pathname, events}) {
           color={color}
           active={pathname.indexOf('/events') === 0}>
       <div className={`${block}__flex-wrapper`}>
-        Incidents
+        {title}
       </div>
     </View>
   );
