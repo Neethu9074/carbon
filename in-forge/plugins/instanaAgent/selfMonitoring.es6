@@ -31,7 +31,7 @@ export function stop(snapshot) {
 
 export function reset(snapshot) {
   createAgentResponseObservable({
-    action: 'agent.reset',
+    action: 'agent.restart',
     target: snapshot.get('volatileId'),
     args: {}
   }).once(response => {
