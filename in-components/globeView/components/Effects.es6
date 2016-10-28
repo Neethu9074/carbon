@@ -12,25 +12,45 @@ export default class Effects {
 
   constructor(parent) {
     require([
-      'in-components/globeView/components/globeEffectMap.png'
-    ], (effectMapPath) => {
-      const effectPlane = this.effectPlane = new Mesh(
-        new PlaneBufferGeometry(1.2929, 1.2929, 1, 1),
+      'in-components/globeView/components/globeOverlayEffectMap.png',
+      'in-components/globeView/components/globeOuterGlowEffectMap.png'
+    ], (overlayMapPath, outerGlowMapPath) => {
+      const planeGeometry = this.planeGeometry = new PlaneBufferGeometry(1.2929, 1.2929, 1, 1);
+
+      const effectPlaneOuterGlow = this.effectPlaneOuterGlow = new Mesh(
+        planeGeometry,
+        new MeshBasicMaterial({
+          color: 0xffffff,
+          side: DoubleSide,
+          transparent: true,
+          depthWrite: false,
+          map: loadImage(outerGlowMapPath, tex => {
+            tex.needsUpdate = true;
+            resourceLoaded('globeEffectOuterGlowMap');
+          })
+        })
+      );
+
+      effectPlaneOuterGlow.renderOrder = 10;
+      parent.add(effectPlaneOuterGlow);
+
+      const effectPlaneOverlay = this.effectPlaneOverlay = new Mesh(
+        planeGeometry,
         new MeshBasicMaterial({
           color: 0xffffff,
           side: DoubleSide,
           transparent: true,
           depthWrite: false,
           depthTest: false,
-          map: loadImage(effectMapPath, tex => {
+          map: loadImage(overlayMapPath, tex => {
             tex.needsUpdate = true;
-            resourceLoaded('globeEffectMap');
+            resourceLoaded('globeEffectOverlayMap');
           })
         })
       );
 
-      effectPlane.renderOrder = 10;
-      parent.add(effectPlane);
+      effectPlaneOverlay.renderOrder = 11;
+      parent.add(effectPlaneOverlay);
     });
   }
 
@@ -46,17 +66,29 @@ export default class Effects {
   }
 
   update(camDistance) {
-    if (this.effectPlane) {
-      const l = this.getScaleFromDistance(camDistance);
-      this.effectPlane.scale.set(l, l, l);
+    const l = this.getScaleFromDistance(camDistance);
+
+    if (this.effectPlaneOverlay) {
+      this.effectPlaneOverlay.scale.set(l, l, l);
+    }
+
+    if (this.effectPlaneOuterGlow) {
+      this.effectPlaneOuterGlow.scale.set(l, l, l);
     }
   }
 
   dispose() {
-    if (this.effectPlane) {
-      this.effectPlane.material.dispose();
-      this.effectPlane.geometry.dispose();
-      this.effectPlane = null;
+    if (this.planeGeometry) {
+      this.planeGeometry.dispose();
+      this.planeGeometry = null;
+    }
+    if (this.effectPlaneOverlay) {
+      this.effectPlaneOverlay.material.dispose();
+      this.effectPlaneOverlay = null;
+    }
+    if (this.effectPlaneOuterGlow) {
+      this.effectPlaneOuterGlow.material.dispose();
+      this.effectPlaneOuterGlow = null;
     }
   }
 }
