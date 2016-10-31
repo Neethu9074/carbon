@@ -10,6 +10,9 @@ export default function KafkaInfo({snapshot}) {
       <DescriptionItem title='Version'>
         {data.get('version')}
       </DescriptionItem>
+      <DescriptionItem title='Zookeeper Connect'>
+        {data.get('config.zookeeper')}
+      </DescriptionItem>
       <DescriptionItem title='Process ID'>
         {data.get('pid')}
       </DescriptionItem>
