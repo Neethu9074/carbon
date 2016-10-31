@@ -11,14 +11,16 @@
   box-shadow: 0.313rem 0.313rem 0.625rem 0px rgba(0, 0, 0, 0.3);
 
   &__item {
-    margin: .75rem 1rem;
+    margin: .75rem 0 .75rem 1rem;
+
+    &:hover, &--active {
+      .in-view-switcher-menu__link {
+        color: white;
+      }
+    }
   }
 
   &__link {
     text-decoration: none;
-
-    &:hover, &--active {
-      color: white;
-    }
   }
 }
