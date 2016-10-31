@@ -5,6 +5,7 @@ import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.
 import linuxIconPath from 'in-forge/plugins/host/icons/instana_server_linux.svg';
 import appleIconPath from 'in-forge/plugins/host/icons/instana_server_apple.svg';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition.es6';
+import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
 import {plugins} from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
 
@@ -16,6 +17,7 @@ registerSnapshotDefinition({
   },
   showZoneInSidebarHeader: true,
   tableDefinition,
+  metricDefinitions,
 
   namesForTypeSearch: ['host'],
 
