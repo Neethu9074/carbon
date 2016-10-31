@@ -24,8 +24,7 @@ export default addSection(connectTo(props => {
     to = null;
   }
 
-  // TODO: replace with triggering id
-  const serviceId = event.getIn(['problem', 'snapshotId']);
+  const serviceId = event.get('affectedService');
 
   return {
     href: getTraceViewFilteredBySnapshotIdAndTimeframe({
@@ -104,5 +103,5 @@ function traceInfo(title, value, formatter) {
 }
 
 function isVisible(event) {
-  return (event && event.getIn(['metadata', 'triggering']));
+  return (event && event.get('affectedService', null) != null);
 }

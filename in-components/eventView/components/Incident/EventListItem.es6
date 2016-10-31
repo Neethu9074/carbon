@@ -56,7 +56,7 @@ React.createClass({
       rightClassName += ` ${rightClassName}--highlighted`;
     }
 
-    const hasServiceImpact = event.getIn(['metadata', 'triggering']);
+    const hasServiceImpact = event.get('affectedService');
     let className = block;
     if (hasServiceImpact) {
       className += ` ${className}__service-impact`;
