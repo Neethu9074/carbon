@@ -69,27 +69,29 @@ export default connectTo({
   snapshots: selectedSnapshots$,
   plugin: plugin$
 }, function ChartsForSelectedEntities({metrics, snapshots, plugin}) {
-  if (!metrics || metrics.length === 0 || !snapshots) {
-    return null;
-  }
-
+  metrics = metrics || [];
+  snapshots = snapshots || [];
   snapshots = snapshots
     .filter(snapshot => !!snapshot);
 
-  if (snapshots.length === 0) {
+  if (snapshots.length === 0 && metrics.length === 0) {
+    return null;
+  } else if (snapshots.length === 0 && metrics.length > 0) {
     return (
-      <div className={`${block}__no-entities-selected`}>
+      <div className={`${block}__incomplete-selection`}>
         Please select {getPlural(plugin)} for which to visualize the chosen metrics.
+      </div>
+    );
+  } else if (snapshots.length > 0 && metrics.length === 0) {
+    return (
+      <div className={`${block}__incomplete-selection`}>
+        Please select metrics to visualize for the selected {getPlural(plugin)}.
       </div>
     );
   }
 
-  if (!metrics || metrics.length === 0 || !snapshots || snapshots.length === 0) {
-    return null;
-  }
-
   return (
-    <div>
+    <div className={block}>
       {metrics.map(metric =>
         <SelectedChart snapshots={snapshots}
                        metric={metric}
