@@ -10,7 +10,6 @@ export default function Icons() {
   return (
     <Control createMenuContent={createMenuContent}
              tooltipText='Icon list. DEV ONLY FEATURE.'
-             iconSize={24}
              type='dot'
              id='icons' />
   );

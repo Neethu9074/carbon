@@ -18,7 +18,6 @@ export default connectTo({
     <Control createMenuContent={createMenuContent}
              isActive={activeMetric ? true : false}
              tooltipText='Show metrics'
-             iconSize={16}
              type='metrics' />
   );
 });

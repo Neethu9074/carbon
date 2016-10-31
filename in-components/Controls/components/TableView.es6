@@ -8,7 +8,6 @@ export default function AutoLayout() {
   return (
     <Control onClick={goToTableView}
              tooltipText='Switch between 3D and table view'
-             iconSize={16}
              type='menu' />
   );
 }
