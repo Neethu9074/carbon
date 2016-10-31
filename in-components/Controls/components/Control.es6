@@ -37,7 +37,8 @@ function Control({onClick, type, id, isActive, menuContent, createMenuContent, t
                toggleContent(getMenuContent(id ? id : type, createMenuContent));
              }
            }}>
-        <SvgIcon type={type}
+        <SvgIcon className={`${block}__icon`}
+                 type={type}
                  width={14}
                  height={14}
                  color='#fff' />
