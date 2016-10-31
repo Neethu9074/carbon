@@ -1,6 +1,9 @@
 import React from 'react';
 
 import ToggleChangesButton from 'in-components/eventView/components/Incident/PopulationChart/ToggleChangesButton';
+import ExpandChangesButton from 'in-components/eventView/components/Incident/PopulationChart/ExpandChangesButton';
+import {restoreInitialExpandedState} from 'in-components/eventView/stores/populationChartExpandedStore';
+import {restoreInitialVisibilityState} from 'in-components/eventView/stores/changesVisibilityStore';
 import TimeAxis from 'in-components/eventView/components/Incident/PopulationChart/TimeAxis';
 import Events from 'in-components/eventView/components/Incident/PopulationChart/Events';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -35,6 +38,9 @@ export default getElementDimensions(React.createClass({
 
   componentDidMount() {
     this.setupIncidentSubscription();
+
+    restoreInitialVisibilityState();
+    restoreInitialExpandedState();
   },
 
   componentWillUnmount() {
@@ -64,6 +70,7 @@ export default getElementDimensions(React.createClass({
           <TimeAxis scale={scale} />
           <Events scale={scale} />
         </div>
+        <ExpandChangesButton />
       </div>
     );
   },
