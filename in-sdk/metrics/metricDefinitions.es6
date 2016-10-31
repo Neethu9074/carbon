@@ -4,6 +4,23 @@ import {emptyArray} from 'in-services/fixedObjects';
 // {
 //   <plugin>: [
 //     {
+//       label: 'CPU',
+//       type: 'category',
+//       children: [
+//         {
+//           label: 'Load',
+//           metric: 'cpu.load',
+//           type: 'metric'
+//         }
+//       ]
+//     }
+//   ]
+// }
+const categories = {};
+
+// {
+//   <plugin>: [
+//     {
 //       test(),
 //       metric,
 //       label,
@@ -23,7 +40,7 @@ export function registerMetricDefinition(plugin, metricDefinition) {
   // unsure that all definitions have the same structure
   if (!metricDefinition.metrics) {
     metricDefinition.metrics = [metricDefinition.metric];
-    metricDefinition.labels = [metricDefinition.labels];
+    metricDefinition.labels = [metricDefinition.label];
   }
 
   const metricDefinitionsForPlugin = metricDefinitions[plugin] = metricDefinitions[plugin] || [];
@@ -33,14 +50,29 @@ export function registerMetricDefinition(plugin, metricDefinition) {
     const label = metricDefinition.labels[i];
     metricDefinitionsForPlugin.push({
       metric,
-      label,
+      label: label || String(metric),
       test: getTestFunction(metric),
       category: metricDefinition.category || [],
-      getMin: metricDefinition.getMin || alwaysUndefined,
-      getMax: metricDefinition.getMax || alwaysUndefined,
+      getMin: getMin(metricDefinition),
+      getMax: getMax(metricDefinition),
       formatter: metricDefinition.formatter || number
     });
   }
+}
+
+function getMin(metricDefinition) {
+  if (metricDefinition.min != null) {
+    return metricDefinition.min;
+  }
+  return metricDefinition.getMin || alwaysUndefined;
+}
+
+
+function getMax(metricDefinition) {
+  if (metricDefinition.max != null) {
+    return metricDefinition.max;
+  }
+  return metricDefinition.getMax || alwaysUndefined;
 }
 
 
@@ -87,4 +119,78 @@ function getDefaultMetricDefinition(metric) {
     getMax: alwaysUndefined,
     formatter: number
   };
+}
+
+
+export function getCategories(plugin) {
+  if (categories[plugin]) {
+    return categories[plugin];
+  }
+  const pluginCategories = categories[plugin] = buildCategories(plugin);
+  return pluginCategories;
+}
+
+
+function buildCategories(plugin) {
+  const metricDefinitionsForPlugin = metricDefinitions[plugin];
+  if (!metricDefinitionsForPlugin || metricDefinitionsForPlugin.length === 0) {
+    return [];
+  }
+
+  const root = {
+    label: 'root',
+    type: 'category',
+    children: []
+  };
+
+  metricDefinitionsForPlugin.forEach(metricDefinitionForPlugin => {
+    // we cannot categorise metrics which are matched based on regex
+    if (typeof metricDefinitionForPlugin.metric === 'string') {
+      insertMetric(root, metricDefinitionForPlugin);
+    }
+  });
+
+  sortCategories(root);
+  return root.children;
+}
+
+
+function insertMetric(node, metricDefinitionForPlugin, category) {
+  category = category || metricDefinitionForPlugin.category;
+
+  if (category.length === 0) {
+    node.children.push({
+      label: metricDefinitionForPlugin.label,
+      metric: metricDefinitionForPlugin.metric,
+      type: 'metric'
+    });
+    return;
+  }
+
+  let nextNode;
+  for (let i = 0, len = node.children.length; i < len && nextNode == null; i++) {
+    const childNode = node.children[i];
+    if (childNode.type === 'category' && childNode.label === category[0]) {
+      nextNode = childNode;
+    }
+  }
+
+  if (nextNode == null) {
+    nextNode = {
+      label: category[0],
+      type: 'category',
+      children: []
+    };
+    node.children.push(nextNode);
+  }
+
+  insertMetric(nextNode, metricDefinitionForPlugin, category.slice(1));
+}
+
+
+function sortCategories(node) {
+  if (node.children) {
+    node.children.sort((a, b) => a.label.localeCompare(b.label));
+    node.children.forEach(sortCategories);
+  }
 }

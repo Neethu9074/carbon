@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ChartsForSelectedEntities from 'in-views/tableView/components/ChartsForSelectedEntities';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import Header from 'in-views/tableView/components/Header';
 import Table from 'in-views/tableView/components/Table';
@@ -12,6 +13,7 @@ export default function TableView({children}) {
   const view = (
     <FullscreenOverlayView className={block}>
       <Header />
+      <ChartsForSelectedEntities />
       <Table />
     </FullscreenOverlayView>
   );

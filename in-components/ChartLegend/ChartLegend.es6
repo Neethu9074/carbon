@@ -32,7 +32,8 @@ React.createClass({
   propTypes: {
     filterStore: filterStoreShape.isRequired,
     activeFilters: rpt.object.isRequired,
-    snapshotId: rpt.string.isRequired,
+    snapshotId: rpt.string,
+    snapshotIds: rpt.arrayOf(rpt.string),
     y1: axisConfigShape.isRequired,
     timeframeTo: rpt.number,
     y2: axisConfigShape
@@ -56,6 +57,7 @@ React.createClass({
     return (
       <dl className={classname + ' ' + classname + '--' + modifier}>
         {axis.metrics.map((metric, i) => {
+          const snapshotId = this.props.snapshotId || this.props.snapshotIds[i + themeMetricOffset];
           const color = theme.chart.strokeColors[themeMetricOffset + i];
           const label = axis.labels[i];
 
@@ -64,7 +66,7 @@ React.createClass({
                  [block + '__metric']: true,
                  [block + '__metric--disabled']: props.activeFilters[label]
                })}
-               key={metric}
+               key={i}
                onClick={() => props.filterStore.toggleFilter(label)}
                style={{
                  background: toBackground(color)
@@ -76,7 +78,7 @@ React.createClass({
               {label}
             </dt>
             <dd className={block + '__metric-value'}>
-              <MetricValue snapshotId={props.snapshotId}
+              <MetricValue snapshotId={snapshotId}
                            metric={metric}
                            timeframeTo={props.timeframeTo}
                            formatter={axis.formatter}

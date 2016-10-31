@@ -29,7 +29,7 @@ export default [
     label: 'Free',
     category: ['Memory'],
     min: 0,
-    max(snapshot) {
+    getMax(snapshot) {
       return snapshot.getIn(['data', 'memory.total']);
     },
     formatter: bytes
@@ -87,7 +87,7 @@ export default [
       'In Segments/s',
       'Out Segments/s'
     ],
-    category: ['Network', 'TCP'],
+    category: ['Network'],
     min: 0,
     formatter: number
   },
@@ -106,7 +106,7 @@ export default [
       'Error',
       'Retransmission'
     ],
-    category: ['Network', 'TCP'],
+    category: ['Network'],
     min: 0,
     max: 1,
     formatter: percentage
