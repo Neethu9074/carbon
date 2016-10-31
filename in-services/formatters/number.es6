@@ -38,7 +38,22 @@ export const kiloBytes = {
   detailed: kiloBytesTwoDecimalPlaces
 };
 
-export const withSiPrefixZeroDecimalPlaces = format(',.0s');
+const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
+const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
+export const withSiPrefixZeroDecimalPlaces = d => {
+  if ((0 < d && d < 1) || (-1 < d && d < 0)) {
+    return siPrefixZeroDecimalPlacesFormatRuleForSmallValues(d);
+  }
+  const s = siPrefixZeroDecimalPlacesFormatRule(d);
+  const match = s.match(/^(-|\+)?(\d+)(\.(\d+))?(.*)$/i);
+
+  const sign = match[1] || '';
+  const major = match[2];
+  const prefix = match[5];
+
+  return `${sign}${major}${prefix}`;
+};
+
 const siPrefixThreeDecimalPlacesFormatRule = format(',.6s');
 export const withSiPrefixThreeDecimalPlaces = d => {
   const s = siPrefixThreeDecimalPlacesFormatRule(d);
