@@ -37,21 +37,16 @@ function ViewSwitcher({navigationParameters, expandedView}) {
         <View label='application'
               icon='application'
               isExpanded={expandedView === 'application'}
-              isActive={pathname.indexOf('/logical') === 0}>
+              isActive={pathname.indexOf('/logical') === 0 || pathname.indexOf('/traces') === 0}>
           <SubMenuItem label='Map'
                        href$={logicalViewLink$} />
+          <SubMenuItem label='Trace'
+                       href$={traceViewLinkWithoutEumTraces$} />
           <SubMenuItem label='Overview'
                        href$={physicalViewLink$} />
         </View>
 
-        <View label='trace'
-              icon='traces'
-              href$={traceViewLinkWithoutEumTraces$}
-              isExpanded={expandedView === 'traces'}
-              isActive={pathname.indexOf('/traces') === 0} />
-
-        <IncidentsMenuPoint isActive={pathname.indexOf('/events') === 0}
-                          />
+        <IncidentsMenuPoint isActive={pathname.indexOf('/events') === 0} />
       </div>
     </div>
   );
