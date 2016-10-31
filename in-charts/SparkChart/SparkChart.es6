@@ -138,6 +138,7 @@ export default function createSparkChart({width,
 
     ctx.beginPath();
     let xToRender;
+    let firstX;
     for (let columnIndex = 0, len = dataColumns.length;
          columnIndex < len;
          columnIndex++) {
@@ -145,6 +146,7 @@ export default function createSparkChart({width,
       xToRender = xScale.getRange(dataRow[0]);
 
       if (columnIndex === 0) {
+        firstX = xToRender;
         ctx.moveTo(xToRender, yScale.getRange(dataRow[1]));
       } else {
         ctx.lineTo(xToRender, yScale.getRange(dataRow[1]));
@@ -153,7 +155,7 @@ export default function createSparkChart({width,
 
     ctx.lineWidth = 1;
     ctx.lineTo(xToRender, yScale.getRangeFrom());
-    ctx.lineTo(0, yScale.getRangeFrom());
+    ctx.lineTo(firstX, yScale.getRangeFrom());
     ctx.closePath();
     ctx.fillStyle = metricLineFillColor;
     ctx.fill();

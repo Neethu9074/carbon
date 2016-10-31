@@ -24,7 +24,7 @@ export default function ClusterSummary({snapshot}) {
                      metric='keyspaceCount'
                      formatter={withSiPrefixZeroDecimalPlaces} />
       </KpiKeyValue>
-      <KpiKeyValue label='Overall Size of Store'>
+      <KpiKeyValue label='Store Size'>
         <MetricValue snapshotId={snapshotId}
                      metric='overallDiskSize'
                      formatter={bytesTwoDecimalPlaces} />
