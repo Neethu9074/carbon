@@ -55,7 +55,7 @@ export const DescriptionList = React.createClass({
     }
 
     return (
-      <div key={descriptionItemProps.id || descriptionItemProps.title}
+      <div key={i}
            className={getClassName({props: descriptionItemProps}, divClasses)}>
         <dt className={block + '__description-title'}>
           {descriptionItemProps.title}
