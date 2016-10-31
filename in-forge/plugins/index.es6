@@ -31,6 +31,7 @@ import './jettyApplicationContainer';
 import './jiraApplication';
 import './jvmRuntimePlatform';
 import './kafka';
+import './kafkaCluster';
 import './logicalCassandraConnection';
 import './logicalCassandraKeyspace';
 import './logicalDatabase';
