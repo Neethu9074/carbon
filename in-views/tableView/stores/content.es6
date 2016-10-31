@@ -1,7 +1,7 @@
 import {create} from 'reactive-observables';
 
+import {getTableDefinition, supportTableView} from 'in-sdk/snapshot';
 import {snapshotIds$} from 'in-views/tableView/stores/snapshotIds';
-import {getTableDefinition} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
 
 let snapshotsSubscription;
@@ -83,6 +83,10 @@ function addSnapshotId(snapshotId) {
     .subscribe(snapshot => {
       snapshotData.id = snapshotId;
       snapshotData.snapshot = snapshot;
+      if (!supportTableView(snapshot.get('plugin'))) {
+        return;
+      }
+
       const tableDefinition = getTableDefinition(snapshot.get('plugin'));
       disposeColumnSubscriptions(snapshotData);
 

@@ -33,6 +33,10 @@ export default connectTo({
   plugin: plugin$,
   categoryTree: plugin$.map(getCategories)
 }, function MetricSelector({plugin, categoryTree}) {
+  if (categoryTree.length === 0) {
+    return null;
+  }
+
   return (
     <label htmlFor='table-view-metric-selector'
            className={block}>
