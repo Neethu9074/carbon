@@ -21,9 +21,14 @@ export const SubMenuItem = connectTo(props => {
     href: props.href$
   };
 },
-function SubMenuItem({label, href}) {
+function SubMenuItem({isActive, label, href}) {
+  let classes = `${block}__link`;
+  if (isActive) {
+    classes += ` ${classes}--active`;
+  }
+
   return (
-    <a className={`${block}__link`}
+    <a className={classes}
        onClick={e => {
          e.stopPropagation();
          toggleExpandedView(null);

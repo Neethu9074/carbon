@@ -29,9 +29,11 @@ function ViewSwitcher({navigationParameters, expandedView}) {
               isExpanded={expandedView === 'infrastructure'}
               isActive={pathname.indexOf('/physical') === 0 || pathname.indexOf('/table') === 0}>
           <SubMenuItem label='Map'
-                       href$={physicalViewLink$} />
+                       href$={physicalViewLink$}
+                       isActive={pathname.indexOf('/physical') === 0} />
           <SubMenuItem label='Overview'
-                       href$={physicalViewLink$} />
+                       href$={physicalViewLink$}
+                       isActive={pathname.indexOf('/table') === 0} />
         </View>
 
         <View label='application'
@@ -39,9 +41,11 @@ function ViewSwitcher({navigationParameters, expandedView}) {
               isExpanded={expandedView === 'application'}
               isActive={pathname.indexOf('/logical') === 0 || pathname.indexOf('/traces') === 0}>
           <SubMenuItem label='Map'
-                       href$={logicalViewLink$} />
+                       href$={logicalViewLink$}
+                       isActive={pathname.indexOf('/logical') === 0} />
           <SubMenuItem label='Trace'
-                       href$={traceViewLinkWithoutEumTraces$} />
+                       href$={traceViewLinkWithoutEumTraces$}
+                       isActive={pathname.indexOf('/traces') === 0} />
           <SubMenuItem label='Overview'
                        href$={physicalViewLink$} />
         </View>
