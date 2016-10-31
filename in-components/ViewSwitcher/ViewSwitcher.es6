@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {eventsLinkOnlyIncidents$, traceViewLinkWithoutEumTraces$} from 'in-stores/navigation/view';
+import {eventsLinkOnlyIncidents$, traceViewLinkWithoutEumTraces$, tableViewLink$} from 'in-stores/navigation/view';
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {expandedView$} from 'in-components/ViewSwitcher/stores/expandedViewStore';
 import {SubMenuItem} from 'in-components/ViewSwitcher/SubMenu';
@@ -32,7 +32,7 @@ function ViewSwitcher({navigationParameters, expandedView}) {
                        href$={physicalViewLink$}
                        isActive={pathname.indexOf('/physical') === 0} />
           <SubMenuItem label='Overview'
-                       href$={physicalViewLink$}
+                       href$={tableViewLink$}
                        isActive={pathname.indexOf('/table') === 0} />
         </View>
 
@@ -47,7 +47,8 @@ function ViewSwitcher({navigationParameters, expandedView}) {
                        href$={traceViewLinkWithoutEumTraces$}
                        isActive={pathname.indexOf('/traces') === 0} />
           <SubMenuItem label='Overview'
-                       href$={physicalViewLink$} />
+                       href$={tableViewLink$}
+                       isActive={pathname.indexOf('/table') === 0} />
         </View>
 
         <IncidentsMenuPoint isActive={pathname.indexOf('/events') === 0} />
