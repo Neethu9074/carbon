@@ -1,16 +1,11 @@
 import React from 'react';
 
-import {
-  traceViewLinkWithoutEumTraces$,
-  eventsLinkOnlyIncidents$
-} from 'in-stores/navigation/view';
-import {
-  logicalViewLink$,
-  physicalViewLink$,
-  navigationParameters$
-} from 'in-stores/navigation';
+import {eventsLinkOnlyIncidents$, traceViewLinkWithoutEumTraces$, tableViewLink$} from 'in-stores/navigation/view';
+import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
+import {expandedView$} from 'in-components/ViewSwitcher/stores/expandedViewStore';
+import {SubMenuItem} from 'in-components/ViewSwitcher/SubMenu';
 import {openEventsAtServerTime$} from 'in-stores/events';
-import SvgIcon from 'in-components/SvgIcon';
+import View from 'in-components/ViewSwitcher/View';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -20,73 +15,49 @@ import './ViewSwitcher.less';
 const block = 'in-view-switcher';
 
 export default connectTo({
-  navigationParameters: navigationParameters$
-}, function ViewSwitcher({navigationParameters}) {
+  navigationParameters: navigationParameters$,
+  expandedView: expandedView$
+},
+function ViewSwitcher({navigationParameters, expandedView}) {
   const pathname = navigationParameters.pathname;
 
   return (
     <div className={block}>
-      <div className={block + '__wrapper'}>
-
-        <View href$={physicalViewLink$}
-              iconType='infrastructure'
-              active={pathname.indexOf('/physical') === 0 || pathname.indexOf('/table') === 0}>
-          Physical
+      <ul className={block + '__list'}>
+        <View label='infrastructure'
+              icon='infrastructure'
+              isExpanded={expandedView === 'infrastructure'}
+              isActive={pathname.indexOf('/physical') === 0 || pathname.indexOf('/table') === 0}>
+          <SubMenuItem label='Map'
+                       href$={physicalViewLink$}
+                       isActive={pathname.indexOf('/physical') === 0} />
+          <SubMenuItem label='Overview'
+                       href$={tableViewLink$}
+                       isActive={pathname.indexOf('/table') === 0} />
         </View>
 
-        <View href$={logicalViewLink$}
-              iconType='application'
-              active={pathname.indexOf('/logical') === 0}>
-          Logical
+        <View label='application'
+              icon='application'
+              isExpanded={expandedView === 'application'}
+              isActive={pathname.indexOf('/logical') === 0 || pathname.indexOf('/traces') === 0}>
+          <SubMenuItem label='Map'
+                       href$={logicalViewLink$}
+                       isActive={pathname.indexOf('/logical') === 0} />
+          <SubMenuItem label='Trace'
+                       href$={traceViewLinkWithoutEumTraces$}
+                       isActive={pathname.indexOf('/traces') === 0} />
         </View>
 
-        <View href$={traceViewLinkWithoutEumTraces$}
-              iconType='traces'
-              active={pathname.indexOf('/traces') === 0}>
-          Trace
-        </View>
-
-        <IncidentsMenuPoint pathname={pathname} />
-      </div>
+        <IncidentsMenuPoint isActive={pathname.indexOf('/events') === 0} />
+      </ul>
     </div>
   );
 });
 
-
-const View = connectTo(props => {
-  return {
-    href: props.href$
-  };
-}, function View({href, active, children, iconType, color}) {
-  let classes = block + '__item ';
-  if (active) {
-    classes += block + '__item__active';
-  }
-
-  return (
-    <a className={classes}
-       onClick={onViewSwitch}
-       href={href}>
-
-      <SvgIcon className={`${block}__icon`}
-               type={iconType}
-               width={22}
-               height={22}
-               color={color || '#22d8d8'} />
-      {children}
-    </a>
-  );
-});
-
-
-function onViewSwitch(e) {
-  e.stopPropagation();
-}
-
 const IncidentsMenuPoint = connectTo({
   events: openEventsAtServerTime$
 },
-function IncidentsMenuPoint({pathname, events}) {
+function IncidentsMenuPoint({events, isActive}) {
   const numIncidents = events ? events.incidents.length : 0;
   let color = '#22d8d8';
   let title = 'Incidents';
@@ -97,14 +68,11 @@ function IncidentsMenuPoint({pathname, events}) {
   }
 
   return (
-    <View href$={eventsLinkOnlyIncidents$}
-          iconType='danger_sign'
+    <View label={title}
+          icon='danger_sign'
+          href$={eventsLinkOnlyIncidents$}
           color={color}
-          active={pathname.indexOf('/events') === 0}>
-      <div className={`${block}__flex-wrapper`}>
-        {title}
-      </div>
-    </View>
+          isActive={isActive} />
   );
 });
 
