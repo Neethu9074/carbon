@@ -28,6 +28,10 @@ export function toggleSnapshotId(snapshotId) {
   });
 }
 
+export function clearSelectedSnapshots() {
+  selectedSnapshotIdsStore.mutateTo([]);
+}
+
 export const selectedSnapshots$ = selectedSnapshotIds$
   .flatMap(snapshotIds => {
     if (snapshotIds.length === 0) {

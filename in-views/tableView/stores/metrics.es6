@@ -17,3 +17,7 @@ export function addMetric(metric) {
     return result;
   });
 }
+
+export function clearMetrics() {
+  metricsStore.mutateTo([]);
+}
