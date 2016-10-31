@@ -8,9 +8,25 @@ import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/snapshot';
 
 function SelectedChart({metric, snapshots}) {
-  const firstSnapshot = snapshots[0];
-  const definition = getMetricDefinition(firstSnapshot.get('plugin'), metric);
-  console.log(definition);
+  const definition = getMetricDefinition(snapshots[0].get('plugin'), metric);
+
+  let max = undefined;
+  let min = undefined;
+
+  for (let i = 0, len = snapshots.length; i < len; i++) {
+    const snapshot = snapshots[i];
+    const snapshotMin = definition.getMin(snapshot);
+    const snapshotMax = definition.getMax(snapshot);
+
+    if (max == null || snapshotMax > max) {
+      max = snapshotMax;
+    }
+
+    if (min == null || snapshotMin > min) {
+      min = snapshotMin;
+    }
+  }
+
   return (
     <ChartWithLegend snapshotIds={snapshots.map(s => s.get('id'))}
                      margins={{
@@ -20,8 +36,8 @@ function SelectedChart({metric, snapshots}) {
                        metrics: snapshots.map(() => metric),
                        labels: snapshots.map(s => `${getLabel(s)}: ${definition.label}`),
                        type: 'line',
-                       min: definition.getMin(firstSnapshot),
-                       max: definition.getMax(firstSnapshot),
+                       min,
+                       max,
                        formatter: definition.compact,
                        tooltipFormatter: definition.detailed
                      }}/>

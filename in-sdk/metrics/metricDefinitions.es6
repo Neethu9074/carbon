@@ -62,7 +62,7 @@ export function registerMetricDefinition(plugin, metricDefinition) {
 
 function getMin(metricDefinition) {
   if (metricDefinition.min != null) {
-    return metricDefinition.min;
+    return () => metricDefinition.min;
   }
   return metricDefinition.getMin || alwaysUndefined;
 }
@@ -70,7 +70,7 @@ function getMin(metricDefinition) {
 
 function getMax(metricDefinition) {
   if (metricDefinition.max != null) {
-    return metricDefinition.max;
+    return () => metricDefinition.max;
   }
   return metricDefinition.getMax || alwaysUndefined;
 }
@@ -79,7 +79,7 @@ function getMax(metricDefinition) {
 function getTestFunction(metric) {
   const type = typeof metric;
   if (type === 'string') {
-    return s => s === type;
+    return s => s === metric;
   } else if (metric instanceof RegExp) {
     return s => metric.test(s);
   }
