@@ -44,8 +44,8 @@ export function supportsCodeView(snapshot, file) {
 }
 
 
-export function getCodeView(snapshot, file) {
-  return getSnapshotDefinition(snapshot.get('plugin')).getCodeView(snapshot, file);
+export function getCodeView(snapshot, file, line) {
+  return getSnapshotDefinition(snapshot.get('plugin')).getCodeView(snapshot, file, line);
 }
 
 export function supportTableView(plugin) {

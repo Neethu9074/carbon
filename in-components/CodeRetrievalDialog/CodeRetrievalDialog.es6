@@ -17,7 +17,7 @@ export default connectTo(props => {
   return {
     response: props.agentResponse$
   };
-}, function CodeDialog({file, response, lang}) {
+}, function CodeDialog({file, response, lang, line}) {
   let header;
   if (!response) {
     header = `Retrieving file: ${file}`;
@@ -26,7 +26,7 @@ export default connectTo(props => {
   } else {
     header = (
       <CenterAlignment>
-        <span>File: ${file}</span>
+        <span>File: {file} - Line: {line}</span>
 
         <CopyToClipboardButton getText={() => response.data}/>
       </CenterAlignment>
@@ -50,6 +50,7 @@ export default connectTo(props => {
 
       {response && response.data ?
         <Code lang={lang}
+              line={line}
               code={response.data}
               className={`${block}__code`}/>
       : null}

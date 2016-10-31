@@ -7,7 +7,7 @@ import './ShowCodeButton.less';
 
 const block = 'in-trace-view-show-code';
 
-export default function ShowCodeButton({snapshot, file}) {
+export default function ShowCodeButton({snapshot, file, line}) {
   if (!supportsCodeView(snapshot, file)) {
     return null;
   }
@@ -23,6 +23,6 @@ export default function ShowCodeButton({snapshot, file}) {
   function showCodeView(e) {
     e.preventDefault();
     e.stopPropagation();
-    setActiveDialog(getCodeView(snapshot, file));
+    setActiveDialog(getCodeView(snapshot, file, line));
   }
 }

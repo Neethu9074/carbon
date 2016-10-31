@@ -8,10 +8,11 @@ export function supportsCodeView() {
   return true;
 }
 
-export function getCodeView(snapshot, file) {
+export function getCodeView(snapshot, file, line) {
   return (
     <CodeRetrievalDialog snapshot={snapshot}
                          file={file}
+                         line={line}
                          agentResponse$={createAgentResponseObservable({
                            action: 'java.class',
                            target: snapshot.get('volatileId'),

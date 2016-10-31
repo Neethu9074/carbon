@@ -6,10 +6,11 @@ import CodeRetrievalDialog from 'in-components/CodeRetrievalDialog';
 import http from 'in-services/http';
 
 
-export function getCodeView(snapshot, file) {
+export function getCodeView(snapshot, file, line) {
   return (
     <CodeRetrievalDialog snapshot={snapshot}
                          file={file}
+                         line={line}
                          agentResponse$={getCode(snapshot, file)}
                          lang='javascript' />
   );

@@ -38,6 +38,7 @@ export default React.createClass({
   propTypes: {
     code: rpt.string.isRequired,
     lang: rpt.string,
+    line: rpt.number,
     className: rpt.string
   },
 
@@ -57,6 +58,14 @@ export default React.createClass({
 
     if (this.props.lang) {
       hljs.highlightBlock(element);
+    }
+    if (this.props.lang === 'java' && this.props.line) {
+      const lineComments = Array.prototype.slice.call(element.querySelectorAll('.hljs-comment'));
+      const lineRegex = new RegExp('/\\*s*' + this.props.line + '\\*/');
+      const jumpTarget = lineComments.find((e) => lineRegex.test(e.textContent));
+      if (jumpTarget) {
+        jumpTarget.scrollIntoView();
+      }
     }
   },
 
