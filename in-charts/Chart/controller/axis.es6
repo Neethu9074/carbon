@@ -142,7 +142,7 @@ export default function createAxisController(config) {
 
 
   function establishSubscriptions() {
-    config.subscriptions.push(getSnapshot(config.snapshotId)
+    config.subscriptions.push(getSnapshot(config.snapshotId ? config.snapshotId : config.snapshotIds[0])
       .map(snapshot => getChartWiggleRoom(snapshot.get('plugin')))
       .distinct()
       .subscribe(chartWiggleRoom => {
@@ -178,9 +178,10 @@ export default function createAxisController(config) {
 
     /* eslint-disable no-loop-func */
     for (let i = 0, len = metrics.length; i < len; i++) {
+      const snapshotId = config.snapshotId || config.snapshotIds[i];
       timeframeSpecificSubscriptions.push(
         getMetricsForTimeframe({
-          snapshotId: config.snapshotId,
+          snapshotId: snapshotId,
           metric: metrics[i],
           timeframe: config.timeframe
         })

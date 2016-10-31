@@ -17,7 +17,8 @@ export default React.createClass({
 
     timeframe$: rpt.object,
 
-    snapshotId: rpt.string.isRequired,
+    snapshotId: rpt.string,
+    snapshotIds: rpt.arrayOf(rpt.string),
     y1: rpt.object.isRequired,
     y2: rpt.object,
     activeFilters$: rpt.object
@@ -41,6 +42,7 @@ export default React.createClass({
       margins: props.margins,
       timeframe$: props.timeframe$,
       snapshotId: props.snapshotId,
+      snapshotIds: props.snapshotIds,
       y1: props.y1,
       y2: props.y2,
       activeFilters$: props.activeFilters$
@@ -51,6 +53,7 @@ export default React.createClass({
 
   shouldComponentUpdate(nextProps) {
     return this.props.snapshotId !== nextProps.snapshotId ||
+        !isEqual(this.props.snapshotIds, nextProps.snapshotIds) ||
         this.props.timeframe$ !== nextProps.timeframe$ ||
         !this.isAxisEqual(this.props.y1, nextProps.y1) ||
         !this.isAxisEqual(this.props.y2, nextProps.y2);
