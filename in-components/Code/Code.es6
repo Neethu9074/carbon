@@ -61,7 +61,7 @@ export default React.createClass({
     }
     if (this.props.lang === 'java' && this.props.line) {
       const lineComments = Array.prototype.slice.call(element.querySelectorAll('.hljs-comment'));
-      const lineRegex = new RegExp('/\\*s*' + this.props.line + '\\*/');
+      const lineRegex = new RegExp('/\\*\\s*' + this.props.line + '\\*/');
       const jumpTarget = lineComments.find((e) => lineRegex.test(e.textContent));
       if (jumpTarget) {
         jumpTarget.scrollIntoView();
