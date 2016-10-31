@@ -1,11 +1,18 @@
 import React from 'react';
 
 import {selectedSnapshots$} from 'in-views/tableView/stores/selectedSnapshots';
+import {metrics$, removeMetric} from 'in-views/tableView/stores/metrics';
+import {plugin$} from 'in-views/tableView/stores/snapshotIds';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import {metrics$} from 'in-views/tableView/stores/metrics';
 import {getMetricDefinition} from 'in-sdk/metrics';
+import {getPlural} from 'in-sdk/pluginName';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/snapshot';
+
+import './ChartsForSelectedEntities.less';
+
+const block = 'in-table-view-charts';
 
 function SelectedChart({metric, snapshots}) {
   const definition = getMetricDefinition(snapshots[0].get('plugin'), metric);
@@ -28,26 +35,55 @@ function SelectedChart({metric, snapshots}) {
   }
 
   return (
-    <ChartWithLegend snapshotIds={snapshots.map(s => s.get('id'))}
-                     margins={{
-                       left: 60
-                     }}
-                     y1={{
-                       metrics: snapshots.map(() => metric),
-                       labels: snapshots.map(s => `${getLabel(s)}: ${definition.label}`),
-                       type: 'line',
-                       min,
-                       max,
-                       formatter: definition.compact,
-                       tooltipFormatter: definition.detailed
-                     }}/>
+    <div className={`${block}__chart`}>
+      <h2 className={`${block}__chart-title`}>
+        {definition.label}
+
+        <Button onClick={() => removeMetric(metric)}
+                kind='secondary'
+                size='sm'
+                className={`${block}__remove`}>
+          Remove
+        </Button>
+      </h2>
+
+      <ChartWithLegend snapshotIds={snapshots.map(s => s.get('id'))}
+                       margins={{
+                         left: 60
+                       }}
+                       y1={{
+                         metrics: snapshots.map(() => metric),
+                         labels: snapshots.map(s => `${getLabel(s)}: ${definition.label}`),
+                         type: 'line',
+                         min,
+                         max,
+                         formatter: definition.formatter.detailed,
+                         tooltipFormatter: definition.formatter.detailed
+                       }}/>
+    </div>
   );
 }
 
 export default connectTo({
   metrics: metrics$,
-  snapshots: selectedSnapshots$
-}, function ChartsForSelectedEntities({metrics, snapshots}) {
+  snapshots: selectedSnapshots$,
+  plugin: plugin$
+}, function ChartsForSelectedEntities({metrics, snapshots, plugin}) {
+  if (!metrics || metrics.length === 0 || !snapshots) {
+    return null;
+  }
+
+  snapshots = snapshots
+    .filter(snapshot => !!snapshot);
+
+  if (snapshots.length === 0) {
+    return (
+      <div className={`${block}__no-entities-selected`}>
+        Please select {getPlural(plugin)} for which to visualize the chosen metrics.
+      </div>
+    );
+  }
+
   if (!metrics || metrics.length === 0 || !snapshots || snapshots.length === 0) {
     return null;
   }

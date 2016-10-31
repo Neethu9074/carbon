@@ -38,7 +38,7 @@ export const selectedSnapshots$ = selectedSnapshotIds$
       return alwaysEmptyArray;
     }
 
-    return combineLatest(snapshotIds.map(id => getSnapshot(id)));
+    return combineLatest(snapshotIds.map(id => getSnapshot(id).startWith(null)));
   });
 
 export function isSelected(snapshotId) {

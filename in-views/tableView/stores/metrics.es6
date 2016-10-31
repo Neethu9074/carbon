@@ -18,6 +18,18 @@ export function addMetric(metric) {
   });
 }
 
+export function removeMetric(metric) {
+  metricsStore.applyStateMutation(metrics => {
+    const i = metrics.indexOf(metric);
+    if (i === -1) {
+      return metrics;
+    }
+    const result = metrics.slice();
+    result.splice(i, 1);
+    return result;
+  });
+}
+
 export function clearMetrics() {
   metricsStore.mutateTo([]);
 }
