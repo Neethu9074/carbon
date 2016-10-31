@@ -1,10 +1,12 @@
 import React from 'react';
 
+import {getMetricDefinition} from 'in-sdk/metrics/metricDefinitions';
 import addSection from 'in-components/eventView/hocs/addSection';
-import {twoDecimalPlaces} from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import {always, alwaysNull} from 'in-services/fixedStreams';
+import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
+import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/eventView/components/EventChart.less';
@@ -40,23 +42,10 @@ function EventChart({to, event}) {
         }
 
         return (
-          <ChartWithLegend key={metricName}
-                           snapshotId={metric.get('snapshotId')}
-                           timeframe$={always(timeframe)}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             metrics: [
-                               metricName
-                             ],
-                             labels: [
-                               metricName
-                             ],
-                             type: 'line',
-                             formatter: twoDecimalPlaces
-                           }} />
+          <Chart key={metricName}
+                 metric={metricName}
+                 snapshotId={metric.get('snapshotId')}
+                 timeframe$={always(timeframe)} />
         );
       }
       )}
@@ -65,6 +54,43 @@ function EventChart({to, event}) {
 }),
 isVisible
 );
+
+const Chart = connectTo(props => {
+  return {
+    snapshot: getSnapshot(props.snapshotId)
+  };
+},
+function Chart({timeframe$, snapshot, snapshotId, metric}) {
+  if (!snapshot) {
+    return (
+      <LoadingIndicator inline={true}
+                               type='dark'
+                               style={{ height: '16px' }} />
+    );
+  }
+
+  const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
+  return (
+    <ChartWithLegend snapshotId={snapshotId}
+                     timeframe$={timeframe$}
+                     margins={{
+                       left: 80
+                     }}
+                     y1={{
+                       min: chartConfig.getMin(snapshot),
+                       max: chartConfig.getMax(snapshot),
+                       metrics: [
+                         chartConfig.metric
+                       ],
+                       labels: [
+                         chartConfig.label
+                       ],
+                       type: 'line',
+                       formatter: chartConfig.formatter.detailed,
+                       tooltipFormatter: chartConfig.formatter.compact
+                     }} />
+  );
+});
 
 function isVisible(event) {
   return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
