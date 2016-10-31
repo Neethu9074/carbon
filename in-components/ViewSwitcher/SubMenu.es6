@@ -10,9 +10,9 @@ const block = 'in-view-switcher-menu';
 
 export function SubMenu({children}) {
   return (
-    <div className={block}>
+    <ul className={block}>
       {children}
-    </div>
+    </ul>
   );
 }
 
@@ -28,13 +28,15 @@ function SubMenuItem({isActive, label, href}) {
   }
 
   return (
-    <a className={classes}
-       onClick={e => {
-         e.stopPropagation();
-         toggleExpandedView(null);
-       }}
-       href={href}>
-      {label}
-    </a>
+    <li className={`${block}__item`}>
+      <a className={classes}
+         onClick={e => {
+           e.stopPropagation();
+           toggleExpandedView(null);
+         }}
+         href={href}>
+        {label}
+      </a>
+    </li>
   );
 });

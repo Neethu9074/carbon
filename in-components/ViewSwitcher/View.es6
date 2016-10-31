@@ -23,7 +23,7 @@ function View({label, href, icon, color, children, isActive, isExpanded}) {
   }
 
   return (
-    <div className={classes}>
+    <li className={classes}>
       <a className={`${block}__link`}
          onClick={e => {
            e.stopPropagation();
@@ -44,6 +44,6 @@ function View({label, href, icon, color, children, isActive, isExpanded}) {
           </SubMenu>
         : null
       }
-    </div>
+    </li>
   );
 });

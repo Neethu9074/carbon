@@ -1,12 +1,20 @@
 .in-view-switcher-menu {
   position: absolute;
 
-  padding: .75rem;
+  list-style: none;
+  min-width: 6.25rem;
+  margin: 0;
+  padding: 0;
   background: #172429;
   font-size: 0.688rem;
+  line-height: 0.688rem;
+  box-shadow: 0.313rem 0.313rem 0.625rem 0px rgba(0, 0, 0, 0.3);
+
+  &__item {
+    margin: .75rem 1rem;
+  }
 
   &__link {
-    padding: 0 .75rem;
     text-decoration: none;
 
     &:hover, &--active {

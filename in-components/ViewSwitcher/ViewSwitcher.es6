@@ -23,7 +23,7 @@ function ViewSwitcher({navigationParameters, expandedView}) {
 
   return (
     <div className={block}>
-      <div className={block + '__wrapper'}>
+      <ul className={block + '__list'}>
         <View label='infrastructure'
               icon='infrastructure'
               isExpanded={expandedView === 'infrastructure'}
@@ -46,13 +46,10 @@ function ViewSwitcher({navigationParameters, expandedView}) {
           <SubMenuItem label='Trace'
                        href$={traceViewLinkWithoutEumTraces$}
                        isActive={pathname.indexOf('/traces') === 0} />
-          <SubMenuItem label='Overview'
-                       href$={tableViewLink$}
-                       isActive={pathname.indexOf('/table') === 0} />
         </View>
 
         <IncidentsMenuPoint isActive={pathname.indexOf('/events') === 0} />
-      </div>
+      </ul>
     </div>
   );
 });
