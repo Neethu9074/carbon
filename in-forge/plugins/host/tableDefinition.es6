@@ -92,6 +92,9 @@ export default [
   }, {
     title: 'Type',
     sortableType: String,
+    style: {
+      maxWidth: '8rem'
+    },
     get(snapshot) {
       return getFoundations(snapshot.get('id'))
         .flatMap(foundations => {
@@ -121,7 +124,8 @@ export default [
   }, {
     title: '#CPUs',
     style: {
-      textAlign: 'right'
+      textAlign: 'right',
+      maxWidth: '6rem'
     },
     sortableType: Number,
     get(snapshot) {
@@ -130,7 +134,8 @@ export default [
   }, {
     title: 'CPU Usage',
     style: {
-      textAlign: 'right'
+      textAlign: 'right',
+      maxWidth: '6rem'
     },
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -153,7 +158,8 @@ export default [
   }, {
     title: 'Memory',
     style: {
-      textAlign: 'right'
+      textAlign: 'right',
+      maxWidth: '7rem'
     },
     sortableType: Number,
     get(snapshot) {
@@ -166,7 +172,8 @@ export default [
   }, {
     title: 'Memory Usage',
     style: {
-      textAlign: 'right'
+      textAlign: 'right',
+      maxWidth: '7rem'
     },
     sortableType: Number,
     defaultSortDirection: 'desc',
