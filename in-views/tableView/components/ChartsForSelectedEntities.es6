@@ -53,7 +53,7 @@ function SelectedChart({metric, snapshots}) {
                        }}
                        y1={{
                          metrics: snapshots.map(() => metric),
-                         labels: snapshots.map(s => `${getLabel(s)}: ${definition.label}`),
+                         labels: snapshots.map(s => getLabel(s)),
                          type: 'line',
                          min,
                          max,

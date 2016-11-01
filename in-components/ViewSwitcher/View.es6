@@ -33,8 +33,8 @@ function View({label, href, icon, color, children, isActive, isExpanded}) {
 
         <SvgIcon className={`${block}__icon`}
                  type={icon}
-                 width={22}
-                 height={22}
+                 width={16}
+                 height={16}
                  color={color || '#22d8d8'} />
         {label}
       </a>
