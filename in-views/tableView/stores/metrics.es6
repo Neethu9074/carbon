@@ -13,7 +13,7 @@ export function addMetric(metric) {
       return metrics;
     }
     const result = metrics.slice();
-    result.push(metric);
+    result.unshift(metric);
     return result;
   });
 }

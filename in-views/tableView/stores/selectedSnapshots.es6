@@ -19,7 +19,6 @@ export function toggleSnapshotId(snapshotId) {
 
     if (i === -1) {
       result.push(snapshotId);
-      result.sort();
     } else {
       result.splice(i, 1);
     }

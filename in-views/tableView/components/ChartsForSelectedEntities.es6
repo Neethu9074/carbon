@@ -5,6 +5,7 @@ import {metrics$, removeMetric} from 'in-views/tableView/stores/metrics';
 import {plugin$} from 'in-views/tableView/stores/snapshotIds';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {getMetricDefinition} from 'in-sdk/metrics';
+import SvgIcon from 'in-components/SvgIcon';
 import {getPlural} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -37,6 +38,15 @@ function SelectedChart({metric, snapshots}) {
   return (
     <div className={`${block}__chart`}>
       <h2 className={`${block}__chart-title`}>
+        {definition.category.map((part, i) =>
+          <span key={i}>
+            {part}
+
+            <SvgIcon height={9}
+                     type='chevron_right'
+                     className={`${block}__breadcrumb-separator`}/>
+          </span>
+        )}
         {definition.label}
 
         <Button onClick={() => removeMetric(metric)}
