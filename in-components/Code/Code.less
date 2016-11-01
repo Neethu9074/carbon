@@ -1,7 +1,31 @@
-.in-code {
+code.in-code {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   line-height: 1.4;
   font-size: .688rem;
+
   background: transparent;
   padding: 0;
+  z-index: 1;
+}
+
+pre.in-code__wrapper {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  line-height: 1.4;
+  font-size: .688rem;
+
+  background: #fff;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+// fix prism.js line number to code line offset difference
+.line-numbers .line-numbers-rows {
+  top: 0;
+}
+
+.line-highlight {
+  margin-top: 0;
+  z-index: 0;
+  background: rgba(153, 228, 255, 0.4);
 }
