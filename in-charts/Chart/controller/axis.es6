@@ -118,10 +118,11 @@ export default function createAxisController(config) {
 
 
   function determineSeriesColors() {
-    config.y1.colors = config.y1.labels.map((label, i) => theme.chart.strokeColors[i]);
+    const colors = theme.chart.strokeColors;
+    config.y1.colors = config.y1.labels.map((label, i) => colors[i % colors.length]);
 
     if (config.y2) {
-      config.y2.colors = config.y2.labels.map((label, i) => theme.chart.strokeColors[i + config.y1.numberOfSeries]);
+      config.y2.colors = config.y2.labels.map((label, i) => colors[(i + config.y1.numberOfSeries) % colors.length]);
     }
   }
 

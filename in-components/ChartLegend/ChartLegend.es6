@@ -53,12 +53,13 @@ React.createClass({
   renderList(axis, modifier, themeMetricOffset) {
     const classname = block + '__metrics';
     const props = this.props;
+    const colors = theme.chart.strokeColors;
 
     return (
       <dl className={classname + ' ' + classname + '--' + modifier}>
         {axis.metrics.map((metric, i) => {
           const snapshotId = this.props.snapshotId || this.props.snapshotIds[i + themeMetricOffset];
-          const color = theme.chart.strokeColors[themeMetricOffset + i];
+          const color = colors[(themeMetricOffset + i) % colors.length];
           const label = axis.labels[i];
 
           return (

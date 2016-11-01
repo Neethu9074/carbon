@@ -1,6 +1,5 @@
 import React from 'react';
 
-import CloseTableViewButton from 'in-views/tableView/components/CloseTableViewButton';
 import {plugin$, snapshotIds$} from 'in-views/tableView/stores/snapshotIds';
 import MetricSelector from 'in-views/tableView/components/MetricSelector';
 import HeaderTitle from 'in-views/tableView/components/HeaderTitle';
@@ -24,8 +23,6 @@ export default connectTo({
 
         <MetricSelector />
       </div>
-
-      <CloseTableViewButton />
     </header>
   );
 });
