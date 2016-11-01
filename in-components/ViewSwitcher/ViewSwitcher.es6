@@ -31,7 +31,7 @@ function ViewSwitcher({navigationParameters, expandedView}) {
           <SubMenuItem label='Map'
                        href$={physicalViewLink$}
                        isActive={pathname.indexOf('/physical') === 0} />
-          <SubMenuItem label='Overview'
+          <SubMenuItem label='Comparison Table'
                        href$={tableViewLink$}
                        isActive={pathname.indexOf('/table') === 0} />
         </View>
