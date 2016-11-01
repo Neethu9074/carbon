@@ -79,7 +79,8 @@ export const plugins = {
   unmonitoredHost: 'unmonitoredHost',
   varnish: 'varnish',
   webAppServiceInstance: 'webAppServiceInstance',
-  webSphere: 'webSphereApplicationContainer'
+  webSphere: 'webSphereApplicationContainer',
+  zookeeper: 'zooKeeper'
 };
 
 export const fullyQualifiedPlugins = {
@@ -161,5 +162,6 @@ export const fullyQualifiedPlugins = {
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
   webAppServiceInstance: 'com.instana.forge.connection.http.logical.WebAppServiceInstance',
-  webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer'
+  webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
+  zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
 };
