@@ -44,10 +44,10 @@ export default function RubyDashboard({snapshot, timeframe}) {
                  min: 0,
                  formatter: kiloBytesTwoDecimalPlaces,
                  metrics: [
-                   'memory.rss_size',
+                   'memory.rss_size'
                  ],
                  labels: [
-                   'Resident',
+                   'Resident'
                  ],
                  type: 'line'
                }}/>
