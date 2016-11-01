@@ -1,28 +1,78 @@
 import React from 'react';
 
-import ChartWithLegend from 'in-components/ChartWithLegend';
-import {twoDecimalPlaces} from 'in-services/formatters/number';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import MetricValue from 'in-components/MetricValue';
+import {getLabel} from 'in-sdk/snapshot';
+
+import {
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  msTwoDecimalPlaces,
+  kiloBytesZeroDecimalPlaces,
+  kiloBytesTwoDecimalPlaces
+} from 'in-services/formatters/number';
 
 export default function RubyDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <TwoColumnRow>
-        <DashboardSection title='GC Activity'>
-          <GcMetrics snapshot={snapshot} timeframe={timeframe} />
-        </DashboardSection>
-      </TwoColumnRow>
+      <KpiSection>
+        <KpiHeading>
+          {getLabel(snapshot)}
+        </KpiHeading>
+        <KpiKeyValue label='RSS'>
+          <MetricValue snapshotId={snapshot.get('id')}
+                       metric='memory.rss_size'
+                       formatter={kiloBytesZeroDecimalPlaces} />
+        </KpiKeyValue>
+      </KpiSection>
       <TwoColumnRow>
         <DashboardSection title='Time Spent in GC'>
           <GcTime snapshot={snapshot} timeframe={timeframe} />
         </DashboardSection>
       </TwoColumnRow>
-      <TwoColumnRow>
-        <DashboardSection title='Memory Usage'>
-          <MemoryMetrics snapshot={snapshot} timeframe={timeframe} />
-        </DashboardSection>
-      </TwoColumnRow>
+      <DashboardSection title='Memory'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+               timeframe={timeframe}
+               margins={{
+                 left: 60,
+                 right: 60
+               }}
+               y1={{
+                 min: 0,
+                 formatter: kiloBytesTwoDecimalPlaces,
+                 metrics: [
+                   'memory.rss_size',
+                 ],
+                 labels: [
+                   'Resident',
+                 ],
+                 type: 'line'
+               }}/>
+      </DashboardSection>
+      <DashboardSection title='Heap'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+               timeframe={timeframe}
+               margins={{
+                 left: 60,
+                 right: 60
+               }}
+               y1={{
+                 min: 0,
+                 formatter: twoDecimalPlaces,
+                 metrics: [
+                   'gc.heap_live',
+                   'gc.heap_free'
+                 ],
+                 labels: [
+                   'Live',
+                   'Free'
+                 ],
+                 type: 'stackedArea'
+               }}/>
+      </DashboardSection>
       <TwoColumnRow>
         <DashboardSection title='Threads'>
           <ThreadMetrics snapshot={snapshot} timeframe={timeframe} />
@@ -30,31 +80,6 @@ export default function RubyDashboard({snapshot, timeframe}) {
       </TwoColumnRow>
     </div>
   );
-}
-
-function GcMetrics({snapshot, timeframe}) {
-    return (
-      <ChartWithLegend snapshotId={snapshot.get('id')}
-                       timeframe={timeframe}
-                       margins={{
-                         left: 60,
-                         right: 60
-                       }}
-
-                       y1={{
-                         min: 0,
-                         formatter: twoDecimalPlaces,
-                         metrics: [
-                           'gc.minorGcs',
-                           'gc.majorGcs'
-                         ],
-                         labels: [
-                           '#Minor GCs',
-                           '#Major GCs'
-                         ],
-                         type: 'point'
-                       }}/>
-    );
 }
 
 function GcTime({snapshot, timeframe}) {
@@ -68,37 +93,28 @@ function GcTime({snapshot, timeframe}) {
 
                        y1={{
                          min: 0,
-                         formatter: twoDecimalPlaces,
+                         formatter: msTwoDecimalPlaces,
                          metrics: [
                            'gc.totalTime'
                          ],
                          labels: [
                            '#GC Run Duration'
                          ],
-                         type: 'point'
-                       }}/>
-    );
-}
-
-function MemoryMetrics({snapshot, timeframe}) {
-    return (
-      <ChartWithLegend snapshotId={snapshot.get('id')}
-                       timeframe={timeframe}
-                       margins={{
-                         left: 60,
-                         right: 60
+                         type: 'line'
                        }}
-
-                       y1={{
+                       y2={{
                          min: 0,
+                         tooltipFormatter: zeroDecimalPlaces,
                          formatter: twoDecimalPlaces,
                          metrics: [
-                           'memory.size_kb'
+                           'gc.minorGcs',
+                           'gc.majorGcs'
                          ],
                          labels: [
-                           '#RSS Size'
+                           '#Minor GCs',
+                           '#Major GCs'
                          ],
-                         type: 'line'
+                         type: 'point'
                        }}/>
     );
 }
@@ -114,7 +130,7 @@ function ThreadMetrics({snapshot, timeframe}) {
 
                        y1={{
                          min: 0,
-                         formatter: twoDecimalPlaces,
+                         formatter: zeroDecimalPlaces,
                          metrics: [
                            'thread.count'
                          ],
