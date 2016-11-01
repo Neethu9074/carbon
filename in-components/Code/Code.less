@@ -23,6 +23,11 @@ pre.in-code__wrapper {
 .line-numbers .line-numbers-rows {
   top: 0;
 }
+// hide the small line number indicator added by line highlight
+// when we don't show line numbers
+.line-highlight:before, .line-highlight[data-end]:after {
+  display: none;
+}
 
 .line-highlight {
   margin-top: 0;

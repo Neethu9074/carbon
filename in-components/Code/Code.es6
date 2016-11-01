@@ -76,9 +76,14 @@ export default React.createClass({
       classes = `${classes} ${this.props.className}`;
     }
 
+    let preClasses = `${block}__wrapper`;
+    if (this.props.lang !== 'java') {
+      preClasses += ' line-numbers';
+    }
+
     return (
       <pre ref='pre'
-           className={`${block}__wrapper line-numbers`}>
+           className={preClasses}>
         <code className={classes}
               ref='code' />
       </pre>
