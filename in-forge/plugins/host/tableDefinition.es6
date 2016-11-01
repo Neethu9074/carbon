@@ -125,7 +125,7 @@ export default [
     title: '#CPUs',
     style: {
       textAlign: 'right',
-      maxWidth: '6rem'
+      maxWidth: '6.5rem'
     },
     sortableType: Number,
     get(snapshot) {
@@ -135,7 +135,7 @@ export default [
     title: 'CPU Usage',
     style: {
       textAlign: 'right',
-      maxWidth: '6rem'
+      maxWidth: '6.5rem'
     },
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -159,7 +159,7 @@ export default [
     title: 'Memory',
     style: {
       textAlign: 'right',
-      maxWidth: '7rem'
+      maxWidth: '7.5rem'
     },
     sortableType: Number,
     get(snapshot) {
@@ -173,7 +173,7 @@ export default [
     title: 'Memory Usage',
     style: {
       textAlign: 'right',
-      maxWidth: '7rem'
+      maxWidth: '7.5rem'
     },
     sortableType: Number,
     defaultSortDirection: 'desc',
