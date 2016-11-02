@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   zeroDecimalPlaces,
-  percentageZeroDecimalPlaces,
+  hitRateZeroDecimalPlaces,
   msZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
@@ -13,7 +13,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
-const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 
 export default function GlassfishDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -194,7 +193,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                              'Info hit rate'
                            ],
                            type: 'line',
-                           formatter: hitRateFormatter
+                           formatter: hitRateZeroDecimalPlaces
                          }}/>
       </DashboardSection>
       <DashboardSection title='JDBC Connections'>

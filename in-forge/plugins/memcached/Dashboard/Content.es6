@@ -3,7 +3,7 @@ import React from 'react';
 import {
   bytesZeroDecimalPlaces,
   zeroDecimalPlaces,
-  percentageZeroDecimalPlaces
+  hitRateZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -12,7 +12,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
-const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 
 export default function MemcachedDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
@@ -44,7 +43,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
       <KpiKeyValue label='Get hit ratio'>
         <MetricValue snapshotId={snapshotId}
                      metric='get_hit_rate'
-                     formatter={hitRateFormatter} />
+                     formatter={hitRateZeroDecimalPlaces} />
       </KpiKeyValue>
     </KpiSection>
 
@@ -115,7 +114,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                              'Get hit ratio'
                            ],
                            type: 'line',
-                           formatter: hitRateFormatter
+                           formatter: hitRateZeroDecimalPlaces
                          }}/>
       </DashboardSection>
       <DashboardSection title='Delete Hits/Misses'>
@@ -147,7 +146,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                              'Delete hit ratio'
                            ],
                            type: 'line',
-                           formatter: hitRateFormatter
+                           formatter: hitRateZeroDecimalPlaces
                          }}/>
       </DashboardSection>
       <DashboardSection title='Flush command'>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {percentageZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
+import {hitRateZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
@@ -8,7 +8,6 @@ import {emptyList} from 'in-services/fixedImmutables';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import Mtd from 'in-components/Mtd';
 
-const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 const queriesFormatter = d => d < 0 ? 'No activity' : zeroDecimalPlaces(d);
 
 export default function DatabasesTable({snapshot, timeframe}) {
@@ -75,7 +74,7 @@ function createRow(db, i, context) {
         formatter={queriesFormatter} />,
     <Mtd metric={'databases.' + db + '.blks_hit_rate'}
         snapshot={context.snapshot}
-        formatter={hitRateFormatter} />,
+        formatter={hitRateZeroDecimalPlaces} />,
     <Mtd metric={'databases.' + db + '.conflicts'}
         snapshot={context.snapshot}
         formatter={zeroDecimalPlaces} />,
@@ -203,7 +202,7 @@ function createDetails(db, i, context) {
                             'Cache Hit Ratio'
                           ],
                           type: 'line',
-                          formatter: hitRateFormatter
+                          formatter: hitRateZeroDecimalPlaces
                         }}/>
       </TwoColumnRow>
       <TwoColumnRow>

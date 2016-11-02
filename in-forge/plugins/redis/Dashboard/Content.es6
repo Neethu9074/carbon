@@ -7,7 +7,7 @@ import {
   msZeroDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
   kiloBytesTwoDecimalPlaces,
-  percentageZeroDecimalPlaces
+  hitRateZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
@@ -20,7 +20,6 @@ import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
 
-const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 const persistenceFormater = d => d < 0 ? 'Not in progress' : d + 's';
 const latencyFormatter = (d, threshold) => d < threshold ?
   'Less than ' + msZeroDecimalPlaces(threshold) :
@@ -87,7 +86,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
         <KpiKeyValue label='Hit Rate'>
           <MetricValue snapshotId={snapshotId}
                        metric='hit_rate'
-                       formatter={hitRateFormatter} />
+                       formatter={hitRateZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label='Keys Evicted'>
           <MetricValue snapshotId={snapshotId}
@@ -166,7 +165,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                             'Hit Rate'
                           ],
                           type: 'line',
-                          formatter: hitRateFormatter
+                          formatter: hitRateZeroDecimalPlaces
                         }}/>
       </DashboardSection>
       <DashboardSection title='Key Expired/Evicted'>

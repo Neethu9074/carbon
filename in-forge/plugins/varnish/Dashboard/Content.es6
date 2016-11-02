@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   zeroDecimalPlaces,
-  percentageZeroDecimalPlaces
+  hitRateZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
@@ -12,7 +12,6 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import {getLabel} from 'in-sdk/snapshot';
 
-const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
 
 export default function VarnishDashboard({snapshot, timeframe}) {
   const data = snapshot.get('data');
@@ -38,7 +37,7 @@ export default function VarnishDashboard({snapshot, timeframe}) {
         <KpiKeyValue label='Cache Hit Rate'>
           <MetricValue snapshotId={snapshotId}
                        metric='cache_hit_rate'
-                       formatter={hitRateFormatter} />
+                       formatter={hitRateZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title='Client'>
@@ -94,7 +93,7 @@ export default function VarnishDashboard({snapshot, timeframe}) {
                             'Cache hit rate'
                           ],
                           type: 'line',
-                          formatter: hitRateFormatter
+                          formatter: hitRateZeroDecimalPlaces
                         }}/>
       </DashboardSection>
       <DashboardSection title='Cached objects'>
