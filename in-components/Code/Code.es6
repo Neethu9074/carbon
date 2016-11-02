@@ -15,9 +15,9 @@ import 'prismjs/components/prism-java.min.js';
 import 'prismjs/components/prism-sql.min.js';
 
 // prism plugins
-import 'prismjs/plugins/line-highlight/prism-line-highlight.min.js';
+import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.min.js';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 
 import './Code.less';
