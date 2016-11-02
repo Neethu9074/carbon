@@ -1,7 +1,7 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/defaultLogicalConnection/icon.svg';
+import icon from 'in-sdk/unknown_icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.logicalPdoConnection,
