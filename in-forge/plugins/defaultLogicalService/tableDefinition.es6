@@ -2,9 +2,11 @@ import React from 'react';
 
 import {percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
+import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
 import DashboardLink from 'in-components/Link/DashboardLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 
 export default [
@@ -12,14 +14,23 @@ export default [
     title: 'Type',
     sortableType: String,
     get(snapshot) {
-      return getSingular(snapshot.get('plugin'));
+      const pluginName = getSingular(snapshot.get('plugin'));
+      return {
+        sortable: pluginName,
+        content: (
+          <ImageAndLabel imgSrc={getIcon(snapshot)}
+                         imgAlt={pluginName}>
+            {pluginName}
+          </ImageAndLabel>
+        )
+      };
     }
   },
   {
     title: 'Name',
     sortableType: String,
     get(snapshot) {
-      const name = snapshot.getIn(['data', 'service_name']);
+      const name = getLabel(snapshot);
       return {
         content: (
           <DashboardLink snapshotId={snapshot.get('id')}>

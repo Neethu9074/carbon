@@ -2,6 +2,7 @@ import React from 'react';
 
 import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
+import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
 import DashboardLink from 'in-components/Link/DashboardLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {alwaysNull} from 'in-services/fixedStreams';
@@ -11,14 +12,10 @@ import {always} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getZone} from 'in-stores/zone';
 
-import 'in-forge/plugins/host/tableDefinition.less';
-
 const nonVirtualized$ = always({
   content: '',
   sortable: ''
 });
-
-const block = 'in-host-table';
 
 export default [
   {
@@ -78,13 +75,10 @@ export default [
       const data = snapshot.get('data');
       return {
         content: (
-          <div className={`${block}__type`}>
-            <img src={getIcon(snapshot)}
-                 alt='Operating system'
-                 className={`${block}__type-icon`}/>
-
+          <ImageAndLabel imgSrc={getIcon(snapshot)}
+                         imgAlt='Operating System'>
             {data.get('os.version', '')} ({data.get('os.arch', '')})
-          </div>
+          </ImageAndLabel>
         ),
         sortable: `${data.get('os.name', '')} ${data.get('os.version', '')} (${data.get('os.arch', '')})`
       };
@@ -108,13 +102,10 @@ export default [
               const instanceType = foundation.getIn(['data', 'instance-type']) || '';
               return {
                 content: (
-                  <div className={`${block}__type`}>
-                    <img src={getIcon(foundation)}
-                         alt='Instance hosting provider icon'
-                         className={`${block}__type-icon`}/>
-
+                  <ImageAndLabel imgSrc={getIcon(foundation)}
+                                 imgAlt='Instance hosting provider icon'>
                     {instanceType}
-                  </div>
+                  </ImageAndLabel>
                 ),
                 sortable: instanceType
               };
