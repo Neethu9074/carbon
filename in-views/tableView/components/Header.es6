@@ -1,9 +1,12 @@
 import React from 'react';
 
+import {clearSelectedSnapshots} from 'in-views/tableView/stores/selectedSnapshots';
 import {plugin$, snapshotIds$} from 'in-views/tableView/stores/snapshotIds';
 import MetricSelector from 'in-views/tableView/components/MetricSelector';
 import HeaderTitle from 'in-views/tableView/components/HeaderTitle';
+import {clearMetrics} from 'in-views/tableView/stores/metrics';
 import {getPlural} from 'in-sdk/pluginName';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './Header.less';
@@ -23,6 +26,17 @@ export default connectTo({
 
         <MetricSelector />
       </div>
+
+      <Button kind='secondary'
+              size='sm'
+              onClick={clearSelection}>
+        Clear Selections
+      </Button>
     </header>
   );
 });
+
+function clearSelection() {
+  clearMetrics();
+  clearSelectedSnapshots();
+}
