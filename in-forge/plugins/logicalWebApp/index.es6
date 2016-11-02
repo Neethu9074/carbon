@@ -1,3 +1,4 @@
+import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinition';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
@@ -7,6 +8,7 @@ registerSnapshotDefinition({
   plugin: plugins.logicalWebApp,
   icon,
   namesForTypeSearch: ['service'],
+  tableDefinition,
 
   pluginName: {
     singular: 'Logical WebApp',

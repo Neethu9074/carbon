@@ -1,3 +1,4 @@
+import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinition';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
@@ -7,10 +8,11 @@ registerSnapshotDefinition({
   plugin: plugins.defaultLogicalService,
   icon,
   namesForTypeSearch: ['service'],
+  tableDefinition,
 
   pluginName: {
-    singular: 'Unspecified Logical Service',
-    plural: 'Unspecified Logical Services'
+    singular: 'Logical Service',
+    plural: 'Logical Services'
   },
 
   chartWiggleRoom: 20000,

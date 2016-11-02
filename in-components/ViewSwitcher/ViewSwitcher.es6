@@ -1,6 +1,11 @@
 import React from 'react';
 
-import {eventsLinkOnlyIncidents$, traceViewLinkWithoutEumTraces$, tableViewLink$} from 'in-stores/navigation/view';
+import {
+  eventsLinkOnlyIncidents$,
+  traceViewLinkWithoutEumTraces$,
+  tableViewLink$,
+  tableViewFilteredForServicesLink$
+} from 'in-stores/navigation/view';
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {expandedView$} from 'in-components/ViewSwitcher/stores/expandedViewStore';
 import {SubMenuItem} from 'in-components/ViewSwitcher/SubMenu';
@@ -21,31 +26,40 @@ export default connectTo({
 function ViewSwitcher({navigationParameters, expandedView}) {
   const pathname = navigationParameters.pathname;
 
+  const isTable = pathname.indexOf('/table') === 0;
+  const isLogicalTable = isTable &&
+    navigationParameters.query.q &&
+    navigationParameters.query.q.indexOf('type=service');
+  const isPhysicalTable = isTable && !isLogicalTable;
+
   return (
     <div className={block}>
       <ul className={block + '__list'}>
         <View label='infrastructure'
               icon='infrastructure'
               isExpanded={expandedView === 'infrastructure'}
-              isActive={pathname.indexOf('/physical') === 0 || pathname.indexOf('/table') === 0}>
+              isActive={pathname.indexOf('/physical') === 0 || isPhysicalTable}>
           <SubMenuItem label='Map'
                        href$={physicalViewLink$}
                        isActive={pathname.indexOf('/physical') === 0} />
           <SubMenuItem label='Comparison Table'
                        href$={tableViewLink$}
-                       isActive={pathname.indexOf('/table') === 0} />
+                       isActive={isPhysicalTable} />
         </View>
 
         <View label='application'
               icon='application'
               isExpanded={expandedView === 'application'}
-              isActive={pathname.indexOf('/logical') === 0 || pathname.indexOf('/traces') === 0}>
+              isActive={pathname.indexOf('/logical') === 0 || isLogicalTable}>
           <SubMenuItem label='Map'
                        href$={logicalViewLink$}
                        isActive={pathname.indexOf('/logical') === 0} />
           <SubMenuItem label='Trace'
                        href$={traceViewLinkWithoutEumTraces$}
                        isActive={pathname.indexOf('/traces') === 0} />
+          <SubMenuItem label='Comparison Table'
+                       href$={tableViewFilteredForServicesLink$}
+                       isActive={isLogicalTable} />
         </View>
 
         <IncidentsMenuPoint isActive={pathname.indexOf('/events') === 0} />

@@ -75,6 +75,16 @@ export const tableViewLink$ = navigationParameters$
   .map(toUrl)
   .distinct();
 
+export const tableViewFilteredForServicesLink$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/table';
+    params.query.q = 'type=service';
+    return params;
+  })
+  .map(toUrl)
+  .distinct();
+
 export const isTableView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/table') === 0)
   .distinct();

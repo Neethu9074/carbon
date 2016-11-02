@@ -37,6 +37,8 @@ function enrichTableDefinition(snapshotDefinition) {
     return;
   }
 
+  // shallow copy to allow reuse of table definitions
+  snapshotDefinition.tableDefinition = snapshotDefinition.tableDefinition.slice();
   snapshotDefinition.tableDefinition.push({
     title: 'Health',
     sortableType: Number,

@@ -14,11 +14,11 @@ export default React.createClass({
   propTypes: {
     createMetricValueStream: rpt.func,
     snapshotId: rpt.string.isRequired,
-    metric: rpt.string.isRequired,
     initialValue: rpt.string,
     timeframeTo: rpt.number,
     className: rpt.string,
-    formatter: rpt.func
+    formatter: rpt.func,
+    metric: rpt.string
   },
 
   componentDidMount() {
@@ -27,7 +27,8 @@ export default React.createClass({
 
   getStream(props) {
     if (props.createMetricValueStream) {
-      return props.createMetricValueStream();
+      return props.createMetricValueStream(this.props.snapshotId)
+        .distinct();
     }
 
     if (props.timeframeTo) {
@@ -35,13 +36,17 @@ export default React.createClass({
         snapshotId: props.snapshotId,
         metric: props.metric,
         time: props.timeframeTo
-      });
+      })
+      .map(v => v[1])
+      .distinct();
     }
 
     return getMetricForFocusedMoment({
       snapshotId: props.snapshotId,
       metric: props.metric
-    });
+    })
+    .map(v => v[1])
+    .distinct();
   },
 
   establishSubscription(stream) {
@@ -55,7 +60,7 @@ export default React.createClass({
 
     this.stream = stream;
     this.subscription = stream.subscribe(v => {
-      node.textContent = this.format(v[1]);
+      node.textContent = this.format(v);
     });
   },
 
