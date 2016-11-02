@@ -39,7 +39,10 @@ export default [
     label: 'Load',
     category: ['CPU'],
     min: 0,
-    formatter: number
+    formatter: number,
+    isAvailable(snapshot) {
+      return !isWindows(snapshot);
+    }
   },
   {
     metrics: [
