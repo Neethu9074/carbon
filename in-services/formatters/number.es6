@@ -25,8 +25,13 @@ export const bytes = {
   detailed: bytesTwoDecimalPlaces
 };
 
-export const timeByMillisTwoDecimalPlaces = t => formatTime(t * 1000);
-export const timeByMicroTwoDecimalPlaces = t => formatTime(t);
+export const timeByMillisTwoDecimalPlaces = t => formatTime(t * 1000000);
+export const timeByMicroTwoDecimalPlaces = t => formatTime(t * 1000);
+export const timeByNanosTwoDecimalPlaces = t => formatTime(t);
+export const nanos = {
+  compact: timeByNanosTwoDecimalPlaces,
+  detailed: timeByNanosTwoDecimalPlaces
+};
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, 0) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, 2) + '/s';
@@ -102,6 +107,10 @@ export const muSecondsZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'µs';
 export const muSecondsTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'µs';
 export const muSecondsToMillisZeroDecimalPlaces = d => zeroDecimalPlaces(d / 1000) + 'ms';
 export const muSecondsToMillisTwoDecimalPlaces = d => twoDecimalPlaces(d / 1000) + 'ms';
+export const muSecondsToMillis = {
+  compact: muSecondsToMillisZeroDecimalPlaces,
+  detailed: muSecondsToMillisTwoDecimalPlaces
+};
 
 export const time = millis => {
   if (millis < 1) {
@@ -162,6 +171,9 @@ function formatTime(t) {
   const formatValue = v => ((v * 100) | 0) / 100;
 
   const units = [{
+      unit: 'ns',
+      range: 1000
+    }, {
       unit: 'µs',
       range: 1000
     }, {
