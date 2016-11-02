@@ -7,6 +7,7 @@ import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import {
   zeroDecimalPlaces,
   withSiMultiplyPrefixZeroDecimalPlaces,
+  timeByMillisTwoDecimalPlaces,
   msTwoDecimalPlaces,
   msZeroDecimalPlaces,
   withSiPrefixZeroDecimalPlaces,
@@ -165,7 +166,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                              'Refresh Time',
                              'Flush Time'
                            ],
-                           formatter: (d) => d / 1000 + ' s',
+                           formatter: timeByMillisTwoDecimalPlaces,
                            type: 'line'
                          }}/>
       </DashboardSection>
