@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ViewDashboardButton from 'in-components/Sidebar/components/ViewDashboardButton';
-import FocusButton from 'in-components/Sidebar/components/FocusButton';
+import ViewDashboardButton from 'in-components/MapSidebar/components/ViewDashboardButton';
+import FocusButton from 'in-components/MapSidebar/components/FocusButton';
 
 import './MapSidebarHeader.less';
 

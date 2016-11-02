@@ -55,12 +55,9 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
           Incident
         </h1>
 
-        <div className={`${block}__row`}>
+        <div className={`${block}__status-line`}>
           <StartedMarker event={event} />
           <EventDuration event={event} />
-        </div>
-
-        <div className={`${block}__row`}>
           <LabeledValue label='active' >
             {`${numOpenEvents}/${recentEvents.length}`}
           </LabeledValue>
@@ -71,10 +68,6 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
 
           <LabeledValue label='affected entities' >
             {`${Object.keys(affectedEnties).length}`}
-          </LabeledValue>
-
-          <LabeledValue label='affected services' >
-            {`${Object.keys(affectedServices).length}`}
           </LabeledValue>
         </div>
       </div>

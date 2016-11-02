@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SidebarHeader from 'in-components/Sidebar/components/SidebarHeader';
+import SidebarHeader from 'in-components/MapSidebar/components/SidebarHeader';
 import Jail from 'in-components/Jail';
 
 import './SidebarContent.less';

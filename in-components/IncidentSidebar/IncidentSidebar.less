@@ -1,8 +1,8 @@
 @import "~in-themes/active.less";
 
-.in-sidebar-incidents {
+.in-incident-sidebar {
   @borderRadius: 5px;
-  @sidebarWidth: @sidebar__width * 1px;
+  @sidebarWidth: 500px;
 
   position: absolute;
   top: 5rem;
@@ -10,8 +10,9 @@
   max-width: @sidebarWidth;
   min-width: @sidebarWidth;
   height: auto;
-  border-radius: @borderRadius;
+  background: #EEF2F4;
   color: black;
+  overflow-y: auto;
 
   z-index: @z-index__sidebar;
 }

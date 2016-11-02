@@ -1,9 +1,9 @@
 import {on} from 'reactive-observables';
 import React from 'react';
 
-import SidebarBreadcrumb from 'in-components/Sidebar/components/SidebarBreadcrumb';
-import MapSidebarHeader from 'in-components/Sidebar/components/MapSidebarHeader';
-import SidebarContent from 'in-components/Sidebar/components/SidebarContent';
+import SidebarBreadcrumb from 'in-components/MapSidebar/components/SidebarBreadcrumb';
+import MapSidebarHeader from 'in-components/MapSidebar/components/MapSidebarHeader';
+import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import getForgeComponent from 'in-services/getForgeComponent';
 import {selectedSnapshot$} from 'in-stores/snapshot';
