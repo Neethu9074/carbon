@@ -13,12 +13,28 @@ export default [
   },
   {
     metrics: [
-      'duration.mean'
+      'duration.mean',
+      'duration.min',
+      'duration.25th',
+      'duration.50th',
+      'duration.75th',
+      'duration.95th',
+      'duration.98th',
+      'duration.99th',
+      'duration.max'
     ],
     labels: [
-      'Avg. Latency'
+      'Avg. Latency',
+      'Min Latency',
+      'Latency 25th',
+      'Latency 50th',
+      'Latency 75th',
+      'Latency 95th',
+      'Latency 98th',
+      'Latency 99th',
+      'Max Latency'
     ],
-    category: [],
+    category: ['Latency'],
     min: 0,
     formatter: ms
   },

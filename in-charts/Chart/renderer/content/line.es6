@@ -21,6 +21,8 @@ export default function createLineContentRenderer({axisName, config}) {
 
       let previousX = Number.MAX_VALUE * -1;
 
+      const singlePointsToAdd = [];
+
       // going left to right
       for (let columnIndex = 0, len = dataColumns.length;
            columnIndex < len;
@@ -34,11 +36,18 @@ export default function createLineContentRenderer({axisName, config}) {
         }
 
         const xToRender = x.getRange(dataRow[0]);
+        const yToRender = y.getRange(dataRow[1]);
 
         if ((xToRender - previousX) > config.maxDistanceBetweenPoints || columnIndex === 0) {
-          ctx.moveTo(xToRender, y.getRange(dataRow[1]));
+          ctx.moveTo(xToRender, yToRender);
+
+          // draw these points later on as otherwise we would fill the line chart.
+          singlePointsToAdd.push({
+            x: xToRender,
+            y: yToRender
+          });
         } else {
-          ctx.lineTo(xToRender, y.getRange(dataRow[1]));
+          ctx.lineTo(xToRender, yToRender);
         }
 
         previousX = xToRender;
@@ -47,6 +56,15 @@ export default function createLineContentRenderer({axisName, config}) {
       ctx.lineWidth = 2;
       ctx.strokeStyle = colors[seriesIndex];
       ctx.stroke();
+
+      ctx.beginPath();
+      singlePointsToAdd.forEach(drawPoint);
+      ctx.fillStyle = colors[seriesIndex];
+      ctx.fill();
     }
+  }
+
+  function drawPoint(point) {
+    ctx.rect(point.x - 1, point.y - 1, 3, 3);
   }
 }
