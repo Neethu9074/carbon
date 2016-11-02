@@ -15,3 +15,7 @@ export function toggleContent(newContent) {
       : newContent;
   });
 }
+
+export function closeCurrentMenu() {
+  menuContent.mutateTo(null);
+}
