@@ -1,5 +1,4 @@
 .in-view-switcher-view {
-  position: relative;
   color: #6B8088;
 
   font-size: 0.688rem;
@@ -18,9 +17,14 @@
     }
   }
 
+  &:hover {
+    .in-view-switcher-view__expand-icon {
+      fill: white;
+    }
+  }
+
   &__link {
     display: flex;
-    flex-direction: column;
     align-items: center;
 
     cursor: pointer;
@@ -29,6 +33,14 @@
   }
 
   &__icon {
-    margin: .125rem 0 .188rem;
+    margin: .125rem 0.2rem .188rem;
+  }
+
+  &__expand-icon {
+    margin-left: 0.5rem;
+
+    &--expanded {
+      fill: white;
+    }
   }
 }

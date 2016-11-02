@@ -22,6 +22,11 @@ function View({label, href, icon, color, children, isActive, isExpanded}) {
     classes += ` ${classes}__active`;
   }
 
+  let iconClass = `${block}__expand-icon`;
+  if (isExpanded) {
+    iconClass += ` ${iconClass}--expanded`;
+  }
+
   return (
     <li className={classes}>
       <a className={`${block}__link`}
@@ -33,10 +38,18 @@ function View({label, href, icon, color, children, isActive, isExpanded}) {
 
         <SvgIcon className={`${block}__icon`}
                  type={icon}
-                 width={18}
-                 height={18}
+                 width={20}
+                 height={20}
                  color={color || '#22d8d8'} />
         {label}
+        {children
+          ? <SvgIcon className={iconClass}
+                     type='triangle_down'
+                     width={6}
+                     height={6}
+                     color={'#6B8088'} />
+          : null
+        }
       </a>
       {(children && isExpanded)
         ? <SubMenu>
