@@ -1,8 +1,8 @@
 import React from 'react';
 
-import SidebarHealthInfo from 'in-components/Sidebar/components/SidebarHealthInfo';
+import SidebarHealthInfo from 'in-components/MapSidebar/components/SidebarHealthInfo';
 import {getLabel, getIcon, getShowZoneInSidebarHeader} from 'in-sdk/snapshot';
-import ZoneTag from 'in-components/Sidebar/components/ZoneTag';
+import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import {getSingular} from 'in-sdk/pluginName';
 

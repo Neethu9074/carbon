@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SidebarIncidents from 'in-components/sidebars/Incident';
-import MapSidebar from 'in-components/Sidebar/MapSidebar';
+import SidebarIncidents from 'in-components/IncidentSidebar';
+import MapSidebar from 'in-components/MapSidebar';
 import Controls from 'in-components/Controls';
 import MapNotes from 'in-components/MapNotes';
 import Map from 'in-map/Map';

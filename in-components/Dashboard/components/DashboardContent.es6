@@ -1,8 +1,8 @@
 import React from 'react';
 
 import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
-import SidebarContent from 'in-components/Sidebar/components/SidebarContent';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
+import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {selectedSnapshot$} from 'in-stores/snapshot';

@@ -8,10 +8,10 @@ import {selectedIncident$} from 'in-stores/events';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/sidebars/Incident/SidebarIncidents.less';
+import 'in-components/IncidentSidebar/IncidentSidebar.less';
 
 
-const block = 'in-sidebar-incidents';
+const block = 'in-incident-sidebar';
 
 export default connectTo({
   incident: selectedIncident$,
