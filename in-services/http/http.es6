@@ -14,7 +14,7 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
       xhr.timeout = timeout;
       xhr.responseType = responseType;
       xhr.ontimeout = () => {
-        observable.emitError(new HttpRequestTimeoutError());
+        observable.emitError(new HttpRequestTimeoutError(method, url));
       };
       if (data) {
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -30,7 +30,7 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
           if (199 < response.status && response.status < 300) {
             observable.emit(response);
           } else {
-            observable.emitError(new HttpResponseError(response));
+            observable.emitError(new HttpResponseError(response, method, url));
           }
         }
       };
