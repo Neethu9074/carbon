@@ -22,6 +22,6 @@ export function createEventBus() {
     showServiceKpi(zoomLevel < 420);
 
     showServiceSticky(zoomLevel < 600);
-    showConnectionSticky(zoomLevel < 300);
+    showConnectionSticky(zoomLevel < 150);
   });
 }
