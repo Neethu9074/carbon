@@ -8,8 +8,8 @@ registerSnapshotDefinition({
   icon,
 
   pluginName: {
-    singular: 'zookeeper',
-    plural: 'zookeepers'
+    singular: 'ZooKeeper',
+    plural: 'ZooKeepers'
   },
 
   namesForTypeSearch: ['zookeeper'],
