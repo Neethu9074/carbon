@@ -29,7 +29,7 @@ function ViewSwitcher({navigationParameters, expandedView}) {
   const isTable = pathname.indexOf('/table') === 0;
   const isLogicalTable = isTable &&
     navigationParameters.query.q &&
-    navigationParameters.query.q.indexOf('type=service');
+    navigationParameters.query.q.indexOf('type=service') !== -1;
   const isPhysicalTable = isTable && !isLogicalTable;
 
   return (
