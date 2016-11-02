@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import {navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navigation';
+import {isEumEnabled} from 'in-services/featureFlags';
 
 
 export const isPhysicalMapView$ = navigationParameters$
@@ -21,7 +22,11 @@ export const traceViewLinkWithoutEumTraces$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/traces';
-    params.query.q = encodeURIComponent('type!=eum');
+    if (isEumEnabled) {
+      params.query.q = encodeURIComponent('type!=eum');
+    } else {
+      delete params.query.q;
+    }
     return params;
   })
   .map(toUrl)

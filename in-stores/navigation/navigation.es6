@@ -236,17 +236,6 @@ export function goToEventsView() {
 }
 
 
-export const traceViewLink$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
-    params.pathname = PATH_NAMES.TRACES;
-    delete params.query.q;
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
-
-
 export function showHelp(id) {
   mutateUrl(navParams => {
     navParams.query.help = encodeURIComponent(id);

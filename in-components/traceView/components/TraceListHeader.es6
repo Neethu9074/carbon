@@ -7,6 +7,7 @@ import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$} from 'in-stores/tra
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import {refresh} from 'in-components/traceView/stores/traceList';
 import Count from 'in-components/traceView/components/Count';
+import {isEumEnabled} from 'in-services/featureFlags';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -20,22 +21,28 @@ export default function TraceListHeader() {
       <div className={`${block}__left-side`}>
         <h1 className={`${block}__title`}>Traces</h1>
 
-        <TraceListFilterToggle filter='all'
-                               onClick={removeTraceTypeFilter}>
-          All Calls
-        </TraceListFilterToggle>
+        {isEumEnabled ?
+          <TraceListFilterToggle filter='all'
+                                 onClick={removeTraceTypeFilter}>
+            All Calls
+          </TraceListFilterToggle>
+        : null}
 
-        <TraceListFilterToggle filter='without-eum'
-                               onClick={() => setTraceTypeFilter('eum', '!=')}>
-          Server Calls
-          <Count count$={totalTraceCountWithoutEum$} />
-        </TraceListFilterToggle>
+        {isEumEnabled ?
+          <TraceListFilterToggle filter='without-eum'
+                                 onClick={() => setTraceTypeFilter('eum', '!=')}>
+            Server Calls
+            <Count count$={totalTraceCountWithoutEum$} />
+          </TraceListFilterToggle>
+        : null}
 
-        <TraceListFilterToggle filter='eum'
-                               onClick={() => setTraceTypeFilter('eum')}>
-          EUM Calls
-          <Count count$={totalTraceCountOnlyEum$} />
-        </TraceListFilterToggle>
+        {isEumEnabled ?
+          <TraceListFilterToggle filter='eum'
+                                 onClick={() => setTraceTypeFilter('eum')}>
+            EUM Calls
+            <Count count$={totalTraceCountOnlyEum$} />
+          </TraceListFilterToggle>
+        : null}
       </div>
 
       <div className={`${block}__right-side`}>
