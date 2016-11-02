@@ -1,4 +1,4 @@
-import {translateSearchableEntityTypeToFullyQualifiedPluginId} from 'in-sdk/search/defaultOperators';
+import {translateSearchableEntityTypeToFullyQualifiedPluginIds} from 'in-sdk/search/defaultOperators';
 import {clearSelectedSnapshots} from 'in-views/tableView/stores/selectedSnapshots';
 import createSearchObservable from 'in-services/subscription/search';
 import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
@@ -16,8 +16,10 @@ export const plugin$ = parsedQuery$
     if (parsedQuery) {
       const type = getSelectedType(parsedQuery);
       if (type) {
-        return translateFullyQualifiedPluginToShortPluginName(
-          translateSearchableEntityTypeToFullyQualifiedPluginId(type)) || plugins.host;
+        const pluginIds = translateSearchableEntityTypeToFullyQualifiedPluginIds(type);
+        if (pluginIds) {
+          return translateFullyQualifiedPluginToShortPluginName(pluginIds[0]) || plugins.host;
+        }
       }
     }
 

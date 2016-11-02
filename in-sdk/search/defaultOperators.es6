@@ -26,7 +26,7 @@ addKeywordOperator({
   getSelectableItems() {
     return Object.keys(searchableEntityTypes);
   },
-  toValue: translateSearchableEntityTypeToFullyQualifiedPluginId
+  toValue: translateSearchableEntityTypeToFullyQualifiedPluginIds
 });
 export function addSearchableEntityType(label, shortPluginId) {
   label = label.toLowerCase();
@@ -34,7 +34,7 @@ export function addSearchableEntityType(label, shortPluginId) {
   typesForLabel.push(fullyQualifiedPlugins[shortPluginId]);
 }
 
-export function translateSearchableEntityTypeToFullyQualifiedPluginId(type) {
+export function translateSearchableEntityTypeToFullyQualifiedPluginIds(type) {
   return searchableEntityTypes[type.toLowerCase()];
 }
 
