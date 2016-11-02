@@ -35,8 +35,13 @@ function createHeader() {
   return (
     <thead>
       <tr>
+        <th></th>
+        <th colSpan='2'>Threads</th>
+        <th></th>
+      </tr>
+      <tr>
         <th>Executor</th>
-        <th>Threads</th>
+        <th>Current</th>
         <th>Max</th>
         <th>Queue Size</th>
       </tr>

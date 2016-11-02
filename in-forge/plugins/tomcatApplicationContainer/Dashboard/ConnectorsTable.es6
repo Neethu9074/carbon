@@ -53,11 +53,16 @@ function createHeaderWithConnections() {
   return (
     <thead>
       <tr>
+        <th></th>
+        <th colSpan='3'>Threads</th>
+        <th colSpan='2'>Connections</th>
+      </tr>
+      <tr>
         <th>Connector</th>
-        <th>Threads</th>
+        <th>Current</th>
         <th>Busy</th>
         <th>Max</th>
-        <th>Connections</th>
+        <th>Current</th>
         <th>Max</th>
       </tr>
     </thead>
@@ -68,8 +73,12 @@ function createHeader() {
   return (
     <thead>
       <tr>
+        <th></th>
+        <th colSpan='3'>Threads</th>
+      </tr>
+      <tr>
         <th>Connector</th>
-        <th>Threads</th>
+        <th>Current</th>
         <th>Busy</th>
         <th>Max</th>
       </tr>
