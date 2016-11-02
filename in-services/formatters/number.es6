@@ -116,11 +116,11 @@ export const muSecondsToMillis = {
   detailed: muSecondsToMillisTwoDecimalPlaces
 };
 
-export const time = millis => {
-  if (millis < 1) {
-    return muSecondsZeroDecimalPlaces(millis * 1000);
+export const time = _ms => {
+  if (_ms < 1) {
+    return muSecondsZeroDecimalPlaces(_ms * 1000);
   }
-  return msZeroDecimalPlaces(millis);
+  return msZeroDecimalPlaces(_ms);
 };
 
 
