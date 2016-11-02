@@ -36,8 +36,9 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
   recentEvents.forEach(e => affectedEnties[e.getIn(['problem', 'snapshotId'])] = true);
   const affectedServices = {};
   recentEvents.forEach(e => {
-    if (e.get('affectedService')) {
-      affectedServices[e.getIn(['problem', 'snapshotId'])] = true;
+    const affectedServiceId = e.get('affectedService');
+    if (affectedServiceId) {
+      affectedServices[affectedServiceId] = true;
     }
   });
 
