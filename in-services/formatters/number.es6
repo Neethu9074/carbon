@@ -25,12 +25,11 @@ export const bytes = {
   detailed: bytesTwoDecimalPlaces
 };
 
-export const timeByMillisTwoDecimalPlaces = t => formatTime(t * 1000000);
-export const timeByMicroTwoDecimalPlaces = t => formatTime(t * 1000);
-export const timeByNanosTwoDecimalPlaces = t => formatTime(t);
-export const nanos = {
-  compact: timeByNanosTwoDecimalPlaces,
-  detailed: timeByNanosTwoDecimalPlaces
+export const timeByMillisTwoDecimalPlaces = t => formatTime(t * 1000);
+export const timeByMicroTwoDecimalPlaces = t => formatTime(t);
+export const micros = {
+  compact: timeByMicroTwoDecimalPlaces,
+  detailed: timeByMicroTwoDecimalPlaces
 };
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, 0) + '/s';
@@ -171,9 +170,6 @@ function formatTime(t) {
   const formatValue = v => ((v * 100) | 0) / 100;
 
   const units = [{
-      unit: 'ns',
-      range: 1000
-    }, {
       unit: 'µs',
       range: 1000
     }, {

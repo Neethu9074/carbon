@@ -1,7 +1,7 @@
 import {
   percentage,
   number,
-  nanos,
+  micros,
   bytes
 } from 'in-services/formatters/number';
 
@@ -32,7 +32,7 @@ export default [
       'Throttling time'
     ],
     min: 0,
-    formatter: nanos
+    formatter: micros
   },
   {
     metrics: [

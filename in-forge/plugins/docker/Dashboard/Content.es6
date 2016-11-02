@@ -14,7 +14,7 @@ import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
 
-const throttlingTimeFormater = d => (d / 1000000000.0) + 's';
+const throttlingTimeFormater = d => (d / 1000000.0) + 's';
 
 export default function DockerDashboard({snapshot, timeframe}) {
   const dockerVersion = snapshot.getIn(['data', 'docker_version']);
