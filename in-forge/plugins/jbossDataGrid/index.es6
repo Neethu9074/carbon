@@ -4,7 +4,7 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/jBossAsApplicationContainer/icon.svg';
+import icon from './icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.jbossdatagrid,
