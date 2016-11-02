@@ -6,6 +6,7 @@ import icon from './icon.svg';
 registerSnapshotDefinition({
   plugin: plugins.logicalMessageBroker,
   icon,
+  namesForTypeSearch: ['service'],
 
   pluginName: {
     singular: 'Logical Message Broker',

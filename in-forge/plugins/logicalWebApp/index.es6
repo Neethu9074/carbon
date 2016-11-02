@@ -6,6 +6,7 @@ import icon from './icon.svg';
 registerSnapshotDefinition({
   plugin: plugins.logicalWebApp,
   icon,
+  namesForTypeSearch: ['service'],
 
   pluginName: {
     singular: 'Logical WebApp',

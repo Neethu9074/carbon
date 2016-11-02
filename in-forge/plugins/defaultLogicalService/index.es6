@@ -6,6 +6,7 @@ import icon from 'in-sdk/unknown_icon.svg';
 registerSnapshotDefinition({
   plugin: plugins.defaultLogicalService,
   icon,
+  namesForTypeSearch: ['service'],
 
   pluginName: {
     singular: 'Unspecified Logical Service',

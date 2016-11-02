@@ -6,6 +6,7 @@ import icon from 'in-forge/plugins/elasticsearchNode/icon.svg';
 registerSnapshotDefinition({
   plugin: plugins.logicalElasticSearchIndex,
   icon,
+  namesForTypeSearch: ['service'],
 
   pluginName: {
     singular: 'Logical Elasticsearch Index',

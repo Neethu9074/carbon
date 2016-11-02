@@ -52,7 +52,13 @@ const luceneValueConverters = {
 
     return escapedValue;
   },
-  selection(v, keywordOperator) { return this.string(keywordOperator.toValue(v)); }
+  selection(v, keywordOperator) {
+    const value = keywordOperator.toValue(v);
+    if (value instanceof Array) {
+      return value.map(eachValue => this.string(eachValue));
+    }
+    return this.string(value);
+  }
 };
 
 
@@ -122,10 +128,24 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
     validator(queryPart.value, keywordOperator, queryPart);
   }
 
-  const luceneOperator = operatorTranslation[queryPart.operator];
-  const luceneValue = luceneValueConverters[type](value, keywordOperator);
   const prefix = queryPart.operator === '!=' ? '-' : '';
-  return `${prefix}${keywordOperator.field}:${luceneOperator}${luceneValue}`;
+  const luceneOperator = operatorTranslation[queryPart.operator];
+  let luceneValues = luceneValueConverters[type](value, keywordOperator);
+  // support multiple values which will be "or"-ed
+  if (!(luceneValues instanceof Array)) {
+    luceneValues = [luceneValues];
+  }
+
+  const parts = luceneValues
+    .map(eachLuceneValue => {
+      return `${prefix}${keywordOperator.field}:${luceneOperator}${eachLuceneValue}`;
+    })
+    .join(' OR ');
+
+  if (luceneValues.length > 1) {
+    return `(${parts})`;
+  }
+  return parts;
 }
 
 

@@ -9,7 +9,9 @@ addKeywordOperator({
   field: 'processor_tags'
 });
 
-const searchableEntityTypes = {};
+const searchableEntityTypes = {
+  // <type> => [<fully qualified plugin ids>]
+};
 addKeywordOperator({
   context: 'entity',
   type: 'selection',
@@ -27,7 +29,9 @@ addKeywordOperator({
   toValue: translateSearchableEntityTypeToFullyQualifiedPluginId
 });
 export function addSearchableEntityType(label, shortPluginId) {
-  searchableEntityTypes[label.toLowerCase()] = fullyQualifiedPlugins[shortPluginId];
+  label = label.toLowerCase();
+  const typesForLabel = searchableEntityTypes[label] = searchableEntityTypes[label] || [];
+  typesForLabel.push(fullyQualifiedPlugins[shortPluginId]);
 }
 
 export function translateSearchableEntityTypeToFullyQualifiedPluginId(type) {

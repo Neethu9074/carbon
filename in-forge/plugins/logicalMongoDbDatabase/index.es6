@@ -6,6 +6,7 @@ import icon from 'in-forge/plugins/mongoDb/icon.svg';
 registerSnapshotDefinition({
   plugin: plugins.logicalMongoDbDatabase,
   icon,
+  namesForTypeSearch: ['service'],
 
   pluginName: {
     singular: 'Logical MongoDB Database',
