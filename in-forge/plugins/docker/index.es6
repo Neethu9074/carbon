@@ -1,4 +1,5 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import tableDefinition from 'in-forge/plugins/docker/tableDefinition';
 import {plugins} from 'in-forge/constants';
 
 import icon from './icon.svg';
@@ -14,7 +15,8 @@ registerSnapshotDefinition({
     plural: 'Docker Containers'
   },
 
-  getLabel
+  getLabel,
+  tableDefinition
 });
 
 

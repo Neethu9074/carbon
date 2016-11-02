@@ -22,7 +22,8 @@ let socket;
 export function init() {
   window.instana.dev.socket = socket = io(window.location.origin, {
     path: '/api/data',
-    transports
+    transports,
+    requestTimeout: 60000
   });
 }
 

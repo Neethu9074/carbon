@@ -1,0 +1,28 @@
+.in-view-switcher-menu {
+  position: absolute;
+
+  list-style: none;
+  min-width: 6.25rem;
+  margin: 0;
+  padding: 0;
+  background: #172429;
+  font-size: 0.688rem;
+  line-height: 0.688rem;
+  box-shadow: 0.313rem 0.313rem 0.625rem 0px rgba(0, 0, 0, 0.3);
+
+  &__item {
+    margin: .75rem;
+  }
+
+  &__link {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover, &--active {
+      color: white;
+    }
+  }
+}

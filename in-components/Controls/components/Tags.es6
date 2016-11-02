@@ -15,7 +15,6 @@ function Tags({filteredTags}) {
     <Control createMenuContent={createMenuContent}
              isActive={filteredTags.size > 0}
              tooltipText='Show tags'
-             iconSize={16}
              type='tag' />
   );
 });

@@ -10,3 +10,7 @@ export const changesAreVisible$ = changesVisibilityStore.observable;
 export function toggle() {
   changesVisibilityStore.applyStateMutation(oldValue => !oldValue);
 }
+
+export function restoreInitialVisibilityState() {
+  changesVisibilityStore.mutateTo(true);
+}

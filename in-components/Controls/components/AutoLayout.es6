@@ -8,7 +8,6 @@ export default function AutoLayout() {
   return (
     <Control onClick={clearAll}
              tooltipText='Rearrange services'
-             iconSize={24}
              type='autoLayout' />
   );
 }

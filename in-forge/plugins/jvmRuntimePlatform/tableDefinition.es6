@@ -43,6 +43,7 @@ export default [
       maxWidth: '6.25rem',
       textAlign: 'right'
     },
+    defaultSortDirection: 'desc',
     get(snapshot) {
       return {
         content: (

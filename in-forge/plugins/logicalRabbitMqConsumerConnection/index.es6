@@ -1,7 +1,7 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from './icon.svg';
+import icon from 'in-forge/plugins/logicalRabbitMqPublisherConnection/icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.logicalRabbitMqConsumerConnection,

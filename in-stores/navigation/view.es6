@@ -73,8 +73,3 @@ export const tableViewLink$ = navigationParameters$
 export const isTableView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/table') === 0)
   .distinct();
-
-
-export function goToTableView() {
-  tableViewLink$.once(link => window.location.href = link);
-}

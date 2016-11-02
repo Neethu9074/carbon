@@ -19,7 +19,7 @@ const BOTTOM_MARGIN_IN_PX = activeTheme.footer.heightExpanded;
 
 export default class BasicCameraController extends Subscriber {
 
-  constructor(factoryIdForFocusCalculation, positionStore) {
+  constructor(factoryIdForFocusCalculation) {
     super();
 
     this.eventEmitter = new RoEmitter('control event emitter');
@@ -31,8 +31,6 @@ export default class BasicCameraController extends Subscriber {
     this.startingPitch = -35;
 
     this.factoryIdForFocusCalculation = factoryIdForFocusCalculation;
-
-    this.positionStore = positionStore;
   }
 
   init() {
@@ -41,6 +39,7 @@ export default class BasicCameraController extends Subscriber {
 
     // transformation helper. need this to move on the ground
     this.camTransformObject = new Object3D();
+    this.camTransformObject.position.set(0, 0, 0);
     this.camTransformObject.rotation.y = this.startingYaw * Math.PI / 180;
 
     this.camPitchObject = new Object3D();
@@ -49,14 +48,6 @@ export default class BasicCameraController extends Subscriber {
 
     const camera = this.camera.getRenderableCamera();
     this.camPitchObject.add(camera);
-
-    const storedPosition = this.positionStore.getPosition();
-    if (storedPosition.x && storedPosition.y) {
-      this.camTransformObject.position.set(storedPosition.x, 0, storedPosition.y);
-    } else {
-      this.camTransformObject.position.set(0, 0, 0);
-      this.positionStore.setPosition(0, 0);
-    }
 
     this.updateCamera();
   }
@@ -94,26 +85,20 @@ export default class BasicCameraController extends Subscriber {
   }
 
   moveRelative(dx, dz) {
-    const transform = this.camTransformObject;
-    transform.translateX(dx);
-    transform.translateZ(dz);
-    this.positionStore.setPosition(transform.position.x, transform.position.z);
+    this.camTransformObject.translateX(dx);
+    this.camTransformObject.translateZ(dz);
     this.updateCamera();
   }
 
   moveAbsolute(dx, dz) {
-    const transform = this.camTransformObject;
-    transform.position.x += dx;
-    transform.position.z += dz;
-    this.positionStore.setPosition(transform.position.x, transform.position.z);
+    this.camTransformObject.position.x += dx;
+    this.camTransformObject.position.z += dz;
     this.updateCamera();
   }
 
   flyToPosition({x, z}) {
-    const transform = this.camTransformObject;
-    transform.position.setX(x);
-    transform.position.setZ(z);
-    this.positionStore.setPosition(transform.position.x, transform.position.z);
+    this.camTransformObject.position.setX(x);
+    this.camTransformObject.position.setZ(z);
 
     this.updateCamera();
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import CloseTableViewButton from 'in-views/tableView/components/CloseTableViewButton';
 import {plugin$, snapshotIds$} from 'in-views/tableView/stores/snapshotIds';
+import MetricSelector from 'in-views/tableView/components/MetricSelector';
 import HeaderTitle from 'in-views/tableView/components/HeaderTitle';
 import {getPlural} from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
@@ -16,11 +16,13 @@ export default connectTo({
 }, function Header({plugin, snapshotIds}) {
   return (
     <header className={block}>
-      <HeaderTitle>
-        {getPlural(plugin)} ({snapshotIds ? snapshotIds.length : 0})
-      </HeaderTitle>
+      <div className={`${block}__left-side`}>
+        <HeaderTitle>
+          {getPlural(plugin)} ({snapshotIds ? snapshotIds.length : 0})
+        </HeaderTitle>
 
-      <CloseTableViewButton />
+        <MetricSelector />
+      </div>
     </header>
   );
 });

@@ -72,7 +72,7 @@ export default connectTo(
               </Collapsible.Header>
               <Collapsible.Content className={`${block}__collapsible`}>
                 <ClickableList>
-                  {groups[plugin].map(snapshot =>
+                  {groups[plugin].sort().map(snapshot =>
                     <ClickableSnapshotListItem key={snapshot.get('id')}
                                                snapshotId={snapshot.get('id')}>
                       {this.props.onRenderItem ?

@@ -1,7 +1,7 @@
 
 
 export default class HttpRequestTimeoutError extends Error {
-  constructor() {
-    super('Request timed out');
+  constructor(method, url) {
+    super(`Request timed out: ${method} ${url}`);
   }
 }

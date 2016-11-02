@@ -4,6 +4,7 @@ registerSpanDefinition({
   type: 'php',
   category: 'http',
   direction: 'entryAndExit',
+  searchAliases: ['php'],
 
   typeName: {
     singular: 'PHP request',

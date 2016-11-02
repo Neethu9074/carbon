@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   plugin: plugins.nodejs,
   icon,
   pluginName: {
-    singular: 'Node.js Application',
-    plural: 'Node.js Applications'
+    singular: 'Node.js App',
+    plural: 'Node.js Apps'
   },
 
   tableDefinition,

@@ -1,13 +1,12 @@
 import React from 'react';
 
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {emptyMap} from 'in-services/fixedImmutables';
-import {formatDateTime} from 'in-services/formatters/date';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import {formatDateTime} from 'in-services/formatters/date';
+import {yesOrNo} from 'in-services/formatters/boolean';
+import {emptyMap} from 'in-services/fixedImmutables';
 
-
-const formatBoolean = value => value ? 'Yes' : 'No';
 
 export default function JbossDataGridCaches({snapshot}) {
   const data = snapshot.get('data');
@@ -30,7 +29,7 @@ export default function JbossDataGridCaches({snapshot}) {
                   {cache.get('clusterName')}
                 </DescriptionItem>
                 <DescriptionItem title='Statistics Enabled'>
-                  {formatBoolean(cache.get('statisticsEnabled'))}
+                  {yesOrNo(cache.get('statisticsEnabled'))}
                 </DescriptionItem>
               </DescriptionList>
               <KeyValuePopup header='Configuration'

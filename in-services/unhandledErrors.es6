@@ -8,7 +8,13 @@ import {isInstanaEmployee} from 'in-stores/user';
 const unhandledLogger = logging.createLogger('in-services/unhandledErrors');
 
 export function init() {
-  setUnhandledErrorHandler(onUnhandledError);
+  setUnhandledErrorHandler(e => {
+    unhandledLogger.error(`Unhandled error in observable chain: ${e.message}`, e);
+
+    if (isInstanaEmployee()) {
+      showUnhandledErrorMessage(e);
+    }
+  });
 
   window.addEventListener('error', (e) => {
     onUnhandledError(e);
@@ -38,7 +44,6 @@ function showUnhandledErrorMessage(e) {
   // this message makes it to the user.
   setTimeout(() => {
     addMessage({
-      id: 'unhandled-error',
       type: 'error',
       icon: 'error',
       content: (
@@ -46,6 +51,6 @@ function showUnhandledErrorMessage(e) {
           An unhandled error occured. Please report this error and how you produced it. Error message: {e.message}
         </p>
       )
-    });
+    }, 'unhandled-error');
   }, 0);
 }

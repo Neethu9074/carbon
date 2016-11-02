@@ -2,13 +2,13 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {formatDateTime} from 'in-services/formatters/date';
+import {yesOrNo} from 'in-services/formatters/boolean';
 import MetricValue from 'in-components/MetricValue';
 
 
 const secondsFormatter = d => d + 's';
 const secondsAgoFormatter = d => d + 's ago';
-const formatBoolean = value => value ? 'Yes' : 'No';
-const syncInProgressFormatter = d => formatBoolean(d > 0);
+const syncInProgressFormatter = d => yesOrNo(d > 0);
 
 export default function RedisInfo({snapshot}) {
   const data = snapshot.get('data');
@@ -37,7 +37,7 @@ export default function RedisInfo({snapshot}) {
           {role}
       </DescriptionItem>
       <DescriptionItem title='Cluster Enabled'>
-          {formatBoolean(data.get('cluster_enabled') === 1)}
+          {yesOrNo(data.get('cluster_enabled') === 1)}
       </DescriptionItem>
       {role === 'master' ?
         <DescriptionItem title='Number of Slaves'>

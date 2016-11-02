@@ -4,19 +4,13 @@ import ServiceInstanceInfo from 'in-sdk/components/sidebar/defaultServiceInstanc
 import ServiceInstancePhysicalEntity
   from 'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstancePhysicalEntity';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
-import Separator from 'in-sdk/components/sidebar/Separator';
-
 
 export default function ServiceInstanceDashboardSidebar({snapshot}) {
   return (
     <div>
       <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
 
-      <Separator />
-
       <ServiceInstancePhysicalEntity snapshotId={snapshot.get('id')} />
-
-      <Separator />
 
       <ConnectionList snapshotId={snapshot.get('id')} />
     </div>

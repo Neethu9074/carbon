@@ -154,13 +154,19 @@
     align-items: center;
   }
 
-  &__affected-service-marker {
+  &__affected-service-marker, &__triggering-event-marker {
     position: absolute;
-    left: 4.625rem;
     bottom: ~'calc(100% - 2px)';
 
     border-radius: 3px 3px 0 0;
-
     z-index: 3;
+  }
+
+  &__affected-service-marker {
+    left: 4.625rem;
+  }
+
+  &__triggering-event-marker {
+    left: 11rem;
   }
 }

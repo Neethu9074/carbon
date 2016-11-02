@@ -13,13 +13,22 @@ const block = 'in-control';
 export default connectTo({
   menuContent: menuContent$
 },
-function Control({iconSize, onClick, type, id, isActive, menuContent, createMenuContent, tooltipText}) {
+function Control({onClick, type, id, isActive, menuContent, createMenuContent, tooltipText, className}) {
   isActive = isActive || (menuContent && menuContent.id === (id ? id : type));
+
+  let controlClassName = block;
+  if (isActive) {
+    controlClassName += ` ${block}--active`;
+  }
+  if (className) {
+    controlClassName += ` ${className}`;
+  }
+
   return (
     <Tooltip content={tooltipText}
              align='topRight'>
 
-      <div className={block + (isActive ? ` ${block}--active` : '')}
+      <div className={controlClassName}
            onClick={() => {
              if (onClick) {
                onClick();
@@ -28,10 +37,11 @@ function Control({iconSize, onClick, type, id, isActive, menuContent, createMenu
                toggleContent(getMenuContent(id ? id : type, createMenuContent));
              }
            }}>
-        <SvgIcon type={type}
-                 width={iconSize}
-                 height={iconSize}
-                 color={'#7b8e96'} />
+        <SvgIcon className={`${block}__icon`}
+                 type={type}
+                 width={14}
+                 height={14}
+                 color='#fff' />
       </div>
     </Tooltip>
   );

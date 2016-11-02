@@ -6,6 +6,7 @@ export const plugins = {
   cassandra: 'cassandraNode',
   cassandraCluster: 'cassandraCluster',
   cassandraKeyspaceServiceInstance: 'cassandraKeyspaceServiceInstance',
+  clrRuntimePlatform: 'clrRuntimePlatform',
   databaseServiceInstance: 'databaseServiceInstance',
   defaultLogicalConnection: 'defaultLogicalConnection',
   defaultLogicalService: 'defaultLogicalService',
@@ -30,6 +31,7 @@ export const plugins = {
   jira: 'jiraApplication',
   jvm: 'jvmRuntimePlatform',
   kafka: 'kafka',
+  kafkaCluster: 'kafkaCluster',
   logicalCassandraConnection: 'logicalCassandraConnection',
   logicalCassandraKeyspace: 'logicalCassandraKeyspace',
   logicalDatabase: 'logicalDatabase',
@@ -66,6 +68,7 @@ export const plugins = {
   process: 'process',
   rabbitmq: 'rabbitMq',
   redis: 'redis',
+  ruby: 'rubyRuntimePlatform',
   sdkLogicalConnection: 'sdkLogicalConnection',
   sdkLogicalService: 'sdkLogicalService',
   sdkServiceInstance: 'sdkServiceInstance',
@@ -76,7 +79,8 @@ export const plugins = {
   unmonitoredHost: 'unmonitoredHost',
   varnish: 'varnish',
   webAppServiceInstance: 'webAppServiceInstance',
-  webSphere: 'webSphereApplicationContainer'
+  webSphere: 'webSphereApplicationContainer',
+  zookeeper: 'zooKeeper'
 };
 
 export const fullyQualifiedPlugins = {
@@ -85,6 +89,7 @@ export const fullyQualifiedPlugins = {
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
   cassandraKeyspaceServiceInstance: 'com.instana.forge.connection.database.cassandra.CassandraKeyspaceServiceInstance',
   cassandraNode: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
+  clrRuntimePlatform: 'com.instana.forge.infrastructure.runtime.clr.ClrRuntimePlatform',
   databaseServiceInstance: 'com.instana.forge.connection.database.DatabaseServiceInstance',
   defaultLogicalConnection: 'com.instana.forge.connection.fallback.DefaultLogicalConnection',
   defaultLogicalService: 'com.instana.forge.connection.fallback.DefaultLogicalService',
@@ -110,6 +115,7 @@ export const fullyQualifiedPlugins = {
   jiraApplication: 'com.instana.forge.infrastructure.application.jira.JiraApplication',
   jvmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
   kafka: 'com.instana.forge.infrastructure.messaging.kafka.Kafka',
+  kafkaCluster: 'com.instana.forge.infrastructure.messaging.kafka.KafkaCluster',
   logicalCassandraConnection: 'com.instana.forge.connection.database.cassandra.LogicalCassandraConnection',
   logicalCassandraKeyspace: 'com.instana.forge.connection.database.cassandra.LogicalCassandraKeyspace',
   logicalDatabase: 'com.instana.forge.connection.database.LogicalDatabase',
@@ -145,6 +151,7 @@ export const fullyQualifiedPlugins = {
   process: 'com.instana.forge.infrastructure.os.process.Process',
   rabbitMq: 'com.instana.forge.infrastructure.messaging.rabbitmq.RabbitMq',
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
+  rubyRuntimePlatform: 'com.instana.forge.infrastructure.runtime.ruby.RubyRuntimePlatform',
   sdkLogicalConnection: 'com.instana.forge.connection.sdk.SdkLogicalConnection',
   sdkLogicalService: 'com.instana.forge.connection.sdk.SdkLogicalService',
   sdkServiceInstance: 'com.instana.forge.connection.sdk.SdkServiceInstance',
@@ -155,5 +162,6 @@ export const fullyQualifiedPlugins = {
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
   webAppServiceInstance: 'com.instana.forge.connection.http.logical.WebAppServiceInstance',
-  webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer'
+  webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
+  zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
 };

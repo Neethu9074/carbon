@@ -18,11 +18,7 @@ export default function ServiceInstanceSidebar({snapshot}) {
 
       <ServiceInstanceKpiSparkCharts snapshot={snapshot} />
 
-      <Separator />
-
       <ServiceInstancePhysicalEntity snapshotId={snapshot.get('id')} />
-
-      <Separator />
 
       <ConnectionList snapshotId={snapshot.get('id')} />
     </div>

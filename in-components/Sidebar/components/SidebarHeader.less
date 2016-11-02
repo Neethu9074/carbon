@@ -1,3 +1,5 @@
+@import "~in-themes/mixins.less";
+
 .in-sidebar-header {
   &__entity {
     display: flex;
@@ -16,11 +18,7 @@
     font-weight: normal;
     color: #172429;
     margin: 0 0 0.4rem;
-    word-break: break-word;
-
-    .in-browser-ff & {
-      word-break: break-all;
-    }
+    .breakWord();
   }
 
   &__entity-type {
@@ -30,7 +28,7 @@
   }
 
   &__type-id-wrapper {
-    word-break: break-all;
+    .breakWord();
     line-height: 1.8;
   }
 }

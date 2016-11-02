@@ -4,14 +4,26 @@ const byteBase = 1024;
 
 export const zeroDecimalPlaces = format(',.0f');
 export const twoDecimalPlaces = format(',.2f');
+export const number = {
+  compact: zeroDecimalPlaces,
+  detailed: twoDecimalPlaces
+};
 
 export const zeroDecimalPlacesPerSecond = d => zeroDecimalPlaces(d) + '/s';
 
 export const percentageZeroDecimalPlaces = d => zeroDecimalPlaces(d * 100) + '%';
 export const percentageTwoDecimalPlaces = d => twoDecimalPlaces(d * 100) + '%';
+export const percentage = {
+  compact: percentageZeroDecimalPlaces,
+  detailed: percentageTwoDecimalPlaces
+};
 
 export const bytesZeroDecimalPlaces = d => formatBytes(d, 0);
 export const bytesTwoDecimalPlaces = d => formatBytes(d, 2);
+export const bytes = {
+  compact: bytesZeroDecimalPlaces,
+  detailed: bytesTwoDecimalPlaces
+};
 
 export const timeByMillisTwoDecimalPlaces = t => formatTime(t * 1000);
 export const timeByMicroTwoDecimalPlaces = t => formatTime(t);
@@ -21,8 +33,27 @@ export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, 2) + '/s';
 
 export const kiloBytesZeroDecimalPlaces = d => formatBytes(d * byteBase, 0);
 export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, 2);
+export const kiloBytes = {
+  compact: kiloBytesZeroDecimalPlaces,
+  detailed: kiloBytesTwoDecimalPlaces
+};
 
-export const withSiPrefixZeroDecimalPlaces = format(',.0s');
+const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
+const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
+export const withSiPrefixZeroDecimalPlaces = d => {
+  if ((0 < d && d < 1) || (-1 < d && d < 0)) {
+    return siPrefixZeroDecimalPlacesFormatRuleForSmallValues(d);
+  }
+  const s = siPrefixZeroDecimalPlacesFormatRule(d);
+  const match = s.match(/^(-|\+)?(\d+)(\.(\d+))?(.*)$/i);
+
+  const sign = match[1] || '';
+  const major = match[2];
+  const prefix = match[5];
+
+  return `${sign}${major}${prefix}`;
+};
+
 const siPrefixThreeDecimalPlacesFormatRule = format(',.6s');
 export const withSiPrefixThreeDecimalPlaces = d => {
   const s = siPrefixThreeDecimalPlacesFormatRule(d);
@@ -43,6 +74,10 @@ export const withSiPrefixThreeDecimalPlaces = d => {
 
   return `${sign}${major}.${minor}${prefix}`;
 };
+export const siPrefix = {
+  compact: withSiPrefixZeroDecimalPlaces,
+  detailed: withSiPrefixThreeDecimalPlaces
+};
 
 export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiPrefixZeroDecimalPlaces(d | 0);
 export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
@@ -50,6 +85,10 @@ export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
     return d.toFixed(3);
   }
   return withSiPrefixThreeDecimalPlaces(d);
+};
+export const siMultiplyPrefix = {
+  compact: withSiPrefixZeroDecimalPlaces,
+  detailed: withSiPrefixThreeDecimalPlaces
 };
 
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';

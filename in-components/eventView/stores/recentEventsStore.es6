@@ -1,5 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
+import {restoreInitialExpandedState} from 'in-components/eventView/stores/populationChartExpandedStore';
+import {restoreInitialVisibilityState} from 'in-components/eventView/stores/changesVisibilityStore';
 import {emptyList} from 'in-services/fixedImmutables';
 import {emptyArray} from 'in-services/fixedObjects';
 import {createTrackingStore} from 'in-stores/store';
@@ -11,6 +13,9 @@ import {getEvent} from 'in-services/issueTracker';
 export const recentEvents$ = createTrackingStore({
   name: 'eventView/recentEvents',
   observable: selectedIncident$.flatMap(incident => {
+    restoreInitialVisibilityState();
+    restoreInitialExpandedState();
+
     const recentEvents = incident
       ? incident.get('recentEvents', emptyList)
       : null;

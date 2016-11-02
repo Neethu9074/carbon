@@ -33,7 +33,7 @@ export default function CassandraClusterSidebar({snapshot}) {
                               formatter: withSiPrefixZeroDecimalPlaces
                             }, {
                               metric: 'overallDiskSize',
-                              label: 'Overall Size of Store',
+                              label: 'Store Size',
                               formatter: bytesTwoDecimalPlaces
                             }
                           ]} />

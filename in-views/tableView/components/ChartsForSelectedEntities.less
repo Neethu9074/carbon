@@ -1,0 +1,47 @@
+.in-table-view-charts {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 60vh;
+  flex-shrink: 0;
+
+  &__incomplete-selection {
+    margin: 0;
+    padding: 4px 0;
+    background: #fcf8e3;
+    color: #8a6d3b;
+    text-align: center;
+  }
+
+  &__chart {
+    background: #fff;
+    padding: .75rem;
+    margin: .5rem .5rem .25rem;
+    position: relative;
+
+    &:first-child {
+      margin-top: .5rem;
+    }
+
+    &:last-child {
+      margin-bottom: .5rem;
+    }
+  }
+
+  &__chart-title {
+    margin: 0 0 0.7rem 0;
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: #172429;
+  }
+
+  &__remove {
+    position: absolute;
+    top: 1rem;
+    right: 5rem;
+  }
+
+  &__breadcrumb-separator {
+    fill: #172429;
+    margin: 0 .438rem;
+  }
+}

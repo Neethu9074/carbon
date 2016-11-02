@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {maxEventsOnCollapsed, isExpanded$} from 'in-components/eventView/stores/populationChartExpandedStore';
 import {changesAreVisible$} from 'in-components/eventView/stores/changesVisibilityStore';
 import Event from 'in-components/eventView/components/Incident/PopulationChart/Event';
 import {sortedRecentEvents$} from 'in-components/eventView/stores/recentEventsStore';
@@ -14,9 +15,10 @@ const block = 'in-event-view-detail-chart-events';
 
 export default connectTo({
   changesAreVisible: changesAreVisible$,
-  events: sortedRecentEvents$
+  events: sortedRecentEvents$,
+  isExpanded: isExpanded$
 },
-function Events({scale, events, changesAreVisible}) {
+function Events({scale, events, isExpanded, changesAreVisible}) {
   if (!events) {
     return (
       <div className={block}>
@@ -29,6 +31,8 @@ function Events({scale, events, changesAreVisible}) {
   events = changesAreVisible
     ? events
     : events.filter(_event => getEventType(_event) !== EVENT_TYPES.CHANGE);
+
+  events = isExpanded ? events : events.slice(0, maxEventsOnCollapsed);
 
   return (
     <div className={block}>

@@ -12,7 +12,6 @@ export default function MapStatistics() {
   return (
     <Control createMenuContent={createMenuContent}
              tooltipText='Map statistics. DEV ONLY FEATURE.'
-             iconSize={24}
              type='dot'
              id='mapstatistics' />
   );

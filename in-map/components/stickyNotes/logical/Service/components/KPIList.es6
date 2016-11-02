@@ -20,12 +20,13 @@ export default getSnapshot(
 
     propTypes: {
       snapshotId: rpt.string.isRequired,
+      onExpand: rpt.func.isRequired,
       snapshot: irpt.map
     },
 
     getInitialState() {
       return {
-        isHighlighted: false
+        isExpanded: false
       };
     },
 
@@ -35,10 +36,10 @@ export default getSnapshot(
         return false;
       }
 
-      const isHighlighted = this.state.isHighlighted;
+      const isExpanded = this.state.isExpanded;
 
       let className = block;
-      if (isHighlighted) {
+      if (isExpanded) {
         className += ' ' + className + '--highlighted';
       }
 
@@ -46,16 +47,19 @@ export default getSnapshot(
       return (
         <div className={className}>
           <div className={`${block}__icon-wrapper`}
-               onClick={() => this.setState({isHighlighted: !isHighlighted})}>
+               onClick={() => {
+                 this.setState({isExpanded: !isExpanded});
+                 this.props.onExpand(!isExpanded);
+               }}>
             <SvgIcon className={`${block}__expand-icon`}
-                     type={isHighlighted ? 'timeline_close' : 'timeline_open'}
+                     type={isExpanded ? 'timeline_close' : 'timeline_open'}
                      height={14}
                      width={14}
                      color='#7b8e96' />
           </div>
 
           <div className={`${block}__kpi-wrapper`}>
-            {isHighlighted ?
+            {isExpanded ?
               kpis.map(kpi =>
                 <LabeledSparkChart className={block + '__spark-chart'}
                             key={kpi.label}

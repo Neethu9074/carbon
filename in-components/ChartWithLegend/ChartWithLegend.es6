@@ -30,7 +30,8 @@ React.createClass({
 
     timeframe$: rpt.object,
 
-    snapshotId: rpt.string.isRequired,
+    snapshotId: rpt.string,
+    snapshotIds: rpt.arrayOf(rpt.string),
     y1: rpt.object.isRequired,
     y2: rpt.object
   },
@@ -54,12 +55,14 @@ React.createClass({
         </div>
 
         <ChartLegend snapshotId={props.snapshotId}
+                     snapshotIds={props.snapshotIds}
                      y1={props.y1}
                      y2={props.y2}
                      filterStore={this.state.filterStore}
                      timeframe$={props.timeframe$} />
 
         <Chart snapshotId={props.snapshotId}
+               snapshotIds={props.snapshotIds}
                timeframe$={props.timeframe$}
                height={props.height || 150}
                y1={props.y1}

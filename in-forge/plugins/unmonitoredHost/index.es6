@@ -1,9 +1,9 @@
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {plugins} from 'in-forge/constants';
 
-import iconPath from './icon.svg';
+import icon from 'in-sdk/unknown_icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.unmonitoredHost,
@@ -23,7 +23,7 @@ addLabelFinder(plugins.unmonitoredHost, labelFinder);
 
 addIconToRegistry({
   id: plugins.unmonitoredHost,
-  image: iconPath
+  image: icon
 });
 
 function labelFinder(snapshot) {

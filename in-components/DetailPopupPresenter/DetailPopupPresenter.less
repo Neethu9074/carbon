@@ -1,4 +1,5 @@
 @import "~in-themes/active.less";
+@import "~in-themes/mixins.less";
 
 .in-detail-popup {
   position: absolute;
@@ -40,14 +41,14 @@
     width: 45%;
     font-weight: bold;
     color: @sidebar__key-value-popup__title;
-    word-break: break-word;
+    .breakWord();
   }
 
   &__text {
     color: @sidebar__key-value-popup__text;
     width: 55%;
     margin-right: 0.625rem;
-    word-break: break-all;
+    .breakWord();
   }
 
   &__list {

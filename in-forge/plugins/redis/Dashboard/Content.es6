@@ -95,7 +95,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
         </KpiKeyValue>
         <KpiKeyValue label='Connections'>
           <MetricValue snapshotId={snapshotId}
-                       metric={getConnectionMetricsForRole(role)} />
+                       metric='connected_clients' />
         </KpiKeyValue>
       </KpiSection>
 

@@ -3,7 +3,7 @@ import createHistoricMetricObservable from 'in-services/subscription/historicMet
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import {timeframe$, focusedMoment$} from 'in-stores/timeline';
-import {getAggregation} from 'in-sdk/metrics/aggregation';
+import {getAggregation} from 'in-sdk/metrics';
 import {createStore} from 'in-stores/store';
 
 

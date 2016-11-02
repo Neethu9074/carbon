@@ -13,27 +13,38 @@
   background: rgba(45, 64, 75, 0.5);
   font-size: 0.75rem;
   padding: 0.375rem 0.625rem;
+  min-height: 0.813rem;
 
   &--highlighted {
-    width: 18.75rem;
+    width: 20rem;
     background: #2d4048;
   }
 
   &__icon-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
     cursor: pointer;
+
+    &:hover {
+      .in-sticky-note-process-kpi-list__expand-icon {
+        fill: white;
+      }
+    }
   }
 
   &__kpi-wrapper {
     display: flex;
     flex-wrap: wrap;
+
+    margin-left: 1.5rem;
   }
 
   &__expand-icon {
     margin-right: 0.625rem;
-
-    &:hover {
-      fill: white;
-    }
   }
 
   &__spark-chart {

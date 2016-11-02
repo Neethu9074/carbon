@@ -1,9 +1,11 @@
+@import "~in-themes/mixins.less";
+
 .in-list {
   margin: 0;
   padding: 0 0 0 .625rem;
 
   &__item {
-    word-break: break-all;
+    .breakWord();
     padding: .063rem 0;
   }
 }

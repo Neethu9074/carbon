@@ -4,12 +4,11 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import {yesOrNo} from 'in-services/formatters/boolean';
 import {emptyMap} from 'in-services/fixedImmutables';
 
 import Info from '../Info';
 
-
-const formatBoolean = value => value ? 'Yes' : 'No';
 
 export default function JBossAsSidebar({snapshot}) {
   const deployments = snapshot.getIn(['data', 'deployments'], emptyMap);
@@ -39,7 +38,7 @@ export default function JBossAsSidebar({snapshot}) {
                       {data.get('contextRoot')}
                     </DescriptionItem>
                     <DescriptionItem title='Enabled'>
-                      {formatBoolean(data.get('enabled'))}
+                      {yesOrNo(data.get('enabled'))}
                     </DescriptionItem>
                     <DescriptionItem title='Status'>
                       {data.get('status')}

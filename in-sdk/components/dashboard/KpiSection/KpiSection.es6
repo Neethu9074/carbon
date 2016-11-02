@@ -1,9 +1,9 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Button from 'in-components/Button';
 
 import './KpiSection.less';
+
 
 const block = 'in-kpi-section';
 
@@ -40,11 +40,10 @@ export function KpiSection({children}) {
 }
 
 
-export function KpiTopLevelInteraction({onClick, children}) {
+export function KpiTopLevelInteraction({children}) {
   return (
-    <Button onClick={onClick}
-            className={`${block}__top-level-interaction`}>
+    <div className={`${block}__top-level-interaction`}>
       {children}
-    </Button>
+    </div>
   );
 }

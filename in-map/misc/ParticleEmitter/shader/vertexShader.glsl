@@ -20,7 +20,7 @@ void main() {
                                                   position.z + progress ),
                                             1.0 );
 
-  float pointSize = ( distance / length( mvPosition.xyz ) );
+  float pointSize = 1.25 * ( distance / length( mvPosition.xyz ) );
 
   gl_PointSize = pointSize;
   gl_Position = projectionMatrix * mvPosition;

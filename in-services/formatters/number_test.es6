@@ -110,6 +110,10 @@ describe('in-services.formatter.number', () => {
       expect(withSiPrefixZeroDecimalPlaces(0.000001)).to.equal('1µ');
       expect(withSiPrefixZeroDecimalPlaces(0.001)).to.equal('1m');
       expect(withSiPrefixZeroDecimalPlaces(1)).to.equal('1');
+      expect(withSiPrefixZeroDecimalPlaces(15)).to.equal('15');
+      expect(withSiPrefixZeroDecimalPlaces(14.57)).to.equal('14');
+      expect(withSiPrefixZeroDecimalPlaces(-14.57)).to.equal('-14');
+      expect(withSiPrefixZeroDecimalPlaces(1000)).to.equal('1k');
       expect(withSiPrefixZeroDecimalPlaces(1000)).to.equal('1k');
       expect(withSiPrefixZeroDecimalPlaces(1000000)).to.equal('1M');
       expect(withSiPrefixZeroDecimalPlaces(1367000000)).to.equal('1G');

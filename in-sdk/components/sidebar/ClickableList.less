@@ -1,3 +1,5 @@
+@import "~in-themes/mixins.less";
+
 .in-clickable-list {
   list-style: none;
   padding: 0;
@@ -26,7 +28,7 @@
     text-decoration: none;
     color: inherit;
     padding: .25rem .438rem;
-    word-break: break-word;
+    .breakWord();
 
     &:hover, &:focus {
       color: inherit;
