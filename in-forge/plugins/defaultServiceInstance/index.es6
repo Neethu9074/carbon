@@ -8,8 +8,8 @@ registerSnapshotDefinition({
   icon,
 
   pluginName: {
-    singular: 'Unspecified Logical Service Instance',
-    plural: 'Unspecified Logical Service Instances'
+    singular: 'Logical Service Instance',
+    plural: 'Logical Service Instances'
   },
 
   chartWiggleRoom: 20000,

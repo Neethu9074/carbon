@@ -1,3 +1,5 @@
+import {combineLatest} from 'reactive-observables';
+
 import {sortDirection$} from 'in-components/traceView/stores/sortDirection';
 import {autoUpdate$} from 'in-components/traceView/stores/autoUpdate';
 import createTracesObservable from 'in-services/subscription/traces';
@@ -10,6 +12,7 @@ import {createStore} from 'in-stores/store';
 import {getLabel} from 'in-sdk/tracing';
 
 let initPhase = false;
+let enabled = false;
 let subscriptions = [];
 let loadSubscription;
 let autoUpdateHandle;
@@ -66,11 +69,13 @@ export function enable() {
   }));
 
   initPhase = false;
+  enabled = true;
   refresh();
 }
 
 
 export function disable() {
+  enabled = false;
   tracesStore.mutateTo([]);
   subscriptions.forEach(s => s.dispose());
   disposeExistingLoad();
@@ -80,18 +85,26 @@ export function disable() {
 
 
 export function refresh() {
-  if (initPhase) {
+  if (initPhase || !enabled) {
     return;
   }
 
-  to$.once(to => maxTimestamp = to);
-  from$.once(from => minTimestamp = from);
-  tracesStore.mutateTo([]);
-  loadMoreTraces();
+  combineLatest([to$, from$])
+    .once(([to, from]) => {
+      maxTimestamp = to;
+      minTimestamp = from;
+
+      tracesStore.mutateTo([]);
+      loadMoreTraces();
+    });
 }
 
 
 export function loadMoreTraces() {
+  if (initPhase || !enabled) {
+    return;
+  }
+
   disposeExistingLoad();
   isLoadingStore.mutateTo(true);
 
@@ -152,5 +165,6 @@ function addNewTraces(newTraces) {
 function disposeExistingLoad() {
   if (loadSubscription) {
     loadSubscription.dispose();
+    loadSubscription = null;
   }
 }
