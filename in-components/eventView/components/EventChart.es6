@@ -31,7 +31,8 @@ function EventChart({to, event}) {
     <div className={block}>
       {triggeringMetrics.map(metric => {
         const metricName = metric.get('metricName');
-        const from = event.get('start');
+        const from = event.getIn(['metadata', 'triggeringTime'], event.get('start'));
+        console.log(from);
         const timeframe = {
           to,
           windowSize: event.get('end') - from
