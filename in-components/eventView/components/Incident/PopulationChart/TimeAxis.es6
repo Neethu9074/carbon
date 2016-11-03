@@ -8,9 +8,11 @@ import './TimeAxis.less';
 
 
 const block = 'in-event-view-detail-chart-time-axis';
-const maxSteps = 5;
 
 export default function TimeAxis({scale}) {
+  // full width / max pixels per timestamp
+  const maxSteps = Math.ceil((scale.getRangeTo() - scale.getRangeFrom()) / 180);
+
   const windowSize = scale.getDomainTo() - scale.getDomainFrom();
 
   // clamp the stepSize to give the timestamps enough space
