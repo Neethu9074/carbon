@@ -1,11 +1,14 @@
 import {registerSnapshotDefinition, getLabel} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
+import metricDefinitions from './metricDefinitions';
 import icon from './icon.svg';
+
 
 registerSnapshotDefinition({
   plugin: plugins.webAppServiceInstance,
   icon,
+  metricDefinitions,
 
   pluginName: {
     singular: 'WebApp Instance',
