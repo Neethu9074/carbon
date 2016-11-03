@@ -1,12 +1,10 @@
 import React from 'react';
 
-import {emptyList} from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {
-  bytesTwoDecimalPlaces
-} from 'in-services/formatters/number';
+import {emptyList} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
 
