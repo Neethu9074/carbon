@@ -121,7 +121,6 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                          margins={{
                            left: 60
                          }}
-
                          y1={{
                            min: 0,
                            metrics: [
