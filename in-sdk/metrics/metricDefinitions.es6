@@ -196,5 +196,7 @@ function sortCategories(node) {
 }
 
 export function getMetricMatch(pre, post) {
-  return new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i');
+  return post
+    ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i')
+    : new RegExp(`^${pre}\\.(.*)$`, 'i');
 }

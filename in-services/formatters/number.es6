@@ -96,8 +96,8 @@ export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
   return withSiPrefixThreeDecimalPlaces(d);
 };
 export const siMultiplyPrefix = {
-  compact: withSiPrefixZeroDecimalPlaces,
-  detailed: withSiPrefixThreeDecimalPlaces
+  compact: withSiMultiplyPrefixZeroDecimalPlaces,
+  detailed: withSiMultiplyPrefixThreeDecimalPlaces
 };
 
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
