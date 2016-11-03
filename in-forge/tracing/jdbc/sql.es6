@@ -68,8 +68,10 @@ function shortenSelectStatement(sql) {
     return sql;
   }
 
+  const count = sql.match(/.*select\s+count\s*\(.*/i) ? ' COUNT' : '';
+
   const from = match[2] || match[4];
-  const result = `SELECT … FROM ${from}`;
+  const result = `SELECT${count} … FROM ${from}`;
   return prependComments(sql, result);
 }
 

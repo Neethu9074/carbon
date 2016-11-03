@@ -26,6 +26,11 @@ describe('in-forge/tracing/jdbc/sql', () => {
             .to.equal('/* MyAwesomeDao */ SELECT … FROM product');
       });
 
+      it('must include count hint', () => {
+          expect(shortenSqlStatement('select count(*) from product'))
+            .to.equal('SELECT COUNT … FROM product');
+      });
+
       it('must not add excess ellipsis', () => {
         expect(shortenSqlStatement('select product0_.id as id1_0_, product0_.name as name2_0_ from product'))
           .to.equal('SELECT … FROM product');
