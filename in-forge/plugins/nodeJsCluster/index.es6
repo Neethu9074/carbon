@@ -1,11 +1,15 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from './icon.svg';
+import icon from 'in-forge/plugins/nodeJsRuntimePlatform/icon.svg';
+
+import metricDefinitions from './metricDefinitions';
+
 
 registerSnapshotDefinition({
   plugin: plugins.nodejsCluster,
   icon,
+  metricDefinitions,
 
   pluginName: {
     singular: 'Node.js Cluster',
