@@ -55,19 +55,32 @@ export default function ClrDashboard({snapshot, timeframe}) {
                          }}
 
                          y1={{
+                            min: 0,
+                            metrics: [
+                              'mem.gen0GC',
+                              'mem.gen1GC',
+                              'mem.gen2GC'
+                            ],
+                            labels: [
+                              'Generation 0',
+                              'Generation 1',
+                              'Generation 2'
+                            ],
+                            type: 'point',
+                            formatter: zeroDecimalPlaces
+                          }}
+
+                         y2={{
                            min: 0,
+                           max: 100,
                            metrics: [
-                             'mem.gen0GC',
-                             'mem.gen1GC',
-                             'mem.gen2GC'
+                             'mem.time_in_gc'
                            ],
                            labels: [
-                             'Generation 0',
-                             'Generation 1',
-                             'Generation 2'
+                             'Time spent in GC (%)'
                            ],
-                           type: 'stackedArea',
-                           formatter: zeroDecimalPlaces
+                           type: 'line',
+                           formatter: twoDecimalPlaces
                          }}/>
       </DashboardSection>
 
