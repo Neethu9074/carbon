@@ -20,15 +20,15 @@ const usageInfoVisibleStore = createStore({
 });
 const usageInfoVisible$ = usageInfoVisibleStore.observable;
 
-function hideUsageInfo() {
+export function hideUsageInfo() {
   usageInfoVisibleStore.mutateTo(false);
 }
 
 export function init() {
   // deactivate usage info handling in dev mode for some peace of mind
-  if (__DEV__) {
-    return;
-  }
+  // if (__DEV__) {
+  //   return;
+  // }
 
   combineLatest([usageInfo$, usageInfoVisible$])
     .subscribe(([usageInfo, visible]) => {

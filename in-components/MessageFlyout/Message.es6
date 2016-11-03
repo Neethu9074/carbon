@@ -14,7 +14,13 @@ export default function Message({message}) {
 
   return (
     <div className={classes}
-         onClick={message.onClick}>
+         onClick={e => {
+           e.preventDefault();
+           e.stopPropagation();
+           if (message.onClick) {
+             message.onClick();
+           }
+         }}>
       <SvgIcon type={message.icon}
                className={`${block}__icon`}
                width={18}/>

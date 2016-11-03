@@ -8,7 +8,6 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
 
   return create({
     start(observable) {
-
       const xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
       xhr.timeout = timeout;
@@ -35,7 +34,6 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
         }
       };
       xhr.send(JSON.stringify(data));
-
     }
   });
 }
