@@ -42,7 +42,7 @@ export default [
   {
     metric: getMetricMatch('gc', 'time'),
     label(snapshot, metricMatch) {
-      // is that correct ?
+      // TODO: use correct labeling
       return metricMatch + 'Time';
     },
     min: 0,
@@ -51,7 +51,7 @@ export default [
   {
     metric: getMetricMatch('gc', 'inv'),
     label(snapshot, metricMatch) {
-      // is that correct ?
+      // TODO: use correct labeling
       return metricMatch + 'Invocations';
     },
     min: 0,
@@ -60,12 +60,12 @@ export default [
   {
     metric: getMetricMatch('jmx'),
     label(snapshot, metricMatch) {
-      // is that correct ?
+      // TODO: use correct labeling
       return metricMatch;
     },
     min: 0,
     formatter: siPrefix
   }
 
-  // I don't have a fucking clue how to translate MemoryPoolsTable because label and max are depending on the name
+  // TODO: Implement MemoryPoolsTable metricss
 ];
