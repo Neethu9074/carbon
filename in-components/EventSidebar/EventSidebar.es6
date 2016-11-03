@@ -34,7 +34,7 @@ function EventSidebar({snapshot, event, incident, windowHeight, timelineHeight})
          style={{
            maxHeight: toPx(windowHeight - timelineHeight - 150)
          }}>
-      <Header eventId={event.get('id')} />
+      <Header eventId={incident ? incident.get('id') : event.get('id')} />
       {incident
         ? <IncidentContent event={incident} />
         : <EventContent event={event} />
