@@ -2,7 +2,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
-import Code from 'in-components/Code';
+import Code from 'in-sdk/components/traceDetails/Code';
 
 export default function SdkSpanDetailView({span}) {
   const custom = span.getIn(['data', 'sdk', 'custom']);

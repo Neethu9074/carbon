@@ -57,7 +57,11 @@ export default React.createClass({
       line = getActualJavaLine(code, line);
     }
 
-    preElement.dataset.line = line;
+    if (line != null) {
+      preElement.dataset.line = line;
+    } else {
+      delete preElement.dataset.line;
+    }
     codeElement.textContent = code;
     Prism.highlightElement(codeElement);
 
