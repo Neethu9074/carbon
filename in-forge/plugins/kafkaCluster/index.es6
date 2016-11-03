@@ -5,9 +5,13 @@ import {plugins} from 'in-forge/constants';
 
 import icon from 'in-forge/plugins/kafka/icon.svg';
 
+import metricDefinitions from './metricDefinitions';
+
+
 registerSnapshotDefinition({
   plugin: plugins.kafkaCluster,
-  icon
+  icon,
+  metricDefinitions
 });
 
 setHumanReadablePluginName(
