@@ -5,6 +5,7 @@ import IncidentContent from 'in-components/eventView/components/Incident/Content
 import EventContent from 'in-components/eventView/components/Event/Content';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import {selectedEvent$, selectedIncident$} from 'in-stores/events';
+import Header from 'in-components/EventSidebar/components/Header';
 import {selectedSnapshot$} from 'in-stores/snapshot';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -33,6 +34,7 @@ function EventSidebar({snapshot, event, incident, windowHeight, timelineHeight})
          style={{
            maxHeight: toPx(windowHeight - timelineHeight - 150)
          }}>
+      <Header eventId={event.get('id')} />
       {incident
         ? <IncidentContent event={incident} />
         : <EventContent event={event} />
