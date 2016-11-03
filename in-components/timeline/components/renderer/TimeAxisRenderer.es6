@@ -25,9 +25,17 @@ export default class TimeAxisRenderer extends BasicRenderer {
   }
 
   draw(axisConfig) {
+    const scale = this.scale;
+    // full width / max pixels per timestamp
+    const maxSteps = Math.ceil((scale.getRangeTo() - scale.getRangeFrom()) / 180);
+
+    const windowSize = scale.getDomainTo() - scale.getDomainFrom();
+
+    axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
+
+
     const tickPositions = getTickPositions(this.scale, axisConfig);
     const buffer = this.backBuffer;
-    const scale = this.scale;
 
     for (let i = 0, length = tickPositions.length; i < length; i++) {
       const position = tickPositions[i];
