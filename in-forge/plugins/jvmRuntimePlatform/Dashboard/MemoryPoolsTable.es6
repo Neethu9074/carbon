@@ -75,7 +75,6 @@ function createDetails(pool, poolName, context) {
            margins={{
              left: 80
            }}
-
            y1={{
              max: getMaxValue(
                'pools.' + poolName,

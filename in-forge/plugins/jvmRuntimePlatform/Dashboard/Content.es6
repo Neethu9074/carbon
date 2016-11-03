@@ -39,7 +39,6 @@ export default function JVMDashboard({snapshot, timeframe}) {
                          margins={{
                            left: 60
                          }}
-
                          y1={{
                            min: 0,
                            metrics: [

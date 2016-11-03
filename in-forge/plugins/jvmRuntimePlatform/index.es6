@@ -1,16 +1,19 @@
+import tableDefinition from 'in-forge/plugins/jvmRuntimePlatform/tableDefinition';
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
-import tableDefinition from 'in-forge/plugins/jvmRuntimePlatform/tableDefinition';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
 
+import metricDefinitions from './metricDefinitions';
 import icon from './icon.svg';
 import './metrics.es6';
+
 
 registerSnapshotDefinition({
   plugin: plugins.jvm,
   icon,
+  metricDefinitions,
   supportsCodeView,
   getCodeView,
   tableDefinition
