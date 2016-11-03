@@ -70,8 +70,8 @@ React.createClass({
              }}>
           <SvgIcon className={`${block}__icon`}
                    type={type}
-                   width={14}
-                   height={14}
+                   width={16}
+                   height={16}
                    color='#fff' />
         </div>
       </Tooltip>
