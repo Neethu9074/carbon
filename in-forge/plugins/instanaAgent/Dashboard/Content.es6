@@ -41,11 +41,13 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                            }}
                            y1={{
                              min: 0,
-                             type: 'stackedArea',
                              metrics: [
                                'cpu.load'
                              ],
-                             labels: ['Load']
+                             labels: [
+                               'Load'
+                             ]
+                             type: 'stackedArea',
                            }}/>
         </DashboardSection>
       : null}
