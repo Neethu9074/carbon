@@ -1,5 +1,3 @@
-
-
 import {
   addMaxValueLocator,
   addMinValueLocator
