@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SidebarIncidents from 'in-components/IncidentSidebar';
+import EventSidebar from 'in-components/EventSidebar';
 import MapSidebar from 'in-components/MapSidebar';
 import Controls from 'in-components/Controls';
 import MapNotes from 'in-components/MapNotes';
@@ -12,7 +12,7 @@ export default function MapHandler(props) {
       <section>
         <Map webVRMode={props.webVRMode} />
         <Controls />
-        <SidebarIncidents />
+        <EventSidebar />
         <MapSidebar />
         <MapNotes />
       </section>

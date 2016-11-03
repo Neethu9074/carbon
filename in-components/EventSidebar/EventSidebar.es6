@@ -1,28 +1,28 @@
-import irpt from 'react-immutable-proptypes';
 import {on} from 'reactive-observables';
 import React from 'react';
 
 import IncidentContent from 'in-components/eventView/components/Incident/Content';
+import EventContent from 'in-components/eventView/components/Event/Content';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
-import {selectedIncident$} from 'in-stores/events';
+import {selectedEvent$, selectedIncident$} from 'in-stores/events';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/IncidentSidebar/IncidentSidebar.less';
+import 'in-components/EventSidebar/EventSidebar.less';
 
 
-const block = 'in-incident-sidebar';
+const block = 'in-event-sidebar';
 
 export default connectTo({
   incident: selectedIncident$,
+  event: selectedEvent$,
+  timelineHeight: timelineHeight$,
   windowHeight: on(window, 'resize')
     .map(() => window.innerHeight)
-    .startWithFn(() => window.innerHeight),
-  timelineHeight: timelineHeight$
-}, SidebarIncidents);
-
-function SidebarIncidents({incident, windowHeight, timelineHeight}) {
-  if (!incident) {
+    .startWithFn(() => window.innerHeight)
+},
+function EventSidebar({event, incident, windowHeight, timelineHeight}) {
+  if (!incident && !event) {
     return null;
   }
 
@@ -31,11 +31,10 @@ function SidebarIncidents({incident, windowHeight, timelineHeight}) {
          style={{
            maxHeight: toPx(windowHeight - timelineHeight - 150)
          }}>
-      <IncidentContent event={incident} />
+      {incident
+        ? <IncidentContent event={incident} />
+        : <EventContent event={event} />
+      }
     </div>
   );
-}
-
-SidebarIncidents.propTypes = {
-  incident: irpt.map
-};
+});
