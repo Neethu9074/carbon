@@ -61,6 +61,26 @@ export function cloneDeep(obj) {
 }
 
 
+export function buildUrlStream({path}) {
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(params => {
+      params.pathname = path;
+      delete params.query.q;
+      return params;
+    })
+    .map(toUrl)
+    .distinct();
+}
+
+
+export function buildPathStartsWithStream(path) {
+  return navigationParameters$
+    .map(params => params.pathname.indexOf(path) === 0)
+    .distinct();
+}
+
+
 function getActiveView(params) {
   const match = params.pathname.match(/\/([a-z]+)\/?/i);
   return match ? match[1] : 'physical';

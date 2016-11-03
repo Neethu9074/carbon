@@ -3,6 +3,8 @@
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
+import HttpServiceExtrationConfiguration from 'in-views/configurationView/subview/HttpServiceExtrationConfiguration';
+import ConfigurationView from 'in-views/configurationView/ConfigurationView';
 import TraceView from 'in-components/traceView/TraceView';
 import EventView from 'in-components/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
@@ -44,6 +46,12 @@ export default (
            path='table'>
       <Route component={Dashboard}
              path='dashboard' />
+    </Route>
+
+    <Route component={ConfigurationView}
+           path='config'>
+      <Route component={HttpServiceExtrationConfiguration}
+             path='httpServiceExtration' />
     </Route>
 
     <Route component={GraphView}
