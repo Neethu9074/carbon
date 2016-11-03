@@ -6,9 +6,13 @@ import {plugins} from 'in-forge/constants';
 
 import icon from 'in-forge/plugins/jbossDataGrid/icon.svg';
 
+import metricDefinitions from './metricDefinitions';
+
+
 registerSnapshotDefinition({
   plugin: plugins.jbossas,
   icon,
+  metricDefinitions,
   supportsCodeView,
   getCodeView
 });

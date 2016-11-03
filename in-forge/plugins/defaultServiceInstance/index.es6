@@ -3,9 +3,13 @@ import {plugins} from 'in-forge/constants';
 
 import icon from 'in-sdk/unknown_icon.svg';
 
+import metricDefinitions from './metricDefinitions';
+
+
 registerSnapshotDefinition({
   plugin: plugins.defaultServiceInstance,
   icon,
+  metricDefinitions,
 
   pluginName: {
     singular: 'Logical Service Instance',

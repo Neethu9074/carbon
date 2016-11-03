@@ -3,9 +3,13 @@ import {plugins} from 'in-forge/constants';
 
 import icon from 'in-sdk/tracing/categoryIcons/database.svg';
 
+import metricDefinitions from './metricDefinitions';
+
+
 registerSnapshotDefinition({
   plugin: plugins.databaseServiceInstance,
   icon,
+  metricDefinitions,
 
   pluginName: {
     singular: 'Database Instance',
