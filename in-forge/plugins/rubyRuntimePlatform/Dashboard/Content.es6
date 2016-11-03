@@ -52,7 +52,7 @@ export default function RubyDashboard({snapshot, timeframe}) {
                  type: 'line'
                }}/>
       </DashboardSection>
-      <DashboardSection title='Heap'>
+      <DashboardSection title='Heap Slots'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{
@@ -61,7 +61,7 @@ export default function RubyDashboard({snapshot, timeframe}) {
                }}
                y1={{
                  min: 0,
-                 formatter: twoDecimalPlaces,
+                 formatter: zeroDecimalPlaces,
                  metrics: [
                    'gc.heap_live',
                    'gc.heap_free'
