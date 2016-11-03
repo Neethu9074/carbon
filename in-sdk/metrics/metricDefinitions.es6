@@ -194,3 +194,7 @@ function sortCategories(node) {
     node.children.forEach(sortCategories);
   }
 }
+
+export function getMetricMatch(pre, post) {
+  return new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i');
+}

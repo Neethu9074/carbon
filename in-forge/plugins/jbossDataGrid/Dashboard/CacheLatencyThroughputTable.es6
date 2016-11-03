@@ -87,8 +87,8 @@ function createDetails(cacheInfo, cacheName, context) {
                          ],
                          labels: [
                            'Average Read Time',
-                           'Average Write Time',
-                           'Average Remove Time'
+                           'Average Remove Time',
+                           'Average Write Time'
                          ],
                          type: 'line'
                        }}/>

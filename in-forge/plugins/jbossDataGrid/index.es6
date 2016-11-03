@@ -1,14 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/jbossDataGrid/metricDefinitions';
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {emptyMap} from 'in-services/fixedImmutables';
-import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {addSearchableEntityType} from 'in-sdk/search';
+import {emptyMap} from 'in-services/fixedImmutables';
 import {plugins} from 'in-forge/constants';
 
 import icon from './icon.svg';
 
 registerSnapshotDefinition({
   plugin: plugins.jbossdatagrid,
-  icon
+  icon,
+  metricDefinitions
 });
 
 

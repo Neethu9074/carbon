@@ -46,8 +46,8 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                              ],
                              labels: [
                                'Load'
-                             ]
-                             type: 'stackedArea',
+                             ],
+                             type: 'stackedArea'
                            }}/>
         </DashboardSection>
       : null}
