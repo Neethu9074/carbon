@@ -7,27 +7,25 @@ registerSnapshotDefinition({
   plugin: plugins.ruby,
   icon,
   pluginName: {
-    singular: 'Ruby Runtime',
-    plural: 'Ruby Runtimes'
+    singular: 'Ruby App',
+    plural: 'Ruby Apps'
   },
 
   namesForTypeSearch: ['ruby', 'rubylang'],
 
   getLabel(s) {
     const data = s.get('data');
+    const name = data.get('name');
+    if (name) {
+      return name;
+    }
+
     const rubyVersion = data.get('ruby_version');
     if (!rubyVersion) {
       return getFallbackLabel(s);
     }
 
-    const label = 'Ruby v' + rubyVersion;
-
-    const name = data.get('name');
-    if (!name) {
-      return label;
-    }
-
-    return label + ' executing ' + name;
+    return 'Ruby v' + rubyVersion;
   }
 
 });
