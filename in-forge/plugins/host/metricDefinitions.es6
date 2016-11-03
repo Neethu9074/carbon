@@ -5,6 +5,7 @@ import {
   percentage,
   siMultiplyPrefix
 } from 'in-services/formatters/number';
+import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
 import {isWindows} from 'in-forge/plugins/host/hostUtils';
 
 const availableCpuMetricSuffixes = {
@@ -126,7 +127,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: /^fs\.(.*)\.free$/i,
+    metric: getMetricMatch('fs', 'free'),
     label: 'Free',
     category: ['Filesystem'],
     min: 0,
@@ -134,7 +135,7 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: /^fs\.(.*)\.leaked$/i,
+    metric: getMetricMatch('fs', 'leaked'),
     label: 'Leaked',
     category: ['Filesystem'],
     min: 0,
@@ -142,7 +143,7 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: /^fs\.(.*)\.ifree$/i,
+    metric: getMetricMatch('fs', 'ifree'),
     label: 'iFree',
     category: ['Filesystem'],
     min: 0,
@@ -153,28 +154,28 @@ export default [
     }
   },
   {
-    metric: /^fs\.(.*)\.reads$/i,
+    metric: getMetricMatch('fs', 'reads'),
     label: 'Reads/s',
     category: ['Filesystem'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: /^fs\.(.*)\.writes$/i,
+    metric: getMetricMatch('fs', 'writes'),
     label: 'Writes/s',
     category: ['Filesystem'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: /^fs\.(.*)\.readBytes$/i,
+    metric: getMetricMatch('fs', 'readBytes'),
     label: 'Bytes Read/s',
     category: ['Filesystem'],
     min: 0,
     formatter: kiloBytes
   },
   {
-    metric: /^fs\.(.*)\.writeBytes$/i,
+    metric: getMetricMatch('fs', 'writeBytes'),
     label: 'Bytes Written/s',
     category: ['Filesystem'],
     min: 0,
