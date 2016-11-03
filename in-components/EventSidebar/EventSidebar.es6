@@ -5,6 +5,7 @@ import IncidentContent from 'in-components/eventView/components/Incident/Content
 import EventContent from 'in-components/eventView/components/Event/Content';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import {selectedEvent$, selectedIncident$} from 'in-stores/events';
+import {selectedSnapshot$} from 'in-stores/snapshot';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
@@ -14,6 +15,7 @@ import 'in-components/EventSidebar/EventSidebar.less';
 const block = 'in-event-sidebar';
 
 export default connectTo({
+  snapshot: selectedSnapshot$,
   incident: selectedIncident$,
   event: selectedEvent$,
   timelineHeight: timelineHeight$,
@@ -21,8 +23,8 @@ export default connectTo({
     .map(() => window.innerHeight)
     .startWithFn(() => window.innerHeight)
 },
-function EventSidebar({event, incident, windowHeight, timelineHeight}) {
-  if (!incident && !event) {
+function EventSidebar({snapshot, event, incident, windowHeight, timelineHeight}) {
+  if ((!incident && !event) || snapshot) {
     return null;
   }
 
