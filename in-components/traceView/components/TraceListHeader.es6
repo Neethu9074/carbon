@@ -3,7 +3,7 @@ import React from 'react';
 import {setTraceTypeFilter, removeTraceTypeFilter} from 'in-components/traceView/stores/filters';
 import TraceListFilterToggle from 'in-components/traceView/components/TraceListFilterToggle';
 import {toggleAutoUpdate, autoUpdate$} from 'in-components/traceView/stores/autoUpdate';
-import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$} from 'in-stores/traces';
+import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$, totalTraceCountNoFiltering$} from 'in-stores/traces';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import {refresh} from 'in-components/traceView/stores/traceList';
 import Count from 'in-components/traceView/components/Count';
@@ -19,7 +19,13 @@ export default function TraceListHeader() {
   return (
     <ViewHeader className={block}>
       <div className={`${block}__left-side`}>
-        <h1 className={`${block}__title`}>Traces</h1>
+        <h1 className={`${block}__title`}>
+          Traces
+
+          {!isEumEnabled ?
+            <Count count$={totalTraceCountNoFiltering$} />
+          : null}
+        </h1>
 
         {isEumEnabled ?
           <TraceListFilterToggle filter='all'
