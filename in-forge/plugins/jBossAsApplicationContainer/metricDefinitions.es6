@@ -2,41 +2,42 @@ import {
   millis,
   number
 } from 'in-services/formatters/number';
+import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
 
 
 export default [
   {
-    metric: /^sessions\.(.*)\.activeSessions$/i,
+    metric: getMetricMatch('sessions', 'activeSessions'),
     label: 'Active Sessions',
     min: 0,
     formatter: number
   },
   {
-    metric: /^servlets\.(.*)\.avgResponseTime$/i,
+    metric: getMetricMatch('servlets', 'avgResponseTime'),
     label: 'Average Response Time',
     min: 0,
     formatter: millis
   },
   {
-    metric: /^servlets\.(.*)\.requests$/i,
+    metric: getMetricMatch('servlets', 'requests'),
     label: 'Requests',
     min: 0,
     formatter: number
   },
   {
-    metric: /^connectors\.(.*)\.avgResponseTime$/i,
+    metric: getMetricMatch('connectors', 'avgResponseTime'),
     label: 'Average Response Time',
     min: 0,
     formatter: millis
   },
   {
-    metric: /^connectors\.(.*)\.requests$/i,
+    metric: getMetricMatch('connectors', 'requests'),
     label: 'Requests',
     min: 0,
     formatter: number
   },
   {
-    metric: /^connectors\.(.*)\.errors$/i,
+    metric: getMetricMatch('connectors', 'errors'),
     label: 'Errors',
     min: 0,
     formatter: number
