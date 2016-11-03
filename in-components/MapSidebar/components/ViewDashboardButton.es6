@@ -16,7 +16,7 @@ export default connectTo(props => {
   return (
     <Button href={href}
             className={block}>
-      Dashboard
+      Open Dashboard
     </Button>
   );
 });

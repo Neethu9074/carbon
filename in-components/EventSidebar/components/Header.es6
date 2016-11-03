@@ -19,7 +19,7 @@ function Header({href}) {
     <div className={block}>
       <Button href={href}
               className={`${block}__button`}>
-        Incidents
+        Open Event View
       </Button>
     </div>
   );
