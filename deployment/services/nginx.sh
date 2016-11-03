@@ -3,6 +3,7 @@
 if [[ "$ENVIRONMENT" = "internal" ]]; then
   echo "Internal environment. Not starting the nginx."
   sleep 600
+  exit
 fi
 
 USER=root
