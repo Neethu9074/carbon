@@ -128,7 +128,6 @@ function renderGcMetrics(snapshot, timeframe) {
                          left: 60,
                          right: 60
                        }}
-
                        y1={{
                          min: 0,
                          formatter: bytesTwoDecimalPlaces,
@@ -167,7 +166,6 @@ function renderGcMetrics(snapshot, timeframe) {
                      margins={{
                        left: 60
                      }}
-
                      y1={{
                        min: 0,
                        formatter: bytesZeroDecimalPlaces,

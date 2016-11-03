@@ -1,13 +1,17 @@
 import tableDefinition from 'in-forge/plugins/nodeJsRuntimePlatform/tableDefinition';
-import icon from 'in-forge/plugins/nodeJsRuntimePlatform/icon.svg';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {getCodeView} from 'in-forge/codeView/node';
 import {plugins} from 'in-forge/constants';
+
+import icon from 'in-forge/plugins/nodeJsRuntimePlatform/icon.svg';
+
+import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.nodejs,
   icon,
+  metricDefinitions,
   pluginName: {
     singular: 'Node.js App',
     plural: 'Node.js Apps'
