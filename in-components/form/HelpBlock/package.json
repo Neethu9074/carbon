@@ -1,0 +1,6 @@
+{
+  "name": "HelpBlock",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HelpBlock.es6"
+}

@@ -55,7 +55,7 @@ Button.propTypes = {
   style: rpt.object,
   children: rpt.any.isRequired,
   type: rpt.oneOf(['button', 'submit']),
-  kind: rpt.oneOf(['default', 'secondary']),
+  kind: rpt.oneOf(['default', 'primary', 'secondary', 'danger']),
   size: rpt.oneOf(['lg', 'sm']),
   onClick: rpt.func,
   href: rpt.string

@@ -1,0 +1,50 @@
+.in-config-http-ex-rule {
+  max-width: 50rem;
+  background: #fff;
+  padding: .75rem;
+  margin-bottom: .25rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__name-group {
+    width: 100%;
+    margin-right: 15px;
+  }
+
+  &__without-bottom-margin {
+    margin-bottom: 0;
+  }
+
+  &__actions-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 51.5rem;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: .375rem;
+  }
+
+  &__down, &__toggle {
+    margin-left: .375rem;
+  }
+
+  &__up, &__down, &__toggle {
+    fill: #2D4048;
+    cursor: pointer;
+
+    &:hover {
+      fill: lighten(#2D4048, 20%);
+    }
+  }
+
+  &__remove-wrapper {
+    text-align: right;
+  }
+}
