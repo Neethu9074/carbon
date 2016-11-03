@@ -1,0 +1,27 @@
+.in-config-view-nav-item {
+  list-style: none;
+
+  &__toggle {
+    fill: #2D4048;
+    margin: 0 .3rem 0 0;
+    position: relative;
+    top: -1px;
+  }
+
+  &__link {
+    cursor: pointer;
+    color: #2D4048;
+
+    &:hover {
+      color: #8c969a;
+
+      .in-config-view-nav-item__toggle {
+        fill: #8c969a;
+      }
+    }
+
+    &--active {
+      font-weight: bold;
+    }
+  }
+}

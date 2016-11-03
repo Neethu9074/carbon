@@ -2,6 +2,6 @@ import {buildUrlStream, buildPathStartsWithStream} from 'in-stores/navigation/na
 
 export const configurationViewLink$ = buildUrlStream({path: '/config'});
 
-const httpServiceExtrationConfigViewPath = '/config/httpServiceExtration';
-export const httpServiceExtrationConfigurationViewLink$ = buildUrlStream({path: httpServiceExtrationConfigViewPath});
-export const isHttpServiceExtrationConfigurationView$ = buildPathStartsWithStream(httpServiceExtrationConfigViewPath);
+const httpServiceExtractionConfigViewPath = '/config/httpServiceExtraction';
+export const httpServiceExtractionConfigurationViewLink$ = buildUrlStream({path: httpServiceExtractionConfigViewPath});
+export const isHttpServiceExtractionConfigurationView$ = buildPathStartsWithStream(httpServiceExtractionConfigViewPath);

@@ -1,20 +1,24 @@
 import React from 'react';
 
 import {
-  httpServiceExtrationConfigurationViewLink$,
-  isHttpServiceExtrationConfigurationView$
+  httpServiceExtractionConfigurationViewLink$,
+  isHttpServiceExtractionConfigurationView$
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
 
+import './Navigation.less';
+
+const block = 'in-config-view-nav';
+
 export default function Navigation() {
   return (
-    <nav>
+    <nav className={block}>
       <NavItems>
         <NavItem title='Service Extraction'>
           <NavItem title='HTTP'
-                   href$={httpServiceExtrationConfigurationViewLink$}
-                   isActive$={isHttpServiceExtrationConfigurationView$}/>
+                   href$={httpServiceExtractionConfigurationViewLink$}
+                   isActive$={isHttpServiceExtractionConfigurationView$}/>
         </NavItem>
       </NavItems>
     </nav>

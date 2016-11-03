@@ -20,7 +20,8 @@ export function joinClassNames() {
  *  whether the class name should be included in the result
  * @returns {string} Space-separated list of classnames that should be used.
  */
-export default function classnames(definition) {
+
+export function evaluateClassNames(definition) {
   let classes = '';
   for (const key in definition) {
     if (definition[key]) {
@@ -29,3 +30,5 @@ export default function classnames(definition) {
   }
   return classes.substr(1);
 }
+
+export default evaluateClassNames;

@@ -3,7 +3,7 @@
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
-import HttpServiceExtrationConfiguration from 'in-views/configurationView/subview/HttpServiceExtrationConfiguration';
+import HttpServiceExtractionConfiguration from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import ConfigurationView from 'in-views/configurationView/ConfigurationView';
 import TraceView from 'in-components/traceView/TraceView';
 import EventView from 'in-components/eventView/EventView';
@@ -50,8 +50,8 @@ export default (
 
     <Route component={ConfigurationView}
            path='config'>
-      <Route component={HttpServiceExtrationConfiguration}
-             path='httpServiceExtration' />
+      <Route component={HttpServiceExtractionConfiguration}
+             path='httpServiceExtraction' />
     </Route>
 
     <Route component={GraphView}

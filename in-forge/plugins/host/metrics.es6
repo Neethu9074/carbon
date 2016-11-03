@@ -26,20 +26,20 @@ addMaxValueLocator(
 addMinValueLocator(/^cpu\.(user|sys|wait|nice|steal|idle)/, zero);
 
 addMaxValueLocator(
-  /^fs\.([^\.]+)\.free/,
+  /^fs\.(.*)\.free/,
   (snapshot, matches) => snapshot.getIn([
     'data', 'filesystems', matches[1], 'capacity'
   ])
 );
-addMinValueLocator(/^fs\.([^\.]+)\.free/, zero);
+addMinValueLocator(/^fs\.(.*)\.free/, zero);
 
 addMaxValueLocator(
-  /^fs\.([^\.]+)\.ifree/,
+  /^fs\.(.*)\.ifree/,
   (snapshot, matches) => snapshot.getIn([
     'data', 'filesystems', matches[1], 'icapacity'
   ])
 );
-addMinValueLocator(/^fs\.([^\.]+)\.ifree/, zero);
+addMinValueLocator(/^fs\.(.*)\.ifree/, zero);
 
 addFormattedValueLocator(
   /^memory\.free/,

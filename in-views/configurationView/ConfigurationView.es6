@@ -4,6 +4,8 @@ import ActiveSubView from 'in-views/configurationView/components/ActiveSubView';
 import Navigation from 'in-views/configurationView/components/Navigation';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 
+import './ConfigurationView.less';
+
 const block = 'in-configuration-view';
 
 export default function ConfigurationView({children}) {
