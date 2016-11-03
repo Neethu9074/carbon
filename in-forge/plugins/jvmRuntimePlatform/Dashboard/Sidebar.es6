@@ -6,16 +6,25 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import List from 'in-sdk/components/sidebar/List';
 
+import AppInfo from '../AppInfo';
 import Info from '../Info';
-
 
 export default function JvmRuntimeSidebar({snapshot}) {
   const args = snapshot.getIn(['data', 'jvm.args']);
 
   return (
     <div>
+      <Collapsible initiallyOpen={false}>
+        <Collapsible.Header>App</Collapsible.Header>
+        <Collapsible.Content>
+          <AppInfo snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
-        <Collapsible.Header>Java</Collapsible.Header>
+        <Collapsible.Header>JVM</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

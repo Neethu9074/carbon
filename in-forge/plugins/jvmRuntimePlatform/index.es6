@@ -27,7 +27,13 @@ setHumanReadablePluginName(
 
 addLabelFinder(
   plugins.jvm,
-  snapshot => snapshot.getIn(['data', 'name'], 'Unknown JVM')
+  snapshot => {
+    const appInfo = snapshot.getIn(['data', 'appInfo']);
+    if (appInfo) {
+      return appInfo.get('title') + ' ' + appInfo.get('version');
+    }
+    return snapshot.getIn(['data', 'name'], 'Unknown JVM');
+  }
 );
 
 addSearchableEntityType('jvm', plugins.jvm);
