@@ -66,7 +66,8 @@ export default connectTo(props => {
            alt={`Icon depicting ${readablePluginId}`}
            className={`${block}__icon`} />
       &nbsp;
-      <DashboardLink snapshotId={snapshot.get('id')}>
+      <DashboardLink snapshotId={snapshot.get('id')}
+                     className={`${block}__link`}>
         {getLabel(snapshot)}
       </DashboardLink>
     </span>

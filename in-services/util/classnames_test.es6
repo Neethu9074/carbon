@@ -1,18 +1,35 @@
 /* eslint-env mocha */
 import {expect} from 'chai';
 
-import classnames from './classnames';
+import {joinClassNames} from 'in-services/util/classnames';
+import classnames from 'in-services/util/classnames';
 
 describe('util.classnames', () => {
-  it('should turn an object into a class string', () => {
-    expect(classnames({foo: true, bar: false})).to.equal('foo');
+  describe('joinClassNames', () => {
+    it('must not fail when no class names are passed', () => {
+      expect(joinClassNames()).to.equal('');
+    });
+
+    it('must not fail no valid class name is passed', () => {
+      expect(joinClassNames(null, undefined)).to.equal('');
+    });
+
+    it('must support partial class names', () => {
+      expect(joinClassNames('a', null, 'c')).to.equal(' a c');
+    });
   });
 
-  it('should handle falsy values', () => {
-    expect(classnames({bar: null})).to.equal('');
-  });
+  describe('default export', () => {
+    it('must turn an object into a class string', () => {
+      expect(classnames({foo: true, bar: false})).to.equal('foo');
+    });
 
-  it('should handle truthy values', () => {
-    expect(classnames({bar: 'blub'})).to.equal('bar');
+    it('must handle falsy values', () => {
+      expect(classnames({bar: null})).to.equal('');
+    });
+
+    it('must handle truthy values', () => {
+      expect(classnames({bar: 'blub'})).to.equal('bar');
+    });
   });
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {joinClassNames} from 'in-services/util/classnames';
 import {getDashboardLink} from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 
@@ -9,11 +10,11 @@ export default connectTo(props => {
   return {
     href: getDashboardLink(props.snapshotId)
   };
-}, function DashboardLink({href, children}) {
+}, function DashboardLink({href, children, className}) {
   return (
     <a href={href}
        onClick={stopPropagation}
-       className='in-dashboard-link'>
+       className={joinClassNames('in-dashboard-link', className)}>
       {children}
     </a>
   );

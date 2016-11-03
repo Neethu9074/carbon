@@ -1,3 +1,16 @@
+export function joinClassNames() {
+  let result = '';
+
+  for (let i = 0, len = arguments.length; i < len; i++) {
+    const className = arguments[i];
+    if (className != null) {
+      result += ' ' + className;
+    }
+  }
+
+  return result;
+}
+
 /**
  * Adapted from https://github.com/JedWatson/classnames, but only supports the
  * most common parameter type and assumes that we don't extend the prototype
