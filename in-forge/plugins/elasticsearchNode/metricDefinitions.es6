@@ -3,8 +3,10 @@ import {
   siPrefix,
   number,
   millis,
+  bytes,
   ms
 } from 'in-services/formatters/number';
+import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
 
 
 export default [
@@ -114,5 +116,23 @@ export default [
     min: 0,
     category: ['Threads'],
     formatter: number
+  },
+  {
+    metric: getMetricMatch('index', 'document_count'),
+    label: 'Documents',
+    min: 0,
+    formatter: siMultiplyPrefix
+  },
+  {
+    metric: getMetricMatch('index', 'deleted_count'),
+    label: 'Deletions',
+    min: 0,
+    formatter: siMultiplyPrefix
+  },
+  {
+    metric: getMetricMatch('index', 'size'),
+    label: 'Size',
+    min: 0,
+    formatter: bytes
   }
 ];
