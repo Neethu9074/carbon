@@ -4,12 +4,11 @@ import {
   zeroDecimalPlaces,
   hitRateZeroDecimalPlaces
 } from 'in-services/formatters/number';
-
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
-import MetricValue from 'in-components/MetricValue';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
 

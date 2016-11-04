@@ -1,7 +1,9 @@
 import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 
+import metricDefinitions from './metricDefinitions';
 import icon from './icon.svg';
+
 
 const iconMapping = {
   [fullyQualifiedPlugins.logicalHttpConnection]: plugins.unknownService,
@@ -30,6 +32,7 @@ const labelMapping = {
 registerSnapshotDefinition({
   plugin: plugins.unknownService,
   icon,
+  metricDefinitions,
 
   pluginName: {
     singular: 'Unknown Service',
