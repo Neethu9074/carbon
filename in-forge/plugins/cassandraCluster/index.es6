@@ -1,6 +1,6 @@
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
 
 import icon from 'in-forge/plugins/cassandraNode/icon.svg';

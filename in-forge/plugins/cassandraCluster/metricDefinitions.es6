@@ -3,6 +3,7 @@ import {
   number,
   bytes
 } from 'in-services/formatters/number';
+import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
 
 
 export default [
@@ -50,6 +51,22 @@ export default [
     labels: [
       'Overall Disk Size'
     ],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: [
+      'keyspaceCount'
+    ],
+    labels: [
+      'Keyspaces'
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('keyspace', 'diskSize'),
+    label: 'Disk Size',
     min: 0,
     formatter: bytes
   }
