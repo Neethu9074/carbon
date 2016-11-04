@@ -9,6 +9,13 @@ export const number = {
   detailed: twoDecimalPlaces
 };
 
+export const activityZeroDecimalPlaces = d => d < 0 ? 'No activity' : zeroDecimalPlaces(d);
+export const activityTwoDecimalPlaces = d => d < 0 ? 'No activity' : twoDecimalPlaces(d);
+export const activity = {
+  compact: activityZeroDecimalPlaces,
+  detailed: activityTwoDecimalPlaces
+};
+
 export const zeroDecimalPlacesPerSecond = d => zeroDecimalPlaces(d) + '/s';
 
 export const percentageZeroDecimalPlaces = d => zeroDecimalPlaces(d * 100) + '%';

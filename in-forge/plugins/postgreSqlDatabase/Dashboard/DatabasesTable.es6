@@ -1,14 +1,13 @@
 import React from 'react';
 
-import {hitRateZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
+import {activityZeroDecimalPlaces, hitRateZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyList} from 'in-services/fixedImmutables';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import Mtd from 'in-components/Mtd';
 
-const queriesFormatter = d => d < 0 ? 'No activity' : zeroDecimalPlaces(d);
 
 export default function DatabasesTable({snapshot, timeframe}) {
   const databases = snapshot.getIn(['data', 'dbs'], emptyList).sort();
@@ -59,19 +58,19 @@ function createRow(db, i, context) {
     <td>{db}</td>,
     <Mtd metric={'databases.' + db + '.queries'}
          snapshot={context.snapshot}
-         formatter={queriesFormatter} />,
+         formatter={activityZeroDecimalPlaces} />,
     <Mtd metric={'databases.' + db + '.queries_active'}
         snapshot={context.snapshot}
-        formatter={queriesFormatter} />,
+        formatter={activityZeroDecimalPlaces} />,
     <Mtd metric={'databases.' + db + '.queries_waiting'}
         snapshot={context.snapshot}
-        formatter={queriesFormatter} />,
+        formatter={activityZeroDecimalPlaces} />,
     <Mtd metric={'databases.' + db + '.xact_commit'}
         snapshot={context.snapshot}
-        formatter={queriesFormatter} />,
+        formatter={activityZeroDecimalPlaces} />,
     <Mtd metric={'databases.' + db + '.xact_rollback'}
         snapshot={context.snapshot}
-        formatter={queriesFormatter} />,
+        formatter={activityZeroDecimalPlaces} />,
     <Mtd metric={'databases.' + db + '.blks_hit_rate'}
         snapshot={context.snapshot}
         formatter={hitRateZeroDecimalPlaces} />,
@@ -101,7 +100,7 @@ function createDetails(db, i, context) {
                          }}
                          y1={{
                            min: 0,
-                           formatter: queriesFormatter,
+                           formatter: activityZeroDecimalPlaces,
                            metrics: [
                              'databases.' + db + '.queries'
                            ],
@@ -117,7 +116,7 @@ function createDetails(db, i, context) {
                          }}
                          y1={{
                            min: 0,
-                           formatter: queriesFormatter,
+                           formatter: activityZeroDecimalPlaces,
                            metrics: [
                              'databases.' + db + '.queries_select',
                              'databases.' + db + '.queries_update',
@@ -141,7 +140,7 @@ function createDetails(db, i, context) {
                            }}
                            y1={{
                              min: 0,
-                             formatter: queriesFormatter,
+                             formatter: activityZeroDecimalPlaces,
                              metrics: [
                                'databases.' + db + '.queries_active',
                                'databases.' + db + '.queries_waiting'
@@ -159,7 +158,7 @@ function createDetails(db, i, context) {
                            }}
                            y1={{
                              min: 0,
-                             formatter: queriesFormatter,
+                             formatter: activityZeroDecimalPlaces,
                              metrics: [
                                'databases.' + db + '.xact_commit'
                              ],
@@ -178,7 +177,7 @@ function createDetails(db, i, context) {
                         }}
                         y1={{
                           min: 0,
-                          formatter: queriesFormatter,
+                          formatter: activityZeroDecimalPlaces,
                           metrics: [
                             'databases.' + db + '.xact_rollback'
                           ],
@@ -231,7 +230,7 @@ function createDetails(db, i, context) {
                         }}
                         y1={{
                           min: 0,
-                          formatter: queriesFormatter,
+                          formatter: activityZeroDecimalPlaces,
                           metrics: [
                             'databases.' + db + '.idx_tup_read',
                             'databases.' + db + '.idx_tup_fetch'
