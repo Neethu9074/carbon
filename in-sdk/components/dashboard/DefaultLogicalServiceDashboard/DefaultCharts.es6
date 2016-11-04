@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  msZeroDecimalPlaces,
   msTwoDecimalPlaces,
   twoDecimalPlaces,
   percentageTwoDecimalPlaces
@@ -54,7 +55,7 @@ export default function DefaultCharts({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           formatter: msTwoDecimalPlaces,
+                           formatter: msZeroDecimalPlaces,
                            metrics: [
                              'duration.min',
                              'duration.25th',
