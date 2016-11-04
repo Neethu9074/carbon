@@ -88,6 +88,12 @@ export const siPrefix = {
   detailed: withSiPrefixThreeDecimalPlaces
 };
 
+export const siPrefixPerSecond = {
+  compact: d => withSiPrefixZeroDecimalPlaces(d) + ' / sec',
+  detailed: d => withSiPrefixThreeDecimalPlaces(d) + ' / sec'
+};
+
+
 export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiPrefixZeroDecimalPlaces(d | 0);
 export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
   if (d < 1) {
