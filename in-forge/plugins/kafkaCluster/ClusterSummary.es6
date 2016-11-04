@@ -7,6 +7,7 @@ import {
   withSiPrefixZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+
 export default function ClusterSummary({snapshot}) {
   const snapshotId = snapshot.get('id');
   const data = snapshot.get('data');

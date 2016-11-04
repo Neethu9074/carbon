@@ -1,16 +1,17 @@
 import semver from 'semver';
 import React from 'react';
 
-import DashboardNotification from 'in-components/DashboardNotification';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
+import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 
 import {
   bytesZeroDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
+
 
 export default function HttpdDashboard({snapshot, timeframe}) {
   const status = snapshot.getIn(['data', 'server-status']);
