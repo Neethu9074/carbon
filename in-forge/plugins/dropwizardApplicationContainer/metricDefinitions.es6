@@ -7,7 +7,7 @@ import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metric: getMetricMatch('metrics.gauges'),
+    metric: getMetricMatch('metrics\\.gauges'),
     label(snapshot, metricMatch) {
       // TODO: use correct labeling
       return metricMatch;
@@ -16,7 +16,7 @@ export default [
     formatter: siPrefix
   },
   {
-    metric: getMetricMatch('metrics.counters'),
+    metric: getMetricMatch('metrics\\.counters'),
     label(snapshot, metricMatch) {
       // TODO: use correct labeling
       return metricMatch;
@@ -25,7 +25,7 @@ export default [
     formatter: siPrefix
   },
   {
-    metric: getMetricMatch('metrics.meters'),
+    metric: getMetricMatch('metrics\\.meters'),
     label(snapshot, metricMatch) {
       // TODO: use correct labeling
       return metricMatch;
