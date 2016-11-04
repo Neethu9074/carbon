@@ -28,3 +28,16 @@ export function hashCode(string) {
   }
   return hash;
 }
+
+
+export function createFormatter(prefixRegexStr = '', suffixRegexStr = '') {
+  const regex = new RegExp(`{${prefixRegexStr}(\\d+)${suffixRegexStr}}`, 'g');
+  return (formatString, replacements) => {
+    return formatString.replace(regex, (match, number) => {
+      if (replacements[number] !== undefined) {
+        return replacements[number];
+      }
+      return match;
+    });
+  };
+}
