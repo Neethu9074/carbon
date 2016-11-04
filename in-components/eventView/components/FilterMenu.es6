@@ -2,6 +2,7 @@ import React from 'react';
 
 import {setSortDirection} from 'in-components/eventView/stores/sortDirection';
 import {setSortBy} from 'in-components/eventView/stores/sortBy';
+import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -14,6 +15,49 @@ export default connectTo({
 
 },
 function FilterMenu({field, closeMenu}) {
+  if (field === 'severity') {
+    const critical = (
+      <SvgIcon type='critical'
+               width={10}
+               height={10}
+               color='#000' />
+    );
+    const change = (
+      <SvgIcon type='change2'
+               width={10}
+               height={10}
+               color='#000' />
+    );
+
+    return (
+      <div className={block}>
+        <Row>
+          <Entry onClick={() =>  {
+            setSortDirection('asc');
+            setSortBy(getQueryFieldNameForField(field));
+            closeMenu();
+          }}>
+            <div className={`${block}__flex-wrapper`}>
+              {change}
+              &rarr;
+              {critical}
+            </div>
+          </Entry>
+          <Entry onClick={() => {
+            setSortDirection('desc');
+            setSortBy(getQueryFieldNameForField(field));
+            closeMenu();
+          }}>
+            <div className={`${block}__flex-wrapper`}>
+              {critical}
+              &rarr;
+              {change}
+            </div>
+          </Entry>
+        </Row>
+      </div>
+    );
+  }
 
   return (
     <div className={block}>
@@ -30,17 +74,7 @@ function FilterMenu({field, closeMenu}) {
           setSortBy(getQueryFieldNameForField(field));
           closeMenu();
         }}>
-          Sort Z &rarr; A
-        </Entry>
-      </Row>
-
-      <Row>
-        <Entry onClick={closeMenu}>
-          Apply
-        </Entry>
-        <Entry onClick={closeMenu}
-                kind='secondary'>
-          Cancel
+          Sort Z &rarr; + A
         </Entry>
       </Row>
     </div>
