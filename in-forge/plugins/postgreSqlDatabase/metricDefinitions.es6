@@ -19,7 +19,7 @@ export default [
     min: 0,
     formatter: activity,
     isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK') !== 'OK';
+      return snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK') === 'OK';
     }
   },
   {
