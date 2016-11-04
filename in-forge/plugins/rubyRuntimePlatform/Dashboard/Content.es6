@@ -90,7 +90,6 @@ function GcTime({snapshot, timeframe}) {
                          left: 60,
                          right: 60
                        }}
-
                        y1={{
                          min: 0,
                          formatter: msTwoDecimalPlaces,
