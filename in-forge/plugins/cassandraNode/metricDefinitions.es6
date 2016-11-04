@@ -3,6 +3,7 @@ import {
   percentage,
   number
 } from 'in-services/formatters/number';
+import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
 
 
 export default [
@@ -95,5 +96,29 @@ export default [
     min: 0,
     max: 1,
     formatter: percentage
+  },
+  {
+    metric: getMetricMatch('keyspace', 'readLatency'),
+    label: 'Average Read Latency',
+    min: 0,
+    formatter: muSecondsToMillis
+  },
+  {
+    metric: getMetricMatch('keyspace', 'writeLatency'),
+    label: 'Average Write Latency',
+    min: 0,
+    formatter: muSecondsToMillis
+  },
+  {
+    metric: getMetricMatch('keyspace', 'reads'),
+    label: 'Reads',
+    min: 0,
+    formatter: muSecondsToMillis
+  },
+  {
+    metric: getMetricMatch('keyspace', 'writes'),
+    label: 'Writes',
+    min: 0,
+    formatter: muSecondsToMillis
   }
 ];
