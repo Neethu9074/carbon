@@ -11,6 +11,7 @@ import {
   MeshBasicMaterial,
   MeshPhongMaterial} from 'in-map/3DLibProvider';
 import {resourceLoaded} from 'in-components/globeView/stores/isLoadingStore';
+import GlobeOverlay from 'in-components/globeView/components/GlobeOverlay';
 import createControls from 'in-components/globeView/components/Controls';
 import Effects from 'in-components/globeView/components/Effects';
 import Clouds from 'in-components/globeView/components/Clouds';
@@ -71,6 +72,7 @@ export default class GlobeScene {
     this.traces = new Traces(scene);
     this.clouds = new Clouds(scene);
     this.effects = new Effects(poi);
+    this.globeOverlay = new GlobeOverlay(scene);
 
     const pointLight = new PointLight(0xffffff, 0.55, 4);
     pointLight.position.set(1, 1, 1);
@@ -102,6 +104,7 @@ export default class GlobeScene {
     this.controls.update();
 
     this.clouds.update();
+    this.globeOverlay.update(this.camera);
     this.effects.update(this.camera.position.z);
   }
 
@@ -115,6 +118,7 @@ export default class GlobeScene {
     this.traces.dispose();
     this.effects.dispose();
     this.clouds.dispose();
+    this.globeOverlay.dispose();
     this.globe.material.dispose();
     this.globe.geometry.dispose();
   }

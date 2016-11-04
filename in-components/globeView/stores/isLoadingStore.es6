@@ -13,7 +13,8 @@ const resourceToLoad = {
   globeSpecularMap: false,
   globeNormalMap: false,
   cloudAlphaMap: false,
-  globeEffectMap: false
+  globeEffectOverlayMap: false,
+  globeEffectOuterGlowMap: false
 };
 
 export function resourceLoaded(name) {

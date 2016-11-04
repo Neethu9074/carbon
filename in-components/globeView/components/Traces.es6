@@ -21,9 +21,7 @@ export default class Traces {
 
   constructor(parent) {
 
-    logger.info('TODO: change effect depth test to avoid overlay of traces');
-    logger.info('to do that, put plane into front for max depth values and recaluclate');
-    logger.info('scaling function -> affenarbeit');
+    logger.info('TODO: write own shader for inner glow');
 
     const wrapper = this.wrapper = new Object3D();
     wrapper.renderOrder = 1;
@@ -48,12 +46,12 @@ export default class Traces {
       this.addTrace({
         latitude: -90 + Math.random() * 180,
         longitude: -180 + Math.random() * 360,
-        size: Math.random() * 100
+        size: Math.random() * 50
       });
     }
   }
 
-  addTrace({latitude, longitude, size = 10}) {
+  addTrace({latitude, longitude, size = 7}) {
     latitude *= degToRad;
     longitude *= degToRad;
 
