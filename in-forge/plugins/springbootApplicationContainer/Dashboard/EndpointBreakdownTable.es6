@@ -88,11 +88,11 @@ function createDetails(statusCodes, endpoint, context) {
                      y1={{
                       metrics: [
                         endpointMetricName,
-                        endpointMetricName + '.' + '1xx',
-                        endpointMetricName + '.' + '2xx',
-                        endpointMetricName + '.' + '3xx',
-                        endpointMetricName + '.' + '4xx',
-                        endpointMetricName + '.' + '5xx'
+                        endpointMetricName + '.1xx',
+                        endpointMetricName + '.2xx',
+                        endpointMetricName + '.3xx',
+                        endpointMetricName + '.4xx',
+                        endpointMetricName + '.5xx'
                       ],
                       labels: [
                         'All Requests',
