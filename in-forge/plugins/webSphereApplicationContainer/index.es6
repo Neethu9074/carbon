@@ -2,12 +2,14 @@ import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
+import metricDefinitions from './metricDefinitions';
 import icon from './icon.svg';
 
 
 registerSnapshotDefinition({
   plugin: plugins.webSphere,
   icon,
+  metricDefinitions,
   supportsCodeView,
   getCodeView,
   pluginName: {
