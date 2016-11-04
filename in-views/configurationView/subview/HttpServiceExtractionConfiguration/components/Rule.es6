@@ -28,10 +28,15 @@ export default React.createClass({
         name: '',
         enabled: false,
         comment: '',
-        data: Immutable.Map({
-          hostHeader: '(.*)',
-          requestPath: '(/shop($|/))',
-          extract: '{host-0}{path-0}'
+        order: 0,
+        type: 'http',
+        parent: null,
+        matchSpecification: Immutable.Map({
+          host: '(.*)',
+          path: '(/shop($|/))'
+        }),
+        extractSpecification: Immutable.Map({
+          label: '{host-0}{path-0}'
         })
       })
     };
