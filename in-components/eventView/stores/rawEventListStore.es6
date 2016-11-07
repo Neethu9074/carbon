@@ -95,10 +95,10 @@ export function refresh() {
     return;
   }
 
-  combineLatest([from$, to$])
-    .once(([_from, _to]) => {
-      minTimestamp = _from;
-      maxTimestamp = _to;
+  combineLatest([to$, from$])
+    .once(([to, from]) => {
+      maxTimestamp = to;
+      minTimestamp = from;
 
       rawEventList.mutateTo([]);
       loadMoreRawEvents();
