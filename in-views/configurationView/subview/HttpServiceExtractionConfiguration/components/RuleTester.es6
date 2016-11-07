@@ -42,8 +42,8 @@ export default React.createClass({
   render() {
     const rule = this.props.rule;
 
-    const matchHostHeaderRegExp = new RegExp(rule.getIn(['data', 'hostHeader']));
-    const matchRequestPathRegExp = new RegExp(rule.getIn(['data', 'requestPath']));
+    const matchHostHeaderRegExp = new RegExp(rule.getIn(['matchSpecification', 'host']));
+    const matchRequestPathRegExp = new RegExp(rule.getIn(['matchSpecification', 'path']));
 
     const hostMatch = this.state.host.match(matchHostHeaderRegExp);
     const pathMatch = this.state.path.match(matchRequestPathRegExp);

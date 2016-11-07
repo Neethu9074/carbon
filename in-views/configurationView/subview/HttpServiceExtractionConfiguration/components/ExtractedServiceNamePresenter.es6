@@ -17,7 +17,7 @@ export default function ExtractedServiceNamePresenter({rule, hostMatch, pathMatc
   } else {
     content = (
       <div className={`${block}__content`}>
-        {formatter(rule.getIn(['data', 'extract']), hostMatch.slice(1), pathMatch.slice(1))}
+        {formatter(rule.getIn(['extractSpecification', 'label']), hostMatch.slice(1), pathMatch.slice(1))}
       </div>
     );
   }

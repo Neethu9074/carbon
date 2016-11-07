@@ -92,8 +92,8 @@ export default React.createClass({
               <Input type='text'
                      id={`${id}--host`}
                      placeholder='example.com'
-                     value={rule.getIn(['data', 'hostHeader'])}
-                     onChange={e => this.setProp(['data', 'hostHeader'], e.target.value)}/>
+                     value={rule.getIn(['matchSpecification', 'host'])}
+                     onChange={e => this.setProp(['matchSpecification', 'host'], e.target.value)}/>
               <HelpBlock>
                 Use regular expressions to match host headers. Host header regular expression capture groups are{' '}
                 available in the format string via the prefix{' '} <code>host-</code>. For example, to access the{' '}
@@ -106,8 +106,8 @@ export default React.createClass({
               <Input type='text'
                      id={`${id}--path`}
                      placeholder='/shop($|/.*)'
-                     value={rule.getIn(['data', 'requestPath'])}
-                     onChange={e => this.setProp(['data', 'requestPath'], e.target.value)}/>
+                     value={rule.getIn(['matchSpecification', 'path'])}
+                     onChange={e => this.setProp(['matchSpecification', 'path'], e.target.value)}/>
               <HelpBlock>
                 Use regular expressions to match requests paths. Request path regular expression capture groups are{' '}
                 available in the format string via the prefix{' '} <code>path-</code>. For example, to access the{' '}
@@ -120,8 +120,8 @@ export default React.createClass({
               <Input type='text'
                      id={`${id}--service-name`}
                      placeholder='Shop'
-                     value={rule.getIn(['data', 'extract'])}
-                     onChange={e => this.setProp(['data', 'extract'], e.target.value)}/>
+                     value={rule.getIn(['extractSpecification', 'label'])}
+                     onChange={e => this.setProp(['extractSpecification', 'label'], e.target.value)}/>
               <HelpBlock>
                 Define the name of the service. You can reference HTTP host header capture groups and request path{' '}
                 capture groups to dynamically create service names.
