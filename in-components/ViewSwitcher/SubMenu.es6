@@ -28,7 +28,7 @@ function SubMenuItem({isActive, label, href}) {
   }
 
   return (
-    <li className={`${block}__item`}>
+    <li>
       <a className={classes}
          onClick={e => {
            e.stopPropagation();
