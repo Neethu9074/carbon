@@ -1,4 +1,4 @@
-import {create} from 'reactive-observables';
+import {combineLatest, create} from 'reactive-observables';
 
 import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-components/eventView/stores/isLoadingStore';
@@ -92,11 +92,14 @@ export function refresh() {
   }
 
   // get necessary params to load more events
-  to$.once(to => maxTimestamp = to);
-  from$.once(from => minTimestamp = from);
-  rawEventList.mutateTo([]);
+  combineLatest([to$, from$])
+    .once(([to, from]) => {
+      maxTimestamp = to;
+      minTimestamp = from;
 
-  loadMoreRawEvents();
+      rawEventList.mutateTo([]);
+      loadMoreRawEvents();
+    });
 }
 
 export function loadMoreRawEvents() {
