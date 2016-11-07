@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical Cassandra Keyspace',
-    plural: 'Logical Cassandra Keyspaces'
+    singular: 'Cassandra Keyspace',
+    plural: 'Cassandra Keyspaces'
   },
 
   getLabel(snapshot) {

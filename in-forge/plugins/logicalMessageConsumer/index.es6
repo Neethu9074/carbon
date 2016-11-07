@@ -13,8 +13,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Logical Message Consumer',
-    plural: 'Logical Message Consumers'
+    singular: 'Message Consumer',
+    plural: 'Message Consumers'
   },
 
   chartWiggleRoom: 20000,

@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical Kafka Consumer Connection',
-    plural: 'Logical Kafka Consumer Connections'
+    singular: 'Kafka Consumer Connection',
+    plural: 'Kafka Consumer Connections'
   },
 
   getLabel(snapshot) {

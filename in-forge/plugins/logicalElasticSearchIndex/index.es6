@@ -13,8 +13,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Logical Elasticsearch Index',
-    plural: 'Logical Elasticsearch Indices'
+    singular: 'Elasticsearch Index',
+    plural: 'Elasticsearch Indices'
   },
 
   chartWiggleRoom: 20000,

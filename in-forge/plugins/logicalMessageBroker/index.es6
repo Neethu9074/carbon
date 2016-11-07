@@ -13,8 +13,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Logical Message Broker',
-    plural: 'Logical Message Brokers'
+    singular: 'Message Broker',
+    plural: 'Message Brokers'
   },
 
   chartWiggleRoom: 20000,

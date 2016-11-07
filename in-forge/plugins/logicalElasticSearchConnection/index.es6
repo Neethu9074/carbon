@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical Elasticsearch Connection',
-    plural: 'Logical Elasticsearch Connections'
+    singular: 'Elasticsearch Connection',
+    plural: 'Elasticsearch Connections'
   },
 
   getLabel(snapshot) {

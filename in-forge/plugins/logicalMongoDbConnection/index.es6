@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical MongoDB Connection',
-    plural: 'Logical MongoDB Connections'
+    singular: 'MongoDB Connection',
+    plural: 'MongoDB Connections'
   },
 
   getLabel(snapshot) {

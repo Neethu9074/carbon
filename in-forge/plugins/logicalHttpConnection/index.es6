@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical Http Connection',
-    plural: 'Logical Http Connections'
+    singular: 'Http Connection',
+    plural: 'Http Connections'
   },
 
   getLabel(snapshot) {

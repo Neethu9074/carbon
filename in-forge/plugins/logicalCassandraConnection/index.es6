@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical Cassandra Connection',
-    plural: 'Logical Cassandra Connections'
+    singular: 'Cassandra Connection',
+    plural: 'Cassandra Connections'
   },
 
   getLabel(snapshot) {

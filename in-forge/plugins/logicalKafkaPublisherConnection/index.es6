@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical Kafka Publisher Connection',
-    plural: 'Logical Kafka Publisher Connections'
+    singular: 'Kafka Publisher Connection',
+    plural: 'Kafka Publisher Connections'
   },
 
   getLabel(snapshot) {

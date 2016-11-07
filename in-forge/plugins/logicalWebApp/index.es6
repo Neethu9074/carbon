@@ -13,8 +13,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Logical WebApp',
-    plural: 'Logical WebApps'
+    singular: 'WebApp',
+    plural: 'WebApps'
   },
 
   chartWiggleRoom: 20000,

@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical PDO Connection',
-    plural: 'Logical PDO Connections'
+    singular: 'PDO Connection',
+    plural: 'PDO Connections'
   },
 
   getLabel(snapshot) {

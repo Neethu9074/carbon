@@ -14,8 +14,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Logical Database',
-    plural: 'Logical Databases'
+    singular: 'Database',
+    plural: 'Databases'
   },
 
   getLabel(snapshot) {

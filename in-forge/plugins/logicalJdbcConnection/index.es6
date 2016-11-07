@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical Jdbc Connection',
-    plural: 'Logical Jdbc Connections'
+    singular: 'Jdbc Connection',
+    plural: 'Jdbc Connections'
   },
 
   getLabel(snapshot) {

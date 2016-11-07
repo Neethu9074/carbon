@@ -9,8 +9,8 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   pluginName: {
-    singular: 'Logical Rabbit MQ Publisher Connection',
-    plural: 'Logical Rabbit MQ Publisher Connections'
+    singular: 'Rabbit MQ Publisher Connection',
+    plural: 'Rabbit MQ Publisher Connections'
   },
 
   getLabel(snapshot) {

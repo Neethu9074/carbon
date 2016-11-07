@@ -13,8 +13,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Logical MongoDB Database',
-    plural: 'Logical MongoDB Databases'
+    singular: 'MongoDB Database',
+    plural: 'MongoDB Databases'
   },
 
   chartWiggleRoom: 20000,

@@ -15,8 +15,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Logical Service',
-    plural: 'Logical Services'
+    singular: 'Service',
+    plural: 'Services'
   },
 
   chartWiggleRoom: 20000,
