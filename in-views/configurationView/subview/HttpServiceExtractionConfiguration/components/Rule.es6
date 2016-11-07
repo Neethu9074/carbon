@@ -2,15 +2,17 @@ import Immutable from 'immutable';
 import React from 'react';
 
 import RuleTester from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/RuleTester';
+import options from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/options';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
+import Select from 'in-components/form/Select';
+import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
-import Toggle from 'in-components/Toggle';
 
 import './Rule.less';
 
@@ -31,10 +33,7 @@ export default React.createClass({
         order: 0,
         type: 'http',
         parent: null,
-        matchSpecification: Immutable.Map({
-          host: '(.*)',
-          path: '(/shop($|/))'
-        }),
+        matchSpecification: Immutable.Map(),
         extractSpecification: Immutable.Map({
           label: '{host-0}{path-0}'
         })
@@ -69,9 +68,9 @@ export default React.createClass({
                          [`${block}__name-group`]: true,
                          [`${block}__without-bottom-margin`]: !this.state.isExpanded
                        })}>
-              <Label htmlFor={`${id}--rule-name`}>Rule Name</Label>
+              <Label htmlFor={`${id}-rule-name`}>Rule Name</Label>
               <Input type='text'
-                     id={`${id}--rule-name`}
+                     id={`${id}-rule-name`}
                      value={rule.getIn(['name'])}
                      onChange={e => this.setProp(['name'], e.target.value)}/>
             </FormGroup>
@@ -79,88 +78,96 @@ export default React.createClass({
             <FormGroup className={evaluateClassNames({
                          [`${block}__without-bottom-margin`]: !this.state.isExpanded
                        })}>
-              <Label htmlFor={`${id}--enabled`}>Enabled</Label>
-              <Toggle id={`${id}--enabled`}
+              <Label htmlFor={`${id}-enabled`}>Enabled</Label>
+              <Toggle id={`${id}-enabled`}
                       checked={rule.getIn(['enabled'])}
                       onChange={e => this.setProp(['enabled'], e.target.checked)}/>
             </FormGroup>
           </div>
 
-          {this.state.isExpanded ? [
-            <FormGroup key={0}>
-              <Label htmlFor={`${id}--host`}>Match Host Header</Label>
-              <Input type='text'
-                     id={`${id}--host`}
-                     placeholder='example.com'
-                     value={rule.getIn(['matchSpecification', 'host'])}
-                     onChange={e => this.setProp(['matchSpecification', 'host'], e.target.value)}/>
-              <HelpBlock>
-                Use regular expressions to match host headers. Host header regular expression capture groups are{' '}
-                available in the format string via the prefix{' '} <code>host-</code>. For example, to access the{' '}
-                first request request path capture group, use <code>{'{host-0}'}</code>.
-              </HelpBlock>
-            </FormGroup>,
+          {this.state.isExpanded ? (
+            <div>
+              <FormGroup>
+                <Label htmlFor={`${id}-select-match-rule`}>Match</Label>
+                <Select id={`${id}-select-match-rule`}
+                        onChange={this.onChangeMatchOption}>
+                  <option value=''>Please Select</option>
 
-            <FormGroup key={1}>
-              <Label htmlFor={`${id}--path`}>Match Request Path</Label>
-              <Input type='text'
-                     id={`${id}--path`}
-                     placeholder='/shop($|/.*)'
-                     value={rule.getIn(['matchSpecification', 'path'])}
-                     onChange={e => this.setProp(['matchSpecification', 'path'], e.target.value)}/>
-              <HelpBlock>
-                Use regular expressions to match requests paths. Request path regular expression capture groups are{' '}
-                available in the format string via the prefix{' '} <code>path-</code>. For example, to access the{' '}
-                first request path capture group, use <code>{'{path-0}'}</code>.
-              </HelpBlock>
-            </FormGroup>,
+                  <optgroup label='Headers'>
+                    <option value='host'
+                            disabled={rule.getIn(['matchSpecification', 'host']) != null}>
+                      Host
+                    </option>
+                  </optgroup>
 
-            <FormGroup key={2}>
-              <Label htmlFor={`${id}--service-name`}>Service Name</Label>
-              <Input type='text'
-                     id={`${id}--service-name`}
-                     placeholder='Shop'
-                     value={rule.getIn(['extractSpecification', 'label'])}
-                     onChange={e => this.setProp(['extractSpecification', 'label'], e.target.value)}/>
-              <HelpBlock>
-                Define the name of the service. You can reference HTTP host header capture groups and request path{' '}
-                capture groups to dynamically create service names.
-              </HelpBlock>
-            </FormGroup>,
+                  <option value='path'
+                          disabled={rule.getIn(['matchSpecification', 'path']) != null}>
+                    Request Path
+                  </option>
+                </Select>
+                <HelpBlock>
+                  TODO
+                </HelpBlock>
+              </FormGroup>
 
-            <FormGroup key={3}>
-              <Label htmlFor={`${id}--comment`}>Comment</Label>
-              <TextArea rows='3'
-                        id={`${id}--comment`}
-                        value={rule.getIn(['comment'])}
-                        onChange={e => this.setProp(['comment'], e.target.value)}/>
-              <HelpBlock>
-                Optionlly describe the service extraction rule for your future self and your colleagues.
-              </HelpBlock>
-            </FormGroup>,
+              {rule.get('matchSpecification').keySeq().toArray().sort().map(key =>
+                <FormGroup key={key}>
+                  <Label htmlFor={`${id}-${key}`}>Match: {options[key].titleName}</Label>
+                  <Input type='text'
+                         id={`${id}-${key}`}
+                         placeholder={options[key].placeholder}
+                         value={rule.getIn(['matchSpecification', key])}
+                         onChange={e => this.setProp(['matchSpecification', key], e.target.value)}/>
+                  <HelpBlock>
+                    {options[key].help}
+                  </HelpBlock>
+                </FormGroup>
+              )}
 
-            <div key={4}
-                 className={`${block}__buttons`}>
-              {!this.state.isTesting ?
-                <Button kind='info'
-                        size='sm'
-                        onClick={this.toggleTesting}>
-                  Test Rule
+              <FormGroup>
+                <Label htmlFor={`${id}-service-name`}>Service Name</Label>
+                <Input type='text'
+                       id={`${id}-service-name`}
+                       placeholder='Shop'
+                       value={rule.getIn(['extractSpecification', 'label'])}
+                       onChange={e => this.setProp(['extractSpecification', 'label'], e.target.value)}/>
+                <HelpBlock>
+                  TODO
+                </HelpBlock>
+              </FormGroup>
+
+              <FormGroup>
+                <Label htmlFor={`${id}-comment`}>Comment</Label>
+                <TextArea rows='3'
+                          id={`${id}-comment`}
+                          value={rule.getIn(['comment'])}
+                          onChange={e => this.setProp(['comment'], e.target.value)}/>
+                <HelpBlock>
+                  TODO
+                </HelpBlock>
+              </FormGroup>
+
+              <div className={`${block}__buttons`}>
+                {!this.state.isTesting ?
+                  <Button kind='info'
+                          size='sm'
+                          onClick={this.toggleTesting}>
+                    Test Rule
+                  </Button>
+                : null}
+                {' '}
+                <Button kind='danger'
+                        size='sm'>
+                  Remove Rule
                 </Button>
-              : null}
-              {' '}
-              <Button kind='danger'
-                      size='sm'>
-                Remove Rule
-              </Button>
-            </div>,
+              </div>
 
-            this.state.isTesting ?
-              <RuleTester key={5}
-                          toggleRuleTesting={this.toggleTesting}
-                          rule={rule}/>
-            : null
-          ] : null}
+              {this.state.isTesting ?
+                <RuleTester toggleRuleTesting={this.toggleTesting}
+                            rule={rule}/>
+                            : null}
+            </div>
+          ) : null}
         </div>
       </div>
     );
@@ -185,5 +192,25 @@ export default React.createClass({
         rule: state.rule.setIn(path, value)
       };
     });
+  },
+
+  onChangeMatchOption(e) {
+    const newRuleName = e.target.value;
+    if (!newRuleName) {
+      return;
+    }
+
+    // reset selection to "Please Select"
+    e.target.value = '';
+
+    this.setState(state => {
+      const ruleValue = state.rule.getIn(['matchSpecification', newRuleName], undefined);
+      if (ruleValue == null) {
+        const rule = state.rule.setIn(['matchSpecification', newRuleName], options[newRuleName].initialValue || '');
+        return {rule};
+      }
+      return {};
+    });
+
   }
 });
