@@ -21,6 +21,7 @@ import classnames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
+import Badge from 'in-components/Badge';
 
 import './SpanElement.less';
 
@@ -136,11 +137,14 @@ export default connectTo(props => {
 
               <div className={`${block}__descriptions`}>
                 <div className={`${block}__span-description`}>
-                  {batchSize ?
-                    <span className={`${block}__span-type`}>{batchSize} {getTypeLabelPlural(span)}: </span>
-                  :
-                    <span className={`${block}__span-type`}>{getTypeLabelSingular(span)}: </span>
-                  }
+                  <span className={`${block}__span-type`}>
+                    {batchSize ?
+                      <span><Badge size='sm'>{batchSize}</Badge> {getTypeLabelPlural(span)}</span>
+                    :
+                      getTypeLabelSingular(span)
+                    }
+                  </span>
+                  {' '}
                   {getLabel(span)}
                 </div>
                 <div className={`${block}__entity-description`}>
