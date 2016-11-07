@@ -1,7 +1,14 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {getLabel, getCategory, getTypeLabelSingular, getDirection, shouldShowSelfTime} from 'in-sdk/tracing';
+import {
+  getTypeLabelSingular,
+  getTypeLabelPlural,
+  shouldShowSelfTime,
+  getDirection,
+  getCategory,
+  getLabel
+} from 'in-sdk/tracing';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanEntityInformation from 'in-components/traceView/components/SpanEntityInformation';
 import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
@@ -49,6 +56,7 @@ export default connectTo(props => {
   render() {
     const span = this.props.span;
     const selfTime = getSelfTime(span);
+    const batchSize = span.get('batchSize');
     const totalTime = span.get('duration');
     const category = getCategory(span);
     const direction = getDirection(span);
@@ -128,7 +136,11 @@ export default connectTo(props => {
 
               <div className={`${block}__descriptions`}>
                 <div className={`${block}__span-description`}>
-                  <span className={`${block}__span-type`}>{getTypeLabelSingular(span)}: </span>
+                  {batchSize ?
+                    <span className={`${block}__span-type`}>{batchSize} {getTypeLabelPlural(span)}: </span>
+                  :
+                    <span className={`${block}__span-type`}>{getTypeLabelSingular(span)}: </span>
+                  }
                   {getLabel(span)}
                 </div>
                 <div className={`${block}__entity-description`}>
