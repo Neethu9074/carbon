@@ -1,4 +1,4 @@
-import {create} from 'reactive-observables';
+import {combineLatest, create} from 'reactive-observables';
 
 import {sortDirection$} from 'in-components/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-components/eventView/stores/isLoadingStore';
@@ -13,6 +13,7 @@ import {createStore} from 'in-stores/store';
 
 let subscriptions = emptyArray;
 let initPhase = false;
+let enabled = false;
 let loadSubscription;
 
 // Timestamp bounds to use for queries. Will only be updated when the view
@@ -75,10 +76,13 @@ export function enable() {
   ];
 
   initPhase = false;
+  enabled = true;
   refreshStream.emit(true);
 }
 
 export function disable() {
+  enabled = false;
+
   rawEventList.mutateTo([]);
   subscriptions.forEach(s => s.dispose());
   disposeExistingLoad();
@@ -87,19 +91,25 @@ export function disable() {
 }
 
 export function refresh() {
-  if (initPhase) {
+  if (initPhase || !enabled) {
     return;
   }
 
-  // get necessary params to load more events
-  to$.once(to => maxTimestamp = to);
-  from$.once(from => minTimestamp = from);
-  rawEventList.mutateTo([]);
+  combineLatest([from$, to$])
+    .once(([_from, _to]) => {
+      minTimestamp = _from;
+      maxTimestamp = _to;
 
-  loadMoreRawEvents();
+      rawEventList.mutateTo([]);
+      loadMoreRawEvents();
+    });
 }
 
 export function loadMoreRawEvents() {
+  if (initPhase || !enabled) {
+    return;
+  }
+
   disposeExistingLoad();
   setIsLoading(true);
 
