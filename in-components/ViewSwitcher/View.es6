@@ -15,7 +15,7 @@ export default connectTo(props => {
     href: props.href$ ? props.href$ : alwaysNull
   };
 },
-function View({label, href, icon, color, children, isActive}) {
+function View({label, href, icon, iconSize, color, children, isActive}) {
   let classes = block;
   if (isActive) {
     classes += ` ${classes}__active`;
@@ -29,8 +29,8 @@ function View({label, href, icon, color, children, isActive}) {
 
         <SvgIcon className={`${block}__icon`}
                  type={icon}
-                 width={20}
-                 height={20}
+                 width={iconSize || 20}
+                 height={iconSize || 20}
                  color={color || '#22d8d8'} />
         {label}
         {children

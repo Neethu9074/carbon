@@ -64,7 +64,8 @@ function ViewSwitcher({navigationParameters}) {
 
         {configurationViewEnabled ?
           <View label='Configuration'
-                icon='dashboard'
+                icon='gear'
+                iconSize={18}
                 isActive={pathname.indexOf('/config') === 0}
                 href$={configurationViewLink$}/>
         : null}
