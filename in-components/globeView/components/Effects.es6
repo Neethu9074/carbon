@@ -12,8 +12,8 @@ export default class Effects {
 
   constructor(parent) {
     require([
-      'in-components/globeView/components/globeOverlayEffectMap.png',
-      'in-components/globeView/components/globeOuterGlowEffectMap.png'
+      'in-components/globeView/components/textures/globeOverlayEffectMap.png',
+      'in-components/globeView/components/textures/globeOuterGlowEffectMap.png'
     ], (overlayMapPath, outerGlowMapPath) => {
       const planeGeometry = this.planeGeometry = new PlaneBufferGeometry(1.2929, 1.2929, 1, 1);
 

@@ -14,7 +14,7 @@ export default class Clouds {
     this.rotationSpeed = 0.005;
 
     require([
-      'in-components/globeView/components/cloudAlphaMap.jpg'
+      'in-components/globeView/components/textures/cloudAlphaMap.jpg'
     ], (cloudsAlphaPath) => {
       const clouds = this.clouds = new Mesh(
         new SphereBufferGeometry(0.504, 32, 32),

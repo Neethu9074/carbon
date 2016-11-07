@@ -42,9 +42,9 @@ export default class GlobeScene {
     globe.renderOrder = 2;
 
     require([
-      'in-components/globeView/components/diffuse.jpg',
-      'in-components/globeView/components/specular.jpg',
-      'in-components/globeView/components/bump.jpg'
+      'in-components/globeView/components/textures/diffuse.jpg',
+      'in-components/globeView/components/textures/specular.jpg',
+      'in-components/globeView/components/textures/bump.jpg'
     ], (worldDiffuseMapPath, worldSpecularMapPath, worldBumpMapPath) => {
       globe.material.dispose();
       globe.material = new MeshPhongMaterial({
