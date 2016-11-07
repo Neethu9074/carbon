@@ -6,6 +6,7 @@ import './ejb';
 import './elasticsearch';
 import './file';
 import './ftp';
+import './g.hc';
 import './hc';
 import './http';
 import './ibmdb2';
