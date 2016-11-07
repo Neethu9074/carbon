@@ -4,10 +4,13 @@ import Control from 'in-components/Controls/components/Control';
 import {clearAll} from 'in-map/stores/logical/layouterStore';
 
 
-export default function AutoLayout() {
+export default function Layout({iconType, onClick}) {
   return (
-    <Control onClick={clearAll}
+    <Control onClick={() => {
+               onClick();
+               clearAll();
+             }}
              tooltipText='Rearrange services'
-             type='autoLayout' />
+             type={iconType} />
   );
 }

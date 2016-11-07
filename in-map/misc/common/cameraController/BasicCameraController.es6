@@ -19,13 +19,13 @@ const BOTTOM_MARGIN_IN_PX = activeTheme.footer.heightExpanded;
 
 export default class BasicCameraController extends Subscriber {
 
-  constructor(factoryIdForFocusCalculation) {
+  constructor(factoryIdForFocusCalculation, yaw = -40) {
     super();
 
     this.eventEmitter = new RoEmitter('control event emitter');
 
     // the starting angle for yaw axis
-    this.startingYaw = -40;
+    this.startingYaw = yaw;
 
     // the starting angle pitch yaw axis
     this.startingPitch = -35;
