@@ -8,7 +8,6 @@ import {
   tableViewFilteredForServicesLink$
 } from 'in-stores/navigation/view';
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
-import {expandedView$} from 'in-components/ViewSwitcher/stores/expandedViewStore';
 import {configurationViewEnabled} from 'in-services/featureFlags';
 import {SubMenuItem} from 'in-components/ViewSwitcher/SubMenu';
 import {openEventsAtServerTime$} from 'in-stores/events';
@@ -22,10 +21,9 @@ import './ViewSwitcher.less';
 const block = 'in-view-switcher';
 
 export default connectTo({
-  navigationParameters: navigationParameters$,
-  expandedView: expandedView$
+  navigationParameters: navigationParameters$
 },
-function ViewSwitcher({navigationParameters, expandedView}) {
+function ViewSwitcher({navigationParameters}) {
   const pathname = navigationParameters.pathname;
 
   const isTable = pathname.indexOf('/table') === 0;
@@ -39,7 +37,6 @@ function ViewSwitcher({navigationParameters, expandedView}) {
       <ul className={block + '__list'}>
         <View label='infrastructure'
               icon='infrastructure'
-              isExpanded={expandedView === 'infrastructure'}
               isActive={pathname.indexOf('/physical') === 0 || isPhysicalTable}>
           <SubMenuItem label='Map'
                        href$={physicalViewLink$}
@@ -51,7 +48,6 @@ function ViewSwitcher({navigationParameters, expandedView}) {
 
         <View label='application'
               icon='application'
-              isExpanded={expandedView === 'application'}
               isActive={pathname.indexOf('/logical') === 0 || isLogicalTable}>
           <SubMenuItem label='Map'
                        href$={logicalViewLink$}

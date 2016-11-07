@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {toggleExpandedView} from 'in-components/ViewSwitcher/stores/expandedViewStore';
 import {SubMenu} from 'in-components/ViewSwitcher/SubMenu';
 import {alwaysNull} from 'in-services/fixedStreams';
 import SvgIcon from 'in-components/SvgIcon';
@@ -16,24 +15,16 @@ export default connectTo(props => {
     href: props.href$ ? props.href$ : alwaysNull
   };
 },
-function View({label, href, icon, color, children, isActive, isExpanded}) {
+function View({label, href, icon, color, children, isActive}) {
   let classes = block;
-  if (isActive || isExpanded) {
+  if (isActive) {
     classes += ` ${classes}__active`;
-  }
-
-  let iconClass = `${block}__expand-icon`;
-  if (isExpanded) {
-    iconClass += ` ${iconClass}--expanded`;
   }
 
   return (
     <li className={classes}>
       <a className={`${block}__link`}
-         onClick={e => {
-           e.stopPropagation();
-           toggleExpandedView(label);
-         }}
+         onClick={e => e.stopPropagation()}
          href={href}>
 
         <SvgIcon className={`${block}__icon`}
@@ -43,7 +34,7 @@ function View({label, href, icon, color, children, isActive, isExpanded}) {
                  color={color || '#22d8d8'} />
         {label}
         {children
-          ? <SvgIcon className={iconClass}
+          ? <SvgIcon className={`${block}__expand-icon`}
                      type='triangle_down'
                      width={6}
                      height={6}
@@ -51,10 +42,13 @@ function View({label, href, icon, color, children, isActive, isExpanded}) {
           : null
         }
       </a>
-      {(children && isExpanded)
-        ? <SubMenu>
-            {children}
-          </SubMenu>
+
+      {(children)
+        ? <div className={`${block}__menu`}>
+            <SubMenu>
+              {children}
+            </SubMenu>
+          </div>
         : null
       }
     </li>

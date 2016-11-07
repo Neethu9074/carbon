@@ -1,10 +1,11 @@
 .in-view-switcher-view {
-  color: #6B8088;
+  padding: 0.25rem 0;
 
-  font-size: 0.688rem;
   text-transform: capitalize;
   line-height: 0.625rem;
+  font-size: 0.688rem;
 
+  color: #6B8088;
   transition: color 0.25s ease-in-out;
 
   &:hover, &__active {
@@ -20,6 +21,10 @@
   &:hover {
     .in-view-switcher-view__expand-icon {
       fill: white;
+    }
+
+    .in-view-switcher-view__menu {
+      display: block;
     }
   }
 
@@ -42,5 +47,12 @@
     &--expanded {
       fill: white;
     }
+  }
+
+  &__menu {
+    position: absolute;
+    top: 100%;
+
+    display: none;
   }
 }

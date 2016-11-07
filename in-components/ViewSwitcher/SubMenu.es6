@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {toggleExpandedView} from 'in-components/ViewSwitcher/stores/expandedViewStore';
 import connectTo from 'in-hoc/connectTo';
 
 import './SubMenu.less';
@@ -30,10 +29,7 @@ function SubMenuItem({isActive, label, href}) {
   return (
     <li>
       <a className={classes}
-         onClick={e => {
-           e.stopPropagation();
-           toggleExpandedView(null);
-         }}
+         onClick={e => e.stopPropagation()}
          href={href}>
         {label}
       </a>
