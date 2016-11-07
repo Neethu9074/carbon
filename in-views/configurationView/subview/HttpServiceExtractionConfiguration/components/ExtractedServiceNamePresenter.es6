@@ -1,23 +1,32 @@
 import React from 'react';
 
+import {createFormatter} from 'in-services/formatters/string';
+
 import './ExtractedServiceNamePresenter.less';
 
 const block = 'in-config-http-ex-rule-service-name-presenter';
 
-export default function ExtractedServiceNamePresenter({rule, hostMatch, pathMatch, formatter}) {
-  let content;
+export default function ExtractedServiceNamePresenter({rule, matches}) {
+  const ruleKeys = rule.get('matchSpecification').keySeq().toArray();
+  const mismatches = ruleKeys.filter(key => !matches[key]);
 
-  if (!hostMatch || !pathMatch) {
+  let content;
+  if (mismatches.length > 0) {
     content = (
       <div className={`${block}__content ${block}__content--failed-extraction`}>
-        The host header and request path regular expressions must both match in order for a{' '}
-        service to be extracted.
+        All expressions must match in order for a service to be defined.
       </div>
     );
   } else {
+    const formatter = ruleKeys.reduce((parentFormatter, key) => {
+      const keyMatches = matches[key].slice(1);
+      const keyFormatter = createFormatter(`${key}-`);
+      return formatString => keyFormatter(parentFormatter(formatString), keyMatches);
+    }, s => s);
+
     content = (
       <div className={`${block}__content`}>
-        {formatter(rule.getIn(['extractSpecification', 'label']), hostMatch.slice(1), pathMatch.slice(1))}
+        {formatter(rule.getIn(['extractSpecification', 'label']))}
       </div>
     );
   }

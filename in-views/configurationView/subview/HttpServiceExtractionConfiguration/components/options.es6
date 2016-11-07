@@ -2,6 +2,7 @@ export default {
   path: {
     titleName: 'Request Path',
     placeholder: '(.*)',
+    testPlaceholder: '/',
     initialValue: '(/shop($|/))',
     help: 'TODO'
   },
@@ -9,6 +10,7 @@ export default {
   host: {
     titleName: 'Host Header',
     placeholder: '(.*)',
+    testPlaceholder: 'example.com',
     initialValue: '(.*)',
     help: 'TODO'
   }

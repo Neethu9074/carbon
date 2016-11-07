@@ -112,7 +112,15 @@ export default React.createClass({
 
               {rule.get('matchSpecification').keySeq().toArray().sort().map(key =>
                 <FormGroup key={key}>
-                  <Label htmlFor={`${id}-${key}`}>Match: {options[key].titleName}</Label>
+                  <Label htmlFor={`${id}-${key}`}>
+                    Match: {options[key].titleName}
+
+                    <a href='#'
+                       onClick={e => this.removeMatch(e, key)}
+                       className={`${block}__remove-match`}>
+                      Remove
+                    </a>
+                  </Label>
                   <Input type='text'
                          id={`${id}-${key}`}
                          placeholder={options[key].placeholder}
@@ -211,6 +219,15 @@ export default React.createClass({
       }
       return {};
     });
+  },
 
+  removeMatch(e, key) {
+    e.preventDefault();
+
+    this.setState(state => {
+      return {
+        rule: state.rule.deleteIn(['matchSpecification', key])
+      };
+    });
   }
 });
