@@ -62,7 +62,7 @@ export function getPerCategorySummary(span, collector) {
     durationTotal: 0,
     durationSelf: 0
   };
-  categorySummary.calls++;
+  categorySummary.calls += Math.max(1, span.get('batchSize', 1));
   categorySummary.durationTotal += span.get('duration');
   categorySummary.durationSelf += getSelfTime(span);
 
