@@ -5,6 +5,7 @@ import {addMessage, removeMessage} from 'in-components/MessageFlyout/stores/mess
 import {toHtml} from 'in-services/formatters/markdown';
 import {isOnPremise} from 'in-services/config';
 import {createStore} from 'in-stores/store';
+import {getIn} from 'in-services/settings';
 import http from 'in-services/http';
 
 const messageId = 'maintenanceNote';
@@ -32,10 +33,10 @@ export function init() {
     retrieveLatestMessage();
     setInterval(retrieveLatestMessage, 1000 * 60 * 10);
 
-    combineLatest([message$, messageRead$])
-      .subscribe(([message, messageRead]) => {
+    combineLatest([message$, messageRead$, getIn(['showMaintenanceNotes'])])
+      .subscribe(([message, messageRead, showMaintenanceNotes]) => {
         const hasContent = message != null && message.trim().length > 0;
-        if (!hasContent || messageRead) {
+        if (!hasContent || messageRead || !showMaintenanceNotes) {
           removeMessage(messageId);
         } else if (hasContent) {
           addMessage(
