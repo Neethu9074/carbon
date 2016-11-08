@@ -9,7 +9,7 @@ const COLLISION_MESH_MATERIAL = new MeshBasicMaterial();
 
 export default class CollisionComponent extends SceneObjectComponent {
 
-  constructor(sceneObject, collisionGeometry, layerId) {
+  constructor(sceneObject, collisionGeometry, layerId, dashboardId) {
     super(sceneObject, '_collision');
 
     this.layerId = layerId;
@@ -18,6 +18,7 @@ export default class CollisionComponent extends SceneObjectComponent {
       collisionGeometry,
       COLLISION_MESH_MATERIAL
     );
+    mesh.dashboardId = dashboardId || sceneObject.id;
     mesh.parentSceneObject = sceneObject;
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;

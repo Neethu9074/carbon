@@ -7,6 +7,7 @@ export default sceneObjectComponent(props => {
     InstanceType: NodeMetric,
     params: {
       id: props.node.id + '_metric',
+      dashboardId: props.node.id,
       node: props.node
     }
   };
