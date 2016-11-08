@@ -45,7 +45,8 @@ export default React.createClass({
       snapshotIds: props.snapshotIds,
       y1: props.y1,
       y2: props.y2,
-      activeFilters$: props.activeFilters$
+      activeFilters$: props.activeFilters$,
+      eventEmitter: this.eventEmitter
     };
     config.container = ReactDOM.findDOMNode(this);
     this.chart = createChart(config);

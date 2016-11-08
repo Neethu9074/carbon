@@ -33,6 +33,7 @@ export default function createDomController(config) {
       animationBuffer: document.createElement('canvas'),
       staticScreen: document.createElement('canvas'),
       tooltipContainer: document.createElement('div'),
+      applyButtonContainer: document.createElement('div'),
       tooltipLine: document.createElement('div'),
       glassPane: document.createElement('div')
     };
@@ -43,11 +44,13 @@ export default function createDomController(config) {
     result.wrapper.appendChild(result.tooltipContainer);
     result.wrapper.appendChild(result.tooltipLine);
     result.wrapper.appendChild(result.glassPane);
+    result.wrapper.appendChild(result.applyButtonContainer);
 
     result.wrapper.classList.add(block);
     result.animationScreen.classList.add(`${block}__animation-screen`);
     result.staticScreen.classList.add(`${block}__static-screen`);
     result.tooltipContainer.classList.add(`${block}__tooltip-container`);
+    result.applyButtonContainer.classList.add(`${block}__tooltip-container`);
     result.tooltipLine.classList.add(`${block}__tooltip-line`);
     result.glassPane.classList.add(`${block}__glass-pane`);
 
