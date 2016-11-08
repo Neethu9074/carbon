@@ -3,7 +3,10 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'jms',
   category: 'messaging',
-  direction: 'exit',
+  direction(span) {
+    const type = span.getIn(['data', 'jms', 'sort']);
+    return type ? type.toLowerCase() : 'entryAndExit';
+  },
 
   typeName: {
     singular: 'JMS message',
@@ -13,7 +16,7 @@ registerSpanDefinition({
   detailView: 'JmsSpanDetailView',
 
   getLabel(span) {
-    const label = span.getIn(['data', 'jms', 'type'], '<unknown type>');
+    const label = span.getIn(['data', 'jms', 'message'], '<unknown>');
     const destination = span.getIn(['data', 'jms', 'destination']);
     if (destination == null) {
       return label;
