@@ -57,11 +57,11 @@ export function removeRule(ruleId) {
 }
 
 
-export function moveRuleUp(ruleId) {
+export function moveRuleDown(ruleId) {
   manipulateRulePosition(ruleId, +1);
 }
 
-export function moveRuleDown(ruleId) {
+export function moveRuleUp(ruleId) {
   manipulateRulePosition(ruleId, -1);
 }
 

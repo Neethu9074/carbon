@@ -1,7 +1,10 @@
 import React from 'react';
 
 import {
-  upsertRule
+  upsertRule,
+  removeRule,
+  moveRuleDown,
+  moveRuleUp
 } from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules';
 import RuleTester from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/RuleTester';
 import options from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/options';
@@ -44,10 +47,12 @@ export default React.createClass({
           <div className={`${block}__actions`}>
             <SvgIcon type='chevron_up'
                      width={12}
-                     className={`${block}__up`}/>
+                     className={`${block}__up`}
+                     onClick={() => moveRuleUp(rule.get('id'))}/>
             <SvgIcon type='chevron_down'
                      width={12}
-                     className={`${block}__down`}/>
+                     className={`${block}__down`}
+                     onClick={() => moveRuleDown(rule.get('id'))}/>
             <SvgIcon type={this.state.isExpanded ? 'timeline_close' : 'timeline_open'}
                      width={12}
                      className={`${block}__toggle`}
@@ -158,7 +163,8 @@ export default React.createClass({
                 : null}
                 {' '}
                 <Button kind='danger'
-                        size='sm'>
+                        size='sm'
+                        onClick={() => removeRule(rule.get('id'))}>
                   Remove Rule
                 </Button>
               </div>
