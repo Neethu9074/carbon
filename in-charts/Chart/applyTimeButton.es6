@@ -3,8 +3,8 @@ import RoEmitter from 'roemitter';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import {applyTimeButtonEnabled} from 'in-services/featureFlags';
 import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
+import {applyTimeButtonEnabled} from 'in-services/featureFlags';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
 
