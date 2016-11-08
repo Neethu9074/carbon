@@ -3,7 +3,7 @@ import {createStore} from 'in-stores/store';
 
 const autoUpdateStore = createStore({
   name: 'in-components/traceView/stores/autoUpdate',
-  initialValue: true
+  initialValue: false
 });
 export const autoUpdate$ = autoUpdateStore.observable;
 
