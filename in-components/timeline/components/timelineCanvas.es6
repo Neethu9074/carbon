@@ -8,6 +8,7 @@ import MarkedIncidentRenderer from 'in-components/timeline/components/renderer/M
 import FocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
 import EventsGraphRenderer from 'in-components/timeline/components/renderer/EventsGraphRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
+import createApplyTimeButton from 'in-components/timeline/components/renderer/applyTimeButton';
 import {timeframe$, to$, from$, setTimelineScale} from 'in-components/timeline/timelineStore';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
@@ -64,6 +65,7 @@ export default function createTimelineRenderer({container, canvas}) {
   const eventsGraphRenderer = new EventsGraphRenderer(screenBuffer, scale, height);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
   const highlightedTimeframeRenderer = new HighlightedTimeframeRenderer(screenBuffer, scale, height);
+  const applyTimeButtonRenderer = createApplyTimeButton(container, canvas, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
@@ -148,6 +150,8 @@ export default function createTimelineRenderer({container, canvas}) {
     highlightedTimeframeRenderer.draw();
     focusedMomentRenderer.draw();
     highlightedMomentRenderer.draw();
+
+    applyTimeButtonRenderer.update();
   }
 
   function dispose() {
@@ -155,10 +159,11 @@ export default function createTimelineRenderer({container, canvas}) {
 
     realtimeUpdateEvents.dispose();
     highlightedEventIdSubscription.dispose();
-    highlightedMomentRenderer.dispose();
     highlightedTimeframeRenderer.dispose();
+    highlightedMomentRenderer.dispose();
     realtimeDrawSubscription.dispose();
     hoveredEventLineRenderer.dispose();
+    applyTimeButtonRenderer.dispose();
     markedIncidentRenderer.dispose();
     combinedEventsRenderer.dispose();
     timeframeSubscription.dispose();
