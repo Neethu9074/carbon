@@ -12,9 +12,9 @@ export const rules$ = rulesStore.observable
   .distinct();
 
 
-export function addNewRule() {
+export function addNewRule(id) {
   const newRule = Immutable.Map({
-    id: generateUniqueShortId(),
+    id: id || generateUniqueShortId(),
     name: 'New Service Rule',
     enabled: false,
     comment: '',
@@ -58,11 +58,11 @@ export function removeRule(ruleId) {
 
 
 export function moveRuleUp(ruleId) {
-  manipulateRulePosition(ruleId, -1);
+  manipulateRulePosition(ruleId, +1);
 }
 
 export function moveRuleDown(ruleId) {
-  manipulateRulePosition(ruleId, +1);
+  manipulateRulePosition(ruleId, -1);
 }
 
 function manipulateRulePosition(ruleId, indexChange) {
@@ -73,7 +73,7 @@ function manipulateRulePosition(ruleId, indexChange) {
     }
 
     const rule = rules.get(index);
-    const newIndex = index + indexChange;
+    const newIndex = Math.min(rules.size - 1, Math.max(0, index + indexChange));
     return rules.remove(index).insert(newIndex, rule);
   });
 }
