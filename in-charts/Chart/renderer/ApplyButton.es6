@@ -2,6 +2,7 @@ import React from 'react';
 
 import {highlightedTimeframe$, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
 import {setTimeframe} from 'in-stores/timeline/timeline';
+import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -22,7 +23,10 @@ function ApplyButton({highlightedTimeframe}) {
   return (
     <Button className={block}
             onClick={() => onButtonClicked(highlightedTimeframe)}>
-      Apply
+      <SvgIcon type='check'
+               width={12}
+               height={12}
+               color='#000' />
     </Button>
   );
 });
