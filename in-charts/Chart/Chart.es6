@@ -6,6 +6,7 @@ import createHighlightedTimeframeRenderer from 'in-charts/Chart/renderer/highlig
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
 import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
+import createApplyTimeButton from 'in-charts/Chart/applyTimeButton';
 import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
@@ -41,6 +42,7 @@ export default function createChart(config) {
   const borderRenderer = createBorderRenderer(config);
   const tooltipRenderer = createTooltipRenderer(config);
   const highlightedTimeframeRenderer = createHighlightedTimeframeRenderer(config);
+  const applyTimeButtonRenderer = createApplyTimeButton(config);
 
 
   let isRendering = false;
@@ -152,6 +154,7 @@ export default function createChart(config) {
 
   function dispose() {
     tooltipRenderer.dispose();
+    applyTimeButtonRenderer.dispose();
     domController.dispose();
     axisController.dispose();
     stopRendering();
@@ -229,6 +232,7 @@ export default function createChart(config) {
       tooltipRenderer.repositionTooltip();
       copyBackBufferToScreenBuffer();
       highlightedTimeframeRenderer.render();
+      applyTimeButtonRenderer.update();
     };
 
     animationCopyHandle = requestAnimationFrameWithFps(animate, maxFps);
