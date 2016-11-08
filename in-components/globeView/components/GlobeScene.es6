@@ -21,8 +21,6 @@ import {loadImage} from 'in-map/services/imageLoader';
 
 export default class GlobeScene {
   constructor(renderer) {
-    this.textureLoaded = false;
-
     this.initScene();
     this.initControls(renderer);
   }

@@ -1,8 +1,9 @@
 import {create, on} from 'reactive-observables';
 
+import BackgroundScene from 'in-components/globeView/components/BackgroundScene';
 import GlobeScene from 'in-components/globeView/components/GlobeScene';
-import {WebGLRenderer, Color} from 'in-map/3DLibProvider';
 import {update as updateTime} from 'in-map/misc/time';
+import {WebGLRenderer} from 'in-map/3DLibProvider';
 
 
 export default function createUniverseRenderer({container, canvas}) {
@@ -18,9 +19,9 @@ export default function createUniverseRenderer({container, canvas}) {
     antialias: true
   });
   renderer.sortObjects = false;
-  renderer.autoClear = true;
-  renderer.setClearColor(new Color(0x0b0c0d), 1.0);
+  renderer.autoClear = false;
 
+  const backgroundScene = new BackgroundScene();
   const globeScene = new GlobeScene(renderer);
 
   const resizeSubscription = on(window, 'resize')
@@ -56,6 +57,7 @@ export default function createUniverseRenderer({container, canvas}) {
     }
 
     globeScene.update();
+    backgroundScene.render(renderer);
     globeScene.render(renderer);
   }
 
@@ -69,5 +71,6 @@ export default function createUniverseRenderer({container, canvas}) {
     resizeSubscription.dispose();
     updateSubscription.dispose();
     globeScene.dispose();
+    backgroundScene.dispose();
   }
 }
