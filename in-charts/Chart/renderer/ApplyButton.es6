@@ -1,7 +1,9 @@
 import React from 'react';
 
 import {highlightedTimeframe$, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
+import {to$} from 'in-components/timeline/timelineStore';
 import {setTimeframe} from 'in-stores/timeline/timeline';
+import {setFocusedMoment} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -13,16 +15,17 @@ const block = 'in-chart-apply-button';
 
 
 export default connectTo({
-  highlightedTimeframe: highlightedTimeframe$
+  highlightedTimeframe: highlightedTimeframe$,
+  to: to$
 },
-function ApplyButton({highlightedTimeframe}) {
+function ApplyButton({to, highlightedTimeframe}) {
   if (!highlightedTimeframe) {
     return null;
   }
 
   return (
     <Button className={block}
-            onClick={() => onButtonClicked(highlightedTimeframe)}>
+            onClick={() => onButtonClicked(highlightedTimeframe, to)}>
       <SvgIcon type='check'
                width={12}
                height={12}
@@ -31,7 +34,7 @@ function ApplyButton({highlightedTimeframe}) {
   );
 });
 
-function onButtonClicked(highlightedTimeframe) {
+function onButtonClicked(highlightedTimeframe, timelineTo) {
   const from = highlightedTimeframe[0];
   const to = highlightedTimeframe[1];
   const windowSize = to - from;
@@ -39,5 +42,8 @@ function onButtonClicked(highlightedTimeframe) {
   if (windowSize > 0) {
     setTimeframe(windowSize, to);
     clearHighlightedTimeframe();
+
+    // stop live mode
+    setFocusedMoment(timelineTo);
   }
 }
