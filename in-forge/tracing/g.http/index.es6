@@ -5,7 +5,7 @@ registerSpanDefinition({
   type: 'g.http',
   category: 'http',
   direction: 'entry',
-  searchAliases: ['node', 'golang', 'http'],
+  searchAliases: ['go', 'golang', 'http'],
 
   typeName: {
     singular: 'HTTP Call',
