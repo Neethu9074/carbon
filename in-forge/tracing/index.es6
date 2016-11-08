@@ -9,6 +9,7 @@ import './ftp';
 import './g.hc';
 import './g.http';
 import './hc';
+import './hornetq';
 import './http';
 import './ibmdb2';
 import './jdbc';
