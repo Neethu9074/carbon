@@ -7,20 +7,18 @@
   overflow: hidden;
   list-style: none;
 
+  display: flex;
+  align-items: center;
+
   &__crumb-wrapper {
-    display: inline-block;
+    display: flex;
   }
 
   &__crumb-separator {
-    color: #D5DFE4;
-    font-size: 1.7rem;
-    position: relative;
-    top: 0.3125rem;
+    margin: 0 .5rem;
   }
 
   &__crumb {
-    display: inline-block;
-
     &--selected, &:hover {
       .in-dashboard-breadcrumb__crumb-link {
         color: #fff;

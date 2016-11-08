@@ -6,9 +6,9 @@ import {getDashboardLink} from 'in-stores/navigation';
 import {getIcon, getLabel} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
+import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './DashboardBreadcrumb.less';
 
@@ -80,8 +80,13 @@ export default getPhysicalHierarchy(function DashboardBreadcrumb({physicalHierar
                  selectedSnapshotId={snapshotId} />
 
           {i !== physicalHierarchy.length - 1 ?
-            <Icon type='right'
-                  className={`${block}__crumb-separator`}/>
+            <div>
+            <SvgIcon className={`${block}__crumb-separator`}
+                     type='chevron_right'
+                     width={8}
+                     height={8}
+                     color='#D5DFE4' />
+            </div>
           : null}
         </div>
       )}
