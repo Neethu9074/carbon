@@ -8,6 +8,7 @@ import './file';
 import './ftp';
 import './g.hc';
 import './hc';
+import './hornetq';
 import './http';
 import './ibmdb2';
 import './jdbc';
