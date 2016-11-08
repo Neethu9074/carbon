@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import {navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navigation';
+import {mutateUrl, navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navigation';
 import {isEumEnabled} from 'in-services/featureFlags';
 
 
@@ -37,6 +37,7 @@ export const isTraceView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/traces') === 0)
   .distinct();
 
+
 export const eventsLinkOnlyIncidents$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
@@ -51,6 +52,7 @@ export const eventsLinkOnlyIncidents$ = navigationParameters$
 export const isEventView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/events') === 0)
   .distinct();
+
 
 export function getEventViewWithEvent(eventId) {
   return navigationParameters$
@@ -75,6 +77,7 @@ export const tableViewLink$ = navigationParameters$
   .map(toUrl)
   .distinct();
 
+
 export const tableViewFilteredForServicesLink$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
@@ -85,6 +88,25 @@ export const tableViewFilteredForServicesLink$ = navigationParameters$
   .map(toUrl)
   .distinct();
 
+
 export const isTableView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/table') === 0)
   .distinct();
+
+
+export function focusEvent(eventId) {
+  mutateUrl(params => {
+    const match = params.pathname.match(/\/(logical|physical)/i);
+    if (match) {
+      params.pathname = `/${match[1]}`;
+    } else if (params.pathname.match(/\/events/i)) {
+      params.pathname = '/events';
+    } else {
+      params.pathname = '/events';
+      delete params.query.q;
+    }
+    params.query.eventId = encodeURIComponent(eventId);
+    delete params.query.snapshotId;
+    return params;
+  });
+}

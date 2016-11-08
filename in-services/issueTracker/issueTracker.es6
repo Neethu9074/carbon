@@ -1,8 +1,7 @@
-import {selectEvent as selectEventInStore, clearSelectedEvent} from 'in-stores/events';
+import {clearSelectedEvent} from 'in-stores/events';
 import createEventObservable from 'in-services/subscription/event';
 import {mapSeverityToHealth, health} from 'in-services/health';
-import {clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {closeDashboard} from 'in-stores/navigation';
+import {focusEvent} from 'in-stores/navigation/view';
 import {theme} from 'in-services/theme';
 
 
@@ -86,10 +85,7 @@ export function getEventType(event) {
 
 
 export function selectEvent(event) {
-  selectEventInStore(event);
-
-  closeDashboard();
-  clearSelectedSnapshotId();
+  focusEvent(event.get('id'));
 }
 
 export function clearEvent() {
