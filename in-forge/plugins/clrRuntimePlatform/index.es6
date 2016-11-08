@@ -1,6 +1,4 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addSearchableEntityType} from 'in-sdk/search';
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
@@ -10,18 +8,14 @@ import icon from './icon.svg';
 registerSnapshotDefinition({
   plugin: plugins.clrRuntimePlatform,
   icon,
-  metricDefinitions
+  metricDefinitions,
+  namesForTypeSearch: ['clr'],
+  pluginName: {
+    singular: '.NET App',
+    plural: '.NET Apps'
+  },
+
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'name']);
+  }
 });
-
-setHumanReadablePluginName(
-  plugins.clrRuntimePlatform,
-  '.NET Application',
-  '.NET Applications'
-);
-
-addLabelFinder(
-  plugins.clrRuntimePlatform,
-  snapshot => '.NET-App ' + snapshot.getIn(['data', 'name'])
-);
-
-addSearchableEntityType('clr', plugins.clrRuntimePlatform);
