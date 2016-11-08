@@ -5,6 +5,7 @@ registerSpanDefinition({
   type: 'g.hc',
   category: 'http',
   direction: 'exit',
+  searchAliases: ['go', 'golang', 'http'],
 
   typeName: {
     singular: 'HTTP Call',
