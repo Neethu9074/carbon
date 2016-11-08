@@ -1,6 +1,8 @@
-import Immutable from 'immutable';
 import React from 'react';
 
+import {
+  upsertRule
+} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules';
 import RuleTester from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/RuleTester';
 import options from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/options';
 import {evaluateClassNames} from 'in-services/util/classnames';
@@ -21,28 +23,19 @@ const block = 'in-config-http-ex-rule';
 export default React.createClass({
   displayName: 'HttpRule',
 
+  propTypes: {
+    rule: React.PropTypes.any.isRequired
+  },
+
   getInitialState() {
     return {
       isExpanded: false,
-      isTesting: false,
-      rule: Immutable.Map({
-        id: 'foo',
-        name: '',
-        enabled: false,
-        comment: '',
-        order: 0,
-        type: 'http',
-        parent: null,
-        matchSpecification: Immutable.Map(),
-        extractSpecification: Immutable.Map({
-          label: '{host-0}{path-0}'
-        })
-      })
+      isTesting: false
     };
   },
 
   render() {
-    const rule = this.state.rule;
+    const rule = this.props.rule;
     const id = rule.get('id');
 
     return (
@@ -195,11 +188,8 @@ export default React.createClass({
   },
 
   setProp(path, value) {
-    this.setState(state => {
-      return {
-        rule: state.rule.setIn(path, value)
-      };
-    });
+    const updatedRule = this.props.rule.setIn(path, value);
+    upsertRule(updatedRule);
   },
 
   onChangeMatchOption(e) {
@@ -211,23 +201,17 @@ export default React.createClass({
     // reset selection to "Please Select"
     e.target.value = '';
 
-    this.setState(state => {
-      const ruleValue = state.rule.getIn(['matchSpecification', newRuleName], undefined);
-      if (ruleValue == null) {
-        const rule = state.rule.setIn(['matchSpecification', newRuleName], options[newRuleName].initialValue || '');
-        return {rule};
-      }
-      return {};
-    });
+    const rule = this.props.rule;
+    const ruleValue = rule.getIn(['matchSpecification', newRuleName], undefined);
+    if (ruleValue == null) {
+      const updatedRule = rule.setIn(['matchSpecification', newRuleName], options[newRuleName].initialValue || '');
+      upsertRule(updatedRule);
+    }
   },
 
   removeMatch(e, key) {
     e.preventDefault();
-
-    this.setState(state => {
-      return {
-        rule: state.rule.deleteIn(['matchSpecification', key])
-      };
-    });
+    const updatedRule = this.props.rule.deleteIn(['matchSpecification', key]);
+    upsertRule(updatedRule);
   }
 });
