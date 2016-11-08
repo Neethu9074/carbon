@@ -68,7 +68,8 @@ export default class StarField {
 
   dispose() {
     if (this.starField) {
-      this.starField.dispose();
+      this.starField.geometry.dispose();
+      this.starField.material.dispose();
       this.starField = null;
     }
   }
