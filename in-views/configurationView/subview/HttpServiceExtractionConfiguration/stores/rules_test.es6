@@ -5,7 +5,7 @@ import {expect} from 'chai';
 
 import {resetStoreRegistry} from 'in-stores/store';
 
-describe.only('in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules', () => {
+describe('in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules', () => {
   let mod;
 
   beforeEach(() => {
