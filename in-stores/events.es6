@@ -346,7 +346,6 @@ export function setHighlightedEvent(event) {
 export function selectEvent(event) {
   if (event) {
     mutateUrl(navParams => {
-      delete navParams.query.snapshotId;
       navParams.query.eventId = encodeURIComponent(event.get('id'));
       return navParams;
     });
