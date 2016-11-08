@@ -58,9 +58,7 @@ export default class BasicCameraController extends Subscriber {
         const {object, connections} = this.lastHitten;
 
         if (object) {
-          const parentSceneObject = object.parentSceneObject;
-          const sceneObject = parentSceneObject ? parentSceneObject : object;
-          setSelectedSnapshotId(sceneObject.id);
+          setSelectedSnapshotId(object.dashboardId);
 
         // dont reset the click if you clicken on connections
         } else if (connections.length === 0) {
@@ -74,7 +72,7 @@ export default class BasicCameraController extends Subscriber {
 
       this.eventEmitter.on('onDoubleClicked').subscribe(() => {
         if (this.lastHitten.object) {
-          goToDashboard(this.lastHitten.object.parentSceneObject.id);
+          goToDashboard(this.lastHitten.object.dashboardId);
         }
       })
     ]);

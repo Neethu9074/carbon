@@ -34,6 +34,7 @@ export default class NodeMetric extends SceneObject {
   constructor(params) {
     super(params);
 
+    this.dashboardId = params.dashboardId;
     this.parentNode = params.node;
     this.numSlices = 1;
 
@@ -73,7 +74,8 @@ export default class NodeMetric extends SceneObject {
 
     this.addComponent('collision', new CollisionComponent(this,
                                                           PREDEFINED_COLLISION_OBJECTS.BOX,
-                                                          OCTREE_LAYER.LAYER));
+                                                          OCTREE_LAYER.LAYER,
+                                                          this.dashboardId));
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this));
 
