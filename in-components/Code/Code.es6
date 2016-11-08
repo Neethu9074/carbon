@@ -60,7 +60,14 @@ export default React.createClass({
     if (line != null) {
       preElement.dataset.line = line;
     } else {
-      delete preElement.dataset.line;
+      try {
+        preElement.dataset.line = '';
+        preElement.removeAttribute('data-line');
+        delete preElement.dataset.line;
+      } catch (e) {
+        // Ignore any errors that may occur when trying to delete a data attribute.
+        // Happened in Safari on 2016-11-08.
+      }
     }
     codeElement.textContent = code;
     Prism.highlightElement(codeElement);
