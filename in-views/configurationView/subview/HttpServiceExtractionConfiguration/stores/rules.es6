@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 
+import {generateUniqueShortId} from 'in-services/util/id';
 import {emptyList} from 'in-services/fixedImmutables';
 import {createStore} from 'in-stores/store';
 
@@ -13,8 +14,8 @@ export const rules$ = rulesStore.observable
 
 export function addNewRule() {
   const newRule = Immutable.Map({
-    id: String(Date.now()),
-    name: 'New Service',
+    id: generateUniqueShortId(),
+    name: 'New Service Rule',
     enabled: false,
     comment: '',
     order: 0,
@@ -22,7 +23,7 @@ export function addNewRule() {
     parent: null,
     matchSpecification: Immutable.Map(),
     extractSpecification: Immutable.Map({
-      label: 'New Service'
+      label: 'Unnamed service'
     })
   });
   upsertRule(newRule);
