@@ -11,14 +11,20 @@ export default class GhostEdgeSpawnerComponent {
 
   initEvents() {
     this.activeGhostNodesSubscribtion = ghosts.stream.subscribe(activeGhosts => {
+      const sourcePosition = this.sourceNode.getPosition();
+      const destinationPosition = this.destinationNode.getPosition();
+      if (!sourcePosition || !destinationPosition) {
+        return;
+      }
+
       const source = activeGhosts[this.sourceNode.id];
       const destination = activeGhosts[this.destinationNode.id];
 
       // if there is a new ghost node which is a ghost of one of this connections endpoints
       if (source || destination) {
         this.ghostConnection = new DragConnection(source
-          ? this.destinationNode.getComponent('transform').getPosition()
-          : this.sourceNode.getComponent('transform').getPosition());
+          ? destinationPosition
+          : sourcePosition);
       } else {
         this.disposeGhostConnection();
       }

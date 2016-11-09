@@ -67,8 +67,13 @@ export default class SceneObject extends Subscriber {
     }
   }
 
+  getPosition() {
+    const transformComponent = this.getComponent('transform');
+    return transformComponent ? transformComponent.getPosition() : null;
+  }
+
   getFocusPosition() {
-    return this.getComponent('transform').getPosition();
+    return this.getPosition();
   }
 
   disposeEvents() {
