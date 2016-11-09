@@ -36,7 +36,7 @@ describe('in-map', () => {
       const createMetricHandler = proxyquire('in-map/misc/physical/MetricHandler', {
         'in-stores/metric': {
           activeMetric$,
-          getLiveMetrics: () => create().startWith({'1': 1})
+          getMetricForFocusedMoment: () => create().startWith({'1': 1})
         },
         'in-sdk/metrics': {
           getMaxValue

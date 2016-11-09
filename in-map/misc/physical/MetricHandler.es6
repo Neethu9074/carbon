@@ -1,7 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
+import {getMetricForFocusedMoment, activeMetric$} from 'in-stores/metric';
 import {METRIC_PILLAR_REFRESH} from 'in-map/misc/TimingConfig';
-import {getLiveMetrics, activeMetric$} from 'in-stores/metric';
 import {getMaxValue} from 'in-sdk/metrics';
 
 
@@ -35,7 +35,7 @@ export default function createMetricHandler(node, snapshotId) {
     const maxValue = getMaxValue(metrics.getIn([0, 'name']), snapshot);
 
     metricSubscription = combineLatest(metrics.toArray()
-                                              .map(metric => getLiveMetrics({
+                                              .map(metric => getMetricForFocusedMoment({
                                                 snapshotId,
                                                 metric: metric.get('name')
                                               }))
