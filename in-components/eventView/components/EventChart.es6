@@ -70,6 +70,7 @@ function Chart({timeframe$, snapshot, snapshotId, metric}) {
   }
 
   const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
+  const m = chartConfig.getMetric(metric);
   return (
     <div className={`${block}__chart`}>
       <ChartWithLegend snapshotId={snapshotId}
@@ -81,14 +82,14 @@ function Chart({timeframe$, snapshot, snapshotId, metric}) {
                          min: chartConfig.getMin(snapshot),
                          max: chartConfig.getMax(snapshot),
                          metrics: [
-                           chartConfig.metric
+                           m
                          ],
                          labels: [
-                           chartConfig.label
+                           chartConfig.getLabel(snapshot, m)
                          ],
                          type: 'line',
                          formatter: chartConfig.formatter.detailed,
-                         tooltipFormatter: chartConfig.formatter.detailed
+                         tooltipFormatter: chartConfig.formatter.compact
                        }} />
     </div>
   );
