@@ -70,7 +70,6 @@ function Chart({timeframe$, snapshot, snapshotId, metric}) {
   }
 
   const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
-  console.log(chartConfig);
   const m = chartConfig.getMetric(metric);
   return (
     <ChartWithLegend snapshotId={snapshotId}
