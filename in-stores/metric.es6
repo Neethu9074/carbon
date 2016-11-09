@@ -149,7 +149,7 @@ export function getDefaultMetricRollupDuration(timeframe) {
     // this works because the rollupDurationThresholds array is sorted by rollup
     // the first rollup matching the requirements is returned
     const rollupDefinition = availableRollupDefinitions[i];
-    const rollup = rollupDefinition.rollup || 1000;
+    const rollup = (rollupDefinition && rollupDefinition.rollup) ? rollupDefinition.rollup : 1000;
     if (timeframe.windowSize / rollup <= MAX_NUMBER_OF_METRICS_FOR_CHARTS) {
       return rollupDefinition.rollup;
     }
@@ -203,7 +203,7 @@ export function getPixelAwareRollupSize(timeframe, pixels) {
     // this works because the rollupDurationThresholds array is sorted by rollup
     // the first rollup matching the requirements is returned
     const rollupDefinition = availableRollupDefinitions[i];
-    const rollup = rollupDefinition.rollup || 1000;
+    const rollup = (rollupDefinition && rollupDefinition.rollup) ? rollupDefinition.rollup : 1000;
     if (timeframe.windowSize / rollup <= maxNumberOfDataPoints) {
       return rollupDefinition.rollup;
     }
