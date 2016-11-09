@@ -51,6 +51,8 @@ export function registerMetricDefinition(plugin, metricDefinition) {
     metricDefinitionsForPlugin.push({
       metric,
       label: label || String(metric),
+      getLabel: getLabel(label || String(metric)),
+      getMetric: getMetric(metric),
       test: getTestFunction(metric),
       category: metricDefinition.category || [],
       getMin: getMin(metricDefinition),
@@ -87,6 +89,24 @@ function getTestFunction(metric) {
   throw new Error(`Unsupported metric of type ${type}: ${metric}`);
 }
 
+function getLabel(label) {
+  const type = typeof label;
+  if (type === 'string') {
+    return () => label;
+  } else if (type === 'function') {
+    return label;
+  }
+}
+
+function getMetric(metric) {
+  const type = typeof metric;
+  if (type === 'string') {
+    return () => metric;
+  } else if (metric instanceof RegExp) {
+    return m => m;
+  }
+}
+
 
 function alwaysUndefined() { return undefined; }
 function alwaysTrue() { return true; }
@@ -113,6 +133,8 @@ function getDefaultMetricDefinition(metric) {
   return {
     metric,
     label: metric,
+    getLabel: () => metric,
+    getMetric: () => metric,
     test: alwaysTrue,
     category: emptyArray,
     getMin: alwaysUndefined,
