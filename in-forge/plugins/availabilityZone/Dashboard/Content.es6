@@ -1,12 +1,10 @@
 import React from 'react';
 
-import DashboardNotification from 'in-components/DashboardNotification';
+import HostsTable from 'in-forge/plugins/genericZone/Dashboard/HostsTable';
 
 
-export default function AvailabilityZoneDashboard() {
+export default function AvailabilityZoneDashboard({snapshot}) {
   return (
-    <DashboardNotification type='info'>
-      There is no further information about this entity.
-    </DashboardNotification>
+    <HostsTable snapshotId={snapshot.get('id')} />
   );
 }
