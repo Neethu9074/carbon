@@ -6,20 +6,22 @@ import connectTo from 'in-hoc/connectTo';
 
 import './DashboardLink.less';
 
+
 export default connectTo(props => {
   return {
     href: getDashboardLink(props.snapshotId)
   };
-}, function DashboardLink({href, children, className}) {
+}, function DashboardLink({href, children, className, onClick}) {
   return (
     <a href={href}
-       onClick={stopPropagation}
+       onClick={e => {
+         if (onClick) {
+           onClick();
+         }
+         e.stopPropagation();
+       }}
        className={joinClassNames('in-dashboard-link', className)}>
       {children}
     </a>
   );
 });
-
-function stopPropagation(e) {
-  e.stopPropagation();
-}
