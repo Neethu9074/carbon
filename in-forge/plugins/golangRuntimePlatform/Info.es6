@@ -8,6 +8,9 @@ export default function GolangInfo({snapshot}) {
 
   return (
     <DescriptionList>
+      <DescriptionItem title='Name'>
+        {data.get('snapshot.name')}
+      </DescriptionItem>
       <DescriptionItem title='GOROOT'>
         {data.get('snapshot.goroot')}
       </DescriptionItem>

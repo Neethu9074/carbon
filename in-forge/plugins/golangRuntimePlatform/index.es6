@@ -13,12 +13,8 @@ registerSnapshotDefinition({
 
   namesForTypeSearch: ['go', 'golang'],
 
-  getLabel() {
-    return getFallbackLabel();
+  getLabel(s) {
+    const data = s.get('data');
+    return data.get('snapshot.name');
   }
 });
-
-
-function getFallbackLabel() {
-  return 'Unknown Golang App';
-}
