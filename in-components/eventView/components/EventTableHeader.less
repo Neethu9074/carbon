@@ -1,33 +1,33 @@
 .in-event-view-event-table-header {
+  display: flex;
+
   font-size: .688rem;
   color: #fff;
 
   &__cell {
     position: relative;
-    display: inline-block;
-    box-sizing: border-box;
     text-transform: capitalize;
 
     border-right: 1px solid #40535b;
 
     &:nth-child(1) {
-      width: 5%;
+      width: ~'calc(5% - 1px)';
     }
 
     &:nth-child(2) {
-      width: ~'calc(15% + 6px)';
+      width: ~'calc(16% + 3px)';
     }
 
     &:nth-child(3) {
-      width: ~'calc(16% - 1px)';
+      width: ~'calc(16% + 4px)';
     }
 
     &:nth-child(4) {
-      width: ~'calc(29% - 2px)';
+      width: ~'calc(29% - 1px)';
     }
 
     &:nth-child(5) {
-      width: ~'calc(34% + 5px)';
+      width: ~'calc(34% + 4px)';
       border-right: 0;
     }
   }
