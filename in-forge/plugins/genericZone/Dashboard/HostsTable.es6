@@ -20,7 +20,7 @@ export default connectTo(props => {
                         return getRunningComponents(snapshotId)
                                  .flatMap(ids => {
                                     return (ids && ids.size > 0)
-                                      ? getSnapshot(ids.toArray()[0])
+                                      ? getSnapshot(ids.toArray()[0]).startWith(null)
                                       : alwaysNull;
                                   });
                       }));
@@ -28,13 +28,13 @@ export default connectTo(props => {
                     .throttle(1000)
   };
 },
-function ClusterNodesTable({clusterNodes, timeframe}) {
+function HostsTable({clusterNodes, timeframe}) {
   if (clusterNodes == null || clusterNodes.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title='Cluster Nodes'>
+    <DashboardSection title='Hosts'>
       <ExpandableTable data={clusterNodes}
                        getKey={getKey}
                        createHeader={createHeader}
