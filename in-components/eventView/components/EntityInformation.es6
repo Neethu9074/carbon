@@ -2,8 +2,6 @@ import React from 'react';
 
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import DashboardLink from 'in-components/Link/DashboardLink';
-import {formatDateTime} from 'in-services/formatters/date';
-import {setFocusedMoment} from 'in-stores/timeline';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
@@ -15,14 +13,12 @@ import './EntityInformation.less';
 const block = 'in-event-view-event-information';
 
 export default connectTo(props => {
-  const snapshotId = props.event.getIn(['problem', 'snapshotId']);
   return {
-    historicalSnapshot: getSnapshot(snapshotId, props.event.get('start')),
-    snapshot: getSnapshot(snapshotId)
+    snapshot: getSnapshot(props.event.getIn(['problem', 'snapshotId']), props.event.get('start'))
   };
 },
-function EntityInformation({historicalSnapshot, snapshot, event}) {
-  if (!historicalSnapshot) {
+function EntityInformation({snapshot}) {
+  if (!snapshot) {
     return (
       <LoadingIndicator inline={true}
                                type='dark'
@@ -31,7 +27,7 @@ function EntityInformation({historicalSnapshot, snapshot, event}) {
                                }} />
     );
   }
-  const entityType = getSingular(historicalSnapshot.get('plugin'));
+  const entityType = getSingular(snapshot.get('plugin'));
 
   return (
     <div className={block}>
@@ -39,24 +35,13 @@ function EntityInformation({historicalSnapshot, snapshot, event}) {
         On:
       </span>
 
-      <img src={getIcon(historicalSnapshot)}
+      <img src={getIcon(snapshot)}
            alt={`Icon for entities of type ${entityType}`}
            className={`${block}__entity-icon`}/>
 
-      {snapshot
-        ? <DashboardLink snapshotId={historicalSnapshot.get('id')}>
-            {getLabel(historicalSnapshot)}
-          </DashboardLink>
-        : <span>
-            Offline, last seen at&nbsp;
-            <DashboardLink snapshotId={historicalSnapshot.get('id')}
-                           onClick={() => {
-                             setFocusedMoment(event.get('start') + 1);
-                           }}>
-              {formatDateTime(event.get('start'))}
-            </DashboardLink>
-          </span>
-      }
+      <DashboardLink snapshotId={snapshot.get('id')}>
+        {getLabel(snapshot)}
+      </DashboardLink>
     </div>
   );
 });
