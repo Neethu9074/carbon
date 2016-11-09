@@ -72,24 +72,26 @@ function Chart({timeframe$, snapshot, snapshotId, metric}) {
   const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
   const m = chartConfig.getMetric(metric);
   return (
-    <ChartWithLegend snapshotId={snapshotId}
-                     timeframe$={timeframe$}
-                     margins={{
-                       left: 80
-                     }}
-                     y1={{
-                       min: chartConfig.getMin(snapshot),
-                       max: chartConfig.getMax(snapshot),
-                       metrics: [
-                         m
-                       ],
-                       labels: [
-                         chartConfig.getLabel(snapshot, m)
-                       ],
-                       type: 'line',
-                       formatter: chartConfig.formatter.detailed,
-                       tooltipFormatter: chartConfig.formatter.compact
-                     }} />
+    <div className={`${block}__chart`}>
+      <ChartWithLegend snapshotId={snapshotId}
+                       timeframe$={timeframe$}
+                       margins={{
+                         left: 80
+                       }}
+                       y1={{
+                         min: chartConfig.getMin(snapshot),
+                         max: chartConfig.getMax(snapshot),
+                         metrics: [
+                           m
+                         ],
+                         labels: [
+                           chartConfig.getLabel(snapshot, m)
+                         ],
+                         type: 'line',
+                         formatter: chartConfig.formatter.detailed,
+                         tooltipFormatter: chartConfig.formatter.compact
+                       }} />
+    </div>
   );
 });
 
