@@ -28,13 +28,13 @@ export default function createHighlightedTimeframeRenderer(config) {
 
     ctx.beginPath();
     ctx.rect(from, top, to - from, bottom);
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
+    ctx.fillStyle = 'rgba(128, 128, 128, 0.2)';
     ctx.fill();
 
     ctx.beginPath();
     ctx.rect(from, top, 1, bottom);
     ctx.rect(to, top, 1, bottom);
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.6)';
+    ctx.fillStyle = 'rgba(128, 128, 128, 0.6)';
     ctx.fill();
   }
 
