@@ -34,14 +34,14 @@ export default function HostDashboard({snapshot, timeframe}) {
 
         <KpiKeyValue label='CPU Usage'>
           <MetricValue snapshotId={snapshot.get('id')}
-                       metric='cpu.idle'
-                       formatter={idle => percentageZeroDecimalPlaces(1 - idle)} />
+                       metric='cpu.used'
+                       formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
 
         <KpiKeyValue label='Memory Usage'>
           <MetricValue snapshotId={snapshot.get('id')}
-                       metric='memory.free'
-                       formatter={free => percentageZeroDecimalPlaces(1 / memoryTotal * (memoryTotal - free))} />
+                       metric='memory.used'
+                       formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
