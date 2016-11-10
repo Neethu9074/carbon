@@ -1,41 +1,29 @@
-import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
+import getHostsInAvailabilityZone from 'in-stores/graph/getHostsInAvailabilityZone';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import {getSnapshot, getRunningComponents} from 'in-stores/snapshot';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {getClusterMembers} from 'in-stores/clusterMembers';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import {alwaysNull} from 'in-services/fixedStreams';
+import {getSnapshots} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 
 export default connectTo(props => {
   return {
-    clusterNodes: getClusterMembers(props.snapshotId)
-                    .flatMap(snapshotIds => {
-                      return combineLatest(snapshotIds.toArray().map(snapshotId => {
-                        return getRunningComponents(snapshotId)
-                                 .flatMap(ids => {
-                                    return (ids && ids.size > 0)
-                                      ? getSnapshot(ids.toArray()[0]).startWith(null)
-                                      : alwaysNull;
-                                  });
-                      }));
-                    })
-                    .throttle(1000)
+    hosts: getHostsInAvailabilityZone(props.snapshotId)
+      .flatMap(snapshotIds => getSnapshots(snapshotIds))
   };
 },
-function HostsTable({clusterNodes, timeframe}) {
-  if (clusterNodes == null || clusterNodes.length === 0) {
+function HostsTable({hosts, timeframe}) {
+  if (hosts == null || hosts.length === 0) {
     return null;
   }
 
   return (
     <DashboardSection title='Hosts'>
-      <ExpandableTable data={clusterNodes}
+      <ExpandableTable data={hosts}
                        getKey={getKey}
                        createHeader={createHeader}
                        createRow={createRow}

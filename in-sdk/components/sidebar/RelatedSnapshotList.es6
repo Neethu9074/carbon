@@ -1,13 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {combineLatest} from 'reactive-observables';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {ClickableSnapshotListItem, ClickableList} from 'in-sdk/components/sidebar/ClickableList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import {getSnapshot} from 'in-stores/snapshot';
+import {getSnapshots} from 'in-stores/snapshot';
 import {getPlural} from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,20 +15,11 @@ import './RelatedSnapshotList.less';
 const block = 'in-related-snapshot-list';
 const rpt = React.PropTypes;
 
-export default connectTo(
-  props => {
-    return {
-      snapshots: combineLatest(props.snapshotIds.map(id =>
-          getSnapshot(id).startWith(null)
-        ).toArray())
-        // Do not show snapshots which are still loading
-        .map(snapshots => snapshots.filter(s => s))
-        // We will have lots of incremental updates. One update every few
-        // milliseconds is enough.
-        .throttle(100)
-    };
-  },
-  React.createClass({
+export default connectTo(props => {
+  return {
+    snapshots: getSnapshots(props.snapshotIds)
+  };
+}, React.createClass({
   displayName: 'RelatedSnapshotList',
 
   mixins: [
@@ -38,7 +27,7 @@ export default connectTo(
   ],
 
   propTypes: {
-    snapshotIds: irpt.setOf(React.PropTypes.string).isRequired,
+    snapshotIds: rpt.any.isRequired,
     initiallyOpen: rpt.bool,
     onRenderItem: rpt.func,
     snapshots: rpt.array,

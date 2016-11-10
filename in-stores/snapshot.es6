@@ -11,7 +11,7 @@ import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {createTrackingStore} from 'in-stores/store';
-import {alwaysNull} from 'in-services/fixedStreams';
+import {alwaysNull, alwaysEmptyArray} from 'in-services/fixedStreams';
 import {focusedMoment$} from 'in-stores/timeline';
 
 
@@ -100,6 +100,25 @@ export function getSnapshot(snapshotId, time) {
   }
 
   return createSnapshotObservable({snapshotId, time});
+}
+
+
+export function getSnapshots(snapshotIds, time) {
+  // support immutable data structures as well
+  if (snapshotIds.toArray) {
+    snapshotIds = snapshotIds.toArray();
+  }
+
+  if (snapshotIds.length === 0) {
+    return alwaysEmptyArray;
+  }
+
+  return combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId, time).startWith(null)))
+    // Do not show snapshots which are still loading
+    .map(snapshots => snapshots.filter(s => s))
+    // We will have lots of incremental updates. One update every few
+    // milliseconds is enough.
+    .throttle(100);
 }
 
 
