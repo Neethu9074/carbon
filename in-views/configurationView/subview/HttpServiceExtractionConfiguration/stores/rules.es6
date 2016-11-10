@@ -3,6 +3,8 @@ import Immutable from 'immutable';
 import {generateUniqueShortId} from 'in-services/util/id';
 import {emptyList} from 'in-services/fixedImmutables';
 import {createStore} from 'in-stores/store';
+import config from 'in-services/config';
+import http from 'in-services/http';
 
 const rulesStore = createStore({
   name: 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules',
@@ -61,9 +63,16 @@ export function moveRuleDown(ruleId) {
   manipulateRulePosition(ruleId, +1);
 }
 
+
 export function moveRuleUp(ruleId) {
   manipulateRulePosition(ruleId, -1);
 }
+
+
+export function removeAllRules() {
+  rulesStore.mutateTo(emptyList);
+}
+
 
 function manipulateRulePosition(ruleId, indexChange) {
   rulesStore.applyStateMutation(rules => {
@@ -75,5 +84,70 @@ function manipulateRulePosition(ruleId, indexChange) {
     const rule = rules.get(index);
     const newIndex = Math.min(rules.size - 1, Math.max(0, index + indexChange));
     return rules.remove(index).insert(newIndex, rule);
+  });
+}
+
+
+export function enable() {
+  removeAllRules();
+  loadRules();
+}
+
+
+function loadRules() {
+  const request$ = http({
+    method: 'GET',
+    url: `/ump/${config.tenant}/${config.tenantUnit}/serviceExtractionConfig`
+  });
+
+  request$
+    .once(response => {
+      const httpRules = response.body.rules
+        .filter(rule => rule.type === 'http');
+      rulesStore.mutateTo(Immutable.fromJS(httpRules));
+    });
+
+  request$
+    .errors()
+    .once(error => {
+      console.error({error});
+    });
+}
+
+
+export function disable() {
+  removeAllRules();
+}
+
+
+export function save() {
+  rules$.once(immutableRules => {
+    const data = {
+      lastModificationTimestamp: Date.now(),
+      rules: []
+    };
+
+    immutableRules.forEach((immutableRule, i) => {
+      const rule = immutableRule.toJS();
+      rule.order = i;
+      data.rules.push(rule);
+    });
+
+    const request$ = http({
+      method: 'POST',
+      url: `/ump/${config.tenant}/${config.tenantUnit}/serviceExtractionConfig`,
+      data
+    });
+
+    request$
+      .once(response => {
+        console.log('Successfully saved', {response});
+      });
+
+    request$
+      .errors()
+      .once(error => {
+        console.error({error});
+      });
   });
 }

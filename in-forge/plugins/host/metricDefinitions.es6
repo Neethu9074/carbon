@@ -1,8 +1,8 @@
 import {
+  percentage,
   number,
   bytes,
   kiloBytes,
-  percentage,
   siMultiplyPrefix
 } from 'in-services/formatters/number';
 import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
@@ -34,6 +34,14 @@ export default [
       return snapshot.getIn(['data', 'memory.total']);
     },
     formatter: bytes
+  },
+  {
+    metric: 'memory.used',
+    label: 'Used',
+    category: ['Memory'],
+    min: 0,
+    max: 1,
+    formatter: percentage
   },
   {
     metric: 'load.1min',
