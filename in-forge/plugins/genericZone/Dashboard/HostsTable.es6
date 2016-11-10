@@ -2,12 +2,14 @@ import React from 'react';
 
 import getHostsInAvailabilityZone from 'in-stores/graph/getHostsInAvailabilityZone';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import {percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {getSnapshots} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Mtd from 'in-components/Mtd';
 
 
 export default connectTo(props => {
@@ -46,6 +48,7 @@ function createHeader() {
       <tr>
         <th>Health</th>
         <th>Name</th>
+        <th>CPU Usage</th>
       </tr>
     </thead>
   );
@@ -61,6 +64,9 @@ function createRow(snapshot) {
       <SnapshotLink snapshotId={id}>
         {getLabel(snapshot)}
       </SnapshotLink>
-    </td>
+    </td>,
+    <Mtd metric={'cpu.used'}
+         snapshot={snapshot}
+         formatter={percentageZeroDecimalPlaces}/>
   ];
 }
