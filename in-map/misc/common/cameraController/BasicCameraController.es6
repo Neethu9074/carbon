@@ -94,7 +94,7 @@ export default class BasicCameraController extends Subscriber {
     this.updateCamera();
   }
 
-  flyToPosition({x, z}) {
+  flyToPosition({x = 0, z = 0}) {
     this.camTransformObject.position.setX(x);
     this.camTransformObject.position.setZ(z);
 
