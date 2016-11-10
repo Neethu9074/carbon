@@ -3,7 +3,6 @@ import React from 'react';
 import {
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
-
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import {emptyList} from 'in-services/fixedImmutables';
@@ -11,9 +10,6 @@ import {emptyList} from 'in-services/fixedImmutables';
 export default function ZKReplicatedDashboard({snapshot, timeframe}) {
  const snapshotId = snapshot.get('id');
  const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList).sort();
- if (peerNames.size === 0) {
-   return null;
- }
 
  return (
    <div>
@@ -36,7 +32,6 @@ export default function ZKReplicatedDashboard({snapshot, timeframe}) {
                           type: 'line',
                           formatter: zeroDecimalPlaces
                         }}/>
-
        )}
       </DashboardSection>
    </div>

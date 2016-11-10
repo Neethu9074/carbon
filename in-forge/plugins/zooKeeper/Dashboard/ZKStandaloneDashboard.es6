@@ -4,7 +4,6 @@ import {
   zeroDecimalPlaces,
   msZeroDecimalPlaces
 } from 'in-services/formatters/number';
-
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
