@@ -24,6 +24,8 @@ const categories = {};
 //       test(),
 //       metric,
 //       label,
+//       getMetric,
+//       getLabel,
 //       category,
 //       getMin(snapshot),
 //       getMax(snapshot),
@@ -47,12 +49,9 @@ export function registerMetricDefinition(plugin, metricDefinition) {
 
   for (let i = 0, len = metricDefinition.metrics.length; i < len; i++) {
     const metric = metricDefinition.metrics[i];
-    const label = metricDefinition.labels[i];
+    const label = metricDefinition.labels[i] || String(metric);
     metricDefinitionsForPlugin.push({
-      metric,
-      label: label || String(metric),
-      getLabel: getLabel(label || String(metric)),
-      getMetric: getMetric(metric),
+      getLabel: getLabel(label),
       test: getTestFunction(metric),
       category: metricDefinition.category || [],
       getMin: getMin(metricDefinition),
@@ -96,15 +95,8 @@ function getLabel(label) {
   } else if (type === 'function') {
     return label;
   }
-}
 
-function getMetric(metric) {
-  const type = typeof metric;
-  if (type === 'string') {
-    return () => metric;
-  } else if (metric instanceof RegExp) {
-    return m => m;
-  }
+  throw new Error(`Unsupported label of type ${type}: ${label}`);
 }
 
 
@@ -131,10 +123,7 @@ export function getMetricDefinition(plugin, metric) {
 
 function getDefaultMetricDefinition(metric) {
   return {
-    metric,
-    label: metric,
     getLabel: () => metric,
-    getMetric: () => metric,
     test: alwaysTrue,
     category: emptyArray,
     getMin: alwaysUndefined,
