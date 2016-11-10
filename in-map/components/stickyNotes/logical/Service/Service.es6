@@ -56,7 +56,7 @@ export default createStickyNote(
       }
 
       const isExpanded = this.state.expanded;
-      this.props.wrapper.style.zIndex = (isExpanded, this.state.kpisAreExpanded) ? 1 : 0;
+      this.props.wrapper.style.zIndex = (isExpanded || this.state.kpisAreExpanded) ? 1 : 0;
 
       const children = this.props.children || emptyArray;
       const childrenAreAvailable = children && children.size > 0;
