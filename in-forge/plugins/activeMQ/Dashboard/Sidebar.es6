@@ -10,6 +10,8 @@ import Info from 'in-forge/plugins/activeMQ/Info';
 export default function ActiveMQSidebar({snapshot}) {
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
           Broker Info

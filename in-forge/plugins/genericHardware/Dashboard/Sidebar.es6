@@ -1,10 +1,14 @@
 import React from 'react';
 
-import Info from '../Info';
+import Separator from 'in-sdk/components/sidebar/Separator';
 
+import Info from '../Info';
 
 export default function GenericHardwareSidebar() {
   return (
-    <Info />
+    <div>
+      <Separator />
+      <Info />
+    </div>
   );
 }

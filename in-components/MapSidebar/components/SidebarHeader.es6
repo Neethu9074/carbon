@@ -38,8 +38,6 @@ export default function SidebarHeader({snapshot}) {
       <Separator />
 
       <SidebarHealthInfo snapshotId={snapshot.get('id')}/>
-
-      <Separator />
     </div>
   );
 }

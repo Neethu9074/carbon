@@ -14,7 +14,6 @@ export default connectTo(props => {
     return null;
   }
   return (
-    <RelatedSnapshotList snapshotIds={hosts}
-                         seperate={false} />
+    <RelatedSnapshotList snapshotIds={hosts} />
   );
 });

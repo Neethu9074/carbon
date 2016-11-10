@@ -12,6 +12,8 @@ import Info from '../Info';
 export default function ElasticsearchSidebar({snapshot}) {
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Elasticsearch</Collapsible.Header>
         <Collapsible.Content>

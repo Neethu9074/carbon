@@ -13,6 +13,8 @@ export default function VarnishSidebar({snapshot}) {
                           .toArray().sort();
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
           Varnish
@@ -21,6 +23,7 @@ export default function VarnishSidebar({snapshot}) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
       {backendNames.map(bEnd =>
         <div key={bEnd}>
           <Separator />
@@ -35,6 +38,7 @@ export default function VarnishSidebar({snapshot}) {
           </Collapsible>
         </div>
       )}
+
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );

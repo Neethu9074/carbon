@@ -11,6 +11,7 @@ export default function KafkaClusterSidebar({snapshot}) {
 
   return (
     <div>
+      <Separator />
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Kafka Cluster</Collapsible.Header>
         <Collapsible.Content>

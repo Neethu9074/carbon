@@ -16,6 +16,8 @@ export default function TomcatSidebar({snapshot}) {
 
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Tomcat</Collapsible.Header>
         <Collapsible.Content>

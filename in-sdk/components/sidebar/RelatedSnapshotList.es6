@@ -30,8 +30,7 @@ export default connectTo(props => {
     snapshotIds: rpt.any.isRequired,
     initiallyOpen: rpt.bool,
     onRenderItem: rpt.func,
-    snapshots: rpt.array,
-    seperate: rpt.bool
+    snapshots: rpt.array
   },
 
   getDefaultProps() {
@@ -54,7 +53,7 @@ export default connectTo(props => {
       <div>
         {groupPlugins.map(plugin =>
           <div key={plugin}>
-            {this.props.seperate ? <Separator /> : null}
+            <Separator />
 
             <Collapsible initiallyOpen={this.props.initiallyOpen}>
               <Collapsible.Header className={block + '__header'}>

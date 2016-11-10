@@ -13,6 +13,8 @@ export default function ElasticsearchClusterSidebar({snapshot}) {
 
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Elasticsearch Cluster</Collapsible.Header>
         <Collapsible.Content>
