@@ -23,5 +23,8 @@ export default connectTo(props => {
     return null;
   }
 
-  return <RelatedSnapshotList snapshotIds={snapshotIds} />;
+  return (
+    <RelatedSnapshotList snapshotIds={snapshotIds}
+                         seperate={false} />
+  );
 });
