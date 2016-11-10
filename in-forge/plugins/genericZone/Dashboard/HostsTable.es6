@@ -49,6 +49,7 @@ function createHeader() {
         <th>Health</th>
         <th>Name</th>
         <th>CPU Usage</th>
+        <th>Memory Usage</th>
       </tr>
     </thead>
   );
@@ -66,6 +67,9 @@ function createRow(snapshot) {
       </SnapshotLink>
     </td>,
     <Mtd metric={'cpu.used'}
+         snapshot={snapshot}
+         formatter={percentageZeroDecimalPlaces}/>,
+    <Mtd metric={'memory.used'}
          snapshot={snapshot}
          formatter={percentageZeroDecimalPlaces}/>
   ];
