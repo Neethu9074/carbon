@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {timeNs, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import {timeNs, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
