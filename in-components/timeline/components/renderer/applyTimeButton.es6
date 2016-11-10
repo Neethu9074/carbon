@@ -3,19 +3,11 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
-import {applyTimeButtonEnabled} from 'in-services/featureFlags';
 import {onMove, onLeave} from 'in-services/reactiveMouseEvents';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
 
 export default function createHighlightedTimeframeRenderer(container, canvas, scale) {
-  if (!applyTimeButtonEnabled) {
-    return {
-      dispose() {},
-      update() {}
-    };
-  }
-
   const applyButtonContainer = document.createElement('div');
   applyButtonContainer.classList.add('in-timeline__apply-button-container');
   container.appendChild(applyButtonContainer);
