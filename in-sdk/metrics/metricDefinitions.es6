@@ -51,6 +51,8 @@ export function registerMetricDefinition(plugin, metricDefinition) {
     const metric = metricDefinition.metrics[i];
     const label = metricDefinition.labels[i] || String(metric);
     metricDefinitionsForPlugin.push({
+      metric,
+      label,
       getLabel: getLabel(label),
       test: getTestFunction(metric),
       category: metricDefinition.category || [],
@@ -123,6 +125,8 @@ export function getMetricDefinition(plugin, metric) {
 
 function getDefaultMetricDefinition(metric) {
   return {
+    metric,
+    label: metric,
     getLabel: () => metric,
     test: alwaysTrue,
     category: emptyArray,
