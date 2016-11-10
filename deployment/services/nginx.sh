@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ "$ENVIRONMENT" = "internal" ]]; then
-  echo "Internal environment. Not starting the nginx."
+if [[ "$ENVIRONMENT" != "fleet" ]]; then
+  echo "Not fleet environment. Not starting the nginx."
   sleep 600
   exit
 fi
