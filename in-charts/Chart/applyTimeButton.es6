@@ -48,7 +48,7 @@ export default function createHighlightedTimeframeRenderer(config) {
     if (highlightedTimeframe) {
       const to = clamp(config.scales.x.getRange(highlightedTimeframe[1]));
 
-      config.dom.applyButtonContainer.style.left = `${to}px`;
+      config.dom.applyButtonContainer.style.left = `${Math.ceil(to)}px`;
       config.dom.applyButtonContainer.style.right = null;
     } else {
       hide();
