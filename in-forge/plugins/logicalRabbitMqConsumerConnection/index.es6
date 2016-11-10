@@ -3,9 +3,14 @@ import {plugins} from 'in-forge/constants';
 
 import icon from 'in-forge/plugins/logicalRabbitMqPublisherConnection/icon.svg';
 
+import metricDefinitions from './metricDefinitions';
+
+
 registerSnapshotDefinition({
   plugin: plugins.logicalRabbitMqConsumerConnection,
   icon,
+  metricDefinitions,
+
   chartWiggleRoom: 20000,
 
   pluginName: {
