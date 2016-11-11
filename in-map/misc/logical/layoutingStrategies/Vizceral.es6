@@ -1,16 +1,28 @@
+import LTRTreeLayouter from  'in-map/misc/logical/layoutingStrategies/vizceralResources/ltrTreeLayouter';
+
+
 export default function applyLayout({nodes, edges}) {
   const N = transformNodes(nodes, edges);
-  const G = getSubgraphs(N);
+  rankNodes(N);
+  sortNodes(N);
 
-  for (let iG = 0, lengthG = G.length; iG < lengthG; iG++) {
-    const graphNodes = G[iG];
-    sortNodes(graphNodes);
+  const testLayouter = new LTRTreeLayouter();
+  const positions = testLayouter.layout(
+    tn(N),
+    tc(edges),
+    {
+      width: 1000,
+      height: 1000
+    },
+    N[0].inNode.id
+  );
 
-    const yPos = iG * 4;
-    for (let iN = 0, lengthN = graphNodes.length; iN < lengthN; iN++) {
-      const xPos = iN * 4;
-      setNodePosition(graphNodes[iN], xPos, yPos);
-    }
+  for (let iN = 0, lengthN = N.length; iN < lengthN; iN++) {
+    const node = N[iN];
+    const position = positions[node.inNode.id];
+    const x = (position.x - 500) / 20;
+    const y = (position.y - 500) / 10;
+    setNodePosition(node, x, y);
   }
 }
 
@@ -56,39 +68,6 @@ function transformNodes(_nodes, _edges) {
   return transformedNodesAsList;
 }
 
-function getSubgraphs(_nodes) {
-  const subgraphs = [];
-
-  for (let iN = 0, length = _nodes.length; iN < length; iN++) {
-    const node = _nodes[iN];
-    if (node.__touched) {
-      continue;
-    }
-
-    const currentGraph = [];
-    addConnected(node, currentGraph);
-    subgraphs.push(currentGraph);
-  }
-
-  return subgraphs;
-}
-
-
-function addConnected(node, graph) {
-  if (node.__touched) {
-    return;
-  }
-  node.__touched = true;
-
-  graph.push(node);
-  for (let iN = 0, length = node.outgoingConnections.length; iN < length; iN++) {
-    addConnected(node.outgoingConnections[iN], graph);
-  }
-  for (let iN = 0, length = node.incomingConnections.length; iN < length; iN++) {
-    addConnected(node.incomingConnections[iN], graph);
-  }
-}
-
 function sortNodes(nodes) {
   rankNodes(nodes);
   nodes.sort((n1, n2) => n1.rank - n2.rank);
@@ -99,4 +78,22 @@ function rankNodes(nodes) {
     const node = nodes[iN];
     node.rank = -1 * node.outgoingConnections.length + node.incomingConnections.length;
   }
+}
+
+
+function tn(nodes) {
+  return nodes.map(node => {
+    return {
+      name: node.inNode.id
+    };
+  });
+}
+
+function tc(connections) {
+  return connections.map(connection => {
+    return {
+      source: connection.sourceNode.id,
+      target: connection.destinationNode.id
+    };
+  });
 }
