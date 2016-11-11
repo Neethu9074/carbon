@@ -20,9 +20,11 @@ export default function applyLayout({nodes, edges}) {
   for (let iN = 0, lengthN = N.length; iN < lengthN; iN++) {
     const node = N[iN];
     const position = positions[node.inNode.id];
-    const x = (position.x - 500) / 20;
-    const y = (position.y - 500) / 10;
-    setNodePosition(node, x, y);
+    if (position) {
+      const x = (position.x - 500) / 20;
+      const y = (position.y - 500) / 10;
+      setNodePosition(node, x, y);
+    }
   }
 }
 
