@@ -15,6 +15,7 @@ import './http';
 import './ibmdb2';
 import './jdbc';
 import './jersey';
+import './jersey.client';
 import './jms';
 import './kafka';
 import './ldap';
