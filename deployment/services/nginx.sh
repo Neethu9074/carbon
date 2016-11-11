@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ "$OPERATION_MODE" != "fleet" ]]; then
-  echo "Not fleet environment. Not starting the nginx."
+if [[ "$OPERATION_MODE" != "fleet" && "$OPERATION_MODE" != "on-prem" ]]; then
+  echo "Only starting nginx in fleet and on-prem mode."
   sleep 600
   exit
 fi
