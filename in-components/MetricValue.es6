@@ -60,7 +60,7 @@ export default React.createClass({
 
     this.stream = stream;
     this.subscription = stream.subscribe(v => {
-      node.textContent = this.format(v);
+      node.textContent = v == null ? this.props.initialValue || '' : this.format(v);
     });
   },
 

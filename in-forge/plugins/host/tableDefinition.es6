@@ -133,9 +133,9 @@ export default [
     get(snapshot) {
       const valueStream = getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
-          metric: 'cpu.idle'
+          metric: 'cpu.used'
         })
-        .map(v => 1 - v[1]);
+        .map(v => v[1]);
 
       return {
         content: (
