@@ -125,7 +125,7 @@ export default class ParticleEmitter {
 
   getMetric(metric) {
     return getMetricForFocusedMoment({snapshotId: this.id, metric})
-      .map(_metric => _metric[1])
+      .map(v => v[1] == null ? 0 : v[1])
       .distinct();
   }
 
