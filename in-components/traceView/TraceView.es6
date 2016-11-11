@@ -9,14 +9,14 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import TraceTree from 'in-components/traceView/components/TraceTree';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 
-export default function TraceView() {
+export default function TraceView({children}) {
   return (
     <div>
       <LifecycleObserver onWillMount={enable}
                          onWillUnmount={disable}/>
       <TwoColumnView leftContent={getLeftContent()}
                      rightContent={getRightContent()} />
-      {this.props.children}
+      {children}
     </div>
   );
 }

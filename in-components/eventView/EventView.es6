@@ -11,7 +11,7 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 
 
-export default function EventView() {
+export default function EventView({children}) {
   return (
     <div>
       <LifecycleObserver onWillMount={enable}
@@ -21,7 +21,7 @@ export default function EventView() {
                      rightContent={getRightContent()}
                      leftWidth='50rem' />
 
-      {this.props.children}
+      {children}
     </div>
   );
 }
