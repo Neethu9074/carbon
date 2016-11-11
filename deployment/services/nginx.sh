@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "$ENVIRONMENT" != "fleet" ]]; then
+if [[ "$OPERATION_MODE" != "fleet" ]]; then
   echo "Not fleet environment. Not starting the nginx."
   sleep 600
   exit
