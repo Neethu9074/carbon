@@ -1,29 +1,85 @@
 import LTRTreeLayouter from  'in-map/misc/logical/layoutingStrategies/vizceralResources/ltrTreeLayouter';
 
 
-export default function applyLayout({nodes, edges}) {
+export default function applyLayout({nodes, edges, createSubgraps = false}) {
   const N = transformNodes(nodes, edges);
-  rankNodes(N);
-  sortNodes(N);
+
+  createSubgraps
+    ? applySubgraph(N)
+    : applyAll(N, edges);
+}
+
+function applySubgraph(nodes) {
+  const G = createSubGraphs(nodes);
+
+  let currentY = 0;
+  for (let iG = 0, lengthG = G.length; iG < lengthG; iG++) {
+    const testLayouter = new LTRTreeLayouter();
+    const graph = G[iG];
+
+    rankNodes(graph.nodes);
+    sortNodes(graph.nodes);
+
+    const positions = testLayouter.layout(
+      tn(graph.nodes),
+      graph.connections,
+      {
+        width: 600,
+        height: 600
+      },
+
+      // starting node
+      graph.nodes[0].inNode.id
+    );
+
+    let maxY = 0;
+    for (let iN = 0, lengthN = graph.nodes.length; iN < lengthN; iN++) {
+      const node = graph.nodes[iN];
+      const position = positions[node.inNode.id];
+      if (position) {
+        const x = (position.x - 300) / 20;
+        const y = (position.y - 300) / 10;
+        setNodePosition(node, x, y + currentY);
+        maxY = Math.max(maxY, y);
+      } else {
+        // forever alone node
+      }
+    }
+    currentY += maxY;
+  }
+}
+
+function applyAll(nodes, edges) {
+  rankNodes(nodes);
+  sortNodes(nodes);
 
   const testLayouter = new LTRTreeLayouter();
   const positions = testLayouter.layout(
-    tn(N),
-    tc(edges),
+    tn(nodes),
+    edges.map(edge => {
+      return {
+        source: edge.sourceNode.id,
+        target: edge.destinationNode.id
+      };
+    }),
     {
-      width: 1000,
-      height: 1000
+      width: 600,
+      height: 600
     },
-    N[0].inNode.id
+
+    // starting node
+    nodes[0].inNode.id
   );
 
-  for (let iN = 0, lengthN = N.length; iN < lengthN; iN++) {
-    const node = N[iN];
+  for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
+    const node = nodes[iN];
     const position = positions[node.inNode.id];
     if (position) {
-      const x = (position.x - 500) / 20;
-      const y = (position.y - 500) / 10;
+      const x = (position.x - 300) / 20;
+      const y = (position.y - 300) / 10;
       setNodePosition(node, x, y);
+    } else {
+      // forever alone node
     }
   }
 }
@@ -70,6 +126,52 @@ function transformNodes(_nodes, _edges) {
   return transformedNodesAsList;
 }
 
+function createSubGraphs(nodes) {
+  const subGraphs = [];
+
+  for (let i = 0, length = nodes.length; i < length; i++) {
+    const node = nodes[i];
+    if (node.__touched) {
+      continue;
+    }
+
+    const graph = {
+      nodes: [],
+      connections: []
+    };
+    addConnected(node, graph);
+    subGraphs.push(graph);
+  }
+
+  return subGraphs;
+}
+
+function addConnected(node, graph) {
+  if (node.__touched) {
+    return;
+  }
+
+  node.__touched = true;
+  graph.nodes.push(node);
+
+  for (let i = 0, length = node.outgoingConnections.length; i < length; i++) {
+    const target = node.outgoingConnections[i];
+    graph.connections.push({
+      source: node.inNode.id,
+      target: target.inNode.id
+    });
+    addConnected(target, graph);
+  }
+  for (let i = 0, length = node.incomingConnections.length; i < length; i++) {
+    addConnected(node.incomingConnections[i], graph);
+    const source = node.incomingConnections[i];
+    graph.connections.push({
+      source: source.inNode.id,
+      target: node.inNode.id
+    });
+  }
+}
+
 function sortNodes(nodes) {
   rankNodes(nodes);
   nodes.sort((n1, n2) => n1.rank - n2.rank);
@@ -87,15 +189,6 @@ function tn(nodes) {
   return nodes.map(node => {
     return {
       name: node.inNode.id
-    };
-  });
-}
-
-function tc(connections) {
-  return connections.map(connection => {
-    return {
-      source: connection.sourceNode.id,
-      target: connection.destinationNode.id
     };
   });
 }
