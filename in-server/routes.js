@@ -136,7 +136,7 @@ function askUiBackendWhetherTheRequestIsAuthorized(req, cb) {
   sendRequest({
     url: serverConfig.uiBackendBaseUrl + '/checkUserAccessPermitted',
     headers: {
-      'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig]}`
+      'Cookie': `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
     },
     timeout: 5000
   }, (error, response) => {
