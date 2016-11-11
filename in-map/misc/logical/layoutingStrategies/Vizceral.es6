@@ -1,26 +1,26 @@
 import LTRTreeLayouter from  'in-map/misc/logical/layoutingStrategies/vizceralResources/ltrTreeLayouter';
 
 
-export default function applyLayout({nodes, edges, createSubgraps = false}) {
+export default function applyLayout({nodes, edges, createSubgraphs = false}) {
+  const layouter = new LTRTreeLayouter();
   const N = transformNodes(nodes, edges);
 
-  createSubgraps
-    ? applySubgraph(N)
-    : applyAll(N, edges);
+  createSubgraphs
+    ? applySubgraph(N, layouter)
+    : applyAll(N, edges, layouter);
 }
 
-function applySubgraph(nodes) {
+function applySubgraph(nodes, layouter) {
   const G = createSubGraphs(nodes);
 
   let currentY = 0;
   for (let iG = 0, lengthG = G.length; iG < lengthG; iG++) {
-    const testLayouter = new LTRTreeLayouter();
     const graph = G[iG];
 
     rankNodes(graph.nodes);
     sortNodes(graph.nodes);
 
-    const positions = testLayouter.layout(
+    const positions = layouter.layout(
       tn(graph.nodes),
       graph.connections,
       {
@@ -49,12 +49,11 @@ function applySubgraph(nodes) {
   }
 }
 
-function applyAll(nodes, edges) {
+function applyAll(nodes, edges, layouter) {
   rankNodes(nodes);
   sortNodes(nodes);
 
-  const testLayouter = new LTRTreeLayouter();
-  const positions = testLayouter.layout(
+  const positions = layouter.layout(
     tn(nodes),
     edges.map(edge => {
       return {

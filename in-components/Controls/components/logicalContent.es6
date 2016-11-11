@@ -1,6 +1,10 @@
 import React from 'react';
 
-import {fruchtermannReingoldLayouting$, vizceralLayouting$} from 'in-map/stores/logical/layouterStore';
+import {
+  fruchtermannReingoldLayouting$,
+  vizceralLayoutingWithSubgraphs$,
+  vizceralLayouting$
+}  from 'in-map/stores/logical/layouterStore';
 import MapStatistics from 'in-components/Controls/components/MapStatistics';
 import {setLayoutingStrategy} from 'in-map/stores/logical/layouterStore';
 import Particles from 'in-components/Controls/components/Particles';
@@ -14,10 +18,16 @@ export default function getLogicalContent() {
     <Particles key='particles' />,
     <Layout key='fr_layout'
             iconType='graph'
+            tooltipText='Rearrange services using fruchtermann'
             onClick={() => setLayoutingStrategy(fruchtermannReingoldLayouting$)} />,
     <Layout key='v_layout'
             iconType='options'
-            onClick={() => setLayoutingStrategy(vizceralLayouting$)} />
+            tooltipText='Rearrange services using vizceral'
+            onClick={() => setLayoutingStrategy(vizceralLayouting$)} />,
+    <Layout key='vsub_layout'
+            iconType='menu'
+            tooltipText='Rearrange services using vizceral with subgraphs'
+            onClick={() => setLayoutingStrategy(vizceralLayoutingWithSubgraphs$)} />
   ];
 
   if (__DEV__) {
