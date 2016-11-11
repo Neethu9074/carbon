@@ -3,6 +3,7 @@ import React from 'react';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 
 import ThreadPools from '../ThreadPools';
 import Datasources from '../Datasources';
@@ -13,6 +14,8 @@ import Info from '../Info';
 export default function WebSphereSidebar({snapshot}) {
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
           WebSphere Server Info

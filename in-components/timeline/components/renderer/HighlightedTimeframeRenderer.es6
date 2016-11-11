@@ -28,13 +28,13 @@ export default class HighlightedTimeframeRenderer extends BasicRenderer {
 
     buffer.beginPath();
     buffer.rect(from, 0, to - from, this.height);
-    buffer.fillStyle = 'rgba(255, 0, 0, 0.2)';
+    buffer.fillStyle = 'rgba(160, 160, 160, 0.2)';
     buffer.fill();
 
     buffer.beginPath();
     buffer.rect(from, 0, 1, this.height);
     buffer.rect(to, 0, 1, this.height);
-    buffer.fillStyle = 'rgba(255, 0, 0, 0.6)';
+    buffer.fillStyle = 'rgba(160, 160, 160, 0.6)';
     buffer.fill();
   }
 

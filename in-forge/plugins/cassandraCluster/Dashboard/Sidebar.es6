@@ -13,6 +13,7 @@ export default function CassandraClusterSidebar({snapshot}) {
 
   return (
     <div>
+      <Separator />
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Cassandra Cluster</Collapsible.Header>
         <Collapsible.Content>

@@ -8,35 +8,23 @@ import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import EventDetails from 'in-components/eventView/components/EventDetails';
 import EventTable from 'in-components/eventView/components/EventTable';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
+import LifecycleObserver from 'in-components/LifecycleObserver';
 
 
-export default React.createClass({
-  displayName: 'EventView',
+export default function EventView({children}) {
+  return (
+    <div>
+      <LifecycleObserver onWillMount={enable}
+                         onWillUnmount={disable}/>
 
-  propTypes: {
-    children: React.PropTypes.any
-  },
+      <TwoColumnView leftContent={getLeftContent()}
+                     rightContent={getRightContent()}
+                     leftWidth='50rem' />
 
-  componentWillMount() {
-    enable();
-  },
-
-  componentWillUnmount() {
-    disable();
-  },
-
-  render() {
-    return (
-      <div>
-        <TwoColumnView leftContent={getLeftContent()}
-                       rightContent={getRightContent()}
-                       leftWidth='50rem' />
-
-        {this.props.children}
-      </div>
-    );
-  }
-});
+      {children}
+    </div>
+  );
+}
 
 function getLeftContent() {
   return [

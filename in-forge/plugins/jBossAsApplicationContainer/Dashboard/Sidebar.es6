@@ -4,6 +4,7 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import {yesOrNo} from 'in-services/formatters/boolean';
 import {emptyMap} from 'in-services/fixedImmutables';
 
@@ -16,6 +17,8 @@ export default function JBossAsSidebar({snapshot}) {
 
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>JBoss Application Server</Collapsible.Header>
         <Collapsible.Content>

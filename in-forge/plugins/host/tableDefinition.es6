@@ -133,9 +133,9 @@ export default [
     get(snapshot) {
       const valueStream = getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
-          metric: 'cpu.idle'
+          metric: 'cpu.used'
         })
-        .map(v => 1 - v[1]);
+        .map(v => v[1]);
 
       return {
         content: (
@@ -161,7 +161,7 @@ export default [
       };
     }
   }, {
-    title: 'Memory Usage',
+    title: 'Memory Used',
     style: {
       textAlign: 'right',
       maxWidth: '7.5rem'
@@ -169,12 +169,11 @@ export default [
     sortableType: Number,
     defaultSortDirection: 'desc',
     get(snapshot) {
-      const memoryTotal = snapshot.getIn(['data', 'memory.total']);
       const valueStream = getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
-          metric: 'memory.free'
+          metric: 'memory.used'
         })
-        .map(v => 1 / memoryTotal * (memoryTotal - v[1]));
+        .map(v => v[1]);
 
       return {
         content: (

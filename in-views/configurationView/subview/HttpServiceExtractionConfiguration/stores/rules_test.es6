@@ -63,22 +63,22 @@ describe('in-views/configurationView/subview/HttpServiceExtractionConfiguration/
     });
 
     it('must support rearangement of rules', () => {
-      mod.moveRuleUp(rule2.get('id'));
+      mod.moveRuleDown(rule2.get('id'));
       expectRulesToDeepEqual([rule1.toJS(), rule3.toJS(), rule2.toJS()]);
 
-      mod.moveRuleUp(rule2.get('id'));
+      mod.moveRuleDown(rule2.get('id'));
       expectRulesToDeepEqual([rule1.toJS(), rule3.toJS(), rule2.toJS()]);
 
-      mod.moveRuleUp(rule3.get('id'));
+      mod.moveRuleDown(rule3.get('id'));
+      expectRulesToDeepEqual([rule1.toJS(), rule2.toJS(), rule3.toJS()]);
+
+      mod.moveRuleDown(rule1.get('id'));
+      expectRulesToDeepEqual([rule2.toJS(), rule1.toJS(), rule3.toJS()]);
+
+      mod.moveRuleUp(rule1.get('id'));
       expectRulesToDeepEqual([rule1.toJS(), rule2.toJS(), rule3.toJS()]);
 
       mod.moveRuleUp(rule1.get('id'));
-      expectRulesToDeepEqual([rule2.toJS(), rule1.toJS(), rule3.toJS()]);
-
-      mod.moveRuleDown(rule1.get('id'));
-      expectRulesToDeepEqual([rule1.toJS(), rule2.toJS(), rule3.toJS()]);
-
-      mod.moveRuleDown(rule1.get('id'));
       expectRulesToDeepEqual([rule1.toJS(), rule2.toJS(), rule3.toJS()]);
     });
   });

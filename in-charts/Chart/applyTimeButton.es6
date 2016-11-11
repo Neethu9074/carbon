@@ -4,17 +4,10 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
-import {applyTimeButtonEnabled} from 'in-services/featureFlags';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
 
 export default function createHighlightedTimeframeRenderer(config) {
-  if (!applyTimeButtonEnabled) {
-    return {
-      dispose() {},
-      update() {}
-    };
-  }
   const eventEmitter = new RoEmitter();
   let highlightedTimeframe;
 
@@ -55,7 +48,7 @@ export default function createHighlightedTimeframeRenderer(config) {
     if (highlightedTimeframe) {
       const to = clamp(config.scales.x.getRange(highlightedTimeframe[1]));
 
-      config.dom.applyButtonContainer.style.left = `${to}px`;
+      config.dom.applyButtonContainer.style.left = `${Math.ceil(to)}px`;
       config.dom.applyButtonContainer.style.right = null;
     } else {
       hide();

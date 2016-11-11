@@ -1,4 +1,4 @@
-import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
+import createNullService from 'in-map/misc/serviceLocator/cameraController/CameraControllerNullService';
 
 
 const CameraControllerServiceLocator = (function create() {

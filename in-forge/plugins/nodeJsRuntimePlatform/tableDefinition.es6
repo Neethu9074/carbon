@@ -62,7 +62,7 @@ export default [
           snapshotId: snapshot.get('id'),
           metric: 'gc.gcPause'
         })
-        .map(v => 1 / 1000 * v[1]);
+        .map(v => v[1] == null ? null : (1 / 1000 * v[1]));
 
       return {
         content: (

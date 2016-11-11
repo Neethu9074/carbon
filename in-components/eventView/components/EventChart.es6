@@ -64,13 +64,12 @@ function Chart({timeframe$, snapshot, snapshotId, metric}) {
   if (!snapshot) {
     return (
       <LoadingIndicator inline={true}
-                               type='dark'
-                               style={{ height: '16px' }} />
+                        type='dark'
+                        style={{ height: '16px' }} />
     );
   }
 
   const chartConfig = getMetricDefinition(snapshot.get('plugin'), metric);
-  const m = chartConfig.getMetric(metric);
   return (
     <div className={`${block}__chart`}>
       <ChartWithLegend snapshotId={snapshotId}
@@ -79,14 +78,14 @@ function Chart({timeframe$, snapshot, snapshotId, metric}) {
                          left: 80
                        }}
                        y1={{
-                         min: chartConfig.getMin(snapshot),
-                         max: chartConfig.getMax(snapshot),
                          metrics: [
-                           m
+                           metric
                          ],
                          labels: [
-                           chartConfig.getLabel(snapshot, m)
+                           chartConfig.getLabel(snapshot, metric)
                          ],
+                         min: chartConfig.getMin(snapshot),
+                         max: chartConfig.getMax(snapshot),
                          type: 'line',
                          formatter: chartConfig.formatter.detailed,
                          tooltipFormatter: chartConfig.formatter.compact

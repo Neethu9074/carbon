@@ -13,7 +13,6 @@ import './ApplyButton.less';
 
 const block = 'in-chart-apply-button';
 
-
 export default connectTo({
   highlightedTimeframe: highlightedTimeframe$,
   to: to$
@@ -25,11 +24,12 @@ function ApplyButton({to, highlightedTimeframe}) {
 
   return (
     <Button className={block}
+            kind='secondary'
             onClick={() => onButtonClicked(highlightedTimeframe, to)}>
-      <SvgIcon type='check'
+      <SvgIcon type='search'
                width={12}
                height={12}
-               color='#000' />
+               color='#172429' />
     </Button>
   );
 });

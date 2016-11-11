@@ -38,12 +38,12 @@ export default function createMetricHandler(node, snapshotId) {
                                               .map(metric => getMetricForFocusedMoment({
                                                 snapshotId,
                                                 metric: metric.get('name')
-                                              }))
+                                              })
+                                              .map(v => v[1] == null ? 0 : v[1] / maxValue)
+                                              .distinct())
                                       )
                          .throttle(METRIC_PILLAR_REFRESH)
-                         .subscribe(values => {
-                           node.setMetricValues(values.map(v => v[1] / maxValue));
-                         });
+                         .subscribe(values => node.setMetricValues(values));
   }
 
   return {

@@ -149,14 +149,14 @@ export default class Connection extends SceneObject {
   }
 
   getVertices() {
-    const fromTransform = this.sourceNode.getComponent('transform');
-    const toTransform = this.destinationNode.getComponent('transform');
-    if (!fromTransform || !toTransform) {
+    const fromPosition = this.sourceNode.getPosition();
+    const toPosition = this.destinationNode.getPosition();
+    if (!fromPosition || !toPosition) {
       return emptyArray;
     }
 
-    const from = fromTransform.getPosition().clone();
-    const to = toTransform.getPosition().clone();
+    const from = fromPosition.clone();
+    const to = toPosition.clone();
     this.addOffsetIfBidirectional(from, to);
 
     const path = flatten(

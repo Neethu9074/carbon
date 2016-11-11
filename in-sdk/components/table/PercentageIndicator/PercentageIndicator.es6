@@ -47,9 +47,14 @@ export default React.createClass({
 
     this.stream = stream;
     this.subscription = stream.subscribe(v => {
-      valuePresenter.textContent = this.format(v);
+      valuePresenter.textContent = v == null ? '' : this.format(v);
+
       // if value grows larger than 100% (e.g. for cpu) prevent overflow
-      levelPresenter.style.width = `${Math.min(1, v) * 100}%`;
+      if (v == null) {
+        levelPresenter.style.width = '0px';
+      } else {
+        levelPresenter.style.width = `${Math.min(1, v) * 100}%`;
+      }
     });
   },
 

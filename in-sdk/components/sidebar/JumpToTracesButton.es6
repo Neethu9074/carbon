@@ -25,6 +25,8 @@ export default connectTo(props => {
 
   return (
     <div>
+      <Separator />
+
       <Tooltip content='Jump to traces starting at this service'>
         <Button href={href}
                 className={block}
@@ -32,8 +34,6 @@ export default connectTo(props => {
           Traces ({zeroDecimalPlaces(traceCount)})
         </Button>
       </Tooltip>
-
-      <Separator />
     </div>
   );
 });

@@ -143,6 +143,14 @@ export const time = _ms => {
   return msZeroDecimalPlaces(_ms);
 };
 
+export const timeNs = _ns => {
+  const _ms = _ns / 1000000;
+  return time(_ms);
+};
+export const nanos = {
+  compact: timeNs,
+  detailed: timeNs
+};
 
 /**
  * Format a number of bytes to improve readability for humans. Turn a raw

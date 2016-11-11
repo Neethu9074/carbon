@@ -14,6 +14,8 @@ export default function SpringbootSidebar({snapshot}) {
 
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Application Info</Collapsible.Header>
         <Collapsible.Content>

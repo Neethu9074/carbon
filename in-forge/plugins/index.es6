@@ -21,6 +21,7 @@ import './genericHardware';
 import './genericJavaWebapp';
 import './genericZone';
 import './glassfishApplicationContainer';
+import './golangRuntimePlatform';
 import './hAProxy';
 import './host';
 import './httpd';

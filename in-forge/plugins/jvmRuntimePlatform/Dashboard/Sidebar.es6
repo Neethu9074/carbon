@@ -14,6 +14,8 @@ export default function JvmRuntimeSidebar({snapshot}) {
 
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>App</Collapsible.Header>
         <Collapsible.Content>

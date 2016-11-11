@@ -22,6 +22,7 @@ registerSnapshotDefinition({
   namesForTypeSearch: ['host'],
 
   icons: {
+    [plugins.host]: linuxIconPath,
     [plugins.host + '_linux']: linuxIconPath,
     [plugins.host + '_apple']: appleIconPath,
     [plugins.host + '_windows']: windowsIconPath

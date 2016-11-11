@@ -55,7 +55,7 @@ export default class Connection extends SceneObject {
           this.collisionLine.geometry.dispose();
         }
         this.collisionLine = calculatePhysicalCollisionMesh(from, to);
-        this.eventEmitter.emit('positionChanged', this.getComponent('transform').getPosition());
+        this.eventEmitter.emit('positionChanged', this.getPosition());
         requestRendering();
       })
     ]);
@@ -66,8 +66,11 @@ export default class Connection extends SceneObject {
       return [];
     }
 
-    const from = this.sourceNode.getComponent('transform').getPosition();
-    const to = this.destinationNode.getComponent('transform').getPosition();
+    const from = this.sourceNode.getPosition();
+    const to = this.destinationNode.getPosition();
+    if (!from || !to) {
+      return [];
+    }
 
     return flatten(
            addArrowToDestination(

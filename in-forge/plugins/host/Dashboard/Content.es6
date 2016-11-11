@@ -4,8 +4,7 @@ import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   percentageZeroDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces
+  percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import EnableSelfMonitoringButton from 'in-forge/plugins/host/Dashboard/EnableSelfMonitoringButton';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
@@ -25,7 +24,6 @@ const block = 'in-forge-host-dashboard';
 
 export default function HostDashboard({snapshot, timeframe}) {
   const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
-  const memoryTotal = snapshot.getIn(['data', 'memory.total'], 0.000001); // avoid devision by zero errors
 
   return (
     <div>
@@ -34,14 +32,14 @@ export default function HostDashboard({snapshot, timeframe}) {
 
         <KpiKeyValue label='CPU Usage'>
           <MetricValue snapshotId={snapshot.get('id')}
-                       metric='cpu.idle'
-                       formatter={idle => percentageZeroDecimalPlaces(1 - idle)} />
+                       metric='cpu.used'
+                       formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
 
         <KpiKeyValue label='Memory Usage'>
           <MetricValue snapshotId={snapshot.get('id')}
-                       metric='memory.free'
-                       formatter={free => percentageZeroDecimalPlaces(1 / memoryTotal * (memoryTotal - free))} />
+                       metric='memory.used'
+                       formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -97,7 +95,7 @@ export default function HostDashboard({snapshot, timeframe}) {
 
       <CpuTable snapshot={snapshot} timeframe={timeframe} />
 
-      <DashboardSection title='Memory Free'>
+      <DashboardSection title='Memory Used'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
 
@@ -106,13 +104,13 @@ export default function HostDashboard({snapshot, timeframe}) {
                          }}
                          y1={{
                            min: 0,
-                           max: memoryTotal,
-                           formatter: bytesZeroDecimalPlaces,
-                           tooltipFormatter: bytesTwoDecimalPlaces,
+                           max: 1,
+                           formatter: percentageZeroDecimalPlaces,
+                           tooltipFormatter: percentageTwoDecimalPlaces,
                            metrics: [
-                             'memory.free'
+                             'memory.used'
                            ],
-                           labels: ['Free'],
+                           labels: ['Used'],
                            type: 'stackedArea'
                          }}/>
       </DashboardSection>

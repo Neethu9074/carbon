@@ -12,6 +12,8 @@ import Info from '../Info';
 export default function GlassfishSidebar({snapshot}) {
   return (
     <div>
+      <Separator />
+
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
           Glassfish
