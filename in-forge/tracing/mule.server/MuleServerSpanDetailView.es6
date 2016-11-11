@@ -18,6 +18,9 @@ export default function MuleServerSpanDetailView({span}) {
         <DescriptionItem title='Pattern'>
           {span.getIn(['data', 'mule', 'pattern'])}
         </DescriptionItem>
+        <DescriptionItem title='Error'>
+          {span.getIn(['data', 'mule', 'error'])}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );
