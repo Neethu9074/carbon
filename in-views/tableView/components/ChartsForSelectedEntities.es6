@@ -59,7 +59,7 @@ function SelectedChart({metric, snapshots}) {
 
       <ChartWithLegend snapshotIds={snapshots.map(s => s.get('id'))}
                        margins={{
-                         left: 60
+                         left: 90
                        }}
                        y1={{
                          metrics: snapshots.map(() => definition.metric),
