@@ -4,13 +4,14 @@ const GRAVITY = 100;
 const SPEED = 0.1;
 const SCALE = 2;
 
-export default function applyLayout(nodes, edges, nodePositions) {
-  const sigmaGraph = buildSigmaGraphStructure(nodes, edges, nodePositions);
+export default function applyLayout({nodes, edges, storedNodePositions}) {
+
+  const sigmaGraph = buildSigmaGraphStructure(nodes, edges, storedNodePositions);
   start(sigmaGraph);
   applyPositionUpdate(sigmaGraph);
 }
 
-function buildSigmaGraphStructure(nodes, edges, nodePositions) {
+function buildSigmaGraphStructure(nodes, edges, storedNodePositions) {
   const graph = {
     nodes: [],
     nodeMap: {},
@@ -18,7 +19,7 @@ function buildSigmaGraphStructure(nodes, edges, nodePositions) {
   };
 
   nodes.forEach(node => {
-    const storedNodePosition = nodePositions.get(node.id);
+    const storedNodePosition = storedNodePositions.get(node.id);
 
     const sigmaNode = {
       id: node.id,

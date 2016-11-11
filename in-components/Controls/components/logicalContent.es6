@@ -1,18 +1,40 @@
 import React from 'react';
 
+import {
+  fruchtermannReingoldLayouting$,
+  vizceralLayoutingWithSubgraphs$,
+  vizceralLayouting$
+}  from 'in-map/stores/logical/layouterStore';
 import MapStatistics from 'in-components/Controls/components/MapStatistics';
-import AutoLayout from 'in-components/Controls/components/AutoLayout';
+import {provideAlternativeLogicalLayouter} from 'in-services/featureFlags';
+import {setLayoutingStrategy} from 'in-map/stores/logical/layouterStore';
 import Particles from 'in-components/Controls/components/Particles';
+import Layout from 'in-components/Controls/components/Layout';
 import Icons from 'in-components/Controls/components/Icons';
 import Zoom from 'in-components/Controls/components/Zoom';
-
 
 export default function getLogicalContent() {
   const controls = [
     <Zoom key='zoom' />,
     <Particles key='particles' />,
-    <AutoLayout key='layout' />
+    <Layout key='fr_layout'
+            iconType='graph'
+            tooltipText='Rearrange services using fruchtermann'
+            onClick={() => setLayoutingStrategy(fruchtermannReingoldLayouting$)} />
   ];
+
+  if (provideAlternativeLogicalLayouter) {
+    controls.push(
+      <Layout key='v_layout'
+              iconType='options'
+              tooltipText='Rearrange services using vizceral'
+              onClick={() => setLayoutingStrategy(vizceralLayouting$)} />,
+      <Layout key='vsub_layout'
+              iconType='menu'
+              tooltipText='Rearrange services using vizceral with subgraphs'
+              onClick={() => setLayoutingStrategy(vizceralLayoutingWithSubgraphs$)} />
+    );
+  }
 
   if (__DEV__) {
     controls.push(

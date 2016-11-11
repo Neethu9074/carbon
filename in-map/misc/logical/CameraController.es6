@@ -10,7 +10,7 @@ export default function createCameraController(canvas, map) {
            new TouchControlsDecorator(
              new RayCasterDecorator(
                new MouseControlsDecorator(
-                 new BasicCameraController('nodes'),
+                 new BasicCameraController('nodes', 0),
                  canvas),
                map),
              canvas),
