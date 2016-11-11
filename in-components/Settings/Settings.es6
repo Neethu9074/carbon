@@ -6,7 +6,6 @@ import {showSettings$, setSettingsVisibility} from 'in-stores/settings/visibilit
 import {setIn, settingsStore, toggleIn} from 'in-services/settings';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import SettingEntry from 'in-components/Settings/SettingEntry';
-import {askPermission} from 'in-services/notification';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
 import Dialog from 'in-components/Dialog';
@@ -50,7 +49,6 @@ export default connectTo({
 
   componentWillMount() {
     this.addSubscription(settingsStore.subscribe(data => {
-      const desktopNotification = data.get('desktopNotification');
       const excludeUnmonitoredHosts = data.getIn(['map', 'excludeUnmonitoredHosts']);
       const direction = data.getIn(['map', 'scrollDirection']);
       const antialias = data.getIn(['map', 'antialias']);
@@ -59,7 +57,6 @@ export default connectTo({
         inverseCheckboxChecked: direction === 1 ? false : true,
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
         antialiasValue: antialias ? antialias : 'off',
-        desktopNotification: desktopNotification,
         excludeUnmonitoredHosts: excludeUnmonitoredHosts,
         experiments: data.get('experiments'),
         autoCollapseTimeline: data.getIn(['autoCollapseTimeline']),
@@ -135,17 +132,6 @@ export default connectTo({
             </SettingEntry>
             : null
           }
-
-          <SettingEntry>
-            <SettingEntry.Header text='Enable Desktop Notifications' />
-            <SettingEntry.Content>
-              <CheckBox onClick={this.toggleDesktopNotifications}
-                        defaultChecked={this.state.desktopNotification}/>
-            </SettingEntry.Content>
-            <SettingEntry.HelpText text={
-                                  'Desktop notifications will pop up if the browser window is not active ' +
-                                  'to keep you up to date about important messages.'} />
-          </SettingEntry>
 
           <SettingEntry>
             <SettingEntry.Header text='Disable Unmonitored Hosts' />
@@ -230,20 +216,6 @@ export default connectTo({
 
   toggleUnmonitoredNodes() {
     setIn(['map', 'excludeUnmonitoredHosts'], !this.state.excludeUnmonitoredHosts);
-  },
-
-  toggleDesktopNotifications() {
-    const isDesktopNotificationEnabled = this.state.desktopNotification;
-
-    if (!isDesktopNotificationEnabled) {
-      askPermission(allowed => {
-        if (allowed) {
-          setIn(['desktopNotification'], true);
-        }
-      });
-    } else {
-      setIn(['desktopNotification'], false);
-    }
   },
 
   toggleExperimentalFeatures() {
