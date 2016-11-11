@@ -3,12 +3,24 @@ export default function applyLayout({nodes, edges}) {
   const G = getSubgraphs(N);
 
   for (let iG = 0, lengthG = G.length; iG < lengthG; iG++) {
-    const graphNodes = sortNodes(G[iG]);
+    const graphNodes = G[iG];
+    sortNodes(graphNodes);
+
+    const yPos = iG * 4;
     for (let iN = 0, lengthN = graphNodes.length; iN < lengthN; iN++) {
-      const node = graphNodes[iN];
-      node.inNode.getComponent('transform').setPositionXYZ(iN * 4, 0, iG * 4);
+      const xPos = iN * 4;
+      setNodePosition(graphNodes[iN], xPos, yPos);
     }
   }
+}
+
+function setNodePosition(node, x, y) {
+  if (node.__layouted) {
+    return;
+  }
+
+  node.inNode.getComponent('transform').setPositionXYZ(x, 0, y);
+  node.__layouted = true;
 }
 
 function transformNodes(_nodes, _edges) {
@@ -78,7 +90,13 @@ function addConnected(node, graph) {
 }
 
 function sortNodes(nodes) {
-  // TODO: sort nodes by flow
+  rankNodes(nodes);
+  nodes.sort((n1, n2) => n1.rank - n2.rank);
+}
 
-  return nodes;
+function rankNodes(nodes) {
+  for (let iN = 0, length = nodes.length; iN < length; iN++) {
+    const node = nodes[iN];
+    node.rank = -1 * node.outgoingConnections.length + node.incomingConnections.length;
+  }
 }
