@@ -55,9 +55,9 @@ function retrieveLatestReleaseNotes() {
   observable.once(response => {
     const body = (response.body || '').trim();
     if (body.length === 0) {
-      currentReleaseNotesStore.applyStateMutation(() => null);
+      currentReleaseNotesStore.mutateTo(null);
     } else {
-      currentReleaseNotesStore.applyStateMutation(() => body);
+      currentReleaseNotesStore.mutateTo(body);
     }
   });
 

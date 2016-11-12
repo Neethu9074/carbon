@@ -64,9 +64,9 @@ function retrieveLatestMessage() {
   observable.once(response => {
     const body = (response.body || '').trim();
     if (body.length === 0) {
-      messageStore.applyStateMutation(() => null);
+      messageStore.mutateTo(null);
     } else {
-      messageStore.applyStateMutation(() => body);
+      messageStore.mutateTo(body);
     }
   });
 

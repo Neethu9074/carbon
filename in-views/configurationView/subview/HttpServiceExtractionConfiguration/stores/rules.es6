@@ -6,6 +6,8 @@ import {createStore} from 'in-stores/store';
 import config from 'in-services/config';
 import http from 'in-services/http';
 
+const ruleType = 'webapp';
+
 const rulesStore = createStore({
   name: 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules',
   initialValue: emptyList
@@ -21,7 +23,7 @@ export function addNewRule(id) {
     enabled: false,
     comment: '',
     order: 0,
-    type: 'http',
+    type: ruleType,
     parent: null,
     matchSpecification: Immutable.Map(),
     extractSpecification: Immutable.Map({
@@ -94,6 +96,11 @@ export function enable() {
 }
 
 
+export function disable() {
+  removeAllRules();
+}
+
+
 function loadRules() {
   const request$ = http({
     method: 'GET',
@@ -103,7 +110,7 @@ function loadRules() {
   request$
     .once(response => {
       const httpRules = response.body.rules
-        .filter(rule => rule.type === 'http');
+        .filter(rule => rule.type === ruleType);
       rulesStore.mutateTo(Immutable.fromJS(httpRules));
     });
 
@@ -112,11 +119,6 @@ function loadRules() {
     .once(error => {
       console.error({error});
     });
-}
-
-
-export function disable() {
-  removeAllRules();
 }
 
 
