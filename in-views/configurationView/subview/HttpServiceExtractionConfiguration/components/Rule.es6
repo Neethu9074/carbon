@@ -8,6 +8,7 @@ import {
 } from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules';
 import RuleTester from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/RuleTester';
 import options from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/options';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
@@ -40,6 +41,7 @@ export default React.createClass({
   render() {
     const rule = this.props.rule;
     const id = rule.get('id');
+    let allMatchesCompile = true;
 
     return (
       <div>
@@ -108,27 +110,48 @@ export default React.createClass({
                 </HelpBlock>
               </FormGroup>
 
-              {rule.get('matchSpecification').keySeq().toArray().sort().map(key =>
-                <FormGroup key={key}>
-                  <Label htmlFor={`${id}-${key}`}>
-                    Match: {options[key].titleName}
+              {rule.get('matchSpecification').keySeq().toArray().sort().map(key => {
+                const value = rule.getIn(['matchSpecification', key]);
+                let error;
 
-                    <a href='#'
-                       onClick={e => this.removeMatch(e, key)}
-                       className={`${block}__remove-match`}>
-                      Remove
-                    </a>
-                  </Label>
-                  <Input type='text'
-                         id={`${id}-${key}`}
-                         placeholder={options[key].placeholder}
-                         value={rule.getIn(['matchSpecification', key])}
-                         onChange={e => this.setProp(['matchSpecification', key], e.target.value)}/>
-                  <HelpBlock>
-                    {options[key].help}
-                  </HelpBlock>
-                </FormGroup>
-              )}
+                try {
+                  /* eslint-disable  no-new */
+                  new RegExp(value);
+                  /* eslint-enable  no-new */
+                } catch (e) {
+                  error = e;
+                  allMatchesCompile = false;
+                }
+
+                return (
+                  <FormGroup key={key}>
+                    <Label htmlFor={`${id}-${key}`}
+                           hasError={error != null}>
+                      Match: {options[key].titleName}
+
+                      <a href='#'
+                         onClick={e => this.removeMatch(e, key)}
+                         className={`${block}__remove-match`}>
+                        Remove
+                      </a>
+                    </Label>
+                    <Input type='text'
+                           id={`${id}-${key}`}
+                           placeholder={options[key].placeholder}
+                           value={value}
+                           onChange={e => this.setProp(['matchSpecification', key], e.target.value)}
+                           hasError={error != null}/>
+                    {error != null ?
+                      <ValidationBlock hasError={true}>
+                        {error.message}
+                      </ValidationBlock>
+                    : null}
+                    <HelpBlock>
+                      {options[key].help}
+                    </HelpBlock>
+                  </FormGroup>
+                );
+              })}
 
               <FormGroup>
                 <Label htmlFor={`${id}-service-name`}>Service Name</Label>
@@ -171,7 +194,8 @@ export default React.createClass({
 
               {this.state.isTesting ?
                 <RuleTester toggleRuleTesting={this.toggleTesting}
-                            rule={rule}/>
+                            rule={rule}
+                            allMatchesCompile={allMatchesCompile} />
                             : null}
             </div>
           ) : null}

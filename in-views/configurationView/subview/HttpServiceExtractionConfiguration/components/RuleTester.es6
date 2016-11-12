@@ -20,7 +20,8 @@ export default React.createClass({
 
   propTypes: {
     toggleRuleTesting: React.PropTypes.any,
-    rule: React.PropTypes.any.isRequired
+    rule: React.PropTypes.any.isRequired,
+    allMatchesCompile: React.PropTypes.bool.isRequired
   },
 
   getInitialState() {
@@ -28,6 +29,16 @@ export default React.createClass({
   },
 
   render() {
+    if (!this.props.allMatchesCompile) {
+      return (
+        <div className={block}>
+          {this.getHeader()}
+
+          <p>All regular expressions must compile in order for rules to be tested.</p>
+        </div>
+      );
+    }
+
     const rule = this.props.rule;
     const id = rule.get('id');
 
@@ -39,16 +50,7 @@ export default React.createClass({
 
     return (
       <div className={block}>
-        <h3>
-          Rule Tester
-
-          <Button kind='info'
-                  size='sm'
-                  className='pull-right'
-                  onClick={this.props.toggleRuleTesting}>
-            Hide Rule Tester
-          </Button>
-        </h3>
+        {this.getHeader()}
 
         <Row>
           {matchKeys.map((key, i) =>
@@ -73,6 +75,21 @@ export default React.createClass({
         <ExtractedServiceNamePresenter rule={rule}
                                        matches={matches}/>
       </div>
+    );
+  },
+
+  getHeader() {
+    return (
+      <h3>
+        Rule Tester
+
+        <Button kind='info'
+                size='sm'
+                className='pull-right'
+                onClick={this.props.toggleRuleTesting}>
+          Hide Rule Tester
+        </Button>
+      </h3>
     );
   }
 });

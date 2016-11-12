@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 
+import {addMessage, removeMessage} from 'in-components/MessageFlyout/stores/messages';
 import {generateUniqueShortId} from 'in-services/util/id';
 import {emptyList} from 'in-services/fixedImmutables';
 import {createStore} from 'in-stores/store';
@@ -7,6 +8,7 @@ import config from 'in-services/config';
 import http from 'in-services/http';
 
 const ruleType = 'webapp';
+const ruleMessageId = 'config-view-webapp-rules';
 
 const rulesStore = createStore({
   name: 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules',
@@ -102,6 +104,12 @@ export function disable() {
 
 
 function loadRules() {
+  addMessage({
+    type: 'info',
+    icon: 'ok',
+    content: 'Loading rules…'
+  }, ruleMessageId);
+
   const request$ = http({
     method: 'GET',
     url: `/ump/${config.tenant}/${config.tenantUnit}/serviceExtractionConfig`
@@ -112,17 +120,30 @@ function loadRules() {
       const httpRules = response.body.rules
         .filter(rule => rule.type === ruleType);
       rulesStore.mutateTo(Immutable.fromJS(httpRules));
+      removeMessage(ruleMessageId);
     });
 
   request$
     .errors()
     .once(error => {
+      addMessage({
+        type: 'danger',
+        icon: 'ok',
+        content: 'Failed to load rules.'
+      }, ruleMessageId);
+
       console.error({error});
     });
 }
 
 
 export function save() {
+  addMessage({
+    type: 'info',
+    icon: 'ok',
+    content: 'Saving rules…'
+  }, ruleMessageId);
+
   rules$.once(immutableRules => {
     const data = {
       lastModificationTimestamp: Date.now(),
@@ -143,12 +164,24 @@ export function save() {
 
     request$
       .once(response => {
+        addMessage({
+          type: 'info',
+          icon: 'ok',
+          content: 'Rules successfully saved.'
+        }, ruleMessageId);
+
         console.log('Successfully saved', {response});
       });
 
     request$
       .errors()
       .once(error => {
+        addMessage({
+          type: 'danger',
+          icon: 'ok',
+          content: 'Failed to save rules.'
+        }, ruleMessageId);
+
         console.error({error});
       });
   });
