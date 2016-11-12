@@ -42,6 +42,7 @@ import './pdo';
 import './php';
 import './play2';
 import './rabbitmq';
+import './rack';
 import './redis';
 import './resteasy';
 import './sdk';
