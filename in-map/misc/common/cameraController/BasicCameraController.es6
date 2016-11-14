@@ -140,6 +140,11 @@ export default class BasicCameraController extends Subscriber {
       y: minY + (maxY - minY) / 2
     });
     this.flyToPosition(positionOnTheGround);
+    // this.flyToPosition({
+    //   x: minX + (maxX - minX) / 2,
+    //   y: minY + (maxY - minY) / 2
+    // });
+
 
     // calculate relative scale
     const widthInScreenSpace = maxX - minX;

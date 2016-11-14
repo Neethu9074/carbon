@@ -1,6 +1,11 @@
 import LTRTreeLayouter from  'in-map/misc/logical/layoutingStrategies/vizceralResources/ltrTreeLayouter';
 
 
+const config = {
+  width: 1000,
+  height: 1000
+};
+
 export default function applyLayout({nodes, edges, createSubgraphs = false}) {
   const layouter = new LTRTreeLayouter();
   const N = transformNodes(nodes, edges);
@@ -13,7 +18,7 @@ export default function applyLayout({nodes, edges, createSubgraphs = false}) {
 function applySubgraph(nodes, layouter) {
   const G = createSubGraphs(nodes);
 
-  let currentY = 0;
+  let yCursor = 0;
   for (let iG = 0, lengthG = G.length; iG < lengthG; iG++) {
     const graph = G[iG];
 
@@ -23,29 +28,14 @@ function applySubgraph(nodes, layouter) {
     const positions = layouter.layout(
       tn(graph.nodes),
       graph.connections,
-      {
-        width: 600,
-        height: 600
-      },
+      config,
 
       // starting node
       graph.nodes[0].inNode.id
     );
 
-    let maxY = 0;
-    for (let iN = 0, lengthN = graph.nodes.length; iN < lengthN; iN++) {
-      const node = graph.nodes[iN];
-      const position = positions[node.inNode.id];
-      if (position) {
-        const x = (position.x - 300) / 20;
-        const y = (position.y - 300) / 10;
-        setNodePosition(node, x, y + currentY);
-        maxY = Math.max(maxY, y);
-      } else {
-        // forever alone node
-      }
-    }
-    currentY += maxY;
+    const dimension = setNodePositions(nodes, positions, 0, yCursor);
+    yCursor += dimension.height;
   }
 }
 
@@ -61,26 +51,62 @@ function applyAll(nodes, edges, layouter) {
         target: edge.destinationNode.id
       };
     }),
-    {
-      width: 600,
-      height: 600
-    },
+    config,
 
     // starting node
     nodes[0].inNode.id
   );
 
+  setNodePositions(nodes, positions);
+}
+
+function translatePositionToOrigin(positions) {
+  let maxX = 0;
+  let maxY = 0;
+  let minX = Number.MAX_VALUE;
+  let minY = Number.MAX_VALUE;
+  const ids = Object.keys(positions);
+
+  ids.forEach(id => {
+    maxX = Math.max(maxX, positions[id].x);
+    maxY = Math.max(maxY, positions[id].y);
+    minX = Math.min(minX, positions[id].x);
+    minY = Math.min(minY, positions[id].y);
+  });
+  const width = maxX - minX;
+  const height = maxY - minY;
+  ids.forEach(id => {
+    positions[id].x = (positions[id].x - minX);
+    positions[id].y = (positions[id].y - minY);
+  });
+
+  return {
+    maxX,
+    maxY,
+    minX,
+    minY,
+    width,
+    height
+  };
+}
+
+function setNodePositions(nodes, positions, xOffset = 0, yOffset = 0) {
+  const dimensions = translatePositionToOrigin(positions);
+
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
     const position = positions[node.inNode.id];
     if (position) {
-      const x = (position.x - 300) / 20;
-      const y = (position.y - 300) / 10;
-      setNodePosition(node, x, y);
+      setNodePosition(
+        node,
+        (position.x + xOffset) / 25,
+        (position.y + yOffset) / 25
+      );
     } else {
       // forever alone node
     }
   }
+  return dimensions;
 }
 
 function setNodePosition(node, x, y) {
