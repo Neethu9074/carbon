@@ -2,3 +2,4 @@
   extends: instana
   rules:
     no-undef: 2
+    spaced-comment: 0
