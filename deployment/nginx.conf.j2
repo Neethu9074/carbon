@@ -232,8 +232,6 @@ http {
     }
 {% endif %}
 
-{% if OPERATION_MODE == "on-prem" or OPERATION_MODE == "fleet" %}
-
     location /secured/ {
       limit_req              zone=onePerSecond burst=10;
 
@@ -249,7 +247,5 @@ http {
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
-
-{% endif %}
   }
 }
