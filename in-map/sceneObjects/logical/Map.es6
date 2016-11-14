@@ -3,7 +3,6 @@ import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMap
 import {CONTROL_PRESETS, setControls} from 'in-components/Controls/stores/controlsStore';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
-import {particlesAreActive$} from 'in-map/stores/logical/particlesStore';
 import createCameraController from 'in-map/misc/logical/CameraController';
 import {addFactory, getFactory} from 'in-map/stores/factoriesStore';
 import {requestRendering} from 'in-map/stores/renderingStore';
@@ -30,19 +29,14 @@ export default class Map extends BaseMap {
     addFactory('highlighting', new LineSingleMeshFactory({useSceneObjectColors: false}));
     addFactory('connections', new LineSingleMeshFactory());
     addFactory('icons', new IconSingleMeshFactory({useSceneObjectColors: false}));
+
+    getFactory('connections').material.transparent = true;
   }
 
   initEvents() {
     super.initEvents();
 
     this.addSubscriptions([
-      particlesAreActive$.subscribe(particlesAreActive => {
-        const connectionFactory = getFactory('connections');
-        if (connectionFactory) {
-          connectionFactory.material.transparent = particlesAreActive;
-        }
-      }),
-
       selectedSnapshotIdForHighlightingInMap$.subscribe(selectedId => {
         selectedId
           ? getFactory('nodes').lockOpacity(0.25)
