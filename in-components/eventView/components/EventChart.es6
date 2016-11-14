@@ -45,6 +45,7 @@ function EventChart({to, event}) {
           <Chart key={metricName}
                  metric={metricName}
                  snapshotId={metric.get('snapshotId')}
+                 start={event.get('start')}
                  timeframe$={always(timeframe)} />
         );
       }
@@ -57,7 +58,7 @@ isVisible
 
 const Chart = connectTo(props => {
   return {
-    snapshot: getSnapshot(props.snapshotId)
+    snapshot: getSnapshot(props.snapshotId, props.start)
   };
 },
 function Chart({timeframe$, snapshot, snapshotId, metric}) {
