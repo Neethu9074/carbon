@@ -153,6 +153,7 @@ export default function createAxisController(config) {
 
     const actualTimeframe$ = config.timeframe$ || timeframe$;
     config.subscriptions.push(actualTimeframe$.subscribe(timeframe => {
+      clearData();
       config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;
       config.timeframe = timeframe;
       config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
@@ -251,5 +252,16 @@ export default function createAxisController(config) {
     }
 
     return result;
+  }
+
+
+  function clearData() {
+    config.dataHolders.y1.clear();
+    config.queues.y1.clear();
+
+    if (config.queues.y2) {
+      config.dataHolders.y2.clear();
+      config.queues.y2.clear();
+    }
   }
 }
