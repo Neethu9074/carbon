@@ -48,7 +48,7 @@ export function getSpanDefinition(type, span) {
 
   if (!missingSpanDefinitionReported) {
     createLogger('in-sdk/tracing/registry')
-      .warn(`Span definition for ${type} could not be found.`, span.toJS());
+      .warn(`Span definition for ${type} could not be found.`, span ? span.toJS() : undefined);
     missingSpanDefinitionReported = true;
   }
 
