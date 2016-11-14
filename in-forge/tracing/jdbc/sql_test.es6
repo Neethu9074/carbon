@@ -21,11 +21,6 @@ describe('in-forge/tracing/jdbc/sql', () => {
 
   describe('shortenSqlStatement', () => {
     describe('select statements', () => {
-      it('must retain ORM comments', () => {
-          expect(shortenSqlStatement(' /* MyAwesomeDao */ select id from product'))
-            .to.equal('/* MyAwesomeDao */ SELECT … FROM product');
-      });
-
       it('must include count hint', () => {
           expect(shortenSqlStatement('select count(*) from product'))
             .to.equal('SELECT COUNT … FROM product');
