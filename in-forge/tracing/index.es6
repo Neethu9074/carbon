@@ -3,6 +3,7 @@ import './akka.http.server';
 import './camel';
 import './cassandra';
 import './corba';
+import './cxf.client';
 import './ejb';
 import './elasticsearch';
 import './file';
