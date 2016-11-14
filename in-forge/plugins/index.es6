@@ -44,6 +44,8 @@ import './logicalKafkaConsumerConnection';
 import './logicalKafkaPublisherConnection';
 import './logicalMessageBroker';
 import './logicalMessageConsumer';
+import './logicalMessageConsumerConnection';
+import './logicalMessagePublisherConnection';
 import './logicalMongoDbConnection';
 import './logicalMongoDbDatabase';
 import './logicalPdoConnection';
