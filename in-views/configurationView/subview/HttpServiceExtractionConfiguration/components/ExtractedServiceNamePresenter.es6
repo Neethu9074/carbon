@@ -19,7 +19,7 @@ export default function ExtractedServiceNamePresenter({rule, matches}) {
     );
   } else {
     const formatter = ruleKeys.reduce((parentFormatter, key) => {
-      const keyMatches = matches[key].slice(1);
+      const keyMatches = matches[key];
       const keyFormatter = createFormatter(`${key}-`);
       return formatString => keyFormatter(parentFormatter(formatString), keyMatches);
     }, s => s);

@@ -29,7 +29,7 @@ export default function MatchPresenter({match, prefix}) {
           </span>
 
           <DescriptionList className={`${block}__groups`}>
-            {match.slice(1).map((m, i) =>
+            {match.map((m, i) =>
               <DescriptionItem title={`${prefix}${i}`}
                                key={i}>
                 <code>{m || '<emtpy string>'}</code>
