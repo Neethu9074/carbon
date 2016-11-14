@@ -2,7 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
-  type: 'jersey.client',
+  type: 'cxf.client',
   category: 'http',
   direction: 'exit',
 
