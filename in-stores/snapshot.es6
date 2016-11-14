@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import createSnapshotVersionsObservable from 'in-services/subscription/snapshotVersions';
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
@@ -163,4 +164,11 @@ export function getServiceInstances(snapshotId) {
 
 export function isEntityOnline(snapshotId) {
   return createrIsEntityOnlineObservable({snapshotId});
+}
+
+export function getSnapshotVersions(snapshotId, time) {
+  if (time == null) {
+    return focusedMoment$.flatMap(_time => createSnapshotVersionsObservable({snapshotId, time: _time}));
+  }
+  return createSnapshotVersionsObservable({snapshotId, time});
 }
