@@ -94,9 +94,9 @@ export default class BasicCameraController extends Subscriber {
     this.updateCamera();
   }
 
-  flyToPosition({x = 0, z = 0}) {
-    this.camTransformObject.position.setX(x);
-    this.camTransformObject.position.setZ(z);
+  flyToPosition(config = {x: 0, z: 0}) {
+    this.camTransformObject.position.setX(config.x);
+    this.camTransformObject.position.setZ(config.z);
 
     this.updateCamera();
   }
@@ -139,12 +139,8 @@ export default class BasicCameraController extends Subscriber {
       x: minX + (maxX - minX) / 2,
       y: minY + (maxY - minY) / 2
     });
-    this.flyToPosition(positionOnTheGround);
-    // this.flyToPosition({
-    //   x: minX + (maxX - minX) / 2,
-    //   y: minY + (maxY - minY) / 2
-    // });
 
+    this.flyToPosition(positionOnTheGround);
 
     // calculate relative scale
     const widthInScreenSpace = maxX - minX;
