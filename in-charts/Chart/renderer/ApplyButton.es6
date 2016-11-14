@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {highlightedTimeframe$, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
+import {MAX_ZOOM_LEVEL} from 'in-components/timeline/timelineStore';
 import {to$} from 'in-components/timeline/timelineStore';
 import {setTimeframe} from 'in-stores/timeline/timeline';
 import {setFocusedMoment} from 'in-stores/timeline';
@@ -36,14 +37,17 @@ function ApplyButton({to, highlightedTimeframe}) {
 
 function onButtonClicked(highlightedTimeframe, timelineTo) {
   const from = highlightedTimeframe[0];
-  const to = highlightedTimeframe[1];
-  const windowSize = to - from;
+  let to = highlightedTimeframe[1];
+  let windowSize = to - from;
 
-  if (windowSize > 0) {
-    setTimeframe(windowSize, to);
-    clearHighlightedTimeframe();
-
-    // stop live mode
-    setFocusedMoment(timelineTo);
+  if (windowSize <= MAX_ZOOM_LEVEL) {
+    windowSize = MAX_ZOOM_LEVEL;
+    to = timelineTo;
   }
+
+  setTimeframe(windowSize, to);
+  clearHighlightedTimeframe();
+
+  // stop live mode
+  setFocusedMoment(timelineTo);
 }
