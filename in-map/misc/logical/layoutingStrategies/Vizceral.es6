@@ -34,10 +34,8 @@ function applySubgraph(nodes, layouter) {
       graph.nodes[0].inNode.id
     );
 
-    const dimensions = calcDimensions(Object.keys(positions).map(key => positions[key]));
-    translatePositionToOrigin(positions, dimensions);
-
-    setNodePositions(nodes, positions, 0, yCursor);
+    const dimensions = translatePositionToOrigin(positions);
+    setNodePositions(nodes, positions, [], 0, yCursor);
     yCursor += dimensions.height;
   }
 
@@ -63,22 +61,26 @@ function applyAll(nodes, edges, layouter) {
     nodes[0].inNode.id
   );
 
-  const dimensions = calcDimensions(Object.keys(positions).map(key => positions[key]));
-  translatePositionToOrigin(positions, dimensions);
-
-  setNodePositions(nodes, positions);
+  translatePositionToOrigin(positions);
+  const nodesWithoutConnections = [];
+  setNodePositions(nodes, positions, nodesWithoutConnections);
+  setNodesWithoutConnections(nodesWithoutConnections);
   centerNodes(nodes);
   apply(nodes);
 }
 
-function translatePositionToOrigin(positions, dimensions) {
+function translatePositionToOrigin(positions) {
+  const dimensions = calcDimensions(Object.keys(positions).map(key => positions[key]));
+
   Object.keys(positions).map(key => positions[key]).forEach(position => {
     position.x -= dimensions.minX;
     position.y -= dimensions.minY;
   });
+
+  return dimensions;
 }
 
-function setNodePositions(nodes, positions, xOffset = 0, yOffset = 0) {
+function setNodePositions(nodes, positions, nodesWithoutConnections, xOffset = 0, yOffset = 0) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
     const position = positions[node.inNode.id];
@@ -87,6 +89,7 @@ function setNodePositions(nodes, positions, xOffset = 0, yOffset = 0) {
       node.y = (position.y + yOffset) / 25;
     } else {
       // forever alone node
+      nodesWithoutConnections.push(node);
     }
   }
 }
@@ -116,16 +119,19 @@ function calcDimensions(items) {
   const width = maxX - minX;
   const height = maxY - minY;
 
-  return {
-    maxX,
-    maxY,
-    minX,
-    minY,
-    width,
-    height
-  };
+  return { maxX, maxY, minX, minY, width, height };
 }
 
+function setNodesWithoutConnections(nodes) {
+  if (nodes.length > 0) {
+    console.log('set nodes', nodes);
+  }
+  for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
+    const node = nodes[iN];
+    node.x = iN * 3;
+    node.y = -3;
+  }
+}
 
 function apply(nodes) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
