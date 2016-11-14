@@ -52,10 +52,12 @@ export default function ActiveMQDashboard({snapshot, timeframe}) {
                          }}
                          y1={{
                           metrics: [
-                            'totalQueuesEnqueueCount'
+                            'totalQueuesEnqueueCount',
+                            'totalQueuesDequeueCount'
                           ],
                           labels: [
-                            'All Queues Messages Enqueue'
+                            'All Queues Messages Enqueue',
+                            'All Queues Messages Dequeue'
                           ],
                           type: 'line'
                          }}/>
