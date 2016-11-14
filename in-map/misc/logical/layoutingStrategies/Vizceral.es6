@@ -34,9 +34,15 @@ function applySubgraph(nodes, layouter) {
       graph.nodes[0].inNode.id
     );
 
-    const dimension = setNodePositions(nodes, positions, 0, yCursor);
-    yCursor += dimension.height;
+    const dimensions = calcDimensions(Object.keys(positions).map(key => positions[key]));
+    translatePositionToOrigin(positions, dimensions);
+
+    setNodePositions(nodes, positions, 0, yCursor);
+    yCursor += dimensions.height;
   }
+
+  centerNodes(nodes);
+  apply(nodes);
 }
 
 function applyAll(nodes, edges, layouter) {
@@ -57,28 +63,58 @@ function applyAll(nodes, edges, layouter) {
     nodes[0].inNode.id
   );
 
+  const dimensions = calcDimensions(Object.keys(positions).map(key => positions[key]));
+  translatePositionToOrigin(positions, dimensions);
+
   setNodePositions(nodes, positions);
+  centerNodes(nodes);
+  apply(nodes);
 }
 
-function translatePositionToOrigin(positions) {
+function translatePositionToOrigin(positions, dimensions) {
+  Object.keys(positions).map(key => positions[key]).forEach(position => {
+    position.x -= dimensions.minX;
+    position.y -= dimensions.minY;
+  });
+}
+
+function setNodePositions(nodes, positions, xOffset = 0, yOffset = 0) {
+  for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
+    const node = nodes[iN];
+    const position = positions[node.inNode.id];
+    if (position) {
+      node.x = (position.x + xOffset) / 25;
+      node.y = (position.y + yOffset) / 25;
+    } else {
+      // forever alone node
+    }
+  }
+}
+
+function centerNodes(nodes) {
+  const dimensions = calcDimensions(nodes);
+  for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
+    const node = nodes[iN];
+    node.x = node.x - dimensions.minX - (dimensions.width / 2);
+    node.y = node.y - dimensions.minY - (dimensions.height / 2);
+  }
+}
+
+function calcDimensions(items) {
   let maxX = 0;
   let maxY = 0;
   let minX = Number.MAX_VALUE;
   let minY = Number.MAX_VALUE;
-  const ids = Object.keys(positions);
 
-  ids.forEach(id => {
-    maxX = Math.max(maxX, positions[id].x);
-    maxY = Math.max(maxY, positions[id].y);
-    minX = Math.min(minX, positions[id].x);
-    minY = Math.min(minY, positions[id].y);
-  });
+  for (let i = 0, length = items.length; i < length; i++) {
+    const item = items[i];
+    maxX = Math.max(maxX, item.x);
+    maxY = Math.max(maxY, item.y);
+    minX = Math.min(minX, item.x);
+    minY = Math.min(minY, item.y);
+  }
   const width = maxX - minX;
   const height = maxY - minY;
-  ids.forEach(id => {
-    positions[id].x = (positions[id].x - minX);
-    positions[id].y = (positions[id].y - minY);
-  });
 
   return {
     maxX,
@@ -90,32 +126,17 @@ function translatePositionToOrigin(positions) {
   };
 }
 
-function setNodePositions(nodes, positions, xOffset = 0, yOffset = 0) {
-  const dimensions = translatePositionToOrigin(positions);
 
+function apply(nodes) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
-    const position = positions[node.inNode.id];
-    if (position) {
-      setNodePosition(
-        node,
-        (position.x + xOffset) / 25,
-        (position.y + yOffset) / 25
-      );
-    } else {
-      // forever alone node
+    if (node.__layouted) {
+      continue;
     }
-  }
-  return dimensions;
-}
 
-function setNodePosition(node, x, y) {
-  if (node.__layouted) {
-    return;
+    node.inNode.getComponent('transform').setPositionXYZ(node.x, 0, node.y);
+    node.__layouted = true;
   }
-
-  node.inNode.getComponent('transform').setPositionXYZ(x, 0, y);
-  node.__layouted = true;
 }
 
 function transformNodes(_nodes, _edges) {
