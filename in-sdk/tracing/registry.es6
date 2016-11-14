@@ -1,4 +1,8 @@
+import {createLogger} from 'instalog';
+
 import {addSearchableTraceType} from 'in-sdk/search';
+
+let missingSpanDefinitionReported = false;
 
 // maps type => spanDefinition
 export const registry = {};
@@ -37,5 +41,16 @@ export function registerSpanDefinition(spanDefinition) {
 
 
 export function getSpanDefinition(type, span) {
-  return registry[type] || defaultSpanDefinition(span);
+  const spanDefinition = registry[type];
+  if (spanDefinition) {
+    return spanDefinition;
+  }
+
+  if (!missingSpanDefinitionReported) {
+    createLogger('in-sdk/tracing/registry')
+      .warn(`Span definition for ${type} could not be found.`, span.toJS());
+    missingSpanDefinitionReported = true;
+  }
+
+  return defaultSpanDefinition(span);
 }
