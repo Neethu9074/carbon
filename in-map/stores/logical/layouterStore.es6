@@ -54,13 +54,6 @@ export const vizceralLayouting$ = always({
   config: {}
 });
 
-export const vizceralLayoutingWithSubgraphs$ = always({
-  applyLayout: Vizceral,
-  config: {
-    createSubgraphs: true
-  }
-});
-
 
 export const currentLayoutingStrategy$ = create().emit(fruchtermannReingoldLayouting$);
 
