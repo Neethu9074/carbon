@@ -28,7 +28,7 @@ export default connectTo({
         return alwaysFalse;
       }
 
-      return timeout(500)
+      return timeout(5000)
         .map(() => true)
         .startWith(false);
     }),

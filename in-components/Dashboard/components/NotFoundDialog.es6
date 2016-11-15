@@ -1,4 +1,3 @@
-import Immutable from 'immutable';
 import React from 'react';
 
 import {formatDateTime} from 'in-services/formatters/date';
@@ -11,12 +10,6 @@ const block = 'in-dashboard-not-found-dialog';
 const maxVersionsPerList = 5;
 
 export default function NotFoundDialog({versionsForFocusedMoment, versionsForLive}) {
-  versionsForFocusedMoment = Immutable.fromJS([{ from: 1479130031000, to: 1479130431000},
-                                               { from: 1479130131000, to: 1479130431000},
-                                               { from: 1479130431000, to: 1479130931000}]);
-  versionsForLive = Immutable.fromJS([{ from: 1479130931000, to: undefined},
-                                      { from: 1479130731000, to: undefined}]);
-
   return (
     <div className={block}>
       <h1>
