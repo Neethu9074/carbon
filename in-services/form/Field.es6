@@ -1,47 +1,59 @@
 // @flow
 
-/*::
-import type {FormItemContainer} from 'in-services/form/FormContainer';
-*/
-import {alwaysValidValidator} from 'in-services/form/validation';
+import {normalizePath} from 'in-services/form/util';
 
-export default class Field/*::<T>*/ {
+/*::
+import type {Path, Item, NormalizedPath, Validator, ValidationError, Value} from 'in-services/form/types';
+*/
+
+
+export default class Field {
   /*::
-  value: T;
-  initialValue: T;
-  validator: T => ?string;
-  error: ?string;
+  value: Value;
+  initialValue: Value;
+  validator: Validator;
+  pristine: boolean;
+  valid: boolean;
+  error: ValidationError;
   */
 
-  constructor(value/*: T*/,
-      validator/*: T => ?string*/ = alwaysValidValidator) {
+  constructor(value/*: Value*/, validator/*: Validator*/, initialValue/*: Value*/) {
     this.value = value;
-    this.initialValue = value;
+    this.initialValue = initialValue;
     this.validator = validator;
-    this.validate();
+    this.error = validator(value);
+    this.valid = this.error == null;
+    this.pristine = value === initialValue;
   }
 
-  isValid() {
-    return this.error == null;
+  addField(path/*: Path*/, value/*: Value*/, validator/*: Validator*/, i/*: number*/ = 0)/*: Field*/ {
+    throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot add sub fields to fields`);
   }
 
-  validate() {
-    this.error = this.validator(this.value);
+  addItem(path/*: Path*/, item/*: Item*/, i/*: number*/ = 0)/*: Field*/ {
+    throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot add sub fields to fields`);
   }
 
-  getError()/*: ?string*/ {
-    return this.error;
+  getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+    throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot get field values via get()`);
   }
 
-  isPristine()/*: boolean*/ {
-    return this.value !== this.initialValue;
+  removeItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+    throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot call remove on fields.`);
   }
 
-  setValue(value/*: T*/) {
-    this.value = value;
+  setValue(path/*: Path*/, value/*: Value*/, i/*: number*/ = 0)/*: Item*/ {
+    path = normalizePath(path);
+
+    if (i < path.length - 1) {
+      throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". ` +
+        'Cannot set nested structures for fields.');
+    }
+
+    return new Field(value, this.validator, this.initialValue);
   }
 
-  getValue() {
+  toJS() {
     return this.value;
   }
 }
