@@ -19,6 +19,7 @@ export default class LineSingleMeshFactory extends ASingleMeshFactory {
     const material = new RawShaderMaterial({
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
+      transparent: false,
       uniforms: {
         opacity: {
           type: 'f',
