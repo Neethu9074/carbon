@@ -1,6 +1,6 @@
 // @flow
 
-import {normalizePath, alwaysValidValidator} from 'in-services/form/util';
+import {isPathExhausted, normalizePath, alwaysValidValidator} from 'in-services/form/util';
 
 /*::
 import type {Path, Item, NormalizedPath, Validator, ValidationError, Value} from 'in-services/form/types';
@@ -45,7 +45,7 @@ export default class Field {
   setValue(path/*: Path*/, value/*: Value*/, i/*: number*/ = 0)/*: Item*/ {
     path = normalizePath(path);
 
-    if (i < path.length - 1) {
+    if (!isPathExhausted(path, i)) {
       throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". ` +
         'Cannot set nested structures for fields.');
     }

@@ -2,6 +2,7 @@
 
 import {expect} from 'chai';
 
+import ListForm from 'in-services/form/ListForm';
 import MapForm from 'in-services/form/MapForm';
 import Field from 'in-services/form/Field';
 
@@ -138,6 +139,99 @@ describe('in-services/form/MapForm', () => {
 
     it('must get sub fields', () => {
       expect(form.getItem(['a', 'c']).value).to.equal('ac');
+      expect(form.getItem('a').getItem('c').value).to.equal('ac');
+    });
+
+    it('must modify deeply nested structures', () => {
+      const subField = form.addItem(['a', 'sub'], new MapForm())
+        .addItem(['a', 'sub', 'subfield'], new Field('subvalue'))
+        .setValue(['a', 'sub', 'subfield'], 'foo')
+        .getItem(['a', 'sub', 'subfield']);
+      expect(subField.value).to.equal('foo');
+    });
+
+    it('must not support setting nested values on fields', () => {
+      expect(() => form.setValue(['b', 'd', 'e'], '42')).to.throw(/Cannot set nested structures for fields/);
+    });
+  });
+
+
+  describe('maps and lists', () => {
+    beforeEach(() => {
+      form = new ListForm()
+        .addItem(0, new MapForm()
+          .addItem('id', new Field(1))
+          .addItem('enabled', new Field(true))
+          .addItem('name', new Field('rule1'))
+          .addItem('matchSpecification', new MapForm())
+          .addItem('extractSpecification', new MapForm()
+            .addItem('label', new Field('Service for Rule 1'))))
+        .addItem(1, new MapForm()
+          .addItem('id', new Field(2))
+          .addItem('enabled', new Field(false))
+          .addItem('name', new Field('rule2'))
+          .addItem('matchSpecification', new MapForm()
+            .addItem('host', new Field('(.*)')))
+          .addItem('extractSpecification', new MapForm()
+            .addItem('label', new Field('Service for Rule 2'))));
+    });
+
+
+    it('must serialize to JS', () => {
+      expect(form.toJS()).to.deep.equal([
+        {
+          id: 1,
+          enabled: true,
+          name: 'rule1',
+          matchSpecification: {},
+          extractSpecification: {
+            label: 'Service for Rule 1'
+          }
+        },
+        {
+          id: 2,
+          enabled: false,
+          name: 'rule2',
+          matchSpecification: {
+            host: '(.*)'
+          },
+          extractSpecification: {
+            label: 'Service for Rule 2'
+          }
+        }
+      ]);
+    });
+
+
+    it('must set values at deeply nested structures', () => {
+      form = form.setValue([1, 'matchSpecification', 'host'], 'example.com');
+      expect(form.getItem(1).toJS()).to.deep.equal({
+        id: 2,
+        enabled: false,
+        name: 'rule2',
+        matchSpecification: {
+          host: 'example.com'
+        },
+        extractSpecification: {
+          label: 'Service for Rule 2'
+        }
+      });
+    });
+
+
+    it('must remove list items', () => {
+      form = form.removeItem(0);
+      expect(form.toJS()).to.deep.equal([{
+        id: 2,
+        enabled: false,
+        name: 'rule2',
+        matchSpecification: {
+          host: '(.*)'
+        },
+        extractSpecification: {
+          label: 'Service for Rule 2'
+        }
+      }]);
     });
   });
 

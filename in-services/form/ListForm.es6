@@ -1,15 +1,11 @@
 // @flow
 
-import {assign} from 'lodash';
-
 import {normalizePath, isLastPathElement} from 'in-services/form/util';
 
 /*::
 import type {Path, Item, NormalizedPath, Value, ValidationError, Validator} from 'in-services/form/types';
 
-type Items = {
-  [key: string]: Item
-};
+type Items = Array<Item>;
 */
 
 
@@ -22,7 +18,7 @@ export default class MapForm {
   */
 
   constructor(items/*: Items*/) {
-    this.items = items || {};
+    this.items = items || [];
     this.valid = this._isValid();
     this.pristine = this._isPristine();
     this.error = null;
@@ -43,17 +39,16 @@ export default class MapForm {
       newValueForKey = pathItem.addItem(path, item, i + 1);
     }
 
-    const newItems/*: Items*/ = {};
-    assign(newItems, this.items, {[key]: newValueForKey});
+    const newItems/*: Items*/ = this.items.slice();
+    newItems[key] = newValueForKey;
     return new MapForm(newItems);
   }
 
   getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
     path = normalizePath(path);
-
     const key = path[i];
 
-    const item = this.items[String(key)];
+    const item = this.items[Number(key)];
     if (!item) {
       throw new Error(`Cannot find item at path "${path.slice(0, i + 1).join(' > ')}".`);
     }
@@ -69,14 +64,14 @@ export default class MapForm {
     path = normalizePath(path);
     const key = path[i];
 
-    const item = this.items[String(key)];
+    const item = this.items[Number(key)];
     if (!item) {
       throw new Error(`Cannot find item at path "${path.slice(0, i + 1).join(' > ')}".`);
     }
 
     const newItemForKey = item.setValue(path, value, i + 1);
-    const newItems/*: Items*/ = {};
-    assign(newItems, this.items, {[key]: newItemForKey});
+    const newItems/*: Items*/ = this.items.slice();
+    newItems[key] = newItemForKey;
     return new MapForm(newItems);
   }
 
@@ -85,53 +80,42 @@ export default class MapForm {
     const key = path[i];
 
     if (isLastPathElement(path, i)) {
-      const newItems/*: Items*/ = {};
-      assign(newItems, this.items);
-      delete newItems[key];
+      const newItems/*: Items*/ = this.items.slice();
+      newItems.splice(key, 1);
       return new MapForm(newItems);
     }
 
-    const item = this.items[String(key)];
+    const item = this.items[Number(key)];
     if (!item) {
       return this;
     }
     const newItemForKey = item.removeItem(path, i + 1);
-    const newItems/*: Items*/ = {};
-    assign(newItems, this.items, {[key]: newItemForKey});
+    const newItems/*: Items*/ = this.items.slice();
+    newItems[key] = newItemForKey;
     return new MapForm(newItems);
   }
 
   _isPristine() {
-    for (const name in this.items) {
-      if (Object.prototype.hasOwnProperty.call(this.items, name)) {
-        if (!this.items[name].pristine) {
-          return false;
-        }
+    for (let i = 0, len = this.items.length; i < len; i++) {
+      const item = this.items[i];
+      if (!item.pristine) {
+        return false;
       }
     }
     return true;
   }
 
   _isValid() {
-    for (const name in this.items) {
-      if (Object.prototype.hasOwnProperty.call(this.items, name)) {
-        if (!this.items[name].valid) {
-          return false;
-        }
+    for (let i = 0, len = this.items.length; i < len; i++) {
+      const item = this.items[i];
+      if (!item.valid) {
+        return false;
       }
     }
     return true;
   }
 
   toJS() {
-    const result = {};
-
-    for (const name in this.items) {
-      if (Object.prototype.hasOwnProperty.call(this.items, name)) {
-        result[name] = this.items[name].toJS();
-      }
-    }
-
-    return result;
+    return this.items.map(item => item.toJS());
   }
 }

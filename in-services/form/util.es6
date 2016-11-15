@@ -16,3 +16,13 @@ export function normalizePath(path/*: Path*/)/*: NormalizedPath*/ {
   }
   return [path];
 }
+
+
+export function isLastPathElement(path/*: Path*/, i/*: number*/)/*: boolean*/ {
+  return i === path.length - 1;
+}
+
+
+export function isPathExhausted(path/*: Path*/, i/*: number*/)/*: boolean*/ {
+  return i >= path.length;
+}
