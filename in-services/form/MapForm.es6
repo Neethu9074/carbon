@@ -2,8 +2,7 @@
 
 import {assign} from 'lodash';
 
-import {normalizePath, alwaysValidValidator} from 'in-services/form/util';
-import Field from 'in-services/form/Field';
+import {normalizePath} from 'in-services/form/util';
 
 /*::
 import type {Path, Item, NormalizedPath, Value, ValidationError, Validator} from 'in-services/form/types';
@@ -29,10 +28,6 @@ export default class MapForm {
     this.error = null;
   }
 
-  addField(path/*: Path*/, value/*: Value*/, validator/*: Validator*/ = alwaysValidValidator) {
-    return this.addItem(path, new Field(value, validator, value));
-  }
-
   addItem(path/*: Path*/, item/*: Item */, i/*: number*/ = 0) {
     path = normalizePath(path);
     const key = path[i];
@@ -41,8 +36,11 @@ export default class MapForm {
     if (isLastPathElement(path, i)) {
       newValueForKey = item;
     } else {
-      // TODO test item missing
-      newValueForKey = this.items[key].addItem(path, item, i + 1);
+      const pathItem = this.items[key];
+      if (!pathItem) {
+        throw new Error(`Cannot add item, because sub path does not exist for: "${path.slice(0, i + 1).join(' > ')}".`);
+      }
+      newValueForKey = pathItem.addItem(path, item, i + 1);
     }
 
     const newItems/*: Items*/ = {};

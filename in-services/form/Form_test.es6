@@ -3,6 +3,7 @@
 import {expect} from 'chai';
 
 import MapForm from 'in-services/form/MapForm';
+import Field from 'in-services/form/Field';
 
 describe('in-services/form/MapForm', () => {
   let form;
@@ -28,7 +29,7 @@ describe('in-services/form/MapForm', () => {
 
 
   it('must add new fields by keeping the existing form unchanged', () => {
-    const newForm = form.addField('vocation', 'Blacksmith');
+    const newForm = form.addItem('vocation', new Field('Blacksmith'));
 
     expect(newForm).not.to.equal(form);
     expect(() => form.getItem('vocation')).to.throw(/Cannot find item at path "vocation"/);
@@ -43,7 +44,7 @@ describe('in-services/form/MapForm', () => {
 
 
   it('must validate fields', () => {
-    const newForm = form.addField('vocation', 'Blacksmith', dirtyValidator);
+    const newForm = form.addItem('vocation', new Field('Blacksmith', dirtyValidator));
 
     const field = newForm.getItem('vocation');
     expect(field.valid).to.equal(false);
@@ -52,7 +53,10 @@ describe('in-services/form/MapForm', () => {
 
 
   it('must support field changes and rerun validations', () => {
-    const form2 = form.addField('vocation', 'Blacksmith', value => value.indexOf('Black') === 0 ? 'Too dirty' : null);
+    const form2 = form.addItem(
+      'vocation',
+      new Field('Blacksmith', value => value.indexOf('Black') === 0 ? 'Too dirty' : null)
+    );
     const form3 = form2.setValue('vocation', 'Window Cleaner');
 
     expect(form3).not.to.equal(form2);
@@ -69,7 +73,10 @@ describe('in-services/form/MapForm', () => {
 
 
   it('must support field removals', () => {
-    const form2 = form.addField('vocation', 'Blacksmith', value => value.indexOf('Black') === 0 ? 'Too dirty' : null);
+    const form2 = form.addItem(
+      'vocation',
+      new Field('Blacksmith', value => value.indexOf('Black') === 0 ? 'Too dirty' : null)
+    );
     const form3 = form2.removeItem('vocation');
 
     expect(() => form3.getItem('vocation')).to.throw(/Cannot find item at path "vocation"/);
@@ -82,24 +89,28 @@ describe('in-services/form/MapForm', () => {
   });
 
 
-  describe('nested maps', () => {
-    it('must add nested form', () => {
-      form = form.addItem('data', new MapForm())
-        .addField(['data', 'vocation'], 'Blacksmith');
-      expect(form.toJS()).to.deep.equal({
-        data: {
-          vocation: 'Blacksmith'
-        }
-      });
-    });
+  it('must complain about missing paths when adding item at paths which do not exist', () => {
+    expect(() => form.addItem(['404', 'vocation']))
+      .to.throw(/Cannot add item, because sub path does not exist for: "404"/);
+  });
 
-    it('must remove whole sub structures', () => {
+
+  it('must complain about missing paths when setting values for sub paths which do not exist', () => {
+    expect(() => form.setValue(['404', 'vocation'], 'Broken'))
+      .to.throw(/Cannot find item at path "404"/);
+  });
+
+
+  describe('nested maps', () => {
+    beforeEach(() => {
       form = form
         .addItem('a', new MapForm())
         .addItem('b', new MapForm())
-        .addField(['a', 'c'], 'ac')
-        .addField(['b', 'd'], 'bd');
+        .addItem(['a', 'c'], new Field('ac'))
+        .addItem(['b', 'd'], new Field('bd'));
+    });
 
+    it('must remove whole sub structures', () => {
       expect(form.toJS()).to.deep.equal({
         a: {
           c: 'ac'
@@ -123,6 +134,10 @@ describe('in-services/form/MapForm', () => {
       expect(form.toJS()).to.deep.equal({
         b: {}
       });
+    });
+
+    it('must get sub fields', () => {
+      expect(form.getItem(['a', 'c']).value).to.equal('ac');
     });
   });
 

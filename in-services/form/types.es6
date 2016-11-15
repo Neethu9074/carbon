@@ -8,7 +8,6 @@ export type Validator = Value => ValidationError;
 
 export interface Item {
   setValue(path: Path, value: Value, i: number): Item;
-  addField(path: Path, value: Value, validator: Validator);
   addItem(path: Path, item: Item , i: number);
   getItem(path: Path, i: number): Item;
   removeItem(path: Path, i: number): Item;
