@@ -16,18 +16,17 @@
  *
  */
 /* eslint no-underscore-dangle: 0, no-restricted-syntax: 0 */
-import {each, remove, find} from 'lodash';
+import {remove} from 'lodash';
 
-
-const Console = console;
+import {find} from 'in-services/arrayUtils';
 
 export default class Graph {
 
   constructor(nodes, edges) {
-    this.validateData(nodes, edges);
-
     this.nodes = nodes;
     this.edges = edges;
+
+    this.validateData(nodes, edges);
 
     this._entryNodeMap = this.nodes.reduce((val, node) => {
       val[node.name] = true;
@@ -38,7 +37,8 @@ export default class Graph {
 
     this._outgoingEdges = {};
 
-    each(edges, (edge) => {
+    for (let i = 0, length = edges.length; i < length; i++) {
+      const edge = edges[i];
       // Add the connection to the incoming connections object
       this._incomingNodes[edge.target] = this._incomingNodes[edge.target] || {};
       this._incomingNodes[edge.target][edge.source] = true;
@@ -53,9 +53,8 @@ export default class Graph {
 
       // Remove the target node from the entry node map
       delete this._entryNodeMap[edge.target];
-    });
+    }
   }
-
 
   validateData(nodes, edges) {
     const nodeMap = nodes.reduce((val, node) => {
@@ -67,13 +66,13 @@ export default class Graph {
     let i;
     for (i in edges) {
       if (nodeMap[edges[i].source] === undefined) {
-        Console.warn(`Attempted to layout a connection with non-existent source node: ${edges[i].source}.`);
+        // console.warn(`Attempted to layout a connection with non-existent source node: ${edges[i].source}.`);
         edges.splice(i, 1);
       } else {
         nodeMap[edges[i].source].connected = true;
       }
       if (nodeMap[edges[i].target] === undefined) {
-        Console.warn(`Attempted to layout a connection with non-existent target node: ${edges[i].target}.`);
+        // console.warn(`Attempted to layout a connection with non-existent target node: ${edges[i].target}.`);
         edges.splice(i, 1);
       } else {
         nodeMap[edges[i].target].connected = true;
@@ -146,22 +145,24 @@ export default class Graph {
 
   removeSameEdges() {
     this.storedSameEdges = this.storedSameEdges || [];
-    each(this.edges, (edge) => {
+
+    for (let i = 0, length = this.edges.length; i < length; i++) {
+      const edge = this.edges[i];
       if (edge && edge.source === edge.target) {
         this.storedSameEdges.push(edge);
         this.removeEdge(edge);
       }
-    });
+    }
   }
 
   restoreSameEdges() {
-    each(this.storedSameEdges, (edge) => {
-      this.addEdge(edge);
-    });
+    for (let i = 0, length = this.storedSameEdges.length; i < length; i++) {
+      this.addEdge(this.storedSameEdges[i]);
+    }
     this.storedSameEdges.length = 0;
   }
 
   getNode(nodeName) {
-    return find(this.nodes, ['name', nodeName]);
+    return find(this.nodes, node => node.name === nodeName);
   }
 }

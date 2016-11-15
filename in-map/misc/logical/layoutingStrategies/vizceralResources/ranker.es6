@@ -13,9 +13,6 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-import {min, map, each, has} from 'lodash';
-
-
 const minimumLength = 1;
 
 export function longestPathRanking(graph) {
@@ -23,11 +20,16 @@ export function longestPathRanking(graph) {
 
   function dfs(nodeName) {
     const node = graph.getNode(nodeName);
-    if (!node) { return undefined; }
-    if (!has(visited, nodeName)) {
+    if (!node) {
+      return undefined;
+    }
+    if (!visited[nodeName]) {
       visited[nodeName] = true;
 
-      let rank = min(map(graph.outgoingEdges(nodeName), edge => dfs(edge.target) - minimumLength));
+      let rank = graph.outgoingEdges(nodeName)
+        .map(edge => dfs(edge.target) - minimumLength)
+        .sort((a, b) => a - b)[0];
+
       if (rank === undefined) {
         rank = 0;
       }
@@ -36,7 +38,7 @@ export function longestPathRanking(graph) {
     return node.rank;
   }
 
-  each(graph.entryNodes(), dfs);
+  graph.entryNodes().forEach(dfs);
 }
 
 export function normalizeRanks(graph) {
