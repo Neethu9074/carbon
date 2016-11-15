@@ -54,7 +54,7 @@ export function rankNodes(nodes) {
   }
 }
 
-export function setRanks(nodes, vizceralPosition) {
+export function calcRanks(nodes, vizceralPosition) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
     const position = vizceralPosition[node.name];

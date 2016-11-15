@@ -7,7 +7,7 @@ import {
   applyRanks,
   sortNodes,
   rankNodes,
-  setRanks
+  calcRanks
 } from 'in-map/misc/logical/layoutingStrategies/nodeHelper';
 
 
@@ -24,13 +24,13 @@ export default function applyLayout({nodes, edges}) {
   const E = transformEdges(edges);
 
   const positions = layouter.layout(
-    N,
+    N.slice(),
     E,
     { width: 1000, height: 1000 }, // config
     N[0].inNode.id // starting node
   );
 
-  setRanks(N, positions);
+  calcRanks(N, positions);
   applyRanks(N);
   centerNodes(N);
   applyPosition(N);
