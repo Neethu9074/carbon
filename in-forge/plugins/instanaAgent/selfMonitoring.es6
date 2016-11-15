@@ -29,12 +29,22 @@ export function stop(snapshot) {
   });
 }
 
-export function reset(snapshot) {
+export function resetAgent(snapshot) {
   createAgentResponseObservable({
     action: 'agent.restart',
     target: snapshot.get('volatileId'),
     args: {}
   }).once(response => {
     logger.info('Agent reset response', response);
+  });
+}
+
+export function resetSensors(snapshot) {
+  createAgentResponseObservable({
+    action: 'sensors.reset',
+    target: snapshot.get('volatileId'),
+    args: {}
+  }).once(response => {
+    logger.info('Sensor reset response', response);
   });
 }
