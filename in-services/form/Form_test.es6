@@ -249,6 +249,43 @@ describe('in-services/form/MapForm', () => {
   });
 
 
+  describe('list moving', () => {
+    beforeEach(() => {
+      form = new ListForm()
+        .addItem(0, new MapForm()
+          .addItem('id', new Field(1)))
+        .addItem(1, new MapForm()
+          .addItem('id', new Field(2)))
+        .addItem(2, new MapForm()
+          .addItem('id', new Field(3)));
+    });
+
+    it('must support moving of field items', () => {
+      form = form.moveUp(1);
+      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 3}, {id: 2}]);
+
+      form = form.moveUp(2);
+      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 3}, {id: 2}]);
+
+      form = form.moveUp(1);
+      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 2}, {id: 3}]);
+
+      form = form.moveUp(0);
+      expect(form.toJS()).to.deep.equal([{id: 2}, {id: 1}, {id: 3}]);
+
+      form = form.moveDown(1);
+      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 2}, {id: 3}]);
+
+      form = form.moveDown(0);
+      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 2}, {id: 3}]);
+    });
+
+    it('must fail to move map elements', () => {
+      expect(() => form.moveUp([0, 'id'])).to.throw(/Cannot move map elements/);
+    });
+  });
+
+
   function dirtyValidator(value) {
     return value.indexOf('Black') === 0 ? 'Too dirty' : null;
   }

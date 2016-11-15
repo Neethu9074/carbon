@@ -3,7 +3,7 @@
 import {normalizePath, isLastPathElement, alwaysValidValidator} from 'in-services/form/util';
 
 /*::
-import type {Path, Item, NormalizedPath, Value, ValidationError, Validator} from 'in-services/form/types';
+import type {Path, Item, NormalizedPath, Value, ValidationError, Validator, Mapper} from 'in-services/form/types';
 
 type Items = Array<Item>;
 */
@@ -119,5 +119,40 @@ export default class ListForm {
 
   toJS() {
     return this.items.map(item => item.toJS());
+  }
+
+  map(mapper/*: Mapper*/) {
+    return this.items
+      .map((value, i) => mapper(value, i));
+  }
+
+  moveUp(path/*: Path*/)/*: ListForm*/ {
+    return this._move(path, +1);
+  }
+
+  moveDown(path/*: Path*/)/*: ListForm*/ {
+    return this._move(path, -1);
+  }
+
+  _move(path/*: Path*/, positionModification/*: number */, i/*: number*/ = 0) {
+    path = normalizePath(path);
+    const key = path[i];
+
+    const item = this.items[key];
+    if (!item) {
+      throw new Error(`Cannot find item at path "${path.slice(0, i + 1).join(' > ')}".`);
+    }
+
+    if (!isLastPathElement(path, i)) {
+      const newItems/*: Items*/ = this.items.slice();
+      newItems[key] = item._move(path, positionModification, i + 1);
+      return new ListForm(this.validator, newItems);
+    }
+
+    const newIndex = Math.min(this.items.length - 1, Math.max(0, key + positionModification));
+    const newItems/*: Items*/ = this.items.slice();
+    newItems.splice(key, 1);
+    newItems.splice(newIndex, 0, this.items[key]);
+    return new ListForm(this.validator, newItems);
   }
 }

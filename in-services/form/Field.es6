@@ -42,6 +42,18 @@ export default class Field {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot call remove on fields.`);
   }
 
+  moveUp() {
+    throw new Error(`Cannot call move on fields.`);
+  }
+
+  moveDown() {
+    throw new Error(`Cannot call move on fields.`);
+  }
+
+  _move(path/*: Path*/, positionModification/*: number */, i/*: number*/ = 0) {
+    throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot call move on fields.`);
+  }
+
   setValue(path/*: Path*/, value/*: Value*/, i/*: number*/ = 0)/*: Item*/ {
     path = normalizePath(path);
 
