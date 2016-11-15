@@ -2,7 +2,7 @@
 
 import {assign} from 'lodash';
 
-import {normalizePath, isLastPathElement} from 'in-services/form/util';
+import {normalizePath, isLastPathElement, alwaysValidValidator} from 'in-services/form/util';
 
 /*::
 import type {Path, Item, NormalizedPath, Value, ValidationError, Validator} from 'in-services/form/types';
@@ -19,13 +19,15 @@ export default class MapForm {
   valid: boolean;
   pristine: boolean;
   error: ValidationError;
+  validator: Validator;
   */
 
-  constructor(items/*: Items*/) {
+  constructor(validator/*: Validator */ = alwaysValidValidator, items/*: Items*/) {
     this.items = items || {};
-    this.valid = this._isValid();
+    this.error = validator(this);
+    this.valid = this.error == null && this._isValid();
     this.pristine = this._isPristine();
-    this.error = null;
+    this.validator = validator;
   }
 
   addItem(path/*: Path*/, item/*: Item */, i/*: number*/ = 0) {
@@ -45,7 +47,7 @@ export default class MapForm {
 
     const newItems/*: Items*/ = {};
     assign(newItems, this.items, {[key]: newValueForKey});
-    return new MapForm(newItems);
+    return new MapForm(this.validator, newItems);
   }
 
   getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
@@ -77,7 +79,7 @@ export default class MapForm {
     const newItemForKey = item.setValue(path, value, i + 1);
     const newItems/*: Items*/ = {};
     assign(newItems, this.items, {[key]: newItemForKey});
-    return new MapForm(newItems);
+    return new MapForm(this.validator, newItems);
   }
 
   removeItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
@@ -88,7 +90,7 @@ export default class MapForm {
       const newItems/*: Items*/ = {};
       assign(newItems, this.items);
       delete newItems[key];
-      return new MapForm(newItems);
+      return new MapForm(this.validator, newItems);
     }
 
     const item = this.items[String(key)];
@@ -98,7 +100,7 @@ export default class MapForm {
     const newItemForKey = item.removeItem(path, i + 1);
     const newItems/*: Items*/ = {};
     assign(newItems, this.items, {[key]: newItemForKey});
-    return new MapForm(newItems);
+    return new MapForm(this.validator, newItems);
   }
 
   _isPristine() {
@@ -133,5 +135,9 @@ export default class MapForm {
     }
 
     return result;
+  }
+
+  keys() {
+    return Object.keys(this.items);
   }
 }

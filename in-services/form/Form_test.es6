@@ -44,15 +44,6 @@ describe('in-services/form/MapForm', () => {
   });
 
 
-  it('must validate fields', () => {
-    const newForm = form.addItem('vocation', new Field('Blacksmith', dirtyValidator));
-
-    const field = newForm.getItem('vocation');
-    expect(field.valid).to.equal(false);
-    expect(newForm.valid).to.equal(false);
-  });
-
-
   it('must support field changes and rerun validations', () => {
     const form2 = form.addItem(
       'vocation',
@@ -236,7 +227,34 @@ describe('in-services/form/MapForm', () => {
   });
 
 
-  function dirtyValidator() {
-    return value => value.indexOf('Black') === 0 ? 'Too dirty' : null;
+  describe('validation', () => {
+    it('must validate fields', () => {
+      const newForm = form.addItem('vocation', new Field('Blacksmith', dirtyValidator));
+
+      const field = newForm.getItem('vocation');
+      expect(field.valid).to.equal(false);
+      expect(newForm.valid).to.equal(false);
+    });
+
+    it('must validate map structures', () => {
+      form = new MapForm(atLeastOnePropertyValidator);
+      expect(form.valid).to.equal(false);
+
+      form = form.addItem('vocation', new Field('Blacksmith', dirtyValidator));
+      expect(form.valid).to.equal(false);
+
+      form = form.setValue('vocation', 'Window Cleaner');
+      expect(form.valid).to.equal(true);
+    });
+  });
+
+
+  function dirtyValidator(value) {
+    return value.indexOf('Black') === 0 ? 'Too dirty' : null;
+  }
+
+
+  function atLeastOnePropertyValidator(mapForm) {
+    return mapForm.keys().length === 0 ? 'No keys' : null;
   }
 });

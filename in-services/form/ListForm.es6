@@ -1,6 +1,6 @@
 // @flow
 
-import {normalizePath, isLastPathElement} from 'in-services/form/util';
+import {normalizePath, isLastPathElement, alwaysValidValidator} from 'in-services/form/util';
 
 /*::
 import type {Path, Item, NormalizedPath, Value, ValidationError, Validator} from 'in-services/form/types';
@@ -9,19 +9,21 @@ type Items = Array<Item>;
 */
 
 
-export default class MapForm {
+export default class ListForm {
   /*::
   items: Items
   valid: boolean;
   pristine: boolean;
   error: ValidationError;
+  validator: Validator;
   */
 
-  constructor(items/*: Items*/) {
+  constructor(validator/*: Validator */ = alwaysValidValidator, items/*: Items*/) {
     this.items = items || [];
-    this.valid = this._isValid();
+    this.validator = validator;
+    this.error = validator(this);
+    this.valid = this.error == null && this._isValid();
     this.pristine = this._isPristine();
-    this.error = null;
   }
 
   addItem(path/*: Path*/, item/*: Item */, i/*: number*/ = 0) {
@@ -41,7 +43,7 @@ export default class MapForm {
 
     const newItems/*: Items*/ = this.items.slice();
     newItems[key] = newValueForKey;
-    return new MapForm(newItems);
+    return new ListForm(this.validator, newItems);
   }
 
   getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
@@ -72,7 +74,7 @@ export default class MapForm {
     const newItemForKey = item.setValue(path, value, i + 1);
     const newItems/*: Items*/ = this.items.slice();
     newItems[key] = newItemForKey;
-    return new MapForm(newItems);
+    return new ListForm(this.validator, newItems);
   }
 
   removeItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
@@ -82,7 +84,7 @@ export default class MapForm {
     if (isLastPathElement(path, i)) {
       const newItems/*: Items*/ = this.items.slice();
       newItems.splice(key, 1);
-      return new MapForm(newItems);
+      return new ListForm(this.validator, newItems);
     }
 
     const item = this.items[Number(key)];
@@ -92,7 +94,7 @@ export default class MapForm {
     const newItemForKey = item.removeItem(path, i + 1);
     const newItems/*: Items*/ = this.items.slice();
     newItems[key] = newItemForKey;
-    return new MapForm(newItems);
+    return new ListForm(this.validator, newItems);
   }
 
   _isPristine() {
