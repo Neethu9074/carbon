@@ -1,4 +1,4 @@
-import LTRTreeLayouter from  'in-map/misc/logical/layoutingStrategies/vizceralResources/LTRTreeLayouter';
+import LTRTreeLayouter from 'in-map/misc/logical/layoutingStrategies/vizceralResources/kackScheissNetflixDreck';
 import {
   transformNodes,
   transformEdges,
