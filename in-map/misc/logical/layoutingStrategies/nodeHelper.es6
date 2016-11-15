@@ -65,6 +65,7 @@ export function calcRanks(nodes, vizceralPosition) {
 export function applyRanks(nodes) {
   const distanceBetweenRows = 4;
   const distanceBetweenColumns = 20;
+  const distanceOfUnconnectedNodes = 3;
   let columns = {};
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
@@ -84,10 +85,13 @@ export function applyRanks(nodes) {
 
   for (let iC = 0, lengthC = columns.length; iC < lengthC; iC++) {
     const column = columns[iC];
+    const x = (iC === 0 && columns[0].nodes[0].rank === -1)
+      ? distanceBetweenColumns - distanceOfUnconnectedNodes
+      : iC * distanceBetweenColumns;
 
     for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
       const node = column.nodes[iN];
-      node.x = iC * distanceBetweenColumns;
+      node.x = x;
       node.y = iN * distanceBetweenRows;
     }
   }
