@@ -4,6 +4,7 @@ export function transformNodes(_nodes, _edges) {
     const node = _nodes[iN];
     const transformedNode = {
       name: node.id,
+      rank: -1,
       inNode: node,
       outgoingConnections: [],
       incomingConnections: [],

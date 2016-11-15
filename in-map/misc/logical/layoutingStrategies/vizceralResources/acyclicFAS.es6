@@ -17,7 +17,8 @@
  */
 import {each, has} from 'lodash';
 
-function dfsFas(graph) {
+
+export function dfsFas(graph) {
   const fas = [];
   const stack = {};
   const visited = {};
@@ -42,24 +43,17 @@ function dfsFas(graph) {
   return fas;
 }
 
-function remove(graph) {
+export function remove(graph) {
   const fas = dfsFas(graph);
   each(fas, (edge) => {
     graph.reverseEdge(edge);
   });
 }
 
-function restore(graph) {
+export function restore(graph) {
   each(graph.edges, (edge) => {
     if (edge.reversed) {
       graph.reverseEdge(edge);
     }
   });
 }
-
-const mod = {
-  remove: remove,
-  restore: restore
-};
-
-export default mod;

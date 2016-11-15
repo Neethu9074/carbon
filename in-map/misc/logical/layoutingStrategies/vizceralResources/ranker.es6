@@ -1,5 +1,4 @@
 /**
- *
  *  Copyright 2016 Netflix, Inc.
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +12,13 @@
  *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
- *
  */
 import {min, map, each, has} from 'lodash';
 
+
 const minimumLength = 1;
 
-function longestPathRanking(graph) {
+export function longestPathRanking(graph) {
   const visited = {};
 
   function dfs(nodeName) {
@@ -40,7 +39,7 @@ function longestPathRanking(graph) {
   each(graph.entryNodes(), dfs);
 }
 
-function normalizeRanks(graph) {
+export function normalizeRanks(graph) {
   let i;
   let lowestRank = Infinity;
   // First make the ranks positive
@@ -54,7 +53,7 @@ function normalizeRanks(graph) {
   }
 }
 
-function forcePrimaryRankPromotions(graph, entryNodeName) {
+export function forcePrimaryRankPromotions(graph, entryNodeName) {
   let entryNodes = graph.entryNodes();
   if (entryNodeName) {
     if (entryNodes.includes(entryNodeName)) {
@@ -67,7 +66,7 @@ function forcePrimaryRankPromotions(graph, entryNodeName) {
   }
 }
 
-function forceSecondaryRankPromotions(graph, entryNodeName) {
+export function forceSecondaryRankPromotions(graph, entryNodeName) {
   let entryNodes = graph.entryNodes();
   if (entryNodeName) {
     if (entryNodes.includes(entryNodeName)) {
@@ -82,11 +81,3 @@ function forceSecondaryRankPromotions(graph, entryNodeName) {
     }
   }
 }
-
-const mod = {
-  longestPathRanking: longestPathRanking,
-  normalizeRanks: normalizeRanks,
-  forcePrimaryRankPromotions: forcePrimaryRankPromotions,
-  forceSecondaryRankPromotions: forceSecondaryRankPromotions
-};
-export default mod;
