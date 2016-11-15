@@ -1,9 +1,9 @@
 import {combineLatest} from 'reactive-observables';
 
-import createSnapshotVersionsObservable from 'in-services/subscription/snapshotVersions';
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
+import createSnapshotVersionsObservable from 'in-services/subscription/snapshotVersions';
 import createServiceInstancesObservable from 'in-services/subscription/serviceInstances';
 import createDeployedUnitsObservable from 'in-services/subscription/deployedUnits';
 import createrIsEntityOnlineObservable from 'in-services/subscription/isOnline';
@@ -11,8 +11,8 @@ import createFoundationsObservable from 'in-services/subscription/foundations';
 import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
-import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull, alwaysEmptyArray} from 'in-services/fixedStreams';
+import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
 
 
@@ -167,7 +167,7 @@ export function isEntityOnline(snapshotId) {
 }
 
 export function getSnapshotVersions(snapshotId, time) {
-  if (time == null) {
+  if (time === undefined) {
     return focusedMoment$.flatMap(_time => createSnapshotVersionsObservable({snapshotId, time: _time}));
   }
   return createSnapshotVersionsObservable({snapshotId, time});

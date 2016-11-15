@@ -9,6 +9,7 @@ import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import {alwaysFalse, alwaysEmptyImmutableList} from 'in-services/fixedStreams';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import {emptyList} from 'in-services/fixedImmutables';
 import {timeframe$} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 import Jail from 'in-components/Jail';
@@ -18,7 +19,7 @@ import './DashboardContent.less';
 const block = 'in-dashboard-content';
 
 export default connectTo({
-  selectedSnapshotId: selectedSnapshotId$,
+  snapshotId: selectedSnapshotId$,
   snapshot: selectedSnapshot$,
   timeframe: timeframe$,
   showVersionSelector: selectedSnapshotId$
@@ -27,26 +28,15 @@ export default connectTo({
         return alwaysFalse;
       }
 
-      return timeout(5000)
+      return timeout(500)
         .map(() => true)
         .startWith(false);
     }),
-  versionsForFocusedMoment: selectedSnapshotId$.flatMap(snapshotId => {
-    if (!snapshotId) {
-      return alwaysEmptyImmutableList;
-    }
 
-    return getSnapshotVersions(snapshotId)
-      .startWith(alwaysEmptyImmutableList);
-  }),
-  versionsForLive: selectedSnapshotId$.flatMap(snapshotId => {
-    if (!snapshotId) {
-      return alwaysEmptyImmutableList;
-    }
+  // snapshot versions
+  versionsForFocusedMoment: getSnapshotVersionsByTime(),
+  versionsForLive: getSnapshotVersionsByTime(null)
 
-    return getSnapshotVersions(snapshotId, null)
-      .startWith(alwaysEmptyImmutableList);
-  })
 }, function DashboardContent({snapshot, timeframe, showVersionSelector, snapshotId,
     versionsForFocusedMoment, versionsForLive}) {
   if (!snapshot && !showVersionSelector) {
@@ -81,3 +71,14 @@ export default connectTo({
     </div>
   );
 });
+
+function getSnapshotVersionsByTime(time) {
+  return selectedSnapshotId$.flatMap(snapshotId => {
+    if (!snapshotId) {
+      return alwaysEmptyImmutableList;
+    }
+
+    return getSnapshotVersions(snapshotId, time)
+      .startWith(emptyList);
+  });
+}
