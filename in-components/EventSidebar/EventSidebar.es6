@@ -1,8 +1,8 @@
 import {on} from 'reactive-observables';
 import React from 'react';
 
-import IncidentContent from 'in-components/eventView/components/Incident/Content';
-import EventContent from 'in-components/eventView/components/Event/Content';
+import IncidentContent from 'in-views/eventView/components/Incident/Content';
+import EventContent from 'in-views/eventView/components/Event/Content';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import {selectedEvent$, selectedIncident$} from 'in-stores/events';
 import Header from 'in-components/EventSidebar/components/Header';
