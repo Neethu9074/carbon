@@ -8,6 +8,7 @@ import {
   saveRules
 } from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
 import {notification$} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/notification';
+import {viewHelp} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/helpTexts';
 import Rule from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Rule';
 import StoreAwareTemporaryPresenter from 'in-components/StoreAwareTemporaryPresenter';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -47,6 +48,10 @@ export default connectTo({
       : null}
 
       <StoreAwareTemporaryPresenter config$={notification$} />
+
+      <p>
+        {viewHelp}
+      </p>
 
       {ruleForms && ruleForms.map((ruleForm, i) =>
         <Rule key={ruleForm.getItem('id').value}

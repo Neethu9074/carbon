@@ -1,6 +1,11 @@
 import React from 'react';
 
 import {
+  matchesHelp,
+  serviceNameHelp,
+  commentHelp
+} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/helpTexts';
+import {
   setValue,
   addMatchSpecification,
   removeMatchSpecification,
@@ -131,7 +136,7 @@ export default React.createClass({
                     </ValidationBlock>
                   : null}
                   <HelpBlock>
-                    TODO
+                    {matchesHelp}
                   </HelpBlock>
                 </FormGroup>
               )}
@@ -178,7 +183,7 @@ export default React.createClass({
                          value={labelField.value}
                          onChange={e => setValue([...path, 'label'], e.target.value)}/>
                   <HelpBlock>
-                    TODO
+                    {serviceNameHelp}
                   </HelpBlock>
                 </FormGroup>
               )}
@@ -191,7 +196,7 @@ export default React.createClass({
                             value={commentField.value}
                             onChange={e => setValue([...path, 'comment'], e.target.value)}/>
                   <HelpBlock>
-                    TODO
+                    {commentHelp}
                   </HelpBlock>
                 </FormGroup>
               )}

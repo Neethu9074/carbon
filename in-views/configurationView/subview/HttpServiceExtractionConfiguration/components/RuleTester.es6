@@ -54,7 +54,7 @@ export default React.createClass({
         {this.getHeader()}
 
         <Row>
-          {matchKeys.map((key, i) =>
+          {matchKeys.map(key =>
             <Col cols={6}
                  key={key}>
               <FormGroup>
@@ -63,8 +63,7 @@ export default React.createClass({
                        id={`${id}-test-${key}`}
                        placeholder={options[key].testPlaceholder}
                        value={this.state[key] || ''}
-                       onChange={e => this.setState({[key]: e.target.value})}
-                       autoFocus={i === 0}/>
+                       onChange={e => this.setState({[key]: e.target.value})}/>
               </FormGroup>
 
               <MatchPresenter match={matches[key]}
