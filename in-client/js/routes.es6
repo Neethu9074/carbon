@@ -5,6 +5,7 @@ import React from 'react';
 
 import HttpServiceExtractionConfiguration from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import ConfigurationView from 'in-views/configurationView/ConfigurationView';
+import UiConfig from 'in-views/configurationView/subview/UiConfig';
 import TraceView from 'in-components/traceView/TraceView';
 import EventView from 'in-components/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
@@ -52,6 +53,9 @@ export default (
            path='config'>
       <Route component={HttpServiceExtractionConfiguration}
              path='httpServiceExtraction' />
+      <Route component={UiConfig}
+             path='userInterface' />
+
     </Route>
 
     <Route component={GraphView}

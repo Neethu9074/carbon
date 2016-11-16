@@ -6,3 +6,4 @@ export const webVrEnabled = isInstanaTenant();
 export const isEumEnabled = onlyInternally;
 export const configurationViewEnabled = onlyInternally;
 export const provideAlternativeLogicalLayouter = onlyInternally;
+export const newSettingsDialogEnabled = onlyInternally;
