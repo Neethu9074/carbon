@@ -1,6 +1,11 @@
+import {getServiceExtractionConfig, saveServiceExtractionConfig} from 'in-services/groundskeeper/serviceExtraction';
+import {addMessage, removeMessage} from 'in-components/MessageFlyout/stores/messages';
 import {ListForm, MapForm, Field} from 'in-services/form';
 import {generateUniqueShortId} from 'in-services/util/id';
 import {createStore} from 'in-stores/store';
+
+const ruleType = 'webapp';
+const ruleMessageId = 'config-view-webapp-rules';
 
 const ruleFormsStore = createStore({
   name: 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms',
@@ -52,6 +57,128 @@ export function moveRuleDown(path) {
 
 export function removeRule(path) {
   ruleFormsStore.applyStateMutation(ruleForms => ruleForms.removeItem(path));
+}
+
+
+export function removeAllRules() {
+  ruleFormsStore.mutateTo(new ListForm());
+}
+
+
+export function enable() {
+  removeAllRules();
+  loadRules();
+}
+
+
+export function disable() {
+  removeAllRules();
+}
+
+
+function loadRules() {
+  addMessage({
+    type: 'info',
+    icon: 'ok',
+    content: 'Loading rules…'
+  }, ruleMessageId);
+
+  const loadedRuleForms$ = getServiceExtractionConfig(ruleType)
+    .map(createRuleForms);
+
+  loadedRuleForms$
+    .once(ruleForms => {
+      ruleFormsStore.mutateTo(ruleForms);
+      removeMessage(ruleMessageId);
+    });
+
+  loadedRuleForms$
+    .errors()
+    .once(error => {
+      addMessage({
+        type: 'danger',
+        icon: 'ok',
+        content: 'Failed to load rules.'
+      }, ruleMessageId);
+
+      console.error({error});
+    });
+}
+
+
+function createRuleForms(rules) {
+  let ruleForms = new ListForm();
+
+  rules.forEach((rule, i) => {
+    let matchSpecificationForm = new MapForm(atLeastOneMatchSpecificationRule);
+
+    Object.keys(rule.matchSpecification).forEach(matchKey => {
+      matchSpecificationForm = matchSpecificationForm
+        .addItem(matchKey, new Field(rule.matchSpecification[matchKey], matchSpecificationMustCompileRule));
+    });
+
+    const ruleForm = new MapForm()
+      .addItem('id', new Field(rule.id))
+      .addItem('name', new Field(rule.name))
+      .addItem('enabled', new Field(rule.enabled))
+      .addItem('comment', new Field(rule.comment))
+      .addItem('matchSpecification', matchSpecificationForm)
+      .addItem('label', new Field(rule.extractSpecification.label || ''));
+    ruleForms = ruleForms.addItem(i, ruleForm);
+  });
+
+  return ruleForms;
+}
+
+
+export function saveRules(ruleForms) {
+  addMessage({
+    type: 'info',
+    icon: 'ok',
+    content: 'Saving rules…'
+  }, ruleMessageId);
+
+  const rules = createRulesFromRuleForms(ruleForms);
+  const saveResult$ = saveServiceExtractionConfig(rules);
+
+  saveResult$.once(() => {
+    addMessage({
+      type: 'info',
+      icon: 'ok',
+      content: 'Great success!'
+    }, ruleMessageId);
+  });
+
+  saveResult$.errors().once(() => {
+    addMessage({
+      type: 'info',
+      icon: 'ok',
+      content: 'Saving failed!'
+    }, ruleMessageId);
+  });
+}
+
+
+function createRulesFromRuleForms(ruleForms) {
+  return ruleForms.map((ruleForm, i) => {
+    const matchSpecification = {};
+    ruleForm.getItem('matchSpecification').forEach((field, key) => {
+      matchSpecification[key] = field.value;
+    });
+    return {
+      id: ruleForm.getItem('id').value,
+      name: ruleForm.getItem('name').value,
+      enabled: ruleForm.getItem('enabled').value,
+      comment: ruleForm.getItem('comment').value,
+      order: i,
+      type: ruleType,
+      parent: null,
+      matchSpecification,
+      extractSpecification: {
+        label: ruleForm.getItem('label').value
+      }
+    };
+  });
 }
 
 

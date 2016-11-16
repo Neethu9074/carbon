@@ -5,7 +5,9 @@ import {assign} from 'lodash';
 import {normalizePath, isLastPathElement, alwaysValidValidator} from 'in-services/form/util';
 
 /*::
-import type {Path, Item, NormalizedPath, Value, ValidationError, Validator, Mapper} from 'in-services/form/types';
+import type {
+  Path, Item, NormalizedPath, Value, ValidationError, Validator, Mapper, Consumer
+} from 'in-services/form/types';
 
 type Items = {
   [key: string]: Item
@@ -152,6 +154,11 @@ export default class MapForm {
 
   mapItem(mapper/*: Mapper*/) {
     return mapper(this);
+  }
+
+  forEach(consumer/*: Consumer*/) {
+    return this.keys()
+      .forEach(key => consumer(this.items[key], key));
   }
 
   moveUp(path/*: Path*/)/*: MapForm*/ {

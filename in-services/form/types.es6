@@ -6,6 +6,7 @@ export type Value = string | number | boolean;
 export type ValidationError = ?string;
 export type Validator = Value => ValidationError;
 export type Mapper = (Item, Key) => any;
+export type Consumer = (Item, Key) => any;
 
 export interface Item {
   valid: boolean;

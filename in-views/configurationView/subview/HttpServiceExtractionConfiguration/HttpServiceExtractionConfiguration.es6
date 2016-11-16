@@ -2,10 +2,14 @@ import React from 'react';
 
 import {
   ruleForms$,
-  addNewRule
+  addNewRule,
+  enable,
+  disable,
+  saveRules
 } from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
 import Rule from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Rule';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import LifecycleObserver from 'in-components/LifecycleObserver';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -14,6 +18,9 @@ export default connectTo({
 }, function HttpServiceExtractionConfiguration({ruleForms}) {
   return (
     <div>
+      <LifecycleObserver onWillMount={enable}
+                         onWillUnmount={disable}/>
+
       <SubViewHeader>
         HTTP Service Extraction Rules
       </SubViewHeader>
@@ -24,7 +31,8 @@ export default connectTo({
       </Button>
       {' '}
       <Button kind='primary'
-              disabled={!ruleForms.valid}>
+              disabled={!ruleForms.valid}
+              onClick={() => saveRules(ruleForms)}>
         Save
       </Button>
 

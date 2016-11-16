@@ -3,7 +3,9 @@
 import {normalizePath, isLastPathElement, alwaysValidValidator} from 'in-services/form/util';
 
 /*::
-import type {Path, Item, NormalizedPath, Value, ValidationError, Validator, Mapper} from 'in-services/form/types';
+import type {
+  Path, Item, NormalizedPath, Value, ValidationError, Validator, Mapper, Consumer
+} from 'in-services/form/types';
 
 type Items = Array<Item>;
 */
@@ -130,6 +132,11 @@ export default class ListForm {
 
   mapItem(mapper/*: Mapper*/) {
     return mapper(this);
+  }
+
+  forEach(consumer/*: Consumer*/) {
+    return this.items
+      .forEach(consumer);
   }
 
   moveUp(path/*: Path*/)/*: ListForm*/ {
