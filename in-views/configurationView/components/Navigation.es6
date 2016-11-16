@@ -14,6 +14,7 @@ const block = 'in-config-view-nav';
 export default function Navigation() {
   return (
     <nav className={block}>
+      <h2 className={`${block}__heading`}>Configuration</h2>
       <NavItems>
         <NavItem title='Service Extraction'>
           <NavItem title='HTTP'

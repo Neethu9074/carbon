@@ -47,6 +47,9 @@ export default connectTo(props => {
           {childCount > 0 ?
             <SvgIcon type={this.state.isExpanded ? 'triangle_down' : 'triangle_right'}
                      width={this.state.isExpanded ? 8 : 6}
+                     style={{
+                       paddingRight: this.state.isExpanded ? 0 : '2px'
+                     }}
                      className={`${block}__toggle`}/>
           : null}
 

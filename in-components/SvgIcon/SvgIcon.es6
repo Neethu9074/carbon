@@ -9,7 +9,8 @@ export default function SvgIcon({
   height,
   className,
   color,
-  onClick
+  onClick,
+  style
 }) {
   const icon = icons[type];
   if (!icon) {
@@ -29,15 +30,15 @@ export default function SvgIcon({
   }
 
   const iconHeight = height ? height : iconWidth / icon.ratio;
+  style = style || {};
+  style.width = `${iconWidth}px`;
+  style.height = `${iconHeight}px`;
 
   return (
     <svg className={className}
          width={width}
          height={height}
-         style={{
-           width: iconWidth + 'px',
-           height: iconHeight + 'px'
-         }}
+         style={style}
          viewBox={'0 0 ' + icon.width + ' ' + icon.height}
          fill={color}
          onClick={onClick}>
