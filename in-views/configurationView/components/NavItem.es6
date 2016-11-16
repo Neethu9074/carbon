@@ -42,11 +42,17 @@ export default connectTo(props => {
            className={evaluateClassNames({
              [`${block}__link`]: true,
              [`${block}__link--active`]: this.props.isActive
-           })}>
+           })}
+           style={{
+             marginLeft: childCount === 0 ? '13px' : 0
+           }}>
 
           {childCount > 0 ?
             <SvgIcon type={this.state.isExpanded ? 'triangle_down' : 'triangle_right'}
                      width={this.state.isExpanded ? 8 : 6}
+                     style={{
+                       paddingRight: this.state.isExpanded ? 0 : '2px'
+                     }}
                      className={`${block}__toggle`}/>
           : null}
 

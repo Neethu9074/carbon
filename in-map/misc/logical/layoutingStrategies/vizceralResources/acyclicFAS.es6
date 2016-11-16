@@ -1,5 +1,4 @@
 /**
- *
  *  Copyright 2016 Netflix, Inc.
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,53 +12,46 @@
  *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
- *
  */
-import {each, has} from 'lodash';
-
-function dfsFas(graph) {
+export function dfsFas(graph) {
   const fas = [];
   const stack = {};
   const visited = {};
 
   function dfs(node) {
-    if (has(visited, node.name)) {
+    if (visited[node.name]) {
       return;
     }
+
     visited[node.name] = true;
     stack[node.name] = true;
-    each(graph.outgoingEdges(node.name), (edge) => {
-      if (has(stack, edge.target)) {
-        fas.push(edge);
-      } else {
-        dfs(edge.target);
-      }
-    });
+
+    const edges = graph.outgoingEdges(node.name);
+    for (let i = 0, length = edges.length; i < length; i++) {
+      const edge = edges[i];
+      stack[edge.target]
+        ? fas.push(edge)
+        : dfs(edge.target);
+    }
     delete stack[node.name];
   }
 
-  each(graph.nodes, dfs);
+  graph.nodes.forEach(dfs);
   return fas;
 }
 
-function remove(graph) {
+export function remove(graph) {
   const fas = dfsFas(graph);
-  each(fas, (edge) => {
-    graph.reverseEdge(edge);
-  });
+  for (let i = 0, length = fas.length; i < length; i++) {
+    graph.reverseEdge(fas[i]);
+  }
 }
 
-function restore(graph) {
-  each(graph.edges, (edge) => {
+export function restore(graph) {
+  for (let i = 0, length = graph.edges.length; i < length; i++) {
+    const edge = graph.edges[i];
     if (edge.reversed) {
       graph.reverseEdge(edge);
     }
-  });
+  }
 }
-
-const mod = {
-  remove: remove,
-  restore: restore
-};
-
-export default mod;

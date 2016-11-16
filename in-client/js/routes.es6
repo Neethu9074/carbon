@@ -5,8 +5,9 @@ import React from 'react';
 
 import HttpServiceExtractionConfiguration from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import ConfigurationView from 'in-views/configurationView/ConfigurationView';
-import TraceView from 'in-components/traceView/TraceView';
-import EventView from 'in-components/eventView/EventView';
+import UiConfig from 'in-views/configurationView/subview/UiConfig';
+import TraceView from 'in-views/traceView/TraceView';
+import EventView from 'in-views/eventView/EventView';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
@@ -52,6 +53,9 @@ export default (
            path='config'>
       <Route component={HttpServiceExtractionConfiguration}
              path='httpServiceExtraction' />
+      <Route component={UiConfig}
+             path='userInterface' />
+
     </Route>
 
     <Route component={GraphView}

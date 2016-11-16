@@ -3,6 +3,13 @@
   background: #fff;
   padding: .75rem;
   margin-bottom: .25rem;
+  border: 1px solid transparent;
+  border-radius: .188rem;
+  border-top-right-radius: 0;
+
+  &--has-error {
+    border-color: #a94442;
+  }
 
   &__header {
     display: flex;
@@ -11,7 +18,7 @@
 
   &__name-group {
     width: 100%;
-    margin-right: 15px;
+    margin-right: .938rem;
   }
 
   &__without-bottom-margin {
@@ -21,7 +28,8 @@
   &__actions-wrapper {
     display: flex;
     justify-content: flex-end;
-    max-width: 51.5rem;
+    position: relative;
+    top: .063rem;
   }
 
   &__actions {
@@ -29,6 +37,14 @@
     align-items: center;
     background: #fff;
     padding: .375rem;
+    border: 1px solid transparent;
+    border-top-left-radius: .188rem;
+    border-top-right-radius: .188rem;
+
+    &--has-error {
+      border: 1px solid #a94442;
+      border-bottom: 0;
+    }
   }
 
   &__down, &__toggle {

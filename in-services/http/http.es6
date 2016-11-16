@@ -5,10 +5,11 @@ import HttpResponseError from './HttpResponseError';
 
 export default function({method, url, queryParams, data, timeout = 5000, responseType = 'json'}) {
   url = formatUrl(url, queryParams);
+  let xhr;
 
   return create({
     start(observable) {
-      const xhr = new XMLHttpRequest();
+      xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
       xhr.timeout = timeout;
       xhr.responseType = responseType;
@@ -31,9 +32,17 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
           } else {
             observable.emitError(new HttpResponseError(response, method, url));
           }
+          xhr = null;
         }
       };
       xhr.send(JSON.stringify(data));
+    },
+
+    stop() {
+      if (xhr && xhr.readyState !== 4) {
+        xhr.abort();
+      }
+      xhr = null;
     }
   });
 }

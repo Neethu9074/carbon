@@ -29,8 +29,6 @@ export default class Map extends BaseMap {
     addFactory('highlighting', new LineSingleMeshFactory({useSceneObjectColors: false}));
     addFactory('connections', new LineSingleMeshFactory());
     addFactory('icons', new IconSingleMeshFactory({useSceneObjectColors: false}));
-
-    getFactory('connections').material.transparent = true;
   }
 
   initEvents() {

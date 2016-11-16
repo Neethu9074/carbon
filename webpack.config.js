@@ -43,10 +43,7 @@ module.exports = {
       loader: 'raw'
     }, {
       test: /\.es6$/i,
-      loader: 'babel',
-      query: {
-        presets: ['es2015', 'react', 'stage-2']
-      }
+      loader: 'babel'
     }, {
       test: /\.json$/i,
       loader: 'json'

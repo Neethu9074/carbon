@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  fruchtermannReingoldLayouting$,
-  vizceralLayoutingWithSubgraphs$,
-  vizceralLayouting$
-}  from 'in-map/stores/logical/layouterStore';
+import {fruchtermannReingoldLayouting$, vizceralLayouting$}  from 'in-map/stores/logical/layouterStore';
 import MapStatistics from 'in-components/Controls/components/MapStatistics';
 import {provideAlternativeLogicalLayouter} from 'in-services/featureFlags';
 import {setLayoutingStrategy} from 'in-map/stores/logical/layouterStore';
@@ -28,11 +24,7 @@ export default function getLogicalContent() {
       <Layout key='v_layout'
               iconType='options'
               tooltipText='Rearrange services using vizceral'
-              onClick={() => setLayoutingStrategy(vizceralLayouting$)} />,
-      <Layout key='vsub_layout'
-              iconType='menu'
-              tooltipText='Rearrange services using vizceral with subgraphs'
-              onClick={() => setLayoutingStrategy(vizceralLayoutingWithSubgraphs$)} />
+              onClick={() => setLayoutingStrategy(vizceralLayouting$)} />
     );
   }
 

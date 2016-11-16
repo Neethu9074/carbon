@@ -1,20 +1,27 @@
 import React from 'react';
 
 import {
-  upsertRule,
-  removeRule,
+  matchesHelp,
+  serviceNameHelp,
+  commentHelp
+} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/helpTexts';
+import {
+  setValue,
+  addMatchSpecification,
+  removeMatchSpecification,
+  moveRuleUp,
   moveRuleDown,
-  moveRuleUp
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules';
+  removeRule
+} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
 import RuleTester from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/RuleTester';
 import options from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/options';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import {evaluateClassNames} from 'in-services/util/classnames';
-import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
+import HelpBlock from 'in-components/form/HelpBlock';
 import TextArea from 'in-components/form/TextArea';
-import Select from 'in-components/form/Select';
 import Toggle from 'in-components/form/Toggle';
+import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -28,7 +35,8 @@ export default React.createClass({
   displayName: 'HttpRule',
 
   propTypes: {
-    rule: React.PropTypes.any.isRequired
+    ruleForm: React.PropTypes.any.isRequired,
+    path: React.PropTypes.any
   },
 
   getInitialState() {
@@ -38,23 +46,32 @@ export default React.createClass({
     };
   },
 
+  componentWillMount() {
+    if (!this.props.ruleForm.valid) {
+      this.setState({isExpanded: true});
+    }
+  },
+
   render() {
-    const rule = this.props.rule;
-    const id = rule.get('id');
-    let allMatchesCompile = true;
+    const ruleForm = this.props.ruleForm;
+    const id = ruleForm.getItem('id').value;
+    const path = this.props.path;
 
     return (
       <div>
         <div className={`${block}__actions-wrapper`}>
-          <div className={`${block}__actions`}>
+          <div className={evaluateClassNames({
+                 [`${block}__actions`]: true,
+                 [`${block}__actions--has-error`]: !ruleForm.valid
+               })}>
             <SvgIcon type='chevron_up'
                      width={12}
                      className={`${block}__up`}
-                     onClick={() => moveRuleUp(rule.get('id'))}/>
+                     onClick={() => moveRuleDown(path)}/>
             <SvgIcon type='chevron_down'
                      width={12}
                      className={`${block}__down`}
-                     onClick={() => moveRuleDown(rule.get('id'))}/>
+                     onClick={() => moveRuleUp(path)}/>
             <SvgIcon type={this.state.isExpanded ? 'timeline_close' : 'timeline_open'}
                      width={12}
                      className={`${block}__toggle`}
@@ -62,71 +79,75 @@ export default React.createClass({
           </div>
         </div>
 
-        <div className={block}>
+        <div className={evaluateClassNames({
+               [block]: true,
+               [`${block}--has-error`]: !ruleForm.valid
+             })}>
           <div className={`${block}__header`}>
-            <FormGroup className={evaluateClassNames({
-                         [`${block}__name-group`]: true,
-                         [`${block}__without-bottom-margin`]: !this.state.isExpanded
-                       })}>
-              <Label htmlFor={`${id}-rule-name`}>Rule Name</Label>
-              <Input type='text'
-                     id={`${id}-rule-name`}
-                     value={rule.getIn(['name'])}
-                     onChange={e => this.setProp(['name'], e.target.value)}/>
-            </FormGroup>
+            {ruleForm.getItem('name').map(nameField =>
+              <FormGroup className={evaluateClassNames({
+                           [`${block}__name-group`]: true,
+                           [`${block}__without-bottom-margin`]: !this.state.isExpanded
+                         })}>
+                <Label htmlFor={`${id}-rule-name`}>Rule Name</Label>
+                <Input type='text'
+                       id={`${id}-rule-name`}
+                       value={nameField.value}
+                       onChange={e => setValue([...path, 'name'], e.target.value)}/>
+              </FormGroup>
+            )}
 
-            <FormGroup className={evaluateClassNames({
-                         [`${block}__without-bottom-margin`]: !this.state.isExpanded
-                       })}>
-              <Label htmlFor={`${id}-enabled`}>Enabled</Label>
-              <Toggle id={`${id}-enabled`}
-                      checked={rule.getIn(['enabled'])}
-                      onChange={e => this.setProp(['enabled'], e.target.checked)}/>
-            </FormGroup>
+            {ruleForm.getItem('enabled').map(enabledField =>
+              <FormGroup className={evaluateClassNames({
+                           [`${block}__without-bottom-margin`]: !this.state.isExpanded
+                         })}>
+                <Label htmlFor={`${id}-enabled`}>Enabled</Label>
+                <Toggle id={`${id}-enabled`}
+                        checked={enabledField.value}
+                        onChange={e => setValue([...path, 'enabled'], e.target.checked)}/>
+              </FormGroup>
+            )}
           </div>
 
           {this.state.isExpanded ? (
             <div>
-              <FormGroup>
-                <Label htmlFor={`${id}-select-match-rule`}>Match</Label>
-                <Select id={`${id}-select-match-rule`}
-                        onChange={this.onChangeMatchOption}>
-                  <option value=''>Please Select</option>
+              {ruleForm.getItem('matchSpecification').mapItem(matchSpecificationForm =>
+                <FormGroup>
+                  <Label htmlFor={`${id}-select-match-rule`}>Match</Label>
+                  <Select id={`${id}-select-match-rule`}
+                          onChange={this.onChangeMatchOption}>
+                    <option value=''>Please Select</option>
 
-                  <optgroup label='Headers'>
-                    <option value='host'
-                            disabled={rule.getIn(['matchSpecification', 'host']) != null}>
-                      Host
+                    <optgroup label='Headers'>
+                      <option value='host'
+                              disabled={matchSpecificationForm.containsKey('host')}>
+                        Host
+                      </option>
+                    </optgroup>
+
+                    <option value='path'
+                            disabled={matchSpecificationForm.containsKey('path')}>
+                      Request Path
                     </option>
-                  </optgroup>
+                  </Select>
+                  {matchSpecificationForm.error ?
+                    <ValidationBlock hasError={true}>
+                      {matchSpecificationForm.error}
+                    </ValidationBlock>
+                  : null}
+                  <HelpBlock>
+                    {matchesHelp}
+                  </HelpBlock>
+                </FormGroup>
+              )}
 
-                  <option value='path'
-                          disabled={rule.getIn(['matchSpecification', 'path']) != null}>
-                    Request Path
-                  </option>
-                </Select>
-                <HelpBlock>
-                  TODO
-                </HelpBlock>
-              </FormGroup>
-
-              {rule.get('matchSpecification').keySeq().toArray().sort().map(key => {
-                const value = rule.getIn(['matchSpecification', key]);
-                let error;
-
-                try {
-                  /* eslint-disable  no-new */
-                  new RegExp(value);
-                  /* eslint-enable  no-new */
-                } catch (e) {
-                  error = e;
-                  allMatchesCompile = false;
-                }
+              {ruleForm.getItem('matchSpecification').keys().sort().map(key => {
+                const field = ruleForm.getItem(['matchSpecification', key]);
 
                 return (
                   <FormGroup key={key}>
                     <Label htmlFor={`${id}-${key}`}
-                           hasError={error != null}>
+                           hasError={!field.valid}>
                       Match: {options[key].titleName}
 
                       <a href='#'
@@ -138,12 +159,12 @@ export default React.createClass({
                     <Input type='text'
                            id={`${id}-${key}`}
                            placeholder={options[key].placeholder}
-                           value={value}
-                           onChange={e => this.setProp(['matchSpecification', key], e.target.value)}
-                           hasError={error != null}/>
-                    {error != null ?
+                           value={field.value}
+                           onChange={e => setValue([...path, 'matchSpecification', key], e.target.value)}
+                           hasError={!field.valid}/>
+                    {field.error ?
                       <ValidationBlock hasError={true}>
-                        {error.message}
+                        {field.error}
                       </ValidationBlock>
                     : null}
                     <HelpBlock>
@@ -153,28 +174,32 @@ export default React.createClass({
                 );
               })}
 
-              <FormGroup>
-                <Label htmlFor={`${id}-service-name`}>Service Name</Label>
-                <Input type='text'
-                       id={`${id}-service-name`}
-                       placeholder='Shop'
-                       value={rule.getIn(['extractSpecification', 'label'])}
-                       onChange={e => this.setProp(['extractSpecification', 'label'], e.target.value)}/>
-                <HelpBlock>
-                  TODO
-                </HelpBlock>
-              </FormGroup>
+              {ruleForm.getItem('label').map(labelField =>
+                <FormGroup>
+                  <Label htmlFor={`${id}-service-name`}>Service Name</Label>
+                  <Input type='text'
+                         id={`${id}-service-name`}
+                         placeholder='Shop'
+                         value={labelField.value}
+                         onChange={e => setValue([...path, 'label'], e.target.value)}/>
+                  <HelpBlock>
+                    {serviceNameHelp}
+                  </HelpBlock>
+                </FormGroup>
+              )}
 
-              <FormGroup>
-                <Label htmlFor={`${id}-comment`}>Comment</Label>
-                <TextArea rows='3'
-                          id={`${id}-comment`}
-                          value={rule.getIn(['comment'])}
-                          onChange={e => this.setProp(['comment'], e.target.value)}/>
-                <HelpBlock>
-                  TODO
-                </HelpBlock>
-              </FormGroup>
+              {ruleForm.getItem('comment').map(commentField =>
+                <FormGroup>
+                  <Label htmlFor={`${id}-comment`}>Comment</Label>
+                  <TextArea rows='3'
+                            id={`${id}-comment`}
+                            value={commentField.value}
+                            onChange={e => setValue([...path, 'comment'], e.target.value)}/>
+                  <HelpBlock>
+                    {commentHelp}
+                  </HelpBlock>
+                </FormGroup>
+              )}
 
               <div className={`${block}__buttons`}>
                 {!this.state.isTesting ?
@@ -187,15 +212,14 @@ export default React.createClass({
                 {' '}
                 <Button kind='danger'
                         size='sm'
-                        onClick={() => removeRule(rule.get('id'))}>
+                        onClick={() => removeRule(path)}>
                   Remove Rule
                 </Button>
               </div>
 
               {this.state.isTesting ?
                 <RuleTester toggleRuleTesting={this.toggleTesting}
-                            rule={rule}
-                            allMatchesCompile={allMatchesCompile} />
+                            ruleForm={ruleForm} />
                             : null}
             </div>
           ) : null}
@@ -217,11 +241,6 @@ export default React.createClass({
     });
   },
 
-  setProp(path, value) {
-    const updatedRule = this.props.rule.setIn(path, value);
-    upsertRule(updatedRule);
-  },
-
   onChangeMatchOption(e) {
     const newRuleName = e.target.value;
     if (!newRuleName) {
@@ -231,17 +250,11 @@ export default React.createClass({
     // reset selection to "Please Select"
     e.target.value = '';
 
-    const rule = this.props.rule;
-    const ruleValue = rule.getIn(['matchSpecification', newRuleName], undefined);
-    if (ruleValue == null) {
-      const updatedRule = rule.setIn(['matchSpecification', newRuleName], options[newRuleName].initialValue || '');
-      upsertRule(updatedRule);
-    }
+    addMatchSpecification(this.props.path, newRuleName, options[newRuleName].initialValue || '');
   },
 
   removeMatch(e, key) {
     e.preventDefault();
-    const updatedRule = this.props.rule.deleteIn(['matchSpecification', key]);
-    upsertRule(updatedRule);
+    removeMatchSpecification(this.props.path, key);
   }
 });

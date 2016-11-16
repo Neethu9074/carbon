@@ -1,42 +1,62 @@
 import React from 'react';
 
 import {
+  ruleForms$,
   addNewRule,
-  rules$,
   enable,
   disable,
-  save
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules';
+  saveRules
+} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
+import {notification$} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/notification';
+import {viewHelp} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/helpTexts';
 import Rule from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Rule';
+import StoreAwareTemporaryPresenter from 'in-components/StoreAwareTemporaryPresenter';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
+import './HttpServiceExtractionConfiguration.less';
+
+const block = 'in-config-http-ex';
+
 export default connectTo({
-  rules: rules$
-}, function HttpServiceExtractionConfiguration({rules}) {
+  ruleForms: ruleForms$
+}, function HttpServiceExtractionConfiguration({ruleForms}) {
   return (
-    <div>
+    <div className={block}>
       <LifecycleObserver onWillMount={enable}
                          onWillUnmount={disable}/>
+
       <SubViewHeader>
         HTTP Service Extraction Rules
       </SubViewHeader>
 
-      <Button kind='primary'
-              onClick={() => addNewRule()}>
-        Add Rule
-      </Button>
+      {ruleForms != null ?
+        <span>
+          <Button kind='info'
+                  onClick={() => addNewRule()}>
+            Add Rule
+          </Button>
+          {' '}
+          <Button kind='success'
+                  disabled={!ruleForms.valid}
+                  onClick={() => saveRules(ruleForms)}>
+            Save
+          </Button>
+        </span>
+      : null}
 
-      <Button kind='primary'
-              onClick={() => save()}>
-        Save
-      </Button>
+      <StoreAwareTemporaryPresenter config$={notification$} />
 
-      {rules.toArray().map(rule =>
-        <Rule key={rule.get('id')}
-              rule={rule} />
+      <p>
+        {viewHelp}
+      </p>
+
+      {ruleForms && ruleForms.map((ruleForm, i) =>
+        <Rule key={ruleForm.getItem('id').value}
+              ruleForm={ruleForm}
+              path={[i]}/>
       )}
     </div>
   );

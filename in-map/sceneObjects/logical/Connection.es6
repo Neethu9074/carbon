@@ -113,7 +113,7 @@ export default class Connection extends SceneObject {
           newColor = '#ffffff';
         } else {
           const severity = health.get('maxSeverity', 0);
-          newColor = severity > 0 ? theme.health[Math.floor(severity)] : '#bababa';
+          newColor = severity > 0 ? theme.health[Math.floor(severity)] : '#5c6e74';
         }
         this.getComponent('color').setHex(newColor);
       }),
