@@ -22,7 +22,7 @@ export function LoadingRulesNotification() {
 export function LoadingRulesFailedNotification() {
   return (
     <span className={`${block} ${block}--failure`}>
-      Failed to load rules.
+      Failed to load rules
     </span>
   );
 }
@@ -43,7 +43,7 @@ export function SavingRulesNotification() {
 export function SavingRulesSuccessfulNotification() {
   return (
     <span className={`${block} ${block}--success`}>
-      Saving successful
+      Successfully saved.
     </span>
   );
 }
@@ -51,7 +51,7 @@ export function SavingRulesSuccessfulNotification() {
 export function SavingRulesFailedNotification() {
   return (
     <span className={`${block} ${block}--failure`}>
-      Failed to save rules.
+      Failed to save rules
     </span>
   );
 }
