@@ -15,6 +15,7 @@ describe('in-views/traceView', () => {
       testFile('withStackTrace', transformToLongStackTrace);
       testFile('withStackTraceAndCommonRoot', transformToLongStackTrace);
       testFile('withStackTraceAndCommonRootFromEntrySpan', transformToLongStackTrace);
+      testFile('withStackTraceAndTimeBasedMoving', transformToLongStackTrace);
 
       function transformToLongStackTrace(given) {
         return transform(Immutable.fromJS(given));
@@ -65,6 +66,7 @@ describe('in-views/traceView', () => {
     delete tree.stackTrace;
     delete tree.spans;
     delete tree.parentSpan;
+    delete tree.start;
     tree.children.forEach(removeSpanAndStacktraceDetails);
     return tree;
   }

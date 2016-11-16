@@ -46,7 +46,12 @@ function insertSpanIntoParent(parentResult, span, parentSpan) {
 
     for (let i = 0, len = currentParent.children.length; i < len; i++) {
       const child = currentParent.children[i];
-      if (child.type === 'stackTrace' && child.id === id) {
+      // It is allowed to reuse stack trace elements when the next sibling span / stack trace
+      // time is smaller than the time of this span. Would we reuse them, then we would create
+      // a long stack which loses track of time.
+      if (child.type === 'stackTrace' &&
+          child.id === id &&
+          (i + 1 === len || currentParent.children[i + 1].start < span.start)) {
         child.spans.push(span);
         return child;
       }
@@ -57,6 +62,7 @@ function insertSpanIntoParent(parentResult, span, parentSpan) {
       type: 'stackTrace',
       stackTrace: [stackTraceElement],
       spans: [span],
+      start: span.start,
       parentSpan,
       children: []
     };
