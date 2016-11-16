@@ -31,20 +31,24 @@ export default connectTo({
         HTTP Service Extraction Rules
       </SubViewHeader>
 
-      <Button kind='info'
-              onClick={() => addNewRule()}>
-        Add Rule
-      </Button>
-      {' '}
-      <Button kind='success'
-              disabled={!ruleForms.valid}
-              onClick={() => saveRules(ruleForms)}>
-        Save
-      </Button>
+      {ruleForms != null ?
+        <span>
+          <Button kind='info'
+                  onClick={() => addNewRule()}>
+            Add Rule
+          </Button>
+          {' '}
+          <Button kind='success'
+                  disabled={!ruleForms.valid}
+                  onClick={() => saveRules(ruleForms)}>
+            Save
+          </Button>
+        </span>
+      : null}
 
       <StoreAwareTemporaryPresenter config$={notification$} />
 
-      {ruleForms.map((ruleForm, i) =>
+      {ruleForms && ruleForms.map((ruleForm, i) =>
         <Rule key={ruleForm.getItem('id').value}
               ruleForm={ruleForm}
               path={[i]}/>

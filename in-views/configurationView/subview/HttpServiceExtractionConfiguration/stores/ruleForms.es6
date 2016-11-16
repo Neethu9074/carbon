@@ -1,19 +1,28 @@
+import {createLogger} from 'instalog';
 import React from 'react';
 
-import {getServiceExtractionConfig, saveServiceExtractionConfig} from 'in-services/groundskeeper/serviceExtraction';
 import {
   showNofitication,
   clearNotification
 } from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/notification';
+import {
+  LoadingRulesNotification,
+  LoadingRulesFailedNotification,
+  SavingRulesNotification,
+  SavingRulesFailedNotification,
+  SavingRulesSuccessfulNotification
+} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Notifications';
+import {getServiceExtractionConfig, saveServiceExtractionConfig} from 'in-services/groundskeeper/serviceExtraction';
 import {ListForm, MapForm, Field} from 'in-services/form';
 import {generateUniqueShortId} from 'in-services/util/id';
 import {createStore} from 'in-stores/store';
 
 const ruleType = 'webapp';
+const logger = createLogger('httpExtraction/ruleForms');
 
 const ruleFormsStore = createStore({
   name: 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms',
-  initialValue: new ListForm()
+  initialValue: null
 });
 export const ruleForms$ = ruleFormsStore.observable;
 
@@ -65,7 +74,7 @@ export function removeRule(path) {
 
 
 export function removeAllRules() {
-  ruleFormsStore.mutateTo(new ListForm());
+  ruleFormsStore.mutateTo(null);
 }
 
 
@@ -82,7 +91,7 @@ export function disable() {
 
 function loadRules() {
   showNofitication({
-    children: <p>Loading rules…</p>
+    children: <LoadingRulesNotification />
   });
 
   const loadedRuleForms$ = getServiceExtractionConfig(ruleType)
@@ -98,10 +107,10 @@ function loadRules() {
     .errors()
     .once(error => {
       showNofitication({
-        children: <p>Failed to load rules.</p>
+        children: <LoadingRulesFailedNotification error={error} />
       });
 
-      console.error({error});
+      logger.error(`Failed to load rules: ${error.message}`, error);
     });
 }
 
@@ -133,7 +142,7 @@ function createRuleForms(rules) {
 
 export function saveRules(ruleForms) {
   showNofitication({
-    children: <p>Saving rules…</p>
+    children: <SavingRulesNotification />
   });
 
   const rules = createRulesFromRuleForms(ruleForms);
@@ -141,17 +150,17 @@ export function saveRules(ruleForms) {
 
   saveResult$.once(() => {
     showNofitication({
-      children: <p>Successfully saved!</p>,
+      children: <SavingRulesSuccessfulNotification />,
       duration: 3000
     });
   });
 
   saveResult$.errors().once(error => {
     showNofitication({
-      children: <p>Saving failed :(</p>,
+      children: <SavingRulesFailedNotification error={error} />,
       duration: 3000
     });
-    console.error({error});
+    logger.error(`Failed to save rules: ${error.message}`, error);
   });
 }
 
