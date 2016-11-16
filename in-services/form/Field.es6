@@ -3,7 +3,7 @@
 import {isPathExhausted, normalizePath, alwaysValidValidator} from 'in-services/form/util';
 
 /*::
-import type {Path, Item, NormalizedPath, Validator, ValidationError, Value} from 'in-services/form/types';
+import type {Path, Item, NormalizedPath, Validator, ValidationError, Value, Mapper} from 'in-services/form/types';
 */
 
 
@@ -67,5 +67,9 @@ export default class Field {
 
   toJS() {
     return this.value;
+  }
+
+  map(mapper/*: Mapper*/) {
+    return mapper(this);
   }
 }

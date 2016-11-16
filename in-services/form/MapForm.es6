@@ -141,9 +141,17 @@ export default class MapForm {
     return Object.keys(this.items);
   }
 
+  containsKey(key/*: string*/) {
+    return Object.prototype.hasOwnProperty.call(this.items, key);
+  }
+
   map(mapper/*: Mapper*/) {
     return this.keys()
       .map(key => mapper(this.items[key], key));
+  }
+
+  mapItem(mapper/*: Mapper*/) {
+    return mapper(this);
   }
 
   moveUp(path/*: Path*/)/*: MapForm*/ {

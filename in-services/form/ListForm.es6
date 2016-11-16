@@ -16,10 +16,12 @@ export default class ListForm {
   pristine: boolean;
   error: ValidationError;
   validator: Validator;
+  length: number;
   */
 
   constructor(validator/*: Validator */ = alwaysValidValidator, items/*: Items*/) {
     this.items = items || [];
+    this.length = this.items.length;
     this.validator = validator;
     this.error = validator(this);
     this.valid = this.error == null && this._isValid();
@@ -124,6 +126,10 @@ export default class ListForm {
   map(mapper/*: Mapper*/) {
     return this.items
       .map((value, i) => mapper(value, i));
+  }
+
+  mapItem(mapper/*: Mapper*/) {
+    return mapper(this);
   }
 
   moveUp(path/*: Path*/)/*: ListForm*/ {

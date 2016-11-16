@@ -1,25 +1,19 @@
 import React from 'react';
 
 import {
-  addNewRule,
-  rules$,
-  enable,
-  disable,
-  save
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/rules';
+  ruleForms$,
+  addNewRule
+} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
 import Rule from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Rule';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import LifecycleObserver from 'in-components/LifecycleObserver';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
-  rules: rules$
-}, function HttpServiceExtractionConfiguration({rules}) {
+  ruleForms: ruleForms$
+}, function HttpServiceExtractionConfiguration({ruleForms}) {
   return (
     <div>
-      <LifecycleObserver onWillMount={enable}
-                         onWillUnmount={disable}/>
       <SubViewHeader>
         HTTP Service Extraction Rules
       </SubViewHeader>
@@ -28,15 +22,20 @@ export default connectTo({
               onClick={() => addNewRule()}>
         Add Rule
       </Button>
-
+      {' '}
       <Button kind='primary'
-              onClick={() => save()}>
+              disabled={!ruleForms.valid}>
         Save
       </Button>
 
-      {rules.toArray().map(rule =>
-        <Rule key={rule.get('id')}
-              rule={rule} />
+      <p>
+        SAVING AND LOADING RULES IS CURRENTLY IN REFACTORING AND THEREFORE NOT WORKING1
+      </p>
+
+      {ruleForms.map((ruleForm, i) =>
+        <Rule key={ruleForm.getItem('id').value}
+              ruleForm={ruleForm}
+              path={[i]}/>
       )}
     </div>
   );

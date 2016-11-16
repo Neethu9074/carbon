@@ -20,8 +20,7 @@ export default React.createClass({
 
   propTypes: {
     toggleRuleTesting: React.PropTypes.any,
-    rule: React.PropTypes.any.isRequired,
-    allMatchesCompile: React.PropTypes.bool.isRequired
+    ruleForm: React.PropTypes.any.isRequired
   },
 
   getInitialState() {
@@ -29,23 +28,25 @@ export default React.createClass({
   },
 
   render() {
-    if (!this.props.allMatchesCompile) {
+    const ruleForm = this.props.ruleForm;
+    if (!ruleForm.valid) {
       return (
         <div className={block}>
           {this.getHeader()}
 
-          <p>All regular expressions must compile in order for rules to be tested.</p>
+          <p>
+            At least one match must be added and all regular expressions must compile in order for rules to be tested.
+          </p>
         </div>
       );
     }
 
-    const rule = this.props.rule;
-    const id = rule.get('id');
-
-    const matchKeys = rule.get('matchSpecification').keySeq().toArray().sort();
+    const id = ruleForm.getItem('id').value;
+    const matchSpecificationForm = ruleForm.getItem('matchSpecification');
+    const matchKeys = matchSpecificationForm.keys().sort();
     const matches = {};
     matchKeys.forEach(key => {
-      matches[key] = (this.state[key] || '').match(new RegExp(rule.getIn(['matchSpecification', key])));
+      matches[key] = (this.state[key] || '').match(new RegExp(matchSpecificationForm.getItem(key).value));
     });
 
     return (
@@ -72,7 +73,7 @@ export default React.createClass({
           )}
         </Row>
 
-        <ExtractedServiceNamePresenter rule={rule}
+        <ExtractedServiceNamePresenter ruleForm={ruleForm}
                                        matches={matches}/>
       </div>
     );
