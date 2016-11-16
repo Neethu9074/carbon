@@ -7,7 +7,9 @@ import {
   disable,
   saveRules
 } from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
+import {notification$} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/notification';
 import Rule from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Rule';
+import StoreAwareTemporaryPresenter from 'in-components/StoreAwareTemporaryPresenter';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import Button from 'in-components/Button';
@@ -36,9 +38,7 @@ export default connectTo({
         Save
       </Button>
 
-      <p>
-        SAVING AND LOADING RULES IS CURRENTLY IN REFACTORING AND THEREFORE NOT WORKING1
-      </p>
+      <StoreAwareTemporaryPresenter config$={notification$} />
 
       {ruleForms.map((ruleForm, i) =>
         <Rule key={ruleForm.getItem('id').value}

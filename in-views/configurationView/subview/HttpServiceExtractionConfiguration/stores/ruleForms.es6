@@ -1,11 +1,15 @@
+import React from 'react';
+
 import {getServiceExtractionConfig, saveServiceExtractionConfig} from 'in-services/groundskeeper/serviceExtraction';
-import {addMessage, removeMessage} from 'in-components/MessageFlyout/stores/messages';
+import {
+  showNofitication,
+  clearNotification
+} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/notification';
 import {ListForm, MapForm, Field} from 'in-services/form';
 import {generateUniqueShortId} from 'in-services/util/id';
 import {createStore} from 'in-stores/store';
 
 const ruleType = 'webapp';
-const ruleMessageId = 'config-view-webapp-rules';
 
 const ruleFormsStore = createStore({
   name: 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms',
@@ -77,11 +81,9 @@ export function disable() {
 
 
 function loadRules() {
-  addMessage({
-    type: 'info',
-    icon: 'ok',
-    content: 'Loading rules…'
-  }, ruleMessageId);
+  showNofitication({
+    children: <p>Loading rules…</p>
+  });
 
   const loadedRuleForms$ = getServiceExtractionConfig(ruleType)
     .map(createRuleForms);
@@ -89,17 +91,15 @@ function loadRules() {
   loadedRuleForms$
     .once(ruleForms => {
       ruleFormsStore.mutateTo(ruleForms);
-      removeMessage(ruleMessageId);
+      clearNotification();
     });
 
   loadedRuleForms$
     .errors()
     .once(error => {
-      addMessage({
-        type: 'danger',
-        icon: 'ok',
-        content: 'Failed to load rules.'
-      }, ruleMessageId);
+      showNofitication({
+        children: <p>Failed to load rules.</p>
+      });
 
       console.error({error});
     });
@@ -132,29 +132,26 @@ function createRuleForms(rules) {
 
 
 export function saveRules(ruleForms) {
-  addMessage({
-    type: 'info',
-    icon: 'ok',
-    content: 'Saving rules…'
-  }, ruleMessageId);
+  showNofitication({
+    children: <p>Saving rules…</p>
+  });
 
   const rules = createRulesFromRuleForms(ruleForms);
   const saveResult$ = saveServiceExtractionConfig(rules);
 
   saveResult$.once(() => {
-    addMessage({
-      type: 'info',
-      icon: 'ok',
-      content: 'Great success!'
-    }, ruleMessageId);
+    showNofitication({
+      children: <p>Successfully saved!</p>,
+      duration: 3000
+    });
   });
 
-  saveResult$.errors().once(() => {
-    addMessage({
-      type: 'info',
-      icon: 'ok',
-      content: 'Saving failed!'
-    }, ruleMessageId);
+  saveResult$.errors().once(error => {
+    showNofitication({
+      children: <p>Saving failed :(</p>,
+      duration: 3000
+    });
+    console.error({error});
   });
 }
 
