@@ -15,11 +15,15 @@ import LifecycleObserver from 'in-components/LifecycleObserver';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
+import './HttpServiceExtractionConfiguration.less';
+
+const block = 'in-config-http-ex';
+
 export default connectTo({
   ruleForms: ruleForms$
 }, function HttpServiceExtractionConfiguration({ruleForms}) {
   return (
-    <div>
+    <div className={block}>
       <LifecycleObserver onWillMount={enable}
                          onWillUnmount={disable}/>
 
@@ -27,12 +31,12 @@ export default connectTo({
         HTTP Service Extraction Rules
       </SubViewHeader>
 
-      <Button kind='primary'
+      <Button kind='info'
               onClick={() => addNewRule()}>
         Add Rule
       </Button>
       {' '}
-      <Button kind='primary'
+      <Button kind='success'
               disabled={!ruleForms.valid}
               onClick={() => saveRules(ruleForms)}>
         Save

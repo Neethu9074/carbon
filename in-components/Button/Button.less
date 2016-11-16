@@ -18,11 +18,6 @@
     background: @common__highlight-color;
   }
 
-  &--disabled {
-    cursor: default;
-    opacity: .6;
-  }
-
   &--secondary {
     background: #92A5AE;
     color: #fff;
@@ -70,6 +65,18 @@
     }
   }
 
+  &--success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+
+    &:hover {
+      color: #fff;
+      background-color: #449d44;
+      border-color: #398439;
+    }
+  }
+
   &--lg {
     padding: .625rem .938rem;
     font-size: .688rem;
@@ -78,5 +85,11 @@
   &--sm {
     padding: .375rem .625rem;
     font-size: .625rem;
+  }
+
+  &--disabled {
+    cursor: default;
+    opacity: .6;
+    outline: 0;
   }
 }
