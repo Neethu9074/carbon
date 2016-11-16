@@ -14,6 +14,8 @@
 	- [Upgrading Node.js](#upgrading-nodejs)
 - [Troubleshooting](#troubleshooting)
 	- [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
+	- [I cannot access the local development domain in Firefox due to HSTS!](#i-cannot-access-the-local-development-domain-in-firefox-due-to-hsts)
+	- [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
 - [Theming](#theming)
 	- [Most important files](#most-important-files)
 
@@ -87,6 +89,15 @@ Once executed, verify that it was successful via the usual `npm test`.
 
 ### I cannot access the local development domain in Chrome due to HSTS!
 While we do not use certificate pinning, Chromium became even more strict as of late (February 2016). Chrome will add `*.instana.io` to its custom rule HSTS list upon visiting `instana.io`. The only solution right now is to disable this entry via [chrome://net-internals/#hsts](chrome://net-internals/#hsts). Type in the domain `instana.io` and hit the delete button.
+
+### I cannot access the local development domain in Firefox due to HSTS!
+Similar to the Chrome topic above, but slightly different process to remove the HSTS entry. Open the file called `SiteSecurityServiceState.txt` and remove the line for the domain `instana.io`. On Mac OS, this file is located within the `~/Library/Application Support/Firefox` directory. To find the file, use `find`. Example:
+
+```
+# ben at bripkens in ~/Library/Application Support/Firefox
+$ find . -name "SiteSecurityServiceState.txt"
+./Profiles/z30fu953.default/SiteSecurityServiceState.txt
+```
 
 ### Instana dev extensions are saying that no stores could be found
 This most likely occur due to stores which contain cyclic structures and therefore cannot be JSON serialized. To find out which stores is breaking the dev extensions, run the following JavaScript snippet in the developer console.
