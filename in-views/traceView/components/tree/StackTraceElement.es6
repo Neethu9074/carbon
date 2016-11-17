@@ -64,8 +64,13 @@ export default connectTo(props => {
       stackTrace = [stackTrace[stackTraceLength - 1]];
     }
 
+    let classes = block;
+    if (stackTraceLength > 1) {
+      classes = `${block} ${block}--clickable`;
+    }
+
     return (
-      <div className={block}
+      <div className={classes}
            onClick={stackTraceLength > 1 ? this.toggle : undefined}>
 
         {stackTraceLength > 1 ?
