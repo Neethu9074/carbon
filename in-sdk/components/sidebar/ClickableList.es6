@@ -1,5 +1,10 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {
+  toggleContent,
+  clearContent
+} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
 import {getLinkToSnapshotInCurrentView} from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 
@@ -56,3 +61,35 @@ export function ClickableList({children}) {
 function stopPropagation(e) {
   e.stopPropagation();
 }
+
+
+export const ClickableKeyValuePopupListItem = React.createClass({
+  displayName: 'ClickableKeyValuePopupListItem',
+
+  mixins: [
+    PureRenderMixin
+  ],
+
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    data: React.PropTypes.object,
+    children: React.PropTypes.any
+  },
+
+  componentWillUnmount() {
+    clearContent();
+  },
+
+  render() {
+    const data = this.props.data;
+    if (data == null || data.size === 0) {
+      return null;
+    }
+
+    return (
+      <ClickableListItem onClick={() => toggleContent({title: this.props.title, data})}>
+        {this.props.children}
+      </ClickableListItem>
+    );
+  }
+});

@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {ClickableKeyValuePopupListItem, ClickableList} from 'in-sdk/components/sidebar/ClickableList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -27,13 +27,19 @@ export default function SpringbootSidebar({snapshot}) {
       { applicationConfig ?
         <div>
           <Separator />
+
           <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>Application Config</Collapsible.Header>
+            <Collapsible.Header>Application Configs</Collapsible.Header>
             <Collapsible.Content>
-              {applicationConfig.map((applicationConfigData, applicationConfigPath) =>
-                  <KeyValuePopup key={applicationConfigPath} header={applicationConfigPath}
-                                 data={applicationConfigData}/>
-              ).valueSeq().toArray()}
+              <ClickableList>
+                {applicationConfig.map((applicationConfigData, applicationConfigPath) =>
+                  <ClickableKeyValuePopupListItem title={applicationConfigPath}
+                                                  key={applicationConfigPath}
+                                                  data={applicationConfigData}>
+                    {applicationConfigPath}
+                  </ClickableKeyValuePopupListItem>
+                ).valueSeq().toArray()}
+              </ClickableList>
             </Collapsible.Content>
           </Collapsible>
         </div>

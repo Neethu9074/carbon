@@ -12,7 +12,18 @@ export function setContent(_content) {
 }
 
 export function toggleContent(_content) {
-  content$.once(_currentContent => _currentContent ? clearContent() : setContent(_content));
+  content.applyStateMutation(currentContent => {
+    if (!currentContent) {
+      return _content;
+    }
+
+    if (currentContent.title === _content.title &&
+        currentContent.data === _content.data) {
+      return null;
+    }
+
+    return _content;
+  });
 }
 
 export function clearContent() {

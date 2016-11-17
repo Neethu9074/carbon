@@ -66,7 +66,7 @@ export default connectTo(props => {
                   </span>
                 </div>
               </Collapsible.Header>
-              <Collapsible.Content className={`${block}__collapsible`}>
+              <Collapsible.Content>
                 <ClickableList>
                   {groups[plugin].sort().map(snapshot =>
                     <ClickableSnapshotListItem key={snapshot.get('id')}
