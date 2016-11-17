@@ -63,9 +63,9 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
       {details}
 
       <ul className='in-trace-view-tree__element-container'>
-        {element.children.map(childElement =>
+        {element.children.map((childElement, i) =>
           <TraceTreeElement element={childElement}
-                            key={childElement.id}
+                            key={i}
                             parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
                             trace={trace}
                             parent={element}
