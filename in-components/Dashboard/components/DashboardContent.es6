@@ -9,7 +9,7 @@ import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import {alwaysFalse, alwaysEmptyImmutableList} from 'in-services/fixedStreams';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {timeframe$} from 'in-stores/timeline';
+import {timeframe$, focusedMoment$} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 import Jail from 'in-components/Jail';
 
@@ -22,7 +22,7 @@ export default connectTo({
   // hide temporary unavailability due to loading lag
   snapshot: selectedSnapshot$.debounce(500),
   timeframe: timeframe$,
-  showVersionSelector: combineLatest([selectedSnapshotId$, timeframe$])
+  showVersionSelector: combineLatest([selectedSnapshotId$, focusedMoment$])
     .flatMap(([snapshotId]) => {
       if (snapshotId == null) {
         return alwaysFalse;
@@ -31,7 +31,8 @@ export default connectTo({
       return timeout(5000)
         .map(() => true)
         .startWith(false);
-    }),
+    })
+    .debounce(500),
 
   // snapshot versions
   versionsForFocusedMoment: getSnapshotVersionsByTime(),
@@ -39,7 +40,7 @@ export default connectTo({
 
 }, function DashboardContent({snapshot, timeframe, showVersionSelector, snapshotId,
     versionsForFocusedMoment, versionsForLive}) {
-  if (!snapshot && !showVersionSelector || (snapshot && snapshot.get('id') !== snapshotId)) {
+  if (!snapshot && !showVersionSelector) {
     return <LoadingIndicator type='dark' />;
   } else if (!snapshot && showVersionSelector) {
     return (
