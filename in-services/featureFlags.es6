@@ -1,9 +1,10 @@
 import {isInstanaTenant, isInternalEnvironment} from 'in-services/config';
 
-const onlyInternally = isInstanaTenant() && isInternalEnvironment();
+const onlyInstana = isInstanaTenant();
+const onlyInternally = onlyInstana && isInternalEnvironment();
 
-export const webVrEnabled = isInstanaTenant();
+export const webVrEnabled = onlyInstana;
 export const isEumEnabled = onlyInternally;
 export const configurationViewEnabled = onlyInternally;
-export const provideAlternativeLogicalLayouter = onlyInternally;
+export const provideAlternativeLogicalLayouter = onlyInstana;
 export const newSettingsDialogEnabled = onlyInternally;
