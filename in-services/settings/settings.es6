@@ -6,6 +6,7 @@ import {emptyMap} from 'in-services/fixedImmutables';
 
 const settingsPath = 'in-settings';
 export const settingsStore = create({emitLatestOnSubscribe: true});
+export const settings$ = settingsStore;
 
 let settings = getFromStorage();
 
