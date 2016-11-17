@@ -23,7 +23,10 @@ export const timeframe$ = createTrackingStore({
       const toQuery = params.query['timeline.to'];
       if (toQuery != null && toQuery.length > 0) {
         try {
-          to = parseInt(toQuery, 10);
+          const parsed = parseInt(toQuery, 10);
+          if (!isNaN(parsed)) {
+            to = parsed;
+          }
         } catch (e) {
           logger.info(`Failed to parse timeline.to part of query. Given: ${toQuery}`);
         }
@@ -33,7 +36,10 @@ export const timeframe$ = createTrackingStore({
       const windowSizeQuery = params.query['timeline.ws'];
       if (windowSizeQuery != null && windowSizeQuery.length > 0) {
         try {
-          windowSize = parseInt(windowSizeQuery, 10);
+          const parsed = parseInt(windowSizeQuery, 10);
+          if (!isNaN(parsed)) {
+            windowSize = parsed;
+          }
         } catch (e) {
           logger.info(`Failed to parse timeline.ws part of query. Given: ${windowSizeQuery}`);
         }
@@ -69,7 +75,10 @@ export const focusedMoment$ = createTrackingStore({
       }
 
       try {
-        return parseInt(focusedMoment, 10);
+        const parsed = parseInt(focusedMoment, 10);
+        if (!isNaN(parsed)) {
+          return parsed;
+        }
       } catch (e) {
         logger.info(`Failed to parse timeline.fm part of query. Given: ${focusedMoment}`);
       }

@@ -1,9 +1,9 @@
 import {navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navigation';
 
 export function getCurrentViewWithTimelineCenteredAt(moment, windowSize = 1000 * 60 * 10) {
-  const to = moment + windowSize / 2;
+  const to = moment == null ? '' : moment + windowSize / 2;
   windowSize = String(windowSize);
-  moment = String(moment);
+  moment = moment == null ? '' : String(moment);
   return navigationParameters$
     .map(cloneDeep)
     .map(params => {
