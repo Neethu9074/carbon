@@ -173,7 +173,8 @@ http {
     }
 
     location /api/ {
-      limit_req              zone=publicTenantUnitApi;
+      limit_req              zone=publicTenantUnitApi burst=5;
+      limit_req_status       429;
       proxy_pass             http://uiBackend/api/;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
@@ -182,6 +183,7 @@ http {
 
     location /auth/signIn {
       limit_req              zone=onePerSecond burst=10;
+      limit_req_status       429;
 
       proxy_pass             http://groundskeeper/signIn;
       proxy_set_header       X-Real-IP $remote_addr;
