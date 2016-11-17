@@ -26,6 +26,7 @@ http {
                              '"$http_referer" "$http_user_agent" "$gzip_ratio"';
 
   limit_req_zone             $binary_remote_addr zone=onePerSecond:20m rate=1r/s;
+  limit_req_zone             $binary_remote_addr zone=publicTenantUnitApi:50m rate=84r/m;
 
   upstream localNodeInstance {
     server                   127.0.0.1:{% if OPERATION_MODE == 'fleet' %}{{ NOMAD_PORT_node}}{% else %}3131{% endif %};
@@ -166,6 +167,14 @@ http {
     # production but greatly eases local ui development.
     location /api/checkUserAccessPermitted {
       proxy_pass             http://api/checkUserAccessPermitted;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /api/ {
+      limit_req              zone=publicTenantUnitApi;
+      proxy_pass             http://uiBackend/api/;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
