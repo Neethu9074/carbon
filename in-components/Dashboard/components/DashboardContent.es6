@@ -20,9 +20,9 @@ const block = 'in-dashboard-content';
 export default connectTo({
   snapshotId: selectedSnapshotId$,
   // hide temporary unavailability due to loading lag
-  snapshot: selectedSnapshot$.debounce(500),
+  snapshot: selectedSnapshot$,
   timeframe: timeframe$,
-  showVersionSelector: combineLatest([selectedSnapshotId$, focusedMoment$])
+  showVersionSelector: combineLatest([selectedSnapshotId$, focusedMoment$, selectedSnapshot$])
     .flatMap(([snapshotId]) => {
       if (snapshotId == null) {
         return alwaysFalse;
@@ -31,8 +31,7 @@ export default connectTo({
       return timeout(5000)
         .map(() => true)
         .startWith(false);
-    })
-    .debounce(500),
+    }),
 
   // snapshot versions
   versionsForFocusedMoment: getSnapshotVersionsByTime(),
@@ -40,7 +39,7 @@ export default connectTo({
 
 }, function DashboardContent({snapshot, timeframe, showVersionSelector, snapshotId,
     versionsForFocusedMoment, versionsForLive}) {
-  if (!snapshot && !showVersionSelector) {
+  if ((!snapshot && !showVersionSelector) || (snapshot && snapshotId !== snapshot.get('id'))) {
     return <LoadingIndicator type='dark' />;
   } else if (!snapshot && showVersionSelector) {
     return (
@@ -49,6 +48,11 @@ export default connectTo({
                       versionsForLive={versionsForLive} />
     );
   }
+
+  // Protect against race conditions: Use the snapshotId from the snapshot. This can happen
+  // when the dashboard is closed and the selectedSnapshotId store is already cleared while
+  // the selectedSnapshot store is not.
+  snapshotId = snapshot.get('id');
 
   const plugin = snapshot.get('plugin');
   const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
