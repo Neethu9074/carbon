@@ -4,10 +4,11 @@ registerSpanDefinition({
   type: 'camel',
   category: 'messaging',
   direction: 'entry',
+  searchAliases: ['camel'],
 
   typeName: {
-    singular: 'Camel call',
-    plural: 'Camel call'
+    singular: 'Camel Call',
+    plural: 'Camel Call'
   },
 
   detailView: 'CamelSpanDetailView',
