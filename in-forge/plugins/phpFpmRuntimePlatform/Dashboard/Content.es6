@@ -53,11 +53,13 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
                            formatter: twoDecimalPlaces,
                            metrics: [
                              'worker_pool.' + pool + '.accepted_conn',
-                             'worker_pool.' + pool + '.slow_requests'
+                             'worker_pool.' + pool + '.slow_requests',
+                             'worker_pool.' + pool + '.connection_reset'
                            ],
                            labels: [
                              'Accepted Connections',
-                             'Slow Requests'
+                             'Slow Requests',
+                             'Connection Reset'
                            ],
                            type: 'line'
                          }}
