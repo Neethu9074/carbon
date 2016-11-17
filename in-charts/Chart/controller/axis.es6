@@ -188,7 +188,10 @@ export default function createAxisController(config) {
           timeframe: config.timeframe
         })
         .subscribe(dataPoints => {
-          queue.addDataPoints(i, dataPoints);
+          // data points are not guaranteed to be filled
+          if (dataPoints) {
+            queue.addDataPoints(i, dataPoints);
+          }
         })
       );
     }

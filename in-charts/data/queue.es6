@@ -21,7 +21,11 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
   function addDataPoints(seriesIndex, dataPoints) {
     for (let i = 0, len = dataPoints.length; i < len; i++) {
       const dataPoint = dataPoints[i];
-      series[seriesIndex][dataPoint[0]] = dataPoint;
+
+      // data points are not guaranteed to be filled
+      if (dataPoint) {
+        series[seriesIndex][dataPoint[0]] = dataPoint;
+      }
     }
   }
 
