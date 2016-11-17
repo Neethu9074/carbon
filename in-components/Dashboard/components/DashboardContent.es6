@@ -9,7 +9,6 @@ import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import {alwaysFalse, alwaysEmptyImmutableList} from 'in-services/fixedStreams';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {emptyList} from 'in-services/fixedImmutables';
 import {timeframe$} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 import Jail from 'in-components/Jail';
@@ -39,7 +38,7 @@ export default connectTo({
 
 }, function DashboardContent({snapshot, timeframe, showVersionSelector, snapshotId,
     versionsForFocusedMoment, versionsForLive}) {
-  if (!snapshot && !showVersionSelector) {
+  if (!snapshot && !showVersionSelector || (snapshot && snapshot.get('id') !== snapshotId)) {
     return <LoadingIndicator type='dark' />;
   } else if (!snapshot && showVersionSelector) {
     return (
@@ -79,6 +78,6 @@ function getSnapshotVersionsByTime(time) {
     }
 
     return getSnapshotVersions(snapshotId, time)
-      .startWith(emptyList);
+      .startWith(null);
   });
 }
