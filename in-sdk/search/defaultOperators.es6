@@ -72,6 +72,13 @@ addKeywordOperator({
 
 addKeywordOperator({
   context: 'trace',
+  type: 'string',
+  keyword: 'startingAtInstance',
+  field: 'destination_service_instance_id'
+});
+
+addKeywordOperator({
+  context: 'trace',
   type: 'number',
   keyword: 'duration',
   field: 'd'
