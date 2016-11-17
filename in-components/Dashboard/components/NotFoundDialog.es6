@@ -26,9 +26,9 @@ export default function NotFoundDialog({versionsForFocusedMoment, versionsForLiv
       </h1>
 
       <p>
-        We could not find the a version of the entity for the position of the time picker. Below you will find a
-        selection of known versions of this entity. Click on of the versions below to set the timeline and time picker
-        so that the entity can be inspected.
+        We could not find a version of the entity for the position of the time picker. Below you will find a{' '}
+        selection of known versions of this entity. Click on one of the versions below to set the timeline and time{' '}
+        picker so that the entity can be inspected.
       </p>
 
       <VersionList title='Available entity versions'

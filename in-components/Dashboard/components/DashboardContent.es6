@@ -1,4 +1,4 @@
-import {timeout} from 'reactive-observables';
+import {timeout, combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import {selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions} from 'in-stores/snapshot';
@@ -19,10 +19,11 @@ const block = 'in-dashboard-content';
 
 export default connectTo({
   snapshotId: selectedSnapshotId$,
-  snapshot: selectedSnapshot$,
+  // hide temporary unavailability due to loading lag
+  snapshot: selectedSnapshot$.debounce(500),
   timeframe: timeframe$,
-  showVersionSelector: selectedSnapshotId$
-    .flatMap(snapshotId => {
+  showVersionSelector: combineLatest([selectedSnapshotId$, timeframe$])
+    .flatMap(([snapshotId]) => {
       if (snapshotId == null) {
         return alwaysFalse;
       }
