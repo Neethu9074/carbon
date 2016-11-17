@@ -15,7 +15,7 @@ export default function getLogicalContent() {
     <Particles key='particles' />,
     <Layout key='fr_layout'
             iconType='graph'
-            tooltipText='Rearrange services using fruchtermann'
+            tooltipText='Rearrange services'
             onClick={() => setLayoutingStrategy(fruchtermannReingoldLayouting$)} />
   ];
 
@@ -23,7 +23,7 @@ export default function getLogicalContent() {
     controls.push(
       <Layout key='v_layout'
               iconType='options'
-              tooltipText='Rearrange services using vizceral'
+              tooltipText='Rearrange services as a flow'
               onClick={() => setLayoutingStrategy(vizceralLayouting$)} />
     );
   }
