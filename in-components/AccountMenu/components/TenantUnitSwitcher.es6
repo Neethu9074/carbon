@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getTenantsWithUnits} from 'in-services/tenants';
+import {getTenantsWithUnits} from 'in-services/groundskeeper/account';
 import classnames from 'in-services/util/classnames';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
@@ -11,8 +11,12 @@ import './TenantUnitSwitcher.less';
 
 const block = 'in-tenant-unit-switcher';
 
+// ignore tenant units retrieval errors
+let tenantsWithUnits$ = getTenantsWithUnits();
+tenantsWithUnits$ = tenantsWithUnits$.merge(tenantsWithUnits$.errors().map(() => {}));
+
 export default connectTo({
-    tenantUnitStructure: getTenantsWithUnits()
+    tenantUnitStructure: tenantsWithUnits$
       .map(units => {
         return Object.keys(units).sort().map(tenantName => {
           return {
