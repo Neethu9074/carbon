@@ -7,7 +7,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 
 export default function MarathonInfo({snapshot}) {
-  const marathon = snapshot.get(['data', 'Marathon']);
+  const marathon = snapshot.getIn(['data', 'Marathon']);
   if (!marathon || marathon.size === 0) {
     return null;
   }
@@ -41,7 +41,7 @@ export default function MarathonInfo({snapshot}) {
             </DescriptionItem>
           </DescriptionList>
 
-          {labels && labels.size() > 0 ?
+          {labels && labels.size > 0 ?
             <KeyValuePopupButton title='Marathon Labels'
                                  data={labels} >
               Show Marathon labels

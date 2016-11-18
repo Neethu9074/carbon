@@ -6,7 +6,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 
 export default function NomadInfo({snapshot}) {
-  const nomad = snapshot.get(['data', 'Nomad']);
+  const nomad = snapshot.getIn(['data', 'Nomad']);
   if (!nomad || nomad.size === 0) {
     return null;
   }
