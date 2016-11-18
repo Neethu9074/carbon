@@ -19,8 +19,8 @@ export default function Navigation() {
     <nav className={block}>
       <h2 className={`${block}__heading`}>Configuration</h2>
       <NavItems>
-        <NavItem title='Service Extraction'>
-          <NavItem title='HTTP'
+        <NavItem title='Service Designer'>
+          <NavItem title='HTTP Rules'
                    href$={httpServiceExtractionConfigurationViewLink$}
                    isActive$={isHttpServiceExtractionConfigurationView$}/>
         </NavItem>
