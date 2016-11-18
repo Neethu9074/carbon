@@ -53,8 +53,8 @@ http {
     listen                   80;
     return                   301 https://$host$request_uri;
 
-{% if OPERATION_MODE != "on-prem" %}
-    add_header               Strict-Transport-Security "max-age=10886400; includeSubDomains";
+{% if OPERATION_MODE != "on-prem" and OPERATION_MODE != "fleet" %}
+    add_header               Strict-Transport-Security "max-age=10886400";
 {% endif %}
   }
 
@@ -139,8 +139,8 @@ http {
       add_header             X-Content-Type-Options nosniff;
       add_header             X-XSS-Protection "1; mode=block";
 
-{% if OPERATION_MODE != "on-prem" %}
-      add_header             Strict-Transport-Security "max-age=10886400; includeSubDomains";
+{% if OPERATION_MODE != "on-prem" and OPERATION_MODE != "fleet" %}
+      add_header             Strict-Transport-Security "max-age=10886400";
 {% endif %}
 
       # tell browsers to preconnect google for downloading webfonts
