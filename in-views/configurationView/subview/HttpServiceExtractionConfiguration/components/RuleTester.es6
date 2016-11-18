@@ -46,7 +46,9 @@ export default React.createClass({
     const matchKeys = matchSpecificationForm.keys().sort();
     const matches = {};
     matchKeys.forEach(key => {
-      matches[key] = (this.state[key] || '').match(new RegExp(matchSpecificationForm.getItem(key).value));
+      // require a full match in order to have the same matching behavior on client and server side
+      const regex = new RegExp(`^${matchSpecificationForm.getItem(key).value}$`);
+      matches[key] = (this.state[key] || '').match(regex);
     });
 
     return (
