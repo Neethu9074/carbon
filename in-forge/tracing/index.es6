@@ -12,6 +12,7 @@ import './file';
 import './ftp';
 import './g.hc';
 import './g.http';
+import './feign';
 import './hc';
 import './hornetq';
 import './http';
