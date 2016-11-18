@@ -1,17 +1,19 @@
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully functional
+import HttpServiceExtractionConfiguration
+  from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
+import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
+import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
+import TraceView from 'promise?global!in-views/traceView/TraceView';
+import EventView from 'promise?global!in-views/eventView/EventView';
+import TableView from 'promise?global!in-views/tableView/TableView';
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
-import HttpServiceExtractionConfiguration from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration';
-import ConfigurationView from 'in-views/configurationView/ConfigurationView';
-import UiConfig from 'in-views/configurationView/subview/UiConfig';
-import TraceView from 'in-views/traceView/TraceView';
-import EventView from 'in-views/eventView/EventView';
+import {createAsyncFullscreenOverlayViewComponent} from 'in-components/routing/createAsyncComponent';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
-import TableView from 'in-views/tableView/TableView';
 import Dashboard from 'in-components/Dashboard';
 import App from 'in-client/js/App';
 import Map from 'in-map/index';
@@ -31,29 +33,29 @@ export default (
              component={Dashboard} />
     </Route>
 
-    <Route component={TraceView}
+    <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)}
            path='traces'>
       <Route path='dashboard'
              component={Dashboard} />
     </Route>
 
-    <Route component={EventView}
+    <Route component={createAsyncFullscreenOverlayViewComponent(EventView)}
            path='events'>
       <Route component={Dashboard}
              path='dashboard' />
     </Route>
 
-    <Route component={TableView}
+    <Route component={createAsyncFullscreenOverlayViewComponent(TableView)}
            path='table'>
       <Route component={Dashboard}
              path='dashboard' />
     </Route>
 
-    <Route component={ConfigurationView}
-           path='config'>
-      <Route component={HttpServiceExtractionConfiguration}
+    <Route path='config'
+           component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}>
+      <Route component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
              path='httpServiceExtraction' />
-      <Route component={UiConfig}
+      <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
              path='userInterface' />
 
     </Route>
