@@ -89,7 +89,7 @@ function Chart({timeframe$, snapshot, snapshotId, metric}) {
                          max: chartConfig.getMax(snapshot),
                          type: 'line',
                          formatter: chartConfig.formatter.detailed,
-                         tooltipFormatter: chartConfig.formatter.compact
+                         tooltipFormatter: chartConfig.formatter.detailed
                        }} />
     </div>
   );
