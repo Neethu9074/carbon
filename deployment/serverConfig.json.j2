@@ -4,5 +4,10 @@
   "port": {% if OPERATION_MODE == 'fleet' %} {{ NOMAD_PORT_node}} {% else %} 3131 {% endif %},
   "cookie": {
     "name": {% if OPERATION_MODE == 'fleet' or OPERATION_MODE == 'on-prem' %}"in-token"{% else %}"in-token-{{ENVIRONMENT}}"{% endif %}
+  },
+  "googleAnalyticsTrackingId": "{{GOOGLE_ANALYTICS_TRACKING_ID}}",
+  "eum": {
+    "apiKey": "{{INSTANA_EUM_TRACKING_ID}}",
+    "domain": "{{INSTANA_EUM_TRACKING_DOMAIN}}"
   }
 }

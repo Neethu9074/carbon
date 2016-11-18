@@ -22,7 +22,6 @@ import {init as initBrowserIdentification} from 'in-services/browser';
 import {init as initTimeOffsetStore} from 'in-stores/timeOffset';
 import {init as initShortcuts} from 'in-services/shortcuts';
 import {init as initUsageInfo} from 'in-stores/usageInfo';
-import {init as initTracking} from 'in-services/tracking';
 import {init as initUnhandledErrorHandling} from 'in-services/unhandledErrors';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
@@ -61,7 +60,6 @@ initTimeOffsetStore();
 initTimelineStore();
 initMessageStore();
 initShortcuts();
-initTracking();
 initNotMonitoringPresenter();
 initHighlightedSuggestionStore();
 initUsageInfo();

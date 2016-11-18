@@ -97,6 +97,8 @@ router.get('/', (req, res) => {
     const nonces = [
       uuid.v4(),
       uuid.v4(),
+      uuid.v4(),
+      uuid.v4(),
       uuid.v4()
     ];
 
@@ -126,7 +128,11 @@ router.get('/', (req, res) => {
       themeChecksum,
       themeConfig,
       themeSri,
-      nonces
+      nonces,
+      googleAnalyticsTrackingId: serverConfig.googleAnalyticsTrackingId,
+      eumTrackingDomain: serverConfig.eum.domain,
+      eumTrackingApiKey: serverConfig.eum.apiKey,
+      backendTraceId: req.get('x-instana-t') || ''
     }));
   });
 });
