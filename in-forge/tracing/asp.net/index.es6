@@ -4,7 +4,7 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'asp.net',
   category: 'http',
-  direction: 'exit',
+  direction: 'entry',
 
   typeName: {
     singular: 'HTTP Call',

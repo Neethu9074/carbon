@@ -1,6 +1,7 @@
 import './akka.http.client';
 import './akka.http.server';
 import './asp.net';
+import './ado.net';
 import './camel';
 import './cassandra';
 import './corba';
