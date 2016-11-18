@@ -44,7 +44,11 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
       }
       xhr = null;
     }
-  });
+  })
+
+  // ontimeout callback is executed after onreadystatechange is executed for timeouts.
+  // nextFrame() is the simplest solution to aggregating these events to one.
+  .nextFrame();
 }
 
 function formatUrl(url, queryParams = {}) {
