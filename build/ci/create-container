@@ -8,7 +8,12 @@ cp -R /var/lib/jenkins/ui-client_artefacts/build/target .
 rm -f Dockerfile
 mv target/Dockerfile .
 
-VERSION="$BUILD_NUMBER"
+if [[ -z "$INSTANA_CONTAINER_TAG" ]]; then
+  VERSION="$INSTANA_CONTAINER_TAG"
+else
+  VERSION="$BUILD_NUMBER"
+fi
+
 IMAGE="ui-client/$INSTANA_UICLIENT_BRANCH"
 
 if [ -z "$IMAGE" ]; then echo "no image provided"; exit 1; fi
