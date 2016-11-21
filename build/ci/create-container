@@ -9,9 +9,9 @@ rm -f Dockerfile
 mv target/Dockerfile .
 
 if [[ -z "$INSTANA_CONTAINER_TAG" ]]; then
-  VERSION="$INSTANA_CONTAINER_TAG"
-else
   VERSION="$BUILD_NUMBER"
+else
+  VERSION="$INSTANA_CONTAINER_TAG"
 fi
 
 IMAGE="ui-client/$INSTANA_UICLIENT_BRANCH"
