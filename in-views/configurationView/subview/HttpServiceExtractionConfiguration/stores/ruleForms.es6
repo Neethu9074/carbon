@@ -165,7 +165,7 @@ export function saveRules(ruleForms) {
 }
 
 
-function createRulesFromRuleForms(ruleForms) {
+export function createRulesFromRuleForms(ruleForms) {
   return ruleForms.map((ruleForm, i) => {
     const matchSpecification = {};
     ruleForm.getItem('matchSpecification').forEach((field, key) => {
@@ -205,4 +205,35 @@ function matchSpecificationMustCompileRule(regex) {
   } catch (e) {
     return e.message;
   }
+}
+
+
+export function setRuleFormsFromJsonUserInput(rules) {
+  if (!(rules instanceof Array)) {
+    return;
+  }
+
+  let ruleForms = new ListForm();
+
+  rules.forEach((rule, i) => {
+    let matchSpecificationForm = new MapForm(atLeastOneMatchSpecificationRule);
+
+    if (rule.matchSpecification) {
+      Object.keys(rule.matchSpecification).forEach(matchKey => {
+        matchSpecificationForm = matchSpecificationForm
+          .addItem(matchKey, new Field(String(rule.matchSpecification[matchKey]), matchSpecificationMustCompileRule));
+      });
+    }
+
+    const ruleForm = new MapForm()
+      .addItem('id', new Field(generateUniqueShortId()))
+      .addItem('name', new Field(rule.name || ''))
+      .addItem('enabled', new Field(Boolean(rule.enabled)))
+      .addItem('comment', new Field(rule.comment || ''))
+      .addItem('matchSpecification', matchSpecificationForm)
+      .addItem('label', new Field((rule.extractSpecification && rule.extractSpecification.label) || ''));
+    ruleForms = ruleForms.addItem(i, ruleForm);
+  });
+
+  ruleFormsStore.mutateTo(ruleForms);
 }

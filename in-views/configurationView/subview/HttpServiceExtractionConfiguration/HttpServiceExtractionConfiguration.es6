@@ -9,6 +9,7 @@ import {
 } from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
 import {notification$} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/notification';
 import {viewHelp} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/helpTexts';
+import {openEditor} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/editAsJson';
 import Rule from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Rule';
 import StoreAwareTemporaryPresenter from 'in-components/StoreAwareTemporaryPresenter';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -37,6 +38,11 @@ export default connectTo({
           <Button kind='info'
                   onClick={() => addNewRule()}>
             Add Rule
+          </Button>
+          {' '}
+          <Button kind='info'
+                  onClick={openEditor}>
+            Edit as JSON
           </Button>
           {' '}
           <Button kind='success'
