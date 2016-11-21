@@ -9,3 +9,7 @@ export const isHttpServiceExtractionConfigurationView$ = buildPathStartsWithStre
 const userInterfaceConfigViewPath = '/config/userInterface';
 export const userInterfaceConfigViewLink$ = buildUrlStream({path: userInterfaceConfigViewPath});
 export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfaceConfigViewPath);
+
+const eumKeysViewPath = '/config/eumKeys';
+export const eumKeysViewLink$ = buildUrlStream({path: eumKeysViewPath});
+export const isEumKeysView$ = buildPathStartsWithStream(eumKeysViewPath);

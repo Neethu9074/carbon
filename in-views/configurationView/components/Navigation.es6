@@ -4,11 +4,13 @@ import {
   httpServiceExtractionConfigurationViewLink$,
   isHttpServiceExtractionConfigurationView$,
   userInterfaceConfigViewLink$,
-  isUserInterfaceConfigView$
+  isUserInterfaceConfigView$,
+  eumKeysViewLink$,
+  isEumKeysView$
 } from 'in-stores/navigation/configuration';
+import {newSettingsDialogEnabled, isEumEnabled} from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
-import {newSettingsDialogEnabled} from 'in-services/featureFlags';
 
 import './Navigation.less';
 
@@ -24,6 +26,12 @@ export default function Navigation() {
                    href$={httpServiceExtractionConfigurationViewLink$}
                    isActive$={isHttpServiceExtractionConfigurationView$}/>
         </NavItem>
+
+        {isEumEnabled ?
+          <NavItem title='End-User Monitoring'
+                   href$={eumKeysViewLink$}
+                   isActive$={isEumKeysView$}/>
+        : null}
 
         {newSettingsDialogEnabled ?
           <NavItem title='User Interface'

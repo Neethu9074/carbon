@@ -34,7 +34,15 @@ export default React.createClass({
     code: rpt.string.isRequired,
     lang: rpt.string,
     line: rpt.number,
-    className: rpt.string
+    className: rpt.string,
+    wrapperClassName: rpt.string,
+    showLineNumbers: rpt.bool
+  },
+
+  getDefaultProps() {
+    return {
+      showLineNumbers: true
+    };
   },
 
   componentDidMount() {
@@ -88,8 +96,11 @@ export default React.createClass({
     }
 
     let preClasses = `${block}__wrapper`;
-    if (this.props.lang !== 'java') {
+    if (this.props.showLineNumbers) {
       preClasses += ' line-numbers';
+    }
+    if (this.props.wrapperClassName) {
+      preClasses += ` ${this.props.wrapperClassName}`;
     }
 
     return (

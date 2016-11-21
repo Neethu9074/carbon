@@ -15,7 +15,8 @@ export default React.createClass({
   displayName: 'CopyToClipboardButton',
 
   propTypes: {
-    getText: React.PropTypes.func.isRequired
+    getText: React.PropTypes.func.isRequired,
+    children: React.PropTypes.any
   },
 
   componentDidMount() {
@@ -43,11 +44,12 @@ export default React.createClass({
   },
 
   render() {
+    const text = this.props.children || 'Copy to clipboard';
     return (
       <RefWrapper ref='button'>
         <Button kind='secondary'
                 size='sm'>
-          Copy to clipboard
+          {text}
         </Button>
       </RefWrapper>
     );

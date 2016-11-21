@@ -52,7 +52,8 @@ export default connectTo(props => {
         <Code lang={lang}
               line={line}
               code={response.data}
-              className={`${block}__code`}/>
+              className={`${block}__code`}
+              showLineNumbers={lang !== 'java'} />
       : null}
     </Dialog>
   );

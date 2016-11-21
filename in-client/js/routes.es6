@@ -4,6 +4,7 @@ import HttpServiceExtractionConfiguration
   from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
+import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
 import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
@@ -57,7 +58,8 @@ export default (
              path='httpServiceExtraction' />
       <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
              path='userInterface' />
-
+      <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
+             path='eumKeys' />
     </Route>
 
     <Route component={GraphView}
