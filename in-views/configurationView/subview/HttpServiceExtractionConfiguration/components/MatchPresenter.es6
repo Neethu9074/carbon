@@ -29,12 +29,18 @@ export default function MatchPresenter({match, prefix}) {
           </span>
 
           <DescriptionList className={`${block}__groups`}>
-            {match.map((m, i) =>
-              <DescriptionItem title={`${prefix}${i}`}
-                               key={i}>
-                <code>{m || '<emtpy string>'}</code>
-              </DescriptionItem>
-            )}
+            {match.map((m, i) => {
+              let title = `${prefix}${i}`;
+              if (i === 0) {
+                title = `${title} (full match)`;
+              }
+              return (
+                <DescriptionItem title={title}
+                                 key={i}>
+                  <code>{m || '<emtpy string>'}</code>
+                </DescriptionItem>
+              );
+            })}
           </DescriptionList>
         </div>
       );
