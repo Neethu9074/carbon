@@ -41,7 +41,7 @@ export default React.createClass({
                 onClick={() => this.props.onSaveAndClose(JSON.parse(this.getValue()))}
                 kind='success'
                 size='sm'>
-          Copy to form
+          Apply to form
         </Button>
       </CenterAlignment>
     );
