@@ -12,7 +12,6 @@ import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
 import ViewSwitcher from 'in-components/ViewSwitcher';
 import AppHeader from 'in-components/AppHeader';
-import Settings from 'in-components/Settings';
 
 import './App.less';
 
@@ -25,7 +24,6 @@ export default function App(props) {
 
       {props.children}
 
-      <Settings />
       <DetailPopupPresenter />
       <ReleaseNotesDialog />
       <MessageDialog />

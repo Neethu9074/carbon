@@ -5,6 +5,4 @@ const onlyInternally = onlyInstana && isInternalEnvironment();
 
 export const webVrEnabled = onlyInstana;
 export const isEumEnabled = onlyInternally;
-export const configurationViewEnabled = onlyInternally;
 export const provideAlternativeLogicalLayouter = onlyInstana;
-export const newSettingsDialogEnabled = onlyInternally;

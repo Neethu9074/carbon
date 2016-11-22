@@ -2,7 +2,7 @@ import React from 'react';
 
 import TenantUnitSwitcher from 'in-components/AccountMenu/components/TenantUnitSwitcher';
 import {isOpen$, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
-import {setSettingsVisibility} from 'in-stores/settings/visibility';
+import {configurationViewLink$} from 'in-stores/navigation/configuration';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {showReleaseNotes} from 'in-stores/releaseNotes';
 import {config, isOnPremise} from 'in-services/config';
@@ -18,13 +18,15 @@ const block = 'in-account-menu';
 const umpLink = `https://${config.groundskeeperDomain}/ump/${config.tenant}/${config.tenantUnit}`;
 
 export default connectTo({
-  isOpen: isOpen$
+  isOpen: isOpen$,
+  configurationViewLink: configurationViewLink$
 }, React.createClass({
 
     displayName: 'Menu',
 
     propTypes: {
-      isOpen: React.PropTypes.bool
+      isOpen: React.PropTypes.bool,
+      configurationViewLink: React.PropTypes.string
     },
 
     componentDidMount() {
@@ -70,8 +72,8 @@ export default connectTo({
           : null}
 
           <a className={block + '__link'}
-             href='#'
-             onClick={closeAndCall(() => setSettingsVisibility(true))}>
+             href={this.props.configurationViewLink}
+             onClick={closeMenu}>
             Settings
           </a>
 

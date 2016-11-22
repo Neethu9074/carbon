@@ -1,11 +1,13 @@
 import {combineLatest} from 'reactive-observables';
 
-import {excludeUnmonitoredHosts$} from 'in-stores/settings/unmonitoredHosts';
 import createViewStructureObservable from 'in-services/subscription/view';
 import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
 import {focusedMoment$} from 'in-stores/timeline';
 import {searchMatches$} from 'in-stores/search';
+import {getIn} from 'in-services/settings';
 import {view$} from 'in-stores/view';
+
+const excludeUnmonitoredHosts$ = getIn(['map', 'excludeUnmonitoredHosts']);
 
 const noSearchMatches = {
   contains() {

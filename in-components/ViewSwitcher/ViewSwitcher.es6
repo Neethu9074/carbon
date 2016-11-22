@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {configurationViewLink$} from 'in-stores/navigation/configuration';
 import {
   eventsLinkOnlyIncidents$,
   traceViewLinkWithoutEumTraces$,
@@ -8,7 +7,6 @@ import {
   tableViewFilteredForServicesLink$
 } from 'in-stores/navigation/view';
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
-import {configurationViewEnabled} from 'in-services/featureFlags';
 import {SubMenuItem} from 'in-components/ViewSwitcher/SubMenu';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import View from 'in-components/ViewSwitcher/View';
@@ -61,14 +59,6 @@ function ViewSwitcher({navigationParameters}) {
         </View>
 
         <IncidentsMenuPoint isActive={pathname.indexOf('/events') === 0} />
-
-        {configurationViewEnabled ?
-          <View label='Configuration'
-                icon='gear'
-                iconSize={18}
-                isActive={pathname.indexOf('/config') === 0}
-                href$={configurationViewLink$}/>
-        : null}
       </ul>
     </div>
   );
