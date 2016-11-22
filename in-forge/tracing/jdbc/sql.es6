@@ -63,7 +63,7 @@ function isInsertStatement(sql) {
 }
 
 function shortenSelectStatement(sql) {
-  const match = sql.match(/\s*from +(([a-z0-9\-\_]+)|(\`([^\`]+)\`))/i);
+  const match = sql.match(/\s+from +(([a-z0-9\-\_]+)|(\`([^\`]+)\`))/i);
   if (!match) {
     return sql;
   }

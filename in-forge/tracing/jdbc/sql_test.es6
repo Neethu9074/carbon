@@ -58,6 +58,11 @@ describe('in-forge/tracing/jdbc/sql', () => {
         expect(shortenSqlStatement('SELECT * FROM `AppServer`\nORDER BY FOO'))
           .to.equal('SELECT … FROM AppServer');
       });
+
+      it('must shorten SQL statements with fields that contain from', () => {
+        expect(shortenSqlStatement('SELECT countryent5_.STREET_NORMALIZE_FROM as STREET_N7_13_3_, blubfrombla FROM CCP_CHECKOUT_DATA this_ left'))
+          .to.equal('SELECT … FROM CCP_CHECKOUT_DATA');
+      });
     });
 
     describe('update statements', () => {
