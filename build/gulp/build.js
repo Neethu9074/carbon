@@ -60,7 +60,9 @@ gulp.task('copyServerSources', () => {
 
 gulp.task('minifyCss', () => {
   return gulp.src(paths.generatedCssFileSelector)
-    .pipe(nano())
+    .pipe(nano({
+      zindex: false
+    }))
     .pipe(gulp.dest(paths.bundleDir));
 });
 

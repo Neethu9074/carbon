@@ -28,8 +28,7 @@ module.exports = {
     loaders: [{
       test: /\.(css|less)$/i,
       loader: ExtractTextPlugin.extract('style', 'css!postcss!less', {
-        // assets will be located next to the CSS file. Thus no need to prefix the path with
-        // bundle/
+        // assets will be located next to the CSS file. Thus no need to prefix the path with bundle/
         publicPath: './'
       })
     }, {

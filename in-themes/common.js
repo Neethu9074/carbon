@@ -18,7 +18,6 @@ module.exports = {
     search: zIndex++,
     betaRegistration: zIndex++,
     traceView: zIndex++,
-    mapViewSwitcher: zIndex++,
     dashboard: zIndex++,
     dashboardHeader: zIndex++,
     rightSidebar: zIndex++,

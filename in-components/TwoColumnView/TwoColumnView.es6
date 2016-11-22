@@ -4,8 +4,7 @@ import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/TwoColumnView/TwoColumnView.less';
-
+import './TwoColumnView.less';
 
 const block = 'in-two-column-view';
 
