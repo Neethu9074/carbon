@@ -26,6 +26,11 @@ export function getNumberOfTracesStartingAtService(serviceId) {
   return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
 }
 
+export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
+  const query = buildLuceneQuery('destination_service_instance_id', '=', serviceId);
+  return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
+}
+
 
 /**
  * ############################

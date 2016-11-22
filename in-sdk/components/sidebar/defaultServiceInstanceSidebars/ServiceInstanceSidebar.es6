@@ -1,5 +1,6 @@
 import React from 'react';
 
+import JumpToTracesOfServiceInstanceButton from 'in-sdk/components/sidebar/JumpToTracesOfServiceInstanceButton';
 import ServiceInstanceInfo from 'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceInfo';
 import ServiceInstanceKpiSparkCharts from
   'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceKpiSparkCharts';
@@ -12,6 +13,8 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 export default function ServiceInstanceSidebar({snapshot}) {
   return (
     <div>
+      <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')}/>
+
       <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
 
       <Separator />
