@@ -37,6 +37,7 @@ import './mule.server';
 import './mysql';
 import './mysqli';
 import './nanohttpd';
+import './net-http';
 import './node.http.client';
 import './node.http.server';
 import './okhttp';
