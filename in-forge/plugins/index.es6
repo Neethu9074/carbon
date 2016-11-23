@@ -16,6 +16,7 @@ import './ec2';
 import './elasticsearchCluster';
 import './elasticSearchIndexServiceInstance';
 import './elasticsearchNode';
+import './etcd';
 import './gce';
 import './genericHardware';
 import './genericJavaWebapp';
