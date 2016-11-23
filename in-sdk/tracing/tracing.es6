@@ -8,6 +8,7 @@ import genericIcon from 'in-sdk/tracing/categoryIcons/generic.svg';
 import remoteIcon from 'in-sdk/tracing/categoryIcons/remote.svg';
 import loggerIcon from 'in-sdk/tracing/categoryIcons/logger.svg';
 import httpIcon from 'in-sdk/tracing/categoryIcons/http.svg';
+import rpcIcon from 'in-sdk/tracing/categoryIcons/rpc.svg';
 import eumIcon from 'in-sdk/tracing/categoryIcons/eum.svg';
 
 const categoryIcons = {
@@ -17,6 +18,7 @@ const categoryIcons = {
   eumResource: eumIcon,
   generic: genericIcon,
   http: httpIcon,
+  rpc: rpcIcon,
   io: remoteIcon,
   logger: loggerIcon,
   messaging: messagingIcon,

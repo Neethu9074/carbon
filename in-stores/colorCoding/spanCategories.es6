@@ -3,6 +3,7 @@ export default Object.freeze({
   remote: '#c2aefd',
   io: '#97faec',
   http: '#a2cafb',
+  rpc: '#c2daeb',
   messaging: '#c0f681',
   batch: '#9ce7fb',
   generic: '#f4d776',
