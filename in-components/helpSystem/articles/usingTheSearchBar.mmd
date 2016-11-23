@@ -2,11 +2,24 @@
 title: Using the search bar
 ...
 
-The search bar allows you to filter the physical, table, logical and trace view to your liking. A variety of queries are supported like free text queries, queries for tags, CPU counts and more.
+The search bar allows you to filter the views to your liking. A variety of queries are supported like free text queries, queries for tags, CPU counts and more.
 
-## Logical View
+## Infrastructure View
 
-Enter in the Logical Perspective the name of the Service you are looking for. You can enter an asterisk (`*`) at the end of the search term as a wildcard.
+The following listing shows the currently supported inputs. Entities matching these inputs will remain on the map respectively table. Note that the default operator used to combine multiple query terms is `AND`, i.e. all terms must match.
+
+- **Free Text Query:** Any text to search for. Example: `elasticsearch`.
+- **Tag Query:** Use `tag=myTag`, e.g. `tag=production` or `tag=development` to search for entities with the specified tag.
+- **Type Query:** To search for specific types of entities, e.g. all Elasticsearch nodes, use `type=elasticsearch`.
+- **Hostname Query:** You can search for hostnames via `host.hostname=shopping`.
+- **Host FQDN Query:** FQDN queries work just like hostname queries: `host.fqdn=shopping.example.com`.
+- **Host CPU Count Query:** Queries for CPU counts support varying operators. This allows searches like `host.cpuCount>1` to search for all hosts with more than one CPU. In a similar way, queries for lower CPU counts or an exact CPU count are possible.
+- **Host Memory Query:** Memory queries work just like CPU count queries: `host.memory>1024`. At the time of writing, the amount of memory is represented in bytes and needs to be queried in bytes.
+
+
+## Application View
+
+Enter in the Application View the name of the Service you are looking for. You can enter an asterisk (`*`) at the end of the search term as a wildcard.
 
 ## Trace View
 
@@ -20,15 +33,3 @@ time=100
  - or -
 latency<100
 ```
-
-## Physical View
-
-The following listing shows the currently supported inputs. Entities matching these inputs will remain on the map respectively table. Note that the default operator used to combine multiple query terms is `AND`, i.e. all terms must match.
-
-- **Free Text Query:** Any text to search for. Example: `elasticsearch`.
-- **Tag Query:** Use `tag=myTag`, e.g. `tag=production` or `tag=development` to search for entities with the specified tag.
-- **Type Query:** To search for specific types of entities, e.g. all Elasticsearch nodes, use `type=elasticsearch`.
-- **Hostname Query:** You can search for hostnames via `host.hostname=shopping`.
-- **Host FQDN Query:** FQDN queries work just like hostname queries: `host.fqdn=shopping.example.com`.
-- **Host CPU Count Query:** Queries for CPU counts support varying operators. This allows searches like `host.cpuCount>1` to search for all hosts with more than one CPU. In a similar way, queries for lower CPU counts or an exact CPU count are possible.
-- **Host Memory Query:** Memory queries work just like CPU count queries: `host.memory>1024`. At the time of writing, the amount of memory is represented in bytes and needs to be queried in bytes.
