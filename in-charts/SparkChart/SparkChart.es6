@@ -193,7 +193,7 @@ export default function createSparkChart({width,
 
   function fillTooltip(highlightedMoment) {
     const dataPoint = lookForDataPoint(highlightedMoment);
-    if (!dataPoint) {
+    if (!dataPoint || dataPoint[1] == null) {
       tooltipContainer.style.display = 'none';
       return;
     }
