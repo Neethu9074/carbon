@@ -24,6 +24,10 @@ function getMaxFilesystemICapacity(snapshot, match) {
   return snapshot.getIn(['data', 'filesystems', match[1], 'icapacity']);
 }
 
+function getFilesystemLabel(prefix, snapshot, match) {
+  return `${prefix} ${match[1]}`;
+}
+
 export default [
   {
     metric: 'memory.free',
@@ -136,7 +140,7 @@ export default [
   },
   {
     metric: getMetricMatch('fs', 'free'),
-    label: 'Free',
+    label: getFilesystemLabel.bind(null, 'Free'),
     category: ['Filesystem'],
     min: 0,
     max: getMaxFilesystemCapacity,
@@ -144,7 +148,7 @@ export default [
   },
   {
     metric: getMetricMatch('fs', 'leaked'),
-    label: 'Leaked',
+    label: getFilesystemLabel.bind(null, 'Leaked'),
     category: ['Filesystem'],
     min: 0,
     max: getMaxFilesystemCapacity,
@@ -152,7 +156,7 @@ export default [
   },
   {
     metric: getMetricMatch('fs', 'ifree'),
-    label: 'iFree',
+    label: getFilesystemLabel.bind(null, 'iFree'),
     category: ['Filesystem'],
     min: 0,
     max: getMaxFilesystemICapacity,
@@ -163,28 +167,28 @@ export default [
   },
   {
     metric: getMetricMatch('fs', 'reads'),
-    label: 'Reads/s',
+    label: getFilesystemLabel.bind(null, 'Reads/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
     metric: getMetricMatch('fs', 'writes'),
-    label: 'Writes/s',
+    label: getFilesystemLabel.bind(null, 'Writes/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
     metric: getMetricMatch('fs', 'readBytes'),
-    label: 'Bytes Read/s',
+    label: getFilesystemLabel.bind(null, 'Bytes Read/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: kiloBytes
   },
   {
     metric: getMetricMatch('fs', 'writeBytes'),
-    label: 'Bytes Written/s',
+    label: getFilesystemLabel.bind(null, 'Bytes Written/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: kiloBytes

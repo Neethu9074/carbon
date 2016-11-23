@@ -64,7 +64,9 @@ export function registerMetricDefinition(plugin, metricDefinition) {
 }
 
 function getMin(metricDefinition) {
-  if (metricDefinition.min != null) {
+  if (typeof metricDefinition.min === 'function') {
+    return metricDefinition.min;
+  } else if (metricDefinition.min != null) {
     return () => metricDefinition.min;
   }
   return metricDefinition.getMin || alwaysUndefined;
@@ -72,7 +74,9 @@ function getMin(metricDefinition) {
 
 
 function getMax(metricDefinition) {
-  if (metricDefinition.max != null) {
+  if (typeof metricDefinition.max === 'function') {
+    return metricDefinition.max;
+  } else if (metricDefinition.max != null) {
     return () => metricDefinition.max;
   }
   return metricDefinition.getMax || alwaysUndefined;
@@ -115,7 +119,7 @@ export function getMetricDefinition(plugin, metric) {
   for (let i = 0, len = metricDefinitionsForPlugin.length; i < len; i++) {
     const metricDefinition = metricDefinitionsForPlugin[i];
     if (metricDefinition.test(metric)) {
-      return metricDefinition;
+      return bindMetricMatchToGetters(metric, metricDefinition);
     }
   }
 
@@ -134,6 +138,25 @@ function getDefaultMetricDefinition(metric) {
     getMax: alwaysUndefined,
     formatter: number
   };
+}
+
+
+function bindMetricMatchToGetters(metric, metricDefinition) {
+  if (!(metricDefinition.metric instanceof RegExp)) {
+    return metricDefinition;
+  }
+
+  metricDefinition = Object.create(metricDefinition);
+  const match = metric.match(metricDefinition.metric);
+  metricDefinition.getMin = simpleCurryOne(metricDefinition.getMin, match);
+  metricDefinition.getMax = simpleCurryOne(metricDefinition.getMax, match);
+  metricDefinition.getLabel = simpleCurryOne(metricDefinition.getLabel, match);
+  return metricDefinition;
+}
+
+
+function simpleCurryOne(fn, value) {
+  return a => fn(a, value);
 }
 
 
