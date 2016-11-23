@@ -2,6 +2,13 @@
   display: flex;
   flex-direction: column;
 
+  // This is a Firefox bug with nested flexbox elements as seen here:
+  // http://jsbin.com/zusodiqeva/edit?html,css,output
+  // To make this work, min-height has to be set (seriously Firefox, this is a won't fix for you!?)
+  // See Firefox bug ticket:
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1135332
+  min-height: 0;
+
   &__rows {
     overflow-y: scroll;
   }
