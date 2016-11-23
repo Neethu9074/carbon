@@ -30,7 +30,7 @@ function MetricBlock({dataColumn, config, axisName}) {
             {axisConfig.labels[i]}
           </dt>
           <dd className={`${block}__metric-value`}>
-            {dataRow != null ? formatter(dataRow[1]) : '?'}
+            {dataRow != null && dataRow[1] != null ? formatter(dataRow[1]) : ''}
           </dd>
         </div>
       )}
