@@ -46,7 +46,7 @@ function ViewSwitcher({navigationParameters}) {
 
         <View label='application'
               icon='application'
-              isActive={pathname.indexOf('/logical') === 0 || isLogicalTable}>
+              isActive={pathname.indexOf('/logical') === 0 || pathname.indexOf('/traces') === 0 || isLogicalTable}>
           <SubMenuItem label='Map'
                        href$={logicalViewLink$}
                        isActive={pathname.indexOf('/logical') === 0} />
