@@ -16,6 +16,6 @@ registerSnapshotDefinition({
   namesForTypeSearch: ['etcd'],
 
   getLabel(snapshot) {
-    return 'Etcd -' + snapshot.getIn(['data', 'name']);
+    return 'Etcd - ' + snapshot.getIn(['data', 'name']);
   }
 });
