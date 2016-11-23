@@ -16,7 +16,8 @@ export default function TimeAxis({scale}) {
   const windowSize = scale.getDomainTo() - scale.getDomainFrom();
 
   // clamp the stepSize to give the timestamps enough space
-  const axisConfig = getAxisConfig(windowSize);
+  // copy object so that we do not manipulate the axis config
+  const axisConfig = Object.create(getAxisConfig(windowSize));
   axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
 
   const ceilToNearestStep = true;

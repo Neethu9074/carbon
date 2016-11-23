@@ -31,6 +31,8 @@ export default class TimeAxisRenderer extends BasicRenderer {
 
     const windowSize = scale.getDomainTo() - scale.getDomainFrom();
 
+    // copy object so that we do not manipulate the axis config
+    axisConfig = Object.create(axisConfig);
     axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
 
 
