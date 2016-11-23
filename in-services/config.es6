@@ -8,6 +8,10 @@ export function isInternalEnvironment() {
   return theConfig.environment === 'internal';
 }
 
+export function isStagingEnvironment() {
+  return theConfig.environment === 'staging';
+}
+
 export function isOnPremise() {
   return theConfig.operationMode === 'on-prem';
 }
