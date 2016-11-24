@@ -1,4 +1,5 @@
 import {create} from 'reactive-observables';
+import {debounce} from 'lodash';
 
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';
@@ -9,12 +10,17 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
 
   return create({
     start(observable) {
+      // ontimeout callback is executed after onreadystatechange is executed for timeouts.
+      // Debounce this seems to be the easiest way for information consumers about errors.
+      // Not using observable.debounse as we do not want to delay the happy path.
+      const debouncedEmitError = debounce(err => observable.emitError(err), 100);
+
       xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
       xhr.timeout = timeout;
       xhr.responseType = responseType;
       xhr.ontimeout = () => {
-        observable.emitError(new HttpRequestTimeoutError(method, url));
+        debouncedEmitError(new HttpRequestTimeoutError(method, url));
       };
       if (data) {
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -30,7 +36,7 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
           if (199 < response.status && response.status < 300) {
             observable.emit(response);
           } else {
-            observable.emitError(new HttpResponseError(response, method, url));
+            debouncedEmitError(new HttpResponseError(response, method, url));
           }
           xhr = null;
         }
@@ -44,11 +50,7 @@ export default function({method, url, queryParams, data, timeout = 5000, respons
       }
       xhr = null;
     }
-  })
-
-  // ontimeout callback is executed after onreadystatechange is executed for timeouts.
-  // nextFrame() is the simplest solution to aggregating these events to one.
-  .nextFrame();
+  });
 }
 
 function formatUrl(url, queryParams = {}) {
