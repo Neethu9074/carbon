@@ -39,7 +39,9 @@ export function translateSearchableEntityTypeToFullyQualifiedPluginIds(type) {
 }
 
 
-const searchableTraceTypes = {};
+const searchableTraceTypes = {
+  // <type> => [<full name of trace plugin>]
+};
 addKeywordOperator({
   context: 'trace',
   type: 'selection',
@@ -59,7 +61,9 @@ addKeywordOperator({
   }
 });
 export function addSearchableTraceType(label, name) {
-  searchableTraceTypes[label.toLowerCase()] = name;
+  label = label.toLowerCase();
+  const typesForLabel = searchableTraceTypes[label] = searchableTraceTypes[label] || [];
+  typesForLabel.push(name);
 }
 
 
