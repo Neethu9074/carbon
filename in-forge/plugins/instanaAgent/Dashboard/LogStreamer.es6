@@ -11,6 +11,8 @@ import './LogStreamer.less';
 
 const block = 'in-agent-log-streamer';
 
+const maxDisplayedChars = 20000;
+
 export default React.createClass({
   displayName: 'LogStreamer',
 
@@ -62,8 +64,13 @@ export default React.createClass({
       if (response.data) {
         agg.log += response.data;
       }
+      if (agg.log.length > maxDisplayedChars) {
+        agg.log = agg.log.substring(agg.log.length - maxDisplayedChars, agg.log.length);
+      }
       return agg;
     }, {log: '', error: null})
+    .nextFrame()
+    .throttle(500)
     .map(aggregated => {
       return {
         log: replaceHtmlChars(aggregated.log),
