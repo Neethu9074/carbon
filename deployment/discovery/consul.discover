@@ -2,6 +2,8 @@
 
 set -e
 
+export ME=ui-client
+
 consul_discover_unit_single "ui-backend"
 if [ "${OPERATION_MODE}" = "fleet" ]; then
 	consul_discover_unit_single "ui-backend-websocket"
