@@ -7,7 +7,7 @@ if [ "${OPERATION_MODE}" = "fleet" ]; then
 	consul_discover_unit_single "ui-backend-websocket"
 fi
 consul_discover_unit_single "ui-tracker"
-consul_discover_environment_special "groundskeeper"
+consul_discover_environment_single "groundskeeper"
 
 export GROUNDSKEEPER_PORT_8280_TCP_ADDR=$GROUNDSKEEPER_HOST
 export GROUNDSKEEPER_PORT_8280_TCP_PORT=$GROUNDSKEEPER_PORT
