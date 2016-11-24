@@ -9,6 +9,10 @@ export default function PageRequestSpanDetailView({span}) {
   return (
     <div>
       <DescriptionList>
+        <DescriptionItem title='Application'>
+          {span.getIn(['data', 'page', 'appName'])}
+        </DescriptionItem>
+
         <DescriptionItem title='URL'>
           <a href={span.getIn(['data', 'page', 'url'])}
              target='_blank'>
