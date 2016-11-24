@@ -4,6 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import Mtd from 'in-components/Mtd';
 import {
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
@@ -36,14 +37,22 @@ function createHeader() {
     <thead>
       <tr>
         <th>Operation</th>
+        <th>Success</th>
+        <th>Fail</th>
       </tr>
     </thead>
   );
 }
 
-function createRow(operation) {
+function createRow(operation, i, context) {
   return ([
-    <td>{operation.replace(/_/g, ' ')}</td>
+    <td>{operation.replace(/_/g, ' ')}</td>,
+    <Mtd metric={'storage.' + operation + '_success'}
+         formatter={zeroDecimalPlaces}
+         snapshot={context.snapshot}/>,
+    <Mtd metric={'storage.' + operation + '_fail'}
+         formatter={zeroDecimalPlaces}
+         snapshot={context.snapshot}/>
   ]);
 }
 
