@@ -16,18 +16,12 @@ export function init() {
     }
   });
 
-  const previousOnErrorHandler = window.onerror || (() => {});
-  window.onerror = function onerror(message, filename, lineno, col, error) {
-    onUnhandledError({
-      message,
-      filename,
-      lineno,
-      error
-    });
-    if (previousOnErrorHandler) {
-      previousOnErrorHandler.apply(this, arguments);
-    }
-  };
+  window.addEventListener('error', (e) => {
+    onUnhandledError(e);
+
+    // let the default error handler run as well
+    return false;
+  }, false);
 }
 
 
