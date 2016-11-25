@@ -71,13 +71,15 @@ export function getEventType(event) {
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue':
-      const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity'], 0));
-      if (eventHealth === health.warning) {
-        return EVENT_TYPES.ISSUE_WARNING;
-      } else if (eventHealth === health.danger) {
-        return EVENT_TYPES.ISSUE_CRITICAL;
+      {
+        const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity'], 0));
+        if (eventHealth === health.warning) {
+          return EVENT_TYPES.ISSUE_WARNING;
+        } else if (eventHealth === health.danger) {
+          return EVENT_TYPES.ISSUE_CRITICAL;
+        }
+        return EVENT_TYPES.ISSUE_OK;
       }
-      return EVENT_TYPES.ISSUE_OK;
     default:
       return EVENT_TYPES.CHANGE;
   }

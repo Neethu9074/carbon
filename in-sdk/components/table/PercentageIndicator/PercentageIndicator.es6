@@ -1,6 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 
@@ -15,8 +14,10 @@ export default React.createClass({
 
   propTypes: {
     snapshotId: React.PropTypes.string,
+    /* eslint-disable react/no-unused-prop-types */
     createMetricValueStream: React.PropTypes.func,
     metric: React.PropTypes.string,
+    /* eslint-enable react/no-unused-prop-types */
     formatter: React.PropTypes.func
   },
 
@@ -39,8 +40,8 @@ export default React.createClass({
   },
 
   establishSubscription(stream) {
-    const valuePresenter = ReactDOM.findDOMNode(this.refs.value);
-    const levelPresenter = ReactDOM.findDOMNode(this.refs.level);
+    const valuePresenter = this.value;
+    const levelPresenter = this.level;
 
     valuePresenter.textContent = '';
     levelPresenter.style.width = '0';
@@ -88,9 +89,9 @@ export default React.createClass({
     return (
       <div className={block}>
         <div className={`${block}__level`}
-             ref='level'/>
+             ref={node => this.level = node} />
         <span className={`${block}__value`}
-              ref='value'/>
+              ref={node => this.value = node} />
       </div>
     );
   }

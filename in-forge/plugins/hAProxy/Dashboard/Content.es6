@@ -11,7 +11,7 @@ export default function HAProxyDashboard({snapshot, timeframe}) {
     return (
       <DashboardNotification type='info'>
         HAProxy is not configured for socket access.
-        Please configure 'stats socket' to point to a UNIX socket.
+        Please configure <code>stats socket</code> to point to a UNIX socket.
       </DashboardNotification>
     );
   }

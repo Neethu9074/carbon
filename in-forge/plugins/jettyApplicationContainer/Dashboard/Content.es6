@@ -16,7 +16,7 @@ export default function JettyDashboard({snapshot, timeframe}) {
     return (
       <DashboardNotification type='info'>
         Jmx module is not enabled in jetty. Please enable it to be able to collect data.
-        You can do so by adding '--module=jmx' in 'start.ini' file
+        You can do so by adding <code>--module=jmx</code> to <code>start.ini</code>.
       </DashboardNotification>
     );
   }

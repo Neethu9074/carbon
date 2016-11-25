@@ -13,6 +13,6 @@ export default sceneObjectComponent(props => {
   };
 }, LayerComponent );
 
-function LayerComponent({}) {
+function LayerComponent() {
   return null;
 }

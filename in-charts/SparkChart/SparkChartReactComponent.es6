@@ -4,7 +4,6 @@ import React from 'react';
 
 import createSparkChart from 'in-charts/SparkChart/SparkChart';
 import {timeframeShape} from 'in-stores/timeline';
-import {getClassName} from 'in-services/react';
 
 
 const block = 'in-spark-chart';
@@ -59,7 +58,7 @@ export default React.createClass({
       classes += ' ' + this.props.className;
     }
     return (
-      <div className={getClassName(this, block)} />
+      <div className={classes} />
     );
   },
 

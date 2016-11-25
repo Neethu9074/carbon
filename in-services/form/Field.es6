@@ -30,27 +30,27 @@ export default class Field {
     this.pristine = this.value === this.initialValue;
   }
 
-  addItem(path/*: Path*/, item/*: Item*/, i/*: number*/ = 0)/*: Field*/ {
+  static addItem(path/*: Path*/, item/*: Item*/, i/*: number*/ = 0)/*: Field*/ {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot add sub fields to fields`);
   }
 
-  getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+  static getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot get field values via get()`);
   }
 
-  removeItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+  static removeItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot call remove on fields.`);
   }
 
-  moveUp() {
+  static moveUp() {
     throw new Error(`Cannot call move on fields.`);
   }
 
-  moveDown() {
+  static moveDown() {
     throw new Error(`Cannot call move on fields.`);
   }
 
-  _move(path/*: Path*/, positionModification/*: number */, i/*: number*/ = 0) {
+  static _move(path/*: Path*/, positionModification/*: number */, i/*: number*/ = 0) {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot call move on fields.`);
   }
 

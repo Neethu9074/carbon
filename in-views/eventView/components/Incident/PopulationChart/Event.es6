@@ -38,8 +38,7 @@ function Event({event, scale, color, isOpen}) {
            }}
            onClick={() => onEventClick(event)}>
 
-          <div className={`${block}__change`} />
-        }
+        <div className={`${block}__change`} />
       </div>
     );
   }

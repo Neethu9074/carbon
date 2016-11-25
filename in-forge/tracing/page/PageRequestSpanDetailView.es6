@@ -15,7 +15,8 @@ export default function PageRequestSpanDetailView({span}) {
 
         <DescriptionItem title='URL'>
           <a href={span.getIn(['data', 'page', 'url'])}
-             target='_blank'>
+             target='_blank'
+             rel='noopener noreferrer'>
             {span.getIn(['data', 'page', 'url'])}
           </a>
         </DescriptionItem>

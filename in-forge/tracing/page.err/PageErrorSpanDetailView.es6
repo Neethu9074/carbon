@@ -15,7 +15,8 @@ export default function PageErrorSpanDetailView({span}) {
 
         <DescriptionItem title='URL'>
           <a href={span.getIn(['data', 'pageErr', 'url'])}
-             target='_blank'>
+             target='_blank'
+             rel='noopener noreferrer'>
             {span.getIn(['data', 'pageErr', 'url'])}
           </a>
         </DescriptionItem>

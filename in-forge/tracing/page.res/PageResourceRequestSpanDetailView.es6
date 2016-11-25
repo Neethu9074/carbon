@@ -8,7 +8,8 @@ export default function PageResourceRequestSpanDetailView({span}) {
     <DescriptionList>
       <DescriptionItem title='URL'>
         <a href={span.getIn(['data', 'page_res', 'url'])}
-           target='_blank'>
+           target='_blank'
+           rel='noopener noreferrer'>
           {span.getIn(['data', 'page_res', 'url'])}
         </a>
       </DescriptionItem>

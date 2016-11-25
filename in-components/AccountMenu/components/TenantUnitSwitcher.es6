@@ -13,7 +13,8 @@ const block = 'in-tenant-unit-switcher';
 
 // ignore tenant units retrieval errors
 let tenantsWithUnits$ = getTenantsWithUnits();
-tenantsWithUnits$ = tenantsWithUnits$.merge(tenantsWithUnits$.errors().map(() => {}));
+tenantsWithUnits$ = tenantsWithUnits$.merge(tenantsWithUnits$.errors().map(() => {}))
+  .delayedStop(500);
 
 export default connectTo({
     tenantUnitStructure: tenantsWithUnits$

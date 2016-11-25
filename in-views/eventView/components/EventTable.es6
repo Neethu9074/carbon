@@ -56,7 +56,7 @@ function InfiniteTable({height, events, isInfiniteLoading}) {
 
   return (
     <Infinite className={`${block}__scroll-area`}
-              containerHeight={height - 24 /* Height of the header */}
+              containerHeight={height - 24/* Height of the header */}
               elementHeight={26}
               loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
               infiniteLoadBeginEdgeOffset={height * 0.5}

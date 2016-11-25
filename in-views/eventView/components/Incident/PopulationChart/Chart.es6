@@ -25,7 +25,6 @@ export default getElementDimensions(React.createClass({
 
   propTypes: {
     incidentId: rpt.string.isRequired,
-    height: rpt.number,
     width: rpt.number
   },
 

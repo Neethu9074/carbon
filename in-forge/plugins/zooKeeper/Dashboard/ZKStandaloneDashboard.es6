@@ -40,8 +40,7 @@ export default function ZKStandaloneDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: msZeroDecimalPlaces
-                        }}
-                      />
+                        }} />
     </DashboardSection>
     <DashboardSection title='Requests'>
       <ChartWithLegend  snapshotId={snapshot.get('id')}
@@ -59,8 +58,7 @@ export default function ZKStandaloneDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: zeroDecimalPlaces
-                        }}
-                      />
+                        }} />
     </DashboardSection>
     <DashboardSection title='Connections'>
       <ChartWithLegend  snapshotId={snapshot.get('id')}
@@ -78,8 +76,7 @@ export default function ZKStandaloneDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: zeroDecimalPlaces
-                        }}
-                      />
+                        }} />
     </DashboardSection>
     <DashboardSection title='Packets'>
       <ChartWithLegend  snapshotId={snapshot.get('id')}
@@ -109,8 +106,7 @@ export default function ZKStandaloneDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: zeroDecimalPlaces
-                        }}
-                      />
+                        }} />
     </DashboardSection>
    </div>
  );

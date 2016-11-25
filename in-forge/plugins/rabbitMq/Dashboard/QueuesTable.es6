@@ -93,8 +93,7 @@ function createDetails(queueName, i, context) {
               ],
               type: 'line',
               formatter: zeroDecimalPlaces
-            }}/>
-        />
+            }} />
     </div>
   );
 }

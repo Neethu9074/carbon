@@ -14,53 +14,43 @@ import Icon from 'in-components/Icon';
 
 import './TimelineMenu.less';
 
-
 const block = 'in-timeline-menu';
-const rpt = React.PropTypes;
 
 export default connectTo({
-    events: eventsInTimeframe$,
-    isCollapsed: isCollapsed$,
-    autoCollapseTimeline: getIn(['autoCollapseTimeline'])
-  }, TimelineMenu
-);
+  events: eventsInTimeframe$,
+  isCollapsed: isCollapsed$,
+  autoCollapseTimeline: getIn(['autoCollapseTimeline'])
+}, function TimelineMenu({events, isCollapsed, autoCollapseTimeline}) {
+return (
+  <div className={block}>
+    <Tooltip content={autoCollapseTimeline ? 'Always show timeline.' : 'Automatically hide timeline.'}>
+      <SvgIcon type={autoCollapseTimeline ? 'unpin' : 'pinned'}
+            width={autoCollapseTimeline ? 12 : 12}
+            className={`${block}__toggle-auto-expand`}
+            onClick={() => toggleIn(['autoCollapseTimeline'])}/>
+    </Tooltip>
 
-function TimelineMenu({events, isCollapsed, autoCollapseTimeline}) {
-  return (
-    <div className={block}>
-      <Tooltip content={autoCollapseTimeline ? 'Always show timeline.' : 'Automatically hide timeline.'}>
-        <SvgIcon type={autoCollapseTimeline ? 'unpin' : 'pinned'}
-              width={autoCollapseTimeline ? 12 : 12}
-              className={`${block}__toggle-auto-expand`}
-              onClick={() => toggleIn(['autoCollapseTimeline'])}/>
-      </Tooltip>
-
-      <div className={block + '__heading'}>
-        <TimelineSelectedTime/>
-        <TimelineLiveButton/>
-      </div>
-
-      <TimelineMenuEventLine title={'Incidents'}
-                             count={events ? events.incidents.length : 0}
-                             additionalContent={
-                               <div>
-                                 <Icon type={'timeline_' + (isCollapsed ? 'open' : 'close')}
-                                       className={block + '__icon'}
-                                       onClick={toggleMenu}/>
-                                 <TimelineLiveIndicator />
-                               </div>
-                             }/>
-
-      <TimelineMenuEventLine title={'Issues'}
-                             count={events ? events.issues.length : 0}/>
-
-      <TimelineMenuEventLine title={'Changes'}
-                             count={events ? events.changes.length : 0}/>
+    <div className={block + '__heading'}>
+      <TimelineSelectedTime/>
+      <TimelineLiveButton/>
     </div>
-  );
-}
 
-TimelineMenu.propTypes = {
-  events: rpt.object,
-  isCollapsed: rpt.bool
-};
+    <TimelineMenuEventLine title={'Incidents'}
+                           count={events ? events.incidents.length : 0}
+                           additionalContent={
+                             <div>
+                               <Icon type={'timeline_' + (isCollapsed ? 'open' : 'close')}
+                                     className={block + '__icon'}
+                                     onClick={toggleMenu}/>
+                               <TimelineLiveIndicator />
+                             </div>
+                           }/>
+
+    <TimelineMenuEventLine title={'Issues'}
+                           count={events ? events.issues.length : 0}/>
+
+    <TimelineMenuEventLine title={'Changes'}
+                           count={events ? events.changes.length : 0}/>
+  </div>
+);
+});

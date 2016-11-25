@@ -9,11 +9,11 @@ export default function SolrDashboard({snapshot, timeframe}) {
     return (
       <DashboardNotification type='warning'>
         Jmx module is not enabled in solr. Please enable it to be able to collect data.
-        You can do so, by adding '&lt;jmx /&gt;' in 'solrconfig.xml' file
+        You can do so, by adding &lt;jmx /&gt; to solrconfig.xml.
       </DashboardNotification>
     );
   }
   return (
-    <CoresTable snapshot={snapshot} timeframe={timeframe}/>
+    <CoresTable snapshot={snapshot} timeframe={timeframe} />
   );
 }

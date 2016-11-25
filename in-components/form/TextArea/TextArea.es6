@@ -9,6 +9,6 @@ const block = 'in-text-area';
 export default function FormTextArea(props) {
   return (
     <textarea {...props}
-              className={joinClassNames(props.className, block)}></textarea>
+              className={joinClassNames(props.className, block)} />
   );
 }

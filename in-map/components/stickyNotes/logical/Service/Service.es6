@@ -37,7 +37,6 @@ export default createStickyNote(
     propTypes: {
       id: rpt.string.isRequired,
       showSticky: rpt.bool,
-      isExternal: rpt.bool,
       wrapper: rpt.object,
       children: irpt.set,
       showKpi: rpt.bool
@@ -72,8 +71,9 @@ export default createStickyNote(
 
           <Heading expanded={isExpanded}
                    snapshotId={this.props.id}
-                   children={children}
-                   onClick={() => this.setState({expanded: !this.state.expanded})} />
+                   onClick={() => this.setState({expanded: !this.state.expanded})}>
+            {children}
+          </Heading>
 
           {(isExpanded && childrenAreAvailable) ?
             <ServiceInstanceList ids={children} />

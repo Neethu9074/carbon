@@ -13,6 +13,6 @@ export default sceneObjectComponent(props => {
   };
 }, NodeMetricComponent );
 
-function NodeMetricComponent({}) {
+function NodeMetricComponent() {
   return null;
 }

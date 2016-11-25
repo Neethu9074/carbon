@@ -16,8 +16,7 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    span: irpt.map.isRequired,
-    trace: irpt.map.isRequired
+    span: irpt.map.isRequired
   },
 
   getInitialState() {

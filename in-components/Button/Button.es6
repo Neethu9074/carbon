@@ -53,12 +53,13 @@ export default function Button({className,
 Button.propTypes = {
   className: rpt.string,
   style: rpt.object,
-  children: rpt.any.isRequired,
+  children: rpt.node.isRequired,
   type: rpt.oneOf(['button', 'submit']),
   kind: rpt.oneOf(['default', 'primary', 'secondary', 'danger', 'info', 'success']),
   size: rpt.oneOf(['lg', 'sm']),
   onClick: rpt.func,
-  href: rpt.string
+  href: rpt.string,
+  disabled: rpt.bool
 };
 
 

@@ -65,8 +65,6 @@ function mergeVersionLists(listA, listB) {
 
 
 function VersionList({title, versions}) {
-  versions = versions;
-
   return (
     <div className={`${block}__list-wrapper`}>
       <p className={`${block}__header`}>

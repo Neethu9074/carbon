@@ -24,9 +24,9 @@ export default function TraceView({children}) {
 
 function getLeftContent() {
   return [
-    <TraceListHeader key='TraceListHeader' />,
-    <TraceTableHeader key='TraceTableHeader' />,
-    <TraceTable key='TraceTable' />
+    <TraceListHeader key='TraceListHeader'/>,
+    <TraceTableHeader key='TraceTableHeader'/>,
+    <TraceTable key='TraceTable'/>
   ];
 }
 

@@ -1,8 +1,0 @@
----
-  extends: instana
-  rules:
-    no-undef: 2
-    spaced-comment: 0
-    # reenable after eslint and spaced-comment upgrade to
-    # support simple flow comment definition
-    # spaced-comment: [2, "always", { "exceptions": [":"] }]

@@ -55,7 +55,8 @@ export default connectTo({
           <a href={umpLink}
              target='_blank'
              className={block + '__account-menu-link'}
-             onClick={closeMenu}>
+             onClick={closeMenu}
+             rel='noopener noreferrer'>
             Management Portal
 
             <Icon type='right'
@@ -94,7 +95,8 @@ export default connectTo({
           {webVrEnabled ?
             <a className={block + '__link'}
                href='#/webVR/physical'
-               target='_blank'>
+               target='_blank'
+               rel='noopener noreferrer'>
               WebVR Showcase
             </a>
           : null}

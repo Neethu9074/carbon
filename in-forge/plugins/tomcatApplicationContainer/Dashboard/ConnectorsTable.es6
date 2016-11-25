@@ -53,7 +53,7 @@ function createHeaderWithConnections() {
   return (
     <thead>
       <tr>
-        <th></th>
+        <th />
         <th colSpan='3'>Threads</th>
         <th colSpan='2'>Connections</th>
       </tr>
@@ -73,7 +73,7 @@ function createHeader() {
   return (
     <thead>
       <tr>
-        <th></th>
+        <th />
         <th colSpan='3'>Threads</th>
       </tr>
       <tr>

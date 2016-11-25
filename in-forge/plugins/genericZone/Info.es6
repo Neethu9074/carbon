@@ -1,4 +1,4 @@
-export default function GenericZoneInfo({}) {
+export default function GenericZoneInfo() {
   return (
     null
   );

@@ -1,3 +1,3 @@
-export default function MissingSpanDetailView({}) {
+export default function MissingSpanDetailView() {
   return null;
 }

@@ -15,7 +15,7 @@ export default sceneObjectComponent(props => {
 }, ConnectionComponent
 );
 
-function ConnectionComponent({}) {
+function ConnectionComponent() {
   return (
     null
   );

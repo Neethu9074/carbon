@@ -30,8 +30,8 @@ export default connectTo({
 
       <div className={`${block}__rows`}>
         {snapshotIds ? snapshotIds.map(snapshotId =>
-            <TableRow snapshotId={snapshotId}
-                      key={snapshotId} />
+          <TableRow snapshotId={snapshotId}
+                    key={snapshotId} />
         ) : null}
       </div>
     </div>

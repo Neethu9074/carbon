@@ -4,10 +4,7 @@ import ContentHeading from 'in-sdk/components/dashboard/ContentHeading';
 
 import './DashboardSection.less';
 
-
 const block = 'in-dashboard-section';
-const rpt = React.PropTypes;
-
 
 export default function DashboardSection({title, children, className}) {
   let classes = block;
@@ -23,9 +20,3 @@ export default function DashboardSection({title, children, className}) {
     </div>
   );
 }
-
-
-DashboardSection.propTypes = {
-  title: rpt.string.isRequired,
-  children: rpt.any
-};

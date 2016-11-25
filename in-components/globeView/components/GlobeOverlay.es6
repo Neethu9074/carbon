@@ -1,4 +1,3 @@
-/* global require:false */
 import {
   SphereBufferGeometry,
   Mesh,

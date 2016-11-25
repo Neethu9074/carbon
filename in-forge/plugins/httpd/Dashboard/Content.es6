@@ -211,7 +211,8 @@ function extendedStatusInfo(status, ver) {
        &nbsp;<strong>ExtendedStatus</strong> flag should be&nbsp;
        <strong>enabled</strong> in apache httpd configuration.&nbsp;
        <a target='_blank'
-          href={getModStatusDoc(ver)}>
+          href={getModStatusDoc(ver)}
+          rel='noopener noreferrer'>
          Apache ExtendedStatus Directive
        </a>.
      </DashboardNotification>

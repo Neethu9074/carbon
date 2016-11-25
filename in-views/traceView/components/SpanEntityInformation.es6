@@ -45,7 +45,7 @@ export default connectTo(props => {
 }, function SpanEntityInformation({label, snapshot}) {
   if (snapshot === loadingPlaceholder) {
     return (
-      <LoadingIndicator inline={true}
+      <LoadingIndicator inline
                         type='dark'
                         style={{
                           height: '16px'

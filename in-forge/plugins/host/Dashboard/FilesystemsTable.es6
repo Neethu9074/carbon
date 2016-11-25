@@ -74,7 +74,7 @@ function createRow(filesystem, name, context) {
       ? <Mtd metric={'fs.' + name + '.ifree'}
            snapshot={context.snapshot}
            formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
-      : <td>'N/A'</td>;
+      : <td>N/A</td>;
   }
 
 
