@@ -63,6 +63,11 @@ describe('in-forge/tracing/jdbc/sql', () => {
         expect(shortenSqlStatement('SELECT countryent5_.STREET_NORMALIZE_FROM as STREET_N7_13_3_, blubfrombla FROM CCP_CHECKOUT_DATA this_ left'))
           .to.equal('SELECT … FROM CCP_CHECKOUT_DATA');
       });
+
+      it('must shorten explain select statements', () => {
+        expect(shortenSqlStatement('EXPLAIN SELECT `User`.`id`, `User`.`username`, `User`.`password`, `User`.`unhashed_password`, `User`.`group_id`, `User`.`created`, `User`.`modified`, `User`.`firstname`, `User`.`lastname`, `User`.`zip`, `User`.`address`, `User`.`city`, `User`.`state`, `User`.`telephone`, `User`.`country`, `User`.`cc`, `User`.`expiry`, `User`.`cvv`, `User`.`ip`, `User`.`web`, `User`.`server_id`, `User`.`olduser`, `User`.`aff_id`, `User`.`b_id`, `User`.`chan`, `User`.`vbv`, `User`.`needRefund`, `User`.`aff_canceled`, `User`.`preauth_processed`, `User`.`preauthactive`, `User`.`processor_id`, `User`.`browser`, `User`.`version`, `User`.`platform`, `User`.`useragent`, `User`.`ref`, `User`.`donate`, `User`.`extend`, `User`.`tempsale`, `User`.`gateway`, `User`.`signuptheme`, `User`.`last_processor_id`, `User`.`signup_language`, `User`.`pubid`, `User`.`externalcode`, `User`.`email_member`, `User`.`email_promo`, `User`.`email_offers`, `User`.`survey`, `User`.`email_news`, `User`.`player_installed`, `User`.`movies_access`, `User`.`games_access`, `User`.`music_access`, `User`.`books_access`, `User`.`apps_access`, `User`.`post_checkout_page`, `User`.`post_checkout_action`, `User`.`post_checkout_plan_id`, `User`.`partner_domain`, `Subscription`.`id`, `Subscription`.`planid`, `Subscription`.`user_id`, `Subscription`.`created`, `Subscription`.`modified`, `Subscription`.`nextrecurring`, `Subscription`.`transaction_id`, `Subscription`.`retry`, `Subscription`.`loc`, `Subscription`.`amount`, `Subscription`.`frequency`, `Subscription`.`active`, `Subscription`.`recuring`, `Subscription`.`status`, `Subscription`.`cancel_date`, `Subscription`.`cancledfrom`, `Subscription`.`flow`, `Subscription`.`ref_id`, `Subscription`.`locked`, `Subscription`.`ref_id2` FROM users'))
+          .to.equal('EXPLAIN SELECT … FROM users');
+      });
     });
 
     describe('update statements', () => {

@@ -9,7 +9,8 @@ const replacements = [
     'right join',
     'limit',
     'and',
-    'order by'
+    'order by',
+    'explain'
   ]
   .map(keyword => new RegExp('\\s+(' + keyword + ')\\s', 'ig'));
 
@@ -71,7 +72,13 @@ function shortenSelectStatement(sql) {
   const count = sql.match(/\s*select\s+count(\s|\()/i) ? ' COUNT' : '';
 
   const from = match[2] || match[4];
-  const result = `SELECT${count} … FROM ${from}`;
+  let result = `SELECT${count} … FROM ${from}`;
+
+  const explain = sql.match(/(^|\s+)explain\s+select\s+/i);
+  if (explain) {
+    result = `EXPLAIN ${result}`;
+  }
+
   return result;
 }
 
