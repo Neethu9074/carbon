@@ -147,7 +147,7 @@ function addNewTraces(newTraces) {
       name: getLabel(trace),
       id: trace.get('traceId'),
       totalErrorCount: trace.get('totalErrorCount', 0),
-      serviceSnapshotId: trace.getIn(['rels', 'destinationServiceInstanceId'])
+      serviceInstanceSnapshotId: trace.getIn(['rels', 'destinationServiceInstanceId'])
     };
   });
   tracesStore.applyStateMutation(existingTraces => {
