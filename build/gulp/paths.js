@@ -23,5 +23,6 @@ paths.devIndexHtmlTarget = path.join(paths.assetDir, 'index.html');
 paths.activeThemeJsonFile = path.join(paths.rootDir, 'in-themes', 'active.json');
 paths.activeThemeLessFile = path.join(paths.rootDir, 'in-themes', 'active.less');
 paths.buildInfoFileLocation = path.join(paths.assetDir, 'build.json');
-paths.generatedCssFileSelector = path.join(paths.bundleDir, 'theme-*.css');
 paths.javascriptEntryPointFile = path.join(paths.bundleDir, 'index.js');
+paths.allJsAssets = path.join(paths.bundleDir, '*.js');
+paths.allCssAssets = path.join(paths.bundleDir, '*.css');

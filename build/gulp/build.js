@@ -59,7 +59,7 @@ gulp.task('copyServerSources', () => {
 
 
 gulp.task('minifyCss', () => {
-  return gulp.src(paths.generatedCssFileSelector)
+  return gulp.src(paths.allCssAssets)
     .pipe(nano({
       zindex: false
     }))
@@ -68,7 +68,7 @@ gulp.task('minifyCss', () => {
 
 
 gulp.task('printFileStatistics', () => {
-  return gulp.src([paths.generatedCssFileSelector, paths.javascriptEntryPointFile])
+  return gulp.src([paths.allCssAssets, paths.allJsAssets])
     .pipe(size({
       showFiles: true,
       gzip: true
