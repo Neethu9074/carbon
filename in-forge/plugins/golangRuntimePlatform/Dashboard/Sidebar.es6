@@ -11,7 +11,7 @@ export default function GolangDashboardSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Golang</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

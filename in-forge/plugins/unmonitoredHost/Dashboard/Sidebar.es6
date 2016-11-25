@@ -11,7 +11,7 @@ export default function UnmonitoredHostSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Network Information
         </Collapsible.Header>

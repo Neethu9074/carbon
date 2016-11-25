@@ -60,14 +60,14 @@ export default connectTo(props => {
         <div className={block + '__description'}>
           <Row className={getClassName(this, block, '__time')}>
             <Col cols={6}>
-              Started:<br/>
+              Started:<br />
               {formatDateTime(start)}
             </Col>
 
             {!this.props.isOpen && start !== end ?
               <Col cols={6}
                    className={block + '__end'}>
-                Ended:<br/>{formatDateTime(end)}
+                Ended:<br />{formatDateTime(end)}
               </Col>
             : null}
           </Row>

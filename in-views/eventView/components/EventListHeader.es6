@@ -69,7 +69,7 @@ const Count = connectTo({
 }, function Count({getCounter, eventCounter}) {
   if (!eventCounter) {
     return (
-      <LoadingIndicator inline={true}
+      <LoadingIndicator inline
                                style={{
                                  height: '.375rem'
                                }} />

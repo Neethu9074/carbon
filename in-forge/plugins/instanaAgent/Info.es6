@@ -14,7 +14,7 @@ export default function Info({snapshot}) {
       </DescriptionItem>
 
       <DescriptionItem title='Java Runtime'>
-        {data.get('vmvendor')}<br/>
+        {data.get('vmvendor')}<br />
         {data.get('vmname')}
       </DescriptionItem>
     </DescriptionList>

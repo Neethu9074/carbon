@@ -30,7 +30,7 @@ export default connectTo(props => {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Component
         </Collapsible.Header>

@@ -18,7 +18,7 @@ export default function PhpFpmDashboardSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           PHP-FPM Runtime
         </Collapsible.Header>

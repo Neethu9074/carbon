@@ -13,7 +13,7 @@ export default connectTo(props => {
   if (!snapshot) {
     return (
       <LoadingIndicator type='dark'
-                        inline={true}
+                        inline
                         style={{
                           height: '12px'
                         }} />

@@ -12,7 +12,7 @@ export default function KafkaClusterSidebar({snapshot}) {
   return (
     <div>
       <Separator />
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Kafka Cluster</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

@@ -13,7 +13,7 @@ export default function MariaDbSidebar({snapshot}) {
   return (
     <div>
       <Separator />
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>MariaDB</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

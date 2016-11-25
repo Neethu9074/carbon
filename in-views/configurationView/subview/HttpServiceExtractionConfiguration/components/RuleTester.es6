@@ -16,7 +16,7 @@ import './RuleTester.less';
 const block = 'in-config-http-ex-rule-tester';
 
 export default React.createClass({
-  display: 'RuleTester',
+  displayName: 'RuleTester',
 
   propTypes: {
     toggleRuleTesting: React.PropTypes.any,

@@ -10,7 +10,7 @@ const block = 'in-webvr-view';
 export default function WebVRView() {
   return (
     <div className={block}>
-      <Map webVRMode={true} />
+      <Map webVRMode />
     </div>
   );
 }

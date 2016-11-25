@@ -16,7 +16,7 @@ export default function JettySidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Jetty Server Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

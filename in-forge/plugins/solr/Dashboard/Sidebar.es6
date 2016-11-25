@@ -16,7 +16,7 @@ export default function SolrSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Solr
         </Collapsible.Header>

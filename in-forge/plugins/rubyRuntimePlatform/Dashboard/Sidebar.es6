@@ -12,7 +12,7 @@ export default function RubyDashboardSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Ruby</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

@@ -17,7 +17,7 @@ export default function JVMInfo({snapshot}) {
       </DescriptionItem>
 
       <DescriptionItem title='Java Runtime'>
-        {data.get('jvm.vendor')}<br/>
+        {data.get('jvm.vendor')}<br />
         {data.get('jvm.name')}
       </DescriptionItem>
 

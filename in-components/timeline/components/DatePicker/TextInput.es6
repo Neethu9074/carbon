@@ -41,7 +41,7 @@ export default React.createClass({
         <span className={block + '__heading'}>
           {props.heading}
         </span>
-        <br/>
+        <br />
         <input type='text'
                className={inputClassName}
                value={props.value}

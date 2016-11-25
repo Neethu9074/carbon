@@ -14,7 +14,7 @@ export default function ElasticsearchSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Elasticsearch</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

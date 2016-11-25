@@ -15,17 +15,17 @@ export default function EventContent({event}) {
       <Header event={event} />
 
         <ProblemDescription event={event}
-                            sectionized={true}
+                            sectionized
                             className='in-event-view-event-content' />
 
         <EventChart event={event}
-                    sectionized={true} />
+                    sectionized />
 
         <EventTraces event={event}
-                    sectionized={true} />
+                    sectionized />
 
         <EventDependecyGraph event={event}
-                             sectionized={true} />
+                             sectionized />
     </div>
   );
 }

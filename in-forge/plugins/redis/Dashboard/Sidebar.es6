@@ -12,7 +12,7 @@ export default function RedisSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Redis
         </Collapsible.Header>

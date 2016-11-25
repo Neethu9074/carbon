@@ -11,7 +11,7 @@ export default function HAProxySidebar({snapshot}) {
   return (
     <div>
       <Separator />
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>HAProxy</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

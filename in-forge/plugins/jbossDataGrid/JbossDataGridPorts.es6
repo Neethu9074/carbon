@@ -11,7 +11,7 @@ export default function JbossDataGridPorts({snapshot}) {
 
   return (
     <div>
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Ports</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>

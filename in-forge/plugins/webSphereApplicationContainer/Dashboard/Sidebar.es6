@@ -16,7 +16,7 @@ export default function WebSphereSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           WebSphere Server Info
         </Collapsible.Header>

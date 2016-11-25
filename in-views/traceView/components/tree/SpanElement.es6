@@ -83,7 +83,7 @@ export default connectTo(props => {
              style={{
                left: `${this.props.totalTimeIndentationDepth * 20 + 16}px`
              }}>
-          {msZeroDecimalPlaces(totalTime)}<br/>({percentageTwoDecimalPlaces(totalTimePercentage)})
+          {msZeroDecimalPlaces(totalTime)}<br />({percentageTwoDecimalPlaces(totalTimePercentage)})
           <div className={`${block}__total-time-indicator`}>
             <div className={`${block}__total-time-indicator-bar`}
                  style={{
@@ -127,7 +127,7 @@ export default connectTo(props => {
                 [
                   <div key='0'>
                     <span className={`${block}__self-time-label`}>Self: </span>
-                    {msZeroDecimalPlaces(selfTime)}<br/>({percentageTwoDecimalPlaces(selfTimePercentage)})
+                    {msZeroDecimalPlaces(selfTime)}<br />({percentageTwoDecimalPlaces(selfTimePercentage)})
                   </div>,
                   <div className={`${block}__horizontal-divider`}
                        key='1'

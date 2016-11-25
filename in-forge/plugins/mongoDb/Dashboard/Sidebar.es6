@@ -15,7 +15,7 @@ export default function MongoDBSidebar({snapshot}) {
   return (
     <div>
       <Separator />
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>MongoDB</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

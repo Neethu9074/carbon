@@ -1,3 +1,5 @@
+/* eslint-disable react/no-danger */
+
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 

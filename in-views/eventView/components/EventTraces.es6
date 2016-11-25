@@ -43,7 +43,7 @@ export default addSection(connectTo(props => {
 function EventTraces({href, traceInformation}) {
   if (!traceInformation) {
     return (
-      <LoadingIndicator inline={true}
+      <LoadingIndicator inline
                                type='dark'
                                style={{ height: '16px' }} />
     );

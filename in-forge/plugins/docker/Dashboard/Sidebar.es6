@@ -17,7 +17,7 @@ export default function DockerSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Docker Container
         </Collapsible.Header>

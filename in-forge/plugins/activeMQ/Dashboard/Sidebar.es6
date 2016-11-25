@@ -12,7 +12,7 @@ export default function ActiveMQSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Broker Info
         </Collapsible.Header>

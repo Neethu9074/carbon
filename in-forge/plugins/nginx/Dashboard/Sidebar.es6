@@ -12,7 +12,7 @@ export default function NginxSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Nginx</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

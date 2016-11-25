@@ -131,7 +131,7 @@ export default React.createClass({
                     </option>
                   </Select>
                   {matchSpecificationForm.error ?
-                    <ValidationBlock hasError={true}>
+                    <ValidationBlock hasError>
                       {matchSpecificationForm.error}
                     </ValidationBlock>
                   : null}
@@ -163,7 +163,7 @@ export default React.createClass({
                            onChange={e => setValue([...path, 'matchSpecification', key], e.target.value)}
                            hasError={!field.valid} />
                     {field.error ?
-                      <ValidationBlock hasError={true}>
+                      <ValidationBlock hasError>
                         {field.error}
                       </ValidationBlock>
                     : null}

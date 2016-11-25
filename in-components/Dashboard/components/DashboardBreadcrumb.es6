@@ -25,7 +25,7 @@ const Crumb = connectTo(props => {
     return (
       <li className={crumbElement}>
         <LoadingIndicator type='light'
-                          inline={true}
+                          inline
                           style={{
                             height: '13px'
                           }} />

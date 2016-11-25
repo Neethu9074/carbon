@@ -39,7 +39,7 @@ function getVersion(data) {
     return (
       <span>
         {version}
-        <br/>
+        <br />
         {comment}
       </span>
     );

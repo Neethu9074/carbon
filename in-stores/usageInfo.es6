@@ -1,3 +1,5 @@
+/* eslint-disable react/no-danger */
+
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
@@ -26,9 +28,9 @@ export function hideUsageInfo() {
 
 export function init() {
   // deactivate usage info handling in dev mode for some peace of mind
-  // if (__DEV__) {
-  //   return;
-  // }
+  if (__DEV__) {
+    return;
+  }
 
   combineLatest([usageInfo$, usageInfoVisible$])
     .subscribe(([usageInfo, visible]) => {

@@ -1,34 +1,22 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import Section from 'in-views/eventView/components/Section';
 
-
 export default function addSection(ComposedComponent, isPresent) {
-  return React.createClass({
+  return function AddSectionHoc(props) {
+    if (isPresent && !isPresent(props.event)) {
+      return null;
+    }
 
-    displayName: 'AddSectionHoc',
-
-    propTypes: {
-      sectionized: React.PropTypes.bool,
-      event: irpt.map.isRequired
-    },
-
-    render() {
-      if (isPresent && !isPresent(this.props.event)) {
-        return null;
-      }
-
-      if (this.props.sectionized) {
-        return (
-          <Section>
-            <ComposedComponent {...this.props} />
-          </Section>
-        );
-      }
+    if (props.sectionized) {
       return (
-        <ComposedComponent {...this.props} />
+        <Section>
+          <ComposedComponent {...props} />
+        </Section>
       );
     }
-  });
+    return (
+      <ComposedComponent {...props} />
+    );
+  };
 }

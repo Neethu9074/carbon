@@ -53,7 +53,7 @@ export default class ColorGenerator {
   }
 
   addRange(fromArray, toArray, fromIndex, toIndex) {
-    const middle = this.getMiddle(fromIndex, toIndex);
+    const middle = getMiddle(fromIndex, toIndex);
     if (middle === -1) {
       return;
     }
@@ -61,15 +61,6 @@ export default class ColorGenerator {
     toArray.push(fromArray[middle]);
     this.addRange(fromArray, toArray, fromIndex, middle);
     this.addRange(fromArray, toArray, middle, toIndex);
-  }
-
-  getMiddle(from, to) {
-    const index = Math.floor((from + to) / 2);
-    if (index === from || index === to) {
-      return -1;
-    }
-
-    return index;
   }
 
   createColor() {
@@ -138,3 +129,12 @@ export function createColorPool(nameOfPool, numColors = 10) {
 export const processesColorPool = createColorPool('processes', 100);
 export const groupsColorPool = createColorPool('groups', 20);
 export const tagsColorPool = createColorPool('tags', 100);
+
+function getMiddle(from, to) {
+  const index = Math.floor((from + to) / 2);
+  if (index === from || index === to) {
+    return -1;
+  }
+
+  return index;
+}

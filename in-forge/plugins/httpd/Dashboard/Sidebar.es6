@@ -12,7 +12,7 @@ export default function HttpdSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Apache Httpd</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

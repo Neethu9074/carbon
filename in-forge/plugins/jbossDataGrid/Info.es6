@@ -7,7 +7,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 export default function JbossDataGridInfo({snapshot}) {
   const data = snapshot.get('data');
   return (
-    <Collapsible initiallyOpen={true}>
+    <Collapsible initiallyOpen>
       <Collapsible.Header>Jboss Data Grid Info</Collapsible.Header>
       <Collapsible.Content>
         <DescriptionList>

@@ -13,7 +13,7 @@ export default function ClrRuntimeSidebar({snapshot}) {
   return (
     <div>
       <Separator />
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>.NET CLR</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

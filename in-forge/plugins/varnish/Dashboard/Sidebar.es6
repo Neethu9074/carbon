@@ -15,7 +15,7 @@ export default function VarnishSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Varnish
         </Collapsible.Header>

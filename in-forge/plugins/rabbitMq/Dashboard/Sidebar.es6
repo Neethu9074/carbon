@@ -13,7 +13,7 @@ export default function RabbitMqSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           RabbitMq
         </Collapsible.Header>

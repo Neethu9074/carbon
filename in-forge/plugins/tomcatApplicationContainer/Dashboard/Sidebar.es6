@@ -18,7 +18,7 @@ export default function TomcatSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Tomcat</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
@@ -29,7 +29,7 @@ export default function TomcatSidebar({snapshot}) {
         <div>
           <Separator />
 
-          <Collapsible initiallyOpen={true}>
+          <Collapsible initiallyOpen>
             <Collapsible.Header>Webapps</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>

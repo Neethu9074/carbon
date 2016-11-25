@@ -18,7 +18,7 @@ export default function ZooKeeperSidebar({snapshot}) {
 
         <ModeInfo snapshot={snapshot} />
 
-        <Collapsible initiallyOpen={true}>
+        <Collapsible initiallyOpen>
           <Collapsible.Header>
             ZooKeeper Info
           </Collapsible.Header>

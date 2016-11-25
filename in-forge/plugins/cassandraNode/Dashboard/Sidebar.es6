@@ -18,7 +18,7 @@ export default function CassandraSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Info
         </Collapsible.Header>
@@ -29,7 +29,7 @@ export default function CassandraSidebar({snapshot}) {
 
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Topology
         </Collapsible.Header>
@@ -41,7 +41,7 @@ export default function CassandraSidebar({snapshot}) {
 
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Communication
         </Collapsible.Header>

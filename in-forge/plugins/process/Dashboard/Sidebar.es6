@@ -16,7 +16,7 @@ export default function ProcessSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Process
         </Collapsible.Header>

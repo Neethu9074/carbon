@@ -20,7 +20,7 @@ export default connectTo(props => {
 function EntityInformation({snapshot}) {
   if (!snapshot) {
     return (
-      <LoadingIndicator inline={true}
+      <LoadingIndicator inline
                                type='dark'
                                style={{
                                  height: '16px'

@@ -14,7 +14,7 @@ export default function HostSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>System</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

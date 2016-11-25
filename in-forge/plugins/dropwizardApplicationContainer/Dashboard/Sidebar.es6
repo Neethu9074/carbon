@@ -11,7 +11,7 @@ export default function DropwizardSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>Dropwizard</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

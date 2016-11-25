@@ -25,7 +25,7 @@ export default function JvmRuntimeSidebar({snapshot}) {
 
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>JVM</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

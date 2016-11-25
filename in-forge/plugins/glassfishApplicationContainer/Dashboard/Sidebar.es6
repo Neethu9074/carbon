@@ -14,7 +14,7 @@ export default function GlassfishSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Glassfish
         </Collapsible.Header>

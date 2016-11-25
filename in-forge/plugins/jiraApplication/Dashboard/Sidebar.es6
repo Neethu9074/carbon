@@ -12,7 +12,7 @@ export default function JiraSidebar({snapshot}) {
   return (
     <div>
       <Separator />
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>JIRA</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

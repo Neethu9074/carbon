@@ -10,7 +10,7 @@ export function LoadingRulesNotification() {
   return (
     <span className={`${block} ${block}--has-loading-indicator`}>
       <LoadingIndicator type='dark'
-                        inline={true}
+                        inline
                         style={{
                           height: '17px'
                         }} />
@@ -31,7 +31,7 @@ export function SavingRulesNotification() {
   return (
     <span className={`${block} ${block}--has-loading-indicator`}>
       <LoadingIndicator type='dark'
-                        inline={true}
+                        inline
                         style={{
                           height: '17px'
                         }} />

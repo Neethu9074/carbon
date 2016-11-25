@@ -32,7 +32,7 @@ export default connectTo(props => {
                                                          fallback='Service' />}
                          id={serviceId}
                          key={serviceId}
-                         addSeparator={true}>
+                         addSeparator>
           <SnapshotLink snapshotId={serviceId}>
             <SnapshotLabel snapshotId={serviceId} />
           </SnapshotLink>

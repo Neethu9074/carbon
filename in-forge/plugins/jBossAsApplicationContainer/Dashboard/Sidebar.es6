@@ -19,14 +19,14 @@ export default function JBossAsSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>JBoss Application Server</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
       { deployments.size > 0 ?
-        <Collapsible initiallyOpen={true}>
+        <Collapsible initiallyOpen>
           <Collapsible.Header>Deployments</Collapsible.Header>
           <Collapsible.Content>
             {deployments.map((data, name) =>

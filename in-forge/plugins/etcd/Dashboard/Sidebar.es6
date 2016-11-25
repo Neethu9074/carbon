@@ -11,7 +11,7 @@ export default function EtcdSidebar({snapshot}) {
     <div>
       <Separator />
 
-      <Collapsible initiallyOpen={true}>
+      <Collapsible initiallyOpen>
         <Collapsible.Header>
           Etcd
         </Collapsible.Header>
