@@ -18,13 +18,13 @@ export default connectTo({
   return (
     <div className={block}>
       <LifecycleObserver onWillMount={enable}
-                         onWillUnmount={disable}/>
+                         onWillUnmount={disable} />
       <SubViewHeader>
         End-User Monitoring Keys
       </SubViewHeader>
 
       {keys == null ?
-        <LoadingIndicator type='dark'/>
+        <LoadingIndicator type='dark' />
       : null}
 
       {keys != null ?
@@ -35,7 +35,7 @@ export default connectTo({
         keys.map(key =>
           <Key key={key.id}
                apiKey={key.id}
-               name={key.appName}/>
+               name={key.appName} />
         )
       : null}
     </div>

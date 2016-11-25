@@ -20,7 +20,7 @@ export default function ApplicationPoolsTable({snapshot}) {
                        createRow={createRow}
                        context={{
                          snapshot
-                       }}/>
+                       }} />
     </DashboardSection>
   );
 }

@@ -31,7 +31,7 @@ export default React.createClass({
     for (let i = 1; i < 6; i++) {
       rects.push(
         <div key={i}
-             className={rectClass + '--' + i + ' ' + rectClass + colorClass}/>
+             className={rectClass + '--' + i + ' ' + rectClass + colorClass} />
       );
     }
 

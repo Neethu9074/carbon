@@ -86,6 +86,6 @@ function createRow(node, i, context) {
     </td>,
     <Mtd metric={'overallDiskSize'}
          snapshot={node}
-         formatter={bytesTwoDecimalPlaces}/>
+         formatter={bytesTwoDecimalPlaces} />
   ];
 }

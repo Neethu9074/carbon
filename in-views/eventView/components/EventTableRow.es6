@@ -120,7 +120,7 @@ const Entity = connectTo(props => {
     <div className={`${block}__entity-wrapper`}>
       <img src={getIcon(snapshot)}
            alt={`Icon for entities of type ${entityType}`}
-           className={`${block}__entity-icon`}/>
+           className={`${block}__entity-icon`} />
       <span>
         {getLabel(snapshot)}
       </span>

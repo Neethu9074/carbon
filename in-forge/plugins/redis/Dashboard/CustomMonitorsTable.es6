@@ -67,6 +67,6 @@ function createDetails(monitorName, index, context) {
                        metrics: ['monitor.' + monitorName],
                        labels: [monitorName],
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }

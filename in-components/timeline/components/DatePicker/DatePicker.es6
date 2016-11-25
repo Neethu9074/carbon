@@ -101,7 +101,7 @@ export default connectTo({
           <div className={block + '__heading'}>
             <Icon type='reset'
                   className={block + '__reset-button'}
-                  onClick={reset}/>
+                  onClick={reset} />
             <Button className={block + '__apply-button'}
                     onClick={() => applyDate(this.getMergedDate())}>
               Apply

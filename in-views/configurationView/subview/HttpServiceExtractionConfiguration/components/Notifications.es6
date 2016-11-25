@@ -13,7 +13,7 @@ export function LoadingRulesNotification() {
                         inline={true}
                         style={{
                           height: '17px'
-                        }}/>
+                        }} />
       Loading rules
     </span>
   );
@@ -34,7 +34,7 @@ export function SavingRulesNotification() {
                         inline={true}
                         style={{
                           height: '17px'
-                        }}/>
+                        }} />
       Saving rules
     </span>
   );

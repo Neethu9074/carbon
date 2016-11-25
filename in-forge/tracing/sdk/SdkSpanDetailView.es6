@@ -19,7 +19,7 @@ export default function SdkSpanDetailView({span}) {
         {custom ?
           <DescriptionItem title='Data'>
             <Code code={JSON.stringify(custom.toJS(), 0, 2)}
-                  lang='json'/>
+                  lang='json' />
           </DescriptionItem>
         : null}
       </DescriptionList>

@@ -40,7 +40,7 @@ export default function MsSqlDashboard({snapshot, timeframe}) {
                            'Writelog'
                          ],
                          type: 'line'
-                     }}/>
+                     }} />
     </DashboardSection>
     <DashboardSection title='Connections & Users'>
       <ChartWithLegend snapshotId={snapshotId}
@@ -58,7 +58,7 @@ export default function MsSqlDashboard({snapshot, timeframe}) {
                            'Connections'
                          ],
                          type: 'line'
-                     }}/>
+                     }} />
     </DashboardSection>
 
     <DatabasesTable snapshot={snapshot}

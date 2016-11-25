@@ -64,21 +64,21 @@ export default function RedisInfo({snapshot}) {
         <DescriptionItem title='Master Downtime'>
           <MetricValue metric={'master_downtime_seconds'}
                        snapshotId={snapshotId}
-                       formatter={secondsFormatter}/>
+                       formatter={secondsFormatter} />
         </DescriptionItem>
       : null}
       {role === 'slave' ?
         <DescriptionItem title='Sync in Progress'>
           <MetricValue metric={'master_sync_left_bytes'}
                        snapshotId={snapshotId}
-                       formatter={syncInProgressFormatter}/>
+                       formatter={syncInProgressFormatter} />
         </DescriptionItem>
       : null}
       {role === 'slave' ?
         <DescriptionItem title='Last Interaction with Master'>
           <MetricValue metric={'master_last_io_seconds_ago'}
                        snapshotId={snapshotId}
-                       formatter={secondsAgoFormatter}/>
+                       formatter={secondsAgoFormatter} />
         </DescriptionItem>
       : null}
     </DescriptionList>

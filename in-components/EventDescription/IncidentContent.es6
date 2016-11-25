@@ -43,7 +43,7 @@ function IncidentContent({incident, events}) {
            dangerouslySetInnerHTML={{__html: toHtml(problem.get('fixSuggestion'))}} />
 
       <SnapshotDescription snapshotId={problem.get('snapshotId', '')}
-                           time={firstEvent.get('start')}/>
+                           time={firstEvent.get('start')} />
     </div>
   );
 }

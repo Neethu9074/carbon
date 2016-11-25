@@ -18,7 +18,7 @@ function AutoUpdate({toggleAutoUpdate, checkboxId, autoUpdateActive}) {
       <input type='checkbox'
              id={checkboxId}
              checked={autoUpdateActive}
-             onChange={toggleAutoUpdate}/>
+             onChange={toggleAutoUpdate} />
       <label htmlFor={checkboxId}
              className={`${block}__label`}>
         Refresh every 10 seconds

@@ -11,7 +11,7 @@ const block = 'in-graph-view';
 export default function GraphView() {
   return (
     <div className={block}>
-      <Universe className={block + '__universe'}/>
+      <Universe className={block + '__universe'} />
       <Explanation />
       <GraphLoadingIndicator />
     </div>

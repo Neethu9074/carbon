@@ -64,7 +64,7 @@ const Chart = connectTo(props => {
 function Chart({timeframe$, snapshot, snapshotId, metric}) {
   if (!snapshot) {
     return (
-      <LoadingIndicator inline={true}
+      <LoadingIndicator inline
                         type='dark'
                         style={{ height: '16px' }} />
     );

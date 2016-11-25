@@ -27,7 +27,7 @@ export default function ServletsTable({deploymentContext, snapshot, timeframe}) 
                          timeframe,
                          deploymentContext
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -93,6 +93,6 @@ function createDetails(servletName, servletIndex, context) {
                'Requests'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }

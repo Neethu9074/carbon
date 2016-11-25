@@ -24,18 +24,18 @@ export default function Navigation() {
         <NavItem title='Service Mapper'>
           <NavItem title='HTTP Rules'
                    href$={httpServiceExtractionConfigurationViewLink$}
-                   isActive$={isHttpServiceExtractionConfigurationView$}/>
+                   isActive$={isHttpServiceExtractionConfigurationView$} />
         </NavItem>
 
         {isEumEnabled ?
           <NavItem title='End-User Monitoring'
                    href$={eumKeysViewLink$}
-                   isActive$={isEumKeysView$}/>
+                   isActive$={isEumKeysView$} />
         : null}
 
         <NavItem title='User Interface'
                  href$={userInterfaceConfigViewLink$}
-                 isActive$={isUserInterfaceConfigView$}/>
+                 isActive$={isUserInterfaceConfigView$} />
       </NavItems>
     </nav>
   );

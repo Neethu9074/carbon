@@ -38,7 +38,7 @@ export default function EtcdDashboard({snapshot, timeframe}) {
                            ],
                            formatter: zeroDecimalPlaces,
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Traffic'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -57,7 +57,7 @@ export default function EtcdDashboard({snapshot, timeframe}) {
                            ],
                            formatter: bytesZeroDecimalPlaces,
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Storage'>
         <TwoColumnRow>
@@ -75,7 +75,7 @@ export default function EtcdDashboard({snapshot, timeframe}) {
                              ],
                              formatter: zeroDecimalPlaces,
                              type: 'line'
-                          }}/>
+                          }} />
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -90,7 +90,7 @@ export default function EtcdDashboard({snapshot, timeframe}) {
                              ],
                              formatter: zeroDecimalPlaces,
                              type: 'line'
-                          }}/>
+                          }} />
         </TwoColumnRow>
 
         <OperationsTable snapshot={snapshot}

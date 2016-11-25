@@ -44,7 +44,7 @@ function SelectedChart({metric, snapshots}) {
 
             <SvgIcon height={9}
                      type='chevron_right'
-                     className={`${block}__breadcrumb-separator`}/>
+                     className={`${block}__breadcrumb-separator`} />
           </span>
         )}
         {definition.label}
@@ -69,7 +69,7 @@ function SelectedChart({metric, snapshots}) {
                          max,
                          formatter: definition.formatter.detailed,
                          tooltipFormatter: definition.formatter.detailed
-                       }}/>
+                       }} />
     </div>
   );
 }
@@ -105,7 +105,7 @@ export default connectTo({
       {metrics.map(metric =>
         <SelectedChart snapshots={snapshots}
                        metric={metric}
-                       key={metric}/>
+                       key={metric} />
       )}
     </div>
   );

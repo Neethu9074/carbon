@@ -64,7 +64,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Reads/Writes'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -83,7 +83,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: bytesZeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Get Hits/Misses'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -115,7 +115,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: hitRateZeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Delete Hits/Misses'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -147,7 +147,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: hitRateZeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Flush command'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -164,7 +164,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Evictions'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -181,7 +181,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Used bytes'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -199,7 +199,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: bytesZeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Connections'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -221,7 +221,7 @@ export default function MemcachedDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );

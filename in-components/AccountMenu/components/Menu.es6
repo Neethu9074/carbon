@@ -60,7 +60,7 @@ export default connectTo({
             Management Portal
 
             <Icon type='right'
-                  className={block + '__account-menu-arrow'}/>
+                  className={block + '__account-menu-arrow'} />
           </a>
 
           <Separator />

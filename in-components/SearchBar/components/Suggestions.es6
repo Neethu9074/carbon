@@ -37,7 +37,7 @@ const Suggestion = connectTo(props => {
            }}>
         <img src={getIcon(snapshot)}
              alt={`Icon for entity: ${label}`}
-             className={`${block}__icon`}/>
+             className={`${block}__icon`} />
 
         <span className={`${block}__label`}>
           {label}
@@ -69,7 +69,7 @@ export default connectTo({
         {searchMatches.toArray().slice(0, maxProposals).map((searchMatch, i) =>
           <Suggestion key={searchMatch}
                       snapshotId={searchMatch}
-                      isHighlighted={highligtedSuggestion === i}/>
+                      isHighlighted={highligtedSuggestion === i} />
         )}
 
         {remainingHitCount > 0 ?

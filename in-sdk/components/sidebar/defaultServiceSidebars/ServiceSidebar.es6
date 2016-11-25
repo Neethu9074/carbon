@@ -10,7 +10,7 @@ export default function ServiceSidebar({snapshot}) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
-      <JumpToTracesOfServiceButton snapshotId={snapshotId}/>
+      <JumpToTracesOfServiceButton snapshotId={snapshotId} />
 
       <ServiceKpiSparkCharts snapshot={snapshot} />
 

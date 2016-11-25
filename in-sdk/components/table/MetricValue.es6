@@ -7,7 +7,7 @@ export default function TableViewMetricValue(props) {
     <div style={{
            textAlign: 'right'
          }}>
-      <MetricValue {...props}/>
+      <MetricValue {...props} />
     </div>
   );
 }

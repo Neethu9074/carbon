@@ -11,7 +11,7 @@ import {timeframeShape} from 'in-stores/timeline';
 export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <DefaultKpiSection snapshot={snapshot}/>
+      <DefaultKpiSection snapshot={snapshot} />
 
       <DefaultCharts snapshot={snapshot}
                      timeframe={timeframe} />

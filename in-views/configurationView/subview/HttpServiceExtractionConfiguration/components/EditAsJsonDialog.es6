@@ -66,7 +66,7 @@ export default React.createClass({
                     lint: true,
                     gutters: ['CodeMirror-lint-markers']
                   }}
-                  className={`${block}__editor`}/>
+                  className={`${block}__editor`} />
         </div>
       </Dialog>
     );

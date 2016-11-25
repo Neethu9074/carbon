@@ -74,7 +74,7 @@ function createDetails(nodeName, i, context) {
                   'Total file descriptors'
                 ],
                 type: 'line'
-              }}/>
+              }} />
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
               margins={{
@@ -92,7 +92,7 @@ function createDetails(nodeName, i, context) {
                   'Memory limit'
                 ],
                 type: 'line'
-              }}/>
+              }} />
       </div>
       <div>
         <ChartWithLegend snapshotId={snapshotId}
@@ -110,7 +110,7 @@ function createDetails(nodeName, i, context) {
                   'Maximum number of Erlang processes'
                 ],
                 type: 'line'
-              }}/>
+              }} />
 
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
@@ -129,7 +129,7 @@ function createDetails(nodeName, i, context) {
                   'Disk free space in bytes'
                 ],
                 type: 'line'
-              }}/>
+              }} />
       </div>
     </TwoColumnRow>
   );

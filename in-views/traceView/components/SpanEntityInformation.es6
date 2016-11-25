@@ -49,7 +49,7 @@ export default connectTo(props => {
                         type='dark'
                         style={{
                           height: '16px'
-                        }}/>
+                        }} />
     );
   } else if (!snapshot) {
     return null;

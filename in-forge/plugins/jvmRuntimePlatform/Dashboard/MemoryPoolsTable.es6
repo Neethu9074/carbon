@@ -89,6 +89,6 @@ function createDetails(pool, poolName, context) {
                poolName + ' Usage'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }

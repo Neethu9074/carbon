@@ -108,7 +108,7 @@ function createDetails(db, i, context) {
                              'Queries'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
@@ -130,7 +130,7 @@ function createDetails(db, i, context) {
                              'DELETE Queries'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
         </TwoColumnRow>
         <TwoColumnRow>
           <ChartWithLegend snapshotId={snapshotId}
@@ -150,7 +150,7 @@ function createDetails(db, i, context) {
                                'Queries waiting'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -166,7 +166,7 @@ function createDetails(db, i, context) {
                                'Committed transactions'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
       </TwoColumnRow>
 
       <TwoColumnRow>
@@ -185,7 +185,7 @@ function createDetails(db, i, context) {
                             'Rolled back transactions'
                           ],
                           type: 'line'
-                        }}/>
+                        }} />
         <ChartWithLegend snapshotId={snapshotId}
                         timeframe={timeframe}
                         margins={{
@@ -202,7 +202,7 @@ function createDetails(db, i, context) {
                           ],
                           type: 'line',
                           formatter: hitRateZeroDecimalPlaces
-                        }}/>
+                        }} />
       </TwoColumnRow>
       <TwoColumnRow>
         <ChartWithLegend snapshotId={snapshotId}
@@ -220,7 +220,7 @@ function createDetails(db, i, context) {
                             'Standby Conflicts'
                           ],
                           type: 'line'
-                        }}/>
+                        }} />
 
 
         <ChartWithLegend snapshotId={snapshotId}
@@ -240,7 +240,7 @@ function createDetails(db, i, context) {
                             'Tuple fetch'
                           ],
                           type: 'line'
-                        }}/>
+                        }} />
       </TwoColumnRow>
     </div>
   );

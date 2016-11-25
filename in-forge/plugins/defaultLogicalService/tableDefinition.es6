@@ -59,7 +59,7 @@ export default [
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
                        createMetricValueStream={() => valueStream}
-                       formatter={zeroDecimalPlaces}/>
+                       formatter={zeroDecimalPlaces} />
         ),
         sortable$: valueStream
       };
@@ -83,7 +83,7 @@ export default [
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
                        createMetricValueStream={() => valueStream}
-                       formatter={msTwoDecimalPlaces}/>
+                       formatter={msTwoDecimalPlaces} />
         ),
         sortable$: valueStream
       };
@@ -107,7 +107,7 @@ export default [
         content: (
           <PercentageIndicator snapshotId={snapshot.get('id')}
                                createMetricValueStream={() => valueStream}
-                               formatter={percentageTwoDecimalPlaces}/>
+                               formatter={percentageTwoDecimalPlaces} />
         ),
         sortable$: valueStream
       };
@@ -131,7 +131,7 @@ export default [
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
                        createMetricValueStream={() => valueStream}
-                       formatter={zeroDecimalPlaces}/>
+                       formatter={zeroDecimalPlaces} />
         ),
         sortable$: valueStream
       };

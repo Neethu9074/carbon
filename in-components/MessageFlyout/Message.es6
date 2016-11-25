@@ -23,7 +23,7 @@ export default function Message({message}) {
          }}>
       <SvgIcon type={message.icon}
                className={`${block}__icon`}
-               width={18}/>
+               width={18} />
       <div className={`${block}__content`}>
         {message.content}
       </div>

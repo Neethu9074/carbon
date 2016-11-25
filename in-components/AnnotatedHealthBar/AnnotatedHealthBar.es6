@@ -37,7 +37,7 @@ export default connectTo(props => {
         {numberOfOpenIssues > 0 ?
           <Tooltip content={
                      <TooltipFrame>
-                       <EventListing snapshotId={snapshotId}/>
+                       <EventListing snapshotId={snapshotId} />
                      </TooltipFrame>
                    }>
             <span className={block + '__counter'}

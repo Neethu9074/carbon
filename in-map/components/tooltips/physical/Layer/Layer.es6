@@ -26,7 +26,7 @@ export default createTooltip(
       ? (
         <EventDescription event={mostImportantEvent}
                           showFullTextIfToLong={false}
-                          snapshotId={snapshot.get('id')}/>
+                          snapshotId={snapshot.get('id')} />
       )
       : (
         <Content>

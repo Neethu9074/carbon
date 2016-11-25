@@ -31,7 +31,7 @@ export default function ZKReplicatedDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: zeroDecimalPlaces
-                        }}/>
+                        }} />
        )}
       </DashboardSection>
    </div>

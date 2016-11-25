@@ -38,7 +38,7 @@ export default getEvents(
               <EventDescription className={block + '__item'}
                                 key={event.get('id')}
                                 event={event}
-                                snapshotId={event.getIn(['problem', 'snapshotId'])}/>)
+                                snapshotId={event.getIn(['problem', 'snapshotId'])} />)
             }
         </div>
       );

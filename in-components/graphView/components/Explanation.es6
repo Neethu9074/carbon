@@ -12,7 +12,7 @@ export default function Explanation() {
   return (
     <div className={block}>
 
-      <Lettering className={block + '__lettering'}/>
+      <Lettering className={block + '__lettering'} />
 
       <h2>
         Dynamic Graph Showcase

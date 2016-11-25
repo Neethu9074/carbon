@@ -19,7 +19,7 @@ export default function KPIList({formatters, classname, metrics, labels, snapsho
               className={block + '__kpi'}>
             <MetricValue snapshotId={snapshot.get('id')}
                          metric={metric}
-                         formatter={formatters[index]}/>
+                         formatter={formatters[index]} />
         </span>
       )}
     </div>

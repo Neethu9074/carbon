@@ -56,15 +56,15 @@ function createRow(name, i, context) {
   return ([
     <td>{name}</td>,
     <Mtd metric={'siteperf.' + name + '.current_connections'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'siteperf.' + name + '.total_requests'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'siteperf.' + name + '.get_requests'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'siteperf.' + name + '.post_requests'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'siteperf.' + name + '.put_requests'}
-         snapshot={context.snapshot}/>
+         snapshot={context.snapshot} />
   ]);
 }
 
@@ -81,7 +81,7 @@ function createDetails(name, i, context) {
                metrics: ['siteperf.' + name + '.total_requests'],
                labels: ['Total number of requests'],
                type: 'line'
-             }}/>
+             }} />
 
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
@@ -92,7 +92,7 @@ function createDetails(name, i, context) {
                metrics: ['siteperf.' + name + '.current_connections'],
                labels: ['Current number of connections'],
                type: 'line'
-             }}/>
+             }} />
 
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
@@ -126,7 +126,7 @@ function createDetails(name, i, context) {
                  'Bytes received'
                ],
                type: 'line'
-             }}/>
+             }} />
     </div>
   );
 }

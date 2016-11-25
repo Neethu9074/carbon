@@ -51,7 +51,7 @@ export default function NginxDashboard({snapshot, timeframe}) {
                  ],
                  type: 'line',
                  formatter: twoDecimalPlaces
-               }}/>
+               }} />
       </DashboardSection>
 
       <DashboardSection title='Connections'>
@@ -92,7 +92,7 @@ export default function NginxDashboard({snapshot, timeframe}) {
                  ],
                  type: 'line',
                  formatter: twoDecimalPlaces
-               }}/>
+               }} />
       </DashboardSection>
     </div>
   );

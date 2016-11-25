@@ -65,17 +65,17 @@ export default React.createClass({
                        id={`${id}-test-${key}`}
                        placeholder={options[key].testPlaceholder}
                        value={this.state[key] || ''}
-                       onChange={e => this.setState({[key]: e.target.value})}/>
+                       onChange={e => this.setState({[key]: e.target.value})} />
               </FormGroup>
 
               <MatchPresenter match={matches[key]}
-                              prefix={`${key}-`}/>
+                              prefix={`${key}-`} />
             </Col>
           )}
         </Row>
 
         <ExtractedServiceNamePresenter ruleForm={ruleForm}
-                                       matches={matches}/>
+                                       matches={matches} />
       </div>
     );
   },

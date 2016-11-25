@@ -26,13 +26,13 @@ export default function EventListHeader() {
                  color='#33d8d7' />
 
         <EventFilter>
-          All (<Count getCounter={counter => counter.get('incident', 0) + counter.get('issue', 0)}/>)
+          All (<Count getCounter={counter => counter.get('incident', 0) + counter.get('issue', 0)} />)
         </EventFilter>
         <EventFilter filter='incident'>
-          Incidents (<Count getCounter={counter => counter.get('incident', 0)}/>)
+          Incidents (<Count getCounter={counter => counter.get('incident', 0)} />)
         </EventFilter>
         <EventFilter filter='event'>
-          Events (<Count getCounter={counter => counter.get('issue', 0)}/>)
+          Events (<Count getCounter={counter => counter.get('issue', 0)} />)
         </EventFilter>
       </div>
       <div className={`${block}__right-side`}>

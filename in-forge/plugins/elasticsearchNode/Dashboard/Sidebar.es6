@@ -42,7 +42,7 @@ export default function ElasticsearchSidebar({snapshot}) {
                               label: 'Size of store',
                               formatter: bytesTwoDecimalPlaces
                             }
-                          ]}/>
+                          ]} />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

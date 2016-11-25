@@ -23,7 +23,7 @@ export default function CassandraSidebar({snapshot}) {
           Info
         </Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot}/>
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

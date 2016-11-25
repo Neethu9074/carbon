@@ -26,7 +26,7 @@ const Slider = React.createClass({
              max={this.props.max != null ? this.props.max : 100}
              step={this.props.step != null ? this.props.step : 0.1}
              value={this.props.value != null ? this.props.value : null}
-             onChange={this.props.onChange}/>
+             onChange={this.props.onChange} />
     );
   }
 });

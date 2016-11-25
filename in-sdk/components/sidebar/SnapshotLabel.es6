@@ -16,7 +16,7 @@ export default connectTo(props => {
                         inline={true}
                         style={{
                           height: '12px'
-                        }}/>
+                        }} />
     );
   }
   return (

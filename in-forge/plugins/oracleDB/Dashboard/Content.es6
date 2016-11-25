@@ -22,7 +22,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Physical Reads'
                            ],
                            type: 'line'
-                       }}/>
+                       }} />
       </DashboardSection>
     </div>
   );

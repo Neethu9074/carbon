@@ -60,7 +60,7 @@ export default connectTo(props => {
                 <div className={block + '__header'}>
                   <img src={getIcon(plugin)}
                        alt='plugin icon'
-                       className={block + '__plugin-icon'}/>
+                       className={block + '__plugin-icon'} />
                   <span>
                     {getPlural(plugin)} ({groups[plugin].length})
                   </span>

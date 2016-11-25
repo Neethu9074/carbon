@@ -59,7 +59,7 @@ export default function JVMDashboard({snapshot, timeframe}) {
                            ],
                            type: 'stackedArea',
                            formatter: twoDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Memory'>
@@ -80,7 +80,7 @@ export default function JVMDashboard({snapshot, timeframe}) {
                              'Used'
                            ],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <MemoryPoolsTable snapshot={snapshot}
@@ -115,7 +115,7 @@ export default function JVMDashboard({snapshot, timeframe}) {
                             ).toArray(),
                    type: 'point',
                    formatter: twoDecimalPlaces
-                 }}/>
+                 }} />
         </DashboardSection>
       : null}
 

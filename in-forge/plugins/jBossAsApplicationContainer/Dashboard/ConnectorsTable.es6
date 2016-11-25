@@ -91,6 +91,6 @@ function createDetails(connectorName, i, context) {
                'Errors'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }

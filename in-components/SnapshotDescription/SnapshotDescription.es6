@@ -27,7 +27,7 @@ export default connectTo(props => {
       <div className={block}>
         <img src={getIcon(snapshot)}
              alt='Snapshot icon'
-             className={block + '__icon'}/>
+             className={block + '__icon'} />
         <span className={block + '__label'}>
           {getLabel(snapshot)}
         </span>

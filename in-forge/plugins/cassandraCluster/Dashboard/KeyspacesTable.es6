@@ -59,7 +59,7 @@ function createRow(keyspaceName, i, context) {
 
     <Mtd metric={'keyspace.' + keyspaceName + '.diskSize'}
          snapshot={context.snapshot}
-         formatter={bytesTwoDecimalPlaces}/>
+         formatter={bytesTwoDecimalPlaces} />
   ]);
 }
 
@@ -83,6 +83,6 @@ function createDetails(keyspaceName, i, context) {
                        formatter: bytesTwoDecimalPlaces,
                        tooltipFormatter: bytesTwoDecimalPlaces,
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }

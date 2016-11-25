@@ -63,7 +63,7 @@ export default connectTo({
            <TooltipFrame anchor={anchor}>
              <EventDescription event={highlightedEvent}
                                showFullTextIfToLong={false}
-                               snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')}/>
+                               snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')} />
            </TooltipFrame>
         </div>
       );

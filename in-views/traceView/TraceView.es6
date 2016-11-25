@@ -13,7 +13,7 @@ export default function TraceView({children}) {
   return (
     <div>
       <LifecycleObserver onWillMount={enable}
-                         onWillUnmount={disable}/>
+                         onWillUnmount={disable} />
       <TwoColumnView leftContent={getLeftContent()}
                      rightContent={getRightContent()}
                      leftWidth='45rem' />
@@ -24,9 +24,9 @@ export default function TraceView({children}) {
 
 function getLeftContent() {
   return [
-    <TraceListHeader key='TraceListHeader'/>,
-    <TraceTableHeader key='TraceTableHeader'/>,
-    <TraceTable key='TraceTable'/>
+    <TraceListHeader key='TraceListHeader' />,
+    <TraceTableHeader key='TraceTableHeader' />,
+    <TraceTable key='TraceTable' />
   ];
 }
 

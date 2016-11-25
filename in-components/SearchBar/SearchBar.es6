@@ -29,7 +29,7 @@ export default connectTo({
     return (
       <div className={classes}>
         <Icon type='search'
-              className={block + '__search-icon'}/>
+              className={block + '__search-icon'} />
 
         <input type='search'
                value={rawQuery}
@@ -38,7 +38,7 @@ export default connectTo({
                onChange={onChange}
                onKeyDown={onKeyDown}
                onFocus={onFocus}
-               onBlur={onBlur}/>
+               onBlur={onBlur} />
 
         <HelpLink helpId='usingTheSearchBar'
                   className={`${block}__help`}>

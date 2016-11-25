@@ -19,7 +19,7 @@ export default function Icon({expanded}) {
                width={4}
                height={4}
                color={expanded ? '#000' : '#2d4048'}
-               className={block + '__icon'}/>
+               className={block + '__icon'} />
     </div>
   );
 }

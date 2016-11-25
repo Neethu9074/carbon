@@ -49,10 +49,10 @@ function createRow(operation, i, context) {
     <td>{operation.replace(/_/g, ' ')}</td>,
     <Mtd metric={'storage.' + operation + '_success'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'storage.' + operation + '_fail'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>
+         snapshot={context.snapshot} />
   ]);
 }
 
@@ -76,7 +76,7 @@ function createDetails(operation, i, context) {
                   'Success'
                 ],
                 type: 'line'
-              }}/>
+              }} />
 
         <ChartWithLegend snapshotId={snapshotId}
               timeframe={timeframe}
@@ -92,7 +92,7 @@ function createDetails(operation, i, context) {
                   'Fail'
                 ],
                 type: 'line'
-              }}/>
+              }} />
     </TwoColumnRow>
   );
 }

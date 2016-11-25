@@ -19,7 +19,7 @@ export default function TagList({snapshot}) {
         <Collapsible.Content>
           {tags.toArray().map((tag) =>
             <Tag key={tag}
-                 tag={tag}/>
+                 tag={tag} />
           )}
         </Collapsible.Content>
       </Collapsible>

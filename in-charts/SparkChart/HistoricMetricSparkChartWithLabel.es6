@@ -35,7 +35,7 @@ export default React.createClass({
         <MetricValue snapshotId={this.props.snapshotId}
                      metric={this.props.metric}
                      formatter={this.props.formatter}
-                     className={block + '__value'}/>
+                     className={block + '__value'} />
         <HistoricMetricSparkChart {...this.props}
                                   design={this.props.design}
                                   className={block + '__chart'}

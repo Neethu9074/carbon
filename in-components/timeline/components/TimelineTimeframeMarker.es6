@@ -80,7 +80,7 @@ export default connectTo({
                style={{
                  left: leftWidthAdjusted + '%',
                  width: width + '%'
-               }}/>
+               }} />
         </div>
       );
     },

@@ -63,7 +63,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
 
       {['read', 'write'].map(op =>
@@ -90,7 +90,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                                '99th Percentile'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
         </DashboardSection>
       )}
 
@@ -122,7 +122,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                              ],
                              type: 'line',
                              formatter: twoDecimalPlaces
-                           }}/>
+                           }} />
         </DashboardSection>
       )}
 
@@ -150,7 +150,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: twoDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <KeyspacesTable snapshot={snapshot} timeframe={timeframe} />
@@ -171,7 +171,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: twoDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Cache Hits'>
@@ -195,7 +195,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                              'Row'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Bloom Filter'>
@@ -215,7 +215,7 @@ export default function CassandraDashboard({snapshot, timeframe}) {
                              'Miss Rate'
                            ],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );

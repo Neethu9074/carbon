@@ -24,7 +24,7 @@ export default function DatasourcesTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -52,16 +52,16 @@ function createRow(datasource, i, context) {
     <td>{datasource}</td>,
     <Mtd metric={'datasources.' + datasource + '.poolSize'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'datasources.' + datasource + '.freePoolSize'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'datasources.' + datasource + '.waitingThreadCount'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'datasources.' + datasource + '.averageWaitTime'}
          formatter={msZeroDecimalPlaces}
-         snapshot={context.snapshot}/>
+         snapshot={context.snapshot} />
   ]);
 }
 
@@ -84,7 +84,7 @@ function createDetails(datasource, i, context) {
                            'Free Connections in Pool'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                        timeframe={context.timeframe}
                        margins={{
@@ -110,7 +110,7 @@ function createDetails(datasource, i, context) {
                            'Average Waiting Time'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
     </div>
   );
 }

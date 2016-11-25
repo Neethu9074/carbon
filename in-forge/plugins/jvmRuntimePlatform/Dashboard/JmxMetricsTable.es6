@@ -70,6 +70,6 @@ function createDetails(jmxMetric, i, context) {
                        metrics: ['jmx.' + jmxMetric],
                        labels: [jmxMetric],
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }

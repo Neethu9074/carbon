@@ -29,7 +29,7 @@ export default function CacheStatisticsTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -60,15 +60,15 @@ function createRow(cacheInfo, cacheName, context) {
   return ([
     <td>{cacheName}</td>,
     <Mtd metric={'cachesStatistics.' + cacheName + '.hitRatio'}
-         snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.hits'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.misses'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.removeHits'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.removeMisses'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />
   ]);
 }
 
@@ -90,7 +90,7 @@ function createDetails(cacheInfo, cacheName, context) {
                            'Hit Ratio'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                        timeframe={context.timeframe}
                        margins={{
@@ -111,7 +111,7 @@ function createDetails(cacheInfo, cacheName, context) {
                            'Remove Misses'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
     </div>
   );
 }

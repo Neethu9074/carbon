@@ -21,7 +21,7 @@ import NodeSummary from '../NodeSummary.es6';
 export default function ElasticsearchDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <NodeSummary snapshot={snapshot}/>
+      <NodeSummary snapshot={snapshot} />
 
       <DashboardSection title='Search Performance vs. Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -53,7 +53,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                              'Number Of Queries'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <TwoColumnRow>
@@ -74,7 +74,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                                'Indices'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
         </DashboardSection>
         <DashboardSection title='Shards'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -95,7 +95,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                                'Active Primary'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
         </DashboardSection>
       </TwoColumnRow>
 
@@ -131,7 +131,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                              'Removed'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <IndicesTable snapshot={snapshot}
@@ -168,7 +168,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                            ],
                            formatter: timeByMillisTwoDecimalPlaces,
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Lucene Segments'>
@@ -188,7 +188,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                            formatter: withSiMultiplyPrefixZeroDecimalPlaces,
                            tooltipFormatter: zeroDecimalPlaces,
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Active Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -220,7 +220,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                            ],
                            formatter: zeroDecimalPlaces,
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Rejected Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -244,7 +244,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                            ],
                            formatter: zeroDecimalPlaces,
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Queued Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -276,7 +276,7 @@ export default function ElasticsearchDashboard({snapshot, timeframe}) {
                            ],
                            formatter: zeroDecimalPlaces,
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );

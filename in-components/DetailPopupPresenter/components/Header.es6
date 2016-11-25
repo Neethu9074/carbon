@@ -25,7 +25,7 @@ export default connectTo({
                  value={filter ? filter : ''}
                  onChange={e => setContentFilter(e.target.value)}
                  placeholder='Search…'
-                 className={block + '__filter-input'}/>
+                 className={block + '__filter-input'} />
 
           <CloseButton />
         </div>

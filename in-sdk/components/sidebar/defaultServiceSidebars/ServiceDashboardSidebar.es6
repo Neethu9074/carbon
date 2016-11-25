@@ -8,7 +8,7 @@ export default function ServiceDashboardSidebar({snapshot}) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
-      <JumpToTracesOfServiceButton snapshotId={snapshotId}/>
+      <JumpToTracesOfServiceButton snapshotId={snapshotId} />
 
       <ClusterMemberList snapshotId={snapshotId} />
 

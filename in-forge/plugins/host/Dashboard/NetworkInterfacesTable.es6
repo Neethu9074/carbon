@@ -156,6 +156,6 @@ function createDetails(filesystem, name, context) {
              formatter: percentageZeroDecimalPlaces,
              tooltipFormatter: percentageTwoDecimalPlaces,
              type: 'line'
-           }}/>
+           }} />
   );
 }

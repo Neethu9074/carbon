@@ -12,7 +12,7 @@ export default function CloseButton() {
     <div className={block}
          onClick={() => clearContent()}>
       <Icon type='delete'
-            className={block + '__icon'}/>
+            className={block + '__icon'} />
     </div>
   );
 

@@ -80,7 +80,7 @@ function createDetails(db, i, context) {
                          ],
                          type: 'line',
                          formatter: msZeroDecimalPlaces
-                     }}/>
+                     }} />
       <TwoColumnRow>
         <ChartWithLegend snapshotId={context.snapshot.get('id')}
                          timeframe={context.timeframe}
@@ -97,7 +97,7 @@ function createDetails(db, i, context) {
                              'Queries'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
         <ChartWithLegend snapshotId={context.snapshot.get('id')}
                          timeframe={context.timeframe}
                          margins={{
@@ -121,7 +121,7 @@ function createDetails(db, i, context) {
                              'OTHER'
                            ],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </TwoColumnRow>
     </div>
   );

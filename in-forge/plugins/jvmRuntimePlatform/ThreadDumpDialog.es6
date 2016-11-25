@@ -30,7 +30,7 @@ export default connectTo(props => {
       <CenterAlignment>
         Thread dump
 
-        <CopyToClipboardButton getText={() => response.data}/>
+        <CopyToClipboardButton getText={() => response.data} />
       </CenterAlignment>
     );
   }

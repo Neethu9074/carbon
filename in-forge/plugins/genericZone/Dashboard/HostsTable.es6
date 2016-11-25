@@ -68,9 +68,9 @@ function createRow(snapshot) {
     </td>,
     <Mtd metric={'cpu.used'}
          snapshot={snapshot}
-         formatter={percentageZeroDecimalPlaces}/>,
+         formatter={percentageZeroDecimalPlaces} />,
     <Mtd metric={'memory.used'}
          snapshot={snapshot}
-         formatter={percentageZeroDecimalPlaces}/>
+         formatter={percentageZeroDecimalPlaces} />
   ];
 }

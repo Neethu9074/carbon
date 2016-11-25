@@ -149,7 +149,7 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                              'Idle'
                            ],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       { status !== 'EXTENDED_INFO_DISABLED' ?
@@ -189,7 +189,7 @@ export default function HttpdDashboard({snapshot, timeframe}) {
                                  ],
                                  type: 'line',
                                  formatter: bytesZeroDecimalPlaces
-                                }}/>
+                                }} />
           </DashboardSection>
         </div>
       : null }

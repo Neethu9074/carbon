@@ -28,7 +28,7 @@ const Crumb = connectTo(props => {
                           inline={true}
                           style={{
                             height: '13px'
-                          }}/>
+                          }} />
       </li>
     );
   }
@@ -52,7 +52,7 @@ const Crumb = connectTo(props => {
            className={`${crumbElement}-link`}>
           <img src={icon}
                alt='Icon for this type of entity.'
-               className={`${crumbElement}-icon`}/>
+               className={`${crumbElement}-icon`} />
           {label}
         </a>
       </li>

@@ -7,6 +7,6 @@ export default function GenericSpanDetailView({span}) {
   const data = span.getIn(['data'], emptyMap);
   return (
     <Code code={JSON.stringify(data.toJS(), 0, 2)}
-          type='json'/>
+          type='json' />
   );
 }

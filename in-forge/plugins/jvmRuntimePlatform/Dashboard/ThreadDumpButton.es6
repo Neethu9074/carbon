@@ -37,7 +37,7 @@ export default connectTo(props => {
   function onClick() {
     if (isOnline) {
       setActiveDialog(<ThreadDumpDialog snapshot={snapshot}
-                                        time={Date.now()}/>);
+                                        time={Date.now()} />);
     }
   }
 });

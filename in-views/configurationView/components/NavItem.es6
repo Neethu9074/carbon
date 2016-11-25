@@ -53,7 +53,7 @@ export default connectTo(props => {
                      style={{
                        paddingRight: this.state.isExpanded ? 0 : '2px'
                      }}
-                     className={`${block}__toggle`}/>
+                     className={`${block}__toggle`} />
           : null}
 
           {this.props.title}

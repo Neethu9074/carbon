@@ -50,7 +50,7 @@ export default function RubyDashboard({snapshot, timeframe}) {
                    'Resident'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='Heap Slots'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -71,7 +71,7 @@ export default function RubyDashboard({snapshot, timeframe}) {
                    'Free'
                  ],
                  type: 'stackedArea'
-               }}/>
+               }} />
       </DashboardSection>
       <TwoColumnRow>
         <DashboardSection title='Threads'>
@@ -114,7 +114,7 @@ function GcTime({snapshot, timeframe}) {
                            '#Major GCs'
                          ],
                          type: 'point'
-                       }}/>
+                       }} />
     );
 }
 
@@ -137,6 +137,6 @@ function ThreadMetrics({snapshot, timeframe}) {
                            '#Thread Count'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
     );
 }

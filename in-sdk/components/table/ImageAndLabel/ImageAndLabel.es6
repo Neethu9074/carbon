@@ -9,7 +9,7 @@ export default function ImageAndLabel({imgSrc, imgAlt, children}) {
     <div className={block}>
       <img src={imgSrc}
            alt={imgAlt}
-           className={`${block}__image`}/>
+           className={`${block}__image`} />
 
       {children}
     </div>

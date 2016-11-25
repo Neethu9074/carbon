@@ -31,13 +31,13 @@ export default createTooltip(
       ? (
         <EventDescription event={mostImportantEvent}
                           showFullTextIfToLong={false}
-                          snapshotId={snapshot.get('id')}/>
+                          snapshotId={snapshot.get('id')} />
       )
       : (
         <Content className={`${block}__content`}>
           {getLabel(snapshot)}
           {layer && layer.length > 0
-            ? <LayerListing snapshotIds={layer.map(_layer => _layer.id)}/>
+            ? <LayerListing snapshotIds={layer.map(_layer => _layer.id)} />
             : null}
         </Content>
       );

@@ -25,7 +25,7 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
             Reset Agent
           </Button>
 
-          <div style={{ width: '0.5rem' }}/>
+          <div style={{ width: '0.5rem' }} />
 
           <Button onClick={() => stop(snapshot)}>
             Stop Self Monitoring
@@ -48,7 +48,7 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                                'Load'
                              ],
                              type: 'stackedArea'
-                           }}/>
+                           }} />
         </DashboardSection>
       : null}
       <DashboardSection title='Memory'>
@@ -82,7 +82,7 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                              'Native Used'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Network'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -103,7 +103,7 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                              'Sent'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Sensors'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -134,11 +134,11 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
                              'Discovery Count'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Log Output'>
-        <LogStreamer snapshot={snapshot}/>
+        <LogStreamer snapshot={snapshot} />
       </DashboardSection>
     </div>
   );

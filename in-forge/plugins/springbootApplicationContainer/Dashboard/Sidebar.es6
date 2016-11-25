@@ -19,7 +19,7 @@ export default function SpringbootSidebar({snapshot}) {
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>Application Info</Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot}/>
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

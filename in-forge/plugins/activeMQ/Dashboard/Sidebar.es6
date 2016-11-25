@@ -17,7 +17,7 @@ export default function ActiveMQSidebar({snapshot}) {
           Broker Info
         </Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot}/>
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
@@ -28,7 +28,7 @@ export default function ActiveMQSidebar({snapshot}) {
           Transport Connectors Info
         </Collapsible.Header>
         <Collapsible.Content>
-          <ConnectorsInfo snapshot={snapshot}/>
+          <ConnectorsInfo snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

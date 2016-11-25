@@ -67,7 +67,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            ],
                            formatter: percentageTwoDecimalPlaces,
                            type: 'line'
-                         }}/>
+                         }} />
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
@@ -94,7 +94,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: timeByMicroTwoDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       { !memoryMetricsBugged ?
       <DashboardSection title='Memory'>
@@ -120,7 +120,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            ],
                            formatter: bytesTwoDecimalPlaces,
                            type: 'line'
-                         }}/>
+                         }} />
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
@@ -143,7 +143,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            ],
                            formatter: bytesTwoDecimalPlaces,
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       : null }
       <DashboardSection title='Block IO'>
@@ -165,7 +165,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: twoDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       { hasNetworkMetrics ?
       <DashboardSection title='Network'>
@@ -207,7 +207,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                    ],
                    formatter: percentageTwoDecimalPlaces,
                    type: 'line'
-                 }}/>
+                 }} />
         </div>
       </DashboardSection>
       : null }

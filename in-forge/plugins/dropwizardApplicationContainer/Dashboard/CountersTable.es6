@@ -72,6 +72,6 @@ function createDetails(counter, index, context) {
                        metrics: ['metrics.counters.' + counter],
                        labels: [counter],
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }

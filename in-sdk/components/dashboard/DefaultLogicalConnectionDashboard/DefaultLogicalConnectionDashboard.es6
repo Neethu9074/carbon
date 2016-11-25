@@ -12,7 +12,7 @@ import {timeframeShape} from 'in-stores/timeline';
 export default function DefaultLogicalConnectionDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <DefaultKpiConnectionSection snapshot={snapshot}/>
+      <DefaultKpiConnectionSection snapshot={snapshot} />
 
       <DefaultConnectionCharts snapshot={snapshot}
                                timeframe={timeframe} />

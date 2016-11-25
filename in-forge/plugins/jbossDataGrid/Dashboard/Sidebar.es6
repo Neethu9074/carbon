@@ -14,11 +14,11 @@ export default function JbossDataGridSidebar({snapshot}) {
   return (
     <div>
       <Separator />
-      <Info snapshot={snapshot}/>
-      <JbossDataGridPorts snapshot={snapshot}/>
-      <JbossDataGridCaches snapshot={snapshot}/>
-      <JbossDataGridClusters snapshot={snapshot}/>
-      <RunningComponentsList snapshotId={snapshot.get('id')}/>
+      <Info snapshot={snapshot} />
+      <JbossDataGridPorts snapshot={snapshot} />
+      <JbossDataGridCaches snapshot={snapshot} />
+      <JbossDataGridClusters snapshot={snapshot} />
+      <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
   );

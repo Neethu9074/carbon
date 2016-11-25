@@ -16,7 +16,7 @@ import {capitalize} from 'in-services/formatters/string';
 export default function CassandraClusterDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <ClusterSummary snapshot={snapshot}/>
+      <ClusterSummary snapshot={snapshot} />
 
       <DashboardSection title='Overall Requests'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -36,7 +36,7 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
 
       {['read', 'write'].map(op =>
@@ -63,7 +63,7 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
                                '99th Percentile'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
           </DashboardSection>
       )}
 
@@ -83,7 +83,7 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
                              'Overall Disk Size'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}
                          timeframe={timeframe} />

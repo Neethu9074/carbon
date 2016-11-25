@@ -27,7 +27,7 @@ export default function Key({name, apiKey}) {
           <Code code={snippet}
                 lang='html'
                 showLineNumbers={false}
-                wrapperClassName={`${block}__tracking-code`}/>
+                wrapperClassName={`${block}__tracking-code`} />
         </DescriptionItem>
       </DescriptionList>
 

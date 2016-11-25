@@ -31,7 +31,7 @@ function ConnectionLine({sourceSnapshot, sourceZoneSnapshot, direction}) {
 
   return (
     <div className={block}>
-      <Icon className={block + '__icon'} type={direction === 'in' ? 'arrow_right' : 'arrow_left'}/>
+      <Icon className={block + '__icon'} type={direction === 'in' ? 'arrow_right' : 'arrow_left'} />
 
       <span className={block + '__ip'}>
         {getLabel(sourceSnapshot)}

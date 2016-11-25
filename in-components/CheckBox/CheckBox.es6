@@ -15,7 +15,7 @@ const CheckBox = React.createClass({
       <input type='checkbox'
              className={block}
              defaultChecked={this.props.defaultChecked ? this.props.defaultChecked : false}
-             onClick={this.props.onClick}/>
+             onClick={this.props.onClick} />
     );
   }
 });

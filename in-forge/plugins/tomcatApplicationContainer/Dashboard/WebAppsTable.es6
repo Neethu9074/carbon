@@ -76,7 +76,7 @@ function createDetails(webApp, webAppContext, context) {
                  'Sessions'
                ],
                type: 'line'
-             }}/>
+             }} />
     </div>
   );
 }

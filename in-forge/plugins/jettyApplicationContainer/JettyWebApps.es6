@@ -44,7 +44,7 @@ export default function JettyWebApps({snapshot}) {
                     {webApp.get('tempDirectory')}
                   </DescriptionItem>
                   <DescriptionItem title='Classpath'>
-                    <ClasspathLayouter classpath={webApp.get('classPath')}/>
+                    <ClasspathLayouter classpath={webApp.get('classPath')} />
                   </DescriptionItem>
                 </DescriptionList>
               </Collapsible.Content>

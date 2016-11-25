@@ -60,7 +60,7 @@ export default function GolangDashboard({snapshot, timeframe}) {
                              'GC Pause'
                            ],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Goroutines'>
@@ -79,7 +79,7 @@ export default function GolangDashboard({snapshot, timeframe}) {
                              'Executed Goroutines'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );
@@ -141,6 +141,6 @@ function renderMemoryMetrics(snapshot, timeframe) {
                          'Obtained From System'
                        ],
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }

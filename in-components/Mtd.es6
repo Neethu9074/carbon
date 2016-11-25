@@ -17,7 +17,7 @@ const Mtd = React.createClass({
     return (
       <td>
         <MetricValue {...this.props}
-                     snapshotId={this.props.snapshot.get('id')}/>
+                     snapshotId={this.props.snapshot.get('id')} />
       </td>
     );
   }

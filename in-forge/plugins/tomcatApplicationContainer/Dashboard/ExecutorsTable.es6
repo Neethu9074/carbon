@@ -77,6 +77,6 @@ function createDetails(executor, name, context) {
                name + ' Queue Size'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }

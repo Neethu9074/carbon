@@ -10,10 +10,10 @@ const block = 'in-sidebar-content';
 export default function SidebarContent({snapshot, ForgeDetailsComponent}) {
   return (
     <div className={block}>
-      <SidebarHeader snapshot={snapshot}/>
+      <SidebarHeader snapshot={snapshot} />
 
       <Jail component={ForgeDetailsComponent}
-            props={{snapshot}}/>
+            props={{snapshot}} />
     </div>
   );
 }

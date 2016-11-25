@@ -70,7 +70,7 @@ export default connectTo({
         </div>
         <div className={`${block}__content`}>
           <Jail component={DashboardImpl}
-                props={{snapshot, timeframe}}/>
+                props={{snapshot, timeframe}} />
         </div>
       </div>
     </div>

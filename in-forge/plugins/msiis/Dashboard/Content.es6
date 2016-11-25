@@ -10,7 +10,7 @@ export default function MsIISDashboard({snapshot, timeframe}) {
       <WebsitesTable snapshot={snapshot}
                      timeframe={timeframe} />
 
-      <ApplicationPoolsTable snapshot={snapshot}/>
+      <ApplicationPoolsTable snapshot={snapshot} />
     </div>
   );
 }

@@ -59,19 +59,19 @@ function createRow(core, index, context) {
     <td>{core}</td>,
     <Mtd metric={'core_stats.' + core + '.avg_requests'}
          snapshot={context.snapshot}
-         formatter = { zeroDecimalPlaces }/>,
+         formatter = { zeroDecimalPlaces } />,
     <Mtd metric={'core_stats.' + core + '.avg_time_request'}
          snapshot={context.snapshot}
-         formatter = { msZeroDecimalPlaces }/>,
+         formatter = { msZeroDecimalPlaces } />,
     <Mtd metric={'core_stats.' + core + '.hitratio'}
          snapshot={context.snapshot}
-         formatter = { percentageZeroDecimalPlaces }/>,
+         formatter = { percentageZeroDecimalPlaces } />,
     <Mtd metric={'core_stats.' + core + '.evictions'}
          snapshot={context.snapshot}
-         formatter = { zeroDecimalPlaces }/>,
+         formatter = { zeroDecimalPlaces } />,
     <Mtd metric={'core_stats.' + core + '.errors'}
          snapshot={context.snapshot}
-         formatter = { zeroDecimalPlaces }/>
+         formatter = { zeroDecimalPlaces } />
   ]);
 }
 
@@ -98,7 +98,7 @@ function createDetails(core, i, context) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
         <DashboardSection title='Request Time'>
           <ChartWithLegend snapshotId={snapshotId}
@@ -116,7 +116,7 @@ function createDetails(core, i, context) {
                            ],
                            type: 'line',
                            formatter: msZeroDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
       </TwoColumnRow>
 
@@ -137,7 +137,7 @@ function createDetails(core, i, context) {
                            ],
                            type: 'line',
                            formatter: twoDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
         <DashboardSection title='Cache Hit Rate'>
           <ChartWithLegend snapshotId={snapshotId}
@@ -155,7 +155,7 @@ function createDetails(core, i, context) {
                            ],
                            type: 'line',
                            formatter: percentageZeroDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
       </TwoColumnRow>
 
@@ -176,7 +176,7 @@ function createDetails(core, i, context) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
         <DashboardSection title='Evictions'>
           <ChartWithLegend snapshotId={snapshotId}
@@ -194,7 +194,7 @@ function createDetails(core, i, context) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
       </TwoColumnRow>
 
@@ -215,7 +215,7 @@ function createDetails(core, i, context) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
         <DashboardSection title='Timeouts'>
           <ChartWithLegend snapshotId={snapshotId}
@@ -233,7 +233,7 @@ function createDetails(core, i, context) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
       </TwoColumnRow>
 
@@ -255,7 +255,7 @@ function createDetails(core, i, context) {
                          ],
                          type: 'line',
                          formatter: zeroDecimalPlaces
-                       }}/>
+                       }} />
       </DashboardSection>
     </div>
   );

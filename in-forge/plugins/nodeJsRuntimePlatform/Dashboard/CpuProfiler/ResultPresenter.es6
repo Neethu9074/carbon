@@ -34,7 +34,7 @@ export default connectTo({
 
       {lastProfilingResult && typeof lastProfilingResult.data === 'object' ?
         <ResultTable result={lastProfilingResult.data}
-                     snapshot={snapshot}/>
+                     snapshot={snapshot} />
       : null}
     </div>
   );

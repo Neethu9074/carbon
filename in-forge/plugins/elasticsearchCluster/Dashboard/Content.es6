@@ -18,7 +18,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
   return (
     <div>
-      <ClusterSummary snapshot={snapshot}/>
+      <ClusterSummary snapshot={snapshot} />
 
       <DashboardSection title='Search Performance vs. Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -50,7 +50,7 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
                              'Number Of Queries'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <TwoColumnRow>
@@ -71,7 +71,7 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
                                'Indices'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
         </DashboardSection>
         <DashboardSection title='Shards'>
           <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -98,7 +98,7 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
                                'Unassigned'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
         </DashboardSection>
       </TwoColumnRow>
 
@@ -134,7 +134,7 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
                              'Removed'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}

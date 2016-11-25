@@ -63,10 +63,10 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode, sn
         onClick={() => setSelectedNode(node.id)}
         data-node-id={node.id}>
       <td className={`${block}__self`}>
-        <PercentageIndicator v={node.s} p={getPercentageOfParent(node, 's', rootNode)}/>
+        <PercentageIndicator v={node.s} p={getPercentageOfParent(node, 's', rootNode)} />
       </td>
       <td className={`${block}__total`}>
-        <PercentageIndicator v={node.t} p={getPercentageOfParent(node, 't', rootNode)}/>
+        <PercentageIndicator v={node.t} p={getPercentageOfParent(node, 't', rootNode)} />
       </td>
       <td className={`${block}__function`}
           style={{paddingLeft: `${indentationPx}px`}}>
@@ -77,7 +77,7 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode, sn
                      type={isExpanded ? 'triangle_down' : 'triangle_right'}
                      className={`${block}__expand`}
                      width={10}
-                     height={10}/>
+                     height={10} />
           : null}
 
           <NodeLabel node={node} snapshot={snapshot} />

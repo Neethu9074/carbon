@@ -19,7 +19,7 @@ export function openEditor() {
       setActiveDialog(
         <EditAsJsonDialog initialValue={initialValue}
                           onSaveAndClose={save}
-                          onClose={close}/>
+                          onClose={close} />
       );
     });
 }

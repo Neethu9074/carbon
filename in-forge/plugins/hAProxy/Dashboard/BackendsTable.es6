@@ -62,22 +62,22 @@ function createRow(backendName, i, context) {
     <td>{backendName}</td>,
     <Mtd metric={'backendStats.' + backendName + '.avgResponseTime'}
          formatter={msZeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'backendStats.' + backendName + '.avgQueueTime'}
          formatter={msZeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'backendStats.' + backendName + '.queueSize'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'backendStats.' + backendName + '.reqConnErrors'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'backendStats.' + backendName + '.errorRes'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'backendStats.' + backendName + '.connRetries'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'backendStats.' + backendName + '.deniedRes'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'backendStats.' + backendName + '.reDispatchedReq'}
-         snapshot={context.snapshot}/>
+         snapshot={context.snapshot} />
   ]);
 }
 
@@ -110,7 +110,7 @@ function createDetails(backendName, i, context) {
                           'Queue Size'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                       timeframe={context.timeframe}
                       margins={{
@@ -126,7 +126,7 @@ function createDetails(backendName, i, context) {
                           'Response Errors'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                       timeframe={context.timeframe}
                       margins={{
@@ -140,7 +140,7 @@ function createDetails(backendName, i, context) {
                           'Connection Retries'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                       timeframe={context.timeframe}
                       margins={{
@@ -154,7 +154,7 @@ function createDetails(backendName, i, context) {
                           'Denied Responses'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                       timeframe={context.timeframe}
                       margins={{
@@ -168,7 +168,7 @@ function createDetails(backendName, i, context) {
                           'Re-Dispatched Requests'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
     </div>
   );
 }

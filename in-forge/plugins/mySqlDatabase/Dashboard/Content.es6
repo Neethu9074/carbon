@@ -77,7 +77,7 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                            ],
                            formatter: twoDecimalPlaces,
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Slow Queries'>
@@ -98,7 +98,7 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                              ],
                              type: 'line',
                              formatter: twoDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       {performanceDataAvailable ?
         <DashboardSection title='Latency'>
@@ -117,7 +117,7 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                              ],
                              type: 'line',
                              formatter: msZeroDecimalPlaces
-                         }}/>
+                         }} />
         </DashboardSection>
       : null }
       <DashboardSection title='Clients'>
@@ -140,7 +140,7 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: twoDecimalPlaces
-                       }}/>
+                       }} />
       </DashboardSection>
       {performanceDataAvailable ?
         <DashboardSection title='Wait Events'>
@@ -155,7 +155,7 @@ export default function MySqlDashboard({snapshot, timeframe}) {
                              labels: waitEvents,
                              type: 'line',
                              formatter: msFormatter
-                         }}/>
+                         }} />
         </DashboardSection>
       : null }
       <DashboardSection title='Key Access'>

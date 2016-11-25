@@ -9,7 +9,7 @@ import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 export default function ServiceInstanceDashboardSidebar({snapshot}) {
   return (
     <div>
-      <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')}/>
+      <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')} />
 
       <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
 

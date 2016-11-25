@@ -32,7 +32,7 @@ export default function JiraDashboard({snapshot, timeframe}) {
                              'Concurrent Requests'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='DB Pool'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -48,7 +48,7 @@ export default function JiraDashboard({snapshot, timeframe}) {
                              'Idle Connections'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );

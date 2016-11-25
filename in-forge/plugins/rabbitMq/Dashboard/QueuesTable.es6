@@ -51,13 +51,13 @@ function createRow(queueName, i, context) {
     <td>{queueName}</td>,
     <Mtd metric={'queue_map.' + queueName + '.messages_ready'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'queue_map.' + queueName + '.messages_unacknowledged'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'queue_map.' + queueName + '.messages'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>
+         snapshot={context.snapshot} />
   ]);
 }
 

@@ -31,7 +31,7 @@ export default function TraceTableRow({selectedTraceId, trace, onClick}) {
       <span className={cellClassName}>
         {trace.serviceInstanceSnapshotId ?
           <EntityColumnContent serviceInstanceSnapshotId={trace.serviceInstanceSnapshotId}
-                               time={trace.startMillis}/>
+                               time={trace.startMillis} />
         : null}
       </span>
     </div>

@@ -60,7 +60,7 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                   ],
                   type: 'line',
                   formatter: twoDecimalPlaces
-                }}/>
+                }} />
       </DashboardSection>
       <DashboardSection title='Message Status'>
         <TwoColumnRow>
@@ -81,7 +81,7 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                     'Messages total'
                   ],
                   type: 'line'
-                }}/>
+                }} />
           <ChartWithLegend snapshotId={snapshotId}
                 timeframe={timeframe}
                 margins={{
@@ -100,7 +100,7 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                   ],
                   type: 'line',
                   formatter: twoDecimalPlaces
-                }}/>
+                }} />
         </TwoColumnRow>
       </DashboardSection>
 
@@ -120,7 +120,7 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                   'Connections'
                 ],
                 type: 'line'
-              }}/>
+              }} />
       </DashboardSection>
 
       <NodesTable snapshot={snapshot}

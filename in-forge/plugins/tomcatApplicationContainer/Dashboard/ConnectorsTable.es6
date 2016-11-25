@@ -130,7 +130,7 @@ function createDetailsWithConnections(connector, name, context) {
                name + ' Connections'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }
 
@@ -151,6 +151,6 @@ function createDetails(connector, name, context) {
                name + ' Threads Busy'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }

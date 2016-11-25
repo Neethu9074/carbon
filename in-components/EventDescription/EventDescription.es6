@@ -56,7 +56,7 @@ export default connectTo(props => {
            onClick={() => selectEvent(event)}>
         <Icon className={block + '__icon'}
               type={getIconTypeForEventType(eventType)}
-              style={{color: this.props.color}}/>
+              style={{color: this.props.color}} />
         <div className={block + '__description'}>
           <Row className={getClassName(this, block, '__time')}>
             <Col cols={6}>
@@ -81,11 +81,11 @@ export default connectTo(props => {
   getContent(event, eventType, color, showFullTextIfToLong = true) {
     return (
       eventType === EVENT_TYPES.INCIDENT ?
-      <IncidentContent incident={event}/> :
+      <IncidentContent incident={event} /> :
       <EventContent snapshotId={this.props.snapshotId}
                     showFullTextIfToLong={showFullTextIfToLong}
                     event={event}
-                    color={color}/>
+                    color={color} />
     );
   }
 }));

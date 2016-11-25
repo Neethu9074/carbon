@@ -127,7 +127,7 @@ function createDetails(filesystem, name, context) {
                            ],
                            labels: ['Free', 'Leaked'],
                            type: 'line'
-                         }}/>
+                         }} />
 
         :
 
@@ -167,7 +167,7 @@ function createDetails(filesystem, name, context) {
                            type: 'line',
                            formatter: withSiMultiplyPrefixZeroDecimalPlaces,
                            tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
-                         }}/>
+                         }} />
         }
 
         <ChartWithLegend snapshotId={context.snapshot.get('id')}
@@ -199,7 +199,7 @@ function createDetails(filesystem, name, context) {
                  ],
                  labels: ['Bytes Read/s', 'Bytes Write/s'],
                  type: 'line'
-               }}/>
+               }} />
       </div>
   );
 }

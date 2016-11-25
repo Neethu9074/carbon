@@ -57,7 +57,7 @@ export default connectTo({
               <Tenant key={tenant.name}
                       tenant={tenant}
                       expandedTenant={this.state.expandedTenant}
-                      toggleTenant={this.toggleTenant}/>
+                      toggleTenant={this.toggleTenant} />
             )}
           </ul>
         </div>
@@ -95,7 +95,7 @@ function Tenant({tenant, expandedTenant, toggleTenant}) {
         {tenant.name} ({tenant.units.length})
 
         <Icon type={tenant.name === expandedTenant ? 'close' : 'open'}
-              className={block + '__tenant-name-arrow'}/>
+              className={block + '__tenant-name-arrow'} />
       </a>
 
       {tenant.name === expandedTenant ?

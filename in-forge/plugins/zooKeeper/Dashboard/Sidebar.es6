@@ -23,7 +23,7 @@ export default function ZooKeeperSidebar({snapshot}) {
             ZooKeeper Info
           </Collapsible.Header>
           <Collapsible.Content>
-            <StandaloneInfo snapshot={snapshot}/>
+            <StandaloneInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
       </div>

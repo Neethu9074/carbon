@@ -26,8 +26,8 @@ export default connectTo(props => {
              style={{
                width: `${maxSeverity * 10}%`,
                background: color
-             }}/>
-        <div className={`${block}__bar-shadow`}/>
+             }} />
+        <div className={`${block}__bar-shadow`} />
       </div>
 
       <HealthIconListing snapshotId={snapshotId} />

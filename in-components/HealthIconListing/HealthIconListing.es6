@@ -42,7 +42,7 @@ export default connectTo(props => {
     return (
       <Tooltip content={
                  <TooltipFrame>
-                   <EventListing snapshotId={snapshotId}/>
+                   <EventListing snapshotId={snapshotId} />
                  </TooltipFrame>
                }>
         {counter}

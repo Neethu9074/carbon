@@ -29,7 +29,7 @@ export default function CacheStatisticsTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -59,13 +59,13 @@ function createRow(cacheInfo, cacheName, context) {
   return ([
     <td>{cacheName}</td>,
     <Mtd metric={'cachesStatistics.' + cacheName + '.stores'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.readWriteRatio'}
-         snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.numberOfEntries'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.evictions'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />
   ]);
 }
 
@@ -87,7 +87,7 @@ function createDetails(cacheInfo, cacheName, context) {
                            'Cache Puts'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                        timeframe={context.timeframe}
                        margins={{
@@ -102,7 +102,7 @@ function createDetails(cacheInfo, cacheName, context) {
                            'Read/Write Ratio'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                        timeframe={context.timeframe}
                        margins={{
@@ -117,7 +117,7 @@ function createDetails(cacheInfo, cacheName, context) {
                            'Entries'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                        timeframe={context.timeframe}
                        margins={{
@@ -132,7 +132,7 @@ function createDetails(cacheInfo, cacheName, context) {
                            'Evictions'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
     </div>
   );
 }

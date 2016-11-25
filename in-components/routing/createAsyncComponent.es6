@@ -45,7 +45,7 @@ export function createAsyncComponent(loadingPlaceholder, load) {
     render() {
       const Component = this.state.Component;
       if (Component) {
-        return <Component {...this.props}/>;
+        return <Component {...this.props} />;
       }
 
       return loadingPlaceholder;

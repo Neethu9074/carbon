@@ -131,12 +131,12 @@ export default React.createClass({
           </DialogNotification>
         : null}
 
-        <CopyToClipboardButton getText={() => this.refs.code.textContent}/>
+        <CopyToClipboardButton getText={() => this.refs.code.textContent} />
 
         <pre>
           <code className={`${block}__log`}
                 dangerouslySetInnerHTML={{__html: this.state.log}}
-                ref='code'/>
+                ref='code' />
         </pre>
       </div>
     );

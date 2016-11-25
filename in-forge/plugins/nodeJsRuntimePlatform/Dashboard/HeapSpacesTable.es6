@@ -97,6 +97,6 @@ function createDetails(name, i, context) {
                          'Used',
                          'Physical'
                        ],
-                       type: 'line' }}/>
+                       type: 'line' }} />
   );
 }

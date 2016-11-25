@@ -78,7 +78,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                            min: 0,
                            type: 'line',
                            formatter: msZeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Threads'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -101,7 +101,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Connections'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -129,7 +129,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                            min: 0,
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Keep Alive'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -155,7 +155,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                            min: 0,
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='File cache'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -194,7 +194,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: hitRateZeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='JDBC Connections'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -214,7 +214,7 @@ export default function GlassfishDashboard({snapshot, timeframe}) {
                            min: 0,
                            type: 'line',
                            formatter: zeroDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );

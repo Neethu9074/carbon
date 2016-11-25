@@ -28,17 +28,17 @@ export default function KafkaDashboard({snapshot, timeframe}) {
         <KpiKeyValue label='Produce Latency'>
           <MetricValue snapshotId={snapshotId}
                        metric='broker.totalTimeProduce'
-                       formatter={msZeroDecimalPlaces}/>
+                       formatter={msZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label='Fetch Consumer Latency'>
           <MetricValue snapshotId={snapshotId}
                        metric='broker.totalTimeFetchConsumer'
-                       formatter={msZeroDecimalPlaces}/>
+                       formatter={msZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label='Fetch Follower Latency'>
           <MetricValue snapshotId={snapshotId}
                        metric='broker.totalTimeFetchFollower'
-                       formatter={msZeroDecimalPlaces}/>
+                       formatter={msZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -62,7 +62,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                    'Rejected'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='Request Latency vs Throughput'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -100,7 +100,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                    'Fetch Follower Latency'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='Broker Failures'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -120,7 +120,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                    'Produce'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='Broker state metrics'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -150,7 +150,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                    'Active controller count'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='Average Idle Time Percentage'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -170,7 +170,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                    'Request Handler'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='Partitions'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -188,7 +188,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                    'Count'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='Broker Messages In'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -206,7 +206,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                    '#'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='Log Flushing'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -236,7 +236,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                    'Flushes'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
     </div>
   );

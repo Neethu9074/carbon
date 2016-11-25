@@ -28,7 +28,7 @@ export default connectTo(props => {
       <CenterAlignment>
         <span>File: {file} - Line: {line}</span>
 
-        <CopyToClipboardButton getText={() => response.data}/>
+        <CopyToClipboardButton getText={() => response.data} />
       </CenterAlignment>
     );
   }

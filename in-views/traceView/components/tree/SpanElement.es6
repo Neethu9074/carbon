@@ -88,7 +88,7 @@ export default connectTo(props => {
             <div className={`${block}__total-time-indicator-bar`}
                  style={{
                    width: `${totalTimePercentage * 100}%`
-                 }}/>
+                 }} />
           </div>
 
           {span.get('async') ?
@@ -110,9 +110,9 @@ export default connectTo(props => {
              }}
              id={`span-${span.get('spanId')}`}>
           <div className={`${block}__background`}
-                style={backgroundInCategoryColorStyle}/>
+                style={backgroundInCategoryColorStyle} />
           <div className={`${block}__left-border`}
-                style={backgroundInCategoryColorStyle}/>
+                style={backgroundInCategoryColorStyle} />
           {span.get('error') ?
             <SvgIcon type='error'
                      className={`${block}__error-icon`}

@@ -49,12 +49,12 @@ export default function ReactTooltip({time, config, y1DataColumn, y2DataColumn})
       <dl className={`${block}__metrics`}>
         <MetricBlock dataColumn={y1DataColumn}
                      config={config}
-                     axisName='y1'/>
+                     axisName='y1' />
 
         {config.y2 ?
           <MetricBlock dataColumn={y2DataColumn}
                        config={config}
-                       axisName='y2'/>
+                       axisName='y2' />
         : null}
       </dl>
     </div>

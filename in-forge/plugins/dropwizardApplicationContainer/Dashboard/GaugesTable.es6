@@ -72,6 +72,6 @@ function createDetails(gauge, index, context) {
                        metrics: ['metrics.gauges.' + gauge],
                        labels: [gauge],
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }

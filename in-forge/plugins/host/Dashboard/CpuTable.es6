@@ -108,6 +108,6 @@ function createDetails(cpuNo, index, context) {
                'Steal'
              ],
              type: 'stackedArea'
-           }}/>
+           }} />
   );
 }

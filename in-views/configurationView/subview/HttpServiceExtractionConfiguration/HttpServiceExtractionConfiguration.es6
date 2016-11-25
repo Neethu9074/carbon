@@ -27,7 +27,7 @@ export default connectTo({
   return (
     <div className={block}>
       <LifecycleObserver onWillMount={enable}
-                         onWillUnmount={disable}/>
+                         onWillUnmount={disable} />
 
       <SubViewHeader>
         HTTP Service Extraction Rules
@@ -62,7 +62,7 @@ export default connectTo({
       {ruleForms && ruleForms.map((ruleForm, i) =>
         <Rule key={ruleForm.getItem('id').value}
               ruleForm={ruleForm}
-              path={[i]}/>
+              path={[i]} />
       )}
     </div>
   );

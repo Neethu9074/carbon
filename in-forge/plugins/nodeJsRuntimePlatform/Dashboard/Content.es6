@@ -78,7 +78,7 @@ export default function NodejsDashboard({snapshot, timeframe}) {
                                  'GC Pause'
                                ],
                                type: 'stackedArea'
-                             }}/>
+                             }} />
           </DashboardSection>
         : null}
       </TwoColumnRow>
@@ -108,7 +108,7 @@ export default function NodejsDashboard({snapshot, timeframe}) {
                              '#Requests'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <CpuProfiler snapshot={snapshot} />
@@ -156,7 +156,7 @@ function renderGcMetrics(snapshot, timeframe) {
                            '#Major GCs'
                          ],
                          type: 'point'
-                       }}/>
+                       }} />
     );
   }
 
@@ -179,7 +179,7 @@ function renderGcMetrics(snapshot, timeframe) {
                          'Heap Size'
                        ],
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }
 
@@ -218,7 +218,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
                            'Loops per second'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
     );
   }
 
@@ -239,7 +239,7 @@ function renderEventLoopMetrics(snapshot, timeframe) {
                          'Event loop lag'
                        ],
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }
 

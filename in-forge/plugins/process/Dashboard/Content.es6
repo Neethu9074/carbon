@@ -34,7 +34,7 @@ export default function ProcessDashboard({snapshot, timeframe}) {
                    'Share'
                  ],
                  type: 'line'
-               }}/>
+               }} />
       </DashboardSection>
       <DashboardSection title='CPU Usage'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -53,7 +53,7 @@ export default function ProcessDashboard({snapshot, timeframe}) {
                  ],
                  formatter: percentageZeroDecimalPlaces,
                  type: 'stackedArea'
-               }}/>
+               }} />
       </DashboardSection>
     </div>
   );

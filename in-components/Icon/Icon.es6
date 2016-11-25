@@ -27,7 +27,7 @@ const Icon = React.createClass({
                 style={this.props.style}
                 onClick={this.props.onClick}
                 onMouseEnter={this.props.onMouseEnter}
-                onMouseLeave={this.props.onMouseLeave}/>
+                onMouseLeave={this.props.onMouseLeave} />
       );
     }
 
@@ -35,7 +35,7 @@ const Icon = React.createClass({
       <i className={className}
          style={this.props.style}
          onMouseEnter={this.props.onMouseEnter}
-         onMouseLeave={this.props.onMouseLeave}/>
+         onMouseLeave={this.props.onMouseLeave} />
     );
   }
 });

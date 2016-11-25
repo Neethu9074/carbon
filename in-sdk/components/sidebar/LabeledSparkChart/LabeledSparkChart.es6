@@ -33,7 +33,7 @@ export default connectTo({
         <MetricValue snapshotId={snapshotId}
                      metric={metric}
                      className={block + '__value'}
-                     formatter={formatter}/>
+                     formatter={formatter} />
       </div>
     </div>
   );

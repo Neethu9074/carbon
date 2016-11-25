@@ -16,7 +16,7 @@ export default function MatchPresenter({match, prefix}) {
       <div>
         <SvgIcon type='ok'
                  height={13}
-                 className={`${block}__indicator ${block}__indicator--match`}/>
+                 className={`${block}__indicator ${block}__indicator--match`} />
         Matches
       </div>
     );
@@ -50,7 +50,7 @@ export default function MatchPresenter({match, prefix}) {
       <div>
         <SvgIcon type='x'
                  height={13}
-                 className={`${block}__indicator ${block}__indicator--no-match`}/>
+                 className={`${block}__indicator ${block}__indicator--no-match`} />
         No match
       </div>
     );

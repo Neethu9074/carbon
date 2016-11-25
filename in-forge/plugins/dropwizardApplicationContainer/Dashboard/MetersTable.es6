@@ -74,6 +74,6 @@ function createDetails(meter, index, context) {
                        metrics: ['metrics.meters.' + meter],
                        labels: [meter + ' rate'],
                        type: 'line'
-                     }}/>
+                     }} />
   );
 }

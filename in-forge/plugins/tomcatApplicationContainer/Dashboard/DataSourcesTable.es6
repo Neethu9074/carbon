@@ -72,6 +72,6 @@ function createDetails(connector, name, context) {
                'Active connections'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }

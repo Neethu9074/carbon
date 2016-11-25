@@ -13,7 +13,7 @@ export default function PercentageIndicator({p, v}) {
   return (
     <div className={block}>
       <div className={`${block}__indicator-bar`}
-           style={{width: `${p * 100}%`}}/>
+           style={{width: `${p * 100}%`}} />
 
       <div className={`${block}__content`}>
         <span className={`${block}__value`}>

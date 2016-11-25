@@ -71,17 +71,17 @@ export default connectTo({
         <div className={block}>
           <Icon type={'zoom_small'}
                 className={block + '__icon-zoom'}
-                onClick={this.zoomOut}/>
+                onClick={this.zoomOut} />
           <Slider onChange={this.onZoomChanged}
                   min={0}
                   max={slices.length - 1}
                   step={1}
                   value={value}
-                  className={block + '__slider'}/>
+                  className={block + '__slider'} />
 
           <Icon type={'zoom_large'}
                 className={block + '__icon-zoom'}
-                onClick={this.zoomIn}/>
+                onClick={this.zoomIn} />
         </div>
       );
     },

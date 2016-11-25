@@ -33,7 +33,7 @@ export default function JbossDataGridCaches({snapshot}) {
                 </DescriptionItem>
               </DescriptionList>
               <KeyValuePopup header='Configuration'
-                             data={cache.get('configuration')}/>
+                             data={cache.get('configuration')} />
             </Collapsible.Content>
           </Collapsible>
       ).valueSeq().toArray()}

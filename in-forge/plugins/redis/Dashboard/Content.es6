@@ -115,7 +115,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                              ],
                              formatter: latencyFormatter.bind(latencyThreshold),
                              type: 'line'
-                           }}/>
+                           }} />
         </DashboardSection>
       : null }
 
@@ -134,7 +134,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                            ],
                            formatter: zeroDecimalPlaces,
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Key Hits/Misses'>
@@ -166,7 +166,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: hitRateZeroDecimalPlaces
-                        }}/>
+                        }} />
       </DashboardSection>
       <DashboardSection title='Key Expired/Evicted'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -185,7 +185,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                            'Keys Evicted'
                          ],
                          type: 'line'
-                        }}/>
+                        }} />
       </DashboardSection>
       {dbNames && dbNames.length > 0 ?
         <DashboardSection title='Database'>
@@ -198,7 +198,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                               metrics: dbKeysMetrics(dbNames),
                               labels: dbKeysLabels(dbNames),
                               type: 'line'
-                            }}/>
+                            }} />
         </DashboardSection>
       : null}
       <DashboardSection title='Memory'>
@@ -222,7 +222,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                              'Used lua'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Connections'>
          <ChartWithLegend snapshotId={snapshotId}
@@ -235,7 +235,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                             metrics: getConnectionMetricsForRole(role),
                             labels: getConnectionLabelsForRole(role),
                             type: 'line'
-                          }}/>
+                          }} />
       </DashboardSection>
       {channelNames && channelNames.length > 0 ?
         <DashboardSection title='Pub/Sub'>
@@ -253,7 +253,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                              metrics: ['pubsub_subscribed_patterns'],
                              labels: ['Subscribed patterns'],
                              type: 'line'
-                           }}/>
+                           }} />
         </DashboardSection>
       : null}
       <DashboardSection title='Persistence'>
@@ -274,7 +274,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                            ],
                            formatter: persistenceFormater,
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <SlowLogsTable snapshotId={snapshotId} />
@@ -294,7 +294,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                             metrics: [ 'master_sync_left_bytes' ],
                             labels: [ 'Bytes left before syncing is complete' ],
                             type: 'stackedArea'
-                        }}/>
+                        }} />
           </DashboardSection>
       : null}
 

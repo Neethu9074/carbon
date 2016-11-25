@@ -24,7 +24,7 @@ export default function EndpointBreakdownTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -58,19 +58,19 @@ function createRow(statusCodes, endpoint, context) {
   return ([
     <td>{endpoint}</td>,
     <Mtd metric={endpointMetricName}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={endpointMetricName + '.' + '1xx'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={endpointMetricName + '.' + '2xx'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={endpointMetricName + '.' + '3xx'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={endpointMetricName + '.' + '4xx'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={endpointMetricName + '.' + '5xx'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'gauge.response.' + endpoint}
-         snapshot={context.snapshot}/>
+         snapshot={context.snapshot} />
   ]);
 }
 
@@ -113,6 +113,6 @@ function createDetails(statusCodes, endpoint, context) {
                         'Response Time of Latest Request'
                       ],
                       type: 'line'
-                     }}/>
+                     }} />
   );
 }

@@ -38,7 +38,7 @@ export default function PostgreSqlDashboard({snapshot, timeframe}) {
       </KpiSection>
 
     <DatabasesTable snapshot={snapshot}
-                    timeframe={timeframe}/>
+                    timeframe={timeframe} />
     </div>
   );
 }

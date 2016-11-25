@@ -43,7 +43,7 @@ function TagListAll({tags, tagsFilter, filteredTags}) {
 
     collection.push(<Tag key={tag}
                          tag={tag}
-                         isDark={true}/>);
+                         isDark={true} />);
   }
 
   return (

@@ -57,7 +57,7 @@ export default getElementDimensions(connectTo({
               <TraceTableRow key={trace.id}
                              trace={trace}
                              selectedTraceId={this.props.selectedTraceId}
-                             onClick={this.onClick}/>
+                             onClick={this.onClick} />
             )}
           </Infinite>
         : null}

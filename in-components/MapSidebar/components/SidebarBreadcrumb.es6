@@ -41,7 +41,7 @@ const Crumb = connectTo(props => {
            className={`${crumbElement}-link`}>
           <img src={icon}
                alt='Icon for this type of entity.'
-               className={imgClasses}/>
+               className={imgClasses} />
         </a>
       </li>
     </Tooltip>

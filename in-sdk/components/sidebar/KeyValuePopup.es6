@@ -59,7 +59,7 @@ export default connectTo({
             </span>
             <div className={buttonClassName}
                  onClick={() => toggleContent({title, data})}>
-              <Icon type='popup_pop_up'/>
+              <Icon type='popup_pop_up' />
             </div>
           </div>
         </div>

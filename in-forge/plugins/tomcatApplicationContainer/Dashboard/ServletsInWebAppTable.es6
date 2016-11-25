@@ -26,7 +26,7 @@ export default function ServletsTable({webAppContext, snapshot, timeframe}) {
                          timeframe,
                          webAppContext
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -94,6 +94,6 @@ function createDetails(servlet, servletIndex, context) {
                'Errors'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }

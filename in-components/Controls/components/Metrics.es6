@@ -67,7 +67,7 @@ const MetricPanel = React.createClass({
         }
 
         <DropDown onClick={() => this.setState({isOpen: !this.state.isOpen})}
-                  isOpen={this.state.isOpen}/>
+                  isOpen={this.state.isOpen} />
       </div>
     );
   }

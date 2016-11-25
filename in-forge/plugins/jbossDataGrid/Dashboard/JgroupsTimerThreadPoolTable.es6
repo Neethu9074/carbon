@@ -26,7 +26,7 @@ export default function ClusterUDPStatisticsTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -55,11 +55,11 @@ function createRow(clusterInfo, clusterName, context) {
   return ([
     <td>{clusterName}</td>,
     <Mtd metric={'clustersUDPStatistics.' + clusterName + '.timerThreadsSize'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
     <Mtd metric={'clustersUDPStatistics.' + clusterName + '.timerQueueSize'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
     <Mtd metric={'clustersUDPStatistics.' + clusterName + '.timerTasks'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />
   ]);
 }
 
@@ -85,7 +85,7 @@ function createDetails(clusterInfo, clusterName, context) {
                            'Timer Tasks Size'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default function SidebarHeader({snapshot}) {
       <div className={`${block}__entity`}>
         <img src={getIcon(snapshot)}
              alt={`Icon for entities of type ${entityType}`}
-             className={`${block}__entity-icon`}/>
+             className={`${block}__entity-icon`} />
         <div className={`${block}__entity-description`}>
           <h1 className={`${block}__entity-label`}>
             {getLabel(snapshot)}
@@ -37,7 +37,7 @@ export default function SidebarHeader({snapshot}) {
 
       <Separator />
 
-      <SidebarHealthInfo snapshotId={snapshot.get('id')}/>
+      <SidebarHealthInfo snapshotId={snapshot.get('id')} />
     </div>
   );
 }

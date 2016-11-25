@@ -45,7 +45,7 @@ export default React.createClass({
         <input type='text'
                className={inputClassName}
                value={props.value}
-               onChange={e => props.onChange(e.target.value)}/>
+               onChange={e => props.onChange(e.target.value)} />
       </div>
     );
   }

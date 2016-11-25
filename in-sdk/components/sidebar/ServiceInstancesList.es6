@@ -34,7 +34,7 @@ export default connectTo(props => {
                          key={serviceId}
                          addSeparator={true}>
           <SnapshotLink snapshotId={serviceId}>
-            <SnapshotLabel snapshotId={serviceId}/>
+            <SnapshotLabel snapshotId={serviceId} />
           </SnapshotLink>
         </DescriptionItem>
       );
@@ -47,7 +47,7 @@ export default connectTo(props => {
                        id={serviceInstanceId}
                        key={serviceInstanceId}>
         <SnapshotLink snapshotId={serviceInstanceId}>
-          <SnapshotLabel snapshotId={serviceInstanceId}/>
+          <SnapshotLabel snapshotId={serviceInstanceId} />
         </SnapshotLink>
       </DescriptionItem>
     );

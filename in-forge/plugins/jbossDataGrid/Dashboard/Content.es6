@@ -19,17 +19,17 @@ export default function JbossDataGridDashboard({snapshot, timeframe}) {
   return (
     <div>
       <CacheLatencyThroughputTable snapshot={snapshot}
-                                 timeframe={timeframe}/>
+                                 timeframe={timeframe} />
       <CacheHitsAndMissesTable snapshot={snapshot}
-                                   timeframe={timeframe}/>
+                                   timeframe={timeframe} />
       <CacheOtherStatsTable snapshot={snapshot}
-                                   timeframe={timeframe}/>
+                                   timeframe={timeframe} />
       <JgroupsDefaultThreadPoolTable snapshot={snapshot}
-                            timeframe={timeframe}/>
+                            timeframe={timeframe} />
       <JgroupsOOBThreadPoolTable snapshot={snapshot}
-                                     timeframe={timeframe}/>
+                                     timeframe={timeframe} />
       <JgroupsTimerThreadPoolTable snapshot={snapshot}
-                                     timeframe={timeframe}/>
+                                     timeframe={timeframe} />
       <DashboardSection title='Hot Rod Connections'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
@@ -47,7 +47,7 @@ export default function JbossDataGridDashboard({snapshot, timeframe}) {
                              'Number Of Global Connections'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );

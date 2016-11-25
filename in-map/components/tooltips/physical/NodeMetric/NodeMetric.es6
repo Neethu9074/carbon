@@ -50,7 +50,7 @@ export default createTooltip(connectTo(props => {
               <Content className={block + '__value'}>
               <MetricValue snapshotId={snapshot.get('id')}
                            metric={name}
-                           formatter={v => getFormattedValue(name, snapshot, v)}/>
+                           formatter={v => getFormattedValue(name, snapshot, v)} />
               </Content>
             </li>
           );

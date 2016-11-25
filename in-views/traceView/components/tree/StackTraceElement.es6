@@ -89,7 +89,7 @@ export default connectTo(props => {
               {this.props.snapshot != null && this.props.online ?
                 <ShowCodeButton snapshot={this.props.snapshot}
                                 file={st.get('c')}
-                                line={st.get('n')}/>
+                                line={st.get('n')} />
               : null}
             </li>
           )}

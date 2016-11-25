@@ -63,26 +63,26 @@ function createRow(frontendName, i, context) {
   return ([
     <td>{frontendName}</td>,
     <Mtd metric={'frontendStats.' + frontendName + '.reqRate'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'frontendStats.' + frontendName + '.reqErrors'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'frontendStats.' + frontendName + '.deniedReq'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'frontendStats.' + frontendName + '.sessionRate'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'frontendStats.' + frontendName + '.sessionUtilization'}
          formatter={percentageTwoDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'frontendStats.' + frontendName + '.clientErrors'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'frontendStats.' + frontendName + '.serverErrors'}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'frontendStats.' + frontendName + '.bytesSent'}
          formatter={bytesTwoDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'frontendStats.' + frontendName + '.bytesReceived'}
          formatter={bytesTwoDecimalPlaces}
-         snapshot={context.snapshot}/>
+         snapshot={context.snapshot} />
   ]);
 }
 
@@ -107,7 +107,7 @@ function createDetails(frontendName, i, context) {
                           'Denied Requests'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                       timeframe={context.timeframe}
                       margins={{
@@ -131,7 +131,7 @@ function createDetails(frontendName, i, context) {
                           'Session Usage'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                       timeframe={context.timeframe}
                       margins={{
@@ -147,7 +147,7 @@ function createDetails(frontendName, i, context) {
                           'Server Errors'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                       timeframe={context.timeframe}
                       margins={{
@@ -164,7 +164,7 @@ function createDetails(frontendName, i, context) {
                           'Bytes Received'
                         ],
                         type: 'line'
-                      }}/>
+                      }} />
     </div>
   );
 }

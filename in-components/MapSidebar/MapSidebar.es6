@@ -32,14 +32,14 @@ export default connectTo({
   return (
     <div className={block}>
       <MapSidebarHeader snapshot={snapshot} />
-      <SidebarBreadcrumb snapshotId={snapshot.get('id')}/>
+      <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
 
       <div className={`${block}__scroll-wrapper`}
            style={{
              maxHeight: toPx(windowHeight - timelineHeight - 150)
            }}>
         <SidebarContent snapshot={snapshot}
-                        ForgeDetailsComponent={SidebarImpl}/>
+                        ForgeDetailsComponent={SidebarImpl} />
       </div>
     </div>
   );

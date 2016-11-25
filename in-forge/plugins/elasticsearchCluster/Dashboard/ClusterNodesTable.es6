@@ -116,6 +116,6 @@ function createRow(node, i, context) {
     </td>,
     <Mtd metric={'indices.store_size'}
          snapshot={node}
-         formatter={bytesTwoDecimalPlaces}/>
+         formatter={bytesTwoDecimalPlaces} />
   ];
 }

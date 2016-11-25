@@ -28,12 +28,12 @@ export default function WebSphereDashboard({snapshot, timeframe}) {
                              'Pool Size'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <WebModulesTable snapshot={snapshot}
-                       timeframe={timeframe}/>
+                       timeframe={timeframe} />
       <DatasourcesTable snapshot={snapshot}
-                        timeframe={timeframe}/>
+                        timeframe={timeframe} />
     </div>
   );
 }

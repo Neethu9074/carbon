@@ -69,7 +69,7 @@ export default function HostDashboard({snapshot, timeframe}) {
                                'Steal'
                              ],
                              type: 'stackedArea'
-                           }}/>
+                           }} />
         </DashboardSection>
 
         {!isWindows(snapshot) ?
@@ -88,7 +88,7 @@ export default function HostDashboard({snapshot, timeframe}) {
                                  'load.1min'
                                ],
                                labels: ['Load']
-                             }}/>
+                             }} />
           </DashboardSection>
         : null}
       </TwoColumnRow>
@@ -112,7 +112,7 @@ export default function HostDashboard({snapshot, timeframe}) {
                            ],
                            labels: ['Used'],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       {swapTotal > 0 ?
@@ -134,11 +134,11 @@ export default function HostDashboard({snapshot, timeframe}) {
                                'Page-Out'
                              ],
                              type: 'line'
-                           }}/>
+                           }} />
         </DashboardSection>
       : null}
 
-      <FilesystemsTable snapshot={snapshot} timeframe={timeframe}/>
+      <FilesystemsTable snapshot={snapshot} timeframe={timeframe} />
 
       <NetworkInterfacesTable snapshot={snapshot} timeframe={timeframe} />
 
@@ -185,7 +185,7 @@ export default function HostDashboard({snapshot, timeframe}) {
                          margins={{
                            right: 60,
                            left: 80
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <ProcessTopList snapshotId={snapshot.get('id')} />

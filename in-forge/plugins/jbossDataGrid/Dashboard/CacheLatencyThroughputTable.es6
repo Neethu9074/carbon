@@ -29,7 +29,7 @@ export default function CacheStatisticsTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -59,13 +59,13 @@ function createRow(cacheInfo, cacheName, context) {
   return ([
     <td>{cacheName}</td>,
     <Mtd metric={'cachesStatistics.' + cacheName + '.averageReadTime'}
-         snapshot={context.snapshot} formatter={msZeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={msZeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.averageRemoveTime'}
-         snapshot={context.snapshot} formatter={msZeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={msZeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.averageWriteTime'}
-         snapshot={context.snapshot} formatter={msZeroDecimalPlaces}/>,
+         snapshot={context.snapshot} formatter={msZeroDecimalPlaces} />,
     <Mtd metric={'cachesStatistics.' + cacheName + '.throughput'}
-         snapshot={context.snapshot} formatter={zeroDecimalPlaces}/>
+         snapshot={context.snapshot} formatter={zeroDecimalPlaces} />
   ]);
 }
 
@@ -91,7 +91,7 @@ function createDetails(cacheInfo, cacheName, context) {
                            'Average Write Time'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                        timeframe={context.timeframe}
                        margins={{
@@ -106,7 +106,7 @@ function createDetails(cacheInfo, cacheName, context) {
                            'Throughput (ops/sec)'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
     </div>
   );
 }

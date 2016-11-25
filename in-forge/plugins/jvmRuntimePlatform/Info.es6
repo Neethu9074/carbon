@@ -29,7 +29,7 @@ export default function JVMInfo({snapshot}) {
       }
 
       <DescriptionItem title='Classpath'>
-        <ClasspathLayouter classpath={data.get('jvm.cp')}/>
+        <ClasspathLayouter classpath={data.get('jvm.cp')} />
       </DescriptionItem>
     </DescriptionList>
   );

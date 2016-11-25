@@ -68,27 +68,27 @@ function createRow(server, key, context) {
 
     <Mtd metric={'http.' + key + '.requests'}
          snapshot={context.snapshot}
-         formatter={zeroDecimalPlaces}/>,
+         formatter={zeroDecimalPlaces} />,
 
     <Mtd metric={'http.' + key + '.responses'}
          snapshot={context.snapshot}
-         formatter={zeroDecimalPlaces}/>,
+         formatter={zeroDecimalPlaces} />,
 
     <Mtd metric={'http.' + key + '.responseTime50'}
          snapshot={context.snapshot}
-         formatter={msTwoDecimalPlaces}/>,
+         formatter={msTwoDecimalPlaces} />,
 
     <Mtd metric={'http.' + key + '.responseTime90'}
          snapshot={context.snapshot}
-         formatter={msTwoDecimalPlaces}/>,
+         formatter={msTwoDecimalPlaces} />,
 
     <Mtd metric={'http.' + key + '.responseTime95'}
          snapshot={context.snapshot}
-         formatter={msTwoDecimalPlaces}/>,
+         formatter={msTwoDecimalPlaces} />,
 
     <Mtd metric={'http.' + key + '.responseTime99'}
          snapshot={context.snapshot}
-         formatter={msTwoDecimalPlaces}/>
+         formatter={msTwoDecimalPlaces} />
   ]);
 }
 
@@ -132,6 +132,6 @@ function createDetails(server, key, context) {
                'Response Time 99th'
              ],
              type: 'line'
-           }}/>
+           }} />
   );
 }

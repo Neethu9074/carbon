@@ -24,7 +24,7 @@ export default function WebModulesTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -52,16 +52,16 @@ function createRow(webModule, i, context) {
     <td>{webModule}</td>,
     <Mtd metric={'sessionManagers.' + webModule + '.activeCount'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'servlets.' + webModule + '.requests'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'servlets.' + webModule + '.avgResponseTime'}
          formatter={msZeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'servlets.' + webModule + '.errors'}
          formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot}/>
+         snapshot={context.snapshot} />
   ]);
 }
 
@@ -82,7 +82,7 @@ function createDetails(webModule, i, context) {
                            'Sessions'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                        timeframe={context.timeframe}
                        margins={{
@@ -110,7 +110,7 @@ function createDetails(webModule, i, context) {
                            'Errors'
                          ],
                          type: 'line'
-                       }}/>
+                       }} />
     </div>
   );
 }

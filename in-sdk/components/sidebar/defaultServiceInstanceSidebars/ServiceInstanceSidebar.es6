@@ -13,7 +13,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 export default function ServiceInstanceSidebar({snapshot}) {
   return (
     <div>
-      <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')}/>
+      <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')} />
 
       <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
 

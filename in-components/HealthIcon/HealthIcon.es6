@@ -51,7 +51,7 @@ export default getMostImportantEvent(
     return (
       <Tooltip content={<EventDescription event={mostImportantEvent}
                                           showFullTextIfToLong={false}
-                                          snapshotId={this.props.snapshotId}/>}>
+                                          snapshotId={this.props.snapshotId} />}>
         <Icon type={iconType}
               className={getClassName(this, block)}
               style={{ color }} />

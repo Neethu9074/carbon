@@ -98,21 +98,20 @@ React.createClass({
                            onClick={() => this.setState({ isExpanded: !isExpanded })} />
             {isExpanded
               ? <div className={`${block}__border`}
-                     style={{ background }}/>
+                     style={{ background }} />
               : null
             }
-            {isExpanded
-              ? <div className={`${block}__expanded-details`}>
-                  <ProblemDescription event={event} />
-                  <Spacer />
-                  <EventChart event={event} />
-                  <Spacer />
-                  <EventDependecyGraph event={event} />
-                  <Spacer />
-                  <EventTraces event={event} />
-                </div>
-              : null
-            }
+            {isExpanded ?
+              <div className={`${block}__expanded-details`}>
+                <ProblemDescription event={event} />
+                <Spacer />
+                <EventChart event={event} />
+                <Spacer />
+                <EventDependecyGraph event={event} />
+                <Spacer />
+                <EventTraces event={event} />
+              </div>
+            : null}
           </div>
         </div>
       </div>

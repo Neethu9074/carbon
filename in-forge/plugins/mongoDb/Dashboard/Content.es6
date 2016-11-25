@@ -59,7 +59,7 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
                            type: 'line',
                            formatter: bytesZeroDecimalPlaces,
                            tooltipFormatter: bytesTwoDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
       : null}
 
@@ -83,7 +83,7 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
                              'Updated'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Clients'>
@@ -101,7 +101,7 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
                              'Connections'
                            ],
                            type: 'line'
-                       }}/>
+                       }} />
       </DashboardSection>
     </div>
   );

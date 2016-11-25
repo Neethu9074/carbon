@@ -23,7 +23,7 @@ export default function PhpFpmDashboard({snapshot, timeframe}) {
        isStatusPathEnabled(snapshot, pool)
        ? <WorkerPoolMetrics key={pool}
                             snapshot={snapshot}
-                            timeframe={timeframe} pool={pool}/>
+                            timeframe={timeframe} pool={pool} />
        : <DashboardNotification key={pool} type='info'>
            In order to monitor the worker pool {pool}, you need to
            enable <code>pm.status_path</code> in your PHP-FPM config.
@@ -78,7 +78,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
                              'Length'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
         <ChartWithLegend snapshotId={snapshotId}
@@ -116,7 +116,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
                              'Max Children'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
         <ChartWithLegend snapshotId={snapshotId}
@@ -131,7 +131,7 @@ function WorkerPoolMetrics({snapshot, pool, timeframe}) {
                            metrics: ['worker_pool.' + pool + '.total_memory'],
                            labels: ['Memory'],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );

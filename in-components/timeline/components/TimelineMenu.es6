@@ -27,7 +27,7 @@ return (
       <SvgIcon type={autoCollapseTimeline ? 'unpin' : 'pinned'}
             width={autoCollapseTimeline ? 12 : 12}
             className={`${block}__toggle-auto-expand`}
-            onClick={() => toggleIn(['autoCollapseTimeline'])}/>
+            onClick={() => toggleIn(['autoCollapseTimeline'])} />
     </Tooltip>
 
     <div className={block + '__heading'}>
@@ -41,16 +41,16 @@ return (
                              <div>
                                <Icon type={'timeline_' + (isCollapsed ? 'open' : 'close')}
                                      className={block + '__icon'}
-                                     onClick={toggleMenu}/>
+                                     onClick={toggleMenu} />
                                <TimelineLiveIndicator />
                              </div>
-                           }/>
+                           } />
 
     <TimelineMenuEventLine title={'Issues'}
-                           count={events ? events.issues.length : 0}/>
+                           count={events ? events.issues.length : 0} />
 
     <TimelineMenuEventLine title={'Changes'}
-                           count={events ? events.changes.length : 0}/>
+                           count={events ? events.changes.length : 0} />
   </div>
 );
 });

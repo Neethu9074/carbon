@@ -59,9 +59,9 @@ export default function JettyDashboard({snapshot, timeframe}) {
                             'Threads Queue Size'
                           ],
                           type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
-      <WebAppsTable snapshot={snapshot} timeframe={timeframe}/>
+      <WebAppsTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );
 }

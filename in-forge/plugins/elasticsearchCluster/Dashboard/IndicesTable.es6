@@ -63,23 +63,23 @@ function createRow(indexName, i, context) {
 
     <Mtd metric={'index.' + indexName + '.number_of_shards'}
          formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
 
     <Mtd metric={'index.' + indexName + '.number_of_replicas'}
          formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
 
     <Mtd metric={'index.' + indexName + '.document_count'}
          formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
 
     <Mtd metric={'index.' + indexName + '.deleted_count'}
          formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
 
     <Mtd metric={'index.' + indexName + '.size'}
          snapshot={context.snapshot}
-         formatter={bytesTwoDecimalPlaces}/>
+         formatter={bytesTwoDecimalPlaces} />
   ]);
 }
 
@@ -116,6 +116,6 @@ function createDetails(indexName, i, context) {
                        formatter: bytesZeroDecimalPlaces,
                        tooltipFormatter: bytesTwoDecimalPlaces,
                        type: 'line'
-                      }}/>
+                      }} />
   );
 }

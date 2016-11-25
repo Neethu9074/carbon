@@ -9,6 +9,6 @@ const block = 'in-select';
 export default function FormSelect(props) {
   return (
     <select {...props}
-            className={joinClassNames(props.className, block)}/>
+            className={joinClassNames(props.className, block)} />
   );
 }

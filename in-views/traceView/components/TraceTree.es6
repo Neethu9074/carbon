@@ -43,7 +43,7 @@ export default connectTo({
                        trace={trace}
                        parent={null}
                        parentDepth={0}
-                       totalTimeIndentationDepth={0}/>
+                       totalTimeIndentationDepth={0} />
         </ul>
       </div>
     </div>

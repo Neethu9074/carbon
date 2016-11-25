@@ -37,7 +37,7 @@ function EntityInformation({snapshot}) {
 
       <img src={getIcon(snapshot)}
            alt={`Icon for entities of type ${entityType}`}
-           className={`${block}__entity-icon`}/>
+           className={`${block}__entity-icon`} />
 
       <DashboardLink snapshotId={snapshot.get('id')}>
         {getLabel(snapshot)}

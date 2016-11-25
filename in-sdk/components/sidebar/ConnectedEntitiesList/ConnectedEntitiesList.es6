@@ -53,7 +53,7 @@ const Entity = connectTo(props => {
       <DescriptionItem title={title}>
         <SnapshotLink key={snapshotId}
                       snapshotId={snapshotId}>
-          <SnapshotLabel snapshotId={snapshotId}/>
+          <SnapshotLabel snapshotId={snapshotId} />
         </SnapshotLink>
       </DescriptionItem>
     </DescriptionList>

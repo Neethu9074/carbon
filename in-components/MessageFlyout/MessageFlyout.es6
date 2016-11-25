@@ -19,7 +19,7 @@ export default connectTo({
     <div className={block}>
       {messages.map(message =>
         <Message key={message.id}
-                 message={message}/>
+                 message={message} />
       )}
     </div>
   );

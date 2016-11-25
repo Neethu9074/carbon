@@ -55,7 +55,7 @@ export default function TraceListHeader() {
         <SvgIcon type='refresh'
                  onClick={refresh}
                  height={15}
-                 className={`${block}__refresh`}/>
+                 className={`${block}__refresh`} />
         <AutoUpdate checkboxId='trace-view-auto-update'
                     autoUpdate$={autoUpdate$}
                     toggleAutoUpdate={toggleAutoUpdate} />

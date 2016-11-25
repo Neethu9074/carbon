@@ -53,7 +53,7 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: twoDecimalPlaces
-                       }}/>
+                       }} />
       </DashboardSection>
       <DashboardSection title='Slow Queries'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -69,7 +69,7 @@ export default function MariaDbDashboard({snapshot, timeframe}) {
                              'Slow Queries'
                            ],
                            type: 'line'
-                       }}/>
+                       }} />
       </DashboardSection>
       <DashboardSection title='Key Access'>
         <ChartWithLegend snapshotId={snapshotId}

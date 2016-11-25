@@ -68,7 +68,7 @@ export default [
         content: (
           <PercentageIndicator snapshotId={snapshot.get('id')}
                                createMetricValueStream={() => valueStream}
-                               formatter={percentageZeroDecimalPlaces}/>
+                               formatter={percentageZeroDecimalPlaces} />
         ),
         sortable$: valueStream
       };

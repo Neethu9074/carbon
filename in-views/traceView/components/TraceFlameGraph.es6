@@ -47,7 +47,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
                  left: `${left}%`,
                  width: `${width}%`
                }}
-               onClick={() => onSpanClick(span)}/>
+               onClick={() => onSpanClick(span)} />
         </Tooltip>
       : null}
 
@@ -60,7 +60,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
                width: `${width}%`,
                background: color
              }}
-             onClick={() => onSpanClick(span)}/>
+             onClick={() => onSpanClick(span)} />
       </Tooltip>
     </div>
   );
@@ -94,7 +94,7 @@ export default function TraceFlameGraph({trace}) {
         <TimeAxis tickPositions={tickPositions}
                   axisConfig={axisConfig}
                   start={start}
-                  chartHeight={chartHeight}/>
+                  chartHeight={chartHeight} />
 
         <FlameGraphElement span={trace}
                            currentDepth={1}

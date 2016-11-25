@@ -15,7 +15,7 @@ export default function EventView({children}) {
   return (
     <div>
       <LifecycleObserver onWillMount={enable}
-                         onWillUnmount={disable}/>
+                         onWillUnmount={disable} />
 
       <TwoColumnView leftContent={getLeftContent()}
                      rightContent={getRightContent()}

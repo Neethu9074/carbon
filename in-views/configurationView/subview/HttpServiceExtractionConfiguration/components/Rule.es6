@@ -67,15 +67,15 @@ export default React.createClass({
             <SvgIcon type='chevron_up'
                      width={12}
                      className={`${block}__up`}
-                     onClick={() => moveRuleDown(path)}/>
+                     onClick={() => moveRuleDown(path)} />
             <SvgIcon type='chevron_down'
                      width={12}
                      className={`${block}__down`}
-                     onClick={() => moveRuleUp(path)}/>
+                     onClick={() => moveRuleUp(path)} />
             <SvgIcon type={this.state.isExpanded ? 'timeline_close' : 'timeline_open'}
                      width={12}
                      className={`${block}__toggle`}
-                     onClick={this.toggleExpanded}/>
+                     onClick={this.toggleExpanded} />
           </div>
         </div>
 
@@ -93,7 +93,7 @@ export default React.createClass({
                 <Input type='text'
                        id={`${id}-rule-name`}
                        value={nameField.value}
-                       onChange={e => setValue([...path, 'name'], e.target.value)}/>
+                       onChange={e => setValue([...path, 'name'], e.target.value)} />
               </FormGroup>
             )}
 
@@ -104,7 +104,7 @@ export default React.createClass({
                 <Label htmlFor={`${id}-enabled`}>Enabled</Label>
                 <Toggle id={`${id}-enabled`}
                         checked={enabledField.value}
-                        onChange={e => setValue([...path, 'enabled'], e.target.checked)}/>
+                        onChange={e => setValue([...path, 'enabled'], e.target.checked)} />
               </FormGroup>
             )}
           </div>
@@ -161,7 +161,7 @@ export default React.createClass({
                            placeholder={options[key].placeholder}
                            value={field.value}
                            onChange={e => setValue([...path, 'matchSpecification', key], e.target.value)}
-                           hasError={!field.valid}/>
+                           hasError={!field.valid} />
                     {field.error ?
                       <ValidationBlock hasError={true}>
                         {field.error}
@@ -181,7 +181,7 @@ export default React.createClass({
                          id={`${id}-service-name`}
                          placeholder='Shop'
                          value={labelField.value}
-                         onChange={e => setValue([...path, 'label'], e.target.value)}/>
+                         onChange={e => setValue([...path, 'label'], e.target.value)} />
                   <HelpBlock>
                     {serviceNameHelp}
                   </HelpBlock>
@@ -194,7 +194,7 @@ export default React.createClass({
                   <TextArea rows='3'
                             id={`${id}-comment`}
                             value={commentField.value}
-                            onChange={e => setValue([...path, 'comment'], e.target.value)}/>
+                            onChange={e => setValue([...path, 'comment'], e.target.value)} />
                   <HelpBlock>
                     {commentHelp}
                   </HelpBlock>

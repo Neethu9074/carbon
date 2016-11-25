@@ -58,7 +58,7 @@ export default function VarnishDashboard({snapshot, timeframe}) {
                            ],
                            formatter: zeroDecimalPlaces,
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Cache'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -93,7 +93,7 @@ export default function VarnishDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: hitRateZeroDecimalPlaces
-                        }}/>
+                        }} />
       </DashboardSection>
       <DashboardSection title='Cached objects'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -113,7 +113,7 @@ export default function VarnishDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: zeroDecimalPlaces
-                        }}/>
+                        }} />
       </DashboardSection>
       <DashboardSection title='Threads'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -141,7 +141,7 @@ export default function VarnishDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: zeroDecimalPlaces
-                        }}/>
+                        }} />
       </DashboardSection>
       <DashboardSection title='Backend'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -171,7 +171,7 @@ export default function VarnishDashboard({snapshot, timeframe}) {
                           ],
                           type: 'line',
                           formatter: zeroDecimalPlaces
-                        }}/>
+                        }} />
       </DashboardSection>
     </div>
   );

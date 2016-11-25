@@ -53,7 +53,7 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
                             'Requests with Status Code 5xx'
                           ],
                           type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       {httpSessionsMax ?
         <DashboardSection title='HTTP Sessions Active'>
@@ -70,11 +70,11 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
                                 'Active Sessions'
                                ],
                                type: 'line'
-                             }}/>
+                             }} />
         </DashboardSection>
         : null}
       <EndpointBreakdownTable snapshot={snapshot}
-                              timeframe={timeframe}/>
+                              timeframe={timeframe} />
     </div>
   );
 }

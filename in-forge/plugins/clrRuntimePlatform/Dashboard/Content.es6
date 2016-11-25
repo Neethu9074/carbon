@@ -81,7 +81,7 @@ export default function ClrDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line',
                            formatter: twoDecimalPlaces
-                         }}/>
+                         }} />
       </DashboardSection>
 
       <DashboardSection title='Sizes of Heaps'>
@@ -104,7 +104,7 @@ export default function ClrDashboard({snapshot, timeframe}) {
                              'Large Objects'
                            ],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Thread-Locks and Contention'>
         <ChartWithLegend snapshotId={snapshotId}
@@ -133,7 +133,7 @@ export default function ClrDashboard({snapshot, timeframe}) {
                              'Contention-Rate'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
     </div>
   );
