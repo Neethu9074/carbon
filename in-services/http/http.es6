@@ -4,7 +4,7 @@ import {debounce} from 'lodash';
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';
 
-export default function({method, url, queryParams, data, timeout = 5000, responseType = 'json'}) {
+export default function({method, url, queryParams, data, timeout = 30000, responseType = 'json'}) {
   url = formatUrl(url, queryParams);
   let xhr;
 
