@@ -15,7 +15,8 @@ export default function TraceView({children}) {
       <LifecycleObserver onWillMount={enable}
                          onWillUnmount={disable}/>
       <TwoColumnView leftContent={getLeftContent()}
-                     rightContent={getRightContent()} />
+                     rightContent={getRightContent()}
+                     leftWidth='45rem' />
       {children}
     </div>
   );

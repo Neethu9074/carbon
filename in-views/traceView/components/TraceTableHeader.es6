@@ -28,8 +28,14 @@ function TraceTableHeader({sortDirection, sortBy}) {
         </div>
       </div>
 
-      {renderCell('Resp. Time', 'd', sortDirection, sortBy)}
-      {renderCell('Error Count', 'total_error_count', sortDirection, sortBy)}
+      {renderCell('Duration', 'd', sortDirection, sortBy)}
+      {renderCell('#Errors', 'total_error_count', sortDirection, sortBy)}
+
+      <div className={cellClassName}>
+        <div className={`${block}__cell-toggle`}>
+          Service
+        </div>
+      </div>
     </div>
   );
 }

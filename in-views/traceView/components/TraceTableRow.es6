@@ -1,7 +1,8 @@
 import React from 'react';
 
-import './TraceTableRow.less';
+import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
 
+import './TraceTableRow.less';
 
 const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
@@ -26,6 +27,12 @@ export default function TraceTableRow({selectedTraceId, trace, onClick}) {
       </span>
       <span className={cellClassName}>
         {trace.totalErrorCount}
+      </span>
+      <span className={cellClassName}>
+        {trace.serviceSnapshotId ?
+          <EntityColumnContent snapshotId={trace.serviceSnapshotId}
+                               time={trace.startMillis}/>
+        : null}
       </span>
     </div>
   );

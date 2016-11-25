@@ -146,7 +146,8 @@ function addNewTraces(newTraces) {
       duration: msZeroDecimalPlaces(trace.get('duration')),
       name: getLabel(trace),
       id: trace.get('traceId'),
-      totalErrorCount: trace.get('totalErrorCount', 0)
+      totalErrorCount: trace.get('totalErrorCount', 0),
+      serviceSnapshotId: trace.getIn(['rels', 'destinationServiceInstanceId'])
     };
   });
   tracesStore.applyStateMutation(existingTraces => {

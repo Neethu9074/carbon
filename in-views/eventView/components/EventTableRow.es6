@@ -110,8 +110,7 @@ const Entity = connectTo(props => {
   return {
     snapshot: getSnapshot(props.snapshotId, props.time)
   };
-},
-function EventTableRowEntity({snapshot}) {
+}, function EventTableRowEntity({snapshot}) {
   if (!snapshot) {
     return null;
   }
