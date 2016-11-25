@@ -100,7 +100,7 @@ $ find . -name "SiteSecurityServiceState.txt"
 ```
 
 ### Instana dev extensions are saying that no stores could be found
-This most likely occur due to stores which contain cyclic structures and therefore cannot be JSON serialized. To find out which stores is breaking the dev extensions, run the following JavaScript snippet in the developer console.
+This most likely occurs due to stores which contain cyclic object structures and therefore cannot be JSON serialized. To find out which store is breaking the dev extensions, run the following JavaScript snippet in the developer console.
 
 ```javascript
 Object.keys(instana.dev.storeStates).forEach(key => {
