@@ -40,7 +40,7 @@ export default function TomcatDashboard({snapshot, timeframe}) {
                            labels: [
                              'Total session count'
                            ],
-                           type: 'stackedArea'
+                           type: 'line'
                          }} />
       </DashboardSection>
 
