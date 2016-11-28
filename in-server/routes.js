@@ -50,6 +50,16 @@ const themes = fs.readdirSync(bundleDir)
     return themeHashes;
   }, {});
 
+const prefetchItems = fs.readdirSync(bundleDir)
+  .filter(fileName => /^\d+\.[a-z0-9]+\.js$/i.test(fileName))
+  .map(fileName => {
+    return {
+      rel: 'prefetch',
+      as: 'script',
+      fileName
+    };
+  });
+
 // assets directory will be populated with generated JavaScript during the build process.
 router.use(express.static(assetDir, {
   cacheControl: false,
@@ -132,7 +142,8 @@ router.get('/', (req, res) => {
       googleAnalyticsTrackingId: serverConfig.googleAnalyticsTrackingId,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
-      backendTraceId: req.get('x-instana-t') || ''
+      backendTraceId: req.get('x-instana-t') || '',
+      prefetchItems
     }));
   });
 });

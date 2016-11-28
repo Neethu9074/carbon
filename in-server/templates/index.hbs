@@ -11,6 +11,17 @@
 
   <title>Instana</title>
 
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:700,400,300&subset=latin,greek,vietnamese,latin-ext,cyrillic,cyrillic-ext"
+        crossorigin="anonymous">
+  <link rel="stylesheet"
+        href="/bundle/theme-{{theme}}-{{themeChecksum}}.css"
+        integrity="{{themeSri}}">
+
+  {{#each prefetchItems}}
+  <link rel="{{rel}}" href="/bundle/{{fileName}}" as="{{as}}">
+  {{/each}}
+
   <script nonce="{{nonces.[0]}}">
     window.instana = {};
   </script>
@@ -23,13 +34,6 @@
     window.instana.activeTheme = '{{theme}}';
     window.instana.activeThemeConfig = {{{themeConfig}}};
   </script>
-
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Open+Sans:700,400,300&subset=latin,greek,vietnamese,latin-ext,cyrillic,cyrillic-ext"
-        crossorigin="anonymous">
-  <link rel="stylesheet"
-        href="/bundle/theme-{{theme}}-{{themeChecksum}}.css"
-        integrity="{{themeSri}}">
 
   {{#if googleAnalyticsTrackingId}}
   <script nonce="{{nonces.[3]}}">
