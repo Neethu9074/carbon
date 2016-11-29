@@ -1,13 +1,12 @@
 import React from 'react';
 
-import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import {bytesTwoDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
-import {percentage100TwoDecimalPlaces} from './../numberFormatter.es6';
 
 export default function DatasourcesTable({snapshot, timeframe}) {
   const tablespaces = snapshot.getIn(['data', 'tablespaces'], emptyMap).sortBy((value, key) => key);
@@ -25,7 +24,7 @@ export default function DatasourcesTable({snapshot, timeframe}) {
                          snapshot,
                          timeframe
                        }}
-                       createDetails={createDetails}/>
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
@@ -41,7 +40,7 @@ function createHeader() {
         <th>Name</th>
         <th>Used Space</th>
         <th>Used Percent</th>
-        <th>Tablespace Size</th>
+        <th>Maximum Tablespace Size</th>
         <th>Autoextensible</th>
       </tr>
     </thead>
@@ -53,11 +52,11 @@ function createRow(tablespaceData, tablespace, context) {
     <td>{tablespace}</td>,
     <Mtd metric={'stats.tablespaceStats.' + tablespace + '.usedSpace'}
          formatter={bytesTwoDecimalPlaces}
-         snapshot={context.snapshot}/>,
+         snapshot={context.snapshot} />,
     <Mtd metric={'stats.tablespaceStats.' + tablespace + '.usedPercent'}
-         formatter={percentage100TwoDecimalPlaces}
-         snapshot={context.snapshot}/>,
-    <td>{tablespaceData.get('maxSize')}</td>,
+         formatter={percentageTwoDecimalPlaces}
+         snapshot={context.snapshot} />,
+    <td>{bytesTwoDecimalPlaces(tablespaceData.get('maxSize'))}</td>,
     <td>{tablespaceData.get('autoextensible')}</td>
   ]);
 }
@@ -79,7 +78,7 @@ function createDetails(tablespaceData, tablespace, context) {
                            'Used Space'
                          ],
                          type: 'area'
-                       }}/>
+                       }} />
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
                        timeframe={context.timeframe}
                        margins={{
@@ -87,8 +86,8 @@ function createDetails(tablespaceData, tablespace, context) {
                        }}
                        y1={{
                          min: 0,
-                         max: 100,
-                         formatter: percentage100TwoDecimalPlaces,
+                         max: 1,
+                         formatter: percentageTwoDecimalPlaces,
                          metrics: [
                            'stats.tablespaceStats.' + tablespace + '.usedPercent'
                          ],
@@ -96,7 +95,7 @@ function createDetails(tablespaceData, tablespace, context) {
                            'Used Percent'
                          ],
                          type: 'area'
-                       }}/>
+                       }} />
     </div>
   );
 }

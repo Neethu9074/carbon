@@ -1,16 +1,12 @@
 import {
   number,
   muSecondsToMillis,
+  millis,
   hitRate,
   percentage,
   bytes
 } from 'in-services/formatters/number';
 import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
-import {
-  percentage100,
-  centiSecondsToMillis
-} from './numberFormatter.es6';
 
 
 export default [
@@ -42,7 +38,7 @@ export default [
     min: 0
   },
   {
-    formatter: centiSecondsToMillis,
+    formatter: millis,
     metrics: [
       'stats.timeWaited.userIO',
       'stats.timeWaited.other',
@@ -191,12 +187,12 @@ export default [
     min: 0
   },
   {
-    formatter: percentage100,
+    formatter: percentage,
     metric: getMetricMatch('stats.tablespaceStats', 'usedPercent'),
     labels: [
       'Used Percent'
     ],
     min: 0,
-    max: 100
+    max: 1
   }
 ];

@@ -4,6 +4,7 @@ import {
   zeroDecimalPlaces,
   hitRateTwoDecimalPlaces,
   muSecondsToMillisTwoDecimalPlaces,
+  msZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -11,7 +12,6 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
 import TablespaceUsagesTable from './TablespaceUsagesTable.es6';
-import {centiSecondsToMillisZeroDecimalPlaces} from './../numberFormatter.es6';
 
 export default function OracleDBDashboard({snapshot, timeframe}) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -45,7 +45,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Parse Time'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -62,7 +62,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'DB CPU Time/DB Time Ratio'
                            ],
                            type: 'area'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Time Waited per Second'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -71,7 +71,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                            left: 80
                          }}
                          y1={{
-                           formatter: centiSecondsToMillisZeroDecimalPlaces,
+                           formatter: msZeroDecimalPlaces,
                            metrics: [
                              'stats.timeWaited.userIO',
                              'stats.timeWaited.other',
@@ -99,7 +99,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Queueing'
                            ],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Sql Execution'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -127,7 +127,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Average Sql Execution Time'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Sql Parse'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -146,7 +146,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Total Parse Count'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -165,7 +165,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Executes Without Parses Ratio'
                            ],
                            type: 'area'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='User Calls Commits Rollbacks'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -190,7 +190,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'User Log Ons'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Buffer Cache'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -209,7 +209,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Session Logical Reads'
                            ],
                            type: 'line'
-                         }}/>
+                         }} />
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -226,7 +226,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Buffer Cache Hit Ratio'
                            ],
                            type: 'area'
-                         }}/>
+                         }} />
       </DashboardSection>
       <DashboardSection title='Sessions'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
@@ -247,7 +247,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Background Sessions'
                            ],
                            type: 'stackedArea'
-                         }}/>
+                         }} />
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -264,10 +264,10 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                              'Sessions/Session Limit'
                            ],
                            type: 'area'
-                         }}/>
+                         }} />
       </DashboardSection>
       <TablespaceUsagesTable snapshot={snapshot}
-                        timeframe={timeframe}/>
+                        timeframe={timeframe} />
     </div>
   );
 }
