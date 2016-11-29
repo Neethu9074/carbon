@@ -46,6 +46,8 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line'
                          }} />
+      </DashboardSection>
+      <DashboardSection title='DB CPU Time/DB Time Ratio'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -129,7 +131,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                            type: 'line'
                          }} />
       </DashboardSection>
-      <DashboardSection title='Sql Parse'>
+      <DashboardSection title='Sql Parse Count'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -147,6 +149,8 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line'
                          }} />
+      </DashboardSection>
+      <DashboardSection title='Sql Parse Ratios'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -192,7 +196,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                            type: 'line'
                          }} />
       </DashboardSection>
-      <DashboardSection title='Buffer Cache'>
+      <DashboardSection title='Physical and Session Logical Reads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -210,6 +214,8 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                            ],
                            type: 'line'
                          }} />
+      </DashboardSection>
+      <DashboardSection title='Buffer Cache Hit Ratio'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -248,6 +254,8 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
                            ],
                            type: 'stackedArea'
                          }} />
+      </DashboardSection>
+      <DashboardSection title='Used Sessions Ratio'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
