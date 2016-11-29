@@ -20,7 +20,10 @@ export default React.createClass({
       rpt.string.isRequired
     ]),
     children: rpt.any.isRequired,
-    align: rpt.string
+    align: rpt.oneOf(['leftBottom', 'leftMiddle', 'leftTop',
+                 'topLeft', 'topMiddle', 'topRight',
+                 'rightTop', 'rightMiddle', 'rightBottom',
+                 'bottomLeft', 'bottomMiddle', 'bottomRight', 'auto'])
   },
 
   getDefaultProps() {

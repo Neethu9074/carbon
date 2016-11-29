@@ -4,6 +4,7 @@ import {alwaysNull} from 'in-services/fixedStreams';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import {getZone} from 'in-stores/zone';
 
@@ -21,15 +22,18 @@ export default connectTo(props => {
     return null;
   }
   const entityType = getSingular(snapshot.get('plugin'));
-
+  const label = getLabel(snapshot);
   return (
-    <div className={block}>
-      <img src={getIcon(snapshot)}
-           alt={`Icon for entities of type ${entityType}`}
-           className={`${block}__icon`} />
-      <span>
-        {getLabel(snapshot)}
-      </span>
-    </div>
+    <Tooltip content={label}
+             align='rightMiddle'>
+      <div className={block}>
+        <img src={getIcon(snapshot)}
+             alt={`Icon for entities of type ${entityType}`}
+             className={`${block}__icon`} />
+        <span>
+          {label}
+        </span>
+      </div>
+    </Tooltip>
   );
 });
