@@ -88,4 +88,8 @@ describe('in-services/search', () => {
   it('must support multiple values for selection types', () => {
     expect(transform('type=service')).to.match(/^\(plugin_id:[a-z.]+ OR plugin_id:[a-z.]+ OR .*\)$/i);
   });
+
+  it('must support raw query types', () => {
+    expect(transform('raw="foo:bar"')).to.equal('foo:bar');
+  });
 });

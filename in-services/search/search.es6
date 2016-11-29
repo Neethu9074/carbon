@@ -5,7 +5,8 @@ import {getKeywordOperators} from 'in-sdk/search';
 const allowedOperators = {
   number: ['<', '<=', '=', '>=', '>'],
   string: ['=', '!='],
-  selection: ['=', '!=']
+  selection: ['=', '!='],
+  raw: ['=']
 };
 
 const operatorTranslation = {
@@ -58,6 +59,9 @@ const luceneValueConverters = {
       return value.map(eachValue => this.string(eachValue));
     }
     return this.string(value);
+  },
+  raw(v) {
+    return v;
   }
 };
 
@@ -122,6 +126,9 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
     );
   }
 
+  if (type === 'raw') {
+    return value;
+  }
 
   const validator = valueValidators[type];
   if (validator) {

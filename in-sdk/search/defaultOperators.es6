@@ -9,6 +9,12 @@ addKeywordOperator({
   field: 'processor_tags'
 });
 
+addKeywordOperator({
+  context: 'entity',
+  type: 'raw',
+  keyword: 'raw'
+});
+
 const searchableEntityTypes = {
   // <type> => [<fully qualified plugin ids>]
 };
