@@ -1,48 +1,19 @@
 import React from 'react';
 
-import subscribeToInstanceImplementation from 'in-services/subscription/serviceInstanceImplementation';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import DashboardLink from 'in-components/Link/DashboardLink';
-import {alwaysNull, always} from 'in-services/fixedStreams';
+import {always} from 'in-services/fixedStreams';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
-import connectTo from 'in-hoc/connectTo';
 
 import './SpanEntityInformation.less';
 
-const loadingPlaceholder = {};
-const alwaysLoadingPlaceholder$ = always(loadingPlaceholder);
+export const loadingPlaceholder = {};
+export const alwaysLoadingPlaceholder$ = always(loadingPlaceholder);
 
 const block = 'in-trace-view-span-entity-information';
 
-export default connectTo(props => {
-  const serviceInstanceSnapshotId = props.span.getIn(['rels', props.connectionEndpointType + 'ServiceInstanceId']);
-
-  let snapshot$ = alwaysNull;
-  if (serviceInstanceSnapshotId) {
-    const time = props.span.get('start');
-    snapshot$ = subscribeToInstanceImplementation({
-        time,
-        serviceInstanceSnapshotId
-      })
-      .startWith(loadingPlaceholder)
-      .flatMap(serviceInstanceImplementationSnapshotId => {
-        if (!serviceInstanceImplementationSnapshotId) {
-          return alwaysNull;
-        } else if (serviceInstanceImplementationSnapshotId === loadingPlaceholder) {
-          return alwaysLoadingPlaceholder$;
-        }
-
-        return getSnapshot(serviceInstanceImplementationSnapshotId, time)
-          .startWith(loadingPlaceholder);
-      });
-  }
-
-  return {
-    snapshot: snapshot$
-  };
-}, function SpanEntityInformation({label, snapshot}) {
+export default function SpanEntityInformation({label, snapshot}) {
   if (snapshot === loadingPlaceholder) {
     return (
       <LoadingIndicator inline
@@ -72,4 +43,4 @@ export default connectTo(props => {
       </DashboardLink>
     </span>
   );
-});
+}

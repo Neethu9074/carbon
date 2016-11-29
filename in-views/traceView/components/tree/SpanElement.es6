@@ -9,8 +9,9 @@ import {
   getCategory,
   getLabel
 } from 'in-sdk/tracing';
+import ServiceImplementationEntityInformation
+  from 'in-views/traceView/components/ServiceImplementationEntityInformation';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
-import SpanEntityInformation from 'in-views/traceView/components/SpanEntityInformation';
 import SpanForgeDetails from 'in-views/traceView/components/SpanForgeDetails';
 import {highlightedSpanId$} from 'in-views/traceView/stores/highlightedSpan';
 import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
@@ -150,21 +151,21 @@ export default connectTo(props => {
                 <div className={`${block}__entity-description`}>
                   {getDirection(span) === 'entry' ?
                     <span>
-                      <SpanEntityInformation span={span}
+                      <ServiceImplementationEntityInformation span={span}
                                              label='From:'
                                              connectionEndpointType='source' />
-                      <SpanEntityInformation span={span}
+                      <ServiceImplementationEntityInformation span={span}
                                              label='On:'
                                              connectionEndpointType='destination' />
                     </span>
                   :
                     <span>
-                      <SpanEntityInformation span={span}
-                                             label='On:'
-                                             connectionEndpointType='source' />
-                      <SpanEntityInformation span={span}
-                                             label='To:'
-                                             connectionEndpointType='destination' />
+                      <ServiceImplementationEntityInformation span={span}
+                                                              label='On:'
+                                                              connectionEndpointType='source' />
+                      <ServiceImplementationEntityInformation span={span}
+                                                              label='To:'
+                                                              connectionEndpointType='destination' />
                     </span>
                   }
                 </div>

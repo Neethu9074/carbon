@@ -14,8 +14,8 @@ const block = 'in-trace-view-entity-column';
 
 export default connectTo(props => {
   return {
-    snapshot: getZone(props.serviceInstanceSnapshotId)
-      .flatMap(serviceSnapshotId => serviceSnapshotId ? getSnapshot(serviceSnapshotId) : alwaysNull)
+    snapshot: getZone(props.serviceInstanceSnapshotId, props.time)
+      .flatMap(serviceSnapshotId => serviceSnapshotId ? getSnapshot(serviceSnapshotId, props.time) : alwaysNull)
   };
 }, function EntityColumnContent({snapshot}) {
   if (!snapshot) {

@@ -2,7 +2,9 @@
 import React from 'react';
 
 import {getErrorCount, getDepth, getCalls, getPerCategorySummary} from 'in-views/traceView/util';
-import SpanEntityInformation from 'in-views/traceView/components/SpanEntityInformation';
+import ServiceImplementationEntityInformation from
+  'in-views/traceView/components/ServiceImplementationEntityInformation';
+import ServiceEntityInformation from 'in-views/traceView/components/ServiceEntityInformation';
 import {getCurrentViewWithTimelineCenteredAt} from 'in-stores/navigation/timeline';
 import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
@@ -44,9 +46,14 @@ export default connectTo(props => {
         </h1>
 
         <div className={`${block}__entity`}>
-          <SpanEntityInformation span={trace}
-                                 label='On:'
-                                 connectionEndpointType='destination' />
+          <ServiceImplementationEntityInformation span={trace}
+                                                  label='On:'
+                                                  connectionEndpointType='destination' />
+        </div>
+
+        <div className={`${block}__entity`}>
+          <ServiceEntityInformation span={trace}
+                                    label='Service:' />
         </div>
 
         <div className={`${block}__stats`}>
