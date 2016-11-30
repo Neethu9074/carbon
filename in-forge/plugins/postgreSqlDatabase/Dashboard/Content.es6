@@ -3,7 +3,7 @@ import React from 'react';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
-import {hitRateZeroDecimalPlaces} from 'in-services/formatters/number';
+import {activityZeroDecimalPlaces} from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
@@ -28,12 +28,12 @@ export default function PostgreSqlDashboard({snapshot, timeframe}) {
         <KpiKeyValue label='Queries'>
           <MetricValue snapshotId={snapshotId}
                        metric='totalQueries'
-                       formatter={hitRateZeroDecimalPlaces} />
+                       formatter={activityZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label='Committed Transactions'>
           <MetricValue snapshotId={snapshotId}
                        metric='totalCommittedTransactions'
-                       formatter={hitRateZeroDecimalPlaces} />
+                       formatter={activityZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
