@@ -1,5 +1,5 @@
-const DISCONNECTED_NODES_RANK = '-10';
-const UNKNOWN_NODES_RANK = '-5';
+const DISCONNECTED_NODES_RANK = -10;
+const UNKNOWN_NODES_RANK = -5;
 const DEFAULT_NODES_RANK = 0;
 
 export function transformNodes(_nodes, _edges) {
@@ -46,15 +46,6 @@ export function transformEdges(edges) {
   });
 }
 
-export function sortNodes(nodes) {
-  for (let iN = 0, length = nodes.length; iN < length; iN++) {
-    const node = nodes[iN];
-    node.rank = node.outgoingConnections.length + node.incomingConnections.length;
-  }
-
-  nodes.sort((n1, n2) => n2.rank - n1.rank);
-}
-
 export function calcRanks(nodes, vizceralPosition) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
@@ -88,8 +79,10 @@ export function applyRanks(nodes) {
     columns[node.rank].nodes.push(node);
   }
 
-  const sortedColumns = Object.keys(columns).filter(rank => rank !== DISCONNECTED_NODES_RANK &&
-                                                            rank !== UNKNOWN_NODES_RANK)
+  const sortedColumns = Object.keys(columns).filter(rank => {
+                                              rank = Number(rank);
+                                              return rank !== DISCONNECTED_NODES_RANK && rank !== UNKNOWN_NODES_RANK;
+                                            })
                                             .map(rank => columns[rank])
                                             .sort((c1, c2) => c1.rank - c2.rank);
 
