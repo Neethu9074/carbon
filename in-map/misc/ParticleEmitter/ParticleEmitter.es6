@@ -24,6 +24,7 @@ import {eventBus} from 'in-map/services/eventBus';
 
 
 const START_POS = 100000;
+const MAX_PARTICLES = 150;
 const TIME_TO_LIFE_PER_UNIT = 0.2;
 
 export default class ParticleEmitter {
@@ -31,7 +32,6 @@ export default class ParticleEmitter {
   constructor(sceneObject) {
     this.id = sceneObject.id;
 
-    this.maxParticles = 150;
     this.setNumparticlesPerSecond(0);
 
     // the current index in the ringbuffer array for the next spawning particle
@@ -42,9 +42,9 @@ export default class ParticleEmitter {
 
     this.positionGenerationStrategy = createPositionGenerator();
 
-    this.progresses = new Float32Array(this.maxParticles);
-    this.severities = new Float32Array(this.maxParticles);
-    this.vertices = new Float32Array(this.maxParticles * 3);
+    this.progresses = new Float32Array(MAX_PARTICLES);
+    this.severities = new Float32Array(MAX_PARTICLES);
+    this.vertices = new Float32Array(MAX_PARTICLES * 3);
 
     const geometry = this.geometry = new BufferGeometry();
     geometry.dynamic = true;
@@ -200,7 +200,7 @@ export default class ParticleEmitter {
     vertices[indexInVertices + 2] = position.z;
 
     // make the buffer a ringbuffer
-    this.currentIndex = (this.currentIndex + 1) % this.maxParticles;
+    this.currentIndex = (this.currentIndex + 1) % MAX_PARTICLES;
   }
 
   positionNeedsUpdate() {
@@ -248,7 +248,7 @@ export default class ParticleEmitter {
 
   setNumparticlesPerSecond(particlesPerSecond = 0, errorRate = 0) {
     // clamp number of spawning particles to max number of particles during lifetime
-    particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * (this.maxParticles / 3));
+    particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * (MAX_PARTICLES / 3));
 
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = (particlesPerSecond > 0) ? 1 / particlesPerSecond : Number.MAX_VALUE;
