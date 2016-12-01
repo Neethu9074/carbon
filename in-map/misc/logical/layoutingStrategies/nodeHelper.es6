@@ -1,10 +1,14 @@
+const DISCONNECTED_NODES_RANK = '-10';
+const UNKNOWN_NODES_RANK = '-5';
+const DEFAULT_NODES_RANK = 0;
+
 export function transformNodes(_nodes, _edges) {
   const transformedNodes = {};
   for (let iN = 0, nodesLength = _nodes.length; iN < nodesLength; iN++) {
     const node = _nodes[iN];
     const transformedNode = {
       name: node.id,
-      rank: -1,
+      rank: DEFAULT_NODES_RANK,
       inNode: node,
       outgoingConnections: [],
       incomingConnections: [],
@@ -43,22 +47,26 @@ export function transformEdges(edges) {
 }
 
 export function sortNodes(nodes) {
-  rankNodes(nodes);
-  nodes.sort((n1, n2) => n1.rank - n2.rank);
-}
-
-export function rankNodes(nodes) {
   for (let iN = 0, length = nodes.length; iN < length; iN++) {
     const node = nodes[iN];
-    node.rank = -1 * node.outgoingConnections.length + node.incomingConnections.length;
+    node.rank = node.outgoingConnections.length + node.incomingConnections.length;
   }
+
+  nodes.sort((n1, n2) => n2.rank - n1.rank);
 }
 
 export function calcRanks(nodes, vizceralPosition) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
     const position = vizceralPosition[node.name];
-    node.rank = position ? position.x : -1;
+
+    if (node.name.startsWith('unknown-service')) {
+      node.rank = UNKNOWN_NODES_RANK;
+    } else if (!position) {
+      node.rank = DISCONNECTED_NODES_RANK;
+    } else {
+      node.rank = position.x;
+    }
   }
 }
 
@@ -66,6 +74,7 @@ export function applyRanks(nodes) {
   const distanceBetweenRows = 4;
   const distanceBetweenColumns = 20;
   const distanceOfUnconnectedNodes = 3;
+
   let columns = {};
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
@@ -79,15 +88,35 @@ export function applyRanks(nodes) {
     columns[node.rank].nodes.push(node);
   }
 
-  columns = Object.keys(columns).map(column => columns[column])
-                                .sort((c1, c2) => c1.rank - c2.rank);
+  const sortedColumns = Object.keys(columns).filter(rank => rank !== DISCONNECTED_NODES_RANK &&
+                                                            rank !== UNKNOWN_NODES_RANK)
+                                            .map(rank => columns[rank])
+                                            .sort((c1, c2) => c1.rank - c2.rank);
 
-  for (let iC = 0, lengthC = columns.length; iC < lengthC; iC++) {
-    const column = columns[iC];
-    const x = (iC === 0 && columns[0].nodes[0].rank === -1)
-      ? distanceBetweenColumns - distanceOfUnconnectedNodes
-      : iC * distanceBetweenColumns;
+  const disconnectedNodes = columns[DISCONNECTED_NODES_RANK];
+  const unknownNodes = columns[UNKNOWN_NODES_RANK];
 
+  if (disconnectedNodes) {
+    const x = -2 * distanceOfUnconnectedNodes;
+    for (let iN = 0, lengthN = disconnectedNodes.nodes.length; iN < lengthN; iN++) {
+      const node = disconnectedNodes.nodes[iN];
+      node.x = x;
+      node.y = iN * distanceBetweenRows;
+    }
+  }
+
+  if (unknownNodes) {
+    const x = -distanceOfUnconnectedNodes;
+    for (let iN = 0, lengthN = unknownNodes.nodes.length; iN < lengthN; iN++) {
+      const node = unknownNodes.nodes[iN];
+      node.x = x;
+      node.y = iN * 2;
+    }
+  }
+
+  for (let iC = 0, lengthC = sortedColumns.length; iC < lengthC; iC++) {
+    const x = iC * distanceBetweenColumns;
+    const column = sortedColumns[iC];
 
     for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
       const node = column.nodes[iN];

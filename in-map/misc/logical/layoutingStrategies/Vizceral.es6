@@ -6,7 +6,6 @@ import {
   centerNodes,
   applyRanks,
   sortNodes,
-  rankNodes,
   calcRanks
 } from 'in-map/misc/logical/layoutingStrategies/nodeHelper';
 
@@ -18,7 +17,6 @@ export default function applyLayout({nodes, edges}) {
 
   const layouter = new LTRTreeLayouter();
   const N = transformNodes(nodes, edges);
-  rankNodes(N);
   sortNodes(N);
 
   const E = transformEdges(edges);
