@@ -82,12 +82,12 @@ export function applyRanks(nodes) {
   columns = Object.keys(columns).map(column => columns[column])
                                 .sort((c1, c2) => c1.rank - c2.rank);
 
-
   for (let iC = 0, lengthC = columns.length; iC < lengthC; iC++) {
     const column = columns[iC];
     const x = (iC === 0 && columns[0].nodes[0].rank === -1)
       ? distanceBetweenColumns - distanceOfUnconnectedNodes
       : iC * distanceBetweenColumns;
+
 
     for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
       const node = column.nodes[iN];

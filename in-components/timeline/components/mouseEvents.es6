@@ -77,7 +77,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   });
 
   const mouseMoveSubscription = onMove(canvas, e => {
-    onMouseMove(e.offsetX, e.clientX, e.offsetY, e.clientY);
+    onMouseMove(e, e.offsetX, e.clientX, e.offsetY, e.clientY);
     if (isPanning) {
       onPan(e.offsetX);
     }
@@ -151,7 +151,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onMouseDown(e) {
-    if (e.shiftKey) {
+    if (!e.shiftKey) {
       timeframeHighlightDraggingStart = scale.getDomain(e.offsetX);
       return;
     }
@@ -177,9 +177,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     onPanEnd();
   }
 
-  function onMouseMove(x, screenX, y) {
+  function onMouseMove(e, x, screenX, y) {
     // if the distance of the cursor
-    if (!isPanning && xPositionOnMouseDown) {
+    if (!isPanning && xPositionOnMouseDown && e.shiftKey) {
       const movedSinceMouseDown = Math.abs(x - xPositionOnMouseDown);
       if (movedSinceMouseDown > minPixelToMoveForDragDetection) {
         onPanStart(x);
