@@ -35,3 +35,6 @@ export default function applyLayout({nodes, edges}) {
   centerNodes(N);
   applyPosition(N);
 }
+
+// - vertical node sorting
+// - highlight subtree on highlight service/connection

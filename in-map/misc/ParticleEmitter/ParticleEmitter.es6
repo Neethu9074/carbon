@@ -31,7 +31,7 @@ export default class ParticleEmitter {
   constructor(sceneObject) {
     this.id = sceneObject.id;
 
-    this.maxParticles = 100;
+    this.maxParticles = 150;
     this.setNumparticlesPerSecond(0);
 
     // the current index in the ringbuffer array for the next spawning particle
@@ -248,7 +248,7 @@ export default class ParticleEmitter {
 
   setNumparticlesPerSecond(particlesPerSecond = 0, errorRate = 0) {
     // clamp number of spawning particles to max number of particles during lifetime
-    particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * (this.maxParticles * 0.5));
+    particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * (this.maxParticles / 3));
 
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = (particlesPerSecond > 0) ? 1 / particlesPerSecond : Number.MAX_VALUE;
