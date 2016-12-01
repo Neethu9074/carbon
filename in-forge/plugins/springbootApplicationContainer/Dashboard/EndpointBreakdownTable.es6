@@ -38,16 +38,16 @@ function getKey(statusCodes, endpoint) {
 function createHeader() {
   return (
     <thead>
-    <tr>
-      <th>Endpoint</th>
-      <th>All Requests</th>
-      <th>Requests with Status Code 1xx</th>
-      <th>Requests with Status Code 2xx</th>
-      <th>Requests with Status Code 3xx</th>
-      <th>Requests with Status Code 4xx</th>
-      <th>Requests with Status Code 5xx</th>
-      <th>Response Time of Latest Request</th>
-    </tr>
+      <tr>
+        <th>Endpoint</th>
+        <th>All Requests</th>
+        <th>Requests with Status Code 1xx</th>
+        <th>Requests with Status Code 2xx</th>
+        <th>Requests with Status Code 3xx</th>
+        <th>Requests with Status Code 4xx</th>
+        <th>Requests with Status Code 5xx</th>
+        <th>Response Time of Latest Request</th>
+      </tr>
     </thead>
   );
 }

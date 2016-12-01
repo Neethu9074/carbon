@@ -46,7 +46,7 @@ export default getElementDimensions(connectTo({
           </p>
         : null}
         {this.props.height && (this.props.traces.length > 0 || this.props.isInfiniteLoading) ?
-          <Infinite containerHeight={this.props.height - 24 /* Height of the header */}
+          <Infinite containerHeight={this.props.height - 24} /* Height of the header */
                     elementHeight={26}
                     loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
                     infiniteLoadBeginEdgeOffset={this.props.height * 0.5}

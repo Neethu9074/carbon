@@ -36,10 +36,9 @@ export default connectTo(props => {
 
         {numberOfOpenIssues > 0 ?
           <Tooltip content={
-                     <TooltipFrame>
-                       <EventListing snapshotId={snapshotId} />
-                     </TooltipFrame>
-                   }>
+            <TooltipFrame>
+              <EventListing snapshotId={snapshotId} />
+            </TooltipFrame>}>
             <span className={block + '__counter'}
                   style={{
                     color: maxSeverity < 6 ? '#000' : '#fff',

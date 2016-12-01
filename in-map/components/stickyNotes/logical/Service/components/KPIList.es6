@@ -68,8 +68,8 @@ export default getSnapshot(
                             design='dark'
                             metric={kpi.metric}
                             formatter={kpi.formatter} />
-              ) :
-              <KPIList snapshot={snapshot}
+              )
+            : <KPIList snapshot={snapshot}
                        metrics={kpis.map(kpi => kpi.metric)}
                        labels={kpis.map(kpi => kpi.label)}
                        formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />

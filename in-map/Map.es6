@@ -22,6 +22,8 @@ export default connectTo({
 },
 React.createClass({
 
+  displayName: 'Map',
+
   propTypes: {
     isContextLost: rpt.bool,
     antialias: rpt.string,
@@ -30,7 +32,7 @@ React.createClass({
   },
 
   componentDidMount() {
-    const canvas = this.refs.mainCanvas;
+    const canvas = this.mainCanvas;
     checkDialogs(this.props, canvas);
     if (isWebGLSupported(canvas) && !this.props.isContextLost) {
       setCanvas(canvas);
@@ -38,7 +40,7 @@ React.createClass({
   },
 
   componentDidUpdate() {
-    checkDialogs(this.props, this.refs.mainCanvas);
+    checkDialogs(this.props, this.mainCanvas);
   },
 
   componentWillUnmount() {
@@ -60,7 +62,7 @@ React.createClass({
 
     return (
       <div className={className}>
-        <canvas ref='mainCanvas'
+        <canvas ref={canvas => this.mainCanvas = canvas}
                 className={`${block}__canvas`} />
         {(_canvas && antialias)
           ? <SceneComponent canvas={_canvas}

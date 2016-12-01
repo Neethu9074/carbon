@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import createSparkChart from 'in-charts/SparkChart/SparkChart';
-import {timeframeShape} from 'in-stores/timeline';
 
 
 const block = 'in-spark-chart';
@@ -13,12 +12,7 @@ export default React.createClass({
   displayName: 'SparkChart',
 
   propTypes: {
-    timeframe: timeframeShape.isRequired,
-    datasource: rpt.object.isRequired,
     wiggleRoom: rpt.number.isRequired,
-    height: rpt.number.isRequired,
-    width: rpt.number.isRequired,
-    tooltipFormatter: rpt.func,
     className: rpt.string,
     design: rpt.string
   },

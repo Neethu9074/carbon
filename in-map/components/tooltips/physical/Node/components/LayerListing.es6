@@ -19,7 +19,6 @@ export default getSnapshots(React.createClass({
   ],
 
   propTypes: {
-    snapshotIds: rpt.array.isRequired,
     snapshots: rpt.array
   },
 
@@ -36,12 +35,12 @@ export default getSnapshots(React.createClass({
         {Object.keys(aggregatedLayer)
           .sort()
           .map(key =>
-          <li key={key}>
-            <span className={block + '__count'}>
-              {aggregatedLayer[key]}
-            </span>
-            {(aggregatedLayer[key] === 1 ? getSingular(key) : getPlural(key))}
-          </li>
+            <li key={key}>
+              <span className={block + '__count'}>
+                {aggregatedLayer[key]}
+              </span>
+              {(aggregatedLayer[key] === 1 ? getSingular(key) : getPlural(key))}
+            </li>
         )}
       </ul>
     );

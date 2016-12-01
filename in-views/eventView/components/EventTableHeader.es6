@@ -87,13 +87,13 @@ const Cell = connectTo({
     <div key={name}
          className={cellClassName}>
 
-        {isSelected
-          ? <div className={`${block}__filter`}>
-              <FilterMenu field={name}
-                          closeMenu={() => onExpandClick(null)} />
-            </div>
-          : null
-        }
+      {isSelected ?
+        <div className={`${block}__filter`}>
+          <FilterMenu field={name}
+                      closeMenu={() => onExpandClick(null)} />
+        </div>
+        : null
+      }
       <div className={toggleClassName}
            onClick={() => {
              setSortBy(field);

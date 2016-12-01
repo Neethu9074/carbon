@@ -18,23 +18,23 @@ export default function Datasources({snapshot}) {
     <div>
       <Separator />
       {datasources.map((datasource, i) =>
-          <Collapsible initiallyOpen={false}
-                       key={i}>
-            <Collapsible.Header>Datasource [{datasource}]</Collapsible.Header>
-            <Collapsible.Content>
-              <DescriptionList>
-                <DescriptionItem title='Max Connections'>
-                  {data.get('datasources.' + datasource + '.maxConnections')}
-                </DescriptionItem>
-                <DescriptionItem title='Min Connections'>
-                  {data.get('datasources.' + datasource + '.minConnections')}
-                </DescriptionItem>
-                <DescriptionItem title='Connection Timeout'>
-                  {data.get('datasources.' + datasource + '.connectionTimeout')}
-                </DescriptionItem>
-              </DescriptionList>
-            </Collapsible.Content>
-          </Collapsible>
+        <Collapsible initiallyOpen={false}
+                     key={i}>
+          <Collapsible.Header>Datasource [{datasource}]</Collapsible.Header>
+          <Collapsible.Content>
+            <DescriptionList>
+              <DescriptionItem title='Max Connections'>
+                {data.get('datasources.' + datasource + '.maxConnections')}
+              </DescriptionItem>
+              <DescriptionItem title='Min Connections'>
+                {data.get('datasources.' + datasource + '.minConnections')}
+              </DescriptionItem>
+              <DescriptionItem title='Connection Timeout'>
+                {data.get('datasources.' + datasource + '.connectionTimeout')}
+              </DescriptionItem>
+            </DescriptionList>
+          </Collapsible.Content>
+        </Collapsible>
       )}
     </div>
   );

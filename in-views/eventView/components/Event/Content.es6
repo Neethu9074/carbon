@@ -14,18 +14,18 @@ export default function EventContent({event}) {
     <div>
       <Header event={event} />
 
-        <ProblemDescription event={event}
-                            sectionized
-                            className='in-event-view-event-content' />
+      <ProblemDescription event={event}
+                          sectionized
+                          className='in-event-view-event-content' />
 
-        <EventChart event={event}
-                    sectionized />
+      <EventChart event={event}
+                  sectionized />
 
-        <EventTraces event={event}
-                    sectionized />
+      <EventTraces event={event}
+                  sectionized />
 
-        <EventDependecyGraph event={event}
-                             sectionized />
+      <EventDependecyGraph event={event}
+                           sectionized />
     </div>
   );
 }

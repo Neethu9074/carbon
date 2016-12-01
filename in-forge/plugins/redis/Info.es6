@@ -34,10 +34,10 @@ export default function RedisInfo({snapshot}) {
         {formatDateTime(data.get('started_at'))}
       </DescriptionItem>
       <DescriptionItem title='Role'>
-          {role}
+        {role}
       </DescriptionItem>
       <DescriptionItem title='Cluster Enabled'>
-          {yesOrNo(data.get('cluster_enabled') === 1)}
+        {yesOrNo(data.get('cluster_enabled') === 1)}
       </DescriptionItem>
       {role === 'master' ?
         <DescriptionItem title='Number of Slaves'>

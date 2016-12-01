@@ -7,7 +7,9 @@ import connectTo from 'in-hoc/connectTo';
 
 import './NavItem.less';
 
+
 const block = 'in-config-view-nav-item';
+const rpt = React.PropTypes;
 
 export default connectTo(props => {
   return {
@@ -18,12 +20,10 @@ export default connectTo(props => {
   displayName: 'NavItem',
 
   propTypes: {
-    href$: React.PropTypes.any,
-    href: React.PropTypes.string,
-    isActive$: React.PropTypes.any,
-    isActive: React.PropTypes.bool,
-    title: React.PropTypes.string.isRequired,
-    children: React.PropTypes.any
+    title: rpt.string.isRequired,
+    isActive: rpt.bool,
+    children: rpt.any,
+    href: rpt.string
   },
 
   getInitialState() {

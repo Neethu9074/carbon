@@ -25,8 +25,8 @@ export default connectTo({
     displayName: 'Menu',
 
     propTypes: {
-      isOpen: React.PropTypes.bool,
-      configurationViewLink: React.PropTypes.string
+      configurationViewLink: React.PropTypes.string,
+      isOpen: React.PropTypes.bool
     },
 
     componentDidMount() {
@@ -47,7 +47,7 @@ export default connectTo({
 
       return (
         <section className={block}
-                 ref='menu'>
+                 ref={menu => this.menu = menu}>
           <p className={block + '__account-name'}>
             Signed in as {window.instana.user.fullName}
           </p>
@@ -151,11 +151,11 @@ export default connectTo({
 
     onMouseUp(e) {
       // we are doing this asynchronously and the timepicker may already be gone
-      if (!this.refs.menu) {
+      if (!this.menu) {
         return;
       }
 
-      const rect = this.refs.menu.getBoundingClientRect();
+      const rect = this.menu.getBoundingClientRect();
       if (e.clientX > rect.right || e.clientX < rect.left ||
           e.clientY < rect.top || e.clientY > rect.bottom) {
         // the click was donw outside this component so close it

@@ -12,16 +12,12 @@ export default React.createClass({
   displayName: 'ChartReactComponent',
 
   propTypes: {
-    height: rpt.number.isRequired,
-    margins: rpt.object,
-
     timeframe$: rpt.object,
 
     snapshotId: rpt.string,
     snapshotIds: rpt.arrayOf(rpt.string),
     y1: rpt.object.isRequired,
-    y2: rpt.object,
-    activeFilters$: rpt.object
+    y2: rpt.object
   },
 
   getDefaultProps() {

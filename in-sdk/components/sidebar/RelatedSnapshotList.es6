@@ -27,7 +27,6 @@ export default connectTo(props => {
   ],
 
   propTypes: {
-    snapshotIds: rpt.any.isRequired,
     initiallyOpen: rpt.bool,
     onRenderItem: rpt.func,
     snapshots: rpt.array

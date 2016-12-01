@@ -8,10 +8,6 @@ export default function getPhysicalHierarchy(ComposedComponent) {
   return React.createClass({
     displayName: 'getPhysicalHierarchy hoc for ' + ComposedComponent.displayName,
 
-    propTypes: {
-      snapshotId: React.PropTypes.string
-    },
-
     getInitialState() {
       return {
         physicalHierarchy: emptyList

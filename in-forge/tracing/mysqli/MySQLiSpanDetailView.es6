@@ -13,8 +13,8 @@ export default function MySQLiSpanDetailView({span}) {
       <DescriptionList>
         {statement ?
           <DescriptionItem title='Query'>
-              <Code code={formatSql(statement)}
-                    lang='sql' />
+            <Code code={formatSql(statement)}
+                  lang='sql' />
           </DescriptionItem>
         : null}
       </DescriptionList>

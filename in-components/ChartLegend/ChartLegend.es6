@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {filterStoreShape} from 'in-components/ChartWithLegend/dataseriesFilterStore';
 import {hexToRGB} from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
 import MetricValue from 'in-components/MetricValue';
@@ -30,12 +29,9 @@ React.createClass({
   displayName: 'ChartLegend',
 
   propTypes: {
-    filterStore: filterStoreShape.isRequired,
-    activeFilters: rpt.object.isRequired,
-    snapshotId: rpt.string,
     snapshotIds: rpt.arrayOf(rpt.string),
     y1: axisConfigShape.isRequired,
-    timeframeTo: rpt.number,
+    snapshotId: rpt.string,
     y2: axisConfigShape
   },
 
@@ -72,22 +68,22 @@ React.createClass({
                style={{
                  background: toBackground(color)
                }}>
-            <dt className={block + '__metric-label'}
-                style={{
-                  color
-                }}>
-              {label}
-            </dt>
-            <dd className={block + '__metric-value'}>
-              <MetricValue snapshotId={snapshotId}
-                           metric={metric}
-                           timeframeTo={props.timeframeTo}
-                           formatter={axis.formatter}
-                           initialValue='?' />
-            </dd>
-          </div>
-        );
-      })}
+              <dt className={block + '__metric-label'}
+                  style={{
+                    color
+                  }}>
+                {label}
+              </dt>
+              <dd className={block + '__metric-value'}>
+                <MetricValue snapshotId={snapshotId}
+                             metric={metric}
+                             timeframeTo={props.timeframeTo}
+                             formatter={axis.formatter}
+                             initialValue='?' />
+              </dd>
+            </div>
+          );
+        })}
       </dl>
     );
   }

@@ -35,8 +35,9 @@ export default connectTo(props => {
 
   return (
     <div>
-      {connections.incoming.size === 0 ? null :
-        <div>
+      {connections.incoming.size === 0
+        ? null
+        : <div>
           <Separator />
 
           <Collapsible initiallyOpen={false}>
@@ -52,8 +53,9 @@ export default connectTo(props => {
 
       {connections.incoming.size > 0 && connections.outgoing.size > 0 ? <Separator /> : null}
 
-      {connections.outgoing.size === 0 ? null :
-        <Collapsible initiallyOpen={false}>
+      {connections.outgoing.size === 0
+        ? null
+        : <Collapsible initiallyOpen={false}>
           <Collapsible.Header>
             {'Outbound Connections (' + connections.outgoing.size + ')'}
           </Collapsible.Header>

@@ -54,8 +54,8 @@ export default React.createClass({
   },
 
   updateCode() {
-    const codeElement = ReactDOM.findDOMNode(this.refs.code);
-    const preElement = ReactDOM.findDOMNode(this.refs.pre);
+    const codeElement = ReactDOM.findDOMNode(this.code);
+    const preElement = ReactDOM.findDOMNode(this.pre);
     const code = this.props.code;
     let line = this.props.line;
     const lang = this.props.lang;
@@ -104,10 +104,10 @@ export default React.createClass({
     }
 
     return (
-      <pre ref='pre'
+      <pre ref={pre => this.pre = pre}
            className={preClasses}>
-        <code className={classes}
-              ref='code' />
+        <code ref={code => this.code = code}
+              className={classes} />
       </pre>
     );
   }

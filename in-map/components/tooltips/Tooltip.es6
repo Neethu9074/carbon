@@ -20,13 +20,12 @@ export default function Tooltip(ComposedComponent) {
     displayName: 'Tooltip',
 
     propTypes: {
-      canvas: rpt.object.isRequired,
-      entity: rpt.any.isRequired
+      canvas: rpt.object.isRequired
     },
 
     componentDidMount() {
       this.positionSubscription = onMove(this.props.canvas, event => {
-        const tooltip = this.refs.tooltip;
+        const tooltip = this.tooltip;
         if (tooltip) {
           const x = event.clientX + OFFSET;
           const y = event.clientY - theme.header.height - OFFSET;
@@ -35,7 +34,7 @@ export default function Tooltip(ComposedComponent) {
       });
 
       // set starting position into the nimbus, to avoid that tootltips are hosted without a position to set
-      applyTransform(this.refs.tooltip, `translate3d(${-1000}px,${0}px,0)`);
+      applyTransform(this.tooltip, `translate3d(${-1000}px,${0}px,0)`);
     },
 
     componentWillUnmount() {
@@ -47,7 +46,7 @@ export default function Tooltip(ComposedComponent) {
 
     render() {
       return (
-        <div ref='tooltip'
+        <div ref={tooltip => this.tooltip = tooltip}
              style={DEFAULT_STYLE}>
           <TooltipFrame>
             <ComposedComponent {...this.props}

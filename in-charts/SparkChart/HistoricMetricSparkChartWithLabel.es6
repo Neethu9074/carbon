@@ -3,7 +3,6 @@ import React from 'react';
 
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
 import MetricValue from 'in-components/MetricValue';
-import {timeframeShape} from 'in-stores/timeline';
 
 import './HistoricMetricSparkChartWithLabel.less';
 
@@ -17,16 +16,10 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: timeframeShape.isRequired,
-    height: rpt.number.isRequired,
-    width: rpt.number.isRequired,
-
     snapshotId: rpt.string.isRequired,
     metric: rpt.string.isRequired,
-    aggregation: rpt.string,
     formatter: rpt.func,
-    design: rpt.string,
-    rollup: rpt.number
+    design: rpt.string
   },
 
   render() {

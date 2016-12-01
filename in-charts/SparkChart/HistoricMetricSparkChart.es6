@@ -4,12 +4,9 @@ import React from 'react';
 import {getHistoricMetricsWithLiveUpdates, getPixelAwareRollupSize} from 'in-stores/metric';
 import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
 import {getChartWiggleRoom} from 'in-sdk/snapshot';
-import {timeframeShape} from 'in-stores/timeline';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-
-const rpt = React.PropTypes;
 
 export default connectTo(props => {
   return {
@@ -21,19 +18,6 @@ export default connectTo(props => {
 }, React.createClass({
 
   displayName: 'HistoricMetricSparkChart',
-
-  propTypes: {
-    timeframe: timeframeShape.isRequired,
-    snapshotId: rpt.string.isRequired,
-    wiggleRoom: rpt.number.isRequired,
-    metric: rpt.string.isRequired,
-    height: rpt.number.isRequired,
-    width: rpt.number.isRequired,
-    tooltipFormatter: rpt.func,
-    aggregation: rpt.string,
-    design: rpt.string,
-    rollup: rpt.number
-  },
 
   getInitialState() {
     return {

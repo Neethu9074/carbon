@@ -25,7 +25,6 @@ export default connectTo(
   ],
 
   propTypes: {
-    snapshotId: React.PropTypes.string.isRequired,
     snapshotIds: irpt.setOf(React.PropTypes.string)
   },
 

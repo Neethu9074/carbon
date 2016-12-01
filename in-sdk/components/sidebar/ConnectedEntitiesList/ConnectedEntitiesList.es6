@@ -60,8 +60,6 @@ const Entity = connectTo(props => {
   );
 });
 
-const rpt = React.PropTypes;
 ConnectedEntitiesList.propTypes = {
-  snapshotId: rpt.string.isRequired,
   connectedEntities: irpt.map
 };

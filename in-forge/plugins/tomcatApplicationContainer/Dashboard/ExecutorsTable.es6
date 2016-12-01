@@ -6,6 +6,7 @@ import ExpandableTable from 'in-components/ExpandableTable';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
+
 export default function ExecutorsTable({snapshot, timeframe}) {
   const executors = snapshot.getIn(['data', 'executor-config'], emptyMap);
   if (executors.size === 0) {
@@ -35,9 +36,9 @@ function createHeader() {
   return (
     <thead>
       <tr>
-        <th></th>
+        <th />
         <th colSpan='2'>Threads</th>
-        <th></th>
+        <th />
       </tr>
       <tr>
         <th>Executor</th>

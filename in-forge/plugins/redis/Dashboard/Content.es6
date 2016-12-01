@@ -189,16 +189,16 @@ export default function RedisDashboard({snapshot, timeframe}) {
       </DashboardSection>
       {dbNames && dbNames.length > 0 ?
         <DashboardSection title='Database'>
-            <ChartWithLegend snapshotId={snapshotId}
-                            timeframe={timeframe}
-                            margins={{
-                              left: 80
-                            }}
-                            y1={{
-                              metrics: dbKeysMetrics(dbNames),
-                              labels: dbKeysLabels(dbNames),
-                              type: 'line'
-                            }} />
+          <ChartWithLegend snapshotId={snapshotId}
+                          timeframe={timeframe}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            metrics: dbKeysMetrics(dbNames),
+                            labels: dbKeysLabels(dbNames),
+                            type: 'line'
+                          }} />
         </DashboardSection>
       : null}
       <DashboardSection title='Memory'>
@@ -225,17 +225,17 @@ export default function RedisDashboard({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
       <DashboardSection title='Connections'>
-         <ChartWithLegend snapshotId={snapshotId}
-                          timeframe={timeframe}
-                          margins={{
-                            left: 80
-                          }}
-                          y1={{
-                            min: 0,
-                            metrics: getConnectionMetricsForRole(role),
-                            labels: getConnectionLabelsForRole(role),
-                            type: 'line'
-                          }} />
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: getConnectionMetricsForRole(role),
+                           labels: getConnectionLabelsForRole(role),
+                           type: 'line'
+                         }} />
       </DashboardSection>
       {channelNames && channelNames.length > 0 ?
         <DashboardSection title='Pub/Sub'>
@@ -295,7 +295,7 @@ export default function RedisDashboard({snapshot, timeframe}) {
                             labels: [ 'Bytes left before syncing is complete' ],
                             type: 'stackedArea'
                         }} />
-          </DashboardSection>
+        </DashboardSection>
       : null}
 
       <CustomMonitorsTable snapshot={snapshot}

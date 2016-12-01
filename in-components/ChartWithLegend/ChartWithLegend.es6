@@ -9,7 +9,6 @@ import connectTo from 'in-hoc/connectTo';
 import './ChartWithLegend.less';
 
 
-const rpt = React.PropTypes;
 const block = 'in-chart-with-legend';
 
 export default connectTo(props => {
@@ -21,20 +20,6 @@ export default connectTo(props => {
 },
 React.createClass({
   displayName: 'ChartWithLegend',
-
-  propTypes: {
-    currentRollup: rpt.string,
-
-    height: rpt.number,
-    margins: rpt.object,
-
-    timeframe$: rpt.object,
-
-    snapshotId: rpt.string,
-    snapshotIds: rpt.arrayOf(rpt.string),
-    y1: rpt.object.isRequired,
-    y2: rpt.object
-  },
 
   getInitialState() {
     return {
