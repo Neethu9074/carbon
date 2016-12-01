@@ -66,7 +66,7 @@ export default class ASingleMeshFactory extends Subscriber {
         removeSceneObject(this.mesh);
         this.isAddedToScene = false;
       }
-      return;
+      return 0;
     }
 
     const vertices = [];
@@ -118,6 +118,7 @@ export default class ASingleMeshFactory extends Subscriber {
     }
 
     requestRendering();
+    return vertices.length;
   }
 
   needsUpdate() {

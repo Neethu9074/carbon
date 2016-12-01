@@ -42,7 +42,10 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
   }
 
   rebuild() {
-    super.rebuild();
+    const numVertices = super.rebuild();
+    if (numVertices === 0) {
+      return;
+    }
 
     const iconSizeMultiplier = isWebVRActive ? 0.2 : 1;
     const geometry = this.mesh.geometry;
