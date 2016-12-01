@@ -5,16 +5,17 @@ import ServletsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboar
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
+import {yesOrNo} from 'in-services/formatters/boolean';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
 
 export default function DeploymentsTable({snapshot, timeframe}) {
   const deployments = snapshot.getIn(['data', 'deployments'], emptyMap)
-                              .filter((c) => c.get('contextRoot')).sort();
-  const isEAP = snapshot.getIn(['data', 'serverInfo', 'productName']) === 'EAP';
+                              .filter(c => c.get('contextRoot'))
+                              .sort();
 
-  if (!isEAP || deployments.size === 0) {
+  if (deployments.size === 0) {
     return null;
   }
 
@@ -44,6 +45,9 @@ function createHeader() {
     <thead>
       <tr>
         <th>Deployment</th>
+        <th>Context Root</th>
+        <th>Enabled</th>
+        <th>Status</th>
         <th>Active Sessions</th>
       </tr>
     </thead>
@@ -51,11 +55,17 @@ function createHeader() {
 }
 
 
-function createRow(deploymentName, deploymentContext, context) {
+function createRow(deployment, runtimeName, context) {
   return ([
-    <td>{deploymentContext}</td>,
+    <td>{runtimeName}</td>,
 
-    <Mtd metric={'sessions.' + deploymentContext + '.activeSessions'}
+    <td>{deployment.get('contextRoot')}</td>,
+
+    <td>{yesOrNo(deployment.get('enabled'))}</td>,
+
+    <td>{deployment.get('status')}</td>,
+
+    <Mtd metric={'sessions.' + runtimeName + '.activeSessions'}
          snapshot={context.snapshot} />
   ]);
 }
@@ -80,7 +90,8 @@ function createDetails(deploymentName, deploymentContext, context) {
                labels: [
                  'Active Sessions'
                ],
-               type: 'line'
+               type: 'line',
+               min: 0
              }} />
     </div>
   );
