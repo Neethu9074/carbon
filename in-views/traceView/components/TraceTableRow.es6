@@ -29,8 +29,8 @@ export default function TraceTableRow({selectedTraceId, trace, onClick}) {
         {trace.totalErrorCount}
       </span>
       <span className={cellClassName}>
-        {trace.serviceInstanceSnapshotId ?
-          <EntityColumnContent serviceInstanceSnapshotId={trace.serviceInstanceSnapshotId}
+        {trace.serviceSnapshotId ?
+          <EntityColumnContent serviceSnapshotId={trace.serviceSnapshotId}
                                time={trace.startMillis} />
         : null}
       </span>
