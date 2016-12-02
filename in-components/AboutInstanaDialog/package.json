@@ -1,0 +1,6 @@
+{
+  "name": "AboutInstanaDialog",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AboutInstanaDialog.es6"
+}

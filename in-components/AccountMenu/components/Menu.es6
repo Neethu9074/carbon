@@ -3,7 +3,9 @@ import React from 'react';
 import TenantUnitSwitcher from 'in-components/AccountMenu/components/TenantUnitSwitcher';
 import {isOpen$, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
 import {configurationViewLink$} from 'in-stores/navigation/configuration';
+import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
+import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import {showReleaseNotes} from 'in-stores/releaseNotes';
 import {config, isOnPremise} from 'in-services/config';
 import {webVrEnabled} from 'in-services/featureFlags';
@@ -113,6 +115,11 @@ export default connectTo({
              onClick={closeMenu}
              target='_block'>
             Support
+          </a>
+
+          <a className={block + '__link'}
+             onClick={() => setActiveDialog(<AboutInstanaDialog />)}>
+            About Instana
           </a>
 
           <Separator />
