@@ -12,50 +12,50 @@ describe('in-services/search', () => {
   }
 
   it('must report unknown keys', () => {
-    expect(() => transform('host.cpuAwesomeness = 1000')).to.throw(/Unknown key host\.cpuAwesomeness at line 1/);
+    expect(() => transform('cpuAwesomeness = 1000')).to.throw(/Unknown key cpuAwesomeness at line 1/);
   });
 
   it('must report unsupported operators', () => {
-    expect(() => transform('host.cpuCount ~ 1000')).to.throw(/Unsupported operator ~ for key host\.cpuCount at line 1/);
+    expect(() => transform('cpuCount ~ 1000')).to.throw(/Unsupported operator ~ for key cpuCount at line 1/);
   });
 
   it('must translate host cpu count query to lucene query', () => {
-    expect(transform('host.cpuCount > 3'))
-      .to.equal('search.host.cpuCount:>3');
+    expect(transform('cpuCount > 3'))
+      .to.equal('cpuCount:>3');
   });
 
   it('must translate a mix of key/value and free text queries', () => {
-    expect(transform('host.cpuCount <= 18 fat machine'))
-      .to.equal('search.host.cpuCount:<=18 fat machine');
+    expect(transform('cpuCount <= 18 fat machine'))
+      .to.equal('cpuCount:<=18 fat machine');
   });
 
   it('must retain groups of words', () => {
-    expect(transform('host.cpuCount <= 18 "fat machine"'))
-      .to.equal("search.host.cpuCount:<=18 'fat machine'");
+    expect(transform('cpuCount <= 18 "fat machine"'))
+      .to.equal("cpuCount:<=18 'fat machine'");
   });
 
   it('must not use an equal sign when looking for equality', () => {
-    expect(transform('host.cpuCount = 18'))
-      .to.equal('search.host.cpuCount:18');
+    expect(transform('cpuCount = 18'))
+      .to.equal('cpuCount:18');
   });
 
   it('must reject values which are not numbers', () => {
-    expect(() => transform('host.cpuCount > abc')).to.throw(/Unsupported value abc for key host.cpuCount at line 1. Expected value to be a number./);
+    expect(() => transform('cpuCount > abc')).to.throw(/Unsupported value abc for key cpuCount at line 1. Expected value to be a number./);
   });
 
   it('must not mix free text query parts', () => {
-    expect(transform('fat host.cpuCount <= 18 machine'))
-      .to.equal('fat search.host.cpuCount:<=18 machine');
+    expect(transform('fat cpuCount <= 18 machine'))
+      .to.equal('fat cpuCount:<=18 machine');
   });
 
   it('must support key/value string queries', () => {
-    expect(transform('host.fqdn = "foo bar"'))
-      .to.equal("search.host.fqdn:'foo bar'");
+    expect(transform('fqdn = "foo bar"'))
+      .to.equal("fqdn:'foo bar'");
   });
 
   it('must support searches for tags', () => {
     expect(transform('tag = "production environment"'))
-      .to.equal("processor_tags:'production environment'");
+      .to.equal("tag:'production environment'");
   });
 
   it('must support searches for entity types', () => {

@@ -6,7 +6,7 @@ addKeywordOperator({
   context: 'entity',
   type: 'string',
   keyword: 'tag',
-  field: 'processor_tags'
+  field: 'tag'
 });
 
 addKeywordOperator({
