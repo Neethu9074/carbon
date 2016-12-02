@@ -1,6 +1,9 @@
 const DISCONNECTED_NODES_RANK = -10;
 const UNKNOWN_NODES_RANK = -5;
 const DEFAULT_NODES_RANK = 0;
+const DISTANCE_BETWEEN_ROWS = 4;
+const DISTANCE_BETWEEN_COLUMNS = 20;
+const DISTANCE_OF_UNCONNECTED_NODES = 3;
 
 export function transformNodes(_nodes, _edges) {
   const transformedNodes = {};
@@ -61,11 +64,7 @@ export function calcRanks(nodes, vizceralPosition) {
   }
 }
 
-export function applyRanks(nodes) {
-  const distanceBetweenRows = 4;
-  const distanceBetweenColumns = 20;
-  const distanceOfUnconnectedNodes = 3;
-
+export function applyRanks(nodes, edges) {
   let columns = {};
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
@@ -79,42 +78,58 @@ export function applyRanks(nodes) {
     columns[node.rank].nodes.push(node);
   }
 
-  const sortedColumns = Object.keys(columns).filter(rank => {
-                                              rank = Number(rank);
-                                              return rank !== DISCONNECTED_NODES_RANK && rank !== UNKNOWN_NODES_RANK;
-                                            })
+  const sortedColumns = Object.keys(columns).filter(rank => Number(rank) >= 0)
                                             .map(rank => columns[rank])
                                             .sort((c1, c2) => c1.rank - c2.rank);
 
-  const disconnectedNodes = columns[DISCONNECTED_NODES_RANK];
-  const unknownNodes = columns[UNKNOWN_NODES_RANK];
+  applyColumns(sortedColumns);
+  applyDisconnected(columns[DISCONNECTED_NODES_RANK]);
+  applyUnknown(nodes, columns[UNKNOWN_NODES_RANK], edges);
+}
 
+function applyDisconnected(disconnectedNodes) {
   if (disconnectedNodes) {
-    const x = -2 * distanceOfUnconnectedNodes;
+    const x = -4 * DISTANCE_OF_UNCONNECTED_NODES;
     for (let iN = 0, lengthN = disconnectedNodes.nodes.length; iN < lengthN; iN++) {
       const node = disconnectedNodes.nodes[iN];
       node.x = x;
-      node.y = iN * distanceBetweenRows;
+      node.y = iN * DISTANCE_BETWEEN_ROWS;
     }
   }
+}
 
+function applyUnknown(nodes, unknownNodes, edges) {
   if (unknownNodes) {
-    const x = -distanceOfUnconnectedNodes;
+    const edgesLUT = {};
+    for (let iE = 0, lengthE = edges.length; iE < lengthE; iE++) {
+      const edge = edges[iE];
+      edgesLUT[edge.source] = edge.target;
+    }
+    const nodesLUT = {};
+    for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
+      const node = nodes[iN];
+      nodesLUT[node.name] = node;
+    }
+
     for (let iN = 0, lengthN = unknownNodes.nodes.length; iN < lengthN; iN++) {
       const node = unknownNodes.nodes[iN];
-      node.x = x;
-      node.y = iN * 2;
+      const connectedNode = nodesLUT[edgesLUT[node.name]];
+
+      node.x = connectedNode ? connectedNode.x - DISTANCE_OF_UNCONNECTED_NODES : -DISTANCE_OF_UNCONNECTED_NODES;
+      node.y = connectedNode ? connectedNode.y : iN * 2;
     }
   }
+}
 
-  for (let iC = 0, lengthC = sortedColumns.length; iC < lengthC; iC++) {
-    const x = iC * distanceBetweenColumns;
-    const column = sortedColumns[iC];
+function applyColumns(columns) {
+  for (let iC = 0, lengthC = columns.length; iC < lengthC; iC++) {
+    const x = iC * DISTANCE_BETWEEN_COLUMNS;
+    const column = columns[iC];
 
     for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
       const node = column.nodes[iN];
       node.x = x;
-      node.y = iN * distanceBetweenRows;
+      node.y = iN * DISTANCE_BETWEEN_ROWS;
     }
   }
 }

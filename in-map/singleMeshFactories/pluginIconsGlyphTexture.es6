@@ -10,7 +10,6 @@ export const config = {
   LUT: {}
 };
 
-
 glyphTexture.minFilter = LinearFilter;
 glyphTexture.generateMipmaps = false;
 glyphTexture.flipY = false;

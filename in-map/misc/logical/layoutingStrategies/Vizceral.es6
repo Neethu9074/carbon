@@ -25,7 +25,7 @@ export default function applyLayout({nodes, edges}) {
   );
 
   calcRanks(N, positions);
-  applyRanks(N);
+  applyRanks(N, E);
   centerNodes(N);
   applyPosition(N);
 }
