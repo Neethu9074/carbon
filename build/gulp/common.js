@@ -42,6 +42,10 @@ gulp.task('writeBuildInfo', cb => {
     data.branch = process.env.INSTANA_UICLIENT_BRANCH;
   }
 
+  if (process.env.INSTANA_CONTAINER_TAG) {
+    data.tag = process.env.INSTANA_CONTAINER_TAG;
+  }
+
   fs.writeFile(paths.buildInfoFileLocation, JSON.stringify(data), cb);
 });
 
