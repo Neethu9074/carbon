@@ -1,4 +1,4 @@
-import {addKeywordOperator, createPluginFieldPath} from 'in-sdk/search';
+import {addKeywordOperator} from 'in-sdk/search';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 
 import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.svg';
@@ -62,27 +62,27 @@ registerSnapshotDefinition({
 addKeywordOperator({
   context: 'entity',
   type: 'number',
-  keyword: 'host.cpuCount',
-  field: createPluginFieldPath(plugins.host, ['cpuCount'])
+  keyword: 'cpuCount',
+  field: 'cpuCount'
 });
 
 addKeywordOperator({
   context: 'entity',
   type: 'string',
-  keyword: 'host.hostname',
-  field: createPluginFieldPath(plugins.host, ['hostname'])
+  keyword: 'hostname',
+  field: 'hostname'
 });
 
 addKeywordOperator({
   context: 'entity',
   type: 'string',
-  keyword: 'host.fqdn',
-  field: createPluginFieldPath(plugins.host, ['fqdn'])
+  keyword: 'fqdn',
+  field: 'fqdn'
 });
 
 addKeywordOperator({
   context: 'entity',
   type: 'number',
-  keyword: 'host.memory',
-  field: createPluginFieldPath(plugins.host, ['memory'])
+  keyword: 'memory',
+  field: 'memory'
 });
