@@ -1,8 +1,7 @@
 import {Texture, LinearFilter} from 'in-map/3DLibProvider';
+import{updateCanvasDimensions} from 'in-charts/canvas';
 import {getAllIcons} from 'in-sdk/iconRegistry';
 
-
-export const glyphTexture = new Texture();
 
 export const config = {
   numElementsPerColumn: Math.ceil(Math.sqrt(getAllIcons().length)),
@@ -10,21 +9,27 @@ export const config = {
   LUT: {}
 };
 
+const canvas = document.createElement('canvas');
+const context = canvas.getContext('2d');
+const texDimension = config.numElementsPerColumn * config.iconWidth;
+updateCanvasDimensions(canvas, context, texDimension, texDimension, 1);
+context.rect(0, 0, canvas.width, canvas.height);
+context.fill();
+
+export const glyphTexture = new Texture(canvas);
 glyphTexture.minFilter = LinearFilter;
 glyphTexture.generateMipmaps = false;
+glyphTexture.needsUpdate = true;
+glyphTexture.image = canvas;
 glyphTexture.flipY = false;
-create(glyphTexture);
 
-function create(texture) {
+
+init();
+
+function init() {
   const iconWidth = config.iconWidth;
-  const canvas = document.createElement('canvas');
-  canvas.width = config.numElementsPerColumn * iconWidth;
-  canvas.height = config.numElementsPerColumn * iconWidth;
-  texture.image = canvas;
-
-  let row = 0;
   let column = 0;
-  const context = canvas.getContext('2d');
+  let row = 0;
 
   getAllIcons().forEach(icon => {
     const x = column * iconWidth;
@@ -36,7 +41,6 @@ function create(texture) {
       // if the image is 100 x 100 in width don't draw it directly for 0 - 100
       // use 2 - 98 instead to get a clear border to avoid nastly artifacts caused by rounding issues
       context.drawImage(image, x + 2, y + 2, iconWidth - 4, iconWidth - 4);
-      texture.needsUpdate = true;
     };
 
     // update Look Up Table
@@ -48,6 +52,4 @@ function create(texture) {
       row++;
     }
   });
-
-  texture.needsUpdate = true;
 }

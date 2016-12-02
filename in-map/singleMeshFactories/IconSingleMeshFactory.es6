@@ -25,7 +25,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
       transparent: true,
       depthWrite: false,
       uniforms: {
-        texture: {
+        map: {
           type: 't',
           value: glyphTexture
         },
@@ -58,12 +58,12 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
     const vertices = geometry.attributes.position.array;
 
     let index = 0;
-    for (let i = 0, length = fragments.length; i < length; i++) {
+    for (let i = 0, lengthF = fragments.length; i < lengthF; i++) {
       const fragment = fragments[i];
       const offset = fragment.additionalParams.positionOffset;
 
       const fragmentVertices = fragment.contentProvider.getVertices();
-      for (let j = 0, numVertices = fragmentVertices.length; j < numVertices; j += 3) {
+      for (let j = 0, lengthV = fragmentVertices.length; j < lengthV; j += 3) {
         vertices[index] = vertices[index] + offset.x;
         vertices[index + 1] = vertices[index + 1] + offset.y;
         vertices[index + 2] = vertices[index + 2] + offset.z;
