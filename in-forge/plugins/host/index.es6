@@ -1,5 +1,5 @@
-import {addKeywordOperator} from 'in-sdk/search';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {addKeywordOperator} from 'in-sdk/search';
 
 import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.svg';
 import linuxIconPath from 'in-forge/plugins/host/icons/instana_server_linux.svg';

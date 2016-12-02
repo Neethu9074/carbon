@@ -1,4 +1,5 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {addKeywordOperator} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
@@ -20,4 +21,11 @@ registerSnapshotDefinition({
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'instance-id']);
   }
+});
+
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'gceZone',
+  field: 'gceZone'
 });
