@@ -2,8 +2,9 @@ FROM registry-internal.instana.io/instana/nginx-nodejs:latest
 
 MAINTAINER Ben Ripkens "ben@instana.com"
 
-LABEL com.instana.commit="{{INSTANA_UICLIENT_COMMIT}}" \
-      com.instana.branch="{{INSTANA_UICLIENT_BRANCH}}"
+LABEL com.instana.commit.id="{{INSTANA_UICLIENT_COMMIT}}" \
+      com.instana.branch="{{INSTANA_UICLIENT_BRANCH}}" \
+      com.instana.image.tag="{{INSTANA_CONTAINER_TAG}}"
 
 # Using this in combination with a .dockerignore file to reduce
 # the number of copy operations (and thus layers).
