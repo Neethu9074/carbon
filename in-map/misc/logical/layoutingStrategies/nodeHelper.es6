@@ -82,9 +82,68 @@ export function applyRanks(nodes, edges) {
                                             .map(rank => columns[rank])
                                             .sort((c1, c2) => c1.rank - c2.rank);
 
-  applyColumns(sortedColumns);
+  const edgesLUT = {
+    outgoing: {},
+    incoming: {}
+  };
+  for (let iE = 0, lengthE = edges.length; iE < lengthE; iE++) {
+    const edge = edges[iE];
+    edgesLUT.outgoing[edge.source] = edge.target;
+    edgesLUT.incoming[edge.target] = edge.source;
+  }
+  const nodesLUT = {};
+  for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
+    const node = nodes[iN];
+    nodesLUT[node.name] = node;
+  }
+
+  applyColumns(nodesLUT, sortedColumns, edgesLUT);
   applyDisconnected(columns[DISCONNECTED_NODES_RANK]);
-  applyUnknown(nodes, columns[UNKNOWN_NODES_RANK], edges);
+  applyUnknown(nodesLUT, columns[UNKNOWN_NODES_RANK], edgesLUT);
+}
+
+function applyColumns(nodesLUT, columns, edgesLUT) {
+  if (columns.length === 0) {
+    return;
+  }
+
+  //first column is ordered by connections
+  const firstColumnNodes = columns[0].nodes.sort((n1, n2) => n2.outgoingConnections.length - n1.outgoingConnections.length);
+  for (let iN = 0, lengthN = firstColumnNodes.length; iN < lengthN; iN++) {
+    const node = firstColumnNodes[iN];
+    node.x = 0;
+    node.y = iN * DISTANCE_BETWEEN_ROWS;
+  }
+
+  // each following column is aligned to the previous connected
+  for (let iC = 1, lengthC = columns.length; iC < lengthC; iC++) {
+    const x = iC * DISTANCE_BETWEEN_COLUMNS;
+    const occupiedPositions = [];
+    const column = columns[iC];
+
+    for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
+      const node = column.nodes[iN];
+      const connectedNode = nodesLUT[edgesLUT.incoming[node.name]];
+
+      node.x = x;
+      const y = connectedNode && connectedNode.y ? connectedNode.y : iN * DISTANCE_BETWEEN_ROWS;
+
+      node.y = occupiedPositions[y] ? undefined : y;
+      occupiedPositions[y] = true;
+    }
+
+    for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
+      const node = column.nodes[iN];
+      let index = 0;
+      while(node.y === undefined) {
+        const y = index++ * DISTANCE_BETWEEN_ROWS;
+        if (!occupiedPositions[y]) {
+          node.y = y;
+          occupiedPositions[y] = true;
+        }
+      }
+    }
+  }
 }
 
 function applyDisconnected(disconnectedNodes) {
@@ -98,38 +157,14 @@ function applyDisconnected(disconnectedNodes) {
   }
 }
 
-function applyUnknown(nodes, unknownNodes, edges) {
+function applyUnknown(nodesLUT, unknownNodes, edgesLUT) {
   if (unknownNodes) {
-    const edgesLUT = {};
-    for (let iE = 0, lengthE = edges.length; iE < lengthE; iE++) {
-      const edge = edges[iE];
-      edgesLUT[edge.source] = edge.target;
-    }
-    const nodesLUT = {};
-    for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
-      const node = nodes[iN];
-      nodesLUT[node.name] = node;
-    }
-
     for (let iN = 0, lengthN = unknownNodes.nodes.length; iN < lengthN; iN++) {
       const node = unknownNodes.nodes[iN];
-      const connectedNode = nodesLUT[edgesLUT[node.name]];
+      const connectedNode = nodesLUT[edgesLUT.outgoing[node.name]];
 
       node.x = connectedNode ? connectedNode.x - DISTANCE_OF_UNCONNECTED_NODES : -DISTANCE_OF_UNCONNECTED_NODES;
       node.y = connectedNode ? connectedNode.y : iN * 2;
-    }
-  }
-}
-
-function applyColumns(columns) {
-  for (let iC = 0, lengthC = columns.length; iC < lengthC; iC++) {
-    const x = iC * DISTANCE_BETWEEN_COLUMNS;
-    const column = columns[iC];
-
-    for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
-      const node = column.nodes[iN];
-      node.x = x;
-      node.y = iN * DISTANCE_BETWEEN_ROWS;
     }
   }
 }
