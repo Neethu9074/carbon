@@ -12,6 +12,9 @@ export default function HttpSpanDetailView({span}) {
         <DescriptionItem title='URL'>
           {span.getIn(['data', 'http', 'url'])}
         </DescriptionItem>
+        <DescriptionItem title='Parameters'>
+          {span.getIn(['data', 'http', 'params'])}
+        </DescriptionItem>
         <DescriptionItem title='Method'>
           {span.getIn(['data', 'http', 'method'])}
         </DescriptionItem>
