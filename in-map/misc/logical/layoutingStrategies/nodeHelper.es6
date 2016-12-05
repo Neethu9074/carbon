@@ -124,12 +124,15 @@ function applyColumns(nodesLUT, columns, edgesLUT) {
     for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
       const node = column.nodes[iN];
       const connectedNode = nodesLUT[edgesLUT.incoming[node.name]];
+      const y = connectedNode && connectedNode.y ? connectedNode.y : undefined;
 
       node.x = x;
-      const y = connectedNode && connectedNode.y ? connectedNode.y : iN * DISTANCE_BETWEEN_ROWS;
-
-      node.y = occupiedPositions[y] ? undefined : y;
-      occupiedPositions[y] = true;
+      if (y) {
+        node.y = occupiedPositions[y] ? undefined : y;
+        occupiedPositions[y] = true;
+      } else {
+        node.y = undefined;
+      }
     }
 
     for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
