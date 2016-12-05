@@ -7,26 +7,35 @@ const isLoading = createStore({
 });
 export const isLoading$ = isLoading.observable;
 
-
-const resourceToLoad = {
-  globeDiffuseMap: false,
-  globeSpecularMap: false,
-  globeNormalMap: false,
-  cloudAlphaMap: false,
-  globeEffectOverlayMap: false,
-  globeEffectOuterGlowMap: false
-};
+const loadingResources = createStore({
+  name: 'globeview/loadingResources',
+  initialValue: {
+    isLoading,
+    resources: {
+      globeDiffuseMap: true,
+      globeSpecularMap: true,
+      globeNormalMap: true,
+      cloudAlphaMap: true,
+      starMap: true,
+      globeEffectOverlayMap: true,
+      globeEffectOuterGlowMap: true
+    }
+  }
+});
+export const loadingResources$ = loadingResources.observable;
 
 export function resourceLoaded(name) {
-  resourceToLoad[name] = true;
-  const keys = Object.keys(resourceToLoad);
+  loadingResources.applyStateMutation(loadingResources => {
+    loadingResources.resources[name] = false;
 
-  isLoading.applyStateMutation(() => {
+    const keys = Object.keys(loadingResources.resources);
+    loadingResources.isLoading = false;
     for (let i = 0; i < keys.length; i++) {
-      if (!resourceToLoad[keys[i]]) {
-        return true;
+      if (loadingResources.resources[keys[i]]) {
+        loadingResources.isLoading = true;
       }
     }
-    return false;
+
+    return loadingResources;
   });
 }

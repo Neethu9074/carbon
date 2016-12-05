@@ -1,7 +1,4 @@
 /* global require:false */
-import fragmentShader from 'in-components/globeView/components/shader/starFieldFragmentShader.glsl';
-import vertexShader from 'in-components/globeView/components/shader/starFieldVertexShader.glsl';
-
 import {
   RawShaderMaterial,
   BufferGeometry,
@@ -10,7 +7,11 @@ import {
   DoubleSide,
   Points
 } from 'in-map/3DLibProvider';
+import {resourceLoaded} from 'in-components/globeView/stores/isLoadingStore';
 import {loadImage} from 'in-map/services/imageLoader';
+
+import fragmentShader from 'in-components/globeView/components/shader/starFieldFragmentShader.glsl';
+import vertexShader from 'in-components/globeView/components/shader/starFieldVertexShader.glsl';
 
 
 export default class StarField {
@@ -52,6 +53,7 @@ export default class StarField {
 
       this.placeStars();
       parent.add(starField);
+      resourceLoaded('starMap');
     });
   }
 
