@@ -26,6 +26,6 @@ registerSnapshotDefinition({
 addKeywordOperator({
   context: 'entity',
   type: 'string',
-  keyword: 'gceZone',
-  field: 'gceZone'
+  keyword: 'zone',
+  field: 'zone'
 });

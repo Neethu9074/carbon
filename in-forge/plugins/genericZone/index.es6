@@ -27,6 +27,6 @@ addLabelFinder(
 addKeywordOperator({
   context: 'entity',
   type: 'string',
-  keyword: 'genericZone',
-  field: 'genericZone'
+  keyword: 'zone',
+  field: 'zone'
 });

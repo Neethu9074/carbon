@@ -30,6 +30,6 @@ addSearchableEntityType('aws', plugins.ec2);
 addKeywordOperator({
   context: 'entity',
   type: 'string',
-  keyword: 'ec2Zone',
-  field: 'ec2Zone'
+  keyword: 'zone',
+  field: 'zone'
 });
