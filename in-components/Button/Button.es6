@@ -20,6 +20,7 @@ export default function Button({className,
   }
 
   // Do not use the disabled attribute as we want to continue to retrieve mouse events
+  // sorry usability :(.
   if (disabled) {
     classes = `${classes} ${block}--disabled`;
   }

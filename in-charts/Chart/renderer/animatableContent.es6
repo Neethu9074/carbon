@@ -124,7 +124,9 @@ export default function createAnimatableContentRenderer(config) {
     const axisContentRenderer = config.axisContentRenderers[axisName];
     axisContentRenderer.processNewDataColumns(newDataColumns, axisName);
     config.dataHolders[axisName].insertSorted(newDataColumns);
-    config.dataHolders[axisName].expireDataPointsOlderThan(config.scales.x.getDomainFrom());
+    // Subtract config.rollup to ensure that we have smooth animation at the beginning of the chart even
+    // when the content is animating.
+    config.dataHolders[axisName].expireDataPointsOlderThan(config.scales.x.getDomainFrom() - config.rollup);
     const dataColumns = config.dataHolders[axisName].getDataColumns();
     if (config.processDataColumnsAgain) {
       axisContentRenderer.processNewDataColumns(dataColumns, axisName);
