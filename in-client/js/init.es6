@@ -11,18 +11,19 @@ import logging from 'instalog';
 import React from 'react';
 
 import {init as initHighlightedSuggestionStore} from 'in-components/SearchBar/stores/highlightedSuggestion';
+import {init as initGlyphTexture} from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import {init as initSubscriptonManager} from 'in-services/subscription/subscriptionManager';
 import {init as initNotMonitoringPresenter} from 'in-services/notMonitoringDialogPresenter';
 import {init as initLayouterStorage} from 'in-map/services/logical/logicalLayouterStorage';
 import {init as initMessageStore} from 'in-components/MessageDialog/MessageDialogStores';
 import {init as initPersistentConnection} from 'in-services/persistentConnection';
+import {init as initUnhandledErrorHandling} from 'in-services/unhandledErrors';
 import {init as initTimelineStore} from 'in-components/timeline/timelineStore';
 import {init as initMaintenanceNoteStore} from 'in-stores/maintenance';
 import {init as initBrowserIdentification} from 'in-services/browser';
 import {init as initTimeOffsetStore} from 'in-stores/timeOffset';
 import {init as initShortcuts} from 'in-services/shortcuts';
 import {init as initUsageInfo} from 'in-stores/usageInfo';
-import {init as initUnhandledErrorHandling} from 'in-services/unhandledErrors';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -52,6 +53,7 @@ if (__DEV__) {
 }
 
 // kick of the init process
+initGlyphTexture();
 initLayouterStorage();
 initBrowserIdentification();
 initPersistentConnection();

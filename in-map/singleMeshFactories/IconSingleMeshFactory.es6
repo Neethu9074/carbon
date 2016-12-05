@@ -12,14 +12,8 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
 
   constructor(options) {
     super(options);
-  }
 
-  getMesh(geometry, material) {
-    return new Points(geometry, material);
-  }
-
-  getMaterial() {
-    return new RawShaderMaterial({
+    this.material = new RawShaderMaterial({
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
       transparent: true,
@@ -39,6 +33,16 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         }
       }
     });
+
+    this.points = new Points(this.geometry, this.material);
+  }
+
+  getMesh() {
+    return this.points;
+  }
+
+  getMaterial() {
+    return this.material;
   }
 
   rebuild() {

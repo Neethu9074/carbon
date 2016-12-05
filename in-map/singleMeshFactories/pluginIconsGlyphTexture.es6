@@ -13,20 +13,16 @@ const canvas = document.createElement('canvas');
 const context = canvas.getContext('2d');
 const texDimension = config.numElementsPerColumn * config.iconWidth;
 updateCanvasDimensions(canvas, context, texDimension, texDimension, 1);
-context.rect(0, 0, canvas.width, canvas.height);
-context.fill();
 
 export const glyphTexture = new Texture(canvas);
 glyphTexture.minFilter = LinearFilter;
+glyphTexture.magFilter = LinearFilter;
 glyphTexture.generateMipmaps = false;
 glyphTexture.needsUpdate = true;
-glyphTexture.image = canvas;
 glyphTexture.flipY = false;
 
 
-init();
-
-function init() {
+export function init() {
   const iconWidth = config.iconWidth;
   let column = 0;
   let row = 0;
