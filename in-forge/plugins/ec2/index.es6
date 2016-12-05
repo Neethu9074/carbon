@@ -1,4 +1,4 @@
-import {addKeywordOperator, addSearchableEntityType} from 'in-sdk/search';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
@@ -26,10 +26,3 @@ addLabelFinder(
 
 addSearchableEntityType('ec2', plugins.ec2);
 addSearchableEntityType('aws', plugins.ec2);
-
-addKeywordOperator({
-  context: 'entity',
-  type: 'string',
-  keyword: 'ec2Zone',
-  field: 'ec2Zone'
-});
