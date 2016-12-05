@@ -58,21 +58,6 @@ describe('in-services/search', () => {
       .to.equal("tag:'production environment'");
   });
 
-  it('must support searches for entity types', () => {
-    expect(transform('type=host'))
-      .to.equal('plugin_id:com.instana.forge.infrastructure.os.host.Host');
-  });
-
-  it('must support case insensitive searches for types', () => {
-    expect(transform('type=nOdE.Js'))
-      .to.equal('plugin_id:com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform');
-  });
-
-  it('must reject searches for unknown entity types', () => {
-    expect(() => transform('type=blub'))
-      .to.throw(/Unknown entity type blub for key type at row 1./);
-  });
-
   it('must return an empty string when no filters are defined', () => {
     expect(transform('')).to.equal('');
   });
@@ -85,7 +70,7 @@ describe('in-services/search', () => {
     expect(transform('elasti~')).to.equal('elasti~');
   });
 
-  it('must support multiple values for selection types', () => {
+  it.skip('must support multiple values for selection types', () => {
     expect(transform('type=service')).to.match(/^\(plugin_id:[a-z.]+ OR plugin_id:[a-z.]+ OR .*\)$/i);
   });
 

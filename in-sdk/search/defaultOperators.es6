@@ -18,22 +18,14 @@ addKeywordOperator({
 const searchableEntityTypes = {
   // <type> => [<fully qualified plugin ids>]
 };
+
 addKeywordOperator({
   context: 'entity',
-  type: 'selection',
+  type: 'string',
   keyword: 'type',
-  field: 'plugin_id',
-  validate(selection, queryPart) {
-    if (this.getSelectableItems().indexOf(selection.toLowerCase()) === -1) {
-      return `Unknown entity type ${selection} for key type at row ${queryPart.row}.`;
-    }
-    return null;
-  },
-  getSelectableItems() {
-    return Object.keys(searchableEntityTypes);
-  },
-  toValue: translateSearchableEntityTypeToFullyQualifiedPluginIds
+  field: 'type'
 });
+
 export function addSearchableEntityType(label, shortPluginId) {
   label = label.toLowerCase();
   const typesForLabel = searchableEntityTypes[label] = searchableEntityTypes[label] || [];
