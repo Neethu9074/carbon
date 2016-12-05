@@ -139,14 +139,14 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onMouseDown(e) {
+    xPositionOnMouseDown = e.offsetX;
+
     if (!e.shiftKey) {
       timeframeHighlightDraggingStart = scale.getDomain(e.offsetX);
       return;
     }
 
     clearHighlightedTimeframe();
-
-    xPositionOnMouseDown = e.offsetX;
 
     // if the distance of the cursor
     if (isCursorOnFocusedMoment(e.offsetX, e.offsetY)) {
