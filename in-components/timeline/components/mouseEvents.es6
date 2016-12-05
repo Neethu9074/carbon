@@ -62,19 +62,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
-
-  const mouseLeaveSubscription = onLeave(canvas, () => {
-    setHighlightedEventScreenPosition(null);
-    setHighlightedEvent(null);
-
-    xPositionOnMouseDown = null;
-
-    clearHighlightedMoment();
-
-    if (isPanning) {
-      onPanEnd();
-    }
-  });
+  const mouseLeaveSubscription = onLeave(canvas, onMouseLeave);
 
   const mouseMoveSubscription = onMove(canvas, e => {
     onMouseMove(e, e.offsetX, e.clientX, e.offsetY, e.clientY);
@@ -175,6 +163,20 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     xPositionOnMouseDown = null;
     timeframeHighlightDraggingStart = null;
     onPanEnd();
+  }
+
+  function onMouseLeave() {
+    setHighlightedEventScreenPosition(null);
+    setHighlightedEvent(null);
+
+    clearHighlightedMoment();
+
+    timeframeHighlightDraggingStart = null;
+    xPositionOnMouseDown = null;
+
+    if (isPanning) {
+      onPanEnd();
+    }
   }
 
   function onMouseMove(e, x, screenX, y) {
