@@ -1,10 +1,9 @@
 import React from 'react';
 
 import {highlightedTimeframe$, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
+import {setTimeframe, setFocusedMoment, focusedMoment$} from 'in-stores/timeline';
 import {MAX_ZOOM_LEVEL} from 'in-components/timeline/timelineStore';
 import {to$} from 'in-components/timeline/timelineStore';
-import {setTimeframe} from 'in-stores/timeline/timeline';
-import {setFocusedMoment} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -16,9 +15,10 @@ const block = 'in-chart-apply-button';
 
 export default connectTo({
   highlightedTimeframe: highlightedTimeframe$,
+  focusedMoment: focusedMoment$,
   to: to$
 },
-function ApplyButton({to, highlightedTimeframe}) {
+function ApplyButton({to, focusedMoment, highlightedTimeframe}) {
   if (!highlightedTimeframe) {
     return null;
   }
@@ -26,7 +26,7 @@ function ApplyButton({to, highlightedTimeframe}) {
   return (
     <Button className={block}
             kind='secondary'
-            onClick={() => onButtonClicked(highlightedTimeframe, to)}>
+            onClick={() => onButtonClicked(highlightedTimeframe, focusedMoment, to)}>
       <SvgIcon type='search'
                width={12}
                height={12}
@@ -35,7 +35,7 @@ function ApplyButton({to, highlightedTimeframe}) {
   );
 });
 
-function onButtonClicked(highlightedTimeframe, timelineTo) {
+function onButtonClicked(highlightedTimeframe, focusedMoment, timelineTo) {
   const from = highlightedTimeframe[0];
   let to = highlightedTimeframe[1];
   let windowSize = to - from;
@@ -48,6 +48,8 @@ function onButtonClicked(highlightedTimeframe, timelineTo) {
   setTimeframe(windowSize, to);
   clearHighlightedTimeframe();
 
-  // stop live mode
-  setFocusedMoment(timelineTo);
+  if (!focusedMoment) {
+    // stop live mode
+    setFocusedMoment(timelineTo);
+  }
 }

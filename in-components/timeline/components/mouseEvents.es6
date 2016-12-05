@@ -254,7 +254,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   function onPanEnd() {
     if (isPanning && !isFocusedMomentPanning && !focusedMoment) {
       const timeToSet = scale.getDomainTo();
-      // if the user panns to the right border (servertime) set to live mode again
+      // if the user pans to the right border (servertime) set to live mode again
       setGlobalTo(Math.min(timeToSet, serverTime));
     }
 
