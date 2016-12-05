@@ -6,7 +6,7 @@ const DISTANCE_BETWEEN_COLUMNS = 20;
 const DISTANCE_OF_UNCONNECTED_NODES = 3;
 
 export function transformNodes(_nodes, _edges) {
-  const transformedNodes = {};
+  const LUT = {};
   for (let iN = 0, nodesLength = _nodes.length; iN < nodesLength; iN++) {
     const node = _nodes[iN];
     const transformedNode = {
@@ -17,10 +17,10 @@ export function transformNodes(_nodes, _edges) {
       incomingConnections: [],
       __touched: false
     };
-    transformedNodes[node.id] = transformedNode;
+    LUT[node.id] = transformedNode;
   }
 
-  const transformedNodesAsList = Object.keys(transformedNodes).map(key => transformedNodes[key]);
+  const transformedNodesAsList = Object.keys(LUT).map(key => LUT[key]);
   transformedNodesAsList.forEach(transformedNode => {
     const nodeId = transformedNode.inNode.id;
 
@@ -28,35 +28,60 @@ export function transformNodes(_nodes, _edges) {
       const source = _edges[iE].sourceNode.id;
       const destination = _edges[iE].destinationNode.id;
 
-      ((source === nodeId) && transformedNodes[destination])
-        ? transformedNode.outgoingConnections.push(transformedNodes[destination])
+      ((source === nodeId) && LUT[destination])
+        ? transformedNode.outgoingConnections.push(LUT[destination])
         : null;
 
-      ((destination === nodeId) && transformedNodes[source])
-        ? transformedNode.incomingConnections.push(transformedNodes[source])
+      ((destination === nodeId) && LUT[source])
+        ? transformedNode.incomingConnections.push(LUT[source])
         : null;
     }
   });
-  return transformedNodesAsList;
+
+  return {
+    list: transformedNodesAsList,
+    LUT
+  };
 }
 
 export function transformEdges(edges) {
-  return edges.map(edge => {
-    return {
-      source: edge.sourceNode.id,
-      target: edge.destinationNode.id
-    };
-  });
+  const LUT = {
+    outgoing: {},
+    incoming: {}
+  };
+
+  return {
+    list: edges.map(edge => {
+      edge = {
+        source: edge.sourceNode.id,
+        target: edge.destinationNode.id
+      };
+
+      LUT.outgoing[edge.source] = edge.target;
+      LUT.incoming[edge.target] = edge.source;
+      return edge;
+    }),
+    LUT
+  };
 }
 
 export function calcRanks(nodes, vizceralPosition) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
     const position = vizceralPosition[node.name];
+    let isDisconnected = false;
 
-    if (node.name.startsWith('unknown-service')) {
+    if (!position ||
+        (node.outgoingConnections.length === 0 &&
+         node.incomingConnections.length === 1 &&
+         isUnknown(node.incomingConnections[0])
+      )) {
+      isDisconnected = true;
+    }
+
+    if (isUnknown(node)) {
       node.rank = UNKNOWN_NODES_RANK;
-    } else if (!position) {
+    } else if (isDisconnected) {
       node.rank = DISCONNECTED_NODES_RANK;
     } else {
       node.rank = position.x;
@@ -64,7 +89,7 @@ export function calcRanks(nodes, vizceralPosition) {
   }
 }
 
-export function applyRanks(nodes, edges) {
+export function applyRanks(nodes, nodesLUT, edges, edgesLUT) {
   let columns = {};
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
@@ -81,21 +106,6 @@ export function applyRanks(nodes, edges) {
   const sortedColumns = Object.keys(columns).filter(rank => Number(rank) >= 0)
                                             .map(rank => columns[rank])
                                             .sort((c1, c2) => c1.rank - c2.rank);
-
-  const edgesLUT = {
-    outgoing: {},
-    incoming: {}
-  };
-  for (let iE = 0, lengthE = edges.length; iE < lengthE; iE++) {
-    const edge = edges[iE];
-    edgesLUT.outgoing[edge.source] = edge.target;
-    edgesLUT.incoming[edge.target] = edge.source;
-  }
-  const nodesLUT = {};
-  for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
-    const node = nodes[iN];
-    nodesLUT[node.name] = node;
-  }
 
   applyColumns(nodesLUT, sortedColumns, edgesLUT);
   applyDisconnected(columns[DISCONNECTED_NODES_RANK]);
@@ -151,7 +161,7 @@ function applyColumns(nodesLUT, columns, edgesLUT) {
 
 function applyDisconnected(disconnectedNodes) {
   if (disconnectedNodes) {
-    const x = -4 * DISTANCE_OF_UNCONNECTED_NODES;
+    const x = -5 * DISTANCE_OF_UNCONNECTED_NODES;
     for (let iN = 0, lengthN = disconnectedNodes.nodes.length; iN < lengthN; iN++) {
       const node = disconnectedNodes.nodes[iN];
       node.x = x;
@@ -246,4 +256,8 @@ export function addConnected(node, graph) {
       target: node.inNode.id
     });
   }
+}
+
+function isUnknown(node) {
+  return node.name.startsWith('unknown-service');
 }

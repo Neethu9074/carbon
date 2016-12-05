@@ -1,5 +1,4 @@
 import {Texture, LinearFilter} from 'in-map/3DLibProvider';
-import{updateCanvasDimensions} from 'in-charts/canvas';
 import {getAllIcons} from 'in-sdk/iconRegistry';
 
 
@@ -11,8 +10,7 @@ export const config = {
 
 const canvas = document.createElement('canvas');
 const context = canvas.getContext('2d');
-const texDimension = config.numElementsPerColumn * config.iconWidth;
-updateCanvasDimensions(canvas, context, texDimension, texDimension, 1);
+canvas.width = canvas.height = config.numElementsPerColumn * config.iconWidth;
 
 export const glyphTexture = new Texture(canvas);
 glyphTexture.minFilter = LinearFilter;
@@ -37,6 +35,7 @@ export function init() {
       // if the image is 100 x 100 in width don't draw it directly for 0 - 100
       // use 2 - 98 instead to get a clear border to avoid nastly artifacts caused by rounding issues
       context.drawImage(image, x + 2, y + 2, iconWidth - 4, iconWidth - 4);
+      glyphTexture.needsUpdate = true;
     };
 
     // update Look Up Table

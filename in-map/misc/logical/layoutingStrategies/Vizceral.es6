@@ -14,10 +14,13 @@ export default function applyLayout({nodes, edges}) {
     return;
   }
 
-  const layouter = new LTRTreeLayouter();
-  const N = transformNodes(nodes, edges);
-  const E = transformEdges(edges);
+  nodes = transformNodes(nodes, edges);
+  edges = transformEdges(edges);
 
+  const N = nodes.list;
+  const E = edges.list;
+
+  const layouter = new LTRTreeLayouter();
   const positions = layouter.layout(
     N.slice(),
     E,
@@ -25,10 +28,9 @@ export default function applyLayout({nodes, edges}) {
   );
 
   calcRanks(N, positions);
-  applyRanks(N, E);
+  applyRanks(N, nodes.LUT, E, edges.LUT);
   centerNodes(N);
   applyPosition(N);
 }
 
-// - vertical node sorting
 // - highlight subtree on highlight service/connection
