@@ -15,6 +15,13 @@ addKeywordOperator({
   keyword: 'raw'
 });
 
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'zone',
+  field: 'zone'
+});
+
 const searchableEntityTypes = {
   // <type> => [<fully qualified plugin ids>]
 };
