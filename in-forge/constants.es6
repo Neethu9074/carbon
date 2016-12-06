@@ -3,6 +3,8 @@
 export const plugins = {
   activemq: 'activeMQ',
   availabilityZone: 'availabilityZone',
+  browserLogicalService: 'browserLogicalService',
+  browserServiceInstance: 'browserServiceInstance',
   cassandra: 'cassandraNode',
   cassandraCluster: 'cassandraCluster',
   cassandraKeyspaceServiceInstance: 'cassandraKeyspaceServiceInstance',
@@ -69,7 +71,6 @@ export const plugins = {
   mysql: 'mySqlDatabase',
   nginx: 'nginx',
   nodejs: 'nodeJsRuntimePlatform',
-  nodejsCluster: 'nodeJsCluster',
   oracledb: 'oracleDB',
   host: 'host',
   phpfpm: 'phpFpmRuntimePlatform',
@@ -96,6 +97,8 @@ export const plugins = {
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  browserLogicalService: 'com.instana.forge.connection.eum.BrowserLogicalService',
+  browserServiceInstance: 'com.instana.forge.connection.eum.BrowserServiceInstance',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
   cassandraKeyspaceServiceInstance: 'com.instana.forge.connection.database.cassandra.CassandraKeyspaceServiceInstance',
   cassandraNode: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
@@ -162,7 +165,6 @@ export const fullyQualifiedPlugins = {
   msSqlDatabase: 'com.instana.forge.infrastructure.database.mssql.MsSqlDatabase',
   mySqlDatabase: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
   nginx: 'com.instana.forge.infrastructure.webserver.nginx.Nginx',
-  nodeJsCluster: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster',
   nodeJsRuntimePlatform: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
   oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB',
   phpFpmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.phpfpm.PhpFpmRuntimePlatform',

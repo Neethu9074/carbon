@@ -2,6 +2,8 @@
 // this is the only module required by the application.
 import './activeMQ';
 import './availabilityZone';
+import './browserLogicalService';
+import './browserServiceInstance';
 import './cassandraCluster';
 import './cassandraKeyspaceServiceInstance';
 import './cassandraNode';
@@ -68,7 +70,6 @@ import './msiis';
 import './msSqlDatabase';
 import './mySqlDatabase';
 import './nginx';
-import './nodeJsCluster';
 import './nodeJsRuntimePlatform';
 import './oracleDB';
 import './phpFpmRuntimePlatform';
