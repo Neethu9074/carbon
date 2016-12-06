@@ -1,14 +1,17 @@
 import {createStore} from 'in-stores/store';
 
-const highlightedEntityIdStore = createStore({name: 'highlighted entity id'});
+const highlightedEntityIdStore = createStore({
+  name: 'highlighted entity id',
+  initialValue: null
+});
 
-export const highlightedEntityId = highlightedEntityIdStore.observable.distinct();
-export const highlightedEntityId$ = highlightedEntityId;
+export const highlightedEntityId$ = highlightedEntityIdStore.observable.distinct();
+
 
 export function setHighlightedEntityId(id) {
-  highlightedEntityIdStore.applyStateMutation(() => id);
+  highlightedEntityIdStore.mutateTo(id);
 }
 
 export function clearHighlightedEntityId() {
-  highlightedEntityIdStore.applyStateMutation(() => null);
+  highlightedEntityIdStore.mutateTo(null);
 }

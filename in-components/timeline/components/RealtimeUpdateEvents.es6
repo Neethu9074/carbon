@@ -1,5 +1,5 @@
 import {to$, from$, focusedMoment$} from 'in-components/timeline/timelineStore';
-import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import {selectedSnapshotId} from 'in-stores/snapshot';
 import {highlightedMoment$} from 'in-stores/timeline';
 
@@ -8,7 +8,7 @@ import {highlightedMoment$} from 'in-stores/timeline';
 */
 export default function createRealtimeUpateEvents(realtimeDrawStream, changeSignal) {
 
-  const highlightedEntityIdSubscription = highlightedEntityId
+  const highlightedEntityIdSubscription = highlightedEntityId$
     .throttle(100) // throttle this to avoid flickering when moving the mosue fast over the map
     .subscribe(emitRealtimeSignal);
   const selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(emitRealtimeSignal);

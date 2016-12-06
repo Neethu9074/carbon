@@ -1,6 +1,6 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker/issueTracker';
-import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
 import {selectedEvent$, selectedEventId$} from 'in-stores/events';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import {getColorForEvent} from 'in-services/issueTracker';
@@ -41,7 +41,7 @@ export default class EventRenderer extends BasicRenderer {
     this.focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => this.focusedMoment = _focusedMoment);
 
     this.highlightedEntityId = null;
-    this.highlightedEntityIdSubscription = highlightedEntityId.subscribe(id => this.highlightedEntityId = id);
+    this.highlightedEntityIdSubscription = highlightedEntityId$.subscribe(id => this.highlightedEntityId = id);
 
     this.selectedSnapshotId = null;
     this.selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(id => this.selectedSnapshotId = id);

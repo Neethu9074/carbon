@@ -35,7 +35,9 @@ export default class ConnectedNodesHighlighter {
         }
       }
 
-      setIds(idsToHighlight);
+      Object.keys(idsToHighlight).length > 0
+        ? setIds(idsToHighlight)
+        : clearIds();
     });
   }
 

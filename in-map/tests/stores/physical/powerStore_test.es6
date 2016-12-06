@@ -23,28 +23,29 @@ describe('layoutingStorage', () => {
     maxPowerSubscription.dispose();
   });
 
-  it('should have no call since there is no callback', () => {
-    expect(maxPowerCallback).to.have.callCount(0);
+  it('should have initial call since there is no callback', () => {
+    expect(maxPowerCallback).to.have.callCount(1);
+    expect(maxPowerCallback.getCall(0).args[0]).to.equal(0);
   });
 
   it('should increase power according to inserted powers', () => {
-    expect(maxPowerCallback).to.have.callCount(0);
+    expect(maxPowerCallback).to.have.callCount(1);
 
     powerStore.powers.add('id1', 1);
-    expect(maxPowerCallback).to.have.callCount(1);
-    expect(maxPowerCallback.getCall(0).args[0]).to.equal(1);
+    expect(maxPowerCallback).to.have.callCount(2);
+    expect(maxPowerCallback.getCall(1).args[0]).to.equal(1);
 
     powerStore.powers.add('id2', 3);
-    expect(maxPowerCallback).to.have.callCount(2);
-    expect(maxPowerCallback.getCall(1).args[0]).to.equal(3);
-
-    powerStore.powers.add('id3', 2);
     expect(maxPowerCallback).to.have.callCount(3);
     expect(maxPowerCallback.getCall(2).args[0]).to.equal(3);
 
-    powerStore.powers.add('id1', 4);
+    powerStore.powers.add('id3', 2);
     expect(maxPowerCallback).to.have.callCount(4);
-    expect(maxPowerCallback.getCall(3).args[0]).to.equal(4);
+    expect(maxPowerCallback.getCall(3).args[0]).to.equal(3);
+
+    powerStore.powers.add('id1', 4);
+    expect(maxPowerCallback).to.have.callCount(5);
+    expect(maxPowerCallback.getCall(4).args[0]).to.equal(4);
 
     powerStore.powers.remove('id1');
     powerStore.powers.remove('id2');
