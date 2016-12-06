@@ -10,10 +10,8 @@ import {getLabel} from 'in-sdk/snapshot';
 
 export default function PostgreSqlDashboard({snapshot, timeframe}) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
-  const statErr =
-    'ERROR: pg_stat_statements must be loaded via shared_preload_libraries';
 
-  if (sensorConnectionStatus !== 'OK' && sensorConnectionStatus !== statErr) {
+  if (sensorConnectionStatus !== 'OK') {
     return (
       <DashboardNotification type='info'>
         {sensorConnectionStatus}

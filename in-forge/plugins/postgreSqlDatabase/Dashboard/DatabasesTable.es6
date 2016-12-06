@@ -89,11 +89,11 @@ function createRow(db, i, context) {
 
 function displayQueries(snapshot, timeframe, db) {
   const snapshotId = snapshot.get('id');
-  const sensorConnectionStatus =
     snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
-  const statErr =
-    'ERROR: pg_stat_statements must be loaded via shared_preload_libraries';
-  if (sensorConnectionStatus === statErr) {
+  const pgStatStatementsEnabled =
+    snapshot.getIn(['data', 'pg_stat_statements_enabled'], true);
+
+  if (!pgStatStatementsEnabled) {
     return (
       <DashboardNotification type='info'>
         To display detail query count, <strong>pg_stat_statements</strong>
