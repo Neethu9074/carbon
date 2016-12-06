@@ -11,7 +11,12 @@ const aggregationDefinitions = {
   'duration.95th': 'stats',
   'duration.98th': 'stats',
   'duration.99th': 'stats',
-  'duration.max': 'stats'
+  'duration.max': 'stats',
+
+  // TODO Do this the right way and put this into the plugin definition and extend this to all
+  // EUM metric names and extensions
+  'ttfb.mean': 'stats',
+  'fp.mean': 'stats'
 };
 
 export function setAggregation(metric, aggregation) {

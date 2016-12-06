@@ -11,6 +11,9 @@ registerSnapshotDefinition({
   namesForTypeSearch: ['service', 'eum', 'browser'],
   tableDefinition,
   metricDefinitions,
+  metricAggregations: {
+
+  },
 
   pluginName: {
     singular: 'Browser',
