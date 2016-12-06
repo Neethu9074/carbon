@@ -2,6 +2,7 @@ import React from 'react';
 
 import {activityZeroDecimalPlaces, hitRateZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
@@ -86,52 +87,74 @@ function createRow(db, i, context) {
   ]);
 }
 
+function displayQueries(snapshot, timeframe, db) {
+  const snapshotId = snapshot.get('id');
+  const sensorConnectionStatus =
+    snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+  const statErr =
+    'ERROR: pg_stat_statements must be loaded via shared_preload_libraries';
+  if (sensorConnectionStatus === statErr) {
+    return (
+      <DashboardNotification type='info'>
+        To display detail query count, <strong>pg_stat_statements</strong>
+        &nbsp;extension must be loaded via&nbsp;
+        <a target='_blank' rel='noopener noreferrer'
+        href='https://www.postgresql.org/docs/current/static/pgstatstatements.html'>
+        shared_preload_libraries
+        </a>&nbsp;in postgresql.conf
+      </DashboardNotification>
+    );
+  }
+  return (
+    <ChartWithLegend snapshotId={snapshotId}
+                     timeframe={timeframe}
+                     margins={{
+                        left: 80
+                     }}
+                     y1={{
+                       min: 0,
+                       formatter: activityZeroDecimalPlaces,
+                       metrics: [
+                         'databases.' + db + '.queries_select',
+                         'databases.' + db + '.queries_update',
+                         'databases.' + db + '.queries_insert',
+                         'databases.' + db + '.queries_delete'
+                       ],
+                       labels: [
+                         'SELECT Queries',
+                         'UPDATE Queries',
+                         'INSERT Queries',
+                         'DELETE Queries'
+                       ],
+                       type: 'line'
+                     }} />
+  );
+}
+
 function createDetails(db, i, context) {
   const snapshotId = context.snapshot.get('id');
   const timeframe = context.timeframe;
 
   return (
     <div>
-      <TwoColumnRow>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                          left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: activityZeroDecimalPlaces,
-                           metrics: [
-                             'databases.' + db + '.queries'
-                           ],
-                           labels: [
-                             'Queries'
-                           ],
-                           type: 'line'
-                         }} />
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                            left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: activityZeroDecimalPlaces,
-                           metrics: [
-                             'databases.' + db + '.queries_select',
-                             'databases.' + db + '.queries_update',
-                             'databases.' + db + '.queries_insert',
-                             'databases.' + db + '.queries_delete'
-                           ],
-                           labels: [
-                             'SELECT Queries',
-                             'UPDATE Queries',
-                             'INSERT Queries',
-                             'DELETE Queries'
-                           ],
-                           type: 'line'
-                         }} />
-      </TwoColumnRow>
+      <ChartWithLegend snapshotId={snapshotId}
+                       timeframe={timeframe}
+                       margins={{
+                        left: 80
+                       }}
+                       y1={{
+                         min: 0,
+                         formatter: activityZeroDecimalPlaces,
+                         metrics: [
+                           'databases.' + db + '.queries'
+                         ],
+                         labels: [
+                           'Queries'
+                         ],
+                         type: 'line'
+                       }} />
+      {displayQueries(context.snapshot, timeframe, db)}
+
       <TwoColumnRow>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
