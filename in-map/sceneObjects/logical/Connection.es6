@@ -1,5 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
+import {hexToRGB, rgbToHex} from 'in-services/formatters/color';
+
 import ParticleEmitterComponent from 'in-map/sceneObjectComponents/ParticleEmitterComponent';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
@@ -109,12 +111,22 @@ export default class Connection extends SceneObject {
         this.eventEmitter.on('isHighlighted'),
         this.eventEmitter.on('isSecondaryHighlighted')
       ]).subscribe(([health, isHighlighted, isSecondaryHighlighted]) => {
+        isHighlighted = isHighlighted || isSecondaryHighlighted;
         let newColor;
-        if (isHighlighted || isSecondaryHighlighted) {
-          newColor = '#ffffff';
+
+        const severity = health.get('maxSeverity', 0);
+        if (severity > 0) {
+          if (isHighlighted) {
+            newColor = theme.health[Math.floor(severity)];
+          } else {
+            newColor = hexToRGB(theme.health[Math.floor(severity)]);
+            newColor = rgbToHex(
+              newColor.r * 0.6,
+              newColor.g * 0.6,
+              newColor.b * 0.6);
+          }
         } else {
-          const severity = health.get('maxSeverity', 0);
-          newColor = severity > 0 ? theme.health[Math.floor(severity)] : '#5c6e74';
+          newColor = isHighlighted ? '#ffffff' : '#5c6e74';
         }
         this.getComponent('color').setHex(newColor);
       }),

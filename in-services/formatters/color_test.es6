@@ -7,11 +7,11 @@ import {rgbToHex, hexToRGB, hexToRGBNormalized} from 'in-services/formatters/col
 describe('in-services/formatters/color', () => {
   describe('formatColors', () => {
     it('should return rgb as hex', () => {
-      expect(rgbToHex(255, 0, 0)).to.equal('ff0000');
-      expect(rgbToHex(0, 255, 0)).to.equal('00ff00');
-      expect(rgbToHex(255, 0, 255)).to.equal('ff00ff');
-      expect(rgbToHex(255, 0, 255)).to.equal('ff00ff');
-      expect(rgbToHex(76, 204, 187)).to.equal('4cccbb');
+      expect(rgbToHex(255, 0, 0)).to.equal('#ff0000');
+      expect(rgbToHex(0, 255, 0)).to.equal('#00ff00');
+      expect(rgbToHex(255, 0, 255)).to.equal('#ff00ff');
+      expect(rgbToHex(255, 0, 255)).to.equal('#ff00ff');
+      expect(rgbToHex(76, 204, 187)).to.equal('#4cccbb');
     });
 
     it('should return hex as rgb', () => {

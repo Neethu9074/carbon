@@ -7,7 +7,7 @@
  */
 export function rgbToHex(r, g, b) {
   const hex = r << 16 ^ g << 8 ^ b << 0;
-  return ('000000' + hex.toString(16)).slice(-6);
+  return '#' + ('000000' + hex.toString(16)).slice(-6);
 }
 
 /**
