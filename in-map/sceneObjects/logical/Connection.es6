@@ -121,9 +121,9 @@ export default class Connection extends SceneObject {
           } else {
             newColor = hexToRGB(theme.health[Math.floor(severity)]);
             newColor = rgbToHex(
-              newColor.r * 0.6,
-              newColor.g * 0.6,
-              newColor.b * 0.6);
+              newColor.r * 0.65,
+              newColor.g * 0.65,
+              newColor.b * 0.65);
           }
         } else {
           newColor = isHighlighted ? '#ffffff' : '#5c6e74';

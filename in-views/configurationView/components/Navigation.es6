@@ -24,7 +24,8 @@ export default function Navigation() {
         <NavItem title='Service Mapper'>
           <NavItem title='HTTP Rules'
                    href$={httpServiceExtractionConfigurationViewLink$}
-                   isActive$={isHttpServiceExtractionConfigurationView$} />
+                   isActive$={isHttpServiceExtractionConfigurationView$}
+                   borderless />
         </NavItem>
 
         {isEumEnabled ?

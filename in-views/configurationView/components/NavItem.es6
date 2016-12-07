@@ -2,80 +2,59 @@ import React from 'react';
 
 import NavItems from 'in-views/configurationView/components/NavItems';
 import {evaluateClassNames} from 'in-services/util/classnames';
-import SvgIcon from 'in-components/SvgIcon';
+import Collapsible from 'in-components/Collapsible';
 import connectTo from 'in-hoc/connectTo';
 
 import './NavItem.less';
 
 
 const block = 'in-config-view-nav-item';
-const rpt = React.PropTypes;
 
 export default connectTo(props => {
   return {
     href: props.href$,
     isActive: props.isActive$
   };
-}, React.createClass({
-  displayName: 'NavItem',
+},
+function NavItem({href, isActive, children, borderless, title}) {
+  const childCount = React.Children.count(children);
 
-  propTypes: {
-    title: rpt.string.isRequired,
-    isActive: rpt.bool,
-    children: rpt.any,
-    href: rpt.string
-  },
-
-  getInitialState() {
-    return {
-      isExpanded: false
-    };
-  },
-
-  render() {
-    const childCount = React.Children.count(this.props.children);
-
+  if (childCount > 0) {
     return (
       <li className={block}>
-        <a href={this.props.href}
-           onClick={this.onClick}
-           className={evaluateClassNames({
-             [`${block}__link`]: true,
-             [`${block}__link--active`]: this.props.isActive
-           })}
-           style={{
-             marginLeft: childCount === 0 ? '13px' : 0
-           }}>
-
-          {childCount > 0 ?
-            <SvgIcon type={this.state.isExpanded ? 'triangle_down' : 'triangle_right'}
-                     width={this.state.isExpanded ? 8 : 6}
-                     style={{
-                       paddingRight: this.state.isExpanded ? 0 : '2px'
-                     }}
-                     className={`${block}__toggle`} />
-          : null}
-
-          {this.props.title}
-        </a>
-
-        {this.state.isExpanded && childCount > 0 ?
-          <NavItems>
-            {this.props.children}
-          </NavItems>
-        : null}
+        <Collapsible>
+          <Collapsible.Header>
+            {title}
+          </Collapsible.Header>
+          <Collapsible.Content>
+            <NavItems>
+              {children}
+            </NavItems>
+          </Collapsible.Content>
+        </Collapsible>
       </li>
     );
-  },
-
-  onClick(e) {
-    if (!this.props.href) {
-      e.preventDefault();
-    }
-    this.toggle();
-  },
-
-  toggle() {
-    this.setState({isExpanded: !this.state.isExpanded});
   }
-}));
+
+  return (
+    <li className={evaluateClassNames({
+      [block]: true,
+      [`${block}__borderless`]: borderless
+    })}>
+      <a href={href}
+         onClick={e => onClick(e, href)}
+         className={evaluateClassNames({
+           [`${block}__link`]: true,
+           [`${block}__link--active`]: isActive
+         })}>
+        {title}
+      </a>
+    </li>
+  );
+});
+
+function onClick(e, href) {
+  if (!href) {
+    e.preventDefault();
+  }
+}
