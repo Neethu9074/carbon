@@ -2,7 +2,6 @@ import React from 'react';
 
 import {fruchtermannReingoldLayouting$, vizceralLayouting$}  from 'in-map/stores/logical/layouterStore';
 import MapStatistics from 'in-components/Controls/components/MapStatistics';
-import {provideAlternativeLogicalLayouter} from 'in-services/featureFlags';
 import {setLayoutingStrategy} from 'in-map/stores/logical/layouterStore';
 import Particles from 'in-components/Controls/components/Particles';
 import Layout from 'in-components/Controls/components/Layout';
@@ -16,17 +15,12 @@ export default function getLogicalContent() {
     <Layout key='fr_layout'
             iconType='graph'
             tooltipText='Rearrange services'
-            onClick={() => setLayoutingStrategy(fruchtermannReingoldLayouting$)} />
+            onClick={() => setLayoutingStrategy(fruchtermannReingoldLayouting$)} />,
+    <Layout key='v_layout'
+            iconType='flow'
+            tooltipText='Rearrange services as a flow'
+            onClick={() => setLayoutingStrategy(vizceralLayouting$)} />
   ];
-
-  if (provideAlternativeLogicalLayouter) {
-    controls.push(
-      <Layout key='v_layout'
-              iconType='options'
-              tooltipText='Rearrange services as a flow'
-              onClick={() => setLayoutingStrategy(vizceralLayouting$)} />
-    );
-  }
 
   if (__DEV__) {
     controls.push(
