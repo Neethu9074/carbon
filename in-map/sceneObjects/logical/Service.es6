@@ -1,9 +1,11 @@
 import CylinderHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import CloudHCP from 'in-map/singleMeshFactories/ContentProvider/CloudHighlightingContentProvider';
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
+import EumHCP from 'in-map/singleMeshFactories/ContentProvider/EumHighlightingContentProvider';
 import CylinderCP from 'in-map/singleMeshFactories/ContentProvider/CylinderContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import CloudCP from 'in-map/singleMeshFactories/ContentProvider/CloudContentProvider';
+import EumCP from 'in-map/singleMeshFactories/ContentProvider/EumContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Logical';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
@@ -29,6 +31,7 @@ export default class Service extends SceneObject {
     super(params);
 
     this.isExternal = params.entity.getIn(['metadata', 'external'], false);
+    this.isEum = params.entity.getIn(['metadata', 'eum'], false);
     this.isUnknown = params.id.startsWith('unknown-service');
   }
 
@@ -61,6 +64,14 @@ export default class Service extends SceneObject {
         this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP));
 
         this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CloudCP, 'solid'));
+
+      } else if (this.isEum) {
+        this.addComponent('mesh', new MeshComponent(this, EumCP, 'nodes'));
+
+        this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, EumHCP));
+
+        this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, EumCP, 'solid'));
+
       } else {
         this.addComponent('mesh', new MeshComponent(this, CylinderCP, 'nodes'));
 
@@ -73,8 +84,7 @@ export default class Service extends SceneObject {
                                                             PREDEFINED_COLLISION_OBJECTS.BOX,
                                                             OCTREE_LAYER.NODES));
 
-      // unknown service hack
-      if (!this.isUnknown) {
+      if (!this.isUnknown && !this.isEum) {
         this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
           return {
             x: pos.x + scale.x,
@@ -97,10 +107,13 @@ export default class Service extends SceneObject {
 
     this.addComponent('health', new HealthComponent(this));
 
-    // unknown service hack
-    this.isUnknown
-      ? this.getComponent('transform').setScaleXYZ(0.5, 0.25, 0.5)
-      : this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
+    if (this.isUnknown) {
+      this.getComponent('transform').setScaleXYZ(0.5, 0.25, 0.5);
+    } else if (this.isEum) {
+      this.getComponent('transform').setScaleXYZ(1, 1, 1);
+    } else {
+      this.getComponent('transform').setScaleXYZ(1, 0.25, 1);
+    }
   }
 
   initEvents() {

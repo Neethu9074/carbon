@@ -74,12 +74,12 @@ export function calcRanks(nodes, vizceralPosition) {
     if (!position ||
         (node.outgoingConnections.length === 0 &&
          node.incomingConnections.length === 1 &&
-         isUnknown(node.incomingConnections[0])
+         isUnknownOrEum(node.incomingConnections[0])
       )) {
       isDisconnected = true;
     }
 
-    if (isUnknown(node)) {
+    if (isUnknownOrEum(node)) {
       node.rank = UNKNOWN_NODES_RANK;
     } else if (isDisconnected) {
       node.rank = DISCONNECTED_NODES_RANK;
@@ -258,6 +258,6 @@ export function addConnected(node, graph) {
   }
 }
 
-function isUnknown(node) {
-  return node.name.startsWith('unknown-service');
+function isUnknownOrEum(node) {
+  return node.inNode.isUnknown || node.inNode.isEum;
 }
