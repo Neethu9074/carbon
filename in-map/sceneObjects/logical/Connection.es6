@@ -106,10 +106,11 @@ export default class Connection extends SceneObject {
 
       combineLatest([
         this.eventEmitter.on('healthChanged'),
-        this.eventEmitter.on('isHighlighted')
-      ]).subscribe(([health, isHighlighted]) => {
+        this.eventEmitter.on('isHighlighted'),
+        this.eventEmitter.on('isSecondaryHighlighted')
+      ]).subscribe(([health, isHighlighted, isSecondaryHighlighted]) => {
         let newColor;
-        if (isHighlighted) {
+        if (isHighlighted || isSecondaryHighlighted) {
           newColor = '#ffffff';
         } else {
           const severity = health.get('maxSeverity', 0);

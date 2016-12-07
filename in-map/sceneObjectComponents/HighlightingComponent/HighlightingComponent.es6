@@ -16,21 +16,25 @@ export default class HighlightingComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(
+    this.addSubscriptions([
       combineLatest([
         selectedSnapshotIdForHighlightingInMap$,
-        connectedHighlightedIds$,
         highlightedEntityId$,
         highlightedEntityIds$
-      ]).subscribe(([selectedId, connectedHighlightedIds, highlightedEntityId, highlightedEntityIds]) => {
+      ]).subscribe(([selectedId, highlightedEntityId, highlightedEntityIds]) => {
         const id = this.sceneObject.id;
         const isHighlighted = (id === selectedId ||
                                id === highlightedEntityId ||
-                               highlightedEntityIds.indexOf(id) >= 0 ||
-                               connectedHighlightedIds[id] === true);
+                               highlightedEntityIds.indexOf(id) >= 0);
         this.emitToClient('isHighlighted', isHighlighted);
+      }),
+
+      connectedHighlightedIds$.subscribe((connectedHighlightedIds) => {
+        const id = this.sceneObject.id;
+        const isHighlighted = (connectedHighlightedIds[id] === true);
+        this.emitToClient('isSecondaryHighlighted', isHighlighted);
       })
-    );
+    ]);
   }
 
   dispose() {

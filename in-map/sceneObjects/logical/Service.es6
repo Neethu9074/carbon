@@ -65,6 +65,8 @@ export default class Service extends SceneObject {
 
         this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CloudCP, 'solid'));
 
+        this.addComponent('highlighting_mesh_secondary_solid', new HighlightingMeshComponent(this, CloudHCP, 'secondary_solid', 'isSecondaryHighlighted'));
+
       } else if (this.isEum) {
         this.addComponent('mesh', new MeshComponent(this, EumCP, 'nodes'));
 
@@ -72,12 +74,16 @@ export default class Service extends SceneObject {
 
         this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, EumCP, 'solid'));
 
+        this.addComponent('highlighting_mesh_secondary_solid', new HighlightingMeshComponent(this, EumHCP, 'secondary_solid', 'isSecondaryHighlighted'));
+
       } else {
         this.addComponent('mesh', new MeshComponent(this, CylinderCP, 'nodes'));
 
         this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CylinderHCP));
 
         this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CylinderCP, 'solid'));
+
+        this.addComponent('highlighting_mesh_secondary_solid', new HighlightingMeshComponent(this, CylinderHCP, 'secondary_solid', 'isSecondaryHighlighted'));
       }
 
       this.addComponent('collision', new CollisionComponent(this,

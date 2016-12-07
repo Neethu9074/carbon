@@ -5,10 +5,11 @@ import {getFactory} from 'in-map/stores/factoriesStore';
 
 export default class HighlightingMeshComponent extends SceneObjectComponent {
 
-  constructor(sceneObject, contentProvider, factoryId = 'highlighting') {
+  constructor(sceneObject, contentProvider, factoryId = 'highlighting', eventToListen = 'isHighlighted') {
     super(sceneObject, '_highlighting');
 
     this.contentProvider = contentProvider;
+    this.eventToListen = eventToListen;
     this.factoryId = factoryId;
   }
 
@@ -23,7 +24,7 @@ export default class HighlightingMeshComponent extends SceneObjectComponent {
 
       eventEmitter.on('scaleChanged').subscribe(() => factory.needsUpdate()),
 
-      eventEmitter.on('isHighlighted').distinct().subscribe(isHighlighted => {
+      eventEmitter.on(this.eventToListen).distinct().subscribe(isHighlighted => {
         isHighlighted
           ? factory.add(createFragment(this.id, this.sceneObject, this.contentProvider))
           : factory.remove(this.id);
@@ -40,6 +41,7 @@ export default class HighlightingMeshComponent extends SceneObjectComponent {
     this.factory = null;
 
     this.contentProvider = null;
+    this.eventToListen = null;
     this.factoryId = null;
   }
 }
