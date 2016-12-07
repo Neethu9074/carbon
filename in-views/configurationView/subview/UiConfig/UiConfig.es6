@@ -14,7 +14,8 @@ const block = 'in-ui-config';
 
 export default connectTo({
   settings: settings$
-}, function UiConfig({settings}) {
+},
+function UiConfig({settings}) {
   return (
     <div className={block}>
       <SubViewHeader>
@@ -23,14 +24,14 @@ export default connectTo({
 
       <SectionHeading>General</SectionHeading>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='toggle-timeline-expand'>Automatically collapse timeline</Label>
         <Toggle id='toggle-timeline-expand'
                 checked={settings.get('autoCollapseTimeline')}
                 onChange={e => setIn(['autoCollapseTimeline'], e.target.checked)} />
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='maintenance-notes'>Show maintenance notes</Label>
         <Toggle id='maintenance-notes'
                 checked={settings.get('showMaintenanceNotes')}
@@ -42,7 +43,7 @@ export default connectTo({
         </HelpBlock>
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='chart-quality'>High quality chart rendering</Label>
         <Toggle id='chart-quality'
                 checked={settings.getIn(['charts', 'adaptToDevicePixelRatio'])}
@@ -52,7 +53,7 @@ export default connectTo({
         </HelpBlock>
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='chart-quality'>Format time according to UTC</Label>
         <Toggle id='chart-quality'
                 checked={settings.get('formatTimestampsAsUtc')}
@@ -66,21 +67,21 @@ export default connectTo({
 
       <SectionHeading>3D Maps</SectionHeading>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='scroll-direction'>Invert scroll direction</Label>
         <Toggle id='scroll-direction'
                 checked={settings.getIn(['map', 'scrollDirection']) === -1}
                 onChange={e => setIn(['map', 'scrollDirection'], e.target.checked ? -1 : 1)} />
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='zoom-panel'>Show zoom panel</Label>
         <Toggle id='zoom-panel'
                 checked={settings.get('zoomPanelIsActive')}
                 onChange={e => setIn(['zoomPanelIsActive'], e.target.checked)} />
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='unmonitored-hosts'>Show unmonitored hosts</Label>
         <Toggle id='unmonitored-hosts'
                 checked={!settings.getIn(['map', 'excludeUnmonitoredHosts'])}
@@ -91,7 +92,7 @@ export default connectTo({
         </HelpBlock>
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='zoom-speed'>Zoom and panning speed</Label>
         <input type='range'
                id='zoom-speed'
@@ -103,7 +104,7 @@ export default connectTo({
                onChange={e => setIn(['map', 'scrollSpeed'], e.target.value)} />
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup className={`${block}__form`}>
         <Label htmlFor='antialiasing'>Anti-aliasing</Label>
         <Toggle id='antialiasing'
                 checked={settings.getIn(['map', 'antialias']) === 'browserAA'}
