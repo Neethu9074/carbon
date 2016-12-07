@@ -10,6 +10,7 @@ import {getLabel} from 'in-sdk/snapshot';
 
 export default function PostgreSqlDashboard({snapshot, timeframe}) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+
   if (sensorConnectionStatus !== 'OK') {
     return (
       <DashboardNotification type='info'>
