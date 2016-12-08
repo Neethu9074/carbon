@@ -7,8 +7,8 @@ registerSpanDefinition({
   direction: 'entryAndExit',
 
   typeName: {
-    singular: 'Missing Span',
-    plural: 'Missing Spans'
+    singular: 'Span not yet received',
+    plural: 'Spans not yet received'
   },
 
   detailView: 'MissingSpanDetailView',
