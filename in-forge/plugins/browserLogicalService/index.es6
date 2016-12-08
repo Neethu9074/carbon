@@ -2,8 +2,16 @@ import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinit
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
+import {
+  zeroDecimalPlacesPerSecond,
+  msZeroDecimalPlaces,
+  zeroDecimalPlaces
+} from 'in-services/formatters/number';
+import {addMapping} from 'in-sdk/kpi';
+
 import metricDefinitions from './metricDefinitions';
 import icon from './icon.svg';
+
 
 registerSnapshotDefinition({
   plugin: plugins.browserLogicalService,
@@ -11,9 +19,7 @@ registerSnapshotDefinition({
   namesForTypeSearch: ['service', 'eum', 'browser'],
   tableDefinition,
   metricDefinitions,
-  metricAggregations: {
-
-  },
+  metricAggregations: {},
 
   pluginName: {
     singular: 'Browser',
@@ -26,3 +32,27 @@ registerSnapshotDefinition({
     return snapshot.getIn(['data', 'service_name']);
   }
 });
+
+addMapping(plugins.browserLogicalService, () => [
+  {
+    metric: 'count',
+    label: 'calls/s',
+    formatter: zeroDecimalPlaces,
+    valueOnlyFormatter: zeroDecimalPlacesPerSecond
+  }, {
+    metric: 'duration.mean',
+    label: 'load time',
+    formatter: msZeroDecimalPlaces,
+    valueOnlyFormatter: msZeroDecimalPlaces
+  }, {
+    metric: 'ttfb.mean',
+    label: 'TTFB',
+    formatter: msZeroDecimalPlaces,
+    valueOnlyFormatter: msZeroDecimalPlaces
+  }, {
+    metric: 'fp.mean',
+    label: 'FP',
+    formatter: msZeroDecimalPlaces,
+    valueOnlyFormatter: msZeroDecimalPlaces
+  }
+]);

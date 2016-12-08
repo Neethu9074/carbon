@@ -6,6 +6,7 @@ import {
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+
 const defaultKpis = () => [
   {
     metric: 'count',
