@@ -58,7 +58,7 @@ export default class Service extends SceneObject {
       this.addComponent('mesh', new MeshComponent(this, this.isExternal ? CloudCP : CylinderCP, 'nodes'));
 
     } else {
-      if (this.isExternal) {
+      if (this.isExternal && !this.isEum) {
         this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'));
 
         this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CloudHCP));
