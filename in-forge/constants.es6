@@ -4,6 +4,7 @@ export const plugins = {
   activemq: 'activeMQ',
   availabilityZone: 'availabilityZone',
   browserLogicalService: 'browserLogicalService',
+  browserLogicalConnection: 'browserLogicalConnection',
   browserServiceInstance: 'browserServiceInstance',
   cassandra: 'cassandraNode',
   cassandraCluster: 'cassandraCluster',
@@ -97,6 +98,7 @@ export const plugins = {
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  browserLogicalConnection: 'com.instana.forge.connection.eum.BrowserLogicalConnection',
   browserLogicalService: 'com.instana.forge.connection.eum.BrowserLogicalService',
   browserServiceInstance: 'com.instana.forge.connection.eum.BrowserServiceInstance',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
