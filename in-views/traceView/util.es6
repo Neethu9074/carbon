@@ -40,7 +40,8 @@ export function getErrorCount(span) {
 export function getCalls(span, count = 1) {
   const direction = getDirection(span);
   if (direction === 'exit' || direction === 'entryAndExit') {
-    count++;
+    const batchSize = span.get('batchSize');
+    count += (batchSize === 0 ? 1 : batchSize);
   }
 
   span.get('childSpans').forEach(childSpan => {
