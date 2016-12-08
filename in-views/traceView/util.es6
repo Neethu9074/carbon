@@ -28,7 +28,7 @@ export function getDepth(span, currentDepth = 1) {
 
 export function getErrorCount(span) {
   let count = 0;
-  count += span.get('ec', span.get('error') ? 1 : 0);
+  count += span.get('errorCount', span.get('error') ? 1 : 0);
 
   span.get('childSpans').forEach(childSpan => {
     count += getErrorCount(childSpan);
