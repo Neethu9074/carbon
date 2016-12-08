@@ -39,7 +39,8 @@ function EntityInformation({snapshot}) {
            alt={`Icon for entities of type ${entityType}`}
            className={`${block}__entity-icon`} />
 
-      <DashboardLink snapshotId={snapshot.get('id')}>
+      <DashboardLink snapshotId={snapshot.get('id')}
+                     calculateHierarchy>
         {getLabel(snapshot)}
       </DashboardLink>
     </div>
