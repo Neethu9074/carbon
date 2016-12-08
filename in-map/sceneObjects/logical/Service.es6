@@ -90,7 +90,7 @@ export default class Service extends SceneObject {
                                                             PREDEFINED_COLLISION_OBJECTS.BOX,
                                                             OCTREE_LAYER.NODES));
 
-      if (!this.isUnknown && !this.isEum) {
+      if (!this.isUnknown) {
         this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
           return {
             x: pos.x + scale.x,
