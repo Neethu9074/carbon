@@ -1,7 +1,7 @@
-import {clearSelectedEvent} from 'in-stores/events';
 import createEventObservable from 'in-services/subscription/event';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import {focusEvent} from 'in-stores/navigation/view';
+import {clearSelectedEvent} from 'in-stores/events';
 import {theme} from 'in-services/theme';
 
 

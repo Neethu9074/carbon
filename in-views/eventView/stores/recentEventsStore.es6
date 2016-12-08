@@ -12,7 +12,8 @@ import {getEvent} from 'in-services/issueTracker';
 
 export const recentEvents$ = createTrackingStore({
   name: 'eventView/recentEvents',
-  observable: selectedIncident$.flatMap(incident => {
+  observable: selectedIncident$.distinct()
+                               .flatMap(incident => {
     restoreInitialVisibilityState();
     restoreInitialExpandedState();
 
