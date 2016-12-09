@@ -6,3 +6,4 @@ const onlyInternally = onlyInstana && isInternalEnvironment();
 
 export const webVrEnabled = notStaging && onlyInstana;
 export const isEumEnabled = onlyInternally;
+export const showDashboardLinkHierarchy = false;

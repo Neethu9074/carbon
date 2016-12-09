@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ExpandHierarchyIcon from 'in-components/Link/ExpandHierarchyIcon';
+import {showDashboardLinkHierarchy} from 'in-services/featureFlags';
 import {joinClassNames} from 'in-services/util/classnames';
 import {getPhysicalHierarchy} from 'in-stores/snapshot';
 import {getDashboardLink} from 'in-stores/navigation';
@@ -15,7 +16,7 @@ const block = 'in-dashboard-link';
 export default connectTo(props => {
   return {
     href: getDashboardLink(props.snapshotId),
-    hierarchy: props.calculateHierarchy ? getPhysicalHierarchy(props.snapshotId) : alwaysNull
+    hierarchy: (props.calculateHierarchy && showDashboardLinkHierarchy) ? getPhysicalHierarchy(props.snapshotId) : alwaysNull
   };
 },
 function DashboardLinkComponent({href, children, className, hierarchy}) {
