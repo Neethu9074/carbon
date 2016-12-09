@@ -11,8 +11,8 @@ addKeywordOperator({
 
 addKeywordOperator({
   context: 'entity',
-  type: 'raw',
-  keyword: 'raw'
+  type: 'entities',
+  keyword: 'entities'
 });
 
 addKeywordOperator({

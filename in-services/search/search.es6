@@ -6,7 +6,7 @@ const allowedOperators = {
   number: ['<', '<=', '=', '>=', '>'],
   string: ['=', '!='],
   selection: ['=', '!='],
-  raw: ['=']
+  entities: ['=']
 };
 
 const operatorTranslation = {
@@ -126,7 +126,7 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
     );
   }
 
-  if (type === 'raw') {
+  if (type === 'entities') {
     return value;
   }
 
