@@ -60,7 +60,7 @@ const luceneValueConverters = {
     }
     return this.string(value);
   },
-  raw(v) {
+  entities(v) {
     return v;
   }
 };
