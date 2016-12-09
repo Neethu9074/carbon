@@ -38,7 +38,7 @@ const metricList = {
     ]
   },
   Memory: {
-    Usage: [{name: 'memory.used', label: 'Memory used'}]
+    Used: [{name: 'memory.used', label: 'Memory used'}]
   }
 };
 
@@ -135,6 +135,7 @@ const Metric = connectTo({
 },
 function Metric({activeMetric, metricKey, metric, topic}) {
   let className = `${block}__metric`;
+
   if (activeMetric && activeMetric.get('name') === metricKey) {
     className += ` ${className}--active`;
   }
