@@ -41,12 +41,34 @@
       position: relative;
       left: -5rem;
     }
+
+    .status-page-link {
+      outline: none;
+      cursor: pointer;
+      background-color: #ffde00;
+      color: #000;
+      font-weight: bold;
+      border: 1px solid transparent;
+      border-radius: 0.31rem;
+      padding: 0.37rem;
+      width: 10rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .status-page-link:hover {
+      background-color: #ffe957;
+    }
   </style>
 
   <title>{{title}} - Instana</title>
 </head>
 <body>
   <div class="left-side">
+    <a class="status-page-link" href="http://instana.statuspage.io/">
+        Instana Status Page
+    </a>
+
     <h1 class="title">
       {{title}}
     </h1>
