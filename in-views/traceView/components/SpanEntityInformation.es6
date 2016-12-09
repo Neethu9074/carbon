@@ -38,7 +38,8 @@ export default function SpanEntityInformation({label, snapshot}) {
            className={`${block}__icon`} />
       &nbsp;
       <DashboardLink snapshotId={snapshot.get('id')}
-                     className={`${block}__link`}>
+                     className={`${block}__link`}
+                     calculateHierarchy>
         {getLabel(snapshot)}
       </DashboardLink>
     </span>
