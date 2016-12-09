@@ -8,6 +8,7 @@ import './corba';
 import './cxf.client';
 import './ejb';
 import './elasticsearch';
+import './excon';
 import './file';
 import './ftp';
 import './g.hc';
