@@ -21,10 +21,11 @@ registerSnapshotDefinition({
 
   getLabel(s) {
     const data = s.get('data');
+    const cellName = data.get('cellName');
     const nodeName = data.get('nodeName');
     const serverName = data.get('serverName');
-    if (nodeName && serverName) {
-      return 'WebSphere @' + nodeName + '-' + serverName;
+    if (cellName && nodeName && serverName) {
+      return 'WebSphere @' + cellName + '/' + nodeName + '/' + serverName;
     }
     return getFallbackLabel(s);
   }
