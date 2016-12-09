@@ -1,4 +1,4 @@
-import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import {percentageZeroDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import {
   addMaxValueLocator,
   addMinValueLocator,
@@ -11,7 +11,11 @@ addMaxValueLocator(
   /^memory\.free/,
   snapshot => snapshot.getIn(['data', 'memory.total'])
 );
-addMinValueLocator(/^memory\.free/, zero);
+addMaxValueLocator(
+  /^memory\.used/,
+  () => 1
+);
+addMinValueLocator(/^memory\.(free|used)/, zero);
 
 addMaxValueLocator(
   /^load/,
@@ -45,6 +49,10 @@ addFormattedValueLocator(
   /^memory\.free/,
    // translates free -> used -> whateverBytes
   (max, value) => bytesTwoDecimalPlaces((max - value))
+);
+addFormattedValueLocator(
+  /^memory\.used/,
+  (max, value) => percentageZeroDecimalPlaces(value)
 );
 
 addFormattedValueLocator(
