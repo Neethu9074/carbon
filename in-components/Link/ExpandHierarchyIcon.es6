@@ -33,7 +33,7 @@ export default React.createClass({
     return (
       <div className={`${block}__icon-wrapper`}>
         <SvgIcon className={`${block}__info-icon`}
-                 onClick={() => this.setState({isExpanded: !this.state.isExpanded})}
+                 onClick={this.onClick}
                  type={isExpanded ? 'triangle_down' : 'triangle_right'}
                  width={8}
                  height={8}
@@ -45,6 +45,11 @@ export default React.createClass({
         : null}
       </div>
     );
+  },
+
+  onClick(e) {
+    e.stopPropagation();
+    this.setState({isExpanded: !this.state.isExpanded});
   }
 });
 
