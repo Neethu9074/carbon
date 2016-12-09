@@ -34,9 +34,9 @@ export default React.createClass({
       <div className={`${block}__icon-wrapper`}>
         <SvgIcon className={`${block}__info-icon`}
                  onClick={this.onClick}
-                 type={isExpanded ? 'triangle_down' : 'triangle_right'}
-                 width={8}
-                 height={8}
+                 type={'info'}
+                 width={12}
+                 height={12}
                  color='#172429' />
         {isExpanded ?
           <div className={block}>
