@@ -1,15 +1,18 @@
 import React from 'react';
 
+import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import {selectedSnapshots$} from 'in-views/tableView/stores/selectedSnapshots';
 import {metrics$, removeMetric} from 'in-views/tableView/stores/metrics';
 import {plugin$} from 'in-views/tableView/stores/snapshotIds';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import DownloadButton from 'in-components/DownloadButton';
 import {getMetricDefinition} from 'in-sdk/metrics';
 import SvgIcon from 'in-components/SvgIcon';
 import {getPlural} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/snapshot';
+
 
 import './ChartsForSelectedEntities.less';
 
@@ -49,12 +52,19 @@ function SelectedChart({metric, snapshots}) {
         )}
         {definition.label}
 
-        <Button onClick={() => removeMetric(metric)}
-                kind='secondary'
-                size='sm'
-                className={`${block}__remove`}>
-          Remove
-        </Button>
+        <div className={`${block}__button-panel`}>
+          <DownloadButton>
+            <MetricChartDownloadView metric={metric}
+                                     snapshots={snapshots} />
+          </DownloadButton>
+
+          <Button onClick={() => removeMetric(metric)}
+                  kind='secondary'
+                  size='sm'
+                  className={`${block}__button`}>
+            Remove
+          </Button>
+        </div>
       </h2>
 
       <ChartWithLegend snapshotIds={snapshots.map(s => s.get('id'))}
