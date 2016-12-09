@@ -38,7 +38,7 @@ const metricList = {
     ]
   },
   Memory: {
-    Free: [{name: 'memory.free', label: 'Memory free'}]
+    Usage: [{name: 'memory.used', label: 'Memory used'}]
   }
 };
 
@@ -55,14 +55,14 @@ const MetricPanel = React.createClass({
   render() {
     return (
       <div className={block}>
-        {this.state.isOpen
-          ? <div className={`${block}__wrapper`}>
-              {Object.keys(metricList).map(topic =>
-                <Topic key={topic}
-                       label={topic}
-                       list={metricList} />
-              )}
-            </div>
+        {this.state.isOpen ?
+          <div className={`${block}__wrapper`}>
+            {Object.keys(metricList).map(topic =>
+              <Topic key={topic}
+                     label={topic}
+                     list={metricList} />
+            )}
+          </div>
           : null
         }
 
