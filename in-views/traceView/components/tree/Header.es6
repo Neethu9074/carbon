@@ -47,7 +47,6 @@ export default connectTo(props => {
 
         <div className={`${block}__entity`}>
           <ServiceImplementationEntityInformation span={trace}
-                                                  label='On:'
                                                   connectionEndpointType='destination' />
         </div>
 

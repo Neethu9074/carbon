@@ -3,13 +3,13 @@ import React from 'react';
 
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
-import EntityInformation from 'in-views/eventView/components/EntityInformation';
 import {highlightedEventId$} from 'in-views/eventView/stores/highlightedEvent';
 import EventDuration from 'in-views/eventView/components/EventDuration';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import EventTraces from 'in-views/eventView/components/EventTraces';
 import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
+import EntityInformation from 'in-components/EntityInformation';
 import Marker from 'in-views/eventView/components/Marker';
 import {formatTime} from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
@@ -152,7 +152,8 @@ function DetailsHeader({event, onClick, iconType, background}) {
             {event.getIn(['problem', 'problemText'])}
           </span>
           <EventDuration event={event} />
-          <EntityInformation event={event} />
+          <EntityInformation snapshotId={event.getIn(['problem', 'snapshotId'])}
+                             time={event.get('start')} />
         </div>
       </div>
 

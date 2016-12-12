@@ -1,0 +1,6 @@
+{
+  "name": "EntityInformation",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EntityInformation.es6"
+}

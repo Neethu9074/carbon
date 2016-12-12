@@ -1,9 +1,9 @@
 import React from 'react';
 
 import StartedMarker from 'in-views/eventView/components/Incident/StartedMarker';
-import EntityInformation from 'in-views/eventView/components/EntityInformation';
-import EventDuration from 'in-views/eventView/components/EventDuration';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
+import EventDuration from 'in-views/eventView/components/EventDuration';
+import EntityInformation from 'in-components/EntityInformation';
 import Marker from 'in-views/eventView/components/Marker';
 import EventIcon from 'in-components/EventIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -30,7 +30,8 @@ function EventHeader({event, color}) {
         <h1 className={`${block}__title`}>
           {event.getIn(['problem', 'problemText'])}
         </h1>
-        <EntityInformation event={event} />
+        <EntityInformation snapshotId={event.getIn(['problem', 'snapshotId'])}
+                           time={event.get('start')} />
 
         <div className={`${block}__status-line`}>
           <Marker className={`${block}__affected-service-marker`}

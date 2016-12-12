@@ -1,6 +1,6 @@
-import {loadingPlaceholder, alwaysLoadingPlaceholder$} from 'in-views/traceView/components/SpanEntityInformation';
-import SpanEntityInformation from 'in-views/traceView/components/SpanEntityInformation';
 import subscribeToInstanceImplementation from 'in-services/subscription/serviceInstanceImplementation';
+import {loadingPlaceholder, alwaysLoadingPlaceholder$} from 'in-components/EntityInformation';
+import EntityInformation from 'in-components/EntityInformation';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -31,4 +31,4 @@ export default connectTo(props => {
   return {
     snapshot: snapshot$
   };
-}, SpanEntityInformation);
+}, EntityInformation);

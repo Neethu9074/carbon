@@ -155,13 +155,11 @@ export default connectTo(props => {
                                              label='From:'
                                              connectionEndpointType='source' />
                       <ServiceImplementationEntityInformation span={span}
-                                             label='On:'
                                              connectionEndpointType='destination' />
                     </span>
                   :
                     <span>
                       <ServiceImplementationEntityInformation span={span}
-                                                              label='On:'
                                                               connectionEndpointType='source' />
                       <ServiceImplementationEntityInformation span={span}
                                                               label='To:'
