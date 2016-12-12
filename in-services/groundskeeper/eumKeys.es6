@@ -7,8 +7,9 @@ export function getAllEumKeys() {
     url: `/ump/${config.tenant}/${config.tenantUnit}/eum/eumkeys`
   })
   .map(response => {
-    response.body.sort((a, b) => a.appName.localeCompare(b.appName));
-    return response.body;
+    const keys = response.body || [];
+    keys.sort((a, b) => a.appName.localeCompare(b.appName));
+    return keys;
   });
 }
 
