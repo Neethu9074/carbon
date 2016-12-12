@@ -40,14 +40,15 @@ function EntityInformation({snapshot, label}) {
   const entityType = getSingular(snapshot.get('plugin'));
   return (
     <div className={block}>
-      <span className={`${block}__label`}>
-        {label ? label : 'On:'}
-      </span>
+      <div className={`${block}__flex-wrapper`}>
+        <span className={`${block}__label`}>
+          {label ? label : 'On:'}
+        </span>
 
-      <img src={getIcon(snapshot)}
-           alt={`Icon depicting ${entityType}`}
-           className={`${block}__entity-icon`} />
-
+        <img src={getIcon(snapshot)}
+             alt={`Icon depicting ${entityType}`}
+             className={`${block}__entity-icon`} />
+      </div>
       <DashboardLink snapshotId={snapshot.get('id')}
                      className={`${block}__link`}
                      calculateHierarchy>
