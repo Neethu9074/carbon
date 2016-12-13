@@ -35,5 +35,5 @@ export function renameKey(apiKey, newAppName) {
     method: 'POST',
     url: `/ump/${config.tenant}/${config.tenantUnit}/eum/rename/${encodeURIComponent(apiKey)}/${encodeURIComponent(newAppName)}`
   })
-  .map(response => response.body);
+  .map(response => response);
 }

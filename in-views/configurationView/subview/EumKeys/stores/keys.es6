@@ -38,7 +38,12 @@ export function add(appName) {
     .once(() => refresh$.emit(true));
 }
 
-export function rename(apiKey, newAppName) {
+export function rename(apiKey, newAppName, onSucess) {
   renameKey(apiKey, newAppName)
-    .once(() => refresh$.emit(true));
+    .once(response => {
+      if (response && response.status === 200) {
+        onSucess();
+      }
+      refresh$.emit(true);
+    });
 }

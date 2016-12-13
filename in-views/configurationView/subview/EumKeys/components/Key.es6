@@ -1,3 +1,4 @@
+import {create} from 'reactive-observables';
 import React from 'react';
 
 import {rename, remove} from 'in-views/configurationView/subview/EumKeys/stores/keys';
@@ -9,24 +10,47 @@ import Code from 'in-components/Code';
 
 import './Key.less';
 
+
 const block = 'in-eum-keys-config-key';
+const rpt = React.PropTypes;
 
 export default React.createClass({
 
   displayName: 'Key',
 
   propTypes: {
-    apiKey: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired
+    apiKey: rpt.string.isRequired,
+    name: rpt.string.isRequired
   },
 
   getInitialState() {
     return {
-      appName: this.props.name
+      appName: this.props.name,
+      isSuccess: false
     };
   },
 
+  componentWillMount() {
+    this.onSuccess$ = create();
+
+    this.subscription = this.onSuccess$
+      .filter(val => val != null)
+      .debounce(1000)
+      .subscribe(() => this.onSuccess$.emit(null));
+
+    this.subscription2 = this.onSuccess$.subscribe(e => this.setState({isSuccess: e}));
+  },
+
+  componentWillUnmount() {
+    this.subscription.dispose();
+    this.subscription = null;
+
+    this.subscription2.dispose();
+    this.subscription2 = null;
+  },
+
   render() {
+    const isSuccess = this.state.isSuccess;
     const apiKey = this.props.apiKey;
     const name = this.state.appName;
 
@@ -42,9 +66,10 @@ export default React.createClass({
                      value={name}
                      onChange={e => this.setState({appName: e.target.value})} />
               <Button size='sm'
-                      kind='secondary'
-                      onClick={() => saveName(apiKey, name)}>
-                Save
+                      className={`${block}__save-button`}
+                      kind={isSuccess ? 'success' : 'secondary'}
+                      onClick={() => this.saveName(apiKey, name, () => this.onSuccess$.emit(true))}>
+                {isSuccess ? 'Saved' : 'Save'}
               </Button>
             </div>
           </DescriptionItem>
@@ -72,6 +97,12 @@ export default React.createClass({
         </RightAlignment>
       </div>
     );
+  },
+
+  saveName(apiKey, appName, onSuccess) {
+    if (apiKey && appName && appName.length > 0) {
+      rename(apiKey, appName, onSuccess);
+    }
   }
 });
 
@@ -93,10 +124,4 @@ function getEumSnippet(apiKey) {
   // free form key/value pairs for advanced end-user tracking
   ineum('meta', 'user', 'tom.mason@example.com');
 </script>`.trim();
-}
-
-function saveName(apiKey, appName) {
-  if (apiKey && appName && appName.length > 0) {
-    rename(apiKey, appName);
-  }
 }
