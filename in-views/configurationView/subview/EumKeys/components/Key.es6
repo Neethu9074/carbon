@@ -1,7 +1,7 @@
-import {create} from 'reactive-observables';
 import React from 'react';
 
 import {rename, remove} from 'in-views/configurationView/subview/EumKeys/stores/keys';
+import EditableTextInput from 'in-components/EditableTextInput/EditableTextInput';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import RightAlignment from 'in-components/layout/RightAlignment';
@@ -25,32 +25,11 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      appName: this.props.name,
-      isSuccess: false
+      appName: this.props.name
     };
   },
 
-  componentWillMount() {
-    this.onSuccess$ = create();
-
-    this.subscription = this.onSuccess$
-      .filter(val => val != null)
-      .debounce(1000)
-      .subscribe(() => this.onSuccess$.emit(null));
-
-    this.subscription2 = this.onSuccess$.subscribe(e => this.setState({isSuccess: e}));
-  },
-
-  componentWillUnmount() {
-    this.subscription.dispose();
-    this.subscription = null;
-
-    this.subscription2.dispose();
-    this.subscription2 = null;
-  },
-
   render() {
-    const isSuccess = this.state.isSuccess;
     const apiKey = this.props.apiKey;
     const name = this.state.appName;
 
@@ -60,18 +39,8 @@ export default React.createClass({
       <div className={block}>
         <DescriptionList>
           <DescriptionItem title='App name'>
-            <div className={`${block}__eum-name-panel`}>
-              <input type='text'
-                     className={`in-input ${block}__eum-name`}
-                     value={name}
-                     onChange={e => this.setState({appName: e.target.value})} />
-              <Button size='sm'
-                      className={`${block}__save-button`}
-                      kind={isSuccess ? 'success' : 'secondary'}
-                      onClick={() => this.saveName(apiKey, name, () => this.onSuccess$.emit(true))}>
-                {isSuccess ? 'Saved' : 'Save'}
-              </Button>
-            </div>
+            <EditableTextInput text={name}
+                               onSave={this.saveName} />
           </DescriptionItem>
           <DescriptionItem title='API key'>
             {apiKey}
@@ -99,9 +68,11 @@ export default React.createClass({
     );
   },
 
-  saveName(apiKey, appName, onSuccess) {
+  saveName(appName) {
+    const apiKey = this.props.apiKey;
+
     if (apiKey && appName && appName.length > 0) {
-      rename(apiKey, appName, onSuccess);
+      rename(apiKey, appName, () => this.setState({appName}));
     }
   }
 });

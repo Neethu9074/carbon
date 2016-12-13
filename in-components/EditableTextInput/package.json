@@ -1,0 +1,6 @@
+{
+  "name": "EditableTextInput",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EditableTextInput.es6"
+}
