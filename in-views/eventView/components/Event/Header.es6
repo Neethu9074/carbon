@@ -26,7 +26,7 @@ function EventHeader({event, color}) {
         <EventIcon event={event}
                    color='#fff' />
       </div>
-      <div>
+      <div className={`${block}__right`}>
         <h1 className={`${block}__title`}>
           {event.getIn(['problem', 'problemText'])}
         </h1>

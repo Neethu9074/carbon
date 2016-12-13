@@ -56,9 +56,9 @@ React.createClass({
                  color='#172429' />
         {isExpanded ?
           <Hierarchy hierarchy={hierarchy} />
-        :<a href={href}
-           onClick={stopPropagation}
-           className={joinClassNames(block, className)}>
+        : <a href={href}
+             onClick={stopPropagation}
+             className={joinClassNames(block, className)}>
           {children}
         </a>
         }
