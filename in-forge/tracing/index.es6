@@ -18,6 +18,7 @@ import './feign';
 import './hc';
 import './hornetq';
 import './http';
+import './http.spray';
 import './ibmdb2';
 import './jdbc';
 import './jersey';
