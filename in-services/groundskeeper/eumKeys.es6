@@ -28,3 +28,13 @@ export function addKey(appName) {
   })
   .map(response => response.body);
 }
+
+
+export function renameKey(apiKey, newAppName) {
+  const params = `${apiKey},${newAppName}`;
+  return http({
+    method: 'POST',
+    url: `/ump/${config.tenant}/${config.tenantUnit}/eum/rename/${encodeURIComponent(params)}`
+  })
+  .map(response => response.body);
+}
