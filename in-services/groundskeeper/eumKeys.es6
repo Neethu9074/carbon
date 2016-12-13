@@ -31,10 +31,9 @@ export function addKey(appName) {
 
 
 export function renameKey(apiKey, newAppName) {
-  const params = `${apiKey},${newAppName}`;
   return http({
     method: 'POST',
-    url: `/ump/${config.tenant}/${config.tenantUnit}/eum/rename/${encodeURIComponent(params)}`
+    url: `/ump/${config.tenant}/${config.tenantUnit}/eum/rename/${apiKey}/${newAppName}`
   })
   .map(response => response.body);
 }
