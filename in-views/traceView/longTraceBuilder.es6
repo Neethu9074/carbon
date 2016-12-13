@@ -79,7 +79,7 @@ export function withoutDuplicatatedStackTraceLines(parentSpanStackTrace, spanSta
     let splitPoint;
     for (let i = 0, len = result.length; i < len && splitPoint == null; i++) {
       const childStackTraceElement = result[i];
-      if (childStackTraceElement.get('c') === parentStackTraceElement.get('c') &&
+      if (childStackTraceElement.get('c', childStackTraceElement.get('f')) === parentStackTraceElement.get('c', parentStackTraceElement.get('f')) &&
           childStackTraceElement.get('m') === parentStackTraceElement.get('m') &&
           childStackTraceElement.get('n') === parentStackTraceElement.get('n')) {
         splitPoint = i;
@@ -96,7 +96,7 @@ export function withoutDuplicatatedStackTraceLines(parentSpanStackTrace, spanSta
 
 
 function stringifyStackTraceElement(stackTraceElement) {
-  const result = `${stackTraceElement.get('c')}#${stackTraceElement.get('m')}`;
+  const result = `${stackTraceElement.get('c', stackTraceElement.get('f'))}#${stackTraceElement.get('m')}`;
   const n = stackTraceElement.get('n');
   if (!n) {
     return result;

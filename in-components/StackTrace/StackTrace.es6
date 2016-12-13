@@ -17,7 +17,7 @@ export default function StackTrace({stackTrace}) {
           <span className={block + '__label'}>at</span>
           <span className={block + '__function'}>{element.get('m')}</span>
           <span className={block + '__label'}>in</span>
-          <span className={block + '__file'}>{element.get('c')}</span>
+          <span className={block + '__file'}>{element.get('c', element.get('f'))}</span>
           {element.get('n') ?
             <span className={block + '__line'}>:{element.get('n')}</span>
           : null}

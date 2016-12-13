@@ -88,7 +88,7 @@ export default connectTo(props => {
               <span className={`${block}__file`}> {st.get('c', st.get('f'))}{st.get('n') ? `:${st.get('n')}` : ''}</span>
               {this.props.snapshot != null && this.props.online ?
                 <ShowCodeButton snapshot={this.props.snapshot}
-                                file={st.get('c')}
+                                file={st.get('c', st.get('f'))}
                                 line={st.get('n')} />
               : null}
             </li>
