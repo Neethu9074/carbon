@@ -50,7 +50,7 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
                    color='#fff' />
       </div>
 
-      <div>
+      <div className={`${block}__right`}>
         <h1 className={`${block}__title`}>
           Incident
         </h1>
