@@ -18,7 +18,15 @@ export default function HttpdDashboard({snapshot, timeframe}) {
   const ver = snapshot.getIn(['data', 'version']).replace(/[^\d.]/g, '');
   const snapshotId = snapshot.get('id');
 
+
   if (status !== 'OK' && status !== 'EXTENDED_INFO_DISABLED') {
+    if (!status) {
+      return (
+        <DashboardNotification type='info'>
+          There is no further information about this entity.
+        </DashboardNotification>
+      );
+    }
     return (
       <DashboardNotification type='warning'>
         {status}
