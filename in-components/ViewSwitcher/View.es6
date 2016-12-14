@@ -43,12 +43,12 @@ function View({label, href, icon, iconSize, color, children, isActive}) {
         }
       </a>
 
-      {(children)
-        ? <div className={`${block}__menu`}>
-            <SubMenu>
-              {children}
-            </SubMenu>
-          </div>
+      {(children) ?
+        <div className={`${block}__menu`}>
+          <SubMenu>
+            {children}
+          </SubMenu>
+        </div>
         : null
       }
     </li>
