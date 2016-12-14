@@ -53,7 +53,7 @@ React.createClass({
                  type={isExpanded ? 'timeline_close' : 'timeline_open'}
                  width={12}
                  height={12}
-                 color='#172429' />
+                 color={isExpanded ? '#000' : '#92A5AE'} />
         {isExpanded ?
           <Hierarchy hierarchy={hierarchy} />
         : <a href={href}
