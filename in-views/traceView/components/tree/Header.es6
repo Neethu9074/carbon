@@ -1,20 +1,22 @@
 /* eslint-disable max-len */
 import React from 'react';
 
+import ServiceImplementationEntityInformation from 'in-views/traceView/components/ServiceImplementationEntityInformation';
 import {getErrorCount, getDepth, getCalls, getPerCategorySummary} from 'in-views/traceView/util';
-import ServiceImplementationEntityInformation from
-  'in-views/traceView/components/ServiceImplementationEntityInformation';
 import ServiceEntityInformation from 'in-views/traceView/components/ServiceEntityInformation';
+import TraceDownloadView from 'in-components/DownloadButton/components/TraceDownloadView';
 import {getCurrentViewWithTimelineCenteredAt} from 'in-stores/navigation/timeline';
-import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
+import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
+import DownloadButton from 'in-components/DownloadButton';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/tracing';
 
 import './Header.less';
+
 
 const block = 'in-trace-view-details-header';
 
@@ -22,7 +24,8 @@ export default connectTo(props => {
   return {
     timelineLink: getCurrentViewWithTimelineCenteredAt(props.trace.get('start'))
   };
-}, function TraceHeader({trace, timelineLink}) {
+},
+function TraceHeader({trace, timelineLink}) {
   const errorCount = getErrorCount(trace);
   const depth = getDepth(trace);
   const calls = getCalls(trace);
@@ -32,6 +35,10 @@ export default connectTo(props => {
 
   return (
     <div className={block}>
+      <DownloadButton className={`${block}__download-link`}>
+        <TraceDownloadView trace={trace} />
+      </DownloadButton>
+
       <div className={`${block}__date`}>
         <Tooltip content="Center timeline around this trace's start time.">
           <a href={timelineLink}

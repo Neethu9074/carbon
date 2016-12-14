@@ -1,7 +1,6 @@
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully functional
-import HttpServiceExtractionConfiguration
-  from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
+import HttpServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';

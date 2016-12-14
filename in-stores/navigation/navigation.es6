@@ -150,7 +150,6 @@ export function getLinkToSnapshotInCurrentView(snapshotId) {
     .distinct();
 }
 
-
 export function closeDashboard() {
   mutateUrl(navParams => {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
@@ -200,7 +199,7 @@ export const logicalViewLink$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/logical';
-    delete params.query.q;
+    deleteQueryData(params.query);
     return params;
   })
   .map(toUrl)
@@ -218,12 +217,16 @@ export const physicalViewLink$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/physical';
-    delete params.query.q;
+    deleteQueryData(params.query);
     return params;
   })
   .map(toUrl)
   .distinct();
 
+
+function deleteQueryData(query) {
+  delete query.q;
+}
 
 export function goToRootOfView() {
   mutateUrl(navParams => {

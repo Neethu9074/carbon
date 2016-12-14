@@ -4,11 +4,11 @@ import React from 'react';
 
 import {longSelectedTrace$} from 'in-views/traceView/stores/longSelectedTrace';
 import TraceFlameGraph from 'in-views/traceView/components/TraceFlameGraph';
+import TreeElement from 'in-views/traceView/components/tree/Element';
 import TraceHeader from 'in-views/traceView/components/tree/Header';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
-import TreeElement from 'in-views/traceView/components/tree/Element';
 
 import './TraceTree.less';
 
