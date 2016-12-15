@@ -2,12 +2,6 @@
   padding: .5rem 1rem;
   max-width: 51.5rem;
 
-  &__requires-refresh {
-    color: #fe0000;
-    margin: 5px 0 0;
-    font-size: 11px;
-  }
-
   &__section-heading {
     color: #6B8088;
     margin: 2rem 0 0.6rem;
@@ -17,22 +11,30 @@
     max-width: 12.5rem;
   }
 
-  &__form {
-    padding: 0.313rem 0 0.313rem 0.625rem;
-    background: #EEF2F4;
-  }
-
   &__heading-wrapper {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
+  }
 
-    .in-ui-config__label {
-      margin-bottom: 0;
-    }
+  &__label {
+    margin: 0 .625rem;
+  }
+
+  &__wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    border-radius: 0.125rem;
+    padding: 0.313rem 0 0.313rem 0.625rem;
+    background: #EEF2F4;
+    margin-bottom: 0.375rem;
   }
 
   &__info-icon {
-    margin-left: 5px;
+    position: absolute;
+    right: 0.625rem;
   }
 }
