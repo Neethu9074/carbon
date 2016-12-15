@@ -10,7 +10,6 @@ import {
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
-import {isEumEnabled} from 'in-services/featureFlags';
 
 import './Navigation.less';
 
@@ -28,11 +27,9 @@ export default function Navigation() {
                    borderless />
         </NavItem>
 
-        {isEumEnabled ?
-          <NavItem title='End-User Monitoring'
-                   href$={eumKeysViewLink$}
-                   isActive$={isEumKeysView$} />
-        : null}
+        <NavItem title='End-User Monitoring'
+                 href$={eumKeysViewLink$}
+                 isActive$={isEumKeysView$} />
 
         <NavItem title='User Interface'
                  href$={userInterfaceConfigViewLink$}
