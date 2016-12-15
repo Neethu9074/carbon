@@ -36,16 +36,6 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                        metric='duration.mean'
                        formatter={msTwoDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label='TTFB'>
-          <MetricValue snapshotId={snapshotId}
-                       metric='ttfb.mean'
-                       formatter={msTwoDecimalPlaces} />
-        </KpiKeyValue>
-        <KpiKeyValue label='FP'>
-          <MetricValue snapshotId={snapshotId}
-                       metric='fp.mean'
-                       formatter={msTwoDecimalPlaces} />
-        </KpiKeyValue>
       </KpiSection>
 
       <DashboardSection title='Calls/s vs. Load Time'>
@@ -110,44 +100,6 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                              'max'
                            ],
                            type: 'integral'
-                         }} />
-      </DashboardSection>
-
-      <DashboardSection title='Time to first Byte'>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: msTwoDecimalPlaces,
-                           metrics: [
-                             'ttfb.mean'
-                           ],
-                           labels: [
-                             'ttfb'
-                           ],
-                           type: 'line'
-                         }} />
-      </DashboardSection>
-
-      <DashboardSection title='Final Page'>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: msTwoDecimalPlaces,
-                           metrics: [
-                             'fp.mean'
-                           ],
-                           labels: [
-                             'FP'
-                           ],
-                           type: 'line'
                          }} />
       </DashboardSection>
 

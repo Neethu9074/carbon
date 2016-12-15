@@ -24,14 +24,6 @@ export default function BrowserServiceSidebar({snapshot}) {
                               metric: 'duration.mean',
                               label: 'load time',
                               formatter: msZeroDecimalPlaces
-                            }, {
-                              metric: 'ttfb.mean',
-                              label: 'TTFB',
-                              formatter: msZeroDecimalPlaces
-                            }, {
-                              metric: 'fp.mean',
-                              label: 'FP',
-                              formatter: msZeroDecimalPlaces
                             }
                           ]} />
 

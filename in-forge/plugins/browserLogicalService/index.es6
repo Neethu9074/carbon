@@ -44,15 +44,5 @@ addMapping(plugins.browserLogicalService, () => [
     label: 'load time',
     formatter: msZeroDecimalPlaces,
     valueOnlyFormatter: msZeroDecimalPlaces
-  }, {
-    metric: 'ttfb.mean',
-    label: 'TTFB',
-    formatter: msZeroDecimalPlaces,
-    valueOnlyFormatter: msZeroDecimalPlaces
-  }, {
-    metric: 'fp.mean',
-    label: 'FP',
-    formatter: msZeroDecimalPlaces,
-    valueOnlyFormatter: msZeroDecimalPlaces
   }
 ]);
