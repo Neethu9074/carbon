@@ -92,6 +92,7 @@ export const plugins = {
   varnish: 'varnish',
   webAppServiceInstance: 'webAppServiceInstance',
   webSphere: 'webSphereApplicationContainer',
+  webSphereLiberty: 'webSphereLibertyApplicationContainer',
   zookeeper: 'zooKeeper'
 };
 
@@ -187,5 +188,6 @@ export const fullyQualifiedPlugins = {
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
   webAppServiceInstance: 'com.instana.forge.connection.http.logical.WebAppServiceInstance',
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
+  webSphereLibertyApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
 };
