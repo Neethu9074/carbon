@@ -13,6 +13,7 @@ import Icon from 'in-components/Icon';
 import './KeyValuePopup.less';
 
 
+const MAX_LABEL_LENGTH = 33;
 const block = 'in-key-value-popup';
 const rpt = React.PropTypes;
 
@@ -30,7 +31,14 @@ export default connectTo({
     propTypes: {
       header: rpt.string.isRequired,
       activeContent: rpt.object,
+      addSeparator: rpt.bool,
       data: rpt.object
+    },
+
+    getDefaultProps() {
+      return {
+        addSeparator: true
+      };
     },
 
     componentWillUnmount() {
@@ -48,14 +56,18 @@ export default connectTo({
         block + '__button-open' :
         block + '__button-close';
 
-      const title = this.props.header;
+      let title = this.props.header;
+      const header = title.length > MAX_LABEL_LENGTH
+        ? `${title.substring(0, MAX_LABEL_LENGTH)}...`
+        : title;
+
       return (
         <div>
-          <Separator />
+          {this.props.addSeparator ? <Separator /> : null}
 
           <div className={block}>
             <span className={block + '__header'}>
-              {title}
+              {header}
             </span>
             <div className={buttonClassName}
                  onClick={() => toggleContent({title, data})}>
