@@ -1,14 +1,16 @@
+import {supportsCodeView, getCodeView} from 'in-forge/codeView/ruby';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
 import icon from './icon.svg';
 
-
 registerSnapshotDefinition({
   plugin: plugins.ruby,
   icon,
   metricDefinitions,
+  supportsCodeView,
+  getCodeView,
   pluginName: {
     singular: 'Ruby App',
     plural: 'Ruby Apps'
@@ -30,7 +32,6 @@ registerSnapshotDefinition({
 
     return 'Ruby v' + rubyVersion;
   }
-
 });
 
 function getFallbackLabel(s) {
