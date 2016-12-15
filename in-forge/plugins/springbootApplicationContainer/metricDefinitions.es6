@@ -1,9 +1,6 @@
 import {
-  millis,
   number
 } from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
 
 export default [
   {
@@ -36,47 +33,5 @@ export default [
     isAvailable(snapshot) {
        return snapshot.getIn(['data', 'httpsessionsMax'], false);
     }
-  },
-  {
-    metric: getMetricMatch('endpoint', '1xx'),
-    label: 'Requests with Status Code 1xx',
-    min: 0,
-    category: ['Endpoints'],
-    formatter: millis
-  },
-  {
-    metric: getMetricMatch('endpoint', '2xx'),
-    label: 'Requests with Status Code 2xx',
-    min: 0,
-    category: ['Endpoints'],
-    formatter: millis
-  },
-  {
-    metric: getMetricMatch('endpoint', '3xx'),
-    label: 'Requests with Status Code 3xx',
-    min: 0,
-    category: ['Endpoints'],
-    formatter: millis
-  },
-  {
-    metric: getMetricMatch('endpoint', '4xx'),
-    label: 'Requests with Status Code 4xx',
-    min: 0,
-    category: ['Endpoints'],
-    formatter: millis
-  },
-  {
-    metric: getMetricMatch('endpoint', '5xx'),
-    label: 'Requests with Status Code 5xx',
-    min: 0,
-    category: ['Endpoints'],
-    formatter: millis
-  },
-  {
-    metric: getMetricMatch('endpoint'),
-    label: 'All Requests',
-    min: 0,
-    category: ['Endpoints'],
-    formatter: millis
   }
 ];

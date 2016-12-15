@@ -1,7 +1,5 @@
 import React from 'react';
 
-import EndpointBreakdownTable from
-'in-forge/plugins/springbootApplicationContainer/Dashboard/EndpointBreakdownTable.es6';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -73,8 +71,6 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
                              }} />
         </DashboardSection>
         : null}
-      <EndpointBreakdownTable snapshot={snapshot}
-                              timeframe={timeframe} />
     </div>
   );
 }
