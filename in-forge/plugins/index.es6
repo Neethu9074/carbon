@@ -95,4 +95,5 @@ import './unmonitoredHost';
 import './varnish';
 import './webAppServiceInstance';
 import './webSphereApplicationContainer';
+import './webSphereLibertyApplicationContainer';
 import './zooKeeper';
