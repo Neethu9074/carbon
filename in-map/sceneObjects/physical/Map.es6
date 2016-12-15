@@ -4,7 +4,6 @@ import {CONTROL_PRESETS, setControls} from 'in-components/Controls/stores/contro
 import BasicSingleMeshFactory from 'in-map/singleMeshFactories/BasicSingleMeshFactory';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
-import createPentagramLayouter from 'in-map/misc/physical/PentagramLayouter';
 import createCameraController from 'in-map/misc/physical/CameraController';
 import {addFactory, getFactory} from 'in-map/stores/factoriesStore';
 import {layouting$} from 'in-map/stores/physical/layouterStore';
@@ -60,7 +59,7 @@ export default class Map extends BaseMap {
         }
         this.layouter = type === 'physical'
           ? createLayouter()
-          : createPentagramLayouter();
+          : createLayouter(); // add other layouter here
       })
     ]);
   }
