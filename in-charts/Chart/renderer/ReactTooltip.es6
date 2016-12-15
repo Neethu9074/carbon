@@ -38,7 +38,11 @@ function MetricBlock({dataColumn, config, axisName}) {
   );
 }
 
-export default function ReactTooltip({time, config, y1DataColumn, y2DataColumn}) {
+export default function ReactTooltip({time, config, y1DataColumn, y2DataColumn, dataPointsAvailable}) {
+  if (!dataPointsAvailable) {
+    return null;
+  }
+
   return (
     <div className={block}>
 

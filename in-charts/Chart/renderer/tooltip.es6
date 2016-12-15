@@ -10,6 +10,7 @@ export default function createTooltipRenderer(config) {
   let y1DataColumn;
   let y2DataColumn;
   let dataPointsExistingAtMoment;
+  let dataPointsAvailable;
 
   hideTooltip();
 
@@ -28,6 +29,7 @@ export default function createTooltipRenderer(config) {
 
   function showTooltip(_highlightedMoment) {
     dataPointsExistingAtMoment = null;
+    dataPointsAvailable = true;
     highlightedMoment = _highlightedMoment;
 
     y1DataColumn = lookForDataPoint('y1', highlightedMoment);
@@ -39,7 +41,7 @@ export default function createTooltipRenderer(config) {
     y2DataColumn = config.y2 ? lookForDataPoint('y2', dataPointsExistingAtMoment || highlightedMoment) : null;
 
     if (!y1DataColumn && !y2DataColumn) {
-      return;
+      dataPointsAvailable = false;
     }
 
     if (y1DataColumn && y2DataColumn && y2DataColumn.time !== dataPointsExistingAtMoment) {
@@ -54,6 +56,7 @@ export default function createTooltipRenderer(config) {
       <ReactTooltip config={config}
                     y1DataColumn={y1DataColumn}
                     y2DataColumn={y2DataColumn}
+                    dataPointsAvailable={dataPointsAvailable}
                     time={dataPointsExistingAtMoment} />,
       config.dom.tooltipContainer
     );
