@@ -22,6 +22,13 @@ addKeywordOperator({
   field: 'zone'
 });
 
+addKeywordOperator({
+  context: 'entity',
+  type: 'string',
+  keyword: 'service',
+  field: 'service'
+});
+
 const searchableEntityTypes = {
   // <type> => [<fully qualified plugin ids>]
 };
