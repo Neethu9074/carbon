@@ -124,6 +124,14 @@ export function getSnapshots(snapshotIds, time) {
     .throttle(100);
 }
 
+export function getSnapshotByHierarchyPlugin(snapshotId, plugin, time) {
+  return getPhysicalHierarchy(snapshotId, time)
+    .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id)))) // transforms a hierarchy list into a snapshot list
+    .map(snapshots => snapshots.filter(snapshot => snapshot.get('plugin') === plugin)) // filters all unmatching pluginIds
+    .map(snapshots => (snapshots && snapshots.length > 0) ? snapshots[0] : undefined); // get first hit if available or undefined
+}
+
+
 
 export function getPhysicalHierarchy(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
