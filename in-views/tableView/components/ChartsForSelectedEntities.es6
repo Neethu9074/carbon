@@ -55,6 +55,7 @@ function SelectedChart({metric, snapshots}) {
         <div className={`${block}__button-panel`}>
           <DownloadButton>
             <MetricChartDownloadView metric={metric}
+                                     label={definition.label}
                                      snapshots={snapshots} />
           </DownloadButton>
 

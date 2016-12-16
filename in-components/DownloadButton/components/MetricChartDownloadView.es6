@@ -34,7 +34,7 @@ export default connectTo(props => {
 
                       return getMetricsForTimeframe(ops).map(metrics => {
                         return {
-                          label: getLabel(snapshot),
+                          label: `${props.label}-${getLabel(snapshot)}`,
                           values: metrics.map(metricValues => metricValues.sort((a, b) => a.time - b.time))
                         };
                       });
@@ -53,6 +53,7 @@ React.createClass({
 
   propTypes: {
     metric: rpt.string.isRequired,
+    label: rpt.string.isRequired,
     metricValues: rpt.object
   },
 
@@ -97,7 +98,7 @@ React.createClass({
     }
 
     const timestamps = `timestamps,${this.props.metricValues[metrics[0]].map(value => value[0]).join(',')}`;
-    const lines = Object.keys(this.props.metricValues).map(key => `${key},${this.props.metricValues[key].map(value => value[1]).join(',')}`).join('\n');
+    const lines = Object.keys(this.props.metricValues).map(key => `${this.props.label}-${key},${this.props.metricValues[key].map(value => value[1]).join(',')}`).join('\n');
     this.downloadFile('csv', encodeURIComponent(`${timestamps}\n${lines}`));
   },
 
