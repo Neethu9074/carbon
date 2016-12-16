@@ -91,8 +91,14 @@ React.createClass({
 
   onDownloadAsCsvClick(e) {
     e.stopPropagation();
+    const metrics = Object.keys(this.props.metricValues);
+    if (metrics.length === 0) {
+      return;
+    }
+
+    const timestamps = `timestamps,${this.props.metricValues[metrics[0]].map(value => value[0]).join(',')}`;
     const lines = Object.keys(this.props.metricValues).map(key => `${key},${this.props.metricValues[key].map(value => value[1]).join(',')}`).join('\n');
-    this.downloadFile('csv', encodeURIComponent(lines));
+    this.downloadFile('csv', encodeURIComponent(`${timestamps}\n${lines}`));
   },
 
   downloadFile(fileType, data) {
