@@ -14,10 +14,10 @@ export default function WebSphereDashboard({snapshot, timeframe}) {
   const data = snapshot.get('data');
   const monitorFeatureEnabled = data.get('monitorFeatureEnabled');
   const threadPoolStatsPresent = data.get('threadPool.threadPoolStatsPresent');
-  if (monitorFeatureEnabled !== true) {
+  if (!monitorFeatureEnabled) {
     return (
       <DashboardNotification type='info'>
-        Monitor feature is not enabled. Please add monitor-1.0 feature in server.xml
+        It seems that monitor feature is not enabled. Please add monitor-1.0 feature in server.xml
       </DashboardNotification>);
   }
 
