@@ -1,23 +1,24 @@
 import React from 'react';
 
-import {zeroDecimalPlaces, muSecondsToMillisTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import {zeroDecimalPlaces, muSecondsToMillisTwoDecimalPlaces} from 'in-services/formatters/number';
+import {emptyMap, emptyList} from 'in-services/fixedImmutables';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {emptyMap, emptyList} from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
 
 export default function ServletsTable({snapshot, timeframe}) {
-  const servlets = snapshot.getIn(['data', 'applications'], emptyMap).sort().map((appData, appName) => {
-    return appData.get('servlets', emptyList).sort().map(servletName => {
-      return {
+  const servlets = [];
+  snapshot.getIn(['data', 'applications'], emptyMap).sort().forEach((appData, appName) => {
+    appData.get('servlets', emptyList).sort().forEach(servletName => {
+      servlets.push({
         appName: appName,
         servletName: servletName
-      };
+      });
     });
-  }).flatten();
-  if (servlets.size === 0) {
+  });
+  if (servlets.length === 0) {
     return null;
   }
 
