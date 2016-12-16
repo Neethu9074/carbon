@@ -13,6 +13,7 @@ import 'prismjs/themes/prism.css';
 import 'prismjs/components/prism-json.min.js';
 import 'prismjs/components/prism-java.min.js';
 import 'prismjs/components/prism-sql.min.js';
+import 'prismjs/components/prism-ruby.min.js';
 
 // prism plugins
 import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
