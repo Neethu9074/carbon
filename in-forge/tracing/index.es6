@@ -67,3 +67,5 @@ import './vaadin';
 import './vertx.client';
 import './vertx.server';
 import './wicket';
+import './x.hc';
+import './x.http';
