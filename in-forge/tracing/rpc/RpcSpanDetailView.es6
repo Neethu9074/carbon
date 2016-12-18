@@ -11,6 +11,9 @@ export default function HttpSpanDetailView({span}) {
       <DescriptionItem title='Host'>
         {span.getIn(['data', 'rpc', 'host'])}
       </DescriptionItem>
+      <DescriptionItem title='Baggage'>
+        {span.getIn(['data', 'baggage'])}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
