@@ -139,7 +139,7 @@ export default connectTo(props => {
               <div className={`${block}__descriptions`}>
                 <div className={`${block}__span-description`}>
                   <span className={`${block}__span-type`}>
-                    {batchSize ?
+                    {batchSize > 1 ?
                       <span><Badge size='sm'>{batchSize}</Badge> {getTypeLabelPlural(span)}</span>
                     :
                       getTypeLabelSingular(span)
