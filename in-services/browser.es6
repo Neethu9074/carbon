@@ -18,12 +18,14 @@ function getBrowser() {
   const ua = window.navigator.userAgent;
   if (/Edge/.test(ua)) {
     return 'edge';
-  } else if (/Chrome/.test(ua)) {
+  } else if (/Chrome/i.test(ua)) {
     return 'chrome';
-  } else if (/Safari/.test(ua)) {
+  } else if (/Safari/i.test(ua)) {
     return 'safari';
-  } else if (/Firefox/.test(ua)) {
+  } else if (/Firefox/i.test(ua)) {
     return 'ff';
+  } else if (/Trident/i.test(ua)) {
+    return 'ie';
   }
 
   return null;

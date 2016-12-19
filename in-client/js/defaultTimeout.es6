@@ -1,3 +1,5 @@
+import {isSafari} from 'in-services/browser';
+
 // We have seen cases where socket.io XHR polling requests run into
 // bugs in the Safari internal network helper process. This resulted in
 // our server being bombarded with requests. For some unknown reason,
@@ -26,10 +28,15 @@
 // 4. In the system activity manager, inspect the CPU usage of the Safari
 //    network manager.
 
-const OriginalXhr = window.XMLHttpRequest;
+// Overwriting globals in such a way is not possible in IE. Since this is
+// meant as a Safari workaround in the first place, we will restrict it to
+// Safari.
+if (isSafari()) {
+  const OriginalXhr = window.XMLHttpRequest;
+  window.XMLHttpRequest = function TimeoutXMLHttpRequestOverwrite() {
+    const xhr = new OriginalXhr();
+    xhr.timeout = 60000;
+    return xhr;
+  };
 
-window.XMLHttpRequest = function TimeoutXMLHttpRequestOverwrite() {
-  const xhr = new OriginalXhr();
-  xhr.timeout = 60000;
-  return xhr;
-};
+}
