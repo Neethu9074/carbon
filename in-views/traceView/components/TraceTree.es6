@@ -24,7 +24,7 @@ export default connectTo({
     return <p className={`${block}__no-trace-selected`}>No trace selected.</p>;
   }
 
-  if (!longTrace || longTrace.id !== traceId) {
+  if (!longTrace || !longTrace.span || longTrace.span.get('traceId') !== traceId) {
     return <LoadingIndicator type='dark' />;
   }
 
