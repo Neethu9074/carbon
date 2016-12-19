@@ -148,10 +148,12 @@ function DetailsHeader({event, onClick, iconType, background}) {
         </div>
 
         <div>
-          <span className={`${block}__problem-text`}>
-            {event.getIn(['problem', 'problemText'])}
-          </span>
-          <EventDuration event={event} />
+          <div>
+            <span className={`${block}__problem-text`}>
+              {event.getIn(['problem', 'problemText'])}
+            </span>
+            <EventDuration event={event} />
+          </div>
           <EntityInformation snapshotId={event.getIn(['problem', 'snapshotId'])}
                              time={event.get('start')} />
         </div>
