@@ -9,10 +9,6 @@ import {viewStructure} from 'in-stores/view';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import './ConnectionList.less';
-
-const block = 'in-connection-list';
-
 export default connectTo(props => {
   return {
     connections: viewStructure
@@ -44,25 +40,26 @@ export default connectTo(props => {
             <Collapsible.Header>
               {'Inbound Connections (' + connections.incoming.size + ')'}
             </Collapsible.Header>
-            <Collapsible.Content className={`${block}__snapshot-list`}>
+            <Collapsible.Content>
               <SnapshotList connections={connections.incoming} />
             </Collapsible.Content>
           </Collapsible>
         </div>
       }
 
-      {connections.incoming.size > 0 && connections.outgoing.size > 0 ? <Separator /> : null}
-
       {connections.outgoing.size === 0
         ? null
-        : <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>
-            {'Outbound Connections (' + connections.outgoing.size + ')'}
-          </Collapsible.Header>
-          <Collapsible.Content className={`${block}__snapshot-list`}>
-            <SnapshotList connections={connections.outgoing} />
-          </Collapsible.Content>
-        </Collapsible>
+        : <div>
+          <Separator />
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>
+              {'Outbound Connections (' + connections.outgoing.size + ')'}
+            </Collapsible.Header>
+            <Collapsible.Content>
+              <SnapshotList connections={connections.outgoing} />
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
       }
     </div>
   );

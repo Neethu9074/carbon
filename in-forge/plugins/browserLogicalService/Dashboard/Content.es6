@@ -11,6 +11,7 @@ import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/K
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ClusterNodes from 'in-components/LogicalEntityTables/ClusterNodes';
 import Connections from 'in-components/LogicalEntityTables/Connections';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {timeframeShape} from 'in-stores/timeline';
@@ -31,45 +32,108 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                        metric='count'
                        formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label='load time'>
+        <KpiKeyValue label='page load time'>
           <MetricValue snapshotId={snapshotId}
                        metric='duration.mean'
                        formatter={msTwoDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title='Calls/s vs. Load Time'>
+      <TwoColumnRow>
+        <DashboardSection title='Calls/s'>
+          <ChartWithLegend snapshotId={snapshotId}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: twoDecimalPlaces,
+                             metrics: [
+                               'count'
+                             ],
+                             labels: [
+                               'calls/s'
+                             ],
+                             type: 'line'
+                           }} />
+        </DashboardSection>
+
+        <DashboardSection title='Avg. Page Load Time'>
+          <ChartWithLegend snapshotId={snapshotId}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: twoDecimalPlaces,
+                             metrics: [
+                               'duration.mean'
+                             ],
+                             labels: [
+                               'Page Load Time'
+                             ],
+                             type: 'line'
+                           }} />
+        </DashboardSection>
+      </TwoColumnRow>
+
+      <DashboardSection title='Navigation Timing'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80,
-                           right: 80
+                           left: 80
                          }}
                          y1={{
                            min: 0,
-                           formatter: twoDecimalPlaces,
+                           formatter: msZeroDecimalPlaces,
                            metrics: [
-                             'count'
+                             'unl.mean',
+                             'red.mean',
+                             'apc.mean',
+                             'dns.mean',
+                             'tcp.mean',
+                             'req.mean',
+                             'rsp.mean',
+                             'pro.mean',
+                             'loa.mean'
                            ],
                            labels: [
-                             'calls/s'
+                             'Unload',
+                             'Redirect',
+                             'AppCache',
+                             'DNS',
+                             'TCP',
+                             'Request',
+                             'Response',
+                             'Processing',
+                             'Load'
                            ],
-                           type: 'line'
-                         }}
-                         y2={{
-                           min: 0,
-                           formatter: msTwoDecimalPlaces,
-                           metrics: [
-                             'duration.mean'
-                           ],
-                           labels: [
-                             'load time'
-                           ],
-                           type: 'line'
+                           type: 'stackedArea'
                          }} />
       </DashboardSection>
 
-      <DashboardSection title='Latency Overview'>
+      <DashboardSection title='Time to first paint'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: msZeroDecimalPlaces,
+                           metrics: [
+                             'fp.mean'
+                           ],
+                           labels: [
+                             'First paint time'
+                           ],
+                           type: 'stackedArea'
+                         }} />
+      </DashboardSection>
+
+      <DashboardSection title='Load Time Overview'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          height={200}

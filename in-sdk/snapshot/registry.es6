@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {setAggregation, setStatAggregation} from 'in-sdk/metrics/aggregation';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import {addMapping as addIconMapping} from 'in-sdk/iconRegistry';
 import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
@@ -96,6 +97,18 @@ function registerLegacySdkHooks(snapshotDefinition) {
       snapshotDefinition.plugin,
       snapshotDefinition.getLabel
     );
+  }
+
+  if (snapshotDefinition.metricAggregations) {
+    Object.keys(snapshotDefinition.metricAggregations).forEach(metric => {
+      const aggregation = snapshotDefinition.metricAggregations[metric];
+
+      if (aggregation === 'stats') {
+        setStatAggregation(metric);
+      } else {
+        setAggregation(metric, aggregation);
+      }
+    });
   }
 }
 

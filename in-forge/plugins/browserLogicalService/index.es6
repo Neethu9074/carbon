@@ -19,7 +19,18 @@ registerSnapshotDefinition({
   namesForTypeSearch: ['service', 'eum', 'browser'],
   tableDefinition,
   metricDefinitions,
-  metricAggregations: {},
+  metricAggregations: {
+    'fp': 'stats',
+    'unl': 'stats',
+    'red': 'stats',
+    'apc': 'stats',
+    'dns': 'stats',
+    'tcp': 'stats',
+    'req': 'stats',
+    'rsp': 'stats',
+    'pro': 'stats',
+    'loa': 'stats'
+  },
 
   pluginName: {
     singular: 'Browser',
