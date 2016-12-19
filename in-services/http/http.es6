@@ -18,7 +18,7 @@ export default function({method, url, queryParams, data, timeout = 30000, respon
       xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
       xhr.timeout = timeout;
-      xhr.responseType = responseType;
+      xhr.responseType = responseType === 'json' ? 'text' : responseType;
       xhr.ontimeout = () => {
         debouncedEmitError(new HttpRequestTimeoutError(method, url));
       };
@@ -34,6 +34,7 @@ export default function({method, url, queryParams, data, timeout = 30000, respon
             getHeader: name => xhr.getResponseHeader(name)
           };
           if (199 < response.status && response.status < 300) {
+            response.body = responseType === 'json' ? JSON.parse(response.body) : response.body;
             observable.emit(response);
           } else {
             debouncedEmitError(new HttpResponseError(response, method, url));
