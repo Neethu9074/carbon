@@ -1,11 +1,14 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import NavigationTiming from 'in-forge/tracing/page/NavigationTiming';
 import {emptyMap} from 'in-services/fixedImmutables';
 import Tooltip from 'in-components/Tooltip';
 
 
 export default function PageRequestSpanDetailView({span}) {
+  const timing = span.getIn(['data', 'page', 'timing']);
+
   return (
     <div>
       <DescriptionList>
@@ -46,6 +49,12 @@ export default function PageRequestSpanDetailView({span}) {
         </DescriptionItem>
 
         {getMetaData(span)}
+
+        {timing ?
+          <DescriptionItem title='Navigation Timing'>
+            <NavigationTiming {...timing.toJS()} />
+          </DescriptionItem>
+        : null}
       </DescriptionList>
     </div>
   );
