@@ -1,19 +1,13 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import {getMetricsForTimeframe} from 'in-stores/metric';
 import {serverTime$} from 'in-stores/serverTime';
 import {timeframe$} from 'in-stores/timeline';
-import Button from 'in-components/Button';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import './MetricChartDownloadView.less';
-
-
-const block = 'in-metric-chart-download-view';
-const rpt = React.PropTypes;
 
 export default connectTo(props => {
   return {
@@ -47,68 +41,27 @@ export default connectTo(props => {
                   })
   };
 },
-React.createClass({
+function MetricChartDownloadView({metric, metricValues}) {
+  return (
+    <DownloadView data={metricValues}
+                  fileName={`metric-${metric}`}
 
-  displayName: 'MetricChartDownloadView',
+                  getCsvData={() => getCsvData(metricValues)}
+                  getJsonData={() => getJsonData(metricValues)} />
+  );
+});
 
-  propTypes: {
-    metric: rpt.string.isRequired,
-    label: rpt.string.isRequired,
-    metricValues: rpt.object
-  },
-
-  render() {
-    const metricValues = this.props.metricValues;
-    if (!metricValues) {
-      return (
-        <LoadingIndicator type='dark' />
-      );
-    }
-
-    return (
-      <div>
-        <a ref={link => this.downloadLink = link}
-           onClick={stopPropagation} />
-        <div  className={`${block}__wrapper`}>
-          <Button kind='secondary'
-                  size='sm'
-                  onClick={e => this.onDownloadAsJsonClick(e)}>
-            Download (*.json)
-          </Button>
-          <Button kind='secondary'
-                  size='sm'
-                  onClick={this.onDownloadAsCsvClick}>
-            Download (*.csv)
-          </Button>
-        </div>
-      </div>
-    );
-  },
-
-  onDownloadAsJsonClick(e) {
-    e.stopPropagation();
-    this.downloadFile('json', encodeURIComponent(JSON.stringify(this.props.metricValues, null, 4)));
-  },
-
-  onDownloadAsCsvClick(e) {
-    e.stopPropagation();
-    const metrics = Object.keys(this.props.metricValues);
-    if (metrics.length === 0) {
-      return;
-    }
-
-    const timestamps = `timestamps,${this.props.metricValues[metrics[0]].map(value => value[0]).join(',')}`;
-    const lines = Object.keys(this.props.metricValues).map(key => `${this.props.label}-${key},${this.props.metricValues[key].map(value => value[1]).join(',')}`).join('\n');
-    this.downloadFile('csv', encodeURIComponent(`${timestamps}\n${lines}`));
-  },
-
-  downloadFile(fileType, data) {
-    this.downloadLink.setAttribute('href', `data:text/${fileType};charset=utf-8,${data}`);
-    this.downloadLink.setAttribute('download', `metric-${this.props.metric}.${fileType}`);
-    this.downloadLink.click();
+function getCsvData(metricValues) {
+  const metrics = Object.keys(metricValues);
+  if (metrics.length === 0) {
+    return;
   }
-}));
 
-function stopPropagation(e) {
-  e.stopPropagation();
+  const timestamps = `timestamps,${metricValues[metrics[0]].map(value => value[0]).join(',')}`;
+  const lines = Object.keys(metricValues).map(key => `${key},${metricValues[key].map(value => value[1]).join(',')}`).join('\n');
+  return `${timestamps}\n${lines}`;
+}
+
+function getJsonData(metricValues) {
+  return JSON.stringify(metricValues, null, 4);
 }
