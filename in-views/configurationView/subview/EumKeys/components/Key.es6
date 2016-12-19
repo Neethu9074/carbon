@@ -93,6 +93,6 @@ function getEumSnippet(apiKey) {
   // ineum('traceId', '<backend trace id>');
 
   // free form key/value pairs for advanced end-user tracking
-  ineum('meta', 'user', 'tom.mason@example.com');
+  // ineum('meta', 'user', 'tom.mason@example.com');
 </script>`.trim();
 }
