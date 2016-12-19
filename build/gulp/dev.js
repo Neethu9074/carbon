@@ -66,7 +66,7 @@ gulp.task('askForDevOptions', cb => {
             groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
             tenant: 'instana',
             tenantUnit: 'test',
-            groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+            butlerDomain: 'internal-groundskeeper-instana.instana.io'
           }
         },
         {
@@ -77,7 +77,7 @@ gulp.task('askForDevOptions', cb => {
             withoutAuthPrefix: true,
             tenant: 'instana',
             tenantUnit: 'test',
-            groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+            butlerDomain: 'internal-groundskeeper-instana.instana.io'
           }
         },
         {
@@ -95,28 +95,28 @@ gulp.task('askForDevOptions', cb => {
           name: 'saas',
           value: {
             groundskeeperUrl: 'https://instana.io',
-            groundskeeperDomain: 'instana.io'
+            butlerDomain: 'instana.io'
           }
         },
         {
           name: 'staging',
           value: {
             groundskeeperUrl: 'https://staging-groundskeeper-instana.instana.io',
-            groundskeeperDomain: 'staging-groundskeeper-instana.instana.io'
+            butlerDomain: 'staging-groundskeeper-instana.instana.io'
           }
         },
         {
           name: 'demo',
           value: {
             groundskeeperUrl: 'https://demo-groundskeeper-instana.instana.io',
-            groundskeeperDomain: 'demo-groundskeeper-instana.instana.io'
+            butlerDomain: 'demo-groundskeeper-instana.instana.io'
           }
         },
         {
           name: 'internal',
           value: {
             groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
-            groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+            butlerDomain: 'internal-groundskeeper-instana.instana.io'
           }
         }
       ],
@@ -200,7 +200,7 @@ gulp.task('askForDevOptions', cb => {
         groundskeeperUrl: selectedOptions.environment.groundskeeperUrl,
         tenant: selectedOptions.tenant,
         tenantUnit: selectedOptions.tenantUnit,
-        groundskeeperDomain: selectedOptions.environment.groundskeeperDomain
+        butlerDomain: selectedOptions.environment.butlerDomain
       };
     }
     devModeOptions = selectedOptions;

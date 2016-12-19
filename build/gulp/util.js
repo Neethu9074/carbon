@@ -66,7 +66,7 @@ exports.writeDevModeConfig = function writeDevModeConfig(environment, envConfig)
     tenantUnit: envConfig.tenantUnit,
     tenantUnitDomainSuffix: 'instana.io',
     environment: 'internal',
-    groundskeeperDomain: envConfig.groundskeeperDomain,
+    butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
     operationMode: 'saas'
   };

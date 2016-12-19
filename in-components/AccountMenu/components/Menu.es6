@@ -17,7 +17,7 @@ import './Menu.less';
 
 
 const block = 'in-account-menu';
-const umpLink = `https://${config.groundskeeperDomain}/ump/${config.tenant}/${config.tenantUnit}`;
+const umpLink = `https://${config.butlerDomain}/ump/${config.tenant}/${config.tenantUnit}`;
 
 export default connectTo({
   isOpen: isOpen$,
