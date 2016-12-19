@@ -40,8 +40,8 @@ http {
     server                   {{UI_BACKEND_PORT_8082_TCP_ADDR}}:{{UI_BACKEND_PORT_8082_TCP_PORT}};
   }
 
-  upstream groundskeeper {
-    server                   {{GROUNDSKEEPER_PORT_8280_TCP_ADDR}}:{{GROUNDSKEEPER_PORT_8280_TCP_PORT}};
+  upstream butler {
+    server                   {{BUTLER_PORT_8280_TCP_ADDR}}:{{BUTLER_PORT_8280_TCP_PORT}};
   }
 
   upstream uiTracker {
@@ -185,35 +185,35 @@ http {
       limit_req              zone=onePerSecond burst=10;
       limit_req_status       429;
 
-      proxy_pass             http://groundskeeper/signIn;
+      proxy_pass             http://butler/signIn;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
     location /auth/signOut {
-      proxy_pass             http://groundskeeper/signOut{% if OPERATION_MODE == "on-prem" %}?returnUrl=https://{{ INSTANA_HOSTNAME }}{% endif %};
+      proxy_pass             http://butler/signOut{% if OPERATION_MODE == "on-prem" %}?returnUrl=https://{{ INSTANA_HOSTNAME }}{% endif %};
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
     location /auth/users/current {
-      proxy_pass             http://groundskeeper/users/current;
+      proxy_pass             http://butler/users/current;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
     location /auth/users/tenants/ {
-      proxy_pass             http://groundskeeper/users/tenants;
+      proxy_pass             http://butler/users/tenants;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
     location /assets/ {
-      proxy_pass             http://groundskeeper/assets/;
+      proxy_pass             http://butler/assets/;
       proxy_cache            off;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
@@ -221,7 +221,7 @@ http {
     }
 
     location /lostPassword/ {
-      proxy_pass             http://groundskeeper/lostPassword/;
+      proxy_pass             http://butler/lostPassword/;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -246,14 +246,14 @@ http {
     location /secured/ {
       limit_req              zone=onePerSecond burst=10;
 
-      proxy_pass             http://groundskeeper/secured/;
+      proxy_pass             http://butler/secured/;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
     location /ump/ {
-      proxy_pass             http://groundskeeper/ump/;
+      proxy_pass             http://butler/ump/;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
