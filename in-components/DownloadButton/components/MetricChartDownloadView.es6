@@ -31,12 +31,16 @@ export default connectTo(props => {
                           label: `${props.label}-${getLabel(snapshot)}`,
                           values: metrics.map(metricValues => metricValues.sort((a, b) => a.time - b.time))
                         };
-                      });
+                      }).startWith(null);
                     }))
                   )
                   .map(metrics => {
                     const map = {};
-                    metrics.forEach(metric => map[metric.label] = metric.values);
+                    metrics.forEach(metric => {
+                      if (metric) {
+                        map[metric.label] = metric.values;
+                      }
+                    });
                     return map;
                   })
   };
