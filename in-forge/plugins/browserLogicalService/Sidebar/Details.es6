@@ -24,6 +24,10 @@ export default function BrowserServiceSidebar({snapshot}) {
                               metric: 'duration.mean',
                               label: 'load time',
                               formatter: msZeroDecimalPlaces
+                            }, {
+                              metric: 'fp.mean',
+                              label: 'first paint',
+                              formatter: msZeroDecimalPlaces
                             }
                           ]} />
 

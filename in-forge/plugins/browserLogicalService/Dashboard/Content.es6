@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
@@ -14,7 +13,6 @@ import Connections from 'in-components/LogicalEntityTables/Connections';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
-import {timeframeShape} from 'in-stores/timeline';
 import {getLabel} from 'in-sdk/snapshot';
 
 
@@ -32,10 +30,15 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                        metric='count'
                        formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label='page load time'>
+        <KpiKeyValue label='time to page load'>
           <MetricValue snapshotId={snapshotId}
                        metric='duration.mean'
-                       formatter={msTwoDecimalPlaces} />
+                       formatter={msZeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label='time to first paint'>
+          <MetricValue snapshotId={snapshotId}
+                       metric='fp.mean'
+                       formatter={msZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -59,7 +62,7 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                            }} />
         </DashboardSection>
 
-        <DashboardSection title='Avg. Page Load Time'>
+        <DashboardSection title='Page Load Time'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -67,7 +70,7 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                            }}
                            y1={{
                              min: 0,
-                             formatter: twoDecimalPlaces,
+                             formatter: msTwoDecimalPlaces,
                              metrics: [
                                'duration.mean'
                              ],
@@ -114,7 +117,7 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
 
-      <DashboardSection title='Time to first paint'>
+      <DashboardSection title='Time to Tirst Paint'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
@@ -175,8 +178,3 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
     </div>
   );
 }
-
-DefaultLogicalServiceDashboard.propTypes = {
-  snapshot: irpt.map.isRequired,
-  timeframe: timeframeShape
-};
