@@ -216,19 +216,19 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                  right: 40
                }}
                y1={{
-                 formatter: zeroDecimalPlaces,
-                 tooltipFormatter: twoDecimalPlaces,
+                 formatter: msTwoDecimalPlaces,
+                 tooltipFormatter: msTwoDecimalPlaces,
                  metrics: [
                    'logflush.mean'
                  ],
                  labels: [
-                   'Mean ms'
+                   'Mean'
                  ],
                  type: 'line'
                }}
                y2={{
-                 formatter: zeroDecimalPlaces,
-                 tooltipFormatter: twoDecimalPlaces,
+                 formatter: msZeroDecimalPlaces,
+                 tooltipFormatter: msZeroDecimalPlaces,
                  metrics: [
                    'logflush.inv'
                  ],
