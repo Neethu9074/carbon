@@ -8,6 +8,7 @@ import genericIcon from 'in-sdk/tracing/categoryIcons/generic.svg';
 import remoteIcon from 'in-sdk/tracing/categoryIcons/remote.svg';
 import loggerIcon from 'in-sdk/tracing/categoryIcons/logger.svg';
 import httpIcon from 'in-sdk/tracing/categoryIcons/http.svg';
+import xrayIcon from 'in-sdk/tracing/categoryIcons/xray.svg';
 import rpcIcon from 'in-sdk/tracing/categoryIcons/rpc.svg';
 import eumIcon from 'in-sdk/tracing/categoryIcons/eum.svg';
 
@@ -23,7 +24,8 @@ const categoryIcons = {
   logger: loggerIcon,
   messaging: messagingIcon,
   missing: missingIcon,
-  remote: remoteIcon
+  remote: remoteIcon,
+  xray: xrayIcon
 };
 
 export function getType(span) {

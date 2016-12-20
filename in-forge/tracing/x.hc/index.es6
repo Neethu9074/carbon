@@ -3,7 +3,7 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'x.hc',
-  category: 'http',
+  category: 'xray',
   direction: 'exit',
   searchAliases: ['xray', 'x-ray', 'http'],
 

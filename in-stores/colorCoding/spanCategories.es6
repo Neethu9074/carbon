@@ -10,5 +10,6 @@ export default Object.freeze({
   logger: '#a8b0fc',
   eum: '#e7f57b',
   eumResource: '#fec5d9',
-  missing: '#999999'
+  missing: '#999999',
+  xray: '#faaf34'
 });
