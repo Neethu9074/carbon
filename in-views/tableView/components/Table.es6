@@ -31,7 +31,8 @@ export default connectTo({
       <div className={`${block}__rows`}>
         {snapshotIds ? snapshotIds.map(snapshotId =>
           <TableRow snapshotId={snapshotId}
-                    key={snapshotId} />
+                    key={snapshotId}
+                    plugin={plugin} />
         ) : null}
       </div>
     </div>

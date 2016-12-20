@@ -43,7 +43,7 @@ export const snapshotIds$ = parsedQuery$
   .flatMap(parsedQuery => {
     let luceneQuery = parsedQuery ? parsedQuery.luceneQuery : '';
     if (!parsedQuery || !getSelectedType(parsedQuery)) {
-      luceneQuery += ` plugin_id:${fullyQualifiedPlugins.host}`;
+      luceneQuery += ` type:host`;
     }
 
     return focusedMoment$
