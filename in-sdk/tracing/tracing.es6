@@ -67,6 +67,10 @@ export function getCategoryIcon(category) {
   return categoryIcons[category];
 }
 
+export function isShowSelfTimeForCategory(category) {
+  return category.indexOf('eum') !== 0;
+}
+
 export function shouldShowSelfTime(span) {
   return getSpanDefinition(span.get('name'), span).showSelfTime !== false;
 }

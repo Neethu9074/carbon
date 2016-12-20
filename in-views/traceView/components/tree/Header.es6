@@ -11,6 +11,7 @@ import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
 import DownloadButton from 'in-components/DownloadButton';
+import {isShowSelfTimeForCategory} from 'in-sdk/tracing';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/tracing';
@@ -96,7 +97,10 @@ function TraceHeader({trace, timelineLink}) {
                     {perCategorySummary[category].calls}
                   </span>
                   <span className={`${block}__category-self-time`}>
-                    &nbsp;({msZeroDecimalPlaces(perCategorySummary[category].durationSelf)})
+                    &nbsp;
+                    {isShowSelfTimeForCategory(category) ?
+                      '(' + msZeroDecimalPlaces(perCategorySummary[category].durationSelf) + ')'
+                    : null}
                   </span>
                 </li>
               </Tooltip>
