@@ -1,10 +1,12 @@
 .in-trace-table-row {
-  height: 1.625rem;
-  margin-left: .5rem;
+  display: flex;
 
+  height: 1.625rem;
   line-height: 1.625rem;
-  color: #2D4048;
+  margin-left: 0.5rem;
+
   font-size: .688rem;
+  color: #2D4048;
   cursor: pointer;
 
   &:hover, &--selected.in-trace-table-row {
@@ -13,9 +15,6 @@
   }
 
   &__cell {
-    display: inline-block;
-    box-sizing: border-box;
-
     width: 20%;
     padding-left: 10px;
 

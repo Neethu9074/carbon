@@ -1,4 +1,6 @@
 .in-trace-table-header {
+  display: flex;
+
   border-left: 0.5rem solid #6b8088;
   font-size: .688rem;
   color: #fff;
@@ -11,8 +13,6 @@
 
   &__cell {
     position: relative;
-    display: inline-block;
-    box-sizing: border-box;
     text-transform: capitalize;
     border-right: 1px solid #40535b;
 
@@ -29,23 +29,23 @@
     }
 
     &:nth-child(1) {
-      width: ~"calc(18% - 2px)";
+      width: ~"calc(18% - 1px)";
     }
 
     &:nth-child(2) {
-      width: ~"calc(30% - 2px)";
+      width: ~"calc(29% - 2px)";
     }
 
     &:nth-child(3) {
-      width: ~"calc(13% - 1px)";
+      width: ~"calc(13% + 3px)";
     }
 
     &:nth-child(4) {
-      width: ~"calc(12% - 1px)";
+      width: ~"calc(12% + 2px)";
     }
 
     &:last-child {
-      width: ~"calc(27% + 6px)";
+      width: ~"calc(27% + 1px)";
       border-right: 0;
     }
   }
