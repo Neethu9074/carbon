@@ -4,6 +4,7 @@ import {keys$, enable, disable} from 'in-views/configurationView/subview/EumKeys
 import NewAppForm from 'in-views/configurationView/subview/EumKeys/components/NewAppForm';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Key from 'in-views/configurationView/subview/EumKeys/components/Key';
+import Section from 'in-views/configurationView/components/Section';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
@@ -28,7 +29,9 @@ export default connectTo({
       : null}
 
       {keys != null ?
-        <NewAppForm />
+        <Section>
+          <NewAppForm />
+        </Section>
       : null}
 
       {keys != null ?
