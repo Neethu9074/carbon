@@ -34,7 +34,9 @@ export default function({method, url, queryParams, data, timeout = 30000, respon
             getHeader: name => xhr.getResponseHeader(name)
           };
           if (199 < response.status && response.status < 300) {
-            response.body = responseType === 'json' ? JSON.parse(response.body) : response.body;
+            if (responseType === 'json' && response.body && response.body.length > 0) {
+              response.body = JSON.parse(response.body);
+            }
             observable.emit(response);
           } else {
             debouncedEmitError(new HttpResponseError(response, method, url));
