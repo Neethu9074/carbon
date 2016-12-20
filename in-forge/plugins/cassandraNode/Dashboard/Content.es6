@@ -49,17 +49,27 @@ export default function CassandraDashboard({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
-                           left: 80
+                           left: 80,
+                           right: 80
                          }}
                          y1={{
                            min: 0,
                            metrics: [
-                             'clientrequests.read.count',
+                             'clientrequests.read.count'
+                           ],
+                           labels: [
+                             'Reads'
+                           ],
+                           type: 'line',
+                           formatter: zeroDecimalPlaces
+                         }}
+                         y2={{
+                           min: 0,
+                           metrics: [
                              'clientrequests.write.count'
                            ],
                            labels: [
-                             'Read',
-                             'Write'
+                             'Writes'
                            ],
                            type: 'line',
                            formatter: zeroDecimalPlaces
