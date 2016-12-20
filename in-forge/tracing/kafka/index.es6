@@ -3,7 +3,10 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'kafka',
   category: 'messaging',
-  direction: 'exit',
+  direction(span) {
+    const access = span.getIn(['data', 'kafka', 'access'], 'send');
+    return access.toLowerCase() === 'send' ? 'exit' : 'entry';
+  },
 
   typeName: {
     singular: 'Kafka',
