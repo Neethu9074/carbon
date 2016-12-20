@@ -23,12 +23,12 @@ function Zoom({showZoomPanel}) {
     <div>
       <Control className={`${block}__zoom-in`}
                onClick={() => CameraControllerServiceLocator.zoom(-UNITS_TO_ZOOM, true)}
-               tooltipText='Zoom in.'
+               tooltipText='Zoom in'
                type='plus_without_frame' />
 
       <Control className={`${block}__zoom-out`}
                onClick={() => CameraControllerServiceLocator.zoom(UNITS_TO_ZOOM, true)}
-               tooltipText='Zoom out.'
+               tooltipText='Zoom out'
                type={'minus'} />
     </div>
   );
