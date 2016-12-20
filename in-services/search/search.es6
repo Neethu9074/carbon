@@ -48,7 +48,7 @@ const luceneValueConverters = {
       });
 
     if (/ /.test(escapedValue)) {
-      return `'${escapedValue}'`;
+      return `"${escapedValue}"`;
     }
 
     return escapedValue;

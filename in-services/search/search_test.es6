@@ -31,7 +31,7 @@ describe('in-services/search', () => {
 
   it('must retain groups of words', () => {
     expect(transform('cpuCount <= 18 "fat machine"'))
-      .to.equal("cpuCount:<=18 'fat machine'");
+      .to.equal('cpuCount:<=18 "fat machine"');
   });
 
   it('must not use an equal sign when looking for equality', () => {
@@ -50,12 +50,12 @@ describe('in-services/search', () => {
 
   it('must support key/value string queries', () => {
     expect(transform('fqdn = "foo bar"'))
-      .to.equal("fqdn:'foo bar'");
+      .to.equal('fqdn:"foo bar"');
   });
 
   it('must support searches for tags', () => {
     expect(transform('tag = "production environment"'))
-      .to.equal("tag:'production environment'");
+      .to.equal('tag:"production environment"');
   });
 
   it('must return an empty string when no filters are defined', () => {
