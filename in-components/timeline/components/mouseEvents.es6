@@ -60,9 +60,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   let currentTo;
   const toSubscription = to$.subscribe(_to => currentTo = _to);
 
+  const mouseLeaveSubscription = onLeave(canvas, onMouseLeave);
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
-  const mouseLeaveSubscription = onLeave(canvas, onMouseLeave);
 
   const mouseMoveSubscription = onMove(canvas, e => {
     onMouseMove(e, e.offsetX, e.clientX, e.offsetY, e.clientY);
