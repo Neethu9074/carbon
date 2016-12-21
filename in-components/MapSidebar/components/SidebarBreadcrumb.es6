@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {getLinkToSnapshotInCurrentView} from 'in-stores/navigation';
+import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
-import PluginIcon from 'in-components/PluginIcon';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
@@ -39,8 +39,8 @@ const Crumb = connectTo(props => {
         <a href={snapshotLink}
            title='Select this entity.'
            className={`${crumbElement}-link`}>
-          <PluginIcon className={imgClasses}
-                      snapshot={snapshot} />
+          <HealthyPluginIcon className={imgClasses}
+                             snapshot={snapshot} />
         </a>
       </li>
     </Tooltip>

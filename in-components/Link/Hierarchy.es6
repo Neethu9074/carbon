@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
+import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
 import DashboardLink from 'in-components/Link/DashboardLink';
-import PluginIcon from 'in-components/PluginIcon';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -22,7 +22,7 @@ function Hierarchy({snapshots}) {
     return null;
   }
 
-  let imgClasses = `${block}__icon`;
+  const imgClasses = `${block}__icon`;
 
   return (
     <ul className={block}>
@@ -30,9 +30,9 @@ function Hierarchy({snapshots}) {
         return (
           <li key={snapshot.get('id')}
               className={`${block}__item`}>
-            <PluginIcon className={imgClasses}
-                        color='#000'
-                        snapshot={snapshot} />
+            <HealthyPluginIcon className={imgClasses}
+                               snapshot={snapshot}
+                               fallbackColor='#000' />
             <DashboardLink snapshotId={snapshot.get('id')}>
               {getLabel(snapshot)}
             </DashboardLink>
