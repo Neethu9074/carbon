@@ -28,8 +28,12 @@ export const TooltipShape = rpt.shape({
 export const activeTooltip = create(reemitSpec);
 
 export function setActiveTooltip(tooltip) {
-  tooltip.align = tooltip.align || 'auto';
-  activeTooltip.emit(tooltip);
+  if (!tooltip.content) {
+    clearActiveTooltip();
+  } else {
+    tooltip.align = tooltip.align || 'auto';
+    activeTooltip.emit(tooltip);
+  }
 }
 
 export function clearActiveTooltip() {

@@ -88,23 +88,29 @@ function TraceHeader({trace, timelineLink}) {
           </Tooltip>
 
           <ul className={`${block}__category-list`}>
-            {categories.map(category =>
-              <Tooltip content={`${perCategorySummary[category].calls} ${category} spans at a total self time of ${msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}`}
-                       key={category}>
-                <li className={`${block}__category`}>
-                  <CategoryIcon category={category} />
-                  <span className={`${block}__category-call-count`}>
-                    {perCategorySummary[category].calls}
-                  </span>
-                  <span className={`${block}__category-self-time`}>
-                    &nbsp;
-                    {isShowSelfTimeForCategory(category) ?
-                      '(' + msZeroDecimalPlaces(perCategorySummary[category].durationSelf) + ')'
-                    : null}
-                  </span>
-                </li>
-              </Tooltip>
-            )}
+            {categories.map(category => {
+              let tooltip;
+              if (isShowSelfTimeForCategory(category)) {
+                tooltip = `${perCategorySummary[category].calls} ${category} spans at a total self time of ${msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}`;
+              }
+              return (
+                <Tooltip content={tooltip}
+                         key={category}>
+                  <li className={`${block}__category`}>
+                    <CategoryIcon category={category} />
+                    <span className={`${block}__category-call-count`}>
+                      {perCategorySummary[category].calls}
+                    </span>
+                    <span className={`${block}__category-self-time`}>
+                      &nbsp;
+                      {isShowSelfTimeForCategory(category) ?
+                        '(' + msZeroDecimalPlaces(perCategorySummary[category].durationSelf) + ')'
+                      : null}
+                    </span>
+                  </li>
+                </Tooltip>
+              );
+            })}
           </ul>
         </div>
       </div>
