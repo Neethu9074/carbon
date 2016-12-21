@@ -157,6 +157,23 @@ export function closeDashboard() {
   });
 }
 
+export function getFixedTimeframeUrl(windowSize, to, focusedMoment) {
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(navParams => {
+      if (!focusedMoment) {
+        delete navParams.query.fm;
+      }
+
+      navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
+      navParams.query['timeline.ws'] = encodeURIComponent(windowSize);
+      delete navParams.query['tl.tf'];
+
+      return navParams;
+    })
+    .map(toUrl)
+    .distinct();
+}
 
 export const closeDashboardLink$ = navigationParameters$
   .map(cloneDeep)

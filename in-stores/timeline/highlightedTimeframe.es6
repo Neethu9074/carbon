@@ -15,9 +15,10 @@ export const highlightedTimeframe$ = store.observable;
 // since we want to debounce changes as we would otherwise generate lots and
 // lots of URL changes.
 navigationParameters$
-  .once(params => {
+  .subscribe(params => {
     const tf = params.query[queryKey];
     if (!tf) {
+      store.mutateTo(null);
       return;
     }
 

@@ -32,8 +32,10 @@ export default function createHighlightedTimeframeRenderer(config) {
         return;
       }
 
-      const from = clamp(config.scales.x.getRange(highlightedTimeframe[0]));
-      const to = clamp(config.scales.x.getRange(highlightedTimeframe[1]));
+      const a = clamp(config.scales.x.getRange(highlightedTimeframe[0]));
+      const b = clamp(config.scales.x.getRange(highlightedTimeframe[1]));
+      const from = Math.min(a, b);
+      const to = Math.max(a, b);
       (e.offsetX > from && e.offsetX < to)
         ? eventEmitter.emit('isVisible', true)
         : eventEmitter.emit('isVisible', false);
@@ -46,9 +48,10 @@ export default function createHighlightedTimeframeRenderer(config) {
 
   function update() {
     if (highlightedTimeframe) {
-      const to = clamp(config.scales.x.getRange(highlightedTimeframe[1]));
+      const to = Math.max(clamp(config.scales.x.getRange(highlightedTimeframe[0])),
+                          clamp(config.scales.x.getRange(highlightedTimeframe[1])));
 
-      config.dom.applyButtonContainer.style.left = `${Math.ceil(to)}px`;
+      config.dom.applyButtonContainer.style.left = `${Math.ceil(to)- 23}px`;
       config.dom.applyButtonContainer.style.right = null;
     } else {
       hide();

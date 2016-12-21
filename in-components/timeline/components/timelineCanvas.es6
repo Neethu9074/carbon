@@ -13,6 +13,7 @@ import {timeframe$, to$, from$, setTimelineScale} from 'in-components/timeline/t
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
 import {drawMode$, DRAW_MODES, isCollapsed$} from 'in-components/timeline/timelineStore';
+import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
 import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
 import {updateCanvasDimensions} from 'in-charts/canvas';
@@ -79,6 +80,8 @@ export default function createTimelineRenderer({container, canvas}) {
     drawMode = mode;
     realtimeDrawStream.emit(changeSignal);
   });
+
+  const highlightedTimeframeSubscription = highlightedTimeframe$.distinct().subscribe(() => realtimeDrawStream.emit(changeSignal));
 
   const mouseEvents = createMouseEvents(canvas, scale, realtimeDrawStream);
 
@@ -158,6 +161,7 @@ export default function createTimelineRenderer({container, canvas}) {
     mouseEvents.dispose();
 
     realtimeUpdateEvents.dispose();
+    highlightedTimeframeSubscription.dispose();
     highlightedEventIdSubscription.dispose();
     highlightedTimeframeRenderer.dispose();
     highlightedMomentRenderer.dispose();
