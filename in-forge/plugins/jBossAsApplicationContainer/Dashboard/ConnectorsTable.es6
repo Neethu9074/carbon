@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import {msZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
@@ -55,10 +55,13 @@ function createRow(connectorName, i, context) {
     <td>{connectorName}</td>,
 
     <Mtd metric={'connectors.' + connectorName + '.avgResponseTime'}
+         formatter={msZeroDecimalPlaces}
          snapshot={context.snapshot} />,
     <Mtd metric={'connectors.' + connectorName + '.requests'}
+         formatter={zeroDecimalPlaces}
          snapshot={context.snapshot} />,
     <Mtd metric={'connectors.' + connectorName + '.errors'}
+         formatter={zeroDecimalPlaces}
          snapshot={context.snapshot} />
   ]);
 }
@@ -82,6 +85,7 @@ function createDetails(connectorName, i, context) {
              type: 'line'
            }}
            y2={{
+             formatter: zeroDecimalPlaces,
              metrics: [
                'connectors.' + connectorName + '.requests',
                'connectors.' + connectorName + '.errors'
