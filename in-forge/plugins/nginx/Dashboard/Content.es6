@@ -3,6 +3,7 @@ import React from 'react';
 import {twoDecimalPlaces} from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -10,6 +11,13 @@ import {getLabel} from 'in-sdk/snapshot';
 
 export default function NginxDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
+  const stubStatusUrlFound = snapshot.getIn(['data', 'stubStatusUrlFound']);
+  if (stubStatusUrlFound === false) {
+    return (
+      <DashboardNotification type='info'>
+        stub_status url is not found or not enabled in nginx.conf Please add it and/or enable it in nginx.conf to enable monitoring metrics
+      </DashboardNotification>);
+  }
 
   return (
     <div>
