@@ -81,7 +81,7 @@ export default function createTimelineRenderer({container, canvas}) {
     realtimeDrawStream.emit(changeSignal);
   });
 
-  const highlightedTimeframeSubscription = highlightedTimeframe$.distinct().subscribe(() => realtimeDrawStream.emit(changeSignal));
+  const highlightedTimeframeSubscription = highlightedTimeframe$.subscribe(() => realtimeDrawStream.emit(changeSignal));
 
   const mouseEvents = createMouseEvents(canvas, scale, realtimeDrawStream);
 

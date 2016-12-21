@@ -8,7 +8,17 @@ const store = createStore({
   initialValue: null
 });
 
-export const highlightedTimeframe$ = store.observable;
+export const highlightedTimeframe$ = store.observable.distinct((a, b) => {
+  if ((a && !b) || (!a && b)) {
+    return true;
+  }
+
+  if (!a && !b) {
+    return false;
+  }
+
+  return a[0] !== b[0] || a[1] !== b[1];
+});
 
 
 // Do not use a tracking store to transform URL parameters into the store,
