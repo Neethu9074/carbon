@@ -117,7 +117,7 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
 
-      <DashboardSection title='Time to Tirst Paint'>
+      <DashboardSection title='Time to First Paint'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          margins={{
