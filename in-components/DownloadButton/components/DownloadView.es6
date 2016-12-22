@@ -14,6 +14,7 @@ export default React.createClass({
   displayName: 'DownloadView',
 
   propTypes: {
+    jsonLink: rpt.string,
     getJsonData: rpt.func,
     getCsvData: rpt.func,
     fileName: rpt.string,
@@ -39,6 +40,10 @@ export default React.createClass({
           : null}
           {this.props.getJsonData ?
             <DownloadButtonJson onClick={(fileType) => this.downloadFile(this.props.getJsonData, fileType)} />
+          : null}
+          {this.props.jsonLink ?
+            <DownloadLink label='Download (*.json)'
+                          href={this.props.jsonLink} />
           : null}
         </div>
       </div>
@@ -77,6 +82,18 @@ function DownloadButton({label, onClick}) {
             kind='secondary'
             size='sm'
             onClick={onClick}>
+      {label}
+    </Button>
+  );
+}
+
+function DownloadLink({label, href}) {
+  return (
+    <Button key={label}
+            className={`${block}__button`}
+            kind='secondary'
+            size='sm'
+            href={href}>
       {label}
     </Button>
   );

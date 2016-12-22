@@ -1,17 +1,21 @@
 import React from 'react';
 
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
+import {instanaBaseUrl$} from 'in-stores/navigation';
+import connectTo from 'in-hoc/connectTo';
 
+export default connectTo(props => {
+  return {
+    href: instanaBaseUrl$.map(url => `${url}api/trace/${props.trace.get('traceId')}`)
+  };
+},
+function TraceDownloadView({href}) {
+  if (!href) {
+    return null;
+  }
 
-export default function TraceDownloadView({trace}) {
   return (
-    <DownloadView data={trace}
-                  fileName={`trace-${trace.get('traceId')}`}
-
-                  getJsonData={() => getJsonData(trace)} />
+    <DownloadView data
+                  jsonLink={href} />
   );
-}
-
-function getJsonData(trace) {
-  return JSON.stringify(trace, null, 4);
-}
+});

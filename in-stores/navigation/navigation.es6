@@ -105,6 +105,16 @@ export const homeLink$ = navigationParameters$
   .map(toUrl)
   .distinct();
 
+export const instanaBaseUrl$ = navigationParameters$
+  .map(cloneDeep)
+  .map(params => {
+    params.pathname = '/';
+    params.query = {};
+    return params;
+  })
+  .map(toBaseUrl)
+  .distinct();
+
 
 export function goToDashboard(snapshotId) {
   mutateUrl(params => {
@@ -186,6 +196,10 @@ export const closeDashboardLink$ = navigationParameters$
 
 
 export function toUrl(params) {
+  return `/#${toBaseUrl(params)}`;
+}
+
+export function toBaseUrl(params) {
   let url = params.pathname;
 
   let first = true;
@@ -200,7 +214,7 @@ export function toUrl(params) {
     }
   }
 
-  return `/#${url}`;
+  return url;
 }
 
 
