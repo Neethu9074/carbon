@@ -12,6 +12,7 @@ export default function Button({className,
                                 onClick,
                                 style,
                                 children,
+                                target,
                                 href,
                                 disabled}) {
   let classes = `${block} ${block}--${kind} ${block}--${size}`;
@@ -44,7 +45,8 @@ export default function Button({className,
     <a href={href}
        className={classes}
        onClick={onClick ? onClick : stopPropagation}
-       style={style}>
+       style={style}
+       target={target}>
       {children}
     </a>
   );
@@ -58,6 +60,7 @@ Button.propTypes = {
   type: rpt.oneOf(['button', 'submit']),
   kind: rpt.oneOf(['default', 'primary', 'secondary', 'danger', 'info', 'success']),
   size: rpt.oneOf(['lg', 'sm']),
+  target: rpt.string,
   onClick: rpt.func,
   href: rpt.string,
   disabled: rpt.bool

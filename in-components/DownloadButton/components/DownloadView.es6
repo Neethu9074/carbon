@@ -93,6 +93,7 @@ function DownloadLink({label, href}) {
             className={`${block}__button`}
             kind='secondary'
             size='sm'
+            target='_blank'
             href={href}>
       {label}
     </Button>
