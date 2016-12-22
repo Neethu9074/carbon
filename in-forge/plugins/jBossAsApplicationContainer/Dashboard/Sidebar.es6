@@ -52,20 +52,15 @@ export default function JBossAsSidebar({snapshot}) {
           <Separator />
 
           <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>Sockets</Collapsible.Header>
+            <Collapsible.Header>Ports</Collapsible.Header>
             <Collapsible.Content>
-              {sockets.map((data, name) =>
-                <Collapsible initiallyOpen={false}>
-                  <Collapsible.Header>{name}</Collapsible.Header>
-                  <Collapsible.Content>
-                    <DescriptionList>
-                      <DescriptionItem title='Port'>
-                        {data.get('port')}
-                      </DescriptionItem>
-                    </DescriptionList>
-                  </Collapsible.Content>
-                </Collapsible>
-              ).valueSeq().toArray()}
+              <DescriptionList>
+                {sockets.map((data, name) =>
+                  <DescriptionItem key={name} title={name}>
+                    {data.get('port')}
+                  </DescriptionItem>
+                ).valueSeq().toArray()}
+              </DescriptionList>
             </Collapsible.Content>
           </Collapsible>
         </div>

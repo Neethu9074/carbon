@@ -35,8 +35,8 @@ export default function DeploymentsTable({snapshot, timeframe}) {
 }
 
 
-function getKey(indexName) {
-  return indexName;
+function getKey(deployment, runtimeName) {
+  return runtimeName;
 }
 
 
