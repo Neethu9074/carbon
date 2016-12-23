@@ -28,6 +28,19 @@ export const traceViewLinkWithoutEumTraces$ = navigationParameters$
   .distinct();
 
 
+export function getTraceViewLinkShowingTrace(traceId) {
+  const encodedTraceId = encodeURIComponent(traceId);
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(params => {
+      params.pathname = '/traces';
+      params.query.traceId = encodedTraceId;
+      return params;
+    })
+    .map(toUrl)
+    .distinct();
+}
+
 export const isTraceView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/traces') === 0)
   .distinct();

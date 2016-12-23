@@ -5,7 +5,7 @@ registerSpanDefinition({
   type: 'page.xhr',
   category: 'http',
   direction: 'exit',
-  searchAliases: ['page', 'eum', 'xhr'],
+  searchAliases: ['page', 'eum', 'xhr', 'ajax'],
 
   typeName: {
     singular: 'XMLHttpRequest',

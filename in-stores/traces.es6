@@ -37,7 +37,7 @@ export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
  * Selected trace and trace id
  * ############################
  */
-const selectedTraceId$ = createTrackingStore({
+export const selectedTraceId$ = createTrackingStore({
   name: 'in-stores/traces/selectedTraceId',
   observable: navigationParameters$
     .map(params => {
