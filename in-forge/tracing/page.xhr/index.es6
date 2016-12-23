@@ -3,8 +3,9 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'page.xhr',
-  category: 'eum',
+  category: 'http',
   direction: 'exit',
+  searchAliases: ['page', 'eum', 'xhr'],
 
   typeName: {
     singular: 'XMLHttpRequest',
