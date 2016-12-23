@@ -1,13 +1,13 @@
 export default function memoize(createObservable, idGenerator, tti = 10000) {
   const cache = {};
 
-  return function memoizedObservableCreator(arg) {
-    const id = idGenerator(arg);
+  return function memoizedObservableCreator() {
+    const id = idGenerator.apply(this, arguments);
     if (id in cache) {
       return cache[id];
     }
 
-    const observable = createObservable(arg)
+    const observable = createObservable.apply(this, arguments)
       .delayedStop(tti, () => {
         delete cache[id];
       });
