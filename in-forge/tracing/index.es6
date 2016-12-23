@@ -45,6 +45,7 @@ import './node.http.server';
 import './okhttp';
 import './page.err';
 import './page.res';
+import './page.xhr';
 import './page';
 import './pdo';
 import './php';
