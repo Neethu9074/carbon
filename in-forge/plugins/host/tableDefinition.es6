@@ -7,9 +7,9 @@ import DashboardLink from 'in-components/Link/DashboardLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getFoundations} from 'in-stores/snapshot';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {always} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import {getZone} from 'in-stores/zone';
 
 const nonVirtualized$ = always({
@@ -75,8 +75,7 @@ export default [
       const data = snapshot.get('data');
       return {
         content: (
-          <ImageAndLabel imgSrc={getIcon(snapshot)}
-                         imgAlt='Operating System'>
+          <ImageAndLabel snapshot={snapshot}>
             {data.get('os.version', '')} ({data.get('os.arch', '')})
           </ImageAndLabel>
         ),
@@ -102,8 +101,7 @@ export default [
               const instanceType = foundation.getIn(['data', 'instance-type']) || '';
               return {
                 content: (
-                  <ImageAndLabel imgSrc={getIcon(foundation)}
-                                 imgAlt='Instance hosting provider icon'>
+                  <ImageAndLabel snapshot={snapshot}>
                     {instanceType}
                   </ImageAndLabel>
                 ),

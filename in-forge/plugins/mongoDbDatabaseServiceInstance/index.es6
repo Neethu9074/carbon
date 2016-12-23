@@ -1,14 +1,15 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/mongoDb/icon.svg';
+import iconSvgPath from 'in-forge/plugins/mongoDb/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.mongoDbDatabaseServiceInstance,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
 
   pluginName: {

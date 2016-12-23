@@ -4,9 +4,10 @@ import React from 'react';
 import {ClickableSnapshotListItem, ClickableList} from 'in-sdk/components/sidebar/ClickableList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
+import PluginIcon from 'in-components/PluginIcon';
 import {getSnapshots} from 'in-stores/snapshot';
 import {getPlural} from 'in-sdk/pluginName';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './RelatedSnapshotList.less';
@@ -57,9 +58,8 @@ export default connectTo(props => {
             <Collapsible initiallyOpen={this.props.initiallyOpen}>
               <Collapsible.Header className={block + '__header'}>
                 <div className={block + '__header'}>
-                  <img src={getIcon(plugin)}
-                       alt='plugin icon'
-                       className={block + '__plugin-icon'} />
+                  <PluginIcon className={block + '__plugin-icon'}
+                              snapshot={groups[plugin][0]} />
                   <span>
                     {getPlural(plugin)} ({groups[plugin].length})
                   </span>

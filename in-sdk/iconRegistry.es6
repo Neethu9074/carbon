@@ -1,36 +1,34 @@
-import pbst from 'in-sdk/util/pluginBasedSnapshotTransformation';
+import unknownIconSvgPath from './unknownIconPath';
 
-import unknownIconPath from './unknown_icon.svg';
 
-const iconRegistry = {};
+const iconSvgPathRegistry = {};
 
-export function addIconToRegistry(icon) {
-  iconRegistry[icon.id] = icon;
+export function addIconSvgPathToRegistry(plugin, iconPath) {
+  iconSvgPathRegistry[plugin] = iconPath;
 }
 
-addIconToRegistry({
-  id: 'unknown',
-  image: unknownIconPath
-});
+const iconPathCallbacks = {};
 
-export function addIconsToRegistry(icons) {
-  icons.forEach(icon => addIconToRegistry(icon));
+export function addIconPathCallback(plugin, callback) {
+  iconPathCallbacks[plugin] = callback;
 }
 
-export function getIconById(id) {
-  const match = iconRegistry[id];
-  if (match) {
-    return match.image;
-  }
-  return unknownIconPath;
+export function getIconSvgPath(snapshot) {
+  const match = iconSvgPathRegistry[getIconPath(snapshot)];
+  return match ? match : unknownIconSvgPath;
 }
 
-export function getAllIcons() {
-  return Object.keys(iconRegistry).map(key => iconRegistry[key]);
+export function getIconPath(snapshot) {
+  const plugin = snapshot.get('plugin');
+  const callback = iconPathCallbacks[plugin];
+  return callback ? callback(snapshot) : plugin;
 }
 
-
-const transformer = pbst('icon', snapshot => snapshot.get('plugin'));
-
-export const addMapping = transformer.addMapping;
-export const getIconPath = transformer.get;
+export function getAllSvgIconPaths() {
+  return Object.keys(iconSvgPathRegistry).map(key => {
+    return {
+      id: key,
+      path: iconSvgPathRegistry[key]
+    };
+  });
+}

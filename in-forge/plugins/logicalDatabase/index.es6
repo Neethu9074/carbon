@@ -3,11 +3,13 @@ import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinit
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-sdk/tracing/categoryIcons/database.svg';
+import iconSvgPath from 'in-forge/plugins/databaseServiceInstance/iconPath';
+
 
 registerSnapshotDefinition({
   plugin: plugins.logicalDatabase,
-  icon,
+
+  iconSvgPath,
   chartWiggleRoom: 20000,
   namesForTypeSearch: ['service'],
   tableDefinition,

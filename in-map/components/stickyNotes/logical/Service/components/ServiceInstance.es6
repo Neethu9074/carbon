@@ -2,8 +2,9 @@ import React from 'react';
 
 import {getSnapshot, setSelectedSnapshotId, selectedSnapshotId} from 'in-stores/snapshot';
 import HealthIconListing from 'in-components/HealthIconListing';
-import {getIcon, getLabel} from 'in-sdk/snapshot';
+import PluginIcon from 'in-components/PluginIcon';
 import KPIList from 'in-components/KPIList';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import {getKpis} from 'in-sdk/kpi';
 
@@ -34,10 +35,9 @@ export default connectTo(props => {
         onClick={() => setSelectedSnapshotId(snapshotId)}>
 
       <div className={block + '__entity-information'}>
-        <img src={getIcon(snapshot)}
-             alt='plugin icon'
-             className={block + '__plugin-icon'} />
-
+        <PluginIcon className={block + '__plugin-icon'}
+                    dimension={18}
+                    snapshot={snapshot} />
         {getLabel(snapshot)}
       </div>
 

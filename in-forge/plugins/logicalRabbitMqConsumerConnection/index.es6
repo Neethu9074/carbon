@@ -1,14 +1,15 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/logicalRabbitMqPublisherConnection/icon.svg';
+import iconSvgPath from 'in-forge/plugins/logicalRabbitMqPublisherConnection/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.logicalRabbitMqConsumerConnection,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
 
   chartWiggleRoom: 20000,

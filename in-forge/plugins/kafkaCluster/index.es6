@@ -3,14 +3,15 @@ import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/kafka/icon.svg';
+import iconSvgPath from 'in-forge/plugins/kafka/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.kafkaCluster,
-  icon,
+
+  iconSvgPath,
   metricDefinitions
 });
 

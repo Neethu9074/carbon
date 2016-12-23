@@ -3,14 +3,15 @@ import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/cassandraNode/icon.svg';
+import iconSvgPath from 'in-forge/plugins/cassandraNode/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.cassandraCluster,
-  icon,
+
+  iconSvgPath,
   metricDefinitions
 });
 

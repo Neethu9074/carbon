@@ -4,7 +4,8 @@ import {highligtedSuggestion$} from 'in-components/SearchBar/stores/highlightedS
 import {isFocused$, setFocused} from 'in-components/SearchBar/stores/focus';
 import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
 import {searchMatches$, error$} from 'in-stores/search';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
+import PluginIcon from 'in-components/PluginIcon';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './Suggestions.less';
@@ -35,10 +36,8 @@ const Suggestion = connectTo(props => {
              setSelectedSnapshotId(snapshot.get('id'));
              setFocused(false);
            }}>
-        <img src={getIcon(snapshot)}
-             alt={`Icon for entity: ${label}`}
-             className={`${block}__icon`} />
-
+        <PluginIcon className={`${block}__icon`}
+                    snapshot={snapshot} />
         <span className={`${block}__label`}>
           {label}
         </span>

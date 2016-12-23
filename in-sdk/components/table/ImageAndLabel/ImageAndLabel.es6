@@ -1,16 +1,18 @@
 import React from 'react';
 
+import PluginIcon from 'in-components/PluginIcon';
+
 import './ImageAndLabel.less';
+
 
 const block = 'in-table-view-image-and-label';
 
-export default function ImageAndLabel({imgSrc, imgAlt, children}) {
+export default function ImageAndLabel({snapshot, children}) {
   return (
     <div className={block}>
-      <img src={imgSrc}
-           alt={imgAlt}
-           className={`${block}__image`} />
-
+      <PluginIcon className={`${block}__image`}
+                  color='#000'
+                  snapshot={snapshot} />
       {children}
     </div>
   );

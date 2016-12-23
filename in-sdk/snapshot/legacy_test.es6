@@ -40,17 +40,4 @@ describe('in-sdk/snapshot/legacy', () => {
       expect(mod.getLabel(snapshot)).to.equal(UNKNOWN_LABEL);
     });
   });
-
-  describe('icons', () => {
-
-    it('should retrieve the icon via a finder', () => {
-      expect(mod.getIcon(snapshot)).to.not.equal(undefined);
-    });
-
-    it('should retrieve undefined for unknown plugins', () => {
-      expect(mod.getIcon('unknownId')).to.not.equal(undefined);
-    });
-
-  });
-
 });

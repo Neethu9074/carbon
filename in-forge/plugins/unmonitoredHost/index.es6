@@ -1,9 +1,8 @@
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-sdk/unknown_icon.svg';
+import iconSvgPath from 'in-sdk/unknownIconPath';
 
 import metricDefinitions from './metricDefinitions';
 
@@ -11,6 +10,7 @@ import metricDefinitions from './metricDefinitions';
 registerSnapshotDefinition({
   plugin: plugins.unmonitoredHost,
   metricDefinitions,
+  iconSvgPath,
 
   getPower() {
     return 1;
@@ -24,11 +24,6 @@ setHumanReadablePluginName(
 );
 
 addLabelFinder(plugins.unmonitoredHost, labelFinder);
-
-addIconToRegistry({
-  id: plugins.unmonitoredHost,
-  image: icon
-});
 
 function labelFinder(snapshot) {
   const ip = snapshot.getIn(['data', 'ipv4']);

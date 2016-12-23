@@ -1,11 +1,12 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-sdk/unknown_icon.svg';
+import iconSvgPath from 'in-sdk/unknownIconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.logicalPdoConnection,
-  icon,
+
+  iconSvgPath,
   chartWiggleRoom: 20000,
 
   pluginName: {

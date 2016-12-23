@@ -2,10 +2,11 @@ import React from 'react';
 
 import {getLinkToSnapshotInCurrentView} from 'in-stores/navigation';
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
-import {getIcon, getLabel} from 'in-sdk/snapshot';
+import PluginIcon from 'in-components/PluginIcon';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './SidebarBreadcrumb.less';
@@ -23,7 +24,6 @@ const Crumb = connectTo(props => {
     return null;
   }
 
-  const icon = getIcon(snapshot);
   const tooltip = `${getSingular(snapshot.get('plugin'))}: ${getLabel(snapshot)}`;
 
   let imgClasses = `${crumbElement}-icon`;
@@ -39,9 +39,8 @@ const Crumb = connectTo(props => {
         <a href={snapshotLink}
            title='Select this entity.'
            className={`${crumbElement}-link`}>
-          <img src={icon}
-               alt='Icon for this type of entity.'
-               className={imgClasses} />
+          <PluginIcon className={imgClasses}
+                      snapshot={snapshot} />
         </a>
       </li>
     </Tooltip>

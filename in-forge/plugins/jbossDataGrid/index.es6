@@ -5,12 +5,14 @@ import {emptyMap} from 'in-services/fixedImmutables';
 import {plugins} from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 
 registerSnapshotDefinition({
   plugin: plugins.jbossdatagrid,
-  icon,
+
+  iconSvgPath,
   metricDefinitions
 });
 

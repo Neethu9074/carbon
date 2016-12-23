@@ -2,20 +2,8 @@ import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 
 import metricDefinitions from './metricDefinitions';
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
 
-
-const iconMapping = {
-  [fullyQualifiedPlugins.logicalHttpConnection]: plugins.unknownService,
-  [fullyQualifiedPlugins.logicalJdbcConnection]: plugins.jvmRuntimePlatform,
-  [fullyQualifiedPlugins.logicalKafkaPublisherConnection]: plugins.kafka,
-  [fullyQualifiedPlugins.logicalKafkaConsumerConnection]: plugins.kafka,
-  [fullyQualifiedPlugins.logicalMongoDbConnection]: plugins.mongoDb,
-  [fullyQualifiedPlugins.logicalRabbitMqPublisherConnection]: plugins.rabbitMq,
-  [fullyQualifiedPlugins.logicalRabbitMqConsumerConnection]: plugins.rabbitMq,
-  [fullyQualifiedPlugins.logicalCassandraConnection]: plugins.cassandraNode,
-  [fullyQualifiedPlugins.logicalElasticSearchConnection]: plugins.elasticsearchNod
-};
 
 const labelMapping = {
   [fullyQualifiedPlugins.logicalHttpConnection]: 'Unknown Http Service',
@@ -31,7 +19,8 @@ const labelMapping = {
 
 registerSnapshotDefinition({
   plugin: plugins.unknownService,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
 
   pluginName: {
@@ -43,9 +32,5 @@ registerSnapshotDefinition({
 
   getLabel(snapshot) {
     return labelMapping[snapshot.get('plugin')] || 'Unknown Service';
-  },
-
-  getIcon(snapshot) {
-    return iconMapping[snapshot.get('plugin')] || plugins.unknownService;
   }
 });

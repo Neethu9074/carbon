@@ -3,11 +3,12 @@ import React from 'react';
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {getDashboardLink} from 'in-stores/navigation';
-import {getIcon, getLabel} from 'in-sdk/snapshot';
+import PluginIcon from 'in-components/PluginIcon';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './DashboardBreadcrumb.less';
@@ -34,8 +35,7 @@ const Crumb = connectTo(props => {
   }
 
   const label = getSingular(snapshot.get('plugin'));
-  const icon = getIcon(snapshot);
-  const tooltip = `${getSingular(snapshot.get('plugin'))}: ${getLabel(snapshot)}`;
+  const tooltip = `${label}: ${getLabel(snapshot)}`;
 
   let classes = crumbElement;
   const isSelected = snapshot.get('id') === selectedSnapshotId;
@@ -50,9 +50,9 @@ const Crumb = connectTo(props => {
         <a href={snapshotLink}
            title='Open dashboard for this entity.'
            className={`${crumbElement}-link`}>
-          <img src={icon}
-               alt='Icon for this type of entity.'
-               className={`${crumbElement}-icon`} />
+          <PluginIcon className={`${crumbElement}-icon`}
+                      dimension={14}
+                      snapshot={snapshot} />
           {label}
         </a>
       </li>
@@ -81,11 +81,11 @@ export default getPhysicalHierarchy(function DashboardBreadcrumb({physicalHierar
 
           {i !== physicalHierarchy.length - 1 ?
             <div>
-            <SvgIcon className={`${block}__crumb-separator`}
-                     type='chevron_right'
-                     width={8}
-                     height={8}
-                     color='#D5DFE4' />
+              <SvgIcon className={`${block}__crumb-separator`}
+                       type='chevron_right'
+                       width={8}
+                       height={8}
+                       color='#D5DFE4' />
             </div>
           : null}
         </div>

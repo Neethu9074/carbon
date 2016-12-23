@@ -4,14 +4,15 @@ import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/jbossDataGrid/icon.svg';
+import iconSvgPath from 'in-forge/plugins/jbossDataGrid/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.jbossas,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
   supportsCodeView,
   getCodeView

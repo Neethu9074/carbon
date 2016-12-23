@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {getIcon, getLabel} from 'in-sdk/snapshot';
+import PluginIcon from 'in-components/PluginIcon';
 import {getSnapshot} from 'in-stores/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './SnapshotDescription.less';
@@ -25,9 +26,9 @@ export default connectTo(props => {
 
     return (
       <div className={block}>
-        <img src={getIcon(snapshot)}
-             alt='Snapshot icon'
-             className={block + '__icon'} />
+        <PluginIcon className={block + '__icon'}
+                    dimension={13}
+                    snapshot={snapshot} />
         <span className={block + '__label'}>
           {getLabel(snapshot)}
         </span>

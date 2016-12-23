@@ -2,14 +2,15 @@ import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinit
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-sdk/unknown_icon.svg';
+import iconSvgPath from 'in-sdk/unknownIconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.defaultLogicalService,
-  icon,
+
+  iconSvgPath,
   namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,

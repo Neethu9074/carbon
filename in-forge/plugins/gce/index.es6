@@ -2,7 +2,8 @@ import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 
 registerSnapshotDefinition({
@@ -14,7 +15,8 @@ registerSnapshotDefinition({
 
   namesForTypeSearch: ['gce'],
 
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
 
   getLabel(snapshot) {

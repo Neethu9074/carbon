@@ -1,13 +1,12 @@
 import React from 'react';
 
+import {addIconSvgPathToRegistry, addIconPathCallback} from 'in-sdk/iconRegistry';
 import {setAggregation, setStatAggregation} from 'in-sdk/metrics/aggregation';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import {addMapping as addIconMapping} from 'in-sdk/iconRegistry';
 import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {registerMetricDefinition} from 'in-sdk/metrics';
 import {addSearchableEntityType} from 'in-sdk/search';
-import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 
@@ -21,6 +20,7 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerLegacySdkHooks(snapshotDefinition);
   registerSearchHooks(snapshotDefinition);
   registerMetricDefinitions(snapshotDefinition);
+  registerIconPath(snapshotDefinition);
 }
 
 
@@ -64,26 +64,6 @@ function enrichTableDefinition(snapshotDefinition) {
 
 
 function registerLegacySdkHooks(snapshotDefinition) {
-  if (snapshotDefinition.icon) {
-    addIconToRegistry({
-      id: snapshotDefinition.plugin,
-      image: snapshotDefinition.icon
-    });
-  }
-
-  if (snapshotDefinition.icons) {
-    Object.keys(snapshotDefinition.icons).forEach(key => {
-      addIconToRegistry({
-        id: key,
-        image: snapshotDefinition.icons[key]
-      });
-    });
-  }
-
-  if (snapshotDefinition.getIcon) {
-    addIconMapping(snapshotDefinition.plugin, snapshotDefinition.getIcon);
-  }
-
   if (snapshotDefinition.pluginName) {
     setHumanReadablePluginName(
       snapshotDefinition.plugin,
@@ -128,4 +108,24 @@ function registerMetricDefinitions(snapshotDefinition) {
   }
   snapshotDefinition.metricDefinitions
     .forEach(metricDefinition => registerMetricDefinition(snapshotDefinition.plugin, metricDefinition));
+}
+
+function registerIconPath(snapshotDefinition) {
+  if (snapshotDefinition.getIconPath) {
+    addIconPathCallback(snapshotDefinition.plugin, snapshotDefinition.getIconPath);
+  }
+
+  let iconPath;
+  let icons = snapshotDefinition.icons;
+  if (snapshotDefinition.iconSvgPath) {
+    iconPath = snapshotDefinition.iconSvgPath;
+  }
+  if (icons) {
+    Object.keys(icons).forEach(plugin => {
+      addIconSvgPathToRegistry(plugin, icons[plugin]);
+    });
+  }
+  if (iconPath) {
+    addIconSvgPathToRegistry(snapshotDefinition.plugin, iconPath);
+  }
 }

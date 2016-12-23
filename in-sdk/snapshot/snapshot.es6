@@ -1,7 +1,7 @@
 export {registerSnapshotDefinition, getSnapshotDefinition} from 'in-sdk/snapshot/registry';
-export {addLabelFinder, getLabel, getIcon} from 'in-sdk/snapshot/legacy';
-
+export {addLabelFinder, getLabel} from 'in-sdk/snapshot/legacy';
 import {getSnapshotDefinition} from 'in-sdk/snapshot/registry';
+export {getIconSvgPath} from 'in-sdk/iconRegistry';
 
 
 export function getChartWiggleRoom(plugin) {

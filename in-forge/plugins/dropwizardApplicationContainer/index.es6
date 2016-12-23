@@ -4,12 +4,14 @@ import {plugins} from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
 import tableDefinition from './tableDefinition';
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 
 registerSnapshotDefinition({
   plugin: plugins.dropwizard,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
   tableDefinition,
   supportsCodeView,

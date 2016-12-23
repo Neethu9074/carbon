@@ -6,8 +6,8 @@ import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
 import DashboardLink from 'in-components/Link/DashboardLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
+import {getLabel} from 'in-sdk/snapshot';
 
 export default [
   {
@@ -18,8 +18,7 @@ export default [
       return {
         sortable: pluginName,
         content: (
-          <ImageAndLabel imgSrc={getIcon(snapshot)}
-                         imgAlt={pluginName}>
+          <ImageAndLabel snapshot={snapshot}>
             {pluginName}
           </ImageAndLabel>
         )

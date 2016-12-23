@@ -1,14 +1,15 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-sdk/unknown_icon.svg';
+import iconSvgPath from 'in-sdk/unknownIconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.defaultLogicalConnection,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
   chartWiggleRoom: 20000,
 

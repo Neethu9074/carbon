@@ -1,14 +1,15 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/logicalKafkaPublisherConnection/icon.svg';
+import iconSvgPath from 'in-forge/plugins/logicalKafkaPublisherConnection/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.logicalKafkaConsumerConnection,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
 
   chartWiggleRoom: 20000,
