@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {emptyArray} from 'in-services/fixedObjects';
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {emptyArray} from 'in-services/fixedObjects';
 
 export default function RubyInfo({snapshot}) {
   const data = snapshot.get('data');
@@ -17,6 +18,7 @@ export default function RubyInfo({snapshot}) {
       <DescriptionItem title='Framework'>
         {data.get('framework')}
       </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Process ID'>
         {data.get('pid')}
       </DescriptionItem>

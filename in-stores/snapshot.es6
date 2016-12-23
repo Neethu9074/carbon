@@ -12,6 +12,7 @@ import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {alwaysNull, alwaysEmptyArray} from 'in-services/fixedStreams';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
 
@@ -123,6 +124,38 @@ export function getSnapshots(snapshotIds, time) {
     // milliseconds is enough.
     .throttle(100);
 }
+
+
+// This is useful to retrieve a process or host snapshot for another snapshot, e.g. JVM, that is
+// located within the physical hierarchy. While the logic looks rather inefficient, the truth is
+// that most of this data is already available in the UI. Should we discover that this function
+// is used multiple times within the same view and outside of dashboards or sidebars, then we
+// should move this logic to the backend.
+export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
+  function getSnapshotFromPhysicalHierarchyByPlugin(snapshotId, plugin) {
+    return getPhysicalHierarchy(snapshotId)
+      .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id).startWith(null))))
+      .debounce(300)
+      .map(snapshots => {
+        for (let i = 0, len = snapshots.length; i < len; i++) {
+          const snapshot = snapshots[i];
+
+          // Snapshots may not exist since we are forcing the stream to start with null so
+          // that combineLatest can fire immediately.
+          if (snapshot && snapshot.get('plugin') === plugin) {
+            return snapshot;
+          }
+        }
+        return undefined;
+      })
+      .distinct();
+  },
+
+  (snapshotId, plugin) => snapshotId + plugin,
+
+  3000
+);
+
 
 
 export function getPhysicalHierarchy(snapshotId) {

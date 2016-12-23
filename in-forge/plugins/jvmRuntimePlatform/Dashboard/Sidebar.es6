@@ -9,6 +9,7 @@ import List from 'in-sdk/components/sidebar/List';
 import AppInfo from '../AppInfo';
 import Info from '../Info';
 
+
 export default function JvmRuntimeSidebar({snapshot}) {
   const args = snapshot.getIn(['data', 'jvm.args']);
 
