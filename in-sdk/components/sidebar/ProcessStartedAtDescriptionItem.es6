@@ -1,8 +1,8 @@
 import React from 'react';
 
 import getSnapshotFromHierarchyByPlugin from 'in-sdk/components/hoc/getSnapshotFromHierarchyByPlugin';
+import {formatDateTime, fromNow} from 'in-services/formatters/date';
 import {DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 import {plugins} from 'in-forge/constants';
 
 export default getSnapshotFromHierarchyByPlugin(plugins.process,
@@ -11,9 +11,14 @@ export default getSnapshotFromHierarchyByPlugin(plugins.process,
     return null;
   }
 
+  const start = processSnapshot.getIn(['data', 'start']);
+  if (!start) {
+    return null;
+  }
+
   return (
     <DescriptionItem title='Started At'>
-      {formatDateTime(processSnapshot.getIn(['data', 'start']))}
+      {formatDateTime(start)} ({fromNow(start)})
     </DescriptionItem>
   );
 });
