@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {formatDateTime} from 'in-services/formatters/date';
-
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 
@@ -18,9 +17,7 @@ export default function MariaDbInfo({snapshot}) {
       <DescriptionItem title='Version'>
         {getVersion(data)}
       </DescriptionItem>
-      <DescriptionItem title='Started At'>
-        {formatDateTime(data.get('startedAt'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Role'>
         {data.get('role')}
       </DescriptionItem>

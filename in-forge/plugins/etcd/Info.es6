@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 
 export default function EtcdInfo({snapshot}) {
   const data = snapshot.get('data');
@@ -29,9 +29,7 @@ export default function EtcdInfo({snapshot}) {
       <DescriptionItem title='State'>
         {data.get('state')}
       </DescriptionItem>
-      <DescriptionItem title='Started at'>
-        {formatDateTime(data.get('started_at'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 import {yesOrNo} from 'in-services/formatters/boolean';
 import MetricValue from 'in-components/MetricValue';
 
@@ -30,9 +30,7 @@ export default function RedisInfo({snapshot}) {
       <DescriptionItem title='Max Clients'>
         {data.get('maxclients')}
       </DescriptionItem>
-      <DescriptionItem title='Started At'>
-        {formatDateTime(data.get('started_at'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Role'>
         {role}
       </DescriptionItem>

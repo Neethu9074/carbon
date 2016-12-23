@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 
 export default function StandaloneInfo({snapshot}) {
   const data = snapshot.get('data');
@@ -16,9 +16,7 @@ export default function StandaloneInfo({snapshot}) {
       <DescriptionItem title='Client'>
         {data.get('client_port')}
       </DescriptionItem>
-      <DescriptionItem title='Started At'>
-        {formatDateTime(data.get('started_at'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );
 }

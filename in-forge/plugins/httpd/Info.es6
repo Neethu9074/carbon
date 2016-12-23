@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 
 
 export default function HttpdInfo({snapshot}) {
@@ -17,9 +17,7 @@ export default function HttpdInfo({snapshot}) {
       <DescriptionItem title='Architecture'>
         {data.get('architecture')}
       </DescriptionItem>
-      <DescriptionItem title='Started at'>
-        {formatDateTime(data.get('started_at'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Max workers'>
         {data.get('max_workers')}
       </DescriptionItem>

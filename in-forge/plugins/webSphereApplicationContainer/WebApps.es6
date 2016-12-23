@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import {DescriptionList} from 'in-components/DescriptionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import {formatDateTime} from 'in-services/formatters/date';
 import {emptyMap} from 'in-services/fixedImmutables';
 
 
@@ -16,6 +16,7 @@ export default function WebApps({snapshot}) {
   return (
     <div>
       <Separator />
+
       {webApps.map((info, webAppName) =>
         <Collapsible initiallyOpen={false}
                      key={webAppName}>
@@ -24,9 +25,7 @@ export default function WebApps({snapshot}) {
           </Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-              <DescriptionItem title='Started At'>
-                {formatDateTime(info.get('startedAt'))}
-              </DescriptionItem>
+              <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
             </DescriptionList>
           </Collapsible.Content>
         </Collapsible>

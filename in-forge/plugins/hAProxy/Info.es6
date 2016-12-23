@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {formatDateTime} from 'in-services/formatters/date';
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 
@@ -15,9 +15,7 @@ export default function HAProxyInfo({snapshot}) {
       <DescriptionItem title='Name'>
         {data.get('info.name')}
       </DescriptionItem>
-      <DescriptionItem title='Started at'>
-        {formatDateTime(data.get('info.startedAt'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Max Memory'>
         {data.get('info.memmax')}
       </DescriptionItem>

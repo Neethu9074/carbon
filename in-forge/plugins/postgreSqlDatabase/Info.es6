@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 
 
 export default function PostgreSqlInfo({snapshot}) {
@@ -18,9 +18,7 @@ export default function PostgreSqlInfo({snapshot}) {
       <DescriptionItem title='Version'>
         {data.get('variables.VERSION')}
       </DescriptionItem>
-      <DescriptionItem title='Started At'>
-        {formatDateTime(data.get('variables.started_at'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );
 }

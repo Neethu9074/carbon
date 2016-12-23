@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 
 export default function GlassfishInfo({snapshot}) {
   const data = snapshot.get('data');
@@ -16,9 +16,7 @@ export default function GlassfishInfo({snapshot}) {
       <DescriptionItem title='Version'>
         {data.get('version')}
       </DescriptionItem>
-      <DescriptionItem title='Started at'>
-        {formatDateTime(data.get('started_at'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Domain Name'>
         {data.get('domain_name')}
       </DescriptionItem>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {formatDateTime} from 'in-services/formatters/date';
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 export default function VarnishInfo({snapshot}) {
@@ -14,9 +14,7 @@ export default function VarnishInfo({snapshot}) {
       <DescriptionItem title='Version'>
         {data.get('version')}
       </DescriptionItem>
-      <DescriptionItem title='Started at'>
-        {formatDateTime(data.get('started_at'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Thread pools'>
         {data.get('thread_pools')}
       </DescriptionItem>

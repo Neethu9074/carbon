@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 import {emptyList} from 'in-services/fixedImmutables';
 
 
@@ -20,9 +20,7 @@ export default function SpringbootInfo({snapshot}) {
       <DescriptionItem title='Springboot Version'>
         {data.get('springBootVersion')}
       </DescriptionItem>
-      <DescriptionItem title='Started At'>
-        {formatDateTime(data.get('startedAt'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Status'>
         {data.get('status')}
       </DescriptionItem>

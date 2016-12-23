@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 import {emptyList} from 'in-services/fixedImmutables';
 
 
@@ -15,9 +15,7 @@ export default function Info({snapshot}) {
       <DescriptionItem title='Broker Name'>
         {data.get('brokerName')}
       </DescriptionItem>
-      <DescriptionItem title='Started At'>
-        {formatDateTime(data.get('startedAt'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='Health Status'>
         {data.get('healthStatus')}
       </DescriptionItem>

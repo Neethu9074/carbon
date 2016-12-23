@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
 
 
 export default function OracleDBInfo({snapshot}) {
@@ -15,9 +15,7 @@ export default function OracleDBInfo({snapshot}) {
       <DescriptionItem title='Oracle SID'>
         {data.get('databaseSID')}
       </DescriptionItem>
-      <DescriptionItem title='Started At'>
-        {formatDateTime(data.get('startedAt'))}
-      </DescriptionItem>
+      <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title='CPU Count'>
         {data.get('cpuCount')}
       </DescriptionItem>
