@@ -1,6 +1,7 @@
 import React from 'react';
 
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
+import {getServiceSideForOverview} from 'in-sdk/tracing';
 
 import './TraceTableRow.less';
 
@@ -13,6 +14,10 @@ export default function TraceTableRow({selectedTraceId, trace, onClick}) {
   if (selectedTraceId === trace.id) {
     classes += ' ' + block + '--selected';
   }
+
+  const side = getServiceSideForOverview(trace.raw);
+  const serviceSnapshotId = trace[`${side}ServiceId`];
+
   return (
     <div className={classes}
          onClick={() => onClick(trace.id)}>
@@ -29,8 +34,8 @@ export default function TraceTableRow({selectedTraceId, trace, onClick}) {
         {trace.totalErrorCount}
       </span>
       <span className={cellClassName}>
-        {trace.serviceSnapshotId ?
-          <EntityColumnContent serviceSnapshotId={trace.serviceSnapshotId}
+        {serviceSnapshotId ?
+          <EntityColumnContent serviceSnapshotId={serviceSnapshotId}
                                time={trace.startMillis} />
         : null}
       </span>

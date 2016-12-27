@@ -1,3 +1,5 @@
+import invariant from 'invariant';
+
 export {registry, registerSpanDefinition, getSpanDefinition} from 'in-sdk/tracing/registry';
 import {getSpanDefinition} from 'in-sdk/tracing';
 
@@ -49,6 +51,25 @@ export function getDirection(span) {
   }
 
   return direction(span) || 'entryAndExit';
+}
+
+export function getServiceSideForOverview(span) {
+  const serviceSideForOverview = getSpanDefinition(span.get('name'), span).serviceSideForOverview;
+  if (serviceSideForOverview) {
+    if (__DEV__) {
+      invariant(
+        serviceSideForOverview === 'destination' || serviceSideForOverview === 'source',
+        'Must either be source or destination'
+      );
+    }
+    return serviceSideForOverview;
+  }
+
+  const direction = getDirection(span);
+  if (direction === 'entry') {
+    return 'destination';
+  }
+  return 'source';
 }
 
 export function getTypeLabelSingular(span) {

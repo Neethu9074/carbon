@@ -143,13 +143,24 @@ function transformKeyValueOperatorToLuceneQuery(keywordOperators, queryPart) {
     luceneValues = [luceneValues];
   }
 
-  const parts = luceneValues
-    .map(eachLuceneValue => {
-      return `${prefix}${keywordOperator.field}:${luceneOperator}${eachLuceneValue}`;
-    })
-    .join(' OR ');
+  let fields = [];
+  let parts = [];
+  if (keywordOperator.field) {
+    fields.push(keywordOperator.field);
+  }
+  if (keywordOperator.fields) {
+    fields = fields.concat(keywordOperator.fields);
+  }
 
-  if (luceneValues.length > 1) {
+  fields.forEach(field => {
+    luceneValues.forEach(eachLuceneValue => {
+      parts.push(`${prefix}${field}:${luceneOperator}${eachLuceneValue}`);
+    });
+  });
+
+  parts = parts.join(' OR ');
+
+  if (luceneValues.length > 1 || fields.length > 1) {
     return `(${parts})`;
   }
   return parts;

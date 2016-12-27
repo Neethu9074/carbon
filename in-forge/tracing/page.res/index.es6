@@ -4,6 +4,7 @@ registerSpanDefinition({
   type: 'page.res',
   category: 'eumResource',
   direction: 'exit',
+  serviceSideForOverview: 'source',
   showSelfTime: false,
 
   typeName: {

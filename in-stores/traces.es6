@@ -22,12 +22,16 @@ export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFilter
   .map(([total, eum]) => total - eum);
 
 export function getNumberOfTracesStartingAtService(serviceId) {
-  const query = buildLuceneQuery('logical_destination_service_id', '=', serviceId);
+  const query = buildLuceneQuery('logical_destination_service_id', '=', serviceId) +
+    ' OR ' +
+    buildLuceneQuery('logical_source_service_id', '=', serviceId);
   return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
 }
 
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
-  const query = buildLuceneQuery('destination_service_instance_id', '=', serviceId);
+  const query = buildLuceneQuery('destination_service_instance_id', '=', serviceId) +
+    ' OR ' +
+    buildLuceneQuery('source_service_instance_id', '=', serviceId);
   return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
 }
 
