@@ -8,7 +8,7 @@ import sinon from 'sinon';
 import {resetStoreRegistry} from 'in-stores/store';
 
 
-describe('in-stores/search/traces', () => {
+describe('in-stores/search/type', () => {
 
   let rawQuery$;
   let mod;
@@ -16,7 +16,7 @@ describe('in-stores/search/traces', () => {
   beforeEach(() => {
     resetStoreRegistry();
     rawQuery$ = create().emit('');
-    mod = proxyquire('in-stores/search/traces', {
+    mod = proxyquire('in-stores/search/type', {
       'in-stores/search': {
         rawQuery$,
         mutateInputString(fn) {
@@ -33,63 +33,63 @@ describe('in-stores/search/traces', () => {
   describe('trace type in input', () => {
     describe('contains trace type', () => {
       it('must find types', () => {
-        expect(mod.containsTraceTypeFilter('type = eum', 'eum')).to.equal(true);
+        expect(mod.containsTypeFilter('type = eum', 'eum')).to.equal(true);
       });
 
       it('must understand filtering of eum', () => {
-        expect(mod.containsTraceTypeFilter('type != eum', 'eum')).to.equal(false);
+        expect(mod.containsTypeFilter('type != eum', 'eum')).to.equal(false);
       });
 
       it('must not assume that everything else is contained when using negation', () => {
-        expect(mod.containsTraceTypeFilter('type!=eum', 'backend')).to.equal(false);
+        expect(mod.containsTypeFilter('type!=eum', 'backend')).to.equal(false);
       });
     });
 
     it('must add filter', () => {
-      mod.setTraceTypeFilter('eum');
+      mod.setTypeFilter('eum');
       expectQueryToEqual('type="eum"');
     });
 
     it('must not add filter twice', () => {
       rawQuery$.emit('type=backend');
-      mod.setTraceTypeFilter('backend');
+      mod.setTypeFilter('backend');
       expectQueryToEqual('type="backend"');
     });
 
     it('must not add filter twice via button', () => {
-      mod.setTraceTypeFilter('backend');
-      mod.setTraceTypeFilter('backend');
+      mod.setTypeFilter('backend');
+      mod.setTypeFilter('backend');
       expectQueryToEqual('type="backend"');
     });
 
     it('must remove filters', () => {
-      mod.setTraceTypeFilter('backend');
-      mod.removeTraceTypeFilter();
+      mod.setTypeFilter('backend');
+      mod.removeTypeFilter();
       expectQueryToEqual('');
     });
 
     it('must remove filters set via URL', () => {
       rawQuery$.emit('type=backend');
-      mod.removeTraceTypeFilter();
+      mod.removeTypeFilter();
       expectQueryToEqual('');
     });
 
     it('must ignore other filters', () => {
       rawQuery$.emit('host.cpuCount > 2 type=incident');
-      mod.setTraceTypeFilter('backend');
-      mod.removeTraceTypeFilter();
+      mod.setTypeFilter('backend');
+      mod.removeTypeFilter();
       expectQueryToEqual('host.cpuCount > 2');
     });
 
     it('must ignore other filters', () => {
       rawQuery$.emit('host.cpuCount > 2 type=incident');
-      mod.setTraceTypeFilter('backend');
+      mod.setTypeFilter('backend');
       expectQueryToEqual('host.cpuCount > 2 type="backend"');
     });
 
     it('must remove all trace type filters', () => {
       rawQuery$.emit('host.cpuCount > 2 type="bar"');
-      mod.removeTraceTypeFilter();
+      mod.removeTypeFilter();
       expectQueryToEqual('host.cpuCount > 2');
     });
   });

@@ -1,28 +1,20 @@
 import React from 'react';
 
 import {clearSelectedSnapshots} from 'in-views/tableView/stores/selectedSnapshots';
-import {plugin$, snapshotIds$} from 'in-views/tableView/stores/snapshotIds';
 import MetricSelector from 'in-views/tableView/components/MetricSelector';
-import HeaderTitle from 'in-views/tableView/components/HeaderTitle';
+import TypeSelector from 'in-views/tableView/components/TypeSelector';
 import {clearMetrics} from 'in-views/tableView/stores/metrics';
-import {getPlural} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
-import connectTo from 'in-hoc/connectTo';
 
 import './Header.less';
 
 const block = 'in-table-view-header';
 
-export default connectTo({
-  plugin: plugin$,
-  snapshotIds: snapshotIds$
-}, function Header({plugin, snapshotIds}) {
+export default function Header() {
   return (
     <header className={block}>
       <div className={`${block}__left-side`}>
-        <HeaderTitle>
-          {getPlural(plugin)} ({snapshotIds ? snapshotIds.length : 0})
-        </HeaderTitle>
+        <TypeSelector />
 
         <MetricSelector />
       </div>
@@ -34,7 +26,7 @@ export default connectTo({
       </Button>
     </header>
   );
-});
+}
 
 function clearSelection() {
   clearMetrics();

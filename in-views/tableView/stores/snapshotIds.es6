@@ -5,28 +5,36 @@ import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
 import {clearMetrics} from 'in-views/tableView/stores/metrics';
 import {setColumn} from 'in-views/tableView/stores/sorting';
 import {parsedQuery$} from 'in-stores/search/search';
+import {setTypeFilter} from 'in-stores/search/type';
 import {focusedMoment$} from 'in-stores/timeline';
 
-export const plugin$ = parsedQuery$
+export const selectedType$ = parsedQuery$
   .map(parsedQuery => {
     if (!parsedQuery) {
       return plugins.host;
     }
 
-    if (parsedQuery) {
-      const type = getSelectedType(parsedQuery);
-      if (type) {
-        // Ben 2016-11-02
-        // A small hack to support aggregations for services.
-        // Consider revisiting this when we have more of these aggregations.
-        if (type === 'service') {
-          return plugins.defaultLogicalService;
-        }
-        const pluginIds = translateSearchableEntityTypeToFullyQualifiedPluginIds(type);
-        if (pluginIds) {
-          return translateFullyQualifiedPluginToShortPluginName(pluginIds[0]) || plugins.host;
-        }
-      }
+    return getSelectedType(parsedQuery) || 'host';
+  })
+  .distinct();
+
+
+export function setSelectedType(type) {
+  setTypeFilter(type);
+}
+
+
+export const plugin$ = selectedType$
+  .map(type => {
+    // Ben 2016-11-02
+    // A small hack to support aggregations for services.
+    // Consider revisiting this when we have more of these aggregations.
+    if (type === 'service') {
+      return plugins.defaultLogicalService;
+    }
+    const pluginIds = translateSearchableEntityTypeToFullyQualifiedPluginIds(type);
+    if (pluginIds) {
+      return translateFullyQualifiedPluginToShortPluginName(pluginIds[0]) || plugins.host;
     }
 
     return plugins.host;

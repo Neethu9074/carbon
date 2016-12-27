@@ -1,7 +1,7 @@
 import {mutateInputString} from 'in-stores/search';
 
 
-export function setTraceTypeFilter(type, negate = false) {
+export function setTypeFilter(type, negate = false) {
   mutateInputString(inputString => {
     const operator = negate ? '!=' : '=';
     inputString = removeExistingTypeFilter(inputString);
@@ -9,7 +9,7 @@ export function setTraceTypeFilter(type, negate = false) {
   });
 }
 
-export function removeTraceTypeFilter() {
+export function removeTypeFilter() {
   mutateInputString(removeExistingTypeFilter);
 }
 
@@ -20,6 +20,6 @@ function removeExistingTypeFilter(inputString) {
     .trim();
 }
 
-export function containsTraceTypeFilter(freeText, type, operator = '=') {
+export function containsTypeFilter(freeText, type, operator = '=') {
   return new RegExp(`(^|\\s)type *${operator} *("${type}"|${type})(\\s|$)`, 'ig').test(freeText);
 }

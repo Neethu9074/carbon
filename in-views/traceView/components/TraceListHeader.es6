@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {setTraceTypeFilter, removeTraceTypeFilter} from 'in-views/traceView/stores/filters';
+import {setTypeFilter, removeTypeFilter} from 'in-views/traceView/stores/filters';
 import TraceListFilterToggle from 'in-views/traceView/components/TraceListFilterToggle';
 import {toggleAutoUpdate, autoUpdate$} from 'in-views/traceView/stores/autoUpdate';
 import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$, totalTraceCountNoFiltering$} from 'in-stores/traces';
@@ -24,18 +24,18 @@ export default function TraceListHeader() {
         </h1>
 
         <TraceListFilterToggle filter='all'
-                               onClick={removeTraceTypeFilter}>
+                               onClick={removeTypeFilter}>
           All Calls
         </TraceListFilterToggle>
 
         <TraceListFilterToggle filter='without-eum'
-                               onClick={() => setTraceTypeFilter('eum', '!=')}>
+                               onClick={() => setTypeFilter('eum', '!=')}>
           Server Calls
           <Count count$={totalTraceCountWithoutEum$} />
         </TraceListFilterToggle>
 
         <TraceListFilterToggle filter='eum'
-                               onClick={() => setTraceTypeFilter('eum')}>
+                               onClick={() => setTypeFilter('eum')}>
           EUM Calls
           <Count count$={totalTraceCountOnlyEum$} />
         </TraceListFilterToggle>
