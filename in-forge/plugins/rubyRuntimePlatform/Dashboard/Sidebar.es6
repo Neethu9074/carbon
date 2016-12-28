@@ -21,10 +21,7 @@ export default function RubyDashboardSidebar({snapshot}) {
 
       <TagList snapshot={snapshot} />
 
-      <KeyValuePopup header='Dependencies'
-                     data={snapshot.getIn(['data', 'dependencies'])} />
-
-      <KeyValuePopup header='Runtime Versions'
+      <KeyValuePopup header='Gem Bundle'
                      data={snapshot.getIn(['data', 'versions'])} />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
