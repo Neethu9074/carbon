@@ -1,8 +1,9 @@
+/* eslint-disable react/no-unused-prop-types */
+
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import ReactDOM from 'react-dom';
 import React from 'react';
 
-import {getMetricForFocusedMoment, getHistoricMetric} from 'in-stores/metric';
+import {getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
 
 
 const rpt = React.PropTypes;
@@ -14,11 +15,12 @@ export default React.createClass({
   propTypes: {
     createMetricValueStream: rpt.func,
     snapshotId: rpt.string.isRequired,
+    timeWindowAggregation: rpt.string,
     initialValue: rpt.string,
     timeframeTo: rpt.number,
     className: rpt.string,
     formatter: rpt.func,
-    metric: rpt.string
+    metric: rpt.string,
   },
 
   componentDidMount() {
@@ -29,6 +31,14 @@ export default React.createClass({
     if (props.createMetricValueStream) {
       return props.createMetricValueStream(this.props.snapshotId)
         .distinct();
+    }
+
+    if (props.timeWindowAggregation) {
+      return getTimeWindowBasedMetricAggregation({
+        snapshotId: props.snapshotId,
+        metric: props.metric,
+        timeWindowAggregation: props.timeWindowAggregation
+      });
     }
 
     if (props.timeframeTo) {
@@ -50,17 +60,15 @@ export default React.createClass({
   },
 
   establishSubscription(stream) {
-    const node = ReactDOM.findDOMNode(this);
-
     if (this.props.initialValue) {
-      node.textContent = this.props.initialValue;
+      this.node.textContent = this.props.initialValue;
     } else {
-      node.textContent = '';
+      this.node.textContent = '';
     }
 
     this.stream = stream;
     this.subscription = stream.subscribe(v => {
-      node.textContent = v == null ? this.props.initialValue || '' : this.format(v);
+      this.node.textContent = v == null ? this.props.initialValue || '' : this.format(v);
     });
   },
 
@@ -91,6 +99,9 @@ export default React.createClass({
   },
 
   render() {
-    return <span className={this.props.className} />;
+    return (
+      <span className={this.props.className}
+            ref={node => this.node = node} />
+    );
   }
 });

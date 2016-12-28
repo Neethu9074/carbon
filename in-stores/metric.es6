@@ -1,3 +1,4 @@
+import createTimeWindowMetricAggregation from 'in-services/subscription/timeWindowMetricAggregation';
 import createHistoricMetricsObservable from 'in-services/subscription/historicMetrics';
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
@@ -210,4 +211,26 @@ export function getPixelAwareRollupSize(timeframe, pixels) {
   }
 
   return rollupDurationThresholds[rollupDurationThresholds.length - 1].rollup;
+}
+
+
+export function getTimeWindowBasedMetricAggregation({snapshotId, metric, timeWindowAggregation}) {
+  return timeframe$
+    .flatMap(timeframe => {
+      const rollup = getDefaultMetricRollupDuration(timeframe);
+
+      let aggregation;
+      if (rollup) {
+        aggregation = getAggregation(metric);
+      }
+
+      return createTimeWindowMetricAggregation({
+        snapshotId,
+        metric,
+        timeframe,
+        aggregation,
+        rollup,
+        timeWindowAggregation
+      });
+    });
 }
