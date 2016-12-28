@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {getMetricForFocusedMoment} from 'in-stores/metric';
+import {getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
 
 import './PercentageIndicator.less';
 
@@ -17,6 +17,7 @@ export default React.createClass({
     /* eslint-disable react/no-unused-prop-types */
     createMetricValueStream: React.PropTypes.func,
     metric: React.PropTypes.string,
+    timeWindowAggregation: React.PropTypes.string,
     /* eslint-enable react/no-unused-prop-types */
     formatter: React.PropTypes.func
   },
@@ -29,6 +30,14 @@ export default React.createClass({
     if (props.createMetricValueStream) {
       return props.createMetricValueStream(this.props.snapshotId)
         .distinct();
+    }
+
+    if (props.timeWindowAggregation) {
+      return getTimeWindowBasedMetricAggregation({
+        snapshotId: props.snapshotId,
+        metric: props.metric,
+        timeWindowAggregation: props.timeWindowAggregation
+      });
     }
 
     return getMetricForFocusedMoment({

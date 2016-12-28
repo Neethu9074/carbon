@@ -24,5 +24,7 @@ export default createSubscription({
   transformData(dataPoint) {
     dataPoint.time = dataPoint[0];
     return dataPoint;
-  }
+  },
+
+  memoizeFor: 1000
 });
