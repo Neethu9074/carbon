@@ -72,7 +72,7 @@ export default React.createClass({
     });
   },
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     const nextStream = this.getStream(nextProps);
     if (this.stream !== nextStream) {
       this.disposeSubscription();
