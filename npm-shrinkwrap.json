@@ -9541,9 +9541,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-toggle/-/react-toggle-2.1.1.tgz"
     },
     "reactive-observables": {
-      "version": "1.33.0",
-      "from": "reactive-observables@>=1.32.0 <2.0.0",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/reactive-observables/-/reactive-observables-1.33.0.tgz"
+      "version": "1.33.1",
+      "from": "reactive-observables@>=1.33.1 <2.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/reactive-observables/-/reactive-observables-1.33.1.tgz"
     },
     "read": {
       "version": "1.0.7",

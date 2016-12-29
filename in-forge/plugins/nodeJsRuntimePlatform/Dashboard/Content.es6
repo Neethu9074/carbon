@@ -28,35 +28,30 @@ export default function NodejsDashboard({snapshot, timeframe}) {
           <KpiKeyValue label='GC Pause'>
             <MetricValue snapshotId={snapshotId}
                          metric='gc.gcPause'
-                         formatter={time}
-                         timeWindowAggregation='mean' />
+                         formatter={time} />
           </KpiKeyValue>
         : null}
         <KpiKeyValue label='RSS'>
           <MetricValue snapshotId={snapshotId}
                        metric='memory.rss'
-                       formatter={bytesZeroDecimalPlaces}
-                       timeWindowAggregation='mean' />
+                       formatter={bytesZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label='Heap Used'>
           <MetricValue snapshotId={snapshotId}
                        metric='memory.heapUsed'
-                       formatter={bytesTwoDecimalPlaces}
-                       timeWindowAggregation='mean' />
+                       formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
         {snapshot.getIn(['data', 'libuv.statsSupported']) ?
           <KpiKeyValue label='Total time spent in loop per second'>
             <MetricValue snapshotId={snapshotId}
                          metric='libuv.num'
-                         formatter={time}
-                         timeWindowAggregation='mean' />
+                         formatter={time} />
           </KpiKeyValue>
         : null}
         <KpiKeyValue label='Event loop lag'>
           <MetricValue snapshotId={snapshotId}
                        metric='libuv.lag'
-                       formatter={time}
-                       timeWindowAggregation='mean' />
+                       formatter={time} />
         </KpiKeyValue>
       </KpiSection>
 

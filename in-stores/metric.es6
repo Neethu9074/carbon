@@ -89,7 +89,9 @@ export const getMetricForFocusedMoment = memoize(
     });
   },
 
-  ({snapshotId, metric}) => snapshotId + metric
+  ({snapshotId, metric}) => snapshotId + metric,
+
+  500
 );
 
 

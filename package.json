@@ -60,7 +60,7 @@
     "react-motion": "^0.4.4",
     "react-router": "^2.8.0",
     "react-toggle": "2.1.1",
-    "reactive-observables": "^1.32.0",
+    "reactive-observables": "^1.33.1",
     "roemitter": "^2.0.0",
     "semver": "^5.3.0",
     "socket.io-client": "^1.4.8",

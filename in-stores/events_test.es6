@@ -443,8 +443,8 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      expect(subscriber.callCount).to.equal(5);
-      const result = subscriber.getCall(4).args[0];
+      expect(subscriber.callCount).to.equal(4);
+      const result = subscriber.getCall(3).args[0];
       expect(result.size).to.equal(2);
       expect(result.getIn([0, 'id'])).to.equal('foo2');
       expect(result.getIn([1, 'id'])).to.equal('foo');
@@ -486,8 +486,8 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      expect(subscriber.callCount).to.equal(5);
-      const result = subscriber.getCall(4).args[0];
+      expect(subscriber.callCount).to.equal(4);
+      const result = subscriber.getCall(3).args[0];
       expect(result.size).to.equal(1);
       expect(result.getIn([0, 'id'])).to.equal('foo');
     });
