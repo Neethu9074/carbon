@@ -1,17 +1,11 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatDateTime} from 'in-services/formatters/date';
+import {formatDateTime, fromNow} from 'in-services/formatters/date';
 
 
 export default function DockerInfo({snapshot}) {
   const data = snapshot.get('data');
-  let createdMillis = data.get('Created');
-  // for compatibiltiy with pre 1.1.5 sensor multiply seconds to get ms.
-  if (createdMillis < 1500000000) {
-    createdMillis *= 1000;
-  }
-
   return (
     <DescriptionList>
       <DescriptionItem title='Image'>
@@ -21,10 +15,10 @@ export default function DockerInfo({snapshot}) {
         {data.get('Command')}
       </DescriptionItem>
       <DescriptionItem title='Created'>
-        {formatDateTime(createdMillis)}
+        {formatDateTime(data.get('Created'))} ({fromNow(data.get('Created'))})
       </DescriptionItem>
       <DescriptionItem title='Started'>
-        {formatDateTime(data.get('Started'))}
+        {formatDateTime(data.get('Started'))} ({fromNow(data.get('Started'))})
       </DescriptionItem>
       <DescriptionItem title='Id'>
         {data.get('Id')}
