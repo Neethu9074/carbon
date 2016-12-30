@@ -5,6 +5,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
+import Topics from '../Topics';
 
 
 export default function KafkaClusterSidebar({snapshot}) {
@@ -20,6 +21,13 @@ export default function KafkaClusterSidebar({snapshot}) {
       </Collapsible>
 
       <Separator />
+
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>Topics</Collapsible.Header>
+        <Collapsible.Content>
+          <Topics snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>
