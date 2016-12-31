@@ -45,8 +45,8 @@ function createHeader() {
         <th></th>
         <th></th>
         <th></th>
-        <th colSpan='4'>Received (RX)</th>
-        <th colSpan='4'>Transmitted (TX)</th>
+        <th colSpan='2'>Received (RX)</th>
+        <th colSpan='2'>Transmitted (TX)</th>
       </tr>
       <tr>
         <th>Interface</th>
@@ -55,13 +55,9 @@ function createHeader() {
 
         <th style={{width: '10em'}}>Bytes</th>
         <th style={{width: '4em'}}>Errors</th>
-        <th style={{width: '4em'}}>Dropped</th>
-        <th style={{width: '4em'}}>Overruns</th>
 
         <th style={{width: '10em'}}>Bytes</th>
         <th style={{width: '4em'}}>Errors</th>
-        <th style={{width: '4em'}}>Dropped</th>
-        <th style={{width: '4em'}}>Overruns</th>
       </tr>
     </thead>
   );
@@ -84,14 +80,6 @@ function createRow(filesystem, name, context) {
          snapshot={context.snapshot}
          formatter={percentageZeroDecimalPlaces} />,
 
-    <Mtd metric={'ifs.' + name + '.rx.dropped'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />,
-
-    <Mtd metric={'ifs.' + name + '.rx.overruns'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />,
-
     <Mtd metric={'ifs.' + name + '.tx.bytes'}
          snapshot={context.snapshot}
          formatter={bytesPerSecondZeroDecimalPlaces} />,
@@ -99,14 +87,6 @@ function createRow(filesystem, name, context) {
     <Mtd metric={'ifs.' + name + '.tx.errors'}
          snapshot={context.snapshot}
          formatter={percentageZeroDecimalPlaces} />,
-
-    <Mtd metric={'ifs.' + name + '.tx.dropped'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />,
-
-    <Mtd metric={'ifs.' + name + '.tx.overruns'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />
   ]);
 }
 
@@ -139,19 +119,11 @@ function createDetails(filesystem, name, context) {
              max: 1,
              metrics: [
                'ifs.' + name + '.rx.errors',
-               'ifs.' + name + '.rx.dropped',
-               'ifs.' + name + '.rx.overruns',
                'ifs.' + name + '.tx.errors',
-               'ifs.' + name + '.tx.dropped',
-               'ifs.' + name + '.tx.overruns'
              ],
              labels: [
                'RX Errors',
-               'RX Dropped',
-               'RX Overruns',
                'TX Errors',
-               'TX Dropped',
-               'TX Overruns'
              ],
              formatter: percentageZeroDecimalPlaces,
              tooltipFormatter: percentageTwoDecimalPlaces,
