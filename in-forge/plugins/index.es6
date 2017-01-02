@@ -80,6 +80,7 @@ import './oracleDB';
 import './phpFpmRuntimePlatform';
 import './postgreSqlDatabase';
 import './process';
+import './pythonRuntimePlatform';
 import './rabbitMq';
 import './redis';
 import './rpcEndpointServiceInstance';
