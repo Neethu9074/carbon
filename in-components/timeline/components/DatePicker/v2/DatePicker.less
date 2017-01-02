@@ -1,0 +1,37 @@
+@import "~in-themes/active.less";
+
+.in-timeline-date-picker {
+  transition: width .25s ease-in-out;
+  overflow: hidden;
+}
+
+.DayPicker-Day {
+  font-size: 0.75rem;
+  border: 1px solid @datepicker__matte;
+
+  &:hover {
+    color: @datepicker__matte;
+    background: @datepicker__highlight;
+  }
+}
+
+.DayPicker-Day--selected {
+  background: @datepicker__matte;
+}
+
+.DayPicker-Weekday {
+  font-size: 0.75rem;
+}
+
+.DayPicker-Day--today {
+  color: @datepicker__highlight;
+}
+
+.DayPicker-Day--inactive {
+  color: #43565e;
+}
+
+.DayPicker-Month {
+  font-size: 0.9rem;
+  font-weight: lighter;
+}

@@ -21,7 +21,7 @@ import {getAxisConfig} from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
 
-export default function createTimelineRenderer({container, canvas}) {
+export default function createTimelineRenderer({container, canvas, glassPane}) {
   const changeSignal = true;
   const height = 148;
   let width;
@@ -83,7 +83,7 @@ export default function createTimelineRenderer({container, canvas}) {
 
   const highlightedTimeframeSubscription = highlightedTimeframe$.subscribe(() => realtimeDrawStream.emit(changeSignal));
 
-  const mouseEvents = createMouseEvents(canvas, scale, realtimeDrawStream);
+  const mouseEvents = createMouseEvents(glassPane, scale, realtimeDrawStream);
 
   let axisConfig;
   const timeframeSubscription = timeframe$

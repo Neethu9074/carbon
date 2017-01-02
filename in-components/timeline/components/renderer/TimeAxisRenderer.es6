@@ -1,5 +1,4 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {formatDate, formatTime} from 'in-services/formatters/date';
 import {getTickPositions} from 'in-charts/timeAxis';
 
 import {
@@ -11,7 +10,7 @@ import {
 } from 'in-components/timeline/timelineConfig';
 
 
-const edgeWidth = 170;
+const edgeWidth = 260;
 
 export default class TimeAxisRenderer extends BasicRenderer {
 
@@ -35,7 +34,6 @@ export default class TimeAxisRenderer extends BasicRenderer {
     axisConfig = Object.create(axisConfig);
     axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
 
-
     const tickPositions = getTickPositions(this.scale, axisConfig);
     const buffer = this.backBuffer;
 
@@ -50,13 +48,13 @@ export default class TimeAxisRenderer extends BasicRenderer {
       // draw time text
       buffer.fillStyle = lightColor;
       buffer.font = font;
-      buffer.fillText(axisConfig.formatter(position.domain), x, 26);
+      buffer.fillText(axisConfig.formatter(position.domain), x + 3, 32);
     }
 
     buffer.fillStyle = this.leftGradient;
     buffer.fillRect(0, 0, edgeWidth, 36);
 
-    // draw the stand and end time of the time window
+    // draw the start and end time of the time window
     const rightGradient = this.backBuffer.createLinearGradient(
       scale.getRangeTo() - edgeWidth,
       0,
@@ -67,17 +65,10 @@ export default class TimeAxisRenderer extends BasicRenderer {
     rightGradient.addColorStop(0.5, darkColor);
     rightGradient.addColorStop(1, darkColor);
     buffer.fillStyle = rightGradient;
-    buffer.fillRect(scale.getRangeTo() - edgeWidth, 0, edgeWidth + 20, 36);
+    buffer.fillRect(scale.getRangeTo() - edgeWidth, 0, edgeWidth + 19, 36);
 
-    // start
-    buffer.fillStyle = '#6b8088';
-    buffer.font = font;
-    buffer.fillText(formatDate(scale.getDomainFrom()), scale.getRangeFrom(), 15);
-    buffer.fillText(formatTime(scale.getDomainFrom()), scale.getRangeFrom(), 30);
-    buffer.textAlign = 'right';
-    buffer.fillText(formatDate(scale.getDomainTo()), scale.getRangeTo() - 10, 15);
-    buffer.fillText(formatTime(scale.getDomainTo()), scale.getRangeTo() - 10, 30);
-    buffer.textAlign = 'left';
+    buffer.fillStyle = '#334750';
+    buffer.fillRect(0, 18, scale.getRangeTo() - scale.getRangeFrom(), 1);
   }
 
   dispose() {

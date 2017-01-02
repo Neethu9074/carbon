@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import {live$, setTo, setFocusedMoment} from 'in-stores/timeline';
@@ -9,45 +8,26 @@ import './TimelineLiveButton.less';
 
 
 const block = 'in-timeline-live-button';
-const rpt = React.PropTypes;
 
 export default connectTo({
     isLive: live$,
     to: to$
   },
-  React.createClass({
-
-    displayName: 'TimelineLiveButton',
-
-    mixins: [
-      PureRenderMixin
-    ],
-
-    propTypes: {
-      isLive: rpt.bool,
-      to: rpt.number
-    },
-
-    render() {
-      return (
-        <div className={this.getClassName()}
-             onClick={this.onClick}>
-          live
-        </div>
-      );
-    },
-
-    getClassName() {
-      return block + (this.props.isLive ? ' ' + block + '__active' : '');
-    },
-
-    onClick() {
-      if (this.props.isLive) {
-        setFocusedMoment(this.props.to);
-      } else {
-        setFocusedMoment(null);
-        setTo(null);
-      }
-    }
-  })
+  function TimelineLiveButton({isLive, to}) {
+    return (
+      <div className={block + (isLive ? ' ' + block + '__active' : '')}
+           onClick={() => onClick(isLive, to)}>
+        live
+      </div>
+    );
+  }
 );
+
+function onClick(isLive, to) {
+  if (isLive) {
+    setFocusedMoment(to);
+  } else {
+    setFocusedMoment(null);
+    setTo(null);
+  }
+}

@@ -5,9 +5,9 @@ import TimelineCanvasReactWrapper from 'in-components/timeline/components/Timeli
 import TimelineTimeframeMarker from 'in-components/timeline/components/TimelineTimeframeMarker';
 import TimelineNavigation from 'in-components/timeline/components/TimelineNavigation';
 import {isCollapsed$, showTimeSelector$} from 'in-components/timeline/timelineStore';
+import DateTimePickerPopup from 'in-components/timeline/components/DatePicker';
 import TimelineMenu from 'in-components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-components/timeline/components/EventTooltip';
-import DatePicker from 'in-components/timeline/components/DatePicker';
 import {getIn} from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
 
@@ -35,17 +35,20 @@ export default connectTo({
       <div>
         <EventTooltip />
 
-        {showTimeSelector ? <DatePicker /> : null }
+        {showTimeSelector ?
+          <DateTimePickerPopup />
+          : null
+        }
 
         <div className={classes}>
-            <div className={`${block}__wrapper`}>
-              <TimelineMenu />
-              <TimelineCanvasReactWrapper />
-            </div>
-            <div className={block + '__bottom'}>
-              <TimelineNavigation />
-              <TimelineTimeframeMarker />
-            </div>
+          <div className={`${block}__wrapper`}>
+            <TimelineMenu />
+            <TimelineCanvasReactWrapper />
+          </div>
+          <div className={block + '__bottom'}>
+            <TimelineNavigation />
+            <TimelineTimeframeMarker />
+          </div>
         </div>
 
         <SelectedWindowSizePresenter />

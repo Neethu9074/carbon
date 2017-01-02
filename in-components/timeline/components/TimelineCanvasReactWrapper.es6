@@ -1,6 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import TimelineTimestamps from 'in-components/timeline/components/TimelineTimestamps';
 import createTimelineRenderer from 'in-components/timeline/components/timelineCanvas';
 
 import './TimelineCanvasReactWrapper.less';
@@ -18,8 +19,9 @@ export default React.createClass({
 
   componentDidMount() {
     this.renderer = createTimelineRenderer({
-      container: this.refs.container,
-      canvas: this.refs.canvas
+      container: this.container,
+      canvas: this.timelineCanvas,
+      glassPane: this.glassPane
     });
   },
 
@@ -29,10 +31,13 @@ export default React.createClass({
 
   render() {
     return (
-      <div ref='container'
+      <div ref={container => this.container = container}
            className={block}>
-        <canvas ref='canvas'
+        <canvas ref={_canvas => this.timelineCanvas = _canvas}
                 className={block + '__canvas'} />
+        <div ref={glassPane => this.glassPane = glassPane}
+             className={block + '__glasspane'} />
+        <TimelineTimestamps />
       </div>
     );
   }
