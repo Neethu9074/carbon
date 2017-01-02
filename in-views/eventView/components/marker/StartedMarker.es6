@@ -3,7 +3,7 @@ import React from 'react';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import {formatDate, formatTime} from 'in-services/formatters/date';
 
-import 'in-views/eventView/components/Incident/Marker.less';
+import './Marker.less';
 
 
 export default function StartedMarker({event}) {

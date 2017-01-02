@@ -1,11 +1,12 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
-import StartedMarker from 'in-views/eventView/components/Incident/StartedMarker';
+import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import {sortedRecentEvents$} from 'in-views/eventView/stores/recentEventsStore';
+import StartedMarker from 'in-views/eventView/components/marker/StartedMarker';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
-import EventDuration from 'in-views/eventView/components/EventDuration';
+import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import EventIcon from 'in-components/EventIcon';
@@ -57,7 +58,8 @@ function IncidentHeader({event, recentEvents, openEvents, color}) {
 
         <div className={`${block}__status-line`}>
           <StartedMarker event={event} />
-          <EventDuration event={event} />
+          <EndedMarker event={event} />
+          <EventDurationMarker event={event} />
           <LabeledValue label='active' >
             {`${numOpenEvents}/${recentEvents.length}`}
           </LabeledValue>

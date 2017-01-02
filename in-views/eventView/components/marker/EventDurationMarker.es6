@@ -2,18 +2,24 @@ import React from 'react';
 
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
-import {formatDate, formatTime} from 'in-services/formatters/date';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {formatDurationRaw} from 'in-services/formatters/date';
+import {alwaysNull} from 'in-services/fixedStreams';
 import {serverTime$} from 'in-stores/serverTime';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-views/eventView/components/Incident/Marker.less';
+import './Marker.less';
 
 
 export default connectTo(props => {
-  const end = props.event.get('end');
+  // in theory, changes have a duration but we dont want to show it
+  if(getEventType(props.event) === EVENT_TYPES.CHANGE) {
+    return {
+      config: alwaysNull
+    };
+  }
 
+  const end = props.event.get('end');
   return {
     config: serverTime$.flatMap(serverTime => fireCallbacksForEventAtFocusedMomentAsStream(props.event,
       ({focusedMoment}) => {
@@ -33,30 +39,14 @@ export default connectTo(props => {
     ))
   };
 },
-function EventDuration({event, config}) {
-  // in theory, changes have a duration but we dont want to show it
-  if (!config || getEventType(event) === EVENT_TYPES.CHANGE) {
+function EventDurationMarker({event, config}) {
+  if (!config) {
     return null;
   }
 
-  const from = event.get('start');
-
-  if (config.isOpen) {
-    return (
-      <LabeledValue label='duration'>
-        {`${formatDurationRaw(config.to - from)}`}
-      </LabeledValue>
-    );
-  }
-
   return (
-    <LabeledValue label='ended'>
-      <span className='in-event-view-marker__time'>
-        {formatDate(config.end)}
-      </span>
-      <span>
-        {formatTime(config.end)}
-      </span>
+    <LabeledValue label='duration'>
+      {`${formatDurationRaw(config.to - event.get('start'))}`}
     </LabeledValue>
   );
 });

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import EventListItem from 'in-views/eventView/components/Incident/EventListItem';
-import StartedMarker from 'in-views/eventView/components/Incident/StartedMarker';
 import {sortedRecentEvents$} from 'in-views/eventView/stores/recentEventsStore';
-import EndedMarker from 'in-views/eventView/components/Incident/EndedMarker';
+import StartedMarker from 'in-views/eventView/components/marker/StartedMarker';
+import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
