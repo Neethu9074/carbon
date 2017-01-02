@@ -20,6 +20,7 @@ import {requestRendering} from 'in-map/stores/renderingStore';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {loadImage} from 'in-map/services/imageLoader';
+import {focusedMoment$} from 'in-stores/timeline';
 import {eventBus} from 'in-map/services/eventBus';
 
 
@@ -79,9 +80,20 @@ export default class ParticleEmitter {
 
     this.resetParticles();
 
-    this.startSubscription = particlesAreActive$.subscribe(particlesAreActive =>
-      particlesAreActive ? this.start() : this.stop()
-    );
+    this.startSubscription = combineLatest([
+      particlesAreActive$,
+      focusedMoment$
+    ]).subscribe(([particlesAreActive, focusedMoment]) => {
+      this.stop();
+
+      if (particlesAreActive) {
+        if (focusedMoment) {
+          this.startStatic();
+        } else {
+          this.start();
+        }
+      }
+    });
   }
 
   setFromAndTo(fromPos, toPos) {
@@ -121,6 +133,34 @@ export default class ParticleEmitter {
       this.getMetric('count'),
       this.getMetric('error_rate')
     ]).subscribe(([countMetric, errorRateMetric]) => this.setNumparticlesPerSecond(countMetric, errorRateMetric));
+  }
+
+  startStatic() {
+    if (this.isRunning) {
+      return;
+    }
+
+    addSceneObject(this.mesh);
+
+    this.timeElapsedSinceLastSpawn = 0;
+    this.timeElapsedSinceLastError = 0;
+    this.secToNextParticle = Number.MAX_VALUE;
+
+    this.isRunning = true;
+
+    this.metricSubscription = combineLatest([
+      this.getMetric('count'),
+      this.getMetric('error_rate')
+    ]).subscribe(([countMetric, errorRateMetric]) => {
+      countMetric = Math.ceil(countMetric);
+      errorRateMetric = Math.ceil(errorRateMetric);
+
+      for (let i = 0, length = countMetric; i < length; i++) {
+        this.spawnParticle(i < errorRateMetric);
+      }
+    });
+
+    this.updateSubscription = eventBus.on('update').subscribe(() => this.updateStatic());
   }
 
   getMetric(metric) {
@@ -177,6 +217,21 @@ export default class ParticleEmitter {
     this.timeElapsedSinceLastError += dt;
   }
 
+  updateStatic() {
+    const particles = this.particles;
+    const progresses = this.progresses;
+
+    for (let i = 0, length = particles.length; i < length; i++) {
+      const particle = particles[i];
+      particle.progress = (i + 1) / (particles.length + 1);
+      progresses[particle.index] = Math.min(1, particle.progress);
+    }
+
+    this.positionNeedsUpdate();
+    this.severityNeedsUpdate();
+    this.progressNeedsUpdate();
+  }
+
   spawnParticle(hasError) {
     const vertices = this.vertices;
     const position = this.positionGenerationStrategy.getPositionForParticle();
@@ -224,8 +279,8 @@ export default class ParticleEmitter {
 
     this.resetParticles();
 
-    this.updateSubscription.dispose();
-    this.metricSubscription.dispose();
+    this.disposeSubscription(this.updateSubscription);
+    this.disposeSubscription(this.metricSubscription);
 
     removeSceneObject(this.mesh);
     this.isRunning = false;
@@ -253,6 +308,12 @@ export default class ParticleEmitter {
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = (particlesPerSecond > 0) ? 1 / particlesPerSecond : Number.MAX_VALUE;
     this.secToNextError = (errorRate > 0) ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
+  }
+
+  disposeSubscription(subscription) {
+    if (subscription) {
+      subscription.dispose();
+    }
   }
 
   dispose() {
