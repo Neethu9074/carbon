@@ -1,13 +1,18 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {addKeywordOperator} from 'in-sdk/search';
 
-import windowsIconPath from 'in-forge/plugins/host/icons/instana_server_windows.svg';
-import linuxIconPath from 'in-forge/plugins/host/icons/instana_server_linux.svg';
-import appleIconPath from 'in-forge/plugins/host/icons/instana_server_apple.svg';
+import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
+import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
+import appleIconSvgPath from 'in-forge/plugins/host/icons/appleIconPath';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition.es6';
 import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
 import {plugins} from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
+
+
+const linuxPlugin = plugins.host + '_linux';
+const applePlugin = plugins.host + '_apple';
+const windowsPlugin = plugins.host + '_windows';
 
 registerSnapshotDefinition({
   plugin: plugins.host,
@@ -22,31 +27,21 @@ registerSnapshotDefinition({
   namesForTypeSearch: ['host'],
 
   icons: {
-    [plugins.host]: linuxIconPath,
-    [plugins.host + '_linux']: linuxIconPath,
-    [plugins.host + '_apple']: appleIconPath,
-    [plugins.host + '_windows']: windowsIconPath
+    [plugins.host]: linuxIconSvgPath,
+    [linuxPlugin]: linuxIconSvgPath,
+    [applePlugin]: appleIconSvgPath,
+    [windowsPlugin]: windowsIconSvgPath
   },
 
-  getIcon(snapshot) {
-    let type = snapshot.get('plugin');
-
-    const osPlugin = plugins.host;
-    if (type === osPlugin) {
-      const os = snapshot.getIn(['data', 'os.name']);
-      type = osPlugin + '_linux'; // linux as default
-
-      if (os) {
-        if (os.match(/linux/i)) {
-          type = osPlugin + '_linux';
-        } else if (os.match(/windows/i)) {
-          type = osPlugin + '_windows';
-        } else if (os.match(/mac/i)) {
-          type = osPlugin + '_apple';
-        }
-      }
+  getIconPath(snapshot) {
+    const os = snapshot.getIn(['data', 'os.name'], '');
+    if (os.match(/linux/i)) {
+      return linuxPlugin;
+    } else if (os.match(/windows/i)) {
+      return windowsPlugin;
+    } else if (os.match(/mac/i)) {
+      return applePlugin;
     }
-    return type;
   },
 
   getPower(snapshot) {

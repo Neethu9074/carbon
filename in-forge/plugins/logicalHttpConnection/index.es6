@@ -2,12 +2,14 @@ import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 
 registerSnapshotDefinition({
   plugin: plugins.logicalHttpConnection,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
 
   chartWiggleRoom: 20000,

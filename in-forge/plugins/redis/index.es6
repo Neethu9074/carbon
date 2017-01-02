@@ -1,13 +1,14 @@
 import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {addSearchableEntityType} from 'in-sdk/search';
 import {setHumanReadablePluginName} from 'in-sdk/pluginName';
+import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
 
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 registerSnapshotDefinition({
   plugin: plugins.redis,
-  icon
+  iconSvgPath
 });
 
 setHumanReadablePluginName(

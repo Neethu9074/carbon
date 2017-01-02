@@ -3,12 +3,12 @@ import React from 'react';
 import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
 import {formatDateTime} from 'in-services/formatters/date';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
+import PluginIcon from 'in-components/PluginIcon';
 import {selectedEventId$} from 'in-stores/events';
 import {getSnapshot} from 'in-stores/snapshot';
-import {getSingular} from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import {getLabel} from 'in-sdk/snapshot';
 import {theme} from 'in-services/theme';
 
 import './EventTableRow.less';
@@ -114,13 +114,12 @@ const Entity = connectTo(props => {
   if (!snapshot) {
     return null;
   }
-  const entityType = getSingular(snapshot.get('plugin'));
-
   return (
     <div className={`${block}__entity-wrapper`}>
-      <img src={getIcon(snapshot)}
-           alt={`Icon for entities of type ${entityType}`}
-           className={`${block}__entity-icon`} />
+      <PluginIcon className={`${block}__entity-icon`}
+                  dimension={14}
+                  color='#000'
+                  snapshot={snapshot} />
       <span>
         {getLabel(snapshot)}
       </span>

@@ -1,14 +1,14 @@
+import iconSvgPath from 'in-forge/plugins/elasticsearchNode/iconPath';
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
-
-import icon from 'in-forge/plugins/elasticsearchNode/icon.svg';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.elasticSearchIndexServiceInstance,
-  icon,
+
+  iconSvgPath,
   metricDefinitions,
 
   pluginName: {

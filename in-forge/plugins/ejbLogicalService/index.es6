@@ -3,11 +3,13 @@ import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinit
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 registerSnapshotDefinition({
   plugin: plugins.ejbLogicalService,
-  icon,
+
+  iconSvgPath,
   namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,

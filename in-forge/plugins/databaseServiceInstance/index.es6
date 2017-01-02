@@ -1,14 +1,15 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-sdk/tracing/categoryIcons/database.svg';
+import databaseIconPath from 'in-forge/plugins/databaseServiceInstance/iconPath';
 
 import metricDefinitions from './metricDefinitions';
 
 
 registerSnapshotDefinition({
   plugin: plugins.databaseServiceInstance,
-  icon,
+
+  iconSvgPath: databaseIconPath,
   metricDefinitions,
 
   pluginName: {
@@ -18,27 +19,16 @@ registerSnapshotDefinition({
 
   chartWiggleRoom: 20000,
 
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'name']);
+  getIconPath(snapshot) {
+    const databaseType = snapshot.getIn(['data', 'physical_endpoint', 'type'], '');
+    if (databaseType.match(/mysql/i)) {
+      return plugins.mysql;
+    } else if (databaseType.match(/postgres/i)) {
+      return plugins.postgres;
+    }
   },
 
-  getIcon(snapshot) {
-    let type = snapshot.get('plugin');
-
-    const databasePlugin = plugins.databaseServiceInstance;
-    if (type === databasePlugin) {
-      type = databasePlugin;
-      const databaseType = snapshot.getIn(['data', 'physical_endpoint', 'type']);
-
-      if (databaseType) {
-        if (databaseType.match(/mysql/i)) {
-          return plugins.mysql;
-        } else if (databaseType.match(/postgres/i)) {
-          return plugins.postgresql;
-        }
-      }
-    }
-
-    return type;
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'name']);
   }
 });

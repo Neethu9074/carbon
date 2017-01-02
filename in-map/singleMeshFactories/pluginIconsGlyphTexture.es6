@@ -1,16 +1,19 @@
 import {Texture, LinearFilter} from 'in-map/3DLibProvider';
-import {getAllIcons} from 'in-sdk/iconRegistry';
+import {getAllSvgIconPaths} from 'in-sdk/iconRegistry';
 
 
+const allIcons = getAllSvgIconPaths();
 export const config = {
-  numElementsPerColumn: Math.ceil(Math.sqrt(getAllIcons().length)),
+  numElementsPerColumn: Math.ceil(Math.sqrt(allIcons.length)),
   iconWidth: 128,
   LUT: {}
 };
 
 const canvas = document.createElement('canvas');
-const context = canvas.getContext('2d');
 canvas.width = canvas.height = config.numElementsPerColumn * config.iconWidth;
+
+const context = canvas.getContext('2d');
+context.fillStyle = '#fff';
 
 export const glyphTexture = new Texture(canvas);
 glyphTexture.minFilter = LinearFilter;
@@ -25,18 +28,18 @@ export function init() {
   let column = 0;
   let row = 0;
 
-  getAllIcons().forEach(icon => {
-    const x = column * iconWidth;
-    const y = row * iconWidth;
-    const image = document.createElement('img');
+  allIcons.forEach(icon => {
+    let x = column * iconWidth;
+    let y = row * iconWidth;
 
-    image.src = icon.image;
-    image.onload = () => {
-      // if the image is 100 x 100 in width don't draw it directly for 0 - 100
-      // use 2 - 98 instead to get a clear border to avoid nastly artifacts caused by rounding issues
-      context.drawImage(image, x + 2, y + 2, iconWidth - 4, iconWidth - 4);
-      glyphTexture.needsUpdate = true;
-    };
+    const p = new Path2D(icon.path);
+
+    // reduce the size of each icon and add an offset to get at least 2 pixels of margin.
+    // this avoids nasty artifacts caused by shaders floating precision.
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setTransform
+    context.setTransform(0.95, 0, 0, 0.95, x + 2, y + 2);
+
+    context.fill(p);
 
     // update Look Up Table
     config.LUT[icon.id] = {x, y};

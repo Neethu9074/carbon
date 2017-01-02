@@ -3,12 +3,14 @@ import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {plugins} from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 
 registerSnapshotDefinition({
   plugin: plugins.javaWebApp,
-  icon,
+
+  iconSvgPath,
   metricDefinitions
 });
 

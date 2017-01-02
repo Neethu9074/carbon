@@ -3,11 +3,13 @@ import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinit
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/mongoDb/icon.svg';
+import iconSvgPath from 'in-forge/plugins/mongoDb/iconPath';
+
 
 registerSnapshotDefinition({
   plugin: plugins.logicalMongoDbDatabase,
-  icon,
+
+  iconSvgPath,
   namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,

@@ -3,11 +3,12 @@ import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinit
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/elasticsearchNode/icon.svg';
+import iconSvgPath from 'in-forge/plugins/elasticsearchNode/iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.logicalElasticSearchIndex,
-  icon,
+
+  iconSvgPath,
   namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,

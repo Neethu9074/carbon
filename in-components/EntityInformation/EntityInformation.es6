@@ -2,10 +2,10 @@ import React from 'react';
 
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import DashboardLink from 'in-components/Link/DashboardLink';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
+import PluginIcon from 'in-components/PluginIcon';
 import {always} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
-import {getSingular} from 'in-sdk/pluginName';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './EntityInformation.less';
@@ -37,7 +37,6 @@ function EntityInformation({snapshot, label}) {
     return null;
   }
 
-  const entityType = getSingular(snapshot.get('plugin'));
   return (
     <div className={block}>
       <div className={`${block}__flex-wrapper`}>
@@ -45,9 +44,9 @@ function EntityInformation({snapshot, label}) {
           {label ? label : 'On:'}
         </span>
 
-        <img src={getIcon(snapshot)}
-             alt={`Icon depicting ${entityType}`}
-             className={`${block}__entity-icon`} />
+        <PluginIcon className={`${block}__entity-icon`}
+                    color='#000'
+                    snapshot={snapshot} />
       </div>
       <DashboardLink snapshotId={snapshot.get('id')}
                      className={`${block}__link`}

@@ -1,11 +1,12 @@
 import {registerSnapshotDefinition} from 'in-sdk/snapshot';
 import {plugins} from 'in-forge/constants';
 
-import icon from 'in-forge/plugins/cassandraNode/icon.svg';
+import iconSvgPath from 'in-forge/plugins/cassandraNode/iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.logicalCassandraKeyspace,
-  icon,
+
+  iconSvgPath,
   chartWiggleRoom: 20000,
 
   pluginName: {

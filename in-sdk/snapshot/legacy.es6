@@ -1,6 +1,3 @@
-import {getIconById, getIconPath} from 'in-sdk/iconRegistry';
-
-
 const UNKNOWN_LABEL = 'Unknown';
 
 // {
@@ -42,12 +39,4 @@ export function getLabel(snapshot, fallback) {
     return fallback;
   }
   return UNKNOWN_LABEL;
-}
-
-
-export function getIcon(snapshot) {
-  if (typeof snapshot === 'object') {
-    return getIconById(getIconPath(snapshot));
-  }
-  return getIconById(snapshot);
 }

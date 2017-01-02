@@ -4,11 +4,13 @@ import {setHumanReadablePluginName} from 'in-sdk/pluginName';
 import {addSearchableEntityType} from 'in-sdk/search';
 import {plugins} from 'in-forge/constants';
 
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 registerSnapshotDefinition({
   plugin: plugins.tomcat,
-  icon,
+
+  iconSvgPath,
   supportsCodeView,
   getCodeView
 });

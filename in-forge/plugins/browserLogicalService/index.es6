@@ -10,12 +10,14 @@ import {
 import {addMapping} from 'in-sdk/kpi';
 
 import metricDefinitions from './metricDefinitions';
-import icon from './icon.svg';
+import iconSvgPath from './iconPath';
+
 
 
 registerSnapshotDefinition({
   plugin: plugins.browserLogicalService,
-  icon,
+
+  iconSvgPath,
   namesForTypeSearch: ['service', 'eum', 'browser'],
   tableDefinition,
   metricDefinitions,
