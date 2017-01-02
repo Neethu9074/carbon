@@ -1,9 +1,9 @@
 import React from 'react';
 
+import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {getDashboardLink} from 'in-stores/navigation';
-import PluginIcon from 'in-components/PluginIcon';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
@@ -50,9 +50,9 @@ const Crumb = connectTo(props => {
         <a href={snapshotLink}
            title='Open dashboard for this entity.'
            className={`${crumbElement}-link`}>
-          <PluginIcon className={`${crumbElement}-icon`}
-                      dimension={14}
-                      snapshot={snapshot} />
+          <HealthyPluginIcon className={`${crumbElement}-icon`}
+                             dimension={14}
+                             snapshot={snapshot} />
           {label}
         </a>
       </li>
