@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
-import TooltipFrame from 'in-components/Tooltips/Frame';
 import EventListing from 'in-components/EventListing';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -40,11 +39,7 @@ export default connectTo(props => {
 
   if (numberOfOpenIssues > 0) {
     return (
-      <Tooltip content={
-                 <TooltipFrame>
-                   <EventListing snapshotId={snapshotId} />
-                 </TooltipFrame>
-               }>
+      <Tooltip content={<EventListing snapshotId={snapshotId} />}>
         {counter}
       </Tooltip>
     );

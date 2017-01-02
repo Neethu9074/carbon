@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
-import TooltipFrame from 'in-components/Tooltips/Frame';
 import EventListing from 'in-components/EventListing';
 import HealthBar from 'in-components/HealthBar';
 import Tooltip from 'in-components/Tooltip';
@@ -35,10 +34,7 @@ export default connectTo(props => {
         <HealthBar snapshotId={snapshotId} />
 
         {numberOfOpenIssues > 0 ?
-          <Tooltip content={
-            <TooltipFrame>
-              <EventListing snapshotId={snapshotId} />
-            </TooltipFrame>}>
+          <Tooltip content={<EventListing snapshotId={snapshotId} />}>
             <span className={block + '__counter'}
                   style={{
                     color: maxSeverity < 6 ? '#000' : '#fff',

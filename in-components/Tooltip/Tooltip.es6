@@ -55,11 +55,8 @@ export default React.createClass({
       this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
       this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
     } catch (e) {
-      /* eslint-disable max-len */
-      // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this
-      // error…
+      // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this error…
       logger.debug(`Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(this.props.content)}`, e);
-      /* eslint-enable max-len */
     }
   },
 

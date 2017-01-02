@@ -33,13 +33,13 @@ export default getEvents(
       events = events.sort((a, b) => a.get('severity') < b.get('severity'));
 
       return (
-        <div className={block}>
-            {events.map(event =>
-              <EventDescription className={block + '__item'}
-                                key={event.get('id')}
-                                event={event}
-                                snapshotId={event.getIn(['problem', 'snapshotId'])} />)
-            }
+        <div>
+          {events.map(event =>
+            <EventDescription className={block + '__item'}
+                              key={event.get('id')}
+                              event={event}
+                              snapshotId={this.props.snapshotId} />)
+          }
         </div>
       );
     }

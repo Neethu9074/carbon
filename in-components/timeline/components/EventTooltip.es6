@@ -60,11 +60,11 @@ export default connectTo({
       return (
         <div className={block}
              style={style}>
-           <TooltipFrame anchor={anchor}>
-             <EventDescription event={highlightedEvent}
-                               showFullTextIfToLong={false}
-                               snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')} />
-           </TooltipFrame>
+          <TooltipFrame anchor={anchor}>
+            <EventDescription event={highlightedEvent}
+                              showFullTextIfToLong={false}
+                              snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')} />
+          </TooltipFrame>
         </div>
       );
     }
