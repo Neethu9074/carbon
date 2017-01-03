@@ -15,14 +15,15 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
   if (snapshot.getIn(['data', 'tooManyMetrics', false])) {
     return (
       <DashboardNotification type='warning'>
-        There are no metrics available because SpringBoot has registered to many of them.
+        There are no metrics available because the number of registered metrics
+        in Spring Boot is too large.
         <br />
         {`This can happen due to bugs like `}
         <a href='https://github.com/spring-projects/spring-boot/issues/5875'
            target='_blank'
            rel='noopener noreferrer'>
           this
-        </a>
+        </a>.
       </DashboardNotification>
     );
   }
