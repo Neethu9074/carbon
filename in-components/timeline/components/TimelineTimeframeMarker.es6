@@ -4,9 +4,7 @@ import React from 'react';
 import {timeframe$, setTo, timelineScale$, fixFocusedMomentIfNotFixed} from 'in-components/timeline/timelineStore';
 import {bigBangTimestamp$, timeframeShape} from 'in-stores/timeline';
 import {onMove, onUp} from 'in-services/reactiveMouseEvents';
-import {formatDuration} from 'in-services/formatters/date';
 import {serverTime$} from 'in-stores/serverTime';
-import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
 
@@ -77,11 +75,6 @@ export default connectTo({
 
       return (
         <div className={block}>
-          <Tooltip content='Selected time window size'>
-            <div className={`${block}__window-size`}>
-              {formatDuration(timeframe.windowSize)}
-            </div>
-          </Tooltip>
           <div className={block + '__marker'}
                onMouseDown={this.onMouseDown}
                style={{

@@ -5,7 +5,9 @@ import {
   timeframe$,
   setWindowSize
 } from 'in-components/timeline/timelineStore';
+import {formatDuration} from 'in-services/formatters/date';
 import {timeframeShape} from 'in-stores/timeline';
+import Tooltip from 'in-components/Tooltip';
 import Slider from 'in-components/Slider';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -82,6 +84,12 @@ export default connectTo({
           <Icon type={'zoom_large'}
                 className={block + '__icon-zoom'}
                 onClick={this.zoomIn} />
+
+          <Tooltip content='Selected time window size'>
+            <div className={`${block}__window-size`}>
+              {formatDuration(timeframe.windowSize)}
+            </div>
+          </Tooltip>
         </div>
       );
     },
