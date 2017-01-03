@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {fruchtermannReingoldLayouting$, vizceralLayouting$}  from 'in-map/stores/logical/layouterStore';
+import {setLayoutingStrategy, fruchtermannReingoldLayouting$, vizceralLayouting$}  from 'in-map/stores/logical/layouterStore';
 import MapStatistics from 'in-components/Controls/components/MapStatistics';
-import {setLayoutingStrategy} from 'in-map/stores/logical/layouterStore';
 import Particles from 'in-components/Controls/components/Particles';
 import Layout from 'in-components/Controls/components/Layout';
 import Icons from 'in-components/Controls/components/Icons';

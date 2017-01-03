@@ -1,103 +1,27 @@
 import {combineLatest} from 'reactive-observables';
 
-import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
+import {currentLayoutingStrategy$} from 'in-map/stores/physical/layouterStore';
 import {PHYSICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import {groups} from 'in-map/stores/physical/groupsStore';
 import {nodes} from 'in-map/stores/physical/nodesStore';
 import {eventBus} from 'in-map/services/eventBus';
 
 
-const MAX_VALUE = Number.MAX_VALUE;
-
 export default function createLayouter() {
-  const squashFactor = 0.5;
-  const groupMargin = 1;
-  const nodeMargin = 2;
-
-  const layoutingSubscription = combineLatest([groups.stream,
-                                               nodes.stream,
-                                               eventBus.on('layoutNeedsUpdate')])
-                               .debounce(PHYSICAL_LAYOUTING)
-                               .subscribe(([_groups]) => applyLayout(_groups));
-
-  function applyLayout(_groups) {
-    // the first group starts at (0, 0)
-    let groupXCursor = 0;
-    let width = 0;
-    let height = 0;
-    const groupDimensions = {};
-    const sortedGroups = sortGroups(_groups);
-
-    sortedGroups.forEach(group => {
-      const _nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
-      const numNodesPerRow = Math.ceil(squashFactor * Math.sqrt(_nodes.length));
-      const numNodesPerCol = Math.ceil(_nodes.length / numNodesPerRow);
-      const dim = {
-        x: groupXCursor,
-        width: nodeMargin + numNodesPerRow + (numNodesPerRow - 1) * nodeMargin,
-        height: nodeMargin + numNodesPerCol + (numNodesPerCol - 1) * nodeMargin
-      };
-
-      groupDimensions[group.id] = dim;
-
-      groupXCursor += dim.width + groupMargin;
-      width = Math.max(width, dim.x + dim.width);
-      height = Math.max(height, dim.height);
-    });
-
-    const xOffset = -width / 2;
-    const yOffset = height / 4;
-
-    sortedGroups.forEach(group => {
-      const _nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
-      const dim = groupDimensions[group.id];
-
-      const transform = group.getComponent('transform');
-      transform.setPositionXYZ(xOffset + dim.x + dim.width / 2,
-                               0,
-                               yOffset - dim.height / 2);
-      transform.setScaleXYZ(dim.width,
-                            1,
-                            dim.height);
-
-      let nodeXCursor = dim.x + 1;
-      let nodeYCursor = 1;
-
-      sortNodes(_nodes).forEach(node => {
-        node.getComponent('transform').setPositionXYZ(xOffset + nodeXCursor + 0.5,
-                                                      0,
-                                                      yOffset - nodeYCursor + 0.5 - groupMargin);
-
-        nodeXCursor += nodeMargin + 1;
-        if (nodeXCursor >= dim.x + dim.width) {
-          nodeXCursor = dim.x + 1;
-          nodeYCursor += nodeMargin + 1;
-        }
-      });
-    });
-  }
-
-  function sortGroups(_groups) {
-    _groups = Object.keys(_groups).map(key => _groups[key]);
-
-    // doerte sort -> unmonitored zone is the last one
-    _groups.sort((a, b) => {
-      if (a.id === ID_OF_UNMONITORED_ZONE) {
-        return MAX_VALUE;
-      }
-      if (b.id === ID_OF_UNMONITORED_ZONE) {
-        return -1 * MAX_VALUE;
-      }
-      return a._cachedLabel.localeCompare(b._cachedLabel);
-    });
-
-    return _groups;
-  }
-
-  function sortNodes(_nodes) {
-    _nodes.sort((a, b) => a._cachedLabel.localeCompare(b._cachedLabel));
-    return _nodes;
-  }
+  const layoutingSubscription = currentLayoutingStrategy$
+                                  .flatMap(layouting$ =>
+                                    combineLatest([groups.stream,
+                                                   layouting$,
+                                                   nodes.stream,
+                                                   eventBus.on('layoutNeedsUpdate')])
+                                    .debounce(PHYSICAL_LAYOUTING)
+                                    .map(([_groups, layoutStrategy]) => {
+                                      const config = layoutStrategy.config;
+                                      config.groups = Object.keys(_groups).map(key => _groups[key]);
+                                      return layoutStrategy;
+                                    })
+                                  )
+                                  .subscribe(layoutStrategy => layoutStrategy.applyLayout(layoutStrategy.config));
 
   return {
     dispose
