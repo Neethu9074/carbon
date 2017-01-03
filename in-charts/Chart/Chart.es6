@@ -123,11 +123,7 @@ export default function createChart(config) {
   function onMouseDown(e) {
     e.preventDefault();
 
-    if (e.shiftKey) {
-      clearHighlightedTimeframe();
-      return;
-    }
-
+    clearHighlightedTimeframe();
     timeframeHighlightDraggingStart = getTimeAtPosition(e.offsetX);
   }
 
