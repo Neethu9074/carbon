@@ -12,7 +12,7 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
   const snapshotId = snapshot.get('id');
 
-  if (snapshot.getIn(['data', 'tooManyMetrics', false])) {
+  if (snapshot.getIn(['data', 'tooManyMetrics'], false)) {
     return (
       <DashboardNotification type='warning'>
         There are no metrics available because the number of registered metrics
