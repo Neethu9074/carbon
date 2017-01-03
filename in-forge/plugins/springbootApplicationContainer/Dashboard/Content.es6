@@ -2,6 +2,7 @@ import React from 'react';
 
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -10,6 +11,21 @@ import {getLabel} from 'in-sdk/snapshot';
 export default function SpringbootDashboard({snapshot, timeframe}) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
   const snapshotId = snapshot.get('id');
+
+  if (snapshot.getIn(['data', 'tooManyMetrics', false])) {
+    return (
+      <DashboardNotification type='warning'>
+        There are no metrics available because SpringBoot has registered to many of them.
+        <br />
+        {`This can happen due to bugs like `}
+        <a href='https://github.com/spring-projects/spring-boot/issues/5875'
+           target='_blank'
+           rel='noopener noreferrer'>
+          this
+        </a>
+      </DashboardNotification>
+    );
+  }
 
   return (
     <div>
