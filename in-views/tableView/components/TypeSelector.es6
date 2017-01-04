@@ -10,13 +10,17 @@ const id = 'table-view-type-selector';
 
 // This list exists because we have the special type
 // "service" which is an aggregation of multiple types.
-const options = {
-  host: 'Hosts',
-  service: 'Services',
-  jvm: 'JVMs',
-  dropwizard: 'Dropwizard Apps',
-  nodejs: 'Node.js Apps',
-  docker: 'Docker Containers'
+const domains = {
+  Infrastructure: {
+    host: 'Hosts',
+    jvm: 'JVMs',
+    dropwizard: 'Dropwizard Apps',
+    nodejs: 'Node.js Apps',
+    docker: 'Docker Containers'
+  },
+  Application: {
+    service: 'Services'
+  }
 };
 
 export default connectTo({
@@ -31,11 +35,16 @@ export default connectTo({
               className={`${block}__selection`}
               value={selectedType}
               onChange={setType}>
-        {Object.keys(options).sort().map(val =>
-          <option value={val}
-                  key={val}>
-            {options[val]}
-          </option>
+        {Object.keys(domains).map(domain =>
+          <optgroup key={domain}
+                    label={domain}>
+            {Object.keys(domains[domain]).sort().map(val =>
+              <option value={val}
+                      key={val}>
+                {domains[domain][val]}
+              </option>
+            )}
+          </optgroup>
         )}
       </select>
     </label>
