@@ -19,10 +19,19 @@
     padding: 0;
   }
 
-  &__list-item {
+  &__focused-moment {
+    padding: 7px;
+    background: #9fffff;
+  }
+
+  &__list-item, &__focused-moment {
     margin-bottom: 0.313rem;
     border-radius: 0.188rem;
+  }
+
+  &__list-item {
     background: #D5DFE4;
+    cursor: pointer;
 
     &:hover {
       color: white;

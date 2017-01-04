@@ -3,6 +3,7 @@ import React from 'react';
 import {getCurrentViewWithTimelineCenteredAt} from 'in-stores/navigation/timeline';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
+import {focusedMoment$} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/Dashboard/components/NotFoundDialog.less';
@@ -64,7 +65,10 @@ function mergeVersionLists(listA, listB) {
 }
 
 
-function VersionList({title, versions}) {
+const VersionList = connectTo({
+  focusedMoment: focusedMoment$
+},
+function VersionList({title, versions, focusedMoment}) {
   return (
     <div className={`${block}__list-wrapper`}>
       <p className={`${block}__header`}>
@@ -72,10 +76,25 @@ function VersionList({title, versions}) {
       </p>
 
       <ul className={`${block}__list`}>
-        {versions.map(version => {
+        {versions.map((version, i) => {
           const from = version.from;
           const to = version.to;
-
+          const prev = versions[i - 1];
+          if (focusedMoment > from && (!prev || focusedMoment < prev.from)) {
+            return [
+              <li className={`${block}__focused-moment`}>
+                <span className={`${block}__key`}>
+                  selected moment:
+                </span>
+                <span className={`${block}__value`}>
+                  {formatDateTime(focusedMoment)}
+                </span>
+              </li>,
+              <ListItem key={`${from},${to}`}
+                        from={from}
+                        to={to} />
+            ];
+          }
           return (
             <ListItem key={`${from},${to}`}
                       from={from}
@@ -85,13 +104,14 @@ function VersionList({title, versions}) {
       </ul>
     </div>
   );
-}
+});
 
 const ListItem = connectTo(props => {
   return {
     link: getCurrentViewWithTimelineCenteredAt(props.to)
   };
-}, function ListItem({from, to, link}) {
+},
+function ListItem({from, to, link}) {
   return (
     <li className={`${block}__list-item`}>
       <a href={link}
