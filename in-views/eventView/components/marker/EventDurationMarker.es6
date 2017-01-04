@@ -3,7 +3,7 @@ import React from 'react';
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
 import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
-import {formatDurationRaw} from 'in-services/formatters/date';
+import {formatDurationAccurately} from 'in-services/formatters/date';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {serverTime$} from 'in-stores/serverTime';
 import connectTo from 'in-hoc/connectTo';
@@ -46,7 +46,7 @@ function EventDurationMarker({event, config}) {
 
   return (
     <LabeledValue label='duration'>
-      {`${formatDurationRaw(config.to - event.get('start'))}`}
+      {`${formatDurationAccurately(config.to - event.get('start'))}`}
     </LabeledValue>
   );
 });

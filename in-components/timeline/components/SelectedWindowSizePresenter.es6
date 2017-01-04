@@ -3,7 +3,7 @@ import {create} from 'reactive-observables';
 import React from 'react';
 
 import {timeframe$, isCollapsed$} from 'in-components/timeline/timelineStore';
-import {formatDuration} from 'in-services/formatters/date';
+import {formatDurationAccurately} from 'in-services/formatters/date';
 import connectTo from 'in-hoc/connectTo';
 
 import './SelectedWindowSizePresenter.less';
@@ -66,7 +66,7 @@ export default connectTo({
                        opacity: config.style.opacity
                      }}>
                   <div className={block + '__time'}>
-                    {formatDuration(config.data)}
+                    {formatDurationAccurately(config.data)}
                   </div>
                 </div>
               );

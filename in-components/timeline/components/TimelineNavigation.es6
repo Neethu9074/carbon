@@ -5,7 +5,7 @@ import {
   timeframe$,
   setWindowSize
 } from 'in-components/timeline/timelineStore';
-import {formatDuration} from 'in-services/formatters/date';
+import {formatDurationAccurately} from 'in-services/formatters/date';
 import {timeframeShape} from 'in-stores/timeline';
 import Tooltip from 'in-components/Tooltip';
 import Slider from 'in-components/Slider';
@@ -87,7 +87,7 @@ export default connectTo({
 
           <Tooltip content='Selected time window size'>
             <div className={`${block}__window-size`}>
-              {formatDuration(timeframe.windowSize)}
+              {formatDurationAccurately(timeframe.windowSize)}
             </div>
           </Tooltip>
         </div>

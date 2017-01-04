@@ -64,6 +64,61 @@ export function formatDuration(millis) {
   return moment.duration(millis).humanize();
 }
 
+const times = [
+  {
+    short: 'y',
+    millis: 12 * 31 * 24 * 60 * 60 * 1000
+  },
+  {
+    short: 'mo',
+    millis: 31 * 24 * 60 * 60 * 1000
+  },
+  {
+    short: 'd',
+    millis: 24 * 60 * 60 * 1000
+  },
+  {
+    short: 'h',
+    millis: 60 * 60 * 1000
+  },
+  {
+    short: 'm',
+    millis: 60 * 1000
+  },
+  {
+    short: 's',
+    millis: 1000
+  }
+];
+
+export function fromNowAccurately(millis) {
+  return formatDurationAccurately(Math.abs(Date.now() - millis));
+}
+
+export function formatDurationAccurately(millis, ignoreTimesSmallerThan = 60000) {
+  let result = '';
+
+  for (let i = 0; i < times.length; i++) {
+    if (millis < ignoreTimesSmallerThan) {
+      continue;
+    }
+
+    const time = times[i];
+    const count = Math.floor(millis / time.millis);
+    millis = millis - count * time.millis;
+
+    if (count > 0) {
+      result = `${result} ${count}${time.short}`;
+    }
+  }
+
+  if (result === '') {
+    return `${millis}ms`;
+  }
+
+  return result.trim();
+}
+
 export function formatDurationRaw(millis) {
   const duration = moment.duration(millis);
   return moment({
