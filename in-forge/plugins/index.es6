@@ -16,6 +16,7 @@ import './defaultServiceInstance';
 import './docker';
 import './dropwizardApplicationContainer';
 import './ec2';
+import './ejbLogicalConnection';
 import './ejbLogicalService';
 import './ejbServiceInstance';
 import './elasticsearchCluster';
