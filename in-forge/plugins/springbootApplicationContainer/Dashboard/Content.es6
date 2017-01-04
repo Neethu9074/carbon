@@ -12,17 +12,16 @@ export default function SpringbootDashboard({snapshot, timeframe}) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
   const snapshotId = snapshot.get('id');
 
-  if (snapshot.getIn(['data', 'tooManyMetrics'], false)) {
+  if (snapshot.getIn(['data', 'tooManyMetrics'], true)) {
     return (
       <DashboardNotification type='warning'>
-        There are no metrics available because the number of registered metrics
-        in Spring Boot is too large.
-        <br />
-        {`This can happen due to bugs like `}
+        Metric collections was stopped because there are too many registered metrics
+        in this Spring Boot application.{' '}
+        This can be due to a bug in{' '}
         <a href='https://github.com/spring-projects/spring-boot/issues/5875'
            target='_blank'
            rel='noopener noreferrer'>
-          this
+          Spring Boot
         </a>.
       </DashboardNotification>
     );
