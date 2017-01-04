@@ -50,6 +50,7 @@ import './page';
 import './pdo';
 import './php';
 import './play2';
+import './play2.ws';
 import './py.hc';
 import './py.http';
 import './rabbitmq';
