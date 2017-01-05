@@ -70,10 +70,6 @@ describe('in-services/search', () => {
     expect(transform('elasti~')).to.equal('elasti~');
   });
 
-  it.skip('must support multiple values for selection types', () => {
-    expect(transform('type=service')).to.match(/^\(plugin_id:[a-z.]+ OR plugin_id:[a-z.]+ OR .*\)$/i);
-  });
-
   it('must support raw entities query types', () => {
     expect(transform('entities="foo:bar"')).to.equal('foo:bar');
   });
