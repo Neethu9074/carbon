@@ -3,7 +3,7 @@ import React from 'react';
 import {percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
 import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
-import HierachialLink from 'in-components/Link/HierachialLink';
+import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
 import {getSingular} from 'in-sdk/pluginName';
@@ -32,9 +32,9 @@ export default [
       const name = getLabel(snapshot);
       return {
         content: (
-          <HierachialLink snapshotId={snapshot.get('id')}>
+          <HierarchicalLink snapshotId={snapshot.get('id')}>
             {name}
-          </HierachialLink>
+          </HierarchicalLink>
         ),
         sortable: name
       };

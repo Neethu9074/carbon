@@ -8,10 +8,10 @@ import {alwaysNull} from 'in-services/fixedStreams';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import './HierachialLink.less';
+import './HierarchicalLink.less';
 
 
-const block = 'in-hierachial-link';
+const block = 'in-hierarchical-link';
 
 export default connectTo(props => {
   const snapshotId = props.snapshotId;
@@ -22,7 +22,7 @@ export default connectTo(props => {
 },
 React.createClass({
 
-  displayName: 'DashboardLinkComponent',
+  displayName: 'HierarchicalLink',
 
   getInitialState() {
     return {

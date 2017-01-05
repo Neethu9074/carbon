@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HierachialLink from 'in-components/Link/HierachialLink';
+import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import PluginIcon from 'in-components/PluginIcon';
 import {always} from 'in-services/fixedStreams';
@@ -48,13 +48,13 @@ function EntityInformation({snapshot, label, useSnapshotLink = false, kind = 'da
                     color={kind === 'dark' ? '#000' : '#fff'}
                     snapshot={snapshot} />
       </div>
-      <HierachialLink snapshotId={snapshot.get('id')}
+      <HierarchicalLink snapshotId={snapshot.get('id')}
                       className={`${block}__link`}
                       useSnapshotLink={useSnapshotLink}
                       kind={kind}
                       calculateHierarchy>
         {getLabel(snapshot)}
-      </HierachialLink>
+      </HierarchicalLink>
     </div>
   );
 });

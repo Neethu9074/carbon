@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
-import HierachialLink from 'in-components/Link/HierachialLink';
+import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -15,9 +15,9 @@ export default [
 
       return {
         content: (
-          <HierachialLink snapshotId={snapshot.get('id')}>
+          <HierarchicalLink snapshotId={snapshot.get('id')}>
             {label}
-          </HierachialLink>
+          </HierarchicalLink>
         ),
         sortable: label
       };

@@ -2,7 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
-import HierachialLink from 'in-components/Link/HierachialLink';
+import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -33,11 +33,11 @@ function Hierarchy({snapshots, useSnapshotLink, kind}) {
             <HealthyPluginIcon className={imgClasses}
                                snapshot={snapshot}
                                fallbackColor={kind === 'dark' ? '#000' : '#fff'} />
-            <HierachialLink snapshotId={snapshot.get('id')}
+            <HierarchicalLink snapshotId={snapshot.get('id')}
                             kind={kind}
                             useSnapshotLink={useSnapshotLink}>
               {getLabel(snapshot)}
-            </HierachialLink>
+            </HierarchicalLink>
           </li>
         );
       })}
