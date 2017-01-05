@@ -43,21 +43,7 @@ module.exports = {
 
     // If a class method does not use this, it can safely be made a static function.
     // http://eslint.org/docs/rules/class-methods-use-this
-    'class-methods-use-this': ['warn', {
-      exceptMethods: [
-        'render',
-        'getInitialState',
-        'getDefaultProps',
-        'getChildContext',
-        'componentWillMount',
-        'componentDidMount',
-        'componentWillReceiveProps',
-        'shouldComponentUpdate',
-        'componentWillUpdate',
-        'componentDidUpdate',
-        'componentWillUnmount',
-      ],
-    }],
+    'class-methods-use-this': ['off'],
 
     // ###########################################################
     // ### Style
