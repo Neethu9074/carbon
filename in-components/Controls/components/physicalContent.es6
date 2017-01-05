@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {setLayoutingStrategy, simpleLayouting$, packedLayouting$}  from 'in-map/stores/physical/layouterStore';
+import {alternativePhysicalLayoutingEnables} from 'in-services/featureFlags';
 import MapStatistics from 'in-components/Controls/components/MapStatistics';
 import Metrics from 'in-components/Controls/components/Metrics';
 import Layout from 'in-components/Controls/components/Layout';
@@ -13,16 +14,21 @@ export default function getPhysicalContent() {
   const controls = [
     <Zoom key='zoom' />,
     <Metrics key='metrics' />,
-    <Tags key='tags' />,
-    <Layout key='simple_layout'
-            iconType='options'
-            tooltipText='Rearrange zones by name'
-            onClick={() => setLayoutingStrategy(simpleLayouting$)} />,
-    <Layout key='packed_layout'
-            iconType='packed_layouting'
-            tooltipText='Rearrange zones as a compact structure'
-            onClick={() => setLayoutingStrategy(packedLayouting$)} />
+    <Tags key='tags' />
   ];
+
+  if (alternativePhysicalLayoutingEnables) {
+    controls.push(
+      <Layout key='simple_layout'
+              iconType='options'
+              tooltipText='Rearrange zones by name'
+              onClick={() => setLayoutingStrategy(simpleLayouting$)} />,
+      <Layout key='packed_layout'
+              iconType='packed_layouting'
+              tooltipText='Rearrange zones as a compact structure'
+              onClick={() => setLayoutingStrategy(packedLayouting$)} />
+    );
+  }
 
   if (__DEV__) {
     controls.push(

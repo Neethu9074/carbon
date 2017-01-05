@@ -4,3 +4,4 @@ const notStaging = !isStagingEnvironment();
 const onlyInstana = isInstanaTenant();
 
 export const webVrEnabled = notStaging && onlyInstana;
+export const alternativePhysicalLayoutingEnables = onlyInstana;
