@@ -1,10 +1,9 @@
 import React from 'react';
 
+import EntityInformation from 'in-components/EntityInformation';
 import {getSnapshot, setSelectedSnapshotId, selectedSnapshotId} from 'in-stores/snapshot';
 import HealthIconListing from 'in-components/HealthIconListing';
-import PluginIcon from 'in-components/PluginIcon';
 import KPIList from 'in-components/KPIList';
-import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import {getKpis} from 'in-sdk/kpi';
 
@@ -34,12 +33,10 @@ export default connectTo(props => {
         className={className}
         onClick={() => setSelectedSnapshotId(snapshotId)}>
 
-      <div className={block + '__entity-information'}>
-        <PluginIcon className={block + '__plugin-icon'}
-                    dimension={18}
-                    snapshot={snapshot} />
-        {getLabel(snapshot)}
-      </div>
+      <EntityInformation snapshotId={snapshot.get('id')}
+                         label=''
+                         kind='light'
+                         useSnapshotLink />
 
       <div className={block + '__kpis'}>
         <KPIList classname={block + '__kpi-list'}

@@ -3,7 +3,7 @@ import React from 'react';
 import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
 import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
-import DashboardLink from 'in-components/Link/DashboardLink';
+import HierachialLink from 'in-components/Link/HierachialLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getFoundations} from 'in-stores/snapshot';
@@ -40,9 +40,9 @@ export default [
           const zoneLabel = getLabel(zone);
           return {
             content: (
-              <DashboardLink snapshotId={zone.get('id')}>
+              <HierachialLink snapshotId={zone.get('id')}>
                 {zoneLabel}
-              </DashboardLink>
+              </HierachialLink>
             ),
             sortable: zoneLabel
           };
@@ -55,9 +55,9 @@ export default [
       const fqdn = snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']));
       return {
         content: (
-          <DashboardLink snapshotId={snapshot.get('id')}>
+          <HierachialLink snapshotId={snapshot.get('id')}>
             {fqdn}
-          </DashboardLink>
+          </HierachialLink>
         ),
         sortable: fqdn
       };

@@ -1,7 +1,7 @@
 import React from 'react';
 
+import HierachialLink from 'in-components/Link/HierachialLink';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import DashboardLink from 'in-components/Link/DashboardLink';
 import PluginIcon from 'in-components/PluginIcon';
 import {always} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -24,7 +24,7 @@ export default connectTo(props => {
   }
   return {};
 },
-function EntityInformation({snapshot, label}) {
+function EntityInformation({snapshot, label, useSnapshotLink = false, kind = 'dark' }) {
   if (snapshot === loadingPlaceholder) {
     return (
       <LoadingIndicator inline
@@ -41,18 +41,20 @@ function EntityInformation({snapshot, label}) {
     <div className={block}>
       <div className={`${block}__flex-wrapper`}>
         <span className={`${block}__label`}>
-          {label ? label : 'On:'}
+          {label != undefined ? label : 'On:'}
         </span>
 
         <PluginIcon className={`${block}__entity-icon`}
-                    color='#000'
+                    color={kind === 'dark' ? '#000' : '#fff'}
                     snapshot={snapshot} />
       </div>
-      <DashboardLink snapshotId={snapshot.get('id')}
-                     className={`${block}__link`}
-                     calculateHierarchy>
+      <HierachialLink snapshotId={snapshot.get('id')}
+                      className={`${block}__link`}
+                      useSnapshotLink={useSnapshotLink}
+                      kind={kind}
+                      calculateHierarchy>
         {getLabel(snapshot)}
-      </DashboardLink>
+      </HierachialLink>
     </div>
   );
 });

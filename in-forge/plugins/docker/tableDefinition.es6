@@ -2,7 +2,7 @@ import React from 'react';
 
 import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
-import DashboardLink from 'in-components/Link/DashboardLink';
+import HierachialLink from 'in-components/Link/HierachialLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -16,9 +16,9 @@ export default [
 
       return {
         content: (
-          <DashboardLink snapshotId={snapshot.get('id')}>
+          <HierachialLink snapshotId={snapshot.get('id')}>
             {label}
-          </DashboardLink>
+          </HierachialLink>
         ),
         sortable: label
       };

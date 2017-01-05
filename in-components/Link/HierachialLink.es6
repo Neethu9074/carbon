@@ -1,22 +1,23 @@
 import React from 'react';
 
+import {getDashboardLink, getLinkToSnapshotInCurrentView} from 'in-stores/navigation';
 import {joinClassNames} from 'in-services/util/classnames';
 import {getPhysicalHierarchy} from 'in-stores/snapshot';
-import {getDashboardLink} from 'in-stores/navigation';
 import Hierarchy from 'in-components/Link/Hierarchy';
 import {alwaysNull} from 'in-services/fixedStreams';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import './DashboardLink.less';
+import './HierachialLink.less';
 
 
-const block = 'in-dashboard-link';
+const block = 'in-hierachial-link';
 
 export default connectTo(props => {
+  const snapshotId = props.snapshotId;
   return {
-    href: getDashboardLink(props.snapshotId),
-    hierarchy: (props.calculateHierarchy) ? getPhysicalHierarchy(props.snapshotId) : alwaysNull
+    href: props.useSnapshotLink ? getLinkToSnapshotInCurrentView(snapshotId) : getDashboardLink(snapshotId),
+    hierarchy: (props.calculateHierarchy) ? getPhysicalHierarchy(snapshotId) : alwaysNull
   };
 },
 React.createClass({
@@ -35,6 +36,7 @@ React.createClass({
     const className = this.props.className;
     const children = this.props.children;
     const href = this.props.href;
+    const kind = this.props.kind;
 
     if (!hierarchy || hierarchy.size === 0) {
       return (
@@ -46,6 +48,15 @@ React.createClass({
       );
     }
 
+    let expandedIconColor;
+    if (kind === 'dark') {
+      expandedIconColor = isExpanded ? '#000' : '#92A5AE';
+    } else {
+      expandedIconColor = isExpanded ? '#fff' : '#92A5AE';
+    }
+
+    const linkClassName = `${block}${kind === 'dark' ? '__dark' : '__light'}`;
+
     return (
       <div className={`${block}__link-wrapper`}>
         <SvgIcon className={`${block}__info-icon`}
@@ -53,12 +64,14 @@ React.createClass({
                  type={isExpanded ? 'timeline_close' : 'timeline_open'}
                  width={12}
                  height={12}
-                 color={isExpanded ? '#000' : '#92A5AE'} />
+                 color={expandedIconColor} />
         {isExpanded ?
-          <Hierarchy hierarchy={hierarchy} />
+          <Hierarchy hierarchy={hierarchy}
+                     kind={kind}
+                     useSnapshotLink={this.props.useSnapshotLink} />
         : <a href={href}
              onClick={stopPropagation}
-             className={joinClassNames(block, className)}>
+             className={joinClassNames(linkClassName, className)}>
           {children}
         </a>
         }
@@ -69,6 +82,10 @@ React.createClass({
   onClick(e) {
     stopPropagation(e);
     this.setState({isExpanded: !this.state.isExpanded});
+
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
   }
 }));
 

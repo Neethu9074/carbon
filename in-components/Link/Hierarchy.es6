@@ -2,7 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import HealthyPluginIcon from 'in-components/HealthyPluginIcon';
-import DashboardLink from 'in-components/Link/DashboardLink';
+import HierachialLink from 'in-components/Link/HierachialLink';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -17,7 +17,7 @@ export default connectTo(props => {
     snapshots: combineLatest(props.hierarchy.toArray().map(id => getSnapshot(id)))
   };
 },
-function Hierarchy({snapshots}) {
+function Hierarchy({snapshots, useSnapshotLink, kind}) {
   if (!snapshots) {
     return null;
   }
@@ -32,10 +32,12 @@ function Hierarchy({snapshots}) {
               className={`${block}__item`}>
             <HealthyPluginIcon className={imgClasses}
                                snapshot={snapshot}
-                               fallbackColor='#000' />
-            <DashboardLink snapshotId={snapshot.get('id')}>
+                               fallbackColor={kind === 'dark' ? '#000' : '#fff'} />
+            <HierachialLink snapshotId={snapshot.get('id')}
+                            kind={kind}
+                            useSnapshotLink={useSnapshotLink}>
               {getLabel(snapshot)}
-            </DashboardLink>
+            </HierachialLink>
           </li>
         );
       })}
