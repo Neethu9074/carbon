@@ -1,8 +1,22 @@
-import {createStore} from 'in-stores/store';
+import {create} from 'reactive-observables';
+
+import SimpleLayouter from 'in-map/misc/physical/layoutingStrategies/SimpleLayouter';
+import PackedLayouter from 'in-map/misc/physical/layoutingStrategies/PackedLayouter';
+import {always} from 'in-services/fixedStreams';
 
 
-const layouting = createStore({
-  name: 'physical/layouter',
-  initialValue: 'physical'
+export const simpleLayouting$ = always({
+  applyLayout: SimpleLayouter,
+  config: {}
 });
-export const layouting$ = layouting.observable;
+
+export const packedLayouting$ = always({
+  applyLayout: PackedLayouter,
+  config: {}
+});
+
+export const currentLayoutingStrategy$ = create().emit(simpleLayouting$);
+
+export function setLayoutingStrategy(newLayouting$) {
+  currentLayoutingStrategy$.emit(newLayouting$);
+}
