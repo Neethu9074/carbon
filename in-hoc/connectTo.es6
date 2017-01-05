@@ -1,6 +1,16 @@
+import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
-export default function connectTo(createObservables, ComposedComponent) {
+import {defaultsDeep} from 'lodash';
+
+const defaultOptions = {
+  pure: true
+};
+
+export default function connectTo(createObservables, ComposedComponent, opts) {
+  const needsToCreateObservables = typeof createObservables === 'function';
+  opts = defaultsDeep(opts || {}, defaultOptions);
+
   return React.createClass({
     displayName: 'connectTo hoc for ' + ComposedComponent.displayName,
 
@@ -13,7 +23,7 @@ export default function connectTo(createObservables, ComposedComponent) {
       this.observables = {};
 
       let observables;
-      if (typeof createObservables === 'function') {
+      if (needsToCreateObservables) {
         observables = createObservables(this.props);
       } else {
         observables = createObservables;
@@ -22,7 +32,7 @@ export default function connectTo(createObservables, ComposedComponent) {
     },
 
     componentWillReceiveProps(nextProps) {
-      if (typeof createObservables === 'function') {
+      if (needsToCreateObservables && (!opts.pure || !shallowEquals(this.props, nextProps))) {
         this.subscribe(createObservables(nextProps));
       }
     },

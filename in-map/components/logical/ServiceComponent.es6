@@ -39,10 +39,8 @@ function ServiceComponent({entity}) {
   );
 }
 
-const ConnectionSpawner = connectTo(() => {
-  return {
-    _services: services.stream.debounce(CONNECTIONS_NODE_CHECKING)
-  };
+const ConnectionSpawner = connectTo({
+  _services: services.stream.debounce(CONNECTIONS_NODE_CHECKING)
 }, function ConnectionSpawner({_services, sourceId, destinationId, entity}) {
   if (!_services) {
     return null;

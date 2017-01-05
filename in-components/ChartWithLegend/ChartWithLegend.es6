@@ -17,8 +17,7 @@ export default connectTo(props => {
       ? props.timeframe$.map(getRollupForTimeframe)
       : currentRollup$
   };
-},
-React.createClass({
+}, React.createClass({
   displayName: 'ChartWithLegend',
 
   getInitialState() {

@@ -87,10 +87,8 @@ function Connections({entity}) {
   );
 }
 
-const ConnectionSpawner = connectTo(() => {
-  return {
-    _nodes: nodes.stream
-  };
+const ConnectionSpawner = connectTo({
+  _nodes: nodes.stream
 }, function ConnectionSpawner({_nodes, sourceId, destinationId, entity}) {
   if (!_nodes) {
     return null;
