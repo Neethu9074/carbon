@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TenantUnitSwitcher from 'in-components/AccountMenu/components/TenantUnitSwitcher';
-import {isOpen$, closeMenu} from 'in-components/AccountMenu/accountMenuStore';
+import TenantUnitSwitcher from 'in-components/AppHeader/components/AccountMenu/components/TenantUnitSwitcher';
+import {isOpen$, closeMenu} from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
 import {configurationViewLink$} from 'in-stores/navigation/configuration';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';

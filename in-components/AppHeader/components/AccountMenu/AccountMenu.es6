@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {toggleMenu} from 'in-components/AccountMenu/accountMenuStore';
-import Menu from 'in-components/AccountMenu/components/Menu';
+import {toggleMenu} from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
+import Menu from 'in-components/AppHeader/components/AccountMenu/components/Menu';
 import Icon from 'in-components/Icon';
 
 import './AccountMenu.less';

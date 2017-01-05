@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
-import AccountMenu from 'in-components/AccountMenu';
+import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
 import SearchBar from 'in-components/SearchBar';
 import Lettering from 'in-components/Lettering';
 import {homeLink$} from 'in-stores/navigation';
