@@ -1,12 +1,15 @@
 import Packer from 'in-map/misc/physical/Packer';
 
 
-const groupMarginWidth = 3;
-const groupMarginHeight = 6;
+let groupMarginWidth;
+let groupMarginHeight;
 const groupPadding = 1;
 const nodeMargin = 2;
 
-export default function applyLayout({groups}) {
+export default function applyLayout({groups, packingXSpace = 3, packingYSpace = 6}) {
+  groupMarginWidth = packingXSpace;
+  groupMarginHeight = packingYSpace;
+
   const dimensions = calculateDimensions(groups);
   groups.forEach(group => setGroupPosition(
     group,

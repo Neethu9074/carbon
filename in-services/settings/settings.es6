@@ -28,6 +28,8 @@ function loadDefault() {
   }
 
   setDefaultConfigValue(['map', 'scrollSpeed'], 1);
+  setDefaultConfigValue(['map', 'packingXSpace'], 2);
+  setDefaultConfigValue(['map', 'packingYSpace'], 6);
   setDefaultConfigValue(['map', 'scrollDirection'], 1);
   setDefaultConfigValue(['map', 'antialias'], 'browserAA');
   setDefaultConfigValue(['map', 'excludeUnmonitoredHosts'], false);
