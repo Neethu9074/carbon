@@ -10,7 +10,6 @@ import DialogPresenter from 'in-components/DialogPresenter';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
-import ViewSwitcher from 'in-components/ViewSwitcher';
 import AppHeader from 'in-components/AppHeader';
 
 import './App.less';
@@ -19,11 +18,7 @@ export default function App(props) {
   return (
     <div>
       <AppHeader />
-      <ViewSwitcher />
       <Timeline />
-
-      {props.children}
-
       <DetailPopupPresenter />
       <ReleaseNotesDialog />
       <MessageDialog />
@@ -33,6 +28,8 @@ export default function App(props) {
       <MessageFlyout />
       <TemporaryNotificationPresenter />
       <DialogPresenter />
+
+      {props.children}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AccountMenu';
 import SearchBar from 'in-components/SearchBar';
 import Lettering from 'in-components/Lettering';
@@ -23,6 +24,8 @@ export default connectTo({
         </a>
         <SearchBar className={block + '__search'} />
       </div>
+
+      <ViewSwitcher />
 
       <AccountMenu />
     </div>

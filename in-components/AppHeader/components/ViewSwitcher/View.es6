@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {SubMenu} from 'in-components/ViewSwitcher/SubMenu';
+import {SubMenu} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import {alwaysNull} from 'in-services/fixedStreams';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';

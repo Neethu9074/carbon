@@ -7,10 +7,10 @@ import {
   tableViewFilteredForServicesLink$
 } from 'in-stores/navigation/view';
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
-import {SubMenuItem} from 'in-components/ViewSwitcher/SubMenu';
+import {SubMenuItem} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import {containsTypeFilter} from 'in-stores/search/type';
 import {openEventsAtServerTime$} from 'in-stores/events';
-import View from 'in-components/ViewSwitcher/View';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
