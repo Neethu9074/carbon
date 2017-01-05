@@ -213,7 +213,7 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                timeframe={timeframe}
                margins={{
                  left: 80,
-                 right: 40
+                 right: 60
                }}
                y1={{
                  formatter: msTwoDecimalPlaces,
@@ -227,8 +227,8 @@ export default function KafkaDashboard({snapshot, timeframe}) {
                  type: 'line'
                }}
                y2={{
-                 formatter: msZeroDecimalPlaces,
-                 tooltipFormatter: msZeroDecimalPlaces,
+                 formatter: msTwoDecimalPlaces,
+                 tooltipFormatter: msTwoDecimalPlaces,
                  metrics: [
                    'logflush.inv'
                  ],
