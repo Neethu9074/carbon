@@ -1,3 +1,4 @@
+import {combineLatest} from 'reactive-observables';
 import RoEmitter from 'roemitter';
 
 import {
@@ -7,6 +8,7 @@ import {
   setShowSticky as showServiceSticky,
   setShowKpi as showServiceKpi
 } from 'in-map/stores/logical/servicesStore';
+import {currentLayoutingStrategy$, packedLayouting$} from 'in-map/stores/physical/layouterStore';
 import {setShowSticky as showGroupLabelSticky} from 'in-map/stores/physical/groupsStore';
 
 
@@ -26,5 +28,12 @@ export function createEventBus() {
     showConnectionSticky(zoomLevel < 150);
 
     showGroupLabelSticky(zoomLevel < 550);
+  });
+
+  combineLatest([
+    currentLayoutingStrategy$,
+    eventBus.on('zoomLevelChanged')
+  ]).subscribe(([currentLayoutingStrategy, zoomLevel]) => {
+      showGroupLabelSticky((currentLayoutingStrategy === packedLayouting$ && zoomLevel < 550) || currentLayoutingStrategy !== packedLayouting$);
   });
 }
