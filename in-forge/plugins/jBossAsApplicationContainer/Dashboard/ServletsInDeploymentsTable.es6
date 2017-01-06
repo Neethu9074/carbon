@@ -69,30 +69,38 @@ function createDetails(servletName, servletIndex, context) {
     const servletKey = context.deploymentContext + '.' + servletName;
 
   return (
-    <ChartWithLegend snapshotId={context.snapshot.get('id')}
-           timeframe={context.timeframe}
-           margins={{
-             left: 80,
-             right: 40
-           }}
-           y1={{
-             formatter: msZeroDecimalPlaces,
-             metrics: [
-               'servlets.' + servletKey + '.avgResponseTime'
-             ],
-             labels: [
-               'Average Response Time'
-             ],
-             type: 'line'
-           }}
-           y2={{
-             metrics: [
-               'servlets.' + servletKey + '.requests'
-             ],
-             labels: [
-               'Requests'
-             ],
-             type: 'line'
-           }} />
+    <div>
+      <ChartWithLegend snapshotId={context.snapshot.get('id')}
+             timeframe={context.timeframe}
+             margins={{
+               left: 80,
+               right: 40
+             }}
+             y1={{
+               formatter: msZeroDecimalPlaces,
+               metrics: [
+                 'servlets.' + servletKey + '.avgResponseTime'
+               ],
+               labels: [
+                 'Average Response Time'
+               ],
+               type: 'line'
+             }} />
+      <ChartWithLegend snapshotId={context.snapshot.get('id')}
+             timeframe={context.timeframe}
+             margins={{
+               left: 80,
+               right: 40
+             }}
+             y1={{
+               metrics: [
+                 'servlets.' + servletKey + '.requests'
+               ],
+               labels: [
+                 'Requests'
+               ],
+               type: 'line'
+             }} />
+    </div>
   );
 }

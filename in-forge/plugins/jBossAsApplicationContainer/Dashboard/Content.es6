@@ -13,7 +13,7 @@ export default function JBossAsDashboard({snapshot, timeframe}) {
       <ConnectorsTable snapshot={snapshot}
                        timeframe={timeframe} />
       <DatasourcesTable snapshot={snapshot}
-                       timeframe={timeframe} />
+                        timeframe={timeframe} />
     </div>
   );
 }

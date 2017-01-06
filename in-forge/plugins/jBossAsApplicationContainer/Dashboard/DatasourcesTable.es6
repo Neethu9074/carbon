@@ -79,30 +79,21 @@ function createDetails(datasourceSnapshot, datasourceName, context) {
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
              margins={{
-               left: 80,
-               right: 40
+               left: 80
              }}
              y1={{
                formatter: zeroDecimalPlaces,
                metrics: [
                  'datasources.metrics.' + datasourceName + '.active',
                  'datasources.metrics.' + datasourceName + '.available',
-                 'datasources.metrics.' + datasourceName + '.inUse'
-               ],
-               labels: [
-                 'Active Connections',
-                 'Available Connections',
-                 'Connections Currently In Use'
-               ],
-               type: 'line'
-             }}
-             y2={{
-               formatter: zeroDecimalPlaces,
-               metrics: [
+                 'datasources.metrics.' + datasourceName + '.inUse',
                  'datasources.metrics.' + datasourceName + '.created',
                  'datasources.metrics.' + datasourceName + '.timedOut'
                ],
                labels: [
+                 'Active Connections',
+                 'Available Connections',
+                 'Connections Currently In Use',
                  'Created Connections',
                  'Timed Out Connections'
                ],
@@ -111,8 +102,7 @@ function createDetails(datasourceSnapshot, datasourceName, context) {
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
              margins={{
-               left: 80,
-               right: 40
+               left: 80
              }}
              y1={{
                formatter: msZeroDecimalPlaces,

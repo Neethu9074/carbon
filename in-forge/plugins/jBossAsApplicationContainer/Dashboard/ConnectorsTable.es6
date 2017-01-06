@@ -69,32 +69,40 @@ function createRow(connectorName, i, context) {
 
 function createDetails(connectorName, i, context) {
   return (
-    <ChartWithLegend snapshotId={context.snapshot.get('id')}
-           timeframe={context.timeframe}
-           margins={{
-             left: 80
-           }}
-           y1={{
-             formatter: msZeroDecimalPlaces,
-             metrics: [
-               'connectors.' + connectorName + '.avgResponseTime'
-             ],
-             labels: [
-               'Average Response Time'
-             ],
-             type: 'line'
-           }}
-           y2={{
-             formatter: zeroDecimalPlaces,
-             metrics: [
-               'connectors.' + connectorName + '.requests',
-               'connectors.' + connectorName + '.errors'
-             ],
-             labels: [
-               'Requests',
-               'Errors'
-             ],
-             type: 'line'
-           }} />
+    <div>
+      <ChartWithLegend snapshotId={context.snapshot.get('id')}
+             timeframe={context.timeframe}
+             margins={{
+               left: 80
+             }}
+             y1={{
+               formatter: msZeroDecimalPlaces,
+               metrics: [
+                 'connectors.' + connectorName + '.avgResponseTime'
+               ],
+               labels: [
+                 'Average Response Time'
+               ],
+               type: 'line'
+             }} />
+
+      <ChartWithLegend snapshotId={context.snapshot.get('id')}
+             timeframe={context.timeframe}
+             margins={{
+               left: 80
+             }}
+             y1={{
+               formatter: zeroDecimalPlaces,
+               metrics: [
+                 'connectors.' + connectorName + '.requests',
+                 'connectors.' + connectorName + '.errors'
+               ],
+               labels: [
+                 'Requests',
+                 'Errors'
+               ],
+               type: 'line'
+             }} />
+    </div>
   );
 }
