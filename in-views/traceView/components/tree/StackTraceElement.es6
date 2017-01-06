@@ -1,6 +1,6 @@
 import React from 'react';
 
-import subscribeToInstanceImplementation from 'in-services/subscription/serviceInstanceImplementation';
+import subscribeToPhysicalEndpointImplementation from 'in-services/subscription/physicalEndpointImplementation';
 import ShowCodeButton from 'in-views/traceView/components/tree/ShowCodeButton';
 import {alwaysNull, alwaysFalse} from 'in-services/fixedStreams';
 import {getSnapshot, isEntityOnline} from 'in-stores/snapshot';
@@ -14,21 +14,21 @@ const block = 'in-trace-view-stack-trace';
 
 export default connectTo(props => {
   const direction = getDirection(props.parentSpan);
-  const side = direction === 'entry' ? 'destinationServiceInstanceId' : 'sourceServiceInstanceId';
-  const serviceInstanceSnapshotId = props.parentSpan.getIn(['rels', side]);
+  const side = direction === 'entry' ? 'destinationPhysicalEndpoint' : 'sourcePhysicalEndpoint';
+  const physicalEndpoint = props.parentSpan.getIn(['rels', side]);
   let snapshot$ = alwaysNull;
-  if (serviceInstanceSnapshotId) {
+  if (physicalEndpoint) {
     const time = props.parentSpan.get('start');
-    snapshot$ = subscribeToInstanceImplementation({
+    snapshot$ = subscribeToPhysicalEndpointImplementation({
         time,
-        serviceInstanceSnapshotId
+        physicalEndpoint
       })
-      .flatMap(serviceInstanceImplementationSnapshotId => {
-        if (!serviceInstanceImplementationSnapshotId) {
+      .flatMap(physicalEndpointImplementationSnapshotId => {
+        if (!physicalEndpointImplementationSnapshotId) {
           return alwaysNull;
         }
 
-        return getSnapshot(serviceInstanceImplementationSnapshotId, time);
+        return getSnapshot(physicalEndpointImplementationSnapshotId, time);
       });
   }
 
