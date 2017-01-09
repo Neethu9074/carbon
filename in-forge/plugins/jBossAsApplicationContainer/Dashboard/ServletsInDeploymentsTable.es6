@@ -73,8 +73,7 @@ function createDetails(servletName, servletIndex, context) {
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
              margins={{
-               left: 80,
-               right: 40
+               left: 80
              }}
              y1={{
                formatter: msZeroDecimalPlaces,
@@ -89,8 +88,7 @@ function createDetails(servletName, servletIndex, context) {
       <ChartWithLegend snapshotId={context.snapshot.get('id')}
              timeframe={context.timeframe}
              margins={{
-               left: 80,
-               right: 40
+               left: 80
              }}
              y1={{
                metrics: [
