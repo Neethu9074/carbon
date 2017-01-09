@@ -1,7 +1,9 @@
 import React from 'react';
 
+import {toggle, visible$ as menuVisible$} from 'in-components/SearchBar/stores/menuVisibility';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
+import SearchMenu from 'in-components/SearchBar/components/SearchMenu';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {rawQuery$, setInputString} from 'in-stores/search';
 import {expanded$} from 'in-stores/search/expanded';
@@ -20,35 +22,41 @@ const block = 'in-searchbar';
 
 export default connectTo({
   rawQuery: rawQuery$,
-  expanded: expanded$
-}, function SearchBar({rawQuery, expanded}) {
+  expanded: expanded$,
+  menuVisible: menuVisible$
+}, function SearchBar({rawQuery, expanded, menuVisible}) {
   if (!expanded) {
     return null;
   }
 
   return (
-    <div className={block}>
-      <div className={`${block}__field-wrapper`}>
-        <SvgIcon type='search'
-                 height={12}
-                 className={`${block}__icon`} />
+    <div>
+      <SearchMenu />
 
-        <input type='search'
-               value={rawQuery}
-               className={`${block}__input`}
-               placeholder='Search…'
-               onChange={onChange}
-               onKeyDown={onKeyDown}
-               onFocus={onFocus}
-               onBlur={onBlur} />
+      <div className={block}>
+        <div className={`${block}__field-wrapper`}>
+          <SvgIcon type='search'
+                   height={12}
+                   className={`${block}__icon`} />
+
+          <input type='search'
+                 value={rawQuery}
+                 className={`${block}__input`}
+                 placeholder='Search…'
+                 onChange={onChange}
+                 onKeyDown={onKeyDown}
+                 onFocus={onFocus}
+                 onBlur={onBlur} />
+        </div>
+
+        <SvgIcon type={menuVisible ? 'triangle_down' : 'triangle_right'}
+                 width={menuVisible ? 12 : 9}
+                 className={`${block}__expand-collapse`}
+                 onClick={toggle} />
+
+        <ErrorIndicator />
+        <Suggestions />
       </div>
-
-      <SvgIcon type='triangle_down'
-               width={12}
-               className={`${block}__expand-collapse`} />
-
-      <ErrorIndicator />
-      <Suggestions />
     </div>
   );
 });

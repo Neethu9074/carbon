@@ -23,12 +23,12 @@ export default connectTo({
       <ViewSwitcher />
 
       <div className={block}>
-        <div className={`${block}__left`}>
-          <a href={homeLink}
-             className={`${block}__lettering`}>
-            <Lettering />
-          </a>
+        <a href={homeLink}
+           className={`${block}__lettering`}>
+          <Lettering />
+        </a>
 
+        <div className={`${block}__right`}>
           <Button className={evaluateClassNames({
                     [`${block}__toggle-search`]: true,
                     [`${block}__toggle-search--active`]: expanded
@@ -42,9 +42,9 @@ export default connectTo({
 
             {expanded ? 'Hide seach bar' : 'Show search bar'}
           </Button>
-        </div>
 
-        <AccountMenu />
+          <AccountMenu />
+        </div>
       </div>
     </div>
   );

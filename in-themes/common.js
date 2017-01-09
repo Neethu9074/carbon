@@ -25,6 +25,7 @@ module.exports = {
     footerSelectedTimeNotification: zIndex++,
     mapNotes: zIndex++,
     searchBar: zIndex++,
+    searchMenu: zIndex++,
     header: zIndex++,
     viewSwitcher: zIndex++,
     accountMenu: zIndex++,
