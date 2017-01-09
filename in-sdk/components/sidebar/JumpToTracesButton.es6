@@ -9,7 +9,7 @@ import './JumpToTracesButton.less';
 
 const block = 'in-jump-to-traces';
 
-export default function JumpToTracesButton({href, traceCount}) {
+export default function JumpToTracesButton({href, traceCount, title='Traces', tooltip='Jump to traces starting at this service'}) {
   if (traceCount == null || traceCount === 0) {
     return null;
   }
@@ -18,11 +18,11 @@ export default function JumpToTracesButton({href, traceCount}) {
     <div>
       <Separator />
 
-      <Tooltip content='Jump to traces starting at this service'>
+      <Tooltip content={tooltip}>
         <Button href={href}
                 className={block}
                 kind='secondary'>
-          Traces ({zeroDecimalPlaces(traceCount)})
+          {title} ({zeroDecimalPlaces(traceCount)})
         </Button>
       </Tooltip>
     </div>

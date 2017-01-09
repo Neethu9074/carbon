@@ -28,10 +28,20 @@ export function getNumberOfTracesStartingAtService(serviceId) {
   return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
 }
 
+export function getNumberOfTracesTouchingService(serviceId) {
+  const query = buildLuceneQuery('touched_logical_service', '=', serviceId);
+  return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
+}
+
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
   const query = buildLuceneQuery('destination_service_instance_id', '=', serviceId) +
     ' OR ' +
     buildLuceneQuery('source_service_instance_id', '=', serviceId);
+  return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
+}
+
+export function getNumberOfTracesTouchingServiceInstance(serviceId) {
+  const query = buildLuceneQuery('touched_service_instance', '=', serviceId);
   return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
 }
 
