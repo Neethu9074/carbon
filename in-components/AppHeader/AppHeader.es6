@@ -2,7 +2,6 @@ import React from 'react';
 
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
-import SearchBar from 'in-components/SearchBar';
 import Lettering from 'in-components/Lettering';
 import {homeLink$} from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
@@ -25,7 +24,6 @@ export default connectTo({
              className={block + '__lettering-link'} >
             <Lettering />
           </a>
-          <SearchBar className={block + '__search'} />
         </div>
 
         <AccountMenu />

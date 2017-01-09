@@ -10,6 +10,7 @@ import DialogPresenter from 'in-components/DialogPresenter';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
+import SearchBar from 'in-components/SearchBar';
 import AppHeader from 'in-components/AppHeader';
 
 import './App.less';
@@ -18,6 +19,7 @@ export default function App(props) {
   return (
     <div>
       <AppHeader />
+      <SearchBar />
       <Timeline />
       <DetailPopupPresenter />
       <ReleaseNotesDialog />

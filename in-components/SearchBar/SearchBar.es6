@@ -10,9 +10,8 @@ import {
   highlightPreviousSuggestion,
   selectHighlightedSuggestion
 } from 'in-components/SearchBar/stores/highlightedSuggestion';
-import HelpLink from 'in-components/HelpLink';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './SearchBar.less';
 
@@ -20,37 +19,33 @@ const block = 'in-searchbar';
 
 export default connectTo({
     rawQuery: rawQuery$
-  }, function SearchBar({rawQuery, className}) {
-    let classes = block;
-    if (className) {
-      classes = `${classes} ${className}`;
-    }
-
-    return (
-      <div className={classes}>
-        <Icon type='search'
-              className={block + '__search-icon'} />
+}, function SearchBar({rawQuery}) {
+  return (
+    <div className={block}>
+      <div className={`${block}__field-wrapper`}>
+        <SvgIcon type='search'
+                 height={12}
+                 className={`${block}__icon`} />
 
         <input type='search'
                value={rawQuery}
-               className={block + '__input'}
+               className={`${block}__input`}
                placeholder='Search…'
                onChange={onChange}
                onKeyDown={onKeyDown}
                onFocus={onFocus}
                onBlur={onBlur} />
-
-        <HelpLink helpId='usingTheSearchBar'
-                  className={`${block}__help`}>
-          ?
-        </HelpLink>
-
-        <ErrorIndicator />
-        <Suggestions />
       </div>
-    );
-  }
-);
+
+      <SvgIcon type='triangle_down'
+               width={12}
+               className={`${block}__expand-collapse`} />
+
+      <ErrorIndicator />
+      <Suggestions />
+    </div>
+  );
+});
 
 function onChange(e) {
   setInputString(e.target.value);

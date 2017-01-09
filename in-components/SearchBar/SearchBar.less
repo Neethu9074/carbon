@@ -1,19 +1,35 @@
 @import "~in-themes/active.less";
 
 .in-searchbar {
-  position: relative;
+  position: absolute;
+  top: @header__height * 1px;
+  left: 0;
+  right: 0;
+  padding: .313rem .5rem;
+
+  z-index: @z-index__search-bar;
+
+  background: #172429;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+
   display: flex;
   align-items: center;
 
-  width: 15rem;
-  background: #2D4048;
-  border-radius: 0.2rem;
-  font-size: 0.8rem;
+  &__field-wrapper {
+    width: 100%;
+  }
+
+  &__icon {
+    position: absolute;
+    left: 1.1rem;
+    top: 0.7rem;
+    fill: #fff;
+  }
 
   &__input {
     width: 100%;
-    height: 1.813rem;
-    padding: 0.5rem 1rem 0.5rem 1.8125rem;
+    display: block;
+    padding: 0.4rem 1rem 0.4rem 1.8125rem;
     box-sizing: border-box;
     background: #2D4048;
     border: 0px;
@@ -21,34 +37,12 @@
     border-radius: 0.125rem;
   }
 
-  &__search-icon {
-    position: absolute;;
-    left: 0.67rem;
-    top: 0.4rem;
-
-    font-size: 1rem;
-    color: white;
-  }
-
-  &__help {
-    position: absolute;
-    right: -2rem;
-    top: 0.15rem;
-    text-decoration: none;
-    line-height: 1.4rem;
-    padding: 0 0.48rem;
-    border-radius: 1rem;
-    border: 2px solid #6b8088;
-    color: #6b8088;
-    font-weight: bold;
-    transform: scale(0.8);
-    font-size: 1rem;
-
-    transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out;
+  &__expand-collapse {
+    fill: #6B8088;
+    margin: 0 0 0 1rem;
 
     &:hover {
-      border-color: #fff;
-      color: #fff;
+      fill: #fff;
     }
   }
 }
