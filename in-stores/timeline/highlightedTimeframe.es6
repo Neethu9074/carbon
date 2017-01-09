@@ -4,7 +4,7 @@ import {createStore} from 'in-stores/store';
 const queryKey = 'tl.tf';
 
 const store = createStore({
-  name: 'in-stores/timeline/highlightedTimeframe',
+  name: 'timeline/highlightedTimeframe',
   initialValue: null
 });
 

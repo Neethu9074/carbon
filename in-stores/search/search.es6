@@ -11,7 +11,7 @@ import {focusedMoment$} from 'in-stores/timeline';
 import {view$} from 'in-stores/view';
 
 export const rawQuery$ = createTrackingStore({
-  name: 'in-stores/search/inputString',
+  name: 'search/inputString',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
@@ -26,7 +26,7 @@ export const rawQuery$ = createTrackingStore({
 
 
 const parsedQueryStore = createStore({
-  name: 'in-stores/search/parsedQuery',
+  name: 'search/parsedQuery',
   initialValue: null
 });
 export const parsedQuery$ = parsedQueryStore.observable;
@@ -36,7 +36,7 @@ export const luceneQuery$ = parsedQuery$
 
 
 const lastQueryChangeTime = createStore({
-  name: 'in-stores/search/lastQueryChangeTime',
+  name: 'search/lastQueryChangeTime',
   initialValue: 0
 });
 export const lastQueryChangeTime$ = lastQueryChangeTime.observable;
@@ -44,7 +44,7 @@ parsedQuery$.subscribe(() => lastQueryChangeTime.mutateTo(Date.now()));
 
 
 export const searchMatches$ = createTrackingStore({
-  name: 'in-stores/search/searchMatches',
+  name: 'search/searchMatches',
   observable: combineLatest([parsedQuery$, focusedMoment$, isMapView$, view$])
     .flatMap(([parsedQuery, focusedMoment, isMapView, view]) => {
       if (!isMapView ||
@@ -63,7 +63,7 @@ export const searchMatches$ = createTrackingStore({
 
 
 const errorStore = createStore({
-  name: 'in-stores/search/queryTranslationError',
+  name: 'search/queryTranslationError',
   initialValue: null
 });
 export const error$ = errorStore.observable;

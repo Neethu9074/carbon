@@ -365,7 +365,7 @@ export function clearSelectedEvent() {
 
 
 export const selectedEventId$ = createTrackingStore({
-  name: 'in-stores/events/selectedEventId',
+  name: 'events/selectedEventId',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
@@ -378,14 +378,14 @@ export const selectedEventId$ = createTrackingStore({
 }).observable;
 
 export const selectedEvent$ = createTrackingStore({
-  name: 'in-stores/events/selectedEvent',
+  name: 'events/selectedEvent',
   observable: selectedEventId$
     .flatMap(id => id ? getEvent(id) : alwaysNull)
     .distinct()
 }).observable;
 
 export const selectedIncident$ = createTrackingStore({
-  name: 'in-stores/events/selectedIncident',
+  name: 'events/selectedIncident',
   observable: selectedEventId$
     .flatMap(eventId => eventId ? getEvent(eventId) : alwaysNull)
     .map(event => {

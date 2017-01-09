@@ -11,13 +11,13 @@ import {toHtml} from 'in-services/formatters/markdown';
 const messageId = 'usageInfo';
 
 const usageInfo$ = createTrackingStore({
-  name: 'in-stores/usageInfo/usageInfo',
+  name: 'usageInfo/usageInfo',
   observable: createUsageInfoSubscription()
 }).observable;
 
 
 const usageInfoVisibleStore = createStore({
-  name: 'in-stores/usageInfo/usageInfoVisible',
+  name: 'usageInfo/usageInfoVisible',
   initialValue: true
 });
 const usageInfoVisible$ = usageInfoVisibleStore.observable;

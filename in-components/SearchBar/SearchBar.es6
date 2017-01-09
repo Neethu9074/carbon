@@ -4,6 +4,7 @@ import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {rawQuery$, setInputString} from 'in-stores/search';
+import {expanded$} from 'in-stores/search/expanded';
 import keyCodes from 'in-components/keyCodes';
 import {
   highlightNextSuggestion,
@@ -18,8 +19,13 @@ import './SearchBar.less';
 const block = 'in-searchbar';
 
 export default connectTo({
-    rawQuery: rawQuery$
-}, function SearchBar({rawQuery}) {
+  rawQuery: rawQuery$,
+  expanded: expanded$
+}, function SearchBar({rawQuery, expanded}) {
+  if (!expanded) {
+    return null;
+  }
+
   return (
     <div className={block}>
       <div className={`${block}__field-wrapper`}>

@@ -16,7 +16,7 @@ const logger = createLogger('in-stores/timeline');
 //   to?: <number: An optional, fixed end point in time>
 // }
 export const timeframe$ = createTrackingStore({
-  name: 'in-stores/timeline/timeline',
+  name: 'timeline/timeline',
   observable: navigationParameters$
     .map(params => {
       let to = null;
@@ -66,7 +66,7 @@ export function setTo(to) {
 }
 
 export const focusedMoment$ = createTrackingStore({
-  name: 'in-stores/timeline/focusedMoment',
+  name: 'timeline/focusedMoment',
   observable: navigationParameters$
     .map(params => {
       const focusedMoment = params.query['timeline.fm'];
@@ -148,7 +148,7 @@ export function setTimeframe(windowSize, to = null) {
 
 
 const highlightedMomentStore = createStore({
-  name: 'in-stores/timeline/highlightedMoment',
+  name: 'timeline/highlightedMoment',
   initialValue: null
 });
 export const highlightedMoment$ = highlightedMomentStore.observable.distinct();
@@ -169,7 +169,7 @@ export function clearHighlightedMoment() {
 
 
 export const bigBangTimestamp = createTrackingStore({
-  name: 'in-stores/timeline/bigBangTimestamp',
+  name: 'timeline/bigBangTimestamp',
   observable: getBigBangTimestamp()
 }).observable;
 

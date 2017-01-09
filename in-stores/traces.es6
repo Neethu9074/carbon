@@ -52,7 +52,7 @@ export function getNumberOfTracesTouchingServiceInstance(serviceId) {
  * ############################
  */
 export const selectedTraceId$ = createTrackingStore({
-  name: 'in-stores/traces/selectedTraceId',
+  name: 'traces/selectedTraceId',
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
@@ -66,7 +66,7 @@ export const selectedTraceId$ = createTrackingStore({
 export const selectedTraceId = selectedTraceId$;
 
 export const selectedTrace = createTrackingStore({
-  name: 'in-stores/traces/selectedTrace',
+  name: 'traces/selectedTrace',
   observable: selectedTraceId.flatMap(traceId => {
     if (traceId) {
       return createTraceObservable(traceId);

@@ -8,7 +8,7 @@ const tableViewSearchContexts = ['entity'];
 const traceViewSearchContexts = ['trace'];
 const incidentViewSearchContexts = ['event'];
 export default createTrackingStore({
-  name: 'in-stores/search/searchContexts',
+  name: 'search/searchContexts',
   observable: combineLatest([isMapView$, isTraceView$, isEventView$, isTableView$])
     .map(([isMapView, isTraceView, isEventView, isTableView]) => {
       if (isMapView) {

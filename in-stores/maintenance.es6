@@ -13,14 +13,14 @@ import http from 'in-services/http';
 const messageId = 'maintenanceNote';
 
 const messageStore = createStore({
-  name: 'in-stores/maintenance/message',
+  name: 'maintenance/message',
   initialValue: null
 });
 const message$ = messageStore.observable.distinct();
 
 
 const messageReadStore = createStore({
-  name: 'in-stores/maintenance/messageRead',
+  name: 'maintenance/messageRead',
   initialValue: false
 });
 const messageRead$ = messageReadStore.observable;
