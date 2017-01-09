@@ -1,8 +1,9 @@
 import {create} from 'reactive-observables';
-import {debounce} from 'lodash';
 
-import HttpRequestTimeoutError from './HttpRequestTimeoutError';
-import HttpResponseError from './HttpResponseError';
+import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
+import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
+import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
+import HttpResponseError from 'in-services/http/HttpResponseError';
 
 export default function({method, url, queryParams, data, timeout = 30000, responseType = 'json'}) {
   url = formatUrl(url, queryParams);
@@ -10,23 +11,21 @@ export default function({method, url, queryParams, data, timeout = 30000, respon
 
   return create({
     start(observable) {
-      // ontimeout callback is executed after onreadystatechange is executed for timeouts.
-      // Debounce this seems to be the easiest way for information consumers about errors.
-      // Not using observable.debounse as we do not want to delay the happy path.
-      const debouncedEmitError = debounce(err => observable.emitError(err), 100);
-
       xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
       xhr.timeout = timeout;
       xhr.responseType = responseType === 'json' ? 'text' : responseType;
-      xhr.ontimeout = () => {
-        debouncedEmitError(new HttpRequestTimeoutError(method, url));
-      };
+
+      xhr.addEventListener('timeout', () => observable.emitError(new HttpRequestTimeoutError(method, url)));
+      xhr.addEventListener('error', () => observable.emitError(new HttpResponseError(method, url)));
+      xhr.addEventListener('abort', () => observable.emitError(new HttpRequestAbortedError(method, url)));
+
       if (data) {
         xhr.setRequestHeader('Content-Type', 'application/json');
       }
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
+
+      xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState === 4 && xhr.status !== 0) {
           const response = {
             status: xhr.status,
             statusText: xhr.statusText,
@@ -39,11 +38,12 @@ export default function({method, url, queryParams, data, timeout = 30000, respon
             }
             observable.emit(response);
           } else {
-            debouncedEmitError(new HttpResponseError(response, method, url));
+            observable.emitError(new HttpResponseStatusCodeError(response, method, url));
           }
           xhr = null;
         }
-      };
+      });
+
       xhr.send(JSON.stringify(data));
     },
 
