@@ -89,6 +89,13 @@ addKeywordOperator({
 addKeywordOperator({
   context: 'trace',
   type: 'string',
+  keyword: 'touching',
+  fields: ['touched_logical_service', 'touched_service_instance']
+});
+
+addKeywordOperator({
+  context: 'trace',
+  type: 'string',
   keyword: 'startingAtInstance',
   fields: ['destination_service_instance_id', 'source_service_instance_id']
 });

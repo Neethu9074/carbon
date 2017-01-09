@@ -15,6 +15,20 @@ export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
 }
 
 
+export function getTraceViewFilteredByTouchingLink(snapshotId) {
+  const query = encodeURIComponent(`touching=${snapshotId}`);
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(params => {
+      params.pathname = '/traces';
+      params.query.q = query;
+      return params;
+    })
+    .map(toUrl)
+    .distinct();
+}
+
+
 export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) {
   const query = encodeURIComponent(`startingAtInstance=${snapshotId}`);
   return navigationParameters$
