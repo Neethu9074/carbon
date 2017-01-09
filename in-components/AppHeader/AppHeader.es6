@@ -16,18 +16,20 @@ export default connectTo({
   homeLink: homeLink$
 }, function AppHeader({homeLink}) {
   return (
-    <div className={block}>
-      <div>
-        <a href={homeLink}
-           className={block + '__lettering-link'} >
-          <Lettering />
-        </a>
-        <SearchBar className={block + '__search'} />
-      </div>
-
+    <div>
       <ViewSwitcher />
 
-      <AccountMenu />
+      <div className={block}>
+        <div>
+          <a href={homeLink}
+             className={block + '__lettering-link'} >
+            <Lettering />
+          </a>
+          <SearchBar className={block + '__search'} />
+        </div>
+
+        <AccountMenu />
+      </div>
     </div>
   );
 });
