@@ -1,18 +1,13 @@
 import React from 'react';
 
-import {visible$} from 'in-components/SearchBar/stores/menuVisibility';
-import connectTo from 'in-hoc/connectTo';
+import './SearchMenu.less';
 
-export default connectTo({
-  visible: visible$
-}, function SearchMenu({visible}) {
-  if (!visible) {
-    return null;
-  }
+const block = 'in-search-menu';
 
+export default function SearchMenu() {
   return (
-    <div>
+    <div className={block}>
       Search Menu
     </div>
   );
-});
+}

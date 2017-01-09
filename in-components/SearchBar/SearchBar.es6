@@ -31,7 +31,9 @@ export default connectTo({
 
   return (
     <div>
-      <SearchMenu />
+      {menuVisible ?
+        <SearchMenu />
+      : null}
 
       <div className={block}>
         <div className={`${block}__field-wrapper`}>
