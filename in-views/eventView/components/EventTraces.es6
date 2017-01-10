@@ -103,5 +103,5 @@ function traceInfo(title, value, formatter) {
 }
 
 function isVisible(event) {
-  return __DEV__ && (event && event.get('affectedService', null) != null);
+  return (event && event.get('affectedService', null) != null);
 }
