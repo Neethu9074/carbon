@@ -5,6 +5,7 @@ import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import {setValues} from 'in-components/SearchBar/stores/dialog';
+import {rawQuery$} from 'in-stores/search';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -20,7 +21,7 @@ export default connectTo({
       <LifecycleObserver onWillMount={refresh} />
 
       <h1 className={`${block}__heading`}>
-        Filter
+        Presets
       </h1>
 
       <Button kind='secondary'
@@ -42,7 +43,8 @@ export default connectTo({
 
             <Button kind='danger'
                     size='sm'
-                    onClick={() => remove(filter.get('id'))}>
+                    onClick={() => remove(filter.get('id'))}
+                    type='submit'>
               Remove
             </Button>
           </li>
@@ -54,8 +56,10 @@ export default connectTo({
 
 
 function save() {
-  setValues('', 'New filter', 'foo:bar');
-  setActiveDialog(<SaveDialog />);
+  rawQuery$.once(rawQuery => {
+    setValues('', 'New filter', rawQuery);
+    setActiveDialog(<SaveDialog />);
+  });
 }
 
 

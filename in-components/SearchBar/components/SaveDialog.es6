@@ -24,50 +24,60 @@ export default connectTo({
   return (
     <Dialog header='Save filter'
             onClose={close}>
-      <FormGroup>
-        <Label htmlFor='filter-name'>
-          Name
-        </Label>
-        <Input type='text'
-               id='filter-name'
-               value={nameField.value}
-               onChange={e => setValue('name', e.target.value)}
-               hasError={!nameField.valid}
-               autoFocus />
-        {nameField.error ?
-          <ValidationBlock hasError>
-            {nameField.error}
-          </ValidationBlock>
-        : null}
-      </FormGroup>
+      <form onSubmit={onSubmit}>
+        <FormGroup>
+          <Label htmlFor='filter-name'>
+            Name
+          </Label>
+          <Input type='text'
+                 id='filter-name'
+                 value={nameField.value}
+                 onChange={e => setValue('name', e.target.value)}
+                 hasError={!nameField.valid}
+                 autoFocus />
+          {nameField.error ?
+            <ValidationBlock hasError>
+              {nameField.error}
+            </ValidationBlock>
+          : null}
+        </FormGroup>
 
-      <FormGroup>
-        <Label htmlFor='filter-definition'>
-          Definition
-        </Label>
-        <Input type='text'
-               id='filter-definition'
-               value={definitionField.value}
-               onChange={e => setValue('definition', e.target.value)}
-               hasError={!definitionField.valid} />
-        {definitionField.error ?
-          <ValidationBlock hasError>
-            {definitionField.error}
-          </ValidationBlock>
-        : null}
-      </FormGroup>
+        <FormGroup>
+          <Label htmlFor='filter-definition'>
+            Definition
+          </Label>
+          <Input type='text'
+                 id='filter-definition'
+                 value={definitionField.value}
+                 onChange={e => setValue('definition', e.target.value)}
+                 hasError={!definitionField.valid} />
+          {definitionField.error ?
+            <ValidationBlock hasError>
+              {definitionField.error}
+            </ValidationBlock>
+          : null}
+        </FormGroup>
 
-      <div className={`${block}__actions`}>
-        <Button disabled={!form.valid}
-                onClick={save}>
-          Save filter
-        </Button>
-        {error ?
-          <div className={`${block}__error`}>
-            {error}
-          </div>
-        : null}
-      </div>
+        <div className={`${block}__actions`}>
+          <Button disabled={!form.valid}
+                  type='submit'>
+            Save filter
+          </Button>
+          {error ?
+            <div className={`${block}__error`}>
+              {error}
+            </div>
+          : null}
+        </div>
+      </form>
     </Dialog>
   );
+
+  function onSubmit(e) {
+    e.preventDefault();
+
+    if (form.valid) {
+      save();
+    }
+  }
 });
