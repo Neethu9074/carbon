@@ -10,19 +10,32 @@ import {transformQuery} from 'in-services/search';
 import {focusedMoment$} from 'in-stores/timeline';
 import {view$} from 'in-stores/view';
 
-export const rawQuery$ = createTrackingStore({
+const rawQueryStore = createStore({
   name: 'search/inputString',
-  observable: navigationParameters$
-    .map(params => {
-      const query = params.query;
-      if ('q' in query) {
-        return decodeURIComponent(query.q);
-      }
+  value: ''
+});
+export const rawQuery$ = rawQueryStore.observable.distinct();
 
-      return '';
-    })
-    .distinct()
-}).observable;
+
+navigationParameters$
+  .subscribe(params => {
+    const query = params.query;
+    if ('q' in query) {
+      rawQueryStore.mutateTo(decodeURIComponent(query.q));
+    } else {
+      rawQueryStore.mutateTo('');
+    }
+  });
+
+rawQuery$
+  .skipFirst()
+  .debounce(500)
+  .subscribe(rawQuery => {
+    mutateUrl(navParams => {
+      navParams.query.q = encodeURIComponent(rawQuery);
+      return navParams;
+    });
+  });
 
 
 const parsedQueryStore = createStore({
@@ -70,10 +83,7 @@ export const error$ = errorStore.observable;
 
 
 export function setInputString(newString) {
-  mutateUrl(navParams => {
-    navParams.query.q = encodeURIComponent(newString);
-    return navParams;
-  });
+  rawQueryStore.mutateTo(newString);
 }
 
 
