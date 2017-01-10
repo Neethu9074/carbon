@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {form$, setValue, save} from 'in-components/SearchBar/stores/dialog';
+import {form$, setValue, save, error$} from 'in-components/SearchBar/stores/dialog';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import {close} from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
@@ -12,22 +12,18 @@ import connectTo from 'in-hoc/connectTo';
 
 import './SaveDialog.less';
 
-// const block = 'in-search-save-dialog';
+const block = 'in-search-save-dialog';
 
 export default connectTo({
-  form: form$
-}, function SaveDialog({form}) {
+  form: form$,
+  error: error$
+}, function SaveDialog({form, error}) {
   const nameField = form.getItem('name');
   const definitionField = form.getItem('definition');
 
   return (
     <Dialog header='Save filter'
             onClose={close}>
-      <Button disabled={!form.valid}
-              onClick={save}>
-        Save filter
-      </Button>
-
       <FormGroup>
         <Label htmlFor='filter-name'>
           Name
@@ -36,7 +32,8 @@ export default connectTo({
                id='filter-name'
                value={nameField.value}
                onChange={e => setValue('name', e.target.value)}
-               hasError={!nameField.valid} />
+               hasError={!nameField.valid}
+               autoFocus />
         {nameField.error ?
           <ValidationBlock hasError>
             {nameField.error}
@@ -59,6 +56,18 @@ export default connectTo({
           </ValidationBlock>
         : null}
       </FormGroup>
+
+      <div className={`${block}__actions`}>
+        <Button disabled={!form.valid}
+                onClick={save}>
+          Save filter
+        </Button>
+        {error ?
+          <div className={`${block}__error`}>
+            {error}
+          </div>
+        : null}
+      </div>
     </Dialog>
   );
 });

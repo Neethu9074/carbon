@@ -1,18 +1,14 @@
 import React from 'react';
 
-import {evaluateClassNames} from 'in-services/util/classnames';
+import {joinClassNames} from 'in-services/util/classnames';
 
 import './ValidationBlock.less';
 
 const block = 'in-form-validation-block';
 
-export default function ValidationBlock({children, className, hasError}) {
+export default function ValidationBlock({children, className}) {
   return (
-    <p className={evaluateClassNames({
-          [block]: true,
-          [`${block}--has-error`]: hasError,
-          [className]: className
-        })}>
+    <p className={joinClassNames(block, className)}>
       {children}
     </p>
   );
