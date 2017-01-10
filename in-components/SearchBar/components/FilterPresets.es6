@@ -6,7 +6,6 @@ import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import {setValues} from 'in-components/SearchBar/stores/dialog';
-import SvgIcon from 'in-components/SvgIcon';
 import {rawQuery$} from 'in-stores/search';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -41,15 +40,19 @@ export default connectTo({
               className={`${block}__preset-item`}>
             <UseFilterLink filter={filter} />
 
-            <SvgIcon type='edit'
-                     width={12}
-                     onClick={() => edit(filter)}
-                     className={`${block}__edit`} />
-            {' '}
-            <SvgIcon type='x'
-                     width={10}
-                     onClick={() => remove(filter.get('id'))}
-                     className={`${block}__remove`} />
+            <div className={`${block}__item-actions`}>
+              <Button kind='secondary'
+                      size='xs'
+                      onClick={() => edit(filter)}>
+                Edit
+              </Button>
+              {' '}
+              <Button kind='danger'
+                      size='xs'
+                      onClick={() => remove(filter.get('id'))}>
+                Remove
+              </Button>
+            </div>
           </li>
         )}
       </ul>

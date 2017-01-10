@@ -36,6 +36,11 @@ export default connectTo({
       : null}
 
       <div className={block}>
+        <SvgIcon type={menuVisible ? 'triangle_down' : 'triangle_right'}
+                 width={menuVisible ? 12 : 9}
+                 className={`${block}__expand-collapse`}
+                 onClick={toggle} />
+
         <div className={`${block}__field-wrapper`}>
           <SvgIcon type='search'
                    height={12}
@@ -50,11 +55,6 @@ export default connectTo({
                  onFocus={onFocus}
                  onBlur={onBlur} />
         </div>
-
-        <SvgIcon type={menuVisible ? 'triangle_down' : 'triangle_right'}
-                 width={menuVisible ? 12 : 9}
-                 className={`${block}__expand-collapse`}
-                 onClick={toggle} />
 
         <ErrorIndicator />
         <Suggestions />
