@@ -14,6 +14,10 @@ import 'in-map/components/tooltips/physical/Connections/components/ConnectionLin
 const block = 'in-connection-item';
 
 export default connectTo(props => {
+  if (!props.connection || !props.connection.sourceNode) {
+    return {};
+  }
+
   const sourceId = props.connection.sourceNode.id;
 
   return {
