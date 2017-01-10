@@ -1,6 +1,8 @@
+import {fromJS} from 'immutable';
+
 import config from 'in-services/config';
 import http from 'in-services/http';
-import Immutable from 'immutable';
+
 
 export function getAllFilters() {
   return http({
@@ -8,8 +10,22 @@ export function getAllFilters() {
     url: `/ump/${config.tenant}/${config.tenantUnit}/filters`
   })
   .map(response => {
-    const filters = Immutable.fromJS(response.body);
-    filters.sort((a, b) => a.name.localeCompare(b.name));
-    return filters;
+    response.body.sort((a, b) => a.name.localeCompare(b.name));
+    return fromJS(response.body);
+  });
+}
+
+
+export function saveNewFilter(name, definition) {
+  return http({
+    method: 'POST',
+    url: `/ump/${config.tenant}/${config.tenantUnit}/filters`,
+    data: {
+      name,
+      definition
+    }
+  })
+  .map(response => {
+    return response.body;
   });
 }
