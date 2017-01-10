@@ -44,7 +44,7 @@ export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) 
 
 
 export function getTraceViewFilteredBySnapshotIdAndTimeframe({snapshotId, from, to}) {
-  const query = encodeURIComponent(`startingAt=${snapshotId}`);
+  const query = encodeURIComponent(`touching=${snapshotId}`);
   return navigationParameters$
     .map(cloneDeep)
     .map(params => {
