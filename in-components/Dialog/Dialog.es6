@@ -12,6 +12,7 @@ export default function Dialog({childrenOutsideOfContentFlow, children, header, 
   if (contentClassName) {
     contentClasses = `${contentClasses} ${contentClassName}`;
   }
+
   return (
     <section className={block}
              onClick={onClickOutside}>

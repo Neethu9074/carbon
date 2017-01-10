@@ -1,7 +1,10 @@
 import React from 'react';
 
-import {filters$, refresh, saveNewRule} from 'in-components/SearchBar/stores/filters';
+import {filters$, refresh, remove} from 'in-components/SearchBar/stores/filters';
+import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
+import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
+import {setValues} from 'in-components/SearchBar/stores/dialog';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -30,6 +33,18 @@ export default connectTo({
         {filters.toArray().map(filter =>
           <li key={filter.get('id')}>
             {filter.get('name')}
+
+            <Button kind='secondary'
+                    size='sm'
+                    onClick={() => edit(filter)}>
+              Edit
+            </Button>
+
+            <Button kind='danger'
+                    size='sm'
+                    onClick={() => remove(filter.get('id'))}>
+              Remove
+            </Button>
           </li>
         )}
       </ul>
@@ -39,5 +54,12 @@ export default connectTo({
 
 
 function save() {
-  saveNewRule('my rule', 'foo:bar');
+  setValues('', 'New filter', 'foo:bar');
+  setActiveDialog(<SaveDialog />);
+}
+
+
+function edit(filter) {
+  setValues(filter.get('id'), filter.get('name'), filter.get('definition'));
+  setActiveDialog(<SaveDialog />);
 }

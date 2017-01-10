@@ -1,6 +1,6 @@
 import {List} from 'immutable';
 
-import {getAllFilters, saveNewFilter} from 'in-services/groundskeeper/filters';
+import {getAllFilters, removeFilter} from 'in-services/groundskeeper/filters';
 import {createStore} from 'in-stores/store';
 import {createLogger} from 'instalog';
 
@@ -19,21 +19,6 @@ const errorStore = createStore({
 export const error$ = errorStore.observable;
 
 
-export function saveNewRule(name, definition) {
-  const result$ = saveNewFilter(name, definition);
-
-  result$.once(() => {
-    errorStore.mutateTo(null);
-    refresh();
-  });
-
-  result$.errors().once(error => {
-    logger.error(`Failed to save filter: ${error.message}`, error);
-    errorStore.mutateTo('Failed to save filter.');
-  });
-}
-
-
 export function refresh() {
   const result$ = getAllFilters();
 
@@ -45,5 +30,20 @@ export function refresh() {
   result$.errors().once(error => {
     logger.error(`Failed to retrieve filters: ${error.message}`, error);
     errorStore.mutateTo('Failed to retrieve filters.');
+  });
+}
+
+
+export function remove(id) {
+  const result$ = removeFilter(id);
+
+  result$.once(() => {
+    errorStore.mutateTo(null);
+    refresh();
+  });
+
+  result$.errors().once(error => {
+    logger.error(`Failed to remove filter ${id}: ${error.message}`, error);
+    errorStore.mutateTo('Failed to remove filter.');
   });
 }
