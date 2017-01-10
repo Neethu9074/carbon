@@ -33,7 +33,7 @@
 
     transition: 0.5s max-width ease-in-out;
 
-    &:hover, &--active, {
+    &:hover, &:focus, &--active {
       border-color: #94eced;
 
       .in-app-header__toggle-search-icon  {
@@ -41,7 +41,7 @@
       }
     }
 
-    &:hover {
+    &:hover, &:focus {
       max-width: 12rem;
       transition: 0.5s max-width ease-in-out 1s;
     }

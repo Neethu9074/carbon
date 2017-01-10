@@ -1,11 +1,12 @@
 import React from 'react';
 
 import {filters$, refresh, remove} from 'in-components/SearchBar/stores/filters';
-import UseFilterButton from 'in-components/SearchBar/components/UseFilterButton';
+import UseFilterLink from 'in-components/SearchBar/components/UseFilterLink';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import {setValues} from 'in-components/SearchBar/stores/dialog';
+import SvgIcon from 'in-components/SvgIcon';
 import {rawQuery$} from 'in-stores/search';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -15,40 +16,40 @@ import './FilterPresets.less';
 const block = 'in-search-presets';
 
 export default connectTo({
-  filters: filters$
-}, function FilterPresets({filters}) {
+  filters: filters$,
+  query: rawQuery$
+}, function FilterPresets({filters, query}) {
   return (
     <section className={block}>
       <LifecycleObserver onWillMount={refresh} />
 
       <h1 className={`${block}__heading`}>
         Presets
+
+        <Button kind='info'
+                size='sm'
+                onClick={() => save(query)}
+                className={`${block}__save`}
+                disabled={!query}>
+          Save current filter as new preset
+        </Button>
       </h1>
 
-      <Button kind='secondary'
-              size='sm'
-              onClick={save}>
-        Save current filter as new preset
-      </Button>
-
-      <ul>
+      <ul className={`${block}__preset-list`}>
         {filters.toArray().map(filter =>
-          <li key={filter.get('id')}>
-            {filter.get('name')}
+          <li key={filter.get('id')}
+              className={`${block}__preset-item`}>
+            <UseFilterLink filter={filter} />
 
-            <Button kind='secondary'
-                    size='sm'
-                    onClick={() => edit(filter)}>
-              Edit
-            </Button>
-
-            <Button kind='danger'
-                    size='sm'
-                    onClick={() => remove(filter.get('id'))}>
-              Remove
-            </Button>
-
-            <UseFilterButton filter={filter} />
+            <SvgIcon type='edit'
+                     width={12}
+                     onClick={() => edit(filter)}
+                     className={`${block}__edit`} />
+            {' '}
+            <SvgIcon type='x'
+                     width={10}
+                     onClick={() => remove(filter.get('id'))}
+                     className={`${block}__remove`} />
           </li>
         )}
       </ul>
@@ -57,11 +58,9 @@ export default connectTo({
 });
 
 
-function save() {
-  rawQuery$.once(rawQuery => {
-    setValues('', 'New filter', rawQuery);
-    setActiveDialog(<SaveDialog />);
-  });
+function save(query) {
+  setValues('', 'New filter', query);
+  setActiveDialog(<SaveDialog />);
 }
 
 

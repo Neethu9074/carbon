@@ -1,19 +1,21 @@
 import React from 'react';
 
 import {getCurrentViewWithFilter} from 'in-stores/navigation/search';
-import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+
+import './UseFilterLink.less';
+
+const block = 'in-search-use-filter-link';
 
 export default connectTo(props => {
   return {
     link: getCurrentViewWithFilter(props.filter.get('definition'))
   };
-}, function UseFilterButton({link}) {
+}, function UseFilterLink({link, filter}) {
   return (
-    <Button kind='secondary'
-            size='sm'
-            href={link}>
-      Use
-    </Button>
+    <a href={link}
+       className={block}>
+      {filter.get('name')}
+    </a>
   );
 });
