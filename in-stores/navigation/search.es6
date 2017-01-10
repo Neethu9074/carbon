@@ -57,3 +57,16 @@ export function getTraceViewFilteredBySnapshotIdAndTimeframe({snapshotId, from, 
     .map(toUrl)
     .distinct();
 }
+
+
+export function getCurrentViewWithFilter(filter) {
+  filter = encodeURIComponent(filter);
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(params => {
+      params.query.q = filter;
+      return params;
+    })
+    .map(toUrl)
+    .distinct();
+}

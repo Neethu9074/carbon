@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {filters$, refresh, remove} from 'in-components/SearchBar/stores/filters';
+import UseFilterButton from 'in-components/SearchBar/components/UseFilterButton';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
@@ -43,10 +44,11 @@ export default connectTo({
 
             <Button kind='danger'
                     size='sm'
-                    onClick={() => remove(filter.get('id'))}
-                    type='submit'>
+                    onClick={() => remove(filter.get('id'))}>
               Remove
             </Button>
+
+            <UseFilterButton filter={filter} />
           </li>
         )}
       </ul>
