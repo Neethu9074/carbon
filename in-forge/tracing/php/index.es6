@@ -3,7 +3,7 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'php',
   category: 'http',
-  direction: 'entryAndExit',
+  direction: 'entry',
   searchAliases: ['php'],
 
   typeName: {
