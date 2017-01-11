@@ -17,7 +17,7 @@ export default React.createClass({
     snapshotId: rpt.string.isRequired,
     timeWindowAggregation: rpt.string,
     initialValue: rpt.string,
-    timeframeTo: rpt.number,
+    time: rpt.number,
     className: rpt.string,
     formatter: rpt.func,
     metric: rpt.string,
@@ -41,11 +41,12 @@ export default React.createClass({
       });
     }
 
-    if (props.timeframeTo) {
+
+    if (props.time) {
       return getHistoricMetric({
         snapshotId: props.snapshotId,
         metric: props.metric,
-        time: props.timeframeTo
+        time: props.time
       })
       .map(v => v[1])
       .distinct();

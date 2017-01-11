@@ -20,6 +20,12 @@ export default function DefaultKpiSection({snapshot}) {
                      metric='count'
                      formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
+      <KpiKeyValue label='#calls in time window'>
+        <MetricValue snapshotId={snapshotId}
+                     formatter={zeroDecimalPlaces}
+                     metric={'count'}
+                     timeWindowAggregation={'adjustedCount'} />
+      </KpiKeyValue>
       <KpiKeyValue label='avg. latency'>
         <MetricValue snapshotId={snapshotId}
                      metric='duration.mean'

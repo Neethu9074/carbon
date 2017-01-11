@@ -22,7 +22,7 @@ const axisConfigShape = rpt.shape({
 export default connectTo(props => {
   return {
     activeFilters: props.filterStore.activeFilters$,
-    timeframeTo: props.timeframe$ ? props.timeframe$.map(timeframe => timeframe.to) : alwaysNull
+    time: props.timeframe$ ? props.timeframe$.map(timeframe => timeframe.to) : alwaysNull
   };
 },
 React.createClass({
@@ -77,7 +77,7 @@ React.createClass({
               <dd className={block + '__metric-value'}>
                 <MetricValue snapshotId={snapshotId}
                              metric={metric}
-                             timeframeTo={props.timeframeTo}
+                             time={props.time}
                              formatter={axis.formatter}
                              initialValue='?' />
               </dd>
