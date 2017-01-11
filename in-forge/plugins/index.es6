@@ -46,6 +46,7 @@ import './ldapServiceInstance';
 import './logicalCassandraConnection';
 import './logicalCassandraKeyspace';
 import './logicalDatabase';
+import './logicalDatabaseConnection';
 import './logicalEjbConnection';
 import './logicalEjbConnection';
 import './logicalElasticSearchConnection';
