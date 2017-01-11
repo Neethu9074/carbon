@@ -65,13 +65,13 @@ export default class Graph {
     // Warn if connection connects to a node that doesnt exist
     let i;
     for (i in edges) {
-      if (nodeMap[edges[i].source] === undefined) {
+      if (edges[i].source == null || nodeMap[edges[i].source] == null) {
         // console.warn(`Attempted to layout a connection with non-existent source node: ${edges[i].source}.`);
         edges.splice(i, 1);
       } else {
         nodeMap[edges[i].source].connected = true;
       }
-      if (nodeMap[edges[i].target] === undefined) {
+      if (edges[i].target == null || nodeMap[edges[i].target] == null) {
         // console.warn(`Attempted to layout a connection with non-existent target node: ${edges[i].target}.`);
         edges.splice(i, 1);
       } else {
