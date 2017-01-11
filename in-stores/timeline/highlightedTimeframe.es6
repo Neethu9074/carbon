@@ -61,7 +61,7 @@ highlightedTimeframe$
 
 
 export function setHighlightedTimeframe(from, to) {
-  store.mutateTo([Math.round(from), Math.round(to)]);
+  store.mutateTo([Math.round(Math.min(from, to)), Math.round(Math.max(from, to))]);
 }
 
 
