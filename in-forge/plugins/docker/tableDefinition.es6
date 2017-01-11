@@ -16,7 +16,8 @@ export default [
 
       return {
         content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')}>
+          <HierarchicalLink snapshotId={snapshot.get('id')}
+                            kind='dark'>
             {label}
           </HierarchicalLink>
         ),

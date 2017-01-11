@@ -32,7 +32,8 @@ export default [
       const name = getLabel(snapshot);
       return {
         content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')}>
+          <HierarchicalLink snapshotId={snapshot.get('id')}
+                            kind='dark'>
             {name}
           </HierarchicalLink>
         ),

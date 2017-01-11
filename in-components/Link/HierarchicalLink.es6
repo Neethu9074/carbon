@@ -37,12 +37,13 @@ React.createClass({
     const children = this.props.children;
     const href = this.props.href;
     const kind = this.props.kind;
+    const linkClassName = `${block}${kind === 'dark' ? '__dark' : '__light'}`;
 
     if (!hierarchy || hierarchy.size === 0) {
       return (
         <a href={href}
            onClick={stopPropagation}
-           className={joinClassNames(block, className)}>
+           className={joinClassNames(linkClassName, className)}>
           {children}
         </a>
       );
@@ -54,8 +55,6 @@ React.createClass({
     } else {
       expandedIconColor = isExpanded ? '#fff' : '#92A5AE';
     }
-
-    const linkClassName = `${block}${kind === 'dark' ? '__dark' : '__light'}`;
 
     return (
       <div className={`${block}__link-wrapper`}>

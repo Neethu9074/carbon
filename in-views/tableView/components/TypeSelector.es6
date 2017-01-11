@@ -14,7 +14,6 @@ const domains = {
   Infrastructure: {
     host: 'Hosts',
     jvm: 'JVMs',
-    dropwizard: 'Dropwizard Apps',
     nodejs: 'Node.js Apps',
     docker: 'Docker Containers'
   },

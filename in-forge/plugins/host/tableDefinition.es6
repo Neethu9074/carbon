@@ -40,7 +40,8 @@ export default [
           const zoneLabel = getLabel(zone);
           return {
             content: (
-              <HierarchicalLink snapshotId={zone.get('id')}>
+              <HierarchicalLink snapshotId={zone.get('id')}
+                                kind='dark'>
                 {zoneLabel}
               </HierarchicalLink>
             ),
@@ -55,7 +56,8 @@ export default [
       const fqdn = snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']));
       return {
         content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')}>
+          <HierarchicalLink snapshotId={snapshot.get('id')}
+                            kind='dark'>
             {fqdn}
           </HierarchicalLink>
         ),
