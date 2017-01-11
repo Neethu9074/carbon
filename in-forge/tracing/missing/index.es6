@@ -13,5 +13,7 @@ registerSpanDefinition({
 
   detailView: 'MissingSpanDetailView',
 
-  getLabel: () => 'The span did not yet arrive in the backend (e.g. long running tasks)'
+  getLabel() {
+    return 'The span did not yet arrive in the backend (e.g. long running tasks)';
+  }
 });
