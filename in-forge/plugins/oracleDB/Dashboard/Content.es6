@@ -69,6 +69,7 @@ export default function OracleDBDashboard({snapshot, timeframe}) {
       <DashboardSection title='Time Waited per Second'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
+                         height={200}
                          margins={{
                            left: 80
                          }}
