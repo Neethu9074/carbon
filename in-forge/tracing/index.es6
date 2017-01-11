@@ -49,6 +49,7 @@ import './page.xhr';
 import './page';
 import './pdo';
 import './php';
+import './php.error';
 import './play2';
 import './play2.ws';
 import './py.hc';
