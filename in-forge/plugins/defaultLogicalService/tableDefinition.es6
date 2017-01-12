@@ -42,26 +42,25 @@ export default [
     }
   },
   {
-    title: 'Calls/s',
+    title: 'Calls',
     sortableType: String,
     style: {
       textAlign: 'right',
       maxWidth: '7.5rem'
     },
     get(snapshot) {
-      const valueStream = getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'count'
-        })
-        .map(v => v[1]);
-
       return {
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
-                       createMetricValueStream={() => valueStream}
-                       formatter={zeroDecimalPlaces} />
+                       metric='count'
+                       formatter={zeroDecimalPlaces}
+                       optionalTimeWindowAggregation='adjustedCount' />
         ),
-        sortable$: valueStream
+        sortable$: getMetricForFocusedMoment({
+            snapshotId: snapshot.get('id'),
+            metric: 'count'
+          })
+          .map(v => v[1])
       };
     }
   },
@@ -73,19 +72,18 @@ export default [
       maxWidth: '7.5rem'
     },
     get(snapshot) {
-      const valueStream = getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'duration.mean'
-        })
-        .map(v => v[1]);
-
       return {
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
-                       createMetricValueStream={() => valueStream}
-                       formatter={msTwoDecimalPlaces} />
+                       metric='duration.mean'
+                       formatter={msTwoDecimalPlaces}
+                       optionalTimeWindowAggregation='mean' />
         ),
-        sortable$: valueStream
+        sortable$: getMetricForFocusedMoment({
+          snapshotId: snapshot.get('id'),
+          metric: 'duration.mean'
+        })
+        .map(v => v[1])
       };
     }
   },
@@ -97,19 +95,18 @@ export default [
       maxWidth: '7.5rem'
     },
     get(snapshot) {
-      const valueStream = getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'error_rate'
-        })
-        .map(v => v[1]);
-
       return {
         content: (
           <PercentageIndicator snapshotId={snapshot.get('id')}
-                               createMetricValueStream={() => valueStream}
-                               formatter={percentageTwoDecimalPlaces} />
+                               metric='error_rate'
+                               formatter={percentageTwoDecimalPlaces}
+                               optionalTimeWindowAggregation='mean' />
         ),
-        sortable$: valueStream
+        sortable$: getMetricForFocusedMoment({
+          snapshotId: snapshot.get('id'),
+          metric: 'error_rate'
+        })
+        .map(v => v[1])
       };
     }
   },
@@ -121,19 +118,18 @@ export default [
       maxWidth: '7.5rem'
     },
     get(snapshot) {
-      const valueStream = getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'instances'
-        })
-        .map(v => v[1]);
-
       return {
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
-                       createMetricValueStream={() => valueStream}
-                       formatter={zeroDecimalPlaces} />
+                       metric='instances'
+                       formatter={zeroDecimalPlaces}
+                       optionalTimeWindowAggregation='mean' />
         ),
-        sortable$: valueStream
+        sortable$: getMetricForFocusedMoment({
+          snapshotId: snapshot.get('id'),
+          metric: 'instances'
+        })
+        .map(v => v[1])
       };
     }
   }

@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
-import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
+import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
@@ -36,42 +35,13 @@ export default [
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
                        metric='memory.heapUsed'
-                       formatter={bytesTwoDecimalPlaces} />
+                       formatter={bytesTwoDecimalPlaces}
+                       optionalTimeWindowAggregation='mean' />
         ),
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
           metric: 'memory.heapUsed'
         }).map(v => v[1])
-      };
-    }
-  }, {
-    title: 'GC Pause/s',
-    sortableType: Number,
-    style: {
-      textAlign: 'right'
-    },
-    get(snapshot) {
-      const gcStatsSupported = snapshot.getIn(['data', 'gc.statsSupported']);
-      if (!gcStatsSupported) {
-        return {
-          content: 'Unsupported',
-          sortable: -1
-        };
-      }
-
-      const valueStream = getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'gc.gcPause'
-        })
-        .map(v => v[1] == null ? null : (1 / 1000 * v[1]));
-
-      return {
-        content: (
-          <PercentageIndicator snapshotId={snapshot.get('id')}
-                               createMetricValueStream={() => valueStream}
-                               formatter={percentageZeroDecimalPlaces} />
-        ),
-        sortable$: valueStream
       };
     }
   }, {
@@ -85,7 +55,8 @@ export default [
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
                        metric='libuv.lag'
-                       formatter={time} />
+                       formatter={time}
+                       optionalTimeWindowAggregation='mean' />
         ),
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),

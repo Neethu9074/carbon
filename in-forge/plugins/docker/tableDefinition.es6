@@ -32,19 +32,18 @@ export default [
     sortableType: Number,
     defaultSortDirection: 'desc',
     get(snapshot) {
-      const valueStream = getMetricForFocusedMoment({
-          snapshotId: snapshot.get('id'),
-          metric: 'cpu.total_usage'
-        })
-        .map(v => v[1]);
-
       return {
         content: (
           <PercentageIndicator snapshotId={snapshot.get('id')}
-                               createMetricValueStream={() => valueStream}
-                               formatter={percentageZeroDecimalPlaces} />
+                               metric='cpu.total_usage'
+                               formatter={percentageZeroDecimalPlaces}
+                               optionalTimeWindowAggregation='mean' />
         ),
-        sortable$: valueStream
+        sortable$: getMetricForFocusedMoment({
+          snapshotId: snapshot.get('id'),
+          metric: 'cpu.total_usage'
+        })
+        .map(v => v[1])
       };
     }
   }, {
@@ -59,7 +58,8 @@ export default [
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
                        metric='memory.usage'
-                       formatter={bytesTwoDecimalPlaces} />
+                       formatter={bytesTwoDecimalPlaces}
+                       optionalTimeWindowAggregation='mean' />
         ),
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),

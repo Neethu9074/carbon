@@ -1,0 +1,6 @@
+{
+  "name": "metric",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./metric.es6"
+}

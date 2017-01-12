@@ -50,7 +50,8 @@ export default [
         content: (
           <MetricValue snapshotId={snapshot.get('id')}
                        metric='memory.used'
-                       formatter={bytesTwoDecimalPlaces} />
+                       formatter={bytesTwoDecimalPlaces}
+                       optionalTimeWindowAggregation='mean' />
         ),
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),

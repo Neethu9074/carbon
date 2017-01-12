@@ -169,7 +169,8 @@ function getMeterCellContent(metric, snapshot) {
     content: (
       <MetricValue snapshotId={snapshot.get('id')}
                    metric={metric}
-                   formatter={siPrefixPerSecond.detailed} />
+                   formatter={siPrefixPerSecond.detailed}
+                   optionalTimeWindowAggregation='mean' />
     ),
     sortable$: getMetricForFocusedMoment({
       snapshotId: snapshot.get('id'),

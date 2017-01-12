@@ -4,6 +4,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import {getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
+import {showAggregations$} from 'in-stores/metric/showAggregations';
 
 
 const rpt = React.PropTypes;
@@ -16,6 +17,7 @@ export default React.createClass({
     createMetricValueStream: rpt.func,
     snapshotId: rpt.string.isRequired,
     timeWindowAggregation: rpt.string,
+    optionalTimeWindowAggregation: React.PropTypes.string,
     initialValue: rpt.string,
     time: rpt.number,
     className: rpt.string,
@@ -41,6 +43,26 @@ export default React.createClass({
       });
     }
 
+    if (props.optionalTimeWindowAggregation) {
+      return showAggregations$
+        .flatMap(showAggregations => {
+          if (showAggregations) {
+            return getTimeWindowBasedMetricAggregation({
+              snapshotId: props.snapshotId,
+              metric: props.metric,
+              timeWindowAggregation: props.optionalTimeWindowAggregation
+            })
+            .distinct();
+          }
+
+          return getMetricForFocusedMoment({
+            snapshotId: props.snapshotId,
+            metric: props.metric
+          })
+          .map(v => v[1])
+          .distinct();
+        });
+    }
 
     if (props.time) {
       return getHistoricMetric({
