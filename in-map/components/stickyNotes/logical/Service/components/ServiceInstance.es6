@@ -43,7 +43,8 @@ export default connectTo(props => {
                  snapshot={snapshot}
                  metrics={kpis.map(kpi => kpi.metric)}
                  labels={kpis.map(kpi => kpi.label)}
-                 formatters={kpis.map(kpi => kpi.valueOnlyFormatter)} />
+                 formatters={kpis.map(kpi => kpi.valueOnlyFormatter)}
+                 timeWindowAggregations={kpis.map(kpi => kpi.timeWindowAggregation)} />
 
         <HealthIconListing className={block + '__health-icon'}
                            snapshotId={snapshotId} />

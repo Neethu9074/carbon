@@ -28,17 +28,17 @@ function createMenuContent() {
 
 const metricList = {
   CPU: {
-    Load: [{name: 'load.1min', label: 'Load'}],
+    Load: [{name: 'load.1min', label: 'Load', timeWindowAggregation: 'mean'}],
     Usage: [
-      {name: 'cpu.user', label: 'User'},
-      {name: 'cpu.sys', label: 'System'},
-      {name: 'cpu.wait', label: 'Wait'},
-      {name: 'cpu.nice', label: 'Nice'},
-      {name: 'cpu.steal', label: 'Steal'}
+      {name: 'cpu.user', label: 'User', timeWindowAggregation: 'mean'},
+      {name: 'cpu.sys', label: 'System', timeWindowAggregation: 'mean'},
+      {name: 'cpu.wait', label: 'Wait', timeWindowAggregation: 'mean'},
+      {name: 'cpu.nice', label: 'Nice', timeWindowAggregation: 'mean'},
+      {name: 'cpu.steal', label: 'Steal', timeWindowAggregation: 'mean'}
     ]
   },
   Memory: {
-    Used: [{name: 'memory.used', label: 'Memory used'}]
+    Used: [{name: 'memory.used', label: 'Memory used', timeWindowAggregation: 'mean'}]
   }
 };
 

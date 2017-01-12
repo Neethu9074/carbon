@@ -29,28 +29,25 @@ export default createTooltip(connectTo(props => {
 
     const metrics = activeMetric.get('metrics', emptyArray).slice().reverse();
     const colors = theme.chart.strokeColors.slice(0, metrics.size).reverse();
-    let colorIndex = 0;
 
     return (
       <ul className={block}>
-        {metrics.map(metric => {
+        {metrics.map((metric, i) => {
           const name = metric.get('name');
-          // rotate colors max colors are used
-          const color = colors[colorIndex++];
-          colorIndex = (colorIndex + 1) % colors.length;
 
           return (
             <li key={name}
                 className={block + '__item'}>
               <Heading className={block + '__name'}
-                     style={{color}}>
+                     style={{color: colors[i]}}>
                 {metric.get('label')}
               </Heading>
 
               <Content className={block + '__value'}>
                 <MetricValue snapshotId={snapshot.get('id')}
                              metric={name}
-                             formatter={v => getFormattedValue(name, snapshot, v)} />
+                             formatter={v => getFormattedValue(name, snapshot, v)}
+                             optionalTimeWindowAggregation={metric.get('timeWindowAggregation')} />
               </Content>
             </li>
           );

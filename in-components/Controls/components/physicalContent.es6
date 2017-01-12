@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {setLayoutingStrategy, simpleLayouting$, packedLayouting$}  from 'in-map/stores/physical/layouterStore';
+import ShowAggregates from 'in-components/Controls/components/ShowAggregates';
 import {alternativePhysicalLayoutingEnables} from 'in-services/featureFlags';
 import MapStatistics from 'in-components/Controls/components/MapStatistics';
 import Metrics from 'in-components/Controls/components/Metrics';
@@ -14,6 +15,7 @@ export default function getPhysicalContent() {
   const controls = [
     <Zoom key='zoom' />,
     <Metrics key='metrics' />,
+    <ShowAggregates key='aggregates' />,
     <Tags key='tags' />
   ];
 

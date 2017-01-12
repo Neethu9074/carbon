@@ -10,19 +10,22 @@ import {
 const defaultKpis = () => [
   {
     metric: 'count',
-    label: 'calls/s',
+    label: 'calls',
     formatter: zeroDecimalPlaces,
-    valueOnlyFormatter: zeroDecimalPlacesPerSecond
+    valueOnlyFormatter: zeroDecimalPlacesPerSecond,
+    timeWindowAggregation: 'adjustedCount'
   }, {
     metric: 'duration.mean',
     label: 'avg. latency',
     formatter: msTwoDecimalPlaces,
-    valueOnlyFormatter: msTwoDecimalPlaces
+    valueOnlyFormatter: msTwoDecimalPlaces,
+    timeWindowAggregation: 'mean'
   }, {
     metric: 'error_rate',
     label: 'error rate',
     formatter: percentageTwoDecimalPlaces,
-    valueOnlyFormatter: percentageTwoDecimalPlaces
+    valueOnlyFormatter: percentageTwoDecimalPlaces,
+    timeWindowAggregation: 'mean'
   }
 ];
 

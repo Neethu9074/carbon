@@ -57,11 +57,11 @@ class WebVRCameraController {
           name: 'Usage',
           longLabel: `CPU Usage`,
           metrics: [
-            {name: 'cpu.user', label: 'User'},
-            {name: 'cpu.sys', label: 'System'},
-            {name: 'cpu.wait', label: 'Wait'},
-            {name: 'cpu.nice', label: 'Nice'},
-            {name: 'cpu.steal', label: 'Steal'}
+            {name: 'cpu.user', label: 'User', timeWindowAggregation: 'mean'},
+            {name: 'cpu.sys', label: 'System', timeWindowAggregation: 'mean'},
+            {name: 'cpu.wait', label: 'Wait', timeWindowAggregation: 'mean'},
+            {name: 'cpu.nice', label: 'Nice', timeWindowAggregation: 'mean'},
+            {name: 'cpu.steal', label: 'Steal', timeWindowAggregation: 'mean'}
           ]
         }));
         break;
@@ -74,7 +74,7 @@ class WebVRCameraController {
         setActiveMetric(Immutable.fromJS({
           name: 'Load',
           longLabel: `CPU Load`,
-          metrics: [{name: 'load.1min', label: 'Load'}]
+          metrics: [{name: 'load.1min', label: 'Load', timeWindowAggregation: 'mean'}]
         }));
     }
   }

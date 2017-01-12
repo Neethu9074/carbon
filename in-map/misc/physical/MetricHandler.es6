@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
-import {getMetricForFocusedMoment, activeMetric$} from 'in-stores/metric';
+import {getMetricForFocusedMoment, activeMetric$, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
+import {showAggregations$} from 'in-stores/metric/showAggregations';
 import {METRIC_PILLAR_REFRESH} from 'in-map/misc/TimingConfig';
 import {getMaxValue} from 'in-sdk/metrics';
 
@@ -15,12 +16,13 @@ export default function createMetricHandler(node, snapshotId) {
     // To get this effect, we use nextFrame().
     let showMetricSubscription = combineLatest([
       node.eventEmitter.on('snapshotChanged'),
-      activeMetric$
-    ]).subscribe(([snapshot, metric]) => {
+      activeMetric$,
+      showAggregations$
+    ]).subscribe(([snapshot, metric, showAggregations]) => {
       disposeMetricSubscription();
 
       if (metric && snapshot) {
-        subscribeToCurrentMetric(snapshot, metric.get('metrics'), snapshotId);
+        subscribeToCurrentMetric(snapshot, metric.get('metrics'), snapshotId, showAggregations);
       }
     });
 
@@ -31,17 +33,27 @@ export default function createMetricHandler(node, snapshotId) {
     metricSubscription = undefined;
   }
 
-  function subscribeToCurrentMetric(snapshot, metrics) {
+  function subscribeToCurrentMetric(snapshot, metrics, snapshotId, showAggregations) {
     const maxValue = getMaxValue(metrics.getIn([0, 'name']), snapshot);
 
     metricSubscription = combineLatest(metrics.toArray()
-                                              .map(metric => getMetricForFocusedMoment({
-                                                snapshotId,
-                                                metric: metric.get('name')
-                                              })
-                                              .map(v => v[1] == null ? 0 : v[1] / maxValue)
-                                              .distinct())
-                                      )
+                                              .map(metric => {
+                                                if (!showAggregations) {
+                                                  return getMetricForFocusedMoment({
+                                                      snapshotId,
+                                                      metric: metric.get('name')
+                                                    })
+                                                    .map(v => v[1] == null ? 0 : v[1] / maxValue)
+                                                    .distinct();
+                                                }
+                                                return getTimeWindowBasedMetricAggregation({
+                                                    snapshotId,
+                                                    metric: metric.get('name'),
+                                                    timeWindowAggregation: metric.get('timeWindowAggregation')
+                                                  })
+                                                  .map(v => v == null ? 0 : v / maxValue)
+                                                  .distinct();
+                                              }))
                          .throttle(METRIC_PILLAR_REFRESH)
                          .subscribe(values => node.setMetricValues(values));
   }

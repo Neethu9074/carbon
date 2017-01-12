@@ -12,12 +12,13 @@ import {
   DoubleSide,
   Points
 } from 'in-map/3DLibProvider';
+import {getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
 import createPositionGenerator from 'in-map/misc/ParticleEmitter/PlaneSpawnPositionGenerator';
 import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
 import {particlesAreActive$} from 'in-map/stores/logical/particlesStore';
+import {showAggregations$} from 'in-stores/metric/showAggregations';
 import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
 import {requestRendering} from 'in-map/stores/renderingStore';
-import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {loadImage} from 'in-map/services/imageLoader';
 import {focusedMoment$} from 'in-stores/timeline';
@@ -130,8 +131,8 @@ export default class ParticleEmitter {
     this.isRunning = true;
 
     this.metricSubscription = combineLatest([
-      this.getMetric('count'),
-      this.getMetric('error_rate')
+      this.getMetric('count', 'adjustedCount'),
+      this.getMetric('error_rate', 'mean')
     ]).subscribe(([countMetric, errorRateMetric]) => this.setNumparticlesPerSecond(countMetric, errorRateMetric));
   }
 
@@ -149,8 +150,8 @@ export default class ParticleEmitter {
     this.isRunning = true;
 
     this.metricSubscription = combineLatest([
-      this.getMetric('count'),
-      this.getMetric('error_rate')
+      this.getMetric('count', 'adjustedCount'),
+      this.getMetric('error_rate', 'mean')
     ]).subscribe(([countMetric, errorRateMetric]) => {
       countMetric = Math.ceil(countMetric);
       errorRateMetric = Math.ceil(errorRateMetric);
@@ -163,10 +164,23 @@ export default class ParticleEmitter {
     this.updateSubscription = eventBus.on('update').subscribe(() => this.updateStatic());
   }
 
-  getMetric(metric) {
-    return getMetricForFocusedMoment({snapshotId: this.id, metric})
-      .map(v => v[1] == null ? 0 : v[1])
-      .distinct();
+  getMetric(metric, timeWindowAggregation) {
+    return showAggregations$
+      .flatMap(showAggregations => {
+        if (!showAggregations) {
+          return getMetricForFocusedMoment({snapshotId: this.id, metric})
+            .map(v => v[1] == null ? 0 : v[1])
+            .distinct();
+        }
+
+        return getTimeWindowBasedMetricAggregation({
+            snapshotId: this.id,
+            metric,
+            timeWindowAggregation: timeWindowAggregation
+          })
+          .map(v => v == null ? 0 : v)
+          .distinct();
+      });
   }
 
   update(dt) {

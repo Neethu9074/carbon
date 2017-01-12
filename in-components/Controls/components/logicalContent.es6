@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {setLayoutingStrategy, fruchtermannReingoldLayouting$, vizceralLayouting$}  from 'in-map/stores/logical/layouterStore';
+import ShowAggregates from 'in-components/Controls/components/ShowAggregates';
 import MapStatistics from 'in-components/Controls/components/MapStatistics';
 import Particles from 'in-components/Controls/components/Particles';
 import Layout from 'in-components/Controls/components/Layout';
@@ -10,6 +11,7 @@ import Zoom from 'in-components/Controls/components/Zoom';
 export default function getLogicalContent() {
   const controls = [
     <Zoom key='zoom' />,
+    <ShowAggregates key='aggregates' />,
     <Particles key='particles' />,
     <Layout key='fr_layout'
             iconType='graph'
