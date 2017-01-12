@@ -21,7 +21,8 @@ export default function JumpToTracesButton({href, traceCount, title='Traces', to
       <Tooltip content={tooltip}>
         <Button href={href}
                 className={block}
-                kind='secondary'>
+                kind='secondary'
+                size='sm'>
           {title} ({zeroDecimalPlaces(traceCount)})
         </Button>
       </Tooltip>
