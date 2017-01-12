@@ -10,6 +10,7 @@ import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/K
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ClusterNodes from 'in-components/LogicalEntityTables/ClusterNodes';
 import Connections from 'in-components/LogicalEntityTables/Connections';
+import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
@@ -30,15 +31,33 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                        metric='count'
                        formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
+        <KpiKeyValue label={<TimeWindowSizeLabel prefix='#calls in ' />}>
+          <MetricValue snapshotId={snapshotId}
+                       formatter={zeroDecimalPlaces}
+                       metric='count'
+                       timeWindowAggregation='adjustedCount' />
+        </KpiKeyValue>
         <KpiKeyValue label='time to page load'>
           <MetricValue snapshotId={snapshotId}
                        metric='duration.mean'
                        formatter={msZeroDecimalPlaces} />
         </KpiKeyValue>
+        <KpiKeyValue label={<TimeWindowSizeLabel prefix='avg. time to page load in ' />}>
+          <MetricValue snapshotId={snapshotId}
+                       metric='duration.mean'
+                       formatter={msZeroDecimalPlaces}
+                       timeWindowAggregation='mean' />
+        </KpiKeyValue>
         <KpiKeyValue label='time to first paint'>
           <MetricValue snapshotId={snapshotId}
                        metric='fp.mean'
                        formatter={msZeroDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label={<TimeWindowSizeLabel prefix='avg. time to first paint in ' />}>
+          <MetricValue snapshotId={snapshotId}
+                       metric='fp.mean'
+                       formatter={msZeroDecimalPlaces}
+                       timeWindowAggregation='mean' />
         </KpiKeyValue>
       </KpiSection>
 
