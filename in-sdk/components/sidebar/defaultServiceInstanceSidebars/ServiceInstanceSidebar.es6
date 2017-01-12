@@ -3,6 +3,7 @@ import React from 'react';
 import JumpToTracesTouchingServiceInstanceButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceInstanceButton';
 import JumpToTracesOfServiceInstanceButton from 'in-sdk/components/sidebar/JumpToTracesOfServiceInstanceButton';
 import ServiceInstanceInfo from 'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceInfo';
+import TracesButtonWrapper from 'in-sdk/components/sidebar/TracesButtonWrapper';
 import ServiceInstanceKpiSparkCharts from
   'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceKpiSparkCharts';
 import ServiceInstancePhysicalEntity
@@ -14,9 +15,10 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 export default function ServiceInstanceSidebar({snapshot}) {
   return (
     <div>
-      <JumpToTracesTouchingServiceInstanceButton snapshotId={snapshot.get('id')} />
-
-      <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')} />
+      <TracesButtonWrapper>
+        <JumpToTracesTouchingServiceInstanceButton snapshotId={snapshot.get('id')} />
+        <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')} />
+      </TracesButtonWrapper>
 
       <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
 

@@ -3,6 +3,7 @@ import React from 'react';
 import JumpToTracesTouchingServiceInstanceButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceInstanceButton';
 import JumpToTracesOfServiceInstanceButton from 'in-sdk/components/sidebar/JumpToTracesOfServiceInstanceButton';
 import ServiceInstanceInfo from 'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstanceInfo';
+import TracesButtonWrapper from 'in-sdk/components/sidebar/TracesButtonWrapper';
 import ServiceInstancePhysicalEntity
   from 'in-sdk/components/sidebar/defaultServiceInstanceSidebars/ServiceInstancePhysicalEntity';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
@@ -10,9 +11,10 @@ import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 export default function ServiceInstanceDashboardSidebar({snapshot}) {
   return (
     <div>
-      <JumpToTracesTouchingServiceInstanceButton snapshotId={snapshot.get('id')} />
-
-      <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')} />
+      <TracesButtonWrapper>
+        <JumpToTracesTouchingServiceInstanceButton snapshotId={snapshot.get('id')} />
+        <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')} />
+      </TracesButtonWrapper>
 
       <ServiceInstanceInfo snapshotId={snapshot.get('id')} />
 
