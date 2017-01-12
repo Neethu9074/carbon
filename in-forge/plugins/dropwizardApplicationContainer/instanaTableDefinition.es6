@@ -93,6 +93,20 @@ export default [
       'metrics.meters.com.instana.filler.spanbuffer.ScheduledSpanBatcher.dropped-spans'
     )
   }, {
+    title: 'Raw Messages',
+    sortableType: Number,
+    defaultSortDirection: 'desc',
+    style: {
+      textAlign: 'right',
+      maxWidth: '9rem'
+    },
+    get(snapshot) {
+      const coords = getTenantUnitCoordinates(snapshot);
+      const metric = 'com.instana.backend.common.kafka.GenericKafkaConsumerRunnable.' +
+        `retrieved-messages.${coords.environment}_${coords.tenant}_${coords.unit}_raw_messages`;
+      return getMeterCellContent(metric, snapshot);
+    }
+  }, {
     title: 'Dropped Messages',
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -104,20 +118,6 @@ export default [
       null,
       'metrics.meters.com.instana.filler.topology.RawMessagesStreamInitializer.dropped-messages'
     )
-  }, {
-    title: 'Raw Messages',
-    sortableType: Number,
-    defaultSortDirection: 'desc',
-    style: {
-      textAlign: 'right',
-      maxWidth: '9rem'
-    },
-    get(snapshot) {
-      const coords = getTenantUnitCoordinates(snapshot);
-      const metric = 'metrics.meters.com.instana.backend.common.mom.consumer.GenericKafkaConsumerRunnable.' +
-        `retrieved-messages.${coords.environment}_${coords.tenant}_${coords.unit}_raw_messages`;
-      return getMeterCellContent(metric, snapshot);
-    }
   }, {
     title: 'Combined Metrics',
     sortableType: Number,
