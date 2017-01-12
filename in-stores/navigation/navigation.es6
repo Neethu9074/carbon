@@ -47,7 +47,8 @@ hashHistory.listen(location => {
 
 export function mutateUrl(mutator) {
   navigationParameters$.once(currentLocation => {
-    const newLocation = mutator(cloneDeep(currentLocation));
+    const newLocation = cloneDeep(currentLocation);
+    mutator(newLocation);
 
     if (!isEqual(newLocation, currentLocation)) {
       hashHistory.push(newLocation);
