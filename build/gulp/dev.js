@@ -180,7 +180,7 @@ gulp.task('askForDevOptions', cb => {
       type: 'confirm',
       name: 'withDashboard',
       message: 'Use dashboard in dev mode?',
-      default: true
+      default: false
     }
   ];
 
