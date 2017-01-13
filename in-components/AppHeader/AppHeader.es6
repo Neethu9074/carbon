@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {filtered$} from 'in-stores/search/filtered';
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
 import {evaluateClassNames} from 'in-services/util/classnames';
@@ -16,13 +17,17 @@ const block = 'in-app-header';
 
 export default connectTo({
   homeLink: homeLink$,
-  expanded: expanded$
-}, function AppHeader({homeLink, expanded}) {
+  expanded: expanded$,
+  filtered: filtered$
+}, function AppHeader({homeLink, expanded, filtered}) {
   return (
     <div>
       <ViewSwitcher />
 
-      <div className={block}>
+      <div className={evaluateClassNames({
+             [block]: true,
+             [`${block}--without-shadow`]: expanded
+           })}>
         <a href={homeLink}
            className={`${block}__lettering`}>
           <Lettering />
@@ -31,16 +36,15 @@ export default connectTo({
         <div className={`${block}__right`}>
           <Button className={evaluateClassNames({
                     [`${block}__toggle-search`]: true,
-                    [`${block}__toggle-search--active`]: expanded
+                    [`${block}__toggle-search--active`]: expanded,
+                    [`${block}__toggle-search--filtered`]: filtered
                   })}
                   kind='secondary'
                   size='sm'
                   onClick={toggle}>
             <SvgIcon type='search'
-                     width={10}
+                     width={13}
                      className={`${block}__toggle-search-icon`} />
-
-            {expanded ? 'Hide seach bar' : 'Show search bar'}
           </Button>
 
           <AccountMenu />

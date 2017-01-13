@@ -15,6 +15,10 @@
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
   z-index: @z-index__header;
 
+  &--without-shadow {
+    box-shadow: none;
+  }
+
   &__right {
     display: flex;
     align-items: center;
@@ -27,28 +31,31 @@
   &__toggle-search {
     background: transparent;
     border: 1px solid #6B8088;
-    max-width: 1.875rem;
-    white-space: nowrap;
-    overflow: hidden;
+    padding: 4px 7px 2px;
 
-    transition: 0.5s max-width ease-in-out;
-
-    &:hover, &:focus, &--active {
-      border-color: #94eced;
+    &:hover {
+      border-color: #fff;
+      background: transparent;
 
       .in-app-header__toggle-search-icon  {
-        fill: #94eced;
+        fill: #fff;
       }
     }
 
-    &:hover, &:focus {
-      max-width: 12rem;
-      transition: 0.5s max-width ease-in-out 1s;
+    &--active {
+      background: #fff;
+
+      .in-app-header__toggle-search-icon  {
+        fill: #000;
+      }
+    }
+
+    &--filtered {
+      background: #9fffff;
     }
   }
 
   &__toggle-search-icon {
-    fill: #fff;
-    margin: 0 0.5rem 0 0;
+    fill: #6B8088;
   }
 }

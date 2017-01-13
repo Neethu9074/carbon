@@ -5,6 +5,7 @@ import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import SearchMenu from 'in-components/SearchBar/components/SearchMenu';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
+import {evaluateClassNames} from 'in-services/util/classnames';
 import {rawQuery$, setInputString} from 'in-stores/search';
 import {expanded$} from 'in-stores/search/expanded';
 import keyCodes from 'in-components/keyCodes';
@@ -51,10 +52,15 @@ export default connectTo({
                  onBlur={onBlur} />
         </div>
 
-        <SvgIcon type={menuVisible ? 'triangle_down' : 'triangle_right'}
-                 width={menuVisible ? 12 : 9}
-                 className={`${block}__expand-collapse`}
-                 onClick={toggle} />
+        <div className={evaluateClassNames({
+               [`${block}__expand-collapse-wrapper`]: true,
+               [`${block}__expand-collapse-wrapper--menu-visible`]: menuVisible
+             })}
+             onClick={toggle} >
+          <SvgIcon type='menu'
+                   height={10}
+                   className={`${block}__expand-collapse`} />
+        </div>
 
         <ErrorIndicator />
         <Suggestions />
