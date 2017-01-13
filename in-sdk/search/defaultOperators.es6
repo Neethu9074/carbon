@@ -83,7 +83,7 @@ addKeywordOperator({
   context: 'trace',
   type: 'string',
   keyword: 'startingAt',
-  fields: ['logical_destination_service_id', 'logical_source_service_id']
+  fields: ['starting_logical_service']
 });
 
 addKeywordOperator({
@@ -97,7 +97,7 @@ addKeywordOperator({
   context: 'trace',
   type: 'string',
   keyword: 'startingAtInstance',
-  fields: ['destination_service_instance_id', 'source_service_instance_id']
+  fields: ['starting_service_instance']
 });
 
 addKeywordOperator({
