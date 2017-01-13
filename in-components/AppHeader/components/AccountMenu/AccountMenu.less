@@ -1,42 +1,26 @@
 .in-account {
   white-space: nowrap;
 
-  &__icon {
-    color: #6B8088;
-    font-size: 2rem;
-
-    &:hover {
-      color: white;
-    }
-  }
-
-  &__icon-wrapper {
+  &__avatar-wrapper {
     background: transparent;
-    border: 1px solid #6B8088;
-    padding: .25rem .438rem .125rem;
-    min-width: 1.875rem;
-    margin: 0 0.9rem 0 0.5rem;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    padding: 0;
+    overflow: hidden;
+    margin: 0 1rem 0 1.1rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    outline: none;
 
     &:hover {
-      border-color: #fff;
       background: transparent;
-
-      .in-account__icon  {
-        fill: #fff;
-      }
-    }
-
-    &--active {
-      background: #fff;
-
-      .in-account__icon  {
-        fill: #000;
-      }
+      border-color: #fff;
     }
   }
 
-  &__icon {
-    fill: #6B8088;
+  &__avatar {
+    width: 100%;
+    height: 100%;
   }
 }
 

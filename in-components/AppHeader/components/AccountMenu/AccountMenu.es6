@@ -1,9 +1,11 @@
 import React from 'react';
 
-import {toggleMenu, isOpen$} from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
+import {toggleMenu} from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
 import Menu from 'in-components/AppHeader/components/AccountMenu/components/Menu';
-import {evaluateClassNames} from 'in-services/util/classnames';
-import SvgIcon from 'in-components/SvgIcon';
+import unknown from 'in-components/AppHeader/components/AccountMenu/unknown.png';
+import getGravatarUrl from 'in-services/subscription/gravatar';
+import {getCurrentUser} from 'in-stores/user';
+import {onImageLoad} from 'in-services/image';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,22 +14,30 @@ import './AccountMenu.less';
 const block = 'in-account';
 
 export default connectTo({
-  isOpen: isOpen$
-}, function AccountMenu({isOpen}) {
+  avatarUrl: getGravatarUrl(getCurrentUser().email)
+    .flatMap(url => onImageLoad(url))
+}, function AccountMenu({avatarUrl}) {
   return (
     <div className={block}>
       <Menu />
 
-      <Button className={evaluateClassNames({
-                [`${block}__icon-wrapper`]: true,
-                [`${block}__icon-wrapper--active`]: isOpen
-              })}
+      <Button className={`${block}__avatar-wrapper`}
               kind='secondary'
               size='sm'
               onClick={toggleMenu}>
-        <SvgIcon type='account'
-                 height={13}
-                 className={`${block}__icon`} />
+
+        {avatarUrl ?
+          <img src={avatarUrl}
+               alt={`Avatar for ${getCurrentUser().email} from gravatar.com.`}
+               className={`${block}__avatar`} />
+        : null}
+
+        {!avatarUrl ?
+          <img src={unknown}
+               alt={`Fallback avatar for ${getCurrentUser().email}.`}
+               className={`${block}__avatar`} />
+        : null}
+
       </Button>
     </div>
   );
