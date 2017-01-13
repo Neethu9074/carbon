@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {filtered$} from 'in-stores/search/filtered';
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {toggle, expanded$} from 'in-stores/search/expanded';
+import {filtered$} from 'in-stores/search/filtered';
 import Lettering from 'in-components/Lettering';
 import {homeLink$} from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
@@ -43,7 +43,7 @@ export default connectTo({
                   size='sm'
                   onClick={toggle}>
             <SvgIcon type='search'
-                     width={13}
+                     height={13}
                      className={`${block}__toggle-search-icon`} />
           </Button>
 
