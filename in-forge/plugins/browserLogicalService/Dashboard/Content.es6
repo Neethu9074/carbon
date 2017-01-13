@@ -206,17 +206,20 @@ export default connectTo(props => {
             <TopList items={statistics.get('topBrowsers')}
                      title='Top Browsers'
                      nameColumnLabel='Browser'
-                     valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />} />
+                     valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />}
+                     buildQuery={buildBrowserQuery} />
             <TopList items={statistics.get('topOperatingSystems')}
                      title='Top Operating Systems'
                      nameColumnLabel='Operating System'
-                     valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />} />
+                     valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />}
+                     buildQuery={buildOperatingSystemQuery} />
           </TwoColumnRow>
 
           <TopList items={statistics.get('topCountries')}
                    title='Top Countries'
                    nameColumnLabel='Country'
-                   valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />} />
+                   valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />}
+                   buildQuery={buildCountryQuery} />
         </div>
 
       : null}
@@ -226,3 +229,18 @@ export default connectTo(props => {
     </div>
   );
 });
+
+
+function buildBrowserQuery(browser) {
+  return `browser="${browser}"`;
+}
+
+
+function buildOperatingSystemQuery(os) {
+  return `os="${os}"`;
+}
+
+
+function buildCountryQuery(country) {
+  return `country="${country}"`;
+}
