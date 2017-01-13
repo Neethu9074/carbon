@@ -26,7 +26,7 @@ export default connectTo({
       <div className={`${block}__right-side`}>
         <input type='checkbox'
                id='table-view-toggle-aggregations'
-               value={showAggregations}
+               checked={showAggregations}
                onChange={toggle} />
         <label htmlFor='table-view-toggle-aggregations'
                className={`${block}__toggle-aggregations`}>
