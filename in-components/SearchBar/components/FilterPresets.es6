@@ -6,8 +6,8 @@ import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import {setValues} from 'in-components/SearchBar/stores/dialog';
+import SvgIcon from 'in-components/SvgIcon';
 import {rawQuery$} from 'in-stores/search';
-import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './FilterPresets.less';
@@ -25,13 +25,23 @@ export default connectTo({
       <h1 className={`${block}__heading`}>
         Presets
 
-        <Button kind='info'
-                size='sm'
-                onClick={() => save(query)}
-                className={`${block}__save`}
-                disabled={!query}>
-          Save current filter as new preset
-        </Button>
+        {query ?
+          <a href=''
+             onClick={e => {e.preventDefault(); save(query);}}
+             className={`${block}__save`}>
+            <SvgIcon type='plus'
+                     className={`${block}__save-icon`}
+                     width={12} />
+            {' Save current filter as new preset'}
+          </a>
+        :
+          <span className={`${block}__save ${block}__save--disabled`}>
+            <SvgIcon type='plus'
+                     className={`${block}__save-icon`}
+                     width={12} />
+            {' Save current filter as new preset'}
+          </span>
+        }
       </h1>
 
       <ul className={`${block}__preset-list`}>
@@ -41,17 +51,16 @@ export default connectTo({
             <UseFilterLink filter={filter} />
 
             <div className={`${block}__item-actions`}>
-              <Button kind='secondary'
-                      size='xs'
-                      onClick={() => edit(filter)}>
+              <a href=''
+                 onClick={e => {e.preventDefault(); edit(filter);}}
+                 className={`${block}__edit`}>
                 Edit
-              </Button>
-              {' '}
-              <Button kind='danger'
-                      size='xs'
-                      onClick={() => remove(filter.get('id'))}>
+              </a>
+              <a href=''
+                 onClick={e => {e.preventDefault(); remove(filter.get('id'));}}
+                 className={`${block}__remove`}>
                 Remove
-              </Button>
+              </a>
             </div>
           </li>
         )}
