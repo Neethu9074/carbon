@@ -85,7 +85,8 @@ export default connectTo({showAggregations: showAggregations$}, getSnapshot(
                             label={kpi.label}
                             design='dark'
                             metric={kpi.metric}
-                            formatter={kpi.formatter} />
+                            formatter={kpi.formatter}
+                            optionalTimeWindowAggregation={kpi.timeWindowAggregation} />
               )
             : <KPIList snapshot={snapshot}
                        metrics={kpis.map(kpi => kpi.metric)}
