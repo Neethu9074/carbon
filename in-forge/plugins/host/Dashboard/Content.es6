@@ -145,6 +145,7 @@ export default function HostDashboard({snapshot, timeframe}) {
       <DashboardSection title='TCP Activity'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
+                         height={200}
                          y1={{
                            type: 'line',
                            metrics: [
