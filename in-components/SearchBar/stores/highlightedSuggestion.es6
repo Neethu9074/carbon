@@ -41,6 +41,7 @@ export function selectHighlightedSuggestion() {
     }
 
     highligtedSuggestion$.once(highligtedSuggestion => {
+      highligtedSuggestion = highligtedSuggestion === -1 ? 0 : highligtedSuggestion;
       const match = matches.get(highligtedSuggestion);
       if (match) {
         setSelectedSnapshotId(match);
