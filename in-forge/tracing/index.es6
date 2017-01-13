@@ -32,6 +32,7 @@ import './log.slf4j';
 import './log';
 import './mail.javamail';
 import './memcache';
+import './memcached';
 import './missing';
 import './mongo';
 import './mule.client';
