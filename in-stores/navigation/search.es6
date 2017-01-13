@@ -8,6 +8,7 @@ export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
     .map(params => {
       params.pathname = '/traces';
       params.query.q = query;
+      params.query.ss = '1';
       return params;
     })
     .map(toUrl)
@@ -22,6 +23,7 @@ export function getTraceViewFilteredByTouchingLink(snapshotId) {
     .map(params => {
       params.pathname = '/traces';
       params.query.q = query;
+      params.query.ss = '1';
       return params;
     })
     .map(toUrl)
@@ -36,6 +38,7 @@ export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) 
     .map(params => {
       params.pathname = '/traces';
       params.query.q = query;
+      params.query.ss = '1';
       return params;
     })
     .map(toUrl)
@@ -50,6 +53,7 @@ export function getTraceViewFilteredBySnapshotIdAndTimeframe({snapshotId, from, 
     .map(params => {
       params.pathname = '/traces';
       params.query.q = query;
+      params.query.ss = '1';
       params.query['timeline.to'] = to;
       params.query['timeline.ws'] = to - from;
       return params;
@@ -65,6 +69,7 @@ export function getCurrentViewWithFilter(filter) {
     .map(cloneDeep)
     .map(params => {
       params.query.q = filter;
+      params.query.ss = '1';
       return params;
     })
     .map(toUrl)

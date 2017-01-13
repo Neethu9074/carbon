@@ -1,12 +1,22 @@
-import {createStore} from 'in-stores/store';
+import {navigationParameters$, mutateUrl} from 'in-stores/navigation';
+import {createTrackingStore} from 'in-stores/store';
 
-const expandedStore = createStore({
+
+export const expanded$ = createTrackingStore({
   name: 'search/expanded',
-  initialValue: false
-});
+  observable: navigationParameters$
+    // ss === show search
+    .map(params => params.query.ss === '1')
+    .distinct()
+}).observable;
 
-export const expanded$ = expandedStore.observable;
 
 export function toggle() {
-  expandedStore.applyStateMutation(expanded => !expanded);
+  mutateUrl(params => {
+    if (params.query.ss === '1') {
+      delete params.query.ss;
+    } else {
+      params.query.ss = '1';
+    }
+  });
 }

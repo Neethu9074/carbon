@@ -6,9 +6,7 @@ export const showAggregations$ = createTrackingStore({
   name: 'metric/showAggregations',
   observable: navigationParameters$
     // sa === show aggregations
-    .map(params => {
-      return params.query.sa === '1';
-    })
+    .map(params => params.query.sa === '1')
     .distinct()
 }).observable;
 

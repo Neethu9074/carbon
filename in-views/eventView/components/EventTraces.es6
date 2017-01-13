@@ -58,14 +58,14 @@ function EventTraces({href, traceInformation}) {
                                     type='traces'
                                     width={24}
                                     color={'#22d8d8'} />
-                           Traces
+                           Traces Touching
                          </div>
                        }>
         <Button className={`${block}__button`}
                 kind='secondary'
                 size='sm'
                 href={href}>
-          View
+          View Traces
         </Button>
 
         <DescriptionList className={`${block}__metrics`}>

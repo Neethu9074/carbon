@@ -35,6 +35,7 @@ export function getTraceViewLinkWithQuery(query) {
     .map(params => {
       params.pathname = '/traces';
       params.query.q = query;
+      params.query.ss = '1';
       return params;
     })
     .map(toUrl)
