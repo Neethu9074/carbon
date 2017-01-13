@@ -7,19 +7,30 @@ import {
   twoDecimalPlaces
 } from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import TopList from 'in-forge/plugins/browserLogicalService/Dashboard/TopList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ClusterNodes from 'in-components/LogicalEntityTables/ClusterNodes';
 import Connections from 'in-components/LogicalEntityTables/Connections';
+import getEumStatistics from 'in-services/subscription/eumStatistics';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
+import {timeframe$} from 'in-stores/timeline';
 import {getLabel} from 'in-sdk/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
-
-export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
+export default connectTo(props => {
+  return {
+    statistics: timeframe$
+      .flatMap(timeframe => {
+        return getEumStatistics({
+          snapshotId: props.snapshot.get('id'),
+          timeframe
+        });
+      })
+  };
+}, function DefaultLogicalServiceDashboard({snapshot, timeframe, statistics}) {
   const snapshotId = snapshot.get('id');
-
   return (
     <div>
       <KpiSection>
@@ -189,11 +200,29 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
 
-      <ClusterNodes snapshotId={snapshotId}
-                    timeframe={timeframe} />
+      {statistics ?
+        <div>
+          <TwoColumnRow>
+            <TopList items={statistics.get('topBrowsers')}
+                     title='Top Browsers'
+                     nameColumnLabel='Browser'
+                     valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />} />
+            <TopList items={statistics.get('topOperatingSystems')}
+                     title='Top Operating Systems'
+                     nameColumnLabel='Operating System'
+                     valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />} />
+          </TwoColumnRow>
+
+          <TopList items={statistics.get('topCountries')}
+                   title='Top Countries'
+                   nameColumnLabel='Country'
+                   valueColumnLabel={<TimeWindowSizeLabel prefix='Calls in ' />} />
+        </div>
+
+      : null}
 
       <Connections snapshotId={snapshotId}
                    timeframe={timeframe} />
     </div>
   );
-}
+});

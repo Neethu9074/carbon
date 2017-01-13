@@ -3,16 +3,17 @@ import {fromJS} from 'immutable';
 import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription({
-  eventId: 'subscribe-event',
+  eventId: 'subscribe-eum-statistics',
 
-  getId({eventId}) {
-    return eventId;
+  getId({snapshotId, timeframe}) {
+    return `${snapshotId}${timeframe.to}${timeframe.windowSize}`;
   },
 
-  getData(subscriptionId, {eventId}) {
+  getData(subscriptionId, {snapshotId, timeframe}) {
     return {
       subscriptionId,
-      eventId
+      snapshotId,
+      timeframe
     };
   },
 

@@ -7,7 +7,6 @@ export default createSubscription({
     return email;
   },
 
-  // data to be send for subscription
   getData(subscriptionId, email) {
     return {
       subscriptionId,
