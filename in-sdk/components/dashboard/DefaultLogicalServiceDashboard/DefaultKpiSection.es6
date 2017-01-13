@@ -21,7 +21,7 @@ export default function DefaultKpiSection({snapshot}) {
                      metric='count'
                      formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
-      <KpiKeyValue label={<TimeWindowSizeLabel prefix='#calls in ' />}>
+      <KpiKeyValue label={<TimeWindowSizeLabel prefix='calls in ' />}>
         <MetricValue snapshotId={snapshotId}
                      formatter={zeroDecimalPlaces}
                      metric='count'
@@ -43,7 +43,7 @@ export default function DefaultKpiSection({snapshot}) {
                      metric='error_rate'
                      formatter={percentageTwoDecimalPlaces} />
       </KpiKeyValue>
-      <KpiKeyValue label={<TimeWindowSizeLabel prefix='error rate in ' />}>
+      <KpiKeyValue label={<TimeWindowSizeLabel prefix='avg. error rate in ' />}>
         <MetricValue snapshotId={snapshotId}
                      metric='error_rate'
                      formatter={percentageTwoDecimalPlaces}

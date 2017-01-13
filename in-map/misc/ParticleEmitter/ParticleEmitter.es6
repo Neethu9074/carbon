@@ -131,7 +131,7 @@ export default class ParticleEmitter {
     this.isRunning = true;
 
     this.metricSubscription = combineLatest([
-      this.getMetric('count', 'adjustedCount'),
+      this.getMetric('count', 'mean'),
       this.getMetric('error_rate', 'mean')
     ]).subscribe(([countMetric, errorRateMetric]) => this.setNumparticlesPerSecond(countMetric, errorRateMetric));
   }
@@ -150,7 +150,7 @@ export default class ParticleEmitter {
     this.isRunning = true;
 
     this.metricSubscription = combineLatest([
-      this.getMetric('count', 'adjustedCount'),
+      this.getMetric('count', 'mean'),
       this.getMetric('error_rate', 'mean')
     ]).subscribe(([countMetric, errorRateMetric]) => {
       countMetric = Math.ceil(countMetric);

@@ -13,8 +13,8 @@ export default function ServiceSidebar({snapshot}) {
   return (
     <div>
       <TracesButtonWrapper>
-        <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
         <JumpToTracesOfServiceButton snapshotId={snapshotId} />
+        <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
       </TracesButtonWrapper>
 
       <ServiceKpiSparkCharts snapshot={snapshot} />

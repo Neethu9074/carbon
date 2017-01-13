@@ -16,8 +16,8 @@ export default function ServiceInstanceSidebar({snapshot}) {
   return (
     <div>
       <TracesButtonWrapper>
-        <JumpToTracesTouchingServiceInstanceButton snapshotId={snapshot.get('id')} />
         <JumpToTracesOfServiceInstanceButton snapshotId={snapshot.get('id')} />
+        <JumpToTracesTouchingServiceInstanceButton snapshotId={snapshot.get('id')} />
       </TracesButtonWrapper>
 
       <ServiceInstanceInfo snapshotId={snapshot.get('id')} />

@@ -11,8 +11,8 @@ export default function ServiceDashboardSidebar({snapshot}) {
   return (
     <div>
       <TracesButtonWrapper>
-        <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
         <JumpToTracesOfServiceButton snapshotId={snapshotId} />
+        <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
       </TracesButtonWrapper>
 
       <ClusterMemberList snapshotId={snapshotId} />

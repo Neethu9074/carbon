@@ -31,7 +31,7 @@ export default function DefaultLogicalServiceDashboard({snapshot, timeframe}) {
                        metric='count'
                        formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label={<TimeWindowSizeLabel prefix='#calls in ' />}>
+        <KpiKeyValue label={<TimeWindowSizeLabel prefix='calls in ' />}>
           <MetricValue snapshotId={snapshotId}
                        formatter={zeroDecimalPlaces}
                        metric='count'

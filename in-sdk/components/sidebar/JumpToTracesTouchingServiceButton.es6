@@ -16,7 +16,7 @@ export default connectTo(props => {
   return (
     <JumpToTracesButton href={href}
                         traceCount={traceCount}
-                        title='Traces'
+                        title='Traces Touching'
                         tooltip='Jump to traces touching this service' />
   );
 });
