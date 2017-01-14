@@ -24,14 +24,14 @@ const block = 'in-config-generic-ex';
 
 export default connectTo({
   ruleForms: ruleForms$
-}, function GenericServiceExtractionConfiguration({ruleForms, ruleType}) {
+}, function GenericServiceExtractionConfiguration({ruleForms, ruleType, title}) {
   return (
     <div className={block}>
       <LifecycleObserver onWillMount={() => enable(ruleType)}
                          onWillUnmount={disable} />
 
       <SubViewHeader>
-        HTTP Service Extraction Rules
+        {title}
       </SubViewHeader>
 
       <Section>

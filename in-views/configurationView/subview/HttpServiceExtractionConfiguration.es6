@@ -5,6 +5,7 @@ import GenericServiceExtractionConfiguration
 
 export default function HttpServiceExtractionConfiguration() {
   return (
-    <GenericServiceExtractionConfiguration ruleType='webapp' />
+    <GenericServiceExtractionConfiguration ruleType='webapp'
+                                           title='HTTP Service Extraction Rules' />
   );
 }

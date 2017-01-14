@@ -5,6 +5,7 @@ import GenericServiceExtractionConfiguration
 
 export default function EjbServiceExtractionConfiguration() {
   return (
-    <GenericServiceExtractionConfiguration ruleType='ejb' />
+    <GenericServiceExtractionConfiguration ruleType='ejb'
+                                           title='EJB Service Extraction Rules' />
   );
 }
