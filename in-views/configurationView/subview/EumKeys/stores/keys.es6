@@ -1,6 +1,9 @@
 import {create} from 'reactive-observables';
+import React from 'react';
 
 import {getAllEumKeys, removeKey, addKey, renameKey} from 'in-services/groundskeeper/eumKeys';
+import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {createTrackingStore} from 'in-stores/store';
 
@@ -28,9 +31,21 @@ export function disable() {
   refresh$.emit(false);
 }
 
-export function remove(keyId) {
-  removeKey(keyId)
-    .once(() => refresh$.emit(true));
+export function remove(keyId, name) {
+  setActiveDialog(
+    <ConfirmationDialog header='Confirm removal'
+                        description={
+                          <span>
+                            Are you sure you want to the app <strong>{name}</strong>?
+                          </span>
+                        }
+                        bButtonLabel='Remove app'
+                        onB={() => {
+                          close();
+                          removeKey(keyId)
+                            .once(() => refresh$.emit(true));
+                        }} />
+  );
 }
 
 export function add(appName) {

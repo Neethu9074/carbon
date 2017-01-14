@@ -60,7 +60,7 @@ export default React.createClass({
           <Button size='sm'
                   kind='danger'
                   className={`${block}__remove`}
-                  onClick={() => remove(apiKey)}>
+                  onClick={() => remove(apiKey, name)}>
             Remove
           </Button>
         </RightAlignment>

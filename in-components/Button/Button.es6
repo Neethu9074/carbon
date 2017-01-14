@@ -14,7 +14,8 @@ export default function Button({className,
                                 children,
                                 target,
                                 href,
-                                disabled}) {
+                                disabled,
+                                autoFocus}) {
   let classes = `${block} ${block}--${kind} ${block}--${size}`;
   if (className) {
     classes = `${classes} ${className}`;
@@ -35,7 +36,8 @@ export default function Button({className,
       <button className={classes}
               type={type}
               onClick={onClick}
-              style={style}>
+              style={style}
+              autoFocus={autoFocus}>
         {children}
       </button>
     );
@@ -46,7 +48,8 @@ export default function Button({className,
        className={classes}
        onClick={onClick ? onClick : stopPropagation}
        style={style}
-       target={target}>
+       target={target}
+       autoFocus={autoFocus}>
       {children}
     </a>
   );
@@ -63,7 +66,8 @@ Button.propTypes = {
   target: rpt.string,
   onClick: rpt.func,
   href: rpt.string,
-  disabled: rpt.bool
+  disabled: rpt.bool,
+  autoFocus: rpt.bool
 };
 
 
