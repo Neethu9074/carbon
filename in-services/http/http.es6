@@ -5,7 +5,7 @@ import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
 import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import HttpResponseError from 'in-services/http/HttpResponseError';
 
-export default function({method, url, queryParams, data, timeout = 30000, responseType = 'json'}) {
+export default function({method, url, queryParams, data, timeout = 30000, responseType = 'json', ignoreAbortErrors=true}) {
   url = formatUrl(url, queryParams);
   let xhr;
 
@@ -18,7 +18,10 @@ export default function({method, url, queryParams, data, timeout = 30000, respon
 
       xhr.addEventListener('timeout', () => observable.emitError(new HttpRequestTimeoutError(method, url)));
       xhr.addEventListener('error', () => observable.emitError(new HttpResponseError(method, url)));
-      xhr.addEventListener('abort', () => observable.emitError(new HttpRequestAbortedError(method, url)));
+
+      if (ignoreAbortErrors) {
+        xhr.addEventListener('abort', () => observable.emitError(new HttpRequestAbortedError(method, url)));
+      }
 
       if (data) {
         xhr.setRequestHeader('Content-Type', 'application/json');
