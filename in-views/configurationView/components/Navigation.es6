@@ -3,6 +3,8 @@ import React from 'react';
 import {
   httpServiceExtractionConfigurationViewLink$,
   isHttpServiceExtractionConfigurationView$,
+  ejbServiceExtractionConfigurationViewLink$,
+  isEjbServiceExtractionConfigurationView$,
   userInterfaceConfigViewLink$,
   isUserInterfaceConfigView$,
   eumKeysViewLink$,
@@ -24,6 +26,11 @@ export default function Navigation() {
           <NavItem title='HTTP Rules'
                    href$={httpServiceExtractionConfigurationViewLink$}
                    isActive$={isHttpServiceExtractionConfigurationView$}
+                   borderless />
+
+          <NavItem title='EJB Rules'
+                   href$={ejbServiceExtractionConfigurationViewLink$}
+                   isActive$={isEjbServiceExtractionConfigurationView$}
                    borderless />
         </NavItem>
 
