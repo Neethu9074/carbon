@@ -11,7 +11,6 @@ import {
 import MatchSpecificationSelector
   from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/RuleTester';
-import options from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/options';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
@@ -34,7 +33,8 @@ export default React.createClass({
     ruleForm: React.PropTypes.any.isRequired,
     path: React.PropTypes.any,
     helpTexts: React.PropTypes.object.isRequired,
-    matchSpecificationOptionsTree: React.PropTypes.array.isRequired
+    matchSpecificationOptionsTree: React.PropTypes.array.isRequired,
+    matchSpecificationOptions: React.PropTypes.object.isRequired
   },
 
   getInitialState() {
@@ -51,7 +51,7 @@ export default React.createClass({
   },
 
   render() {
-    const {ruleForm, path, helpTexts, matchSpecificationOptionsTree} = this.props;
+    const {ruleForm, path, helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions} = this.props;
     const id = ruleForm.getItem('id').value;
 
     return (
@@ -123,7 +123,7 @@ export default React.createClass({
                   <FormGroup key={key}>
                     <Label htmlFor={`${id}-${key}`}
                            hasError={!field.valid}>
-                      Match: {options[key].titleName}
+                      Match: {matchSpecificationOptions[key].titleName}
 
                       <a href='#'
                          onClick={e => this.removeMatch(e, key)}
@@ -133,7 +133,7 @@ export default React.createClass({
                     </Label>
                     <Input type='text'
                            id={`${id}-${key}`}
-                           placeholder={options[key].placeholder}
+                           placeholder={matchSpecificationOptions[key].placeholder}
                            value={field.value}
                            onChange={e => setValue([...path, 'matchSpecification', key], e.target.value)}
                            hasError={!field.valid} />
@@ -143,7 +143,7 @@ export default React.createClass({
                       </ValidationBlock>
                     : null}
                     <HelpBlock>
-                      {options[key].help}
+                      {matchSpecificationOptions[key].help}
                     </HelpBlock>
                   </FormGroup>
                 );
@@ -194,7 +194,8 @@ export default React.createClass({
 
               {this.state.isTesting ?
                 <RuleTester toggleRuleTesting={this.toggleTesting}
-                            ruleForm={ruleForm} />
+                            ruleForm={ruleForm}
+                            matchSpecificationOptions={matchSpecificationOptions} />
                             : null}
             </div>
           ) : null}
@@ -225,7 +226,11 @@ export default React.createClass({
     // reset selection to "Please Select"
     e.target.value = '';
 
-    addMatchSpecification(this.props.path, newRuleName, options[newRuleName].initialValue || '');
+    addMatchSpecification(
+      this.props.path,
+      newRuleName,
+      this.props.matchSpecificationOptions[newRuleName].initialValue || ''
+    );
   },
 
   removeMatch(e, key) {

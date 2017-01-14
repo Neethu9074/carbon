@@ -4,7 +4,6 @@ import ExtractedServiceNamePresenter
   from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/ExtractedServiceNamePresenter';
 import MatchPresenter
   from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/MatchPresenter';
-import options from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/options';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -20,7 +19,8 @@ export default React.createClass({
 
   propTypes: {
     toggleRuleTesting: React.PropTypes.any,
-    ruleForm: React.PropTypes.any.isRequired
+    ruleForm: React.PropTypes.any.isRequired,
+    matchSpecificationOptions: React.PropTypes.object.isRequired
   },
 
   getInitialState() {
@@ -60,10 +60,10 @@ export default React.createClass({
             <Col cols={6}
                  key={key}>
               <FormGroup>
-                <Label htmlFor={`${id}-test-${key}`}>{options[key].titleName}</Label>
+                <Label htmlFor={`${id}-test-${key}`}>{this.props.matchSpecificationOptions[key].titleName}</Label>
                 <Input type='text'
                        id={`${id}-test-${key}`}
-                       placeholder={options[key].testPlaceholder}
+                       placeholder={this.props.matchSpecificationOptions[key].testPlaceholder}
                        value={this.state[key] || ''}
                        onChange={e => this.setState({[key]: e.target.value})} />
               </FormGroup>
