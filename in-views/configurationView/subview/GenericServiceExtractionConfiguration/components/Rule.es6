@@ -1,11 +1,6 @@
 import React from 'react';
 
 import {
-  matchesHelp,
-  serviceNameHelp,
-  commentHelp
-} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/helpTexts';
-import {
   setValue,
   addMatchSpecification,
   removeMatchSpecification,
@@ -36,7 +31,8 @@ export default React.createClass({
 
   propTypes: {
     ruleForm: React.PropTypes.any.isRequired,
-    path: React.PropTypes.any
+    path: React.PropTypes.any,
+    helpTexts: React.PropTypes.object
   },
 
   getInitialState() {
@@ -53,9 +49,8 @@ export default React.createClass({
   },
 
   render() {
-    const ruleForm = this.props.ruleForm;
+    const {ruleForm, path, helpTexts} = this.props;
     const id = ruleForm.getItem('id').value;
-    const path = this.props.path;
 
     return (
       <div>
@@ -136,7 +131,7 @@ export default React.createClass({
                     </ValidationBlock>
                   : null}
                   <HelpBlock>
-                    {matchesHelp}
+                    {helpTexts.matchesHelp}
                   </HelpBlock>
                 </FormGroup>
               )}
@@ -183,7 +178,7 @@ export default React.createClass({
                          value={labelField.value}
                          onChange={e => setValue([...path, 'label'], e.target.value)} />
                   <HelpBlock>
-                    {serviceNameHelp}
+                    {helpTexts.serviceNameHelp}
                   </HelpBlock>
                 </FormGroup>
               )}
@@ -196,7 +191,7 @@ export default React.createClass({
                             value={commentField.value}
                             onChange={e => setValue([...path, 'comment'], e.target.value)} />
                   <HelpBlock>
-                    {commentHelp}
+                    {helpTexts.commentHelp}
                   </HelpBlock>
                 </FormGroup>
               )}

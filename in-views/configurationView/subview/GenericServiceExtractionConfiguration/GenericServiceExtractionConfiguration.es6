@@ -8,7 +8,6 @@ import {
   saveRules
 } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms';
 import {notification$} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/notification';
-import {viewHelp} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/helpTexts';
 import {openEditor} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/editAsJson';
 import Rule from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Rule';
 import StoreAwareTemporaryPresenter from 'in-components/StoreAwareTemporaryPresenter';
@@ -24,7 +23,7 @@ const block = 'in-config-generic-ex';
 
 export default connectTo({
   ruleForms: ruleForms$
-}, function GenericServiceExtractionConfiguration({ruleForms, ruleType, title}) {
+}, function GenericServiceExtractionConfiguration({ruleForms, ruleType, title, helpTexts}) {
   return (
     <div className={block}>
       <LifecycleObserver onWillMount={() => enable(ruleType)}
@@ -58,14 +57,15 @@ export default connectTo({
         <StoreAwareTemporaryPresenter config$={notification$} />
 
         <p>
-          {viewHelp}
+          {helpTexts.viewHelp}
         </p>
       </Section>
 
       {ruleForms && ruleForms.map((ruleForm, i) =>
         <Rule key={ruleForm.getItem('id').value}
               ruleForm={ruleForm}
-              path={[i]} />
+              path={[i]}
+              helpTexts={helpTexts} />
       )}
     </div>
   );
