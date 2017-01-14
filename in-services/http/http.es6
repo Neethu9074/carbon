@@ -19,7 +19,7 @@ export default function({method, url, queryParams, data, timeout = 30000, respon
       xhr.addEventListener('timeout', () => observable.emitError(new HttpRequestTimeoutError(method, url)));
       xhr.addEventListener('error', () => observable.emitError(new HttpResponseError(method, url)));
 
-      if (ignoreAbortErrors) {
+      if (!ignoreAbortErrors) {
         xhr.addEventListener('abort', () => observable.emitError(new HttpRequestAbortedError(method, url)));
       }
 
