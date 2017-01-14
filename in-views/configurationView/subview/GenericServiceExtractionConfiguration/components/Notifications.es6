@@ -4,7 +4,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 
 import './Notifications.less';
 
-const block = 'in-config-http-ex-notification';
+const block = 'in-config-generic-ex-notification';
 
 export function LoadingRulesNotification() {
   return (

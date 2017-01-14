@@ -4,24 +4,24 @@ import React from 'react';
 import {
   showNofitication,
   clearNotification
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/notification';
+} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/notification';
 import {
   LoadingRulesNotification,
   LoadingRulesFailedNotification,
   SavingRulesNotification,
   SavingRulesFailedNotification,
   SavingRulesSuccessfulNotification
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Notifications';
+} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Notifications';
 import {getServiceExtractionConfig, saveServiceExtractionConfig} from 'in-services/groundskeeper/serviceExtraction';
 import {ListForm, MapForm, Field} from 'in-services/form';
 import {generateUniqueShortId} from 'in-services/util/id';
 import {createStore} from 'in-stores/store';
 
-const ruleType = 'webapp';
+let ruleType;
 const logger = createLogger('httpExtraction/ruleForms');
 
 const ruleFormsStore = createStore({
-  name: 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms',
+  name: 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms',
   initialValue: null
 });
 export const ruleForms$ = ruleFormsStore.observable;
@@ -78,7 +78,8 @@ export function removeAllRules() {
 }
 
 
-export function enable() {
+export function enable(_ruleType) {
+  ruleType = _ruleType;
   removeAllRules();
   loadRules();
 }

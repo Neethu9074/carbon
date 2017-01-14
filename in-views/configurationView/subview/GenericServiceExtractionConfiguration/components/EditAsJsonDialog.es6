@@ -7,7 +7,7 @@ import Dialog from 'in-components/Dialog';
 
 import './EditAsJsonDialog.less';
 
-const block = 'in-config-http-ex-json-dia';
+const block = 'in-config-generic-ex-json-dia';
 
 export default React.createClass({
   displayName: 'EditAsJsonDialog',

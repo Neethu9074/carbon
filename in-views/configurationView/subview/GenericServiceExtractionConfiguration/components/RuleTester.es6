@@ -1,10 +1,10 @@
 import React from 'react';
 
 import ExtractedServiceNamePresenter
-  from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/ExtractedServiceNamePresenter';
+  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/ExtractedServiceNamePresenter';
 import MatchPresenter
-  from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/MatchPresenter';
-import options from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/options';
+  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/MatchPresenter';
+import options from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/options';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -13,7 +13,7 @@ import Button from 'in-components/Button';
 
 import './RuleTester.less';
 
-const block = 'in-config-http-ex-rule-tester';
+const block = 'in-config-generic-ex-rule-tester';
 
 export default React.createClass({
   displayName: 'RuleTester',

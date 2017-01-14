@@ -6,11 +6,11 @@ import {
   enable,
   disable,
   saveRules
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
-import {notification$} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/notification';
-import {viewHelp} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/helpTexts';
-import {openEditor} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/editAsJson';
-import Rule from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/Rule';
+} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms';
+import {notification$} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/notification';
+import {viewHelp} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/helpTexts';
+import {openEditor} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/editAsJson';
+import Rule from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Rule';
 import StoreAwareTemporaryPresenter from 'in-components/StoreAwareTemporaryPresenter';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
@@ -18,16 +18,16 @@ import LifecycleObserver from 'in-components/LifecycleObserver';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import './HttpServiceExtractionConfiguration.less';
+import './GenericServiceExtractionConfiguration.less';
 
-const block = 'in-config-http-ex';
+const block = 'in-config-generic-ex';
 
 export default connectTo({
   ruleForms: ruleForms$
-}, function HttpServiceExtractionConfiguration({ruleForms}) {
+}, function GenericServiceExtractionConfiguration({ruleForms, ruleType}) {
   return (
     <div className={block}>
-      <LifecycleObserver onWillMount={enable}
+      <LifecycleObserver onWillMount={() => enable(ruleType)}
                          onWillUnmount={disable} />
 
       <SubViewHeader>

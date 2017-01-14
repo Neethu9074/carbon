@@ -5,7 +5,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import './MatchPresenter.less';
 
-const block = 'in-config-http-ex-rule-match-presenter';
+const block = 'in-config-generic-ex-rule-match-presenter';
 
 export default function MatchPresenter({match, prefix}) {
   let content;

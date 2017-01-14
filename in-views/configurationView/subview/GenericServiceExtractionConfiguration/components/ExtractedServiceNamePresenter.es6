@@ -4,7 +4,7 @@ import {createFormatter} from 'in-services/formatters/string';
 
 import './ExtractedServiceNamePresenter.less';
 
-const block = 'in-config-http-ex-rule-service-name-presenter';
+const block = 'in-config-generic-ex-rule-service-name-presenter';
 
 export default function ExtractedServiceNamePresenter({ruleForm, matches}) {
   const ruleKeys = ruleForm.getItem('matchSpecification').keys();

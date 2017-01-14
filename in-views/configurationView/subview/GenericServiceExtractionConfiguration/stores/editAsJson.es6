@@ -1,12 +1,12 @@
 import React from 'react';
 
 import EditAsJsonDialog
-  from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/EditAsJsonDialog';
+  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/EditAsJsonDialog';
 import {
   createRulesFromRuleForms,
   ruleForms$,
   setRuleFormsFromJsonUserInput
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
+} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms';
 import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
 
 export function openEditor() {

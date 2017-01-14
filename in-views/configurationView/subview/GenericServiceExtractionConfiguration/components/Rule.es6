@@ -4,7 +4,7 @@ import {
   matchesHelp,
   serviceNameHelp,
   commentHelp
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/helpTexts';
+} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/helpTexts';
 import {
   setValue,
   addMatchSpecification,
@@ -12,9 +12,9 @@ import {
   moveRuleUp,
   moveRuleDown,
   removeRule
-} from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/stores/ruleForms';
-import RuleTester from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/RuleTester';
-import options from 'in-views/configurationView/subview/HttpServiceExtractionConfiguration/components/options';
+} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms';
+import RuleTester from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/RuleTester';
+import options from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/options';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
@@ -29,7 +29,7 @@ import Button from 'in-components/Button';
 
 import './Rule.less';
 
-const block = 'in-config-http-ex-rule';
+const block = 'in-config-generic-ex-rule';
 
 export default React.createClass({
   displayName: 'HttpRule',
