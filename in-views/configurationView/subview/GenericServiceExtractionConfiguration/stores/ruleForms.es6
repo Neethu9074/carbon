@@ -12,7 +12,7 @@ import {
   SavingRulesFailedNotification,
   SavingRulesSuccessfulNotification
 } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Notifications';
-import {getServiceExtractionConfig, saveServiceExtractionConfig} from 'in-services/groundskeeper/serviceExtraction';
+import {getServiceExtractionConfig, savePartialServiceExtractionConfig} from 'in-services/groundskeeper/serviceExtraction';
 import {ListForm, MapForm, Field} from 'in-services/form';
 import {generateUniqueShortId} from 'in-services/util/id';
 import {createStore} from 'in-stores/store';
@@ -147,7 +147,7 @@ export function saveRules(ruleForms) {
   });
 
   const rules = createRulesFromRuleForms(ruleForms);
-  const saveResult$ = saveServiceExtractionConfig(rules);
+  const saveResult$ = savePartialServiceExtractionConfig(ruleType, rules);
 
   saveResult$.once(() => {
     showNofitication({

@@ -27,3 +27,14 @@ export function saveServiceExtractionConfig(rules) {
   })
   .map(() => true);
 }
+
+
+export function savePartialServiceExtractionConfig(ruleType, rules) {
+  return getServiceExtractionConfig()
+    .flatMap(existingRules => {
+      // merge with rules of other types
+      existingRules = existingRules.filter(rule => rule.type !== ruleType);
+      existingRules = existingRules.concat(rules);
+      return saveServiceExtractionConfig(existingRules);
+    });
+}
