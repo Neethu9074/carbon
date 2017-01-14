@@ -36,7 +36,7 @@ export function remove(keyId, name) {
     <ConfirmationDialog header='Confirm removal'
                         description={
                           <span>
-                            Are you sure you want to the app <strong>{name}</strong>?
+                            Are you sure you want to remove the app <strong>{name}</strong>?
                           </span>
                         }
                         bButtonLabel='Remove app'

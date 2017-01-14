@@ -57,7 +57,7 @@ export default connectTo({
                 Edit
               </a>
               <a href=''
-                 onClick={e => {e.preventDefault(); remove(filter.get('id'));}}
+                 onClick={e => {e.preventDefault(); remove(filter.get('id'), filter.get('name'));}}
                  className={`${block}__remove`}>
                 Remove
               </a>
