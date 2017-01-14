@@ -8,6 +8,8 @@ import {
   moveRuleDown,
   removeRule
 } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms';
+import MatchSpecificationSelector
+  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/RuleTester';
 import options from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/options';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -16,7 +18,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import HelpBlock from 'in-components/form/HelpBlock';
 import TextArea from 'in-components/form/TextArea';
 import Toggle from 'in-components/form/Toggle';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -27,12 +28,13 @@ import './Rule.less';
 const block = 'in-config-generic-ex-rule';
 
 export default React.createClass({
-  displayName: 'HttpRule',
+  displayName: 'Rule',
 
   propTypes: {
     ruleForm: React.PropTypes.any.isRequired,
     path: React.PropTypes.any,
-    helpTexts: React.PropTypes.object
+    helpTexts: React.PropTypes.object.isRequired,
+    matchSpecificationOptionsTree: React.PropTypes.array.isRequired
   },
 
   getInitialState() {
@@ -49,7 +51,7 @@ export default React.createClass({
   },
 
   render() {
-    const {ruleForm, path, helpTexts} = this.props;
+    const {ruleForm, path, helpTexts, matchSpecificationOptionsTree} = this.props;
     const id = ruleForm.getItem('id').value;
 
     return (
@@ -107,33 +109,11 @@ export default React.createClass({
           {this.state.isExpanded ? (
             <div>
               {ruleForm.getItem('matchSpecification').mapItem(matchSpecificationForm =>
-                <FormGroup>
-                  <Label htmlFor={`${id}-select-match-rule`}>Match</Label>
-                  <Select id={`${id}-select-match-rule`}
-                          onChange={this.onChangeMatchOption}>
-                    <option value=''>Please Select</option>
-
-                    <optgroup label='Headers'>
-                      <option value='host'
-                              disabled={matchSpecificationForm.containsKey('host')}>
-                        Host
-                      </option>
-                    </optgroup>
-
-                    <option value='path'
-                            disabled={matchSpecificationForm.containsKey('path')}>
-                      Request Path
-                    </option>
-                  </Select>
-                  {matchSpecificationForm.error ?
-                    <ValidationBlock hasError>
-                      {matchSpecificationForm.error}
-                    </ValidationBlock>
-                  : null}
-                  <HelpBlock>
-                    {helpTexts.matchesHelp}
-                  </HelpBlock>
-                </FormGroup>
+                <MatchSpecificationSelector id={id}
+                                            matchSpecificationForm={matchSpecificationForm}
+                                            matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+                                            helpTexts={helpTexts}
+                                            onChangeMatchOption={this.onChangeMatchOption} />
               )}
 
               {ruleForm.getItem('matchSpecification').keys().sort().map(key => {

@@ -15,10 +15,26 @@ const helpTexts = defaultsDeep(
   commonHelpTexts
 );
 
+const matchSpecificationOptionsTree = [
+  {
+    label: 'Module',
+    value: 'module'
+  },
+  {
+    label: 'App',
+    value: 'app'
+  },
+  {
+    label: 'Beacon',
+    value: 'bean'
+  }
+];
+
 export default function EjbServiceExtractionConfiguration() {
   return (
     <GenericServiceExtractionConfiguration ruleType='ejb'
                                            title='EJB Service Extraction Rules'
-                                           helpTexts={helpTexts} />
+                                           helpTexts={helpTexts}
+                                           matchSpecificationOptionsTree={matchSpecificationOptionsTree} />
   );
 }

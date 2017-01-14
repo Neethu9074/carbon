@@ -23,7 +23,7 @@ const block = 'in-config-generic-ex';
 
 export default connectTo({
   ruleForms: ruleForms$
-}, function GenericServiceExtractionConfiguration({ruleForms, ruleType, title, helpTexts}) {
+}, function GenericServiceExtractionConfiguration({ruleForms, ruleType, title, helpTexts, matchSpecificationOptionsTree}) {
   return (
     <div className={block}>
       <LifecycleObserver onWillMount={() => enable(ruleType)}
@@ -65,7 +65,8 @@ export default connectTo({
         <Rule key={ruleForm.getItem('id').value}
               ruleForm={ruleForm}
               path={[i]}
-              helpTexts={helpTexts} />
+              helpTexts={helpTexts}
+              matchSpecificationOptionsTree={matchSpecificationOptionsTree} />
       )}
     </div>
   );

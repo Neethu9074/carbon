@@ -19,10 +19,27 @@ const helpTexts = defaultsDeep(
   commonHelpTexts
 );
 
+const matchSpecificationOptionsTree = [
+  {
+    label: 'Headers',
+    children: [
+      {
+        label: 'Host',
+        value: 'host'
+      }
+    ]
+  },
+  {
+    label: 'Request Path',
+    value: 'path'
+  }
+];
+
 export default function HttpServiceExtractionConfiguration() {
   return (
     <GenericServiceExtractionConfiguration ruleType='webapp'
                                            title='HTTP Service Extraction Rules'
-                                           helpTexts={helpTexts} />
+                                           helpTexts={helpTexts}
+                                           matchSpecificationOptionsTree={matchSpecificationOptionsTree} />
   );
 }
