@@ -24,11 +24,13 @@ export default function getPhysicalContent() {
       <Layout key='simple_layout'
               iconType='options'
               tooltipText='Rearrange zones by name'
-              onClick={() => setLayoutingStrategy(simpleLayouting$)} />,
+              setLayoutingStrategy={setLayoutingStrategy}
+              layoutingStrategy={simpleLayouting$} />,
       <Layout key='packed_layout'
               iconType='packed_layouting'
               tooltipText='Rearrange zones as a compact structure'
-              onClick={() => setLayoutingStrategy(packedLayouting$)} />
+              setLayoutingStrategy={setLayoutingStrategy}
+              layoutingStrategy={packedLayouting$} />
     );
   }
 

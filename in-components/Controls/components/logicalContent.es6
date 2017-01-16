@@ -16,11 +16,13 @@ export default function getLogicalContent() {
     <Layout key='fr_layout'
             iconType='graph'
             tooltipText='Rearrange services'
-            onClick={() => setLayoutingStrategy(fruchtermannReingoldLayouting$)} />,
+            setLayoutingStrategy={setLayoutingStrategy}
+            layoutingStrategy={fruchtermannReingoldLayouting$} />,
     <Layout key='v_layout'
             iconType='flow'
             tooltipText='Rearrange services as a flow'
-            onClick={() => setLayoutingStrategy(vizceralLayouting$)} />
+            setLayoutingStrategy={setLayoutingStrategy}
+            layoutingStrategy={vizceralLayouting$} />
   ];
 
   if (__DEV__) {
