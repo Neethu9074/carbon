@@ -1,8 +1,9 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker/issueTracker';
 import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
-import {selectedEvent$, selectedEventId$} from 'in-stores/events';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
+import {selectedEvent$, selectedEventId$} from 'in-stores/events';
+import {isEventOpenAtFocusedMoment} from 'in-stores/events';
 import {getColorForEvent} from 'in-services/issueTracker';
 import {selectedSnapshotId} from 'in-stores/snapshot';
 import {emptyArray} from 'in-services/fixedObjects';
@@ -88,8 +89,7 @@ export default class EventRenderer extends BasicRenderer {
   }
 
   eventIsOpenAtFocusedMoment(event) {
-    const focusedMoment = this.focusedMoment;
-    return event.get('start') <= focusedMoment && (!event.get('end') || event.get('end') > focusedMoment);
+    return isEventOpenAtFocusedMoment(event.get('start'), event.get('end'), event.get('state'), this.focusedMoment);
   }
 
   eventIsOpenOnLiveMode(event) {
