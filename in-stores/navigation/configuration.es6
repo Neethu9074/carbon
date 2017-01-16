@@ -10,6 +10,10 @@ const ejbServiceExtractionConfigViewPath = '/config/ejbServiceExtraction';
 export const ejbServiceExtractionConfigurationViewLink$ = buildUrlStream({path: ejbServiceExtractionConfigViewPath});
 export const isEjbServiceExtractionConfigurationView$ = buildPathStartsWithStream(ejbServiceExtractionConfigViewPath);
 
+const elasticsearchServiceExtractionConfigViewPath = '/config/elasticsearchServiceExtraction';
+export const elasticsearchServiceExtractionConfigurationViewLink$ = buildUrlStream({path: elasticsearchServiceExtractionConfigViewPath});
+export const isElasticsearchServiceExtractionConfigurationView$ = buildPathStartsWithStream(elasticsearchServiceExtractionConfigViewPath);
+
 
 const userInterfaceConfigViewPath = '/config/userInterface';
 export const userInterfaceConfigViewLink$ = buildUrlStream({path: userInterfaceConfigViewPath});
