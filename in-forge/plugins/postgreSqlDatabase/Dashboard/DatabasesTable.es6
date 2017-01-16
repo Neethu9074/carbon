@@ -41,8 +41,6 @@ function createHeader() {
       <tr>
         <th>Database</th>
         <th>Queries</th>
-        <th>Queries active</th>
-        <th>Queries waiting</th>
         <th>Committed transactions</th>
         <th>Rolled back transactions</th>
         <th>Cache Hit Ratio</th>
@@ -60,12 +58,6 @@ function createRow(db, i, context) {
     <Mtd metric={'databases.' + db + '.queries'}
          snapshot={context.snapshot}
          formatter={activityZeroDecimalPlaces} />,
-    <Mtd metric={'databases.' + db + '.queries_active'}
-        snapshot={context.snapshot}
-        formatter={activityZeroDecimalPlaces} />,
-    <Mtd metric={'databases.' + db + '.queries_waiting'}
-        snapshot={context.snapshot}
-        formatter={activityZeroDecimalPlaces} />,
     <Mtd metric={'databases.' + db + '.xact_commit'}
         snapshot={context.snapshot}
         formatter={activityZeroDecimalPlaces} />,
@@ -153,44 +145,26 @@ function createDetails(db, i, context) {
                          ],
                          type: 'line'
                        }} />
+
       {displayQueries(context.snapshot, timeframe, db)}
 
-      <TwoColumnRow>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                            left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: activityZeroDecimalPlaces,
-                           metrics: [
-                             'databases.' + db + '.queries_active',
-                             'databases.' + db + '.queries_waiting'
-                           ],
-                           labels: [
-                             'Queries active',
-                             'Queries waiting'
-                           ],
-                           type: 'line'
-                         }} />
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                            left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: activityZeroDecimalPlaces,
-                           metrics: [
-                             'databases.' + db + '.xact_commit'
-                           ],
-                           labels: [
-                             'Committed transactions'
-                           ],
-                           type: 'line'
-                         }} />
-      </TwoColumnRow>
+      <ChartWithLegend snapshotId={snapshotId}
+                       timeframe={timeframe}
+                       margins={{
+                          left: 80
+                       }}
+                       y1={{
+                         min: 0,
+                         formatter: activityZeroDecimalPlaces,
+                         metrics: [
+                           'databases.' + db + '.xact_commit'
+                         ],
+                         labels: [
+                           'Committed transactions'
+                         ],
+                         type: 'line'
+                       }} />
+
       <TwoColumnRow>
         <ChartWithLegend snapshotId={snapshotId}
                         timeframe={timeframe}
