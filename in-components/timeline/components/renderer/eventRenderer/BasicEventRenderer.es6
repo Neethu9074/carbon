@@ -88,12 +88,8 @@ export default class EventRenderer extends BasicRenderer {
     return this.recentEventIds.indexOf(event.get('id')) < 0 ? false : true;
   }
 
-  eventIsOpenAtFocusedMoment(event) {
+  eventIsOpen(event) {
     return isEventOpenAtFocusedMoment(event.get('start'), event.get('end'), event.get('state'), this.focusedMoment);
-  }
-
-  eventIsOpenOnLiveMode(event) {
-    return event.get('state') === 'open';
   }
 
   draw(event, isHighlighted) {

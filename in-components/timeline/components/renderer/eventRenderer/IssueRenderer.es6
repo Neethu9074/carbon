@@ -15,21 +15,12 @@ export default class IssueRenderer extends BasicEventRenderer {
       return;
     }
 
-    const focusedMoment = this.focusedMoment;
     let imageToDraw = icons.issueCriticalImage;
 
-    if (focusedMoment) {
-      if (this.eventIsOpenAtFocusedMoment(issue)) {
-        imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImageColored, icons.issueCriticalImageColored);
-      } else {
-        imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
-      }
+    if (this.eventIsOpen(issue)) {
+      imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImageColored, icons.issueCriticalImageColored);
     } else {
-      if (this.eventIsOpenOnLiveMode(issue)) {
-        imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImageColored, icons.issueCriticalImageColored);
-      } else {
-        imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
-      }
+      imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
     }
 
     this.drawImage(imageToDraw, x);
