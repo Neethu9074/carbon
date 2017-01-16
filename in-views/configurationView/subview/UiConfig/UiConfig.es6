@@ -1,7 +1,6 @@
 import React from 'react';
 
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {alternativePhysicalLayoutingEnables} from 'in-services/featureFlags';
 import Section from 'in-views/configurationView/components/Section';
 import {settings$, setIn} from 'in-services/settings/settings';
 import Toggle from 'in-components/form/Toggle';
@@ -105,35 +104,31 @@ function UiConfig({settings}) {
                  onChange={e => setIn(['map', 'scrollSpeed'], e.target.value)} />
         </Group>
 
-        {alternativePhysicalLayoutingEnables ?
-          <Group>
-            <Heading text={`Space between groups in x direction (${settings.getIn(['map', 'packingXSpace'])})`}
-                     htmlFor='packing_x_direction' />
-            <input type='range'
-                   id='packing_x_direction'
-                   min={1}
-                   max={10}
-                   step={1}
-                   className={`${block}__slider`}
-                   value={settings.getIn(['map', 'packingXSpace'])}
-                   onChange={e => setIn(['map', 'packingXSpace'], Number(e.target.value))} />
-          </Group>
-        : null }
+        <Group>
+          <Heading text={`Space between groups in x direction (${settings.getIn(['map', 'packingXSpace'])})`}
+                   htmlFor='packing_x_direction' />
+          <input type='range'
+                 id='packing_x_direction'
+                 min={1}
+                 max={10}
+                 step={1}
+                 className={`${block}__slider`}
+                 value={settings.getIn(['map', 'packingXSpace'])}
+                 onChange={e => setIn(['map', 'packingXSpace'], Number(e.target.value))} />
+        </Group>
 
-        {alternativePhysicalLayoutingEnables ?
-          <Group>
-            <Heading text={`Space between groups in y direction (${settings.getIn(['map', 'packingYSpace'])})`}
-                     htmlFor='packing_y_direction' />
-            <input type='range'
-                   id='packing_y_direction'
-                   min={1}
-                   max={10}
-                   step={1}
-                   className={`${block}__slider`}
-                   value={settings.getIn(['map', 'packingYSpace'])}
-                   onChange={e => setIn(['map', 'packingYSpace'], Number(e.target.value))} />
-          </Group>
-        : null }
+        <Group>
+          <Heading text={`Space between groups in y direction (${settings.getIn(['map', 'packingYSpace'])})`}
+                   htmlFor='packing_y_direction' />
+          <input type='range'
+                 id='packing_y_direction'
+                 min={1}
+                 max={10}
+                 step={1}
+                 className={`${block}__slider`}
+                 value={settings.getIn(['map', 'packingYSpace'])}
+                 onChange={e => setIn(['map', 'packingYSpace'], Number(e.target.value))} />
+        </Group>
 
 
         <Group helpText='Anti-aliasing is used to improve the look of the 3D maps. While nice on the eye, it is requiring additional compute resources. Disable anti-aliasing to improve the performance of the 3D maps on slower systems.'>
@@ -144,39 +139,33 @@ function UiConfig({settings}) {
                    htmlFor='antialiasing' />
         </Group>
 
-        {alternativePhysicalLayoutingEnables ?
-          <SectionHeading>
-            3D Map - Infrastructure
-          </SectionHeading>
-        : null }
-        {alternativePhysicalLayoutingEnables ?
-          <Group>
-            <Heading text={`Compact layouter: Space between groups in x direction (${settings.getIn(['map', 'packingXSpace'])})`}
-                     htmlFor='packing_x_direction' />
-            <input type='range'
-                   id='packing_x_direction'
-                   min={1}
-                   max={10}
-                   step={1}
-                   className={`${block}__slider`}
-                   value={settings.getIn(['map', 'packingXSpace'])}
-                   onChange={e => setIn(['map', 'packingXSpace'], Number(e.target.value))} />
-          </Group>
-        : null }
-        {alternativePhysicalLayoutingEnables ?
-          <Group>
-            <Heading text={`Compact layouter: Space between groups in y direction (${settings.getIn(['map', 'packingYSpace'])})`}
-                     htmlFor='packing_y_direction' />
-            <input type='range'
-                   id='packing_y_direction'
-                   min={1}
-                   max={10}
-                   step={1}
-                   className={`${block}__slider`}
-                   value={settings.getIn(['map', 'packingYSpace'])}
-                   onChange={e => setIn(['map', 'packingYSpace'], Number(e.target.value))} />
-          </Group>
-        : null }
+        <SectionHeading>
+          3D Map - Infrastructure
+        </SectionHeading>
+        <Group>
+          <Heading text={`Compact layouter: Space between groups in x direction (${settings.getIn(['map', 'packingXSpace'])})`}
+                   htmlFor='packing_x_direction' />
+          <input type='range'
+                 id='packing_x_direction'
+                 min={1}
+                 max={10}
+                 step={1}
+                 className={`${block}__slider`}
+                 value={settings.getIn(['map', 'packingXSpace'])}
+                 onChange={e => setIn(['map', 'packingXSpace'], Number(e.target.value))} />
+        </Group>
+        <Group>
+          <Heading text={`Compact layouter: Space between groups in y direction (${settings.getIn(['map', 'packingYSpace'])})`}
+                   htmlFor='packing_y_direction' />
+          <input type='range'
+                 id='packing_y_direction'
+                 min={1}
+                 max={10}
+                 step={1}
+                 className={`${block}__slider`}
+                 value={settings.getIn(['map', 'packingYSpace'])}
+                 onChange={e => setIn(['map', 'packingYSpace'], Number(e.target.value))} />
+        </Group>
 
       </Section>
     </div>

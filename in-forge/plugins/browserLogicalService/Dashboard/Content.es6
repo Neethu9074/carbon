@@ -13,6 +13,7 @@ import Connections from 'in-components/LogicalEntityTables/Connections';
 import getEumStatistics from 'in-services/subscription/eumStatistics';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
+import {eumStatisticsEnabled} from 'in-services/featureFlags';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {timeframe$} from 'in-stores/timeline';
@@ -20,6 +21,10 @@ import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(props => {
+  if (!eumStatisticsEnabled) {
+    return {};
+  }
+
   return {
     statistics: timeframe$
       .flatMap(timeframe => {
