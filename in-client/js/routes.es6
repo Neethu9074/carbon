@@ -1,5 +1,6 @@
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully functional
+import ElasticServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
@@ -58,6 +59,8 @@ export default (
              path='httpServiceExtraction' />
       <Route component={createAsyncFullscreenOverlayViewComponent(EjbServiceExtractionConfiguration)}
              path='ejbServiceExtraction' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(ElasticServiceExtractionConfiguration)}
+             path='elasticsearchServiceExtraction' />
       <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
              path='userInterface' />
       <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
