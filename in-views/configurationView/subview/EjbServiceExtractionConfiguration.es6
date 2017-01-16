@@ -33,9 +33,9 @@ const matchSpecificationOptionsTree = [
 const matchSpecificationOptions = {
   module: {
     titleName: 'Module',
-    placeholder: 'TODO PLACEHOLDER',
-    testPlaceholder: 'TODO TEST PLACEHOLDER',
-    initialValue: 'TODO INITIAL VALUE',
+    placeholder: '',
+    testPlaceholder: '',
+    initialValue: '',
     help: (
       <span>
         Define a regular expression to modules. Capture groups from matches of this regular{' '}
@@ -47,9 +47,9 @@ const matchSpecificationOptions = {
 
   app: {
     titleName: 'App',
-    placeholder: 'TODO PLACEHOLDER',
-    testPlaceholder: 'TODO TEST PLACEHOLDER',
-    initialValue: 'TODO INITIAL VALUE',
+    placeholder: '',
+    testPlaceholder: '',
+    initialValue: '',
     help: (
       <span>
         Define a regular expression to match application names. Capture groups from matches of this regular {' '}
@@ -61,9 +61,9 @@ const matchSpecificationOptions = {
 
   bean: {
     titleName: 'Bean',
-    placeholder: 'TODO PLACEHOLDER',
-    testPlaceholder: 'TODO TEST PLACEHOLDER',
-    initialValue: 'TODO INITIAL VALUE',
+    placeholder: '',
+    testPlaceholder: '',
+    initialValue: '',
     help: (
       <span>
         Define a regular expression to match beans. Capture groups from matches of this regular {' '}
