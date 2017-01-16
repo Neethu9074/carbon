@@ -14,7 +14,7 @@ export default connectTo({
     <Control onClick={toggle}
              tooltipText={text}
              iconSize={24}
-             type='timer'
+             type='timerange'
              isActive={showAggregations} />
   );
 });
