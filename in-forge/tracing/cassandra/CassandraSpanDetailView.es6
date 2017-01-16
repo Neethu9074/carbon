@@ -6,9 +6,6 @@ export default function CassandraSpanDetailView({span}) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title='Statement'>
-          {span.getIn(['data', 'cassandra', 'statement'])}
-        </DescriptionItem>
         <DescriptionItem title='Keyspace'>
           {span.getIn(['data', 'cassandra', 'keyspace'])}
         </DescriptionItem>
