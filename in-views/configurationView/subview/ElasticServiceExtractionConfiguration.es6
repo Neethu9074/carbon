@@ -58,7 +58,7 @@ const matchSpecificationOptions = {
 
 export default function ElasticsearchServiceExtractionConfiguration() {
   return (
-    <GenericServiceExtractionConfiguration ruleType='elasticsearch'
+    <GenericServiceExtractionConfiguration ruleType='elasticsearchindex'
                                            title='Elasticsearch Service Extraction Rules'
                                            helpTexts={helpTexts}
                                            matchSpecificationOptionsTree={matchSpecificationOptionsTree}
