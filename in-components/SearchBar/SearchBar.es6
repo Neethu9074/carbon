@@ -14,6 +14,7 @@ import {
   highlightPreviousSuggestion,
   selectHighlightedSuggestion
 } from 'in-components/SearchBar/stores/highlightedSuggestion';
+import HelpLink from 'in-components/HelpLink';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -25,7 +26,8 @@ export default connectTo({
   rawQuery: rawQuery$,
   expanded: expanded$,
   menuVisible: menuVisible$
-}, function SearchBar({rawQuery, expanded, menuVisible}) {
+},
+function SearchBar({rawQuery, expanded, menuVisible}) {
   if (!expanded) {
     return null;
   }
@@ -40,7 +42,7 @@ export default connectTo({
         <div className={`${block}__field-wrapper`}>
           <SvgIcon type='search'
                    height={12}
-                   className={`${block}__icon`} />
+                   className={`${block}__icon ${block}__search_icon`} />
 
           <input type='search'
                  value={rawQuery}
@@ -52,6 +54,11 @@ export default connectTo({
                  onBlur={onBlur} />
         </div>
 
+        <HelpLink helpId='usingTheSearchBar'
+                  className={`${block}__help`}>
+          ?
+        </HelpLink>
+
         <div className={evaluateClassNames({
                [`${block}__expand-collapse-wrapper`]: true,
                [`${block}__expand-collapse-wrapper--menu-visible`]: menuVisible
@@ -59,7 +66,7 @@ export default connectTo({
              onClick={toggle} >
           <SvgIcon type='menu'
                    height={10}
-                   className={`${block}__expand-collapse`} />
+                   className={`${block}__icon`} />
         </div>
 
         <ErrorIndicator />
