@@ -31,6 +31,7 @@ function ConnectedEntitiesList({connectedEntities}) {
 
   return (
     <div>
+      {sourceId ? <Separator />  : null}
       {sourceId ? <Entity snapshotId={sourceId} title={'Connection From (1)'} /> : null}
       {sourceId && destinationId ? <Separator />  : null}
       {destinationId ? <Entity snapshotId={destinationId} title={'Connection To (1)'} /> : null}
