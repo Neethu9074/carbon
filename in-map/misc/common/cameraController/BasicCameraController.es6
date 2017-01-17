@@ -109,10 +109,10 @@ export default class BasicCameraController extends Subscriber {
     let minY = Number.MAX_VALUE;
     let maxX = -1 * Number.MAX_VALUE;
     let maxY = -1 * Number.MAX_VALUE;
-      const yOffset = Math.min(BOTTOM_MARGIN_IN_PX / (height / 2), 1);
+    const yOffset = Math.min(BOTTOM_MARGIN_IN_PX / (height / 2), 1);
 
     const vertices = this.getFactoryVertices();
-    if (!vertices) {
+    if (!vertices || vertices.length === 0) {
       this.flyToPosition(ZERO);
       return;
     }
