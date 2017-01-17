@@ -1,11 +1,11 @@
 import React from 'react';
 
-import createTraceInformationObservable from 'in-services/subscription/traceInformationByServiceId';
 import {twoDecimalPlaces, timeByMillisTwoDecimalPlaces} from 'in-services/formatters/number';
 import {getTraceViewFilteredBySnapshotIdAndTimeframe} from 'in-stores/navigation/search';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {getNumberOfTracesTouchingService} from 'in-stores/traces';
 import addSection from 'in-views/eventView/hocs/addSection';
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import MetricValue from 'in-components/MetricValue';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -18,36 +18,20 @@ const itemClassName = `${block}__item`;
 
 export default addSection(connectTo(props => {
   const event = props.event;
-  const from = event.get('start');
-  let to = event.get('end');
-  if (event.get('state') === 'open') {
-    to = null;
-  }
-
-  const serviceId = event.get('affectedService');
+  const serviceId = event.getIn(['problem', 'snapshotId']);
 
   return {
     href: getTraceViewFilteredBySnapshotIdAndTimeframe({
       snapshotId: serviceId,
-      from,
+      from: event.get('start'),
       to: event.get('end')
     }).nextFrame(),
 
-    traceInformation: createTraceInformationObservable({
-      snapshotId: serviceId,
-      from,
-      to
-    })
+    numberOfTraces: getNumberOfTracesTouchingService(serviceId)
   };
 },
-function EventTraces({href, traceInformation}) {
-  if (!traceInformation) {
-    return (
-      <LoadingIndicator inline
-                               type='dark'
-                               style={{ height: '16px' }} />
-    );
-  }
+function EventTraces({event, href, numberOfTraces}) {
+  const serviceId = event.getIn(['problem', 'snapshotId']);
 
   return (
     <DescriptionList className={block}>
@@ -69,18 +53,34 @@ function EventTraces({href, traceInformation}) {
         </Button>
 
         <DescriptionList className={`${block}__metrics`}>
-          {traceInfo('Number of traces',
-                     traceInformation.get('numberOfTraces', null))}
+          <DescriptionItem className={itemClassName}
+                           title='Number of traces'>
+            {numberOfTraces}
+          </DescriptionItem>
 
-          {traceInfo('Avg response time',
-                     traceInformation.get('averageResponseTime', null),
-                      timeByMillisTwoDecimalPlaces)}
-          {traceInfo('Highest response time',
-                     traceInformation.get('highestResponseTime', null),
-                     timeByMillisTwoDecimalPlaces)}
-          {traceInfo('Avg error count',
-                     traceInformation.get('averageErrorCount', null),
-                     twoDecimalPlaces)}
+          <DescriptionItem className={itemClassName}
+                           title='Avg response time'>
+            <MetricValue snapshotId={serviceId}
+                         metric='duration.mean'
+                         formatter={timeByMillisTwoDecimalPlaces}
+                         timeWindowAggregation='mean' />
+          </DescriptionItem>
+
+          <DescriptionItem className={itemClassName}
+                           title='Highest response time'>
+            <MetricValue snapshotId={serviceId}
+                         metric='duration.max'
+                         formatter={timeByMillisTwoDecimalPlaces}
+                         timeWindowAggregation='max' />
+          </DescriptionItem>
+
+          <DescriptionItem className={itemClassName}
+                           title='Avg error count'>
+            <MetricValue snapshotId={serviceId}
+                         metric='error_rate'
+                         formatter={twoDecimalPlaces}
+                         timeWindowAggregation='mean' />
+          </DescriptionItem>
         </DescriptionList>
       </DescriptionItem>
     </DescriptionList>
@@ -88,19 +88,6 @@ function EventTraces({href, traceInformation}) {
 }),
 isVisible
 );
-
-function traceInfo(title, value, formatter) {
-  if (value == null) {
-    return null;
-  }
-
-  return (
-    <DescriptionItem className={itemClassName}
-                     title={title}>
-      {formatter ? formatter(value) : value}
-    </DescriptionItem>
-  );
-}
 
 function isVisible(event) {
   return (event && event.get('affectedService', null) != null);
