@@ -7,7 +7,7 @@ import Code from 'in-sdk/components/traceDetails/Code';
 
 export default function JdbcSpanDetailView({span}) {
   const statement = span.getIn(['data', 'ado', 'command']);
-
+  const error = span.getIn(['data', 'ado', 'error']);
   return (
     <div>
       <DescriptionList>
@@ -21,6 +21,11 @@ export default function JdbcSpanDetailView({span}) {
           <DescriptionItem title='Statement'>
             <Code code={formatSql(statement)}
                   lang='sql' />
+          </DescriptionItem>
+        : null}
+        {error ?
+          <DescriptionItem title='Error'>
+            {error}
           </DescriptionItem>
         : null}
       </DescriptionList>

@@ -72,6 +72,7 @@ import './url';
 import './vaadin';
 import './vertx.client';
 import './vertx.server';
+import './webapi';
 import './wicket';
 import './x.hc';
 import './x.http';
