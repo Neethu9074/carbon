@@ -15,6 +15,7 @@ import './EventTraces.less';
 
 const block = 'in-event-details-traces';
 const itemClassName = `${block}__item`;
+const chartOffset = 5 * 60 * 1000; // 5 min
 
 export default addSection(connectTo(props => {
   const event = props.event;
@@ -32,6 +33,16 @@ export default addSection(connectTo(props => {
 },
 function EventTraces({event, href, numberOfTraces}) {
   const serviceId = event.getIn(['problem', 'snapshotId']);
+
+  const to = (event.get('state') === 'closed') ? event.get('end') : null;
+  const from = event.getIn(['metadata', 'triggeringTime'], event.get('start'));
+  const timeframe = {
+    to,
+    windowSize: event.get('end') - from
+  };
+  if (event.get('state') === 'open') {
+    timeframe.windowSize += chartOffset;
+  }
 
   return (
     <DescriptionList className={block}>
@@ -63,7 +74,8 @@ function EventTraces({event, href, numberOfTraces}) {
             <MetricValue snapshotId={serviceId}
                          metric='duration.mean'
                          formatter={timeByMillisTwoDecimalPlaces}
-                         timeWindowAggregation='mean' />
+                         timeWindowAggregation='mean'
+                         timeframe={timeframe} />
           </DescriptionItem>
 
           <DescriptionItem className={itemClassName}
@@ -71,7 +83,8 @@ function EventTraces({event, href, numberOfTraces}) {
             <MetricValue snapshotId={serviceId}
                          metric='duration.max'
                          formatter={timeByMillisTwoDecimalPlaces}
-                         timeWindowAggregation='max' />
+                         timeWindowAggregation='max'
+                         timeframe={timeframe} />
           </DescriptionItem>
 
           <DescriptionItem className={itemClassName}
@@ -79,7 +92,8 @@ function EventTraces({event, href, numberOfTraces}) {
             <MetricValue snapshotId={serviceId}
                          metric='error_rate'
                          formatter={twoDecimalPlaces}
-                         timeWindowAggregation='mean' />
+                         timeWindowAggregation='mean'
+                         timeframe={timeframe} />
           </DescriptionItem>
         </DescriptionList>
       </DescriptionItem>

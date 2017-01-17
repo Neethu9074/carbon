@@ -5,6 +5,7 @@ import React from 'react';
 
 import {getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
 import {showAggregations$} from 'in-stores/metric/showAggregations';
+import {timeframeShape} from 'in-stores/timeline';
 
 
 const rpt = React.PropTypes;
@@ -17,6 +18,7 @@ export default React.createClass({
     createMetricValueStream: rpt.func,
     snapshotId: rpt.string.isRequired,
     timeWindowAggregation: rpt.string,
+    timeframe: timeframeShape,
     optionalTimeWindowAggregation: React.PropTypes.string,
     initialValue: rpt.string,
     time: rpt.number,
@@ -39,7 +41,8 @@ export default React.createClass({
       return getTimeWindowBasedMetricAggregation({
         snapshotId: props.snapshotId,
         metric: props.metric,
-        timeWindowAggregation: props.timeWindowAggregation
+        timeWindowAggregation: props.timeWindowAggregation,
+        timeframe: props.timeframe
       });
     }
 

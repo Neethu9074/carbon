@@ -216,23 +216,27 @@ export function getPixelAwareRollupSize(timeframe, pixels) {
 }
 
 
-export function getTimeWindowBasedMetricAggregation({snapshotId, metric, timeWindowAggregation}) {
-  return timeframe$
-    .flatMap(timeframe => {
-      const rollup = getDefaultMetricRollupDuration(timeframe);
+export function getTimeWindowBasedMetricAggregation({snapshotId, metric, timeWindowAggregation, timeframe}) {
+  return timeframe
+    ? getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metric, timeWindowAggregation)
+    : timeframe$.flatMap(_timeframe =>
+        getTimeWindowMetricAggregationSubscription(_timeframe, snapshotId, metric, timeWindowAggregation));
+}
 
-      let aggregation;
-      if (rollup) {
-        aggregation = getAggregation(metric);
-      }
+function getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metric, timeWindowAggregation) {
+  const rollup = getDefaultMetricRollupDuration(timeframe);
 
-      return createTimeWindowMetricAggregation({
-        snapshotId,
-        metric,
-        timeframe,
-        aggregation,
-        rollup,
-        timeWindowAggregation
-      });
-    });
+  let aggregation;
+  if (rollup) {
+    aggregation = getAggregation(metric);
+  }
+
+  return createTimeWindowMetricAggregation({
+    snapshotId,
+    metric,
+    timeframe,
+    aggregation,
+    rollup,
+    timeWindowAggregation
+  });
 }
