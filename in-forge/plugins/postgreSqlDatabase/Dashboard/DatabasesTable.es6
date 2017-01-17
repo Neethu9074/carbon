@@ -129,59 +129,66 @@ function createDetails(db, i, context) {
 
   return (
     <div>
-      <ChartWithLegend snapshotId={snapshotId}
-                       timeframe={timeframe}
-                       margins={{
-                        left: 80
-                       }}
-                       y1={{
-                         min: 0,
-                         formatter: activityZeroDecimalPlaces,
-                         metrics: [
-                           'databases.' + db + '.queries'
-                         ],
-                         labels: [
-                           'Queries'
-                         ],
-                         type: 'line'
-                       }} />
+      <DashboardSection title='Queries'>
+        <TwoColumnRow>
+          <ChartWithLegend snapshotId={snapshotId}
+                           timeframe={timeframe}
+                           margins={{
+                            left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: activityZeroDecimalPlaces,
+                             metrics: [
+                               'databases.' + db + '.queries'
+                             ],
+                             labels: [
+                               'Queries'
+                             ],
+                             type: 'line'
+                           }} />
 
-      {displayQueries(context.snapshot, timeframe, db)}
+          {displayQueries(context.snapshot, timeframe, db)}
+        </TwoColumnRow>
+      </DashboardSection>
 
-      <ChartWithLegend snapshotId={snapshotId}
-                       timeframe={timeframe}
-                       margins={{
-                          left: 80
-                       }}
-                       y1={{
-                         min: 0,
-                         formatter: activityZeroDecimalPlaces,
-                         metrics: [
-                           'databases.' + db + '.xact_commit'
-                         ],
-                         labels: [
-                           'Committed transactions'
-                         ],
-                         type: 'line'
-                       }} />
-
-      <TwoColumnRow>
-        <ChartWithLegend snapshotId={snapshotId}
-                        timeframe={timeframe}
-                        margins={{
-                           left: 80
-                        }}
-                        y1={{
-                          min: 0,
-                          formatter: activityZeroDecimalPlaces,
-                          metrics: [
-                            'databases.' + db + '.xact_rollback'
-                          ],
-                          labels: [
-                            'Rolled back transactions'
-                          ],
-                          type: 'line'
-                        }} />
+      <DashboardSection title='Transactions'>
+        <TwoColumnRow>
+          <ChartWithLegend snapshotId={snapshotId}
+                           timeframe={timeframe}
+                           margins={{
+                              left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: activityZeroDecimalPlaces,
+                             metrics: [
+                               'databases.' + db + '.xact_commit'
+                             ],
+                             labels: [
+                               'Committed transactions'
+                             ],
+                             type: 'line'
+                           }} />
+           <ChartWithLegend snapshotId={snapshotId}
+                           timeframe={timeframe}
+                           margins={{
+                              left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: activityZeroDecimalPlaces,
+                             metrics: [
+                               'databases.' + db + '.xact_rollback'
+                             ],
+                             labels: [
+                               'Rolled back transactions'
+                             ],
+                             type: 'line'
+                           }} />
+        </TwoColumnRow>
+      </DashboardSection>
+      <DashboardSection title='Cache'>
         <ChartWithLegend snapshotId={snapshotId}
                         timeframe={timeframe}
                         margins={{
@@ -199,8 +206,8 @@ function createDetails(db, i, context) {
                           type: 'line',
                           formatter: hitRateZeroDecimalPlaces
                         }} />
-      </TwoColumnRow>
-      <TwoColumnRow>
+      </DashboardSection>
+      <DashboardSection title='Conflicts'>
         <ChartWithLegend snapshotId={snapshotId}
                         timeframe={timeframe}
                         margins={{
@@ -218,7 +225,8 @@ function createDetails(db, i, context) {
                           type: 'line'
                         }} />
 
-
+      </DashboardSection>
+      <DashboardSection title='Tuples'>
         <ChartWithLegend snapshotId={snapshotId}
                         timeframe={timeframe}
                         margins={{
@@ -237,7 +245,7 @@ function createDetails(db, i, context) {
                           ],
                           type: 'line'
                         }} />
-      </TwoColumnRow>
+      </DashboardSection>
     </div>
   );
 }
