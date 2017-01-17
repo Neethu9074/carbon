@@ -153,40 +153,34 @@ function createDetails(db, i, context) {
       </DashboardSection>
 
       <DashboardSection title='Transactions'>
-        <TwoColumnRow>
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                              left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: activityZeroDecimalPlaces,
-                             metrics: [
-                               'databases.' + db + '.xact_commit'
-                             ],
-                             labels: [
-                               'Committed transactions'
-                             ],
-                             type: 'line'
-                           }} />
-           <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                              left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: activityZeroDecimalPlaces,
-                             metrics: [
-                               'databases.' + db + '.xact_rollback'
-                             ],
-                             labels: [
-                               'Rolled back transactions'
-                             ],
-                             type: 'line'
-                           }} />
-        </TwoColumnRow>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                            left: 40,
+                            right: 40
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: activityZeroDecimalPlaces,
+                           metrics: [
+                             'databases.' + db + '.xact_commit'
+                           ],
+                           labels: [
+                             'Committed transactions'
+                           ],
+                           type: 'line'
+                         }}
+                         y2={{
+                           min: 0,
+                           formatter: activityZeroDecimalPlaces,
+                           metrics: [
+                             'databases.' + db + '.xact_rollback'
+                           ],
+                           labels: [
+                             'Rolled back transactions'
+                           ],
+                           type: 'line'
+                         }} />
       </DashboardSection>
       <DashboardSection title='Cache'>
         <ChartWithLegend snapshotId={snapshotId}
