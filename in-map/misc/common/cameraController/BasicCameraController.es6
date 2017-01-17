@@ -1,6 +1,7 @@
 import RoEmitter from 'roemitter';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
+import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import {requestRendering} from 'in-map/stores/renderingStore';
 import {getFactory} from 'in-map/stores/factoriesStore';
 import {Object3D, Vector3} from 'in-map/3DLibProvider';
@@ -15,7 +16,7 @@ import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 const FOCUS_MARGIN = 0.02;
-const BOTTOM_MARGIN_IN_PX = activeTheme.footer.heightExpanded;
+let BOTTOM_MARGIN_IN_PX = activeTheme.footer.heightExpanded;
 
 export default class BasicCameraController extends Subscriber {
 
@@ -74,7 +75,9 @@ export default class BasicCameraController extends Subscriber {
         if (this.lastHitten.object) {
           goToDashboard(this.lastHitten.object.dashboardId);
         }
-      })
+      }),
+
+      timelineHeight$.subscribe(timelineHeight => BOTTOM_MARGIN_IN_PX = timelineHeight)
     ]);
   }
 
@@ -106,7 +109,7 @@ export default class BasicCameraController extends Subscriber {
     let minY = Number.MAX_VALUE;
     let maxX = -1 * Number.MAX_VALUE;
     let maxY = -1 * Number.MAX_VALUE;
-    const yOffset = Math.min(BOTTOM_MARGIN_IN_PX / height, 1);
+      const yOffset = Math.min(BOTTOM_MARGIN_IN_PX / (height / 2), 1);
 
     const vertices = this.getFactoryVertices();
     if (!vertices) {
@@ -131,7 +134,7 @@ export default class BasicCameraController extends Subscriber {
     }
 
     minX -= FOCUS_MARGIN;
-    minY -= FOCUS_MARGIN + yOffset;
+    minY -= (FOCUS_MARGIN + yOffset);
     maxX += FOCUS_MARGIN;
     maxY += FOCUS_MARGIN;
 
