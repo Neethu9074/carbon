@@ -9,16 +9,18 @@ import {
   getCategory,
   getLabel
 } from 'in-sdk/tracing';
-import ServiceImplementationEntityInformation
-  from 'in-views/traceView/components/ServiceImplementationEntityInformation';
+import ServiceImplementationEntityInformation from 'in-views/traceView/components/ServiceImplementationEntityInformation';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
 import SpanForgeDetails from 'in-views/traceView/components/SpanForgeDetails';
 import {highlightedSpanId$} from 'in-views/traceView/stores/highlightedSpan';
 import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
-import {getSelfTime} from 'in-views/traceView/util';
+import EntityInformation from 'in-components/EntityInformation';
 import {hexToRGB} from 'in-services/formatters/color';
 import classnames from 'in-services/util/classnames';
+import {getSelfTime} from 'in-views/traceView/util';
+import {alwaysNull} from 'in-services/fixedStreams';
+import {getSnapshot} from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -148,22 +150,29 @@ export default connectTo(props => {
                   {' '}
                   {getLabel(span)}
                 </div>
+
                 <div className={`${block}__entity-description`}>
                   {getDirection(span) === 'entry' ?
                     <span>
                       <ServiceImplementationEntityInformation span={span}
                                              label='From:'
                                              connectionEndpointType='source' />
+                      <Service snapshotId={span.getIn(['rels', 'sourceServiceId'])} />
+                      <br />
                       <ServiceImplementationEntityInformation span={span}
                                              connectionEndpointType='destination' />
+                      <Service snapshotId={span.getIn(['rels', 'destinationServiceId'])} />
                     </span>
                   :
                     <span>
                       <ServiceImplementationEntityInformation span={span}
                                                               connectionEndpointType='source' />
+                      <Service snapshotId={span.getIn(['rels', 'sourceServiceId'])} />
+                      <br />
                       <ServiceImplementationEntityInformation span={span}
                                                               label='To:'
                                                               connectionEndpointType='destination' />
+                      <Service snapshotId={span.getIn(['rels', 'destinationServiceId'])} />
                     </span>
                   }
                 </div>
@@ -199,3 +208,26 @@ export default connectTo(props => {
     });
   }
 }));
+
+
+const Service = connectTo(props => {
+  return {
+    snapshot: props.snapshotId ? getSnapshot(props.snapshotId) : alwaysNull
+  };
+},
+function Service({snapshot}) {
+  if (!snapshot) {
+    return null;
+  }
+
+  return (
+    <div className={`${block}__service-information`}>
+      <SvgIcon type='corner_arrow_right'
+               className={`${block}__service-icon`}
+               width={10}
+               color='#92a5ae' />
+      <EntityInformation snapshot={snapshot}
+                         label='Service:' />
+    </div>
+  );
+});
