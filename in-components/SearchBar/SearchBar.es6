@@ -44,7 +44,15 @@ function SearchBar({rawQuery, expanded, menuVisible}) {
                    height={12}
                    className={`${block}__icon ${block}__search_icon`} />
 
-          <Input rawQuery={rawQuery} />
+          <input type='search'
+                 value={rawQuery}
+                 className={`${block}__input`}
+                 placeholder='Search…'
+                 onChange={onChange}
+                 onKeyDown={onKeyDown}
+                 onFocus={onFocus}
+                 onBlur={onBlur}
+                 autoFocus />
         </div>
 
         <HelpLink helpId='usingTheSearchBar'
@@ -67,29 +75,6 @@ function SearchBar({rawQuery, expanded, menuVisible}) {
       </div>
     </div>
   );
-});
-
-const Input = React.createClass({
-
-  displayName: 'Input',
-
-  componentDidMount() {
-    this.queryInput.focus();
-  },
-
-  render() {
-    return (
-      <input type='search'
-             value={this.props.rawQuery}
-             className={`${block}__input`}
-             placeholder='Search…'
-             onChange={onChange}
-             onKeyDown={onKeyDown}
-             onFocus={onFocus}
-             onBlur={onBlur}
-             ref={input => this.queryInput = input} />
-    );
-  }
 });
 
 function onChange(e) {

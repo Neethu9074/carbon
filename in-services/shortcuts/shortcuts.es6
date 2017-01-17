@@ -3,7 +3,7 @@ import {on} from 'reactive-observables';
 import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
 import onFPressed from 'in-services/shortcuts/shortcuts/F';
 import onVPressed from 'in-services/shortcuts/shortcuts/V';
-import onSPressed from 'in-services/shortcuts/shortcuts/S';
+import onCPressed from 'in-services/shortcuts/shortcuts/C';
 import keyCodes from 'in-components/keyCodes';
 
 
@@ -13,7 +13,7 @@ export function init() {
   registeredShortcuts[keyCodes.escape] = onEscapePressed;
   registeredShortcuts[keyCodes.f] = onFPressed;
   registeredShortcuts[keyCodes.v] = onVPressed;
-  registeredShortcuts[keyCodes.s] = onSPressed;
+  registeredShortcuts[keyCodes.c] = onCPressed;
 
   on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();

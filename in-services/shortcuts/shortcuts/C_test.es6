@@ -34,12 +34,12 @@ describe('shortcuts/C', () => {
     loadModules();
   });
 
-  it('should focus entity when F was pressed', () => {
+  it('should focus entity when C was pressed', () => {
     expect(currentService.flyToPosition).to.have.callCount(0);
 
     selectedEntityId.emit('foo');
 
-    pressF();
+    pressC();
 
     expect(currentService.flyToPosition).to.have.callCount(1);
     expect(currentService.flyToPosition.getCall(0).args[0]).to.deep.equal({
@@ -49,9 +49,9 @@ describe('shortcuts/C', () => {
     });
   });
 
-  function pressF() {
+  function pressC() {
     onKeyPressed.emit({
-      keyCode: keyCodes.f,
+      keyCode: keyCodes.c,
       target: {
         tagName: ''
       }
@@ -80,7 +80,7 @@ describe('shortcuts/C', () => {
       }
     });
 
-    const mod = proxyquire('in-services/shortcuts/shortcuts/F', {
+    const mod = proxyquire('in-services/shortcuts/shortcuts/C', {
       'in-map/services/focus': focusEntityId
     });
 
@@ -89,7 +89,7 @@ describe('shortcuts/C', () => {
       'reactive-observables': {
         on: () => onKeyPressed
       },
-      'in-services/shortcuts/shortcuts/F': mod
+      'in-services/shortcuts/shortcuts/C': mod
     });
     shortcuts.init();
   }
