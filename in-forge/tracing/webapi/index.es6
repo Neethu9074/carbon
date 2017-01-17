@@ -14,6 +14,6 @@ registerSpanDefinition({
   detailView: 'WebApiSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'webapi', 'action']);
+    return span.getIn(['data', 'webapi', 'controller']);
   }
 });
