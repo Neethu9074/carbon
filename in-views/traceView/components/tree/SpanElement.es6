@@ -158,7 +158,6 @@ export default connectTo(props => {
                                              label='From:'
                                              connectionEndpointType='source' />
                       <Service snapshotId={span.getIn(['rels', 'sourceServiceId'])} />
-                      <br />
                       <ServiceImplementationEntityInformation span={span}
                                              connectionEndpointType='destination' />
                       <Service snapshotId={span.getIn(['rels', 'destinationServiceId'])} />
@@ -168,7 +167,6 @@ export default connectTo(props => {
                       <ServiceImplementationEntityInformation span={span}
                                                               connectionEndpointType='source' />
                       <Service snapshotId={span.getIn(['rels', 'sourceServiceId'])} />
-                      <br />
                       <ServiceImplementationEntityInformation span={span}
                                                               label='To:'
                                                               connectionEndpointType='destination' />
