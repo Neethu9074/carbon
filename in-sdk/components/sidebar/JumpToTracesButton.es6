@@ -23,7 +23,7 @@ export default function JumpToTracesButton({href, traceCount, title='Traces', to
                 className={block}
                 kind='secondary'
                 size='sm'>
-          {title} ({zeroDecimalPlaces(traceCount)})
+          {title} <br /> ({zeroDecimalPlaces(traceCount)})
         </Button>
       </Tooltip>
     </div>
