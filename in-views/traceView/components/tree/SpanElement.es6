@@ -154,23 +154,33 @@ export default connectTo(props => {
                 <div className={`${block}__entity-description`}>
                   {getDirection(span) === 'entry' ?
                     <span>
-                      <ServiceImplementationEntityInformation span={span}
-                                             label='From:'
-                                             connectionEndpointType='source' />
-                      <Service snapshotId={span.getIn(['rels', 'sourceServiceId'])} />
-                      <ServiceImplementationEntityInformation span={span}
-                                             connectionEndpointType='destination' />
-                      <Service snapshotId={span.getIn(['rels', 'destinationServiceId'])} />
+                      <div className={`${block}__link-service-wrapper`}>
+                        <ServiceImplementationEntityInformation span={span}
+                                               label='From:'
+                                               connectionEndpointType='source' />
+                        <Service snapshotId={span.getIn(['rels', 'sourceServiceId'])} />
+                      </div>
+
+                      <div className={`${block}__link-service-wrapper`}>
+                        <ServiceImplementationEntityInformation span={span}
+                                               connectionEndpointType='destination' />
+                        <Service snapshotId={span.getIn(['rels', 'destinationServiceId'])} />
+                      </div>
                     </span>
                   :
                     <span>
-                      <ServiceImplementationEntityInformation span={span}
-                                                              connectionEndpointType='source' />
-                      <Service snapshotId={span.getIn(['rels', 'sourceServiceId'])} />
-                      <ServiceImplementationEntityInformation span={span}
-                                                              label='To:'
-                                                              connectionEndpointType='destination' />
-                      <Service snapshotId={span.getIn(['rels', 'destinationServiceId'])} />
+                      <div className={`${block}__link-service-wrapper`}>
+                        <ServiceImplementationEntityInformation span={span}
+                                                                connectionEndpointType='source' />
+                        <Service snapshotId={span.getIn(['rels', 'sourceServiceId'])} />
+                      </div>
+
+                      <div className={`${block}__link-service-wrapper`}>
+                        <ServiceImplementationEntityInformation span={span}
+                                                                label='To:'
+                                                                connectionEndpointType='destination' />
+                        <Service snapshotId={span.getIn(['rels', 'destinationServiceId'])} />
+                      </div>
                     </span>
                   }
                 </div>
