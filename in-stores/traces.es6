@@ -4,22 +4,26 @@ import createTotalTraceCountObservable from 'in-services/subscription/totalTrace
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import createTraceObservable from 'in-services/subscription/trace';
 import {timeframe as timeframe$} from 'in-stores/timeline';
-import {buildLuceneQuery} from 'in-services/search';
 import {createTrackingStore} from 'in-stores/store';
+import {buildLuceneQuery} from 'in-services/search';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {luceneQuery$} from 'in-stores/search';
 
 
 export const totalTraceCountNoFiltering$ = timeframe$
   .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: ''}));
 
 export const totalTraceCountOnlyEum$ = timeframe$
-  .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: 'n:page*'}));
+  .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: '(n:page.err OR n:page.xhr OR n:page)'}));
 
 // Avoid user visible inconsistencies between counts by calculating the third number.
 // We are calculating it this way because finding EUM traces is cheaper than calculating
 // non-EUM traces.
 export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFiltering$, totalTraceCountOnlyEum$])
   .map(([total, eum]) => total - eum);
+
+export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, luceneQuery$.debounce(200)])
+  .flatMap(([timeframe, luceneQuery]) => createTotalTraceCountObservable({timeframe, query: luceneQuery || ''}));
 
 export function getNumberOfTracesStartingAtService(serviceId) {
   const query = buildLuceneQuery('starting_logical_service', '=', serviceId);
