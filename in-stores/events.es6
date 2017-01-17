@@ -110,7 +110,7 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
       focusedMoment$,
       retrievedEvents$
     ])
-    .map(([time, events]) => {
+    .map(([focusedMoment, events]) => {
       return {
         issues: events.issues.filter(filter),
         changes: events.changes.filter(filter),
@@ -118,11 +118,7 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
       };
 
       function filter(event) {
-        if (time == null) {
-          return event.state === 'open';
-        }
-
-        return event.start <= time && (time < event.end || event.end == null);
+        return isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment);
       }
     })
 }).observable;
