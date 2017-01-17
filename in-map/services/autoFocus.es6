@@ -1,7 +1,8 @@
 import {focusCurrentlyHighlightedEntity} from 'in-map/services/focus';
+import {AUTO_FOCUS} from 'in-map/misc/TimingConfig';
 import {rawQuery$} from 'in-stores/search';
 
 
 export function init() {
-  rawQuery$.debounce(500).subscribe(focusCurrentlyHighlightedEntity);
+  rawQuery$.debounce(AUTO_FOCUS).subscribe(focusCurrentlyHighlightedEntity);
 }

@@ -14,6 +14,7 @@ import Subscriber from 'in-map/misc/Subscriber';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
+const MIN_ZOOM_IN_FOR_FOCUS = 100;
 const FOCUS_MARGIN = 0.02;
 let BOTTOM_MARGIN_IN_PX = 0;
 
@@ -156,7 +157,7 @@ export default class BasicCameraController extends Subscriber {
     const zoomLevelToSet = this.zoomLevel * inPercent;
 
     // this.zoom(zoomLevelToSet - this.zoomLevel);
-    this.setZoomLevelAbsolute(zoomLevelToSet);
+    this.setZoomLevelAbsolute(Math.max(MIN_ZOOM_IN_FOR_FOCUS, zoomLevelToSet));
   }
 
   getScreenPosition(position) {
