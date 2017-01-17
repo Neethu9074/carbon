@@ -9,14 +9,13 @@ import Camera from 'in-map/misc/OrthographicCamera';
 import {emptyArray} from 'in-services/fixedObjects';
 import {clearSelectedEvent} from 'in-stores/events';
 import {goToDashboard} from 'in-stores/navigation';
-import activeTheme from 'in-themes/active.json';
 import {height} from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
 import {ZERO} from 'in-map/misc/fixedVectors';
 
 
 const FOCUS_MARGIN = 0.02;
-let BOTTOM_MARGIN_IN_PX = activeTheme.footer.heightExpanded;
+let BOTTOM_MARGIN_IN_PX = 0;
 
 export default class BasicCameraController extends Subscriber {
 
