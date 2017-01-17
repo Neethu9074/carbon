@@ -16,16 +16,16 @@ export default function getPhysicalContent() {
     <Metrics key='metrics' />,
     <ShowAggregates key='aggregates' />,
     <Tags key='tags' />,
-    <Layout key='simple_layout'
-            iconType='options'
-            tooltipText='Rearrange zones by name'
-            setLayoutingStrategy={setLayoutingStrategy}
-            layoutingStrategy={simpleLayouting$} />,
     <Layout key='packed_layout'
             iconType='packed_layouting'
             tooltipText='Rearrange zones as a compact structure'
             setLayoutingStrategy={setLayoutingStrategy}
-            layoutingStrategy={packedLayouting$} />
+            layoutingStrategy={packedLayouting$} />,
+    <Layout key='simple_layout'
+            iconType='options'
+            tooltipText='Rearrange zones by name'
+            setLayoutingStrategy={setLayoutingStrategy}
+            layoutingStrategy={simpleLayouting$} />
   ];
 
   if (__DEV__) {
