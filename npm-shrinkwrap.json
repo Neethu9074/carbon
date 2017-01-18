@@ -2557,6 +2557,11 @@
       "from": "fastparse@>=1.1.1 <2.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/fastparse/-/fastparse-1.1.1.tgz"
     },
+    "favico.js": {
+      "version": "0.3.10",
+      "from": "favico.js@latest",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/favico.js/-/favico.js-0.3.10.tgz"
+    },
     "faye-websocket": {
       "version": "0.10.0",
       "from": "faye-websocket@>=0.10.0 <0.11.0",

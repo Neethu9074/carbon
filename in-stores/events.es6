@@ -422,3 +422,15 @@ export function countEvents(events) {
 
   return counter;
 }
+
+
+export function getColorForMostSevereEvents(events) {
+  let maxSeverity = 0;
+  events.forEach(event => {
+    const severity = event.getIn(['problem', 'severity'], 0);
+    if (severity > maxSeverity) {
+      maxSeverity = severity;
+    }
+  });
+  return maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
+}

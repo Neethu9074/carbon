@@ -9,10 +9,10 @@ import {
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {SubMenuItem} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
+import {getColorForMostSevereEvents} from 'in-stores/events';
 import {containsTypeFilter} from 'in-stores/search/type';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
-import {theme} from 'in-services/theme';
 
 import './ViewSwitcher.less';
 
@@ -73,7 +73,7 @@ function IncidentsMenuPoint({events, isActive}) {
 
   if (numIncidents > 0) {
     title = numIncidents === 1 ? `1 Incident` : `${numIncidents} Incidents`;
-    color = getIncidentColor(events.incidents);
+    color = getColorForMostSevereEvents(events.incidents);
   }
 
   return (
@@ -84,14 +84,3 @@ function IncidentsMenuPoint({events, isActive}) {
           isActive={isActive} />
   );
 });
-
-function getIncidentColor(events) {
-  let maxSeverity = 0;
-  events.forEach(event => {
-    const severity = event.getIn(['problem', 'severity'], 0);
-    if (severity > maxSeverity) {
-      maxSeverity = severity;
-    }
-  });
-  return maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
-}
