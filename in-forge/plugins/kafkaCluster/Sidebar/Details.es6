@@ -1,6 +1,8 @@
 import React from 'react';
 
-import {twoDecimalPlaces} from 'in-services/formatters/number';
+import {
+  twoDecimalPlaces,
+  msZeroDecimalPlaces } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -28,7 +30,7 @@ export default function KafkaClusterSidebar({snapshot}) {
                           metrics={[
                             {
                               metric: 'broker.messagesIn',
-                              label: 'Broker Messages In',
+                              label: 'All Brokers Messages In',
                               formatter: twoDecimalPlaces
                             }
                           ]} />
@@ -36,8 +38,17 @@ export default function KafkaClusterSidebar({snapshot}) {
                           metrics={[
                             {
                               metric: 'broker.partitionCount',
-                              label: 'Broker Partition Count',
+                              label: 'All Brokers Partition Count',
                               formatter: twoDecimalPlaces
+                            }
+                          ]} />
+
+      <SparkChartsSection snapshot={snapshot}
+                          metrics={[
+                            {
+                              metric: 'broker.totalTimeProduce',
+                              label: 'Average Produce Latency',
+                              formatter: msZeroDecimalPlaces
                             }
                           ]} />
 
