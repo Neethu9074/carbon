@@ -22,7 +22,7 @@ import {init as initTimelineStore} from 'in-components/timeline/timelineStore';
 import {init as initMaintenanceNoteStore} from 'in-stores/maintenance';
 import {init as initBrowserIdentification} from 'in-services/browser';
 import {init as initTimeOffsetStore} from 'in-stores/timeOffset';
-import {init as initAutoFocus} from 'in-map/services/autoFocus';
+import {init as initAutoFocus} from 'in-map/services/focus';
 import {init as initShortcuts} from 'in-services/shortcuts';
 import {init as initUsageInfo} from 'in-stores/usageInfo';
 

@@ -41,6 +41,10 @@ export default class Decorator {
     this.inner.focusMap();
   }
 
+  clampCameraPositionToVerticesDimensions() {
+    this.inner.clampCameraPositionToVerticesDimensions();
+  }
+
   getRenderableCamera() {
     return this.inner.getRenderableCamera();
   }

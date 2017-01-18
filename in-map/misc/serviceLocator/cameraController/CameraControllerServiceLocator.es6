@@ -12,6 +12,10 @@ const CameraControllerServiceLocator = (function create() {
     return service.focusMap();
   }
 
+  function clampCameraPositionToVerticesDimensions() {
+    return service.clampCameraPositionToVerticesDimensions();
+  }
+
   function update(dt) {
     return service.update(dt);
   }
@@ -42,6 +46,7 @@ const CameraControllerServiceLocator = (function create() {
   }
 
   return {
+    clampCameraPositionToVerticesDimensions,
     getRenderableCamera,
     flyToPosition,
     focusMap,

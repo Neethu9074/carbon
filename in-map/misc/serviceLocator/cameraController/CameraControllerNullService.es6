@@ -6,6 +6,7 @@ const physicsNullService = {
   flyToPosition: noop,
   focusMap: noop,
   getRenderableCamera: noop,
+  clampCameraPositionToVerticesDimensions: noop,
   zoom: noop,
   update: noop,
   dispose: noop

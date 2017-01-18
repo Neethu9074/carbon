@@ -160,6 +160,36 @@ export default class BasicCameraController extends Subscriber {
     this.setZoomLevelAbsolute(Math.max(MIN_ZOOM_IN_FOR_FOCUS, zoomLevelToSet));
   }
 
+  clampCameraPositionToVerticesDimensions() {
+    let minX = Number.MAX_VALUE;
+    let minZ = Number.MAX_VALUE;
+    let maxX = -1 * Number.MAX_VALUE;
+    let maxZ = -1 * Number.MAX_VALUE;
+
+    const vertices = this.getFactoryVertices();
+    if (!vertices || vertices.length === 0) {
+      this.flyToPosition(ZERO);
+      return;
+    }
+
+    for (let i = 0, length = vertices.length; i < length; i += 3) {
+      const x = vertices[i];
+      const z = vertices[i + 2];
+
+      minX = Math.min(minX, x);
+      minZ = Math.min(minZ, z);
+      maxX = Math.max(maxX, x);
+      maxZ = Math.max(maxZ, z);
+    }
+
+    if (this.camTransformObject.position.x > maxX ||
+        this.camTransformObject.position.x < minX ||
+        this.camTransformObject.position.z > maxZ ||
+        this.camTransformObject.position.z < minZ) {
+      this.flyToPosition(ZERO);
+    }
+  }
+
   getScreenPosition(position) {
     position.applyProjection(this.camera.getRenderableCamera().projection);
   }
