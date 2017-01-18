@@ -12,6 +12,10 @@ import './ChartWithLegend.less';
 const block = 'in-chart-with-legend';
 
 export default connectTo(props => {
+  if (props.currentRollup) {
+    return {};
+  }
+
   return {
     currentRollup: props.timeframe$
       ? props.timeframe$.map(getRollupForTimeframe)

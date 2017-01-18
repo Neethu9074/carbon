@@ -1,10 +1,12 @@
 import React from 'react';
 
+import {getChartTimeframeByEvent} from 'in-views/eventView/services/timeframe';
 import {getMetricDefinition} from 'in-sdk/metrics/metricDefinitions';
 import addSection from 'in-views/eventView/hocs/addSection';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {always, alwaysNull} from 'in-services/fixedStreams';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {getRollupForTimeframe} from 'in-stores/metric';
 import {emptyList} from 'in-services/fixedImmutables';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -15,7 +17,6 @@ import 'in-views/eventView/components/EventChart.less';
 // Our current chart implementation can't handle dynamic windowSizes (dynamic = 1change/sec)
 // If an event is open, we will subscribe to live metrics which couses in mocing timewindows
 // To avoid that the cahrt will run out of scope we add an offset to the windowSize
-const chartOffset = 5 * 60 * 1000; // 5 min
 const block = 'in-event-detail-chart';
 
 export default addSection(connectTo(props => {
@@ -31,22 +32,16 @@ function EventChart({to, event}) {
     <div className={block}>
       {triggeringMetrics.map(metric => {
         const metricName = metric.get('metricName');
-        const from = event.getIn(['metadata', 'triggeringTime'], event.get('start'));
-        const timeframe = {
-          to,
-          windowSize: event.get('end') - from
-        };
-
-        if (event.get('state') === 'open') {
-          timeframe.windowSize += chartOffset;
-        }
+        const timeframe = getChartTimeframeByEvent({event, to});
+        const rollup = getRollupForTimeframe(timeframe);
 
         return (
           <Chart key={metricName}
                  metric={metricName}
                  snapshotId={metric.get('snapshotId')}
                  start={event.get('start')}
-                 timeframe$={always(timeframe)} />
+                 timeframe$={always(timeframe)}
+                 rollup={rollup} />
         );
       }
       )}
@@ -61,7 +56,7 @@ const Chart = connectTo(props => {
     snapshot: getSnapshot(props.snapshotId, props.start)
   };
 },
-function Chart({timeframe$, snapshot, snapshotId, metric}) {
+function Chart({timeframe$, snapshot, snapshotId, metric, rollup}) {
   if (!snapshot) {
     return (
       <LoadingIndicator inline
@@ -75,6 +70,7 @@ function Chart({timeframe$, snapshot, snapshotId, metric}) {
     <div className={`${block}__chart`}>
       <ChartWithLegend snapshotId={snapshotId}
                        timeframe$={timeframe$}
+                       currentRollup={rollup}
                        margins={{
                          left: 80
                        }}

@@ -4,6 +4,7 @@ import {twoDecimalPlaces, timeByMillisTwoDecimalPlaces} from 'in-services/format
 import {getTraceViewFilteredBySnapshotIdAndTimeframe} from 'in-stores/navigation/search';
 import {getNumberOfTracesTouchingServiceOrServiceInstance} from 'in-stores/traces';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {getChartTimeframeByEvent} from 'in-views/eventView/services/timeframe';
 import addSection from 'in-views/eventView/hocs/addSection';
 import MetricValue from 'in-components/MetricValue';
 import SvgIcon from 'in-components/SvgIcon';
@@ -15,7 +16,6 @@ import './EventTraces.less';
 
 const block = 'in-event-details-traces';
 const itemClassName = `${block}__item`;
-const chartOffset = 5 * 60 * 1000; // 5 min
 
 export default addSection(connectTo(props => {
   const event = props.event;
@@ -39,7 +39,7 @@ export default addSection(connectTo(props => {
 },
 function EventTraces({event, href, numberOfTraces}) {
   const serviceId = event.getIn(['problem', 'snapshotId']);
-  const timeframe = getTimeframeByEvent(event);
+  const timeframe = getChartTimeframeByEvent({event});
   const tracesAvailable = numberOfTraces > 0;
 
   return (
@@ -112,18 +112,4 @@ isVisible
 
 function isVisible(event) {
   return (event && event.get('affectedService', null) != null);
-}
-
-function getTimeframeByEvent(event) {
-  const to = (event.get('state') === 'closed') ? event.get('end') : null;
-  const from = event.getIn(['metadata', 'triggeringTime'], event.get('start'));
-  const timeframe = {
-    to,
-    windowSize: event.get('end') - from
-  };
-  if (event.get('state') === 'open') {
-    timeframe.windowSize += chartOffset;
-  }
-
-  return timeframe;
 }
