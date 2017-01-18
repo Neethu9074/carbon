@@ -40,31 +40,41 @@ export default addSection(connectTo(props => {
 function EventTraces({event, href, numberOfTraces}) {
   const serviceId = event.getIn(['problem', 'snapshotId']);
   const timeframe = getTimeframeByEvent(event);
+  const tracesAvailable = numberOfTraces > 0;
 
   return (
     <DescriptionList className={block}>
       <DescriptionItem id='title'
                        title={
-                         <div className={`${block}__title-wrapper`}>
-                           <SvgIcon className={`${block}__icon`}
-                                    type='traces'
-                                    width={24}
-                                    color={'#22d8d8'} />
-                           Traces Touching
-                         </div>
+                         tracesAvailable ?
+                           <div className={`${block}__title-wrapper`}>
+                             <SvgIcon className={`${block}__icon`}
+                                      type='traces'
+                                      width={24}
+                                      color={'#22d8d8'} />
+                             {tracesAvailable ? 'Traces Touching' : ''}
+                           </div>
+                         : null
                        }>
-        <Button className={`${block}__button`}
-                kind='secondary'
-                size='sm'
-                href={href}>
-          View Traces
-        </Button>
+
+        {tracesAvailable ?
+          <Button className={`${block}__button`}
+                  kind='secondary'
+                  size='sm'
+                  href={href}>
+            View Traces
+          </Button>
+          : null
+        }
 
         <DescriptionList className={`${block}__metrics`}>
-          <DescriptionItem className={itemClassName}
-                           title='Number of traces'>
-            {numberOfTraces}
-          </DescriptionItem>
+          {tracesAvailable ?
+            <DescriptionItem className={itemClassName}
+                             title='Number of traces'>
+              {numberOfTraces}
+            </DescriptionItem>
+            : null
+          }
 
           <DescriptionItem className={itemClassName}
                            title='Avg response time'>
