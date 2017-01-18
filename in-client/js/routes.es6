@@ -24,57 +24,77 @@ export default (
   <Route path='/'
          component={App}>
     <Route path='physical'
-           component={Map}>
+           component={Map}
+           windowTitle='Infrastructure Map'>
       <Route path='dashboard'
-             component={Dashboard} />
+             component={Dashboard}
+             windowTitle='Dashboard' />
     </Route>
 
     <Route path='logical'
-           component={Map}>
+           component={Map}
+           windowTitle='Application Map'>
       <Route path='dashboard'
-             component={Dashboard} />
+             component={Dashboard}
+             windowTitle='Dashboard' />
     </Route>
 
     <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)}
-           path='traces'>
+           path='traces'
+           windowTitle='Traces'>
       <Route path='dashboard'
-             component={Dashboard} />
+             component={Dashboard}
+             windowTitle='Dashboard' />
     </Route>
 
     <Route component={createAsyncFullscreenOverlayViewComponent(EventView)}
-           path='events'>
+           path='events'
+           windowTitle='Events'>
       <Route component={Dashboard}
-             path='dashboard' />
+             path='dashboard'
+             windowTitle='Dashboard' />
     </Route>
 
     <Route component={createAsyncFullscreenOverlayViewComponent(TableView)}
-           path='table'>
+           path='table'
+           windowTitle='Comparison Table'>
       <Route component={Dashboard}
-             path='dashboard' />
+             path='dashboard'
+             windowTitle='Dashboard' />
     </Route>
 
     <Route path='config'
-           component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}>
+           component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}
+           windowTitle='Settings'>
       <Route component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
-             path='httpServiceExtraction' />
+             path='httpServiceExtraction'
+             windowTitle='HTTP Service Extraction' />
       <Route component={createAsyncFullscreenOverlayViewComponent(EjbServiceExtractionConfiguration)}
-             path='ejbServiceExtraction' />
+             path='ejbServiceExtraction'
+             windowTitle='EJB Service Extraction' />
       <Route component={createAsyncFullscreenOverlayViewComponent(ElasticServiceExtractionConfiguration)}
-             path='elasticsearchServiceExtraction' />
+             path='elasticsearchServiceExtraction'
+             windowTitle='Elasticsearch Service Extraction' />
       <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
-             path='userInterface' />
+             path='userInterface'
+             windowTitle='User Interface Settings' />
       <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
-             path='eumKeys' />
+             path='eumKeys'
+             windowTitle='EUM Keys' />
     </Route>
 
     <Route component={GraphView}
-           path='graph' />
+           path='graph'
+           windowTitle='Graph' />
     <Route component={GlobeView}
-           path='globe' />
+           path='globe'
+           windowTitle='World Globe' />
     <Route component={WebVRView}
-           path='webVR/physical' />
+           path='webVR/physical'
+           windowTitle='Physical WebVR View' />
     <Route component={WebVRView}
-           path='webVR/logical' />
+           path='webVR/logical'
+           windowTitle='Logical WebVR View' />
 
     {/* Legacy routes */}
     <Redirect from='dashboard' to='physical/dashboard' />
