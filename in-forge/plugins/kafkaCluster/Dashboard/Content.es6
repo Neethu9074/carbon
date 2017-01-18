@@ -78,6 +78,24 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  type: 'line'
                }} />
       </DashboardSection>
+      <DashboardSection title='All Brokers Messages In'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+               timeframe={timeframe}
+               margins={{
+                 left: 40
+               }}
+               y1={{
+                 formatter: twoDecimalPlaces,
+                 tooltipFormatter: twoDecimalPlaces,
+                 metrics: [
+                   'broker.messagesIn'
+                 ],
+                 labels: [
+                   '#'
+                 ],
+                 type: 'line'
+               }} />
+      </DashboardSection>
       <DashboardSection title='All Brokers Failures'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
@@ -144,24 +162,6 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  labels: [
                    'Network Processor',
                    'Request Handler'
-                 ],
-                 type: 'line'
-               }} />
-      </DashboardSection>
-      <DashboardSection title='All Brokers Messages In'>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
-               timeframe={timeframe}
-               margins={{
-                 left: 40
-               }}
-               y1={{
-                 formatter: twoDecimalPlaces,
-                 tooltipFormatter: twoDecimalPlaces,
-                 metrics: [
-                   'broker.messagesIn'
-                 ],
-                 labels: [
-                   '#'
                  ],
                  type: 'line'
                }} />
