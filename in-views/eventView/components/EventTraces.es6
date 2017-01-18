@@ -2,8 +2,8 @@ import React from 'react';
 
 import {twoDecimalPlaces, timeByMillisTwoDecimalPlaces} from 'in-services/formatters/number';
 import {getTraceViewFilteredBySnapshotIdAndTimeframe} from 'in-stores/navigation/search';
+import {getNumberOfTracesTouchingServiceOrServiceInstance} from 'in-stores/traces';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {getNumberOfTracesTouchingService} from 'in-stores/traces';
 import addSection from 'in-views/eventView/hocs/addSection';
 import MetricValue from 'in-components/MetricValue';
 import SvgIcon from 'in-components/SvgIcon';
@@ -20,6 +20,7 @@ const chartOffset = 5 * 60 * 1000; // 5 min
 export default addSection(connectTo(props => {
   const event = props.event;
   const serviceId = event.getIn(['problem', 'snapshotId']);
+  const timeframe = getTimeframeByEvent(event);
 
   return {
     href: getTraceViewFilteredBySnapshotIdAndTimeframe({
@@ -28,21 +29,12 @@ export default addSection(connectTo(props => {
       to: event.get('end')
     }).nextFrame(),
 
-    numberOfTraces: getNumberOfTracesTouchingService(serviceId)
+    numberOfTraces: getNumberOfTracesTouchingServiceOrServiceInstance(serviceId, timeframe)
   };
 },
 function EventTraces({event, href, numberOfTraces}) {
   const serviceId = event.getIn(['problem', 'snapshotId']);
-
-  const to = (event.get('state') === 'closed') ? event.get('end') : null;
-  const from = event.getIn(['metadata', 'triggeringTime'], event.get('start'));
-  const timeframe = {
-    to,
-    windowSize: event.get('end') - from
-  };
-  if (event.get('state') === 'open') {
-    timeframe.windowSize += chartOffset;
-  }
+  const timeframe = getTimeframeByEvent(event);
 
   return (
     <DescriptionList className={block}>
@@ -105,4 +97,18 @@ isVisible
 
 function isVisible(event) {
   return (event && event.get('affectedService', null) != null);
+}
+
+function getTimeframeByEvent(event) {
+  const to = (event.get('state') === 'closed') ? event.get('end') : null;
+  const from = event.getIn(['metadata', 'triggeringTime'], event.get('start'));
+  const timeframe = {
+    to,
+    windowSize: event.get('end') - from
+  };
+  if (event.get('state') === 'open') {
+    timeframe.windowSize += chartOffset;
+  }
+
+  return timeframe;
 }
