@@ -22,6 +22,8 @@ import './SearchBar.less';
 
 const block = 'in-searchbar';
 
+export const idOfSearchField = 'search';
+
 export default connectTo({
   rawQuery: rawQuery$,
   expanded: expanded$,
@@ -52,7 +54,8 @@ function SearchBar({rawQuery, expanded, menuVisible}) {
                  onKeyDown={onKeyDown}
                  onFocus={onFocus}
                  onBlur={onBlur}
-                 autoFocus />
+                 autoFocus
+                 id={idOfSearchField} />
         </div>
 
         <HelpLink helpId='usingTheSearchBar'

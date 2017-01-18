@@ -1,7 +1,8 @@
 import Favico from 'favico.js';
 
-import {getColorForMostSevereEvents} from 'in-stores/events';
 import {openEventsAtServerTime$} from 'in-stores/events';
+import {getMaxSeverity} from 'in-stores/events';
+import {theme} from 'in-services/theme';
 
 const noIncidents = {
   count: 0,
@@ -18,19 +19,21 @@ export function init() {
     .map(events => {
       const numberOfIncidents = events.incidents.length;
       if (numberOfIncidents > 0) {
+        const maxSeverity = getMaxSeverity(events.incidents);
         return {
           count: numberOfIncidents,
-          color: getColorForMostSevereEvents(events.incidents)
+          color: maxSeverity > 0 ? theme.health[maxSeverity] : theme.health[theme.health.length - 1],
+          textColor: maxSeverity > 6 ? '#ffffff' : '#000000'
         };
       }
 
       return noIncidents;
     })
-    .distinct((prev, next) => prev.color !== next.color || prev.count !== next.count)
+    .distinct((prev, next) => prev.color !== next.color || prev.count !== next.count || prev.textColor !== next.textColor)
     .subscribe(config => {
       favicon.badge(config.count, {
         bgColor: config.color,
-        textColor: '#000000'
+        textColor: config.textColor
       });
     });
 }

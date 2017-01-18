@@ -20,3 +20,10 @@ export function toggle() {
     }
   });
 }
+
+
+export function open() {
+  mutateUrl(params => {
+    params.query.ss = '1';
+  });
+}

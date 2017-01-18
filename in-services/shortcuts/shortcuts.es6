@@ -18,7 +18,8 @@ export function init() {
   on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();
     if (targetType === 'input' ||
-        targetType === 'textarea') {
+        targetType === 'textarea' ||
+        keyEvent.ctrlKey || keyEvent.altKey || keyEvent.metaKey) {
       return;
     }
     if (registeredShortcuts[keyEvent.keyCode]) {
