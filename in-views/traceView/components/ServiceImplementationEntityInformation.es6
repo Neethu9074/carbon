@@ -11,7 +11,7 @@ import connectTo from 'in-hoc/connectTo';
 import './ServiceImplementationEntityInformation.less';
 
 
-const block = 'in-trace-tree-span-element';
+const block = 'in-trace-tree-span-element-service-information';
 
 export default connectTo(props => {
   const physicalEndpoint = props.span.getIn(['rels', props.connectionEndpointType + 'PhysicalEndpoint']);
@@ -47,7 +47,7 @@ function EntityInformationComponent({snapshot, label, serviceId}) {
   }
 
   return (
-    <div>
+    <div className={`${block}__link-service-wrapper`}>
       <EntityInformation snapshot={snapshot}
                          label={label} />
 
@@ -67,7 +67,7 @@ function Service({snapshot}) {
   }
 
   return (
-    <div className={`${block}__service-information`}>
+    <div className={block}>
       <SvgIcon type='corner_arrow_right'
                className={`${block}__service-icon`}
                width={10}
