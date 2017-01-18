@@ -20,13 +20,18 @@ const chartOffset = 5 * 60 * 1000; // 5 min
 export default addSection(connectTo(props => {
   const event = props.event;
   const serviceId = event.getIn(['problem', 'snapshotId']);
-  const timeframe = getTimeframeByEvent(event);
+  const to = event.get('end');
+  const from = event.get('start');
+  const timeframe = {
+    to,
+    windowSize: to - from
+  };
 
   return {
     href: getTraceViewFilteredBySnapshotIdAndTimeframe({
       snapshotId: serviceId,
-      from: event.get('start'),
-      to: event.get('end')
+      from,
+      to
     }).nextFrame(),
 
     numberOfTraces: getNumberOfTracesTouchingServiceOrServiceInstance(serviceId, timeframe)
