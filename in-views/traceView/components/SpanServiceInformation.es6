@@ -24,7 +24,7 @@ export default connectTo(props => {
   };
 },
 function SpanServiceInformation({span, borderColor, sourceServiceSnapshot, sourceEntitySnapshot, destinationServiceSnapshot, destinationEntitySnapshot}) {
-  if (!sourceServiceSnapshot && !destinationServiceSnapshot && !sourceEntitySnapshot && !destinationEntitySnapshot) {
+  if ((!sourceServiceSnapshot || !sourceEntitySnapshot) && (!destinationServiceSnapshot || !destinationEntitySnapshot)) {
     return null;
   }
 
