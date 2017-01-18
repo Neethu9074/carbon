@@ -53,7 +53,7 @@ function createHeader() {
     <thead>
       <tr>
         <th>Health</th>
-        <th>Pid</th>
+        <th>Id</th>
         <th>Version</th>
         <th>All Brokers Messages In</th>
         <th>Average Response Time</th>
@@ -70,7 +70,7 @@ function createRow(node, i, context) {
     <td><AnnotatedHealthBar snapshotId={id} /></td>,
     <td>
       <SnapshotLink snapshotId={id}>
-        {node.getIn(['data', 'pid'])}
+        {node.getIn(['data', 'node_id'])}
       </SnapshotLink>
     </td>,
     <td>{node.getIn(['data', 'version'])}</td>,
