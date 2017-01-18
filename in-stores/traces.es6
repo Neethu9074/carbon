@@ -45,6 +45,15 @@ export function getNumberOfTracesTouchingServiceInstance(serviceId) {
   return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
 }
 
+export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
+  const serviceQuery = buildLuceneQuery('touched_logical_service', '=', id);
+  const serviceInstanceQuery = buildLuceneQuery('touched_service_instance', '=', id);
+  const query = `${serviceQuery} OR ${serviceInstanceQuery}`;
+  return timeframe
+    ? createTotalTraceCountObservable({timeframe, query})
+    : timeframe$.flatMap(_timeframe => createTotalTraceCountObservable({timeframe: _timeframe, query}));
+}
+
 
 /**
  * ############################
