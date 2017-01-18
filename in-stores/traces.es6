@@ -1,5 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
+import subscribeToPhysicalEndpointImplementation from 'in-services/subscription/physicalEndpointImplementation';
+import {loadingPlaceholder, alwaysLoadingPlaceholder$} from 'in-components/EntityInformation';
 import createTotalTraceCountObservable from 'in-services/subscription/totalTraceCount';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import createTraceObservable from 'in-services/subscription/trace';
@@ -7,6 +9,7 @@ import {timeframe as timeframe$} from 'in-stores/timeline';
 import {createTrackingStore} from 'in-stores/store';
 import {buildLuceneQuery} from 'in-services/search';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {getSnapshot} from 'in-stores/snapshot';
 import {luceneQuery$} from 'in-stores/search';
 
 
@@ -101,4 +104,30 @@ export function clearTraceSelection() {
     delete navParams.query.traceId;
     return navParams;
   });
+}
+
+export function getEntitySnapshot$BySpan(span, connectionEndpointType) {
+  const physicalEndpoint = span.getIn(['rels', connectionEndpointType + 'PhysicalEndpoint']);
+
+  let snapshot$ = alwaysNull;
+  if (physicalEndpoint) {
+    const time = span.get('start');
+    snapshot$ = subscribeToPhysicalEndpointImplementation({
+        time,
+        physicalEndpoint
+      })
+      .startWith(loadingPlaceholder)
+      .flatMap(physicalEndpointImplementationSnapshotId => {
+        if (!physicalEndpointImplementationSnapshotId) {
+          return alwaysNull;
+        } else if (physicalEndpointImplementationSnapshotId === loadingPlaceholder) {
+          return alwaysLoadingPlaceholder$;
+        }
+
+        return getSnapshot(physicalEndpointImplementationSnapshotId, time)
+          .startWith(loadingPlaceholder);
+      });
+  }
+
+  return snapshot$;
 }

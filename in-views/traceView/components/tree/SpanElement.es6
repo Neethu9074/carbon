@@ -11,6 +11,7 @@ import {
 } from 'in-sdk/tracing';
 import ServiceImplementationEntityInformation from 'in-views/traceView/components/ServiceImplementationEntityInformation';
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
+import SpanServiceInformation from 'in-views/traceView/components/SpanServiceInformation';
 import SpanForgeDetails from 'in-views/traceView/components/SpanForgeDetails';
 import {highlightedSpanId$} from 'in-views/traceView/stores/highlightedSpan';
 import CategoryIcon from 'in-views/traceView/components/tree/CategoryIcon';
@@ -76,6 +77,8 @@ export default connectTo(props => {
       totalTimePercentage = Math.min(1 / parentTotalTime * totalTime, 1);
       selfTimePercentage = Math.min(1 / parentTotalTime * selfTime, 1);
     }
+
+    const borderColor = `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.5)`;
 
     return (
       <div>
@@ -152,22 +155,18 @@ export default connectTo(props => {
                   {getDirection(span) === 'entry' ?
                     <span>
                       <ServiceImplementationEntityInformation span={span}
-                                             label='From:'
-                                             connectionEndpointType='source'
-                                             serviceId={span.getIn(['rels', 'sourceServiceId'])} />
+                                                              label='From:'
+                                                              connectionEndpointType='source' />
                       <ServiceImplementationEntityInformation span={span}
-                                             connectionEndpointType='destination'
-                                             serviceId={span.getIn(['rels', 'destinationServiceId'])} />
+                                                              connectionEndpointType='destination' />
                     </span>
                   :
                     <span>
                       <ServiceImplementationEntityInformation span={span}
-                                                              connectionEndpointType='source'
-                                                              serviceId={span.getIn(['rels', 'sourceServiceId'])} />
+                                                              connectionEndpointType='source' />
                       <ServiceImplementationEntityInformation span={span}
                                                               label='To:'
-                                                              connectionEndpointType='destination'
-                                                              serviceId={span.getIn(['rels', 'destinationServiceId'])} />
+                                                              connectionEndpointType='destination' />
                     </span>
                   }
                 </div>
@@ -182,8 +181,10 @@ export default connectTo(props => {
             {this.state.detailsExpanded ?
               <div className={`${block}__details`}
                    style={{
-                     borderColor: `rgba(${categoryColorRgb.r}, ${categoryColorRgb.g}, ${categoryColorRgb.b}, 0.5)`
+                     borderColor
                    }}>
+                <SpanServiceInformation span={span}
+                                        borderColor={borderColor} />
                 <SpanForgeDetails span={span}
                                   trace={this.props.trace} />
               </div>
