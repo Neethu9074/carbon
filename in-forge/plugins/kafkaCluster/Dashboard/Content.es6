@@ -56,7 +56,7 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  type: 'line'
                }} />
       </DashboardSection>
-      <DashboardSection title='Average Broker Traffic'>
+      <DashboardSection title='Average Brokers Traffic'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{
@@ -78,7 +78,7 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  type: 'line'
                }} />
       </DashboardSection>
-      <DashboardSection title='Broker Failures'>
+      <DashboardSection title='All Brokers Failures'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{
@@ -98,7 +98,7 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  type: 'line'
                }} />
       </DashboardSection>
-      <DashboardSection title='Broker state metrics'>
+      <DashboardSection title='All Brokers state metrics'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{
@@ -148,7 +148,7 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  type: 'line'
                }} />
       </DashboardSection>
-      <DashboardSection title='Broker Messages In'>
+      <DashboardSection title='All Brokers Messages In'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{

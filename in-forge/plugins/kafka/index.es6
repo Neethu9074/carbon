@@ -20,8 +20,8 @@ registerSnapshotDefinition({
 
 setHumanReadablePluginName(
   plugins.kafka,
-  'Kafka',
-  'Kafka'
+  'Kafka Node',
+  'Kafka Nodes'
 );
 
 addLabelFinder(plugins.kafka, getLabel);

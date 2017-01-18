@@ -1,12 +1,12 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
-import Topics from '../Topics';
-
 
 export default function KafkaClusterSidebar({snapshot}) {
 
@@ -20,14 +20,10 @@ export default function KafkaClusterSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
+      <ClusterMemberList snapshotId={snapshot.get('id')} />
 
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>Topics</Collapsible.Header>
-        <Collapsible.Content>
-          <Topics snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
+      <KeyValuePopup header='Topics/Partitions'
+                     data={snapshot.getIn(['data', 'partitions'])} />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

@@ -15,7 +15,7 @@ export default function ClusterSummary({snapshot}) {
   return (
     <KpiSection>
       <KpiHeading>{data.get('groupId')}</KpiHeading>
-      <KpiKeyValue label='Average Messages In'>
+      <KpiKeyValue label='All Brokers Messages In'>
         <MetricValue snapshotId={snapshotId}
                      metric='broker.messagesIn'
                      formatter={zeroDecimalPlaces} />

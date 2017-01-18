@@ -4,7 +4,7 @@ import React from 'react';
 import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
 import {
   zeroDecimalPlaces,
-  percentageZeroDecimalPlaces
+  msZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
@@ -55,9 +55,8 @@ function createHeader() {
         <th>Health</th>
         <th>Pid</th>
         <th>Version</th>
-        <th>Messages In</th>
-        <th>Network Processor</th>
-        <th>Request Handler</th>
+        <th>All Brokers Messages In</th>
+        <th>Average Response Time</th>
       </tr>
     </thead>
   );
@@ -88,16 +87,8 @@ function createRow(node, i, context) {
                                          height={30}
                                          timeframe={context.timeframe}
                                          snapshotId={id}
-                                         metric='broker.networkProcessorIdle'
-                                         formatter={percentageZeroDecimalPlaces} />
-    </td>,
-    <td>
-      <HistoricMetricSparkChartWithLabel width={200}
-                                         height={30}
-                                         timeframe={context.timeframe}
-                                         snapshotId={id}
-                                         metric='broker.requestHandlerIdle'
-                                         formatter={percentageZeroDecimalPlaces} />
+                                         metric='broker.totalTimeProduce'
+                                         formatter={msZeroDecimalPlaces} />
     </td>
   ];
 }
