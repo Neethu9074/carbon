@@ -10,7 +10,10 @@ const helpTexts = defaultsDeep(
     viewHelp: 'Configure how Instana uses Elasticsearch attributes to extract services. You can define multiple rules ' +
     'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
     'a service name.',
-    matchesHelp: 'TODO'
+    matchesHelp: 'Select here which Elasticsearch query\'s attributes should be used to match and extract a service. ' +
+    'At least one match expression is required. Query attributes such as index and cluster name can be matched ' +
+    'to extract services. When all of the configured match expressions match a query\'s attributes, a ' +
+    'service will be extracted.'
   },
   commonHelpTexts
 );
