@@ -6,7 +6,7 @@ let groupMarginHeight;
 const groupPadding = 1;
 const nodeMargin = 2;
 
-export default function applyLayout({groups, packingXSpace = 3, packingYSpace = 6}) {
+export default function applyLayout({groups, packingXSpace = 1, packingYSpace = 1}) {
   groupMarginWidth = packingXSpace;
   groupMarginHeight = packingYSpace;
 
@@ -50,7 +50,7 @@ function calculateDimensions(_groups) {
   });
 
   var packer = new Packer();
-  blocks.sort((a, b) => b.h < a.h); // sort inputs for best results
+  blocks.sort((a, b) => b.h - a.h); // sort inputs for best results
   packer.fit(blocks);
 
   const positions = {};
@@ -59,6 +59,7 @@ function calculateDimensions(_groups) {
   _groups.forEach(group => {
     const dimension = dimensions[group.id];
     const block = positions[group.id];
+
     dimension.x = block.x;
     dimension.y = block.y;
   });
