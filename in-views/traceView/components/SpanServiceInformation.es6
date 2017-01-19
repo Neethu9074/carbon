@@ -4,6 +4,7 @@ import EntityInformation from 'in-components/EntityInformation';
 import {getEntitySnapshot$BySpan} from 'in-stores/traces';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
+import SvgIcon from 'in-components/SvgIcon';
 import {getDirection} from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
 
@@ -44,19 +45,27 @@ function SpanServiceInformation({span, borderColor, sourceServiceSnapshot, sourc
                entitySnapshot={sourceEntitySnapshot}
                snapshot={sourceServiceSnapshot} />
       <Service label={isEntry ? null : 'To:'}
+               addEntryIcon={(sourceEntitySnapshot && sourceServiceSnapshot) ? true: false}
                entitySnapshot={destinationEntitySnapshot}
                snapshot={destinationServiceSnapshot} />
     </div>
   );
 });
 
-function Service({label, snapshot, entitySnapshot}) {
+function Service({label, snapshot, entitySnapshot, addEntryIcon}) {
   if (!snapshot || !entitySnapshot) {
     return null;
   }
 
   return (
     <div>
+      {addEntryIcon ?
+        <SvgIcon className={`${block}__icon`}
+                 type='corner_arrow_right'
+                 width={10}
+                 color='#92a5ae' />
+      : null
+      }
       <EntityInformation snapshot={snapshot}
                          label={label} />
     </div>
