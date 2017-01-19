@@ -167,7 +167,7 @@ export default connectTo(props => {
                            labels: [
                              'First paint time'
                            ],
-                           type: 'stackedArea'
+                           type: 'line'
                          }} />
       </DashboardSection>
 
