@@ -48,9 +48,6 @@ export default connectTo(props => {
         <DescriptionItem title='Error'>
           {span.getIn(['data', 'http', 'error'])}
         </DescriptionItem>
-        <DescriptionItem title='Page Load'>
-          {span.getIn(['data', 'http', 'error'])}
-        </DescriptionItem>
       </DescriptionList>
     </div>
   );
