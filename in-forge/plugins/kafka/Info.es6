@@ -16,6 +16,9 @@ export default function KafkaInfo({snapshot}) {
       <DescriptionItem title='Process ID'>
         {data.get('pid')}
       </DescriptionItem>
+      <DescriptionItem title='Node Id'>
+        {data.get('node_id')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
