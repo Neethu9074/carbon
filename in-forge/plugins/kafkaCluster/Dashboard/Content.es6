@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   twoDecimalPlaces,
+  zeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   msZeroDecimalPlaces,
   msTwoDecimalPlaces,
@@ -56,7 +57,7 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  type: 'line'
                }} />
       </DashboardSection>
-      <DashboardSection title='Average Brokers Traffic'>
+      <DashboardSection title='All Brokers Traffic'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{
@@ -85,8 +86,8 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  left: 40
                }}
                y1={{
-                 formatter: twoDecimalPlaces,
-                 tooltipFormatter: twoDecimalPlaces,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'broker.messagesIn'
                  ],
@@ -103,8 +104,8 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  left: 40
                }}
                y1={{
-                 formatter: twoDecimalPlaces,
-                 tooltipFormatter: twoDecimalPlaces,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'broker.failedFetch',
                    'broker.failedProduce'
@@ -123,8 +124,8 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
                  left: 40
                }}
                y1={{
-                 formatter: twoDecimalPlaces,
-                 tooltipFormatter: twoDecimalPlaces,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'broker.underReplicatedPartitions',
                    'broker.offlinePartitionsCount',
