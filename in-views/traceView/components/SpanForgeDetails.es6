@@ -8,7 +8,10 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import {getType, getSpanDetailView} from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
+import './SpanForgeDetails.less';
+
 const block = 'in-span-forge-details';
+
 
 export default React.createClass({
   displayName: 'SpanForgeDetails',
