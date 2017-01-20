@@ -35,6 +35,7 @@ function loadDefault() {
   setDefaultConfigValue(['map', 'excludeUnmonitoredHosts'], false);
   setDefaultConfigValue(['map', 'logical', 'layouter'], 'flow'); // [flow, fruchtermann]
   setDefaultConfigValue(['map', 'physical', 'layouter'], 'simple'); // [simple, packed]
+  setDefaultConfigValue(['map', 'logical', 'numServiceHops'], 0); // 0 or 1
   setDefaultConfigValue(['experiments'], false);
   setDefaultConfigValue(['autoCollapseTimeline'], false);
   setDefaultConfigValue(['showMaintenanceNotes'], true);
