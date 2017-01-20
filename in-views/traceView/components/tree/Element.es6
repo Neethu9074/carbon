@@ -51,6 +51,7 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
              paddingLeft: `${depth * 20}px`
            }}>
         <TreeNetworkElement parent={parent}
+                            parentSpanForPercentageCalculation={parentSpanForPercentageCalculation}
                             element={element} />
       </div>
     );
