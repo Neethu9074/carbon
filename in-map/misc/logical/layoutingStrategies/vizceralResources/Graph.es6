@@ -71,7 +71,7 @@ export default class Graph {
       } else {
         nodeMap[edges[i].source].connected = true;
       }
-      if (edges[i].target == null || nodeMap[edges[i].target] == null) {
+      if (!edges[i] || edges[i].target == null || nodeMap[edges[i].target] == null) {
         // console.warn(`Attempted to layout a connection with non-existent target node: ${edges[i].target}.`);
         edges.splice(i, 1);
       } else {
