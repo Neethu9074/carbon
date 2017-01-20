@@ -1,3 +1,4 @@
+import {simpleServiceGeometry, externalServiceGeometry, eumServiceGeometry} from 'in-map/misc/fixedGeometries';
 import CylinderHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import CloudHCP from 'in-map/singleMeshFactories/ContentProvider/CloudHighlightingContentProvider';
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
@@ -11,7 +12,6 @@ import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Logical';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
-import {CylinderBufferGeometry} from 'in-map/3DLibProvider';
 
 import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
@@ -128,9 +128,14 @@ export default class Service extends SceneObject {
     this.addSubscriptions([
       eventBus.on('dragObjectStart').subscribe(id => {
         if (this.id === id) {
-          const scale = this.getComponent('transform').getScale();
-          const radius = scale.x / 2;
-          this.dragGhost = new DragGhost(this, new CylinderBufferGeometry(radius, radius, scale.y, 20, 20));
+          if (this.isExternal && !this.isEum) {
+            this.dragGhost = new DragGhost(this, externalServiceGeometry);
+          } else if (this.isEum) {
+            this.dragGhost = new DragGhost(this, eumServiceGeometry);
+          } else {
+            this.dragGhost = new DragGhost(this, simpleServiceGeometry);
+          }
+          this.dragGhost.setScale(this.getComponent('transform').getScale());
         }
       }),
 

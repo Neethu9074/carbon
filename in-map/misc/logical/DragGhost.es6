@@ -29,6 +29,10 @@ export default class DragGhost {
     });
   }
 
+  setScale(scale) {
+    this.sceneObject.scale.set(scale.x, scale.y, scale.z);
+  }
+
   getCurrentPosition() {
     return this.currentPosition;
   }
