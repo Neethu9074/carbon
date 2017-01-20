@@ -140,7 +140,7 @@ function UiConfig({settings}) {
         </Group>
 
         <SectionHeading>
-          3D Map - Infrastructure
+          Infrastructure
         </SectionHeading>
         <Group>
           <Heading text={`Compact layouter: Space between groups in x direction (${settings.getIn(['map', 'packingXSpace'])})`}
@@ -165,6 +165,22 @@ function UiConfig({settings}) {
                  className={`${block}__slider`}
                  value={settings.getIn(['map', 'packingYSpace'])}
                  onChange={e => setIn(['map', 'packingYSpace'], Number(e.target.value))} />
+        </Group>
+
+        <SectionHeading>
+          Application
+        </SectionHeading>
+        <Group>
+          <Heading text={`Number of shown hops when filtering services (${settings.getIn(['map', 'logical', 'numServiceHops'])})`}
+                   htmlFor='num_service_hops' />
+          <input type='range'
+                 id='num_service_hops'
+                 min={0}
+                 max={1}
+                 step={1}
+                 className={`${block}__slider`}
+                 value={settings.getIn(['map', 'logical', 'numServiceHops'])}
+                 onChange={e => setIn(['map', 'logical', 'numServiceHops'], Number(e.target.value))} />
         </Group>
 
       </Section>

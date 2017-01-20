@@ -3,6 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import createViewStructureObservable from 'in-services/subscription/view';
 import {focusedMoment$} from 'in-stores/timeline';
 import {searchMatches$} from 'in-stores/search';
+import {getIn} from 'in-services/settings';
 import {view$} from 'in-stores/view';
 
 const noSearchMatches = {
@@ -12,8 +13,8 @@ const noSearchMatches = {
 };
 
 export function getViewStructure() {
-  return combineLatest([view$, focusedMoment$, searchMatches$.distinct()])
-     .flatMap(([viewType, focusedMoment, _searchMatches]) => {
+  return combineLatest([view$, focusedMoment$, searchMatches$.distinct(), getIn(['map', 'logical', 'numServiceHops'], 0)])
+     .flatMap(([viewType, focusedMoment, _searchMatches, numServiceHops]) => {
        _searchMatches = _searchMatches || noSearchMatches;
        return createViewStructureObservable({viewType, time: focusedMoment})
               .map(_viewStructure => {
@@ -24,11 +25,15 @@ export function getViewStructure() {
                   if (_searchMatches.contains(serviceId)) {
                     serviceIds[serviceId] = true;
 
-                    const incoming = service.get('incomingConnections');
-                    const outgoing = service.get('outgoingConnections');
+                    if (numServiceHops > 0) {
+                      const incoming = service.get('incomingConnections');
+                      const outgoing = service.get('outgoingConnections');
 
-                    incoming.forEach(_incoming => serviceIds[_incoming.get('otherId')] = true);
-                    outgoing.forEach(_incoming => serviceIds[_incoming.get('otherId')] = true);
+                      incoming.forEach(_incoming => serviceIds[_incoming.get('otherId')] = true);
+                      outgoing.forEach(_incoming => serviceIds[_incoming.get('otherId')] = true);
+
+                      // TODO: add support for hops > 1
+                    }
                   }
                 });
 
