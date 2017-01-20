@@ -23,6 +23,12 @@ export function getViewStructure() {
                   const serviceId = service.get('id');
                   if (_searchMatches.contains(serviceId)) {
                     serviceIds[serviceId] = true;
+
+                    const incoming = service.get('incomingConnections');
+                    const outgoing = service.get('outgoingConnections');
+
+                    incoming.forEach(_incoming => serviceIds[_incoming.get('otherId')] = true);
+                    outgoing.forEach(_incoming => serviceIds[_incoming.get('otherId')] = true);
                   }
                 });
 
