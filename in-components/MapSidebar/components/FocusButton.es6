@@ -35,7 +35,7 @@ function FocusButton({focusedMoment, snapshot, focusableSceneObjects}) {
       return null;
     }
     return (
-      <Tooltip content='Focus in map'
+      <Tooltip content='Center in map'
               align={'rightMiddle'}>
         <Icon className={classes}
               onClick={() => focusSnapshotId(snapshotId)}
