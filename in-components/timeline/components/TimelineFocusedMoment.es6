@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {INPUTS} from 'in-components/timeline/components/DatePicker/stores/focusedDateInput';
 import TimelineTimestamp from 'in-components/timeline/components/TimelineTimestamp';
 import {focusedMomentXPosition$} from 'in-components/timeline/timelineStore';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
@@ -21,6 +22,7 @@ function TimelineFocusedMoment({focusedMoment, focusedMomentXPosition, width}) {
            left: focusedMomentXPosition
          }}>
       <TimelineTimestamp timestamp={focusedMoment}
+                         inputIdToFocus={INPUTS.FOCUSED_MOMENT}
                          style={{
                            left: (focusedMomentXPosition > width / 2) ? -115 : 7
                          }} />

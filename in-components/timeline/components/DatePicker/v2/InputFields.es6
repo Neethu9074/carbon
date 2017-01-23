@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {focusInput, clearFocusedInput} from 'in-components/timeline/components/DatePicker/stores/focusedDateInput';
+import {INPUTS, clearFocusedInput} from 'in-components/timeline/components/DatePicker/stores/focusedDateInput';
 import TextInput from 'in-components/timeline/components/DatePicker/v2/TextInput';
 
 import './InputFields.less';
@@ -11,13 +11,21 @@ const block = 'in-timeline-date-time-picker-input-fields';
 export default function InputFields() {
   return (
     <div className={block}>
-      <DateTimeBlock heading='From' />
-      <DateTimeBlock heading='To' />
+      <DateTimeBlock heading='From'
+                     inputIdToFocus={INPUTS.FROM} />
+
+      <DateTimeBlock heading='To'
+                     inputIdToFocus={INPUTS.TO} />
+
+      <div className={`${block}__separator`} />
+
+      <DateTimeBlock heading='Selected moment'
+                     inputIdToFocus={INPUTS.FOCUSED_MOMENT} />
     </div>
   );
 }
 
-function DateTimeBlock({heading}) {
+function DateTimeBlock({heading, inputIdToFocus}) {
   return (
     <div className={`${block}__date-time-block`}>
       <span className={`${block}__heading`}>
@@ -27,7 +35,7 @@ function DateTimeBlock({heading}) {
         <TextInput heading='Date'
                    value='ds'
                    onChange={text => console.log(text)}
-                   onFocus={() => onFocus(heading)}
+                   inputIdToFocus={inputIdToFocus}
                    onBlur={clearFocusedInput} />
         <TextInput heading='Time'
                    value='ts'
@@ -36,8 +44,4 @@ function DateTimeBlock({heading}) {
       </div>
     </div>
   );
-}
-
-function onFocus(id) {
-  focusInput(id);
 }
