@@ -1,4 +1,4 @@
-import {expanded$} from 'in-stores/search/expanded';
+import {expanded$} from 'in-stores/search/searchBarExpanded';
 import {createStore} from 'in-stores/store';
 
 const visibilityStore = createStore({

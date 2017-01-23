@@ -8,7 +8,7 @@ import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {setInputString} from 'in-stores/search/rawQuery';
 import {rawQuery$} from 'in-stores/search/rawQuery';
-import {expanded$} from 'in-stores/search/expanded';
+import {expanded$} from 'in-stores/search/searchBarExpanded';
 import keyCodes from 'in-components/keyCodes';
 import {
   highlightNextSuggestion,

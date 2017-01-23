@@ -3,7 +3,7 @@ import {createTrackingStore} from 'in-stores/store';
 
 
 export const expanded$ = createTrackingStore({
-  name: 'search/expanded',
+  name: 'search/searchBarExpanded',
   observable: navigationParameters$
     // ss === show search
     .map(params => params.query.ss === '1')
