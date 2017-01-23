@@ -25,7 +25,7 @@ export const totalTraceCountOnlyEum$ = timeframe$
 export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFiltering$, totalTraceCountOnlyEum$])
   .map(([total, eum]) => total - eum);
 
-export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, debouncedQuery$.debounce(200)])
+export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, debouncedQuery$])
   .flatMap(([timeframe, luceneQuery]) => createTotalTraceCountObservable({timeframe, query: luceneQuery || ''}));
 
 export function getNumberOfTracesStartingAtService(serviceId) {
