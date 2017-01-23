@@ -1,7 +1,7 @@
 import {Set} from 'immutable';
 
+import {setField, removeField, containsField, getFieldTerms} from 'in-stores/search/manipulation';
 import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
-import {getFieldTerms} from 'in-stores/search/manipulation';
 import {query$, mutateQuery} from 'in-stores/search/query';
 import {focusedMoment$} from 'in-stores/timeline';
 
@@ -10,47 +10,18 @@ import {focusedMoment$} from 'in-stores/timeline';
 export const filteredTags$ = query$.map(query => Set(getFieldTerms(query, 'tag')));
 export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
 
-
-export function addTagFilter(tag) {
-  mutateQuery(inputString => {
-    if (containsTagFilter(inputString, tag)) {
-      return inputString;
-    }
-
-    return `${inputString} tag="${tag}"`.trim();
-  });
+export function setTagFilter(tag) {
+  mutateQuery(query => setField(query, 'tag', tag));
 }
-
 
 export function removeTagFilter(tag) {
-  mutateQuery(inputString => {
-    if (!containsTagFilter(inputString, tag)) {
-      return inputString;
-    }
-
-    return inputString.replace(getRegExpMachingTag(tag), ' ')
-      // remove excess whitespace
-      .replace(/ {2,}/ig, ' ')
-      .trim();
-  });
+  mutateQuery(query => removeField(query, 'tag', tag));
 }
-
 
 export function removeAllTagFilters() {
-  mutateQuery(inputString => {
-    return inputString.replace(/(^|\s)tag *= *(("([^"]+)")|([^\s]+))/ig, ' ')
-      // remove excess whitespace
-      .replace(/ {2,}/ig, ' ')
-      .trim();
-  });
+  mutateQuery(query => removeField(query, 'tag'));
 }
 
-// return new RegExp(`${tag} *= *("([^"]+)"|([^\\s]+))`, 'ig').test(freeText);
-export function containsTagFilter(freeText, tag) {
-  return getRegExpMachingTag(tag).test(freeText);
-}
-
-
-function getRegExpMachingTag(tag) {
-  return new RegExp(`(^|\\s)tag *= *("${tag}"|${tag})(\\s|$)`, 'ig');
+export function containsTagFilter(query, tag) {
+  return containsField(query, 'tag', tag);
 }

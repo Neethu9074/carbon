@@ -22,9 +22,9 @@ navigationParameters$
 query$
   .skipFirst()
   .debounce(500)
-  .subscribe(rawQuery => {
+  .subscribe(query => {
     mutateUrl(navParams => {
-      navParams.query.q = encodeURIComponent(rawQuery);
+      navParams.query.q = encodeURIComponent(query);
       return navParams;
     });
   });
