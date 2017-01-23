@@ -2,7 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import {createStore} from 'in-stores/store';
 import searchContexts$ from 'in-stores/search/searchContexts';
-import {rawQuery$} from 'in-stores/search/rawQuery';
+import {query$} from 'in-stores/search/query';
 import {transformQuery} from 'in-services/search';
 
 
@@ -23,7 +23,7 @@ const errorStore = createStore({
 export const error$ = errorStore.observable;
 
 
-combineLatest([searchContexts$, rawQuery$])
+combineLatest([searchContexts$, query$])
   .nextFrame()
   .subscribe(([searchContexts, rawQuery]) => {
     try {

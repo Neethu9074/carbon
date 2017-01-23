@@ -6,7 +6,7 @@ import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import {setValues} from 'in-components/SearchBar/stores/dialog';
-import {rawQuery$} from 'in-stores/search/rawQuery';
+import {query$} from 'in-stores/search/query';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -16,7 +16,7 @@ const block = 'in-search-presets';
 
 export default connectTo({
   filters: filters$,
-  query: rawQuery$
+  query: query$
 }, function FilterPresets({filters, query}) {
   return (
     <section className={block}>

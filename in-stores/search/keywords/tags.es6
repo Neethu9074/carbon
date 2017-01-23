@@ -1,13 +1,13 @@
 import Immutable from 'immutable';
 
 import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
-import {rawQuery$, mutateInputString} from 'in-stores/search/rawQuery';
+import {query$, mutateInputString} from 'in-stores/search/query';
 import {getTagFiltersFromQuery} from 'in-services/search';
 import {focusedMoment$} from 'in-stores/timeline';
 
 // A stream of the form ImmutableSet<String> describing the currently active
 // tag filters.
-export const filteredTags$ = rawQuery$.map(rawQuery => {
+export const filteredTags$ = query$.map(rawQuery => {
   return Immutable.Set(getTagFiltersFromQuery(rawQuery));
 });
 

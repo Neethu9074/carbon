@@ -1,4 +1,4 @@
-import {mutateInputString} from 'in-stores/search/rawQuery';
+import {mutateInputString} from 'in-stores/search/query';
 
 
 export function setTypeFilter(type, negate = false) {

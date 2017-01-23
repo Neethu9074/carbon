@@ -5,7 +5,7 @@ const rawQueryStore = createStore({
   name: 'search/rawQuery',
   value: ''
 });
-export const rawQuery$ = rawQueryStore.observable.distinct();
+export const query$ = rawQueryStore.observable.distinct();
 
 
 navigationParameters$
@@ -18,7 +18,7 @@ navigationParameters$
     }
   });
 
-rawQuery$
+query$
   .skipFirst()
   .debounce(500)
   .subscribe(rawQuery => {

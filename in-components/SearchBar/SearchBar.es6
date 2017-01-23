@@ -6,8 +6,8 @@ import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import SearchMenu from 'in-components/SearchBar/components/SearchMenu';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {evaluateClassNames} from 'in-services/util/classnames';
-import {setInputString} from 'in-stores/search/rawQuery';
-import {rawQuery$} from 'in-stores/search/rawQuery';
+import {setInputString} from 'in-stores/search/query';
+import {query$} from 'in-stores/search/query';
 import {expanded$} from 'in-stores/search/searchBarExpanded';
 import keyCodes from 'in-components/keyCodes';
 import {
@@ -26,7 +26,7 @@ const block = 'in-searchbar';
 export const idOfSearchField = 'search';
 
 export default connectTo({
-  rawQuery: rawQuery$,
+  rawQuery: query$,
   expanded: expanded$,
   menuVisible: menuVisible$
 },

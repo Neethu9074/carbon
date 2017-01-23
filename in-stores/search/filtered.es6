@@ -1,9 +1,9 @@
 import {createTrackingStore} from 'in-stores/store';
-import {rawQuery$} from 'in-stores/search/rawQuery';
+import {query$} from 'in-stores/search/query';
 
 export const filtered$ = createTrackingStore({
   name: 'search/filtered',
-  observable: rawQuery$
+  observable: query$
     .map(rawQuery => !!rawQuery)
     .distinct()
 }).observable;
