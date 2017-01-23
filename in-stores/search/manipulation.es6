@@ -47,6 +47,29 @@ export function setField(query, fieldName, value) {
 }
 
 
+export function getFieldTerms(query, fieldName) {
+  const fieldMatcher = buildFieldMatcher(fieldName);
+  return reduce(parse(query), (agg, node) => {
+    if (fieldMatcher(node)) {
+      agg.push(node.term);
+    }
+    return agg;
+  }, []);
+}
+
+
+export function luceneEscapeString(s) {
+  return s.replace(/[\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/]/g, c => {
+    return `\\${c}`;
+  });
+}
+
+
+export function requiresQuotes(s) {
+  return s.indexOf(' ') !== -1;
+}
+
+
 function buildFieldMatcher(fieldName, value=undefined) {
   const lowerCasedFieldName = fieldName.toLowerCase();
   const lowerCasedValue = typeof value === 'string' ? luceneEscapeString(value.toLowerCase()) : value;
@@ -102,16 +125,4 @@ function reduce(ast, reducer, initialValue) {
   }
 
   return reduced;
-}
-
-
-export function luceneEscapeString(s) {
-  return s.replace(/[\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/]/g, c => {
-    return `\\${c}`;
-  });
-}
-
-
-export function requiresQuotes(s) {
-  return s.indexOf(' ') !== -1;
 }

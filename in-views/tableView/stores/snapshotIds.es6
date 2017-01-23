@@ -1,20 +1,20 @@
 import {translateSearchableEntityTypeToFullyQualifiedPluginIds} from 'in-sdk/search/defaultOperators';
 import {clearSelectedSnapshots} from 'in-views/tableView/stores/selectedSnapshots';
+import {setTypeFilter, getTypes} from 'in-stores/search/keywords/type';
 import createSearchObservable from 'in-services/subscription/search';
 import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
 import {clearMetrics} from 'in-views/tableView/stores/metrics';
 import {setColumn} from 'in-views/tableView/stores/sorting';
-import {setTypeFilter} from 'in-stores/search/keywords/type';
-import {parsedQuery$} from 'in-stores/search/query';
 import {focusedMoment$} from 'in-stores/timeline';
+import {query$} from 'in-stores/search/query';
 
-export const selectedType$ = parsedQuery$
-  .map(parsedQuery => {
-    if (!parsedQuery) {
+export const selectedType$ = query$
+  .map(query => {
+    if (!query) {
       return plugins.host;
     }
 
-    return getSelectedType(parsedQuery) || 'host';
+    return getSelectedType(query) || 'host';
   })
   .distinct();
 
@@ -47,17 +47,17 @@ export const plugin$ = selectedType$
   });
 
 
-export const snapshotIds$ = parsedQuery$
-  .flatMap(parsedQuery => {
-    let luceneQuery = parsedQuery ? parsedQuery.luceneQuery : '';
-    if (!parsedQuery || !getSelectedType(parsedQuery)) {
-      luceneQuery += ` type:host`;
+export const snapshotIds$ = query$
+  .flatMap(query => {
+    query = query || '';
+    if (!getSelectedType(query)) {
+      query += ` type:host`;
     }
 
     return focusedMoment$
       .flatMap(focusedMoment => {
         return createSearchObservable({
-          query: luceneQuery,
+          query: query,
           time: focusedMoment,
           view: 'TABLE'
         })
@@ -66,17 +66,8 @@ export const snapshotIds$ = parsedQuery$
   });
 
 
-function getSelectedType(parsedQuery) {
-  const parts = parsedQuery.queryParts;
-
-  for (let i = 0, len = parts.length; i < len; i++) {
-    const part = parts[i];
-    if (part.key === 'type') {
-      return part.value;
-    }
-  }
-
-  return null;
+function getSelectedType(query) {
+  return getTypes(query, 'type')[0];
 }
 
 

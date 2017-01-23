@@ -23,8 +23,11 @@ export const eventFilter$ = createTrackingStore({
   })
 }).observable;
 
-export function setEventTypeFilter(_filter) {
-  _filter
-    ? setTypeFilter(_filter)
-    : removeTypeFilter();
+
+export function setEventTypeFilter(filter) {
+  if (filter) {
+    setTypeFilter(filter);
+  } else {
+    removeTypeFilter();
+  }
 }

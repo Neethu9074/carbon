@@ -2,7 +2,7 @@
 
 import {expect} from 'chai';
 
-import {removeField, containsField, setField} from 'in-stores/search/manipulation';
+import {removeField, containsField, setField, getFieldTerms} from 'in-stores/search/manipulation';
 
 describe('in-stores/search/manipulation', () => {
   describe('removeField', () => {
@@ -74,6 +74,16 @@ describe('in-stores/search/manipulation', () => {
 
     it('must set term with quotes and when they are required', () => {
       expect(setField('tag:bar OR type:blub', 'tag', 'we like clean strings')).to.equal('tag:bar OR type:blub tag:"we like clean strings"');
+    });
+  });
+
+  describe('getFieldTerms', () => {
+    it('must return the defined field term', () => {
+      expect(getFieldTerms('tag:bar', 'tag')).to.deep.equal(['bar']);
+    });
+
+    it('must return all the defined field terms', () => {
+      expect(getFieldTerms('tag:bar AND (cpuCount:>3 OR cpuCount:0)', 'cpuCount')).to.deep.equal(['>3', '0']);
     });
   });
 });
