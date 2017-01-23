@@ -6,11 +6,11 @@ import createTotalTraceCountObservable from 'in-services/subscription/totalTrace
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import createTraceObservable from 'in-services/subscription/trace';
 import {timeframe as timeframe$} from 'in-stores/timeline';
+import {luceneQuery$} from 'in-stores/search/parsedQuery';
 import {createTrackingStore} from 'in-stores/store';
 import {buildLuceneQuery} from 'in-services/search';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
-import {luceneQuery$} from 'in-stores/search';
 
 
 export const totalTraceCountNoFiltering$ = timeframe$

@@ -3,10 +3,10 @@ import {combineLatest, create} from 'reactive-observables';
 import createRawEventsObservable from 'in-services/subscription/rawEvents';
 import {sortDirection$} from 'in-views/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-views/eventView/stores/isLoadingStore';
+import {luceneQuery$ as query$} from 'in-stores/search/parsedQuery';
 import {autoUpdate$} from 'in-views/eventView/stores/autoUpdate';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
 import {sortBy$} from 'in-views/eventView/stores/sortBy';
-import {luceneQuery$ as query$} from 'in-stores/search';
 import {emptyArray} from 'in-services/fixedObjects';
 import {createStore} from 'in-stores/store';
 

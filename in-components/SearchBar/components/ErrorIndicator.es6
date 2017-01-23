@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {error$} from 'in-stores/search/parsedQuery';
 import connectTo from 'in-hoc/connectTo';
-import {error$} from 'in-stores/search';
 
 import './ErrorIndicator.less';
 

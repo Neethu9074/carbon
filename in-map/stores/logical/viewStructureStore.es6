@@ -1,8 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
+import {searchMatches$} from 'in-stores/search/searchMatches';
 import {focusedMoment$} from 'in-stores/timeline';
-import {searchMatches$} from 'in-stores/search';
 import {getIn} from 'in-services/settings';
 import {view$} from 'in-stores/view';
 
@@ -13,7 +13,7 @@ const noSearchMatches = {
 };
 
 export function getViewStructure() {
-  return combineLatest([view$, focusedMoment$, searchMatches$.distinct(), getIn(['map', 'logical', 'numServiceHops'], 0)])
+  return combineLatest([view$, focusedMoment$, searchMatches$, getIn(['map', 'logical', 'numServiceHops'], 0)])
      .flatMap(([viewType, focusedMoment, _searchMatches, numServiceHops]) => {
        _searchMatches = _searchMatches || noSearchMatches;
        return createViewStructureObservable({viewType, time: focusedMoment})

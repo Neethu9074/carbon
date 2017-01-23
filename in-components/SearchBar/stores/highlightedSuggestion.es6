@@ -1,6 +1,6 @@
 import {setFocused, isFocused$} from 'in-components/SearchBar/stores/focus';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
-import {searchMatches$} from 'in-stores/search';
+import {searchMatches$} from 'in-stores/search/searchMatches';
 import {createStore} from 'in-stores/store';
 
 const highligtedSuggestionStore = createStore({
