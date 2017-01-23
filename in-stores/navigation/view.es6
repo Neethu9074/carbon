@@ -21,7 +21,7 @@ export const traceViewLinkWithoutEumTraces$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/traces';
-    params.query.q = encodeURIComponent('type!=eum');
+    params.query.q = encodeURIComponent('-type:eum');
     return params;
   })
   .map(toUrl)
@@ -65,7 +65,7 @@ export const eventsLinkOnlyIncidents$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/events';
-    params.query.q = encodeURIComponent('type=incident');
+    params.query.q = encodeURIComponent('type:incident');
     return params;
   })
   .map(toUrl)
@@ -105,7 +105,7 @@ export const tableViewFilteredForServicesLink$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/table';
-    params.query.q = 'type=service';
+    params.query.q = 'type:service';
     return params;
   })
   .map(toUrl)
