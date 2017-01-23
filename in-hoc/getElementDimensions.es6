@@ -1,4 +1,7 @@
+/* eslint-disable react/no-find-dom-node */
+
 import {on} from 'reactive-observables';
+import ReactDOM from 'react-dom';
 import React from 'react';
 
 
@@ -13,10 +16,6 @@ export default function getElementDimensions(ComposedComponent) {
     },
 
     componentDidMount() {
-      if (!this.domNode) {
-        return;
-      }
-
       this.calculateDimensions();
       this.subscription = on(window, 'resize')
         .debounce(300)
@@ -39,7 +38,7 @@ export default function getElementDimensions(ComposedComponent) {
         <ComposedComponent {...this.props}
                            height={this.state.height}
                            width={this.state.width}
-                           ref={node => this.domNode = node} />
+                           ref={ref => this.domNode = ReactDOM.findDOMNode(ref)} />
       );
     }
   });
