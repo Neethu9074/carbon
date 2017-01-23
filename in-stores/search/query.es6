@@ -35,7 +35,7 @@ export function setInputString(newString) {
 }
 
 
-export function mutateInputString(fn) {
+export function mutateQuery(fn) {
   mutateUrl(navParams => {
     navParams.query.q = encodeURIComponent(fn(decodeURIComponent(navParams.query.q || '')));
     return navParams;

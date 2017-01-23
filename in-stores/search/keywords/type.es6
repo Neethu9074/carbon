@@ -1,25 +1,22 @@
-import {mutateInputString} from 'in-stores/search/query';
-
+import {setField, removeField, containsField} from 'in-stores/search/manipulation';
+import {mutateQuery} from 'in-stores/search/query';
 
 export function setTypeFilter(type, negate = false) {
-  mutateInputString(inputString => {
-    const operator = negate ? '!=' : '=';
-    inputString = removeExistingTypeFilter(inputString);
-    return `${inputString} type${operator}"${type}"`.trim();
+  mutateQuery(query => {
+    query = removeField(query, negate ? 'type' : '-type');
+    query = setField(query, negate ? '-type' : 'type', type);
+    return query;
   });
 }
 
 export function removeTypeFilter() {
-  mutateInputString(removeExistingTypeFilter);
+  mutateQuery(query => {
+    query = removeField(query, 'type');
+    query = removeField(query, '-type');
+    return query;
+  });
 }
 
-function removeExistingTypeFilter(inputString) {
-  return inputString.replace(/(^|\s)type *!?= *(("([^"]+)")|([^\s]+))/ig, ' ')
-    // remove excess whitespace
-    .replace(/ {2,}/ig, ' ')
-    .trim();
-}
-
-export function containsTypeFilter(freeText, type, operator = '=') {
-  return new RegExp(`(^|\\s)type *${operator} *("${type}"|${type})(\\s|$)`, 'ig').test(freeText);
+export function containsTypeFilter(query, type, negate = false) {
+  return containsField(query, negate ? '-type' : 'type', type);
 }

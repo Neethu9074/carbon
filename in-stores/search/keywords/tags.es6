@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
 import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
-import {query$, mutateInputString} from 'in-stores/search/query';
+import {query$, mutateQuery} from 'in-stores/search/query';
 import {getTagFiltersFromQuery} from 'in-services/search';
 import {focusedMoment$} from 'in-stores/timeline';
 
@@ -15,7 +15,7 @@ export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObserv
 
 
 export function addTagFilter(tag) {
-  mutateInputString(inputString => {
+  mutateQuery(inputString => {
     if (containsTagFilter(inputString, tag)) {
       return inputString;
     }
@@ -26,7 +26,7 @@ export function addTagFilter(tag) {
 
 
 export function removeTagFilter(tag) {
-  mutateInputString(inputString => {
+  mutateQuery(inputString => {
     if (!containsTagFilter(inputString, tag)) {
       return inputString;
     }
@@ -40,7 +40,7 @@ export function removeTagFilter(tag) {
 
 
 export function removeAllTagFilters() {
-  mutateInputString(inputString => {
+  mutateQuery(inputString => {
     return inputString.replace(/(^|\s)tag *= *(("([^"]+)")|([^\s]+))/ig, ' ')
       // remove excess whitespace
       .replace(/ {2,}/ig, ' ')
