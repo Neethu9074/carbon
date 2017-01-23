@@ -26,7 +26,8 @@ export function setField(query, fieldName, value) {
     return query;
   }
 
-  const astForField = {field: fieldName, term: value, quoted: true};
+  const escapedValue = luceneEscapeString(value);
+  const astForField = {field: fieldName, term: escapedValue, quoted: requiresQuotes(escapedValue)};
 
   let ast = parse(query);
   if (ast.left && !ast.right) {
@@ -48,7 +49,7 @@ export function setField(query, fieldName, value) {
 
 function buildFieldMatcher(fieldName, value=undefined) {
   const lowerCasedFieldName = fieldName.toLowerCase();
-  const lowerCasedValue = typeof value === 'string' ? value.toLowerCase() : value;
+  const lowerCasedValue = typeof value === 'string' ? luceneEscapeString(value.toLowerCase()) : value;
   return node => {
     return node.field &&
         node.field.toLowerCase() === lowerCasedFieldName &&
@@ -101,4 +102,16 @@ function reduce(ast, reducer, initialValue) {
   }
 
   return reduced;
+}
+
+
+export function luceneEscapeString(s) {
+  return s.replace(/[\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/]/g, c => {
+    return `\\${c}`;
+  });
+}
+
+
+export function requiresQuotes(s) {
+  return s.indexOf(' ') !== -1;
 }

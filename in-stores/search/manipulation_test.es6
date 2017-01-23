@@ -29,6 +29,11 @@ describe('in-stores/search/manipulation', () => {
     it('must only remove fields with a given value', () => {
       expect(removeField('tag:bar type:foo OR type:blub', 'type', 'blub')).to.equal('tag:bar type:foo');
     });
+
+    it('must respect quoting', () => {
+      expect(removeField('tag:\\!bar tag:bar OR type:blub', 'tag', '!bar')).to.equal('tag:bar OR type:blub');
+      expect(removeField('tag:\\!bar tag:bar OR type:blub', 'tag', 'bar')).to.equal('tag:\\!bar type:blub');
+    });
   });
 
   describe('containsField', () => {
@@ -44,7 +49,7 @@ describe('in-stores/search/manipulation', () => {
 
   describe('setField', () => {
     it('must set field on a simple query', () => {
-      expect(setField('type:node', 'tag', 'production')).to.equal('type:node tag:"production"');
+      expect(setField('type:node', 'tag', 'production')).to.equal('type:node tag:production');
     });
 
     it('must not set field on a simple query when it already exists', () => {
@@ -52,7 +57,7 @@ describe('in-stores/search/manipulation', () => {
     });
 
     it('must set field in a query with two sides', () => {
-      expect(setField('type:node tag:dev', 'tag', 'prod')).to.equal('type:node tag:dev tag:"prod"');
+      expect(setField('type:node tag:dev', 'tag', 'prod')).to.equal('type:node tag:dev tag:prod');
     });
 
     it('must not set field in a query with two sides when it already exists', () => {
@@ -60,7 +65,15 @@ describe('in-stores/search/manipulation', () => {
     });
 
     it('must set field in a complicated query', () => {
-      expect(setField('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0)', 'tag', 'dev')).to.equal('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0) tag:"dev"');
+      expect(setField('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0)', 'tag', 'dev')).to.equal('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0) tag:dev');
+    });
+
+    it('must respect quoting', () => {
+      expect(setField('tag:bar OR type:blub', 'tag', '!bar')).to.equal('tag:bar OR type:blub tag:\\!bar');
+    });
+
+    it('must set term with quotes and when they are required', () => {
+      expect(setField('tag:bar OR type:blub', 'tag', 'we like clean strings')).to.equal('tag:bar OR type:blub tag:"we like clean strings"');
     });
   });
 });
