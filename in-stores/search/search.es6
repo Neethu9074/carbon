@@ -21,14 +21,6 @@ export const luceneQuery$ = parsedQuery$
   .distinct();
 
 
-const lastQueryChangeTime = createStore({
-  name: 'search/lastQueryChangeTime',
-  initialValue: 0
-});
-export const lastQueryChangeTime$ = lastQueryChangeTime.observable;
-parsedQuery$.subscribe(() => lastQueryChangeTime.mutateTo(Date.now()));
-
-
 export const searchMatches$ = createTrackingStore({
   name: 'search/searchMatches',
   observable: combineLatest([parsedQuery$, focusedMoment$, isMapView$, view$])
