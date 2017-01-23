@@ -6,7 +6,7 @@ import createTotalTraceCountObservable from 'in-services/subscription/totalTrace
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import createTraceObservable from 'in-services/subscription/trace';
 import {timeframe as timeframe$} from 'in-stores/timeline';
-import {luceneQuery$} from 'in-stores/search/parsedQuery';
+import {debouncedQuery$} from 'in-stores/search/query';
 import {createTrackingStore} from 'in-stores/store';
 import {buildLuceneQuery} from 'in-services/search';
 import {alwaysNull} from 'in-services/fixedStreams';
@@ -25,7 +25,7 @@ export const totalTraceCountOnlyEum$ = timeframe$
 export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFiltering$, totalTraceCountOnlyEum$])
   .map(([total, eum]) => total - eum);
 
-export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, luceneQuery$.debounce(200)])
+export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, debouncedQuery$.debounce(200)])
   .flatMap(([timeframe, luceneQuery]) => createTotalTraceCountObservable({timeframe, query: luceneQuery || ''}));
 
 export function getNumberOfTracesStartingAtService(serviceId) {

@@ -2,7 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import {sortDirection$} from 'in-views/traceView/stores/sortDirection';
 import createTracesObservable from 'in-services/subscription/traces';
-import {luceneQuery$ as query$} from 'in-stores/search/parsedQuery';
+import {debouncedQuery$ as query$} from 'in-stores/search/query';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {autoUpdate$} from 'in-views/traceView/stores/autoUpdate';
 import {formatDateTime} from 'in-services/formatters/date';

@@ -6,6 +6,7 @@ const rawQueryStore = createStore({
   value: ''
 });
 export const query$ = rawQueryStore.observable.distinct();
+export const debouncedQuery$ = query$.debounce(200);
 
 
 navigationParameters$

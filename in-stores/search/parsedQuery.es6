@@ -1,19 +1,13 @@
-import {combineLatest} from 'reactive-observables';
+import {parse} from 'lucene';
 
-import {createStore} from 'in-stores/store';
-import searchContexts$ from 'in-stores/search/searchContexts';
 import {query$} from 'in-stores/search/query';
-import {transformQuery} from 'in-services/search';
-
+import {createStore} from 'in-stores/store';
 
 const parsedQueryStore = createStore({
   name: 'search/parsedQuery',
   initialValue: null
 });
 export const parsedQuery$ = parsedQueryStore.observable;
-export const luceneQuery$ = parsedQuery$
-  .map(parsed => parsed ? parsed.luceneQuery : null)
-  .distinct();
 
 
 const errorStore = createStore({
@@ -23,11 +17,10 @@ const errorStore = createStore({
 export const error$ = errorStore.observable;
 
 
-combineLatest([searchContexts$, query$])
-  .nextFrame()
-  .subscribe(([searchContexts, rawQuery]) => {
+query$
+  .subscribe(rawQuery => {
     try {
-      const parsedQuery = transformQuery(rawQuery, searchContexts);
+      const parsedQuery = parse(rawQuery);
       errorStore.mutateTo(null);
       parsedQueryStore.mutateTo(parsedQuery);
     } catch (e) {
