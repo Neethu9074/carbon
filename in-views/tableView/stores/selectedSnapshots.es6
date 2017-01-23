@@ -5,7 +5,7 @@ import {getSnapshot} from 'in-stores/snapshot';
 import {createStore} from 'in-stores/store';
 
 const selectedSnapshotIdsStore = createStore({
-  name: 'in-views/tableView/stores/selectedSnapshots/selectedSnapshotIds',
+  name: 'tableView/stores/selectedSnapshots/selectedSnapshotIds',
   initialValue: []
 });
 export const selectedSnapshotIds$ = selectedSnapshotIdsStore

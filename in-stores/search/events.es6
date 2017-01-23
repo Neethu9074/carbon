@@ -1,4 +1,4 @@
-import {mutateInputString} from 'in-stores/search';
+import {mutateInputString} from 'in-stores/search/rawQuery';
 
 
 export function setEventTypeFilter(type) {

@@ -2,7 +2,7 @@ import {createStore} from 'in-stores/store';
 
 
 const metricsStore = createStore({
-  name: 'in-views/tableView/stores/metrics',
+  name: 'tableView/stores/metrics',
   initialValue: []
 });
 export const metrics$ = metricsStore.observable;

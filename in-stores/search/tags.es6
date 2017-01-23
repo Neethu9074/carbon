@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
 import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
-import {rawQuery$, mutateInputString} from 'in-stores/search';
+import {rawQuery$, mutateInputString} from 'in-stores/search/rawQuery';
 import {getTagFiltersFromQuery} from 'in-services/search';
 import {focusedMoment$} from 'in-stores/timeline';
 

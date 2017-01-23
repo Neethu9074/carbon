@@ -2,7 +2,7 @@ import {generateUniqueShortId} from 'in-services/util/id';
 import {createStore} from 'in-stores/store';
 
 const store = createStore({
-  name: 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/notification',
+  name: 'configurationView/subview/GenericServiceExtractionConfiguration/stores/notification',
   initialValue: null
 });
 

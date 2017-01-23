@@ -1,7 +1,7 @@
 import {createStore} from 'in-stores/store';
 
 const sortByStore = createStore({
-  name: 'in-views/traceView/stores/sortBy',
+  name: 'traceView/stores/sortBy',
   initialValue: 'ts'
 });
 export const sortBy$ = sortByStore.observable;

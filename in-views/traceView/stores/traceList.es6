@@ -28,14 +28,14 @@ let sortDirection;
 let query;
 
 const tracesStore = createStore({
-  name: 'in-views/traceView/stores/traceList/traces',
+  name: 'traceView/stores/traceList/traces',
   initialValue: []
 });
 export const traces$ = tracesStore.observable;
 
 
 const isLoadingStore = createStore({
-  name: 'in-views/traceView/stores/traceList/isLoading',
+  name: 'traceView/stores/traceList/isLoading',
   initialValue: false
 });
 export const isLoading$ = isLoadingStore.observable;

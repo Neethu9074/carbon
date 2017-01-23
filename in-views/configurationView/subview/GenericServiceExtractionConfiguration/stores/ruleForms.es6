@@ -21,7 +21,7 @@ let ruleType;
 const logger = createLogger('httpExtraction/ruleForms');
 
 const ruleFormsStore = createStore({
-  name: 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms',
+  name: 'configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms',
   initialValue: null
 });
 export const ruleForms$ = ruleFormsStore.observable;

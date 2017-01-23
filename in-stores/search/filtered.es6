@@ -1,5 +1,5 @@
 import {createTrackingStore} from 'in-stores/store';
-import {rawQuery$} from 'in-stores/search/search';
+import {rawQuery$} from 'in-stores/search/rawQuery';
 
 export const filtered$ = createTrackingStore({
   name: 'search/filtered',

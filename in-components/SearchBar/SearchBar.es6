@@ -6,7 +6,8 @@ import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import SearchMenu from 'in-components/SearchBar/components/SearchMenu';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {evaluateClassNames} from 'in-services/util/classnames';
-import {rawQuery$, setInputString} from 'in-stores/search';
+import {setInputString} from 'in-stores/search/rawQuery';
+import {rawQuery$} from 'in-stores/search/rawQuery';
 import {expanded$} from 'in-stores/search/expanded';
 import keyCodes from 'in-components/keyCodes';
 import {

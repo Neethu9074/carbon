@@ -6,8 +6,8 @@ import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import {setValues} from 'in-components/SearchBar/stores/dialog';
+import {rawQuery$} from 'in-stores/search/rawQuery';
 import SvgIcon from 'in-components/SvgIcon';
-import {rawQuery$} from 'in-stores/search';
 import connectTo from 'in-hoc/connectTo';
 
 import './FilterPresets.less';
