@@ -186,6 +186,20 @@ export function getFixedTimeframeUrl(windowSize, to, focusedMoment) {
     .distinct();
 }
 
+export function getTimelineLiveUrl() {
+  return navigationParameters$
+    .map(cloneDeep)
+    .map(navParams => {
+      delete navParams.query.fm;
+      navParams.query['timeline.to'] = encodeURIComponent('');
+      navParams.query['timeline.fm'] = encodeURIComponent('');
+
+      return navParams;
+    })
+    .map(toUrl)
+    .distinct();
+}
+
 export const closeDashboardLink$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
