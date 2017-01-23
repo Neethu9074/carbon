@@ -7,7 +7,7 @@ registerSpanDefinition({
   direction: 'exit',
 
   typeName: {
-    singular: 'ActiveRecord Call',
+    singular: 'ActiveRecord',
     plural: 'ActiveRecord Calls'
   },
 

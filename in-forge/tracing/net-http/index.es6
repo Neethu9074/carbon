@@ -7,8 +7,8 @@ registerSpanDefinition({
   direction: 'exit',
 
   typeName: {
-    singular: 'HTTP Call',
-    plural: 'HTTP Calls'
+    singular: 'Net::HTTP Request',
+    plural: 'Net::HTTP Requests'
   },
 
   detailView: 'NetHttpSpanDetailView',

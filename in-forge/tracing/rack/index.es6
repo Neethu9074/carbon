@@ -8,8 +8,8 @@ registerSpanDefinition({
   searchAliases: ['ruby', 'rack', 'http'],
 
   typeName: {
-    singular: 'HTTP Call',
-    plural: 'HTTP Calls'
+    singular: 'Rack',
+    plural: 'Rack Calls'
   },
 
   detailView: 'RackSpanDetailView',
