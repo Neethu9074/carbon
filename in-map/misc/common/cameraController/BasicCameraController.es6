@@ -191,7 +191,7 @@ export default class BasicCameraController extends Subscriber {
   }
 
   getScreenPosition(position) {
-    position.applyProjection(this.camera.getRenderableCamera().projection);
+    position.applyMatrix4(this.camera.getRenderableCamera().projection);
   }
 
   // default zoom implementation
