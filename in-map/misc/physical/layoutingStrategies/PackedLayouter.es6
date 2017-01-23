@@ -1,3 +1,4 @@
+import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
 import Packer from 'in-map/misc/physical/Packer';
 
 
@@ -38,7 +39,18 @@ function calculateDimensions(_groups) {
     dimensions[group.id] = dim;
   });
 
-  var blocks = [];
+  const blocks = [];
+
+  // filter unmonitored zone and handle it separately
+  let unmonitoredZone = null;
+  _groups = _groups.filter(group => {
+    if (group.id === ID_OF_UNMONITORED_ZONE) {
+      unmonitoredZone = group;
+      return false;
+    }
+    return true;
+  });
+
   _groups.forEach(group => {
     const dim = dimensions[group.id];
     const block = {
@@ -65,11 +77,15 @@ function calculateDimensions(_groups) {
   });
 
   // final width and height of all layouted groups
-  _groups.forEach(group => {
-    const dimension = dimensions[group.id];
-    dimensions.width = Math.max(dimensions.width, dimension.x + dimension.width);
-    dimensions.height = Math.max(dimensions.height, dimension.height);
-  });
+  setDimensionsFromCurrentLayout(dimensions, _groups);
+
+  // doerte sort -> unmonitored zone is the last one
+  if (unmonitoredZone) {
+    dimensions[ID_OF_UNMONITORED_ZONE].x = dimensions.width + groupMarginWidth;
+    dimensions[ID_OF_UNMONITORED_ZONE].y = 0;
+    _groups.push(unmonitoredZone);
+    setDimensionsFromCurrentLayout(dimensions, _groups);
+  }
 
   return dimensions;
 }
@@ -107,4 +123,13 @@ function setNodesPositions(_nodes, groupDimension, xOffset, yOffset) {
 function sortNodes(_nodes) {
   _nodes.sort((a, b) => a._cachedLabel.localeCompare(b._cachedLabel));
   return _nodes;
+}
+
+
+function setDimensionsFromCurrentLayout(dimensions, _groups) {
+  _groups.forEach(group => {
+    const dimension = dimensions[group.id];
+    dimensions.width = Math.max(dimensions.width, dimension.x + dimension.width);
+    dimensions.height = Math.max(dimensions.height, dimension.height);
+  });
 }
