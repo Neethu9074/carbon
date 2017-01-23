@@ -5,7 +5,7 @@ import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
 import {clearMetrics} from 'in-views/tableView/stores/metrics';
 import {setColumn} from 'in-views/tableView/stores/sorting';
 import {parsedQuery$} from 'in-stores/search/parsedQuery';
-import {setTypeFilter} from 'in-stores/search/type';
+import {setTypeFilter} from 'in-stores/search/keywords/type';
 import {focusedMoment$} from 'in-stores/timeline';
 
 export const selectedType$ = parsedQuery$

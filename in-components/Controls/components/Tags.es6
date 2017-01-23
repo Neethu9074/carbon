@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Control from 'in-components/Controls/components/Control';
-import {filteredTags$} from 'in-stores/search/tags';
+import {filteredTags$} from 'in-stores/search/keywords/tags';
 import TagListAll from 'in-components/TagListAll';
 import TagFilter from 'in-components/TagFilter';
 import connectTo from 'in-hoc/connectTo';

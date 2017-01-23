@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {tagsFilter$} from 'in-components/TagFilter/stores/rightSidebarFilterStore';
-import {filterableTags$} from 'in-stores/search/tags';
-import {filteredTags$} from 'in-stores/search/tags';
+import {filterableTags$} from 'in-stores/search/keywords/tags';
+import {filteredTags$} from 'in-stores/search/keywords/tags';
 import connectTo from 'in-hoc/connectTo';
 import Tag from 'in-components/Tag';
 

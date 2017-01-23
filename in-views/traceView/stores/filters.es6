@@ -1,8 +1,8 @@
-export {setTypeFilter, removeTypeFilter} from 'in-stores/search/type';
+export {setTypeFilter, removeTypeFilter} from 'in-stores/search/keywords/type';
 import {createTrackingStore} from 'in-stores/store';
 import {rawQuery$} from 'in-stores/search/rawQuery';
 
-import {containsTypeFilter} from 'in-stores/search/type';
+import {containsTypeFilter} from 'in-stores/search/keywords/type';
 
 export const typeFilter$ = createTrackingStore({
   name: 'traceView/stores/filters/eventFilterStore',
