@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+curl -X POST 'https://ci-internal.instana.io/buildByToken/buildWithParameters?job=build%20ui-client&token=AbZX2SK25Du8nD8zukq8tt4qdd2w9qSqtY4q' \
+  -d 'INSTANA_UICLIENT_BRANCH=master' \
+  -d 'SAAS_TARGET=us-east-1_d_staging_instana_staging' \
+  -d 'INSTANA_ENVIRONMENT=staging' \
+  -d 'INSTANA_TENANT=instana' \
+  -d 'INSTANA_TENANT_UNIT=staging' \
+  -d 'INSTANA_REGION=us-east-1' \
+  -v
