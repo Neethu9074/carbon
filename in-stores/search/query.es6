@@ -1,25 +1,46 @@
+import {parse} from 'lucene';
+
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import {createStore} from 'in-stores/store';
 
-const rawQueryStore = createStore({
-  name: 'search/rawQuery',
+const unvalidatedQueryStore = createStore({
+  name: 'search/unvalidatedQuery',
   value: ''
 });
-export const query$ = rawQueryStore.observable.distinct();
+export const unvalidatedQuery$ = unvalidatedQueryStore.observable.distinct();
+
+const queryStore = createStore({
+  name: 'search/validatedQuery',
+  initialValue: ''
+});
+export const query$ = queryStore.observable.distinct();
 export const debouncedQuery$ = query$.debounce(200);
+
+const parsedQueryStore = createStore({
+  name: 'search/parsedQuery',
+  initialValue: null
+});
+export const parsedQuery$ = parsedQueryStore.observable;
+
+const errorStore = createStore({
+  name: 'search/queryTranslationError',
+  initialValue: null
+});
+export const error$ = errorStore.observable;
 
 
 navigationParameters$
   .subscribe(params => {
     const query = params.query;
     if ('q' in query) {
-      rawQueryStore.mutateTo(decodeURIComponent(query.q));
+      unvalidatedQueryStore.mutateTo(decodeURIComponent(query.q));
     } else {
-      rawQueryStore.mutateTo('');
+      unvalidatedQueryStore.mutateTo('');
     }
   });
 
-query$
+
+unvalidatedQuery$
   .skipFirst()
   .debounce(500)
   .subscribe(query => {
@@ -30,8 +51,21 @@ query$
   });
 
 
+unvalidatedQuery$
+  .subscribe(unvalidatedQuery => {
+    try {
+      const parsedQuery = parse(unvalidatedQuery);
+      errorStore.mutateTo(null);
+      queryStore.mutateTo(unvalidatedQuery);
+      parsedQueryStore.mutateTo(parsedQuery);
+    } catch (e) {
+      errorStore.mutateTo(e.message);
+    }
+  });
+
+
 export function setInputString(newString) {
-  rawQueryStore.mutateTo(newString);
+  unvalidatedQueryStore.mutateTo(newString);
 }
 
 

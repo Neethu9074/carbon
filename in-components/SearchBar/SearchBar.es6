@@ -6,9 +6,9 @@ import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import SearchMenu from 'in-components/SearchBar/components/SearchMenu';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {evaluateClassNames} from 'in-services/util/classnames';
-import {setInputString} from 'in-stores/search/query';
-import {query$} from 'in-stores/search/query';
 import {expanded$} from 'in-stores/search/searchBarExpanded';
+import {unvalidatedQuery$} from 'in-stores/search/query';
+import {setInputString} from 'in-stores/search/query';
 import keyCodes from 'in-components/keyCodes';
 import {
   highlightNextSuggestion,
@@ -26,11 +26,11 @@ const block = 'in-searchbar';
 export const idOfSearchField = 'search';
 
 export default connectTo({
-  rawQuery: query$,
+  unvalidatedQuery: unvalidatedQuery$,
   expanded: expanded$,
   menuVisible: menuVisible$
 },
-function SearchBar({rawQuery, expanded, menuVisible}) {
+function SearchBar({unvalidatedQuery, expanded, menuVisible}) {
   if (!expanded) {
     return null;
   }
@@ -48,7 +48,7 @@ function SearchBar({rawQuery, expanded, menuVisible}) {
                    className={`${block}__icon ${block}__search_icon`} />
 
           <input type='search'
-                 value={rawQuery}
+                 value={unvalidatedQuery}
                  className={`${block}__input`}
                  placeholder='Search…'
                  onChange={onChange}

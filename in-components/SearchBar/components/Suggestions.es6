@@ -4,8 +4,8 @@ import {highligtedSuggestion$} from 'in-components/SearchBar/stores/highlightedS
 import {isFocused$, setFocused} from 'in-components/SearchBar/stores/focus';
 import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
 import {searchMatches$} from 'in-stores/search/searchMatches';
-import {error$} from 'in-stores/search/parsedQuery';
 import PluginIcon from 'in-components/PluginIcon';
+import {error$} from 'in-stores/search/query';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 

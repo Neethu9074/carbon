@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {error$} from 'in-stores/search/parsedQuery';
+import {error$} from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 
 import './ErrorIndicator.less';
