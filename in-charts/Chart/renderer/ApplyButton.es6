@@ -44,15 +44,23 @@ function ApplyButton({href}) {
   }
 
   return (
-    <Button className={block}
-            kind='secondary'
-            href={href}
-            onClick={onButtonClicked}>
-      <SvgIcon type='search'
-               width={12}
-               height={12}
-               color='#172429' />
-    </Button>
+    <div className={block}>
+      <Button className={`${block}__button`}
+              kind='secondary'
+              href={href}
+              onClick={onButtonClicked}>
+        <SvgIcon type='search'
+                 width={12}
+                 color='#172429' />
+      </Button>
+      <Button className={`${block}__button`}
+              kind='secondary'
+              onClick={onButtonClicked}>
+        <SvgIcon type='x'
+                 width={10}
+                 color='#172429' />
+      </Button>
+    </div>
   );
 });
 
