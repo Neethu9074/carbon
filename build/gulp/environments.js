@@ -2,28 +2,28 @@
 
 module.exports = {
   test: {
-    uiBackendUrl: 'https://test-instana.instana.io/api/data/',
+    uiBackendUrl: 'https://test-instana.instana.io',
     groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'test',
     butlerDomain: 'internal-groundskeeper-instana.instana.io'
   },
   next: {
-    uiBackendUrl: 'https://next-instana.instana.io/api/data/',
+    uiBackendUrl: 'https://next-instana.instana.io',
     groundskeeperUrl: 'https://next-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'next',
     butlerDomain: 'next-groundskeeper-instana.instana.io'
   },
   processview: {
-    uiBackendUrl: 'https://processview-instana.instana.io/api/data/',
+    uiBackendUrl: 'https://processview-instana.instana.io',
     groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'processview',
     butlerDomain: 'internal-groundskeeper-instana.instana.io'
   },
   nightly: {
-    uiBackendUrl: 'https://nightly-instana.instana.io/api/data/',
+    uiBackendUrl: 'https://nightly-instana.instana.io',
     groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'nightly',
@@ -38,77 +38,77 @@ module.exports = {
     butlerDomain: 'internal-groundskeeper-instana.instana.io'
   },
   staging: {
-    uiBackendUrl: 'https://staging-instana.instana.io/api/data/',
+    uiBackendUrl: 'https://staging-instana.instana.io',
     groundskeeperUrl: 'https://staging-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'staging',
     butlerDomain: 'staging-groundskeeper-instana.instana.io'
   },
   current: {
-    uiBackendUrl: 'https://current-instana.instana.io/api/data/',
+    uiBackendUrl: 'https://current-instana.instana.io',
     groundskeeperUrl: 'https://current-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'current',
     butlerDomain: 'current-groundskeeper-instana.instana.io'
   },
   drivenow: {
-    uiBackendUrl: 'https://drivenow.instana.io/api/data/',
+    uiBackendUrl: 'https://drivenow.instana.io',
     groundskeeperUrl: 'https://drivenow.instana.io',
     tenant: 'drivenow',
     tenantUnit: 'drivenow',
     butlerDomain: 'instana.io'
   },
   kddi: {
-    uiBackendUrl: 'https://kddi.instana.io/api/data/',
+    uiBackendUrl: 'https://kddi.instana.io',
     groundskeeperUrl: 'https://kddi.instana.io',
     tenant: 'kddi',
     tenantUnit: 'kddi',
     butlerDomain: 'instana.io'
   },
   megazebra: {
-    uiBackendUrl: 'https://megazebra.instana.io/api/data/',
+    uiBackendUrl: 'https://megazebra.instana.io',
     groundskeeperUrl: 'https://megazebra.instana.io',
     tenant: 'megazebra',
     tenantUnit: 'megazebra',
     butlerDomain: 'instana.io'
   },
   partner: {
-    uiBackendUrl: 'https://partner-partner.instana.io/api/data/',
+    uiBackendUrl: 'https://partner-partner.instana.io',
     groundskeeperUrl: 'https://partner-partner.instana.io',
     tenant: 'partner',
     tenantUnit: 'partner',
     butlerDomain: 'instana.io'
   },
   douglas: {
-    uiBackendUrl: 'https://douglas.instana.io/api/data/',
+    uiBackendUrl: 'https://douglas.instana.io',
     groundskeeperUrl: 'https://douglas.instana.io',
     tenant: 'douglas',
     tenantUnit: 'douglas',
     butlerDomain: 'instana.io'
   },
   aetion: {
-    uiBackendUrl: 'https://aetion.instana.io/api/data/',
+    uiBackendUrl: 'https://aetion.instana.io',
     groundskeeperUrl: 'https://aetion.instana.io',
     tenant: 'aetion',
     tenantUnit: 'aetion',
     butlerDomain: 'instana.io'
   },
   hellmann: {
-    uiBackendUrl: 'https://hellmann.instana.io/api/data/',
+    uiBackendUrl: 'https://hellmann.instana.io',
     groundskeeperUrl: 'https://hellmann.instana.io',
     tenant: 'hellmann',
     tenantUnit: 'hellmann',
     butlerDomain: 'instana.io'
   },
   sigil66: {
-    uiBackendUrl: 'https://sigil66.instana.io/api/data/',
+    uiBackendUrl: 'https://sigil66.instana.io',
     groundskeeperUrl: 'https://sigil66.instana.io',
     tenant: 'sigil66',
     tenantUnit: 'sigil66',
     butlerDomain: 'instana.io'
   },
   timocom: {
-    uiBackendUrl: 'https://timocom.instana.io/api/data/',
+    uiBackendUrl: 'https://timocom.instana.io',
     groundskeeperUrl: 'https://timocom.instana.io',
     tenant: 'timocom',
     tenantUnit: 'timocom',
