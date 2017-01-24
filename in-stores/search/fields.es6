@@ -11,7 +11,7 @@ function buildCategorizedFields() {
   };
 
   fields.forEach(field => {
-    let path = field.categories;
+    let path = field.category;
     if (field.context) {
       path = [field.context].concat(path);
     }
