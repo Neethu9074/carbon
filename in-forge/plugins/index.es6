@@ -97,6 +97,7 @@ import './unknownService';
 import './unmonitoredHost';
 import './varnish';
 import './webAppServiceInstance';
+import './webLogicApplicationContainer';
 import './webSphereApplicationContainer';
 import './webSphereLibertyApplicationContainer';
 import './zooKeeper';

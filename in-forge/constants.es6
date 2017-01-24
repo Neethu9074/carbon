@@ -97,6 +97,7 @@ export const plugins = {
   unmonitoredHost: 'unmonitoredHost',
   varnish: 'varnish',
   webAppServiceInstance: 'webAppServiceInstance',
+  webLogic: 'webLogicApplicationContainer',
   webSphere: 'webSphereApplicationContainer',
   webSphereLiberty: 'webSphereLibertyApplicationContainer',
   zookeeper: 'zooKeeper'
@@ -199,6 +200,7 @@ export const fullyQualifiedPlugins = {
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
   webAppServiceInstance: 'com.instana.forge.connection.http.logical.WebAppServiceInstance',
+  webLogicApplicationContainer: 'com.instana.forge.infrastructure.application.weblogic.WebLogicApplicationContainer',
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
   webSphereLibertyApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
