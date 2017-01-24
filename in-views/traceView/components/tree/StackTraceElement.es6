@@ -4,8 +4,8 @@ import subscribeToPhysicalEndpointImplementation from 'in-services/subscription/
 import ShowCodeButton from 'in-views/traceView/components/tree/ShowCodeButton';
 import {alwaysNull, alwaysFalse} from 'in-services/fixedStreams';
 import {getSnapshot, isEntityOnline} from 'in-stores/snapshot';
-import {getDirection} from 'in-sdk/tracing';
 import SvgIcon from 'in-components/SvgIcon';
+import {SPAN_KINDS} from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
 
 import './StackTraceElement.less';
@@ -13,8 +13,7 @@ import './StackTraceElement.less';
 const block = 'in-trace-view-stack-trace';
 
 export default connectTo(props => {
-  const direction = getDirection(props.parentSpan);
-  const side = direction === 'entry' ? 'destinationPhysicalEndpoint' : 'sourcePhysicalEndpoint';
+  const side = props.parentSpan.get('kind') === SPAN_KINDS.ENTRY ? 'destinationPhysicalEndpoint' : 'sourcePhysicalEndpoint';
   const physicalEndpoint = props.parentSpan.getIn(['rels', side]);
   let snapshot$ = alwaysNull;
   if (physicalEndpoint) {

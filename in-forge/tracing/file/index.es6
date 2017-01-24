@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'file',
   category: 'io',
-  direction: 'exit',
 
   typeName: {
     singular: 'File access',

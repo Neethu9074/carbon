@@ -30,6 +30,12 @@ const categoryIcons = {
   xray: xrayIcon
 };
 
+export const SPAN_KINDS = {
+  INTERMEDIATE: 'intermediate',
+  ENTRY: 'entry',
+  EXIT: 'exit',
+};
+
 export function getType(span) {
   return getSpanDefinition(span.get('name'), span).type || 'unknown';
 }
@@ -40,17 +46,6 @@ export function getLabel(span) {
 
 export function getCategory(span) {
   return getSpanDefinition(span.get('name'), span).category || 'generic';
-}
-
-export function getDirection(span) {
-  const direction = getSpanDefinition(span.get('name'), span).direction;
-  if (!direction) {
-    return 'entryAndExit';
-  } else if (typeof direction === 'string') {
-    return direction;
-  }
-
-  return direction(span) || 'entryAndExit';
 }
 
 export function getServiceSideForOverview(span) {
@@ -65,8 +60,8 @@ export function getServiceSideForOverview(span) {
     return serviceSideForOverview;
   }
 
-  const direction = getDirection(span);
-  if (direction === 'entry') {
+  const kind = span.get('kind');
+  if (kind === SPAN_KINDS.ENTRY) {
     return 'destination';
   }
   return 'source';

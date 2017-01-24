@@ -1,4 +1,5 @@
-import {getCategory, getDirection} from 'in-sdk/tracing';
+import {getCategory, SPAN_KINDS} from 'in-sdk/tracing';
+
 
 export function getSelfTime(span) {
   let selfTime = span.get('duration');
@@ -12,8 +13,8 @@ export function getSelfTime(span) {
 
 
 export function getDepth(span, currentDepth = 1) {
-  const direction = getDirection(span);
-  if (direction === 'exit' || direction === 'entryAndExit') {
+  const kind = span.get('kind');
+  if (kind === SPAN_KINDS.EXIT || kind === SPAN_KINDS.INTERMEDIATE) {
     currentDepth++;
   }
 
@@ -38,8 +39,8 @@ export function getErrorCount(span) {
 }
 
 export function getCalls(span, count = 1) {
-  const direction = getDirection(span);
-  if (direction === 'exit' || direction === 'entryAndExit') {
+  const kind = span.get('kind');
+  if (kind === SPAN_KINDS.EXIT || kind === SPAN_KINDS.INTERMEDIATE) {
     const batchSize = span.get('batchSize');
     count += (batchSize === 0 ? 1 : batchSize);
   }

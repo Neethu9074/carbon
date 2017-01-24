@@ -4,7 +4,6 @@ import {shortenSqlStatement} from 'in-forge/tracing/jdbc/sql';
 registerSpanDefinition({
   type: 'ibmdb2',
   category: 'database',
-  direction: 'exit',
 
   typeName: {
     singular: 'IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Call',

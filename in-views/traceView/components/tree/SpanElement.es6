@@ -5,7 +5,7 @@ import {
   getTypeLabelSingular,
   getTypeLabelPlural,
   shouldShowSelfTime,
-  getDirection,
+  SPAN_KINDS,
   getCategory,
   getLabel
 } from 'in-sdk/tracing';
@@ -61,7 +61,7 @@ export default connectTo(props => {
     const batchSize = span.get('batchSize');
     const totalTime = span.get('duration');
     const category = getCategory(span);
-    const direction = getDirection(span);
+    const kind = span.get('kind');
     const categoryColor = spanCategoryColors[category];
     const categoryColorRgb = hexToRGB(categoryColor);
     const backgroundInCategoryColorStyle = {background: categoryColor};
@@ -126,7 +126,7 @@ export default connectTo(props => {
                  onClick={this.toggleDetails}>
               <CategoryIcon category={category}
                             className={`${block}__category-icon`} />
-              {direction !== 'exit' && shouldShowSelfTime(span) ?
+              {kind !== SPAN_KINDS.EXIT && shouldShowSelfTime(span) ?
                 [
                   <div key='0'>
                     <span className={`${block}__self-time-label`}>Self: </span>
@@ -152,7 +152,7 @@ export default connectTo(props => {
                 </div>
 
                 <div className={`${block}__entity-description`}>
-                  {getDirection(span) === 'entry' ?
+                  {span.get('kind') === SPAN_KINDS.ENTRY ?
                     <span>
                       <ServiceImplementationEntityInformation span={span}
                                                               label='From:'

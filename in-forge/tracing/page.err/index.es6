@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'page.err',
   category: 'eum',
-  direction: 'entryAndExit',
   serviceSideForOverview: 'source',
   searchAliases: ['page', 'eum', 'error', 'eumError'],
   showSelfTime: false,

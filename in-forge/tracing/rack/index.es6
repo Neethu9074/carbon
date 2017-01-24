@@ -4,7 +4,6 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'rack',
   category: 'http',
-  direction: 'entry',
   searchAliases: ['ruby', 'rack', 'http'],
 
   typeName: {

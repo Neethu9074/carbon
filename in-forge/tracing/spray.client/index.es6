@@ -4,7 +4,6 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'spray.client',
   category: 'http',
-  direction: 'exit',
 
   typeName: {
     singular: 'HTTP Call',

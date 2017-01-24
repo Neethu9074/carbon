@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'session',
   category: 'database',
-  direction: 'exit',
 
   typeName: {
     singular: 'Session Call',

@@ -1,9 +1,13 @@
+import {SPAN_KINDS} from 'in-sdk/tracing';
+
+
 export default {
   'traceId': '1',
   'start': 10,
   'spanId': '1',
   'async': false,
   'name': 'spring-web',
+  'kind': SPAN_KINDS.ENTRY,
   'stackTrace': [
     {
       c: 'Thread',
@@ -17,6 +21,7 @@ export default {
       'spanId': '2',
       'async': false,
       'name': 'hc',
+      'kind': SPAN_KINDS.EXIT,
       'stackTrace': [
         {
           c: 'ClassC',
@@ -43,6 +48,7 @@ export default {
       'spanId': '3',
       'async': false,
       'name': 'hc',
+      'kind': SPAN_KINDS.EXIT,
       'stackTrace': [
         {
           c: 'ClassD',
@@ -65,6 +71,7 @@ export default {
       'spanId': '4',
       'async': false,
       'name': 'hc',
+      'kind': SPAN_KINDS.EXIT,
       'stackTrace': [
         {
           c: 'ClassE',

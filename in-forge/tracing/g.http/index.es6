@@ -4,7 +4,6 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'g.http',
   category: 'http',
-  direction: 'entry',
   searchAliases: ['go', 'golang', 'http'],
 
   typeName: {

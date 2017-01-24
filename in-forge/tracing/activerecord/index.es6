@@ -4,7 +4,6 @@ import {shortenSqlStatement} from 'in-forge/tracing/jdbc/sql';
 registerSpanDefinition({
   type: 'activerecord',
   category: 'database',
-  direction: 'exit',
 
   typeName: {
     singular: 'ActiveRecord',

@@ -1,4 +1,5 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
+import {SPAN_KINDS, registerSpanDefinition} from 'in-sdk/tracing';
+
 
 registerSpanDefinition({
   type: 'hornetq',
@@ -6,9 +7,9 @@ registerSpanDefinition({
   direction(span) {
     const type = span.getIn(['data', 'hornetq', 'type']);
     if (!type) {
-      return 'entryAndExit';
+      return SPAN_KINDS.INTERMEDIATE;
     }
-    return type.toLowerCase() === 'send' ? 'exit' : 'entry';
+    return type.toLowerCase() === 'send' ? SPAN_KINDS.EXIT : SPAN_KINDS.ENTRY;
   },
 
   typeName: {

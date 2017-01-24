@@ -1,3 +1,6 @@
+import {SPAN_KINDS} from 'in-sdk/tracing';
+
+
 export default {
   'traceId': '1',
   'start': 1468562943766,
@@ -7,6 +10,7 @@ export default {
   'duration': 108,
   'async': false,
   'name': 'spring-web',
+  'kind': SPAN_KINDS.ENTRY,
   'stackTrace': [
     {
       c: 'ShoppingResource',
@@ -27,6 +31,7 @@ export default {
       'name': 'jdbc',
       'duration': 20,
       'async': false,
+      'kind': SPAN_KINDS.EXIT,
       'stackTrace': [
         {
           c: 'ShoppingDao',
@@ -53,6 +58,7 @@ export default {
       'name': 'jdbc',
       'duration': 20,
       'async': false,
+      'kind': SPAN_KINDS.EXIT,
       'stackTrace': [
         {
           c: 'ShoppingDao',

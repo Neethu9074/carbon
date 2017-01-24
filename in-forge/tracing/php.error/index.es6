@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'php.error',
   category: 'logger',
-  direction: 'exit',
 
   typeName: {
     singular: 'PHP Error',

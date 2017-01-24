@@ -1,3 +1,6 @@
+import {SPAN_KINDS} from 'in-sdk/tracing';
+
+
 export default {
   'traceId': '2097887366255533505',
   'start': 1468562943766,
@@ -8,6 +11,7 @@ export default {
   'async': false,
   'name': 'url',
   'stackTrace': [],
+  'kind': SPAN_KINDS.EXIT,
   'childSpans': [
     {
       'start': 1468562943771,
@@ -17,6 +21,7 @@ export default {
       'name': 'rabbitMq',
       'duration': 20,
       'async': false,
+      'kind': SPAN_KINDS.EXIT,
       'stackTrace': [
         {
           c: 'ShoppingResource',
