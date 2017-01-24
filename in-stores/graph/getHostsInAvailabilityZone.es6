@@ -1,25 +1,15 @@
-import {combineLatest} from 'reactive-observables';
+import {physicalViewStructure$} from 'in-stores/view';
 
-import {getRunningComponents} from 'in-stores/snapshot';
-import {getClusterMembers} from 'in-stores/clusterMembers';
+
+const mappedView$ = physicalViewStructure$.map(physicalView => {
+  const groups = {};
+  physicalView.get('children').forEach(group => {
+    groups[group.get('id')] = group.get('children').map(host => host.get('id'));
+  });
+  return groups;
+});
+
 
 export default function getHostsInAvailabilityZone(zoneSnapshotId) {
-  return getClusterMembers(zoneSnapshotId)
-    .flatMap(hardwareSnapshotIds => {
-      const hostSnapshotIdObservables$ = hardwareSnapshotIds
-        .toArray()
-        .map(hardwareSnapshotId => {
-          return getRunningComponents(hardwareSnapshotId)
-            .map(runningComponentIds => {
-              if (runningComponentIds.size > 0) {
-                return runningComponentIds.first();
-              }
-              return null;
-            })
-            .startWith(null);
-        });
-
-      return combineLatest(hostSnapshotIdObservables$)
-        .map(hosts => hosts.filter(host => !!host));
-    });
+  return mappedView$.map(groupsMap => groupsMap[zoneSnapshotId]);
 }
