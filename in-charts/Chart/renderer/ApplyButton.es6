@@ -35,7 +35,12 @@ export default connectTo({
       to = timelineTo;
     }
 
-    return getFixedTimeframeUrl(windowSize, to, focusedMoment);
+    return getFixedTimeframeUrl({
+      windowSize,
+      to,
+      focusedMoment,
+      clearHighlightedTimeframe: true
+    });
   })
 },
 function ApplyButton({href}) {

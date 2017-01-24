@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {getTimelineLiveUrl} from 'in-stores/navigation/navigation';
-import {live$, setFocusedMoment} from 'in-stores/timeline';
+import {getTimelineLiveUrl, getFixedTimeframeUrl} from 'in-stores/navigation/navigation';
 import {to$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
+import {live$} from 'in-stores/timeline';
 
 import './TimelineLiveButton.less';
 
@@ -11,25 +11,20 @@ import './TimelineLiveButton.less';
 const block = 'in-timeline-live-button';
 
 export default connectTo({
-    isLive: live$,
-    to: to$,
-    href: getTimelineLiveUrl()
-  },
-function TimelineLiveButton({isLive, to, href}) {
+  isLive: live$,
+  liveHref: getTimelineLiveUrl(),
+  fixedHref: to$.flatMap(to => getFixedTimeframeUrl({
+    to,
+    focusedMoment: to
+  }))
+},
+function TimelineLiveButton({isLive, liveHref, fixedHref}) {
   const className = block + (isLive ? ' ' + block + '__active' : '');
-  if (isLive) {
-    return (
-      <div className={className}
-           onClick={() => setFocusedMoment(to)}>
-        live
-      </div>
-    );
-  }
 
   return (
     <div className={className}>
       <a className={`${block}__link`}
-         href={href}
+         href={isLive ? fixedHref : liveHref}
          onClick={e => e.stopPropagation()}>
         live
       </a>

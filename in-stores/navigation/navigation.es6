@@ -168,17 +168,26 @@ export function closeDashboard() {
   });
 }
 
-export function getFixedTimeframeUrl(windowSize, to, focusedMoment) {
+export function getFixedTimeframeUrl({windowSize, to, focusedMoment, clearHighlightedTimeframe = false}) {
   return navigationParameters$
     .map(cloneDeep)
     .map(navParams => {
       if (!focusedMoment) {
         delete navParams.query.fm;
+        navParams.query['timeline.fm'] = encodeURIComponent('');
+      } else {
+        navParams.query['timeline.fm'] = encodeURIComponent(focusedMoment);
       }
 
       navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
-      navParams.query['timeline.ws'] = encodeURIComponent(windowSize);
-      delete navParams.query['tl.tf'];
+
+      if (windowSize) {
+        navParams.query['timeline.ws'] = encodeURIComponent(windowSize);
+      }
+
+      if (clearHighlightedTimeframe) {
+        delete navParams.query['tl.tf'];
+      }
 
       return navParams;
     })
