@@ -1,8 +1,7 @@
-import {find, keyBy} from 'lodash';
+import {find} from 'lodash';
 
 export const fields = window.instana.searchFields;
-export const fieldsByKeyword = keyBy(fields, field => field.keyword);
-export const categorizedFields = buildCategorizedFields(fields);
+export const fieldsCategorized = buildCategorizedFields(fields);
 
 function buildCategorizedFields() {
   const tree = {
@@ -10,7 +9,15 @@ function buildCategorizedFields() {
     children: [],
     fields: []
   };
-  fields.forEach(field => insertField(tree, field, field.categories, 0));
+
+  fields.forEach(field => {
+    let path = field.categories;
+    if (field.context) {
+      path = [field.context].concat(path);
+    }
+    insertField(tree, field, path, 0);
+  });
+
   sortTree(tree);
   return tree;
 }
