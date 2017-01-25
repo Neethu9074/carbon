@@ -16,11 +16,10 @@
 
   font-size: .813rem;
 
-  &__list {
-    list-style: none;
-  }
-
   &__expand {
+    display: flex;
+    align-items: center;
+
     &:hover {
       .in-search-available-keywords__expand-icon {
         fill: #fff;
@@ -31,5 +30,23 @@
   &__expand-icon {
     fill: #8c969a;
     min-width: 1rem;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0 0 0 .813rem;
+    margin: 0;
+
+    &--root {
+      padding-left: .625rem;
+    }
+  }
+
+  &__list-item {
+    margin: 2px 0;
+  }
+
+  &__field {
+    padding: 0 0 0 1rem;
   }
 }

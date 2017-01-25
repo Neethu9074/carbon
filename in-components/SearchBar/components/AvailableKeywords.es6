@@ -2,12 +2,14 @@ import React from 'react';
 
 import MenuHeading from 'in-components/SearchBar/components/MenuHeading';
 import {fieldsCategorized} from 'in-stores/search/fields';
+import {mutateQuery} from 'in-stores/search/query';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './AvailableKeywords.less';
 
 const block = 'in-search-available-keywords';
 const listClassName = `${block}__list`;
+const listItemClassName = `${block}__list-item`;
 
 const Node = React.createClass({
   getInitialState() {
@@ -21,13 +23,13 @@ const Node = React.createClass({
     const fields = this.props.node.fields;
 
     return (
-      <li>
+      <li className={listItemClassName}>
         <a href=''
            onClick={this.toggle}
            className={`${block}__expand`}>
 
           <SvgIcon type={this.state.expanded ? 'triangle_down' : 'triangle_right'}
-                   width={this.state.expanded ? 9.8 : 7}
+                   width={this.state.expanded ? 7 : 5}
                    className={`${block}__expand-icon`} />
           {this.props.node.name}
         </a>
@@ -67,7 +69,7 @@ export default function AvailableKeywords() {
         Available Search Keywords
       </MenuHeading>
 
-      <ul className={listClassName}>
+      <ul className={`${listClassName} ${listClassName}--root`}>
         {fieldsCategorized.children.map(node =>
           <Node node={node}
                 key={node.name} />
@@ -80,6 +82,17 @@ export default function AvailableKeywords() {
 
 function Field({field}) {
   return (
-    <li>{field.keyword}</li>
+    <li className={`${block}__field ${listItemClassName}`}>
+      <a href=''
+         onClick={e => onSelectField(e, field)}>
+        {field.alias}
+      </a>
+    </li>
   );
+}
+
+
+function onSelectField(e, field) {
+  e.preventDefault();
+  mutateQuery(q => `${q} ${field.alias}:"${field.alias}"`.trim());
 }
