@@ -4,6 +4,7 @@ import * as focusedMomentStore from 'in-components/timeline/components/DatePicke
 import {INPUTS, clearFocusedInput} from 'in-components/timeline/components/DatePicker/stores/focusedDateInput';
 import * as fromStore from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import * as toStore from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
+import {live$} from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import TextInput from 'in-components/timeline/components/DatePicker/v2/TextInput';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,7 +13,26 @@ import './InputFields.less';
 
 const block = 'in-timeline-date-time-picker-input-fields';
 
-export default function InputFields() {
+export default connectTo({
+  live: live$
+},
+function InputFields({live}) {
+  return (
+    live
+      ? <LiveInputFields />
+      : <FixedTimestampInputFields />
+  );
+});
+
+function LiveInputFields() {
+  return (
+    <div className={block}>
+      WINDOWSIZE
+    </div>
+  );
+}
+
+function FixedTimestampInputFields() {
   return (
     <div className={block}>
       <DateTimeBlock heading='From'

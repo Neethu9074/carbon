@@ -1,5 +1,6 @@
-import {getValidation$} from 'in-components/timeline/components/DatePicker/stores/storeUtils';
+import {setTimestamp, getValidation$} from 'in-components/timeline/components/DatePicker/stores/storeUtils';
 import {createStore} from 'in-stores/store';
+import {from$} from 'in-stores/timeline';
 
 
 const dateString = createStore({
@@ -27,4 +28,6 @@ export function setTimeString(newTime) {
 export const isDateTimeValid$ = getValidation$(dateString$, timeString$);
 
 
-export function reset() {}
+export function reset() {
+  from$.once(_from => setTimestamp(_from, setDateString, setTimeString));
+}

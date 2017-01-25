@@ -1,18 +1,28 @@
 import React from 'react';
 
+import {live$, setLive} from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
+import Toggle from 'in-components/form/Toggle';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
 
 import './ButtonPanel.less';
 
 
 const block = 'in-timeline-date-time-picker-button-panel';
 
-export default function ButtonPanel() {
+export default connectTo({
+  live: live$
+},
+function ButtonPanel({live}) {
   return (
     <div className={block}>
-      <div>
-        Reset
+      <div className={`${block}__live-button`}>
+        Live
+        <Toggle className={`${block}__checkbox`}
+                id='toggle_datepicker_live'
+                checked={live}
+                onChange={e => setLive(e.target.checked)} />
       </div>
       <div className={block}>
         Apply
@@ -24,4 +34,4 @@ export default function ButtonPanel() {
       </div>
     </div>
   );
-}
+});

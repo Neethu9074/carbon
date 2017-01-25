@@ -27,10 +27,6 @@ React.createClass({
 
   render() {
     const inputIdToFocus = this.props.inputIdToFocus;
-    const onChange = this.props.onChange;
-    const heading = this.props.heading;
-    const onBlur = this.props.onBlur;
-    const value = this.props.value;
 
     return (
       <div className={evaluateClassNames({
@@ -38,15 +34,15 @@ React.createClass({
              [`${block}--selected`]: this.props.focusedDateInput === inputIdToFocus
            })}>
         <span className={block + '__heading'}>
-          {heading}
+          {this.props.heading}
         </span>
         <br />
         <input type='text'
                className={`${block}__input`}
-               value={value}
-               onChange={e => onChange(e.target.value)}
+               value={this.props.value}
+               onChange={e => this.props.onChange(e.target.value)}
                onFocus={() => inputIdToFocus ? focusInput(inputIdToFocus) : {}}
-               onBlur={onBlur}
+               onBlur={this.props.onBlur}
                ref={_input => this._input = _input} />
       </div>
     );

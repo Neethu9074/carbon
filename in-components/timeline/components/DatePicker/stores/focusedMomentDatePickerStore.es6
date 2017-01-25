@@ -28,6 +28,7 @@ export function setTimeString(newTime) {
 
 export const isDateTimeValid$ = getValidation$(dateString$, timeString$);
 
+
 export function reset() {
   focusedMoment$.once(_focusedMoment => {
     if (_focusedMoment) {
