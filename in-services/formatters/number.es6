@@ -1,4 +1,5 @@
 import {format} from 'd3-format';
+import {repeat} from 'lodash';
 
 const byteBase = 1024;
 
@@ -57,6 +58,9 @@ export const kiloBytes = {
 const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
 const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
 export const withSiPrefixZeroDecimalPlaces = d => {
+  if (d == null) {
+    d = 0;
+  }
   if ((0 < d && d < 1) || (-1 < d && d < 0)) {
     return siPrefixZeroDecimalPlacesFormatRuleForSmallValues(d);
   }
@@ -103,6 +107,9 @@ export const siPrefixPerSecond = {
 
 export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiPrefixZeroDecimalPlaces(d | 0);
 export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
+  if (d == null) {
+    d = 0;
+  }
   if (d < 1) {
     return d.toFixed(3);
   }
@@ -163,7 +170,10 @@ export const nanos = {
  */
 function formatBytes(num, numberOfDecimalPlaces = 2) {
   if (typeof num !== 'number' || isNaN(num)) {
-    throw new TypeError('Expected a number');
+    if (numberOfDecimalPlaces > 0) {
+      return `0.${repeat('0', numberOfDecimalPlaces)} B`;
+    }
+    return '0 B';
   }
   let exponent;
   let unit;
@@ -197,7 +207,7 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
  */
 function formatTime(t) {
   if (typeof t !== 'number' || isNaN(t)) {
-    throw new TypeError('Expected a number');
+    return '0µs';
   }
 
   const formatValue = v => ((v * 100) | 0) / 100;

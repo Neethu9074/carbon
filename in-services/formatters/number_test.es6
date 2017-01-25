@@ -68,12 +68,6 @@ describe('in-services.formatter.number', () => {
       expect(bytesZeroDecimalPlaces(1024)).to.equal('1 kB');
     });
 
-    it('should fail on invalid numbers', () => {
-      expect(() => bytesZeroDecimalPlaces(null)).to.throw(Error);
-      expect(() => bytesZeroDecimalPlaces(NaN)).to.throw(Error);
-      expect(() => bytesZeroDecimalPlaces('')).to.throw(Error);
-    });
-
     it('should format bytes with multiple decimal places', () => {
       expect(bytesTwoDecimalPlaces(1089576)).to.equal('1.04 MB');
     });
@@ -200,5 +194,27 @@ describe('in-services.formatter.number', () => {
       expect(timeByMicroTwoDecimalPlaces(24 * 60 * 60 * 1000 * 1000)).to.equal('1d');
       expect(timeByMicroTwoDecimalPlaces(1234 * 24 * 60 * 60 * 1000 * 1000)).to.equal('1234d');
     });
+  });
+
+  it('must not fail on null', () => {
+    expect(zeroDecimalPlaces(null)).to.equal('0');
+    expect(twoDecimalPlaces(null)).to.equal('0.00');
+    expect(bytesPerSecondTwoDecimalPlaces(null)).to.equal('0.00 B/s');
+    expect(bytesPerSecondZeroDecimalPlaces(null)).to.equal('0 B/s');
+    expect(bytesTwoDecimalPlaces(null)).to.equal('0.00 B');
+    expect(bytesZeroDecimalPlaces(null)).to.equal('0 B');
+    expect(kiloBytesTwoDecimalPlaces(null)).to.equal('0 B');
+    expect(kiloBytesZeroDecimalPlaces(null)).to.equal('0 B');
+    expect(msZeroDecimalPlaces(null)).to.equal('0ms');
+    expect(muSecondsToMillisZeroDecimalPlaces(null)).to.equal('0ms');
+    expect(muSecondsZeroDecimalPlaces(null)).to.equal('0µs');
+    expect(percentageTwoDecimalPlaces(null)).to.equal('0.00%');
+    expect(percentageZeroDecimalPlaces(null)).to.equal('0%');
+    expect(time(null)).to.equal('0µs');
+    expect(timeByMicroTwoDecimalPlaces(null)).to.equal('0µs');
+    expect(withSiMultiplyPrefixThreeDecimalPlaces(null)).to.equal('0.000');
+    expect(withSiMultiplyPrefixZeroDecimalPlaces(null)).to.equal('0');
+    expect(withSiPrefixThreeDecimalPlaces(null)).to.equal('0.000');
+    expect(withSiPrefixZeroDecimalPlaces(null)).to.equal('0');
   });
 });
