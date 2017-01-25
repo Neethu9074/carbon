@@ -23,7 +23,7 @@ export default connectTo({
       <LifecycleObserver onWillMount={refresh} />
 
       <h1 className={`${block}__heading`}>
-        Filter Presets
+        Filter
 
         {query ?
           <a href=''
