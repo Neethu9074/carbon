@@ -1,4 +1,5 @@
 import './actioncontroller';
+import './actionview';
 import './activerecord';
 import './akka.http.client';
 import './akka.http.server';
@@ -60,6 +61,7 @@ import './py.http';
 import './rabbitmq';
 import './rack';
 import './redis';
+import './render';
 import './resteasy';
 import './rpc';
 import './sdk';

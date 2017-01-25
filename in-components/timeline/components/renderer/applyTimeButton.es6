@@ -56,7 +56,7 @@ export default function createHighlightedTimeframeRenderer(container, canvas, sc
       const to = Math.max(clamp(scale.getRange(highlightedTimeframe[0])),
                           clamp(scale.getRange(highlightedTimeframe[1])));
 
-      applyButtonContainer.style.left = `${Math.ceil(to) - 23}px`;
+      applyButtonContainer.style.left = `${Math.ceil(to) - 52}px`;
       applyButtonContainer.style.right = null;
     } else {
       hide();
