@@ -1,8 +1,10 @@
 import React from 'react';
 
+import AvailableKeywordDescription from 'in-components/SearchBar/components/AvailableKeywordDescription';
 import MenuHeading from 'in-components/SearchBar/components/MenuHeading';
 import {fieldsCategorized} from 'in-stores/search/fields';
 import {mutateQuery} from 'in-stores/search/query';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './AvailableKeywords.less';
@@ -83,10 +85,14 @@ export default function AvailableKeywords() {
 function Field({field}) {
   return (
     <li className={`${block}__field ${listItemClassName}`}>
-      <a href=''
-         onClick={e => onSelectField(e, field)}>
-        {field.alias}
-      </a>
+      <Tooltip content={<AvailableKeywordDescription field={field} />}
+               align='rightMiddle'>
+        <a href=''
+           onClick={e => onSelectField(e, field)}
+           className={`${block}__field-alias`}>
+          {field.alias}
+        </a>
+      </Tooltip>
     </li>
   );
 }

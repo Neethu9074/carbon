@@ -24,7 +24,7 @@ function buildCategorizedFields() {
 
 
 function insertField(node, field, path, i) {
-  if (i >= (path.length - 1)) {
+  if (i > (path.length - 1)) {
     node.fields.push(field);
     return;
   }
