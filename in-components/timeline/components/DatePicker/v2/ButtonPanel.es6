@@ -1,5 +1,9 @@
+import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
+import {isDateTimeValid$ as focusedMomentValid$} from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
+import {isDateTimeValid$ as fromValid$} from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
+import {isDateTimeValid$ as toValid$} from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import {live$, setLive} from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
 import Toggle from 'in-components/form/Toggle';
@@ -26,10 +30,7 @@ function ButtonPanel({live}) {
                 onChange={e => setLive(e.target.checked)} />
       </div>
       <div className={`${block}__flex`}>
-        <Button onClick={onApplyClicked}
-                size='sm'>
-          Apply
-        </Button>
+        <ApplyButton live={live} />
         <SvgIcon className={`${block}__icon-button`}
                  type='x'
                  width={10}
@@ -37,6 +38,33 @@ function ButtonPanel({live}) {
                  onClick={toggleShowTimeSelector} />
       </div>
     </div>
+  );
+});
+
+const ApplyButton = connectTo({
+  isValid: combineLatest([
+    focusedMomentValid$,
+    fromValid$,
+    toValid$
+  ])
+  .throttle(100)
+  .map(([focusedMomentValid, fromValid, toValid]) => {
+    return focusedMomentValid.date &&
+           focusedMomentValid.time &&
+           fromValid.date &&
+           fromValid.time &&
+           toValid.date &&
+           toValid.time;
+  })
+},
+function ApplyButton({live, isValid}) {
+  const isDisabled = ((!live && isValid) || live) ? false : true;
+  return (
+    <Button onClick={onApplyClicked}
+            size='sm'
+            disabled={isDisabled}>
+      Apply
+    </Button>
   );
 });
 
