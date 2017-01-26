@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TimelineFocusedMoment from 'in-components/timeline/components/TimelineFocusedMoment';
-import {INPUTS} from 'in-components/timeline/components/DatePicker/stores/focusedDateInput';
 import TimelineTimestamp from 'in-components/timeline/components/TimelineTimestamp';
 import {to$, from$} from 'in-components/timeline/timelineStore';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -25,13 +24,11 @@ function TimelineMenu({from ,to, width}) {
       <div className={`${block}__line ${block}__second`}>
         <TimelineTimestamp timestamp={from}
                            type='dark'
-                           inputIdToFocus={INPUTS.FROM}
                            style={{
                              left: 0
                            }} />
         <TimelineTimestamp timestamp={to}
                            type='dark'
-                           inputIdToFocus={INPUTS.TO}
                            style={{
                              right: 0
                            }} />

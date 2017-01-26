@@ -6,6 +6,7 @@ import {
   setWindowSize
 } from 'in-components/timeline/timelineStore';
 import {formatDurationAccurately} from 'in-services/formatters/date';
+import {slices} from 'in-components/timeline/timelineConfig';
 import {timeframeShape} from 'in-stores/timeline';
 import Tooltip from 'in-components/Tooltip';
 import Slider from 'in-components/Slider';
@@ -14,28 +15,6 @@ import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
 
-// Time range constants
-const minute = 1000 * 60;
-const hour = minute * 60;
-const day = hour * 24;
-const month = day * 31;
-
-const slices = [
-  minute,
-  minute * 5,
-  minute * 10,
-  minute * 15,
-  minute * 30,
-  hour,
-  hour * 2,
-  hour * 6,
-  hour * 12,
-  day,
-  day * 2,
-  day * 7,
-  day * 14,
-  month
-];
 
 function getIndexOfSlice(time) {
   for (let i = 0; i < slices.length; ++i) {

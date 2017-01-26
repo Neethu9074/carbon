@@ -3,7 +3,6 @@ import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import React from 'react';
 
-import {focusedDateInput$} from 'in-components/timeline/components/DatePicker/stores/focusedDateInput';
 import {formatDate} from 'in-services/formatters/date';
 import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
@@ -12,24 +11,9 @@ import connectTo from 'in-hoc/connectTo';
 import './DatePicker.less';
 
 
-const block = 'in-timeline-date-picker';
 const rpt = React.PropTypes;
 
 export default connectTo({
-  focusedDateInput: focusedDateInput$
-},
-function DatePicker({focusedDateInput}) {
-  return (
-    <div className={block}
-         style={{
-           width: focusedDateInput ? 250 : 0
-         }}>
-      {focusedDateInput ? <Picker /> : null}
-    </div>
-  );
-});
-
-const Picker = connectTo({
   bigBangTimestamp: bigBangTimestamp$,
   serverTime: serverTime$
 },
@@ -40,10 +24,6 @@ React.createClass({
   propTypes: {
     bigBangTimestamp: rpt.number,
     serverTime: rpt.number
-  },
-
-  componentWillMount() {
-    // reset();
   },
 
   getInitialState() {

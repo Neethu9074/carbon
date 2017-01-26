@@ -9,6 +9,7 @@ import connectTo from 'in-hoc/connectTo';
 import {reset as resetFocusedMomentDatePickerStore} from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
 import {reset as resetFromDatePickerStore} from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import {reset as resetToDatePickerStore} from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
+import {reset as resetWindowSizeStore} from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import {reset as resetLiveToggle} from 'in-components/timeline/components/DatePicker/stores/liveStore';
 
 import './DateTimePickerPopup.less';
@@ -26,6 +27,7 @@ React.createClass({
     resetFocusedMomentDatePickerStore();
     resetFromDatePickerStore();
     resetToDatePickerStore();
+    resetWindowSizeStore();
     resetLiveToggle();
   },
 
