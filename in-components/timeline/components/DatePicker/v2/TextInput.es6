@@ -1,7 +1,12 @@
 import React from 'react';
 
+import TimelineTimestamp from 'in-components/timeline/components/TimelineTimestamp';
 import {evaluateClassNames} from 'in-services/util/classnames';
+import {bigBangTimestamp$} from 'in-stores/timeline';
+import {serverTime$} from 'in-stores/serverTime';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
+
 
 import './TextInput.less';
 
@@ -24,16 +29,53 @@ function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
            onChange={e => onChange(e.target.value)} />
   );
 
-  if (!showInputDescriptions) {
-    return input;
+  let component = input;
+
+  if (showInputDescriptions) {
+    component = (
+      <div className={block}>
+        <span className={`${block}__heading`}>
+          {heading}
+        </span>
+        <br />
+        {input}
+      </div>
+    );
   }
+
   return (
-    <div className={block}>
-      <span className={block + '__heading'}>
-        {heading}
+    <Tooltip content={
+               isValid
+                ? null
+                : <ErrorMsg />
+             }
+             align='rightMiddle'>
+      {component}
+    </Tooltip>
+  );
+});
+
+
+const ErrorMsg = connectTo({
+  bigBangTimestamp: bigBangTimestamp$,
+  serverTime: serverTime$
+},
+function ErrorMsg({bigBangTimestamp, serverTime}) {
+  return (
+    <div className={`${block}__error-msg`}>
+      <span>
+        Please enter a date within the monitored time range in the format (YYYY-MM-DD)
       </span>
       <br />
-      {input}
+      <span className={`${block}__timerange`}>
+        The monitored time range is
+        <TimelineTimestamp className={`${block}__timestamp`}
+                           timestamp={bigBangTimestamp}
+                           type='white' />
+        <TimelineTimestamp className={`${block}__timestamp`}
+                           timestamp={serverTime}
+                           type='white' />
+      </span>
     </div>
   );
 });

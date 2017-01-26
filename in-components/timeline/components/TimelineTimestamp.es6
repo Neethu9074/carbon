@@ -8,11 +8,14 @@ import './TimelineTimestamp.less';
 
 const block = 'in-timeline-timestamp';
 
-export default function TimelineSelectedTime({timestamp, style, type = 'light'}) {
-  const className = `${block} ${block}__${type}`;
+export default function TimelineSelectedTime({timestamp, style, type = 'light', className}) {
+  let classes = `${block} ${block}__${type}`;
+  if (className) {
+    classes += ` ${className}`;
+  }
 
   return (
-    <div className={className}
+    <div className={classes}
          onClick={openTimeSelector}
          style={style}>
       <span className={block + '__date'}>
