@@ -16,7 +16,7 @@ export default connectTo({
 },
 function ButtonPanel({live}) {
   return (
-    <div className={block}>
+    <div className={`${block} ${block}__flex`}>
       <div className={`${block}__live-button`}>
         Live
         <Toggle className={`${block}__checkbox`}
@@ -24,7 +24,7 @@ function ButtonPanel({live}) {
                 checked={live}
                 onChange={e => setLive(e.target.checked)} />
       </div>
-      <div className={block}>
+      <div className={`${block}__flex`}>
         Apply
         <SvgIcon className={`${block}__icon-button`}
                  type='x'

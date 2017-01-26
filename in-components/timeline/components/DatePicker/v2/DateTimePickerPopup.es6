@@ -38,8 +38,12 @@ React.createClass({
              bottom: `${this.props.height}px`
            }}>
         <ButtonPanel />
-        <InfoPanel />
-        <InputFields />
+        <div className={`${block}__left`}>
+          <InputFields />
+        </div>
+        <div className={`${block}__right`}>
+          <InfoPanel />
+        </div>
       </div>
     );
   }
