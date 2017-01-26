@@ -7,7 +7,6 @@ import * as toStore from 'in-components/timeline/components/DatePicker/stores/to
 import {live$} from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import TextInput from 'in-components/timeline/components/DatePicker/v2/TextInput';
 import SelectBox from 'in-components/timeline/components/DatePicker/v2/SelectBox';
-import {slices} from 'in-components/timeline/timelineConfig';
 import connectTo from 'in-hoc/connectTo';
 
 import './InputFields.less';
@@ -33,9 +32,8 @@ function LiveInputFields({windowSize}) {
   return (
     <div className={block}>
       <SelectBox heading='Windowsize'
-                 values={slices}
                  value={windowSize}
-                 onChange={val => windowSizeStore.setWindowSize(Number(val))} />
+                 onChange={windowSizeStore.setWindowSize} />
     </div>
   );
 });

@@ -1,12 +1,15 @@
 import React from 'react';
 
+import {formatDurationAccurately} from 'in-services/formatters/date';
+import {slices} from 'in-components/timeline/timelineConfig';
+
 import './SelectBox.less';
 
 
 const block = 'in-date-picker-select-box';
 
-export default function SelectBox({heading, value, values, onChange}) {
-  const containsValue = values.indexOf(value) >= 0;
+export default function SelectBox({heading, value, onChange}) {
+  const containsValue = slices.indexOf(value) >= 0;
 
   return (
     <div className={block}>
@@ -15,20 +18,20 @@ export default function SelectBox({heading, value, values, onChange}) {
       </span>
       <br />
       <select className={block + '__select'}
-              onChange={e => onChange(e.target.value)}
+              onChange={e => onChange(Number(e.target.value))}
               value={value}>
         {!containsValue ?
           <option key={value}
                   value={value}>
-            {value}
+            {formatDurationAccurately(value)}
           </option>
           : null
         }
-        {values.map(_value => {
+        {slices.map(_value => {
           return (
             <option key={_value}
                     value={_value}>
-              {_value}
+              {formatDurationAccurately(_value)}
             </option>
           );
         })}
