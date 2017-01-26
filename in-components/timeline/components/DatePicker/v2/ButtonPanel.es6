@@ -4,6 +4,7 @@ import {live$, setLive} from 'in-components/timeline/components/DatePicker/store
 import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
 import Toggle from 'in-components/form/Toggle';
 import SvgIcon from 'in-components/SvgIcon';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './ButtonPanel.less';
@@ -25,7 +26,10 @@ function ButtonPanel({live}) {
                 onChange={e => setLive(e.target.checked)} />
       </div>
       <div className={`${block}__flex`}>
-        Apply
+        <Button onClick={onApplyClicked}
+                size='sm'>
+          Apply
+        </Button>
         <SvgIcon className={`${block}__icon-button`}
                  type='x'
                  width={10}
@@ -35,3 +39,7 @@ function ButtonPanel({live}) {
     </div>
   );
 });
+
+function onApplyClicked() {
+  console.log('apply');
+}
