@@ -68,10 +68,11 @@ function ErrorMsg({bigBangTimestamp, serverTime}) {
       </span>
       <br />
       <span className={`${block}__timerange`}>
-        The monitored time range is
+        The monitored time range is from
         <TimelineTimestamp className={`${block}__timestamp`}
                            timestamp={bigBangTimestamp}
                            type='white' />
+        to
         <TimelineTimestamp className={`${block}__timestamp`}
                            timestamp={serverTime}
                            type='white' />
