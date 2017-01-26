@@ -9,7 +9,7 @@ import {
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {SubMenuItem} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
-import {containsTypeFilter} from 'in-stores/search/type';
+import {containsTypeFilter} from 'in-stores/search/keywords/type';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
