@@ -1,22 +1,31 @@
 import React from 'react';
 
+import {evaluateClassNames} from 'in-services/util/classnames';
+import connectTo from 'in-hoc/connectTo';
+
 import './TextInput.less';
 
 
 const block = 'in-date-picker-text-input';
 
-export default function TextInput({heading, value, onChange, showInputDescriptions}) {
-  function Input() {
-    return (
-      <input type='text'
-             className={`${block}__input`}
-             value={value}
-             onChange={e => onChange(e.target.value)} />
-    );
-  }
+export default connectTo(props => {
+  return {
+    isValid: props.isValid$
+  };
+},
+function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
+  const input = (
+    <input type='text'
+           className={evaluateClassNames({
+             [`${block}__input`]: true,
+             [`${block}--invalid`]: !isValid
+           })}
+           value={value}
+           onChange={e => onChange(e.target.value)} />
+  );
 
   if (!showInputDescriptions) {
-    return <Input />;
+    return input;
   }
   return (
     <div className={block}>
@@ -24,7 +33,7 @@ export default function TextInput({heading, value, onChange, showInputDescriptio
         {heading}
       </span>
       <br />
-      <Input />
+      {input}
     </div>
   );
-}
+});

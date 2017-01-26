@@ -57,18 +57,12 @@ function FixedTimestampInputFields() {
 }
 
 const DateTimeBlock = connectTo(props => {
-  if (!props.store) {
-    return {};
-  }
   return {
     dateString: props.store.dateString$,
     timeString: props.store.timeString$,
   };
 },
 function DateTimeBlock({store, heading, dateString, timeString, showInputDescriptions}) {
-  if (!store) {
-    return null;
-  }
   return (
     <div className={`${block}__date-time-block`}>
       <span className={`${block}__heading`}>
@@ -78,11 +72,13 @@ function DateTimeBlock({store, heading, dateString, timeString, showInputDescrip
         <TextInput heading='Date'
                    value={dateString}
                    onChange={store.setDateString}
-                   showInputDescriptions={showInputDescriptions} />
+                   showInputDescriptions={showInputDescriptions}
+                   isValid$={store.isDateTimeValid$.map(valid => valid.date)} />
         <TextInput heading='Time'
                    value={timeString}
                    onChange={store.setTimeString}
-                   showInputDescriptions={showInputDescriptions} />
+                   showInputDescriptions={showInputDescriptions}
+                   isValid$={store.isDateTimeValid$.map(valid => valid.time)} />
       </div>
     </div>
   );
