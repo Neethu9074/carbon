@@ -8,7 +8,8 @@ import {serverTime$} from 'in-stores/serverTime';
 export function validateTime(time, from, to) {
   const isValid = {
     date: true,
-    time: true
+    time: true,
+    timestamp: time,
   };
 
   const timeDateComponent = parseDate(formatDate(time)).getTime();
