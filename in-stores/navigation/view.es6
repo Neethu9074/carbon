@@ -32,6 +32,7 @@ export const logView$ = navigationParameters$
   .map(cloneDeep)
   .map(params => {
     params.pathname = '/logs';
+    delete params.query.q;
     return params;
   })
   .map(toUrl)

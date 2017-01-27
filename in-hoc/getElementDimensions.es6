@@ -16,6 +16,7 @@ export default function getElementDimensions(ComposedComponent) {
     },
 
     componentDidMount() {
+      this.domNode = ReactDOM.findDOMNode(this);
       this.calculateDimensions();
       this.subscription = on(window, 'resize')
         .debounce(300)
@@ -37,8 +38,7 @@ export default function getElementDimensions(ComposedComponent) {
       return (
         <ComposedComponent {...this.props}
                            height={this.state.height}
-                           width={this.state.width}
-                           ref={ref => this.domNode = ReactDOM.findDOMNode(ref)} />
+                           width={this.state.width} />
       );
     }
   });
