@@ -17,42 +17,42 @@ import './Timeline.less';
 const block = 'in-timeline';
 
 export default connectTo({
-    isCollapsed: isCollapsed$,
-    showTimeSelector: showTimeSelector$,
-    autoCollapseTimeline: getIn(['autoCollapseTimeline'])
-  }, function Timeline({showTimeSelector, isCollapsed, autoCollapseTimeline}) {
-    let classes = block;
+  isCollapsed: isCollapsed$,
+  showTimeSelector: showTimeSelector$,
+  autoCollapseTimeline: getIn(['autoCollapseTimeline'])
+},
+function Timeline({showTimeSelector, isCollapsed, autoCollapseTimeline}) {
+  let classes = block;
 
-    if (!isCollapsed) {
-      classes = `${classes} ${block}--expanded`;
-    }
-
-    if (!autoCollapseTimeline || showTimeSelector) {
-      classes = `${classes} ${block}--no-auto-collapse`;
-    }
-
-    return (
-      <div>
-        <EventTooltip />
-
-        {showTimeSelector ?
-          <DateTimePickerPopup />
-          : null
-        }
-
-        <div className={classes}>
-          <div className={`${block}__wrapper`}>
-            <TimelineMenu />
-            <TimelineCanvasReactWrapper />
-          </div>
-          <div className={block + '__bottom'}>
-            <TimelineNavigation />
-            <TimelineTimeframeMarker />
-          </div>
-        </div>
-
-        <SelectedWindowSizePresenter />
-      </div>
-    );
+  if (!isCollapsed) {
+    classes = `${classes} ${block}--expanded`;
   }
-);
+
+  if (!autoCollapseTimeline || showTimeSelector) {
+    classes = `${classes} ${block}--no-auto-collapse`;
+  }
+
+  return (
+    <div>
+      <EventTooltip />
+
+      {showTimeSelector ?
+        <DateTimePickerPopup openInView={showTimeSelector} />
+        : null
+      }
+
+      <div className={classes}>
+        <div className={`${block}__wrapper`}>
+          <TimelineMenu />
+          <TimelineCanvasReactWrapper />
+        </div>
+        <div className={block + '__bottom'}>
+          <TimelineNavigation />
+          <TimelineTimeframeMarker />
+        </div>
+      </div>
+
+      <SelectedWindowSizePresenter />
+    </div>
+  );
+});

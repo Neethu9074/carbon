@@ -3,7 +3,7 @@ import React from 'react';
 import * as focusedMomentStore from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
 import * as windowSizeStore from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import * as fromStore from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
-import {toggleDateFn} from 'in-components/timeline/components/DatePicker/stores/currentDateFnStore';
+import {setDateFn} from 'in-components/timeline/components/DatePicker/stores/currentDateFnStore';
 import * as toStore from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import DateTimeBlock from 'in-components/timeline/components/DatePicker/v2/DateTimeBlock';
 import {live$} from 'in-components/timeline/components/DatePicker/stores/liveStore';
@@ -43,7 +43,7 @@ const FixedTimestampInputFields = React.createClass({
   displayName: 'FixedTimestampInputFields',
 
   componentWillUnmount() {
-    toggleDateFn(null);
+    setDateFn(null);
   },
 
   render() {

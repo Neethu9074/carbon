@@ -5,6 +5,7 @@ import InputFields from 'in-components/timeline/components/DatePicker/v2/InputFi
 import DatePicker from 'in-components/timeline/components/DatePicker/v2/DatePicker';
 import InfoPanel from 'in-components/timeline/components/DatePicker/v2/InfoPanel';
 import {interactableTimelineHeight$} from 'in-components/timeline/timelineStore';
+import {currentTimeSelector$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
 import {reset as resetFocusedMomentDatePickerStore} from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
@@ -19,6 +20,7 @@ import './DateTimePickerPopup.less';
 const block = 'in-timeline-date-time-picker-popup';
 
 export default connectTo({
+  currentTimeSelector: currentTimeSelector$,
   height: interactableTimelineHeight$
 },
 React.createClass({
@@ -29,7 +31,7 @@ React.createClass({
     resetFromDatePickerStore();
     resetToDatePickerStore();
     resetWindowSizeStore();
-    resetLiveToggle();
+    resetLiveToggle(this.props.openInView);
   },
 
   render() {

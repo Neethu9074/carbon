@@ -12,6 +12,12 @@ export function setLive(value) {
   live.mutateTo(value);
 }
 
-export function reset() {
-  timelineLife$.once(setLive);
+export function reset(view) {
+  if (view === true) {
+    timelineLife$.once(setLive);
+  } else if (view === 'fixed') {
+    setLive(false);
+  } else {
+    setLive(true);
+  }
 }

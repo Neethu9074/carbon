@@ -72,10 +72,9 @@ export function toggleShowTimeSelector() {
   showTimeSelector.applyStateMutation(oldValue => !oldValue);
 }
 
-export function openTimeSelector() {
-  showTimeSelector.mutateTo(true);
+export function openTimeSelector(view = true) {
+  showTimeSelector.mutateTo(view);
 }
-
 
 
 /*

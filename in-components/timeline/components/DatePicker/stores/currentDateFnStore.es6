@@ -11,3 +11,7 @@ export const currentDateFn$ = currentDateFn.observable;
 export function toggleDateFn(fn) {
   currentDateFn.applyStateMutation(oldFn => oldFn === fn ? null : fn);
 }
+
+export function setDateFn(fn) {
+  currentDateFn.mutateTo(fn);
+}
