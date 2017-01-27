@@ -2,7 +2,7 @@ import {navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navi
 
 
 export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
-  const query = encodeURIComponent(`startingAt=${snapshotId}`);
+  const query = encodeURIComponent(`startingAt:${snapshotId}`);
   return navigationParameters$
     .map(cloneDeep)
     .map(params => {
@@ -17,7 +17,7 @@ export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
 
 
 export function getTraceViewFilteredByTouchingLink(snapshotId) {
-  const query = encodeURIComponent(`touching=${snapshotId}`);
+  const query = encodeURIComponent(`touching:${snapshotId}`);
   return navigationParameters$
     .map(cloneDeep)
     .map(params => {
@@ -32,7 +32,7 @@ export function getTraceViewFilteredByTouchingLink(snapshotId) {
 
 
 export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) {
-  const query = encodeURIComponent(`startingAtInstance=${snapshotId}`);
+  const query = encodeURIComponent(`startingAtInstance:${snapshotId}`);
   return navigationParameters$
     .map(cloneDeep)
     .map(params => {
@@ -47,7 +47,7 @@ export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) 
 
 
 export function getTraceViewFilteredBySnapshotIdAndTimeframe({snapshotId, from, to}) {
-  const query = encodeURIComponent(`touching=${snapshotId}`);
+  const query = encodeURIComponent(`touching:${snapshotId}`);
   return navigationParameters$
     .map(cloneDeep)
     .map(params => {

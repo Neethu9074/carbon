@@ -1,7 +1,7 @@
 import {createStore} from 'in-stores/store';
 
 const sortDirectionStore = createStore({
-  name: 'in-views/traceView/stores/sortDirection',
+  name: 'traceView/stores/sortDirection',
   initialValue: 'desc'
 });
 export const sortDirection$ = sortDirectionStore.observable;

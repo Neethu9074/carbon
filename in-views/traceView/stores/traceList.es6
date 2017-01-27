@@ -1,13 +1,13 @@
 import {combineLatest} from 'reactive-observables';
 
 import {sortDirection$} from 'in-views/traceView/stores/sortDirection';
-import {autoUpdate$} from 'in-views/traceView/stores/autoUpdate';
 import createTracesObservable from 'in-services/subscription/traces';
+import {debouncedQuery$ as query$} from 'in-stores/search/query';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
-import {sortBy$} from 'in-views/traceView/stores/sortBy';
+import {autoUpdate$} from 'in-views/traceView/stores/autoUpdate';
 import {formatDateTime} from 'in-services/formatters/date';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
-import {luceneQuery$ as query$} from 'in-stores/search';
+import {sortBy$} from 'in-views/traceView/stores/sortBy';
 import {createStore} from 'in-stores/store';
 import {getLabel} from 'in-sdk/tracing';
 
@@ -28,14 +28,14 @@ let sortDirection;
 let query;
 
 const tracesStore = createStore({
-  name: 'in-views/traceView/stores/traceList/traces',
+  name: 'traceView/stores/traceList/traces',
   initialValue: []
 });
 export const traces$ = tracesStore.observable;
 
 
 const isLoadingStore = createStore({
-  name: 'in-views/traceView/stores/traceList/isLoading',
+  name: 'traceView/stores/traceList/isLoading',
   initialValue: false
 });
 export const isLoading$ = isLoadingStore.observable;

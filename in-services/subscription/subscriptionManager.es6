@@ -22,7 +22,7 @@ const timeUntilDisposingSubscriptionsForHiddenUi = 1000 * 60;
 // Whether or not the backend is currently informed aboute active subscriptions.
 let isSubscriptionsActive = true;
 
-export function subscribe(subscriptionId, event, payload) {
+export function subscribe(subscriptionId, event, payload, disposeSubscriptionOnDocumentHidden = true) {
   if (__DEV__) {
     invariant(
       !(subscriptionId in activeSubscriptions),
@@ -35,6 +35,7 @@ export function subscribe(subscriptionId, event, payload) {
     event,
     payload,
     lastData: undefined,
+    disposeSubscriptionOnDocumentHidden,
     dataListener
   };
 
@@ -42,7 +43,7 @@ export function subscribe(subscriptionId, event, payload) {
     on(getDataEvent(subscriptionId), dataListener);
   }
 
-  if (isSubscriptionsActive) {
+  if (isSubscriptionsActive || !subscription.disposeSubscriptionOnDocumentHidden) {
     emit(event, payload);
   }
 
@@ -85,7 +86,7 @@ export function init() {
     .subscribe(() => {
       if (isSubscriptionsActive) {
         isSubscriptionsActive = false;
-        unsubscribeAllFromBackend();
+        unsubscribeAllFromBackendWhichCanBeAutoDisposed();
       }
     });
 
@@ -94,7 +95,7 @@ export function init() {
     .subscribe(() => {
       if (!isSubscriptionsActive) {
         isSubscriptionsActive = true;
-        subscribeAllToBackend();
+        subscribeAllToBackendWhichCanBeAutoDisposed();
       }
     });
 }
@@ -124,17 +125,21 @@ export function getNewSubscriptionId() {
 }
 
 
-function subscribeAllToBackend() {
+function subscribeAllToBackendWhichCanBeAutoDisposed() {
   Object.keys(activeSubscriptions).forEach(k => {
     const activeSubscription = activeSubscriptions[k];
-    emit(activeSubscription.event, activeSubscription.payload);
+    if (activeSubscription.disposeSubscriptionOnDocumentHidden) {
+      emit(activeSubscription.event, activeSubscription.payload);
+    }
   });
 }
 
 
-function unsubscribeAllFromBackend() {
+function unsubscribeAllFromBackendWhichCanBeAutoDisposed() {
   Object.keys(activeSubscriptions).forEach(k => {
     const activeSubscription = activeSubscriptions[k];
-    emit('unsubscribe', {subscriptionId: activeSubscription.subscriptionId});
+    if (activeSubscription.disposeSubscriptionOnDocumentHidden) {
+      emit('unsubscribe', {subscriptionId: activeSubscription.subscriptionId});
+    }
   });
 }

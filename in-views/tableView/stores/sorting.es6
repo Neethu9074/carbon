@@ -7,7 +7,7 @@ import {createStore} from 'in-stores/store';
 
 
 const directionStore = createStore({
-  name: 'in-views/tableView/stores/sorting/direction',
+  name: 'tableView/stores/sorting/direction',
   initialValue: 'asc'
 });
 export const direction$ = directionStore.observable;
@@ -22,7 +22,7 @@ export function invertDirection() {
 
 
 const columnStore = createStore({
-  name: 'in-views/tableView/stores/sorting/column',
+  name: 'tableView/stores/sorting/column',
   initialValue: null
 });
 export const column$ = columnStore.observable;

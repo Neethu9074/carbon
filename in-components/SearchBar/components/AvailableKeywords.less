@@ -1,0 +1,57 @@
+@import "~in-themes/active.less";
+
+.in-search-available-keywords {
+  position: absolute;
+  top: 4.55rem;
+  left: 0.7rem;
+  width: 25rem;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background: #2D4048;
+  max-height: 30rem;
+  overflow-y: auto;
+  padding: 1rem 0.6rem 0.4rem 0.6rem;
+
+  z-index: @z-index__search-menu;
+
+  font-size: .813rem;
+
+  &__expand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    &:hover {
+      .in-search-available-keywords__expand-icon {
+        fill: #fff;
+      }
+    }
+  }
+
+  &__expand-icon {
+    fill: #8c969a;
+    min-width: 1rem;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0 0 0 .813rem;
+    margin: 0;
+
+    &--root {
+      padding-left: .625rem;
+    }
+  }
+
+  &__list-item {
+    margin: 2px 0;
+  }
+
+  &__field {
+    padding: 0 0 0 1rem;
+  }
+
+  &__field-alias {
+    text-decoration: none;
+  }
+}

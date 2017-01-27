@@ -5105,6 +5105,11 @@
       "from": "lru-cache@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-2.7.3.tgz"
     },
+    "lucene": {
+      "version": "1.1.0",
+      "from": "lucene@latest",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/lucene/-/lucene-1.1.0.tgz"
+    },
     "macaddress": {
       "version": "0.2.8",
       "from": "macaddress@>=0.2.8 <0.3.0",

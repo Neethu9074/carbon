@@ -2,12 +2,13 @@ import React from 'react';
 
 import {filters$, refresh, remove} from 'in-components/SearchBar/stores/filters';
 import UseFilterLink from 'in-components/SearchBar/components/UseFilterLink';
+import MenuHeading from 'in-components/SearchBar/components/MenuHeading';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import {setValues} from 'in-components/SearchBar/stores/dialog';
+import {query$} from 'in-stores/search/query';
 import SvgIcon from 'in-components/SvgIcon';
-import {rawQuery$} from 'in-stores/search';
 import connectTo from 'in-hoc/connectTo';
 
 import './FilterPresets.less';
@@ -16,14 +17,14 @@ const block = 'in-search-presets';
 
 export default connectTo({
   filters: filters$,
-  query: rawQuery$
+  query: query$
 }, function FilterPresets({filters, query}) {
   return (
     <section className={block}>
       <LifecycleObserver onWillMount={refresh} />
 
-      <h1 className={`${block}__heading`}>
-        Presets
+      <MenuHeading className={`${block}__heading`}>
+        Filter
 
         {query ?
           <a href=''
@@ -42,7 +43,7 @@ export default connectTo({
             {' Save current filter as new preset'}
           </span>
         }
-      </h1>
+      </MenuHeading>
 
       <ul className={`${block}__preset-list`}>
         {filters.toArray().map(filter =>

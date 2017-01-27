@@ -26,6 +26,7 @@ import {init as initFaviconHandling} from 'in-services/favicon';
 import {init as initAutoFocus} from 'in-map/services/focus';
 import {init as initShortcuts} from 'in-services/shortcuts';
 import {init as initUsageInfo} from 'in-stores/usageInfo';
+import {init as initEvents} from 'in-stores/events';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -70,6 +71,7 @@ initUsageInfo();
 initMaintenanceNoteStore();
 initUnhandledErrorHandling();
 initAutoFocus();
+initEvents();
 initFaviconHandling();
 
 ReactDOM.render((

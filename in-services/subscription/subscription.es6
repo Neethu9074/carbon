@@ -6,22 +6,22 @@ import {getDataEvent} from 'in-services/subscription/dataEvent';
 import {on, off} from 'in-services/persistentConnection';
 
 
-export default function({eventId, getId, getData, transformData = identity, memoizeFor = 10000}) {
+export default function({eventId, getId, getData, transformData = identity, memoizeFor = 10000, disposeSubscriptionOnDocumentHidden = true}) {
   return memoize(
-    createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData),
+    createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData, disposeSubscriptionOnDocumentHidden),
     getId,
     memoizeFor
   );
 }
 
-function createPhysicalHierarchyObservable(eventId, getData, transformData, opts) {
+function createPhysicalHierarchyObservable(eventId, getData, transformData, disposeSubscriptionOnDocumentHidden, opts) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, eventId, getData(subscriptionId, opts));
+      subscribe(subscriptionId, eventId, getData(subscriptionId, opts), disposeSubscriptionOnDocumentHidden);
     },
 
     stop() {

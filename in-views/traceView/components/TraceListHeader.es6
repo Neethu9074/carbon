@@ -29,7 +29,7 @@ export default function TraceListHeader() {
         </TraceListFilterToggle>
 
         <TraceListFilterToggle filter='without-eum'
-                               onClick={() => setTypeFilter('eum', '!=')}>
+                               onClick={() => setTypeFilter('eum', true)}>
           Server Calls
           <Count count$={totalTraceCountWithoutEum$} />
         </TraceListFilterToggle>

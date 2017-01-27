@@ -1,17 +1,13 @@
-import {
-  setEventTypeFilter as setSearchEventTypeFilter,
-  removeEventTypeFilter,
-  containsEventTypeFilter
-} from 'in-stores/search/events';
+import {setKeyword, removeKeyword, containsKeyword} from 'in-stores/search/keywords';
 import {createTrackingStore} from 'in-stores/store';
-import {rawQuery$} from 'in-stores/search';
+import {query$} from 'in-stores/search/query';
 
 
 export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilterStore',
-  observable: rawQuery$.map(query => {
-    const filteredByEvents = containsEventTypeFilter(query, 'event');
-    const filteredByIncidents = containsEventTypeFilter(query, 'incident');
+  observable: query$.map(query => {
+    const filteredByEvents = containsKeyword(query, 'eventType', 'event');
+    const filteredByIncidents = containsKeyword(query, 'eventType', 'incident');
     if (filteredByEvents && filteredByIncidents) {
       return null;
     } else if (filteredByIncidents) {
@@ -23,8 +19,11 @@ export const eventFilter$ = createTrackingStore({
   })
 }).observable;
 
-export function setEventTypeFilter(_filter) {
-  _filter
-    ? setSearchEventTypeFilter(_filter)
-    : removeEventTypeFilter();
+
+export function setEventTypeFilter(filter) {
+  if (filter) {
+    setKeyword('eventType', filter);
+  } else {
+    removeKeyword('eventType');
+  }
 }

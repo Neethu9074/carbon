@@ -6,11 +6,10 @@ import createTotalTraceCountObservable from 'in-services/subscription/totalTrace
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import createTraceObservable from 'in-services/subscription/trace';
 import {timeframe as timeframe$} from 'in-stores/timeline';
+import {debouncedQuery$} from 'in-stores/search/query';
 import {createTrackingStore} from 'in-stores/store';
-import {buildLuceneQuery} from 'in-services/search';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
-import {luceneQuery$} from 'in-stores/search';
 
 
 export const totalTraceCountNoFiltering$ = timeframe$
@@ -25,33 +24,47 @@ export const totalTraceCountOnlyEum$ = timeframe$
 export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFiltering$, totalTraceCountOnlyEum$])
   .map(([total, eum]) => total - eum);
 
-export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, luceneQuery$.debounce(200)])
+export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, debouncedQuery$])
   .flatMap(([timeframe, luceneQuery]) => createTotalTraceCountObservable({timeframe, query: luceneQuery || ''}));
 
 export function getNumberOfTracesStartingAtService(serviceId) {
-  const query = buildLuceneQuery('starting_logical_service', '=', serviceId);
-  return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
+  return timeframe$.flatMap(timeframe =>
+    createTotalTraceCountObservable({
+      timeframe,
+      query: `starting_logical_service:${serviceId}`
+    })
+  );
 }
 
 export function getNumberOfTracesTouchingService(serviceId) {
-  const query = buildLuceneQuery('touched_logical_service', '=', serviceId);
-  return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
+  return timeframe$.flatMap(timeframe =>
+    createTotalTraceCountObservable({
+      timeframe,
+      query: `touched_logical_service:${serviceId}`
+    })
+  );
 }
 
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
-  const query = buildLuceneQuery('starting_service_instance', '=', serviceId);
-  return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
+  return timeframe$.flatMap(timeframe =>
+    createTotalTraceCountObservable({
+      timeframe,
+      query: `starting_service_instance:${serviceId}`
+    })
+  );
 }
 
 export function getNumberOfTracesTouchingServiceInstance(serviceId) {
-  const query = buildLuceneQuery('touched_service_instance', '=', serviceId);
-  return timeframe$.flatMap(timeframe => createTotalTraceCountObservable({timeframe, query}));
+  return timeframe$.flatMap(timeframe =>
+    createTotalTraceCountObservable({
+      timeframe,
+      query: `touched_service_instance:${serviceId}`
+    })
+  );
 }
 
 export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
-  const serviceQuery = buildLuceneQuery('touched_logical_service', '=', id);
-  const serviceInstanceQuery = buildLuceneQuery('touched_service_instance', '=', id);
-  const query = `${serviceQuery} OR ${serviceInstanceQuery}`;
+  const query = `touched_logical_service:${id} OR touched_service_instance:${id}`;
   return timeframe
     ? createTotalTraceCountObservable({timeframe, query})
     : timeframe$.flatMap(_timeframe => createTotalTraceCountObservable({timeframe: _timeframe, query}));

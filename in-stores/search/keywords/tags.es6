@@ -1,0 +1,27 @@
+import {Set} from 'immutable';
+
+import {setField, removeField, containsField, getFieldTerms} from 'in-stores/search/manipulation';
+import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
+import {query$, mutateQuery} from 'in-stores/search/query';
+import {focusedMoment$} from 'in-stores/timeline';
+
+// A stream of the form ImmutableSet<String> describing the currently active
+// tag filters.
+export const filteredTags$ = query$.map(query => Set(getFieldTerms(query, 'tag')));
+export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
+
+export function setTagFilter(tag) {
+  mutateQuery(query => setField(query, 'tag', tag));
+}
+
+export function removeTagFilter(tag) {
+  mutateQuery(query => removeField(query, 'tag', tag));
+}
+
+export function removeAllTagFilters() {
+  mutateQuery(query => removeField(query, 'tag'));
+}
+
+export function containsTagFilter(query, tag) {
+  return containsField(query, 'tag', tag);
+}

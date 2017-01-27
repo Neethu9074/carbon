@@ -1,7 +1,7 @@
 import {createStore} from 'in-stores/store';
 
 const highlightedSpanIdStore = createStore({
-  name: 'in-views/traceView/stores/highlightedSpanId',
+  name: 'traceView/stores/highlightedSpanId',
   initialValue: null
 });
 export const highlightedSpanId$ = highlightedSpanIdStore.observable;

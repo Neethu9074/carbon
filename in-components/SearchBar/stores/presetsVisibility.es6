@@ -1,14 +1,14 @@
-import {expanded$} from 'in-stores/search/expanded';
+import {expanded$} from 'in-stores/search/searchBarExpanded';
 import {createStore} from 'in-stores/store';
 
 const visibilityStore = createStore({
-  name: 'in-components/SearchBar/stores/menuVisibility',
+  name: 'SearchBar/stores/presetsVisibility',
   initialValue: false
 });
 
-export const visible$ = visibilityStore.observable;
+export const presetsVisible$ = visibilityStore.observable;
 
-export function toggle() {
+export function togglePresets() {
   visibilityStore.applyStateMutation(visible => !visible);
 }
 

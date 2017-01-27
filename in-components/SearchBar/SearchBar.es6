@@ -1,20 +1,22 @@
 import React from 'react';
 
-import {toggle, visible$ as menuVisible$} from 'in-components/SearchBar/stores/menuVisibility';
+import {toggleKeywords, keywordsVisible$} from 'in-components/SearchBar/stores/keywordsVisibility';
+import {togglePresets, presetsVisible$} from 'in-components/SearchBar/stores/presetsVisibility';
+import AvailableKeywords from 'in-components/SearchBar/components/AvailableKeywords';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
+import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
-import SearchMenu from 'in-components/SearchBar/components/SearchMenu';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {evaluateClassNames} from 'in-services/util/classnames';
-import {rawQuery$, setInputString} from 'in-stores/search';
-import {expanded$} from 'in-stores/search/expanded';
+import {expanded$} from 'in-stores/search/searchBarExpanded';
+import {unvalidatedQuery$} from 'in-stores/search/query';
+import {setInputString} from 'in-stores/search/query';
 import keyCodes from 'in-components/keyCodes';
 import {
   highlightNextSuggestion,
   highlightPreviousSuggestion,
   selectHighlightedSuggestion
 } from 'in-components/SearchBar/stores/highlightedSuggestion';
-import HelpLink from 'in-components/HelpLink';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -25,49 +27,52 @@ const block = 'in-searchbar';
 export const idOfSearchField = 'search';
 
 export default connectTo({
-  rawQuery: rawQuery$,
+  unvalidatedQuery: unvalidatedQuery$,
   expanded: expanded$,
-  menuVisible: menuVisible$
+  presetsVisible: presetsVisible$,
+  keywordsVisible: keywordsVisible$
 },
-function SearchBar({rawQuery, expanded, menuVisible}) {
+function SearchBar({unvalidatedQuery, expanded, presetsVisible, keywordsVisible}) {
   if (!expanded) {
     return null;
   }
 
   return (
     <div>
-      {menuVisible ?
-        <SearchMenu />
+      {presetsVisible ?
+        <FilterPresets />
+      : null}
+      {keywordsVisible ?
+        <AvailableKeywords />
       : null}
 
       <div className={block}>
-        <div className={`${block}__field-wrapper`}>
+        <div className={evaluateClassNames({
+               [`${block}__expand-collapse-wrapper`]: true,
+               [`${block}__expand-collapse-wrapper--menu-visible`]: keywordsVisible
+             })}
+             onClick={toggleKeywords} >
           <SvgIcon type='search'
                    height={12}
-                   className={`${block}__icon ${block}__search_icon`} />
-
-          <input type='search'
-                 value={rawQuery}
-                 className={`${block}__input`}
-                 placeholder='Search…'
-                 onChange={onChange}
-                 onKeyDown={onKeyDown}
-                 onFocus={onFocus}
-                 onBlur={onBlur}
-                 autoFocus
-                 id={idOfSearchField} />
+                   className={`${block}__icon`} />
         </div>
 
-        <HelpLink helpId='usingTheSearchBar'
-                  className={`${block}__help`}>
-          ?
-        </HelpLink>
+        <input type='search'
+               value={unvalidatedQuery}
+               className={`${block}__input`}
+               placeholder='Search…'
+               onChange={onChange}
+               onKeyDown={onKeyDown}
+               onFocus={onFocus}
+               onBlur={onBlur}
+               autoFocus
+               id={idOfSearchField} />
 
         <div className={evaluateClassNames({
                [`${block}__expand-collapse-wrapper`]: true,
-               [`${block}__expand-collapse-wrapper--menu-visible`]: menuVisible
+               [`${block}__expand-collapse-wrapper--menu-visible`]: presetsVisible
              })}
-             onClick={toggle} >
+             onClick={togglePresets} >
           <SvgIcon type='menu'
                    height={10}
                    className={`${block}__icon`} />

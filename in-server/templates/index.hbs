@@ -33,6 +33,7 @@
     window.instana.config = <!--#include virtual="config.json" -->;
     window.instana.activeTheme = '{{theme}}';
     window.instana.activeThemeConfig = {{{themeConfig}}};
+    window.instana.searchFields = <!--#include virtual="/api/searchFields" -->;
   </script>
 
   {{#if googleAnalyticsTrackingId}}

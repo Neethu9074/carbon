@@ -3,6 +3,7 @@ import {sortedIndexBy} from 'lodash';
 import Immutable from 'immutable';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
 import {getEvent, getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {focusedMoment$, timeframe$, to$, from$} from 'in-stores/timeline';
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
@@ -88,20 +89,16 @@ export const eventsInTimeframe$ = combineLatest([
     }
   });
 
-export const openEventsAtServerTime$ = createTrackingStore({
+const openEventsAtServerTime = createStore({
   name: 'openEventsAtServerTime',
-  observable: retrievedEvents$.map(events => {
-      return {
-        issues: events.issues.filter(filter),
-        changes: events.changes.filter(filter),
-        incidents: events.incidents.filter(filter)
-      };
+  initialValue: null
+});
+export const openEventsAtServerTime$ = openEventsAtServerTime.observable.distinct();
 
-      function filter(event) {
-        return event.state === 'open';
-      }
-    })
-}).observable;
+export function init() {
+  createTotalRawEventsSubscription({timeframe: {to: null, windowSize: 1}})
+  .subscribe(result => openEventsAtServerTime.mutateTo(result));
+}
 
 
 export const openEventsAtFocusedMoment$ = createTrackingStore({

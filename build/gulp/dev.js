@@ -62,7 +62,7 @@ gulp.task('askForDevOptions', cb => {
         {
           name: 'Test',
           value: {
-            uiBackendUrl: 'https://test-instana.instana.io/api/data/',
+            uiBackendUrl: 'https://test-instana.instana.io',
             groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
             tenant: 'instana',
             tenantUnit: 'test',
@@ -196,7 +196,7 @@ gulp.task('askForDevOptions', cb => {
     // no premade target selected, we need to build it up!
     if (selectedOptions.target.groundskeeperUrl == null) {
       selectedOptions.target = {
-        uiBackendUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io/api/data/`,
+        uiBackendUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
         groundskeeperUrl: selectedOptions.environment.groundskeeperUrl,
         tenant: selectedOptions.tenant,
         tenantUnit: selectedOptions.tenantUnit,
@@ -264,6 +264,11 @@ gulp.task('startDevProxy', function startDevProxy() {
     gkApiPrefix = '/auth';
   }
 
+  let websocketEndpoint = uiBackendUrl;
+  if (/:\d+$/.test(websocketEndpoint)) {
+    websocketEndpoint += '/api/data';
+  }
+
   var config = {
     serverName: 'local-instana.instana.io',
     port: 4000,
@@ -272,6 +277,7 @@ gulp.task('startDevProxy', function startDevProxy() {
     tls: true,
     proxy: {
       '/': 'http://127.0.0.1:3000',
+      '/api/': `${uiBackendUrl}/api/`,
       '/auth/signIn': groundskeeperUrl + gkApiPrefix + '/signIn',
       '/auth/signOut': groundskeeperUrl + gkApiPrefix + '/signOut',
       '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
@@ -283,7 +289,7 @@ gulp.task('startDevProxy', function startDevProxy() {
     },
 
     websocketProxy: {
-      '/api/data/': uiBackendUrl
+      '/api/data/': websocketEndpoint
     }
   };
 

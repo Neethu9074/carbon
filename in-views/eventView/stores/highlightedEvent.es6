@@ -2,7 +2,7 @@ import {createStore} from 'in-stores/store';
 
 
 const highlightedEventStore = createStore({
-  name: 'in-views/traceView/stores/highlightedEventId',
+  name: 'traceView/stores/highlightedEventId',
   initialValue: null
 });
 export const highlightedEventId$ = highlightedEventStore.observable;

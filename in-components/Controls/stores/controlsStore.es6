@@ -1,14 +1,9 @@
+import {create} from 'reactive-observables';
+
 import getPhysicalContent from 'in-components/Controls/components/physicalContent';
 import getLogicalContent from 'in-components/Controls/components/logicalContent';
-import {createStore} from 'in-stores/store';
 
-
-const controls = createStore({
-  name: 'Controls/contentStore',
-  initialValue: null
-});
-export const controls$ = controls.observable;
-
+export const controls$ = create().emit(null);
 
 export const CONTROL_PRESETS = {
   PHYSICAL: 'physical',
@@ -16,14 +11,11 @@ export const CONTROL_PRESETS = {
 };
 
 export function setControls(_content) {
-  controls.applyStateMutation(() => {
-    switch (_content) {
-      case CONTROL_PRESETS.PHYSICAL:
-      return getPhysicalContent();
-      case CONTROL_PRESETS.LOGICAL:
-      return getLogicalContent();
-      default:
-      return null;
-    }
-  });
+  if (_content === CONTROL_PRESETS.PHYSICAL) {
+    controls$.emit(getPhysicalContent());
+  } else if (_content === CONTROL_PRESETS.LOGICAL) {
+    controls$.emit(getLogicalContent());
+  } else {
+    controls$.emit(null);
+  }
 }

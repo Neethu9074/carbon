@@ -10,7 +10,7 @@ import {createTrackingStore} from 'in-stores/store';
 const refresh$ = create();
 
 export const keys$ = createTrackingStore({
-  name: 'in-views/configurationView/subview/EumKeys/stores/keys',
+  name: 'configurationView/subview/EumKeys/stores/keys',
   observable: refresh$
     .flatMap(doLoad => {
       if (!doLoad) {

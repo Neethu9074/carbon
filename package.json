@@ -32,7 +32,7 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "ansi-to-html": "^0.4.1",
-    "clipboard": "^1.5.13",
+    "clipboard": "^1.5.16",
     "codemirror": "5.20.2",
     "d3-format": "^1.0.2",
     "dompurify": "^0.8.3",
@@ -46,6 +46,7 @@
     "koijs": "^0.2.0",
     "lex": "^1.7.9",
     "lodash": "^4.15.0",
+    "lucene": "^1.1.0",
     "markdown-it": "^7.0.0",
     "markdown-it-link-target": "^1.0.1",
     "moment": "^2.14.1",

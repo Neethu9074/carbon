@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 
 import {create} from 'reactive-observables';
-import Immutable from 'immutable';
 import proxyquire from 'proxyquire';
-import sinon from 'sinon';
+import Immutable from 'immutable';
 import {expect} from 'chai';
+import sinon from 'sinon';
 
 import {resetStoreRegistry} from 'in-stores/store';
 import {theme} from 'in-services/theme';
@@ -23,6 +23,7 @@ describe('in-stores/events', () => {
   let getEventsResult;
   let getEventUpdates;
   let getEventUpdatesResult;
+  let getTotalEventsCount;
 
   beforeEach(() => {
     resetStoreRegistry();
@@ -38,6 +39,7 @@ describe('in-stores/events', () => {
     getEvents = sinon.stub();
     getEventsResult = create().emit(Immutable.List());
     focusedMoment$ = create();
+    getTotalEventsCount = create();
     resolvedFocusedMoment$ = focusedMoment$.flatMap(focusedMoment => {
       if (focusedMoment == null) {
         return serverTime$;
@@ -56,6 +58,7 @@ describe('in-stores/events', () => {
         focusedMoment$,
         resolvedFocusedMoment$
       },
+      'in-services/subscription/totalRawEventsCount': {default: () => getTotalEventsCount},
       'in-services/subscription/eventUpdates': {default: getEventUpdates},
       'in-services/subscription/events': {default: getEvents},
       'in-services/subscription/openEvents': {default: () => create()},
@@ -65,6 +68,7 @@ describe('in-stores/events', () => {
         clearHighlightedEntityId() {}
       }
     });
+    mod.init();
   });
 
   describe('retrievedEvents$', () => {
@@ -342,10 +346,13 @@ describe('in-stores/events', () => {
         'state': 'closed'
       }]));
 
-      expect(subscriber.callCount).to.equal(4);
-      const result = subscriber.getCall(3).args[0];
-      expect(result.issues.length).to.equal(1);
-      expect(result.issues[0].get('id')).to.equal('foo');
+      getTotalEventsCount.emit(Immutable.fromJS({
+        incidentCount: 123
+      }));
+
+      expect(subscriber.callCount).to.equal(2);
+      const result = subscriber.getCall(1).args[0];
+      expect(result.get('incidentCount')).to.equal(123);
     });
   });
 

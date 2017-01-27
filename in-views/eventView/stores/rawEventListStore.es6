@@ -4,9 +4,9 @@ import createRawEventsObservable from 'in-services/subscription/rawEvents';
 import {sortDirection$} from 'in-views/eventView/stores/sortDirection';
 import {setIsLoading} from 'in-views/eventView/stores/isLoadingStore';
 import {autoUpdate$} from 'in-views/eventView/stores/autoUpdate';
+import {debouncedQuery$ as query$} from 'in-stores/search/query';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
 import {sortBy$} from 'in-views/eventView/stores/sortBy';
-import {luceneQuery$ as query$} from 'in-stores/search';
 import {emptyArray} from 'in-services/fixedObjects';
 import {createStore} from 'in-stores/store';
 
