@@ -61,7 +61,7 @@ function ViewSwitcher({navigationParameters}) {
 
         {logViewEnabled ?
           <View label='logs'
-                icon='focus'
+                icon='letter'
                 isActive={pathname.indexOf('/logs') === 0}
                 href$={logView$} />
         : null}
