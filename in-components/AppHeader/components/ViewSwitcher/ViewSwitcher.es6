@@ -9,7 +9,7 @@ import {
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {SubMenuItem} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
-import {containsTypeFilter} from 'in-stores/search/keywords/type';
+import {containsKeyword} from 'in-stores/search/keywords';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
@@ -26,7 +26,7 @@ function ViewSwitcher({navigationParameters}) {
   const pathname = navigationParameters.pathname;
 
   const isTable = pathname.indexOf('/table') === 0;
-  const isLogicalTable = isTable && containsTypeFilter(decodeURIComponent(navigationParameters.query.q), 'service');
+  const isLogicalTable = isTable && containsKeyword(decodeURIComponent(navigationParameters.query.q), 'selftype', 'service');
   const isPhysicalTable = isTable && !isLogicalTable;
 
   return (

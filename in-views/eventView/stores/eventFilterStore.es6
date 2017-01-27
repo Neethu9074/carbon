@@ -1,8 +1,4 @@
-import {
-  setTypeFilter,
-  removeTypeFilter,
-  containsTypeFilter
-} from 'in-stores/search/keywords/type';
+import {setKeyword, removeKeyword, containsKeyword} from 'in-stores/search/keywords';
 import {createTrackingStore} from 'in-stores/store';
 import {query$} from 'in-stores/search/query';
 
@@ -10,8 +6,8 @@ import {query$} from 'in-stores/search/query';
 export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilterStore',
   observable: query$.map(query => {
-    const filteredByEvents = containsTypeFilter(query, 'event');
-    const filteredByIncidents = containsTypeFilter(query, 'incident');
+    const filteredByEvents = containsKeyword(query, 'eventType', 'event');
+    const filteredByIncidents = containsKeyword(query, 'eventType', 'incident');
     if (filteredByEvents && filteredByIncidents) {
       return null;
     } else if (filteredByIncidents) {
@@ -26,8 +22,8 @@ export const eventFilter$ = createTrackingStore({
 
 export function setEventTypeFilter(filter) {
   if (filter) {
-    setTypeFilter(filter);
+    setKeyword('eventType', filter);
   } else {
-    removeTypeFilter();
+    removeKeyword('eventType');
   }
 }

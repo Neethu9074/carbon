@@ -1,8 +1,8 @@
 import {translateSearchableEntityTypeToFullyQualifiedPluginIds} from 'in-sdk/search/defaultOperators';
 import {clearSelectedSnapshots} from 'in-views/tableView/stores/selectedSnapshots';
-import {setTypeFilter, getTypes} from 'in-stores/search/keywords/type';
 import createSearchObservable from 'in-services/subscription/search';
 import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
+import {setKeyword, getValues} from 'in-stores/search/keywords';
 import {clearMetrics} from 'in-views/tableView/stores/metrics';
 import {setColumn} from 'in-views/tableView/stores/sorting';
 import {focusedMoment$} from 'in-stores/timeline';
@@ -20,7 +20,7 @@ export const selectedType$ = query$
 
 
 export function setSelectedType(type) {
-  setTypeFilter(type);
+  setKeyword('selftype', type);
 }
 
 
@@ -67,7 +67,7 @@ export const snapshotIds$ = query$
 
 
 function getSelectedType(query) {
-  return getTypes(query, 'type')[0];
+  return getValues(query, 'selftype')[0];
 }
 
 
