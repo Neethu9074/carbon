@@ -7,7 +7,6 @@ import {serverTime$} from 'in-stores/serverTime';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
-
 import './TextInput.less';
 
 
@@ -33,7 +32,7 @@ function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
 
   if (showInputDescriptions) {
     component = (
-      <div className={block}>
+      <div>
         <span className={`${block}__heading`}>
           {heading}
         </span>
@@ -44,17 +43,12 @@ function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
   }
 
   return (
-    <Tooltip content={
-               isValid
-                ? null
-                : <ErrorMsg />
-             }
+    <Tooltip content={isValid ? null : <ErrorMsg />}
              align='rightMiddle'>
       {component}
     </Tooltip>
   );
 });
-
 
 const ErrorMsg = connectTo({
   bigBangTimestamp: bigBangTimestamp$,
@@ -62,7 +56,7 @@ const ErrorMsg = connectTo({
 },
 function ErrorMsg({bigBangTimestamp, serverTime}) {
   return (
-    <div className={`${block}__error-msg`}>
+    <div>
       <span>
         Please enter a date within the monitored time range in the format (YYYY-MM-DD)
       </span>

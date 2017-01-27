@@ -2,6 +2,7 @@ import React from 'react';
 
 import ButtonPanel from 'in-components/timeline/components/DatePicker/v2/ButtonPanel';
 import InputFields from 'in-components/timeline/components/DatePicker/v2/InputFields';
+import DatePicker from 'in-components/timeline/components/DatePicker/v2/DatePicker';
 import InfoPanel from 'in-components/timeline/components/DatePicker/v2/InfoPanel';
 import {interactableTimelineHeight$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
@@ -40,6 +41,9 @@ React.createClass({
         <ButtonPanel />
         <div className={`${block}__left`}>
           <InputFields />
+        </div>
+        <div className={`${block}__middle`}>
+          <DatePicker />
         </div>
         <div className={`${block}__right`}>
           <InfoPanel />

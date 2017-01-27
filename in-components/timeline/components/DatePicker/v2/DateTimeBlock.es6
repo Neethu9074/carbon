@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TextInput from 'in-components/timeline/components/DatePicker/v2/TextInput';
+import DateInput from 'in-components/timeline/components/DatePicker/v2/DateInput';
 import connectTo from 'in-hoc/connectTo';
 
 import './DateTimeBlock.less';
@@ -14,18 +15,20 @@ export default connectTo(props => {
     timeString: props.store.timeString$,
   };
 },
-function DateTimeBlock({store, heading, dateString, timeString, showInputDescriptions}) {
+function DateTimeBlock({store, heading, dateString, timeString, showInputDescriptions, setDateFn}) {
   return (
     <div className={block}>
       <span className={`${block}__heading`}>
         {heading}
       </span>
       <div className={`${block}__inputs`}>
-        <TextInput heading='Date'
+        <DateInput heading='Date'
                    value={dateString}
                    onChange={store.setDateString}
                    showInputDescriptions={showInputDescriptions}
-                   isValid$={store.isDateTimeValid$.map(valid => valid.date)} />
+                   isValid$={store.isDateTimeValid$.map(valid => valid.date)}
+                   type='date'
+                   setDateFn={setDateFn} />
         <TextInput heading='Time'
                    value={timeString}
                    onChange={store.setTimeString}

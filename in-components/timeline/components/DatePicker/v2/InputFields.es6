@@ -3,6 +3,7 @@ import React from 'react';
 import * as focusedMomentStore from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
 import * as windowSizeStore from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import * as fromStore from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
+import {toggleDateFn} from 'in-components/timeline/components/DatePicker/stores/currentDateFnStore';
 import * as toStore from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import DateTimeBlock from 'in-components/timeline/components/DatePicker/v2/DateTimeBlock';
 import {live$} from 'in-components/timeline/components/DatePicker/stores/liveStore';
@@ -38,20 +39,31 @@ function LiveInputFields({windowSize}) {
   );
 });
 
-function FixedTimestampInputFields() {
-  return (
-    <div className={block}>
-      <DateTimeBlock heading='From'
-                     store={fromStore}
-                     showInputDescriptions />
+const FixedTimestampInputFields = React.createClass({
+  displayName: 'FixedTimestampInputFields',
 
-      <DateTimeBlock heading='To'
-                     store={toStore} />
+  componentWillUnmount() {
+    toggleDateFn(null);
+  },
 
-      <div className={`${block}__separator`} />
+  render() {
+    return (
+      <div className={block}>
+        <DateTimeBlock heading='From'
+                       store={fromStore}
+                       setDateFn={fromStore.setDateString}
+                       showInputDescriptions />
 
-      <DateTimeBlock heading='Selected moment'
-                     store={focusedMomentStore} />
-    </div>
-  );
-}
+        <DateTimeBlock heading='To'
+                       setDateFn={toStore.setDateString}
+                       store={toStore} />
+
+        <div className={`${block}__separator`} />
+
+        <DateTimeBlock heading='Selected moment'
+                       setDateFn={focusedMomentStore.setDateString}
+                       store={focusedMomentStore} />
+      </div>
+    );
+  }
+});

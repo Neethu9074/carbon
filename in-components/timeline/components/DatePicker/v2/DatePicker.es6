@@ -3,6 +3,7 @@ import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import React from 'react';
 
+import {currentDateFn$} from 'in-components/timeline/components/DatePicker/stores/currentDateFnStore';
 import {formatDate} from 'in-services/formatters/date';
 import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
@@ -12,10 +13,12 @@ import './DatePicker.less';
 
 
 const rpt = React.PropTypes;
+const block = 'in-timeline-date-picker';
 
 export default connectTo({
   bigBangTimestamp: bigBangTimestamp$,
-  serverTime: serverTime$
+  currentDateFn: currentDateFn$,
+  serverTime: serverTime$,
 },
 React.createClass({
 
@@ -23,6 +26,7 @@ React.createClass({
 
   propTypes: {
     bigBangTimestamp: rpt.number,
+    currentDateFn: rpt.func,
     serverTime: rpt.number
   },
 
@@ -33,25 +37,32 @@ React.createClass({
   },
 
   render() {
-    const date = undefined;
+    const currentDateFn = this.props.currentDateFn;
     const bigBangTimestamp = this.props.bigBangTimestamp;
     const serverTime = this.props.serverTime;
+    const date = undefined;
 
     if (!bigBangTimestamp || !serverTime) {
       return null;
     }
 
     return (
-      <div>
-        <DayPicker initialMonth={this.state.month}
-                   modifiers={{
-                     selected: day => dateUtils.isSameDay(day, date),
-                     inactive: day => !dateUtils.isDayInRange(day, {
-                       from: new Date(bigBangTimestamp),
-                       to: new Date(serverTime)
-                     })
-                   }}
-                   onDayClick={(e, day) => console.log(formatDate(day))} />
+      <div className={block}
+           style={{
+             width: currentDateFn ? 250 : 0
+           }}>
+        {currentDateFn ?
+          <DayPicker initialMonth={this.state.month}
+                     modifiers={{
+                       selected: day => dateUtils.isSameDay(day, date),
+                       inactive: day => !dateUtils.isDayInRange(day, {
+                         from: new Date(bigBangTimestamp),
+                         to: new Date(serverTime)
+                       })
+                     }}
+                     onDayClick={(e, day) => currentDateFn(formatDate(day))} />
+          : null
+        }
       </div>
     );
   }
