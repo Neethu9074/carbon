@@ -4,13 +4,15 @@ import {
   eventsLinkOnlyIncidents$,
   traceViewLinkWithoutEumTraces$,
   tableViewLink$,
-  tableViewFilteredForServicesLink$
+  tableViewFilteredForServicesLink$,
+  logView$
 } from 'in-stores/navigation/view';
 import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {SubMenuItem} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import {containsKeyword} from 'in-stores/search/keywords';
 import {openEventsAtServerTime$} from 'in-stores/events';
+import {logViewEnabled} from 'in-services/featureFlags';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -56,6 +58,13 @@ function ViewSwitcher({navigationParameters}) {
                        href$={tableViewFilteredForServicesLink$}
                        isActive={isLogicalTable} />
         </View>
+
+        {logViewEnabled ?
+          <View label='logs'
+                icon='focus'
+                isActive={pathname.indexOf('/logs') === 0}
+                href$={logView$} />
+        : null}
 
         <IncidentsMenuPoint isActive={pathname.indexOf('/events') === 0} />
       </ul>

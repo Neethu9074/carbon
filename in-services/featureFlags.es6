@@ -5,3 +5,4 @@ const onlyInstana = isInstanaTenant();
 
 export const webVrEnabled = notStaging && onlyInstana;
 export const eumStatisticsEnabled = notStaging && onlyInstana;
+export const logViewEnabled = notStaging && onlyInstana;

@@ -9,6 +9,7 @@ import EumKeys from 'promise?global,configView!in-views/configurationView/subvie
 import TraceView from 'promise?global!in-views/traceView/TraceView';
 import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
+import LogView from 'promise?global!in-views/logView/LogView';
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
@@ -58,6 +59,14 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(TableView)}
            path='table'
            windowTitle='Comparison Table'>
+      <Route component={Dashboard}
+             path='dashboard'
+             windowTitle='Dashboard' />
+    </Route>
+
+    <Route component={createAsyncFullscreenOverlayViewComponent(LogView)}
+           path='logs'
+           windowTitle='Logs'>
       <Route component={Dashboard}
              path='dashboard'
              windowTitle='Dashboard' />
