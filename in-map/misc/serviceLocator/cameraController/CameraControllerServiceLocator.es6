@@ -2,7 +2,8 @@ import createNullService from 'in-map/misc/serviceLocator/cameraController/Camer
 
 
 const CameraControllerServiceLocator = (function create() {
-  let service = createNullService();
+  const nullService = createNullService();
+  let service = nullService;
 
   function flyToPosition(position) {
     return service.flyToPosition(position);
@@ -29,19 +30,17 @@ const CameraControllerServiceLocator = (function create() {
   }
 
   function provide(_service) {
-    if (!_service) {
-      return;
-    }
-
     if (service) {
       service.dispose();
     }
 
-    if (_service) {
-      _service.init();
-      _service.initEvents();
+    if (!_service) {
+      service = nullService;
+      return;
     }
 
+    _service.init();
+    _service.initEvents();
     service = _service;
   }
 

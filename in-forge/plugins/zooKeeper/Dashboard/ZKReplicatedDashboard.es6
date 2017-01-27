@@ -8,12 +8,12 @@ import {emptyList} from 'in-services/fixedImmutables';
 
 export default function ZKReplicatedDashboard({snapshot, timeframe}) {
   const snapshotId = snapshot.get('id');
-  const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList).sort();
+  const localPeerNames = extractLocalPeerNames(snapshot);
 
   return (
     <div>
       <DashboardSection title='Ticks'>
-        {peerNames.map(peer =>
+        {localPeerNames.map(peer =>
           <ChartWithLegend key={peer}
                            snapshotId={snapshotId}
                            timeframe={timeframe}
@@ -35,4 +35,17 @@ export default function ZKReplicatedDashboard({snapshot, timeframe}) {
       </DashboardSection>
     </div>
   );
+}
+
+function extractLocalPeerNames(snapshot) {
+  const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList);
+  const data = snapshot.get('data');
+  const localPeers = [];
+  peerNames.map(p => {
+     if (data.get('quorum.' + p + '.state') !== undefined) {
+        localPeers.push(p);
+     }
+  });
+
+  return localPeers.sort();
 }
