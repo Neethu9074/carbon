@@ -48,9 +48,14 @@ export default connectTo(props => {
         </DescriptionItem>
 
         {error ?
-          <DescriptionItem title='Error'>
-            <Code code={JSON.stringify(error, 0, 2)}
-                  lang='json' />
+          <DescriptionItem title='Error Message'>
+            {error.get('message')}
+          </DescriptionItem>
+        : null}
+
+        {error && error.get('stack') ?
+          <DescriptionItem title='Stack Trace'>
+            <Code code={error.get('stack')} />
           </DescriptionItem>
         : null}
       </DescriptionList>
