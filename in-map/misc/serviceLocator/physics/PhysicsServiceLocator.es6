@@ -1,7 +1,8 @@
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
 
 const PhysicsServiceLocator = (function create() {
-  let service = createNullService();
+  const nullService = createNullService();
+  let service = nullService;
 
   function init() {
     return service.init();
@@ -28,11 +29,13 @@ const PhysicsServiceLocator = (function create() {
       service.dispose();
     }
 
-    service = _service;
-
-    if (service) {
-      service.init();
+    if (!_service) {
+      service = nullService;
+      return;
     }
+
+    _service.init();
+    service = _service;
   }
 
   return {
