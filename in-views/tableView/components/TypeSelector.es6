@@ -19,6 +19,9 @@ const domains = {
   },
   Application: {
     service: 'Services'
+  },
+  Instana: {
+    agent: 'Agents'
   }
 };
 

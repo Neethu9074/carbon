@@ -11,6 +11,7 @@ registerSnapshotDefinition({
 
   iconSvgPath,
   metricDefinitions,
+  namesForTypeSearch: ['agent'],
 
   pluginName: {
     singular: 'Instana Agent',
