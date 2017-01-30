@@ -5,7 +5,7 @@ import {goToDashboard} from 'in-stores/navigation/navigation';
 
 const logger = logging.createLogger('in-forge/instanaAgent/selfMonitoring');
 
-export function start(snapshot) {
+export function start(snapshot, open) {
   createAgentResponseObservable({
     action: 'agent.selfmonitoring.start',
     target: snapshot.get('volatileId'),
@@ -13,7 +13,7 @@ export function start(snapshot) {
   }).once(response => {
     logger.info('Self monitoring start response', response);
 
-    if (response.data) {
+    if (open && response.data) {
       goToDashboard(response.data);
     }
   });
@@ -26,6 +26,18 @@ export function stop(snapshot) {
     args: {}
   }).once(response => {
     logger.info('Self monitoring stop response', response);
+  });
+}
+
+export function setMode(snapshot, mode) {
+  createAgentResponseObservable({
+    action: 'agent.mode',
+    target: snapshot.get('volatileId'),
+    args: {
+      'mode' : mode
+    }
+  }).once(response => {
+    logger.info('Agent set mode response', response);
   });
 }
 

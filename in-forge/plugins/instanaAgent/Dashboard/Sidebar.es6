@@ -9,6 +9,12 @@ export default function InstanaAgentSidebar({snapshot}) {
   return (
     <div>
       <Separator />
+      {
+        // TODO: Need to have a dropdown to switch between on / off
+        // After new licensing is out also off / Infrastructure / Application
+      }
+      Agent {snapshot.getIn(['data', 'mode']) ? 'active' : 'inactive'}
+      <Separator />
       <Collapsible initiallyOpen>
         <Collapsible.Header>
           Instana Agent
