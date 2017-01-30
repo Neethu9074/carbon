@@ -10,8 +10,6 @@ import metricDefinitions from './metricDefinitions';
 registerSnapshotDefinition({
   plugin: plugins.instanaAgent,
 
-  namesForTypeSearch: ['agent'],
-
   tableDefinition,
   iconSvgPath,
   metricDefinitions,
