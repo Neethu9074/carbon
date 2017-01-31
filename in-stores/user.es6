@@ -2,7 +2,7 @@ import {find} from 'lodash';
 
 import {config} from 'in-services/config';
 
-const user = getCurrentUser();
+const user = window.instana.user;
 const tenant = find(user.tenants, tenant => tenant.name === config.tenant.name);
 const role = tenant.role;
 
