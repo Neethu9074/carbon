@@ -73,7 +73,7 @@ gulp.task('askForDevOptions', cb => {
           name: 'Local',
           value: {
             uiBackendUrl: 'http://localhost:8080',
-            websocketEndpoint: 'http://localhost:8082',
+            websocketEndpoint: 'http://localhost:8082/',
             groundskeeperUrl: 'http://localhost:8480',
             withoutAuthPrefix: true,
             tenant: 'instana',
@@ -260,9 +260,6 @@ gulp.task('startDevProxy', function startDevProxy() {
   const uiBackendUrl = envConfig.uiBackendUrl;
   const groundskeeperUrl = envConfig.groundskeeperUrl;
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
-  if (!websocketEndpoint.endsWith('/')) {
-    websocketEndpoint = websocketEndpoint + '/';
-  }
 
   let gkApiPrefix = '';
   if (!envConfig.withoutAuthPrefix) {
