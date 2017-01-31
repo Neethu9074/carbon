@@ -5,7 +5,7 @@ registerSpanDefinition({
   category: 'eum',
   direction: 'entryAndExit',
   serviceSideForOverview: 'source',
-  searchAliases: ['page', 'eum', 'error'],
+  searchAliases: ['page', 'eum', 'error', 'eumError'],
   showSelfTime: false,
 
   typeName: {
