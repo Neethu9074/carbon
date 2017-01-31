@@ -173,7 +173,6 @@ export function getFixedTimeframeUrl({windowSize, to, focusedMoment, clearHighli
     .map(cloneDeep)
     .map(navParams => {
       if (!focusedMoment) {
-        delete navParams.query.fm;
         navParams.query['timeline.fm'] = encodeURIComponent('');
       } else {
         navParams.query['timeline.fm'] = encodeURIComponent(focusedMoment);

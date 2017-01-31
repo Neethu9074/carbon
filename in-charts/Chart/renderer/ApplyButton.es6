@@ -1,11 +1,9 @@
-import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import {highlightedTimeframe$, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
 import {getFixedTimeframeUrl} from 'in-stores/navigation/navigation';
 import {MAX_ZOOM_LEVEL} from 'in-components/timeline/timelineStore';
 import {alwaysNull} from 'in-services/fixedStreams';
-import {focusedMoment$} from 'in-stores/timeline';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -16,10 +14,8 @@ import './ApplyButton.less';
 const block = 'in-chart-apply-button';
 
 export default connectTo({
-  href: combineLatest([
-    highlightedTimeframe$,
-    focusedMoment$
-  ]).flatMap(([highlightedTimeframe, focusedMoment]) => {
+  href: highlightedTimeframe$
+  .flatMap(highlightedTimeframe => {
     if (!highlightedTimeframe) {
       return alwaysNull;
     }
@@ -35,7 +31,7 @@ export default connectTo({
     return getFixedTimeframeUrl({
       windowSize,
       to,
-      focusedMoment,
+      focusedMoment: to,
       clearHighlightedTimeframe: true
     });
   })
