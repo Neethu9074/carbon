@@ -259,7 +259,10 @@ gulp.task('startDevProxy', function startDevProxy() {
   const envConfig = devModeOptions.target;
   const uiBackendUrl = envConfig.uiBackendUrl;
   const groundskeeperUrl = envConfig.groundskeeperUrl;
-  const websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
+  let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
+  if (!websocketEndpoint.endsWith('/')) {
+    websocketEndpoint = websocketEndpoint + '/';
+  }
 
   let gkApiPrefix = '';
   if (!envConfig.withoutAuthPrefix) {
