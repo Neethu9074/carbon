@@ -10,8 +10,9 @@ import {view$} from 'in-stores/view';
 const excludeUnmonitoredHosts$ = getIn(['map', 'excludeUnmonitoredHosts']);
 
 const noSearchMatches = {
+  size: 0,
   contains() {
-    return true;
+    return false;
   }
 };
 
@@ -19,6 +20,9 @@ export function getViewStructure() {
   return combineLatest([view$, focusedMoment$, searchMatches$, excludeUnmonitoredHosts$])
      .flatMap(([viewType, focusedMoment, _searchMatches, excludeUnmonitoredHosts]) => {
        _searchMatches = _searchMatches || noSearchMatches;
+       if (_searchMatches.size === 0) {
+         _searchMatches = noSearchMatches;
+       }
        return createViewStructureObservable({viewType, time: focusedMoment})
               .map(_viewStructure => {
                 const groupIds = {};

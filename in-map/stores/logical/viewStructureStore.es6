@@ -7,8 +7,9 @@ import {getIn} from 'in-services/settings';
 import {view$} from 'in-stores/view';
 
 const noSearchMatches = {
+  size: 0,
   contains() {
-    return true;
+    return false;
   }
 };
 
@@ -16,6 +17,9 @@ export function getViewStructure() {
   return combineLatest([view$, focusedMoment$, searchMatches$, getIn(['map', 'logical', 'numServiceHops'], 0)])
      .flatMap(([viewType, focusedMoment, _searchMatches, numServiceHops]) => {
        _searchMatches = _searchMatches || noSearchMatches;
+       if (_searchMatches.size === 0) {
+         _searchMatches = noSearchMatches;
+       }
        return createViewStructureObservable({viewType, time: focusedMoment})
               .map(_viewStructure => {
                 const serviceIds = {};
