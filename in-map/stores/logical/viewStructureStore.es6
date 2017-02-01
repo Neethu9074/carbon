@@ -2,23 +2,33 @@ import {combineLatest} from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
 import {searchMatches$} from 'in-stores/search/searchMatches';
+import {debouncedQuery$} from 'in-stores/search/query';
 import {focusedMoment$} from 'in-stores/timeline';
 import {getIn} from 'in-services/settings';
 import {view$} from 'in-stores/view';
+import {role} from 'in-stores/user';
 
-const noSearchMatches = {
-  size: 0,
+const nothingMatches = {
   contains() {
     return false;
   }
 };
 
+const everythingMatches = {
+  contains() {
+    return true;
+  }
+};
+
 export function getViewStructure() {
-  return combineLatest([view$, focusedMoment$, searchMatches$, getIn(['map', 'logical', 'numServiceHops'], 0)])
-     .flatMap(([viewType, focusedMoment, _searchMatches, numServiceHops]) => {
-       _searchMatches = _searchMatches || noSearchMatches;
-       if (_searchMatches.size === 0) {
-         _searchMatches = noSearchMatches;
+  return combineLatest([view$, focusedMoment$, searchMatches$, getIn(['map', 'logical', 'numServiceHops'], 0), debouncedQuery$])
+     .flatMap(([viewType, focusedMoment, _searchMatches, numServiceHops, query]) => {
+       if (!_searchMatches || _searchMatches.size === 0) {
+         if (query.trim().length === 0 && role.implicitViewFilter.trim().length === 0) {
+           _searchMatches = everythingMatches;
+         } else {
+           _searchMatches = nothingMatches;
+         }
        }
        return createViewStructureObservable({viewType, time: focusedMoment})
               .map(_viewStructure => {
