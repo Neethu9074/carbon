@@ -4,7 +4,7 @@ import {toggleMenu} from 'in-components/AppHeader/components/AccountMenu/account
 import Menu from 'in-components/AppHeader/components/AccountMenu/components/Menu';
 import unknown from 'in-components/AppHeader/components/AccountMenu/unknown.png';
 import getGravatarUrl from 'in-services/subscription/gravatar';
-import {getCurrentUser} from 'in-stores/user';
+import {user} from 'in-stores/user';
 import {onImageLoad} from 'in-services/image';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -14,7 +14,7 @@ import './AccountMenu.less';
 const block = 'in-account';
 
 export default connectTo({
-  avatarUrl: getGravatarUrl(getCurrentUser().email)
+  avatarUrl: getGravatarUrl(user.email)
     .flatMap(url => onImageLoad(url))
 }, function AccountMenu({avatarUrl}) {
   return (
@@ -28,13 +28,13 @@ export default connectTo({
 
         {avatarUrl ?
           <img src={avatarUrl}
-               alt={`Avatar for ${getCurrentUser().email} from gravatar.com.`}
+               alt={`Avatar for ${user.email} from gravatar.com.`}
                className={`${block}__avatar`} />
         : null}
 
         {!avatarUrl ?
           <img src={unknown}
-               alt={`Fallback avatar for ${getCurrentUser().email}.`}
+               alt={`Fallback avatar for ${user.email}.`}
                className={`${block}__avatar`} />
         : null}
 

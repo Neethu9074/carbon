@@ -14,6 +14,7 @@ import {
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
+import {role} from 'in-stores/user';
 
 import './Navigation.less';
 
@@ -24,25 +25,29 @@ export default function Navigation() {
     <nav className={block}>
       <h2 className={`${block}__heading`}>Settings</h2>
       <NavItems>
-        <NavItem title='Service Mapper'>
-          <NavItem title='HTTP Rules'
-                   href$={httpServiceExtractionConfigurationViewLink$}
-                   isActive$={isHttpServiceExtractionConfigurationView$}
-                   borderless />
+        {role.canConfigureServiceMapping ?
+          <NavItem title='Service Mapper'>
+            <NavItem title='HTTP Rules'
+                     href$={httpServiceExtractionConfigurationViewLink$}
+                     isActive$={isHttpServiceExtractionConfigurationView$}
+                     borderless />
 
-          <NavItem title='EJB Rules'
-                   href$={ejbServiceExtractionConfigurationViewLink$}
-                   isActive$={isEjbServiceExtractionConfigurationView$}
-                   borderless />
-          <NavItem title='Elasticsearch Rules'
-                   href$={elasticsearchServiceExtractionConfigurationViewLink$}
-                   isActive$={isElasticsearchServiceExtractionConfigurationView$}
-                   borderless />
-        </NavItem>
+            <NavItem title='EJB Rules'
+                     href$={ejbServiceExtractionConfigurationViewLink$}
+                     isActive$={isEjbServiceExtractionConfigurationView$}
+                     borderless />
+            <NavItem title='Elasticsearch Rules'
+                     href$={elasticsearchServiceExtractionConfigurationViewLink$}
+                     isActive$={isElasticsearchServiceExtractionConfigurationView$}
+                     borderless />
+          </NavItem>
+        : null}
 
-        <NavItem title='End-User Monitoring'
-                 href$={eumKeysViewLink$}
-                 isActive$={isEumKeysView$} />
+        {role.canConfigureEumApplications ?
+          <NavItem title='End-User Monitoring'
+                   href$={eumKeysViewLink$}
+                   isActive$={isEumKeysView$} />
+        : null}
 
         <NavItem title='User Interface'
                  href$={userInterfaceConfigViewLink$}
