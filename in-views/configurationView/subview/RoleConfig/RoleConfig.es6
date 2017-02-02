@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Roles from 'in-views/configurationView/subview/RoleConfig/components/Roles';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 
 export default function RoleConfig() {
@@ -8,6 +9,8 @@ export default function RoleConfig() {
       <SubViewHeader>
         Role Configuration
       </SubViewHeader>
+
+      <Roles />
     </div>
   );
 }
