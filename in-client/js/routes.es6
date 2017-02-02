@@ -3,6 +3,7 @@
 import ElasticServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
+import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
@@ -90,6 +91,9 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
              path='eumKeys'
              windowTitle='EUM Keys' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)}
+             path='roleConfig'
+             windowTitle='Role Config' />
     </Route>
 
     <Route component={GraphView}

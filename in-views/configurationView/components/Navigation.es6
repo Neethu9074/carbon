@@ -10,7 +10,9 @@ import {
   userInterfaceConfigViewLink$,
   isUserInterfaceConfigView$,
   eumKeysViewLink$,
-  isEumKeysView$
+  isEumKeysView$,
+  roleConfigViewLink$,
+  isRoleConfigView$
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
@@ -52,6 +54,12 @@ export default function Navigation() {
         <NavItem title='User Interface'
                  href$={userInterfaceConfigViewLink$}
                  isActive$={isUserInterfaceConfigView$} />
+
+        {role.canConfigureRoles ?
+          <NavItem title='User Roles'
+                   href$={roleConfigViewLink$}
+                   isActive$={isRoleConfigView$} />
+        : null}
       </NavItems>
     </nav>
   );

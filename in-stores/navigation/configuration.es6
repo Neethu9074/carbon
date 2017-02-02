@@ -22,3 +22,7 @@ export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfac
 const eumKeysViewPath = '/config/eumKeys';
 export const eumKeysViewLink$ = buildUrlStream({path: eumKeysViewPath});
 export const isEumKeysView$ = buildPathStartsWithStream(eumKeysViewPath);
+
+const roleConfigViewPath = '/config/roleConfig';
+export const roleConfigViewLink$ = buildUrlStream({path: roleConfigViewPath});
+export const isRoleConfigView$ = buildPathStartsWithStream(roleConfigViewPath);
