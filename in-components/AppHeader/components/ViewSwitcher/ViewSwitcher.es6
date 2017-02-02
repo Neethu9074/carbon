@@ -13,6 +13,7 @@ import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import {containsKeyword} from 'in-stores/search/keywords';
 import {openEventsAtServerTime$} from 'in-stores/events';
 import {logViewEnabled} from 'in-services/featureFlags';
+import {query$} from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -22,13 +23,14 @@ import './ViewSwitcher.less';
 const block = 'in-view-switcher';
 
 export default connectTo({
-  navigationParameters: navigationParameters$
+  navigationParameters: navigationParameters$,
+  query: query$
 },
-function ViewSwitcher({navigationParameters}) {
+function ViewSwitcher({navigationParameters, query}) {
   const pathname = navigationParameters.pathname;
 
   const isTable = pathname.indexOf('/table') === 0;
-  const isLogicalTable = isTable && containsKeyword(decodeURIComponent(navigationParameters.query.q), 'selftype', 'service');
+  const isLogicalTable = isTable && containsKeyword(query, 'selftype', 'service');
   const isPhysicalTable = isTable && !isLogicalTable;
 
   return (
