@@ -5,7 +5,13 @@ import React from 'react';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
+import Section from 'in-views/configurationView/components/Section';
+import {ownerRoleId, fallbackRoleId} from 'in-stores/user';
 import {getRole} from 'in-services/groundskeeper/roles';
+
+import './RoleConfig.less';
+
+const block = 'in-config-view-role';
 
 export default React.createClass({
   displayName: 'RoleConfig',
@@ -77,18 +83,29 @@ export default React.createClass({
 
   render() {
     const {form} = this.state;
+    const roleId = form ? form.get('id').value : null;
+    // do not allow editing of the owner or fallback role
+    const disabled = roleId == null || roleId === ownerRoleId || roleId === fallbackRoleId;
 
     return (
       <SubViewWrapper>
-
         <SubViewHeader>
           {form ? `Configure Role: ${form.get('name').value}` : 'Configure Role'}
         </SubViewHeader>
 
+        <Section>
+          {form && disabled ?
+            <p className={`${block}__disabled-hint`}>
+              This role cannot be modified as it is a predefined system role.
+            </p>
+          : null}
+        </Section>
+
         {form != null ?
           <RoleForm form={form}
                     onSubmit={this.onSubmit}
-                    onChange={this.onChange} />
+                    onChange={this.onChange}
+                    disabled={disabled} />
         : null}
       </SubViewWrapper>
     );
