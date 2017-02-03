@@ -106,15 +106,17 @@ export default React.createClass({
             Existing Roles
           </SectionHeading>
 
-          {roles && roles.toArray()
-            // do not show the fallback role
-            .filter(role => role.get('id') !== '-2')
-            .sort((a, b) => a.get('name').localeCompare(b.get('name')))
-            .map(role =>
-              <Role role={role}
-                    key={role.get('id')}
-                    onDelete={this.onDelete} />
-          )}
+          <ul>
+            {roles && roles.toArray()
+              // do not show the fallback role
+              .filter(role => role.get('id') !== '-2')
+              .sort((a, b) => a.get('name').localeCompare(b.get('name')))
+              .map(role =>
+                <Role role={role}
+                      key={role.get('id')}
+                      onDelete={this.onDelete} />
+            )}
+          </ul>
         </Section>
       </SubViewWrapper>
     );

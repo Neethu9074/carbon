@@ -15,7 +15,7 @@ export default connectTo(props => {
       <a href={href}>
         {role.get('name')}
       </a>
-
+      {' '}
       {role.get('id') !== ownerRoleId ?
         <Button onClick={() => onDelete(role)}
                 kind='danger'
