@@ -13,7 +13,10 @@ export default connectTo({
       <LifecycleObserver onWillMount={enable}
                          onWillUnmount={disable} />
 
-      {roles.toArray().map(role =>
+      {roles.toArray()
+          // do not show the fallback role
+          .filter(role => role.get('id') !== '-2')
+          .map(role =>
         <Role role={role}
               key={role.get('id')} />
       )}

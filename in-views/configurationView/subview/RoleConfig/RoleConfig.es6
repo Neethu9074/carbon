@@ -82,7 +82,7 @@ export default React.createClass({
       <SubViewWrapper>
 
         <SubViewHeader>
-          Configure Role
+          {form ? `Configure Role: ${form.get('name').value}` : 'Configure Role'}
         </SubViewHeader>
 
         {form != null ?

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
@@ -205,14 +206,6 @@ function Group({children, helpText, isError}) {
         </Tooltip>
       : null}
     </div>
-  );
-}
-
-function SectionHeading({children}) {
-  return (
-    <h3 className={`${block}__section-heading`}>
-      {children}
-    </h3>
   );
 }
 
