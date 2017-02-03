@@ -43,6 +43,7 @@
     "instalog": "^1.0.0",
     "instana-ui-theme": "^1.8.0",
     "invariant": "^2.2.1",
+    "js-yaml": "^3.7.0",
     "koijs": "^0.2.0",
     "lex": "^1.7.9",
     "lodash": "^4.15.0",
