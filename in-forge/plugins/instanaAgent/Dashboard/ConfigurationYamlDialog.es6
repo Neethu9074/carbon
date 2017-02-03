@@ -1,10 +1,14 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {saveAgentConfig, getAgentConfig} from 'in-stores/agentConfig';
+import {getAgentConfig, saveAgentConfig} from 'in-stores/agentConfig';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
+import CenterAlignment from 'in-components/layout/CenterAlignment';
+import Button from 'in-components/Button';
+import Editor from 'in-components/Editor';
 import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
-import Code from 'in-components/Code';
+import yaml from 'js-yaml';
 
 import './ConfigurationYamlDialog.less';
 
@@ -17,55 +21,80 @@ export default connectTo(props => {
   };
 },
 React.createClass({
-
   displayName: 'ConfigurationYamlDialog',
 
-  props: {
-    agentConfig: React.PropTypes.string
+  propTypes: {
+    agentConfig: React.PropTypes.string,
+    snapshot: irpt.map.isRequired,
   },
 
   getInitialState() {
     return {
-      config: this.props.agentConfig,
-      editMode: false
+      value: undefined
     };
   },
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.agentConfig !== nextProps.agentConfig) {
-      this.setState({config: nextProps.agentConfig});
-    }
-  },
-
   render() {
-    const editMode = this.state.editMode;
-    const config = this.state.config;
+    let parseError;
+    try {
+      yaml.safeLoad(this.getValue());
+    } catch (e) {
+      const hint = e.message;
+      parseError = `Failed to parse YAML: ${hint}`;
+    }
+
+    const header = (
+      <CenterAlignment>
+        <span>Agent Config</span>
+
+        <Button disabled={!!parseError}
+                onClick={() => onSaveAndClose(this.props.snapshot, this.getValue())}
+                kind='success'
+                size='sm'>
+          Apply
+        </Button>
+      </CenterAlignment>
+    );
 
     return (
-      <Dialog header='Agent Config'
-              onClose={() => setActiveDialog(null)}>
-        <div className={block}>
-          <Code code={config}
-                lang='yaml'
-                showLineNumbers
-                wrapperClassName={`${block}__code`} />
-          <div>
-            <span className={`${block}__control`}
-                  onClick={() => this.setState({editMode: !this.state.editMode})}>
-              {editMode ? 'Cancel' : 'Edit'}
-            </span>
-            {editMode ?
-              <span className={`${block}__control`}
-                    onClick={() => {
-                      this.setState({editMode: false});
-                      saveAgentConfig(this.props.snapshot, config);
-                    }}>
-                Save
-              </span>
-            : null}
-          </div>
+      <Dialog header={header}
+              onClose={onClose}>
+
+        <div className={`${block}__margin-remover`}>
+          {parseError ?
+            <p className={`${block}__parse-error`}>
+              {parseError}
+            </p>
+          : null}
+
+          <Editor value={this.getValue()}
+                  onChange={newValue => this.setState({value: newValue})}
+                  options={{
+                    mode: 'text/x-yaml',
+                    styleActiveLine: true,
+                    lineNumbers: true,
+                    lint: true,
+                    gutters: ['CodeMirror-lint-markers']
+                  }}
+                  className={`${block}__editor`} />
         </div>
       </Dialog>
     );
+  },
+
+  getValue() {
+    if (this.state.value === undefined) {
+      return this.props.agentConfig;
+    }
+    return this.state.value;
   }
 }));
+
+function onClose() {
+  setActiveDialog(null);
+}
+
+function onSaveAndClose(snapshot, txt) {
+  saveAgentConfig(snapshot, txt);
+  setActiveDialog(null);
+}

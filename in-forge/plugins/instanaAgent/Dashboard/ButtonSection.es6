@@ -36,7 +36,7 @@ export default function ButtonSection({snapshot}) {
 
       {agentYamlConfigEnabled ?
         <Button className={`${block}__button`}
-                onClick={() => setActiveDialog(<ConfigurationYamlDialog />)}
+                onClick={() => setActiveDialog(<ConfigurationYamlDialog snapshot={snapshot} />)}
                 size='sm'>
           Edit Config
         </Button>

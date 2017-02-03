@@ -1,18 +1,20 @@
 .in-agent-cofig-yaml-dialog {
-  font-size: 0.75rem;
-
-  pre&__code {
-    max-height: 30rem;
-    overflow: scroll;
+  &__margin-remover {
+    margin: -.625rem;
   }
 
-  &__control {
-    margin-left: 0.5rem;
-    cursor: pointer;
-    color: #92A5AE;
+  &__parse-error {
+    margin: 0;
+    color: #a94442;
+    background-color: #f2dede;
+    padding: .125rem .313rem;
+  }
 
-    &:hover {
-      color: #6B8088;
+  &__editor {
+    width: 60vw;
+
+    & > .CodeMirror {
+      height: 60vw;
     }
   }
 }

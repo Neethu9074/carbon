@@ -1,7 +1,6 @@
 import React from 'react';
 
-import EditAsJsonDialog
-  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/EditAsJsonDialog';
+import EditAsJsonDialog from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/EditAsJsonDialog';
 import {
   createRulesFromRuleForms,
   ruleForms$,
