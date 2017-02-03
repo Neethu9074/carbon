@@ -75,51 +75,51 @@ export default function RoleForm({form, onChange, disabled}) {
                     disabled={disabled}
                     onChange={onChange}
                     name='canConfigureServiceMapping'
-                    label='Allow service mapping configuration?' />
+                    label='Service Mapper' />
 
         <Permission form={form}
                     disabled={disabled}
                     onChange={onChange}
                     name='canConfigureEumApplications'
-                    label='Allow EUM application configuration?' />
+                    label='End-User Monitoring configuration' />
 
         <Permission form={form}
                     disabled={disabled}
                     onChange={onChange}
                     name='canConfigureUsers'
-                    label='Allow user management?' />
+                    label='User management' />
 
         <Permission form={form}
                     disabled={disabled}
                     onChange={onChange}
                     name='canConfigureRoles'
-                    label='Allow access role configration?' />
+                    label='Access role configration' />
 
         <Permission form={form}
                     disabled={disabled}
                     onChange={onChange}
                     name='canInstallNewAgents'
-                    label='Allow agent download and agent key visibility?' />
+                    label='Agent download and agent key visibility' />
 
         <Permission form={form}
                     disabled={disabled}
                     onChange={onChange}
                     name='canSeeUsageInformation'
-                    label='Allow inspection of license usage?' />
+                    label='Access to license usage' />
 
         {isOnPremise ?
           <Permission form={form}
                       disabled={disabled}
                       onChange={onChange}
                       name='canSeeOnPremLicenseInformation'
-                      label='Allow inspection of on premise licenses?' />
+                      label='Access to on prem license usage' />
         : null}
 
         <Permission form={form}
                     disabled={disabled}
                     onChange={onChange}
                     name='canConfigureIntegrations'
-                    label='Allow configuration of integrations such as webhooks, Slack, and OpsGenie?' />
+                    label='Configuration of integrations' />
       </Section>
     </fieldset>
   );
