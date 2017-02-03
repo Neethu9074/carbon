@@ -31,8 +31,9 @@ export default function RoleForm({form, onChange, onSubmit}) {
                    value={field.value}
                    onChange={e => onChange('name', e.target.value)}
                    hasError={!field.valid} />
-            {field.messages.map(message =>
-              <ValidationBlock hasError>
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
                 {message.message}
               </ValidationBlock>
             )}
@@ -49,8 +50,9 @@ export default function RoleForm({form, onChange, onSubmit}) {
                    value={field.value}
                    onChange={e => onChange('implicitViewFilter', e.target.value)}
                    hasError={!field.valid} />
-            {field.messages.map(message =>
-              <ValidationBlock hasError>
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
                 {message.message}
               </ValidationBlock>
             )}
