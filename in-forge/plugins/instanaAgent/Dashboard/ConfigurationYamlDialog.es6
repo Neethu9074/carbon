@@ -1,9 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getAgentConfig, saveAgentConfig} from 'in-stores/agentConfig';
+import {get as getConfig, set as setConfig} from 'in-forge/plugins/instanaAgent/config';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import CenterAlignment from 'in-components/layout/CenterAlignment';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import Button from 'in-components/Button';
 import Editor from 'in-components/Editor';
 import Dialog from 'in-components/Dialog';
@@ -14,17 +15,21 @@ import './ConfigurationYamlDialog.less';
 
 
 const block = 'in-agent-cofig-yaml-dialog';
+const rpt = React.PropTypes;
 
 export default connectTo(props => {
   return {
-    agentConfig: getAgentConfig(props.snapshot)
+    agentConfig: getConfig(props.snapshot)
   };
 },
 React.createClass({
   displayName: 'ConfigurationYamlDialog',
 
   propTypes: {
-    agentConfig: React.PropTypes.string,
+    agentConfig: rpt.oneOfType([
+      rpt.object,
+      rpt.string
+    ]),
     snapshot: irpt.map.isRequired,
   },
 
@@ -35,12 +40,29 @@ React.createClass({
   },
 
   render() {
+    const agentConfig = this.getValue();
+    if (!agentConfig) {
+      return (
+        <Dialog header={'Loading Agent Config'}
+                onClose={onClose}>
+          <LoadingIndicator type='dark' />
+        </Dialog>
+      );
+    }
+    if (agentConfig.error) {
+      return (
+        <Dialog header={'Error'}
+                onClose={onClose}>
+          Failed to load the agent config
+        </Dialog>
+      );
+    }
+
     let parseError;
     try {
-      yaml.safeLoad(this.getValue());
+      yaml.safeLoad(agentConfig);
     } catch (e) {
-      const hint = e.message;
-      parseError = `Failed to parse YAML: ${hint}`;
+      parseError = `Failed to parse YAML: ${e.message}`;
     }
 
     const header = (
@@ -48,7 +70,7 @@ React.createClass({
         <span>Agent Config</span>
 
         <Button disabled={!!parseError}
-                onClick={() => onSaveAndClose(this.props.snapshot, this.getValue())}
+                onClick={() => onSaveAndClose(this.props.snapshot, agentConfig)}
                 kind='success'
                 size='sm'>
           Apply
@@ -67,7 +89,7 @@ React.createClass({
             </p>
           : null}
 
-          <Editor value={this.getValue()}
+          <Editor value={agentConfig}
                   onChange={newValue => this.setState({value: newValue})}
                   options={{
                     mode: 'text/x-yaml',
@@ -94,7 +116,7 @@ function onClose() {
   setActiveDialog(null);
 }
 
-function onSaveAndClose(snapshot, txt) {
-  saveAgentConfig(snapshot, txt);
+function onSaveAndClose(snapshot, config) {
+  setConfig(snapshot, config);
   setActiveDialog(null);
 }
