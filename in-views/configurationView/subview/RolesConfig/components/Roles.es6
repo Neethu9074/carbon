@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {enable, disable, roles$} from 'in-views/configurationView/subview/RoleConfig/stores/roles';
-import Role from 'in-views/configurationView/subview/RoleConfig/components/Role';
+import {enable, disable, roles$} from 'in-views/configurationView/subview/RolesConfig/stores/roles';
+import Role from 'in-views/configurationView/subview/RolesConfig/components/Role';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import connectTo from 'in-hoc/connectTo';
 

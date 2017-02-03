@@ -4,7 +4,7 @@ import {getRoles} from 'in-services/groundskeeper/roles';
 import {emptySet} from 'in-services/fixedImmutables';
 import {createStore} from 'in-stores/store';
 
-const logger = createLogger('RoleConfig/stores/roles');
+const logger = createLogger('RolesConfig/stores/roles');
 
 const rolesStore = createStore({
   name: 'configurationView/subview/RoleConfig/stores/roles',

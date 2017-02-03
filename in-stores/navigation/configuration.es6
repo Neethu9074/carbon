@@ -1,4 +1,4 @@
-import {buildUrlStream, buildPathStartsWithStream} from 'in-stores/navigation/navigation';
+import {buildUrlStream, buildPathStartsWithStream, getModifiedUrlStream} from 'in-stores/navigation/navigation';
 
 export const configurationViewLink$ = buildUrlStream({path: '/config'});
 
@@ -23,6 +23,10 @@ const eumKeysViewPath = '/config/eumKeys';
 export const eumKeysViewLink$ = buildUrlStream({path: eumKeysViewPath});
 export const isEumKeysView$ = buildPathStartsWithStream(eumKeysViewPath);
 
-const roleConfigViewPath = '/config/roleConfig';
-export const roleConfigViewLink$ = buildUrlStream({path: roleConfigViewPath});
-export const isRoleConfigView$ = buildPathStartsWithStream(roleConfigViewPath);
+const rolesConfigViewPath = '/config/rolesConfig';
+export const rolesConfigViewLink$ = buildUrlStream({path: rolesConfigViewPath});
+export const isRolesConfigView$ = buildPathStartsWithStream(rolesConfigViewPath);
+
+export function getRoleConfigLink(roleId) {
+  return getModifiedUrlStream(params => params.pathname = `/config/rolesConfig/${encodeURIComponent(roleId)}`);
+}

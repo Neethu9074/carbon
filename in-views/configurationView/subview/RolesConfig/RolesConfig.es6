@@ -1,16 +1,16 @@
 import React from 'react';
 
+import Roles from 'in-views/configurationView/subview/RolesConfig/components/Roles';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 
-export default function RoleConfig() {
-  // console.log(props.params.roleId);
+export default function RolesConfig() {
   return (
     <div>
       <SubViewHeader>
-        Roles
+        Role Configuration
       </SubViewHeader>
 
-      the single role
+      <Roles />
     </div>
   );
 }
