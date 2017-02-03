@@ -6,6 +6,8 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import {getRoles, saveRole, deleteRole} from 'in-services/groundskeeper/roles';
+import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Role from 'in-views/configurationView/subview/RolesConfig/Role';
 import Section from 'in-views/configurationView/components/Section';
 import {openRoleConfig} from 'in-stores/navigation/configuration';
@@ -156,6 +158,22 @@ export default React.createClass({
   },
 
   onDelete(role) {
+    setActiveDialog(
+      <ConfirmationDialog header='Confirm removal'
+                          description={
+                            <span>
+                              Are you sure you want to remove the role <strong>{role.get('name')}</strong>?
+                            </span>
+                          }
+                          bButtonLabel='Remove role'
+                          onB={() => {
+                            close();
+                            this.onDeleteAfterConfirmation(role);
+                          }} />
+    );
+  },
+
+  onDeleteAfterConfirmation(role) {
     this.setState({
       error: false,
       loading: true,
