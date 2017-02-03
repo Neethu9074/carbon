@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  muSecondsToMillisZeroDecimalPlaces,
+  muSecondsToMillisTwoDecimalPlaces,
   bytesZeroDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
@@ -49,7 +49,7 @@ export default function CassandraClusterDashboard({snapshot, timeframe}) {
                              }}
                              y1={{
                              min: 0,
-                             formatter: muSecondsToMillisZeroDecimalPlaces,
+                             formatter: muSecondsToMillisTwoDecimalPlaces,
                              metrics: [
                                'clientrequests.' + op + '.mean',
                                'clientrequests.' + op + '.50',
