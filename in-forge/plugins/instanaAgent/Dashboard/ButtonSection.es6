@@ -1,9 +1,11 @@
 import React from 'react';
 
-import ConfigurationYamlDialog from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationYamlDialog';
+import ConfigurationYamlDialog from 'promise?global!in-forge/plugins/instanaAgent/Dashboard/ConfigurationYamlDialog';
 import {start, stop, resetAgent, resetSensors} from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import {createAsyncComponent} from 'in-components/routing/createAsyncComponent';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {agentYamlConfigEnabled} from 'in-services/featureFlags';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import Button from 'in-components/Button';
 
 import './ButtonSection.less';
@@ -36,7 +38,7 @@ export default function ButtonSection({snapshot}) {
 
       {agentYamlConfigEnabled ?
         <Button className={`${block}__button`}
-                onClick={() => setActiveDialog(<ConfigurationYamlDialog snapshot={snapshot} />)}
+                onClick={() => setActiveDialog(<AsyncConfigurationYamlDialogWrapper snapshot={snapshot} />)}
                 size='sm'>
           Edit Config
         </Button>
@@ -44,3 +46,5 @@ export default function ButtonSection({snapshot}) {
     </div>
   );
 }
+
+export const AsyncConfigurationYamlDialogWrapper = createAsyncComponent(<LoadingIndicator type='dark' />, ConfigurationYamlDialog);
