@@ -1,4 +1,9 @@
-import {buildUrlStream, buildPathStartsWithStream, getModifiedUrlStream} from 'in-stores/navigation/navigation';
+import {
+  buildUrlStream,
+  buildPathStartsWithStream,
+  getModifiedUrlStream,
+  mutateUrl
+} from 'in-stores/navigation/navigation';
 
 export const configurationViewLink$ = buildUrlStream({path: '/config'});
 
@@ -28,5 +33,13 @@ export const rolesConfigViewLink$ = buildUrlStream({path: rolesConfigViewPath});
 export const isRolesConfigView$ = buildPathStartsWithStream(rolesConfigViewPath);
 
 export function getRoleConfigLink(roleId) {
-  return getModifiedUrlStream(params => params.pathname = `/config/rolesConfig/${encodeURIComponent(roleId)}`);
+  return getModifiedUrlStream(params => params.pathname = getRoleConfigPath(roleId));
+}
+
+export function openRoleConfig(roleId) {
+  mutateUrl(params => params.pathname = getRoleConfigPath(roleId));
+}
+
+function getRoleConfigPath(roleId) {
+  return `/config/rolesConfig/${encodeURIComponent(roleId)}`;
 }
