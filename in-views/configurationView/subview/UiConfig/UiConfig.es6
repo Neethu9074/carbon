@@ -1,5 +1,6 @@
 import React from 'react';
 
+import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -192,7 +193,7 @@ function UiConfig({settings}) {
 
 function Group({children, helpText, isError}) {
   return (
-    <div className={`${block}__wrapper`}>
+    <HorizontalFormGroupWithBackground className={`${block}__wrapper`}>
       {children}
 
       {helpText ?
@@ -205,7 +206,7 @@ function Group({children, helpText, isError}) {
                    color={isError ? '#ff4229' : '#172429'} />
         </Tooltip>
       : null}
-    </div>
+    </HorizontalFormGroupWithBackground>
   );
 }
 

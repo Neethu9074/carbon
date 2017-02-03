@@ -1,7 +1,7 @@
 import React from 'react';
 
+import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
-import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup';
@@ -130,7 +130,7 @@ function Permission({form, onChange, name, label, disabled}) {
   const field = form.get(name);
 
   return (
-    <HorizontalFormGroup>
+    <HorizontalFormGroupWithBackground>
       <Toggle id={`role-${name}`}
              checked={field.value}
              onChange={e => onChange(name, e.target.checked)}
@@ -139,6 +139,6 @@ function Permission({form, onChange, name, label, disabled}) {
       <Label htmlFor={`role-${name}`}>
         {label}
       </Label>
-    </HorizontalFormGroup>
+    </HorizontalFormGroupWithBackground>
   );
 }
