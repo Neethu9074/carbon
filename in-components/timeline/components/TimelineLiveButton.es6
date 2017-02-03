@@ -26,7 +26,7 @@ function TimelineLiveButton({isLive, liveHref, fixedHref}) {
        href={isLive ? fixedHref : liveHref}
        onClick={e => e.stopPropagation()}>
       <div className={className}>
-        live
+        Live
       </div>
     </a>
   );
