@@ -40,6 +40,10 @@ export function openRoleConfig(roleId) {
   mutateUrl(params => params.pathname = getRoleConfigPath(roleId));
 }
 
+export function openRoles() {
+  mutateUrl(params => params.pathname = '/config/rolesConfig');
+}
+
 function getRoleConfigPath(roleId) {
   return `/config/rolesConfig/${encodeURIComponent(roleId)}`;
 }

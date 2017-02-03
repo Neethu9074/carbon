@@ -1,4 +1,6 @@
 import {createMapForm, createField, notBlankValidator} from 'formalistic';
+import {createLogger} from 'instalog';
+import {Map} from 'immutable';
 import {parse} from 'lucene';
 import React from 'react';
 
@@ -6,12 +8,13 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
 import Section from 'in-views/configurationView/components/Section';
+import {getRole, saveRole} from 'in-services/groundskeeper/roles';
+import {openRoles} from 'in-stores/navigation/configuration';
+import Notification from 'in-components/form/Notification';
 import {ownerRoleId, fallbackRoleId} from 'in-stores/user';
-import {getRole} from 'in-services/groundskeeper/roles';
+import Button from 'in-components/Button';
 
-import './RoleConfig.less';
-
-const block = 'in-config-view-role';
+const logger = createLogger('roleConfig');
 
 export default React.createClass({
   displayName: 'RoleConfig',
@@ -82,7 +85,7 @@ export default React.createClass({
   },
 
   render() {
-    const {form} = this.state;
+    const {form, role} = this.state;
     const roleId = form ? form.get('id').value : null;
     // do not allow editing of the owner or fallback role
     const disabled = roleId == null || roleId === ownerRoleId || roleId === fallbackRoleId;
@@ -90,23 +93,39 @@ export default React.createClass({
     return (
       <SubViewWrapper>
         <SubViewHeader>
-          {form ? `Configure Role: ${form.get('name').value}` : 'Configure Role'}
+          {role ? `Configure Role: ${role.get('name')}` : 'Configure Role'}
         </SubViewHeader>
 
-        <Section>
-          {form && disabled ?
-            <p className={`${block}__disabled-hint`}>
-              This role cannot be modified as it is a predefined system role.
-            </p>
-          : null}
-        </Section>
+        <form onSubmit={this.onSubmit}>
+          <Section>
+            {form && !disabled ?
+              <Button kind='success'
+                      type='submit'
+                      disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            : null}
 
-        {form != null ?
-          <RoleForm form={form}
-                    onSubmit={this.onSubmit}
-                    onChange={this.onChange}
-                    disabled={disabled} />
-        : null}
+            {this.state.message ?
+              <Notification failure={this.state.error}
+                            loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            : null}
+
+            {form && disabled ?
+              <p>
+                This role cannot be modified as it is a predefined system role.
+              </p>
+            : null}
+          </Section>
+
+          {form ?
+            <RoleForm form={form}
+                      onChange={this.onChange}
+                      disabled={disabled} />
+          : null}
+        </form>
       </SubViewWrapper>
     );
   },
@@ -131,7 +150,25 @@ export default React.createClass({
       return;
     }
 
-    // console.log('submit form', this.state.form.toJS());
+    const role = Map(this.state.form.toJS());
+    const result$ = saveRole(role);
+    this.disposeAsyncAction();
+    this.setState({
+      loading: true,
+      error: false,
+      message: 'Saving…'
+    });
+    this.responseSubscription = result$.once(openRoles);
+
+    this.errorSubscription = result$.errors().once(error => {
+      const message = `Failed to save role: ${error.message}`;
+      logger.error(message, error);
+      this.setState({
+        loading: false,
+        error: true,
+        message
+      });
+    });
   }
 });
 
