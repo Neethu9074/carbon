@@ -32,7 +32,7 @@ const LiveInputFields = connectTo({
 function LiveInputFields({windowSize}) {
   return (
     <div className={block}>
-      <SelectBox heading='Windowsize'
+      <SelectBox heading='Window Size'
                  value={windowSize}
                  onChange={windowSizeStore.setWindowSize} />
     </div>
