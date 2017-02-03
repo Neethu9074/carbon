@@ -1,5 +1,6 @@
 import React from 'react';
 
+import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import {settings$, setIn} from 'in-services/settings/settings';
@@ -18,7 +19,7 @@ export default connectTo({
 },
 function UiConfig({settings}) {
   return (
-    <div className={block}>
+    <SubViewWrapper>
       <SubViewHeader>
         User Interface
       </SubViewHeader>
@@ -184,7 +185,7 @@ function UiConfig({settings}) {
         </Group>
 
       </Section>
-    </div>
+    </SubViewWrapper>
   );
 });
 

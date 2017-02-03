@@ -11,6 +11,15 @@ export function getRoles() {
 }
 
 
+export function getRole(roleId) {
+  return http({
+    method: 'GET',
+    url: `/api/roles/${encodeURIComponent(roleId)}`
+  })
+  .map(response => fromJS(response.body));
+}
+
+
 export function saveRole(role) {
   return http({
     method: 'PUT',

@@ -2778,9 +2778,9 @@
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/form-data/-/form-data-2.0.0.tgz"
     },
     "formalistic": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "from": "formalistic@latest",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/formalistic/-/formalistic-1.1.0.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/formalistic/-/formalistic-1.2.0.tgz"
     },
     "formatio": {
       "version": "1.1.1",
