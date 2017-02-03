@@ -44,6 +44,9 @@ module.exports = {
       test: /\.es6$/i,
       loader: 'babel'
     }, {
+      test: /\.yaml$/i,
+      loader: 'raw'
+    }, {
       test: /\.json$/i,
       loader: 'json'
     }, {

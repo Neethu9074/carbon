@@ -38,12 +38,3 @@ export function KpiSection({children}) {
     </DashboardSection>
   );
 }
-
-
-export function KpiTopLevelInteraction({children}) {
-  return (
-    <div className={`${block}__top-level-interaction`}>
-      {children}
-    </div>
-  );
-}
