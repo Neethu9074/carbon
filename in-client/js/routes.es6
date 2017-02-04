@@ -3,6 +3,7 @@
 import ElasticServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
+import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
 import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
@@ -98,6 +99,9 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)}
              path='rolesConfig/:roleId'
              windowTitle='Role Config' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
+             path='users'
+             windowTitle='User Management' />
     </Route>
 
     <Route component={GraphView}

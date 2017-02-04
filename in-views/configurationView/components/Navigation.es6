@@ -12,7 +12,9 @@ import {
   eumKeysViewLink$,
   isEumKeysView$,
   rolesConfigViewLink$,
-  isRolesConfigView$
+  isRolesConfigView$,
+  userManagementViewLink$,
+  isUserManagementView$
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
@@ -55,10 +57,22 @@ export default function Navigation() {
                  href$={userInterfaceConfigViewLink$}
                  isActive$={isUserInterfaceConfigView$} />
 
-        {role.canConfigureRoles ?
-          <NavItem title='User Roles'
-                   href$={rolesConfigViewLink$}
-                   isActive$={isRolesConfigView$} />
+        {role.canConfigureUsers || role.canConfigureRoles ?
+          <NavItem title='Access Control'>
+            {role.canConfigureUsers ?
+              <NavItem title='Users'
+                       href$={userManagementViewLink$}
+                       isActive$={isUserManagementView$}
+                       borderless />
+            : null}
+
+            {role.canConfigureRoles ?
+              <NavItem title='Roles'
+                       href$={rolesConfigViewLink$}
+                       isActive$={isRolesConfigView$}
+                       borderless />
+            : null}
+          </NavItem>
         : null}
       </NavItems>
     </nav>

@@ -19,7 +19,6 @@ const elasticsearchServiceExtractionConfigViewPath = '/config/elasticsearchServi
 export const elasticsearchServiceExtractionConfigurationViewLink$ = buildUrlStream({path: elasticsearchServiceExtractionConfigViewPath});
 export const isElasticsearchServiceExtractionConfigurationView$ = buildPathStartsWithStream(elasticsearchServiceExtractionConfigViewPath);
 
-
 const userInterfaceConfigViewPath = '/config/userInterface';
 export const userInterfaceConfigViewLink$ = buildUrlStream({path: userInterfaceConfigViewPath});
 export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfaceConfigViewPath);
@@ -27,6 +26,10 @@ export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfac
 const eumKeysViewPath = '/config/eumKeys';
 export const eumKeysViewLink$ = buildUrlStream({path: eumKeysViewPath});
 export const isEumKeysView$ = buildPathStartsWithStream(eumKeysViewPath);
+
+const userManagementViewPath = '/config/users';
+export const userManagementViewLink$ = buildUrlStream({path: userManagementViewPath});
+export const isUserManagementView$ = buildPathStartsWithStream(userManagementViewPath);
 
 const rolesConfigViewPath = '/config/rolesConfig';
 export const rolesConfigViewLink$ = buildUrlStream({path: rolesConfigViewPath});
