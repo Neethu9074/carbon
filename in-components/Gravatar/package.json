@@ -1,0 +1,6 @@
+{
+  "name": "Gravatar",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Gravatar.es6"
+}
