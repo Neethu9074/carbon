@@ -9,3 +9,14 @@ export function getUsers() {
   })
   .map(response => fromJS(response.body));
 }
+
+
+export function setRole(userId, roleId) {
+  return http({
+    method: 'PUT',
+    url: `/api/tenant/users/${encodeURIComponent(userId)}/role`,
+    queryParams: {
+      roleId
+    }
+  });
+}

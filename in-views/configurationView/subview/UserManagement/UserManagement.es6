@@ -4,10 +4,11 @@ import React from 'react';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
 import Section from 'in-views/configurationView/components/Section';
+import {getUsers, setRole} from 'in-services/groundskeeper/users';
 import {emptyList, emptyMap} from 'in-services/fixedImmutables';
 import Notification from 'in-components/form/Notification';
-import {getUsers} from 'in-services/groundskeeper/users';
 import {getRoles} from 'in-services/groundskeeper/roles';
 import Gravatar from 'in-components/Gravatar';
 import {fallbackRoleId} from 'in-stores/user';
@@ -30,6 +31,7 @@ export default connectTo({
       error: false,
       message: null,
       userOverview: emptyMap,
+      status: {}
     };
   },
 
@@ -140,20 +142,26 @@ export default connectTo({
 
                     <div className={`${block}__user-side`}>
                       {sortedRoles ?
-                        <select id='user-management-roles'
-                                className={`${block}__roles`}
-                                value={user.get('roleId')}>
-                          {sortedRoles.map(role =>
-                            <option value={role.get('id')}
-                                    key={role.get('id')}>
-                              {role.get('name')}
-                            </option>
-                          )}
-                        </select>
+                        <span>
+                          <select id='user-management-roles'
+                                  className={`${block}__roles`}
+                                  value={user.get('roleId')}
+                                  onChange={e => this.setRole(user, e.target.value)}>
+                            {sortedRoles.map(role =>
+                              <option value={role.get('id')}
+                                      key={role.get('id')}>
+                                {role.get('name')}
+                              </option>
+                            )}
+                          </select>
+
+                          <ModificationSaveStatus status={this.state.status[user.get('id')]} />
+                        </span>
                       : null}
 
                       <Button kind='danger'
-                              size='sm'>
+                              size='sm'
+                              className={`${block}__remove`}>
                         Remove
                       </Button>
                     </div>
@@ -182,5 +190,59 @@ export default connectTo({
         : null}
       </SubViewWrapper>
     );
+  },
+
+  setRole(user, newRoleId) {
+    const previousRoleId = user.get('roleId');
+
+    // move component into "updating" state
+    this.setState(state => {
+      // TODO add loading notification
+      // state.status[user.get('id')] = {};
+
+      const index = state.userOverview.get('users').indexOf(user);
+      const newUserOverview = state.userOverview
+        .updateIn(['users', index], modifiableUser => modifiableUser.set('roleId', newRoleId));
+      return {
+        status: state.status,
+        userOverview: newUserOverview
+      };
+    });
+
+    const result$ = setRole(user.get('id'), newRoleId);
+    result$.once(() => {
+      this.setState(state => {
+        state.status[user.get('id')] = {
+          success: true,
+          time: Date.now()
+        };
+
+        return {
+          status: state.status
+        };
+      });
+    });
+
+    result$.errors().once(error => {
+      const message = `Failed to set user role: ${error.message}`;
+      logger.warn(message, error);
+
+      this.setState(state => {
+        state.status[user.get('id')] = {
+          success: false,
+          time: Date.now(),
+          failureMessage:  message
+        };
+
+        // roll back the role change
+        const index = state.userOverview.get('users').indexOf(user);
+        const newUserOverview = state.userOverview
+          .updateIn(['users', index], modifiableUser => modifiableUser.set('roleId', previousRoleId));
+        return {
+          status: state.status,
+          userOverview: newUserOverview
+        };
+      });
+    });
   }
 }));
