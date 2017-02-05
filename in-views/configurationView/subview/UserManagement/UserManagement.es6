@@ -142,7 +142,7 @@ export default connectTo({
 
                     <div className={`${block}__user-side`}>
                       {sortedRoles ?
-                        <span>
+                        <span className={`${block}__role-edit`}>
                           <select id='user-management-roles'
                                   className={`${block}__roles`}
                                   value={user.get('roleId')}
@@ -155,7 +155,9 @@ export default connectTo({
                             )}
                           </select>
 
-                          <ModificationSaveStatus status={this.state.status[user.get('id')]} />
+                          <ModificationSaveStatus status={this.state.status[user.get('id')]}
+                                                  className={`${block}__save-status`}
+                                                  reserveSpace />
                         </span>
                       : null}
 
@@ -198,7 +200,11 @@ export default connectTo({
     // move component into "updating" state
     this.setState(state => {
       // TODO add loading notification
-      // state.status[user.get('id')] = {};
+      state.status[user.get('id')] = {
+        state: 'loading',
+        time: Date.now(),
+        message: 'Saving role…'
+      };
 
       const index = state.userOverview.get('users').indexOf(user);
       const newUserOverview = state.userOverview
@@ -213,8 +219,9 @@ export default connectTo({
     result$.once(() => {
       this.setState(state => {
         state.status[user.get('id')] = {
-          success: true,
-          time: Date.now()
+          state: 'success',
+          time: Date.now(),
+          message: 'Role change successfully saved!'
         };
 
         return {
@@ -229,9 +236,9 @@ export default connectTo({
 
       this.setState(state => {
         state.status[user.get('id')] = {
-          success: false,
+          state: 'failure',
           time: Date.now(),
-          failureMessage:  message
+          message
         };
 
         // roll back the role change

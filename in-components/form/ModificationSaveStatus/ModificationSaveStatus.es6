@@ -15,10 +15,11 @@ export default React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     status: React.PropTypes.shape({
-      success: React.PropTypes.bool.isRequired,
+      state: React.PropTypes.oneOf(['success', 'failure', 'loading']).isRequired,
       time: React.PropTypes.number.isRequired,
-      failureMessage: React.PropTypes.string
+      message: React.PropTypes.string
     }),
+    reserveSpace: React.PropTypes.bool
   },
 
   getInitialState() {
@@ -39,8 +40,7 @@ export default React.createClass({
       return;
     }
 
-    const waitTimeMillis = Math.max(0, status.time - Date.now());
-    this.timeout = setTimeout(this.setDummyValue, waitTimeMillis);
+    this.timeout = setTimeout(this.setDummyValue, showModificationStatusForMillis);
   },
 
   setDummyValue() {
@@ -62,28 +62,38 @@ export default React.createClass({
   render() {
     const {status} = this.props;
     if (!status || Date.now() >= status.time + showModificationStatusForMillis) {
+      if (this.props.reserveSpace) {
+        return (
+          <span className={joinClassNames(this.props.className, `${block}__space-blocker`)}
+                style={{width: '16px'}} />
+        );
+      }
       return null;
     }
 
     let iconType;
     let className = joinClassNames(this.props.className, block);
-    let tooltip;
+    const tooltip = status.message;
+    let spinning = false;
 
-    if (status.success) {
+    if (status.state === 'success') {
       className = `${className} ${block}__success`;
       iconType = 'ok';
-      tooltip = 'Change successfully changed';
-    } else {
+    } else if (status.state === 'failure') {
       className = `${className} ${block}__failure`;
       iconType = 'x';
-      tooltip = status.failureMessage || 'Failed to save change';
+    } else if (status.state === 'loading') {
+      className = `${className} ${block}__loading`;
+      iconType = 'spinner';
+      spinning = true;
     }
 
     return (
       <Tooltip content={tooltip}>
         <SvgIcon type={iconType}
                  className={className}
-                 width={16} />
+                 width={16}
+                 spinning={spinning} />
       </Tooltip>
     );
   }
