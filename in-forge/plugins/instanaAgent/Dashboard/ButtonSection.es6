@@ -6,6 +6,7 @@ import {createAsyncComponent} from 'in-components/routing/createAsyncComponent';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {agentYamlConfigEnabled} from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 
 import './ButtonSection.less';
@@ -18,33 +19,46 @@ export default function ButtonSection({snapshot}) {
 
   return (
     <div className={block}>
-      <Button className={`${block}__button`}
-              onClick={() => resetSensors(snapshot)}
-              size='sm'>
+      <ImageButton iconType='refresh'
+                   onClick={() => resetSensors(snapshot)}>
         Reset Sensors
-      </Button>
+      </ImageButton>
 
-      <Button className={`${block}__button`}
-              onClick={() => resetAgent(snapshot)}
-              size='sm'>
+      <ImageButton iconType='refresh'
+                   onClick={() => resetAgent(snapshot)}>
         Reset Agent
-      </Button>
+      </ImageButton>
 
-      <Button className={`${block}__button`}
-              onClick={() => metricsAvailable ? stop(snapshot) : start(snapshot, false)}
-              size='sm'>
+      <ImageButton iconType={metricsAvailable ? 'zone' : 'chevron_right'}
+                   onClick={() => metricsAvailable ? stop(snapshot) : start(snapshot, false)}>
         {metricsAvailable ? 'Stop' : 'Start'} Self Monitoring
-      </Button>
+      </ImageButton>
 
       {agentYamlConfigEnabled ?
-        <Button className={`${block}__button`}
-                onClick={() => setActiveDialog(<AsyncConfigurationYamlDialogWrapper snapshot={snapshot} />)}
-                size='sm'>
+        <ImageButton className={`${block}__config-button`}
+                     iconType='letter'
+                     onClick={() => setActiveDialog(<AsyncConfigurationYamlDialogWrapper snapshot={snapshot} />)}>
           Edit Config
-        </Button>
+        </ImageButton>
       : null}
     </div>
   );
 }
 
+function ImageButton({className, children, iconType, onClick}) {
+  return (
+    <Button className={`${block}__button` + (className ? ` ${className}` : '')}
+            onClick={onClick}
+            size='sm'>
+      <SvgIcon className={`${block}__icon`}
+               type={iconType}
+               width={14}
+               height={14}
+               color='#172429' />
+      {children}
+    </Button>
+  );
+}
+
+// load the dialog async because of we want to avoid initial load of maybe unneeded frameworks like js-yaml
 export const AsyncConfigurationYamlDialogWrapper = createAsyncComponent(<LoadingIndicator type='dark' />, ConfigurationYamlDialog);
