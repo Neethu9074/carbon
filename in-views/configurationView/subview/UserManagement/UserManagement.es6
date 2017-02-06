@@ -1,7 +1,8 @@
 import {createLogger} from 'instalog';
 import React from 'react';
 
-import {getUsers, setRole, removeUserFromTenant, revokeInvitation} from 'in-services/groundskeeper/users';
+import {getUsers, setRole, removeUserFromTenant, revokeInvitation, sendInvitation} from 'in-services/groundskeeper/users';
+import UserInvitationDialog from 'in-views/configurationView/subview/UserManagement/UserInvitationDialog';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -105,7 +106,8 @@ export default connectTo({
         </SubViewHeader>
 
         <Section>
-          <Button kind='info'>
+          <Button kind='info'
+                  onClick={this.inviteUser}>
             Invite User
           </Button>
 
@@ -364,6 +366,41 @@ export default connectTo({
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to revoke invitation for ${invitation.get('email')}: ${error.message}`;
+      logger.error(message, error);
+      this.setState({
+        error: true,
+        loading: false,
+        message
+      });
+    });
+  },
+
+  inviteUser() {
+    setActiveDialog(<UserInvitationDialog onSubmit={this.onDoInviteUser} />);
+  },
+
+  onDoInviteUser(email, roleId) {
+    close();
+
+    this.setState({
+      error: false,
+      loading: true,
+      message: `Sending invitation…`
+    });
+
+    const result$ = sendInvitation(email, roleId);
+    this.responseSubscription = result$.once(() => {
+      this.setState({
+        error: false,
+        loading: false,
+        message: 'Invitation successfully send.'
+      });
+
+      setTimeout(this.refreshUsers, 1000);
+    });
+
+    this.errorSubscription = result$.errors().once(error => {
+      const message = `Failed to send invitation for ${email}: ${error.message}`;
       logger.error(message, error);
       this.setState({
         error: true,

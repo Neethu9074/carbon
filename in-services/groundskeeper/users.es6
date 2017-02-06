@@ -29,6 +29,19 @@ export function removeUserFromTenant(userId) {
   });
 }
 
+
+export function sendInvitation(email, roleId) {
+  return http({
+    method: 'POST',
+    url: `/api/tenant/users/invitations`,
+    queryParams: {
+      email,
+      roleId
+    }
+  });
+}
+
+
 export function revokeInvitation(email) {
   return http({
     method: 'DELETE',
