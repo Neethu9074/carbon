@@ -26,7 +26,11 @@ export function setTimeString(newTime) {
 }
 
 
-export const isDateTimeValid$ = getValidation$(dateString$, timeString$);
+export const isDateTimeValid$ = getValidation$(dateString$, timeString$).map(validate);
+
+function validate(validationObject) {
+  return validationObject;
+}
 
 
 export function reset() {
