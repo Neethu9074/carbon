@@ -77,13 +77,12 @@ export default connectTo({
             <FormGroup>
               <Label htmlFor='invitation-role-id'
                      hasError={!field.valid}>
-                Email Address
+                Role
               </Label>
               <Select id='invitation-role-id'
-                     type='email'
-                     value={field.value}
-                     onChange={e => this.onChange('roleId', e.target.value)}
-                     hasError={!field.valid}>
+                      value={field.value}
+                      onChange={e => this.onChange('roleId', e.target.value)}
+                      hasError={!field.valid}>
                 {sortedRoles && sortedRoles.map(role =>
                   <option value={role.get('id')}
                           key={role.get('id')}>
