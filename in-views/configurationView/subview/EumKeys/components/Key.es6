@@ -5,6 +5,7 @@ import EditableTextInput from 'in-components/EditableTextInput/EditableTextInput
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import RightAlignment from 'in-components/layout/RightAlignment';
+import {isOnPremise} from 'in-services/config';
 import Button from 'in-components/Button';
 import Code from 'in-components/Code';
 
@@ -78,6 +79,27 @@ export default React.createClass({
 });
 
 function getEumSnippet(apiKey) {
+  if (isOnPremise()) {
+    return `
+<script>
+  (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://<trackingBaseUrl>/eum.min.js','ineum');
+
+  ineum('apiKey', '${apiKey}');
+  ineum('reportingUrl', 'https://<trackingBaseUrl>');
+
+  // Backend trace ID to facilitate correlation of frontend/backend traces.
+  // Trace ID is available in backend to user code.
+  // User is himself responsible for embedding this trace ID in this snippet.
+  // ineum('traceId', '<backend trace id>');
+
+  // free form key/value pairs for advanced end-user tracking
+  // ineum('meta', 'user', 'tom.mason@example.com');
+</script>`.trim();
+  }
+
   return `
 <script>
   (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
