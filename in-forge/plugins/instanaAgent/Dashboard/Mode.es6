@@ -23,7 +23,7 @@ export default React.createClass({
   },
 
   getCurrentlySelectedMode() {
-    if (this.state.mode) {
+    if (this.state.mode != null) {
       return this.state.mode;
     }
     return this.props.snapshot.getIn(['data', 'mode']);
