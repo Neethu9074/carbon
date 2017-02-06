@@ -4,7 +4,6 @@ import {getLabel} from 'in-forge/tracing/log/spanDefinition';
 registerSpanDefinition({
   type: 'log.log4j',
   category: 'logger',
-  direction: 'local',
 
   typeName: {
     singular: 'Log',

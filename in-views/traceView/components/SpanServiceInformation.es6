@@ -5,7 +5,7 @@ import {getEntitySnapshot$BySpan} from 'in-stores/traces';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
-import {getDirection} from 'in-sdk/tracing';
+import {SPAN_KINDS} from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
 
 import './SpanServiceInformation.less';
@@ -29,7 +29,7 @@ function SpanServiceInformation({span, borderColor, sourceServiceSnapshot, sourc
     return null;
   }
 
-  const isEntry = getDirection(span) === 'entry';
+  const isEntry = span.get('kind') === SPAN_KINDS.ENTRY;
 
   return (
     <div className={block}

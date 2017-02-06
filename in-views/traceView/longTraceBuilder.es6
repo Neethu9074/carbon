@@ -1,4 +1,5 @@
-import {getDirection} from 'in-sdk/tracing';
+import {SPAN_KINDS} from 'in-sdk/tracing';
+
 
 export function transform(span) {
   const result = {
@@ -11,7 +12,7 @@ export function transform(span) {
 
   const childSpans = span.get('childSpans');
   let parentForChildren = result;
-  if (getDirection(span) === 'exit' && childSpans.size > 0) {
+  if (span.get('kind') === SPAN_KINDS.EXIT && childSpans.size > 0) {
     parentForChildren = {
       id: '-1',
       type: 'network',
@@ -31,7 +32,7 @@ export function transform(span) {
 function insertSpanIntoParent(parentResult, span, parentSpan) {
   let currentParent = parentResult;
 
-  if (getDirection(span) !== 'entry') {
+  if (span.get('kind') !== SPAN_KINDS.ENTRY) {
     withoutDuplicatatedStackTraceLines(parentSpan.get('stackTrace'), span.get('stackTrace'))
       .reverse()
       .forEach(stackTraceElement => {

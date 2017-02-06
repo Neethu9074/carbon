@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'corba',
   category: 'remote',
-  direction: 'entryAndExit',
 
   typeName: {
     singular: 'Corba call',

@@ -4,7 +4,6 @@ import {shortenSqlStatement} from 'in-forge/tracing/jdbc/sql';
 registerSpanDefinition({
   type: 'ado.net',
   category: 'database',
-  direction: 'exit',
 
   typeName: {
     singular: 'ADO Call',

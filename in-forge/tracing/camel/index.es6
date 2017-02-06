@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'camel',
   category: 'messaging',
-  direction: 'entry',
   searchAliases: ['camel'],
 
   typeName: {

@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'mail.javamail',
   category: 'messaging',
-  direction: 'exit',
 
   typeName: {
     singular: 'Mail message',

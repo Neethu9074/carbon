@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'mule.client',
   category: 'http',
-  direction: 'exit',
 
   typeName: {
     singular: 'HTTP Call',

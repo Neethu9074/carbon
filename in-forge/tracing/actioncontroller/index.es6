@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'actioncontroller',
   category: 'generic',
-  direction: 'local',
 
   typeName: {
     singular: 'ActionController',

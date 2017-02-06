@@ -1,10 +1,10 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
 import {getLabel} from 'in-forge/tracing/http/spanDefinition';
+import {registerSpanDefinition} from 'in-sdk/tracing';
+
 
 registerSpanDefinition({
   type: 'akka.http.server',
   category: 'http',
-  direction: 'entry',
 
   typeName: {
     singular: 'HTTP Call',

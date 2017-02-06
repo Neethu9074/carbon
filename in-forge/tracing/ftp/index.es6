@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'ftp',
   category: 'io',
-  direction: 'exit',
 
   typeName: {
     singular: 'FTP access',

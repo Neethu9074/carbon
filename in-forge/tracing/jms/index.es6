@@ -1,12 +1,9 @@
 import {registerSpanDefinition} from 'in-sdk/tracing';
 
+
 registerSpanDefinition({
   type: 'jms',
   category: 'messaging',
-  direction(span) {
-    const type = span.getIn(['data', 'jms', 'sort']);
-    return type ? type.toLowerCase() : 'entryAndExit';
-  },
 
   typeName: {
     singular: 'JMS message',

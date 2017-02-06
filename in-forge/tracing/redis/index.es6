@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'redis',
   category: 'database',
-  direction: 'exit',
 
   typeName: {
     singular: 'Redis call',
