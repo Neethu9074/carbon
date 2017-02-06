@@ -1,7 +1,7 @@
 import {createLogger} from 'instalog';
 import React from 'react';
 
-import {getUsers, setRole, removeUserFromTenant} from 'in-services/groundskeeper/users';
+import {getUsers, setRole, removeUserFromTenant, revokeInvitation} from 'in-services/groundskeeper/users';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -183,12 +183,27 @@ export default connectTo({
               Pending Invitations
             </SectionHeading>
 
-            <ul>
+            <ul className={`${block}__users`}>
               {invitations.toArray()
                 .sort((a, b) => a.get('email').localeCompare(b.get('email')))
                 .map((invitation, i) =>
-                  <li key={i}>
-                    {invitation.get('email')}
+                  <li key={i}
+                      className={`${block}__user`}>
+                    <div className={`${block}__user-side`}>
+                      <Gravatar email={invitation.get('email')}
+                                className={`${block}__avatar`} />
+
+                      <div className={`${block}__full-name`}>
+                        {invitation.get('email')}
+                      </div>
+                    </div>
+
+                    <Button kind='danger'
+                            size='sm'
+                            className={`${block}__remove`}
+                            onClick={() => this.onRevoke(invitation)}>
+                      Revoke Invitation
+                    </Button>
                   </li>
               )}
             </ul>
@@ -289,13 +304,66 @@ export default connectTo({
           error: false,
           loading: false,
           message: null,
-          userOverview: state.userOverview.updateIn(['users'], users => users.filter(eachUser => user.get('id') !== eachUser.get('id')))
+          userOverview: state.userOverview.updateIn(['users'], users =>
+            users.filter(eachUser => user.get('id') !== eachUser.get('id'))
+          )
         };
       });
     });
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to remove user ${user.get('fullName')} from tenant: ${error.message}`;
+      logger.error(message, error);
+      this.setState({
+        error: true,
+        loading: false,
+        message
+      });
+    });
+  },
+
+  onRevoke(invitation) {
+    setActiveDialog(
+      <ConfirmationDialog header='Confirm removal'
+                          description={
+                            <span>
+                              Are you sure you want to revoke the invitation to join the{' '}
+                              <strong>{config.tenant}</strong> tenant for<strong>{invitation.get('email')}</strong>?
+                            </span>
+                          }
+                          bButtonLabel='Revoke invitation'
+                          onB={() => {
+                            close();
+                            this.onRevokeAfterConfirmation(invitation);
+                          }} />
+    );
+  },
+
+  onRevokeAfterConfirmation(invitation) {
+    close();
+
+    this.setState({
+      error: false,
+      loading: true,
+      message: `Revoking invitation…`
+    });
+
+    const result$ = revokeInvitation(invitation.get('email'));
+    this.responseSubscription = result$.once(() => {
+      this.setState(state => {
+        return {
+          error: false,
+          loading: false,
+          message: null,
+          userOverview: state.userOverview.updateIn(['invitations'], invitations =>
+            invitations.filter(eachInvitation => eachInvitation.get('email') !== invitation.get('email'))
+          )
+        };
+      });
+    });
+
+    this.errorSubscription = result$.errors().once(error => {
+      const message = `Failed to revoke invitation for ${invitation.get('email')}: ${error.message}`;
       logger.error(message, error);
       this.setState({
         error: true,

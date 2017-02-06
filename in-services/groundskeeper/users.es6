@@ -28,3 +28,13 @@ export function removeUserFromTenant(userId) {
     url: `/api/tenant/users/${encodeURIComponent(userId)}`
   });
 }
+
+export function revokeInvitation(email) {
+  return http({
+    method: 'DELETE',
+    url: `/api/tenant/users/invitations`,
+    queryParams: {
+      email
+    }
+  });
+}
