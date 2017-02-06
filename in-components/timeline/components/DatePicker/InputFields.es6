@@ -5,9 +5,9 @@ import * as windowSizeStore from 'in-components/timeline/components/DatePicker/s
 import * as fromStore from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import {setDateFn} from 'in-components/timeline/components/DatePicker/stores/currentDateFnStore';
 import * as toStore from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
-import DateTimeBlock from 'in-components/timeline/components/DatePicker/v2/DateTimeBlock';
+import DateTimeBlock from 'in-components/timeline/components/DatePicker/DateTimeBlock';
 import {live$} from 'in-components/timeline/components/DatePicker/stores/liveStore';
-import SelectBox from 'in-components/timeline/components/DatePicker/v2/SelectBox';
+import SelectBox from 'in-components/timeline/components/DatePicker/SelectBox';
 import connectTo from 'in-hoc/connectTo';
 
 import './InputFields.less';

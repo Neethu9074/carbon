@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {toggleDateFn, currentDateFn$} from 'in-components/timeline/components/DatePicker/stores/currentDateFnStore';
-import TextInput from 'in-components/timeline/components/DatePicker/v2/TextInput';
+import TextInput from 'in-components/timeline/components/DatePicker/TextInput';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';

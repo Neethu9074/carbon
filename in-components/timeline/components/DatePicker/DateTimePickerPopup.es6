@@ -1,10 +1,10 @@
 import React from 'react';
 
-import ButtonPanel from 'in-components/timeline/components/DatePicker/v2/ButtonPanel';
-import InputFields from 'in-components/timeline/components/DatePicker/v2/InputFields';
-import DatePicker from 'in-components/timeline/components/DatePicker/v2/DatePicker';
-import InfoPanel from 'in-components/timeline/components/DatePicker/v2/InfoPanel';
+import ButtonPanel from 'in-components/timeline/components/DatePicker/ButtonPanel';
+import InputFields from 'in-components/timeline/components/DatePicker/InputFields';
+import DatePicker from 'in-components/timeline/components/DatePicker/DatePicker';
 import {interactableTimelineHeight$} from 'in-components/timeline/timelineStore';
+import InfoPanel from 'in-components/timeline/components/DatePicker/InfoPanel';
 import {currentTimeSelector$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 

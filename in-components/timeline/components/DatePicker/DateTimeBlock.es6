@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TextInput from 'in-components/timeline/components/DatePicker/v2/TextInput';
-import DateInput from 'in-components/timeline/components/DatePicker/v2/DateInput';
+import TextInput from 'in-components/timeline/components/DatePicker/TextInput';
+import DateInput from 'in-components/timeline/components/DatePicker/DateInput';
 import connectTo from 'in-hoc/connectTo';
 
 import './DateTimeBlock.less';

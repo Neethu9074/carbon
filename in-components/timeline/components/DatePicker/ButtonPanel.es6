@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DatePickerApplyButton from 'in-components/timeline/components/DatePicker/v2/DatePickerApplyButton';
+import DatePickerApplyButton from 'in-components/timeline/components/DatePicker/DatePickerApplyButton';
 import {live$, setLive} from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
 import Toggle from 'in-components/form/Toggle';

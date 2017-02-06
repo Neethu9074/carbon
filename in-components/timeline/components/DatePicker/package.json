@@ -2,5 +2,5 @@
   "name": "DateTimePickerPopup",
   "version": "0.0.0",
   "private": true,
-  "main": "./v2/DateTimePickerPopup.es6"
+  "main": "./DateTimePickerPopup.es6"
 }
