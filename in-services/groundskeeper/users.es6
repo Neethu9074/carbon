@@ -20,3 +20,11 @@ export function setRole(userId, roleId) {
     }
   });
 }
+
+
+export function removeUserFromTenant(userId) {
+  return http({
+    method: 'DELETE',
+    url: `/api/tenant/users/${encodeURIComponent(userId)}`
+  });
+}

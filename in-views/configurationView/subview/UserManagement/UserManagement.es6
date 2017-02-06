@@ -1,17 +1,20 @@
 import {createLogger} from 'instalog';
 import React from 'react';
 
+import {getUsers, setRole, removeUserFromTenant} from 'in-services/groundskeeper/users';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
+import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Section from 'in-views/configurationView/components/Section';
-import {getUsers, setRole} from 'in-services/groundskeeper/users';
 import {emptyList, emptyMap} from 'in-services/fixedImmutables';
 import Notification from 'in-components/form/Notification';
 import {getRoles} from 'in-services/groundskeeper/roles';
 import Gravatar from 'in-components/Gravatar';
 import {fallbackRoleId} from 'in-stores/user';
+import {config} from 'in-services/config';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -163,7 +166,8 @@ export default connectTo({
 
                       <Button kind='danger'
                               size='sm'
-                              className={`${block}__remove`}>
+                              className={`${block}__remove`}
+                              onClick={() => this.onRemove(user)}>
                         Remove
                       </Button>
                     </div>
@@ -249,6 +253,54 @@ export default connectTo({
           status: state.status,
           userOverview: newUserOverview
         };
+      });
+    });
+  },
+
+  onRemove(user) {
+    setActiveDialog(
+      <ConfirmationDialog header='Confirm removal'
+                          description={
+                            <span>
+                              Are you sure you want to remove the user <strong>{user.get('fullName')}</strong> from the tenant <strong>{config.tenant}</strong>?
+                            </span>
+                          }
+                          bButtonLabel='Remove user from tenant'
+                          onB={() => {
+                            close();
+                            this.onRemoveAfterConfirmation(user);
+                          }} />
+    );
+  },
+
+  onRemoveAfterConfirmation(user) {
+    close();
+
+    this.setState({
+      error: false,
+      loading: true,
+      message: `Removing ${user.get('fullName')} from tenant…`
+    });
+
+    const result$ = removeUserFromTenant(user.get('id'));
+    this.responseSubscription = result$.once(() => {
+      this.setState(state => {
+        return {
+          error: false,
+          loading: false,
+          message: null,
+          userOverview: state.userOverview.updateIn(['users'], users => users.filter(eachUser => user.get('id') !== eachUser.get('id')))
+        };
+      });
+    });
+
+    this.errorSubscription = result$.errors().once(error => {
+      const message = `Failed to remove user ${user.get('fullName')} from tenant: ${error.message}`;
+      logger.error(message, error);
+      this.setState({
+        error: true,
+        loading: false,
+        message
       });
     });
   }
