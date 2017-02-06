@@ -13,9 +13,11 @@ export default function DashboardSection({title, children, className}) {
   }
   return (
     <div className={classes}>
-      <ContentHeading>
-        {title}
-      </ContentHeading>
+      {title ?
+        <ContentHeading>
+          {title}
+        </ContentHeading>
+      : null}
       {children}
     </div>
   );

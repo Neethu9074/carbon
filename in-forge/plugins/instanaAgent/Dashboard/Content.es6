@@ -16,7 +16,7 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
         <KpiHeading>Instana Agent on {snapshot.getIn(['data', 'hostname'])}</KpiHeading>
       </KpiSection>
 
-      <DashboardSection title='Agent Actions'>
+      <DashboardSection>
         <ButtonSection snapshot={snapshot} />
       </DashboardSection>
 

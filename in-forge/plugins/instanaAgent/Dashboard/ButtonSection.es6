@@ -4,6 +4,7 @@ import ConfigurationYamlDialog from 'promise?global!in-forge/plugins/instanaAgen
 import {start, stop, resetAgent, resetSensors} from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import {createAsyncComponent} from 'in-components/routing/createAsyncComponent';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
+import Mode from 'in-forge/plugins/instanaAgent/Dashboard/Mode';
 import {agentYamlConfigEnabled} from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SvgIcon from 'in-components/SvgIcon';
@@ -11,6 +12,8 @@ import Button from 'in-components/Button';
 
 import './ButtonSection.less';
 
+// load the dialog async because of we want to avoid initial load of maybe unneeded frameworks like js-yaml
+export const AsyncConfigurationYamlDialogWrapper = createAsyncComponent(<LoadingIndicator type='dark' />, ConfigurationYamlDialog);
 
 const block = 'in-agent-button-section';
 
@@ -19,6 +22,11 @@ export default function ButtonSection({snapshot}) {
 
   return (
     <div className={block}>
+      <ImageButton iconType='gear'
+                   onClick={() => changeMode(snapshot)}>
+        Change Agent Mode
+      </ImageButton>
+
       <ImageButton iconType='refresh'
                    onClick={() => resetSensors(snapshot)}>
         Reset Sensors
@@ -60,5 +68,7 @@ function ImageButton({className, children, iconType, onClick}) {
   );
 }
 
-// load the dialog async because of we want to avoid initial load of maybe unneeded frameworks like js-yaml
-export const AsyncConfigurationYamlDialogWrapper = createAsyncComponent(<LoadingIndicator type='dark' />, ConfigurationYamlDialog);
+
+function changeMode(snapshot) {
+  setActiveDialog(<Mode snapshot={snapshot} />);
+}

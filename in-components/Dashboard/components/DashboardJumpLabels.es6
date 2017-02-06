@@ -15,6 +15,8 @@ const slice = Array.prototype.slice;
 const block = 'in-dashboard-jump-labels';
 
 export default React.createClass({
+  displayName: 'DashboardJumpLabels',
+
   propTypes: {
     snapshotId: React.PropTypes.string.isRequired
   },
@@ -56,14 +58,21 @@ export default React.createClass({
 
     const sections = slice.call(document.querySelectorAll('.in-dashboard .in-dashboard-section'))
       .map((section, i) => {
+        // unnamed sections may exist
+        const heading = section.querySelector('.in-dashboard__content-heading');
+        if (!heading) {
+          return null;
+        }
+
         return {
           key: String(i),
-          label: section.querySelector('.in-dashboard__content-heading').textContent,
+          label: heading.textContent,
           element: section,
           top: section.offsetTop,
           bottom: section.offsetTop + section.clientHeight
         };
-      });
+      })
+      .filter(section => !!section);
 
     if (!isEqual(this.state.sections, sections)) {
       this.setState({sections});
