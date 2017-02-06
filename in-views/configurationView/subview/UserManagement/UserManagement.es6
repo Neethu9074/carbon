@@ -242,7 +242,7 @@ export default connectTo({
         };
 
         // roll back the role change
-        const index = state.userOverview.get('users').indexOf(user);
+        const index = state.userOverview.get('users').findIndex(eachUser => user.get('id') === eachUser.get('id'));
         const newUserOverview = state.userOverview
           .updateIn(['users', index], modifiableUser => modifiableUser.set('roleId', previousRoleId));
         return {
