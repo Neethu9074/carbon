@@ -4,7 +4,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'missing',
   category: 'missing',
-  direction: 'entryAndExit',
 
   typeName: {
     singular: 'Span not yet received',

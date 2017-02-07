@@ -2,6 +2,7 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {formatDateTime, fromNow} from 'in-services/formatters/date';
+import {emptyList} from 'in-services/fixedImmutables';
 
 
 export default function DockerInfo({snapshot}) {
@@ -24,7 +25,7 @@ export default function DockerInfo({snapshot}) {
         {data.get('Id')}
       </DescriptionItem>
       <DescriptionItem title='Names'>
-        {data.get('Names').join(', ')}
+        {data.get('Names', emptyList).join(', ')}
       </DescriptionItem>
       <DescriptionItem title='Ports'>
         {renderPorts(data)}

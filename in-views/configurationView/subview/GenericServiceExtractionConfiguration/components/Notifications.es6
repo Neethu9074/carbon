@@ -1,57 +1,44 @@
 import React from 'react';
 
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import Notification from 'in-components/form/Notification';
 
-import './Notifications.less';
-
-const block = 'in-config-generic-ex-notification';
 
 export function LoadingRulesNotification() {
   return (
-    <span className={`${block} ${block}--has-loading-indicator`}>
-      <LoadingIndicator type='dark'
-                        inline
-                        style={{
-                          height: '17px'
-                        }} />
+    <Notification loading>
       Loading rules
-    </span>
+    </Notification>
   );
 }
 
 export function LoadingRulesFailedNotification() {
   return (
-    <span className={`${block} ${block}--failure`}>
+    <Notification failure>
       Failed to load rules
-    </span>
+    </Notification>
   );
 }
 
 export function SavingRulesNotification() {
   return (
-    <span className={`${block} ${block}--has-loading-indicator`}>
-      <LoadingIndicator type='dark'
-                        inline
-                        style={{
-                          height: '17px'
-                        }} />
+    <Notification loading>
       Saving rules
-    </span>
+    </Notification>
   );
 }
 
 export function SavingRulesSuccessfulNotification() {
   return (
-    <span className={`${block} ${block}--success`}>
+    <Notification success>
       Successfully saved.
-    </span>
+    </Notification>
   );
 }
 
 export function SavingRulesFailedNotification() {
   return (
-    <span className={`${block} ${block}--failure`}>
+    <Notification failure>
       Failed to save rules
-    </span>
+    </Notification>
   );
 }

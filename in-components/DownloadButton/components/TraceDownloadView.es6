@@ -7,7 +7,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(props => {
   return {
-    href: instanaBaseUrl$.map(url => `${url}api/trace/${props.trace.get('traceId')}`)
+    href: instanaBaseUrl$.map(url => `${url}api/traces/${props.trace.get('traceId')}`)
   };
 },
 function TraceDownloadView({href}) {

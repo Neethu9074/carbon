@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import {mutateUrl, navigationParameters$, cloneDeep, toUrl} from 'in-stores/navigation/navigation';
+import {mutateUrl, navigationParameters$, getModifiedUrlStream} from 'in-stores/navigation/navigation';
 
 
 export const isPhysicalMapView$ = navigationParameters$
@@ -17,43 +17,34 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$])
   .map(([physical, logical]) => physical || logical)
   .distinct();
 
-export const traceViewLinkWithoutEumTraces$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
+export const traceViewLinkWithoutEumTraces$ = getModifiedUrlStream(params => {
     params.pathname = '/traces';
     params.query.q = encodeURIComponent('-spanType:eum');
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
+  });
+
+
+export const logView$ = getModifiedUrlStream(params => {
+  params.pathname = '/logs';
+  delete params.query.q;
+});
 
 
 export function getTraceViewLinkWithQuery(query) {
   query = encodeURIComponent(query);
-  return navigationParameters$
-    .map(cloneDeep)
-    .map(params => {
-      params.pathname = '/traces';
-      params.query.q = query;
-      params.query.ss = '1';
-      return params;
-    })
-    .map(toUrl)
-    .distinct();
+  return getModifiedUrlStream(params => {
+    params.pathname = '/traces';
+    params.query.q = query;
+    params.query.ss = '1';
+  });
 }
 
 
 export function getTraceViewLinkShowingTrace(traceId) {
   const encodedTraceId = encodeURIComponent(traceId);
-  return navigationParameters$
-    .map(cloneDeep)
-    .map(params => {
-      params.pathname = '/traces';
-      params.query.traceId = encodedTraceId;
-      return params;
-    })
-    .map(toUrl)
-    .distinct();
+  return getModifiedUrlStream(params => {
+    params.pathname = '/traces';
+    params.query.traceId = encodedTraceId;
+  });
 }
 
 export const isTraceView$ = navigationParameters$
@@ -61,15 +52,10 @@ export const isTraceView$ = navigationParameters$
   .distinct();
 
 
-export const eventsLinkOnlyIncidents$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
-    params.pathname = '/events';
-    params.query.q = encodeURIComponent('eventType:incident');
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
+export const eventsLinkOnlyIncidents$ = getModifiedUrlStream(params => {
+  params.pathname = '/events';
+  params.query.q = encodeURIComponent('eventType:incident');
+});
 
 
 export const isEventView$ = navigationParameters$
@@ -78,38 +64,23 @@ export const isEventView$ = navigationParameters$
 
 
 export function getEventViewWithEvent(eventId) {
-  return navigationParameters$
-    .map(cloneDeep)
-    .map(params => {
-      params.pathname = '/events';
-      params.eventId = encodeURIComponent(eventId);
-      return params;
-    })
-    .map(toUrl)
-    .distinct();
+  return getModifiedUrlStream(params => {
+    params.pathname = '/events';
+    params.eventId = encodeURIComponent(eventId);
+  });
 }
 
 
-export const tableViewLink$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
+export const tableViewLink$ = getModifiedUrlStream(params => {
     params.pathname = '/table';
     delete params.query.q;
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
+  });
 
 
-export const tableViewFilteredForServicesLink$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
-    params.pathname = '/table';
-    params.query.q = 'selftype:service';
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
+export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/table';
+  params.query.q = 'selftype:service';
+});
 
 
 export const isTableView$ = navigationParameters$

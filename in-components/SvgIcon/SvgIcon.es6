@@ -3,6 +3,10 @@ import React from 'react';
 
 import icons from 'in-components/SvgIcon/registry.json';
 
+import './SvgIcon.less';
+
+const block = 'in-svg-icon';
+
 export default function SvgIcon({
   type,
   width,
@@ -10,7 +14,8 @@ export default function SvgIcon({
   className,
   color,
   onClick,
-  style
+  style,
+  spinning
 }) {
   const icon = icons[type];
   if (!icon) {
@@ -34,8 +39,17 @@ export default function SvgIcon({
   style.width = `${iconWidth}px`;
   style.height = `${iconHeight}px`;
 
+  let classNames = block;
+  if (className) {
+    classNames += ` ${className}`;
+  }
+
+  if (spinning) {
+    classNames += ` ${block}--spinning`;
+  }
+
   return (
-    <svg className={className}
+    <svg className={classNames}
          width={width}
          height={height}
          style={style}
@@ -65,7 +79,8 @@ export function SvgIconList({className}) {
             <SvgIcon type={key}
                      width={16}
                      height={16}
-                     color='#fff' />
+                     color='#fff'
+                     spinning={key === 'spinner'} />
             <span style={{marginLeft: '10px'}}>
               {key}
             </span>

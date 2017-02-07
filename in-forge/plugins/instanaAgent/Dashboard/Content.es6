@@ -1,16 +1,11 @@
 import React from 'react';
 
-import {
-  bytesTwoDecimalPlaces,
-  bytesPerSecondTwoDecimalPlaces
-} from 'in-services/formatters/number';
-
-import {KpiSection, KpiHeading, KpiTopLevelInteraction} from 'in-sdk/components/dashboard/KpiSection';
+import {bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces} from 'in-services/formatters/number';
+import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection';
+import {KpiSection, KpiHeading} from 'in-sdk/components/dashboard/KpiSection';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import {stop, resetAgent, resetSensors} from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import Button from 'in-components/Button';
 
 
 export default function InstanaAgentDashboard({snapshot, timeframe}) {
@@ -18,26 +13,13 @@ export default function InstanaAgentDashboard({snapshot, timeframe}) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>Instana Agent on {snapshot.getIn(['entityId', 'host'])}</KpiHeading>
-
-        <KpiTopLevelInteraction>
-          <Button onClick={() => resetSensors(snapshot)}>
-            Reset Sensors
-          </Button>
-
-          <div style={{ width: '0.5rem' }}/>
-
-          <Button onClick={() => resetAgent(snapshot)}>
-            Reset Agent
-          </Button>
-
-          <div style={{ width: '0.5rem' }} />
-
-          <Button onClick={() => stop(snapshot)}>
-            Stop Self Monitoring
-          </Button>
-        </KpiTopLevelInteraction>
+        <KpiHeading>Instana Agent on {snapshot.getIn(['data', 'hostname'])}</KpiHeading>
       </KpiSection>
+
+      <DashboardSection>
+        <ButtonSection snapshot={snapshot} />
+      </DashboardSection>
+
       {snapshot.getIn(['data', 'hasCpuLoad']) ?
         <DashboardSection title='CPU Load'>
           <ChartWithLegend snapshotId={snapshot.get('id')}

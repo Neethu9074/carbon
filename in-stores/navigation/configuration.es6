@@ -1,4 +1,9 @@
-import {buildUrlStream, buildPathStartsWithStream} from 'in-stores/navigation/navigation';
+import {
+  buildUrlStream,
+  buildPathStartsWithStream,
+  getModifiedUrlStream,
+  mutateUrl
+} from 'in-stores/navigation/navigation';
 
 export const configurationViewLink$ = buildUrlStream({path: '/config'});
 
@@ -14,7 +19,6 @@ const elasticsearchServiceExtractionConfigViewPath = '/config/elasticsearchServi
 export const elasticsearchServiceExtractionConfigurationViewLink$ = buildUrlStream({path: elasticsearchServiceExtractionConfigViewPath});
 export const isElasticsearchServiceExtractionConfigurationView$ = buildPathStartsWithStream(elasticsearchServiceExtractionConfigViewPath);
 
-
 const userInterfaceConfigViewPath = '/config/userInterface';
 export const userInterfaceConfigViewLink$ = buildUrlStream({path: userInterfaceConfigViewPath});
 export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfaceConfigViewPath);
@@ -22,3 +26,27 @@ export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfac
 const eumKeysViewPath = '/config/eumKeys';
 export const eumKeysViewLink$ = buildUrlStream({path: eumKeysViewPath});
 export const isEumKeysView$ = buildPathStartsWithStream(eumKeysViewPath);
+
+const userManagementViewPath = '/config/users';
+export const userManagementViewLink$ = buildUrlStream({path: userManagementViewPath});
+export const isUserManagementView$ = buildPathStartsWithStream(userManagementViewPath);
+
+const rolesConfigViewPath = '/config/rolesConfig';
+export const rolesConfigViewLink$ = buildUrlStream({path: rolesConfigViewPath});
+export const isRolesConfigView$ = buildPathStartsWithStream(rolesConfigViewPath);
+
+export function getRoleConfigLink(roleId) {
+  return getModifiedUrlStream(params => params.pathname = getRoleConfigPath(roleId));
+}
+
+export function openRoleConfig(roleId) {
+  mutateUrl(params => params.pathname = getRoleConfigPath(roleId));
+}
+
+export function openRoles() {
+  mutateUrl(params => params.pathname = '/config/rolesConfig');
+}
+
+function getRoleConfigPath(roleId) {
+  return `/config/rolesConfig/${encodeURIComponent(roleId)}`;
+}

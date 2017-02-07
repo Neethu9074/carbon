@@ -4,7 +4,6 @@ import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'node.http.server',
   category: 'http',
-  direction: 'entry',
   searchAliases: ['node', 'node.js', 'http'],
 
   typeName: {

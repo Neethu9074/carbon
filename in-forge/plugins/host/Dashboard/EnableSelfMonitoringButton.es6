@@ -32,7 +32,7 @@ export default connectTo(props => {
 
   function onClick() {
     if (isOnline) {
-      start(snapshot);
+      start(snapshot, true);
     }
   }
 });

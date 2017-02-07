@@ -79,6 +79,7 @@ import './mySqlDatabase';
 import './nginx';
 import './nodeJsRuntimePlatform';
 import './oracleDB';
+import './openLDAP';
 import './phpFpmRuntimePlatform';
 import './postgreSqlDatabase';
 import './process';

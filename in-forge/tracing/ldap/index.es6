@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'ldap',
   category: 'database',
-  direction: 'exit',
 
   typeName: {
     singular: 'LDAP Query',

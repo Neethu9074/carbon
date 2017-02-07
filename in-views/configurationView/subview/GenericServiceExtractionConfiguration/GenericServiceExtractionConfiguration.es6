@@ -11,22 +11,20 @@ import {notification$} from 'in-views/configurationView/subview/GenericServiceEx
 import {openEditor} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/editAsJson';
 import Rule from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Rule';
 import StoreAwareTemporaryPresenter from 'in-components/StoreAwareTemporaryPresenter';
+import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import './GenericServiceExtractionConfiguration.less';
-
-const block = 'in-config-generic-ex';
 
 export default connectTo({
   ruleForms: ruleForms$
 }, function GenericServiceExtractionConfiguration({ruleForms, ruleType, title, helpTexts,
     matchSpecificationOptionsTree, matchSpecificationOptions}) {
   return (
-    <div className={block}>
+    <SubViewWrapper>
       <LifecycleObserver onWillMount={() => enable(ruleType)}
                          onWillUnmount={disable} />
 
@@ -70,6 +68,6 @@ export default connectTo({
               matchSpecificationOptionsTree={matchSpecificationOptionsTree}
               matchSpecificationOptions={matchSpecificationOptions} />
       )}
-    </div>
+    </SubViewWrapper>
   );
 });

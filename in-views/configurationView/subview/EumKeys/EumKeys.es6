@@ -2,6 +2,7 @@ import React from 'react';
 
 import {keys$, enable, disable} from 'in-views/configurationView/subview/EumKeys/stores/keys';
 import NewAppForm from 'in-views/configurationView/subview/EumKeys/components/NewAppForm';
+import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Key from 'in-views/configurationView/subview/EumKeys/components/Key';
 import Section from 'in-views/configurationView/components/Section';
@@ -9,15 +10,11 @@ import LifecycleObserver from 'in-components/LifecycleObserver';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
-import './EumKeys.less';
-
-const block = 'in-eum-keys-config';
-
 export default connectTo({
   keys: keys$
 }, function EumKeys({keys}) {
   return (
-    <div className={block}>
+    <SubViewWrapper>
       <LifecycleObserver onWillMount={enable}
                          onWillUnmount={disable} />
       <SubViewHeader>
@@ -41,6 +38,6 @@ export default connectTo({
                name={key.appName} />
         )
       : null}
-    </div>
+    </SubViewWrapper>
   );
 });

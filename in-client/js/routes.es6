@@ -3,12 +3,16 @@
 import ElasticServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
+import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
+import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
+import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
 import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
+import LogView from 'promise?global!in-views/logView/LogView';
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
@@ -63,6 +67,14 @@ export default (
              windowTitle='Dashboard' />
     </Route>
 
+    <Route component={createAsyncFullscreenOverlayViewComponent(LogView)}
+           path='logs'
+           windowTitle='Logs'>
+      <Route component={Dashboard}
+             path='dashboard'
+             windowTitle='Dashboard' />
+    </Route>
+
     <Route path='config'
            component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}
            windowTitle='Settings'>
@@ -81,6 +93,15 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
              path='eumKeys'
              windowTitle='EUM Keys' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(RolesConfig)}
+             path='rolesConfig'
+             windowTitle='Role Config' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)}
+             path='rolesConfig/:roleId'
+             windowTitle='Role Config' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
+             path='users'
+             windowTitle='User Management' />
     </Route>
 
     <Route component={GraphView}

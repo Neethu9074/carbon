@@ -2,7 +2,7 @@ import React from 'react';
 
 import {highlightSpanId} from 'in-views/traceView/stores/highlightedSpan';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
-import {getLabel, getCategory, getDirection} from 'in-sdk/tracing';
+import {getLabel, getCategory, SPAN_KINDS} from 'in-sdk/tracing';
 import {getStart, getEnd} from 'in-views/traceView/util';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {getTickPositions} from 'in-charts/timeAxis';
@@ -38,7 +38,7 @@ function FlameGraphElement({span, currentDepth, scale}) {
                            scale={scale} />
       )}
 
-      {getDirection(span) === 'entry' && currentDepth > 1 ?
+      {span.get('kind') === SPAN_KINDS.ENTRY && currentDepth > 1 ?
         <Tooltip content='Network and Serialization'
                  align={tooltipAlignment}>
           <div className={`${block}__network`}

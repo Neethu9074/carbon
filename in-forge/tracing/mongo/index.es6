@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'mongo',
   category: 'database',
-  direction: 'exit',
 
   typeName: {
     singular: 'MongoDB query',

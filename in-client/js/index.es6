@@ -5,7 +5,7 @@ import './defaultTimeout.es6';
 
 if (!__DEV__) {
   console.log(
-    '%c Questions about Instana? Contact us via info@instana.com!',
+    '%c Questions about Instana? Contact us via support@instana.com!',
     'font-size: 14px; color: #172429; font-weight: bold;'
   );
 }

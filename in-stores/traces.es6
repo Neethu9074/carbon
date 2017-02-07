@@ -16,7 +16,7 @@ export const totalTraceCountNoFiltering$ = timeframe$
   .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: ''}));
 
 export const totalTraceCountOnlyEum$ = timeframe$
-  .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: '(n:page.err OR n:page.xhr OR n:page)'}));
+  .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: ' spanType:eum'}));
 
 // Avoid user visible inconsistencies between counts by calculating the third number.
 // We are calculating it this way because finding EUM traces is cheaper than calculating

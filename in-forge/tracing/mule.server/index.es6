@@ -3,7 +3,6 @@ import {registerSpanDefinition} from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'mule.server',
   category: 'http',
-  direction: 'entry',
 
   typeName: {
     singular: 'Mule ESB Call',

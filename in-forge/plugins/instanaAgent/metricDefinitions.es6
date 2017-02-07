@@ -54,7 +54,7 @@ export default [
       'Sent'
     ],
     min: 0,
-    category: ['network'],
+    category: ['Network'],
     formatter: bytes
   },
   {

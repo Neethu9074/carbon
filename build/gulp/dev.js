@@ -72,7 +72,8 @@ gulp.task('askForDevOptions', cb => {
         {
           name: 'Local',
           value: {
-            uiBackendUrl: 'http://localhost:8082/',
+            uiBackendUrl: 'http://localhost:8080',
+            websocketEndpoint: 'http://localhost:8082/',
             groundskeeperUrl: 'http://localhost:8480',
             withoutAuthPrefix: true,
             tenant: 'instana',
@@ -255,21 +256,18 @@ gulp.task('enableDevWatches', () => {
 
 
 gulp.task('startDevProxy', function startDevProxy() {
-  var envConfig = devModeOptions.target;
-  var uiBackendUrl = envConfig.uiBackendUrl;
-  var groundskeeperUrl = envConfig.groundskeeperUrl;
+  const envConfig = devModeOptions.target;
+  const uiBackendUrl = envConfig.uiBackendUrl;
+  const groundskeeperUrl = envConfig.groundskeeperUrl;
+  let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
-  var gkApiPrefix = '';
+  let gkApiPrefix = '';
   if (!envConfig.withoutAuthPrefix) {
     gkApiPrefix = '/auth';
   }
 
-  let websocketEndpoint = uiBackendUrl;
-  if (/:\d+$/.test(websocketEndpoint)) {
-    websocketEndpoint += '/api/data';
-  }
 
-  var config = {
+  const config = {
     serverName: 'local-instana.instana.io',
     port: 4000,
     root: paths.assetDir,

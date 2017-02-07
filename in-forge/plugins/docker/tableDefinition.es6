@@ -2,6 +2,7 @@ import React from 'react';
 
 import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
+import {formatDateTime, fromNow} from 'in-services/formatters/date';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
@@ -22,6 +23,34 @@ export default [
           </HierarchicalLink>
         ),
         sortable: label
+      };
+    }
+  }, {
+    title: 'Created',
+    sortableType: Number,
+    get(snapshot) {
+      const date = snapshot.get('data').get('Created');
+      return {
+        content: (
+          <span>
+            {formatDateTime(date)} ({fromNow(date)})
+          </span>
+        ),
+        sortable: date
+      };
+    }
+  }, {
+    title: 'Started',
+    sortableType: Number,
+    get(snapshot) {
+      const date = snapshot.get('data').get('Started');
+      return {
+        content: (
+          <span>
+            {formatDateTime(date)} ({fromNow(date)})
+          </span>
+        ),
+        sortable: date
       };
     }
   }, {

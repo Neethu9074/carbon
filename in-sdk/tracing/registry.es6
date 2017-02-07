@@ -2,6 +2,7 @@ import {createLogger} from 'instalog';
 
 import {addSearchableTraceType} from 'in-sdk/search';
 
+
 let missingSpanDefinitionReported = false;
 
 // maps type => spanDefinition
@@ -11,7 +12,6 @@ function defaultSpanDefinition(span) {
   const spanDefinition = {
     type: 'unknown',
     category: 'generic',
-    direction: 'entryAndExit',
 
     typeName: {
       singular: 'Call',
@@ -23,7 +23,6 @@ function defaultSpanDefinition(span) {
     getLabel() {
       return span.getIn(['data', 'label']) || 'Unknown (' + span.get('name') + ')';
     }
-
   };
   return spanDefinition;
 }

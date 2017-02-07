@@ -4,6 +4,7 @@ import ReactCodeMirror from 'react-codemirror';
 
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/yaml/yaml';
 import 'codemirror/addon/selection/active-line';
 
 // Available modes

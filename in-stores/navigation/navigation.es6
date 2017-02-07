@@ -1,5 +1,5 @@
 /* global process:false, require:false */
-import {cloneDeep as loDashCloneDeep, isEqual} from 'lodash';
+import {isEqual} from 'lodash';
 
 import {createStore} from 'in-stores/store';
 
@@ -47,7 +47,7 @@ hashHistory.listen(location => {
 
 export function mutateUrl(mutator) {
   navigationParameters$.once(currentLocation => {
-    const newLocation = cloneDeep(currentLocation);
+    const newLocation = cloneNavigationParameters(currentLocation);
     mutator(newLocation);
 
     if (!isEqual(newLocation, currentLocation)) {
@@ -57,21 +57,62 @@ export function mutateUrl(mutator) {
 }
 
 
-export function cloneDeep(obj) {
-  return loDashCloneDeep(obj, true);
+export function getModifiedUrlStream(mapParams) {
+  return navigationParameters$
+    .map(params => {
+      params = cloneNavigationParameters(params);
+      mapParams(params);
+      return toUrl(params);
+    })
+    .distinct();
+}
+
+
+// We explicitly clone this manually for the best performance we can get.
+// We have a terribly large number of navigation object clone instructions which we
+// need to keep fast.
+function cloneNavigationParameters(params) {
+  const query = {};
+  for (let key in params.query) {
+    query[key] = params.query[key];
+  }
+
+  const cloned = {
+    pathname: params.pathname,
+    query
+  };
+
+  return cloned;
+}
+
+
+function toUrl(params) {
+  return `/#${toBaseUrl(params)}`;
+}
+
+
+function toBaseUrl(params) {
+  let url = params.pathname;
+
+  let first = true;
+  for (const key in params.query) {
+    if (first) {
+      first = false;
+      url = `${url}?${key}=${params.query[key]}`;
+    } else {
+      url = `${url}&${key}=${params.query[key]}`;
+    }
+  }
+
+  return url;
 }
 
 
 export function buildUrlStream({path}) {
-  return navigationParameters$
-    .map(cloneDeep)
-    .map(params => {
-      params.pathname = path;
-      delete params.query.q;
-      return params;
-    })
-    .map(toUrl)
-    .distinct();
+  return getModifiedUrlStream(params => {
+    params.pathname = path;
+    delete params.query.q;
+  });
 }
 
 
@@ -96,25 +137,15 @@ export function goHome() {
   });
 }
 
-export const homeLink$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
-    params.pathname = '/';
-    params.query = {};
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
+export const homeLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/';
+  params.query = {};
+});
 
-export const instanaBaseUrl$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
-    params.pathname = '/';
-    params.query = {};
-    return params;
-  })
-  .map(toBaseUrl)
-  .distinct();
+export const instanaBaseUrl$ = getModifiedUrlStream(params => {
+  params.pathname = '/';
+  params.query = {};
+});
 
 
 export function goToDashboard(snapshotId) {
@@ -129,16 +160,11 @@ export function goToDashboard(snapshotId) {
 
 export function getDashboardLink(snapshotId) {
   snapshotId = encodeURIComponent(snapshotId);
-  return navigationParameters$
-    .map(cloneDeep)
-    .map(params => {
-      const view = getActiveView(params);
-      params.pathname = `/${view}/dashboard`;
-      params.query.snapshotId = snapshotId;
-      return params;
-    })
-    .map(toUrl)
-    .distinct();
+  return getModifiedUrlStream(params => {
+    const view = getActiveView(params);
+    params.pathname = `/${view}/dashboard`;
+    params.query.snapshotId = snapshotId;
+  });
 }
 
 
@@ -151,14 +177,9 @@ export const isDashboardOpen$ = navigationParameters$
 
 export function getLinkToSnapshotInCurrentView(snapshotId) {
   snapshotId = encodeURIComponent(snapshotId);
-  return navigationParameters$
-    .map(cloneDeep)
-    .map(params => {
-      params.query.snapshotId = snapshotId;
-      return params;
-    })
-    .map(toUrl)
-    .distinct();
+  return getModifiedUrlStream(params => {
+    params.query.snapshotId = snapshotId;
+  });
 }
 
 export function closeDashboard() {
@@ -169,77 +190,38 @@ export function closeDashboard() {
 }
 
 export function getFixedTimeframeUrl({windowSize, to, focusedMoment, clearHighlightedTimeframe = false}) {
-  return navigationParameters$
-    .map(cloneDeep)
-    .map(navParams => {
-      if (!focusedMoment) {
-        delete navParams.query.fm;
-        navParams.query['timeline.fm'] = encodeURIComponent('');
-      } else {
-        navParams.query['timeline.fm'] = encodeURIComponent(focusedMoment);
-      }
+  return getModifiedUrlStream(navParams => {
+    if (!focusedMoment) {
+      navParams.query['timeline.fm'] = encodeURIComponent('');
+    } else {
+      navParams.query['timeline.fm'] = encodeURIComponent(focusedMoment);
+    }
 
-      navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
+    navParams.query['timeline.to'] = encodeURIComponent(to == null ? '' : to);
 
-      if (windowSize) {
-        navParams.query['timeline.ws'] = encodeURIComponent(windowSize);
-      }
+    if (windowSize) {
+      navParams.query['timeline.ws'] = encodeURIComponent(windowSize);
+    }
 
-      if (clearHighlightedTimeframe) {
-        delete navParams.query['tl.tf'];
-      }
-
-      return navParams;
-    })
-    .map(toUrl)
-    .distinct();
+    if (clearHighlightedTimeframe) {
+      delete navParams.query['tl.tf'];
+    }
+  });
 }
+
 
 export function getTimelineLiveUrl() {
-  return navigationParameters$
-    .map(cloneDeep)
-    .map(navParams => {
-      delete navParams.query.fm;
-      navParams.query['timeline.to'] = encodeURIComponent('');
-      navParams.query['timeline.fm'] = encodeURIComponent('');
-
-      return navParams;
-    })
-    .map(toUrl)
-    .distinct();
+  return getModifiedUrlStream(navParams => {
+    delete navParams.query.fm;
+    navParams.query['timeline.to'] = encodeURIComponent('');
+    navParams.query['timeline.fm'] = encodeURIComponent('');
+  });
 }
 
-export const closeDashboardLink$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
-    params.pathname = params.pathname.replace(/\/dashboard/i, '');
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
 
-
-export function toUrl(params) {
-  return `/#${toBaseUrl(params)}`;
-}
-
-export function toBaseUrl(params) {
-  let url = params.pathname;
-
-  let first = true;
-  for (const key in params.query) {
-    if (params.query.hasOwnProperty(key)) {
-      if (first) {
-        first = false;
-        url = `${url}?${key}=${params.query[key]}`;
-      } else {
-        url = `${url}&${key}=${params.query[key]}`;
-      }
-    }
-  }
-
-  return url;
-}
+export const closeDashboardLink$ = getModifiedUrlStream(params => {
+  params.pathname = params.pathname.replace(/\/dashboard/i, '');
+});
 
 
 export function goToLogicalView() {
@@ -250,15 +232,10 @@ export function goToLogicalView() {
 }
 
 
-export const logicalViewLink$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
-    params.pathname = '/logical';
-    deleteQueryData(params.query);
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
+export const logicalViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/logical';
+  delete params.query.q;
+});
 
 
 export function goToPhysicalView() {
@@ -268,20 +245,11 @@ export function goToPhysicalView() {
   });
 }
 
-export const physicalViewLink$ = navigationParameters$
-  .map(cloneDeep)
-  .map(params => {
-    params.pathname = '/physical';
-    deleteQueryData(params.query);
-    return params;
-  })
-  .map(toUrl)
-  .distinct();
+export const physicalViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/physical';
+  delete params.query.q;
+});
 
-
-function deleteQueryData(query) {
-  delete query.q;
-}
 
 export function goToRootOfView() {
   mutateUrl(navParams => {
