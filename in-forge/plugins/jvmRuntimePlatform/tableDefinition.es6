@@ -38,6 +38,19 @@ export default [
              snapshot.getIn(['data', 'jvm.name']);
     }
   }, {
+    title: 'Max Heap',
+    sortableType: String,
+    style: {
+      maxWidth: '6.25rem',
+      textAlign: 'right'
+    },
+    get(snapshot) {
+      return {
+        content: bytesTwoDecimalPlaces(snapshot.getIn(['data', 'memory.max'])),
+        sortable: snapshot.getIn(['data', 'memory.max'])
+      };
+    }
+  }, {
     title: 'Heap Used',
     sortableType: Number,
     style: {
