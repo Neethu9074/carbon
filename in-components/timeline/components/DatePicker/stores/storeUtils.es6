@@ -26,10 +26,9 @@ const referenceTimestamps$ = combineLatest([serverTime$, bigBangTimestamp$])
                                };
                              });
 
-export function getValidation$(dateString$, timeString$) {
-  return combineLatest([referenceTimestamps$, dateString$, timeString$])
-         .map(([{serverTime, bigBangTimestamp}, dateAsString, timeAsString]) => {
-           const timestamp = parseDateTime(dateAsString + ' ' + timeAsString).getTime();
+export function getValidation$(timestamp$) {
+  return combineLatest([referenceTimestamps$, timestamp$])
+         .map(([{serverTime, bigBangTimestamp}, timestamp]) => {
            const timestamp_date = parseDate(formatDate(timestamp)).getTime();
 
            const bigBangTimestamp_date = parseDate(formatDate(bigBangTimestamp)).getTime();
@@ -50,11 +49,15 @@ export function getValidation$(dateString$, timeString$) {
 
            // we don't want to validate the time when the date is already invalid. Makes no sense to validate
            // it since our basis for invalidation is not existing.
-           validationObject.time = (!validationObject.date)
-             ? true
-             : bigBangTimestamp <= timestamp && timestamp <= serverTime;
-
+           validationObject.time = (!validationObject.date) ? true : (bigBangTimestamp <= timestamp && timestamp <= serverTime);
 
            return validationObject;
+         });
+}
+
+export function getTimestamp$(dateString$, timeString$) {
+  return combineLatest([dateString$, timeString$])
+         .map(([dateAsString, timeAsString]) => {
+           return parseDateTime(dateAsString + ' ' + timeAsString).getTime();
          });
 }

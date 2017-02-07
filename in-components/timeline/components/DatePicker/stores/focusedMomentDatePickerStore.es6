@@ -1,4 +1,4 @@
-import {setTimestamp, getValidation$} from 'in-components/timeline/components/DatePicker/stores/storeUtils';
+import {setTimestamp, getValidation$, getTimestamp$} from 'in-components/timeline/components/DatePicker/stores/storeUtils';
 import {focusedMoment$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
@@ -26,11 +26,10 @@ export function setTimeString(newTime) {
 }
 
 
-export const isDateTimeValid$ = getValidation$(dateString$, timeString$).map(validate);
+export const focusedMomentTimestamp$ = getTimestamp$(dateString$, timeString$);
 
-function validate(validationObject) {
-  return validationObject;
-}
+
+export const isDateTimeValid$ = getValidation$(focusedMomentTimestamp$);
 
 
 export function reset() {
