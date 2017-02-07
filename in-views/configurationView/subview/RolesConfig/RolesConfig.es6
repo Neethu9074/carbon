@@ -16,7 +16,10 @@ import {generateUniqueShortId} from 'in-services/util/id';
 import {emptySet} from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
 
+import './RolesConfig.less';
+
 const logger = createLogger('RolesConfig');
+const block = 'in-config-roles';
 
 export default React.createClass({
   displayName: 'RolesConfig',
@@ -106,7 +109,7 @@ export default React.createClass({
             Existing Roles
           </SectionHeading>
 
-          <ul>
+          <ul className={`${block}__roles`}>
             {roles && roles.toArray()
               // do not show the fallback role
               .filter(role => role.get('id') !== '-2')
