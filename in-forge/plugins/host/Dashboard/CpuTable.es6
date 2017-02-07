@@ -1,5 +1,5 @@
+import {Range} from 'immutable';
 import React from 'react';
-import Immutable from 'immutable';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -12,7 +12,7 @@ import Mtd from 'in-components/Mtd';
 
 export default function CpuTable({snapshot, timeframe}) {
   const cpuCount = snapshot.getIn(['data', 'cpu.count'], 1);
-  const cpus = Immutable.Range(1, cpuCount + 1);
+  const cpus = Range(1, cpuCount + 1);
 
   if (cpuCount < 2) {
     return null;

@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import React from 'react';
 
 import {setActiveMetric, clearActiveMetric, activeMetric$} from 'in-stores/metric';
@@ -142,7 +142,7 @@ function Metric({activeMetric, metricKey, metric, topic}) {
 
   return (
     <div className={className}
-         onClick={() => setActiveMetric(Immutable.fromJS({
+         onClick={() => setActiveMetric(fromJS({
                                           name: metricKey,
                                           longLabel: `${topic} ${metricKey}`,
                                           metrics: metric[metricKey]

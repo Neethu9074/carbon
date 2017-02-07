@@ -1,5 +1,5 @@
-import Immutable from 'immutable';
 import irpt from 'react-immutable-proptypes';
+import {Iterable} from 'immutable';
 import React from 'react';
 
 import './ExpandableTable.less';
@@ -55,7 +55,7 @@ export default React.createClass({
     const data = this.props.data;
     const context = this.props.context;
 
-    if (Immutable.Iterable.isIterable(data)) {
+    if (Iterable.isIterable(data)) {
       data.forEach((val, index) => {
         const rows = mapperFn(val, index, context);
         result = result.concat(rows);

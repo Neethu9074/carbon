@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
 import {create} from 'reactive-observables';
+import {fromJS, List} from 'immutable';
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -37,7 +37,7 @@ describe('in-stores/events', () => {
     to$ = create();
     serverTime$ = create();
     getEvents = sinon.stub();
-    getEventsResult = create().emit(Immutable.List());
+    getEventsResult = create().emit(List());
     focusedMoment$ = create();
     getTotalEventsCount = create();
     resolvedFocusedMoment$ = focusedMoment$.flatMap(focusedMoment => {
@@ -79,7 +79,7 @@ describe('in-stores/events', () => {
     });
 
     it('should include historic data in aggregation', () => {
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 10,
         'end': 20,
@@ -98,7 +98,7 @@ describe('in-stores/events', () => {
     it('should combine successive historic updates', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 10,
         'end': 20,
@@ -106,7 +106,7 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'bar',
         'start': 5,
         'state': 'open',
@@ -124,7 +124,7 @@ describe('in-stores/events', () => {
     it('should merge historic with live updates', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 10,
         'end': 20,
@@ -132,7 +132,7 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'bar',
         'start': 5,
         'state': 'open',
@@ -150,7 +150,7 @@ describe('in-stores/events', () => {
     it('should provide sorted events list', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 10,
         'end': 20,
@@ -158,14 +158,14 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'bar',
         'start': 5,
         'state': 'open',
         'type': 'issue'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 15,
         'end': 20,
@@ -202,7 +202,7 @@ describe('in-stores/events', () => {
     it('should merge events in same time', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -210,7 +210,7 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'bar',
         'start': 5,
         'state': 'open',
@@ -226,7 +226,7 @@ describe('in-stores/events', () => {
     it('should categorized events', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -234,7 +234,7 @@ describe('in-stores/events', () => {
         'type': 'change'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 20,
@@ -242,7 +242,7 @@ describe('in-stores/events', () => {
         'type': 'incident'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'bar',
         'start': 15,
         'state': 'open',
@@ -266,7 +266,7 @@ describe('in-stores/events', () => {
     it('should update events', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'bar',
         'start': 15,
         'state': 'open',
@@ -277,7 +277,7 @@ describe('in-stores/events', () => {
       expect(result.issues.length).to.equal(1);
       expect(result.issues[0].get('end')).to.equal(undefined);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'bar',
         'start': 15,
         'end': 20,
@@ -302,7 +302,7 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -310,7 +310,7 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 20,
@@ -330,7 +330,7 @@ describe('in-stores/events', () => {
 
       mod.openEventsAtServerTime$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 11,
@@ -338,7 +338,7 @@ describe('in-stores/events', () => {
         'state': 'open'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
@@ -346,7 +346,7 @@ describe('in-stores/events', () => {
         'state': 'closed'
       }]));
 
-      getTotalEventsCount.emit(Immutable.fromJS({
+      getTotalEventsCount.emit(fromJS({
         incidentCount: 123
       }));
 
@@ -363,7 +363,7 @@ describe('in-stores/events', () => {
 
       mod.openEventsAtFocusedMoment$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 11,
@@ -371,7 +371,7 @@ describe('in-stores/events', () => {
         'state': 'open'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
@@ -391,14 +391,14 @@ describe('in-stores/events', () => {
 
       mod.openEventsAtFocusedMoment$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 11,
         'type': 'issue'
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
@@ -420,7 +420,7 @@ describe('in-stores/events', () => {
 
       mod.getOpenIssuesAtFocusedMoment(snapshotId).subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 10,
@@ -430,7 +430,7 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo2',
         'start': 0,
         'end': 7,
@@ -440,7 +440,7 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
@@ -463,7 +463,7 @@ describe('in-stores/events', () => {
 
       mod.getOpenIssuesAtFocusedMoment(snapshotId).subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 10,
@@ -473,7 +473,7 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo2',
         'start': 0,
         'end': 7,
@@ -483,7 +483,7 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
@@ -509,7 +509,7 @@ describe('in-stores/events', () => {
 
       mod.getMostImportantEventAtFocusedMoment(snapshotId).subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 10,
@@ -520,7 +520,7 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo2',
         'start': 0,
         'end': 7,
@@ -531,7 +531,7 @@ describe('in-stores/events', () => {
         severity: 3
       }]));
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
@@ -544,7 +544,7 @@ describe('in-stores/events', () => {
       expect(subscriber.callCount).to.equal(2);
       expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo');
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         id: 'foo',
         start: 5,
         end: 6,
@@ -569,7 +569,7 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([]));
+      getEventsResult.emit(fromJS([]));
 
       const result = subscriber.getCall(1).args[0];
       expect(mod.getNearestEvent(result.issues, 40)).to.equal(null);
@@ -585,7 +585,7 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -608,7 +608,7 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -647,7 +647,7 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -673,7 +673,7 @@ describe('in-stores/events', () => {
 
   describe('getColorForEventAtFocusedMomentAsStream', () => {
     it('should color issues according to server time when no focused moment is defined', () => {
-      const issue = Immutable.fromJS({
+      const issue = fromJS({
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -691,7 +691,7 @@ describe('in-stores/events', () => {
     });
 
     it('should color issues according to server time when no focused moment is defined', () => {
-      const issue = Immutable.fromJS({
+      const issue = fromJS({
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -709,7 +709,7 @@ describe('in-stores/events', () => {
     });
 
     it('should color issues according to focused moment when one is selected', () => {
-      const issue = Immutable.fromJS({
+      const issue = fromJS({
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -727,7 +727,7 @@ describe('in-stores/events', () => {
     });
 
     it('should color issues according to focused moment when one is selected', () => {
-      const issue = Immutable.fromJS({
+      const issue = fromJS({
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -745,7 +745,7 @@ describe('in-stores/events', () => {
     });
 
     it('should color changes using the default color', () => {
-      const issue = Immutable.fromJS({
+      const issue = fromJS({
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -761,7 +761,7 @@ describe('in-stores/events', () => {
 
     it('should color issues according to focused moment time when focused moment is defined' +
         'and issue was open so it has no end defined', () => {
-      const issue = Immutable.fromJS({
+      const issue = fromJS({
         'id': 'foo',
         'start': 5,
         'state': 'open',

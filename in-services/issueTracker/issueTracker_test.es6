@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 
 import {resetStoreRegistry} from 'in-stores/store';
@@ -22,7 +22,7 @@ describe('issueTracker', () => {
     let event;
 
     beforeEach(() => {
-      event = Immutable.fromJS({
+      event = fromJS({
         id: '1',
         problem: {
           severity: 10

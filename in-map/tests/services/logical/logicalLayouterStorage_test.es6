@@ -1,7 +1,7 @@
 /* eslint-env mocha,node */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -27,7 +27,7 @@ describe('layoutingStorage', () => {
       timestamp: now
     }
   };
-  const nodePositions$ = create().startWith(Immutable.fromJS(testData)).freeze();
+  const nodePositions$ = create().startWith(fromJS(testData)).freeze();
 
   beforeEach(() => {
     global.Storage = 'test';

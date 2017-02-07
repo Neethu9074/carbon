@@ -1,6 +1,6 @@
 /* eslint-env mocha, node */
 
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 
 import {transform, withoutDuplicatatedStackTraceLines} from 'in-views/traceView/longTraceBuilder';
@@ -18,20 +18,20 @@ describe('in-views/traceView', () => {
       testFile('withStackTraceAndTimeBasedMoving', transformToLongStackTrace);
 
       function transformToLongStackTrace(given) {
-        return transform(Immutable.fromJS(given));
+        return transform(fromJS(given));
       }
     });
 
     describe('withoutDuplicatatedStackTraceLines', () => {
       it('must remove duplicate stack trace lines', () => {
-        const span = Immutable.fromJS([
+        const span = fromJS([
           {c: 'a', m: '', n: 1},
           {c: 'b', m: '', n: 2},
           {c: 'c', m: '', n: 3},
           {c: 'd', m: '', n: 4}
         ]);
 
-        const parent = Immutable.fromJS([
+        const parent = fromJS([
           {c: 'b', m: '', n: 2}
         ]);
 

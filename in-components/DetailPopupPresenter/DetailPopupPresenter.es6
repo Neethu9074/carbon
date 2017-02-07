@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {Iterable, Map} from 'immutable';
 import React from 'react';
 
 import {content$, contentFilter$} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
@@ -39,9 +39,9 @@ export default connectTo({
 );
 
 function createHtmlContent(data, contentFilter) {
-  if (Immutable.Map.isMap(data)) {
+  if (Map.isMap(data)) {
     return createKeyValueHtmlContent(data, contentFilter);
-  } else if (Immutable.Iterable.isIterable(data)) {
+  } else if (Iterable.isIterable(data)) {
     return createSeqHtmlContent(data, contentFilter);
   }
 

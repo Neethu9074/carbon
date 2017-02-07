@@ -1,5 +1,5 @@
 /* eslint-env mocha, node */
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 
 import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
@@ -49,7 +49,7 @@ describe('BasicEventRenderer', () => {
   });
 
   function getEvent() {
-    return Immutable.fromJS({
+    return fromJS({
       id: 'eventId',
       start: 100,
       problem: {

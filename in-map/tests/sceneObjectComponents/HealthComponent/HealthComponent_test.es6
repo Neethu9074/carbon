@@ -1,7 +1,7 @@
 /* eslint-env mocha, node */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -21,7 +21,7 @@ describe('in-map', () => {
 
       const Component = proxyquire('in-map/sceneObjectComponents/HealthComponent/HealthComponent', {
         'in-stores/events': {
-          getHealthInfoAtFocusedMoment: () => create().startWith(Immutable.fromJS({
+          getHealthInfoAtFocusedMoment: () => create().startWith(fromJS({
             problem: {
               severity: 5
             }

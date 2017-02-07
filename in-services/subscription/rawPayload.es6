@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
@@ -16,5 +16,5 @@ export default createSubscription({
     };
   },
 
-  transformData: rawPayload => Immutable.fromJS(rawPayload)
+  transformData: rawPayload => fromJS(rawPayload)
 });

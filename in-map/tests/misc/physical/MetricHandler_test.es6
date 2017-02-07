@@ -1,7 +1,7 @@
 /* eslint-env mocha, node */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -17,7 +17,7 @@ describe('in-map', () => {
     let node;
 
     beforeEach(() => {
-      activeMetric$ = create().startWith((Immutable.fromJS({
+      activeMetric$ = create().startWith((fromJS({
         label: 'Load',
         metrics: [{
           label: 'Load',
@@ -54,7 +54,7 @@ describe('in-map', () => {
     it('should only call get max value when ready', () => {
       expect(getMaxValue).to.have.callCount(0);
 
-      eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'hasseNichJesehen' }));
+      eventEmitter.emit('snapshotChanged', fromJS({ id: 'hasseNichJesehen' }));
 
       expect(getMaxValue).to.have.callCount(1);
       expect(getMaxValue.getCall(0).args[0]).to.equal('load.1min');
@@ -64,7 +64,7 @@ describe('in-map', () => {
     it('should set the normalized metric values', () => {
       expect(setMetricValues).to.have.callCount(0);
 
-      eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'hasseNichJesehen' }));
+      eventEmitter.emit('snapshotChanged', fromJS({ id: 'hasseNichJesehen' }));
 
       expect(setMetricValues).to.have.callCount(1);
       expect(setMetricValues.getCall(0).args[0]).to.deep.equal([1 / 10]);

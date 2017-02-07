@@ -1,6 +1,6 @@
 /* eslint-env mocha, node*/
 import {expect} from 'chai';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import proxyquire from 'proxyquire';
 
 const UNKNOWN_LABEL = 'Unknown';
@@ -16,7 +16,7 @@ describe('in-sdk/snapshot/legacy', () => {
     // reimporting via proxyquire to avoid the finder cache
     mod = proxyquire('./legacy', {});
 
-    snapshot = Immutable.fromJS({
+    snapshot = fromJS({
       id: steadyId,
       steadyId,
       plugin,

@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {List} from 'immutable';
 
 import {createStore} from 'in-stores/store';
 
@@ -18,7 +18,7 @@ export const theme = window.instana.activeThemeConfig;
 export default theme;
 
 
-export const availableThemes = Immutable.List([
+export const availableThemes = List([
   'day',
   'night'
 ]);

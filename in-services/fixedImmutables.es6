@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {List, Set, Map} from 'immutable';
 
 // We should create empty Lists, Maps, Sets only once and cache them. This
 // is important for two important reasons:
@@ -6,6 +6,6 @@ import Immutable from 'immutable';
 //  - Reduce GC pressure by creating less temporary objects.
 //  - Allow change detection to identify unnecessary re-renders.
 
-export const emptyList = Immutable.List();
-export const emptySet = Immutable.Set();
-export const emptyMap = Immutable.Map();
+export const emptyList = List();
+export const emptySet = Set();
+export const emptyMap = Map();

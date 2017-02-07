@@ -1,5 +1,5 @@
 import {createLogger} from 'instalog';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 
 import createKeyboardController from 'in-map/misc/common/KeyboardController/KeyboardController';
 import createViveController from 'in-map/misc/common/ViveController/ViveController';
@@ -53,7 +53,7 @@ class WebVRCameraController {
     switch (currentMetric) {
       case 'load':
         currentMetric = 'usage';
-        setActiveMetric(Immutable.fromJS({
+        setActiveMetric(fromJS({
           name: 'Usage',
           longLabel: `CPU Usage`,
           metrics: [
@@ -71,7 +71,7 @@ class WebVRCameraController {
         break;
       default:
         currentMetric = 'load';
-        setActiveMetric(Immutable.fromJS({
+        setActiveMetric(fromJS({
           name: 'Load',
           longLabel: `CPU Load`,
           metrics: [{name: 'load.1min', label: 'Load', timeWindowAggregation: 'mean'}]

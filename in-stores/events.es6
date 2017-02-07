@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 import {sortedIndexBy} from 'lodash';
-import Immutable from 'immutable';
+import {List, Map} from 'immutable';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-services/subscription/totalRawEventsCount';
@@ -125,7 +125,7 @@ export const getOpenIssuesAtFocusedMoment = memoize(
   // TODO an index by entity would be great, but probably more expensive to
   // maintain than actually to loop?
   snapshotId => openEventsAtFocusedMoment$.map(events => {
-      return Immutable.List(events.issues
+      return List(events.issues
         .filter(event => event.getIn(['problem', 'snapshotId']) === snapshotId));
     }),
 
@@ -160,7 +160,7 @@ export const getHealthInfoAtFocusedMoment = memoize(
       return prevHealthInfo;
     }, {})
     .distinct()
-    .map(mutableHealthInfo => Immutable.Map(mutableHealthInfo)),
+    .map(mutableHealthInfo => Map(mutableHealthInfo)),
 
   id => id,
 
