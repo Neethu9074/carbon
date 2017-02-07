@@ -142,11 +142,6 @@ export const homeLink$ = getModifiedUrlStream(params => {
   params.query = {};
 });
 
-export const instanaBaseUrl$ = getModifiedUrlStream(params => {
-  params.pathname = '/';
-  params.query = {};
-});
-
 
 export function goToDashboard(snapshotId) {
   mutateUrl(params => {

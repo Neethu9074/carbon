@@ -3,6 +3,7 @@ const theConfig = window.instana.config;
 export default theConfig;
 
 export const config = theConfig;
+export const baseUrl = window.location.origin;
 
 export function isInternalEnvironment() {
   return theConfig.environment === 'internal';
