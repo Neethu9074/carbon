@@ -6,6 +6,7 @@ import {isDateTimeValid$ as focusedMomentValid$} from 'in-components/timeline/co
 import {isDateTimeValid$ as fromValid$} from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import {isDateTimeValid$ as toValid$} from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import {windowSize$} from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
+import {MAX_ZOOM_LEVEL} from 'in-components/timeline/timelineStore';
 import {getFixedTimeframeUrl} from 'in-stores/navigation';
 import {alwaysNull} from 'in-services/fixedStreams';
 import Button from 'in-components/Button';
@@ -41,7 +42,7 @@ export default connectTo(props => {
           })
           .flatMap(validations => validations.fixedTimestampsAreValid
                                            ? getFixedTimeframeUrl({
-                                               windowSize: validations.to - validations.from,
+                                               windowSize: Math.max(MAX_ZOOM_LEVEL, validations.to - validations.from),
                                                focusedMoment: validations.focusedMoment,
                                                to: validations.to
                                              })

@@ -45,7 +45,8 @@ export function reset() {
                                     if (!fromTimestamp) {
                                       return {
                                         date: true,
-                                        time: true
+                                        time: true,
+                                        timestamp: validationObject.timestamp
                                       };
                                     }
 
@@ -62,7 +63,8 @@ export function reset() {
 
                                     return {
                                       date,
-                                      time
+                                      time,
+                                      timestamp: validationObject.timestamp
                                     };
                                   });
   to$.once(_to => setTimestamp(_to, setDateString, setTimeString));
