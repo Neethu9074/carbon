@@ -1,0 +1,32 @@
+@import "~in-themes/active.less";
+
+.in-date-picker-date-input {
+  display: flex;
+  align-items: flex-end;
+
+  &__calendar {
+    margin-left: -30px;
+    padding: 0.25rem 0.438rem;
+    cursor: pointer;
+
+    &:hover {
+      .in-date-picker-date-input__calendar-icon {
+        fill: white;
+      }
+    }
+  }
+
+  &--selected {
+    .in-date-picker-date-input__calendar-icon {
+      fill: white;
+    }
+
+    &:hover {
+      .in-date-picker-date-input__calendar-icon {
+        fill: #6B8088;
+      }
+    }
+  }
+
+  &__calendar-icon {}
+}

@@ -25,7 +25,7 @@ import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 
 
-export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
+export default function createMouseEvents(domElement, scale, realtimeDrawStream) {
   const changeSignal = true;
 
   const minPixelToMoveForDragDetection = 20;
@@ -60,18 +60,18 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   let currentTo;
   const toSubscription = to$.subscribe(_to => currentTo = _to);
 
-  const mouseLeaveSubscription = onLeave(canvas, onMouseLeave);
-  const mouseDownSubscription = onDown(canvas, onMouseDown);
-  const mouseUpSubscription = onUp(canvas, onMouseUp);
+  const mouseLeaveSubscription = onLeave(domElement, onMouseLeave);
+  const mouseDownSubscription = onDown(domElement, onMouseDown);
+  const mouseUpSubscription = onUp(domElement, onMouseUp);
 
-  const mouseMoveSubscription = onMove(canvas, e => {
+  const mouseMoveSubscription = onMove(domElement, e => {
     onMouseMove(e, e.offsetX, e.clientX, e.offsetY, e.clientY);
     if (isPanning) {
       onPan(e.offsetX);
     }
   });
 
-  const scrollSubscription = onWheel(canvas, e => {
+  const scrollSubscription = onWheel(domElement, e => {
     const oldWindowSize = scale.getDomainTo() - scale.getDomainFrom();
 
     // [0, 1] 0 -> left, 0.5 -> middle, 1 -> right, etc
@@ -197,11 +197,11 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     const eventAtCursor = getEventAtXY(x, y);
 
-    // add a hand cursor to support UX and tell the user that he can interact with the canvas at this point
+    // add a hand cursor to support UX and tell the user that he can interact with the domElement at this point
     if (eventAtCursor || isCursorOnFocusedMoment(x, y)) {
-      canvas.style.cursor = 'pointer';
+      domElement.style.cursor = 'pointer';
     } else {
-      canvas.style.cursor = 'auto';
+      domElement.style.cursor = 'auto';
     }
 
     setHighlightedEvent(eventAtCursor);
@@ -241,7 +241,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
       setFocusedMoment(newTimestamp);
 
     } else {
-      canvas.style.cursor = 'ew-resize';
+      domElement.style.cursor = 'ew-resize';
 
       const newTimestamp = Math.max(bigBangTimestamp + timeframe.windowSize,
                            Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned)));
@@ -263,7 +263,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     realtimeDrawStream.emit(changeSignal);
 
-    canvas.style.cursor = 'auto';
+    domElement.style.cursor = 'auto';
   }
 
   function getEventAtXY(x, y) {

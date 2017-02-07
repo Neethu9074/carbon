@@ -1,5 +1,6 @@
 import {create, combineLatest} from 'reactive-observables';
 
+import {setLive} from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {
   timeframe$ as globalTimeframe$,
   setTimeframe as setGlobalTimeframe,
@@ -7,10 +8,10 @@ import {
   setFocusedMoment as setGlobalFocusedMoment,
   bigBangTimestamp$
 } from 'in-stores/timeline';
-import {getIn} from 'in-services/settings';
 import {serverTime$} from 'in-stores/serverTime';
 import activeTheme from 'in-themes/active.json';
 import {createStore} from 'in-stores/store';
+import {getIn} from 'in-services/settings';
 
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
@@ -70,6 +71,14 @@ export const showTimeSelector$ = showTimeSelector.observable;
 
 export function toggleShowTimeSelector() {
   showTimeSelector.applyStateMutation(oldValue => !oldValue);
+}
+
+export function openTimeSelector(view = true) {
+  showTimeSelector.mutateTo(view);
+
+  if (view === 'fixed') {
+    setLive(false);
+  }
 }
 
 

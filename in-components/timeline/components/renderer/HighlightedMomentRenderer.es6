@@ -4,7 +4,7 @@ import {font} from 'in-components/timeline/timelineConfig';
 import {highlightedMoment$} from 'in-stores/timeline';
 
 
-const width = 140;
+const width = 120;
 
 export default class HighlightedMomentRenderer extends BasicRenderer {
 
@@ -26,7 +26,7 @@ export default class HighlightedMomentRenderer extends BasicRenderer {
     let x = this.scale.getRange(highlightedMoment);
 
     buffer.fillStyle = '#92A5AE';
-    buffer.fillRect(x, 36, 1, 122);
+    buffer.fillRect(x, 16, 1, 122);
 
     if (x > scale.getRangeTo() * 0.8) {
       x -= width / 2;
@@ -36,14 +36,14 @@ export default class HighlightedMomentRenderer extends BasicRenderer {
 
     buffer.fillStyle = '#172429';
     buffer.globalAlpha = 0.8;
-    buffer.fillRect(x - width / 2, 20, width, 25);
+    buffer.fillRect(x - width / 2, 0, width, 19);
     buffer.globalAlpha = 1;
 
     buffer.font = font;
     buffer.fillStyle = '#4c595f';
-    buffer.fillText(formatDate(highlightedMoment), x - 57, 37);
+    buffer.fillText(formatDate(highlightedMoment), x - 47, 14);
     buffer.fillStyle = '#fff';
-    buffer.fillText(formatTime(highlightedMoment), x + 10, 37);
+    buffer.fillText(formatTime(highlightedMoment), x + 10, 14);
   }
 
   dispose() {

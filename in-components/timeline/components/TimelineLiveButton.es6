@@ -22,12 +22,12 @@ function TimelineLiveButton({isLive, liveHref, fixedHref}) {
   const className = block + (isLive ? ' ' + block + '__active' : '');
 
   return (
-    <div className={className}>
-      <a className={`${block}__link`}
-         href={isLive ? fixedHref : liveHref}
-         onClick={e => e.stopPropagation()}>
-        live
-      </a>
-    </div>
+    <a className={`${block}__link`}
+       href={isLive ? fixedHref : liveHref}
+       onClick={e => e.stopPropagation()}>
+      <div className={className}>
+        Live
+      </div>
+    </a>
   );
 });

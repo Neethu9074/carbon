@@ -1,0 +1,50 @@
+.in-timeline-timestamp {
+  position: absolute;
+
+  width: 6.875rem;
+  font-size: 0.6875rem;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &__light {
+    .in-timeline-timestamp__date {
+      color: #669FA3;
+    }
+
+    .in-timeline-timestamp__time {
+      color: #9FFFFF;
+    }
+  }
+
+  &__dark {
+    .in-timeline-timestamp__date {
+      color: #6b8088;
+    }
+
+    .in-timeline-timestamp__time {
+      color: #6b8088;
+      font-weight: bold;
+    }
+  }
+
+  &__white {
+    .in-timeline-timestamp__date {
+      color: white;
+    }
+
+    .in-timeline-timestamp__time {
+      color: white;
+      font-weight: bold;
+    }
+  }
+
+  &__time {
+    text-decoration: underline;
+  }
+
+  &:hover {
+    .in-timeline-timestamp__date, .in-timeline-timestamp__time {
+      color: white;
+    }
+  }
+}
