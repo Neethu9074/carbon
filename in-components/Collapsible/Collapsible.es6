@@ -5,7 +5,7 @@ import React from 'react';
 
 import {getClassName} from 'in-services/react';
 
-import Icon from '../Icon';
+import SvgIcon from 'in-components/SvgIcon';
 
 import './Collapsible.less';
 
@@ -84,8 +84,8 @@ const Header = React.createClass({
 
         <span>{this.props.children}</span>
 
-        <Icon type={isOpen ? 'close' : 'open'}
-              className={block + '__toggle'} />
+        <SvgIcon type={isOpen ? 'close' : 'open'}
+                 className={block + '__toggle'} />
       </div>
     );
   }
