@@ -9,9 +9,9 @@ import {formatDurationAccurately} from 'in-services/formatters/date';
 import {slices} from 'in-components/timeline/timelineConfig';
 import {timeframeShape} from 'in-stores/timeline';
 import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
 import Slider from 'in-components/Slider';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
 
@@ -50,20 +50,22 @@ export default connectTo({
       const value = slices.length - getIndexOfSlice(timeframe.windowSize) - 1;
       return (
         <div className={block}>
-          <Icon type={'zoom_small'}
-                className={block + '__icon-zoom'}
-                onClick={this.zoomOut} />
+          <SvgIcon className={block + '__icon-zoom'}
+                   type='search'
+                   width={12}
+                   color='#6b8088'
+                   onClick={this.zoomOut} />
           <Slider onChange={this.onZoomChanged}
                   min={0}
                   max={slices.length - 1}
                   step={1}
                   value={value}
                   className={block + '__slider'} />
-
-          <Icon type={'zoom_large'}
-                className={block + '__icon-zoom'}
-                onClick={this.zoomIn} />
-
+          <SvgIcon className={block + '__icon-zoom'}
+                   type='search'
+                   width={16}
+                   color='#6b8088'
+                   onClick={this.zoomIn} />
           <Tooltip content='Selected time window size'>
             <div className={`${block}__window-size`}>
               {formatDurationAccurately(timeframe.windowSize)}

@@ -14,8 +14,8 @@ import {
 } from 'in-services/issueTracker';
 import {Row, Col} from 'in-components/Grid/Grid';
 import {getClassName} from 'in-services/react';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import IncidentContent from './IncidentContent';
 import EventContent from './EventContent';
@@ -54,9 +54,11 @@ export default connectTo(props => {
     return (
       <div className={className}
            onClick={() => selectEvent(event)}>
-        <Icon className={block + '__icon'}
-              type={getIconTypeForEventType(eventType)}
-              style={{color: this.props.color}} />
+        <SvgIcon className={block + '__icon'}
+                 type={getIconTypeForEventType(eventType)}
+                 width={16}
+                 height={16}
+                 color={this.props.color} />
         <div className={block + '__description'}>
           <Row className={getClassName(this, block, '__time')}>
             <Col cols={6}>

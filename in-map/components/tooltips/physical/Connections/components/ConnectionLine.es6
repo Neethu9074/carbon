@@ -3,10 +3,10 @@ import React from 'react';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
+import SvgIcon from 'in-components/SvgIcon';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import {getZone} from 'in-stores/zone';
-import Icon from 'in-components/Icon';
 
 import 'in-map/components/tooltips/physical/Connections/components/ConnectionLine.less';
 
@@ -35,7 +35,9 @@ function ConnectionLine({sourceSnapshot, sourceZoneSnapshot, direction}) {
 
   return (
     <div className={block}>
-      <Icon className={block + '__icon'} type={direction === 'in' ? 'arrow_right' : 'arrow_left'} />
+      <SvgIcon type={direction === 'in' ? 'arrow_right' : 'arrow_left'}
+               width={12}
+               color='#888888' />
 
       <span className={block + '__ip'}>
         {getLabel(sourceSnapshot)}

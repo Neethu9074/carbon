@@ -10,7 +10,6 @@ import {eventsInTimeframe$} from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './TimelineMenu.less';
 
@@ -40,9 +39,12 @@ function TimelineMenu({events, isCollapsed, autoCollapseTimeline}) {
                              count={events ? events.incidents.length : 0}
                              additionalContent={
                                <div>
-                                 <Icon type={'timeline_' + (isCollapsed ? 'open' : 'close')}
-                                       className={block + '__icon'}
-                                       onClick={toggleMenu} />
+                                 <SvgIcon className={block + '__icon'}
+                                          type={'timeline_' + (isCollapsed ? 'open' : 'close')}
+                                          width={19}
+                                          height={19}
+                                          color='#80939c'
+                                          onClick={toggleMenu} />
                                  <TimelineLiveIndicator />
                                </div>
                              } />
