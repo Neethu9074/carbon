@@ -1,5 +1,5 @@
 import {create} from 'reactive-observables';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 
 import {emptyMap} from 'in-services/fixedImmutables';
 
@@ -84,7 +84,7 @@ function getFromStorage() {
   if (!temp) {
     return null;
   }
-  const fromStorage = Immutable.fromJS(JSON.parse(temp));
+  const fromStorage = fromJS(JSON.parse(temp));
   fromStorage.setIn(['dataSource'], 'local storage');
   return fromStorage;
 }

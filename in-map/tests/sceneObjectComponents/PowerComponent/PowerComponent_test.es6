@@ -1,6 +1,6 @@
 /* eslint-env mocha, node */
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -63,22 +63,22 @@ describe('in-map', () => {
     it('should only calculate power when snapshot and maxPower are there', () => {
       expect(powerChanged).to.have.callCount(0);
 
-      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'id1' }));
+      sceneObject.eventEmitter.emit('snapshotChanged', fromJS({ id: 'id1' }));
       expect(powerChanged).to.have.callCount(1);
     });
 
     it('should have max height since it is the only server', () => {
-      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'id1' }));
+      sceneObject.eventEmitter.emit('snapshotChanged', fromJS({ id: 'id1' }));
       expect(powerChanged).to.have.callCount(1);
       expect(powerChanged.getCall(0).args[0]).to.equal(3);
     });
 
     it('should adjust powers when more nodes can in', () => {
-      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'id1' }));
+      sceneObject.eventEmitter.emit('snapshotChanged', fromJS({ id: 'id1' }));
       expect(powerChanged).to.have.callCount(1);
       expect(powerChanged.getCall(0).args[0]).to.equal(3);
 
-      sceneObject2.eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'id2' }));
+      sceneObject2.eventEmitter.emit('snapshotChanged', fromJS({ id: 'id2' }));
       expect(powerChanged).to.have.callCount(2);
       expect(powerChanged.getCall(1).args[0]).to.equal(2);
       expect(powerChanged2).to.have.callCount(1);
@@ -86,11 +86,11 @@ describe('in-map', () => {
     });
 
     it('should adjust powers when nodes leave', () => {
-      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'id1' }));
+      sceneObject.eventEmitter.emit('snapshotChanged', fromJS({ id: 'id1' }));
       expect(powerChanged).to.have.callCount(1);
       expect(powerChanged.getCall(0).args[0]).to.equal(3);
 
-      sceneObject2.eventEmitter.emit('snapshotChanged', Immutable.fromJS({ id: 'id2' }));
+      sceneObject2.eventEmitter.emit('snapshotChanged', fromJS({ id: 'id2' }));
       expect(powerChanged).to.have.callCount(2);
       expect(powerChanged.getCall(1).args[0]).to.equal(2);
       expect(powerChanged2).to.have.callCount(1);

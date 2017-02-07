@@ -1,7 +1,7 @@
 /* eslint-env mocha, node */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -46,8 +46,8 @@ describe('in-map', () => {
         'in-stores/snapshot': {
           getSnapshot: id => create().startWith(
             id === 'cluster_member_1'
-              ? Immutable.fromJS({ plugin: plugins.cassandraNode })
-              : Immutable.fromJS({ plugin: plugins.elasticsearch })
+              ? fromJS({ plugin: plugins.cassandraNode })
+              : fromJS({ plugin: plugins.elasticsearch })
           )
         }
       }).default;
@@ -68,11 +68,11 @@ describe('in-map', () => {
     });
 
     it('should change the icon type to cluster member type if homogen', () => {
-      clusterMember.emit(Immutable.fromJS([
+      clusterMember.emit(fromJS([
         'cluster_member_1'
       ]));
 
-      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({
+      sceneObject.eventEmitter.emit('snapshotChanged', fromJS({
         plugin: plugins.cassandraCluster
       }));
       expect(factory.add).to.have.callCount(1);
@@ -80,12 +80,12 @@ describe('in-map', () => {
     });
 
     it('should change the icon type to service type if there are inhomogen cluster member', () => {
-      clusterMember.emit(Immutable.fromJS([
+      clusterMember.emit(fromJS([
         'cluster_member_1',
         'cluster_member_2'
       ]));
 
-      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({
+      sceneObject.eventEmitter.emit('snapshotChanged', fromJS({
         plugin: plugins.cassandraCluster
       }));
       expect(factory.add).to.have.callCount(1);

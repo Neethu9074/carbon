@@ -1,5 +1,5 @@
 import {create} from 'reactive-observables';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import invariant from 'invariant';
 
 import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
@@ -43,6 +43,6 @@ function createSnapshotObservable({snapshotId, time}) {
   return observable;
 
   function onData(snapshot) {
-    observable.emit(Immutable.fromJS(snapshot));
+    observable.emit(fromJS(snapshot));
   }
 }

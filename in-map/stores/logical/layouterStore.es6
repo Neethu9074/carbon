@@ -1,5 +1,5 @@
 import {create} from 'reactive-observables';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 
 import FruchtermannReingold from 'in-map/misc/logical/layoutingStrategies/FruchtermannReingold';
 import Vizceral from 'in-map/misc/logical/layoutingStrategies/Vizceral';
@@ -10,7 +10,7 @@ import {createStore} from 'in-stores/store';
 
 const nodePositions = createStore({
   name: 'logical/nodePositions',
-  initialValue: Immutable.fromJS({})
+  initialValue: fromJS({})
 });
 
 export const nodePositions$ = nodePositions.observable.distinct();
@@ -25,7 +25,7 @@ export function removeId(id) {
 }
 
 export function clearAll() {
-  nodePositions.applyStateMutation(() => Immutable.fromJS({}));
+  nodePositions.applyStateMutation(() => fromJS({}));
 }
 
 function set(id, value) {

@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {List} from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
@@ -20,6 +20,6 @@ export default createSubscription({
   },
 
   transformData(data) {
-    return Immutable.List(data);
+    return List(data);
   }
 });

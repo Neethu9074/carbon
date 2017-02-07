@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 
 import {getFormattedValue} from 'in-sdk/metrics';
@@ -13,7 +13,7 @@ describe('metrics', () => {
     const osPlugin = 'host';
 
     beforeEach(() => {
-      snapshot = Immutable.fromJS({
+      snapshot = fromJS({
         plugin: osPlugin,
         data: {
           'memory.total': 1024,

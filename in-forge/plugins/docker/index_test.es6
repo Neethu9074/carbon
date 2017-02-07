@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 
 import {plugins} from 'in-forge/constants';
@@ -11,7 +11,7 @@ describe('in-forge/plugins/docker/index', () => {
 
   describe('label', () => {
     it('must generate labels only with the container name', () => {
-      const snapshot = Immutable.fromJS({
+      const snapshot = fromJS({
         plugin: plugins.docker,
 
         data: {
@@ -22,7 +22,7 @@ describe('in-forge/plugins/docker/index', () => {
     });
 
     it('must take image name into account', () => {
-      const snapshot = Immutable.fromJS({
+      const snapshot = fromJS({
         plugin: plugins.docker,
 
         data: {
@@ -34,7 +34,7 @@ describe('in-forge/plugins/docker/index', () => {
     });
 
     it('must support shorter image names', () => {
-      const snapshot = Immutable.fromJS({
+      const snapshot = fromJS({
         plugin: plugins.docker,
 
         data: {
@@ -46,7 +46,7 @@ describe('in-forge/plugins/docker/index', () => {
     });
 
     it('must support unqualified image names', () => {
-      const snapshot = Immutable.fromJS({
+      const snapshot = fromJS({
         plugin: plugins.docker,
 
         data: {

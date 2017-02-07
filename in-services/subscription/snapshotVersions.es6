@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
@@ -19,6 +19,6 @@ export default createSubscription({
   },
 
   transformData(versions) {
-    return Immutable.fromJS(versions);
+    return fromJS(versions);
   }
 });

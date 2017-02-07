@@ -1,7 +1,7 @@
 /* eslint-env mocha, node */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -43,12 +43,12 @@ describe('in-map', () => {
     });
 
     it('should redirect snapshots to client', () => {
-      getSnapshot.emit(Immutable.fromJS({ id: 'id1', payload: 'custom stuff' }));
+      getSnapshot.emit(fromJS({ id: 'id1', payload: 'custom stuff' }));
       expect(snapshotChanged).to.have.callCount(1);
       expect(snapshotChanged.getCall(0).args[0].get('id')).to.equal('id1');
       expect(snapshotChanged.getCall(0).args[0].get('payload')).to.equal('custom stuff');
 
-      getSnapshot.emit(Immutable.fromJS({ id: 'id1', payload: 'custom stuff' }));
+      getSnapshot.emit(fromJS({ id: 'id1', payload: 'custom stuff' }));
       expect(snapshotChanged).to.have.callCount(2);
     });
   });

@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {Map} from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
@@ -16,5 +16,5 @@ export default createSubscription({
     };
   },
 
-  transformData: data => Immutable.Map(data)
+  transformData: data => Map(data)
 });

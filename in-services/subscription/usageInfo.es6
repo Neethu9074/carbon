@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {Map} from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
@@ -13,7 +13,7 @@ export default createSubscription({
     };
   },
 
-  transformData: usageInfo => usageInfo ? Immutable.Map({
+  transformData: usageInfo => usageInfo ? Map({
     type: usageInfo.type.toLowerCase(),
     note: usageInfo.note
   }) : null

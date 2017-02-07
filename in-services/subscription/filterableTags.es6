@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {List} from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
@@ -21,6 +21,6 @@ export default createSubscription({
         sensitivity: 'base'
       });
     });
-    return Immutable.List(filterableTags);
+    return List(filterableTags);
   }
 });

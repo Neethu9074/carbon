@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {Set} from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
@@ -16,5 +16,5 @@ export default createSubscription({
     };
   },
 
-  transformData: components => Immutable.Set(components)
+  transformData: components => Set(components)
 });

@@ -1,6 +1,6 @@
 /* eslint-env mocha, node */
 import proxyquire from 'proxyquire';
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -54,13 +54,13 @@ describe('in-map', () => {
     });
 
     it('should change the icon type when snappi is available', () => {
-      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({
+      sceneObject.eventEmitter.emit('snapshotChanged', fromJS({
         plugin: plugins.cassandraCluster
       }));
       expect(factory.add).to.have.callCount(1);
       expect(factory.add.getCall(0).args[0].additionalParams.type).to.equal(plugins.cassandraCluster);
 
-      sceneObject.eventEmitter.emit('snapshotChanged', Immutable.fromJS({
+      sceneObject.eventEmitter.emit('snapshotChanged', fromJS({
         plugin: plugins.cassandraNode
       }));
       expect(factory.add).to.have.callCount(1);
