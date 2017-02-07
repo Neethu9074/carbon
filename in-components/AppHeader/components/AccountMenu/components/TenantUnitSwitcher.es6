@@ -3,9 +3,9 @@ import React from 'react';
 import {getTenantsWithUnits} from 'in-services/groundskeeper/account';
 import classnames from 'in-services/util/classnames';
 import {emptyArray} from 'in-services/fixedObjects';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import config from 'in-services/config';
-import Icon from 'in-components/Icon';
 
 import './TenantUnitSwitcher.less';
 
@@ -94,8 +94,10 @@ function Tenant({tenant, expandedTenant, toggleTenant}) {
          })}>
         {tenant.name} ({tenant.units.length})
 
-        <Icon type={tenant.name === expandedTenant ? 'close' : 'open'}
-              className={block + '__tenant-name-arrow'} />
+        <SvgIcon type={tenant.name === expandedTenant ? 'triangle_down' : 'triangle_right'}
+                 width={6}
+                 height={6}
+                 color='#92a5ae' />
       </a>
 
       {tenant.name === expandedTenant ?

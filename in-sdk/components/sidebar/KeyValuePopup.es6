@@ -7,8 +7,8 @@ import {
   content$
 } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './KeyValuePopup.less';
 
@@ -59,7 +59,10 @@ export default connectTo({
             </span>
             <div className={buttonClassName}
                  onClick={() => toggleContent({title, data})}>
-              <Icon type='popup_pop_up' />
+              <SvgIcon className={`${block}__icon`}
+                       type='popup'
+                       width={16}
+                       color='#4a91e4' />
             </div>
           </div>
         </div>

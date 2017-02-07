@@ -10,8 +10,8 @@ import {showReleaseNotes} from 'in-stores/releaseNotes';
 import {config, isOnPremise} from 'in-services/config';
 import {webVrEnabled} from 'in-services/featureFlags';
 import {goToGraph} from 'in-stores/navigation';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './Menu.less';
 
@@ -61,8 +61,9 @@ export default connectTo({
              rel='noopener noreferrer'>
             Management Portal
 
-            <Icon type='right'
-                  className={block + '__account-menu-arrow'} />
+            <SvgIcon type='chevron_right'
+                     height={10}
+                     color='#92a5ae' />
           </a>
 
           <Separator />

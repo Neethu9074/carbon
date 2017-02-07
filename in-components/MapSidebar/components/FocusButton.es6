@@ -4,9 +4,9 @@ import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
 import {focusId} from 'in-map/services/focus';
+import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import Icon from 'in-components/Icon';
 
 import './FocusButton.less';
 
@@ -37,9 +37,12 @@ function FocusButton({focusedMoment, snapshot, focusableSceneObjects}) {
     return (
       <Tooltip content='Center in map'
               align={'rightMiddle'}>
-        <Icon className={classes}
-              onClick={() => focusSnapshotId(snapshotId)}
-              type='relocate' />
+        <SvgIcon className={classes}
+                 type='focus'
+                 width={15}
+                 height={15}
+                 color='#6a8089'
+                 onClick={() => focusSnapshotId(snapshotId)} />
       </Tooltip>
     );
   }
@@ -57,8 +60,11 @@ function FocusButton({focusedMoment, snapshot, focusableSceneObjects}) {
   return (
     <Tooltip content={wrapTooltipElement(tooltip)}
              align={'rightMiddle'}>
-      <Icon className={classes}
-            type='relocate' />
+      <SvgIcon className={classes}
+               type='focus'
+               width={15}
+               height={15}
+               color='#6a8089' />
     </Tooltip>
   );
 });
