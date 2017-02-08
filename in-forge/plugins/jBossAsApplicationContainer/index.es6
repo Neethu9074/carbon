@@ -27,12 +27,21 @@ setHumanReadablePluginName(
 addLabelFinder(
   plugins.jbossas,
   snapshot => {
-    let label = 'JBoss';
     const serverInfo = snapshot.getIn(['data', 'serverInfo']);
 
     if (!serverInfo) {
       return label;
     }
+
+    if (serverInfo.get('nodeName')) {
+      return serverInfo.get('nodeName');
+    }
+
+    if (serverInfo.get('serverName')) {
+      return serverInfo.get('serverName');
+    }
+
+    let label = 'JBoss';
 
     if (serverInfo.get('productName')) {
       label += ' ' + serverInfo.get('productName') + ' ';
