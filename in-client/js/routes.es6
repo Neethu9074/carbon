@@ -7,6 +7,7 @@ import UserManagement from 'promise?global,configView!in-views/configurationView
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
 import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
+import Alerts from 'promise?global,configView!in-views/configurationView/subview/Alerts/Alerts';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
@@ -102,6 +103,9 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
              path='users'
              windowTitle='User Management' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(Alerts)}
+             path='alerting'
+             windowTitle='Custom Alerts' />
     </Route>
 
     <Route component={GraphView}

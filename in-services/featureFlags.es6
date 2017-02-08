@@ -7,3 +7,4 @@ export const webVrEnabled = notStaging && onlyInstana;
 export const eumStatisticsEnabled = notStaging && onlyInstana;
 export const logViewEnabled = notStaging && onlyInstana;
 export const agentYamlConfigEnabled = notStaging && onlyInstana;
+export const customAltertingEnabled = notStaging && onlyInstana;
