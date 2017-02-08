@@ -14,10 +14,13 @@ import {
   rolesConfigViewLink$,
   isRolesConfigView$,
   userManagementViewLink$,
-  isUserManagementView$
+  isUserManagementView$,
+  alertsViewLink$,
+  isAlertsViewLink$
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
+import {customAltertingEnabled} from 'in-services/featureFlags';
 import {role} from 'in-stores/user';
 
 import './Navigation.less';
@@ -73,6 +76,12 @@ export default function Navigation() {
                        borderless />
             : null}
           </NavItem>
+        : null}
+
+        {customAltertingEnabled ?
+          <NavItem title='Custom Alters'
+                   href$={alertsViewLink$}
+                   isActive$={isAlertsViewLink$} />
         : null}
       </NavItems>
     </nav>

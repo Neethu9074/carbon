@@ -35,6 +35,10 @@ const rolesConfigViewPath = '/config/rolesConfig';
 export const rolesConfigViewLink$ = buildUrlStream({path: rolesConfigViewPath});
 export const isRolesConfigView$ = buildPathStartsWithStream(rolesConfigViewPath);
 
+const alertsViewPath = '/config/alerting';
+export const alertsViewLink$ = buildUrlStream({path: alertsViewPath});
+export const isAlertsViewLink$ = buildPathStartsWithStream(alertsViewPath);
+
 export function getRoleConfigLink(roleId) {
   return getModifiedUrlStream(params => params.pathname = getRoleConfigPath(roleId));
 }
