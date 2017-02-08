@@ -42,6 +42,7 @@ registerSnapshotDefinition({
     } else if (os.match(/mac/i)) {
       return applePlugin;
     }
+    return linuxPlugin;
   },
 
   getPower(snapshot) {

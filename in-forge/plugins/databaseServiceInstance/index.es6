@@ -26,6 +26,7 @@ registerSnapshotDefinition({
     } else if (databaseType.match(/postgres/i)) {
       return plugins.postgres;
     }
+    return plugins.databaseServiceInstance;
   },
 
   getLabel(snapshot) {
