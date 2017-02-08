@@ -4,10 +4,10 @@ import invariant from 'invariant';
 import React from 'react';
 
 import {getClassName} from 'in-services/react';
-
 import SvgIcon from 'in-components/SvgIcon';
 
 import './Collapsible.less';
+
 
 const rpt = React.PropTypes;
 const block = 'in-collapsible';
@@ -84,8 +84,11 @@ const Header = React.createClass({
 
         <span>{this.props.children}</span>
 
-        <SvgIcon type={isOpen ? 'close' : 'open'}
-                 className={block + '__toggle'} />
+        <SvgIcon type={isOpen ? 'triangle_down' : 'triangle_right'}
+                 className={block + '__toggle'}
+                 color='#6B8088'
+                 height={6}
+                 width={6} />
       </div>
     );
   }
