@@ -17,12 +17,8 @@
     "translateIconRegistry": "node in-components/SvgIcon/registryTranslator.js",
     "check-updates": "ncu",
     "check-licenses": "license-checker > licenses.txt",
-    "check-bundle-size": "npm run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map"
-  },
-  "config": {
-    "ghooks": {
-      "pre-commit": "npm test"
-    }
+    "check-bundle-size": "npm run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
+    "precommit": "npm test"
   },
   "repository": {
     "type": "git",
@@ -100,6 +96,7 @@
     "gulp-size": "^2.0.0",
     "gulp-util": "^3.0.3",
     "html-loader": "^0.3.0",
+    "husky": "^0.13.1",
     "image-webpack-loader": "^1.6.1",
     "inquirer": "^0.9.0",
     "instana-nodejs-sensor": "next",
