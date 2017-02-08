@@ -25,6 +25,7 @@ registerSnapshotDefinition({
     } else if (messageBrokerType.match(/rabbitmq/i)) {
       return plugins.rabbitMq;
     }
+    return plugins.logicalMessageBroker;
   },
 
   getLabel(snapshot) {
