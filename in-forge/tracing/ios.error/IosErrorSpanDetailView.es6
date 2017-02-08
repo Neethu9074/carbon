@@ -1,5 +1,7 @@
-  import React from 'react';
-  import {convert_json} from 'kscrash-converter';
+import React from 'react';
+
+import Code from 'in-components/Code';
+import {convert_json} from './formater';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {emptyMap} from 'in-services/fixedImmutables';
@@ -7,8 +9,6 @@ import Tooltip from 'in-components/Tooltip';
 
 
 export default function IosErrorSpanDetailView({span}) {
-  console.log(convert_json(span.getIn(['data', 'ios_error', 'report']).toJS()))
-
 
   return (
     <div>
@@ -35,6 +35,10 @@ export default function IosErrorSpanDetailView({span}) {
 
         <DescriptionItem title='Location'>
           {getLocation(span)}
+        </DescriptionItem>
+
+        <DescriptionItem title='Crash Report'>
+          {getCrashReport(span)}
         </DescriptionItem>
 
 
@@ -77,5 +81,13 @@ function getLocation(span) {
         {location}
       </div>
     </Tooltip>
+  );
+}
+
+function getCrashReport(span){
+  const report = convert_json(span.getIn(['data', 'ios_error', 'report']).toJS());
+  return (
+    <Code
+    code={report}/>
   );
 }

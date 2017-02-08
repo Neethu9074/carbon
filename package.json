@@ -45,7 +45,6 @@
     "invariant": "^2.2.1",
     "js-yaml": "^3.7.0",
     "koijs": "^0.2.0",
-    "kscrash-converter": "^1.0.0",
     "lex": "^1.7.9",
     "lodash": "^4.15.0",
     "lucene": "^1.1.0",
