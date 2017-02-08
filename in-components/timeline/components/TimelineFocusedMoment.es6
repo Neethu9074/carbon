@@ -16,6 +16,10 @@ export default connectTo({
   focusedMoment: focusedMoment$,
 },
 function TimelineFocusedMoment({focusedMoment, focusedMomentXPosition, width}) {
+  if (focusedMomentXPosition < -8) {
+    return null;
+  }
+
   return (
     <div className={block}
          style={{
@@ -24,7 +28,7 @@ function TimelineFocusedMoment({focusedMoment, focusedMomentXPosition, width}) {
       <TimelineTimestamp timestamp={focusedMoment}
                          dateFn={setDateString}
                          style={{
-                           left: (focusedMomentXPosition > width / 2) ? -115 : 7
+                           left: (focusedMomentXPosition > width / 2) ? -120 : 7
                          }} />
     </div>
   );

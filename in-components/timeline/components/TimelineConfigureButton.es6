@@ -17,7 +17,7 @@ function TimelineConfigureButton({showTimeSelector}) {
     <div className={`${block}` + (showTimeSelector ? ` ${block}--selected` : '')}
          onClick={toggleShowTimeSelector}>
       <SvgIcon className={`${block}__gear`}
-               type='timerange'
+               type='time'
                color='#80939c'
                width={13} />
       Set Time

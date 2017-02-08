@@ -60,7 +60,7 @@ const FixedTimestampInputFields = React.createClass({
 
         <div className={`${block}__separator`} />
 
-        <DateTimeBlock heading='Selected moment'
+        <DateTimeBlock heading='Selected Moment'
                        setDateFn={focusedMomentStore.setDateString}
                        store={focusedMomentStore} />
       </div>
