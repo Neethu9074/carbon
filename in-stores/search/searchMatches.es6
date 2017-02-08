@@ -7,6 +7,7 @@ import {alwaysNull} from 'in-services/fixedStreams';
 import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
 import {view$} from 'in-stores/view';
+import {role} from 'in-stores/user';
 
 
 export const searchMatches$ = createTrackingStore({
@@ -14,13 +15,13 @@ export const searchMatches$ = createTrackingStore({
   observable: combineLatest([debouncedQuery$, focusedMoment$, isMapView$, view$])
     .flatMap(([query, focusedMoment, isMapView, view]) => {
       if (!isMapView ||
-          query == null ||
-          query.length === 0) {
+          ((query == null || query.length === 0) &&
+            (role.implicitViewFilter == null || role.implicitViewFilter.length === 0))) {
         return alwaysNull;
       }
 
       return createSearchSubscription({
-        query,
+        query: query || '',
         time: focusedMoment,
         view
       });
