@@ -33,12 +33,10 @@ React.createClass({
   getInitialState() {
     return {
       month: new Date(),
-      selectedDay: null
     };
   },
 
   render() {
-    const selectedDay = this.state.selectedDay || this.state.month;
     const bigBangTimestamp = this.props.bigBangTimestamp;
     const currentDateFn = this.props.currentDateFn;
     const serverTime = this.props.serverTime;
@@ -55,16 +53,13 @@ React.createClass({
         {currentDateFn ?
           <DayPicker initialMonth={this.state.month}
                      modifiers={{
-                       selected: day => dateUtils.isSameDay(day, selectedDay),
+                       selected: day => dateUtils.isSameDay(day, this.state.month),
                        inactive: day => !dateUtils.isDayInRange(day, {
                          from: new Date(bigBangTimestamp),
                          to: new Date(serverTime)
                        })
                      }}
-                     onDayClick={(e, day) => {
-                       this.setState({selectedDay: day});
-                       currentDateFn(formatDate(day));
-                     }} />
+                     onDayClick={(e, day) => currentDateFn(formatDate(day))} />
           : null
         }
       </div>
