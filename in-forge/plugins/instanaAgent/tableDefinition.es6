@@ -2,6 +2,7 @@ import React from 'react';
 
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import {emptyMap} from 'in-services/fixedImmutables';
+import {modes} from 'in-forge/plugins/instanaAgent/modes';
 
 export default [
   {
@@ -21,11 +22,10 @@ export default [
       };
     }
   }, {
-    title: 'Status',
+    title: 'Mode',
     sortableType: String,
     get(snapshot) {
-      // After new licensing is out also 0=off / 1=Infrastructure / 2=Application
-      return snapshot.getIn(['data', 'mode']) ? 'active' : 'inactive';
+      return modes[snapshot.getIn(['data', 'mode'])];
     }
   }, {
     title: 'Java Runtime',
