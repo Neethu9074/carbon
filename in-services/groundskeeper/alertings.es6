@@ -56,10 +56,14 @@ addOrUpdateAlert(fromJS({
     entityType: 'host',
     metricName: 'memory.used',
     isTriggering: false,
-    severity: 0.5,
+    rollup: 5000,
+    aggregation: 'max',
+    threshold: '<=',
+    thresholdValue: 0.2,
+    severity: 5,
+    eventText: 'This text will be shown in events',
     description: 'You can also use markdown here \n * Absolute change: **99%** \n * Confidence: **100.00%**',
     query: 'zone=PROD',
-    condition: '10 minute(s) > 50%'
   }
 }));
 addOrUpdateAlert(fromJS({
@@ -69,9 +73,13 @@ addOrUpdateAlert(fromJS({
     entityType: 'process',
     metricName: 'cpu.load',
     isTriggering: true,
-    severity: 1,
+    rollup: 10000,
+    aggregation: 'mean',
+    threshold: '!=',
+    thresholdValue: 100.0,
+    severity: 10,
+    eventText: 'This text will be shown in events',
     description: 'You can also use markdown here \n * Absolute change: **99%** \n * Confidence: **100.00%**',
     query: 'zone=PROD',
-    condition: 'value > 50%'
   }
 }));

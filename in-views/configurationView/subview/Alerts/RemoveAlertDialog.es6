@@ -10,7 +10,7 @@ import connectTo from 'in-hoc/connectTo';
 import 'in-views/configurationView/subview/Alerts/RemoveAlertDialog.less';
 
 
-const block = 'in-alters-remove-dialog';
+const block = 'in-alerts-remove-dialog';
 
 export default connectTo({
 },

@@ -91,6 +91,9 @@ function Details({data}) {
         <DescriptionItem title='Description'>
           <span dangerouslySetInnerHTML={{__html: toHtml(data.getIn(['data', 'description']))}} />
         </DescriptionItem>
+        <DescriptionItem title='Event Text'>
+          <span dangerouslySetInnerHTML={{__html: toHtml(data.getIn(['data', 'eventText']))}} />
+        </DescriptionItem>
         <DescriptionItem title='Severity'>
           {data.getIn(['data', 'severity'])}
         </DescriptionItem>
@@ -98,10 +101,16 @@ function Details({data}) {
           {data.getIn(['data', 'metricName'])}
         </DescriptionItem>
         <DescriptionItem title='Is Triggering'>
-          {data.getIn(['data', 'isTriggering'])}
+          {String(data.getIn(['data', 'isTriggering']))}
+        </DescriptionItem>
+        <DescriptionItem title='Rollup in ms'>
+          {data.getIn(['data', 'rollup'])}
+        </DescriptionItem>
+        <DescriptionItem title='Aggregation'>
+          {data.getIn(['data', 'aggregation'])}
         </DescriptionItem>
         <DescriptionItem title='Condition'>
-          {data.getIn(['data', 'condition'])}
+          {`${data.getIn(['data', 'threshold'])} ${data.getIn(['data', 'thresholdValue'])}`}
         </DescriptionItem>
         <DescriptionItem title='Filter Query'>
           {data.getIn(['data', 'query'])}
