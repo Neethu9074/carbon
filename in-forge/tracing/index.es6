@@ -22,6 +22,7 @@ import './hc';
 import './hornetq';
 import './http';
 import './ibmdb2';
+import './ios.error';
 import './jdbc';
 import './jersey';
 import './jersey.client';
