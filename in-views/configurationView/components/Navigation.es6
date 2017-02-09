@@ -79,7 +79,7 @@ export default function Navigation() {
         : null}
 
         {customAltertingEnabled ?
-          <NavItem title='Custom Alters'
+          <NavItem title='Custom Alerts'
                    href$={alertsViewLink$}
                    isActive$={isAlertsViewLink$} />
         : null}

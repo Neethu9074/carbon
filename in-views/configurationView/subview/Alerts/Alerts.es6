@@ -4,16 +4,15 @@ import AddAlertDialog from 'in-views/configurationView/subview/Alerts/AddAlertDi
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
-import {getAlerts, addAlert} from 'in-services/groundskeeper/alertings';
+import Table from 'in-views/configurationView/subview/Alerts/components/Table';
+import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import Section from 'in-views/configurationView/components/Section';
+import {getAlerts} from 'in-services/groundskeeper/alertings';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './Alerts.less';
 
-
-const block = 'in-alters-config';
 
 export default connectTo({
   alerts: getAlerts()
@@ -40,34 +39,13 @@ function AlertsConfig({alerts}) {
             Custom Alerts
           </SectionHeading>
 
-          <ul className={`${block}__alerts`}>
-            {alerts.map(alert =>
-              <Alert key={alert.get('id')}
-                     map={alert} />
-            )}
-          </ul>
+          <Table items={alerts} />
         </Section>
       : null}
     </SubViewWrapper>
   );
 });
 
-function Alert({map}) {
-  return (
-    <li className={`${block}__alert`}>
-      {map.get('id')}
-    </li>
-  );
-}
-
 function openAddAlert() {
-  setActiveDialog(<AddAlertDialog onSubmit={onDoAddAlert} />);
-}
-
-function onDoAddAlert(alertId) {
-  close();
-
-  addAlert({
-    id: alertId
-  });
+  setActiveDialog(<AddAlertDialog />);
 }
