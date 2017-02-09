@@ -21,7 +21,7 @@ export default function TableHeader() {
       </Header>
 
       <Header>
-        Misc
+        Entity Type
       </Header>
 
       <Header />

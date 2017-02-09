@@ -2,6 +2,7 @@ import React from 'react';
 
 import RemoveAlertDialog from 'in-views/configurationView/subview/Alerts/RemoveAlertDialog';
 import AddAlertDialog from 'in-views/configurationView/subview/Alerts/AddAlertDialog';
+import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {addOrUpdateAlert} from 'in-services/groundskeeper/alertings';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {evaluateClassNames} from 'in-services/util/classnames';
@@ -38,7 +39,7 @@ export function TableRow({data, isSelected, onClick}) {
         </Column>
 
         <Column>
-          {data.getIn(['data', 'misc'])}
+          {data.getIn(['data', 'entityType'])}
         </Column>
 
         <Column>
@@ -62,7 +63,26 @@ export function TableRow({data, isSelected, onClick}) {
 
       {isSelected ?
         <div className={`${block}__details-wrapper`}>
-          Further details
+          <DescriptionList>
+            <DescriptionItem title='Decription'>
+              {data.getIn(['data', 'decription'])}
+            </DescriptionItem>
+            <DescriptionItem title='Severity'>
+              {data.getIn(['data', 'severity'])}
+            </DescriptionItem>
+            <DescriptionItem title='Metric'>
+              {data.getIn(['data', 'metricName'])}
+            </DescriptionItem>
+            <DescriptionItem title='Is Triggering'>
+              {data.getIn(['data', 'isTriggering'])}
+            </DescriptionItem>
+            <DescriptionItem title='Condition'>
+              {data.getIn(['data', 'condition'])}
+            </DescriptionItem>
+            <DescriptionItem title='Filter Query'>
+              {data.getIn(['data', 'query'])}
+            </DescriptionItem>
+          </DescriptionList>
         </div>
       : null}
     </li>
