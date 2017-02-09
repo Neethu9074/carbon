@@ -10,7 +10,11 @@ export function getAlerts() {
 }
 
 export function addOrUpdateAlert(alert) {
-  const matchingId = alert.get('id');
+  let matchingId = alert.get('id', null);
+  if (matchingId == null) {
+    matchingId = newId();
+  }
+
   let matchingIndex = -1;
   for (let i = 0, length = alerts.size; i < length; i++) {
     if (alerts.getIn([i, 'id']) === matchingId) {
@@ -19,6 +23,7 @@ export function addOrUpdateAlert(alert) {
     }
   }
 
+  alert = alert.set('id', matchingId);
   if (matchingIndex < 0) {
     alerts = alerts.push(alert);
   } else {
@@ -27,18 +32,22 @@ export function addOrUpdateAlert(alert) {
   alerts$.emit(alerts);
 }
 
+let id = 0;
+function newId() {
+  return id++;
+}
 
 // add dummy alerts
 addOrUpdateAlert(fromJS({
-  id: '42',
-  name: 'Alert No 1',
-  enabled: true,
-  data: {}
+  data: {
+    name: 'Alert No 1',
+    enabled: true,
+  }
 }));
 addOrUpdateAlert(fromJS({
-  id: '4711',
-  name: 'Alert No 2',
-  enabled: false,
-  misc: 'added by stan',
-  data: {}
+  data: {
+    name: 'Alert No 2',
+    enabled: false,
+    misc: 'added by stan',
+  }
 }));

@@ -28,19 +28,11 @@ React.createClass({
 
   getInitialState() {
     const alert = this.props.alert;
-    let form = createMapForm();
-
-    if (!alert) {
-      form = form.put('alertId', createField({
-        value: alert ? alert.get('id') : '',
+    const form = createMapForm()
+      .put('name', createField({
+        value: alert ? alert.getIn(['data', 'name']) : '',
         validator: notBlankValidator
       }));
-    }
-
-    form = form.put('name', createField({
-      value: alert ? alert.get('name') : '',
-      validator: notBlankValidator
-    }));
 
     return {
       form
@@ -55,27 +47,6 @@ React.createClass({
               onClose={close}>
         <form onSubmit={this.onSubmit}>
 
-          {!this.props.alert ? form.get('alertId').map(field =>
-            <FormGroup>
-              <Label htmlFor='alert-id'
-                     hasError={!field.valid}>
-                Alert
-              </Label>
-              <Input id='alert-id'
-                     type='text'
-                     value={field.value}
-                     onChange={e => this.onChange('alertId', e.target.value)}
-                     hasError={!field.valid}
-                     autoFocus />
-              {field.messages.map((message, i) =>
-                <ValidationBlock hasError
-                                 key={i}>
-                  {message.message}
-                </ValidationBlock>
-              )}
-            </FormGroup>
-          ) : null}
-
           {form.get('name').map(field =>
             <FormGroup>
               <Label htmlFor='name'
@@ -86,7 +57,8 @@ React.createClass({
                      type='text'
                      value={field.value}
                      onChange={e => this.onChange('name', e.target.value)}
-                     hasError={!field.valid} />
+                     hasError={!field.valid}
+                     autoFocus />
               {field.messages.map((message, i) =>
                 <ValidationBlock hasError
                                  key={i}>
@@ -128,10 +100,12 @@ React.createClass({
 
     const alert = this.props.alert;
     addOrUpdateAlert(fromJS({
-      id: alert ? alert.get('id') : this.state.form.get('alertId').value,
-      name: this.state.form.get('name').value,
-      enabled: alert ? alert.get('enabled') : true,
-      misc: `added by: ${user.preferredName}`
+      id: alert ? alert.get('id') : null,
+      data: {
+        name: this.state.form.get('name').value,
+        enabled: alert ? alert.getIn(['data', 'enabled']) : true,
+        misc: `added by: ${user.preferredName}`
+      }
     }));
     close();
   }

@@ -21,17 +21,17 @@ export function TableRow({data}) {
       </Row>
 
       <Row>
-        {data.get('name')}
+        {data.getIn(['data', 'name'])}
       </Row>
 
       <Row>
         <Toggle className={`${block}__toggle`}
-                checked={data.get('enabled', false)}
-                onChange={e => addOrUpdateAlert(data.set('enabled', e.target.checked))} />
+                checked={data.getIn(['data', 'enabled'], false)}
+                onChange={e => addOrUpdateAlert(data.setIn(['data', 'enabled'], e.target.checked))} />
       </Row>
 
       <Row>
-        {data.get('misc')}
+        {data.getIn(['data', 'misc'])}
       </Row>
 
       <Row>
