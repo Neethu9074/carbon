@@ -26,7 +26,9 @@ export default React.createClass({
         <TableRowWrapper>
           {this.props.items.map(item =>
             <TableRow key={item.get('id')}
-                      data={item} />
+                      data={item}
+                      isSelected={this.state.selectedAlert === item}
+                      onClick={this.toggleAlert} />
           )}
         </TableRowWrapper>
       </div>

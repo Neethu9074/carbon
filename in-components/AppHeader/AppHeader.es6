@@ -2,8 +2,8 @@ import React from 'react';
 
 import ViewSwitcher from 'in-components/AppHeader/components/ViewSwitcher';
 import AccountMenu from 'in-components/AppHeader/components/AccountMenu';
-import {evaluateClassNames} from 'in-services/util/classnames';
 import {toggle, expanded$} from 'in-stores/search/searchBarExpanded';
+import {evaluateClassNames} from 'in-services/util/classnames';
 import {filtered$} from 'in-stores/search/filtered';
 import Lettering from 'in-components/Lettering';
 import {homeLink$} from 'in-stores/navigation';

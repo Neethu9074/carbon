@@ -4,6 +4,7 @@ import RemoveAlertDialog from 'in-views/configurationView/subview/Alerts/RemoveA
 import AddAlertDialog from 'in-views/configurationView/subview/Alerts/AddAlertDialog';
 import {addOrUpdateAlert} from 'in-services/groundskeeper/alertings';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
+import {evaluateClassNames} from 'in-services/util/classnames';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-components/Button';
 
@@ -12,51 +13,63 @@ import './TableRow.less';
 
 const block = 'in-table-row';
 
-export function TableRow({data}) {
+export function TableRow({data, isSelected, onClick}) {
   const alertId = data.get('id');
 
   return (
-    <li className={block}>
-      <Row>
-        {alertId}
-      </Row>
+    <li className={block}
+        onClick={() => onClick(data)}>
+      <div className={evaluateClassNames({
+             [`${block}__row`]: true,
+             [`${block}__row--selected`]: isSelected
+           })}>
+        <Column>
+          {alertId}
+        </Column>
 
-      <Row>
-        {data.getIn(['data', 'name'])}
-      </Row>
+        <Column>
+          {data.getIn(['data', 'name'])}
+        </Column>
 
-      <Row>
-        <Toggle className={`${block}__toggle`}
-                checked={data.getIn(['data', 'enabled'], false)}
-                onChange={e => addOrUpdateAlert(data.setIn(['data', 'enabled'], e.target.checked))} />
-      </Row>
+        <Column>
+          <Toggle className={`${block}__toggle`}
+                  checked={data.getIn(['data', 'enabled'], false)}
+                  onChange={e => addOrUpdateAlert(data.setIn(['data', 'enabled'], e.target.checked))} />
+        </Column>
 
-      <Row>
-        {data.getIn(['data', 'misc'])}
-      </Row>
+        <Column>
+          {data.getIn(['data', 'misc'])}
+        </Column>
 
-      <Row>
-        <Button className={`${block}__button`}
-                size='sm'
-                kind='success'
-                onClick={() => setActiveDialog(<AddAlertDialog alert={data} />)}>
-          Edit
-        </Button >
-      </Row>
+        <Column>
+          <Button className={`${block}__button`}
+                  size='sm'
+                  kind='success'
+                  onClick={() => setActiveDialog(<AddAlertDialog alert={data} />)}>
+            Edit
+          </Button >
+        </Column>
 
-      <Row>
-        <Button className={`${block}__button`}
-                size='sm'
-                kind='danger'
-                onClick={() => setActiveDialog(<RemoveAlertDialog alert={data} />)}>
-          Remove
-        </Button >
-      </Row>
+        <Column>
+          <Button className={`${block}__button`}
+                  size='sm'
+                  kind='danger'
+                  onClick={() => setActiveDialog(<RemoveAlertDialog alert={data} />)}>
+            Remove
+          </Button >
+        </Column>
+      </div>
+
+      {isSelected ?
+        <div className={`${block}__details-wrapper`}>
+          Further details
+        </div>
+      : null}
     </li>
   );
 }
 
-function Row({children}) {
+function Column({children}) {
   return (
     <div className={`${block}__column`}>
       {children}

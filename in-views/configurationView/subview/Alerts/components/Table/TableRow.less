@@ -1,12 +1,19 @@
 .in-table-row {
-  display: flex;
-  justify-content: space-between;
-
   width: 100%;
   margin-bottom: 0.375rem;
   padding: .5rem .625rem .5rem 0;
   background: #eef2f4;
   border-radius: 3px;
+  cursor: pointer;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &:hover, &--selected {
+    background: darken(#eef2f4, 5%);
+  }
 
   &__wrapper {
     list-style: none;
@@ -52,5 +59,9 @@
 
   &__toggle {
     transform: scale(0.75);
+  }
+
+  &__details-wrapper {
+    padding: 1rem .625rem .5rem;
   }
 }
