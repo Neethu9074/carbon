@@ -56,7 +56,7 @@ React.createClass({
     close();
   },
 
-  onCancelClick(e) {
+  onCancelClick() {
     close();
   }
 }));
