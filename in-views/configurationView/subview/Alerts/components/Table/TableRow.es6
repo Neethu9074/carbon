@@ -1,9 +1,9 @@
 import React from 'react';
 
-import RemoveAlertDialog from 'in-views/configurationView/subview/Alerts/RemoveAlertDialog';
 import AddAlertDialog from 'in-views/configurationView/subview/Alerts/AddAlertDialog';
+import {addOrUpdateAlert, removeAlert} from 'in-services/groundskeeper/alertings';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {addOrUpdateAlert} from 'in-services/groundskeeper/alertings';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {toHtml} from 'in-services/formatters/markdown';
@@ -56,7 +56,19 @@ export function TableRow({data, isSelected, onClick}) {
           <Button className={`${block}__button`}
                   size='sm'
                   kind='danger'
-                  onClick={() => setActiveDialog(<RemoveAlertDialog alert={data} />)}>
+                  onClick={() => setActiveDialog(
+                    <ConfirmationDialog header='Confirm removal'
+                                        description={
+                                          <span>
+                                            Are you sure you want to remove the alert <strong>{data.getIn(['data', 'name'])}</strong>?
+                                          </span>
+                                        }
+                                        bButtonLabel='Remove role'
+                                        onB={() => {
+                                          removeAlert(data.get('id'));
+                                          close();
+                                        }} />
+                  )}>
             Remove
           </Button >
         </Column>
