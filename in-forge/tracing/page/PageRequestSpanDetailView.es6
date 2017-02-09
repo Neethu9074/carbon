@@ -2,8 +2,8 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import NavigationTiming from 'in-forge/tracing/page/NavigationTiming';
+import GeoLocation from 'in-sdk/components/traceDetails/GeoLocation';
 import {emptyMap} from 'in-services/fixedImmutables';
-import Tooltip from 'in-components/Tooltip';
 
 
 export default function PageRequestSpanDetailView({span}) {
@@ -45,7 +45,7 @@ export default function PageRequestSpanDetailView({span}) {
         </DescriptionItem>
 
         <DescriptionItem title='Location'>
-          {getLocation(span)}
+          <GeoLocation geo={span.getIn(['data', 'page', 'geo'])} />
         </DescriptionItem>
 
         {getMetaData(span)}
@@ -111,41 +111,4 @@ function getMetaData(span) {
     })
     .valueSeq()
     .toArray();
-}
-
-
-function getLocation(span) {
-  const geo = span.getIn(['data', 'page', 'geo']);
-  if (!geo) {
-    return null;
-  }
-
-  let location = '';
-
-  const city = geo.get('city');
-  const country = geo.get('country');
-  const continent = geo.get('continent');
-
-  if (city) {
-    location = city;
-  }
-
-  if (country) {
-    if (city) {
-      location += ', ';
-    }
-    location += country;
-  }
-
-  if (continent) {
-    location += ` (${continent})`;
-  }
-
-  return (
-    <Tooltip content='Geo information by GeoLite2, data created by MaxMind, available from http://www.maxmind.com.'>
-      <div>
-        {location}
-      </div>
-    </Tooltip>
-  );
 }

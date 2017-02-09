@@ -14,8 +14,7 @@ import {parse as parseCpu} from './cpu';
  * @returns {string[]} an array of output.
  */
 export function parseExtras(report) {
-  var system = report['system'] || {};
-  var crash  = report['crash'] || {};
+  const crash  = report['crash'] || {};
 
   return [ '', 'Extra Information:' ].concat(
     parse_nsexception(crash),

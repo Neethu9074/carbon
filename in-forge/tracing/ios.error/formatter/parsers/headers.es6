@@ -53,6 +53,6 @@ function get_cpu_arch(report) {
   return get_cpu_type((report['system'] || {})['cpu_arch']);
 }
 
-function get_time(report) {
+function get_time() {
   return '';
 }

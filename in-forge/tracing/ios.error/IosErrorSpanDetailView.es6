@@ -1,14 +1,22 @@
 import React from 'react';
 
+import GeoLocation from 'in-sdk/components/traceDetails/GeoLocation';
+import {convert_json} from 'in-forge/tracing/ios.error/formatter';
 import Code from 'in-components/Code';
-import {convert_json} from './formater';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {emptyMap} from 'in-services/fixedImmutables';
-import Tooltip from 'in-components/Tooltip';
 
 
 export default function IosErrorSpanDetailView({span}) {
+  let report;
+  try {
+    const rawReport = span.getIn(['data', 'ios_error', 'report']);
+    if (rawReport != null) {
+      report = convert_json(rawReport.toJS());
+    }
+  } catch (e) {
+    // ignore
+  }
 
   return (
     <div>
@@ -34,60 +42,15 @@ export default function IosErrorSpanDetailView({span}) {
         </DescriptionItem>
 
         <DescriptionItem title='Location'>
-          {getLocation(span)}
+          <GeoLocation geo={span.getIn(['data', 'ios_error', 'geo'])} />
         </DescriptionItem>
 
-        <DescriptionItem title='Crash Report'>
-          {getCrashReport(span)}
-        </DescriptionItem>
-
-
-
+        {report ?
+          <DescriptionItem title='Crash Report'>
+            <Code code={report} />
+          </DescriptionItem>
+        : null}
       </DescriptionList>
     </div>
-  );
-}
-
-function getLocation(span) {
-  const geo = span.getIn(['data', 'ios_error', 'geo']);
-  if (!geo) {
-    return null;
-  }
-
-  let location = '';
-
-  const city = geo.get('city');
-  const country = geo.get('country');
-  const continent = geo.get('continent');
-
-  if (city) {
-    location = city;
-  }
-
-  if (country) {
-    if (city) {
-      location += ', ';
-    }
-    location += country;
-  }
-
-  if (continent) {
-    location += ` (${continent})`;
-  }
-
-  return (
-    <Tooltip content='Geo information by GeoLite2, data created by MaxMind, available from http://www.maxmind.com.'>
-      <div>
-        {location}
-      </div>
-    </Tooltip>
-  );
-}
-
-function getCrashReport(span){
-  const report = convert_json(span.getIn(['data', 'ios_error', 'report']).toJS());
-  return (
-    <Code
-    code={report}/>
   );
 }

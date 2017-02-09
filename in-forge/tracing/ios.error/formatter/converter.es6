@@ -18,5 +18,5 @@ export function convert(report) {
       parse('images',  report),
       parse('extras',  report)
     )
-    .join('\n')
+    .join('\n');
 }

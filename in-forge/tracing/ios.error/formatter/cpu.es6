@@ -82,7 +82,7 @@ export function get_cpu_arch(major, minor) {
     return CPU_ARM_TYPES[minor] || 'arm';
   }
 
-  return `unknown(${major},${minor})`
+  return `unknown(${major},${minor})`;
 }
 
 /**

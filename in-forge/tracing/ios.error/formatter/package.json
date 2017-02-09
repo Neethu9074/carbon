@@ -1,0 +1,6 @@
+{
+  "name": "formatter",
+  "version": "1.0.0",
+  "main": "formatter.es6",
+  "private": true
+}
