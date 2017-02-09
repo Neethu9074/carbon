@@ -57,7 +57,7 @@ addOrUpdateAlert(fromJS({
     metricName: 'memory.used',
     isTriggering: false,
     severity: 0.5,
-    decription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    description: 'You can also use markdown here \n * Absolute change: **99%** \n * Confidence: **100.00%**',
     query: 'zone=PROD',
     condition: '10 minute(s) > 50%'
   }
@@ -70,7 +70,7 @@ addOrUpdateAlert(fromJS({
     metricName: 'cpu.load',
     isTriggering: true,
     severity: 1,
-    decription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    description: 'You can also use markdown here \n * Absolute change: **99%** \n * Confidence: **100.00%**',
     query: 'zone=PROD',
     condition: 'value > 50%'
   }

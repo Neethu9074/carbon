@@ -6,6 +6,7 @@ import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {addOrUpdateAlert} from 'in-services/groundskeeper/alertings';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {evaluateClassNames} from 'in-services/util/classnames';
+import {toHtml} from 'in-services/formatters/markdown';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-components/Button';
 
@@ -61,30 +62,7 @@ export function TableRow({data, isSelected, onClick}) {
         </Column>
       </div>
 
-      {isSelected ?
-        <div className={`${block}__details-wrapper`}>
-          <DescriptionList>
-            <DescriptionItem title='Decription'>
-              {data.getIn(['data', 'decription'])}
-            </DescriptionItem>
-            <DescriptionItem title='Severity'>
-              {data.getIn(['data', 'severity'])}
-            </DescriptionItem>
-            <DescriptionItem title='Metric'>
-              {data.getIn(['data', 'metricName'])}
-            </DescriptionItem>
-            <DescriptionItem title='Is Triggering'>
-              {data.getIn(['data', 'isTriggering'])}
-            </DescriptionItem>
-            <DescriptionItem title='Condition'>
-              {data.getIn(['data', 'condition'])}
-            </DescriptionItem>
-            <DescriptionItem title='Filter Query'>
-              {data.getIn(['data', 'query'])}
-            </DescriptionItem>
-          </DescriptionList>
-        </div>
-      : null}
+      {isSelected ?<Details data={data} /> : null}
     </li>
   );
 }
@@ -102,5 +80,33 @@ export function TableRowWrapper({children}) {
     <ul className={`${block}__wrapper`}>
       {children}
     </ul>
+  );
+}
+
+
+function Details({data}) {
+  return (
+    <div className={`${block}__details-wrapper`}>
+      <DescriptionList>
+        <DescriptionItem title='Description'>
+          <span dangerouslySetInnerHTML={{__html: toHtml(data.getIn(['data', 'description']))}} />
+        </DescriptionItem>
+        <DescriptionItem title='Severity'>
+          {data.getIn(['data', 'severity'])}
+        </DescriptionItem>
+        <DescriptionItem title='Metric'>
+          {data.getIn(['data', 'metricName'])}
+        </DescriptionItem>
+        <DescriptionItem title='Is Triggering'>
+          {data.getIn(['data', 'isTriggering'])}
+        </DescriptionItem>
+        <DescriptionItem title='Condition'>
+          {data.getIn(['data', 'condition'])}
+        </DescriptionItem>
+        <DescriptionItem title='Filter Query'>
+          {data.getIn(['data', 'query'])}
+        </DescriptionItem>
+      </DescriptionList>
+    </div>
   );
 }
