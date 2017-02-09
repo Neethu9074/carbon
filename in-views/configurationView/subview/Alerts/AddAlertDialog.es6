@@ -10,7 +10,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
-import {config} from 'in-services/config';
 import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import {user} from 'in-stores/user';
@@ -43,7 +42,7 @@ React.createClass({
     const {form} = this.state;
 
     return (
-      <Dialog header={`Invite user to ${config.tenant}`}
+      <Dialog header='Add Alert'
               onClose={close}>
         <form onSubmit={this.onSubmit}>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import RemoveAlertDialog from 'in-views/configurationView/subview/Alerts/RemoveAlertDialog';
 import AddAlertDialog from 'in-views/configurationView/subview/Alerts/AddAlertDialog';
 import {addOrUpdateAlert} from 'in-services/groundskeeper/alertings';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
@@ -46,7 +47,8 @@ export function TableRow({data}) {
       <Row>
         <Button className={`${block}__button`}
                 size='sm'
-                kind='danger'>
+                kind='danger'
+                onClick={() => setActiveDialog(<RemoveAlertDialog alert={data} />)}>
           Remove
         </Button >
       </Row>

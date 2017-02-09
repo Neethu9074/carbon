@@ -15,13 +15,7 @@ export function addOrUpdateAlert(alert) {
     matchingId = newId();
   }
 
-  let matchingIndex = -1;
-  for (let i = 0, length = alerts.size; i < length; i++) {
-    if (alerts.getIn([i, 'id']) === matchingId) {
-      matchingIndex = i;
-      break;
-    }
-  }
+  const matchingIndex = getMatchingAlertIndex(matchingId);
 
   alert = alert.set('id', matchingId);
   if (matchingIndex < 0) {
@@ -30,6 +24,23 @@ export function addOrUpdateAlert(alert) {
     alerts = alerts.set(matchingIndex, alert);
   }
   alerts$.emit(alerts);
+}
+
+export function removeAlert(alertId) {
+  const matchingIndex = getMatchingAlertIndex(alertId);
+  if (matchingIndex >= 0) {
+    alerts = alerts.delete(matchingIndex);
+    alerts$.emit(alerts);
+  }
+}
+
+function getMatchingAlertIndex(id) {
+  for (let i = 0, length = alerts.size; i < length; i++) {
+    if (alerts.getIn([i, 'id']) === id) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 let id = 0;
