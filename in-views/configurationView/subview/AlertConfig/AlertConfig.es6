@@ -1,6 +1,5 @@
 import {createMapForm, createField, notBlankValidator} from 'formalistic';
 import {fromJS} from 'immutable';
-import {parse} from 'lucene';
 import React from 'react';
 
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
@@ -9,6 +8,7 @@ import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import {getAlert, addOrUpdateAlert} from 'in-services/groundskeeper/alertings';
 import {openAlertstConfig} from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
+import {QueryValidator} from 'in-services/form/validations';
 import Button from 'in-components/Button';
 
 
@@ -173,16 +173,6 @@ function createForm(alert) {
     }))
     .put('query', createField({
       value: alert ? alert.getIn(['data', 'query']) : '',
-      validator(query) {
-        try {
-          parse(query);
-          return null;
-        } catch (e) {
-          return [{
-            severity: 'error',
-            message: `Please enter a valid lucene query. Parsing error: ${e.message}`
-          }];
-        }
-      }
+      validator: QueryValidator
     }));
 }

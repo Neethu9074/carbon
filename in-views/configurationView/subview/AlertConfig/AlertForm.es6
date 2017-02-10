@@ -352,17 +352,17 @@ export default function AlertForm({form, onChange}) {
                         value=''>
                   -- select --
                 </option>
-                <option key='0'
+                <option key='change'
                         value='0'>
-                  0
+                  change
                 </option>
-                <option key='5'
+                <option key='warning'
                         value='5'>
-                  5
+                  warning
                 </option>
-                <option key='10'
+                <option key='danger'
                         value='10'>
-                  10
+                  danger
                 </option>
               </select>
               {field.messages.map((message, i) =>
