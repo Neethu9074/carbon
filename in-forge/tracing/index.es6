@@ -1,6 +1,7 @@
 import './actioncontroller';
 import './actionview';
 import './activerecord';
+import './android.error';
 import './akka.http.client';
 import './akka.http.server';
 import './asp.net';
