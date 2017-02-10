@@ -1,9 +1,9 @@
 /* eslint-disable react/no-find-dom-node */
 
-import {on} from 'reactive-observables';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import {debouncedResize$} from 'in-services/browser';
 
 export default function getElementDimensions(ComposedComponent) {
   return  React.createClass({
@@ -18,8 +18,7 @@ export default function getElementDimensions(ComposedComponent) {
     componentDidMount() {
       this.domNode = ReactDOM.findDOMNode(this);
       this.calculateDimensions();
-      this.subscription = on(window, 'resize')
-        .debounce(300)
+      this.subscription = debouncedResize$
         .subscribe(this.calculateDimensions);
     },
 

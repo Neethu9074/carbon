@@ -6,11 +6,13 @@ import AvailableKeywords from 'in-components/SearchBar/components/AvailableKeywo
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
+import LifecycleObserver from 'in-components/LifecycleObserver';
 import {setFocused} from 'in-components/SearchBar/stores/focus';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {expanded$} from 'in-stores/search/searchBarExpanded';
 import {unvalidatedQuery$} from 'in-stores/search/query';
 import {setInputString} from 'in-stores/search/query';
+import {emitResizeEvent} from 'in-services/browser';
 import keyCodes from 'in-components/keyCodes';
 import {
   highlightNextSuggestion,
@@ -34,11 +36,15 @@ export default connectTo({
 },
 function SearchBar({unvalidatedQuery, expanded, presetsVisible, keywordsVisible}) {
   if (!expanded) {
-    return null;
+    return (
+      <LifecycleObserver onDidMount={emitResizeEvent} />
+    );
   }
 
   return (
     <div>
+      <LifecycleObserver onDidMount={emitResizeEvent} />
+
       {presetsVisible ?
         <FilterPresets />
       : null}
