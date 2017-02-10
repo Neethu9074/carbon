@@ -1,6 +1,7 @@
 import './actioncontroller';
 import './actionview';
 import './activerecord';
+import './android.error';
 import './akka.http.client';
 import './akka.http.server';
 import './asp.net';
@@ -23,7 +24,6 @@ import './hornetq';
 import './http';
 import './ibmdb2';
 import './ios.error';
-import './android.error';
 import './jdbc';
 import './jersey';
 import './jersey.client';

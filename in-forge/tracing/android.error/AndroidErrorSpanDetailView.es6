@@ -2,7 +2,7 @@ import React from 'react';
 import Code from 'in-components/Code';
 import GeoLocation from 'in-sdk/components/traceDetails/GeoLocation';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatTime, formatDate} from 'in-services/formatters/date';
+import {formatDateTime} from 'in-services/formatters/date';
 
 export default function AndroidErrorSpanDetailView({span}) {
   return (
@@ -37,7 +37,9 @@ export default function AndroidErrorSpanDetailView({span}) {
         </DescriptionItem>
 
         <DescriptionItem title='Stacktrace'>
-          {formatStacktrace(span)}
+          <Code
+            lang='json'
+            code={span.getIn(['data', 'android_error', 'report', 'stack_trace'])}/>
         </DescriptionItem>
 
 
@@ -48,15 +50,6 @@ export default function AndroidErrorSpanDetailView({span}) {
 
 function formatToDate(span) {
   const ts = new Date(span).getTime();
-  return formatDate(ts) + " - " + formatTime(ts);
+  return formatDateTime(ts);
 }
 
-function formatStacktrace(span) {
-  const {report} = span.getIn(['data', 'android_error']).toJS();
-
-  return (
-    <Code
-      code={report.stack_trace}/>
-  );
-
-}
