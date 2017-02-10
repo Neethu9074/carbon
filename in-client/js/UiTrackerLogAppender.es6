@@ -1,6 +1,5 @@
+import {user, role} from 'in-stores/user';
 import http from 'in-services/http';
-
-import {user} from 'in-stores/user';
 
 let totalNumberOfReportedErrors = 0;
 
@@ -33,7 +32,11 @@ export default class UiTrackerLogAppender {
 
     const message = {
       logger: opts.name,
-      user,
+      user: {
+        fullName: user.fullName,
+        email: user.email,
+        activeRole: role
+      },
       version: window.instana.build,
       url: window.location.href,
       userAgent: window.navigator.userAgent,
