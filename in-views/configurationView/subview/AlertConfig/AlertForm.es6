@@ -2,11 +2,14 @@ import React from 'react';
 
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import MetricSelector from 'in-components/MetricSelector';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Toggle from 'in-components/form/Toggle';
+import {getSingular} from 'in-sdk/pluginName';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import {plugins} from 'in-forge/constants';
 
 import './AlertForm.less';
 
@@ -51,14 +54,15 @@ export default function AlertForm({form, onChange}) {
                         value=''>
                   -- select --
                 </option>
-                <option key='host'
-                        value='host'>
-                  Host
-                </option>
-                <option key='process'
-                        value='process'>
-                  Process
-                </option>
+                {Object.keys(plugins).map(key => {
+                  const plugin = plugins[key];
+                  return (
+                    <option key={plugin}
+                            value={plugin}>
+                      {getSingular(plugin)}
+                    </option>
+                  );
+                })}
               </select>
               {field.messages.map((message, i) =>
                 <ValidationBlock hasError
@@ -69,25 +73,24 @@ export default function AlertForm({form, onChange}) {
             </FormGroup>
           )}
 
-          {form.get('metricName').map(field =>
-            <FormGroup>
-              <Label htmlFor='metricName'
-                     hasError={!field.valid}>
-                Metric
-              </Label>
-              <Input id='metricName'
-                     type='text'
-                     value={field.value}
-                     onChange={e => onChange('metricName', e.target.value)}
-                     hasError={!field.valid} />
-              {field.messages.map((message, i) =>
-                <ValidationBlock hasError
-                                 key={i}>
-                  {message.message}
-                </ValidationBlock>
-              )}
-            </FormGroup>
-          )}
+          {plugins[form.get('entityType').value] ?
+            form.get('metricName').map(field =>
+              <FormGroup>
+                <Label htmlFor='metricName'
+                       hasError={!field.valid}>
+                  Metric
+                </Label>
+                <MetricSelector plugin={form.get('entityType').value}
+                                onChange={e => onChange('metricName', e.target.value)} />
+                {field.messages.map((message, i) =>
+                  <ValidationBlock hasError
+                                   key={i}>
+                    {message.message}
+                  </ValidationBlock>
+                )}
+              </FormGroup>
+            )
+          : null}
         </Group>
 
         <Group>
@@ -209,7 +212,7 @@ export default function AlertForm({form, onChange}) {
                 </option>
                 <option key='10min'
                         value='600000'>
-                  5min
+                  10min
                 </option>
                 <option key='1h'
                         value='3600000'>

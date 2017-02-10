@@ -1,9 +1,9 @@
 import React from 'react';
 
+import Table from 'in-views/configurationView/subview/AlertsConfig/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import Table from 'in-views/configurationView/subview/AlertsConfig/components/Table';
 import Section from 'in-views/configurationView/components/Section';
 import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {getAlerts} from 'in-services/groundskeeper/alertings';
