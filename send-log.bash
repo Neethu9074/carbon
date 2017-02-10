@@ -8,7 +8,7 @@ for (( ; ; )) do
        --header "Content-Type: application/json" \
        -d "{
     \"@timestamp\": \"$(node -e 'console.log(new Date().toISOString())')\",
-    \"message\": \"this is a test\",
+    \"message\": \"this is a test\n wazzzup\nmultiline\",
     \"host\": \"0a:35:2f:ff:fe:85:68:a1\"
   }"
 

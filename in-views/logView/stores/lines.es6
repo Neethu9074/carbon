@@ -112,13 +112,14 @@ function addNewLines(newLines) {
       hostSnapshotId: line.hostSnapshotId
     });
 
-    for (let i = 0, len = lines.length; i < len; i++) {
+    for (let i = 1, len = lines.length; i < len; i++) {
       const message = lines[i];
       if (message && message.length > 0) {
         agg.push({
           timeFormatted,
           time,
           message,
+          continuation: true,
           hostSnapshotId: line.hostSnapshotId
         });
       }
