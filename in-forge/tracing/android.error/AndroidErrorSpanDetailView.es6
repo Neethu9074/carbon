@@ -37,9 +37,8 @@ export default function AndroidErrorSpanDetailView({span}) {
         </DescriptionItem>
 
         <DescriptionItem title='Stacktrace'>
-          <Code
-            lang='json'
-            code={span.getIn(['data', 'android_error', 'report', 'stack_trace'])}/>
+          <Code lang='json'
+                code={span.getIn(['data', 'android_error', 'report', 'stack_trace'])}/>
         </DescriptionItem>
 
 
