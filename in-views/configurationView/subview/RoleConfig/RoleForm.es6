@@ -120,6 +120,18 @@ export default function RoleForm({form, onChange, disabled}) {
                     onChange={onChange}
                     name='canConfigureIntegrations'
                     label='Configuration of integrations' />
+
+        <Permission form={form}
+                    disabled={disabled}
+                    onChange={onChange}
+                    name='canConfigureCustomAlerts'
+                    label='Configuration of custom alerts' />
+
+        <Permission form={form}
+                    disabled={disabled}
+                    onChange={onChange}
+                    name='canConfigureApiTokens'
+                    label='Configuration of API tokens' />
       </Section>
     </fieldset>
   );
