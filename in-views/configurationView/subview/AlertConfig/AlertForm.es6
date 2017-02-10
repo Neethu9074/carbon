@@ -280,7 +280,7 @@ export default function AlertForm({form, onChange}) {
                 Threshold Value
               </Label>
               <Input id='thresholdValue'
-                     type='text'
+                     type='number'
                      value={field.value}
                      onChange={e => onChange('thresholdValue', e.target.value)}
                      hasError={!field.valid} />
