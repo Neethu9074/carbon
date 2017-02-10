@@ -9,6 +9,7 @@ import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {toHtml} from 'in-services/formatters/markdown';
 import Toggle from 'in-components/form/Toggle';
+import {getSingular} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
 
 import './TableRow.less';
@@ -42,7 +43,7 @@ export function TableRow({alert, isSelected, onClick}) {
         </Column>
 
         <Column>
-          {data.get('entityType')}
+          {getSingular(data.get('entityType'))}
         </Column>
 
         <Column>
@@ -111,6 +112,9 @@ function Details({alert}) {
         </DescriptionItem>
         <DescriptionItem title='Severity'>
           {data.get('severity')}
+        </DescriptionItem>
+        <DescriptionItem title='Entity Type'>
+          {getSingular(data.get('entityType'))}
         </DescriptionItem>
         <DescriptionItem title='Metric'>
           {data.get('metricName')}

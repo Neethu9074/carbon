@@ -110,6 +110,7 @@ export default React.createClass({
         isTriggering: form.get('isTriggering').value,
         rollup: Number(form.get('rollup').value),
         aggregation: form.get('aggregation').value,
+        window: Number(form.get('window').value),
         threshold: form.get('threshold').value,
         thresholdValue: Number(form.get('thresholdValue').value),
         severity: Number(form.get('severity').value),
