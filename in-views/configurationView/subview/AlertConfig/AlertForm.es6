@@ -2,6 +2,7 @@ import React from 'react';
 
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
@@ -311,6 +312,9 @@ export default function AlertForm({form, onChange}) {
                   {message.message}
                 </ValidationBlock>
               )}
+              <HelpBlock>
+                This text is used as description text when this alert happens.
+              </HelpBlock>
             </FormGroup>
           )}
 
