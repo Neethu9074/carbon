@@ -17,12 +17,13 @@ export default connectTo({
   lines: lines$,
   isInfiniteLoading: isLoading$
 }, getElementDimensions(function LogView({lines, height, isInfiniteLoading}) {
+  console.log(height - 20);
   return (
     <FullscreenOverlayView className={block}>
       <LifecycleObserver onWillMount={enable}
                          onWillUnmount={disable} />
       {height ?
-        <Infinite containerHeight={height}
+        <Infinite containerHeight={height - 20}
                   elementHeight={15}
                   loadingSpinnerDelegate={<LoadingIndicator type='light' />}
                   infiniteLoadBeginEdgeOffset={height * 0.5}

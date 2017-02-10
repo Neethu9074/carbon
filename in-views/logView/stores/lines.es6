@@ -85,14 +85,16 @@ export function loadMoreLines() {
 
   lines$.once(lines => {
     const offset = lines.length;
-    const maxTimestampForQuery = lines.length > 0 ? lines[0].time : maxTimestamp;
-    loadSubscription = getLogs({
-        maxTimestamp: maxTimestampForQuery,
-        minTimestamp,
-        query,
-        offset
-      })
-      .once(addNewLines);
+    const maxTimestampForQuery = lines.length > 0 ? lines[lines.length - 1].time : maxTimestamp;
+    if (maxTimestampForQuery != null) {
+      loadSubscription = getLogs({
+          maxTimestamp: maxTimestampForQuery,
+          minTimestamp,
+          query,
+          offset
+        })
+        .once(addNewLines);
+    }
   });
 }
 
@@ -125,8 +127,10 @@ function addNewLines(newLines) {
     return agg;
   }, []);
 
+  transformedLines.reverse();
+
   linesStore.applyStateMutation(existingLines => {
-    return existingLines.concat(transformedLines);
+    return transformedLines.concat(existingLines);
   });
   isLoadingStore.mutateTo(false);
 }
