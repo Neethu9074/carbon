@@ -212,7 +212,7 @@ export default function AlertForm({form, onChange}) {
                 </option>
                 <option key='10min'
                         value='600000'>
-                  5min
+                  10min
                 </option>
                 <option key='1h'
                         value='3600000'>
