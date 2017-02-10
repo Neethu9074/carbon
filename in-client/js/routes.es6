@@ -7,7 +7,8 @@ import UserManagement from 'promise?global,configView!in-views/configurationView
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
 import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
-import Alerts from 'promise?global,configView!in-views/configurationView/subview/Alerts/Alerts';
+import AlertsConfig from 'promise?global,configView!in-views/configurationView/subview/AlertsConfig';
+import AlertConfig from 'promise?global,configView!in-views/configurationView/subview/AlertConfig';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
@@ -94,6 +95,7 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
              path='eumKeys'
              windowTitle='EUM Keys' />
+
       <Route component={createAsyncFullscreenOverlayViewComponent(RolesConfig)}
              path='rolesConfig'
              windowTitle='Role Config' />
@@ -103,9 +105,16 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
              path='users'
              windowTitle='User Management' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(Alerts)}
+
+      <Route component={createAsyncFullscreenOverlayViewComponent(AlertsConfig)}
              path='alerting'
              windowTitle='Custom Alerts' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(AlertConfig)}
+             path='alertConfig/:alertId'
+             windowTitle='Alert Config' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(AlertConfig)}
+             path='alertConfig'
+             windowTitle='Alert Config' />
     </Route>
 
     <Route component={GraphView}

@@ -9,6 +9,15 @@ export function getAlerts() {
   return alerts$;
 }
 
+export function getAlert(alertId) {
+  const index = getMatchingAlertIndex(alertId);
+  if (index >= 0) {
+    return alerts.get(index);
+  }
+  return null;
+}
+
+
 export function addOrUpdateAlert(alert) {
   let matchingId = alert.get('id', null);
   if (matchingId == null) {
@@ -45,7 +54,7 @@ function getMatchingAlertIndex(id) {
 
 let id = 0;
 function newId() {
-  return id++;
+  return String(id++);
 }
 
 // add dummy alerts

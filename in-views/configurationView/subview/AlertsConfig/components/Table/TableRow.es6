@@ -1,10 +1,10 @@
 import React from 'react';
 
-import AddAlertDialog from 'in-views/configurationView/subview/Alerts/AddAlertDialog';
 import {addOrUpdateAlert, removeAlert} from 'in-services/groundskeeper/alertings';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
+import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {toHtml} from 'in-services/formatters/markdown';
 import Toggle from 'in-components/form/Toggle';
@@ -47,7 +47,7 @@ export function TableRow({data, isSelected, onClick}) {
           <Button className={`${block}__button`}
                   size='sm'
                   kind='success'
-                  onClick={() => setActiveDialog(<AddAlertDialog alert={data} />)}>
+                  onClick={() => openAlertConfig(alertId)}>
             Edit
           </Button >
         </Column>

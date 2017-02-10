@@ -54,3 +54,21 @@ export function openRoles() {
 function getRoleConfigPath(roleId) {
   return `/config/rolesConfig/${encodeURIComponent(roleId)}`;
 }
+
+function getAlertConfigPath(alertId) {
+  return alertId != undefined
+    ? `/config/alertConfig/${encodeURIComponent(alertId)}`
+    : `/config/alertConfig`;
+}
+
+export function openAlertConfig(alertId = undefined) {
+  mutateUrl(params => params.pathname = getAlertConfigPath(alertId));
+}
+
+function getAlertsConfigPath() {
+  return `/config/alerting`;
+}
+
+export function openAlertstConfig() {
+  mutateUrl(params => params.pathname = getAlertsConfigPath());
+}
