@@ -6,6 +6,7 @@ import MetricSelector from 'in-components/MetricSelector';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Toggle from 'in-components/form/Toggle';
+import {getSingular} from 'in-sdk/pluginName';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import {plugins} from 'in-forge/constants';
@@ -56,7 +57,7 @@ export default function AlertForm({form, onChange}) {
                 {Object.keys(plugins).map(plugin =>
                   <option key={plugin}
                           value={plugin}>
-                    {plugin}
+                    {getSingular(plugin)}
                   </option>
                 )}
               </select>
