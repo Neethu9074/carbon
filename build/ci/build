@@ -8,6 +8,8 @@ nvm use
 
 cp "$HOME/.npmrc-private-registry" .npmrc
 
+npm install -g npm@4.2.0
+
 nice -19 npm prune
 nice -19 npm update
 nice -19 npm install
