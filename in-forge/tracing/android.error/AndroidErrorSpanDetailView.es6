@@ -5,7 +5,6 @@ import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {formatTime, formatDate} from 'in-services/formatters/date';
 
 export default function AndroidErrorSpanDetailView({span}) {
-console.log(span.toJS())
   return (
     <div>
       <DescriptionList>
