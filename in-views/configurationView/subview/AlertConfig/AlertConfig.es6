@@ -114,7 +114,7 @@ export default React.createClass({
         thresholdValue: Number(form.get('thresholdValue').value),
         severity: Number(form.get('severity').value),
         eventText: form.get('eventText').value,
-        description: alert ? alert.getIn(['data', 'description']) : '',
+        description: form.get('description').value,
         query: form.get('query').value,
       }
     }));
@@ -160,6 +160,9 @@ function createForm(alert) {
     .put('eventText', createField({
       value: alert ? String(alert.getIn(['data', 'eventText'])) : '',
       validator: notBlankValidator
+    }))
+    .put('description', createField({
+      value: alert ? String(alert.getIn(['data', 'description'])) : ''
     }))
     .put('severity', createField({
       value: alert ? String(alert.getIn(['data', 'severity'])) : undefined,

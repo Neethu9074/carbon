@@ -85,7 +85,7 @@ addOrUpdateAlert(fromJS({
     isTriggering: true,
     rollup: 10000,
     aggregation: 'mean',
-    window: 360000,
+    window: 1000,
     threshold: '!=',
     thresholdValue: 100.0,
     severity: 10,
