@@ -54,12 +54,15 @@ export default function AlertForm({form, onChange}) {
                         value=''>
                   -- select --
                 </option>
-                {Object.keys(plugins).map(plugin =>
-                  <option key={plugin}
-                          value={plugin}>
-                    {getSingular(plugin)}
-                  </option>
-                )}
+                {Object.keys(plugins).map(key => {
+                  const plugin = plugins[key];
+                  return (
+                    <option key={plugin}
+                            value={plugin}>
+                      {getSingular(plugin)}
+                    </option>
+                  );
+                })}
               </select>
               {field.messages.map((message, i) =>
                 <ValidationBlock hasError
