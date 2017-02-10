@@ -26,7 +26,7 @@ function AlertsConfig({alerts}) {
       <Section>
         <Button kind='info'
                 onClick={() => openAlertConfig()}>
-          Add Alert
+          Add New Alert
         </Button>
       </Section>
 
