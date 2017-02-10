@@ -9,7 +9,7 @@ import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
 import Section from 'in-views/configurationView/components/Section';
 import {getRole, saveRole} from 'in-services/groundskeeper/roles';
 import {openRoles} from 'in-stores/navigation/configuration';
-import {QueryValidator} from 'in-services/form/validations';
+import {queryValidator} from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import {ownerRoleId, fallbackRoleId} from 'in-stores/user';
 import Button from 'in-components/Button';
@@ -182,7 +182,7 @@ function createForm(role) {
     }))
     .put('implicitViewFilter', createField({
       value: role.get('implicitViewFilter'),
-      validator: QueryValidator
+      validator: queryValidator
     }))
     .put('canConfigureServiceMapping', createField({value: role.get('canConfigureServiceMapping')}))
     .put('canConfigureEumApplications', createField({value: role.get('canConfigureEumApplications')}))

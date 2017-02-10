@@ -8,7 +8,7 @@ import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import {getAlert, addOrUpdateAlert} from 'in-services/groundskeeper/alertings';
 import {openAlertstConfig} from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
-import {QueryValidator} from 'in-services/form/validations';
+import {queryValidator} from 'in-stores/search/validations';
 import Button from 'in-components/Button';
 
 
@@ -173,6 +173,6 @@ function createForm(alert) {
     }))
     .put('query', createField({
       value: alert ? alert.getIn(['data', 'query']) : '',
-      validator: QueryValidator
+      validator: queryValidator
     }));
 }
