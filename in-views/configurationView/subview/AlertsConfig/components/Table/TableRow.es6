@@ -3,6 +3,7 @@ import React from 'react';
 import {addOrUpdateAlert, removeAlert} from 'in-services/groundskeeper/alertings';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import {formatDurationAccurately} from 'in-services/formatters/date';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {evaluateClassNames} from 'in-services/util/classnames';
@@ -15,12 +16,13 @@ import './TableRow.less';
 
 const block = 'in-table-row';
 
-export function TableRow({data, isSelected, onClick}) {
-  const alertId = data.get('id');
+export function TableRow({alert, isSelected, onClick}) {
+  const alertId = alert.get('id');
+  const data = alert.get('data');
 
   return (
     <li className={block}
-        onClick={() => onClick(data)}>
+        onClick={() => onClick(alert)}>
       <div className={evaluateClassNames({
              [`${block}__row`]: true,
              [`${block}__row--selected`]: isSelected
@@ -30,17 +32,17 @@ export function TableRow({data, isSelected, onClick}) {
         </Column>
 
         <Column>
-          {data.getIn(['data', 'name'])}
+          {data.get('name')}
         </Column>
 
         <Column>
           <Toggle className={`${block}__toggle`}
-                  checked={data.getIn(['data', 'enabled'], false)}
-                  onChange={e => addOrUpdateAlert(data.setIn(['data', 'enabled'], e.target.checked))} />
+                  checked={data.get('enabled', false)}
+                  onChange={e => addOrUpdateAlert(alert.setIn(['data', 'enabled'], e.target.checked))} />
         </Column>
 
         <Column>
-          {data.getIn(['data', 'entityType'])}
+          {data.get('entityType')}
         </Column>
 
         <Column>
@@ -60,12 +62,12 @@ export function TableRow({data, isSelected, onClick}) {
                     <ConfirmationDialog header='Confirm removal'
                                         description={
                                           <span>
-                                            Are you sure you want to remove the alert <strong>{data.getIn(['data', 'name'])}</strong>?
+                                            Are you sure you want to remove the alert <strong>{data.get('name')}</strong>?
                                           </span>
                                         }
                                         bButtonLabel='Remove role'
                                         onB={() => {
-                                          removeAlert(data.get('id'));
+                                          removeAlert(alertId);
                                           close();
                                         }} />
                   )}>
@@ -74,7 +76,7 @@ export function TableRow({data, isSelected, onClick}) {
         </Column>
       </div>
 
-      {isSelected ?<Details data={data} /> : null}
+      {isSelected ?<Details alert={alert} /> : null}
     </li>
   );
 }
@@ -96,36 +98,40 @@ export function TableRowWrapper({children}) {
 }
 
 
-function Details({data}) {
+function Details({alert}) {
+  const data = alert.get('data');
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
         <DescriptionItem title='Description'>
-          <span dangerouslySetInnerHTML={{__html: toHtml(data.getIn(['data', 'description']))}} />
+          <span dangerouslySetInnerHTML={{__html: toHtml(data.get('description'))}} />
         </DescriptionItem>
         <DescriptionItem title='Event Text'>
-          <span dangerouslySetInnerHTML={{__html: toHtml(data.getIn(['data', 'eventText']))}} />
+          <span dangerouslySetInnerHTML={{__html: toHtml(data.get('eventText'))}} />
         </DescriptionItem>
         <DescriptionItem title='Severity'>
-          {data.getIn(['data', 'severity'])}
+          {data.get('severity')}
         </DescriptionItem>
         <DescriptionItem title='Metric'>
-          {data.getIn(['data', 'metricName'])}
+          {data.get('metricName')}
         </DescriptionItem>
         <DescriptionItem title='Is Triggering'>
-          {String(data.getIn(['data', 'isTriggering']))}
+          {String(data.get('isTriggering'))}
         </DescriptionItem>
         <DescriptionItem title='Rollup in ms'>
-          {data.getIn(['data', 'rollup'])}
+          {formatDurationAccurately(data.get('rollup'))}
         </DescriptionItem>
         <DescriptionItem title='Aggregation'>
-          {data.getIn(['data', 'aggregation'])}
+          {data.get('aggregation')}
+        </DescriptionItem>
+        <DescriptionItem title='Window'>
+          {formatDurationAccurately(data.get('window'))}
         </DescriptionItem>
         <DescriptionItem title='Condition'>
-          {`${data.getIn(['data', 'threshold'])} ${data.getIn(['data', 'thresholdValue'])}`}
+          {`${data.get('threshold')} ${data.get('thresholdValue')}`}
         </DescriptionItem>
         <DescriptionItem title='Filter Query'>
-          {data.getIn(['data', 'query'])}
+          {data.get('query')}
         </DescriptionItem>
       </DescriptionList>
     </div>
