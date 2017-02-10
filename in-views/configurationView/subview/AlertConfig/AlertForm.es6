@@ -171,6 +171,56 @@ export default function AlertForm({form, onChange}) {
           </FormGroup>
         )}
 
+        {form.get('window').map(field =>
+          <FormGroup>
+            <Label htmlFor='window'
+                   hasError={!field.valid}>
+              Window
+            </Label>
+            <select onChange={e => onChange('window', e.target.value)}
+                    value={field.value}>
+              <option key=''
+                      value=''>
+                -- select --
+              </option>
+              <option key='1s'
+                      value='1000'>
+                1s
+              </option>
+              <option key='5s'
+                      value='5000'>
+                5s
+              </option>
+              <option key='10s'
+                      value='10000'>
+                10s
+              </option>
+              <option key='1min'
+                      value='60000'>
+                1min
+              </option>
+              <option key='5min'
+                      value='300000'>
+                5min
+              </option>
+              <option key='10min'
+                      value='600000'>
+                5min
+              </option>
+              <option key='1h'
+                      value='3600000'>
+                1h
+              </option>
+            </select>
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
+                {message.message}
+              </ValidationBlock>
+            )}
+          </FormGroup>
+        )}
+
         {form.get('threshold').map(field =>
           <FormGroup>
             <Label htmlFor='threshold'

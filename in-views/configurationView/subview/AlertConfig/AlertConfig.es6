@@ -145,6 +145,10 @@ function createForm(alert) {
       value: alert ? alert.getIn(['data', 'aggregation']) : undefined,
       validator: notBlankValidator
     }))
+    .put('window', createField({
+      value: alert ? String(alert.getIn(['data', 'window'])) : undefined,
+      validator: notBlankValidator
+    }))
     .put('threshold', createField({
       value: alert ? alert.getIn(['data', 'threshold']) : undefined,
       validator: notBlankValidator
