@@ -127,10 +127,8 @@ function addNewLines(newLines) {
     return agg;
   }, []);
 
-  transformedLines.reverse();
-
   linesStore.applyStateMutation(existingLines => {
-    return transformedLines.concat(existingLines);
+    return existingLines.concat(transformedLines);
   });
   isLoadingStore.mutateTo(false);
 }
