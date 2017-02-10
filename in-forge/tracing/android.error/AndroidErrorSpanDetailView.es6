@@ -24,6 +24,10 @@ export default function AndroidErrorSpanDetailView({span}) {
           {span.getIn(['data', 'android_error', 'report', 'provider'])}
         </DescriptionItem>
 
+        <DescriptionItem title='Network Type'>
+          {span.getIn(['data', 'android_error', 'report', 'networkType'])}
+        </DescriptionItem>
+
         <DescriptionItem title='App Start Date'>
           {formatToDate(span.getIn(['data', 'android_error', 'report', 'user_app_start_date']))}
         </DescriptionItem>
