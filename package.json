@@ -43,7 +43,7 @@
     "koijs": "^0.2.0",
     "lex": "^1.7.9",
     "lodash": "^4.15.0",
-    "lucene": "^1.1.0",
+    "lucene": "^1.1.1",
     "markdown-it": "^7.0.0",
     "markdown-it-link-target": "^1.0.1",
     "moment": "^2.14.1",
@@ -90,7 +90,6 @@
     "file-loader": "^0.8.1",
     "flow-bin": "^0.35.0",
     "flow-typed": "^2.0.0",
-    "ghooks": "^1.0.3",
     "gulp": "^3.8.10",
     "gulp-cssnano": "^2.1.2",
     "gulp-size": "^2.0.0",
@@ -126,7 +125,7 @@
     "url-loader": "^0.5.5",
     "webpack": "^1.5.3",
     "webpack-dashboard": "latest",
-    "webpack-dev-middleware": "1.6.1",
+    "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^1.7.0"
   },
   "publishConfig": {
