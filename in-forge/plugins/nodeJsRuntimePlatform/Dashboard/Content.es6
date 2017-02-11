@@ -7,7 +7,6 @@ import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/K
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -44,7 +43,7 @@ export default function NodejsDashboard({snapshot, timeframe}) {
         {snapshot.getIn(['data', 'libuv.statsSupported']) ?
           <KpiKeyValue label='Total time spent in loop per second'>
             <MetricValue snapshotId={snapshotId}
-                         metric='libuv.num'
+                         metric='libuv.sum'
                          formatter={time} />
           </KpiKeyValue>
         : null}
@@ -55,33 +54,29 @@ export default function NodejsDashboard({snapshot, timeframe}) {
         </KpiKeyValue>
       </KpiSection>
 
-      <TwoColumnRow>
-        <DashboardSection title='Memory Usage'>
-          {renderGcMetrics(snapshot, timeframe)}
-        </DashboardSection>
+      <DashboardSection title='Memory Usage'>
+        {renderGcMetrics(snapshot, timeframe)}
+      </DashboardSection>
 
-        {gcStatsSupported ?
-          <DashboardSection title='GC Activity'>
-            <ChartWithLegend snapshotId={snapshot.get('id')}
-                             timeframe={timeframe}
-                             margins={{
-                               left: 60
-                             }}
+      <DashboardSection title='GC Activity'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 60
+                         }}
 
-                             y1={{
-                               min: 0,
-                               formatter: time,
-                               metrics: [
-                                 'gc.gcPause'
-                               ],
-                               labels: [
-                                 'GC Pause'
-                               ],
-                               type: 'stackedArea'
-                             }} />
-          </DashboardSection>
-        : null}
-      </TwoColumnRow>
+                         y1={{
+                           min: 0,
+                           formatter: time,
+                           metrics: [
+                             'gc.gcPause'
+                           ],
+                           labels: [
+                             'GC Pause'
+                           ],
+                           type: 'stackedArea'
+                         }} />
+      </DashboardSection>
 
       <HeapSpacesTable snapshot={snapshot}
                        timeframe={timeframe} />
