@@ -16,7 +16,9 @@ import {
   userManagementViewLink$,
   isUserManagementView$,
   alertsViewLink$,
-  isAlertsViewLink$
+  isAlertsViewLink$,
+  apiTokensViewLink$,
+  isApiTokensView$
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
@@ -73,6 +75,13 @@ export default function Navigation() {
               <NavItem title='Roles'
                        href$={rolesConfigViewLink$}
                        isActive$={isRolesConfigView$}
+                       borderless />
+            : null}
+
+            {role.canConfigureApiTokens ?
+              <NavItem title='API Tokens'
+                       href$={apiTokensViewLink$}
+                       isActive$={isApiTokensView$}
                        borderless />
             : null}
           </NavItem>

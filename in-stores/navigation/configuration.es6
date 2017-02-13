@@ -35,10 +35,6 @@ const rolesConfigViewPath = '/config/rolesConfig';
 export const rolesConfigViewLink$ = buildUrlStream({path: rolesConfigViewPath});
 export const isRolesConfigView$ = buildPathStartsWithStream(rolesConfigViewPath);
 
-const alertsViewPath = '/config/alerting';
-export const alertsViewLink$ = buildUrlStream({path: alertsViewPath});
-export const isAlertsViewLink$ = buildPathStartsWithStream(alertsViewPath);
-
 export function getRoleConfigLink(roleId) {
   return getModifiedUrlStream(params => params.pathname = getRoleConfigPath(roleId));
 }
@@ -54,6 +50,30 @@ export function openRoles() {
 function getRoleConfigPath(roleId) {
   return `/config/rolesConfig/${encodeURIComponent(roleId)}`;
 }
+
+const apiTokensViewPath = '/config/apiTokens';
+export const apiTokensViewLink$ = buildUrlStream({path: apiTokensViewPath});
+export const isApiTokensView$ = buildPathStartsWithStream(apiTokensViewPath);
+
+export function openApiTokenConfig(apiTokenId) {
+  mutateUrl(params => params.pathname = getApiTokenConfigPath(apiTokenId));
+}
+
+export function openApiTokens() {
+  mutateUrl(params => params.pathname = apiTokensViewPath);
+}
+
+export function getApiTokenConfigLink(apiTokenId) {
+  return getModifiedUrlStream(params => params.pathname = getApiTokenConfigPath(apiTokenId));
+}
+
+function getApiTokenConfigPath(apiTokenId) {
+  return `/config/apiTokens/${encodeURIComponent(apiTokenId)}`;
+}
+
+const alertsViewPath = '/config/alerting';
+export const alertsViewLink$ = buildUrlStream({path: alertsViewPath});
+export const isAlertsViewLink$ = buildPathStartsWithStream(alertsViewPath);
 
 function getAlertConfigPath(alertId) {
   return `/config/alertConfig/${encodeURIComponent(alertId)}`;

@@ -6,6 +6,8 @@ import EjbServiceExtractionConfiguration from 'promise?global,configView!in-view
 import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
 import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
+import ApiTokens from 'promise?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
+import ApiToken from 'promise?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
 import AlertsConfig from 'promise?global,configView!in-views/configurationView/subview/AlertsConfig';
 import AlertConfig from 'promise?global,configView!in-views/configurationView/subview/AlertConfig';
@@ -105,6 +107,12 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
              path='users'
              windowTitle='User Management' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(ApiTokens)}
+             path='apiTokens'
+             windowTitle='API Tokens' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(ApiToken)}
+             path='apiTokens/:apiTokenId'
+             windowTitle='API Tokens' />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(AlertsConfig)}
              path='alerting'
