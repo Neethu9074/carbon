@@ -22,6 +22,18 @@ export function getAlert(alertId) {
 }
 
 
+export function setEnabled(alertId, enabled) {
+  return http({
+    method: 'PUT',
+    url: `/api/alerts/${encodeURIComponent(alertId)}/enabled`,
+    queryParams: {
+      enabled
+    },
+    responseType: 'text'
+  });
+}
+
+
 export function saveAlert(alert) {
   return http({
     method: 'PUT',

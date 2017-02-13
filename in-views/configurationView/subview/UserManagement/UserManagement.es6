@@ -218,9 +218,7 @@ export default connectTo({
   setRole(user, newRoleId) {
     const previousRoleId = user.get('roleId');
 
-    // move component into "updating" state
     this.setState(state => {
-      // TODO add loading notification
       state.status[user.get('id')] = {
         state: 'loading',
         time: Date.now(),

@@ -2,7 +2,7 @@ import {createLogger} from 'instalog';
 import {Map} from 'immutable';
 import React from 'react';
 
-import {newEmptyAlert, getAlerts, saveAlert, deleteAlert} from 'in-services/groundskeeper/alertings';
+import {newEmptyAlert, getAlerts, saveAlert, deleteAlert, setEnabled} from 'in-services/groundskeeper/alertings';
 import Table from 'in-views/configurationView/subview/AlertsConfig/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
@@ -26,6 +26,7 @@ export default React.createClass({
       error: false,
       message: null,
       alerts: emptyList,
+      status: {}
     };
   },
 
@@ -133,6 +134,62 @@ export default React.createClass({
     close();
   },
 
+  setEnabled(alert, enabled) {
+    const previousEnabled = alert.get('enabled');
+    const alertId = alert.get('id');
+
+    this.setState(state => {
+      state.status[alertId] = {
+        state: 'loading',
+        time: Date.now(),
+        message: 'Saving alert…'
+      };
+
+      const index = state.alerts.findIndex(eachAlert => alertId === eachAlert.get('id'));
+      const newAlerts = state.alerts.update(index, modifiableAlert => modifiableAlert.set('enabled', enabled));
+      return {
+        status: state.status,
+        alerts: newAlerts
+      };
+    });
+
+    const result$ = setEnabled(alertId, enabled);
+    result$.once(() => {
+      this.setState(state => {
+        state.status[alertId] = {
+          state: 'success',
+          time: Date.now(),
+          message: 'Alert change successfully saved!'
+        };
+
+        return {
+          status: state.status
+        };
+      });
+    });
+
+    result$.errors().once(error => {
+      const message = `Failed to set alerts enable flag: ${error.message}`;
+      logger.warn(message, error);
+
+      this.setState(state => {
+        state.status[alertId] = {
+          state: 'failure',
+          time: Date.now(),
+          message
+        };
+
+        // roll back the role change
+        const index = state.alerts.findIndex(eachAlert => alertId === eachAlert.get('id'));
+        const newAlerts = state.userOverview.update(index, modifiableAlert => modifiableAlert.set('enabled', previousEnabled));
+        return {
+          status: state.status,
+          alerts: newAlerts
+        };
+      });
+    });
+  },
+
   render() {
     const {alerts} = this.state;
     const alertsAvailable = alerts && alerts.size > 0;
@@ -164,7 +221,9 @@ export default React.createClass({
             </SectionHeading>
 
             <Table items={alerts}
-                   onDeleteAlert={this.onDeleteAlert} />
+                   onDeleteAlert={this.onDeleteAlert}
+                   setEnabled={this.setEnabled}
+                   status={this.state.status} />
           </Section>
         : null}
       </SubViewWrapper>

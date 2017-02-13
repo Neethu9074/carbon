@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import {formatDurationAccurately} from 'in-services/formatters/date';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {evaluateClassNames} from 'in-services/util/classnames';
-import {saveAlert} from 'in-services/groundskeeper/alertings';
 import {toHtml} from 'in-services/formatters/markdown';
 import Toggle from 'in-components/form/Toggle';
 import {getSingular} from 'in-sdk/pluginName';
@@ -17,7 +17,7 @@ import './TableRow.less';
 
 const block = 'in-table-row';
 
-export function TableRow({alert, isSelected, onClick, onDeleteAlert}) {
+export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status}) {
   const alertId = alert.get('id');
   const alertName = alert.get('name');
 
@@ -39,7 +39,11 @@ export function TableRow({alert, isSelected, onClick, onDeleteAlert}) {
         <Column>
           <Toggle className={`${block}__toggle`}
                   checked={alert.get('enabled', false)}
-                  onChange={e => saveAlert(alert.set('enabled', e.target.checked))} />
+                  onChange={e => setEnabled(alert, e.target.checked)} />
+
+          <ModificationSaveStatus status={status}
+                                  className={`${block}__save-status`}
+                                  reserveSpace />
         </Column>
 
         <Column>
