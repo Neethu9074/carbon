@@ -109,18 +109,19 @@ function addNewLines(newLines) {
       timeFormatted,
       time,
       message: lines[0],
-      hostSnapshotId: line.hostSnapshotId
+      hostSnapshotId: line.hostSnapshotId,
+      level: line.level,
+      levelColor: getLevelColor(line.level),
+      logger: line.logger,
+      component: line.component
     });
 
     for (let i = 1, len = lines.length; i < len; i++) {
       const message = lines[i];
       if (message && message.length > 0) {
         agg.push({
-          timeFormatted,
-          time,
           message,
-          continuation: true,
-          hostSnapshotId: line.hostSnapshotId
+          continuation: true
         });
       }
     }
@@ -140,4 +141,18 @@ function disposeExistingLoad() {
     loadSubscription.dispose();
     loadSubscription = null;
   }
+}
+
+
+function getLevelColor(level) {
+  if (!level) {
+    return undefined;
+  } else if (/^err(or)?$/i.test(level)) {
+    return '#EB3941';
+  } else if (/^warn(ing)?$/i.test(level)) {
+    return '#F5BD02';
+  } else if (/^info$/i.test(level)) {
+    return '#2B53CD';
+  }
+  return undefined;
 }
