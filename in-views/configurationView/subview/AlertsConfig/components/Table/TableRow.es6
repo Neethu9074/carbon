@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {addOrUpdateAlert, removeAlert} from 'in-services/groundskeeper/alertings';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {saveAlert, deleteAlert} from 'in-services/groundskeeper/alertings';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import {formatDurationAccurately} from 'in-services/formatters/date';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
@@ -19,7 +19,6 @@ const block = 'in-table-row';
 
 export function TableRow({alert, isSelected, onClick}) {
   const alertId = alert.get('id');
-  const data = alert.get('data');
 
   return (
     <li className={block}
@@ -33,17 +32,17 @@ export function TableRow({alert, isSelected, onClick}) {
         </Column>
 
         <Column>
-          {data.get('name')}
+          {alert.get('name')}
         </Column>
 
         <Column>
           <Toggle className={`${block}__toggle`}
-                  checked={data.get('enabled', false)}
-                  onChange={e => addOrUpdateAlert(alert.setIn(['data', 'enabled'], e.target.checked))} />
+                  checked={alert.get('enabled', false)}
+                  onChange={e => saveAlert(alert.set('enabled', e.target.checked))} />
         </Column>
 
         <Column>
-          {getSingular(data.get('entityType'))}
+          {getSingular(alert.get('entityType'))}
         </Column>
 
         <Column>
@@ -63,12 +62,12 @@ export function TableRow({alert, isSelected, onClick}) {
                     <ConfirmationDialog header='Confirm removal'
                                         description={
                                           <span>
-                                            Are you sure you want to remove the alert <strong>{data.get('name')}</strong>?
+                                            Are you sure you want to remove the alert <strong>{alert.get('name')}</strong>?
                                           </span>
                                         }
                                         bButtonLabel='Remove role'
                                         onB={() => {
-                                          removeAlert(alertId);
+                                          deleteAlert(alertId);
                                           close();
                                         }} />
                   )}>
@@ -100,42 +99,41 @@ export function TableRowWrapper({children}) {
 
 
 function Details({alert}) {
-  const data = alert.get('data');
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
         <DescriptionItem title='Description'>
-          <span dangerouslySetInnerHTML={{__html: toHtml(data.get('description'))}} />
+          <span dangerouslySetInnerHTML={{__html: toHtml(alert.get('description'))}} />
         </DescriptionItem>
         <DescriptionItem title='Event Text'>
-          <span dangerouslySetInnerHTML={{__html: toHtml(data.get('eventText'))}} />
+          <span dangerouslySetInnerHTML={{__html: toHtml(alert.get('eventText'))}} />
         </DescriptionItem>
         <DescriptionItem title='Severity'>
-          {data.get('severity')}
+          {alert.get('severity')}
         </DescriptionItem>
         <DescriptionItem title='Entity Type'>
-          {getSingular(data.get('entityType'))}
+          {getSingular(alert.get('entityType'))}
         </DescriptionItem>
         <DescriptionItem title='Metric'>
-          {data.get('metricName')}
+          {alert.get('metricName')}
         </DescriptionItem>
         <DescriptionItem title='Is Triggering'>
-          {String(data.get('isTriggering'))}
+          {String(alert.get('isTriggering'))}
         </DescriptionItem>
         <DescriptionItem title='Rollup in ms'>
-          {formatDurationAccurately(data.get('rollup'))}
+          {formatDurationAccurately(alert.get('rollup'))}
         </DescriptionItem>
         <DescriptionItem title='Aggregation'>
-          {data.get('aggregation')}
+          {alert.get('aggregation')}
         </DescriptionItem>
         <DescriptionItem title='Window'>
-          {formatDurationAccurately(data.get('window'))}
+          {formatDurationAccurately(alert.get('window'))}
         </DescriptionItem>
         <DescriptionItem title='Condition'>
-          {`${data.get('threshold')} ${data.get('thresholdValue')}`}
+          {`${alert.get('threshold')} ${alert.get('thresholdValue')}`}
         </DescriptionItem>
         <DescriptionItem title='Filter Query'>
-          {data.get('query')}
+          {alert.get('query')}
         </DescriptionItem>
       </DescriptionList>
     </div>

@@ -112,9 +112,6 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(AlertConfig)}
              path='alertConfig/:alertId'
              windowTitle='Alert Config' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(AlertConfig)}
-             path='alertConfig'
-             windowTitle='Alert Config' />
     </Route>
 
     <Route component={GraphView}

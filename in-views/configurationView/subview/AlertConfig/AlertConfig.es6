@@ -1,23 +1,29 @@
 import {createMapForm, createField, notBlankValidator} from 'formalistic';
+import {createLogger} from 'instalog';
 import {fromJS} from 'immutable';
 import React from 'react';
 
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import AlertForm from 'in-views/configurationView/subview/AlertConfig/AlertForm';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {getAlert, addOrUpdateAlert} from 'in-services/groundskeeper/alertings';
-import {openAlertstConfig} from 'in-stores/navigation/configuration';
+import {getAlert, saveAlert} from 'in-services/groundskeeper/alertings';
+import {openAlertsConfig} from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import {queryValidator} from 'in-stores/search/validations';
+import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
 
+
+const logger = createLogger('alertConfig');
 
 export default React.createClass({
   displayName: 'AlertConfig',
 
   getInitialState() {
     return {
+      loading: true,
       error: false,
+      message: 'Loading Alert…',
       form: null,
       alert: null
     };
@@ -33,13 +39,17 @@ export default React.createClass({
     }
   },
 
+  componentWillUnmount() {
+    this.disposeAsyncAction();
+  },
+
   render() {
     const {form, alert} = this.state;
 
     return (
       <SubViewWrapper>
         <SubViewHeader>
-          {alert ? `Configure Alert: ${alert.getIn(['data', 'name'])}` : 'Configure Alert'}
+          {alert ? `Configure Alert: ${alert.get('name')}` : 'Configure Alert'}
         </SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
@@ -71,11 +81,44 @@ export default React.createClass({
   },
 
   loadAlert(alertId) {
-    const alert = getAlert(alertId);
+    this.disposeAsyncAction();
+
     this.setState({
-      alert,
-      form: createForm(alert)
+      loading: true,
+      error: false,
+      message: 'Loading Alert…',
+      form: null,
+      role: null
     });
+
+    const result$ = getAlert(alertId);
+    this.responseSubscription = result$.once(alert => {
+      this.setState({
+        loading: false,
+        error: false,
+        message: null,
+        alert,
+        form: createForm(alert)
+      });
+    });
+
+    this.errorSubscription = result$.errors().once(() => {
+      this.setState({
+        loading: false,
+        error: true,
+        message: 'Failed to load Alert.'
+      });
+    });
+  },
+
+  disposeAsyncAction() {
+    if (this.responseSubscription) {
+      this.responseSubscription.dispose();
+    }
+
+    if (this.errorSubscription) {
+      this.errorSubscription.dispose();
+    }
   },
 
   onChange(fieldName, value) {
@@ -100,11 +143,12 @@ export default React.createClass({
 
     const alert = this.state.alert;
     const form = this.state.form;
-    addOrUpdateAlert(fromJS({
-      id: alert ? alert.get('id') : null,
-      data: {
+
+    const result$ = saveAlert(
+      fromJS({
+        id: alert ? alert.get('id') : null,
         name: form.get('name').value,
-        enabled: alert ? alert.getIn(['data', 'enabled']) : true,
+        enabled: alert ? alert.get('enabled') : true,
         entityType: form.get('entityType').value,
         metricName: form.get('metricName').value,
         isTriggering: form.get('isTriggering').value,
@@ -117,63 +161,78 @@ export default React.createClass({
         eventText: form.get('eventText').value,
         description: form.get('description').value,
         query: form.get('query').value,
-      }
-    }));
+      })
+    );
+    this.disposeAsyncAction();
+    this.setState({
+      loading: true,
+      error: false,
+      message: 'Saving…'
+    });
+    this.responseSubscription = result$.once(openAlertsConfig);
 
-    openAlertstConfig();
+    this.errorSubscription = result$.errors().once(error => {
+      const message = `Failed to save alert: ${error.message}`;
+      logger.error(message, error);
+      this.setState({
+        loading: false,
+        error: true,
+        message
+      });
+    });
   }
 });
 
 function createForm(alert) {
   return createMapForm()
     .put('name', createField({
-      value: alert ? alert.getIn(['data', 'name']) : '',
+      value: alert ? alert.get('name') : '',
       validator: notBlankValidator
     }))
     .put('entityType', createField({
-      value: alert ? alert.getIn(['data', 'entityType']) : undefined,
+      value: alert ? alert.get('entityType') : undefined,
       validator: notBlankValidator
     }))
     .put('metricName', createField({
-      value: alert ? alert.getIn(['data', 'metricName']) : '',
+      value: alert ? alert.get('metricName') : '',
       validator: notBlankValidator
     }))
     .put('rollup', createField({
-      value: alert ? String(alert.getIn(['data', 'rollup'])) : undefined,
+      value: alert ? String(alert.get('rollup')) : undefined,
       validator: notBlankValidator
     }))
     .put('aggregation', createField({
-      value: alert ? alert.getIn(['data', 'aggregation']) : undefined,
+      value: alert ? alert.get('aggregation') : undefined,
       validator: notBlankValidator
     }))
     .put('window', createField({
-      value: alert ? String(alert.getIn(['data', 'window'])) : undefined,
+      value: alert ? String(alert.get('window')) : undefined,
       validator: notBlankValidator
     }))
     .put('threshold', createField({
-      value: alert ? alert.getIn(['data', 'threshold']) : undefined,
+      value: alert ? alert.get('thresholdOperator') : undefined,
       validator: notBlankValidator
     }))
     .put('thresholdValue', createField({
-      value: alert ? String(alert.getIn(['data', 'thresholdValue'])) : '0.0',
+      value: alert ? String(alert.get('thresholdValue')) : '0.0',
       validator: notBlankValidator
     }))
     .put('eventText', createField({
-      value: alert ? String(alert.getIn(['data', 'eventText'])) : '',
+      value: alert ? String(alert.get('eventText')) : '',
       validator: notBlankValidator
     }))
     .put('description', createField({
-      value: alert ? String(alert.getIn(['data', 'description'])) : ''
+      value: alert ? String(alert.get('description')) : ''
     }))
     .put('severity', createField({
-      value: alert ? String(alert.getIn(['data', 'severity'])) : undefined,
+      value: alert ? String(alert.get('severity')) : undefined,
       validator: notBlankValidator
     }))
     .put('isTriggering', createField({
-      value: alert ? alert.getIn(['data', 'isTriggering']) : false
+      value: alert ? alert.get('isTriggering') : false
     }))
     .put('query', createField({
-      value: alert ? alert.getIn(['data', 'query']) : '',
+      value: alert ? alert.get('query') : '',
       validator: queryValidator
     }));
 }

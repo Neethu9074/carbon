@@ -1,96 +1,42 @@
-import {create} from 'reactive-observables';
-import {List, fromJS} from 'immutable';
+import {fromJS} from 'immutable';
 
-
-let alerts = List();
-const alerts$ = create({emitLatestOnSubscribe: true});
+import http from 'in-services/http';
 
 export function getAlerts() {
-  return alerts$;
+  return http({
+    method: 'GET',
+    url: `/api/alerts`
+  })
+  .map(response => fromJS(response.body));
 }
+
 
 export function getAlert(alertId) {
-  const index = getMatchingAlertIndex(alertId);
-  if (index >= 0) {
-    return alerts.get(index);
-  }
-  return null;
+  return http({
+    method: 'GET',
+    url: `/api/alerts/${encodeURIComponent(alertId)}`
+  })
+  .map(response => fromJS(response.body));
 }
 
 
-export function addOrUpdateAlert(alert) {
-  let matchingId = alert.get('id', null);
-  if (matchingId == null) {
-    matchingId = newId();
-  }
-
-  const matchingIndex = getMatchingAlertIndex(matchingId);
-
-  alert = alert.set('id', matchingId);
-  if (matchingIndex < 0) {
-    alerts = alerts.push(alert);
-  } else {
-    alerts = alerts.set(matchingIndex, alert);
-  }
-  alerts$.emit(alerts);
-}
-
-export function removeAlert(alertId) {
-  const matchingIndex = getMatchingAlertIndex(alertId);
-  if (matchingIndex >= 0) {
-    alerts = alerts.delete(matchingIndex);
-    alerts$.emit(alerts);
-  }
-}
-
-function getMatchingAlertIndex(id) {
-  for (let i = 0, length = alerts.size; i < length; i++) {
-    if (alerts.getIn([i, 'id']) === id) {
-      return i;
+export function saveAlert(alert) {
+  return http({
+    method: 'PUT',
+    url: `/api/alerts/${encodeURIComponent(alert.get('id'))}`,
+    data: {
+      id: alert.get('id'),
+      name: alert.get('name')
     }
-  }
-  return -1;
+  })
+  .map(response => fromJS(response.body));
 }
 
-let id = 0;
-function newId() {
-  return String(id++);
-}
 
-// add dummy alerts
-addOrUpdateAlert(fromJS({
-  data: {
-    name: 'Alert No 1',
-    enabled: true,
-    entityType: 'host',
-    metricName: 'cpu.user',
-    isTriggering: false,
-    rollup: 5000,
-    aggregation: 'max',
-    window: 60000,
-    threshold: '<=',
-    thresholdValue: 0.2,
-    severity: 5,
-    eventText: 'This text will be shown in events',
-    description: 'You can also use markdown here \n * Absolute change: **99%** \n * Confidence: **100.00%**',
-    query: 'zone=PROD',
-  }
-}));
-addOrUpdateAlert(fromJS({
-  data: {
-    name: 'Alert No 2',
-    enabled: false,
-    entityType: 'process',
-    metricName: 'cpu.user',
-    isTriggering: true,
-    rollup: 10000,
-    aggregation: 'mean',
-    window: 1000,
-    threshold: '!=',
-    thresholdValue: 100.0,
-    severity: 10,
-    eventText: 'This text will be shown in events',
-    description: 'You can also use markdown here \n * Absolute change: **99%** \n * Confidence: **100.00%**',
-    query: 'zone=PROD',
-  }
-}));
+export function deleteAlert(alertId) {
+  return http({
+    method: 'DELETE',
+    url: `/api/alerts/${encodeURIComponent(alertId)}`
+  })
+  .map(response => fromJS(response.body));
+}
