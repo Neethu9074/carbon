@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {saveAlert, deleteAlert} from 'in-services/groundskeeper/alertings';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import {formatDurationAccurately} from 'in-services/formatters/date';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {evaluateClassNames} from 'in-services/util/classnames';
+import {saveAlert} from 'in-services/groundskeeper/alertings';
 import {toHtml} from 'in-services/formatters/markdown';
 import Toggle from 'in-components/form/Toggle';
 import {getSingular} from 'in-sdk/pluginName';
@@ -17,8 +17,9 @@ import './TableRow.less';
 
 const block = 'in-table-row';
 
-export function TableRow({alert, isSelected, onClick}) {
+export function TableRow({alert, isSelected, onClick, onDeleteAlert}) {
   const alertId = alert.get('id');
+  const alertName = alert.get('name');
 
   return (
     <li className={block}
@@ -32,7 +33,7 @@ export function TableRow({alert, isSelected, onClick}) {
         </Column>
 
         <Column>
-          {alert.get('name')}
+          {alertName}
         </Column>
 
         <Column>
@@ -42,7 +43,7 @@ export function TableRow({alert, isSelected, onClick}) {
         </Column>
 
         <Column>
-          {getSingular(alert.get('entityType'))}
+          {getSingular(alert.getIn(['match', 'entityType']))}
         </Column>
 
         <Column>
@@ -62,14 +63,11 @@ export function TableRow({alert, isSelected, onClick}) {
                     <ConfirmationDialog header='Confirm removal'
                                         description={
                                           <span>
-                                            Are you sure you want to remove the alert <strong>{alert.get('name')}</strong>?
+                                            Are you sure you want to remove the alert <strong>{alertName}</strong>?
                                           </span>
                                         }
-                                        bButtonLabel='Remove role'
-                                        onB={() => {
-                                          deleteAlert(alertId);
-                                          close();
-                                        }} />
+                                        bButtonLabel='Remove alert'
+                                        onB={() => onDeleteAlert(alertId)} />
                   )}>
             Remove
           </Button >
@@ -99,41 +97,47 @@ export function TableRowWrapper({children}) {
 
 
 function Details({alert}) {
+  const match = alert.get('match');
+  const event = alert.get('event');
+  const rule = alert.get('rule');
+
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
-        <DescriptionItem title='Description'>
-          <span dangerouslySetInnerHTML={{__html: toHtml(alert.get('description'))}} />
-        </DescriptionItem>
-        <DescriptionItem title='Event Text'>
-          <span dangerouslySetInnerHTML={{__html: toHtml(alert.get('eventText'))}} />
-        </DescriptionItem>
-        <DescriptionItem title='Severity'>
-          {alert.get('severity')}
-        </DescriptionItem>
         <DescriptionItem title='Entity Type'>
-          {getSingular(alert.get('entityType'))}
+          {getSingular(match.get('entityType'))}
         </DescriptionItem>
         <DescriptionItem title='Metric'>
-          {alert.get('metricName')}
-        </DescriptionItem>
-        <DescriptionItem title='Is Triggering'>
-          {String(alert.get('isTriggering'))}
-        </DescriptionItem>
-        <DescriptionItem title='Rollup in ms'>
-          {formatDurationAccurately(alert.get('rollup'))}
-        </DescriptionItem>
-        <DescriptionItem title='Aggregation'>
-          {alert.get('aggregation')}
-        </DescriptionItem>
-        <DescriptionItem title='Window'>
-          {formatDurationAccurately(alert.get('window'))}
-        </DescriptionItem>
-        <DescriptionItem title='Condition'>
-          {`${alert.get('threshold')} ${alert.get('thresholdValue')}`}
+          {match.get('metricName')}
         </DescriptionItem>
         <DescriptionItem title='Filter Query'>
-          {alert.get('query')}
+          {match.get('query')}
+        </DescriptionItem>
+        <DescriptionItem title='Rollup in ms'>
+          {formatDurationAccurately(match.get('rollup'))}
+        </DescriptionItem>
+
+        <DescriptionItem title='Window'>
+          {formatDurationAccurately(rule.get('window'))}
+        </DescriptionItem>
+        <DescriptionItem title='Aggregation'>
+          {rule.get('aggregation')}
+        </DescriptionItem>
+        <DescriptionItem title='Condition'>
+          {`${rule.get('conditionOperator')} ${rule.get('conditionValue')}`}
+        </DescriptionItem>
+
+        <DescriptionItem title='Is Triggering'>
+          {String(event.get('triggering'))}
+        </DescriptionItem>
+        <DescriptionItem title='Severity'>
+          {event.get('severity')}
+        </DescriptionItem>
+        <DescriptionItem title='Event Text'>
+          <span dangerouslySetInnerHTML={{__html: toHtml(event.get('text'))}} />
+        </DescriptionItem>
+        <DescriptionItem title='Description'>
+          <span dangerouslySetInnerHTML={{__html: toHtml(event.get('description'))}} />
         </DescriptionItem>
       </DescriptionList>
     </div>

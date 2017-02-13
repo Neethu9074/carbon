@@ -28,7 +28,8 @@ export default React.createClass({
             <TableRow key={item.get('id')}
                       alert={item}
                       isSelected={this.state.selectedAlert === item}
-                      onClick={this.toggleAlert} />
+                      onClick={this.toggleAlert}
+                      onDeleteAlert={this.props.onDeleteAlert} />
           )}
         </TableRowWrapper>
       </div>

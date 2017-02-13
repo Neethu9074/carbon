@@ -23,7 +23,7 @@ export default React.createClass({
     return {
       loading: true,
       error: false,
-      message: 'Loading Alert…',
+      message: 'Loading alert…',
       form: null,
       alert: null
     };
@@ -49,7 +49,7 @@ export default React.createClass({
     return (
       <SubViewWrapper>
         <SubViewHeader>
-          {alert ? `Configure Alert: ${alert.get('name')}` : 'Configure Alert'}
+          {alert ? `Configure alert: ${alert.get('name')}` : 'Configure alert'}
         </SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
@@ -86,7 +86,7 @@ export default React.createClass({
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading Alert…',
+      message: 'Loading alert…',
       form: null,
       role: null
     });
@@ -106,7 +106,7 @@ export default React.createClass({
       this.setState({
         loading: false,
         error: true,
-        message: 'Failed to load Alert.'
+        message: 'Failed to load alert.'
       });
     });
   },
@@ -149,18 +149,25 @@ export default React.createClass({
         id: alert ? alert.get('id') : null,
         name: form.get('name').value,
         enabled: alert ? alert.get('enabled') : true,
-        entityType: form.get('entityType').value,
-        metricName: form.get('metricName').value,
-        isTriggering: form.get('isTriggering').value,
-        rollup: Number(form.get('rollup').value),
-        aggregation: form.get('aggregation').value,
-        window: Number(form.get('window').value),
-        threshold: form.get('threshold').value,
-        thresholdValue: Number(form.get('thresholdValue').value),
-        severity: Number(form.get('severity').value),
-        eventText: form.get('eventText').value,
-        description: form.get('description').value,
-        query: form.get('query').value,
+        match: {
+          entityType: form.get('entityType').value,
+          metricName: form.get('metricName').value,
+          rollup: Number(form.get('rollup').value),
+          query: form.get('query').value,
+        },
+        rule: {
+          window: Number(form.get('window').value),
+          aggregation: form.get('aggregation').value,
+          conditionOperator: form.get('threshold').value,
+          conditionValue: Number(form.get('thresholdValue').value),
+
+        },
+        event: {
+          triggering: form.get('triggering').value,
+          severity: Number(form.get('severity').value),
+          eventText: form.get('eventText').value,
+          description: form.get('description').value,
+        }
       })
     );
     this.disposeAsyncAction();
@@ -184,55 +191,59 @@ export default React.createClass({
 });
 
 function createForm(alert) {
+  const match = alert.get('match');
+  const event = alert.get('event');
+  const rule = alert.get('rule');
+
   return createMapForm()
     .put('name', createField({
       value: alert ? alert.get('name') : '',
       validator: notBlankValidator
     }))
     .put('entityType', createField({
-      value: alert ? alert.get('entityType') : undefined,
+      value: alert ? match.getIn('entityType') : undefined,
       validator: notBlankValidator
     }))
     .put('metricName', createField({
-      value: alert ? alert.get('metricName') : '',
+      value: alert ? match.get('metricName') : '',
       validator: notBlankValidator
     }))
     .put('rollup', createField({
-      value: alert ? String(alert.get('rollup')) : undefined,
+      value: alert ? String(match.get('rollup')) : undefined,
+      validator: notBlankValidator
+    }))
+    .put('query', createField({
+      value: alert ? match.get('query') : '',
+      validator: queryValidator
+    }))
+    .put('window', createField({
+      value: alert ? String(rule.get('window')) : undefined,
       validator: notBlankValidator
     }))
     .put('aggregation', createField({
-      value: alert ? alert.get('aggregation') : undefined,
-      validator: notBlankValidator
-    }))
-    .put('window', createField({
-      value: alert ? String(alert.get('window')) : undefined,
+      value: alert ? rule.get('aggregation') : undefined,
       validator: notBlankValidator
     }))
     .put('threshold', createField({
-      value: alert ? alert.get('thresholdOperator') : undefined,
+      value: alert ? rule.get('conditionOperator') : undefined,
       validator: notBlankValidator
     }))
     .put('thresholdValue', createField({
-      value: alert ? String(alert.get('thresholdValue')) : '0.0',
+      value: alert ? String(rule.get('conditionValue')) : '0.0',
+      validator: notBlankValidator
+    }))
+    .put('triggering', createField({
+      value: alert ? event.get('triggering') : false
+    }))
+    .put('severity', createField({
+      value: alert ? String(event.get('severity')) : undefined,
       validator: notBlankValidator
     }))
     .put('eventText', createField({
-      value: alert ? String(alert.get('eventText')) : '',
+      value: alert ? String(event.get('eventText')) : '',
       validator: notBlankValidator
     }))
     .put('description', createField({
-      value: alert ? String(alert.get('description')) : ''
-    }))
-    .put('severity', createField({
-      value: alert ? String(alert.get('severity')) : undefined,
-      validator: notBlankValidator
-    }))
-    .put('isTriggering', createField({
-      value: alert ? alert.get('isTriggering') : false
-    }))
-    .put('query', createField({
-      value: alert ? alert.get('query') : '',
-      validator: queryValidator
+      value: alert ? String(event.get('description')) : ''
     }));
 }

@@ -2,15 +2,15 @@ import {createLogger} from 'instalog';
 import {Map} from 'immutable';
 import React from 'react';
 
+import {newEmptyAlert, getAlerts, saveAlert, deleteAlert} from 'in-services/groundskeeper/alertings';
 import Table from 'in-views/configurationView/subview/AlertsConfig/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {getAlerts, saveAlert} from 'in-services/groundskeeper/alertings';
 import Section from 'in-views/configurationView/components/Section';
 import {openAlertConfig} from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
-import {generateUniqueShortId} from 'in-services/util/id';
+import {close} from 'in-components/DialogPresenter/store';
 import {emptyList} from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
 
@@ -39,7 +39,7 @@ export default React.createClass({
     this.setState({
       error: false,
       loading: true,
-      message: 'Loading Alerts…'
+      message: 'Loading alerts…'
     });
 
     const result$ = getAlerts();
@@ -78,23 +78,9 @@ export default React.createClass({
   },
 
   addNewAlert() {
-    const newAlert = Map({
-      id: generateUniqueShortId(),
-      name: 'New Alert',
-      enabled: false,
-      entityType: '',
-      metricName: '',
-      isTriggering: false,
-      rollup: 1000,
-      aggregation: '',
-      window: 1000,
-      thresholdOperator: '',
-      thresholdValue: 0.0,
-      severity: 0,
-      eventText: 'This text will be shown in events of this alerting rule',
-      description: '',
-      query: '',
-    });
+    this.disposeAsyncAction();
+
+    const newAlert = Map(newEmptyAlert());
 
     this.setState({
       error: false,
@@ -116,6 +102,35 @@ export default React.createClass({
         message
       });
     });
+  },
+
+  onDeleteAlert(alertId) {
+    this.setState({
+      error: false,
+      loading: true,
+      message: `Removing alert ${alertId}`
+    });
+
+    const result$ = deleteAlert(alertId);
+    this.responseSubscription = result$.once(() => {
+      this.setState({
+        error: false,
+        loading: false,
+        message: null,
+        alerts: this.state.alerts.filter(eachAlert => eachAlert.get('id') !== alertId)
+      });
+    });
+
+    this.errorSubscription = result$.errors().once(error => {
+      const message = `Failed to remove alert ${alertId}: ${error.message}`;
+      logger.error(message, error);
+      this.setState({
+        error: true,
+        loading: false,
+        message
+      });
+    });
+    close();
   },
 
   render() {
@@ -148,7 +163,8 @@ export default React.createClass({
               Custom Alerts
             </SectionHeading>
 
-            <Table items={alerts} />
+            <Table items={alerts}
+                   onDeleteAlert={this.onDeleteAlert} />
           </Section>
         : null}
       </SubViewWrapper>

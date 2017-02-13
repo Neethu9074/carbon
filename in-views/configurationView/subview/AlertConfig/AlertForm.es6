@@ -377,14 +377,14 @@ export default function AlertForm({form, onChange}) {
             </FormGroup>
           )}
 
-          {form.get('isTriggering').map(field =>
+          {form.get('triggering').map(field =>
             <FormGroup>
-              <Label htmlFor='isTriggering'>
+              <Label htmlFor='triggering'>
                 Is Triggering
               </Label>
               <Toggle className={`${block}__toggle`}
                       checked={field.value}
-                      onChange={e => onChange('isTriggering', e.target.checked)} />
+                      onChange={e => onChange('triggering', e.target.checked)} />
             </FormGroup>
           )}
         </Group>
