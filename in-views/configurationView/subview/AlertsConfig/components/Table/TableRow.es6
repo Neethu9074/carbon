@@ -7,6 +7,7 @@ import {formatDurationAccurately} from 'in-services/formatters/date';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {evaluateClassNames} from 'in-services/util/classnames';
+import {formatDateTime} from 'in-services/formatters/date';
 import {toHtml} from 'in-services/formatters/markdown';
 import Toggle from 'in-components/form/Toggle';
 import {getSingular} from 'in-sdk/pluginName';
@@ -99,7 +100,6 @@ export function TableRowWrapper({children}) {
   );
 }
 
-
 function Details({alert}) {
   const match = alert.get('match');
   const event = alert.get('event');
@@ -142,6 +142,10 @@ function Details({alert}) {
         </DescriptionItem>
         <DescriptionItem title='Description'>
           <span dangerouslySetInnerHTML={{__html: toHtml(event.get('description'))}} />
+        </DescriptionItem>
+
+        <DescriptionItem title='Last update'>
+          {formatDateTime(alert.get('lastUpdated'))}
         </DescriptionItem>
       </DescriptionList>
     </div>
