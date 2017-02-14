@@ -33,6 +33,7 @@ import './hAProxy';
 import './host';
 import './httpd';
 import './instanaAgent';
+import './javaMailLogicalService';
 import './jBossAsApplicationContainer';
 import './jbossDataGrid';
 import './jettyApplicationContainer';
