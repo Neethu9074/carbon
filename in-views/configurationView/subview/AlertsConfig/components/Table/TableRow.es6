@@ -108,7 +108,7 @@ function Details({alert}) {
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
-        <DescriptionItem title='Entity Type'>
+        <DescriptionItem title='Entity-Type'>
           {getSingular(match.get('entityType'))}
         </DescriptionItem>
         <DescriptionItem title='Metric'>
@@ -131,13 +131,13 @@ function Details({alert}) {
           {`${rule.get('conditionOperator')} ${rule.get('conditionValue')}`}
         </DescriptionItem>
 
-        <DescriptionItem title='Is Triggering'>
+        <DescriptionItem title='Is triggering'>
           {String(event.get('triggering'))}
         </DescriptionItem>
         <DescriptionItem title='Severity'>
           {event.get('severity')}
         </DescriptionItem>
-        <DescriptionItem title='Event Text'>
+        <DescriptionItem title='Event text'>
           <span dangerouslySetInnerHTML={{__html: toHtml(event.get('text'))}} />
         </DescriptionItem>
         <DescriptionItem title='Description'>
