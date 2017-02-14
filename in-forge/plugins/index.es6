@@ -33,6 +33,7 @@ import './host';
 import './httpd';
 import './instanaAgent';
 import './javaMailLogicalService';
+import './javaMailServiceInstance';
 import './jBossAsApplicationContainer';
 import './jbossDataGrid';
 import './jettyApplicationContainer';
