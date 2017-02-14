@@ -153,7 +153,7 @@ export default React.createClass({
       };
     });
 
-    const result$ = setEnabled(alertId, enabled);
+    const result$ = setEnabled(alert, enabled);
     result$.once(() => {
       this.setState(state => {
         state.status[alertId] = {

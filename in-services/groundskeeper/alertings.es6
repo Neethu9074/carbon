@@ -22,14 +22,13 @@ export function getAlert(alertId) {
 }
 
 
-export function setEnabled(alertId, enabled) {
+export function setEnabled(alert, enabled) {
+  const modifiedAlert = alert.toJS();
+  modifiedAlert.enabled = enabled;
   return http({
     method: 'PUT',
-    url: `/api/alerts/${encodeURIComponent(alertId)}/enabled`,
-    queryParams: {
-      enabled
-    },
-    responseType: 'text'
+    url: `/api/alerts/${encodeURIComponent(alert.get('id'))}`,
+    data: modifiedAlert
   });
 }
 
