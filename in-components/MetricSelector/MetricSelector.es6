@@ -28,7 +28,6 @@ function MetricNode({categoryNode}) {
 
 export default function MetricSelector({className, plugin, label, onChange}) {
   const categoryTree = getCategories(plugin);
-
   if (categoryTree.length === 0) {
     return null;
   }

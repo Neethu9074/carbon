@@ -7,6 +7,7 @@ import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Toggle from 'in-components/form/Toggle';
 import {getSingular} from 'in-sdk/pluginName';
+import {getCategories} from 'in-sdk/metrics';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import {plugins} from 'in-forge/constants';
@@ -14,6 +15,9 @@ import {plugins} from 'in-forge/constants';
 import './AlertForm.less';
 
 
+const pluginsWithMetricDefinitions = Object.keys(plugins)
+  .map(key => plugins[key])
+  .filter(plugin => getCategories(plugin).length > 0);
 const block = 'in-alert-form';
 
 export default function AlertForm({form, onChange}) {
@@ -54,8 +58,7 @@ export default function AlertForm({form, onChange}) {
                         value=''>
                   -- select --
                 </option>
-                {Object.keys(plugins).map(key => {
-                  const plugin = plugins[key];
+                {pluginsWithMetricDefinitions.map(plugin => {
                   return (
                     <option key={plugin}
                             value={plugin}>
@@ -73,7 +76,7 @@ export default function AlertForm({form, onChange}) {
             </FormGroup>
           )}
 
-          {plugins[form.get('entityType').value] ?
+          {form.get('entityType').value ?
             form.get('metricName').map(field =>
               <FormGroup>
                 <Label htmlFor='metricName'
