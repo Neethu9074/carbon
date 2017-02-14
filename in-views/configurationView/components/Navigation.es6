@@ -87,7 +87,7 @@ export default function Navigation() {
           </NavItem>
         : null}
 
-        {customAltertingEnabled ?
+        {customAltertingEnabled && role.canConfigureCustomAlerts ?
           <NavItem title='Custom Alerts'
                    href$={alertsViewLink$}
                    isActive$={isAlertsViewLink$} />
