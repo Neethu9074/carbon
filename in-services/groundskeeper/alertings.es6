@@ -75,19 +75,19 @@ export function createAlert(id,
       entityType,
       metricName,
       rollup,
-      query,
+      query
     },
     rule: {
       window,
       aggregation,
       conditionOperator,
-      conditionValue,
+      conditionValue
     },
     event: {
       triggering,
       severity,
       text,
-      description,
+      description
     }
   };
 }
