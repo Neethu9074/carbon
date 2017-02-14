@@ -298,16 +298,16 @@ export default function AlertForm({form, onChange}) {
         </Group>
 
         <Group>
-          {form.get('eventText').map(field =>
+          {form.get('text').map(field =>
             <FormGroup>
-              <Label htmlFor='eventText'
+              <Label htmlFor='text'
                      hasError={!field.valid}>
                 Event Text
               </Label>
-              <Input id='eventText'
+              <Input id='text'
                      type='text'
                      value={field.value}
-                     onChange={e => onChange('eventText', e.target.value)}
+                     onChange={e => onChange('text', e.target.value)}
                      hasError={!field.valid} />
               {field.messages.map((message, i) =>
                 <ValidationBlock hasError

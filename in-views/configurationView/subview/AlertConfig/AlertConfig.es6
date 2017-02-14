@@ -3,10 +3,10 @@ import {createLogger} from 'instalog';
 import {fromJS} from 'immutable';
 import React from 'react';
 
+import {getAlert, saveAlert, createAlert} from 'in-services/groundskeeper/alertings';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import AlertForm from 'in-views/configurationView/subview/AlertConfig/AlertForm';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {getAlert, saveAlert} from 'in-services/groundskeeper/alertings';
 import {openAlertsConfig} from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import {queryValidator} from 'in-stores/search/validations';
@@ -144,32 +144,24 @@ export default React.createClass({
     const alert = this.state.alert;
     const form = this.state.form;
 
-    const result$ = saveAlert(
-      fromJS({
-        id: alert ? alert.get('id') : null,
-        name: form.get('name').value,
-        enabled: alert ? alert.get('enabled') : true,
-        match: {
-          entityType: form.get('entityType').value,
-          metricName: form.get('metricName').value,
-          rollup: Number(form.get('rollup').value),
-          query: form.get('query').value,
-        },
-        rule: {
-          window: Number(form.get('window').value),
-          aggregation: form.get('aggregation').value,
-          conditionOperator: form.get('threshold').value,
-          conditionValue: Number(form.get('thresholdValue').value),
+    const result$ = saveAlert(fromJS(createAlert(
+      alert ? alert.get('id') : null,
+      form.get('name').value,
+      alert ? alert.get('enabled') : true,
+      form.get('entityType').value,
+      form.get('metricName').value,
+      Number(form.get('rollup').value),
+      form.get('query').value,
+      Number(form.get('window').value),
+      form.get('aggregation').value,
+      form.get('threshold').value,
+      Number(form.get('thresholdValue').value),
+      form.get('triggering').value,
+      Number(form.get('severity').value),
+      form.get('text').value,
+      form.get('description').value
+    )));
 
-        },
-        event: {
-          triggering: form.get('triggering').value,
-          severity: Number(form.get('severity').value),
-          eventText: form.get('eventText').value,
-          description: form.get('description').value,
-        }
-      })
-    );
     this.disposeAsyncAction();
     this.setState({
       loading: true,
@@ -201,7 +193,7 @@ function createForm(alert) {
       validator: notBlankValidator
     }))
     .put('entityType', createField({
-      value: alert ? match.getIn('entityType') : undefined,
+      value: alert ? match.get('entityType') : undefined,
       validator: notBlankValidator
     }))
     .put('metricName', createField({
@@ -239,8 +231,8 @@ function createForm(alert) {
       value: alert ? String(event.get('severity')) : undefined,
       validator: notBlankValidator
     }))
-    .put('eventText', createField({
-      value: alert ? String(event.get('eventText')) : '',
+    .put('text', createField({
+      value: alert ? String(event.get('text')) : '',
       validator: notBlankValidator
     }))
     .put('description', createField({

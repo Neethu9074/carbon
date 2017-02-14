@@ -52,28 +52,42 @@ export function deleteAlert(alertId) {
   .map(response => fromJS(response.body));
 }
 
-export function newEmptyAlert() {
+export function createAlert(id,
+                            name = 'New Alert',
+                            enabled = false,
+                            entityType = '',
+                            metricName = '',
+                            rollup = 1000,
+                            query = '',
+                            window = 1000,
+                            aggregation = '',
+                            conditionOperator = '',
+                            conditionValue = 0.0,
+                            triggering = false,
+                            severity = 0,
+                            text = 'Event title',
+                            description = 'Event description') {
   return {
-    id: generateUniqueShortId(),
-    name: 'New Alert',
-    enabled: false,
+    id: id || generateUniqueShortId(),
+    name,
+    enabled,
     match: {
-      entityType: '',
-      metricName: '',
-      rollup: 1000,
-      query: ''
+      entityType,
+      metricName,
+      rollup,
+      query,
     },
     rule: {
-      window: 1000,
-      aggregation: '',
-      conditionOperator: '',
-      conditionValue: 0.0
+      window,
+      aggregation,
+      conditionOperator,
+      conditionValue,
     },
     event: {
-      triggering: false,
-      severity: 0,
-      text: 'This text will be shown in events',
-      description: ''
+      triggering,
+      severity,
+      text,
+      description,
     }
   };
 }

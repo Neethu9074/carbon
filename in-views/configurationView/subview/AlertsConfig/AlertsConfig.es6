@@ -2,7 +2,7 @@ import {createLogger} from 'instalog';
 import {Map} from 'immutable';
 import React from 'react';
 
-import {newEmptyAlert, getAlerts, saveAlert, deleteAlert, setEnabled} from 'in-services/groundskeeper/alertings';
+import {createAlert, getAlerts, saveAlert, deleteAlert, setEnabled} from 'in-services/groundskeeper/alertings';
 import Table from 'in-views/configurationView/subview/AlertsConfig/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
@@ -81,7 +81,7 @@ export default React.createClass({
   addNewAlert() {
     this.disposeAsyncAction();
 
-    const newAlert = Map(newEmptyAlert());
+    const newAlert = Map(createAlert());
 
     this.setState({
       error: false,
