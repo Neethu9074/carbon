@@ -181,7 +181,7 @@ export default React.createClass({
 
         // roll back the role change
         const index = state.alerts.findIndex(eachAlert => alertId === eachAlert.get('id'));
-        const newAlerts = state.userOverview.update(index, modifiableAlert => modifiableAlert.set('enabled', previousEnabled));
+        const newAlerts = state.alerts.update(index, modifiableAlert => modifiableAlert.set('enabled', previousEnabled));
         return {
           status: state.status,
           alerts: newAlerts
