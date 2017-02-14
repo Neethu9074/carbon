@@ -138,7 +138,7 @@ function Details({alert}) {
           {event.get('severity')}
         </DescriptionItem>
         <DescriptionItem title='Event text'>
-          <span dangerouslySetInnerHTML={{__html: toHtml(event.get('text'))}} />
+          {event.get('text')}
         </DescriptionItem>
         <DescriptionItem title='Description'>
           <span dangerouslySetInnerHTML={{__html: toHtml(event.get('description'))}} />
