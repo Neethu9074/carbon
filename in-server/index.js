@@ -26,7 +26,7 @@ app.use((req, res) => {
   errorPages.send404(req, res);
 });
 
-const server = app.listen(serverConfig.port, '127.0.0.1', () => {
+const server = app.listen(serverConfig.port, '0.0.0.0', () => {
   const host = server.address().address;
   const port = server.address().port;
 
