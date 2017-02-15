@@ -23,8 +23,8 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{
-                 left: 40,
-                 right: 40
+                 left: 60,
+                 right: 60
                }}
                y1={{
                  formatter: twoDecimalPlaces,
@@ -61,7 +61,7 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{
-                 left: 40
+                 left: 60
                }}
                y1={{
                  formatter: bytesTwoDecimalPlaces,
@@ -171,7 +171,7 @@ export default function KafkaClusterDashboard({snapshot, timeframe}) {
         <ChartWithLegend snapshotId={snapshot.get('id')}
                timeframe={timeframe}
                margins={{
-                 left: 40,
+                 left: 60,
                  right: 40
                }}
                y1={{
