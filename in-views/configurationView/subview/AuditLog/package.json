@@ -1,0 +1,6 @@
+{
+  "name": "AuditLog",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AuditLog.es6"
+}

@@ -18,11 +18,13 @@ import {
   alertsViewLink$,
   isAlertsViewLink$,
   apiTokensViewLink$,
-  isApiTokensView$
+  isApiTokensView$,
+  auditLogViewLink$,
+  isAuditLogView$
 } from 'in-stores/navigation/configuration';
+import {auditLogEnabled, customAltertingEnabled} from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
-import {customAltertingEnabled} from 'in-services/featureFlags';
 import {role} from 'in-stores/user';
 
 import './Navigation.less';
@@ -91,6 +93,12 @@ export default function Navigation() {
           <NavItem title='Custom Alerts'
                    href$={alertsViewLink$}
                    isActive$={isAlertsViewLink$} />
+        : null}
+
+        {auditLogEnabled ?
+          <NavItem title='Audit Log'
+                   href$={auditLogViewLink$}
+                   isActive$={isAuditLogView$} />
         : null}
       </NavItems>
     </nav>

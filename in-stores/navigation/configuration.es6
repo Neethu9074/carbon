@@ -90,3 +90,7 @@ function getAlertsConfigPath() {
 export function openAlertsConfig() {
   mutateUrl(params => params.pathname = getAlertsConfigPath());
 }
+
+const auditLogViewPath = '/config/auditlog';
+export const auditLogViewLink$ = buildUrlStream({path: auditLogViewPath});
+export const isAuditLogView$ = buildPathStartsWithStream(auditLogViewPath);

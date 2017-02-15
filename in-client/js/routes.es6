@@ -11,6 +11,7 @@ import ApiToken from 'promise?global,configView!in-views/configurationView/subvi
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
 import AlertsConfig from 'promise?global,configView!in-views/configurationView/subview/AlertsConfig';
 import AlertConfig from 'promise?global,configView!in-views/configurationView/subview/AlertConfig';
+import AuditLogView from 'promise?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
@@ -120,6 +121,10 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(AlertConfig)}
              path='alertConfig/:alertId'
              windowTitle='Alert Config' />
+
+      <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)}
+             path='auditlog'
+             windowTitle='Audit Log' />
     </Route>
 
     <Route component={GraphView}
