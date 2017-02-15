@@ -5,7 +5,9 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import DownloadButton from 'in-components/DownloadButton';
+import {fromNow} from 'in-services/formatters/date';
 import {getAuditLog} from 'in-services/auditLog';
+import Gravatar from 'in-components/Gravatar';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-views/configurationView/subview/AuditLog/AuditLog.less';
@@ -34,8 +36,24 @@ function AuditLogs({logs}) {
             {logs.get('entries').map(logEntry =>
               <li key={logEntry.get('id')}
                   className={`${block}__item`}>
-                <div>
-                  {logEntry.get('id')}
+                <div className={`${block}__user-side`}>
+                  <Gravatar email={'stan@instana.com'}
+                            className={`${block}__avatar`} />
+
+                  <div>
+                    <span className={`${block}__full-name`}>
+                      stan
+                    </span>
+                    <span className={`${block}__topic`}>
+                      {` - changed things`}
+                    </span>
+                    <div>
+                      stan changed things
+                    </div>
+                    <span className={`${block}__time`}>
+                      {fromNow(Date.now() - 1000 * 60 * 60)}
+                    </span>
+                  </div>
                 </div>
                 <DownloadButton className={`${block}__download-link`}>
                   <AuditLogDownloadView logEntry={logEntry} />
