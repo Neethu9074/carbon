@@ -3,9 +3,9 @@ import React from 'react';
 import AuditLogDownloadView from 'in-components/DownloadButton/components/AuditLogDownloadView';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import createAuditLogSubscription from 'in-services/subscription/auditLog';
 import Section from 'in-views/configurationView/components/Section';
 import DownloadButton from 'in-components/DownloadButton';
+import {getAuditLog} from 'in-services/auditLog';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-views/configurationView/subview/AuditLog/AuditLog.less';
@@ -14,10 +14,7 @@ import 'in-views/configurationView/subview/AuditLog/AuditLog.less';
 const block = 'in-audit-log';
 
 export default connectTo({
-  logs: createAuditLogSubscription({
-    to: null,
-    windowSize: 60000
-  })
+  logs: getAuditLog()
 },
 function AuditLogs({logs}) {
   return (
@@ -34,7 +31,7 @@ function AuditLogs({logs}) {
                 Recent events
               </h3>
             </div>
-            {logs.map(logEntry =>
+            {logs.get('entries').map(logEntry =>
               <li key={logEntry.get('id')}
                   className={`${block}__item`}>
                 <div>
