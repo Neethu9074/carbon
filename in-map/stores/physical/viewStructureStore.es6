@@ -9,6 +9,7 @@ import {getIn} from 'in-services/settings';
 import {view$} from 'in-stores/view';
 import {role} from 'in-stores/user';
 
+
 const excludeUnmonitoredHosts$ = getIn(['map', 'excludeUnmonitoredHosts']);
 
 const nothingMatches = {
@@ -45,10 +46,6 @@ export function getViewStructure() {
                   if (excludeUnmonitoredHosts && groupId === ID_OF_UNMONITORED_ZONE) {
                     groupIds[groupId] = false;
                     return;
-                  }
-
-                  if (_searchMatches.contains(groupId)) {
-                    groupIds[groupId] = true;
                   }
 
                   group.get('children').forEach(host => {
