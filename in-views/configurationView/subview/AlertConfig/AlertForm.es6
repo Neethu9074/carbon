@@ -152,21 +152,9 @@ export default function AlertForm({form, onChange}) {
                         value=''>
                   -- select --
                 </option>
-                <option key='min'
-                        value='min'>
-                  min
-                </option>
-                <option key='max'
-                        value='max'>
-                  max
-                </option>
                 <option key='avg'
                         value='avg'>
                   avg
-                </option>
-                <option key='median'
-                        value='median'>
-                  median
                 </option>
                 <option key='sum'
                         value='sum'>
