@@ -122,9 +122,18 @@ export default React.createClass({
   },
 
   onChange(fieldName, value) {
-    const updatedForm = this.state.form.updateIn([fieldName], field =>
-      field.setValue(value).setTouched(true)
-    );
+    let updatedForm = this.state.form;
+    if (Array.isArray(fieldName)) {
+      for (let i = 0, length = fieldName.length; i < length; i++) {
+        updatedForm = updatedForm.updateIn([fieldName[i]], field =>
+          field.setValue(value[i]).setTouched(true)
+        );
+      }
+    } else {
+      updatedForm = updatedForm.updateIn([fieldName], field =>
+        field.setValue(value).setTouched(true)
+      );
+    }
 
     this.setState({
       form: updatedForm
@@ -198,7 +207,14 @@ function createForm(alert) {
     }))
     .put('metricName', createField({
       value: alert ? match.get('metricName') : '',
-      validator: notBlankValidator
+      validator: metricName => {
+        return (metricName && metricName != '-1' && metricName.length > 0)
+          ? null
+          : [{
+            severity: 'error',
+            message: `Please enter a valid metric.`
+          }];
+        }
     }))
     .put('rollup', createField({
       value: alert ? String(match.get('rollup')) : undefined,

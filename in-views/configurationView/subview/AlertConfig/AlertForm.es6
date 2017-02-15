@@ -52,7 +52,7 @@ export default function AlertForm({form, onChange}) {
                      hasError={!field.valid}>
                 Entity Type
               </Label>
-              <select onChange={e => onChange('entityType', e.target.value)}
+              <select onChange={e => onChange(['entityType', 'metricName'], [e.target.value, '-1'])}
                       value={field.value}>
                 <option key=''
                         value=''>
@@ -84,6 +84,7 @@ export default function AlertForm({form, onChange}) {
                   Metric
                 </Label>
                 <MetricSelector plugin={form.get('entityType').value}
+                                value={form.get('metricName').value}
                                 onChange={e => onChange('metricName', e.target.value)} />
                 {field.messages.map((message, i) =>
                   <ValidationBlock hasError

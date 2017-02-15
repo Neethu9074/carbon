@@ -26,7 +26,7 @@ function MetricNode({categoryNode}) {
   );
 }
 
-export default function MetricSelector({className, plugin, label, onChange}) {
+export default function MetricSelector({className, plugin, label, onChange, value}) {
   const categoryTree = getCategories(plugin);
   if (categoryTree.length === 0) {
     return null;
@@ -40,6 +40,7 @@ export default function MetricSelector({className, plugin, label, onChange}) {
   const select = (
     <select id='metric-selector'
             className={`${block}__selection`}
+            value={value}
             onChange={onChange}>
       <option value='-1'>Please select</option>
 
