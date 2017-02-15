@@ -9,6 +9,7 @@ import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {formatDateTime} from 'in-services/formatters/date';
 import {toHtml} from 'in-services/formatters/markdown';
+import PluginIcon from 'in-components/PluginIcon';
 import Toggle from 'in-components/form/Toggle';
 import {getSingular} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
@@ -48,6 +49,10 @@ export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled,
         </Column>
 
         <Column>
+          <PluginIcon className={`${block}__entity-icon`}
+                      dimension={24}
+                      color='#000'
+                      plugin={alert.getIn(['match', 'entityType'])} />
           {getSingular(alert.getIn(['match', 'entityType']))}
         </Column>
 
@@ -109,7 +114,13 @@ function Details({alert}) {
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
         <DescriptionItem title='Entity-Type'>
-          {getSingular(match.get('entityType'))}
+          <div className={`${block}__flex-wrapper`}>
+            <PluginIcon className={`${block}__entity-icon`}
+                        dimension={16}
+                        color='#000'
+                        plugin={match.get('entityType')} />
+            {getSingular(match.get('entityType'))}
+          </div>
         </DescriptionItem>
         <DescriptionItem title='Metric'>
           {match.get('metricName')}

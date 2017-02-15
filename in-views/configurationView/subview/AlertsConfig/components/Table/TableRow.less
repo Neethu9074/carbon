@@ -64,9 +64,22 @@
 
   &__toggle {
     transform: scale(0.75);
+
+    // scale reduces the size of the element after it was layouted by the browser
+    // to align the toggle to the left again, substract some pixels
+    margin-left: -0.5rem;
+  }
+
+  &__entity-icon {
+    margin-right: 0.25rem;
   }
 
   &__details-wrapper {
     padding: .5rem .625rem .25rem;
+  }
+
+  &__flex-wrapper {
+    display: flex;
+    align-items: center;
   }
 }

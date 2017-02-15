@@ -9,9 +9,10 @@ export default function PluginIcon({
   style,
   dimension = 16,
   color = '#fff',
-  snapshot
+  snapshot,
+  plugin
 }) {
-  const path = getIconSvgPath(snapshot);
+  const path = getIconSvgPath(snapshot ? snapshot : plugin);
 
   style = style || {};
   style.width = `${dimension}px`;

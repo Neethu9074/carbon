@@ -1,3 +1,4 @@
+import {emptyMap} from 'in-services/fixedImmutables';
 import unknownIconSvgPath from './unknownIconPath';
 
 
@@ -13,15 +14,20 @@ export function addIconPathCallback(plugin, callback) {
   iconPathCallbacks[plugin] = callback;
 }
 
-export function getIconSvgPath(snapshot) {
-  const match = iconSvgPathRegistry[getIconPath(snapshot)];
+export function getIconSvgPath(snapshotOrPlugin) {
+  const match = iconSvgPathRegistry[getIconPath(snapshotOrPlugin)];
   return match ? match : unknownIconSvgPath;
 }
 
-export function getIconPath(snapshot) {
-  const plugin = snapshot.get('plugin');
-  const callback = iconPathCallbacks[plugin];
-  return callback ? callback(snapshot) : plugin;
+export function getIconPath(snapshotOrPlugin) {
+  const isSnapshot = typeof snapshotOrPlugin === 'object';
+  if (isSnapshot) {
+    const plugin = snapshotOrPlugin.get('plugin');
+    const callback = iconPathCallbacks[plugin];
+    return callback ? callback(snapshotOrPlugin) : plugin;
+  }
+  const callback = iconPathCallbacks[snapshotOrPlugin];
+  return callback ? callback(emptyMap) : snapshotOrPlugin;
 }
 
 export function getAllSvgIconPaths() {
