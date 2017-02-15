@@ -1,16 +1,23 @@
-import {List, fromJS} from 'immutable';
+import {fromJS} from 'immutable';
 
-import {always} from 'in-services/fixedStreams';
+import createSubscription from 'in-services/subscription/subscription';
 
 
-const logs = List([
-  fromJS({
-    id: '1'
-  }),
-  fromJS({
-    id: '2'
-  })
-]);
-export default function createAuditLogSubscription() {
-  return always(logs);
+export default createSubscription({
+  eventId: 'subscribe-audit-log',
+
+  getId,
+
+  getData: (subscriptionId, timeframe) => {
+    return {
+      subscriptionId,
+      timeframe
+    };
+  },
+
+  transformData: events => fromJS(events)
+});
+
+function getId(timeframe) {
+  return timeframe.to + ',' + timeframe.windowSize;
 }
