@@ -83,6 +83,7 @@ class WebVRCameraController {
     this.camera.initEvents();
   }
 
+  clampCameraPositionToVerticesDimensions() {}
   flyToPosition() {}
   focusMap() {}
   zoom() {}
