@@ -37,6 +37,11 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
            columnIndex++) {
           const dataColumn = dataColumns[columnIndex];
           const dataRow = dataColumn[seriesIndex];
+          // data points may be missing
+          if (!dataRow) {
+            continue;
+          }
+
           const xToRender = x.getRange(dataRow[0]);
 
           if (columnIndex === startingPoint) {
