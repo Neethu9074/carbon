@@ -2,7 +2,6 @@ import {setHighlightedTimeframe, clearHighlightedTimeframe} from 'in-stores/time
 import {
   setTo,
   setHighlightedEventScreenPosition,
-  focusedMomentXPosition$,
   focusedMoment$,
   setFocusedMoment,
   isCollapsed$,
@@ -47,9 +46,6 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
 
   let timeframe;
   const timeframeSubscription = timeframe$.subscribe(_timeframe => timeframe = _timeframe);
-
-  let focusedMomentXPosition;
-  const focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(newX => focusedMomentXPosition = newX);
 
   let focusedMoment;
   const focusedMomentSubscription = focusedMoment$.subscribe(fm => focusedMoment = fm);
@@ -147,11 +143,6 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     }
 
     clearHighlightedTimeframe();
-
-    // if the distance of the cursor
-    if (isCursorOnFocusedMoment(e.offsetX, e.offsetY)) {
-      isFocusedMomentPanning = true;
-    }
   }
 
   function onMouseUp(e) {
@@ -198,7 +189,7 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     const eventAtCursor = getEventAtXY(x, y);
 
     // add a hand cursor to support UX and tell the user that he can interact with the domElement at this point
-    if (eventAtCursor || isCursorOnFocusedMoment(x, y)) {
+    if (eventAtCursor) {
       domElement.style.cursor = 'pointer';
     } else {
       domElement.style.cursor = 'auto';
@@ -298,12 +289,7 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     }
   }
 
-  function isCursorOnFocusedMoment(x, y) {
-    return y < 50 && Math.abs(focusedMomentXPosition - x) <= 4 ? true : false;
-  }
-
   function dispose() {
-    focusedMomentXPositionSubscription.dispose();
     bigBangTimestampSubscription.dispose();
     focusedMomentSubscription.dispose();
     isCollapsedSubscription.dispose();

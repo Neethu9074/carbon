@@ -16,7 +16,7 @@ export default connectTo({
   focusedMoment: focusedMoment$,
 },
 function TimelineFocusedMoment({focusedMoment, focusedMomentXPosition, width}) {
-  if (focusedMomentXPosition < -8) {
+  if (focusedMomentXPosition < 0) {
     return null;
   }
 
@@ -30,6 +30,7 @@ function TimelineFocusedMoment({focusedMoment, focusedMomentXPosition, width}) {
                          style={{
                            left: (focusedMomentXPosition > width / 2) ? -120 : 7
                          }} />
+      <div className={`${block}__marker`} />
     </div>
   );
 });

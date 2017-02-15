@@ -19,7 +19,6 @@ export default class FocusedMomentRenderer extends BasicRenderer {
 
   draw() {
     const buffer = this.backBuffer;
-    const width = 8;
     const x = this.x;
 
     // draw line
@@ -28,16 +27,6 @@ export default class FocusedMomentRenderer extends BasicRenderer {
     buffer.globalAlpha = 0.2;
     buffer.fillRect(x, 40, 1, 160);
     buffer.globalAlpha = 1;
-
-    buffer.strokeStyle = color;
-    buffer.lineWidth = width;
-    buffer.lineJoin = 'round';
-    buffer.beginPath();
-    buffer.moveTo(x, 10);
-    buffer.lineTo(x, 40);
-    buffer.closePath();
-    buffer.stroke();
-    buffer.fill();
   }
 
   dispose() {

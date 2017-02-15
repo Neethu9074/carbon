@@ -20,9 +20,6 @@ export default getElementDimensions(connectTo({
 function TimelineMenu({from ,to, width}) {
   return (
     <div className={block}>
-      <div className={`${block}__line ${block}__first`}>
-        <TimelineFocusedMoment width={width} />
-      </div>
       <div className={`${block}__line ${block}__second`}>
         <TimelineTimestamp timestamp={from}
                            type='dark'
@@ -36,6 +33,9 @@ function TimelineMenu({from ,to, width}) {
                            style={{
                              right: 0
                            }} />
+      </div>
+      <div className={`${block}__line ${block}__first`}>
+        <TimelineFocusedMoment width={width} />
       </div>
     </div>
   );
