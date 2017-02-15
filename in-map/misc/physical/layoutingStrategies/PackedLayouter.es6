@@ -33,7 +33,8 @@ function calculateDimensions(_groups) {
     const numNodesPerCol = Math.ceil(nodesCount / numNodesPerRow);
     const dim = {
       width: nodeMargin + numNodesPerRow + (numNodesPerRow - 1) * nodeMargin,
-      height: nodeMargin + numNodesPerCol + (numNodesPerCol - 1) * nodeMargin
+      height: nodeMargin + numNodesPerCol + (numNodesPerCol - 1) * nodeMargin,
+      numNodes: numNodesPerCol + numNodesPerRow
     };
 
     dimensions[group.id] = dim;
@@ -56,13 +57,14 @@ function calculateDimensions(_groups) {
     const block = {
       id: group.id,
       w: dim.width + groupMarginWidth,
-      h: dim.height + groupMarginHeight
+      h: dim.height + groupMarginHeight,
+      numNodes: dim.numNodes
     };
     blocks.push(block);
   });
 
   var packer = new Packer();
-  blocks.sort((a, b) => b.h - a.h); // sort inputs for best results
+  blocks.sort((a, b) => b.numNodes - a.numNodes); // sort inputs for best results
   packer.fit(blocks);
 
   const positions = {};
