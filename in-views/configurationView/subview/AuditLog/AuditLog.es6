@@ -19,6 +19,7 @@ export default connectTo({
   logs: getAuditLog()
 },
 function AuditLogs({logs}) {
+
   return (
     <SubViewWrapper>
       <SubViewHeader>
@@ -33,7 +34,7 @@ function AuditLogs({logs}) {
                 Recent events
               </h3>
             </div>
-            {logs.get('entries').map(logEntry =>
+            {logs.map(logEntry =>
               <li key={logEntry.get('id')}
                   className={`${block}__item`}>
                 <div className={`${block}__user-side`}>
@@ -45,13 +46,13 @@ function AuditLogs({logs}) {
                       stan
                     </span>
                     <span className={`${block}__topic`}>
-                      {` - changed things`}
+                      {` - ${logEntry.get('action')}`}
                     </span>
                     <div>
-                      stan changed things
+                      {logEntry.get('message')}
                     </div>
                     <span className={`${block}__time`}>
-                      {fromNow(Date.now() - 1000 * 60 * 60)}
+                      {fromNow(logEntry.get('timestamp'))}
                     </span>
                   </div>
                 </div>
