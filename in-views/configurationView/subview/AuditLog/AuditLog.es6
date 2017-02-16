@@ -105,12 +105,12 @@ React.createClass({
           <li key={logEntry.get('id')}
               className={`${block}__item`}>
             <div className={`${block}__user-side`}>
-              <Gravatar email={'stan@instana.com'}
+              <Gravatar email={logEntry.getIn(['actor', 'email'], '')}
                         className={`${block}__avatar`} />
 
               <div>
                 <span className={`${block}__full-name`}>
-                  stan
+                  {logEntry.getIn(['actor', 'name'])}
                 </span>
                 <span className={`${block}__topic`}>
                   {` - ${logEntry.get('action')}`}
