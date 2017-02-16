@@ -76,6 +76,7 @@ gulp.task('askForDevOptions', cb => {
             websocketEndpoint: 'http://localhost:8082/',
             groundskeeperUrl: 'http://localhost:8480',
             withoutAuthPrefix: true,
+            local: true,
             tenant: 'instana',
             tenantUnit: 'test',
             butlerDomain: 'internal-groundskeeper-instana.instana.io'
@@ -266,6 +267,22 @@ gulp.task('startDevProxy', function startDevProxy() {
     gkApiPrefix = '/auth';
   }
 
+  const proxy = {
+    '/': 'http://127.0.0.1:3000',
+    '/api/': `${uiBackendUrl}/api/`,
+    '/auth/signIn': groundskeeperUrl + gkApiPrefix + '/signIn',
+    '/auth/signOut': groundskeeperUrl + gkApiPrefix + '/signOut',
+    '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
+    '/auth/users/tenants': groundskeeperUrl + gkApiPrefix + '/users/tenants',
+    '/ump': groundskeeperUrl + '/ump',
+    '/uiTracker/': 'http://127.0.0.1:8484/',
+    '/assets/': groundskeeperUrl + '/assets/',
+    '/notifications/': 'https://instana.github.io/ui-notifications/content/'
+  };
+
+  if (envConfig.local) {
+    proxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/checkUserAccessPermitted`;
+  }
 
   const config = {
     serverName: 'local-instana.instana.io',
@@ -273,18 +290,7 @@ gulp.task('startDevProxy', function startDevProxy() {
     root: paths.assetDir,
     ssi: true,
     tls: true,
-    proxy: {
-      '/': 'http://127.0.0.1:3000',
-      '/api/': `${uiBackendUrl}/api/`,
-      '/auth/signIn': groundskeeperUrl + gkApiPrefix + '/signIn',
-      '/auth/signOut': groundskeeperUrl + gkApiPrefix + '/signOut',
-      '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
-      '/auth/users/tenants': groundskeeperUrl + gkApiPrefix + '/users/tenants',
-      '/ump': groundskeeperUrl + '/ump',
-      '/uiTracker/': 'http://127.0.0.1:8484/',
-      '/assets/': groundskeeperUrl + '/assets/',
-      '/notifications/': 'https://instana.github.io/ui-notifications/content/'
-    },
+    proxy,
 
     websocketProxy: {
       '/api/data/': websocketEndpoint
