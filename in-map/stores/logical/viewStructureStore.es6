@@ -33,10 +33,21 @@ export function getViewStructure() {
        return createViewStructureObservable({viewType, time: focusedMoment})
               .map(_viewStructure => {
                 const serviceIds = {};
+                const serviceInstanceIds = {};
 
                 _viewStructure.get('children').forEach(service => {
                   const serviceId = service.get('id');
-                  if (_searchMatches.contains(serviceId)) {
+                  let includeService = _searchMatches.contains(serviceId);
+
+                  service.get('children').forEach(serviceInstance => {
+                    const serviceInstanceId = serviceInstance.get('id');
+                    if (_searchMatches.contains(serviceInstanceId)) {
+                      includeService = true;
+                      serviceInstanceIds[serviceInstanceId] = true;
+                    }
+                  });
+
+                  if (includeService) {
                     serviceIds[serviceId] = true;
 
                     if (numServiceHops > 0) {
@@ -54,7 +65,8 @@ export function getViewStructure() {
                 return {
                   viewStructure: _viewStructure,
                   includedIds: {
-                    serviceIds
+                    serviceIds,
+                    serviceInstanceIds
                   }
                 };
               });
