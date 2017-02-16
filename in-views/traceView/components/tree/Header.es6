@@ -92,6 +92,8 @@ function TraceHeader({trace, timelineLink}) {
               let tooltip;
               if (isShowSelfTimeForCategory(category)) {
                 tooltip = `${perCategorySummary[category].calls} ${category} spans at a total self time of ${msZeroDecimalPlaces(perCategorySummary[category].durationSelf)}`;
+              } else {
+                tooltip = `${perCategorySummary[category].calls} ${category} spans`;
               }
               return (
                 <Tooltip content={tooltip}
