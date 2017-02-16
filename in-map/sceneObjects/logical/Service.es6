@@ -33,6 +33,7 @@ export default class Service extends SceneObject {
     this.isExternal = params.entity.getIn(['metadata', 'external'], false);
     this.isEum = params.entity.getIn(['metadata', 'eum'], false);
     this.isUnknown = params.id.startsWith('unknown-service');
+    this.includedIds = params.includedIds;
   }
 
   init() {
@@ -45,7 +46,8 @@ export default class Service extends SceneObject {
         eventEmitter: this.eventEmitter,
         props: {
           id: this.id,
-          isExternal: this.isExternal
+          isExternal: this.isExternal,
+          includedIds: this.includedIds
         }
       });
     }

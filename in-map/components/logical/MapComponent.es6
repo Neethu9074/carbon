@@ -41,7 +41,8 @@ function MapComponent({structure}) {
         }
         return (
           <ServiceComponent key={serviceId}
-                            entity={serviceEntity} />
+                            entity={serviceEntity}
+                            includedIds={structure.includedIds} />
         );
       })}
     </div>

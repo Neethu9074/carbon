@@ -12,6 +12,7 @@ export default sceneObjectComponent(props => {
   return {
     InstanceType: Service,
     params: {
+      includedIds: props.includedIds,
       id: props.entity.get('id'),
       entity: props.entity
     }

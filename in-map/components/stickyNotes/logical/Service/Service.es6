@@ -21,7 +21,7 @@ const block = 'in-sticky-note-service';
 export default createStickyNote(
   connectTo(props => {
     return {
-      children: getClusterMembers(props.id),
+      children: getClusterMembers(props.id).filter(id => props.includedIds.serviceInstanceIds[id] ? false : true),
       showSticky: showSticky$.distinct(),
       showKpi: showKpi$.distinct()
     };
