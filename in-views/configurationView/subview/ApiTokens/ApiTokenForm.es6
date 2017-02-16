@@ -118,6 +118,18 @@ export default function ApiTokenForm({form, onChange, disabled}) {
                     onChange={onChange}
                     name='canConfigureApiTokens'
                     label='Configuration of API tokens' />
+
+        <Permission form={form}
+                    disabled={disabled}
+                    onChange={onChange}
+                    name='canConfigureAgentRunMode'
+                    label='Configuration of agent mode' />
+
+        <Permission form={form}
+                    disabled={disabled}
+                    onChange={onChange}
+                    name='canViewAuditLog'
+                    label='Access to audit log' />
       </Section>
     </fieldset>
   );
