@@ -83,7 +83,7 @@ const prefetchItems = fs.readdirSync(paths.bundleDir)
 
 
 router.get('/', (req, res) => {
-  getCurrentUser()
+  getCurrentUser(req)
     .then(([statusCode, userStr]) => sendIndex(req, res, statusCode, userStr))
     .catch(err => {
       console.error('Failed to deliver index.html to user:', err);
