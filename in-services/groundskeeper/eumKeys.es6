@@ -1,10 +1,9 @@
-import config from 'in-services/config';
 import http from 'in-services/http';
 
 export function getAllEumKeys() {
   return http({
     method: 'GET',
-    url: `/ump/${config.tenant}/${config.tenantUnit}/eum/eumkeys`
+    url: `/api/eumApps`
   })
   .map(response => {
     const keys = response.body || [];
@@ -16,7 +15,7 @@ export function getAllEumKeys() {
 export function removeKey(keyId) {
   return http({
     method: 'DELETE',
-    url: `/ump/${config.tenant}/${config.tenantUnit}/eum/remove/${keyId}`
+    url: `/api/eumApps/${encodeURIComponent(keyId)}`
   })
   .map(response => response.body);
 }
@@ -24,7 +23,10 @@ export function removeKey(keyId) {
 export function addKey(appName) {
   return http({
     method: 'POST',
-    url: `/ump/${config.tenant}/${config.tenantUnit}/eum/add/${encodeURIComponent(appName)}`
+    url: `/api/eumApps`,
+    queryParams: {
+      name: appName
+    }
   })
   .map(response => response.body);
 }
@@ -33,7 +35,10 @@ export function addKey(appName) {
 export function renameKey(apiKey, newAppName) {
   return http({
     method: 'POST',
-    url: `/ump/${config.tenant}/${config.tenantUnit}/eum/rename/${encodeURIComponent(apiKey)}/${encodeURIComponent(newAppName)}`
+    url: `/api/eumApps/${encodeURIComponent(apiKey)}`,
+    queryParams: {
+      name: newAppName
+    }
   })
   .map(response => response);
 }
