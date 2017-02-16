@@ -18,6 +18,7 @@ export default React.createClass({
     getJsonData: rpt.func,
     getCsvData: rpt.func,
     fileName: rpt.string,
+    queryParams: rpt.object,
     data: rpt.any
   },
 
@@ -43,7 +44,7 @@ export default React.createClass({
           : null}
           {this.props.jsonLink ?
             <DownloadLink label='Download (*.json)'
-                          href={this.props.jsonLink} />
+                          href={formatUrl(this.props.jsonLink, this.props.queryParams)} />
           : null}
         </div>
       </div>
@@ -56,6 +57,14 @@ export default React.createClass({
     this.downloadLink.click();
   }
 });
+
+function formatUrl(url, queryParams = {}) {
+  const queryPart = Object.keys(queryParams)
+  .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
+  .join('&');
+
+  return url + '?' + queryPart;
+}
 
 function stopPropagation(e) {
   e.stopPropagation();
