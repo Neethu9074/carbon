@@ -66,7 +66,7 @@ export default function createTimelineRenderer({container, canvas, glassPane}) {
   const eventsGraphRenderer = new EventsGraphRenderer(screenBuffer, scale, height);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
   const highlightedTimeframeRenderer = new HighlightedTimeframeRenderer(screenBuffer, scale, height);
-  const applyTimeButtonRenderer = createApplyTimeButton(container, canvas, scale);
+  const applyTimeButtonRenderer = createApplyTimeButton(container, glassPane, canvas, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);

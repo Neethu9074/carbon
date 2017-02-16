@@ -7,7 +7,7 @@ import {onMove, onLeave} from 'in-services/reactiveMouseEvents';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
 
-export default function createHighlightedTimeframeRenderer(container, canvas, scale) {
+export default function createHighlightedTimeframeRenderer(container, glassPane, canvas, scale) {
   const applyButtonContainer = document.createElement('div');
   applyButtonContainer.classList.add('in-timeline__apply-button-container');
   container.appendChild(applyButtonContainer);
@@ -30,7 +30,7 @@ export default function createHighlightedTimeframeRenderer(container, canvas, sc
   );
 
   const mouseMoveSubscription = onMove(
-    canvas,
+    glassPane,
     e => {
       if (!highlightedTimeframe) {
         return;
@@ -83,7 +83,7 @@ export default function createHighlightedTimeframeRenderer(container, canvas, sc
   }
 
   function hide() {
-    // applyButtonContainer.style.display = 'none';
+    applyButtonContainer.style.display = 'none';
   }
 
   function clamp(x) {
