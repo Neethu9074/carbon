@@ -6,9 +6,9 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import {getAuditLog, getTotalAuditLogEntries} from 'in-services/auditLog';
 import Section from 'in-views/configurationView/components/Section';
+import {fromNow, formatDateTime} from 'in-services/formatters/date';
 import DownloadButton from 'in-components/DownloadButton';
 import {toHtml} from 'in-services/formatters/markdown';
-import {fromNow} from 'in-services/formatters/date';
 import Gravatar from 'in-components/Gravatar';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -123,7 +123,7 @@ React.createClass({
                   <div dangerouslySetInnerHTML={{__html: toHtml(logEntry.get('message'))}} />
                 </div>
                 <span className={`${block}__time`}>
-                  {fromNow(logEntry.get('timestamp'))}
+                  {`${fromNow(logEntry.get('timestamp'))} (${formatDateTime(logEntry.get('timestamp'))})`}
                 </span>
               </div>
             </div>
