@@ -78,9 +78,6 @@ http {
     gzip_vary                on;
     gzip_disable             "MSIE [1-6]\.";
 
-    ssi                      on;
-    ssi_silent_errors        off;
-
 {% if OPERATION_MODE != "fleet" %}
     ssl                      on;
     ssl_certificate          /etc/ssl/certs/star_instana_io.crt;

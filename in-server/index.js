@@ -3,8 +3,7 @@
 require('instana-nodejs-sensor')({
   level: 'info',
   tracing: {
-    enabled: true,
-    exposeTraceIdForEumTracing: true
+    enabled: true
   }
 });
 
@@ -13,20 +12,21 @@ const cookieParser = require('cookie-parser');
 const errorPages = require('./errorPages.js');
 const serverConfig = require('./serverConfig.js');
 
-const routes = require('./routes');
+const assetRoutes = require('./routes/assets');
+const indexRoutes = require('./routes/index');
 
 const app = express();
 
 app.set('x-powered-by', false);
 
 app.use(cookieParser());
-app.use(routes);
 
-app.use((req, res) => {
-  errorPages.send404(req, res);
-});
+app.use(assetRoutes);
+app.use(indexRoutes);
 
-const server = app.listen(serverConfig.port, '0.0.0.0', () => {
+app.use((req, res) => errorPages.send404(req, res));
+
+const server = app.listen(serverConfig.port, serverConfig.bindAddress, () => {
   const host = server.address().address;
   const port = server.address().port;
 

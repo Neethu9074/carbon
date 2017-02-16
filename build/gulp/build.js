@@ -53,6 +53,22 @@ gulp.task('try-build', cb => {
 });
 
 
+gulp.task('try-build-without-building', cb => {
+  runSequence(
+    'identifyTryBuildTargetEnvironment',
+    'copyServerSources',
+    [
+      'startTryBuildProxy',
+      'openTryBuildUrlInBrowser',
+      'writeTryBuildConfigFile',
+      'writeTryBuildServerConfigFile'
+    ],
+    'startTryBuildServer',
+    cb
+  );
+});
+
+
 gulp.task('copyServerSources', () => {
   return gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest(paths.targetDir));
 });
