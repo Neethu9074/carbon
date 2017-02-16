@@ -1,10 +1,9 @@
-import config from 'in-services/config';
 import http from 'in-services/http';
 
 export function getServiceExtractionConfig(type = null) {
   return http({
     method: 'GET',
-    url: `/ump/${config.tenant}/${config.tenantUnit}/serviceExtractionConfig`
+    url: `/api/serviceExtractionConfigs`
   })
   .map(response => {
     const rules = response.body.rules;
@@ -18,8 +17,8 @@ export function getServiceExtractionConfig(type = null) {
 
 export function saveServiceExtractionConfig(rules) {
   return http({
-    method: 'POST',
-    url: `/ump/${config.tenant}/${config.tenantUnit}/serviceExtractionConfig`,
+    method: 'PUT',
+    url: `/api/serviceExtractionConfigs`,
     data: {
       lastModificationTimestamp: Date.now(),
       rules
