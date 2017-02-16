@@ -16,7 +16,7 @@
     window.instana = {};
   </script>
   <script>
-    window.instana.user = <!--#include virtual="/auth/users/current" -->;
+    window.instana.user = <!--#include virtual="/checkUserAccessPermitted" -->;
   </script>
   <script>
     window.instana.build = <!--#include virtual="build.json" -->;
