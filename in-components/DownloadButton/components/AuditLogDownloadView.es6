@@ -4,9 +4,13 @@ import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import {baseUrl} from 'in-services/config';
 
 
-export default function AuditLogDownloadView() {
+export default function AuditLogDownloadView({offset, query}) {
   return (
     <DownloadView data
-                  jsonLink={`${baseUrl}/api/auditlog`} />
+                  jsonLink={`${baseUrl}/api/auditlog`}
+                  queryParams={{
+                    offset,
+                    query
+                  }} />
   );
 }

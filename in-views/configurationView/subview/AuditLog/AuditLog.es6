@@ -7,6 +7,7 @@ import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import {getAuditLog, getTotalAuditLogEntries} from 'in-services/auditLog';
 import Section from 'in-views/configurationView/components/Section';
 import DownloadButton from 'in-components/DownloadButton';
+import {toHtml} from 'in-services/formatters/markdown';
 import {fromNow} from 'in-services/formatters/date';
 import Gravatar from 'in-components/Gravatar';
 import SvgIcon from 'in-components/SvgIcon';
@@ -97,7 +98,8 @@ React.createClass({
                    value={this.state.query}
                    onChange={e => this.setState({query: e.target.value})} />
             <DownloadButton className={`${block}__download-link`}>
-              <AuditLogDownloadView />
+              <AuditLogDownloadView offset={offset}
+                                    query={this.props.query} />
             </DownloadButton>
           </div>
         </div>
@@ -116,7 +118,7 @@ React.createClass({
                   {` - ${logEntry.get('action')}`}
                 </span>
                 <div>
-                  {logEntry.get('message')}
+                  <div dangerouslySetInnerHTML={{__html: toHtml(logEntry.get('message'))}} />
                 </div>
                 <span className={`${block}__time`}>
                   {fromNow(logEntry.get('timestamp'))}
