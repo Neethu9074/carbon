@@ -107,8 +107,10 @@ React.createClass({
           <li key={logEntry.get('id')}
               className={`${block}__item`}>
             <div className={`${block}__user-side`}>
-              <Gravatar email={logEntry.getIn(['actor', 'email'], '')}
-                        className={`${block}__avatar`} />
+              {logEntry.getIn(['actor', 'type']) !== 'API_TOKEN' ?
+                <Gravatar className={`${block}__avatar`}
+                          email={logEntry.getIn(['actor', 'email'])} />
+              : <div className={`${block}__spacer`} />}
 
               <div>
                 <span className={`${block}__full-name`}>
