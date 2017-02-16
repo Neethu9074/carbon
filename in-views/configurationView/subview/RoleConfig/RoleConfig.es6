@@ -193,5 +193,7 @@ function createForm(role) {
     .put('canSeeOnPremLicenseInformation', createField({value: role.get('canSeeOnPremLicenseInformation')}))
     .put('canConfigureRoles', createField({value: role.get('canConfigureRoles')}))
     .put('canConfigureCustomAlerts', createField({value: role.get('canConfigureCustomAlerts')}))
-    .put('canConfigureApiTokens', createField({value: role.get('canConfigureApiTokens')}));
+    .put('canConfigureApiTokens', createField({value: role.get('canConfigureApiTokens')}))
+    .put('canConfigureAgentRunMode', createField({value: role.get('canConfigureAgentRunMode')}))
+    .put('canViewAuditLog', createField({value: role.get('canViewAuditLog')}));
 }
