@@ -5,6 +5,7 @@ import {toggleAutoUpdate, autoUpdate$} from 'in-views/eventView/stores/autoUpdat
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import {refresh} from 'in-views/eventView/stores/rawEventListStore';
 import getTotalRawEventsCount from 'in-stores/totalRawEventsCount';
+import {toggleLeft} from 'in-views/eventView/stores/expandedSide';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
@@ -43,6 +44,10 @@ export default function EventListHeader() {
         <AutoUpdate checkboxId='event-view-auto-update'
                     autoUpdate$={autoUpdate$}
                     toggleAutoUpdate={toggleAutoUpdate} />
+        <SvgIcon type='fullscreen'
+                 onClick={toggleLeft}
+                 height={14}
+                 className={`${block}__toggle-left`} />
       </div>
     </ViewHeader>
   );

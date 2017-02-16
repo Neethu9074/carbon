@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {clearEvent} from 'in-services/issueTracker';
+import {toggleRight} from 'in-views/eventView/stores/expandedSide';
 import {selectedEvent$} from 'in-stores/events';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -20,13 +20,10 @@ function EventDetailHeader({event}) {
 
   return (
     <div className={block}>
-      <div className={`${block}__icon`}
-           onClick={clearEvent}>
-        <SvgIcon type='x'
-                 width={6}
-                 height={6}
-                 color='#172429' />
-      </div>
+      <SvgIcon type='fullscreen'
+               onClick={toggleRight}
+               height={14}
+               className={`${block}__toggle-right`} />
     </div>
   );
 });

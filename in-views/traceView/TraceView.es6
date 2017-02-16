@@ -1,11 +1,12 @@
 import React from 'react';
 
+import TraceDetailHeader from 'in-views/traceView/components/TraceDetailHeader';
 import TraceTableHeader from 'in-views/traceView/components/TraceTableHeader';
 import TraceListHeader from 'in-views/traceView/components/TraceListHeader';
-import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
+import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
+import {expandedSide$} from 'in-views/traceView/stores/expandedSide';
 import {enable, disable} from 'in-views/traceView/stores/traceList';
 import TraceTable from 'in-views/traceView/components/TraceTable';
-import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import TraceTree from 'in-views/traceView/components/TraceTree';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 
@@ -16,7 +17,8 @@ export default function TraceView({children}) {
                          onWillUnmount={disable} />
       <TwoColumnView leftContent={getLeftContent()}
                      rightContent={getRightContent()}
-                     leftWidth='45rem' />
+                     leftWidth='45rem'
+                     expandedSide$={expandedSide$} />
       {children}
     </div>
   );
@@ -32,7 +34,7 @@ function getLeftContent() {
 
 function getRightContent() {
   return [
-    <ViewHeader key='ViewHeader' />,
+    <TraceDetailHeader key='ViewHeader' />,
     <TraceTree key='TraceTree' />
   ];
 }

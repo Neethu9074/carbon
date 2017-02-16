@@ -6,8 +6,9 @@ import {enable, disable} from 'in-views/eventView/stores/rawEventListStore';
 import EventListHeader from 'in-views/eventView/components/EventListHeader';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import EventDetails from 'in-views/eventView/components/EventDetails';
-import EventTable from 'in-views/eventView/components/EventTable';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
+import {expandedSide$} from 'in-views/eventView/stores/expandedSide';
+import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 
 
@@ -19,7 +20,8 @@ export default function EventView({children}) {
 
       <TwoColumnView leftContent={getLeftContent()}
                      rightContent={getRightContent()}
-                     leftWidth='50rem' />
+                     leftWidth='50rem'
+                     expandedSide$={expandedSide$} />
 
       {children}
     </div>
