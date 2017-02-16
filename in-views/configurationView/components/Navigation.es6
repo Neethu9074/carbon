@@ -95,7 +95,7 @@ export default function Navigation() {
                    isActive$={isAlertsViewLink$} />
         : null}
 
-        {auditLogEnabled ?
+        {auditLogEnabled && role.canViewAuditLog ?
           <NavItem title='Audit Log'
                    href$={auditLogViewLink$}
                    isActive$={isAuditLogView$} />
