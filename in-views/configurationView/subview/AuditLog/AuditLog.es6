@@ -33,6 +33,10 @@ function AuditLogs({logs}) {
               <h3>
                 Recent events
               </h3>
+
+              <DownloadButton className={`${block}__download-link`}>
+                <AuditLogDownloadView />
+              </DownloadButton>
             </div>
             {logs.map(logEntry =>
               <li key={logEntry.get('id')}
@@ -56,9 +60,6 @@ function AuditLogs({logs}) {
                     </span>
                   </div>
                 </div>
-                <DownloadButton className={`${block}__download-link`}>
-                  <AuditLogDownloadView logEntry={logEntry} />
-                </DownloadButton>
               </li>
             )}
           </ul>

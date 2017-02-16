@@ -4,9 +4,9 @@ import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import {baseUrl} from 'in-services/config';
 
 
-export default function AuditLogDownloadView({logEntry}) {
+export default function AuditLogDownloadView() {
   return (
     <DownloadView data
-                  jsonLink={`${baseUrl}/api/auditlog/${encodeURIComponent(logEntry.get('id'))}`} />
+                  jsonLink={`${baseUrl}/api/auditlog`} />
   );
 }
