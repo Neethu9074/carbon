@@ -34,7 +34,7 @@ export function addKey(appName) {
 
 export function renameKey(apiKey, newAppName) {
   return http({
-    method: 'POST',
+    method: 'PUT',
     url: `/api/eumApps/${encodeURIComponent(apiKey)}`,
     queryParams: {
       name: newAppName
