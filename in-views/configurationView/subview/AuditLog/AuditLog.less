@@ -1,12 +1,14 @@
 .in-audit-log {
   &__heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
     padding: 1px 1rem;
     background: #eef2f4;
     border-radius: 4px 4px 0 0;
+  }
+
+  &__right, &__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &__list {
@@ -43,5 +45,44 @@
 
   &__time {
     font-weight: 300;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+
+    padding: 0.5rem;
+    background: #eef2f4;
+    border-radius: 0 0 4px 4px;
+    border-bottom: 1px solid #D5E0E4;
+  }
+
+  &__icon {
+    margin: 0 .5rem;
+    cursor: pointer;
+  }
+
+  &__search {
+    width: 10rem;
+    height: 1.5rem;
+    margin-right: .5rem;
+    border: 1px solid #D5E0E4;
+  }
+
+  &__search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 24px;
+    padding: 0 .5rem;
+    border: 1px solid #D5E0E4;
+    border-right: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &:hover {
+      background: #D5E0E4;
+    }
   }
 }
