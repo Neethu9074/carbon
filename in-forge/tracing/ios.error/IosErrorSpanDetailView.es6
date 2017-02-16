@@ -3,6 +3,7 @@ import React from 'react';
 import GeoLocation from 'in-sdk/components/traceDetails/GeoLocation';
 import {convert_json} from 'in-forge/tracing/ios.error/formatter';
 import Code from 'in-components/Code';
+import {formatDateTime} from 'in-services/formatters/date';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
@@ -31,6 +32,10 @@ export default function IosErrorSpanDetailView({span}) {
 
         <DescriptionItem title='Model'>
           {span.getIn(['data', 'ios_error', 'report', 'system', 'model'])}
+        </DescriptionItem>
+
+        <DescriptionItem title='Crash Date'>
+          {formatDateTime(span.getIn(['data', 'ios_error', 'crashTimestamp']))}
         </DescriptionItem>
 
         <DescriptionItem title='OS Version'>
