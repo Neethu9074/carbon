@@ -9,6 +9,7 @@ import {agentYamlConfigEnabled} from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
+import {role} from 'in-stores/user';
 
 import './ButtonSection.less';
 
@@ -22,10 +23,12 @@ export default function ButtonSection({snapshot}) {
 
   return (
     <div className={block}>
-      <ImageButton iconType='gear'
-                   onClick={() => changeMode(snapshot)}>
-        Change Agent Mode
-      </ImageButton>
+      {role.canConfigureAgentRunMode ?
+        <ImageButton iconType='gear'
+                     onClick={() => changeMode(snapshot)}>
+          Change Agent Mode
+        </ImageButton>
+      : null}
 
       <ImageButton iconType='refresh'
                    onClick={() => resetSensors(snapshot)}>
