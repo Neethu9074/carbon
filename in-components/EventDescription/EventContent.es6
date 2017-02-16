@@ -3,11 +3,9 @@ import React from 'react';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import {toHtml} from 'in-services/formatters/markdown';
 
-import './EventContent.less';
-
 
 const MAX_PROBLEM_TEXT_LENGTH = 1000;
-const block = 'in-event-description-content';
+const block = 'in-event-description';
 
 export default function EventContent({showFullTextIfToLong, snapshotId, event, color}) {
   let fixSuggestion = event.getIn(['problem', 'fixSuggestion']);

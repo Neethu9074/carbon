@@ -16,12 +16,21 @@
     white-space: nowrap;
   }
 
-  &__incident-started {
+  &__header, &__incident-started {
     font-size: .688rem;
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 3px;
     .breakWord();
+  }
+
+  &__suggestion {
+    font-size: .688rem;
+    color: #818a8f;
+    margin: 0px 0 10px 0;
+    .breakWord();
+
+    white-space: normal;
   }
 
   &__time {
