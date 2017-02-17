@@ -128,6 +128,7 @@ function AuditLogEntries({log, query, offset, onOffsetChanged, onQueryChanged}) 
                    onClick={() => {
                      if (currentShownPage > 1) {
                        onOffsetChanged(offset - NUM_ENTRIES_PER_PAGE);
+                       scrollToTop();
                      }
                    }} />
 
@@ -140,6 +141,7 @@ function AuditLogEntries({log, query, offset, onOffsetChanged, onQueryChanged}) 
                    onClick={() => {
                      if (currentShownPage < totalPages) {
                        onOffsetChanged(offset + NUM_ENTRIES_PER_PAGE);
+                       scrollToTop();
                      }
                    }} />
         </div>
@@ -147,3 +149,10 @@ function AuditLogEntries({log, query, offset, onOffsetChanged, onQueryChanged}) 
     </Section>
   );
 });
+
+function scrollToTop() {
+  const scrollElement = document.querySelector('.in-config-view-active-view');
+  if (scrollElement) {
+    scrollElement.scrollTop = 0;
+  }
+}
