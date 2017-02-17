@@ -88,8 +88,7 @@ function DownloadButton({label, onClick}) {
   return (
     <Button key={label}
             className={`${block}__button`}
-            kind='secondary'
-            size='sm'
+            kind='info'
             onClick={onClick}>
       {label}
     </Button>
@@ -100,8 +99,7 @@ function DownloadLink({label, href}) {
   return (
     <Button key={label}
             className={`${block}__button`}
-            kind='secondary'
-            size='sm'
+            kind='info'
             target='_blank'
             href={href}>
       {label}
