@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {toggleDateFn, currentDateFn$} from 'in-components/timeline/components/DatePicker/stores/currentDateFnStore';
+import {toggleDateStore, currentDateStore$} from 'in-components/timeline/components/DatePicker/stores/currentDateStore';
 import TextInput from 'in-components/timeline/components/DatePicker/TextInput';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -12,9 +12,9 @@ import './DateInput.less';
 const block = 'in-date-picker-date-input';
 
 export default connectTo({
-  currentDateFn: currentDateFn$,
+  currentDateStore: currentDateStore$,
 },
-function DateInput({isValid$, heading, value, onChange, showInputDescriptions, currentDateFn, setDateFn}) {
+function DateInput({isValid$, heading, value, onChange, showInputDescriptions, currentDateStore, setDateStore}) {
   return (
     <div className={block}>
       <TextInput heading={heading}
@@ -24,9 +24,9 @@ function DateInput({isValid$, heading, value, onChange, showInputDescriptions, c
                  isValid$={isValid$} />
       <div className={evaluateClassNames({
              [`${block}__calendar`]: true,
-             [`${block}--selected`]: currentDateFn === setDateFn
+             [`${block}--selected`]: currentDateStore === setDateStore
            })}
-           onClick={() => onCalendarClicked(setDateFn)}>
+           onClick={() => onCalendarClicked(setDateStore)}>
         <SvgIcon className={`${block}__calendar-icon`}
                  type='calendar'
                  width={16}
@@ -37,5 +37,5 @@ function DateInput({isValid$, heading, value, onChange, showInputDescriptions, c
 });
 
 function onCalendarClicked(fn) {
-  toggleDateFn(fn);
+  toggleDateStore(fn);
 }

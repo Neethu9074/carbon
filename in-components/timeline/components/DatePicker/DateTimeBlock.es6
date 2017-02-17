@@ -15,7 +15,7 @@ export default connectTo(props => {
     timeString: props.store.timeString$,
   };
 },
-function DateTimeBlock({store, heading, dateString, timeString, showInputDescriptions, setDateFn}) {
+function DateTimeBlock({store, heading, dateString, timeString, showInputDescriptions, setDateStore}) {
   return (
     <div className={block}>
       <span className={`${block}__heading`}>
@@ -28,7 +28,7 @@ function DateTimeBlock({store, heading, dateString, timeString, showInputDescrip
                    showInputDescriptions={showInputDescriptions}
                    isValid$={store.isDateTimeValid$.map(valid => valid.date)}
                    type='date'
-                   setDateFn={setDateFn} />
+                   setDateStore={setDateStore} />
         <TextInput heading='Time'
                    value={timeString}
                    onChange={store.setTimeString}

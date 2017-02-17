@@ -30,6 +30,7 @@ export function setTimeString(newTime) {
 
 
 export const toTimestamp$ = getTimestamp$(dateString$, timeString$);
+export const timestamp$ = toTimestamp$;
 
 
 export let isDateTimeValid$;

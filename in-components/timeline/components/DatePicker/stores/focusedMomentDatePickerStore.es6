@@ -27,6 +27,7 @@ export function setTimeString(newTime) {
 
 
 export const focusedMomentTimestamp$ = getTimestamp$(dateString$, timeString$);
+export const timestamp$ = focusedMomentTimestamp$;
 
 
 export const isDateTimeValid$ = getValidation$(focusedMomentTimestamp$);

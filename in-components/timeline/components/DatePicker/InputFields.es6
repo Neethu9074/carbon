@@ -3,7 +3,7 @@ import React from 'react';
 import * as focusedMomentStore from 'in-components/timeline/components/DatePicker/stores/focusedMomentDatePickerStore';
 import * as windowSizeStore from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import * as fromStore from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
-import {setDateFn} from 'in-components/timeline/components/DatePicker/stores/currentDateFnStore';
+import {setDateStore} from 'in-components/timeline/components/DatePicker/stores/currentDateStore';
 import * as toStore from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import DateTimeBlock from 'in-components/timeline/components/DatePicker/DateTimeBlock';
 import {live$} from 'in-components/timeline/components/DatePicker/stores/liveStore';
@@ -43,7 +43,7 @@ const FixedTimestampInputFields = React.createClass({
   displayName: 'FixedTimestampInputFields',
 
   componentWillUnmount() {
-    setDateFn(null);
+    setDateStore(null);
   },
 
   render() {
@@ -51,17 +51,17 @@ const FixedTimestampInputFields = React.createClass({
       <div className={block}>
         <DateTimeBlock heading='From'
                        store={fromStore}
-                       setDateFn={fromStore.setDateString}
+                       setDateStore={fromStore}
                        showInputDescriptions />
 
         <DateTimeBlock heading='To'
-                       setDateFn={toStore.setDateString}
+                       setDateStore={toStore}
                        store={toStore} />
 
         <div className={`${block}__separator`} />
 
         <DateTimeBlock heading='Selected Moment'
-                       setDateFn={focusedMomentStore.setDateString}
+                       setDateStore={focusedMomentStore}
                        store={focusedMomentStore} />
       </div>
     );
