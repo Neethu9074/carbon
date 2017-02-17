@@ -28,7 +28,7 @@ function TimelineFocusedMoment({focusedMoment, focusedMomentXPosition, width}) {
       <TimelineTimestamp timestamp={focusedMoment}
                          dateStore={focusedMomentDatePickerStore}
                          style={{
-                           left: (focusedMomentXPosition > width / 2) ? -120 : 7
+                           left: (focusedMomentXPosition > width / 2) ? -125 : 2
                          }} />
       <div className={`${block}__marker`} />
     </div>

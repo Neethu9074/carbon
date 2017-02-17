@@ -69,6 +69,12 @@ export default class TimeAxisRenderer extends BasicRenderer {
 
     buffer.fillStyle = '#334750';
     buffer.fillRect(0, 18, scale.getRangeTo() - scale.getRangeFrom(), 1);
+
+
+    // mark the start and end
+    buffer.fillStyle = midColor;
+    buffer.fillRect(scale.getRangeFrom(), 27, 1, 9);
+    buffer.fillRect(scale.getRangeTo(), 27, 1, 9);
   }
 
   dispose() {
