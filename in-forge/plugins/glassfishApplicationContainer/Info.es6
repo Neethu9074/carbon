@@ -20,9 +20,6 @@ export default function GlassfishInfo({snapshot}) {
       <DescriptionItem title='Domain Name'>
         {data.get('domain_name')}
       </DescriptionItem>
-      <DescriptionItem title='Applications'>
-        {data.get('applications')}
-      </DescriptionItem>
     </DescriptionList>
   );
 }
