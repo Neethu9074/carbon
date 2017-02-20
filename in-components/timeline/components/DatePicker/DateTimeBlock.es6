@@ -16,6 +16,9 @@ export default connectTo(props => {
   };
 },
 function DateTimeBlock({store, heading, dateString, timeString, showInputDescriptions, setDateStore}) {
+  dateString = dateString || '0000-00-00';
+  timeString = timeString || '00:00:00';
+
   return (
     <div className={block}>
       <span className={`${block}__heading`}>

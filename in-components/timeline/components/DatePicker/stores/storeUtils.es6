@@ -9,7 +9,7 @@ export function cutMillis(time) {
   return ((time / 1000) | 0) * 1000;
 }
 
-export function setTimestamp(timestamp, setDateString, setTimeString) {
+export function setTimestamp(timestamp = 0, setDateString, setTimeString) {
   const date = new Date(timestamp);
   setDateString(formatDate(date.getTime()));
   setTimeString(formatTime(date.getTime()));
