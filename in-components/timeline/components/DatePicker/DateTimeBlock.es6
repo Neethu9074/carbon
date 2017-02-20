@@ -26,14 +26,24 @@ function DateTimeBlock({store, heading, dateString, timeString, showInputDescrip
                    value={dateString}
                    onChange={store.setDateString}
                    showInputDescriptions={showInputDescriptions}
-                   isValid$={store.isDateTimeValid$.map(valid => valid.date)}
+                   isValid$={store.isDateTimeValid$.map(valid => {
+                     return {
+                       isValid: valid.date,
+                       error: valid.error
+                     };
+                   })}
                    type='date'
                    setDateStore={setDateStore} />
         <TextInput heading='Time'
                    value={timeString}
                    onChange={store.setTimeString}
                    showInputDescriptions={showInputDescriptions}
-                   isValid$={store.isDateTimeValid$.map(valid => valid.time)} />
+                   isValid$={store.isDateTimeValid$.map(valid => {
+                     return {
+                       isValid: valid.time,
+                       error: valid.error
+                     };
+                   })} />
       </div>
     </div>
   );

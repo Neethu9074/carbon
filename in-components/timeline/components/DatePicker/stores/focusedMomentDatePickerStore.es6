@@ -1,6 +1,10 @@
+import {combineLatest} from 'reactive-observables';
+
 import {setTimestamp, getValidation$, getTimestamp$} from 'in-components/timeline/components/DatePicker/stores/storeUtils';
+import {fromTimestamp$} from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
+import {toTimestamp$} from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
+import {formatDate, parseDate} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
-import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
 
 
@@ -30,15 +34,40 @@ export const focusedMomentTimestamp$ = getTimestamp$(dateString$, timeString$);
 export const timestamp$ = focusedMomentTimestamp$;
 
 
-export const isDateTimeValid$ = getValidation$(focusedMomentTimestamp$);
-
+export let isDateTimeValid$;
 
 export function reset() {
-  focusedMoment$.once(_focusedMoment => {
-    if (_focusedMoment) {
-      setTimestamp(_focusedMoment, setDateString, setTimeString);
-    } else {
-      serverTime$.once(_serverTime => setTimestamp(_serverTime, setDateString, setTimeString));
-    }
-  });
+  isDateTimeValid$ = combineLatest([fromTimestamp$, toTimestamp$, getValidation$(focusedMomentTimestamp$)])
+                                  .map(([fromTimestamp, toTimestamp, validationObject]) => {
+                                    if (!validationObject.date || !validationObject.time) {
+                                      return validationObject;
+                                    }
+
+                                    fromTimestamp = fromTimestamp || 0;
+                                    toTimestamp = toTimestamp || Number.MAX_VALUE;
+
+                                    const focusedMomentTimestamp = validationObject.timestamp;
+                                    const focusedMomentTimestamp_date = validationObject.timestamp_date;
+
+                                    const fromTimestamp_date = parseDate(formatDate(fromTimestamp)).getTime();
+                                    const toTimestamp_date = parseDate(formatDate(toTimestamp)).getTime();
+
+                                    const date  = focusedMomentTimestamp_date >= fromTimestamp_date && focusedMomentTimestamp_date <= toTimestamp_date;
+
+                                    // we don't want to validate the time when the date is already invalid. Makes no sense to validate
+                                    // it since our basis for invalidation is not existing.
+                                    const time = (!date) ? true : focusedMomentTimestamp >= fromTimestamp && focusedMomentTimestamp <= toTimestamp;
+
+                                    if (!date || !time) {
+                                      validationObject.error = 'The selected moment must be set between from and to.';
+                                    }
+
+                                    return {
+                                      date,
+                                      time,
+                                      timestamp: validationObject.timestamp,
+                                      error: validationObject.error
+                                    };
+                                  });
+  focusedMoment$.once(_focusedMoment => setTimestamp(_focusedMoment, setDateString, setTimeString));
 }

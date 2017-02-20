@@ -62,10 +62,15 @@ export function reset() {
                                     // it since our basis for invalidation is not existing.
                                     const time = (!date) ? true : fromTimestamp < toTimestamp;
 
+                                    if (!date || !time) {
+                                      validationObject.error = 'It is not allowed to set the from date after to';
+                                    }
+
                                     return {
                                       date,
                                       time,
-                                      timestamp: validationObject.timestamp
+                                      timestamp: validationObject.timestamp,
+                                      error: validationObject.error
                                     };
                                   });
 

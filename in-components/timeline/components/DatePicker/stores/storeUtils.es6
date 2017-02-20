@@ -1,6 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
-import {parseDateTime, formatTime, formatDate, parseDate} from 'in-services/formatters/date';
+import {parseDateTime, formatDateTime, formatTime, formatDate, parseDate} from 'in-services/formatters/date';
 import {bigBangTimestamp$} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 
@@ -42,7 +42,8 @@ export function getValidation$(timestamp$) {
              bigBangTimestamp,
              bigBangTimestamp_date,
              serverTime,
-             serverTime_date
+             serverTime_date,
+             error: null
            };
 
            validationObject.date = bigBangTimestamp_date <= timestamp_date && timestamp_date <= serverTime_date;
@@ -50,6 +51,11 @@ export function getValidation$(timestamp$) {
            // we don't want to validate the time when the date is already invalid. Makes no sense to validate
            // it since our basis for invalidation is not existing.
            validationObject.time = (!validationObject.date) ? true : (bigBangTimestamp <= timestamp && timestamp <= serverTime);
+
+           if (!validationObject.date || !validationObject.time) {
+             validationObject.error = `Please enter a date within the monitored time range in the format (YYYY-MM-DD). \n ` +
+                                      `The monitored time range is from ${formatDateTime(bigBangTimestamp)} to ${formatDateTime(serverTime)} `;
+           }
 
            return validationObject;
          });

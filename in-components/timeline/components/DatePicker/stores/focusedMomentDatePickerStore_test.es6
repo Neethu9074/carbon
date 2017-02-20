@@ -10,6 +10,8 @@ import {resetStoreRegistry} from 'in-stores/store';
 describe('timeline/datepicker/focusedMoment', () => {
   let mod;
   let bigBangTimestamp$;
+  let fromTimestamp$;
+  let toTimestamp$;
   let serverTime$;
 
 
@@ -17,6 +19,8 @@ describe('timeline/datepicker/focusedMoment', () => {
     resetStoreRegistry();
 
     bigBangTimestamp$ = create();
+    fromTimestamp$ = create();
+    toTimestamp$ = create();
     serverTime$ = create();
 
     const storeUtils = proxyquire('in-components/timeline/components/DatePicker/stores/storeUtils', {
@@ -29,8 +33,15 @@ describe('timeline/datepicker/focusedMoment', () => {
     });
 
     mod = proxyquire('./focusedMomentDatePickerStore', {
-      'in-components/timeline/components/DatePicker/stores/storeUtils': storeUtils
+      'in-components/timeline/components/DatePicker/stores/storeUtils': storeUtils,
+      'in-components/timeline/components/DatePicker/stores/toDatePickerStore': {
+        toTimestamp$
+      },
+      'in-components/timeline/components/DatePicker/stores/fromDatePickerStore': {
+        fromTimestamp$
+      }
     });
+    mod.reset();
   });
 
   describe('validateTime', () => {
@@ -47,10 +58,10 @@ describe('timeline/datepicker/focusedMoment', () => {
       isDateTimeValidSubscription = null;
     });
 
-    it('should only validate times when bigbang and servertime are available', () => {
+    it('should only validate times when bigbang, servertime, from and to are available', () => {
       expect(isDateTimeValid).to.have.callCount(0);
 
-      setValidBigBangAndServertime();
+      setValidTimes();
 
       expect(isDateTimeValid).to.have.callCount(1);
       expect(isDateTimeValid.getCall(0).args[0].date).to.equal(false);
@@ -58,7 +69,7 @@ describe('timeline/datepicker/focusedMoment', () => {
     });
 
     it('should validate date if it is in the range', () => {
-      setValidBigBangAndServertime();
+      setValidTimes();
 
       expect(isDateTimeValid).to.have.callCount(1);
 
@@ -69,7 +80,7 @@ describe('timeline/datepicker/focusedMoment', () => {
     });
 
     it('should not validate date if it is before big bang', () => {
-      setValidBigBangAndServertime();
+      setValidTimes();
 
       expect(isDateTimeValid).to.have.callCount(1);
 
@@ -80,7 +91,7 @@ describe('timeline/datepicker/focusedMoment', () => {
     });
 
     it('should not validate date if it is after servers time', () => {
-      setValidBigBangAndServertime();
+      setValidTimes();
 
       expect(isDateTimeValid).to.have.callCount(1);
 
@@ -92,17 +103,17 @@ describe('timeline/datepicker/focusedMoment', () => {
 
 
     it('should validate time if it is in the range', () => {
-      setValidBigBangAndServertime();
+      setValidTimes();
 
       // set valid date
       mod.setDateString('2017-02-04');
 
-      mod.setTimeString('04:13:26');
+      mod.setTimeString('04:20:01');
       expect(isDateTimeValid.getCall(2).args[0].time).to.equal(true);
     });
 
     it('should not validate time if it is before big bang', () => {
-      setValidBigBangAndServertime();
+      setValidTimes();
 
       // set valid date
       mod.setDateString('2017-02-04');
@@ -111,12 +122,18 @@ describe('timeline/datepicker/focusedMoment', () => {
       expect(isDateTimeValid.getCall(2).args[0].time).to.equal(false);
     });
 
-    function setValidBigBangAndServertime() {
+    function setValidTimes() {
       // Sat Feb 04 2017 04:13:26 GMT+0100 (CET)
       bigBangTimestamp$.emit(1486178006594);
 
       // Mon Feb 06 2017 14:33:26 GMT+0100 (CET)
       serverTime$.emit(1486388006594);
+
+      // Mon Feb 04 2017 14:20:00 GMT+0100 (CET)
+      fromTimestamp$.emit(1486178400000);
+
+      // Mon Feb 06 2017 14:25:00 GMT+0100 (CET)
+      toTimestamp$.emit(1486387500000);
     }
   });
 });
