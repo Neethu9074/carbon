@@ -81,7 +81,6 @@ import './msSqlDatabase';
 import './mySqlDatabase';
 import './nginx';
 import './nodeJsRuntimePlatform';
-import './openLDAP';
 import './oracleDB';
 import './phpFpmRuntimePlatform';
 import './postgreSqlDatabase';
