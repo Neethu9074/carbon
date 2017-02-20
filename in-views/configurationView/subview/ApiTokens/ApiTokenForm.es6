@@ -130,6 +130,12 @@ export default function ApiTokenForm({form, onChange, disabled}) {
                     onChange={onChange}
                     name='canViewAuditLog'
                     label='Access to audit log' />
+
+        <Permission form={form}
+                    disabled={disabled}
+                    onChange={onChange}
+                    name='canConfigureObjectives'
+                    label='Configuration of objectives' />
       </Section>
     </fieldset>
   );

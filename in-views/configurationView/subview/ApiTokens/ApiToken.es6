@@ -180,5 +180,6 @@ function createForm(apiToken) {
     .put('canConfigureCustomAlerts', createField({value: apiToken.get('canConfigureCustomAlerts')}))
     .put('canConfigureApiTokens', createField({value: apiToken.get('canConfigureApiTokens')}))
     .put('canConfigureAgentRunMode', createField({value: apiToken.get('canConfigureAgentRunMode')}))
-    .put('canViewAuditLog', createField({value: apiToken.get('canViewAuditLog')}));
+    .put('canViewAuditLog', createField({value: apiToken.get('canViewAuditLog')}))
+    .put('canConfigureObjectives', createField({value: apiToken.get('canConfigureObjectives')}));
 }
