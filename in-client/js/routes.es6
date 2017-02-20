@@ -5,7 +5,9 @@ import HttpServiceExtractionConfiguration from 'promise?global,configView!in-vie
 import EjbServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
 import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
+import ObjectivesConfig from 'promise?global,configView!in-views/configurationView/subview/ObjectivesConfig';
 import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
+import ObjectiveConfig from 'promise?global,configView!in-views/configurationView/subview/ObjectiveConfig';
 import ApiTokens from 'promise?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
 import ApiToken from 'promise?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
@@ -121,6 +123,13 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(AlertConfig)}
              path='alertConfig/:alertId'
              windowTitle='Alert Config' />
+
+      <Route component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)}
+             path='objectives'
+             windowTitle='Objectives' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(ObjectiveConfig)}
+             path='ojectiveConfig/:objectiveId'
+             windowTitle='Objectives' />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)}
              path='auditlog'

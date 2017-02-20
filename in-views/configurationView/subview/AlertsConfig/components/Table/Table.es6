@@ -3,10 +3,6 @@ import React from 'react';
 import {TableRowWrapper, TableRow} from 'in-views/configurationView/subview/AlertsConfig/components/Table/TableRow';
 import TableHeader from 'in-views/configurationView/subview/AlertsConfig/components/Table/TableHeader';
 
-import './Table.less';
-
-
-const block = 'in-table';
 
 export default React.createClass({
 
@@ -20,7 +16,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div className={block}>
+      <div>
         <TableHeader />
 
         <TableRowWrapper>

@@ -17,7 +17,7 @@ import Button from 'in-components/Button';
 import './TableRow.less';
 
 
-const block = 'in-table-row';
+const block = 'in-alerts-table-row';
 
 export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status}) {
   const alertId = alert.get('id');

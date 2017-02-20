@@ -1,0 +1,6 @@
+{
+  "name": "ObjectivesConfig",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ObjectivesConfig.es6"
+}

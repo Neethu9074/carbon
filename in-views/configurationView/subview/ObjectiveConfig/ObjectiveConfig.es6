@@ -1,0 +1,206 @@
+import {createMapForm, createField, notBlankValidator} from 'formalistic';
+import {createLogger} from 'instalog';
+import {fromJS} from 'immutable';
+import React from 'react';
+
+import {getObjective, saveObjective, createObjective} from 'in-services/groundskeeper/objectives';
+import ObjectiveForm from 'in-views/configurationView/subview/ObjectiveConfig/ObjectiveForm';
+import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
+import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import {openObjectivesConfig} from 'in-stores/navigation/configuration';
+import Section from 'in-views/configurationView/components/Section';
+import {queryValidator} from 'in-stores/search/validations';
+import Notification from 'in-components/form/Notification';
+import Button from 'in-components/Button';
+
+
+const logger = createLogger('ObjectiveConfig');
+
+export default React.createClass({
+  displayName: 'ObjectiveConfig',
+
+  getInitialState() {
+    return {
+      loading: true,
+      error: false,
+      message: 'Loading objective…',
+      form: null,
+      objective: null
+    };
+  },
+
+  componentWillMount() {
+    this.loadObjective(this.props.params.objectiveId);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.params.objectiveId !== nextProps.params.objectiveId) {
+      this.loadObjective(nextProps.params.objectiveId);
+    }
+  },
+
+  componentWillUnmount() {
+    this.disposeAsyncAction();
+  },
+
+  render() {
+    const {form, objective} = this.state;
+
+    return (
+      <SubViewWrapper>
+        <SubViewHeader>
+          {objective ? `Configure objective: ${objective.get('name')}` : 'Configure objective'}
+        </SubViewHeader>
+
+        <form onSubmit={this.onSubmit}>
+          <Section>
+            {form ?
+              <Button kind='success'
+                      type='submit'
+                      disabled={!form.hierarchyValid && form.touched}>
+                Save
+              </Button>
+            : null}
+
+            {this.state.message ?
+              <Notification failure={this.state.error}
+                            loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            : null}
+          </Section>
+
+          {form ?
+            <ObjectiveForm form={form}
+                       onChange={this.onChange} />
+          : null}
+        </form>
+
+      </SubViewWrapper>
+    );
+  },
+
+  loadObjective(objectiveId) {
+    this.disposeAsyncAction();
+
+    this.setState({
+      loading: true,
+      error: false,
+      message: 'Loading objective…',
+      form: null,
+      role: null
+    });
+
+    const result$ = getObjective(objectiveId);
+    this.responseSubscription = result$.once(objective => {
+      this.setState({
+        loading: false,
+        error: false,
+        message: null,
+        objective,
+        form: createForm(objective)
+      });
+    });
+
+    this.errorSubscription = result$.errors().once(() => {
+      this.setState({
+        loading: false,
+        error: true,
+        message: 'Failed to load objective.'
+      });
+    });
+  },
+
+  disposeAsyncAction() {
+    if (this.responseSubscription) {
+      this.responseSubscription.dispose();
+    }
+
+    if (this.errorSubscription) {
+      this.errorSubscription.dispose();
+    }
+  },
+
+  onChange(fieldName, value) {
+    let updatedForm = this.state.form;
+    if (Array.isArray(fieldName)) {
+      for (let i = 0, length = fieldName.length; i < length; i++) {
+        updatedForm = updatedForm.updateIn([fieldName[i]], field =>
+          field.setValue(value[i]).setTouched(true)
+        );
+      }
+    } else {
+      updatedForm = updatedForm.updateIn([fieldName], field =>
+        field.setValue(value).setTouched(true)
+      );
+    }
+
+    this.setState({
+      form: updatedForm
+    });
+  },
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    if (!this.state.form.hierarchyValid) {
+      this.setState({
+        form: this.state.form.setTouched(true, {recurse: true})
+      });
+      return;
+    }
+
+    const objective = this.state.objective;
+    const form = this.state.form;
+
+    const result$ = saveObjective(fromJS(createObjective(
+      objective ? objective.get('id') : null,
+      form.get('name').value,
+      objective ? objective.get('enabled') : true,
+      form.get('filteringQuery').value,
+      form.get('timePattern').value,
+      form.get('reductionOperation').value
+    )));
+
+    this.disposeAsyncAction();
+    this.setState({
+      loading: true,
+      error: false,
+      message: 'Saving…'
+    });
+    this.responseSubscription = result$.once(openObjectivesConfig);
+
+    this.errorSubscription = result$.errors().once(error => {
+      const message = `Failed to save objective: ${error.message}`;
+      logger.error(message, error);
+      this.setState({
+        loading: false,
+        error: true,
+        message
+      });
+    });
+  }
+});
+
+function createForm(objective) {
+  const match = objective.get('match');
+  const rule = objective.get('rule');
+
+  return createMapForm()
+    .put('name', createField({
+      value: objective ? objective.get('name') : '',
+      validator: notBlankValidator
+    }))
+    .put('filteringQuery', createField({
+      value: match ? match.get('filteringQuery') : '',
+      validator: queryValidator
+    }))
+    .put('timePattern', createField({
+      value: match ? match.get('timePattern') : '',
+      validator: notBlankValidator
+    }))
+    .put('reductionOperation', createField({
+      value: rule ? rule.get('reductionOperation') : '',
+      validator: notBlankValidator
+    }));
+}

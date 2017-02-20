@@ -73,7 +73,7 @@ function getApiTokenConfigPath(apiTokenId) {
 
 const alertsViewPath = '/config/alerting';
 export const alertsViewLink$ = buildUrlStream({path: alertsViewPath});
-export const isAlertsViewLink$ = buildPathStartsWithStream(alertsViewPath);
+export const isObjectivesViewLink$ = buildPathStartsWithStream(alertsViewPath);
 
 function getAlertConfigPath(alertId) {
   return `/config/alertConfig/${encodeURIComponent(alertId)}`;
@@ -94,3 +94,25 @@ export function openAlertsConfig() {
 const auditLogViewPath = '/config/auditlog';
 export const auditLogViewLink$ = buildUrlStream({path: auditLogViewPath});
 export const isAuditLogView$ = buildPathStartsWithStream(auditLogViewPath);
+
+
+
+function getObjectiveConfigPath(objectiveId) {
+  return `/config/ojectiveConfig/${encodeURIComponent(objectiveId)}`;
+}
+
+export function openObjectiveConfig(objectiveId) {
+  mutateUrl(params => params.pathname = getObjectiveConfigPath(objectiveId));
+}
+
+function getObjectivesConfigPath() {
+  return `/config/objectives`;
+}
+
+export function openObjectivesConfig() {
+  mutateUrl(params => params.pathname = getObjectivesConfigPath());
+}
+
+const objectiveViewPath = '/config/objectives';
+export const objectiveViewLink$ = buildUrlStream({path: objectiveViewPath});
+export const isObjetiveView$ = buildPathStartsWithStream(objectiveViewPath);
