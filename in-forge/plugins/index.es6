@@ -80,7 +80,6 @@ import './msSqlDatabase';
 import './mySqlDatabase';
 import './nginx';
 import './nodeJsRuntimePlatform';
-import './openLDAP';
 import './oracleDB';
 import './openLDAP';
 import './phpFpmRuntimePlatform';
