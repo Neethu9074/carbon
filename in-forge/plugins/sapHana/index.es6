@@ -1,0 +1,27 @@
+import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import {plugins} from 'in-forge/constants';
+
+import metricDefinitions from './metricDefinitions';
+import iconSvgPath from './iconPath';
+
+
+
+registerSnapshotDefinition({
+  plugin: plugins.sapHana,
+
+  iconSvgPath,
+  metricDefinitions,
+  pluginName: {
+    singular: 'Sap HANA',
+    plural: 'Sap HANA'
+  },
+
+  namesForTypeSearch: ['sap', 'hana'],
+
+  getLabel(snapshot) {
+    const data = snapshot.get('data');
+    const dbName = data.get('name');
+    const instanceId = data.get('instanceId');
+    return dbName + '@' + instanceId;
+  }
+});

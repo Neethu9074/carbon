@@ -90,6 +90,7 @@ import './rabbitMq';
 import './redis';
 import './rpcEndpointServiceInstance';
 import './rubyRuntimePlatform';
+import './sapHana';
 import './sdkLogicalConnection';
 import './sdkLogicalService';
 import './sdkServiceInstance';
