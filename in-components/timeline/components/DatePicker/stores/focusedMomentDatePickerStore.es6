@@ -59,7 +59,7 @@ export function reset() {
                                     const time = (!date) ? true : focusedMomentTimestamp >= fromTimestamp && focusedMomentTimestamp <= toTimestamp;
 
                                     if (!date || !time) {
-                                      validationObject.error = 'The selected moment must be set between from and to.';
+                                      validationObject.error = 'The selected moment is not between from and to.';
                                     }
 
                                     return {
