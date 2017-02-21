@@ -14,6 +14,11 @@ import './ObjectiveForm.less';
 const block = 'in-objective-form';
 
 export default function ObjectiveForm({form, onChange, onChangeInThresholds, onAddThreshold, onRemoveThreshold}) {
+  const thresholdMessages = form.get('thresholds').messages[0];
+  const valueMessages = thresholdMessages.messages.values || [];
+  const messageMessages = thresholdMessages.messages.message || [];
+  const severityMessages = thresholdMessages.messages.severity || [];
+
   return (
     <fieldset>
       <Section>
@@ -120,9 +125,16 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                     Value
                   </Label>
                   <Input id={`threshold_${i}_value`}
-                         type='text'
+                         type='number'
+                         pattern='\d*'
                          value={threshold.get('value')}
                          onChange={e => onChangeInThresholds(i, 'value', e.target.value)} />
+                  {valueMessages[i] ? valueMessages[i].map((message, i) =>
+                    <ValidationBlock hasError
+                                     key={i}>
+                      {message}
+                    </ValidationBlock>
+                  ) : null}
                 </FormGroup>
 
                 <FormGroup>
@@ -149,6 +161,12 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                       danger
                     </option>
                   </select>
+                  {severityMessages[i] ? severityMessages[i].map((message, i) =>
+                    <ValidationBlock hasError
+                                     key={i}>
+                      {message}
+                    </ValidationBlock>
+                  ) : null}
                 </FormGroup>
 
                 <FormGroup>
@@ -160,6 +178,12 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                          type='text'
                          value={threshold.get('message')}
                          onChange={e => onChangeInThresholds(i, 'message', e.target.value)} />
+                  {messageMessages[i] ? messageMessages[i].map((message, i) =>
+                    <ValidationBlock hasError
+                                     key={i}>
+                      {message}
+                    </ValidationBlock>
+                  ) : null}
                 </FormGroup>
               </FormSection>
             )

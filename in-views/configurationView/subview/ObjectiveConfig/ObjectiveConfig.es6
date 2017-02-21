@@ -245,6 +245,43 @@ function createForm(objective) {
       validator: notBlankValidator
     }))
     .put('thresholds', createField({
-      value: rule ? rule.get('thresholds') : List()
+      value: rule ? rule.get('thresholds') : List(),
+      validator: thresholdValidator
     }));
+}
+
+function thresholdValidator(thresholds) {
+  const messages = {
+    values: [],
+    severity: [],
+    message: []
+  };
+
+  thresholds.forEach((threshold, i) => {
+    const value = threshold.get('value');
+
+    const isValueValid = (!isNaN(value)) && (value % 1 === 0) && (value >= 0) && (value !== '');
+    if (!isValueValid) {
+      messages.values[i] = [
+        'The value must be an integer number >= 0'
+      ];
+    }
+
+    const messageError = notBlankValidator(threshold.get('message'));
+    if (messageError.length > 0) {
+      messages.message[i] = [];
+      messageError.forEach(error => messages.message[i].push(error.message));
+    }
+
+    const severityError = notBlankValidator(String(threshold.get('severity')));
+    if (severityError.length > 0) {
+      messages.severity[i] = [];
+      severityError.forEach(error => messages.severity[i].push(error.message));
+    }
+  });
+
+  return [{
+    severity: ((messages.values.length + messages.message.length + messages.severity.length) === 0) ? null : 'error',
+    messages
+  }];
 }
