@@ -114,18 +114,53 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                   </Button>
                 </div>
 
-                {['value', 'severity', 'message'].map(type =>
-                  <FormGroup key={type}>
-                    <Label className={`${block}__threshold_label`}
-                           htmlFor={`threshold_${i}_${type}`}>
-                      {type}
-                    </Label>
-                    <Input id={`threshold_${i}_${type}`}
-                           type='text'
-                           value={threshold.get(type)}
-                           onChange={e => onChangeInThresholds(i, type, e.target.value)} />
-                  </FormGroup>
-                )}
+                <FormGroup>
+                  <Label className={`${block}__threshold_label`}
+                         htmlFor={`threshold_${i}_value`}>
+                    Value
+                  </Label>
+                  <Input id={`threshold_${i}_value`}
+                         type='text'
+                         value={threshold.get('value')}
+                         onChange={e => onChangeInThresholds(i, 'value', e.target.value)} />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label className={`${block}__threshold_label`}
+                         htmlFor={`threshold_${i}_severity`}>
+                    Severity
+                  </Label>
+                  <select onChange={e => onChangeInThresholds(i, 'severity', e.target.value)}
+                          value={threshold.get('severity')}>
+                    <option key=''
+                            value=''>
+                      -- select --
+                    </option>
+                    <option key='change'
+                            value='0'>
+                      change
+                    </option>
+                    <option key='warning'
+                            value='5'>
+                      warning
+                    </option>
+                    <option key='danger'
+                            value='10'>
+                      danger
+                    </option>
+                  </select>
+                </FormGroup>
+
+                <FormGroup>
+                  <Label className={`${block}__threshold_label`}
+                         htmlFor={`threshold_${i}_message`}>
+                    Message
+                  </Label>
+                  <Input id={`threshold_${i}_message`}
+                         type='text'
+                         value={threshold.get('message')}
+                         onChange={e => onChangeInThresholds(i, 'message', e.target.value)} />
+                </FormGroup>
               </FormSection>
             )
           )}
