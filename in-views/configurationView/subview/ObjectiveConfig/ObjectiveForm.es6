@@ -3,6 +3,7 @@ import React from 'react';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormSection from 'in-components/form/FormSection';
+import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -81,6 +82,9 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                   {message.message}
                 </ValidationBlock>
               )}
+              <HelpBlock>
+                {'Use Cron systax (e.g. 0 8-20 * * 1-5 -> from 8am to 8 pm every working day)'}
+              </HelpBlock>
             </FormGroup>
           )}
         </FormSection>
