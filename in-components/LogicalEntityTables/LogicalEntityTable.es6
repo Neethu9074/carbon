@@ -7,9 +7,9 @@ import {
 } from 'in-services/formatters/number';
 import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
-import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -64,9 +64,11 @@ function createRow(node, i, {timeframe}) {
       <AnnotatedHealthBar snapshotId={id} />
     </td>,
     <td>
-      <SnapshotLink snapshotId={id}>
+      <HierarchicalLink snapshotId={id}
+                        calculateHierarchy
+                        kind='dark'>
         {getLabel(node)}
-      </SnapshotLink>
+      </HierarchicalLink>
     </td>,
     <td>
       <HistoricMetricSparkChartWithLabel width={100}
