@@ -31,10 +31,6 @@ export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled,
              [`${block}__row--selected`]: isSelected
            })}>
         <Column>
-          {alertId}
-        </Column>
-
-        <Column>
           {alertName}
         </Column>
 

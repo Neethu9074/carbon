@@ -9,10 +9,6 @@ export default function TableHeader() {
   return (
     <div className={block}>
       <Header>
-        Id
-      </Header>
-
-      <Header>
         Name
       </Header>
 

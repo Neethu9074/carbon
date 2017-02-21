@@ -27,10 +27,6 @@ export function TableRow({objective, isSelected, onClick, onDeleteObjective, set
              [`${block}__row--selected`]: isSelected
            })}>
         <Column>
-          {objectiveId}
-        </Column>
-
-        <Column>
           {objectiveName}
         </Column>
 
