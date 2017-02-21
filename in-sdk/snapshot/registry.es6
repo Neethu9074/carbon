@@ -47,8 +47,8 @@ function enrichTableDefinition(snapshotDefinition) {
     style: {
       display: 'flex',
       alignItems: 'center',
-      minWidth: '9.375rem',
-      maxWidth: '9.375rem'
+      minWidth: '6.375rem',
+      maxWidth: '6.375rem'
     },
     get(snapshot) {
       return {
