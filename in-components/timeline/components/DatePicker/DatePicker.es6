@@ -21,28 +21,43 @@ export default connectTo({
   currentDateStore: currentDateStore$,
   serverTime: serverTime$,
 },
-function DatePicker({bigBangTimestamp, currentDateStore, selectedTime, serverTime}) {
-  if (!bigBangTimestamp || !serverTime) {
-    return null;
-  }
+React.createClass({
+  displayName: 'DatePicker',
 
-  return (
-    <div className={block}
-         style={{
-           width: currentDateStore ? 250 : 0
-         }}>
-      {currentDateStore ?
-        <DayPicker initialMonth={new Date()}
-                   modifiers={{
-                     selected: day => dateUtils.isSameDay(day, new Date(selectedTime)),
-                     inactive: day => !dateUtils.isDayInRange(day, {
-                       from: new Date(bigBangTimestamp),
-                       to: new Date(serverTime)
-                     })
-                   }}
-                   onDayClick={(e, day) => currentDateStore.setDateString(formatDate(day))} />
-        : null
-      }
-    </div>
-  );
-});
+  getInitialState() {
+    return {
+      initialMonth: new Date()
+    }
+  },
+
+  render() {
+    const bigBangTimestamp = this.props.bigBangTimestamp;
+    const currentDateStore = this.props.currentDateStore;
+    const selectedTime = this.props.selectedTime;
+    const serverTime = this.props.serverTime;
+
+    if (!bigBangTimestamp || !serverTime) {
+      return null;
+    }
+
+    return (
+      <div className={block}
+           style={{
+             width: currentDateStore ? 250 : 0
+           }}>
+        {currentDateStore ?
+          <DayPicker initialMonth={this.state.initialMonth}
+                     modifiers={{
+                       selected: day => dateUtils.isSameDay(day, new Date(selectedTime)),
+                       inactive: day => !dateUtils.isDayInRange(day, {
+                         from: new Date(bigBangTimestamp),
+                         to: new Date(serverTime)
+                       })
+                     }}
+                     onDayClick={(e, day) => currentDateStore.setDateString(formatDate(day))} />
+          : null
+        }
+      </div>
+    );
+  }
+}));
