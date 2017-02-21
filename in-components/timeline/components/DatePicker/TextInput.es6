@@ -15,10 +15,12 @@ export default connectTo(props => {
   };
 },
 function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
+  const validationObject = isValid.validationObject;
   const input = (
     <input type='text'
            className={evaluateClassNames({
              [`${block}__input`]: true,
+             [`${block}--hint`]: (validationObject.hint ? true : false),
              [`${block}--invalid`]: !isValid.isValid
            })}
            value={value}
@@ -40,7 +42,7 @@ function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
   }
 
   return (
-    <Tooltip content={isValid.isValid ? null : isValid.error}
+    <Tooltip content={isValid.isValid ? validationObject.hint : validationObject.error}
              align='rightMiddle'>
       {component}
     </Tooltip>

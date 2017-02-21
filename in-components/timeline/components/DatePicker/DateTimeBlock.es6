@@ -32,7 +32,7 @@ function DateTimeBlock({store, heading, dateString, timeString, showInputDescrip
                    isValid$={store.isDateTimeValid$.map(valid => {
                      return {
                        isValid: valid.date,
-                       error: valid.error
+                       validationObject: valid
                      };
                    })}
                    type='date'
@@ -44,7 +44,7 @@ function DateTimeBlock({store, heading, dateString, timeString, showInputDescrip
                    isValid$={store.isDateTimeValid$.map(valid => {
                      return {
                        isValid: valid.time,
-                       error: valid.error
+                       validationObject: valid
                      };
                    })} />
       </div>
