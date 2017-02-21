@@ -116,8 +116,9 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
                 {['value', 'severity', 'message'].map(type =>
                   <FormGroup key={type}>
-                    <Label htmlFor={`threshold_${i}_${type}`}>
-                      Value
+                    <Label className={`${block}__threshold_label`}
+                           htmlFor={`threshold_${i}_${type}`}>
+                      {type}
                     </Label>
                     <Input id={`threshold_${i}_${type}`}
                            type='text'
