@@ -189,7 +189,7 @@ export default function HostDashboard({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
 
-      <ProcessTopList snapshotId={snapshot.get('id')} />
+      <ProcessTopList snapshot={snapshot} />
 
       <DashboardSection title='Agent Self Monitoring'>
         <div className={`${block}__self-monitoring`}>
