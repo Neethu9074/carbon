@@ -16,8 +16,8 @@ export default connectTo(props => {
   };
 },
 function DateTimeBlock({store, heading, dateString, timeString, showInputDescriptions, setDateStore}) {
-  dateString = dateString || '0000-00-00';
-  timeString = timeString || '00:00:00';
+  dateString = dateString != null ? dateString : '2017-01-01';
+  timeString = timeString != null ? timeString : '00:00:00';
 
   return (
     <div className={block}>

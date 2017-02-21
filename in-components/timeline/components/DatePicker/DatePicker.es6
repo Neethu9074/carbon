@@ -27,7 +27,7 @@ React.createClass({
   getInitialState() {
     return {
       initialMonth: new Date()
-    }
+    };
   },
 
   render() {
