@@ -3,7 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import {setTimestamp, getValidation$, getTimestamp$} from 'in-components/timeline/components/DatePicker/stores/storeUtils';
 import {fromTimestamp$} from 'in-components/timeline/components/DatePicker/stores/fromDatePickerStore';
 import {toTimestamp$} from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
-import {formatDate, parseDate} from 'in-services/formatters/date';
+import {formatDate, formatDateTime, parseDate} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 
@@ -59,7 +59,7 @@ export function reset() {
                                     const time = (!date) ? true : focusedMomentTimestamp >= fromTimestamp && focusedMomentTimestamp <= toTimestamp;
 
                                     if (!date || !time) {
-                                      validationObject.hint = 'The selected moment is not between from and to.';
+                                      validationObject.hint = `The selected moment is not between ${formatDateTime(fromTimestamp)} and ${formatDateTime(toTimestamp)}.`;
                                     }
 
                                     return {
@@ -69,5 +69,9 @@ export function reset() {
                                       hint: validationObject.hint
                                     };
                                   });
-  focusedMoment$.once(_focusedMoment => setTimestamp(_focusedMoment, setDateString, setTimeString));
+  focusedMoment$.once(_focusedMoment => {
+    _focusedMoment
+      ? setTimestamp(_focusedMoment, setDateString, setTimeString)
+      : setTimestamp(Date.now(), setDateString, setTimeString);
+  });
 }

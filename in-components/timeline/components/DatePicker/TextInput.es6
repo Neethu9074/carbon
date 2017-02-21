@@ -20,7 +20,7 @@ function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
     <input type='text'
            className={evaluateClassNames({
              [`${block}__input`]: true,
-             [`${block}--hint`]: (validationObject.hint ? true : false),
+             [`${block}--hint`]: validationObject.hint ? true : false,
              [`${block}--invalid`]: !isValid.isValid
            })}
            value={value}
