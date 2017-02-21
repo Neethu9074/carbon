@@ -3,7 +3,7 @@ import React from 'react';
 import './TableHeader.less';
 
 
-const block = 'in-alerts-table-header';
+const block = 'in-objectives-table-header';
 
 export default function TableHeader() {
   return (
@@ -20,14 +20,7 @@ export default function TableHeader() {
         Enabled
       </Header>
 
-      <Header>
-        Entity Type
-      </Header>
-
-      <Header>
-        Actions
-      </Header>
-
+      <Header />
       <Header />
     </div>
   );

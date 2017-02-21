@@ -20,9 +20,11 @@ import {
   apiTokensViewLink$,
   isApiTokensView$,
   auditLogViewLink$,
-  isAuditLogView$
+  isAuditLogView$,
+  objectiveViewLink$,
+  isObjetiveView$
 } from 'in-stores/navigation/configuration';
-import {auditLogEnabled, customAltertingEnabled} from 'in-services/featureFlags';
+import {auditLogEnabled, customAltertingEnabled, objectivesEnabled} from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
 import {role} from 'in-stores/user';
@@ -99,6 +101,12 @@ export default function Navigation() {
           <NavItem title='Audit Log'
                    href$={auditLogViewLink$}
                    isActive$={isAuditLogView$} />
+        : null}
+
+        {objectivesEnabled ?
+          <NavItem title='Objectives'
+                   href$={objectiveViewLink$}
+                   isActive$={isObjetiveView$} />
         : null}
       </NavItems>
     </nav>
