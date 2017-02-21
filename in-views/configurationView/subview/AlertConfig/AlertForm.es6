@@ -3,6 +3,7 @@ import React from 'react';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import MetricSelector from 'in-components/MetricSelector';
+import FormSection from 'in-components/form/FormSection';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Toggle from 'in-components/form/Toggle';
@@ -45,7 +46,7 @@ export default function AlertForm({form, onChange}) {
           </FormGroup>
         )}
 
-        <Group>
+        <FormSection>
           {form.get('entityType').map(field =>
             <FormGroup>
               <Label htmlFor='entityType'
@@ -95,9 +96,9 @@ export default function AlertForm({form, onChange}) {
               </FormGroup>
             )
           : null}
-        </Group>
+        </FormSection>
 
-        <Group>
+        <FormSection>
           {form.get('rollup').map(field =>
             <FormGroup>
               <Label htmlFor='rollup'
@@ -219,9 +220,9 @@ export default function AlertForm({form, onChange}) {
               )}
             </FormGroup>
           )}
-        </Group>
+        </FormSection>
 
-        <Group>
+        <FormSection>
           {form.get('threshold').map(field =>
             <FormGroup>
               <Label htmlFor='threshold'
@@ -287,9 +288,9 @@ export default function AlertForm({form, onChange}) {
               )}
             </FormGroup>
           )}
-        </Group>
+        </FormSection>
 
-        <Group>
+        <FormSection>
           {form.get('text').map(field =>
             <FormGroup>
               <Label htmlFor='text'
@@ -332,9 +333,9 @@ export default function AlertForm({form, onChange}) {
               )}
             </FormGroup>
           )}
-        </Group>
+        </FormSection>
 
-        <Group>
+        <FormSection>
           {form.get('severity').map(field =>
             <FormGroup>
               <Label htmlFor='severity'
@@ -379,9 +380,9 @@ export default function AlertForm({form, onChange}) {
                       onChange={e => onChange('triggering', e.target.checked)} />
             </FormGroup>
           )}
-        </Group>
+        </FormSection>
 
-        <Group>
+        <FormSection>
           {form.get('query').map(field =>
             <FormGroup>
               <Label htmlFor='query'
@@ -401,16 +402,8 @@ export default function AlertForm({form, onChange}) {
               )}
             </FormGroup>
           )}
-        </Group>
+        </FormSection>
       </Section>
     </fieldset>
-  );
-}
-
-function Group({children}) {
-  return (
-    <div className={`${block}__group`}>
-      {children}
-    </div>
   );
 }

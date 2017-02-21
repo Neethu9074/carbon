@@ -3,6 +3,7 @@ import React from 'react';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import {openObjectiveConfig} from 'in-stores/navigation/configuration';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {formatDateTime} from 'in-services/formatters/date';
@@ -44,6 +45,15 @@ export function TableRow({objective, isSelected, onClick, onDeleteObjective, set
         </Column>
 
         <Column />
+
+        <Column>
+          <Button className={`${block}__button`}
+                  size='sm'
+                  kind='success'
+                  onClick={() => openObjectiveConfig(objectiveId)}>
+            Edit
+          </Button >
+        </Column>
 
         <Column>
           <Button className={`${block}__button`}
@@ -102,12 +112,25 @@ function Details({objective}) {
         <DescriptionItem title='Reduction Operation'>
           {rule.get('reductionOperation')}
         </DescriptionItem>
-        <DescriptionItem title='Reduction Operation'>
-          {rule.get('thresholds').map(threshold =>
-            <div key={threshold}>
-              {threshold}
-            </div>
-          )}
+        <DescriptionItem title='Thresholds'>
+          <ul className={`${block}__thresholds`}>
+            {rule.get('thresholds').map((threshold, i) =>
+              <li key={i}
+                  className={`${block}__flex-wrapper`}>
+                <DescriptionItem title='Value'
+                                 className={`${block}__value`}>
+                  {threshold.get('value')}
+                </DescriptionItem>
+                <DescriptionItem title='Severity'
+                                 className={`${block}__severity`}>
+                  {threshold.get('severity')}
+                </DescriptionItem>
+                <DescriptionItem title='Message'>
+                  {threshold.get('message')}
+                </DescriptionItem>
+              </li>
+            )}
+          </ul>
         </DescriptionItem>
 
         <DescriptionItem title='Last update'>

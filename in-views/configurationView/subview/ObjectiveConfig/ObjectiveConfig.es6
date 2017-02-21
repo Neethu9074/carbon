@@ -1,6 +1,6 @@
 import {createMapForm, createField, notBlankValidator} from 'formalistic';
 import {createLogger} from 'instalog';
-import {fromJS} from 'immutable';
+import {fromJS, List} from 'immutable';
 import React from 'react';
 
 import {getObjective, saveObjective, createObjective} from 'in-services/groundskeeper/objectives';
@@ -72,7 +72,10 @@ export default React.createClass({
 
           {form ?
             <ObjectiveForm form={form}
-                       onChange={this.onChange} />
+                       onChange={this.onChange}
+                       onChangeInThresholds={this.onChangeInThresholds}
+                       onAddThreshold={this.onAddThreshold}
+                       onRemoveThreshold={this.onRemoveThreshold} />
           : null}
         </form>
 
@@ -140,6 +143,43 @@ export default React.createClass({
     });
   },
 
+  onAddThreshold() {
+    let updatedForm = this.state.form;
+    updatedForm = updatedForm.updateIn(['thresholds'], field =>
+      field.setValue(field.value.push(fromJS({
+             value: 0,
+             severity: 0,
+             message: ''
+           })))
+           .setTouched(true));
+
+    this.setState({
+      form: updatedForm
+    });
+  },
+
+  onRemoveThreshold(index) {
+    let updatedForm = this.state.form;
+    updatedForm = updatedForm.updateIn(['thresholds'], field =>
+      field.setValue(field.value.delete(index))
+           .setTouched(true));
+
+    this.setState({
+      form: updatedForm
+    });
+  },
+
+  onChangeInThresholds(index, fieldName, value) {
+    let updatedForm = this.state.form;
+    updatedForm = updatedForm.updateIn(['thresholds'], field =>
+      field.setValue(field.value.setIn([index, fieldName], value))
+           .setTouched(true));
+
+    this.setState({
+      form: updatedForm
+    });
+  },
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -159,7 +199,8 @@ export default React.createClass({
       objective ? objective.get('enabled') : true,
       form.get('filteringQuery').value,
       form.get('timePattern').value,
-      form.get('reductionOperation').value
+      form.get('reductionOperation').value,
+      form.get('thresholds').value.toJS()
     )));
 
     this.disposeAsyncAction();
@@ -202,5 +243,8 @@ function createForm(objective) {
     .put('reductionOperation', createField({
       value: rule ? rule.get('reductionOperation') : '',
       validator: notBlankValidator
+    }))
+    .put('thresholds', createField({
+      value: rule ? rule.get('thresholds') : List()
     }));
 }
