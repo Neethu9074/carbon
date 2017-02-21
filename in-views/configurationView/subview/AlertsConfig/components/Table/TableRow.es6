@@ -113,7 +113,7 @@ function Details({alert}) {
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
-        <DescriptionItem title='Entity-Type'>
+        <DescriptionItem title='Entity type'>
           <div className={`${block}__flex-wrapper`}>
             <PluginIcon className={`${block}__entity-icon`}
                         dimension={16}
@@ -125,14 +125,14 @@ function Details({alert}) {
         <DescriptionItem title='Metric'>
           {match.get('metricName')}
         </DescriptionItem>
-        <DescriptionItem title='Filter Query'>
+        <DescriptionItem title='Applied on filter query'>
           {match.get('query')}
         </DescriptionItem>
         <DescriptionItem title='Rollup in ms'>
           {formatDurationAccurately(match.get('rollup'))}
         </DescriptionItem>
 
-        <DescriptionItem title='Window'>
+        <DescriptionItem title='Time window'>
           {formatDurationAccurately(rule.get('window'))}
         </DescriptionItem>
         <DescriptionItem title='Aggregation'>
@@ -142,13 +142,13 @@ function Details({alert}) {
           {`${rule.get('conditionOperator')} ${rule.get('conditionValue')}`}
         </DescriptionItem>
 
-        <DescriptionItem title='Is triggering'>
+        <DescriptionItem title='Triggering'>
           {String(event.get('triggering'))}
         </DescriptionItem>
         <DescriptionItem title='Severity'>
-          {event.get('severity')}
+          {mapSeverityToLabel(event.get('severity'))}
         </DescriptionItem>
-        <DescriptionItem title='Event text'>
+        <DescriptionItem title='Text'>
           {event.get('text')}
         </DescriptionItem>
         <DescriptionItem title='Description'>
@@ -161,4 +161,14 @@ function Details({alert}) {
       </DescriptionList>
     </div>
   );
+}
+
+function mapSeverityToLabel(severity) {
+  if (severity === 0) {
+    return 'change';
+  } else if (severity === 5) {
+    return 'warning';
+  } else {
+    return 'critical';
+  }
 }

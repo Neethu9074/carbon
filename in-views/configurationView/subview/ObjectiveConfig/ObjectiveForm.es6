@@ -49,7 +49,7 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
             <FormGroup>
               <Label htmlFor='filteringQuery'
                      hasError={!field.valid}>
-                Filtering Query
+                Applied on filter query
               </Label>
               <Input id='filteringQuery'
                      type='text'
@@ -69,7 +69,7 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
             <FormGroup>
               <Label htmlFor='timePattern'
                      hasError={!field.valid}>
-                Time Pattern
+                Time pattern
               </Label>
               <Input id='timePattern'
                      type='text'
@@ -94,7 +94,7 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
             <FormGroup>
               <Label htmlFor='reductionOperation'
                      hasError={!field.valid}>
-                Reduction Operation
+                Reduction operation
               </Label>
               <Input id='reductionOperation'
                      type='text'
@@ -119,7 +119,7 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                   <Button kind='danger'
                           size='sm'
                           onClick={() => onRemoveThreshold(i)}>
-                    Remove Threshold
+                    Remove threshold
                   </Button>
                 </div>
 
@@ -160,9 +160,9 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                             value='5'>
                       warning
                     </option>
-                    <option key='danger'
+                    <option key='critical'
                             value='10'>
-                      danger
+                      critical
                     </option>
                   </select>
                   {severityMessages[i] ? severityMessages[i].map((message, i) =>
@@ -195,7 +195,7 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
           <Button kind='info'
                   onClick={onAddThreshold}>
-            Add Threshold
+            Add threshold
           </Button>
         </FormSection>
       </Section>

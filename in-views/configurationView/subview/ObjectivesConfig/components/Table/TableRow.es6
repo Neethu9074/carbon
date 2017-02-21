@@ -102,14 +102,14 @@ function Details({objective}) {
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
-        <DescriptionItem title='Filtering Query'>
+        <DescriptionItem title='Applied on filter query'>
           {match.get('filteringQuery')}
         </DescriptionItem>
-        <DescriptionItem title='Time Pattern'>
+        <DescriptionItem title='Time pattern'>
           {match.get('timePattern')}
         </DescriptionItem>
 
-        <DescriptionItem title='Reduction Operation'>
+        <DescriptionItem title='Reduction operation'>
           {rule.get('reductionOperation')}
         </DescriptionItem>
         <DescriptionItem title='Thresholds'>
@@ -123,7 +123,7 @@ function Details({objective}) {
                 </DescriptionItem>
                 <DescriptionItem title='Severity'
                                  className={`${block}__severity`}>
-                  {threshold.get('severity')}
+                  {mapSeverityToLabel(threshold.get('severity'))}
                 </DescriptionItem>
                 <DescriptionItem title='Message'>
                   {threshold.get('message')}
@@ -139,4 +139,14 @@ function Details({objective}) {
       </DescriptionList>
     </div>
   );
+}
+
+function mapSeverityToLabel(severity) {
+  if (severity === 0) {
+    return 'change';
+  } else if (severity === 5) {
+    return 'warning';
+  } else {
+    return 'critical';
+  }
 }

@@ -51,7 +51,7 @@ export default function AlertForm({form, onChange}) {
             <FormGroup>
               <Label htmlFor='entityType'
                      hasError={!field.valid}>
-                Entity Type
+                Entity type
               </Label>
               <select onChange={e => onChange(['entityType', 'metricName'], [e.target.value, '-1'])}
                       value={field.value}>
@@ -175,7 +175,7 @@ export default function AlertForm({form, onChange}) {
             <FormGroup>
               <Label htmlFor='window'
                      hasError={!field.valid}>
-                Window
+                Time window
               </Label>
               <select onChange={e => onChange('window', e.target.value)}
                       value={field.value}>
@@ -222,12 +222,12 @@ export default function AlertForm({form, onChange}) {
           )}
         </FormSection>
 
-        <FormSection>
+        <FormSection heading='Condition' >
           {form.get('threshold').map(field =>
             <FormGroup>
               <Label htmlFor='threshold'
                      hasError={!field.valid}>
-                Threshold
+                Operator
               </Label>
               <select onChange={e => onChange('threshold', e.target.value)}
                       value={field.value}>
@@ -273,7 +273,7 @@ export default function AlertForm({form, onChange}) {
             <FormGroup>
               <Label htmlFor='thresholdValue'
                      hasError={!field.valid}>
-                Threshold Value
+                Value
               </Label>
               <Input id='thresholdValue'
                      type='number'
@@ -295,7 +295,7 @@ export default function AlertForm({form, onChange}) {
             <FormGroup>
               <Label htmlFor='text'
                      hasError={!field.valid}>
-                Event Text
+                Text
               </Label>
               <Input id='text'
                      type='text'
@@ -356,9 +356,9 @@ export default function AlertForm({form, onChange}) {
                         value='5'>
                   warning
                 </option>
-                <option key='danger'
+                <option key='critical'
                         value='10'>
-                  danger
+                  critical
                 </option>
               </select>
               {field.messages.map((message, i) =>
@@ -373,7 +373,7 @@ export default function AlertForm({form, onChange}) {
           {form.get('triggering').map(field =>
             <FormGroup>
               <Label htmlFor='triggering'>
-                Is Triggering
+                Triggering
               </Label>
               <Toggle className={`${block}__toggle`}
                       checked={field.value}
@@ -387,7 +387,7 @@ export default function AlertForm({form, onChange}) {
             <FormGroup>
               <Label htmlFor='query'
                      hasError={!field.valid}>
-                Filter Query
+                Applied on filter query
               </Label>
               <Input id='query'
                      type='text'
