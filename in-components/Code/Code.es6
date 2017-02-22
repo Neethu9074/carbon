@@ -83,8 +83,9 @@ export default React.createClass({
     Prism.highlightElement(codeElement);
 
     const lineHighlight = preElement.querySelector('.line-highlight');
-    if (lineHighlight) {
-      lineHighlight.scrollIntoView();
+    const scrollElement = document.querySelector('.in-code-retrieval-dialog__content');
+    if (scrollElement && lineHighlight) {
+      scrollElement.scrollTop = lineHighlight.offsetTop - (scrollElement.clientHeight / 2);
     }
   },
 
