@@ -125,11 +125,11 @@ function Details({alert}) {
           {match.get('query')}
         </DescriptionItem>
         <DescriptionItem title='Rollup in ms'>
-          {formatDurationAccurately(match.get('rollup'))}
+          {formatDurationAccurately(match.get('rollup'), 1000)}
         </DescriptionItem>
 
         <DescriptionItem title='Time window'>
-          {formatDurationAccurately(rule.get('window'))}
+          {formatDurationAccurately(rule.get('window'), 1000)}
         </DescriptionItem>
         <DescriptionItem title='Aggregation'>
           {rule.get('aggregation')}
