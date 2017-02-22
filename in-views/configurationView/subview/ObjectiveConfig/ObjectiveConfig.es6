@@ -263,7 +263,7 @@ function thresholdValidator(thresholds) {
     const isValueValid = (!isNaN(value)) && (value % 1 === 0) && (value >= 0) && (value !== '');
     if (!isValueValid) {
       messages.values[i] = [
-        'The value must be an integer number >= 0'
+        'The value must be an integer >= 0'
       ];
     }
 

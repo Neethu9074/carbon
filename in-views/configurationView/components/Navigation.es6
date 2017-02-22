@@ -22,7 +22,7 @@ import {
   auditLogViewLink$,
   isAuditLogView$,
   objectiveViewLink$,
-  isObjetiveView$
+  isObjectivesView$
 } from 'in-stores/navigation/configuration';
 import {auditLogEnabled, customAltertingEnabled, objectivesEnabled} from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
@@ -106,7 +106,7 @@ export default function Navigation() {
         {objectivesEnabled ?
           <NavItem title='Objectives'
                    href$={objectiveViewLink$}
-                   isActive$={isObjetiveView$} />
+                   isActive$={isObjectivesView$} />
         : null}
       </NavItems>
     </nav>

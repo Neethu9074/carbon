@@ -118,17 +118,17 @@ export default (
              windowTitle='API Tokens' />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(AlertsConfig)}
-             path='alerting'
+             path='alerts'
              windowTitle='Custom Alerts' />
       <Route component={createAsyncFullscreenOverlayViewComponent(AlertConfig)}
-             path='alertConfig/:alertId'
+             path='alerts/:alertId'
              windowTitle='Alert Config' />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)}
              path='objectives'
              windowTitle='Objectives' />
       <Route component={createAsyncFullscreenOverlayViewComponent(ObjectiveConfig)}
-             path='ojectiveConfig/:objectiveId'
+             path='objectives/:objectiveId'
              windowTitle='Objectives' />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)}
