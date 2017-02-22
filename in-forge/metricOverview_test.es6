@@ -28,7 +28,7 @@ function doGenerate() {
 
       metrics
         .forEach(metric => {
-          str += ` - **${metric.label}:** ${metric.metric}\n`;
+          str += ` - **${metric.label}:** \`${metric.metric}\`\n`;
         });
 
         str += '\n\n';
