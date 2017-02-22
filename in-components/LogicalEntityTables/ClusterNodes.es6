@@ -10,7 +10,7 @@ import {getSnapshot} from 'in-stores/snapshot';
 export default function ClusterNodes({snapshotId, timeframe}) {
   return (
     <LogicalEntityTable timeframe={timeframe}
-                        title={'Instances'}
+                        title='Instances'
                         dataStream={getClusterMembers(snapshotId)
                                     // Always start with an empty set to avoid inconsistent view,
                                     // displaying running components for a previously selected snapshot.
