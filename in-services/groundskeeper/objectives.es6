@@ -56,6 +56,7 @@ export function createObjective(id,
                                 enabled = false,
                                 filteringQuery = '',
                                 timePattern = '',
+                                timeZoneId = 'UTC+00:00',
                                 reductionOperation = '',
                                 thresholds = []) {
   return {
@@ -64,7 +65,8 @@ export function createObjective(id,
     name,
     match: {
       filteringQuery,
-      timePattern
+      timePattern,
+      timeZoneId
     },
     rule: {
       reductionOperation,

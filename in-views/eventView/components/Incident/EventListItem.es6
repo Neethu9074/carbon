@@ -12,6 +12,7 @@ import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
 import EntityInformation from 'in-components/EntityInformation';
 import Marker from 'in-views/eventView/components/Marker';
+import {getFixedTimeframeUrl} from 'in-stores/navigation';
 import {formatTime} from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
@@ -120,17 +121,24 @@ React.createClass({
   }
 }));
 
-function TimeIndicator({event}) {
+const TimeIndicator = connectTo(props => {
+  return {
+    href: getFixedTimeframeUrl({focusedMoment: props.event.get('start')})
+  };
+},
+function TimeIndicator({event, href}) {
   return (
     <div className={`${block}__time-indicator`}>
-      <span className={`${block}__time`}>
-        {formatTime(event.get('start'))}
-      </span>
+      <a href={href}>
+        <span className={`${block}__time`}>
+          {formatTime(event.get('start'))}
+        </span>
+      </a>
       <div className={`${block}__line`} />
       <div className={`${block}__dot`} />
     </div>
   );
-}
+});
 
 function DetailsHeader({event, onClick, iconType, background}) {
   const className = `${block}__heading`;
