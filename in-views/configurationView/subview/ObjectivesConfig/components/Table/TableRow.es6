@@ -104,6 +104,9 @@ function Details({objective}) {
         <DescriptionItem title='Time pattern'>
           {match.get('timePattern')}
         </DescriptionItem>
+        <DescriptionItem title='Time zone'>
+          {rule.get('timeZoneId')}
+        </DescriptionItem>
 
         <DescriptionItem title='Reduction operation'>
           {rule.get('reductionOperation')}

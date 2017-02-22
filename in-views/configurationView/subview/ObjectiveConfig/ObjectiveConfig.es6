@@ -199,6 +199,7 @@ export default React.createClass({
       objective ? objective.get('enabled') : true,
       form.get('filteringQuery').value,
       form.get('timePattern').value,
+      form.get('timeZoneId').value,
       form.get('reductionOperation').value,
       form.get('thresholds').value.toJS()
     )));
@@ -238,6 +239,10 @@ function createForm(objective) {
     }))
     .put('timePattern', createField({
       value: match ? match.get('timePattern') : '',
+      validator: notBlankValidator
+    }))
+    .put('timeZoneId', createField({
+      value: match ? match.get('timeZoneId') : '',
       validator: notBlankValidator
     }))
     .put('reductionOperation', createField({
