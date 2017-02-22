@@ -25,7 +25,7 @@ export default function Dashboard({snapshot, timeframe}) {
       <AlertsTable snapshot={snapshot}
                    timeframe={timeframe} />
 
-      <DashboardSection title='Sap HANA Memory Usage'>
+      <DashboardSection title='SAP HANA Memory Usage'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -44,7 +44,7 @@ export default function Dashboard({snapshot, timeframe}) {
                            type: 'line'
                          }} />
       </DashboardSection>
-      <DashboardSection title='Sap HANA Cpu Usage'>
+      <DashboardSection title='SAP HANA Cpu Usage'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{

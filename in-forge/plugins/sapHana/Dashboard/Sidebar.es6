@@ -13,7 +13,7 @@ export default function Sidebar({snapshot}) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Sap HANA</Collapsible.Header>
+        <Collapsible.Header>SAP HANA</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

@@ -12,8 +12,8 @@ registerSnapshotDefinition({
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'Sap HANA',
-    plural: 'Sap HANA'
+    singular: 'SAP HANA',
+    plural: 'SAP HANA'
   },
 
   namesForTypeSearch: ['sap', 'hana'],

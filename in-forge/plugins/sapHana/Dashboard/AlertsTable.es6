@@ -9,24 +9,38 @@ import {emptyList} from 'in-services/fixedImmutables';
 
 
 export default function AlertsTable({snapshot, timeframe}) {
-  const alerts = snapshot.getIn(['data', 'alerts'], emptyList).sort((alert) => alert.get('rating'));
+  const alerts = snapshot.getIn(['data', 'alerts'], emptyList).toArray().sort((alert1, alert2) => {
+    const rating1 = alert1.get('rating');
+    const rating2 = alert2.get('rating');
+    if (rating1 > rating2) {
+      return -1;
+    }
+    if (rating1 < rating2) {
+      return 1;
+    }
+    if (rating1 === rating2) {
+      return 0;
+    }
+  });
+
+  if (alerts.size === 0) {
+    return (
+      <DashboardNotification type='info'>
+        There are no alerts currently
+      </DashboardNotification>);
+  }
 
   return (
     <DashboardSection title='Alerts'>
-      {alerts.size !== 0 ?
-        <ExpandableTable data={alerts}
-                         getKey={getKey}
-                         createHeader={createHeader}
-                         createRow={createRow}
-                         context={{
+      <ExpandableTable data={alerts}
+                       getKey={getKey}
+                       createHeader={createHeader}
+                       createRow={createRow}
+                       context={{
                          snapshot,
                          timeframe
                        }}
-                         createDetails={createDetails} />
-      : <DashboardNotification type='info'>
-          There are no alerts currently
-        </DashboardNotification>
-      }
+                       createDetails={createDetails} />
     </DashboardSection>
   );
 }
