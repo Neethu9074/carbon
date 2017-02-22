@@ -18,6 +18,7 @@
     "check-updates": "ncu",
     "check-licenses": "license-checker > licenses.txt",
     "check-bundle-size": "npm run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
+    "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true npm run test:unit",
     "precommit": "npm test"
   },
   "repository": {

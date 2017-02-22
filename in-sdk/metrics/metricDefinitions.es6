@@ -36,7 +36,7 @@ const categories = {};
 //     }
 //   ]
 // }
-const metricDefinitions = {};
+export const metricDefinitions = {};
 
 export function registerMetricDefinition(plugin, metricDefinition) {
   // unsure that all definitions have the same structure

@@ -16,6 +16,7 @@
 	- [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
 	- [I cannot access the local development domain in Firefox due to HSTS!](#i-cannot-access-the-local-development-domain-in-firefox-due-to-hsts)
 	- [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
+	- [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
 - [Theming](#theming)
 	- [Most important files](#most-important-files)
 
@@ -111,6 +112,9 @@ Object.keys(instana.dev.storeStates).forEach(key => {
   }
 });
 ```
+
+### How can I get a list of metrics?
+You can get a list of metrics per entity via `npm run generateMetricOverview`. This will execute a test which prints the metrics to `stdout`. Note that this list is not extensive. For instance, it does not include dynamic metric names such as file system capacity or CPU 1 usage.
 
 ## Theming
 The theming system in place is used to support the default dark theme (called *night*) and a brighter theme with stronger contrasts (called *day*). Themes are switched based on a cookie called `in-theme`. This cookie is read by `in-server` and depending on its value the server returns varying HTML responses.

@@ -1,4 +1,4 @@
-/* eslint-env mocha */
+// /* eslint-env mocha */
 
 import {plugins, fullyQualifiedPlugins} from 'in-forge/constants';
 
