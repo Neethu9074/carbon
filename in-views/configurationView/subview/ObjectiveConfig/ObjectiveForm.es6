@@ -1,8 +1,8 @@
 import React from 'react';
 
+import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import FormSection from 'in-components/form/FormSection';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -44,77 +44,78 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
           </FormGroup>
         )}
 
-        <FormSection>
-          {form.get('filteringQuery').map(field =>
-            <FormGroup>
-              <Label htmlFor='filteringQuery'
-                     hasError={!field.valid}>
-                Applied on filter query
-              </Label>
-              <Input id='filteringQuery'
-                     type='text'
-                     value={field.value}
-                     onChange={e => onChange('filteringQuery', e.target.value)}
-                     hasError={!field.valid} />
-              {field.messages.map((message, i) =>
-                <ValidationBlock hasError
-                                 key={i}>
-                  {message.message}
-                </ValidationBlock>
-              )}
-            </FormGroup>
-          )}
+        {form.get('filteringQuery').map(field =>
+          <FormGroup>
+            <Label htmlFor='filteringQuery'
+                   hasError={!field.valid}>
+              Applied on filter query
+            </Label>
+            <Input id='filteringQuery'
+                   type='text'
+                   value={field.value}
+                   onChange={e => onChange('filteringQuery', e.target.value)}
+                   hasError={!field.valid} />
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
+                {message.message}
+              </ValidationBlock>
+            )}
+          </FormGroup>
+        )}
 
-          {form.get('timePattern').map(field =>
-            <FormGroup>
-              <Label htmlFor='timePattern'
-                     hasError={!field.valid}>
-                Time pattern
-              </Label>
-              <Input id='timePattern'
-                     type='text'
-                     value={field.value}
-                     onChange={e => onChange('timePattern', e.target.value)}
-                     hasError={!field.valid} />
-              {field.messages.map((message, i) =>
-                <ValidationBlock hasError
-                                 key={i}>
-                  {message.message}
-                </ValidationBlock>
-              )}
-              <HelpBlock>
-                {'Use Cron systax (e.g. 0 8-20 * * 1-5 -> from 8am to 8 pm every working day)'}
-              </HelpBlock>
-            </FormGroup>
-          )}
-        </FormSection>
+        {form.get('timePattern').map(field =>
+          <FormGroup>
+            <Label htmlFor='timePattern'
+                   hasError={!field.valid}>
+              Time pattern
+            </Label>
+            <Input id='timePattern'
+                   type='text'
+                   value={field.value}
+                   onChange={e => onChange('timePattern', e.target.value)}
+                   hasError={!field.valid} />
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
+                {message.message}
+              </ValidationBlock>
+            )}
+            <HelpBlock>
+              {'Use Cron systax (e.g. 0 8-20 * * 1-5 -> from 8am to 8 pm every working day)'}
+            </HelpBlock>
+          </FormGroup>
+        )}
 
-        <FormSection>
-          {form.get('reductionOperation').map(field =>
-            <FormGroup>
-              <Label htmlFor='reductionOperation'
-                     hasError={!field.valid}>
-                Reduction operation
-              </Label>
-              <Input id='reductionOperation'
-                     type='text'
-                     value={field.value}
-                     onChange={e => onChange('reductionOperation', e.target.value)}
-                     hasError={!field.valid} />
-              {field.messages.map((message, i) =>
-                <ValidationBlock hasError
-                                 key={i}>
-                  {message.message}
-                </ValidationBlock>
-              )}
-            </FormGroup>
-          )}
-        </FormSection>
+        {form.get('reductionOperation').map(field =>
+          <FormGroup>
+            <Label htmlFor='reductionOperation'
+                   hasError={!field.valid}>
+              Reduction operation
+            </Label>
+            <Input id='reductionOperation'
+                   type='text'
+                   value={field.value}
+                   onChange={e => onChange('reductionOperation', e.target.value)}
+                   hasError={!field.valid} />
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
+                {message.message}
+              </ValidationBlock>
+            )}
+          </FormGroup>
+        )}
+      </Section>
 
-        <FormSection heading='Thresholds'>
+      {form.get('thresholds').value.size > 0 ?
+        <Section>
+          <SectionHeading>
+            Thresholds
+          </SectionHeading>
           {form.get('thresholds').map(field =>
             field.value.map((threshold, i) =>
-              <FormSection key={`threshold_${i}`}>
+              <div key={`threshold_${i}`}>
                 <div className={`${block}__remove-button-wrapper`}>
                   <Button kind='danger'
                           size='sm'
@@ -189,15 +190,17 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                     </ValidationBlock>
                   ) : null}
                 </FormGroup>
-              </FormSection>
+              </div>
             )
           )}
+        </Section>
+      : null }
 
-          <Button kind='info'
-                  onClick={onAddThreshold}>
-            Add threshold
-          </Button>
-        </FormSection>
+      <Section>
+        <Button kind='info'
+                onClick={onAddThreshold}>
+          Add threshold
+        </Button>
       </Section>
     </fieldset>
   );

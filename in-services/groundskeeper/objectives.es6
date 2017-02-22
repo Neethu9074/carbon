@@ -69,6 +69,6 @@ export function createObjective(id,
     rule: {
       reductionOperation,
       thresholds
-    },
+    }
   };
 }
