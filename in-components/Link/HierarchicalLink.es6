@@ -49,21 +49,13 @@ React.createClass({
       );
     }
 
-    let expandedIconColor;
-    if (kind === 'dark') {
-      expandedIconColor = isExpanded ? '#000' : '#92A5AE';
-    } else {
-      expandedIconColor = isExpanded ? '#fff' : '#92A5AE';
-    }
-
     return (
       <div className={`${block}__link-wrapper`}>
-        <SvgIcon className={`${block}__info-icon`}
+        <SvgIcon className={`${block}__info-icon ${block}__info-icon--${kind}`}
                  onClick={this.onClick}
                  type={isExpanded ? 'timeline_close' : 'timeline_open'}
                  width={12}
-                 height={12}
-                 color={expandedIconColor} />
+                 height={12} />
         {isExpanded ?
           <Hierarchy hierarchy={hierarchy}
                      kind={kind}
