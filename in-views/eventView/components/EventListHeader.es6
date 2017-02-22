@@ -2,10 +2,10 @@ import React from 'react';
 
 import {eventFilter$, setEventTypeFilter} from 'in-views/eventView/stores/eventFilterStore';
 import {toggleAutoUpdate, autoUpdate$} from 'in-views/eventView/stores/autoUpdate';
+import {expandedSide$, toggleLeft} from 'in-views/eventView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import {refresh} from 'in-views/eventView/stores/rawEventListStore';
 import getTotalRawEventsCount from 'in-stores/totalRawEventsCount';
-import {toggleLeft} from 'in-views/eventView/stores/expandedSide';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
@@ -16,7 +16,10 @@ import './EventListHeader.less';
 
 const block = 'in-event-view-event-list-header';
 
-export default function EventListHeader() {
+export default connectTo({
+  expandedSide: expandedSide$
+},
+function EventListHeader({expandedSide}) {
   return (
     <ViewHeader className={block}>
       <div className={`${block}__left-side`}>
@@ -44,14 +47,14 @@ export default function EventListHeader() {
         <AutoUpdate checkboxId='event-view-auto-update'
                     autoUpdate$={autoUpdate$}
                     toggleAutoUpdate={toggleAutoUpdate} />
-        <SvgIcon type='fullscreen'
+        <SvgIcon type={expandedSide === 'left' ? 'minimize' : 'maximize'}
                  onClick={toggleLeft}
                  height={14}
                  className={`${block}__toggle-left`} />
       </div>
     </ViewHeader>
   );
-}
+});
 
 const EventFilter = connectTo({
   eventFilter: eventFilter$

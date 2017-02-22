@@ -1,21 +1,26 @@
 import React from 'react';
 
 import {totalTraceCountWithoutEum$, totalTraceCountOnlyEum$, totalTraceCountActiveFilter$} from 'in-stores/traces';
-import {setTypeFilter, removeTypeFilter} from 'in-views/traceView/stores/filters';
 import TraceListFilterToggle from 'in-views/traceView/components/TraceListFilterToggle';
 import {toggleAutoUpdate, autoUpdate$} from 'in-views/traceView/stores/autoUpdate';
+import {setTypeFilter, removeTypeFilter} from 'in-views/traceView/stores/filters';
+import {expandedSide$, toggleLeft} from 'in-views/traceView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
-import {toggleLeft} from 'in-views/traceView/stores/expandedSide';
 import {refresh} from 'in-views/traceView/stores/traceList';
 import Count from 'in-views/traceView/components/Count';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
 
 import './TraceListHeader.less';
 
+
 const block = 'in-trace-list-header';
 
-export default function TraceListHeader() {
+export default connectTo({
+  expandedSide: expandedSide$
+},
+function TraceListHeader({expandedSide}) {
   return (
     <ViewHeader className={block}>
       <div className={`${block}__left-side`}>
@@ -50,11 +55,11 @@ export default function TraceListHeader() {
         <AutoUpdate checkboxId='trace-view-auto-update'
                     autoUpdate$={autoUpdate$}
                     toggleAutoUpdate={toggleAutoUpdate} />
-        <SvgIcon type='fullscreen'
+        <SvgIcon type={expandedSide === 'left' ? 'minimize' : 'maximize'}
                  onClick={toggleLeft}
                  height={14}
                  className={`${block}__toggle-left`} />
       </div>
     </ViewHeader>
   );
-}
+});
