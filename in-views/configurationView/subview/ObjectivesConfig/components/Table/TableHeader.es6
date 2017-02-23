@@ -17,7 +17,6 @@ export default function TableHeader() {
       </Header>
 
       <Header />
-      <Header />
     </div>
   );
 }

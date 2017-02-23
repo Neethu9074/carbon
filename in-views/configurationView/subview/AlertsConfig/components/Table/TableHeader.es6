@@ -13,11 +13,11 @@ export default function TableHeader() {
       </Header>
 
       <Header>
-        Enabled
+        Entity Type
       </Header>
 
       <Header>
-        Entity Type
+        Enabled
       </Header>
 
       <Header />

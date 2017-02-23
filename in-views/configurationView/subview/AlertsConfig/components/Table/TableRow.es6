@@ -43,6 +43,14 @@ function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status
         </Column>
 
         <Column>
+          <PluginIcon className={`${block}__entity-icon`}
+                      dimension={24}
+                      color='#000'
+                      plugin={alert.getIn(['match', 'entityType'])} />
+          {getSingular(alert.getIn(['match', 'entityType']))}
+        </Column>
+
+        <Column>
           <Toggle className={`${block}__toggle`}
                   checked={alert.get('enabled', false)}
                   onChange={e => setEnabled(alert, e.target.checked)} />
@@ -50,14 +58,6 @@ function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status
           <ModificationSaveStatus status={status}
                                   className={`${block}__save-status`}
                                   reserveSpace />
-        </Column>
-
-        <Column>
-          <PluginIcon className={`${block}__entity-icon`}
-                      dimension={24}
-                      color='#000'
-                      plugin={alert.getIn(['match', 'entityType'])} />
-          {getSingular(alert.getIn(['match', 'entityType']))}
         </Column>
 
         <Column>

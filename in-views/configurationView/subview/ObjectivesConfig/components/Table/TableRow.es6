@@ -48,8 +48,6 @@ function TableRow({objective, isSelected, onClick, onDeleteObjective, setEnabled
                                   reserveSpace />
         </Column>
 
-        <Column />
-
         <Column>
           <Button className={`${block}__button`}
                   size='sm'
