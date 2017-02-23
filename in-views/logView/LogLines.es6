@@ -1,12 +1,14 @@
 import Infinite from 'react-infinite';
 import React from 'react';
 
-import {loadMoreLines, isLoading$, lines$, enable, disable} from 'in-views/logView/stores/lines';
-import LifecycleObserver from 'in-components/LifecycleObserver';
+import {loadMoreLines, isLoading$, lines$, enable, disable, refresh} from 'in-views/logView/stores/lines';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
+import LifecycleObserver from 'in-components/LifecycleObserver';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import LogLine from 'in-views/logView/LogLine';
+import SvgIcon from 'in-components/SvgIcon';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './LogLines.less';
@@ -22,6 +24,16 @@ export default connectTo({
     <FullscreenOverlayView className={block}>
       <LifecycleObserver onWillMount={enable}
                          onWillUnmount={disable} />
+
+      <Button kind='secondary'
+              size='sm'
+              className={`${block}__refresh`}
+              onClick={refresh}>
+        <SvgIcon type='refresh'
+                 className={`${block}__refresh-icon`}
+                 width={16} />
+      </Button>
+
       {height ?
         <Infinite containerHeight={height - 20}
                   elementHeight={15}
