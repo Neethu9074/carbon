@@ -19,7 +19,8 @@ import './AlertForm.less';
 
 const pluginsWithMetricDefinitions = Object.keys(plugins)
   .map(key => plugins[key])
-  .filter(plugin => getCategories(plugin).length > 0);
+  .filter(plugin => getCategories(plugin).length > 0)
+  .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 const block = 'in-alert-form';
 
 export default function AlertForm({form, onChange}) {
