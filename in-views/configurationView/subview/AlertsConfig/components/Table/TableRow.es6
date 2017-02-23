@@ -123,9 +123,6 @@ function Details({alert}) {
         <DescriptionItem title='Applied on filter query'>
           {match.get('query')}
         </DescriptionItem>
-        <DescriptionItem title='Rollup in ms'>
-          {formatDurationAccurately(match.get('rollup'), 1000)}
-        </DescriptionItem>
 
         <DescriptionItem title='Time window'>
           {formatDurationAccurately(rule.get('window'), 1000)}

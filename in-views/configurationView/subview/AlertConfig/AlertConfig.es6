@@ -159,7 +159,7 @@ export default React.createClass({
       alert ? alert.get('enabled') : true,
       form.get('entityType').value,
       form.get('metricName').value,
-      Number(form.get('rollup').value),
+      1000, // 1s
       form.get('query').value,
       Number(form.get('window').value),
       form.get('aggregation').value,
@@ -215,10 +215,6 @@ function createForm(alert) {
             message: `Please enter a valid metric.`
           }];
         }
-    }))
-    .put('rollup', createField({
-      value: alert ? String(match.get('rollup')) : undefined,
-      validator: notBlankValidator
     }))
     .put('query', createField({
       value: alert ? match.get('query') : '',

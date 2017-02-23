@@ -104,43 +104,6 @@ export default function AlertForm({form, onChange}) {
           )
         : null}
 
-        {form.get('rollup').map(field =>
-          <FormGroup>
-            <Label htmlFor='alert-rollup'
-                   hasError={!field.valid}>
-              Rollup
-            </Label>
-            <select onChange={e => onChange('rollup', e.target.value)}
-                    value={field.value}
-                    id='alert-rollup'>
-              <option value=''>
-                Please select
-              </option>
-              <option value='1000'>
-                1s
-              </option>
-              <option value='5000'>
-                5s
-              </option>
-              <option value='60000'>
-                1min
-              </option>
-              <option value='300000'>
-                5min
-              </option>
-              <option value='3600000'>
-                1h
-              </option>
-            </select>
-            {field.messages.map((message, i) =>
-              <ValidationBlock hasError
-                               key={i}>
-                {message.message}
-              </ValidationBlock>
-            )}
-          </FormGroup>
-        )}
-
         {form.get('aggregation').map(field =>
           <FormGroup>
             <Label htmlFor='alert-aggregation'
@@ -201,9 +164,6 @@ export default function AlertForm({form, onChange}) {
               </option>
               <option value='600000'>
                 10min
-              </option>
-              <option value='3600000'>
-                1h
               </option>
             </select>
             {field.messages.map((message, i) =>
