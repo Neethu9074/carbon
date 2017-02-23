@@ -7,21 +7,19 @@ import {create} from 'reactive-observables';
 // because the browser doesn't support WebGL and failure for some other reason.
 // if the browser does not support WebGL then the map will not be rendered.
 // you can determine if the browser supports WebGL by checking for the existence of WebGLRenderingContext.
-export function isWebGLSupported(canvas) {
-  if (window.WebGLRenderingContext) {
-    // browser supports WebGL but if the canvas.getContext('webgl') returns null
-    // then WebGL failed for some reason other than user's browser (no GPU, out of memory, etc...)
-    if (canvas && getWebGLCanvasContext(canvas)) {
-      // browser supports WebGL and initialization worked.
-      return true;
-    }
-  }
-  return false;
+export function isWebGLSupported() {
+  return window.WebGLRenderingContext ? true : false;
 }
 
 export function getWebGLCanvasContext(canvas) {
-  const names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
   let context = null;
+  if (!canvas) {
+    return context;
+  }
+
+  // browser supports WebGL but if the canvas.getContext('webgl') returns null
+  // then WebGL failed for some reason other than user's browser (no GPU, out of memory, etc...)
+  const names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
   for (let ii = 0; ii < names.length; ++ii) {
     try {
       context = canvas.getContext(names[ii]);
@@ -32,6 +30,7 @@ export function getWebGLCanvasContext(canvas) {
       break;
     }
   }
+  // if context is != null, the browser supports WebGL and initialization worked.
   return context;
 }
 

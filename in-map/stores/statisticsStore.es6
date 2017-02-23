@@ -63,6 +63,10 @@ if (__DEV__) {
     statisticsCollected = false;
 
     const renderer = scene.renderer;
+    if (!renderer) {
+      return;
+    }
+
     const renderInfo = renderer.info.render;
     const memoryInfo = renderer.info.memory;
 

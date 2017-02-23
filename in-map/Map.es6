@@ -33,14 +33,14 @@ React.createClass({
 
   componentDidMount() {
     const canvas = this.mainCanvas;
-    checkDialogs(this.props, canvas);
-    if (isWebGLSupported(canvas) && !this.props.isContextLost) {
+    this.checkDialogs();
+    if (isWebGLSupported() && !this.props.isContextLost) {
       setCanvas(canvas);
     }
   },
 
   componentDidUpdate() {
-    checkDialogs(this.props, this.mainCanvas);
+    this.checkDialogs();
   },
 
   componentWillUnmount() {
@@ -71,18 +71,18 @@ React.createClass({
         }
       </div>
     );
+  },
+
+  checkDialogs() {
+    if (!isWebGLSupported() || this.props.isContextLost) {
+      showHelp('webglNotSupported');
+    } else {
+      closeHelpIfOpen('webglNotSupported');
+    }
+
+    if (this.props.webVRMode && !isWebVRSupported()) {
+      // diasable this for a while to allow working with this branch without any VR headset connected
+      setActiveDialog(createNoWebVRDialog());
+    }
   }
 }));
-
-function checkDialogs(props, canvas) {
-  if (!isWebGLSupported(canvas) || props.isContextLost) {
-    showHelp('webglNotSupported');
-  } else {
-    closeHelpIfOpen('webglNotSupported');
-  }
-
-  if (props.webVRMode && !isWebVRSupported()) {
-    // diasable this for a while to allow working with this branch without any VR headset connected
-    setActiveDialog(createNoWebVRDialog());
-  }
-}

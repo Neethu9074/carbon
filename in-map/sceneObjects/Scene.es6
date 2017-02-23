@@ -42,6 +42,7 @@ export default class MainScene extends SceneObject {
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
     this.antialias = params.antialias;
+    this.webGlContext = params.webGlContext;
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
   }
 
@@ -123,6 +124,7 @@ export default class MainScene extends SceneObject {
   setupRenderer() {
     const renderer = this.renderer = new WebGLRenderer({
       canvas: this.canvas,
+      context: this.webGlContext,
       antialias: this.antialias === 'browserAA' ? true : false
     });
 
