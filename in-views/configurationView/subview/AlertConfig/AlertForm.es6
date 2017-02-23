@@ -62,7 +62,7 @@ export default function AlertForm({form, onChange}) {
                     id='alert-entityType'>
               <option key=''
                       value=''>
-                -- select --
+                Please select
               </option>
               {pluginsWithMetricDefinitions.map(plugin => {
                 return (
@@ -112,28 +112,22 @@ export default function AlertForm({form, onChange}) {
             <select onChange={e => onChange('rollup', e.target.value)}
                     value={field.value}
                     id='alert-rollup'>
-              <option key=''
-                      value=''>
-                -- select --
+              <option value=''>
+                Please select
               </option>
-              <option key='1s'
-                      value='1000'>
+              <option value='1000'>
                 1s
               </option>
-              <option key='5s'
-                      value='5000'>
+              <option value='5000'>
                 5s
               </option>
-              <option key='1min'
-                      value='60000'>
+              <option value='60000'>
                 1min
               </option>
-              <option key='5min'
-                      value='300000'>
+              <option value='300000'>
                 5min
               </option>
-              <option key='1h'
-                      value='3600000'>
+              <option value='3600000'>
                 1h
               </option>
             </select>
@@ -157,7 +151,7 @@ export default function AlertForm({form, onChange}) {
                     id='alert-aggregation'>
               <option key=''
                       value=''>
-                -- select --
+                Please select
               </option>
               <option key='avg'
                       value='avg'>
@@ -186,36 +180,28 @@ export default function AlertForm({form, onChange}) {
             <select onChange={e => onChange('window', e.target.value)}
                     value={field.value}
                     id='alert-window'>
-              <option key=''
-                      value=''>
-                -- select --
+              <option value=''>
+                Please select
               </option>
-              <option key='1s'
-                      value='1000'>
+              <option value='1000'>
                 1s
               </option>
-              <option key='5s'
-                      value='5000'>
+              <option value='5000'>
                 5s
               </option>
-              <option key='10s'
-                      value='10000'>
+              <option value='10000'>
                 10s
               </option>
-              <option key='1min'
-                      value='60000'>
+              <option value='60000'>
                 1min
               </option>
-              <option key='5min'
-                      value='300000'>
+              <option value='300000'>
                 5min
               </option>
-              <option key='10min'
-                      value='600000'>
+              <option value='600000'>
                 10min
               </option>
-              <option key='1h'
-                      value='3600000'>
+              <option value='3600000'>
                 1h
               </option>
             </select>
@@ -244,30 +230,24 @@ export default function AlertForm({form, onChange}) {
                     id='alert-threshold'>
               <option key=''
                       value=''>
-                -- select --
+                Please select
               </option>
-              <option key='<'
-                      value='<'>
+              <option value='<'>
                 {'<'}
               </option>
-              <option key='<='
-                      value='<='>
+              <option value='<='>
                 {'<='}
               </option>
-              <option key='=='
-                      value='=='>
+              <option value='=='>
                 {'=='}
               </option>
-              <option key='>='
-                      value='>='>
+              <option value='>='>
                 {'>='}
               </option>
-              <option key='>'
-                      value='>'>
+              <option value='>'>
                 {'>'}
               </option>
-              <option key='!='
-                      value='!='>
+              <option value='!='>
                 {'!='}
               </option>
             </select>
@@ -358,20 +338,16 @@ export default function AlertForm({form, onChange}) {
             <select onChange={e => onChange('severity', e.target.value)}
                     value={field.value}
                     id='alert-severity'>
-              <option key=''
-                      value=''>
-                -- select --
+              <option value=''>
+                Please select
               </option>
-              <option key='change'
-                      value='0'>
+              <option value='0'>
                 change
               </option>
-              <option key='warning'
-                      value='5'>
+              <option value='5'>
                 warning
               </option>
-              <option key='critical'
-                      value='10'>
+              <option value='10'>
                 critical
               </option>
             </select>
