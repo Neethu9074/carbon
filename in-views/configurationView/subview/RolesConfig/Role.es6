@@ -23,7 +23,7 @@ export default connectTo(props => {
       {role.get('id') !== ownerRoleId ?
         <Button onClick={() => onDelete(role)}
                 kind='danger'
-                size='xs'>
+                size='sm'>
           Delete
         </Button>
       : null}
