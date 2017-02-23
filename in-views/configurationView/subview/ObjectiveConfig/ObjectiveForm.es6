@@ -29,11 +29,11 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
         {form.get('name').map(field =>
           <FormGroup>
-            <Label htmlFor='name'
+            <Label htmlFor='objective-name'
                    hasError={!field.valid}>
               Name
             </Label>
-            <Input id='name'
+            <Input id='objective-name'
                    type='text'
                    value={field.value}
                    onChange={e => onChange('name', e.target.value)}
@@ -50,11 +50,11 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
         {form.get('filteringQuery').map(field =>
           <FormGroup>
-            <Label htmlFor='filteringQuery'
+            <Label htmlFor='objective-filteringQuery'
                    hasError={!field.valid}>
               Applied on filter query
             </Label>
-            <Input id='filteringQuery'
+            <Input id='objective-filteringQuery'
                    type='text'
                    value={field.value}
                    onChange={e => onChange('filteringQuery', e.target.value)}
@@ -70,11 +70,11 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
         {form.get('timePattern').map(field =>
           <FormGroup>
-            <Label htmlFor='timePattern'
+            <Label htmlFor='objective-timePattern'
                    hasError={!field.valid}>
               Time pattern
             </Label>
-            <Input id='timePattern'
+            <Input id='objective-timePattern'
                    type='text'
                    value={field.value}
                    onChange={e => onChange('timePattern', e.target.value)}
@@ -93,12 +93,13 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
         {form.get('timeZoneId').map(field =>
           <FormGroup>
-            <Label htmlFor='timeZoneId'
+            <Label htmlFor='objective-timeZoneId'
                    hasError={!field.valid}>
               Time zone
             </Label>
 
-            <select onChange={e => onChange('timeZoneId', e.target.value)}
+            <select id='objective-timeZoneId'
+                    onChange={e => onChange('timeZoneId', e.target.value)}
                     value={field.value}>
               <option key=''
                       value=''>
@@ -126,11 +127,11 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
         {form.get('reductionOperation').map(field =>
           <FormGroup>
-            <Label htmlFor='reductionOperation'
+            <Label htmlFor='objective-reductionOperation'
                    hasError={!field.valid}>
               Reduction operation
             </Label>
-            <Input id='reductionOperation'
+            <Input id='objective-reductionOperation'
                    type='text'
                    value={field.value}
                    onChange={e => onChange('reductionOperation', e.target.value)}
@@ -163,10 +164,10 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
                 <FormGroup>
                   <Label className={`${block}__threshold_label`}
-                         htmlFor={`threshold_${i}_value`}>
+                         htmlFor={`objective-threshold_${i}_value`}>
                     Value
                   </Label>
-                  <Input id={`threshold_${i}_value`}
+                  <Input id={`objective-threshold_${i}_value`}
                          type='number'
                          pattern='\d*'
                          value={threshold.get('value')}
@@ -181,10 +182,11 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
                 <FormGroup>
                   <Label className={`${block}__threshold_label`}
-                         htmlFor={`threshold_${i}_severity`}>
+                         htmlFor={`objective-threshold_${i}_severity`}>
                     Severity
                   </Label>
-                  <select onChange={e => onChangeInThresholds(i, 'severity', e.target.value)}
+                  <select id={`objective-threshold_${i}_severity`}
+                          onChange={e => onChangeInThresholds(i, 'severity', e.target.value)}
                           value={threshold.get('severity')}>
                     <option key=''
                             value=''>
@@ -213,10 +215,10 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
 
                 <FormGroup>
                   <Label className={`${block}__threshold_label`}
-                         htmlFor={`threshold_${i}_message`}>
+                         htmlFor={`objective-threshold_${i}_message`}>
                     Message
                   </Label>
-                  <Input id={`threshold_${i}_message`}
+                  <Input id={`objective-threshold_${i}_message`}
                          type='text'
                          value={threshold.get('message')}
                          onChange={e => onChangeInThresholds(i, 'message', e.target.value)} />
