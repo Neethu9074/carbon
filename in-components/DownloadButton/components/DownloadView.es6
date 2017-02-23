@@ -43,7 +43,7 @@ export default React.createClass({
             <DownloadButtonJson onClick={(fileType) => this.downloadFile(this.props.getJsonData, fileType)} />
           : null}
           {this.props.jsonLink ?
-            <DownloadLink label='Download (*.json)'
+            <DownloadLink label='Download as JSON'
                           href={formatUrl(this.props.jsonLink, this.props.queryParams)} />
           : null}
         </div>
