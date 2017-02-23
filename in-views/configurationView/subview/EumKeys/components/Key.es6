@@ -82,13 +82,16 @@ function getEumSnippet(apiKey) {
   if (isOnPremise()) {
     return `
 <script>
+  // Note: Replace the <trackingBaseUrl> with the base URL under which you proxy
+  // the Instana eumtracer (note that this needs to be replaced two times in this snippet).
+
   (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://<trackingBaseUrl>/eum.min.js','ineum');
+  })(window,document,'script','<trackingBaseUrl>/eum.min.js','ineum');
 
   ineum('apiKey', '${apiKey}');
-  ineum('reportingUrl', 'https://<trackingBaseUrl>');
+  ineum('reportingUrl', '<trackingBaseUrl>');
 
   // Backend trace ID to facilitate correlation of frontend/backend traces.
   // Trace ID is available in backend to user code.
