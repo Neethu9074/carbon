@@ -80,6 +80,10 @@ function getAlertConfigPath(alertId) {
   return `/config/alerts/${encodeURIComponent(alertId)}`;
 }
 
+export function getAlertsConfigLink(id) {
+  return getModifiedUrlStream(params => params.pathname = getAlertConfigPath(id));
+}
+
 export function openAlertConfig(alertId) {
   mutateUrl(params => params.pathname = getAlertConfigPath(alertId));
 }
@@ -101,6 +105,10 @@ export const isAuditLogView$ = buildPathStartsWithStream(auditLogViewPath);
 
 function getObjectiveConfigPath(objectiveId) {
   return `/config/objectives/${encodeURIComponent(objectiveId)}`;
+}
+
+export function getObjectivesConfigLink(id) {
+  return getModifiedUrlStream(params => params.pathname = getObjectiveConfigPath(id));
 }
 
 export function openObjectiveConfig(objectiveId) {

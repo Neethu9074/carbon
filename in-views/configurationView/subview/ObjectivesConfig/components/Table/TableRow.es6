@@ -2,20 +2,26 @@ import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
+import {getObjectivesConfigLink} from 'in-stores/navigation/configuration';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import {openObjectiveConfig} from 'in-stores/navigation/configuration';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {formatDateTime} from 'in-services/formatters/date';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import './TableRow.less';
 
 
 const block = 'in-objectives-table-row';
 
-export function TableRow({objective, isSelected, onClick, onDeleteObjective, setEnabled, status}) {
+export const TableRow = connectTo(props => {
+  return {
+    href: getObjectivesConfigLink(props.objective.get('id'))
+  };
+},
+function TableRow({objective, isSelected, onClick, onDeleteObjective, setEnabled, status, href}) {
   const objectiveId = objective.get('id');
   const objectiveName = objective.get('name');
 
@@ -27,7 +33,9 @@ export function TableRow({objective, isSelected, onClick, onDeleteObjective, set
              [`${block}__row--selected`]: isSelected
            })}>
         <Column>
-          {objectiveName}
+          <a href={href}>
+            {objectiveName}
+          </a>
         </Column>
 
         <Column>
@@ -45,15 +53,6 @@ export function TableRow({objective, isSelected, onClick, onDeleteObjective, set
         <Column>
           <Button className={`${block}__button`}
                   size='sm'
-                  kind='success'
-                  onClick={() => openObjectiveConfig(objectiveId)}>
-            Edit
-          </Button >
-        </Column>
-
-        <Column>
-          <Button className={`${block}__button`}
-                  size='sm'
                   kind='danger'
                   onClick={() => setActiveDialog(
                     <ConfirmationDialog header='Confirm removal'
@@ -65,7 +64,7 @@ export function TableRow({objective, isSelected, onClick, onDeleteObjective, set
                                         bButtonLabel='Remove objective'
                                         onB={() => onDeleteObjective(objectiveId)} />
                   )}>
-            Remove
+            Delete
           </Button >
         </Column>
       </div>
@@ -73,7 +72,7 @@ export function TableRow({objective, isSelected, onClick, onDeleteObjective, set
       {isSelected ?<Details objective={objective} /> : null}
     </li>
   );
-}
+});
 
 function Column({children}) {
   return (

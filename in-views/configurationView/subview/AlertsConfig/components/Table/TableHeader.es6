@@ -20,10 +20,6 @@ export default function TableHeader() {
         Entity Type
       </Header>
 
-      <Header>
-        Actions
-      </Header>
-
       <Header />
     </div>
   );

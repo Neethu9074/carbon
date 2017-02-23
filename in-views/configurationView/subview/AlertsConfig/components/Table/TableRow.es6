@@ -3,9 +3,9 @@ import React from 'react';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import {getAlertsConfigLink} from 'in-stores/navigation/configuration';
 import {formatDurationAccurately} from 'in-services/formatters/date';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
-import {openAlertConfig} from 'in-stores/navigation/configuration';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {formatDateTime} from 'in-services/formatters/date';
 import {toHtml} from 'in-services/formatters/markdown';
@@ -13,13 +13,19 @@ import PluginIcon from 'in-components/PluginIcon';
 import Toggle from 'in-components/form/Toggle';
 import {getSingular} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import './TableRow.less';
 
 
 const block = 'in-alerts-table-row';
 
-export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status}) {
+export const TableRow = connectTo(props => {
+  return {
+    href: getAlertsConfigLink(props.alert.get('id'))
+  };
+},
+function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status, href}) {
   const alertId = alert.get('id');
   const alertName = alert.get('name');
 
@@ -31,7 +37,9 @@ export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled,
              [`${block}__row--selected`]: isSelected
            })}>
         <Column>
-          {alertName}
+          <a href={href}>
+            {alertName}
+          </a>
         </Column>
 
         <Column>
@@ -55,15 +63,6 @@ export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled,
         <Column>
           <Button className={`${block}__button`}
                   size='sm'
-                  kind='success'
-                  onClick={() => openAlertConfig(alertId)}>
-            Edit
-          </Button >
-        </Column>
-
-        <Column>
-          <Button className={`${block}__button`}
-                  size='sm'
                   kind='danger'
                   onClick={() => setActiveDialog(
                     <ConfirmationDialog header='Confirm removal'
@@ -75,7 +74,7 @@ export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled,
                                         bButtonLabel='Remove alert'
                                         onB={() => onDeleteAlert(alertId)} />
                   )}>
-            Remove
+            Delete
           </Button >
         </Column>
       </div>
@@ -83,7 +82,7 @@ export function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled,
       {isSelected ?<Details alert={alert} /> : null}
     </li>
   );
-}
+});
 
 function Column({children}) {
   return (
