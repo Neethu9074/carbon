@@ -6,6 +6,7 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import MetricSelector from 'in-components/MetricSelector';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
+import TextArea from 'in-components/form/TextArea';
 import Toggle from 'in-components/form/Toggle';
 import {getSingular} from 'in-sdk/pluginName';
 import {getCategories} from 'in-sdk/metrics';
@@ -25,6 +26,10 @@ export default function AlertForm({form, onChange}) {
   return (
     <fieldset>
       <Section>
+        <SectionHeading>
+          Basic Information
+        </SectionHeading>
+
         {form.get('name').map(field =>
           <FormGroup>
             <Label htmlFor='name'
@@ -291,6 +296,10 @@ export default function AlertForm({form, onChange}) {
       </Section>
 
       <Section>
+        <SectionHeading>
+          Generated Issue
+        </SectionHeading>
+
         {form.get('text').map(field =>
           <FormGroup>
             <Label htmlFor='text'
@@ -320,11 +329,11 @@ export default function AlertForm({form, onChange}) {
                    hasError={!field.valid}>
               Description
             </Label>
-            <Input id='description'
-                   type='text'
-                   value={field.value}
-                   onChange={e => onChange('description', e.target.value)}
-                   hasError={!field.valid} />
+            <TextArea id='description'
+                      rows='3'
+                      value={field.value}
+                      onChange={e => onChange('description', e.target.value)}
+                      hasError={!field.valid} />
             {field.messages.map((message, i) =>
               <ValidationBlock hasError
                                key={i}>

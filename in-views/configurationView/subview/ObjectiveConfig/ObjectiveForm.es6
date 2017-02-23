@@ -23,6 +23,10 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
   return (
     <fieldset>
       <Section>
+        <SectionHeading>
+          Basic Information
+        </SectionHeading>
+
         {form.get('name').map(field =>
           <FormGroup>
             <Label htmlFor='name'
