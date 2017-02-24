@@ -101,10 +101,10 @@ function getNameVersionPair(span, key) {
 
 function getMetaData(span) {
   return span.getIn(['data', 'page', 'meta'], emptyMap)
-    .map((v, k, i) => {
+    .map((v, k) => {
       return (
         <DescriptionItem title={`Meta Data: ${k}`}
-                         key={i}>
+                         key={k}>
           {v}
         </DescriptionItem>
       );
