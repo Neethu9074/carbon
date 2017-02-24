@@ -12,6 +12,7 @@ export default connectTo(props => {
   return {
     avatarUrl: getGravatarUrl(props.email)
       .flatMap(url => onImageLoad(url))
+      .startWith(null)
   };
 }, function Gravatar({avatarUrl, email, className}) {
   if (avatarUrl) {
