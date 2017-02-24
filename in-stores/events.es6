@@ -44,12 +44,14 @@ export const retrievedEvents$ = createTrackingStore({
       // time range. Each events[] has a time property for fast lookups and comparisons
       issues: [],
       changes: [],
-      incidents: []
+      incidents: [],
+      objectives: []
     })
 }).observable.startWith({
   issues: [],
   changes: [],
-  incidents: []
+  incidents: [],
+  objectives: []
 });
 
 
@@ -68,7 +70,8 @@ export const eventsInTimeframe$ = combineLatest([
     return {
       issues: filter(events.issues),
       changes: filter(events.changes),
-      incidents: filter(events.incidents)
+      incidents: filter(events.incidents),
+      objectives: filter(events.objectives)
     };
 
     function filter(eventsToFiler) {
@@ -111,7 +114,8 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
       return {
         issues: events.issues.filter(filter),
         changes: events.changes.filter(filter),
-        incidents: events.incidents.filter(filter)
+        incidents: events.incidents.filter(filter),
+        objectives: events.objectives.filter(filter)
       };
 
       function filter(event) {
@@ -379,15 +383,12 @@ export const selectedEvent$ = createTrackingStore({
 
 export const selectedIncident$ = createTrackingStore({
   name: 'events/selectedIncident',
-  observable: selectedEventId$
-    .flatMap(eventId => eventId ? getEvent(eventId) : alwaysNull)
-    .map(event => {
-      if (event == null || event.get('type') === 'incident') {
-        return event;
-      }
-      return null;
-    })
-    .distinct()
+  observable: selectedEvent$.map(event => (event == null || event.get('type') === 'incident') ? event : null)
+}).observable;
+
+export const selectedObjective$ = createTrackingStore({
+  name: 'events/selectedObjective',
+  observable: selectedEvent$.map(event => (event == null || event.get('type') === 'objective') ? event : null)
 }).observable;
 
 
@@ -396,7 +397,8 @@ export function countEvents(events) {
     warning: 0,
     danger: 0,
     change: 0,
-    incident: 0
+    incident: 0,
+    objective: 0
   };
 
   events.forEach(event => {
@@ -412,6 +414,9 @@ export function countEvents(events) {
         break;
       case EVENT_TYPES.INCIDENT:
         counter.incident++;
+        break;
+      case EVENT_TYPES.OBJECTIVE:
+        counter.objective++;
         break;
       default:
     }

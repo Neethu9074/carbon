@@ -81,6 +81,7 @@ export function setSelectedSnapshotId(id) {
   } else {
     mutateUrl(navParams => {
       delete navParams.query.incidentId;
+      delete navParams.query.objectiveId;
       navParams.query.snapshotId = encodeURIComponent(id);
       return navParams;
     });

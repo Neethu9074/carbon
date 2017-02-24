@@ -1,22 +1,15 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {
-  getColorForEventAtFocusedMomentAsStream,
-  fireCallbacksForEventAtFocusedMomentAsStream
-} from 'in-stores/events';
+import {getColorForEventAtFocusedMomentAsStream, fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
+import {getIconTypeForEventType, getEventType, selectEvent, EVENT_TYPES} from 'in-services/issueTracker';
 import {formatDateTime} from 'in-services/formatters/date';
-import {
-  getIconTypeForEventType,
-  getEventType,
-  selectEvent,
-  EVENT_TYPES
-} from 'in-services/issueTracker';
 import {Row, Col} from 'in-components/Grid/Grid';
 import {getClassName} from 'in-services/react';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
+import ObjectiveContent from './ObjectiveContent';
 import IncidentContent from './IncidentContent';
 import EventContent from './EventContent';
 
@@ -81,13 +74,20 @@ export default connectTo(props => {
   },
 
   getContent(event, eventType, color, showFullTextIfToLong = true) {
-    return (
-      eventType === EVENT_TYPES.INCIDENT ?
-      <IncidentContent incident={event} /> :
-      <EventContent snapshotId={this.props.snapshotId}
-                    showFullTextIfToLong={showFullTextIfToLong}
-                    event={event}
-                    color={color} />
-    );
+    let content;
+    if (eventType === EVENT_TYPES.INCIDENT) {
+      content = <IncidentContent incident={event} />;
+    } else if (eventType === EVENT_TYPES.OBJECTIVE) {
+      content = <ObjectiveContent objective={event} />;
+    } else {
+      content = (
+        <EventContent snapshotId={this.props.snapshotId}
+                      showFullTextIfToLong={showFullTextIfToLong}
+                      event={event}
+                      color={color} />
+      );
+    }
+
+    return content;
   }
 }));

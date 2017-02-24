@@ -2,26 +2,30 @@ import {combineLatest} from 'reactive-observables';
 
 import {restoreInitialExpandedState} from 'in-views/eventView/stores/populationChartExpandedStore';
 import {restoreInitialVisibilityState} from 'in-views/eventView/stores/changesVisibilityStore';
+import {selectedIncident$, selectedObjective$} from 'in-stores/events';
 import {emptyList} from 'in-services/fixedImmutables';
 import {emptyArray} from 'in-services/fixedObjects';
 import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
-import {selectedIncident$} from 'in-stores/events';
 import {getEvent} from 'in-services/issueTracker';
 
 
 export const recentEvents$ = createTrackingStore({
   name: 'eventView/recentEvents',
-  observable: selectedIncident$.distinct()
-                               .flatMap(incident => {
+  observable: combineLatest([selectedIncident$,
+                            selectedObjective$])
+              .flatMap(([incident, objective]) => {
     restoreInitialVisibilityState();
     restoreInitialExpandedState();
 
-    const recentEvents = incident
-      ? incident.get('recentEvents', emptyList)
-      : null;
-    return recentEvents
-     ? combineLatest(recentEvents.toArray().map(id => getEvent(id)))
+    let eventIds = null;
+    if (incident) {
+      eventIds = incident.get('recentEvents', emptyList);
+    } else if (objective) {
+      eventIds = objective.get('issues', emptyList);
+    }
+    return eventIds
+     ? combineLatest(eventIds.toArray().map(id => getEvent(id)))
      : alwaysNull;
   })
 }).observable;

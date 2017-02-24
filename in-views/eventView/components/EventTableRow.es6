@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {getEvent, selectEvent, clearEvent, getIconTypeForEventType, getEventType} from 'in-services/issueTracker';
 import {fireCallbacksForEventAtFocusedMomentAsStream} from 'in-stores/events';
-import {getEvent, selectEvent, clearEvent} from 'in-services/issueTracker';
 import {formatDateTime} from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
 import {selectedEventId$} from 'in-stores/events';
@@ -73,7 +73,6 @@ const Icon = connectTo(props => {
   };
 },
 function Icon({event, isOpen}) {
-  const eventType = event.get('type');
   const severity = event.getIn(['problem', 'severity']);
   const defaultColor = '#92a5ae';
   let color = defaultColor;
@@ -81,18 +80,8 @@ function Icon({event, isOpen}) {
     color = severity > 0 ? theme.health[severity] : defaultColor;
   }
 
-  let iconType;
-  if (eventType === 'incident') {
-    iconType = 'incidents';
-  } else if (eventType === 'change') {
-    iconType = 'change2';
-  } else if (eventType === 'issue') {
-    if (severity < 10) {
-      iconType = 'warning';
-    } else {
-      iconType = 'critical';
-    }
-  }
+  const iconType = getIconTypeForEventType(getEventType(event), true);
+
   return (
     <div style={{
       background: color

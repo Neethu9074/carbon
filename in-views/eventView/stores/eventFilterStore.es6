@@ -8,10 +8,13 @@ export const eventFilter$ = createTrackingStore({
   observable: query$.map(query => {
     const filteredByEvents = containsKeyword(query, 'eventType', 'event');
     const filteredByIncidents = containsKeyword(query, 'eventType', 'incident');
-    if (filteredByEvents && filteredByIncidents) {
+    const filteredByObjectives = containsKeyword(query, 'eventType', 'objectiveViolation');
+    if (filteredByEvents && filteredByIncidents && filteredByObjectives) {
       return null;
     } else if (filteredByIncidents) {
       return 'incident';
+    } else if (filteredByObjectives) {
+      return 'objectiveViolation';
     } else if (filteredByEvents) {
       return 'event';
     }

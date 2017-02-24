@@ -10,7 +10,8 @@ export const EVENT_TYPES = {
   ISSUE_WARNING: 1,
   ISSUE_CRITICAL: 2,
   ISSUE_OK: 3,
-  INCIDENT: 4
+  INCIDENT: 4,
+  OBJECTIVE: 5
 };
 
 /**
@@ -48,8 +49,10 @@ export function getIconTypeForEventType(eventType, useAlternativeChangeIcon) {
       return 'critical';
     case EVENT_TYPES.INCIDENT:
       return 'incidents';
+    case EVENT_TYPES.OBJECTIVE:
+      return 'objectives';
     default:
-      return useAlternativeChangeIcon ? 'instana_change' : 'change';
+      return useAlternativeChangeIcon ? 'change2' : 'change';
   }
 }
 
@@ -68,6 +71,8 @@ export function getEventType(event) {
   switch (eventType) {
     case 'incident':
       return EVENT_TYPES.INCIDENT;
+    case 'objective':
+      return EVENT_TYPES.OBJECTIVE;
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue':

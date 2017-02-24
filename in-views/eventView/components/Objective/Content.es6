@@ -1,18 +1,17 @@
 import React from 'react';
 
-import PopulationChart from 'in-views/eventView/components/Incident/PopulationChart';
 import EventList from 'in-views/eventView/components/Incident/EventList';
-import Header from 'in-views/eventView/components/Incident/Header';
+import Header from 'in-views/eventView/components/Objective/Header';
 import Section from 'in-views/eventView/components/Section';
 
 
-export default function IncidentContent({event}) {
+export default function ObjectiveContent({event}) {
   return (
     <div>
       <Header event={event} />
 
       <Section>
-        <PopulationChart incidentId={event.get('id')} />
+        {event.getIn(['problem', 'problemText'])}
       </Section>
 
       <Section>

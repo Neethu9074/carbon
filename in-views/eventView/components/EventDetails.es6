@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ObjectiveContent from 'in-views/eventView/components/Objective/Content';
 import IncidentContent from 'in-views/eventView/components/Incident/Content';
 import EventContent from 'in-views/eventView/components/Event/Content';
 import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
@@ -26,12 +27,17 @@ function EventDetails({selectedEventId, event}) {
   }
 
   const eventType = getEventType(event);
+  let content;
+  if (eventType === EVENT_TYPES.INCIDENT) {
+    content = <IncidentContent event={event} />;
+  } else if (eventType === EVENT_TYPES.OBJECTIVE) {
+    content = <ObjectiveContent event={event} />;
+  } else {
+    content = <EventContent event={event} />;
+  }
   return (
     <div className={block}>
-      {eventType === EVENT_TYPES.INCIDENT
-        ? <IncidentContent event={event} />
-        : <EventContent event={event} />
-      }
+      {content}
     </div>
   );
 });

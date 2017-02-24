@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {getEventType, getIconTypeForEventType} from 'in-services/issueTracker';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {always} from 'in-services/fixedStreams';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -17,17 +17,7 @@ export default connectTo(props => {
 },
 function EventIcon({event, className, color, size = 16, useAlternativeChangeIcon = true}) {
   const eventType = getEventType(event);
-
-  let iconType;
-  if (eventType === EVENT_TYPES.INCIDENT) {
-    iconType = 'incidents';
-  } else if (eventType === EVENT_TYPES.CHANGE) {
-    iconType = useAlternativeChangeIcon ? 'change2' : 'change';
-  } else if (eventType === EVENT_TYPES.ISSUE_WARNING) {
-    iconType = 'warning';
-  } else {
-    iconType = 'critical';
-  }
+  const iconType = getIconTypeForEventType(eventType, useAlternativeChangeIcon);
 
   return (
     <SvgIcon className={className}

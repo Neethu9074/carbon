@@ -28,7 +28,6 @@ function EventListHeader({expandedSide}) {
                  width={20}
                  height={20}
                  color='#33d8d7' />
-
         <EventFilter>
           All (<Count getCounter={counter => counter.get('incidentCount', 0) + counter.get('issueCount', 0)} />)
         </EventFilter>
@@ -37,6 +36,9 @@ function EventListHeader({expandedSide}) {
         </EventFilter>
         <EventFilter filter='event'>
           Events (<Count getCounter={counter => counter.get('issueCount', 0)} />)
+        </EventFilter>
+        <EventFilter filter='objectiveViolation'>
+          Objective violations (<Count getCounter={counter => counter.get('objectiveCount', 0)} />)
         </EventFilter>
       </div>
       <div className={`${block}__right-side`}>
