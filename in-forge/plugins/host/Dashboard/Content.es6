@@ -10,11 +10,13 @@ import EnableSelfMonitoringButton from 'in-forge/plugins/host/Dashboard/EnableSe
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
+import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {getHostCompanions} from 'in-stores/snapshot/graph';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
@@ -190,6 +192,8 @@ export default function HostDashboard({snapshot, timeframe}) {
       </DashboardSection>
 
       <ProcessTopList snapshot={snapshot} />
+
+      <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} />
 
       <DashboardSection title='Agent Self Monitoring'>
         <div className={`${block}__self-monitoring`}>
