@@ -321,6 +321,41 @@ export default function AlertForm({form, onChange}) {
           </FormGroup>
         )}
 
+        {form.get('expirationTime').map(field =>
+          <FormGroup>
+            <Label htmlFor='alert-expirationTime'
+                   hasError={!field.valid}>
+              Expiration time
+            </Label>
+            <select onChange={e => onChange('expirationTime', e.target.value)}
+                    value={field.value}
+                    id='alert-expirationTime'>
+              <option key=''
+                      value=''>
+                Please select
+              </option>
+              <option value='5000'>
+                5s
+              </option>
+              <option value='10000'>
+                10s
+              </option>
+              <option value='60000'>
+                1min
+              </option>
+              <option value='300000'>
+                5min
+              </option>
+            </select>
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
+                {message.message}
+              </ValidationBlock>
+            )}
+          </FormGroup>
+        )}
+
         {form.get('triggering').map(field =>
           <FormGroup>
             <Label htmlFor='alert-triggering'>

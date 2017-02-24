@@ -140,6 +140,9 @@ function Details({alert}) {
         <DescriptionItem title='Severity'>
           {mapSeverityToLabel(event.get('severity'))}
         </DescriptionItem>
+        <DescriptionItem title='Expiration time'>
+          {formatDurationAccurately(event.get('expirationTime'), 1000)}
+        </DescriptionItem>
         <DescriptionItem title='Text'>
           {event.get('text')}
         </DescriptionItem>

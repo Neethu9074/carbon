@@ -64,6 +64,7 @@ export function createAlert(id,
                             conditionValue = 0.0,
                             triggering = false,
                             severity = 0,
+                            expirationTime = 60000,
                             text = 'Event title',
                             description = 'Event description') {
   return {
@@ -86,7 +87,8 @@ export function createAlert(id,
       triggering,
       severity,
       text,
-      description
+      description,
+      expirationTime
     }
   };
 }

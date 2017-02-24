@@ -167,6 +167,7 @@ export default React.createClass({
       Number(form.get('thresholdValue').value),
       form.get('triggering').value,
       Number(form.get('severity').value),
+      Number(form.get('expirationTime').value),
       form.get('text').value,
       form.get('description').value
     )));
@@ -217,37 +218,41 @@ function createForm(alert) {
         }
     }))
     .put('query', createField({
-      value: alert ? match.get('query') : '',
+      value: match.get('query'),
       validator: queryValidator
     }))
     .put('window', createField({
-      value: alert ? String(rule.get('window')) : undefined,
+      value: String(rule.get('window')),
       validator: notBlankValidator
     }))
     .put('aggregation', createField({
-      value: alert ? rule.get('aggregation') : undefined,
+      value: rule.get('aggregation'),
       validator: notBlankValidator
     }))
     .put('threshold', createField({
-      value: alert ? rule.get('conditionOperator') : undefined,
+      value: rule.get('conditionOperator'),
       validator: notBlankValidator
     }))
     .put('thresholdValue', createField({
-      value: alert ? String(rule.get('conditionValue')) : '0.0',
+      value: String(rule.get('conditionValue')),
       validator: notBlankValidator
     }))
     .put('triggering', createField({
-      value: alert ? event.get('triggering') : false
+      value: event.get('triggering')
     }))
     .put('severity', createField({
-      value: alert ? String(event.get('severity')) : undefined,
+      value: String(event.get('severity')),
+      validator: notBlankValidator
+    }))
+    .put('expirationTime', createField({
+      value: String(event.get('expirationTime')),
       validator: notBlankValidator
     }))
     .put('text', createField({
-      value: alert ? String(event.get('text')) : '',
+      value: String(event.get('text')),
       validator: notBlankValidator
     }))
     .put('description', createField({
-      value: alert ? String(event.get('description')) : ''
+      value: String(event.get('description'))
     }));
 }
