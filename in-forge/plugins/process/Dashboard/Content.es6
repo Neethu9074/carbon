@@ -5,6 +5,7 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -36,6 +37,7 @@ export default function ProcessDashboard({snapshot, timeframe}) {
                  type: 'line'
                }} />
       </DashboardSection>
+
       <DashboardSection title='CPU Usage'>
         <ChartWithLegend snapshotId={snapshotId}
                timeframe={timeframe}
@@ -55,6 +57,8 @@ export default function ProcessDashboard({snapshot, timeframe}) {
                  type: 'stackedArea'
                }} />
       </DashboardSection>
+
+      <ProcessCompanionMetrics snapshotId={snapshotId} />
     </div>
   );
 }

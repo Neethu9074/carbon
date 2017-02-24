@@ -9,7 +9,7 @@ export default connectTo(props => {
   return {
     companions: props.companions$
       .flatMap(companionIds => {
-        const companions$ = companionIds.map(snapshotId => {
+        const companions$ = companionIds.toArray().map(snapshotId => {
           return getSnapshot(snapshotId)
            .startWith(null);
         });
