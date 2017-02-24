@@ -21,6 +21,8 @@ import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
+import 'prismjs/plugins/autolinker/prism-autolinker.js';
+import 'prismjs/plugins/autolinker/prism-autolinker.css';
 
 import './Code.less';
 
