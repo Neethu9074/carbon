@@ -1,12 +1,13 @@
-import {isInstanaTenant, /* isInternalEnvironment, */ isStagingEnvironment} from 'in-services/config';
+import {config} from 'in-services/config';
 
-const notStaging = !isStagingEnvironment();
-const onlyInstana = isInstanaTenant();
+const onlyInternally = config.tenant === 'instana' &&
+  config.environment !== 'staging' &&
+  config.tenantUnit !== 'current';
 
-export const webVrEnabled = notStaging && onlyInstana;
-export const eumStatisticsEnabled = notStaging && onlyInstana;
-export const logViewEnabled = notStaging && onlyInstana;
-export const agentYamlConfigEnabled = notStaging && onlyInstana;
-export const customAltertingEnabled = notStaging && onlyInstana;
-export const auditLogEnabled = notStaging && onlyInstana;
-export const objectivesEnabled = notStaging && onlyInstana;
+export const webVrEnabled = onlyInternally;
+export const eumStatisticsEnabled = onlyInternally;
+export const logViewEnabled = onlyInternally;
+export const agentYamlConfigEnabled = onlyInternally;
+export const customAltertingEnabled = onlyInternally;
+export const auditLogEnabled = onlyInternally;
+export const objectivesEnabled = onlyInternally;

@@ -3,7 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import {debouncedQuery$ as query$} from 'in-stores/search/query';
 import {formatDateTime} from 'in-services/formatters/date';
 import {timeframe$, from$, to$} from 'in-stores/timeline';
-import getLogs from 'in-services/subscription/logs';
+import getLogs from 'in-services/subscription/getLogs';
 import {emptyArray} from 'in-services/fixedObjects';
 import {createStore} from 'in-stores/store';
 

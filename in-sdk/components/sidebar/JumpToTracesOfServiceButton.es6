@@ -1,22 +1,15 @@
 import React from 'react';
 
 import {getTraceViewFilteredByServiceStartingAtLink} from 'in-stores/navigation/search';
-import JumpToTracesButton from 'in-sdk/components/sidebar/JumpToTracesButton';
+import CountBasedJumpToButton from 'in-sdk/components/sidebar/CountBasedJumpToButton';
 import {getNumberOfTracesStartingAtService} from 'in-stores/traces';
-import connectTo from 'in-hoc/connectTo';
 
 
-export default connectTo(props => {
-  return {
-    href: getTraceViewFilteredByServiceStartingAtLink(props.snapshotId)
-      .nextFrame(),
-    traceCount: getNumberOfTracesStartingAtService(props.snapshotId)
-  };
-}, function JumpToTracesOfServiceButton({href, traceCount}) {
+export default function JumpToTracesOfServiceButton({snapshotId}) {
   return (
-    <JumpToTracesButton href={href}
-                        traceCount={traceCount}
-                        title='Traces Starting'
-                        tooltip='Jump to traces starting at this service' />
+    <CountBasedJumpToButton href$={getTraceViewFilteredByServiceStartingAtLink(snapshotId)}
+                            count$={getNumberOfTracesStartingAtService(snapshotId)}
+                            title='Traces Starting'
+                            tooltip='Jump to traces starting at this service' />
   );
-});
+}

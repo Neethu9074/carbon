@@ -29,6 +29,16 @@ export const logView$ = getModifiedUrlStream(params => {
 });
 
 
+export function getLogViewLinkWithQuery(query) {
+  query = encodeURIComponent(query);
+  return getModifiedUrlStream(params => {
+    params.pathname = '/logs';
+    params.query.q = query;
+    params.query.ss = '1';
+  });
+}
+
+
 export function getTraceViewLinkWithQuery(query) {
   query = encodeURIComponent(query);
   return getModifiedUrlStream(params => {

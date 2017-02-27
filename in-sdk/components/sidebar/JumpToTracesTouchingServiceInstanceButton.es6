@@ -1,22 +1,15 @@
 import React from 'react';
 
+import CountBasedJumpToButton from 'in-sdk/components/sidebar/CountBasedJumpToButton';
 import {getTraceViewFilteredByTouchingLink} from 'in-stores/navigation/search';
-import JumpToTracesButton from 'in-sdk/components/sidebar/JumpToTracesButton';
 import {getNumberOfTracesTouchingServiceInstance} from 'in-stores/traces';
-import connectTo from 'in-hoc/connectTo';
 
 
-export default connectTo(props => {
-  return {
-    href: getTraceViewFilteredByTouchingLink(props.snapshotId)
-      .nextFrame(),
-    traceCount: getNumberOfTracesTouchingServiceInstance(props.snapshotId)
-  };
-}, function JumpToTracesTouchingServiceInstanceButton({href, traceCount}) {
+export default function JumpToTracesTouchingServiceInstanceButton({snapshotId}) {
   return (
-    <JumpToTracesButton href={href}
-                        traceCount={traceCount}
-                        title='Traces Touching'
-                        tooltip='Jump to traces touching this service instance' />
+    <CountBasedJumpToButton href$={getTraceViewFilteredByTouchingLink(snapshotId)}
+                            count$={getNumberOfTracesTouchingServiceInstance(snapshotId)}
+                            title='Traces Touching'
+                            tooltip='Jump to traces touching this service instance' />
   );
-});
+}
