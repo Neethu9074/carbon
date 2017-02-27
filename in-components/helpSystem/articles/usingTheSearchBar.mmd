@@ -15,7 +15,7 @@ The following listing shows the currently supported inputs. Entities matching th
 - **Host FQDN Query:** FQDN queries work just like hostname queries: `fqdn:shopping.example.com`.
 - **Host CPU Count Query:** Queries for CPU counts support varying operators. This allows searches like `cpuCount:>1` to search for all hosts with more than one CPU. In a similar way, queries for lower CPU counts or an exact CPU count are possible.
 - **Host Memory Query:** Memory queries work just like CPU count queries: `memory>1024`. At the time of writing, the amount of memory is represented in bytes and needs to be queried in bytes.
-- **Zone Query:** Use `ec2Zone:us-east-1d` to search for EC2 Zones. For Google Compute Engine use `gceZone`. And for custom zones (defined in agent configuration) use `genericZone`.
+- **Zone Query:** Use `zone:us-east-1d` to search for EC2, GCE and custom zones.
 - **Service Query:** Use `service:shop` to search for logical services (and components where these services run on).
 
 
