@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {toggleKeywords, keywordsVisible$} from 'in-components/SearchBar/stores/keywordsVisibility';
 import {togglePresets, presetsVisible$} from 'in-components/SearchBar/stores/presetsVisibility';
 import AvailableKeywords from 'in-components/SearchBar/components/AvailableKeywords';
+import {keywordsVisible$} from 'in-components/SearchBar/stores/keywordsVisibility';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
@@ -13,6 +13,7 @@ import {expanded$} from 'in-stores/search/searchBarExpanded';
 import {unvalidatedQuery$} from 'in-stores/search/query';
 import {setInputString} from 'in-stores/search/query';
 import {emitResizeEvent} from 'in-services/browser';
+import {showHelp} from 'in-stores/navigation';
 import keyCodes from 'in-components/keyCodes';
 import {
   highlightNextSuggestion,
@@ -57,7 +58,7 @@ function SearchBar({unvalidatedQuery, expanded, presetsVisible, keywordsVisible}
                [`${block}__expand-collapse-wrapper`]: true,
                [`${block}__expand-collapse-wrapper--menu-visible`]: keywordsVisible
              })}
-             onClick={toggleKeywords} >
+             onClick={onShowKeywordHelp} >
           <SvgIcon type='search'
                    height={12}
                    className={`${block}__icon`} />
@@ -117,4 +118,9 @@ function onBlur() {
   // allow for clicks on suggestions to be recognized. Otherwise the element would be disposed
   // before handling the click.
   setTimeout(() => setFocused(false), 200);
+}
+
+function onShowKeywordHelp(e) {
+  e.preventDefault();
+  showHelp('usingTheSearchBar');
 }

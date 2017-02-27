@@ -9,14 +9,14 @@ The search bar allows you to filter the views to your liking. A variety of queri
 The following listing shows the currently supported inputs. Entities matching these inputs will remain on the map respectively table. Note that the default operator used to combine multiple query terms is `AND`, i.e. all terms must match.
 
 - **Free Text Query:** Any text to search for. Example: `elasticsearch`.
-- **Tag Query:** Use `tag=myTag`, e.g. `tag=production` or `tag=development` to search for entities with the specified tag.
-- **Type Query:** To search for specific types of entities, e.g. all Elasticsearch nodes, use `type=elasticsearch`.
-- **Hostname Query:** You can search for hostnames via `hostname=shopping`.
-- **Host FQDN Query:** FQDN queries work just like hostname queries: `fqdn=shopping.example.com`.
-- **Host CPU Count Query:** Queries for CPU counts support varying operators. This allows searches like `cpuCount>1` to search for all hosts with more than one CPU. In a similar way, queries for lower CPU counts or an exact CPU count are possible.
+- **Tag Query:** Use `tag:myTag`, e.g. `tag:production` or `tag:development` to search for entities with the specified tag.
+- **Type Query:** To search for specific types of entities, e.g. all Elasticsearch nodes, use `type:elasticsearch`.
+- **Hostname Query:** You can search for hostnames via `hostname:shopping`.
+- **Host FQDN Query:** FQDN queries work just like hostname queries: `fqdn:shopping.example.com`.
+- **Host CPU Count Query:** Queries for CPU counts support varying operators. This allows searches like `cpuCount:>1` to search for all hosts with more than one CPU. In a similar way, queries for lower CPU counts or an exact CPU count are possible.
 - **Host Memory Query:** Memory queries work just like CPU count queries: `memory>1024`. At the time of writing, the amount of memory is represented in bytes and needs to be queried in bytes.
-- **Zone Query:** Use `ec2Zone=us-east-1d` to search for EC2 Zones. For Google Compute Engine use `gceZone`. And for custom zones (defined in agent configuration) use `genericZone`.
-- **Service Query:** Use `service=shop` to search for logical services (and components where these services run on).
+- **Zone Query:** Use `ec2Zone:us-east-1d` to search for EC2 Zones. For Google Compute Engine use `gceZone`. And for custom zones (defined in agent configuration) use `genericZone`.
+- **Service Query:** Use `service:shop` to search for logical services (and components where these services run on).
 
 
 ## Application View
@@ -26,12 +26,8 @@ Enter in the Application View the name of the Service you are looking for. You c
 ## Trace View
 
 In the Trace View you can search for the request (e.g. `GET /shop`) by entering any part without the `/` sign. Please also leverage the wildcard `*`.
-In addition to this you can search for specific response times of traces by entering the one of the following expressions (you can always use `=`, `<`, `>`) with the time in ms.
+In addition to this you can search for specific response times of traces by entering the one of the following expressions (you can always use `:`, `:<`, `:>`) with the time in ms.
 
 ```
-duration>100
- - or -
-time=100
- - or -
-latency<100
+duration:>100
 ```
