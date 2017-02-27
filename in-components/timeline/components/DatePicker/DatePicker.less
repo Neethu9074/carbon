@@ -40,8 +40,8 @@
   min-width: 1.75rem;
 }
 
-.DayPicker-Day--selected {
-  background: @datepicker__matte;
+.DayPicker-Day--today {
+  color: #9fffff;
 }
 
 .DayPicker-Weekday {
@@ -55,4 +55,10 @@
 .DayPicker-Month {
   font-size: 0.9rem;
   font-weight: lighter;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  background-color: #9fffff;
+  background: #9fffff;
+  color: #435b64
 }
