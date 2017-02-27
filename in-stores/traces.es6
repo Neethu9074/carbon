@@ -31,7 +31,7 @@ export function getNumberOfTracesStartingAtService(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `starting_logical_service:${serviceId}`
+      query: `starting_logical_service:"${serviceId}"`
     })
   );
 }
@@ -40,7 +40,7 @@ export function getNumberOfTracesTouchingService(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `touched_logical_service:${serviceId}`
+      query: `touched_logical_service:"${serviceId}"`
     })
   );
 }
@@ -49,7 +49,7 @@ export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `starting_service_instance:${serviceId}`
+      query: `starting_service_instance:"${serviceId}"`
     })
   );
 }
@@ -58,13 +58,13 @@ export function getNumberOfTracesTouchingServiceInstance(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `touched_service_instance:${serviceId}`
+      query: `touched_service_instance:"${serviceId}"`
     })
   );
 }
 
 export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
-  const query = `touched_logical_service:${id} OR touched_service_instance:${id}`;
+  const query = `touched_logical_service:"${id}" OR touched_service_instance:"${id}"`;
   return timeframe
     ? createTotalTraceCountObservable({timeframe, query})
     : timeframe$.flatMap(_timeframe => createTotalTraceCountObservable({timeframe: _timeframe, query}));
