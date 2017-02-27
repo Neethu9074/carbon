@@ -86,7 +86,7 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
               </ValidationBlock>
             )}
             <HelpBlock>
-              {'Use Cron systax (e.g. 0 8-20 * * 1-5 -> from 8am to 8 pm every working day)'}
+              {'Use Cron systax * (seconds) * (minutes) * (hours) * (days of the week) * (days of the month) * (months) * (years), e.g. * * 8-20 * * * * -> from 8am to 8 pm every day'}
             </HelpBlock>
           </FormGroup>
         )}
