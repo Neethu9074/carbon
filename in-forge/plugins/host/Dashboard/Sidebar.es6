@@ -17,12 +17,12 @@ export default function HostSidebar({snapshot}) {
 
   return (
     <div>
-      <Separator />
-
       <CountBasedJumpToButton href$={getLogViewLinkWithQuery(query)}
                               count$={getLogCount(query)}
                               title='Logs'
                               tooltip='Show logs for this host' />
+
+      <Separator />
 
       <Collapsible initiallyOpen>
         <Collapsible.Header>System</Collapsible.Header>
