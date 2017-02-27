@@ -131,11 +131,22 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
                    hasError={!field.valid}>
               Reduction operation
             </Label>
-            <Input id='objective-reductionOperation'
-                   type='text'
-                   value={field.value}
-                   onChange={e => onChange('reductionOperation', e.target.value)}
-                   hasError={!field.valid} />
+            <select id='objective-reductionOperation'
+                    onChange={e => onChange('reductionOperation', e.target.value)}
+                    value={field.value}>
+              <option key=''
+                      value=''>
+                -- select --
+              </option>
+              <option key='totalCount'
+                      value='totalCount'>
+                Total events count
+              </option>
+              <option key='totalDuration'
+                      value='totalDuration'>
+                Total events duration
+              </option>
+            </select>
             {field.messages.map((message, i) =>
               <ValidationBlock hasError
                                key={i}>

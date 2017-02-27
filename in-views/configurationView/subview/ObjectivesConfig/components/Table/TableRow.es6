@@ -91,6 +91,12 @@ export function TableRowWrapper({children}) {
 function Details({objective}) {
   const match = objective.get('match');
   const rule = objective.get('rule');
+  let reductionOperation = rule.get('reductionOperation', '');
+  if (reductionOperation === 'totalCount') {
+    reductionOperation = 'Total events count';
+  } else if (reductionOperation === 'totalDuration') {
+    reductionOperation = 'Total events duration';
+  }
 
   return (
     <div className={`${block}__details-wrapper`}>
@@ -106,7 +112,7 @@ function Details({objective}) {
         </DescriptionItem>
 
         <DescriptionItem title='Reduction operation'>
-          {rule.get('reductionOperation')}
+          {reductionOperation}
         </DescriptionItem>
         <DescriptionItem title='Thresholds'>
           <ul className={`${block}__thresholds`}>
