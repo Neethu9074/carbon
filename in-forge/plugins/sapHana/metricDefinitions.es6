@@ -45,21 +45,41 @@ export default [
   {
     formatter: number,
     metrics: [
-      'stats.idleConnectionCount',
-      'stats.runningConnectionCount'
+      'stats.sessionsTotalCount',
+      'stats.sessionsIdleCount',
+      'stats.sessionsRunningCount',
+      'stats.sessionsBlockedCount',
+      'stats.sessionsBlockingCount'
     ],
     labels: [
+      'Total',
       'Idle',
-      'Running'
+      'Running',
+      'Blocked',
+      'Blocking'
     ],
     min: 0
   },
   {
     formatter: number,
     metrics: [
-      'stats.totalCount',
-      'stats.activeCount',
-      'stats.blockedCount'
+      'stats.sessionsDatabaseUsers',
+      'stats.sessionsApplications',
+      'stats.sessionsApplicationUsers'
+    ],
+    labels: [
+      'Database Users',
+      'Running',
+      'Application Users'
+    ],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: [
+      'stats.threadsTotalCount',
+      'stats.threadsActiveCount',
+      'stats.threadsBlockedCount'
     ],
     labels: [
       'Total',
@@ -71,9 +91,9 @@ export default [
   {
     formatter: number,
     metrics: [
-      'stats.jobWorkerCount',
-      'stats.jobWorkerActiveCount',
-      'stats.jobWorkerBlockedCount'
+      'stats.threadsJobWorkerCount',
+      'stats.threadsJobWorkerActiveCount',
+      'stats.threadsJobWorkerBlockedCount'
     ],
     labels: [
       'Total',
@@ -85,14 +105,56 @@ export default [
   {
     formatter: number,
     metrics: [
-      'stats.sqlExecutorCount',
-      'stats.sqlExecutorActiveCount',
-      'stats.sqlExecutorBlockedCount'
+      'stats.threadsSqlExecutorCount',
+      'stats.threadsSqlExecutorActiveCount',
+      'stats.threadsSqlExecutorBlockedCount'
     ],
     labels: [
       'Total',
       'Active',
       'Blocked'
+    ],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: [
+      'stats.stmtExecutions',
+      'stats.stmtCompilations',
+      'stats.updateTransactions',
+      'stats.rollbacks',
+      'stats.commits'
+    ],
+    labels: [
+      'Statement Executions',
+      'Statement Compilations',
+      'Update Transactions',
+      'Rollbacks',
+      'Commits'
+    ],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: [
+      'stats.indexServerFinishedRequests',
+      'stats.indexServerActiveRequests',
+      'stats.indexServerPendingRequests'
+    ],
+    labels: [
+      'Finished Requests',
+      'Active Requests',
+      'Pending Requests'
+    ],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: [
+      'stats.indexServerResponseTime'
+    ],
+    labels: [
+      'Average Response Time of Last 1000 Requests'
     ],
     min: 0
   }

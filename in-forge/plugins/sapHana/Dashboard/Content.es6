@@ -3,7 +3,8 @@ import React from 'react';
 import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  percentageZeroDecimalPlaces
+  percentageZeroDecimalPlaces,
+  msZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -22,10 +23,24 @@ export default function Dashboard({snapshot, timeframe}) {
 
   return (
     <div>
-      <AlertsTable snapshot={snapshot}
-                   timeframe={timeframe} />
-
-      <DashboardSection title='SAP HANA Memory Usage'>
+      <DashboardSection title='SAP HANA System Cpu Usage'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           formatter: percentageZeroDecimalPlaces,
+                           metrics: [
+                             'stats.cpuUsage'
+                           ],
+                           labels: [
+                             'Cpu Usage'
+                           ],
+                           type: 'area'
+                         }} />
+      </DashboardSection>
+      <DashboardSection title='SAP HANA System Memory Usage'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          margins={{
@@ -42,23 +57,6 @@ export default function Dashboard({snapshot, timeframe}) {
                              'Resident Memory'
                            ],
                            type: 'line'
-                         }} />
-      </DashboardSection>
-      <DashboardSection title='SAP HANA Cpu Usage'>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           formatter: percentageZeroDecimalPlaces,
-                           metrics: [
-                             'stats.cpuUsage'
-                           ],
-                           labels: [
-                             'Cpu Usage'
-                           ],
-                           type: 'area'
                          }} />
       </DashboardSection>
       <DashboardSection title='Disk Usage'>
@@ -83,7 +81,7 @@ export default function Dashboard({snapshot, timeframe}) {
                            type: 'line'
                          }} />
       </DashboardSection>
-      <DashboardSection title='Connections'>
+      <DashboardSection title='Sessions'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={200}
@@ -93,14 +91,42 @@ export default function Dashboard({snapshot, timeframe}) {
                          y1={{
                            formatter: zeroDecimalPlaces,
                            metrics: [
-                             'stats.idleConnectionCount',
-                             'stats.runningConnectionCount'
+                             'stats.sessionsTotalCount',
+                             'stats.sessionsIdleCount',
+                             'stats.sessionsRunningCount',
+                             'stats.sessionsBlockedCount',
+                             'stats.sessionsBlockingCount'
                            ],
                            labels: [
+                             'Total',
                              'Idle',
-                             'Running'
+                             'Running',
+                             'Blocked',
+                             'Blocking'
                            ],
-                           type: 'stackedArea'
+                           type: 'line'
+                         }} />
+      </DashboardSection>
+      <DashboardSection title='Users and Applications'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={200}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           formatter: zeroDecimalPlaces,
+                           metrics: [
+                             'stats.sessionsDatabaseUsers',
+                             'stats.sessionsApplications',
+                             'stats.sessionsApplicationUsers'
+                           ],
+                           labels: [
+                             'Database Users',
+                             'Running',
+                             'Application Users'
+                           ],
+                           type: 'line'
                          }} />
       </DashboardSection>
       <DashboardSection title='Threads'>
@@ -113,9 +139,9 @@ export default function Dashboard({snapshot, timeframe}) {
                          y1={{
                            formatter: zeroDecimalPlaces,
                            metrics: [
-                             'stats.totalCount',
-                             'stats.activeCount',
-                             'stats.blockedCount'
+                             'stats.threadsTotalCount',
+                             'stats.threadsActiveCount',
+                             'stats.threadsBlockedCount'
                            ],
                            labels: [
                              'Total',
@@ -135,9 +161,9 @@ export default function Dashboard({snapshot, timeframe}) {
                          y1={{
                            formatter: zeroDecimalPlaces,
                            metrics: [
-                             'stats.jobWorkerCount',
-                             'stats.jobWorkerActiveCount',
-                             'stats.jobWorkerBlockedCount'
+                             'stats.threadsJobWorkerCount',
+                             'stats.threadsJobWorkerActiveCount',
+                             'stats.threadsJobWorkerBlockedCount'
                            ],
                            labels: [
                              'Total',
@@ -147,7 +173,7 @@ export default function Dashboard({snapshot, timeframe}) {
                            type: 'line'
                          }} />
       </DashboardSection>
-      <DashboardSection title='Sql Executor Threads'>
+      <DashboardSection title='SQL Executor Threads'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={200}
@@ -157,9 +183,9 @@ export default function Dashboard({snapshot, timeframe}) {
                          y1={{
                            formatter: zeroDecimalPlaces,
                            metrics: [
-                             'stats.sqlExecutorCount',
-                             'stats.sqlExecutorActiveCount',
-                             'stats.sqlExecutorBlockedCount'
+                             'stats.threadsSqlExecutorCount',
+                             'stats.threadsSqlExecutorActiveCount',
+                             'stats.threadsSqlExecutorBlockedCount'
                            ],
                            labels: [
                              'Total',
@@ -169,6 +195,74 @@ export default function Dashboard({snapshot, timeframe}) {
                            type: 'line'
                          }} />
       </DashboardSection>
+      <DashboardSection title='Workload'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={200}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           formatter: zeroDecimalPlaces,
+                           metrics: [
+                             'stats.stmtExecutions',
+                             'stats.stmtCompilations',
+                             'stats.updateTransactions',
+                             'stats.rollbacks',
+                             'stats.commits'
+                           ],
+                           labels: [
+                             'Statement Executions',
+                             'Statement Compilations',
+                             'Update Transactions',
+                             'Rollbacks',
+                             'Commits'
+                           ],
+                           type: 'line'
+                         }} />
+      </DashboardSection>
+      <DashboardSection title='Requests'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={200}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           formatter: zeroDecimalPlaces,
+                           metrics: [
+                             'stats.indexServerFinishedRequests',
+                             'stats.indexServerActiveRequests',
+                             'stats.indexServerPendingRequests'
+                           ],
+                           labels: [
+                             'Finished Requests',
+                             'Active Requests',
+                             'Pending Requests'
+                           ],
+                           type: 'line'
+                         }} />
+      </DashboardSection>
+      <DashboardSection title='Response Time'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         height={200}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           formatter: msZeroDecimalPlaces,
+                           metrics: [
+                             'stats.indexServerResponseTime'
+                           ],
+                           labels: [
+                             'Average Response Time of Last 1000 Requests'
+                           ],
+                           type: 'line'
+                         }} />
+      </DashboardSection>
+      <AlertsTable snapshot={snapshot}
+                   timeframe={timeframe} />
     </div>
   );
 }
