@@ -9,8 +9,7 @@ export function getLogQueryForHost(snapshotId) {
 export function getLogCount(query) {
   return timeframe$.flatMap(timeframe => {
     return getLogCountInternal({
-      maxTimestamp: timeframe.to,
-      minTimestamp: timeframe.to - timeframe.windowSize,
+      timeframe,
       query
     });
   });
