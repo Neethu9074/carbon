@@ -246,12 +246,14 @@ export default function ObjectiveForm({form, onChange, onChangeInThresholds, onA
         </Section>
       : null }
 
-      <Section>
-        <Button kind='info'
-                onClick={onAddThreshold}>
-          Add threshold
-        </Button>
-      </Section>
+      {form.get('thresholds').value.size < 1 ?
+        <Section>
+          <Button kind='info'
+                  onClick={onAddThreshold}>
+            Add threshold
+          </Button>
+        </Section>
+      : null}
     </fieldset>
   );
 }
