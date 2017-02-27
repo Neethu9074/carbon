@@ -31,7 +31,7 @@ export function getNumberOfTracesStartingAtService(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `starting_logical_service:"${serviceId}"`
+      query: `startingAt:"${serviceId}"`
     })
   );
 }
@@ -49,7 +49,7 @@ export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `starting_service_instance:"${serviceId}"`
+      query: `startingAtInstance:"${serviceId}"`
     })
   );
 }
