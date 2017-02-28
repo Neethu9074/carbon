@@ -4,11 +4,11 @@ import React from 'react';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import HistogramsTable from 'in-sdk/components/dashboard/customMetricsTmp/HistogramsTable';
-import CountersTable from 'in-sdk/components/dashboard/customMetricsTmp/CountersTable';
-import GaugesTable from 'in-sdk/components/dashboard/customMetricsTmp/GaugesTable';
-import MetersTable from 'in-sdk/components/dashboard/customMetricsTmp/MetersTable';
-import TimersTable from 'in-sdk/components/dashboard/customMetricsTmp/TimersTable';
+import HistogramsTable from 'in-sdk/components/dashboard/customMetrics/HistogramsTable';
+import CountersTable from 'in-sdk/components/dashboard/customMetrics/CountersTable';
+import GaugesTable from 'in-sdk/components/dashboard/customMetrics/GaugesTable';
+import MetersTable from 'in-sdk/components/dashboard/customMetrics/MetersTable';
+import TimersTable from 'in-sdk/components/dashboard/customMetrics/TimersTable';
 
 export default connectTo(props => {
   return {
