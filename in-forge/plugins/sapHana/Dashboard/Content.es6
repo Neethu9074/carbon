@@ -3,8 +3,7 @@ import React from 'react';
 import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  percentageZeroDecimalPlaces,
-  msZeroDecimalPlaces
+  percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -107,7 +106,7 @@ export default function Dashboard({snapshot, timeframe}) {
                            type: 'line'
                          }} />
       </DashboardSection>
-      <DashboardSection title='Users and Applications'>
+      <DashboardSection title='Currently Connected Users and Applications'>
         <ChartWithLegend snapshotId={snapshot.get('id')}
                          timeframe={timeframe}
                          height={200}
@@ -122,9 +121,9 @@ export default function Dashboard({snapshot, timeframe}) {
                              'stats.sessionsApplicationUsers'
                            ],
                            labels: [
-                             'Database Users',
-                             'Running',
-                             'Application Users'
+                             'Distinct Database Users',
+                             'Distinct Applications',
+                             'Distinct Application Users'
                            ],
                            type: 'line'
                          }} />
@@ -239,24 +238,6 @@ export default function Dashboard({snapshot, timeframe}) {
                              'Finished Requests',
                              'Active Requests',
                              'Pending Requests'
-                           ],
-                           type: 'line'
-                         }} />
-      </DashboardSection>
-      <DashboardSection title='Response Time'>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
-                         timeframe={timeframe}
-                         height={200}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           formatter: msZeroDecimalPlaces,
-                           metrics: [
-                             'stats.indexServerResponseTime'
-                           ],
-                           labels: [
-                             'Average Response Time of Last 1000 Requests'
                            ],
                            type: 'line'
                          }} />

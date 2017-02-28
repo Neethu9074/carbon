@@ -147,15 +147,5 @@ export default [
       'Pending Requests'
     ],
     min: 0
-  },
-  {
-    formatter: number,
-    metrics: [
-      'stats.indexServerResponseTime'
-    ],
-    labels: [
-      'Average Response Time of Last 1000 Requests'
-    ],
-    min: 0
   }
 ];
