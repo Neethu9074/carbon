@@ -96,6 +96,7 @@ import './sdkLogicalService';
 import './sdkServiceInstance';
 import './solr';
 import './springbootApplicationContainer';
+import './statsd';
 import './tomcatApplicationContainer';
 import './unknownService';
 import './unmonitoredHost';
