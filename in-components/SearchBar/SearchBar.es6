@@ -59,9 +59,7 @@ function SearchBar({unvalidatedQuery, expanded, presetsVisible, keywordsVisible}
                [`${block}__expand-collapse-wrapper--menu-visible`]: keywordsVisible
              })}
              onClick={onShowKeywordHelp} >
-          <SvgIcon type='search'
-                   height={12}
-                   className={`${block}__icon`} />
+          ?
         </div>
 
         <input type='search'
