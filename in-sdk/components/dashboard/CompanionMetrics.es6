@@ -1,9 +1,14 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+
+import CountersTable from 'in-sdk/components/dashboard/CustomMetrics/CountersTable';
+import GaugesTable from 'in-sdk/components/dashboard/CustomMetrics/GaugesTable';
+import MetersTable from 'in-sdk/components/dashboard/CustomMetrics/MetersTable';
+import TimersTable from 'in-sdk/components/dashboard/CustomMetrics/TimersTable';
+import HistogramsTable from 'in-sdk/components/dashboard/CustomMetrics/HistogramsTable';
 
 export default connectTo(props => {
   return {
@@ -17,7 +22,7 @@ export default connectTo(props => {
       })
       .map(companions => companions.filter(m => !!m))
   };
-}, function CompanionMetrics({companions}) {
+}, function CompanionMetrics({companions, timeframe}) {
   if (!companions || companions.length === 0) {
     return null;
   }
@@ -25,9 +30,13 @@ export default connectTo(props => {
   return (
     <div>
       {companions.map(companion =>
-        <DashboardSection title={companion.getIn(['data', 'kind'])}>
-          Put companion data here
-        </DashboardSection>
+        <div title={companion.getIn(['data', 'kind'])}>
+          <GaugesTable snapshot={companion} timeframe={timeframe} />
+          <CountersTable snapshot={companion} timeframe={timeframe} />
+          <MetersTable snapshot={companion} timeframe={timeframe} />
+          <TimersTable snapshot={companion} timeframe={timeframe} />
+          <HistogramsTable snapshot={companion} timeframe={timeframe} />
+        </div>
       )}
     </div>
   );

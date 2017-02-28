@@ -193,7 +193,8 @@ export default function HostDashboard({snapshot, timeframe}) {
 
       <ProcessTopList snapshot={snapshot} />
 
-      <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} />
+      <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))}
+                        timeframe={timeframe} />
 
       <DashboardSection title='Agent Self Monitoring'>
         <div className={`${block}__self-monitoring`}>
