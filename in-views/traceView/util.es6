@@ -12,10 +12,14 @@ export function getSelfTime(span) {
 }
 
 
-export function getDepth(span, currentDepth = 1) {
+export function getDepth(span, currentDepth) {
   const kind = span.get('kind');
-  if (kind === SPAN_KINDS.EXIT || kind === SPAN_KINDS.INTERMEDIATE) {
+  if (currentDepth != null && (kind === SPAN_KINDS.EXIT || kind === SPAN_KINDS.INTERMEDIATE)) {
     currentDepth++;
+  }
+
+  if (currentDepth == null) {
+    currentDepth = 1;
   }
 
   let maxDepth = currentDepth;
@@ -38,11 +42,20 @@ export function getErrorCount(span) {
   return count;
 }
 
-export function getCalls(span, count = 1) {
+export function getCalls(span, count) {
   const kind = span.get('kind');
   if (kind === SPAN_KINDS.EXIT || kind === SPAN_KINDS.INTERMEDIATE) {
+    if (count == null) {
+      count = 0;
+    }
+
     const batchSize = span.get('batchSize');
     count += (batchSize === 0 ? 1 : batchSize);
+  }
+
+  if (count == null) {
+    const batchSize = span.get('batchSize');
+    count = (batchSize === 0 ? 1 : batchSize);
   }
 
   span.get('childSpans').forEach(childSpan => {
