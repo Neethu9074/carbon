@@ -39,8 +39,12 @@ export default class GhostEdgeSpawnerComponent {
   }
 
   dispose() {
-    this.activeGhostNodesSubscribtion.dispose();
-    this.activeGhostNodesSubscribtion = null;
+    // it can happen, that this.initEvents is never called. This edgecase happens, when source or destination node are marked as disposed.
+    // ghost connections are therefore just created and disposed directly without beeing initialized
+    if (this.activeGhostNodesSubscribtion) {
+      this.activeGhostNodesSubscribtion.dispose();
+      this.activeGhostNodesSubscribtion = null;
+    }
 
     this.disposeGhostConnection();
 
