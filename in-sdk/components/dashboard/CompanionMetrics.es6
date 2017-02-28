@@ -4,11 +4,11 @@ import React from 'react';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import CountersTable from 'in-sdk/components/dashboard/CustomMetrics/CountersTable';
-import GaugesTable from 'in-sdk/components/dashboard/CustomMetrics/GaugesTable';
-import MetersTable from 'in-sdk/components/dashboard/CustomMetrics/MetersTable';
-import TimersTable from 'in-sdk/components/dashboard/CustomMetrics/TimersTable';
-import HistogramsTable from 'in-sdk/components/dashboard/CustomMetrics/HistogramsTable';
+import HistogramsTable from 'in-sdk/components/dashboard/customMetricsTmp/HistogramsTable';
+import CountersTable from 'in-sdk/components/dashboard/customMetricsTmp/CountersTable';
+import GaugesTable from 'in-sdk/components/dashboard/customMetricsTmp/GaugesTable';
+import MetersTable from 'in-sdk/components/dashboard/customMetricsTmp/MetersTable';
+import TimersTable from 'in-sdk/components/dashboard/customMetricsTmp/TimersTable';
 
 export default connectTo(props => {
   return {
@@ -30,12 +30,17 @@ export default connectTo(props => {
   return (
     <div>
       {companions.map(companion =>
-        <div title={companion.getIn(['data', 'kind'])}>
-          <GaugesTable snapshot={companion} timeframe={timeframe} />
-          <CountersTable snapshot={companion} timeframe={timeframe} />
-          <MetersTable snapshot={companion} timeframe={timeframe} />
-          <TimersTable snapshot={companion} timeframe={timeframe} />
-          <HistogramsTable snapshot={companion} timeframe={timeframe} />
+        <div key={companion.get('id')}>
+          <GaugesTable snapshot={companion}
+                       timeframe={timeframe} />
+          <CountersTable snapshot={companion}
+                         timeframe={timeframe} />
+          <MetersTable snapshot={companion}
+                       timeframe={timeframe} />
+          <TimersTable snapshot={companion}
+                       timeframe={timeframe} />
+          <HistogramsTable snapshot={companion}
+                           timeframe={timeframe} />
         </div>
       )}
     </div>

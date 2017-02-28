@@ -1,10 +1,10 @@
 import React from 'react';
 
-import CountersTable from 'in-sdk/components/dashboard/CustomMetrics/CountersTable';
-import GaugesTable from 'in-sdk/components/dashboard/CustomMetrics/GaugesTable';
-import MetersTable from 'in-sdk/components/dashboard/CustomMetrics/MetersTable';
-import TimersTable from 'in-sdk/components/dashboard/CustomMetrics/TimersTable';
-import HistogramsTable from 'in-sdk/components/dashboard/CustomMetrics/HistogramsTable';
+import CountersTable from 'in-sdk/components/dashboard/customMetricsTmp/CountersTable';
+import GaugesTable from 'in-sdk/components/dashboard/customMetricsTmp/GaugesTable';
+import MetersTable from 'in-sdk/components/dashboard/customMetricsTmp/MetersTable';
+import TimersTable from 'in-sdk/components/dashboard/customMetricsTmp/TimersTable';
+import HistogramsTable from 'in-sdk/components/dashboard/customMetricsTmp/HistogramsTable';
 
 
 export default function DropwizardDashboard({snapshot, timeframe}) {
