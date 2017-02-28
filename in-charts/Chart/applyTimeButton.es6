@@ -7,6 +7,8 @@ import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
 
+const WIDTH_OF_BUTTONS_IN_PX = 52;
+
 export default function createHighlightedTimeframeRenderer(config) {
   const eventEmitter = new RoEmitter();
   let highlightedTimeframe;
@@ -49,7 +51,10 @@ export default function createHighlightedTimeframeRenderer(config) {
       const to = Math.max(clamp(config.scales.x.getRange(highlightedTimeframe[0])),
                           clamp(config.scales.x.getRange(highlightedTimeframe[1])));
 
-      config.dom.applyButtonContainer.style.left = `${Math.ceil(to)- 52}px`;
+      if (to < WIDTH_OF_BUTTONS_IN_PX + config.margins.left) {
+        hide();
+      }
+      config.dom.applyButtonContainer.style.left = `${Math.ceil(to)- WIDTH_OF_BUTTONS_IN_PX}px`;
       config.dom.applyButtonContainer.style.right = null;
     } else {
       hide();

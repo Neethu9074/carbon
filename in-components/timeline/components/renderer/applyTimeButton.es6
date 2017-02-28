@@ -7,6 +7,8 @@ import {onMove, onLeave} from 'in-services/reactiveMouseEvents';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
 
+const WIDTH_OF_BUTTONS_IN_PX = 52;
+
 export default function createHighlightedTimeframeRenderer(container, glassPane, canvas, scale) {
   const applyButtonContainer = document.createElement('div');
   applyButtonContainer.classList.add('in-timeline__apply-button-container');
@@ -56,7 +58,10 @@ export default function createHighlightedTimeframeRenderer(container, glassPane,
       const to = Math.max(clamp(scale.getRange(highlightedTimeframe[0])),
                           clamp(scale.getRange(highlightedTimeframe[1])));
 
-      applyButtonContainer.style.left = `${Math.ceil(to) - 52}px`;
+      if (to < WIDTH_OF_BUTTONS_IN_PX) {
+        hide();
+      }
+      applyButtonContainer.style.left = `${Math.ceil(to) - WIDTH_OF_BUTTONS_IN_PX}px`;
       applyButtonContainer.style.right = null;
     } else {
       hide();

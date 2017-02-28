@@ -14,8 +14,7 @@ import './ApplyButton.less';
 const block = 'in-chart-apply-button';
 
 export default connectTo({
-  href: highlightedTimeframe$
-  .flatMap(highlightedTimeframe => {
+  href: highlightedTimeframe$.flatMap(highlightedTimeframe => {
     if (!highlightedTimeframe) {
       return alwaysNull;
     }
