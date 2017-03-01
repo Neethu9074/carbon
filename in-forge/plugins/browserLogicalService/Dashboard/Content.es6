@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   msTwoDecimalPlaces,
-  percentageTwoDecimalPlaces,
   zeroDecimalPlaces,
   twoDecimalPlaces
 } from 'in-services/formatters/number';
@@ -105,9 +104,9 @@ export default connectTo(props => {
                            }}
                            y1={{
                              min: 0,
-                             formatter: percentageTwoDecimalPlaces,
+                             formatter: twoDecimalPlaces,
                              metrics: [
-                               'error_rate'
+                               'error_count'
                              ],
                              labels: [
                                'errors/s'

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import JumpToTracesTouchingServiceButton from 'in-sdk/components/sidebar/JumpToTracesTouchingServiceButton';
-import JumpToTracesOfServiceButton from 'in-sdk/components/sidebar/JumpToTracesOfServiceButton';
 import CountBasedJumpToButton from 'in-sdk/components/sidebar/CountBasedJumpToButton';
 import TracesButtonWrapper from 'in-sdk/components/sidebar/TracesButtonWrapper';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -16,14 +15,13 @@ export default function ServiceDashboardSidebar({snapshot}) {
   return (
     <div>
       <TracesButtonWrapper>
-        <JumpToTracesOfServiceButton snapshotId={snapshotId} />
         <JumpToTracesTouchingServiceButton snapshotId={snapshotId} />
+        <CountBasedJumpToButton href$={getTraceViewLinkWithQuery(query)}
+                                count$={getTraceCount(query)}
+                                title='Uncaught errors'
+                                tooltip='View traces for uncaught errors' />
       </TracesButtonWrapper>
 
-      <CountBasedJumpToButton href$={getTraceViewLinkWithQuery(query)}
-                              count$={getTraceCount(query)}
-                              title='Uncaught errors'
-                              tooltip='View traces for uncaught errors' />
 
       <ClusterMemberList snapshotId={snapshotId} />
 
