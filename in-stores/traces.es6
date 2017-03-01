@@ -71,6 +71,16 @@ export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe)
 }
 
 
+export function getTraceCount(query) {
+  return timeframe$.flatMap(timeframe =>
+    createTotalTraceCountObservable({
+      timeframe,
+      query
+    })
+  );
+}
+
+
 /**
  * ############################
  * Selected trace and trace id

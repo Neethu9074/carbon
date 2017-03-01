@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-  msZeroDecimalPlaces,
   msTwoDecimalPlaces,
+  percentageTwoDecimalPlaces,
   zeroDecimalPlaces,
   twoDecimalPlaces
 } from 'in-services/formatters/number';
@@ -53,26 +53,26 @@ export default connectTo(props => {
                        metric='count'
                        timeWindowAggregation='adjustedCount' />
         </KpiKeyValue>
-        <KpiKeyValue label='time to page load'>
+        <KpiKeyValue label='time to page load  (95th)'>
           <MetricValue snapshotId={snapshotId}
-                       metric='duration.mean'
-                       formatter={msZeroDecimalPlaces} />
+                       metric='duration. (95th)'
+                       formatter={msTwoDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label={<TimeWindowSizeLabel prefix='avg. time to page load in ' />}>
           <MetricValue snapshotId={snapshotId}
-                       metric='duration.mean'
-                       formatter={msZeroDecimalPlaces}
+                       metric='duration. (95th)'
+                       formatter={msTwoDecimalPlaces}
                        timeWindowAggregation='mean' />
         </KpiKeyValue>
-        <KpiKeyValue label='time to first paint'>
+        <KpiKeyValue label='time to first paint (95th)'>
           <MetricValue snapshotId={snapshotId}
-                       metric='fp.mean'
-                       formatter={msZeroDecimalPlaces} />
+                       metric='fp. (95th)'
+                       formatter={msTwoDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label={<TimeWindowSizeLabel prefix='avg. time to first paint in ' />}>
           <MetricValue snapshotId={snapshotId}
-                       metric='fp.mean'
-                       formatter={msZeroDecimalPlaces}
+                       metric='fp. (95th)'
+                       formatter={msTwoDecimalPlaces}
                        timeWindowAggregation='mean' />
         </KpiKeyValue>
       </KpiSection>
@@ -97,7 +97,7 @@ export default connectTo(props => {
                            }} />
         </DashboardSection>
 
-        <DashboardSection title='Page Load Time'>
+        <DashboardSection title='Errors/s'>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -105,73 +105,19 @@ export default connectTo(props => {
                            }}
                            y1={{
                              min: 0,
-                             formatter: msTwoDecimalPlaces,
+                             formatter: percentageTwoDecimalPlaces,
                              metrics: [
-                               'duration.mean'
+                               'error_rate'
                              ],
                              labels: [
-                               'Page Load Time'
+                               'errors/s'
                              ],
                              type: 'line'
                            }} />
         </DashboardSection>
       </TwoColumnRow>
 
-      <DashboardSection title='Navigation Timing'>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: msZeroDecimalPlaces,
-                           metrics: [
-                             'unl.mean',
-                             'red.mean',
-                             'apc.mean',
-                             'dns.mean',
-                             'tcp.mean',
-                             'req.mean',
-                             'rsp.mean',
-                             'pro.mean',
-                             'loa.mean'
-                           ],
-                           labels: [
-                             'Unload',
-                             'Redirect',
-                             'AppCache',
-                             'DNS',
-                             'TCP',
-                             'Request',
-                             'Response',
-                             'Processing',
-                             'Load'
-                           ],
-                           type: 'stackedArea'
-                         }} />
-      </DashboardSection>
-
-      <DashboardSection title='Time to First Paint'>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: msZeroDecimalPlaces,
-                           metrics: [
-                             'fp.mean'
-                           ],
-                           labels: [
-                             'First paint time'
-                           ],
-                           type: 'line'
-                         }} />
-      </DashboardSection>
-
-      <DashboardSection title='Load Time Overview'>
+      <DashboardSection title='Page Load Time'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
                          height={200}
@@ -180,7 +126,7 @@ export default connectTo(props => {
                          }}
                          y1={{
                            min: 0,
-                           formatter: msZeroDecimalPlaces,
+                           formatter: msTwoDecimalPlaces,
                            metrics: [
                              'duration.min',
                              'duration.25th',
@@ -202,6 +148,60 @@ export default connectTo(props => {
                              'max'
                            ],
                            type: 'integral'
+                         }} />
+      </DashboardSection>
+
+      <DashboardSection title='Page Load Breakdown (95th)'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: msTwoDecimalPlaces,
+                           metrics: [
+                             'unl.95th',
+                             'red.95th',
+                             'apc.95th',
+                             'dns.95th',
+                             'tcp.95th',
+                             'req.95th',
+                             'rsp.95th',
+                             'pro.95th',
+                             'loa.95th'
+                           ],
+                           labels: [
+                             'Unload',
+                             'Redirect',
+                             'AppCache',
+                             'DNS',
+                             'TCP',
+                             'Request',
+                             'Response',
+                             'Processing',
+                             'Load'
+                           ],
+                           type: 'stackedArea'
+                         }} />
+      </DashboardSection>
+
+      <DashboardSection title='Time to First Paint (95th)'>
+        <ChartWithLegend snapshotId={snapshotId}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: msTwoDecimalPlaces,
+                           metrics: [
+                             'fp.95th'
+                           ],
+                           labels: [
+                             'First paint time'
+                           ],
+                           type: 'line'
                          }} />
       </DashboardSection>
 

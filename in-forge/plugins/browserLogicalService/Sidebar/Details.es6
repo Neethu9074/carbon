@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {msZeroDecimalPlaces, zeroDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import JumpToTracesOfServiceButton from 'in-sdk/components/sidebar/JumpToTracesOfServiceButton';
-import {msZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -28,6 +28,10 @@ export default function BrowserServiceSidebar({snapshot}) {
                               metric: 'fp.mean',
                               label: 'first paint',
                               formatter: msZeroDecimalPlaces
+                            }, {
+                              metric: 'error_rate',
+                              label: 'errors/s',
+                              formatter: percentageZeroDecimalPlaces
                             }
                           ]} />
 
