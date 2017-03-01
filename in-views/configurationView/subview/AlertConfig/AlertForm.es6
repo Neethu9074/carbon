@@ -113,16 +113,13 @@ export default function AlertForm({form, onChange}) {
             <select onChange={e => onChange('aggregation', e.target.value)}
                     value={field.value}
                     id='alert-aggregation'>
-              <option key=''
-                      value=''>
+              <option value=''>
                 Please select
               </option>
-              <option key='avg'
-                      value='avg'>
+              <option value='avg'>
                 avg
               </option>
-              <option key='sum'
-                      value='sum'>
+              <option value='sum'>
                 sum
               </option>
             </select>
@@ -189,8 +186,7 @@ export default function AlertForm({form, onChange}) {
             <select onChange={e => onChange('threshold', e.target.value)}
                     value={field.value}
                     id='alert-threshold'>
-              <option key=''
-                      value=''>
+              <option value=''>
                 Please select
               </option>
               <option value='<'>
@@ -228,7 +224,7 @@ export default function AlertForm({form, onChange}) {
               Value
             </Label>
             <Input id='alert-thresholdValue'
-                   type='number'
+                   type='text'
                    value={field.value}
                    onChange={e => onChange('thresholdValue', e.target.value)}
                    hasError={!field.valid} />

@@ -235,7 +235,16 @@ function createForm(alert) {
     }))
     .put('thresholdValue', createField({
       value: String(rule.get('conditionValue')),
-      validator: notBlankValidator
+      validator(value) {
+        const n = Number(value);
+        if (isNaN(n)) {
+          return [{
+            severity: 'error',
+            message: 'Please enter a number (use . as a decimal separator).'
+          }];
+        }
+        return null;
+      }
     }))
     .put('triggering', createField({
       value: event.get('triggering')
