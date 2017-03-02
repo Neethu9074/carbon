@@ -34,7 +34,7 @@
     "dompurify": "^0.8.3",
     "favico.js": "^0.3.10",
     "fbjs": "^0.8.3",
-    "formalistic": "^1.2.0",
+    "formalistic": "^1.3.0",
     "hammerjs": "^2.0.4",
     "immutable": "^3.8.1",
     "instalog": "^1.0.0",
