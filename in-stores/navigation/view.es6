@@ -89,7 +89,7 @@ export const tableViewLink$ = getModifiedUrlStream(params => {
 
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
-  params.query.q = 'selftype:service';
+  params.query.q = 'selfType:service';
 });
 
 

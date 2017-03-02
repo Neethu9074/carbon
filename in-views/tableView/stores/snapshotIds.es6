@@ -20,7 +20,7 @@ export const selectedType$ = query$
 
 
 export function setSelectedType(type) {
-  setKeyword('selftype', type);
+  setKeyword('selfType', type);
 }
 
 
@@ -51,7 +51,7 @@ export const snapshotIds$ = query$
   .flatMap(query => {
     query = query || '';
     if (!getSelectedType(query)) {
-      query += ` type:host`;
+      query += ` selfType:host`;
     }
 
     return focusedMoment$
@@ -67,7 +67,7 @@ export const snapshotIds$ = query$
 
 
 function getSelectedType(query) {
-  return getValues(query, 'selftype')[0];
+  return getValues(query, 'selfType')[0];
 }
 
 
