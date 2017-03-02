@@ -113,9 +113,7 @@ function AuditLogEntries({log, query, offset, onOffsetChanged, onQueryChanged}) 
                 <span className={`${block}__time`}>
                   {` - ${fromNow(logEntry.get('timestamp'))} (${formatDateTime(logEntry.get('timestamp'))})`}
                 </span>
-                <div>
-                  <div dangerouslySetInnerHTML={{__html: toHtml(logEntry.get('message'))}} />
-                </div>
+                <div dangerouslySetInnerHTML={{__html: toHtml(logEntry.get('message'))}} />
               </div>
             </div>
           </li>
