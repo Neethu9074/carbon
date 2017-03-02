@@ -1,7 +1,6 @@
 import React from 'react';
 
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import PluginIcon from 'in-components/PluginIcon';
 import {always} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
@@ -26,13 +25,10 @@ export default connectTo(props => {
 },
 function EntityInformation({snapshot, label, useSnapshotLink = false, kind = 'dark' }) {
   if (snapshot === loadingPlaceholder) {
-    return (
-      <LoadingIndicator inline
-                        type='dark'
-                        style={{
-                          height: '16px'
-                        }} />
-    );
+    // This component is used too often within the same view, e.g. trace view with lots of
+    // spans. Our loading indicator is too expensive for Chrome to render more than a few hundred
+    // times. So show no loading indicator instead.
+    return null;
   } else if (!snapshot) {
     return null;
   }
