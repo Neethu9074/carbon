@@ -11,7 +11,7 @@ import {on, off} from 'in-services/persistentConnection';
 export default memoize(createSnapshotObservable, getId);
 
 function getId({snapshotId, time}) {
-  return snapshotId + time;
+  return snapshotId + Math.round(time / 5000) * 5000;
 }
 
 function createSnapshotObservable({snapshotId, time}) {
