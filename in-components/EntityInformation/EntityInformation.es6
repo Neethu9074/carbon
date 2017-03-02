@@ -45,10 +45,10 @@ function EntityInformation({snapshot, label, useSnapshotLink = false, kind = 'da
                     snapshot={snapshot} />
       </div>
       <HierarchicalLink snapshotId={snapshot.get('id')}
-                      className={`${block}__link`}
-                      useSnapshotLink={useSnapshotLink}
-                      kind={kind}
-                      calculateHierarchy>
+                        className={`${block}__link`}
+                        useSnapshotLink={useSnapshotLink}
+                        kind={kind}
+                        calculateHierarchy>
         {getLabel(snapshot)}
       </HierarchicalLink>
     </div>
