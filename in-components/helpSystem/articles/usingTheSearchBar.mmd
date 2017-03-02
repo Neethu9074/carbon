@@ -12,7 +12,7 @@ The following listing shows the currently supported inputs. Entities matching th
 
 - **Free Text Query:** Any text to search for. Example: `elasticsearch`.
 - **Tag Query:** Use `tag:myTag`, e.g. `tag:production` or `tag:development` to search for entities with the specified tag.
-- **Type Query:** To search for specific types of entities, e.g. all Elasticsearch nodes, use `type:elasticsearch`.
+- **Type Query:** To search for specific types of entities, e.g. all Elasticsearch nodes, use `entityType:elasticsearch`.
 - **Hostname Query:** You can search for hostnames via `hostname:shopping`.
 - **Host FQDN Query:** FQDN queries work just like hostname queries: `fqdn:shopping.example.com`.
 - **Host CPU Count Query:** Queries for CPU counts support varying operators. This allows searches like `cpuCount:>1` to search for all hosts with more than one CPU. In a similar way, queries for lower CPU counts or an exact CPU count are possible.
@@ -27,7 +27,7 @@ Enter in the Application View the name of the Service you are looking for. You c
 
 ## Trace View
 
-In the Trace View you can search for the request (e.g. `GET "/shop"`) by entering any part without the `"/"` sign. Please also leverage the wildcard `*`.
+In the Trace View you can search for the request (e.g. `GET "/shop"`) by putting the parts containing the `"/"` sign into double quotes. Please also leverage the wildcard `*`.
 In addition to this you can search for specific response times of traces by entering the one of the following expressions (you can always use `:`, `:<`, `:>`) with the time in ms.
 
 ```
