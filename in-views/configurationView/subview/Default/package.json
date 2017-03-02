@@ -1,0 +1,6 @@
+{
+  "name": "Default",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Default.es6"
+}
