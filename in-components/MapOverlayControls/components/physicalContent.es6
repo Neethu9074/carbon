@@ -1,13 +1,13 @@
 import React from 'react';
 
 import {setLayoutingStrategy, simpleLayouting$, packedLayouting$}  from 'in-map/stores/physical/layouterStore';
-import ShowAggregates from 'in-components/Controls/components/ShowAggregates';
-import MapStatistics from 'in-components/Controls/components/MapStatistics';
-import Metrics from 'in-components/Controls/components/Metrics';
-import Layout from 'in-components/Controls/components/Layout';
-import Icons from 'in-components/Controls/components/Icons';
-import Zoom from 'in-components/Controls/components/Zoom';
-import Tags from 'in-components/Controls/components/Tags';
+import ShowAggregates from 'in-components/MapOverlayControls/components/ShowAggregates';
+import MapStatistics from 'in-components/MapOverlayControls/components/MapStatistics';
+import Metrics from 'in-components/MapOverlayControls/components/Metrics';
+import Layout from 'in-components/MapOverlayControls/components/Layout';
+import Icons from 'in-components/MapOverlayControls/components/Icons';
+import Zoom from 'in-components/MapOverlayControls/components/Zoom';
+import Tags from 'in-components/MapOverlayControls/components/Tags';
 
 
 export default function getPhysicalContent() {

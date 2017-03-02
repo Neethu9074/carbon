@@ -2,18 +2,19 @@ import {fromJS} from 'immutable';
 import React from 'react';
 
 import {setActiveMetric, clearActiveMetric, activeMetric$} from 'in-stores/metric';
-import Control from 'in-components/Controls/components/Control';
+import Control from 'in-components/MapOverlayControls/components/Control';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/Controls/components/Metrics.less';
+import 'in-components/MapOverlayControls/components/Metrics.less';
 
 
 const block = 'in-controls-metrics';
 
 export default connectTo({
   activeMetric: activeMetric$
-}, function Metrics({activeMetric}) {
+},
+function Metrics({activeMetric}) {
   return (
     <Control createMenuContent={createMenuContent}
              isActive={activeMetric ? true : false}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
-import Control from 'in-components/Controls/components/Control';
+import Control from 'in-components/MapOverlayControls/components/Control';
 import {getIn} from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
 
@@ -21,12 +21,12 @@ function Zoom({showZoomPanel}) {
 
   return (
     <div>
-      <Control className={`${block}__zoom-in`}
+      <Control className={`${block}__in`}
                onClick={() => CameraControllerServiceLocator.zoom(-UNITS_TO_ZOOM, true)}
                tooltipText='Zoom in'
                type='plus_without_frame' />
 
-      <Control className={`${block}__zoom-out`}
+      <Control className={`${block}__out`}
                onClick={() => CameraControllerServiceLocator.zoom(UNITS_TO_ZOOM, true)}
                tooltipText='Zoom out'
                type={'minus'} />

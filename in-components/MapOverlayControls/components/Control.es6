@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {menuContent$, toggleContent, closeCurrentMenu} from 'in-components/Controls/stores/menuContentStore';
+import {menuContent$, toggleContent, closeCurrentMenu} from 'in-components/MapOverlayControls/stores/menuContentStore';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/Controls/components/Control.less';
+import 'in-components/MapOverlayControls/components/Control.less';
 
 
 const block = 'in-control';
@@ -58,7 +58,6 @@ React.createClass({
     return (
       <Tooltip content={tooltipText}
                align='topRight'>
-
         <div className={controlClassName}
              onClick={() => {
                if (onClick) {

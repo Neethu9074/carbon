@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Control from 'in-components/Controls/components/Control';
+import Control from 'in-components/MapOverlayControls/components/Control';
 import statistics from 'in-map/stores/statisticsStore';
 import Collapsible from 'in-components/Collapsible';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/Controls/components/MapStatistics.less';
+import 'in-components/MapOverlayControls/components/MapStatistics.less';
 
 
 export default function MapStatistics() {

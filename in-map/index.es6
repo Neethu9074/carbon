@@ -1,8 +1,8 @@
 import React from 'react';
 
+import Controls from 'in-components/MapOverlayControls';
 import EventSidebar from 'in-components/EventSidebar';
 import MapSidebar from 'in-components/MapSidebar';
-import Controls from 'in-components/Controls';
 import MapNotes from 'in-components/MapNotes';
 import Map from 'in-map/Map';
 

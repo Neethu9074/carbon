@@ -2,7 +2,7 @@ import React from 'react';
 
 import {currentLayoutingStrategy$ as currentPhysicalLayoutingStrategy$} from 'in-map/stores/physical/layouterStore';
 import {currentLayoutingStrategy$ as currentLogicalLayoutingStrategy$} from 'in-map/stores/logical/layouterStore';
-import Control from 'in-components/Controls/components/Control';
+import Control from 'in-components/MapOverlayControls/components/Control';
 import {clearAll} from 'in-map/stores/logical/layouterStore';
 import connectTo from 'in-hoc/connectTo';
 

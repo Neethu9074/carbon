@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {menuContent$} from 'in-components/Controls/stores/menuContentStore';
+import {menuContent$} from 'in-components/MapOverlayControls/stores/menuContentStore';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/Controls/components/Menu.less';
+import 'in-components/MapOverlayControls/components/Menu.less';
 
 
 const block = 'in-controls-menu';

@@ -1,7 +1,7 @@
 import {create} from 'reactive-observables';
 
-import getPhysicalContent from 'in-components/Controls/components/physicalContent';
-import getLogicalContent from 'in-components/Controls/components/logicalContent';
+import getPhysicalContent from 'in-components/MapOverlayControls/components/physicalContent';
+import getLogicalContent from 'in-components/MapOverlayControls/components/logicalContent';
 
 export const controls$ = create().emit(null);
 

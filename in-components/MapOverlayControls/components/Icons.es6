@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Control from 'in-components/Controls/components/Control';
+import Control from 'in-components/MapOverlayControls/components/Control';
 import {SvgIconList} from 'in-components/SvgIcon';
 
-import 'in-components/Controls/components/Icons.less';
+import 'in-components/MapOverlayControls/components/Icons.less';
 
 
 export default function Icons() {

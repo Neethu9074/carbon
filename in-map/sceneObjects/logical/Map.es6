@@ -1,9 +1,9 @@
 import {combineLatest} from 'reactive-observables';
 
 import FadeByDistanceSingleMeshFactory from 'in-map/singleMeshFactories/FadeByDistanceSingleMeshFactory';
+import {CONTROL_PRESETS, setControls} from 'in-components/MapOverlayControls/stores/controlsStore';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
 import {connectedHighlightedIds$} from 'in-map/stores/logical/connectedHighlightingStore';
-import {CONTROL_PRESETS, setControls} from 'in-components/Controls/stores/controlsStore';
 import ConnectedNodesHighlighter from 'in-map/misc/logical/ConnectedNodesHighlighter';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';

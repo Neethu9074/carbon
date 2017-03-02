@@ -1,18 +1,17 @@
 import React from 'react';
 
 import {showAggregations$, toggle} from 'in-stores/metric/showAggregations';
-import Control from 'in-components/Controls/components/Control';
+import Control from 'in-components/MapOverlayControls/components/Control';
 import connectTo from 'in-hoc/connectTo';
+
 
 export default connectTo({
   showAggregations: showAggregations$
-}, function ShowAggregates({showAggregations}) {
-  let text = showAggregations ? 'Disable' : 'Enable';
-  text += ' time window based metric aggregations';
-
+},
+function ShowAggregates({showAggregations}) {
   return (
     <Control onClick={toggle}
-             tooltipText={text}
+             tooltipText={`${showAggregations ? 'Disable' : 'Enable'} time window based metric aggregations`}
              iconSize={24}
              type='timerange'
              isActive={showAggregations} />

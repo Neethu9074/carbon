@@ -8,7 +8,6 @@ import {focusedMoment$} from 'in-stores/timeline';
 
 export const types = {
   logical: 'LOGICAL',
-  process: 'LOGICAL', // TODO can we remove this?
   physical: 'PHYSICAL'
 };
 

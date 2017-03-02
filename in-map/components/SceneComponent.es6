@@ -54,7 +54,7 @@ function currentView(view, sceneObject) {
     return (
       <PhysicalMapComponent scene={sceneObject} />
     );
-  } else if (view === views.process) {
+  } else if (view === views.logical) {
     return (
       <LogicalMapComponent scene={sceneObject} />
     );
