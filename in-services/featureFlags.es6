@@ -11,3 +11,4 @@ export const agentYamlConfigEnabled = onlyInternally;
 export const customAltertingEnabled = onlyInternally;
 export const auditLogEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
+export const RoleViewFilterEnabled = onlyInternally;

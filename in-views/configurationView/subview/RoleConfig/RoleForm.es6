@@ -4,6 +4,7 @@ import HorizontalFormGroupWithBackground from 'in-views/configurationView/compon
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import {RoleViewFilterEnabled} from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpBlock from 'in-components/form/HelpBlock';
 import {isOnPremise} from 'in-services/config';
@@ -41,7 +42,7 @@ export default function RoleForm({form, onChange, disabled}) {
           </FormGroup>
         )}
 
-        {form.get('implicitViewFilter').map(field =>
+        {RoleViewFilterEnabled && form.get('implicitViewFilter').map(field =>
           <FormGroup>
             <Label htmlFor='role-implicit-view-filter'
                    hasError={!field.valid}>
