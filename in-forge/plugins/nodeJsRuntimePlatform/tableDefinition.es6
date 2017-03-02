@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import {bytesTwoDecimalPlaces, timeByMillisTwoDecimalPlaces} from 'in-services/formatters/number';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
@@ -41,6 +41,26 @@ export default [
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
           metric: 'memory.heapUsed'
+        }).map(v => v[1])
+      };
+    }
+  }, {
+    title: 'GC pause/s',
+    sortableType: Number,
+    style: {
+      textAlign: 'right'
+    },
+    get(snapshot) {
+      return {
+        content: (
+          <MetricValue snapshotId={snapshot.get('id')}
+                       metric='gc.gcPause'
+                       formatter={timeByMillisTwoDecimalPlaces}
+                       optionalTimeWindowAggregation='mean' />
+        ),
+        sortable$: getMetricForFocusedMoment({
+          snapshotId: snapshot.get('id'),
+          metric: 'gc.gcPause'
         }).map(v => v[1])
       };
     }
