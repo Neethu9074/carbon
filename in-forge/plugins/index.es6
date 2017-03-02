@@ -8,6 +8,7 @@ import './cassandraCluster';
 import './cassandraKeyspaceServiceInstance';
 import './cassandraNode';
 import './clrRuntimePlatform';
+import './cloudFoundry';
 import './databaseServiceInstance';
 import './defaultLogicalConnection';
 import './defaultLogicalService';
