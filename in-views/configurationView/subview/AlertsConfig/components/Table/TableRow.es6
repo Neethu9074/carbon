@@ -44,7 +44,7 @@ function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status
 
         <Column>
           <PluginIcon className={`${block}__entity-icon`}
-                      dimension={24}
+                      dimension={20}
                       color='#000'
                       plugin={alert.getIn(['match', 'entityType'])} />
           {getSingular(alert.getIn(['match', 'entityType']))}

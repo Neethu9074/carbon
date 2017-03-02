@@ -103,19 +103,19 @@ function AuditLogEntries({log, query, offset, onOffsetChanged, onQueryChanged}) 
                           email={logEntry.getIn(['actor', 'email'])} />
               : <div className={`${block}__spacer`} />}
 
-              <div>
+              <div className={`${block}__text`}>
                 <span className={`${block}__full-name`}>
                   {logEntry.getIn(['actor', 'name'])}
                 </span>
                 <span className={`${block}__topic`}>
                   {` - ${logEntry.get('action')}`}
                 </span>
+                <span className={`${block}__time`}>
+                  {` - ${fromNow(logEntry.get('timestamp'))} (${formatDateTime(logEntry.get('timestamp'))})`}
+                </span>
                 <div>
                   <div dangerouslySetInnerHTML={{__html: toHtml(logEntry.get('message'))}} />
                 </div>
-                <span className={`${block}__time`}>
-                  {`${fromNow(logEntry.get('timestamp'))} (${formatDateTime(logEntry.get('timestamp'))})`}
-                </span>
               </div>
             </div>
           </li>
