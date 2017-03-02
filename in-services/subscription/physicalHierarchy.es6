@@ -1,20 +1,25 @@
-import Immutable from 'immutable';
+import {List} from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
+import {roundToNearestTimeBlock} from 'in-services/subscription/util';
 
 
 export default createSubscription({
   eventId: 'subscribe-physical-hierarchy',
 
-  getId: ({snapshotId, time}) => snapshotId + time,
+  getId({snapshotId, time}) {
+    return snapshotId + roundToNearestTimeBlock(time);
+  },
 
-  getData: (subscriptionId, {snapshotId, time}) => {
+  getData(subscriptionId, {snapshotId, time}) {
     return {
       subscriptionId,
       snapshotId,
-      time
+      time: roundToNearestTimeBlock(time)
     };
   },
 
-  transformData: data => Immutable.List(data)
+  transformData(data) {
+    return List(data);
+  }
 });
