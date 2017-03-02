@@ -55,8 +55,11 @@ function UiConfig({settings}) {
                    htmlFor='chart-quality' />
         </Group>
 
-        <Group helpText='Requires browser refresh to become active.'
-               isError>
+        <Group helpText={
+          <span className={`${block}__warning`}>
+            Requires browser refresh to become active.
+          </span>}
+                isWarning>
           <Toggle id='format-time'
                   checked={settings.get('formatTimestampsAsUtc')}
                   onChange={e => setIn(['formatTimestampsAsUtc'], e.target.checked)} />
@@ -191,7 +194,7 @@ function UiConfig({settings}) {
   );
 });
 
-function Group({children, helpText, isError}) {
+function Group({children, helpText, isWarning}) {
   return (
     <HorizontalFormGroupWithBackground className={`${block}__wrapper`}>
       {children}
@@ -203,7 +206,7 @@ function Group({children, helpText, isError}) {
                    type='info'
                    width={16}
                    height={16}
-                   color={isError ? '#ff4229' : '#172429'} />
+                   color={isWarning ? '#ff4229' : '#172429'} />
         </Tooltip>
       : null}
     </HorizontalFormGroupWithBackground>
