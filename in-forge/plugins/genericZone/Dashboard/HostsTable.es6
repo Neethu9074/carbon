@@ -23,6 +23,8 @@ function HostsTable({hosts, timeframe}) {
     return null;
   }
 
+  hosts = hosts.sort((a, b) => getLabel(a).localeCompare(getLabel(b)));
+
   return (
     <DashboardSection title='Hosts'>
       <ExpandableTable data={hosts}
