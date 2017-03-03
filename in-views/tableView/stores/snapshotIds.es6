@@ -66,6 +66,9 @@ export const snapshotIds$ = query$
   });
 
 
+export const matchedSnapshotCount$ = snapshotIds$.map(snapshotIds => snapshotIds.length);
+
+
 function getSelectedType(query) {
   return getValues(query, 'selfType')[0];
 }

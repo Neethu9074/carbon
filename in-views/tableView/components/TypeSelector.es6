@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {selectedType$, setSelectedType} from 'in-views/tableView/stores/snapshotIds';
+import {selectedType$, setSelectedType, matchedSnapshotCount$} from 'in-views/tableView/stores/snapshotIds';
 import connectTo from 'in-hoc/connectTo';
 
 import './TypeSelector.less';
@@ -26,8 +26,9 @@ const domains = {
 };
 
 export default connectTo({
-  selectedType: selectedType$
-}, function TypeSelector({selectedType}) {
+  selectedType: selectedType$,
+  matchedSnapshotCount: matchedSnapshotCount$
+}, function TypeSelector({selectedType, matchedSnapshotCount}) {
   return (
     <label className={block}
            htmlFor={id}>
@@ -49,6 +50,8 @@ export default connectTo({
           </optgroup>
         )}
       </select>
+
+      ({matchedSnapshotCount})
     </label>
   );
 });
