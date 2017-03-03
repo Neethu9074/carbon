@@ -20,7 +20,7 @@ export default createStickyNote(
     };
   },
   function Group({selectedId, showSticky, snapshot, id}) {
-    if (!snapshot || !showSticky) {
+    if (!showSticky) {
       return null;
     }
 
@@ -33,7 +33,7 @@ export default createStickyNote(
       <div className='in-sticky-note-group'
            onClick={() => setSelectedSnapshotId(id)}
            style={{backgroundColor}}>
-        {getLabel(snapshot)}
+        {snapshot ? getLabel(snapshot) : id}
       </div>
     );
   }
