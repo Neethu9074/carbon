@@ -13,6 +13,8 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import createObjectCollectionStream from 'in-map/stores/ObjectCollectionStream';
+import NodeStickyNote from 'in-map/components/stickyNotes/physical/Node';
+import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import NodeTooltip from 'in-map/components/tooltips/physical/Node';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
@@ -37,6 +39,14 @@ export default class Node extends SceneObject {
     this.group.addNode(this.id, this);
 
     this.layerLayouter = createLayerLayouter(this);
+
+    stickyNotes.add(this.id, {
+      type: NodeStickyNote,
+      eventEmitter: this.eventEmitter,
+      props: {
+        id: this.id
+      }
+    });
   }
 
   initComponents() {
@@ -66,7 +76,13 @@ export default class Node extends SceneObject {
         };
       }));
 
-      this.addComponent('screenPosition', new ScreenPositionComponent(this));
+      this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
+        return {
+          x: pos.x + 0.75,
+          y: pos.y + scale.y,
+          z: pos.z - 0.75
+        };
+      }));
 
       this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CCP, 'solid'));
 
@@ -128,6 +144,8 @@ export default class Node extends SceneObject {
     this.layerLayouter = null;
 
     nodes.remove(this.id);
+    stickyNotes.remove(this.id);
+
     this.group.removeNode(this.id);
 
     this._cachedLabel = null;

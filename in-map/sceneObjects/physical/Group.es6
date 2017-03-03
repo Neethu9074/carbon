@@ -20,6 +20,7 @@ export default class Group extends SceneObject {
 
     this._cachedLabel = this.id;
     this.nodes = createObjectCollection();
+    eventBus.emit('layoutNeedsUpdate', true);
   }
 
   init() {

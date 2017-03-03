@@ -8,6 +8,9 @@ import {
   setShowSticky as showServiceSticky,
   setShowKpi as showServiceKpi
 } from 'in-map/stores/logical/servicesStore';
+import {
+  setShowSticky as showNodesSticky
+} from 'in-map/stores/physical/nodesStore';
 import {currentLayoutingStrategy$, packedLayouting$} from 'in-map/stores/physical/layouterStore';
 import {setShowSticky as showGroupLabelSticky} from 'in-map/stores/physical/groupsStore';
 
@@ -28,6 +31,8 @@ export function createEventBus() {
     showConnectionSticky(zoomLevel < 150);
 
     showGroupLabelSticky(zoomLevel < 550);
+
+    showNodesSticky(zoomLevel < 300);
   });
 
   combineLatest([
