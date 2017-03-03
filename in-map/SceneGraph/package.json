@@ -1,0 +1,6 @@
+{
+  "name": "SceneGraph",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SceneGraph.es6"
+}

@@ -12,8 +12,12 @@ export default class Subscriber {
     subscriptions.forEach(subscription => this.addSubscription(subscription));
   }
 
-  dispose() {
+  disposeSubscriptions() {
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];
+  }
+
+  dispose() {
+    this.disposeSubscriptions();
   }
 }
