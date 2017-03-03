@@ -29,11 +29,16 @@ export default createStickyNote(
       '#fff' :
       'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
 
+    let label = snapshot ? getLabel(snapshot) : id;
+    if (label.indexOf('docker-image=') === 0) {
+      label = label.substr('docker-image='.length);
+    }
+
     return (
       <div className='in-sticky-note-group'
            onClick={() => setSelectedSnapshotId(id)}
            style={{backgroundColor}}>
-        {snapshot ? getLabel(snapshot) : id}
+        {label}
       </div>
     );
   }
