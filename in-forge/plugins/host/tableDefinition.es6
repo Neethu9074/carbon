@@ -2,8 +2,8 @@ import React from 'react';
 
 import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
-import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getFoundations} from 'in-stores/snapshot';

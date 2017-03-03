@@ -6,8 +6,8 @@ import {
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
 import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
-import getHostSnapshotId from 'in-services/subscription/hostSnapshotIdForSnapshot';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
