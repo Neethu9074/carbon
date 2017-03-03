@@ -11,7 +11,7 @@ export default sceneObjectComponent(props => {
   return {
     InstanceType: Map,
     params: {
-      id: 'physical_map',
+      id: 'container_map',
       scene: props.scene
     }
   };

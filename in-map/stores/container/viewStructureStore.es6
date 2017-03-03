@@ -1,16 +1,12 @@
 import {combineLatest} from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
-import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
 import {searchMatches$} from 'in-stores/search/searchMatches';
 import {debouncedQuery$} from 'in-stores/search/query';
 import {focusedMoment$} from 'in-stores/timeline';
-import {getIn} from 'in-services/settings';
 import {view$} from 'in-stores/view';
 import {role} from 'in-stores/user';
 
-
-const excludeUnmonitoredHosts$ = getIn(['map', 'excludeUnmonitoredHosts']);
 
 const nothingMatches = {
   contains() {
@@ -24,10 +20,9 @@ const everythingMatches = {
   }
 };
 
-
 export function getViewStructure() {
-  return combineLatest([view$, focusedMoment$, searchMatches$, excludeUnmonitoredHosts$, debouncedQuery$])
-     .flatMap(([viewType, focusedMoment, _searchMatches, excludeUnmonitoredHosts, query]) => {
+  return combineLatest([view$, focusedMoment$, searchMatches$, debouncedQuery$])
+     .flatMap(([viewType, focusedMoment, _searchMatches, query]) => {
        if (!_searchMatches || _searchMatches.size === 0) {
          if (query.trim().length === 0 && role.implicitViewFilter.trim().length === 0) {
            _searchMatches = everythingMatches;
@@ -43,25 +38,18 @@ export function getViewStructure() {
 
                 _viewStructure.get('children').forEach(group => {
                   const groupId = group.get('id');
-                  if (excludeUnmonitoredHosts && groupId === ID_OF_UNMONITORED_ZONE) {
-                    groupIds[groupId] = false;
-                    return;
-                  }
+                  groupIds[groupId] = true;
 
                   group.get('children').forEach(host => {
                     const hostId = host.get('id');
-                    if (_searchMatches.contains(hostId)) {
                       hostIds[hostId] = true;
                       groupIds[groupId] = true;
-                    }
 
                     host.get('children').forEach(layer => {
                       const layerId = layer.get('id');
-                      if (_searchMatches.contains(layerId)) {
                         layerIds[layerId] = true;
                         hostIds[hostId] = true;
                         groupIds[groupId] = true;
-                      }
                     });
                   });
                 });

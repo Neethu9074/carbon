@@ -10,6 +10,7 @@ import SceneObject from 'in-map/sceneObjects/SceneObject';
 import {groups} from 'in-map/stores/physical/groupsStore';
 import {isWebVRActive} from 'in-map/stores/webVRStore';
 import {eventBus} from 'in-map/services/eventBus';
+import {getLabel} from 'in-sdk/snapshot';
 
 
 export default class Group extends SceneObject {
@@ -59,7 +60,7 @@ export default class Group extends SceneObject {
     super.initEvents();
 
     this.addSubscription(this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
-      this._cachedLabel = snapshot ? snapshot.getIn(['data', 'groupId']) : this._cachedLabel;
+      this._cachedLabel = snapshot ? getLabel(snapshot) : this._cachedLabel;
       eventBus.emit('layoutNeedsUpdate', true);
     }));
   }
