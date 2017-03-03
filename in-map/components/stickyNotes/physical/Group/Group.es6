@@ -24,15 +24,19 @@ export default createStickyNote(
       return null;
     }
 
+    let label;
+    if (snapshot) {
+      label = getLabel(snapshot);
+    } else if (id.indexOf('docker-image=') === 0) {
+      label = id.substr('docker-image='.length);
+    } else {
+      return null;
+    }
+
     const c = getColorPool('groups').getColorRGB(id);
     const backgroundColor = selectedId === id ?
       '#fff' :
       'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
-
-    let label = snapshot ? getLabel(snapshot) : id;
-    if (label.indexOf('docker-image=') === 0) {
-      label = label.substr('docker-image='.length);
-    }
 
     return (
       <div className='in-sticky-note-group'
