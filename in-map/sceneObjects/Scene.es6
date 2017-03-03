@@ -193,6 +193,8 @@ export default class MainScene extends SceneObject {
   }
 
   dispose() {
+    super.dispose();
+
     // break the browser update routine
     this.isDisposed = true;
 

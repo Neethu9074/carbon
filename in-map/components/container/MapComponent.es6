@@ -2,7 +2,8 @@ import React from 'react';
 
 import {getViewStructure} from 'in-map/stores/container/viewStructureStore';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
-import Map from 'in-map/sceneObjects/container/Map';
+import GroupComponent from 'in-map/components/physical/GroupComponent';
+import Map from 'in-map/sceneObjects/physical/Map';
 import connectTo from 'in-hoc/connectTo';
 
 
@@ -24,9 +25,24 @@ function MapComponent({structure}) {
     return null;
   }
 
+  const includedGroupIds = structure.includedIds.groupIds;
+  const groups = structure.viewStructure.get('children');
+
   return (
-    <div>
-      container map here
+    <div style={{
+      display: 'none'
+    }}>
+      {groups.map(groupEntity => {
+        const groupId = groupEntity.get('id');
+        if (!includedGroupIds[groupId]) {
+          return null;
+        }
+        return (
+          <GroupComponent key={groupId}
+                          includedIds={structure.includedIds}
+                          entity={groupEntity} />
+        );
+      })}
     </div>
   );
 }
