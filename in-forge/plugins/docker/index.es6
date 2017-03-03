@@ -35,6 +35,11 @@ registerSnapshotDefinition({
       return nomadTaskName;
     }
 
+    const ecsContainerName = s.getIn(['data', 'Labels', 'com.amazonaws.ecs.container-name']);
+    if (ecsContainerName) {
+      return ecsContainerName;
+    }
+
     const image = s.getIn(['data', 'Image']);
     if (!image) {
       return getFallbackLabel(s);
