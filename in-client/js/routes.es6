@@ -20,6 +20,7 @@ import TraceView from 'promise?global!in-views/traceView/TraceView';
 import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
 import LogView from 'promise?global!in-views/logView/LogView';
+import {containerMapEnabled} from 'in-services/featureFlags';
 import {Route, Redirect, IndexRedirect} from 'react-router';
 import React from 'react';
 
@@ -50,13 +51,15 @@ export default (
              windowTitle='Dashboard' />
     </Route>
 
-    <Route path='container'
-           component={Map}
-           windowTitle='Infrastructure Container Map'>
-      <Route path='dashboard'
-             component={Dashboard}
-             windowTitle='Dashboard' />
-    </Route>
+    {containerMapEnabled ?
+      <Route path='container'
+             component={Map}
+             windowTitle='Infrastructure Container Map'>
+        <Route path='dashboard'
+               component={Dashboard}
+               windowTitle='Dashboard' />
+      </Route>
+    : null}
 
     <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)}
            path='traces'

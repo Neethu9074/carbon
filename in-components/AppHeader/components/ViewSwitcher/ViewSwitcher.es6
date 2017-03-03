@@ -9,10 +9,10 @@ import {
 } from 'in-stores/navigation/view';
 import {logicalViewLink$, physicalViewLink$, containerViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {SubMenuItem} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import {logViewEnabled, containerMapEnabled} from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import {containsKeyword} from 'in-stores/search/keywords';
 import {openEventsAtServerTime$} from 'in-stores/events';
-import {logViewEnabled} from 'in-services/featureFlags';
 import {query$} from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
@@ -42,9 +42,11 @@ function ViewSwitcher({navigationParameters, query}) {
           <SubMenuItem label='Host Map'
                        href$={physicalViewLink$}
                        isActive={pathname.indexOf('/physical') === 0} />
-          <SubMenuItem label='Container Map'
-                       href$={containerViewLink$}
-                       isActive={pathname.indexOf('/container') === 0} />
+          {containerMapEnabled ?
+            <SubMenuItem label='Container Map'
+                         href$={containerViewLink$}
+                         isActive={pathname.indexOf('/container') === 0} />
+          : null}
           <SubMenuItem label='Comparison Table'
                        href$={tableViewLink$}
                        isActive={isPhysicalTable} />
