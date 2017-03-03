@@ -32,7 +32,7 @@ export function createEventBus() {
 
     showGroupLabelSticky(zoomLevel < 550);
 
-    showNodesSticky(zoomLevel < 300);
+    showNodesSticky(zoomLevel < 250);
   });
 
   combineLatest([
