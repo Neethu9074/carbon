@@ -8,7 +8,8 @@ import {focusedMoment$} from 'in-stores/timeline';
 
 export const types = {
   logical: 'LOGICAL',
-  physical: 'PHYSICAL'
+  physical: 'PHYSICAL',
+  container: 'CONTAINER'
 };
 
 const store = createTrackingStore({
@@ -19,6 +20,8 @@ const store = createTrackingStore({
       if (pathname.indexOf('/logical') === 0 ||
           pathname.indexOf('/webVR/logical') === 0) {
         return types.logical;
+      } else if (pathname.indexOf('/container') === 0) {
+        return types.container;
       }
       return types.physical;
     })

@@ -245,6 +245,11 @@ export const physicalViewLink$ = getModifiedUrlStream(params => {
   delete params.query.q;
 });
 
+export const containerViewLink$ = getModifiedUrlStream(params => {
+  params.pathname = '/container';
+  delete params.query.q;
+});
+
 
 export function goToRootOfView() {
   mutateUrl(navParams => {
