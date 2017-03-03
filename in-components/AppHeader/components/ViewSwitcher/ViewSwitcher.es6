@@ -7,7 +7,7 @@ import {
   tableViewFilteredForServicesLink$,
   logView$
 } from 'in-stores/navigation/view';
-import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
+import {logicalViewLink$, physicalViewLink$, containerViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {SubMenuItem} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import {containsKeyword} from 'in-stores/search/keywords';
@@ -39,9 +39,12 @@ function ViewSwitcher({navigationParameters, query}) {
         <View label='infrastructure'
               icon='infrastructure'
               isActive={pathname.indexOf('/physical') === 0 || isPhysicalTable}>
-          <SubMenuItem label='Map'
+          <SubMenuItem label='Host Map'
                        href$={physicalViewLink$}
                        isActive={pathname.indexOf('/physical') === 0} />
+          <SubMenuItem label='Container Map'
+                       href$={containerViewLink$}
+                       isActive={pathname.indexOf('/container') === 0} />
           <SubMenuItem label='Comparison Table'
                        href$={tableViewLink$}
                        isActive={isPhysicalTable} />

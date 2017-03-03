@@ -36,7 +36,7 @@ export default (
          component={App}>
     <Route path='physical'
            component={Map}
-           windowTitle='Infrastructure Map'>
+           windowTitle='Infrastructure Host Map'>
       <Route path='dashboard'
              component={Dashboard}
              windowTitle='Dashboard' />
@@ -45,6 +45,14 @@ export default (
     <Route path='logical'
            component={Map}
            windowTitle='Application Map'>
+      <Route path='dashboard'
+             component={Dashboard}
+             windowTitle='Dashboard' />
+    </Route>
+
+    <Route path='container'
+           component={Map}
+           windowTitle='Infrastructure Container Map'>
       <Route path='dashboard'
              component={Dashboard}
              windowTitle='Dashboard' />

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PhysicalContainerMapComponent from 'in-map/components/container/MapComponent';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import PhysicalMapComponent from 'in-map/components/physical/MapComponent';
 import sceneObjectComponent from 'in-map/components/SceneObjectComponent';
@@ -49,15 +50,12 @@ function SceneComponent({view, sceneObject}) {
 }
 
 function currentView(view, sceneObject) {
-
   if (view === views.physical) {
-    return (
-      <PhysicalMapComponent scene={sceneObject} />
-    );
+    return <PhysicalMapComponent scene={sceneObject} />;
   } else if (view === views.logical) {
-    return (
-      <LogicalMapComponent scene={sceneObject} />
-    );
+    return <LogicalMapComponent scene={sceneObject} />;
+  } else if (view === views.container) {
+    return <PhysicalContainerMapComponent scene={sceneObject} />;
   }
 
   return null;
