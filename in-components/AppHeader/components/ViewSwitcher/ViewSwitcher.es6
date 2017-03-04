@@ -32,20 +32,22 @@ function ViewSwitcher({navigationParameters, query}) {
   const isTable = pathname.indexOf('/table') === 0;
   const isLogicalTable = isTable && containsKeyword(query, 'selfType', 'service');
   const isPhysicalTable = isTable && !isLogicalTable;
+  const isPhysicalView = pathname.indexOf('/physical') === 0;
+  const isContainerView = pathname.indexOf('/container') === 0;
 
   return (
     <div className={block}>
       <ul className={block + '__list'}>
         <View label='infrastructure'
               icon='infrastructure'
-              isActive={pathname.indexOf('/physical') === 0 || isPhysicalTable}>
+              isActive={isPhysicalView || isPhysicalTable || isContainerView}>
           <SubMenuItem label='Host Map'
                        href$={physicalViewLink$}
-                       isActive={pathname.indexOf('/physical') === 0} />
+                       isActive={isPhysicalView} />
           {containerMapEnabled ?
             <SubMenuItem label='Container Map'
                          href$={containerViewLink$}
-                         isActive={pathname.indexOf('/container') === 0} />
+                         isActive={isContainerView} />
           : null}
           <SubMenuItem label='Comparison Table'
                        href$={tableViewLink$}
