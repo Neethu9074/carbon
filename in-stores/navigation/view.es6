@@ -114,3 +114,7 @@ export function focusEvent(eventId) {
     return params;
   });
 }
+
+export function getLinkToCurrentViewWithViewGrouping(vg) {
+  return getModifiedUrlStream(params => params.query.vg = vg);
+}

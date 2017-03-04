@@ -3,6 +3,7 @@ import React from 'react';
 import {setLayoutingStrategy, simpleLayouting$, packedLayouting$}  from 'in-map/stores/physical/layouterStore';
 import ShowAggregates from 'in-components/MapOverlayControls/components/ShowAggregates';
 import MapStatistics from 'in-components/MapOverlayControls/components/MapStatistics';
+import ViewGrouping from 'in-components/MapOverlayControls/components/ViewGrouping';
 import Metrics from 'in-components/MapOverlayControls/components/Metrics';
 import Layout from 'in-components/MapOverlayControls/components/Layout';
 import Icons from 'in-components/MapOverlayControls/components/Icons';
@@ -16,6 +17,7 @@ export default function getPhysicalContent() {
     <Metrics key='metrics' />,
     <ShowAggregates key='aggregates' />,
     <Tags key='tags' />,
+    <ViewGrouping key='grouping' />,
     <Layout key='packed_layout'
             iconType='packed_layouting'
             tooltipText='Rearrange zones as a compact structure'

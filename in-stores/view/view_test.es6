@@ -5,7 +5,7 @@ import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {resetStoreRegistry} from './store';
+import {resetStoreRegistry} from 'in-stores/store';
 
 
 describe('stores.view', () => {

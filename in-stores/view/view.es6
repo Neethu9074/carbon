@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
 import {navigationParameters$} from 'in-stores/navigation';
+import {viewGrouping$} from 'in-stores/view/viewGrouping';
 import {createTrackingStore} from 'in-stores/store';
 import {focusedMoment$} from 'in-stores/timeline';
 
@@ -13,7 +14,7 @@ export const types = {
 };
 
 const store = createTrackingStore({
-  name: 'view',
+  name: 'view/view',
   observable: navigationParameters$
     .map(params => {
       const pathname = params.pathname;
@@ -31,11 +32,9 @@ export const view = store.observable;
 export const view$ = view;
 
 export const viewStructure = createTrackingStore({
-  name: 'viewStructure',
-  observable: combineLatest([view, focusedMoment$])
-    .flatMap(([viewType, focusedMoment]) => {
-      return createViewStructureObservable({viewType, time: focusedMoment});
-    })
+  name: 'view/viewStructure',
+  observable: combineLatest([view, focusedMoment$, viewGrouping$])
+    .flatMap(([viewType, time, grouping]) => createViewStructureObservable({viewType, time, grouping}))
 }).observable;
 
 

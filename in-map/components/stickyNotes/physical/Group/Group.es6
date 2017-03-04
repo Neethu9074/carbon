@@ -27,8 +27,8 @@ export default createStickyNote(
     let label;
     if (snapshot) {
       label = getLabel(snapshot);
-    } else if (id.indexOf('docker-image=') === 0) {
-      label = id.substr('docker-image='.length);
+    } else if (id.indexOf('grouping=') === 0) {
+      label = id.substr('grouping='.length);
     } else {
       return null;
     }
