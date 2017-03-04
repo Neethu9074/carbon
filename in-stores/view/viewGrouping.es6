@@ -5,19 +5,21 @@ const viewGroupings = Object.freeze({
   docker: 'DOCKER_IMAGE',
   marathon: 'MARATHON_APP_ID',
   ecs: 'ECS_TASK_DEFINITION_FAMILY',
-  nomad: 'NOMAD_TASK_NAME'
+  nomad: 'NOMAD_TASK_NAME',
+  kube: 'KUBERNETES_POD_NAME'
 });
 
 export const humanReadableDescriptions = Object.freeze({
   ecs: 'Amazon ECS task definition family',
   docker: 'Docker image',
   marathon: 'Marathon application ID',
-  nomad: 'Nomad task name'
+  nomad: 'Nomad task name',
+  kube: 'Kubernetes pod name'
 });
 
 export const availableGroupings = Object.freeze({
   PHYSICAL: [],
-  CONTAINER: ['docker', 'marathon', 'ecs', 'nomad'],
+  CONTAINER: ['docker', 'marathon', 'ecs', 'nomad', 'kube'],
   LOGICAL: []
 });
 
