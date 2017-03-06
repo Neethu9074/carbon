@@ -125,8 +125,6 @@
     "style-loader": "^0.8.3",
     "url-loader": "^0.5.5",
     "webpack": "^1.5.3",
-    "webpack-dashboard": "latest",
-    "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^1.7.0"
   },
   "publishConfig": {

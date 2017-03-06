@@ -176,14 +176,6 @@ gulp.task('askForDevOptions', cb => {
   ];
 
   inquirer.prompt(questions, (selectedOptions) => {
-    if (selectedOptions.withMonitoring) {
-      require('instana-nodejs-sensor')({
-        tracing: {
-          enabled: true
-        }
-      });
-    }
-
     // no premade target selected, we need to build it up!
     if (selectedOptions.target.groundskeeperUrl == null) {
       selectedOptions.target = {
@@ -300,30 +292,20 @@ gulp.task('webpack:dev', () => {
   config.devtool = 'eval';
   config.debug = true;
 
-  var express = require('express');
-  var Dashboard = require('webpack-dashboard');
-  var DashboardPlugin = require('webpack-dashboard/plugin');
-
-  var app = express();
-  var compiler = webpack(config);
-  var dashboard = new Dashboard();
-  compiler.apply(new DashboardPlugin(dashboard.setData));
-
-  app.use(require('webpack-dev-middleware')(compiler, {
+  // Start a webpack-dev-server
+  new WebpackDevServer(webpack(config), {
     publicPath: '/bundle',
     contentBase: 'target/assets/',
     inline: true,
     noInfo: true,
-    quiet: true,
     watchOptions: {
       ignored: /node_modules/
     },
     stats: {
       colors: true
     }
-  }));
-
-  app.listen(3000, (err) => {
+  })
+  .listen(3000, 'localhost', (err) => {
     if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
     }
