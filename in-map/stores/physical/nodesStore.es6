@@ -11,5 +11,5 @@ const showSticky = createStore({
 export const showSticky$ = showSticky.observable;
 
 export function setShowSticky(stickiesAreShown) {
-  showSticky.applyStateMutation(() => stickiesAreShown);
+  showSticky.mutateTo(stickiesAreShown);
 }
