@@ -9,7 +9,12 @@ import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import {view$} from 'in-stores/view';
 
-const availableGroupings$ = view$.map(view => availableGroupings[view]);
+const availableGroupings$ = view$
+  .map(view => {
+    const groupings = availableGroupings[view].slice(0);
+    groupings.sort((a, b) => humanReadableDescriptions[a].localeCompare(humanReadableDescriptions[b]));
+    return groupings;
+  });
 const activeGrouping$ = combineLatest([view$, viewGroupingShort$])
   .map(([view, viewGrouping]) => viewGrouping || defaultGrouping[view]);
 

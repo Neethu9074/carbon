@@ -16,13 +16,13 @@ export const humanReadableDescriptions = Object.freeze({
   marathon: 'Marathon application ID',
   nomad: 'Nomad task name',
   kube: 'Kubernetes pod name',
-  infraZone: 'Availability Zone'
+  infraZone: 'Availability zone'
 });
 
 export const availableGroupings = Object.freeze({
-  PHYSICAL: [],
-  CONTAINER: ['docker', 'marathon', 'ecs', 'nomad', 'kube', 'infraZone'],
-  LOGICAL: []
+  PHYSICAL: Object.freeze([]),
+  CONTAINER: Object.freeze(['docker', 'marathon', 'ecs', 'nomad', 'kube', 'infraZone']),
+  LOGICAL: Object.freeze([])
 });
 
 export const defaultGrouping = Object.freeze({
