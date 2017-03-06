@@ -16,8 +16,8 @@ import AlertsConfig from 'promise?global,configView!in-views/configurationView/s
 import AlertConfig from 'promise?global,configView!in-views/configurationView/subview/AlertConfig';
 import AuditLogView from 'promise?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
-import {containerMapEnabled, instanaInternalFeaturesEnabled} from 'in-services/featureFlags';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
+import {instanaInternalFeaturesEnabled} from 'in-services/featureFlags';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
 import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
@@ -52,15 +52,13 @@ export default (
              windowTitle='Dashboard' />
     </Route>
 
-    {containerMapEnabled ?
-      <Route path='container'
-             component={Map}
-             windowTitle='Infrastructure Container Map'>
-        <Route path='dashboard'
-               component={Dashboard}
-               windowTitle='Dashboard' />
-      </Route>
-    : null}
+    <Route path='container'
+           component={Map}
+           windowTitle='Infrastructure Container Map'>
+      <Route path='dashboard'
+             component={Dashboard}
+             windowTitle='Dashboard' />
+    </Route>
 
     <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)}
            path='traces'

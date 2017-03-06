@@ -2,12 +2,56 @@ import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import {availableGroupings, viewGroupingShort$, defaultGrouping, humanReadableDescriptions} from 'in-stores/view/viewGrouping';
+import {physicalViewLink$, containerViewLink$} from 'in-stores/navigation/navigation';
 import {getLinkToCurrentViewWithViewGrouping} from 'in-stores/navigation/view';
 import Control from 'in-components/MapOverlayControls/components/Control';
 import ButtonGroup from 'in-components/ButtonGroup';
+import {view$, types} from 'in-stores/view';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
-import {view$} from 'in-stores/view';
+
+import 'in-components/MapOverlayControls/components/ViewGrouping.less';
+
+
+const block = 'in-controls-view-grouping';
+
+export default function ViewGrouping() {
+  return (
+    <Control createMenuContent={() => <ViewGroupingMenu />}
+             tooltipText='Configure grouping'
+             type='grouping' />
+  );
+}
+
+const ViewGroupingMenu = connectTo({
+  view: view$,
+  physicalViewLink: physicalViewLink$,
+  containerViewLink: containerViewLink$
+},
+function ViewGroupingMenu({view, physicalViewLink, containerViewLink}) {
+  return (
+    <div>
+      <div className={`${block}__left`}>
+        <h3 className={`${block}__heading`}>
+          Perspective
+        </h3>
+        <ButtonGroup>
+          <Button kind={view === types.physical ? 'primary' : 'secondary'}
+                  size='sm'
+                  href={physicalViewLink}>
+            Hosts
+          </Button>
+          <Button kind={view === types.container ? 'primary' : 'secondary'}
+                  size='sm'
+                  href={containerViewLink}>
+            Container
+          </Button>
+        </ButtonGroup>
+      </div>
+      <MenuContent />
+    </div>
+  );
+});
 
 const availableGroupings$ = view$
   .map(view => {
@@ -18,35 +62,27 @@ const availableGroupings$ = view$
 const activeGrouping$ = combineLatest([view$, viewGroupingShort$])
   .map(([view, viewGrouping]) => viewGrouping || defaultGrouping[view]);
 
-export default connectTo({
-  availableGroupings: availableGroupings$
-}, function ViewGrouping({availableGroupings}) {
-  if (availableGroupings == null || availableGroupings.length === 0) {
-    return null;
-  }
-
-  return (
-    <Control createMenuContent={() => <MenuContent />}
-             tooltipText='Configure grouping'
-             type='grouping' />
-  );
-});
-
 const MenuContent = connectTo({
   availableGroupings: availableGroupings$,
   activeGrouping: activeGrouping$
-}, function MenuContent({activeGrouping, availableGroupings}) {
-  if (availableGroupings == null) {
+},
+function MenuContent({activeGrouping, availableGroupings}) {
+  if (availableGroupings == null || availableGroupings.length === 0) {
     return null;
   }
   return (
-    <ButtonGroup>
-      {availableGroupings.map(grouping =>
-        <GroupingButton grouping={grouping}
-                        activeGrouping={activeGrouping}
-                        key={grouping} />
-      )}
-    </ButtonGroup>
+    <div className={`${block}__right`}>
+      <h3 className={`${block}__heading`}>
+        Groupings
+      </h3>
+      <ButtonGroup>
+        {availableGroupings.map(grouping =>
+          <GroupingButton grouping={grouping}
+                          activeGrouping={activeGrouping}
+                          key={grouping} />
+        )}
+      </ButtonGroup>
+    </div>
   );
 });
 
@@ -54,7 +90,8 @@ const GroupingButton = connectTo(props => {
   return {
     href: getLinkToCurrentViewWithViewGrouping(props.grouping)
   };
-}, function GroupingButton({href, grouping, activeGrouping}) {
+},
+function GroupingButton({href, grouping, activeGrouping}) {
   return (
     <Button kind={activeGrouping === grouping ? 'primary' : 'secondary'}
             size='sm'

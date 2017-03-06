@@ -7,12 +7,12 @@ import {
   tableViewFilteredForServicesLink$,
   logView$
 } from 'in-stores/navigation/view';
-import {logicalViewLink$, physicalViewLink$, containerViewLink$, navigationParameters$} from 'in-stores/navigation';
+import {logicalViewLink$, physicalViewLink$, navigationParameters$} from 'in-stores/navigation';
 import {SubMenuItem} from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
-import {logViewEnabled, containerMapEnabled} from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import {containsKeyword} from 'in-stores/search/keywords';
 import {openEventsAtServerTime$} from 'in-stores/events';
+import {logViewEnabled} from 'in-services/featureFlags';
 import {query$} from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
@@ -41,14 +41,9 @@ function ViewSwitcher({navigationParameters, query}) {
         <View label='infrastructure'
               icon='infrastructure'
               isActive={isPhysicalView || isPhysicalTable || isContainerView}>
-          <SubMenuItem label='Host Map'
+          <SubMenuItem label='Map'
                        href$={physicalViewLink$}
-                       isActive={isPhysicalView} />
-          {containerMapEnabled ?
-            <SubMenuItem label='Container Map'
-                         href$={containerViewLink$}
-                         isActive={isContainerView} />
-          : null}
+                       isActive={isPhysicalView || isContainerView} />
           <SubMenuItem label='Comparison Table'
                        href$={tableViewLink$}
                        isActive={isPhysicalTable} />
