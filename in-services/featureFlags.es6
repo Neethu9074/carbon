@@ -9,7 +9,6 @@ export const instanaInternalFeaturesEnabled = onlyInternally;
 export const webVrEnabled = onlyInternally;
 export const eumStatisticsEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
-export const agentYamlConfigEnabled = onlyInternally;
 export const customAltertingEnabled = onlyInternally;
 export const auditLogEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
