@@ -4,6 +4,7 @@ import React from 'react';
 import {availableGroupings, viewGroupingShort$, defaultGrouping, humanReadableDescriptions} from 'in-stores/view/viewGrouping';
 import {getLinkToCurrentViewWithViewGrouping} from 'in-stores/navigation/view';
 import Control from 'in-components/MapOverlayControls/components/Control';
+import ButtonGroup from 'in-components/ButtonGroup';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import {view$} from 'in-stores/view';
@@ -22,7 +23,7 @@ export default connectTo({
   return (
     <Control createMenuContent={() => <MenuContent />}
              tooltipText='Configure grouping'
-             type='gear' />
+             type='grouping' />
   );
 });
 
@@ -34,16 +35,13 @@ const MenuContent = connectTo({
     return null;
   }
   return (
-    <ul>
+    <ButtonGroup>
       {availableGroupings.map(grouping =>
-        <li key={grouping}>
-          <GroupingButton grouping={grouping}
-                          activeGrouping={activeGrouping} />
-          <br />
-          <br />
-        </li>
+        <GroupingButton grouping={grouping}
+                        activeGrouping={activeGrouping}
+                        key={grouping} />
       )}
-    </ul>
+    </ButtonGroup>
   );
 });
 
