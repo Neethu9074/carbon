@@ -18,7 +18,7 @@ const block = 'in-controls-view-grouping';
 export default function ViewGrouping() {
   return (
     <Control createMenuContent={() => <ViewGroupingMenu />}
-             tooltipText='Configure grouping'
+             tooltipText='Configure perspective and grouping'
              type='grouping' />
   );
 }
@@ -30,7 +30,7 @@ const ViewGroupingMenu = connectTo({
 },
 function ViewGroupingMenu({view, physicalViewLink, containerViewLink}) {
   return (
-    <div>
+    <div className={block}>
       <div className={`${block}__left`}>
         <h3 className={`${block}__heading`}>
           Perspective
@@ -39,7 +39,7 @@ function ViewGroupingMenu({view, physicalViewLink, containerViewLink}) {
           <Button kind={view === types.physical ? 'primary' : 'secondary'}
                   size='sm'
                   href={physicalViewLink}>
-            Hosts
+            Host
           </Button>
           <Button kind={view === types.container ? 'primary' : 'secondary'}
                   size='sm'
