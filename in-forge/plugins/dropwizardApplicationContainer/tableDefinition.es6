@@ -1,6 +1,6 @@
-import {isInstanaTenant} from 'in-services/config';
+import {instanaInternalFeaturesEnabled} from 'in-services/featureFlags';
 
 import instanaTableDefinition from 'in-forge/plugins/dropwizardApplicationContainer/instanaTableDefinition';
 
-const tableDefinition = isInstanaTenant() ? instanaTableDefinition : undefined;
+const tableDefinition = instanaInternalFeaturesEnabled ? instanaTableDefinition : undefined;
 export default tableDefinition;

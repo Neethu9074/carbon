@@ -4,6 +4,8 @@ const onlyInternally = config.tenant === 'instana' &&
   config.environment !== 'staging' &&
   config.tenantUnit !== 'current';
 
+export const instanaInternalFeaturesEnabled = onlyInternally;
+
 export const webVrEnabled = onlyInternally;
 export const eumStatisticsEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;

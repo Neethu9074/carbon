@@ -4,6 +4,7 @@ import ElasticServiceExtractionConfiguration from 'promise?global,configView!in-
 import HttpServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
 import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
+import DeploymentOverview from 'promise?global,internal!in-views/internal/DeploymentOverview/DeploymentOverview';
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
 import ObjectivesConfig from 'promise?global,configView!in-views/configurationView/subview/ObjectivesConfig';
 import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
@@ -15,13 +16,13 @@ import AlertsConfig from 'promise?global,configView!in-views/configurationView/s
 import AlertConfig from 'promise?global,configView!in-views/configurationView/subview/AlertConfig';
 import AuditLogView from 'promise?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
+import {containerMapEnabled, instanaInternalFeaturesEnabled} from 'in-services/featureFlags';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
 import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
 import LogView from 'promise?global!in-views/logView/LogView';
-import {containerMapEnabled} from 'in-services/featureFlags';
-import {Route, Redirect, IndexRedirect} from 'react-router';
+import {Route, IndexRedirect} from 'react-router';
 import React from 'react';
 
 import {createAsyncFullscreenOverlayViewComponent} from 'in-components/routing/createAsyncComponent';
@@ -160,8 +161,13 @@ export default (
            path='webVR/logical'
            windowTitle='Logical WebVR View' />
 
-    {/* Legacy routes */}
-    <Redirect from='dashboard' to='physical/dashboard' />
+    {/* Internal dashboards */}
+    {instanaInternalFeaturesEnabled ?
+      <Route component={createAsyncFullscreenOverlayViewComponent(DeploymentOverview)}
+             path='/internal/deploymentOverview'
+             windowTitle='Deployment Overview' />
+    : null}
+
     <IndexRedirect to='/physical' />
   </Route>
 );
