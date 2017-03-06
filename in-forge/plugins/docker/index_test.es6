@@ -26,7 +26,7 @@ describe('in-forge/plugins/docker/index', () => {
         plugin: plugins.docker,
 
         data: {
-          Image: 'registry-internal.instana.io/instana/ui-backend/develop:latest',
+          Image: 'registry-internal.instana.io/instana/ui-backend/develop',
           Names: ['ui-backend']
         }
       });
@@ -42,7 +42,7 @@ describe('in-forge/plugins/docker/index', () => {
           Names: ['ui-backend']
         }
       });
-      expect(getLabel(snapshot)).to.equal('ui-backend/develop');
+      expect(getLabel(snapshot)).to.equal('ui-backend/develop:latest');
     });
 
     it('must support unqualified image names', () => {

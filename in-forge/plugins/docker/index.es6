@@ -48,10 +48,15 @@ registerSnapshotDefinition({
     if (!match) {
       return getFallbackLabel(s);
     }
+
+    let label = match[4];
     if (match[3]) {
-      return `${match[3]}/${match[4]}`;
+      label = `${match[3]}/${match[4]}`;
     }
-    return match[4];
+    if (match[5]) {
+      label += `${match[5]}`;
+    }
+    return label;
   }
 });
 
