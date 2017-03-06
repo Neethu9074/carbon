@@ -24,7 +24,7 @@ import {
   objectiveViewLink$,
   isObjectivesView$
 } from 'in-stores/navigation/configuration';
-import {auditLogEnabled, customAltertingEnabled, objectivesEnabled} from 'in-services/featureFlags';
+import {customAltertingEnabled, objectivesEnabled} from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
 import {role} from 'in-stores/user';
@@ -97,7 +97,7 @@ export default function Navigation() {
                    isActive$={isAlertsViewLink$} />
         : null}
 
-        {auditLogEnabled && role.canViewAuditLog ?
+        {role.canViewAuditLog ?
           <NavItem title='Audit Log'
                    href$={auditLogViewLink$}
                    isActive$={isAuditLogView$} />

@@ -10,6 +10,5 @@ export const webVrEnabled = onlyInternally;
 export const eumStatisticsEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const customAltertingEnabled = onlyInternally;
-export const auditLogEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
