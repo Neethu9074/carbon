@@ -3,7 +3,6 @@ import React from 'react';
 import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
-import {formatDateTime, fromNow} from 'in-services/formatters/date';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import {getMetricForFocusedMoment} from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
@@ -49,37 +48,10 @@ export default [
       };
     }
   }, {
-    title: 'Created',
-    sortableType: Number,
-    get(snapshot) {
-      const date = snapshot.get('data').get('Created');
-      return {
-        content: (
-          <span>
-            {formatDateTime(date)} ({fromNow(date)})
-          </span>
-        ),
-        sortable: date
-      };
-    }
-  }, {
-    title: 'Started',
-    sortableType: Number,
-    get(snapshot) {
-      const date = snapshot.get('data').get('Started');
-      return {
-        content: (
-          <span>
-            {formatDateTime(date)} ({fromNow(date)})
-          </span>
-        ),
-        sortable: date
-      };
-    }
-  }, {
     title: 'CPU Usage',
     style: {
-      textAlign: 'right'
+      textAlign: 'right',
+      maxWidth: '9rem'
     },
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -101,7 +73,8 @@ export default [
   }, {
     title: 'Memory Usage',
     style: {
-      textAlign: 'right'
+      textAlign: 'right',
+      maxWidth: '9rem'
     },
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -116,6 +89,52 @@ export default [
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
           metric: 'memory.usage'
+        })
+        .map(v => v[1])
+      };
+    }
+  }, {
+    title: 'Network received',
+    style: {
+      textAlign: 'right',
+      maxWidth: '9rem'
+    },
+    sortableType: Number,
+    defaultSortDirection: 'desc',
+    get(snapshot) {
+      return {
+        content: (
+          <MetricValue snapshotId={snapshot.get('id')}
+                       metric='network.rx.bytes'
+                       formatter={bytesTwoDecimalPlaces}
+                       optionalTimeWindowAggregation='mean' />
+        ),
+        sortable$: getMetricForFocusedMoment({
+          snapshotId: snapshot.get('id'),
+          metric: 'network.rx.bytes'
+        })
+        .map(v => v[1])
+      };
+    }
+  }, {
+    title: 'Network transmitted',
+    style: {
+      textAlign: 'right',
+      maxWidth: '10rem'
+    },
+    sortableType: Number,
+    defaultSortDirection: 'desc',
+    get(snapshot) {
+      return {
+        content: (
+          <MetricValue snapshotId={snapshot.get('id')}
+                       metric='network.tx.bytes'
+                       formatter={bytesTwoDecimalPlaces}
+                       optionalTimeWindowAggregation='mean' />
+        ),
+        sortable$: getMetricForFocusedMoment({
+          snapshotId: snapshot.get('id'),
+          metric: 'network.tx.bytes'
         })
         .map(v => v[1])
       };

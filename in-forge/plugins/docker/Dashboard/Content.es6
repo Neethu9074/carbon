@@ -97,55 +97,56 @@ export default function DockerDashboard({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
       { !memoryMetricsBugged ?
-      <DashboardSection title='Memory'>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80,
-                           right: 10
-                         }}
-                         y1={{
-                           min: 0,
-                           metrics: [
-                             'memory.usage',
-                             'memory.max_usage',
-                             'memory.total_rss',
-                             'memory.total_cache'
-                           ],
-                           labels: [
-                             'Usage',
-                             'Max usage',
-                             'RSS',
-                             'Cache'
-                           ],
-                           formatter: bytesTwoDecimalPlaces,
-                           type: 'line'
-                         }} />
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80,
-                           right: 10
-                         }}
-                         y1={{
-                           min: 0,
-                           metrics: [
-                             'memory.active_anon',
-                             'memory.active_file',
-                             'memory.inactive_anon',
-                             'memory.inactive_file'
-                           ],
-                           labels: [
-                             'active_anon',
-                             'active_file',
-                             'inactive_anon',
-                             'inactive_file'
-                           ],
-                           formatter: bytesTwoDecimalPlaces,
-                           type: 'line'
-                         }} />
-      </DashboardSection>
+        <DashboardSection title='Memory'>
+          <ChartWithLegend snapshotId={snapshotId}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 80,
+                             right: 10
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'memory.usage',
+                               'memory.max_usage',
+                               'memory.total_rss',
+                               'memory.total_cache'
+                             ],
+                             labels: [
+                               'Usage',
+                               'Max usage',
+                               'RSS',
+                               'Cache'
+                             ],
+                             formatter: bytesTwoDecimalPlaces,
+                             type: 'line'
+                           }} />
+          <ChartWithLegend snapshotId={snapshotId}
+                           timeframe={timeframe}
+                           margins={{
+                             left: 80,
+                             right: 10
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'memory.active_anon',
+                               'memory.active_file',
+                               'memory.inactive_anon',
+                               'memory.inactive_file'
+                             ],
+                             labels: [
+                               'active_anon',
+                               'active_file',
+                               'inactive_anon',
+                               'inactive_file'
+                             ],
+                             formatter: bytesTwoDecimalPlaces,
+                             type: 'line'
+                           }} />
+        </DashboardSection>
       : null }
+
       <DashboardSection title='Block IO'>
         <ChartWithLegend snapshotId={snapshotId}
                          timeframe={timeframe}
@@ -168,15 +169,13 @@ export default function DockerDashboard({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
       { hasNetworkMetrics ?
-      <DashboardSection title='Network'>
-        <div>
+        <DashboardSection title='Network'>
           <ChartWithLegend snapshotId={snapshotId}
                  timeframe={timeframe}
                  margins={{
                    left: 80,
                    right: 80
                  }}
-
                  y1={{
                    min: 0,
                    formatter: bytesTwoDecimalPlaces,
@@ -208,8 +207,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                    formatter: percentageTwoDecimalPlaces,
                    type: 'line'
                  }} />
-        </div>
-      </DashboardSection>
+        </DashboardSection>
       : null }
     </div>
   );
