@@ -38,12 +38,14 @@ function ViewGroupingMenu({view, physicalViewLink, containerViewLink}) {
         <ButtonGroup>
           <Button kind={view === types.physical ? 'primary' : 'secondary'}
                   size='sm'
-                  href={physicalViewLink}>
+                  href={physicalViewLink}
+                  className={`${block}__button`}>
             Host
           </Button>
           <Button kind={view === types.container ? 'primary' : 'secondary'}
                   size='sm'
-                  href={containerViewLink}>
+                  href={containerViewLink}
+                  className={`${block}__button`}>
             Container
           </Button>
         </ButtonGroup>
@@ -73,7 +75,7 @@ function MenuContent({activeGrouping, availableGroupings}) {
   return (
     <div className={`${block}__right`}>
       <h3 className={`${block}__heading`}>
-        Groupings
+        Grouping
       </h3>
       <ButtonGroup>
         {availableGroupings.map(grouping =>
@@ -90,12 +92,12 @@ const GroupingButton = connectTo(props => {
   return {
     href: getLinkToCurrentViewWithViewGrouping(props.grouping)
   };
-},
-function GroupingButton({href, grouping, activeGrouping}) {
+}, function GroupingButton({href, grouping, activeGrouping}) {
   return (
     <Button kind={activeGrouping === grouping ? 'primary' : 'secondary'}
             size='sm'
-            href={href}>
+            href={href}
+            className={`${block}__button`}>
       {humanReadableDescriptions[grouping]}
     </Button>
   );
