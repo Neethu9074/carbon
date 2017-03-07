@@ -1,10 +1,10 @@
 import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
+import {objectivesEnabled, customAltertingEnabled, roleViewFilterEnabled} from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import {roleViewFilterEnabled} from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpBlock from 'in-components/form/HelpBlock';
 import {isOnPremise} from 'in-services/config';
@@ -122,11 +122,13 @@ export default function RoleForm({form, onChange, disabled}) {
                     name='canConfigureIntegrations'
                     label='Configuration of integrations' />
 
-        <Permission form={form}
-                    disabled={disabled}
-                    onChange={onChange}
-                    name='canConfigureCustomAlerts'
-                    label='Configuration of custom alerts' />
+        { customAltertingEnabled ?
+          <Permission form={form}
+                      disabled={disabled}
+                      onChange={onChange}
+                      name='canConfigureCustomAlerts'
+                      label='Configuration of custom alerts' />
+        : null }
 
         <Permission form={form}
                     disabled={disabled}
@@ -146,11 +148,13 @@ export default function RoleForm({form, onChange, disabled}) {
                     name='canViewAuditLog'
                     label='Access to audit log' />
 
-        <Permission form={form}
-                    disabled={disabled}
-                    onChange={onChange}
-                    name='canConfigureObjectives'
-                    label='Configuration of objectives' />
+        {objectivesEnabled ?
+          <Permission form={form}
+                      disabled={disabled}
+                      onChange={onChange}
+                      name='canConfigureObjectives'
+                      label='Configuration of objectives' />
+        : null }
       </Section>
     </fieldset>
   );
