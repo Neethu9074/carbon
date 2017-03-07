@@ -22,7 +22,7 @@ void main() {
   float pointSize = pointSize * ( distance / length( mvPosition.xyz ) );
   gl_PointSize = pointSize;
 
-  if ( pointSize < 10.0 ) {
+  if ( pointSize < 7.5 ) {
     gl_Position = vec4( -1000.0, 0.0, 0.0, 0.0 );
   } else {
     gl_Position = projectionMatrix * mvPosition;

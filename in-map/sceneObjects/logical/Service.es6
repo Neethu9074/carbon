@@ -103,7 +103,7 @@ export default class Service extends SceneObject {
       }
     }
 
-    this.addComponent('icon', new IconComponent(this, 3, (pos, scale) => {
+    this.addComponent('icon', new IconComponent(this, 6, (pos, scale) => {
       return {
         x: 0,
         y: scale.y + 0.75,
