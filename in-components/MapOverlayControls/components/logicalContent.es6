@@ -1,10 +1,9 @@
 import React from 'react';
 
-import {setLayoutingStrategy, fruchtermannReingoldLayouting$, vizceralLayouting$} from 'in-map/stores/logical/layouterStore';
+import LogicalLayouting from 'in-components/MapOverlayControls/components/LogicalLayouting';
 import ShowAggregates from 'in-components/MapOverlayControls/components/ShowAggregates';
 import MapStatistics from 'in-components/MapOverlayControls/components/MapStatistics';
 import Particles from 'in-components/MapOverlayControls/components/Particles';
-import Layout from 'in-components/MapOverlayControls/components/Layout';
 import Icons from 'in-components/MapOverlayControls/components/Icons';
 import Zoom from 'in-components/MapOverlayControls/components/Zoom';
 
@@ -14,16 +13,7 @@ export default function getLogicalContent() {
     <Zoom key='zoom' />,
     <ShowAggregates key='aggregates' />,
     <Particles key='particles' />,
-    <Layout key='fr_layout'
-            iconType='graph'
-            tooltipText='Rearrange services'
-            setLayoutingStrategy={setLayoutingStrategy}
-            layoutingStrategy={fruchtermannReingoldLayouting$} />,
-    <Layout key='v_layout'
-            iconType='flow'
-            tooltipText='Rearrange services as a flow'
-            setLayoutingStrategy={setLayoutingStrategy}
-            layoutingStrategy={vizceralLayouting$} />
+    <LogicalLayouting key='layouting' />
   ];
 
   if (__DEV__) {

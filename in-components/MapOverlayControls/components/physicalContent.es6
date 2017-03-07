@@ -1,11 +1,10 @@
 import React from 'react';
 
-import {setLayoutingStrategy, simpleLayouting$, packedLayouting$}  from 'in-map/stores/physical/layouterStore';
+import PhysicalLayouting from 'in-components/MapOverlayControls/components/PhysicalLayouting';
 import ShowAggregates from 'in-components/MapOverlayControls/components/ShowAggregates';
 import MapStatistics from 'in-components/MapOverlayControls/components/MapStatistics';
 import ViewGrouping from 'in-components/MapOverlayControls/components/ViewGrouping';
 import Metrics from 'in-components/MapOverlayControls/components/Metrics';
-import Layout from 'in-components/MapOverlayControls/components/Layout';
 import Icons from 'in-components/MapOverlayControls/components/Icons';
 import Zoom from 'in-components/MapOverlayControls/components/Zoom';
 import Tags from 'in-components/MapOverlayControls/components/Tags';
@@ -18,16 +17,7 @@ export default function getPhysicalContent() {
     <ShowAggregates key='aggregates' />,
     <Tags key='tags' />,
     <ViewGrouping key='grouping' />,
-    <Layout key='packed_layout'
-            iconType='packed_layouting'
-            tooltipText='Rearrange zones as a compact structure'
-            setLayoutingStrategy={setLayoutingStrategy}
-            layoutingStrategy={packedLayouting$} />,
-    <Layout key='simple_layout'
-            iconType='options'
-            tooltipText='Rearrange zones by name'
-            setLayoutingStrategy={setLayoutingStrategy}
-            layoutingStrategy={simpleLayouting$} />
+    <PhysicalLayouting key='layouting' />
   ];
 
   if (__DEV__) {
