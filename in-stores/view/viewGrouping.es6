@@ -3,6 +3,7 @@ import {createTrackingStore} from 'in-stores/store';
 
 const viewGroupings = Object.freeze({
   docker: 'DOCKER_IMAGE',
+  host: 'HOST',
   marathon: 'MARATHON_APP_ID',
   ecs: 'ECS_TASK_DEFINITION_FAMILY',
   nomad: 'NOMAD_TASK_NAME',
@@ -14,6 +15,7 @@ const viewGroupings = Object.freeze({
 export const humanReadableDescriptions = Object.freeze({
   ecs: 'Amazon ECS task definition family',
   docker: 'Docker image',
+  host: 'Host',
   marathon: 'Marathon application ID',
   nomad: 'Nomad task name',
   kube: 'Kubernetes pod name',
@@ -23,7 +25,7 @@ export const humanReadableDescriptions = Object.freeze({
 
 export const availableGroupings = Object.freeze({
   PHYSICAL: Object.freeze([]),
-  CONTAINER: Object.freeze(['docker', 'marathon', 'ecs', 'nomad', 'kube', 'infraZone', 'compose']),
+  CONTAINER: Object.freeze(['docker', 'marathon', 'ecs', 'nomad', 'kube', 'infraZone', 'compose', 'host']),
   LOGICAL: Object.freeze([])
 });
 
