@@ -19,7 +19,7 @@ export const humanReadableDescriptions = Object.freeze({
   marathon: 'Marathon application ID',
   nomad: 'Nomad task name',
   kube: 'Kubernetes pod name',
-  infraZone: 'Availability zone',
+  infraZone: 'Zone',
   compose: 'Docker Compose project name'
 });
 
