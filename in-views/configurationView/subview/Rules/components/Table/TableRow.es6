@@ -1,16 +1,13 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import {getAlertsConfigLink} from 'in-stores/navigation/configuration';
 import {formatDurationAccurately} from 'in-services/formatters/date';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {evaluateClassNames} from 'in-services/util/classnames';
+import {getRuleLink} from 'in-stores/navigation/configuration';
 import {formatDateTime} from 'in-services/formatters/date';
-import {toHtml} from 'in-services/formatters/markdown';
 import PluginIcon from 'in-components/PluginIcon';
-import Toggle from 'in-components/form/Toggle';
 import {getSingular} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -18,27 +15,24 @@ import connectTo from 'in-hoc/connectTo';
 import './TableRow.less';
 
 
-const block = 'in-alerts-table-row';
+const block = 'in-rule-table-row';
 
 export const TableRow = connectTo(props => {
   return {
-    href: getAlertsConfigLink(props.alert.get('id'))
+    href: getRuleLink(props.rule.get('id'))
   };
 },
-function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status, href}) {
-  const alertId = alert.get('id');
-  const alertName = alert.get('name');
-
+function TableRow({rule, isSelected, onClick, onDeleteRule, href}) {
   return (
     <li className={block}
-        onClick={() => onClick(alert)}>
+        onClick={() => onClick(rule)}>
       <div className={evaluateClassNames({
              [`${block}__row`]: true,
              [`${block}__row--selected`]: isSelected
            })}>
         <Column>
           <a href={href}>
-            {alertName}
+            {rule.get('name')}
           </a>
         </Column>
 
@@ -46,18 +40,8 @@ function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status
           <PluginIcon className={`${block}__entity-icon`}
                       dimension={20}
                       color='#000'
-                      plugin={alert.getIn(['match', 'entityType'])} />
-          {getSingular(alert.getIn(['match', 'entityType']))}
-        </Column>
-
-        <Column>
-          <Toggle className={`${block}__toggle`}
-                  checked={alert.get('enabled', false)}
-                  onChange={e => setEnabled(alert, e.target.checked)} />
-
-          <ModificationSaveStatus status={status}
-                                  className={`${block}__save-status`}
-                                  reserveSpace />
+                      plugin={rule.get('entityType')} />
+          {getSingular(rule.get('entityType'))}
         </Column>
 
         <Column>
@@ -68,18 +52,18 @@ function TableRow({alert, isSelected, onClick, onDeleteAlert, setEnabled, status
                     <ConfirmationDialog header='Confirm removal'
                                         description={
                                           <span>
-                                            Are you sure you want to remove the alert <strong>{alertName}</strong>?
+                                            Are you sure you want to remove the rule <strong>{rule.get('name')}</strong>?
                                           </span>
                                         }
-                                        bButtonLabel='Remove alert'
-                                        onB={() => onDeleteAlert(alertId)} />
+                                        bButtonLabel='Remove rule'
+                                        onB={() => onDeleteRule(rule.get('id'))} />
                   )}>
             Delete
           </Button >
         </Column>
       </div>
 
-      {isSelected ?<Details alert={alert} /> : null}
+      {isSelected ?<Details rule={rule} /> : null}
     </li>
   );
 });
@@ -100,11 +84,7 @@ export function TableRowWrapper({children}) {
   );
 }
 
-function Details({alert}) {
-  const match = alert.get('match');
-  const event = alert.get('event');
-  const rule = alert.get('rule');
-
+function Details({rule}) {
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
@@ -113,17 +93,17 @@ function Details({alert}) {
             <PluginIcon className={`${block}__entity-icon`}
                         dimension={16}
                         color='#000'
-                        plugin={match.get('entityType')} />
-            {getSingular(match.get('entityType'))}
+                        plugin={rule.get('entityType')} />
+            {getSingular(rule.get('entityType'))}
           </div>
         </DescriptionItem>
         <DescriptionItem title='Metric'>
-          {match.get('metricName')}
-        </DescriptionItem>
-        <DescriptionItem title='Applied on filter query'>
-          {match.get('query')}
+          {rule.get('metricName')}
         </DescriptionItem>
 
+        <DescriptionItem title='Rollup'>
+          {formatDurationAccurately(rule.get('rollup'), 1000)}
+        </DescriptionItem>
         <DescriptionItem title='Time window'>
           {formatDurationAccurately(rule.get('window'), 1000)}
         </DescriptionItem>
@@ -134,36 +114,10 @@ function Details({alert}) {
           {`${rule.get('conditionOperator')} ${rule.get('conditionValue')}`}
         </DescriptionItem>
 
-        <DescriptionItem title='Triggering'>
-          {String(event.get('triggering'))}
-        </DescriptionItem>
-        <DescriptionItem title='Severity'>
-          {mapSeverityToLabel(event.get('severity'))}
-        </DescriptionItem>
-        <DescriptionItem title='Expiration time'>
-          {formatDurationAccurately(event.get('expirationTime'), 1000)}
-        </DescriptionItem>
-        <DescriptionItem title='Text'>
-          {event.get('text')}
-        </DescriptionItem>
-        <DescriptionItem title='Description'>
-          <span dangerouslySetInnerHTML={{__html: toHtml(event.get('description'))}} />
-        </DescriptionItem>
-
         <DescriptionItem title='Last update'>
-          {formatDateTime(alert.get('lastUpdated'))}
+          {formatDateTime(rule.get('lastUpdated'))}
         </DescriptionItem>
       </DescriptionList>
     </div>
   );
-}
-
-function mapSeverityToLabel(severity) {
-  if (severity === 0) {
-    return 'change';
-  } else if (severity === 5) {
-    return 'warning';
-  } else {
-    return 'critical';
-  }
 }

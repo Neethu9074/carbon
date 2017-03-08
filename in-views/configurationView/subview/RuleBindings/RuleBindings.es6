@@ -2,59 +2,60 @@ import {createLogger} from 'instalog';
 import {Map} from 'immutable';
 import React from 'react';
 
-import {createAlert, getAlerts, saveAlert, deleteAlert, setEnabled} from 'in-services/groundskeeper/alertings';
-import Table from 'in-views/configurationView/subview/AlertsConfig/components/Table';
+import {createRuleBinding, getRuleBindings, saveRuleBinding, deleteRuleBinding, setEnabled} from 'in-services/groundskeeper/ruleBindings';
+import Table from 'in-views/configurationView/subview/RuleBindings/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
-import {openAlertConfig} from 'in-stores/navigation/configuration';
+import {openRuleBinding} from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
 import {close} from 'in-components/DialogPresenter/store';
 import {emptyList} from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
 
 
-const logger = createLogger('AlertsConfig');
+const logger = createLogger('RuleBindings');
 
 export default React.createClass({
-  displayName: 'AlertsConfig',
+
+  displayName: 'RuleBindings',
 
   getInitialState() {
     return {
       loading: true,
       error: false,
       message: null,
-      alerts: emptyList,
+      ruleBindings: emptyList,
       status: {}
     };
   },
 
   componentWillMount() {
-    this.refresAlerts();
+    this.refreshRules();
   },
 
-  refresAlerts() {
+  refreshRules() {
     this.disposeAsyncAction();
 
     this.setState({
       error: false,
       loading: true,
-      message: 'Loading alerts…'
+      message: 'Loading rule bindings…'
     });
 
-    const result$ = getAlerts();
-    this.responseSubscription = result$.once(alerts => {
+    const result$ = getRuleBindings();
+    this.responseSubscription = result$.once(ruleBindings => {
       this.setState({
         error: false,
         loading: false,
         message: null,
-        alerts
+        ruleBindings
       });
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to retrieve alerts: ${error.message}`;
+      const message = `Failed to retrieve rule bindings: ${error.message}`;
       logger.error(message, error);
       this.setState({
         error: true,
@@ -78,24 +79,24 @@ export default React.createClass({
     }
   },
 
-  addNewAlert() {
+  addNewRuleBinding() {
     this.disposeAsyncAction();
 
-    const newAlert = Map(createAlert());
+    const newRuleBinding = Map(createRuleBinding());
 
     this.setState({
       error: false,
       loading: true,
-      message: 'Adding new alert…'
+      message: 'Adding new rule binding…'
     });
 
-    const result$ = saveAlert(newAlert);
+    const result$ = saveRuleBinding(newRuleBinding);
     this.responseSubscription = result$.once(() => {
-      openAlertConfig(newAlert.get('id'));
+      openRuleBinding(newRuleBinding.get('id'));
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save new alert: ${error.message}`;
+      const message = `Failed to save new rule binding: ${error.message}`;
       logger.error(message, error);
       this.setState({
         error: true,
@@ -105,25 +106,25 @@ export default React.createClass({
     });
   },
 
-  onDeleteAlert(alertId) {
+  onDeleteRuleBinding(ruleBindingId) {
     this.setState({
       error: false,
       loading: true,
-      message: `Removing alert ${alertId}`
+      message: `Removing rule binding ${ruleBindingId}`
     });
 
-    const result$ = deleteAlert(alertId);
+    const result$ = deleteRuleBinding(ruleBindingId);
     this.responseSubscription = result$.once(() => {
       this.setState({
         error: false,
         loading: false,
         message: null,
-        alerts: this.state.alerts.filter(eachAlert => eachAlert.get('id') !== alertId)
+        ruleBindings: this.state.ruleBindings.filter(eachRule => eachRule.get('id') !== ruleBindingId)
       });
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to remove alert ${alertId}: ${error.message}`;
+      const message = `Failed to remove rule binding ${ruleBindingId}: ${error.message}`;
       logger.error(message, error);
       this.setState({
         error: true,
@@ -134,32 +135,32 @@ export default React.createClass({
     close();
   },
 
-  setEnabled(alert, enabled) {
-    const previousEnabled = alert.get('enabled');
-    const alertId = alert.get('id');
+  setEnabled(ruleBinding, enabled) {
+    const previousEnabled = ruleBinding.get('enabled');
+    const ruleBindingId = ruleBinding.get('id');
 
     this.setState(state => {
-      state.status[alertId] = {
+      state.status[ruleBindingId] = {
         state: 'loading',
         time: Date.now(),
-        message: 'Saving alert…'
+        message: 'Saving rule binding…'
       };
 
-      const index = state.alerts.findIndex(eachAlert => alertId === eachAlert.get('id'));
-      const newAlerts = state.alerts.update(index, modifiableAlert => modifiableAlert.set('enabled', enabled));
+      const index = state.ruleBindings.findIndex(eachRuleBinding => ruleBindingId === eachRuleBinding.get('id'));
+      const newRuleBindings = state.ruleBindings.update(index, modifiableRuleBindings => modifiableRuleBindings.set('enabled', enabled));
       return {
         status: state.status,
-        alerts: newAlerts
+        ruleBindings: newRuleBindings
       };
     });
 
-    const result$ = setEnabled(alert, enabled);
+    const result$ = setEnabled(ruleBinding, enabled);
     result$.once(() => {
       this.setState(state => {
-        state.status[alertId] = {
+        state.status[ruleBindingId] = {
           state: 'success',
           time: Date.now(),
-          message: 'Alert change successfully saved!'
+          message: 'Rule binding change successfully saved!'
         };
 
         return {
@@ -169,41 +170,41 @@ export default React.createClass({
     });
 
     result$.errors().once(error => {
-      const message = `Failed to set alerts enable flag: ${error.message}`;
+      const message = `Failed to set ruleBindings enable flag: ${error.message}`;
       logger.warn(message, error);
 
       this.setState(state => {
-        state.status[alertId] = {
+        state.status[ruleBindingId] = {
           state: 'failure',
           time: Date.now(),
           message
         };
 
         // roll back the role change
-        const index = state.alerts.findIndex(eachAlert => alertId === eachAlert.get('id'));
-        const newAlerts = state.alerts.update(index, modifiableAlert => modifiableAlert.set('enabled', previousEnabled));
+        const index = state.ruleBindings.findIndex(eachRuleBinding => ruleBindingId === eachRuleBinding.get('id'));
+        const newRuleBindings = state.ruleBindings.update(index, modifiableRuleBindings => modifiableRuleBindings.set('enabled', previousEnabled));
         return {
           status: state.status,
-          alerts: newAlerts
+          ruleBindings: newRuleBindings
         };
       });
     });
   },
 
   render() {
-    const {alerts} = this.state;
-    const alertsAvailable = alerts && alerts.size > 0;
+    const {ruleBindings} = this.state;
+    const rulesAvailable = ruleBindings && ruleBindings.size > 0;
 
     return (
       <SubViewWrapper>
         <SubViewHeader>
-          Custom Alert Management
+          Rule bindings
         </SubViewHeader>
 
         <Section>
           <Button kind='info'
-                  onClick={this.addNewAlert}>
-            Add New Alert
+                  onClick={this.addNewRuleBinding}>
+            Add New Rule Binding
           </Button>
 
           {this.state.message ?
@@ -214,14 +215,14 @@ export default React.createClass({
           : null}
         </Section>
 
-        {alertsAvailable ?
+        {rulesAvailable ?
           <Section>
             <SectionHeading>
-              Custom Alerts
+              rule binding
             </SectionHeading>
 
-            <Table items={alerts}
-                   onDeleteAlert={this.onDeleteAlert}
+            <Table items={ruleBindings}
+                   onDeleteRuleBinding={this.onDeleteRuleBinding}
                    setEnabled={this.setEnabled}
                    status={this.state.status} />
           </Section>

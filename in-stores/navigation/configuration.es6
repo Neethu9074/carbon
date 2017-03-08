@@ -72,31 +72,6 @@ function getApiTokenConfigPath(apiTokenId) {
 }
 
 
-const alertsViewPath = '/config/alerts';
-export const alertsViewLink$ = buildUrlStream({path: alertsViewPath});
-export const isAlertsViewLink$ = buildPathStartsWithStream(alertsViewPath);
-
-function getAlertConfigPath(alertId) {
-  return `/config/alerts/${encodeURIComponent(alertId)}`;
-}
-
-export function getAlertsConfigLink(id) {
-  return getModifiedUrlStream(params => params.pathname = getAlertConfigPath(id));
-}
-
-export function openAlertConfig(alertId) {
-  mutateUrl(params => params.pathname = getAlertConfigPath(alertId));
-}
-
-function getAlertsConfigPath() {
-  return `/config/alerts`;
-}
-
-export function openAlertsConfig() {
-  mutateUrl(params => params.pathname = getAlertsConfigPath());
-}
-
-
 const auditLogViewPath = '/config/auditlog';
 export const auditLogViewLink$ = buildUrlStream({path: auditLogViewPath});
 export const isAuditLogView$ = buildPathStartsWithStream(auditLogViewPath);
@@ -126,3 +101,57 @@ export function openObjectivesConfig() {
 const objectiveViewPath = '/config/objectives';
 export const objectiveViewLink$ = buildUrlStream({path: objectiveViewPath});
 export const isObjectivesView$ = buildPathStartsWithStream(objectiveViewPath);
+
+
+
+// custom alerting rules ------------------------------------
+// rule
+const ruleViewPath = '/config/rule';
+export const ruleViewLink$ = buildUrlStream({path: ruleViewPath});
+export const isRuleViewLink$ = buildPathStartsWithStream(ruleViewPath);
+
+function getRulePath(id) {
+  return `${ruleViewPath}/${encodeURIComponent(id)}`;
+}
+
+export function getRuleLink(id) {
+  return getModifiedUrlStream(params => params.pathname = getRulePath(id));
+}
+
+export function openRule(id) {
+  mutateUrl(params => params.pathname = getRulePath(id));
+}
+
+function getRulesPath() {
+  return ruleViewPath;
+}
+
+export function openRules() {
+  mutateUrl(params => params.pathname = getRulesPath());
+}
+
+// binding
+const ruleBindingViewPath = '/config/binding';
+export const ruleBindingViewLink$ = buildUrlStream({path: ruleBindingViewPath});
+export const isRuleBindingViewLink$ = buildPathStartsWithStream(ruleBindingViewPath);
+
+function getRuleBindingPath(id) {
+  return `${ruleBindingViewPath}/${encodeURIComponent(id)}`;
+}
+
+export function getRuleBindingLink(id) {
+  return getModifiedUrlStream(params => params.pathname = getRuleBindingPath(id));
+}
+
+export function openRuleBinding(id) {
+  mutateUrl(params => params.pathname = getRuleBindingPath(id));
+}
+
+function getRuleBindingsPath() {
+  return ruleBindingViewPath;
+}
+
+export function openRuleBindings() {
+  mutateUrl(params => params.pathname = getRuleBindingsPath());
+}
+// end custom alerting rules ------------------------------------
