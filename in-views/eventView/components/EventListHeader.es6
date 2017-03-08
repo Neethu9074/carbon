@@ -7,6 +7,7 @@ import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import {refresh} from 'in-views/eventView/stores/rawEventListStore';
 import getTotalRawEventsCount from 'in-stores/totalRawEventsCount';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import {objectivesEnabled} from 'in-services/featureFlags';
 import AutoUpdate from 'in-components/AutoUpdate';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -37,9 +38,11 @@ function EventListHeader({expandedSide}) {
         <EventFilter filter='event'>
           Events (<Count getCounter={counter => counter.get('issueCount', 0)} />)
         </EventFilter>
-        <EventFilter filter='objectiveViolation'>
-          Objective violations (<Count getCounter={counter => counter.get('objectiveCount', 0)} />)
-        </EventFilter>
+        {objectivesEnabled ?
+          <EventFilter filter='objectiveViolation'>
+            Objective violations (<Count getCounter={counter => counter.get('objectiveCount', 0)} />)
+          </EventFilter>
+        : null}
       </div>
       <div className={`${block}__right-side`}>
         <SvgIcon className={`${block}__refresh`}
