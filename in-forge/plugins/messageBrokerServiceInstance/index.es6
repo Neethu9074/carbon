@@ -23,7 +23,7 @@ registerSnapshotDefinition({
     if (messageBrokerType.match(/kafka/i)) {
       return plugins.kafka;
     } else if (messageBrokerType.match(/rabbitmq/i)) {
-      return plugins.rabbitMq;
+      return plugins.rabbitmq;
     }
     return plugins.logicalMessageBroker;
   },
