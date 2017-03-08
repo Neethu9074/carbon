@@ -31,10 +31,15 @@ export function getIconPath(snapshotOrPlugin) {
 }
 
 export function getAllSvgIconPaths() {
-  return Object.keys(iconSvgPathRegistry).map(key => {
-    return {
+  const icons = [{
+    id: 'unknownIcon',
+    path: unknownIconSvgPath
+  }];
+  Object.keys(iconSvgPathRegistry).forEach(key => {
+    icons.push({
       id: key,
       path: iconSvgPathRegistry[key]
-    };
+    });
   });
+  return icons;
 }
