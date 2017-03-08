@@ -39,18 +39,21 @@ export function getViewStructure() {
 
                 _viewStructure.get('children').forEach(group => {
                   const groupId = group.get('id');
-                  groupIds[groupId] = true;
 
                   group.get('children').forEach(host => {
                     const hostId = host.get('id');
+                    if (_searchMatches.contains(hostId)) {
                       hostIds[hostId] = true;
                       groupIds[groupId] = true;
+                    }
 
                     host.get('children').forEach(layer => {
                       const layerId = layer.get('id');
+                      if (_searchMatches.contains(layerId)) {
                         layerIds[layerId] = true;
                         hostIds[hostId] = true;
                         groupIds[groupId] = true;
+                      }
                     });
                   });
                 });
