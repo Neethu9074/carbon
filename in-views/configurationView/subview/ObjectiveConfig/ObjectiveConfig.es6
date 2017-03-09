@@ -1,6 +1,6 @@
 import {createMapForm, createField, notBlankValidator} from 'formalistic';
-import {createLogger} from 'instalog';
 import {fromJS, List} from 'immutable';
+import {createLogger} from 'instalog';
 import React from 'react';
 
 import {getObjective, saveObjective, createObjective} from 'in-services/groundskeeper/objectives';

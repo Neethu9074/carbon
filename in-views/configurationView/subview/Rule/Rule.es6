@@ -3,39 +3,39 @@ import {createLogger} from 'instalog';
 import {fromJS} from 'immutable';
 import React from 'react';
 
-import {getAlert, saveAlert, createAlert} from 'in-services/groundskeeper/alertings';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
-import AlertForm from 'in-views/configurationView/subview/AlertConfig/AlertForm';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {openAlertsConfig} from 'in-stores/navigation/configuration';
+import {getRule, saveRule, createRule} from 'in-services/groundskeeper/rules';
+import RuleForm from 'in-views/configurationView/subview/Rule/RuleForm';
 import Section from 'in-views/configurationView/components/Section';
-import {queryValidator} from 'in-stores/search/validations';
+import {openRules} from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
 
 
-const logger = createLogger('alertConfig');
+const logger = createLogger('Rule');
 
 export default React.createClass({
-  displayName: 'AlertConfig',
+
+  displayName: 'Rule',
 
   getInitialState() {
     return {
       loading: true,
       error: false,
-      message: 'Loading alert…',
+      message: 'Loading rule…',
       form: null,
-      alert: null
+      rule: null
     };
   },
 
   componentWillMount() {
-    this.loadAlert(this.props.params.alertId);
+    this.loadRule(this.props.params.ruleId);
   },
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.params.alertId !== nextProps.params.alertId) {
-      this.loadAlert(nextProps.params.alertId);
+    if (this.props.params.ruleId !== nextProps.params.ruleId) {
+      this.loadRule(nextProps.params.ruleId);
     }
   },
 
@@ -44,12 +44,12 @@ export default React.createClass({
   },
 
   render() {
-    const {form, alert} = this.state;
+    const {form, rule} = this.state;
 
     return (
       <SubViewWrapper>
         <SubViewHeader>
-          {alert ? `Configure alert: ${alert.get('name')}` : 'Configure alert'}
+          {rule ? `Configure rule: ${rule.get('name')}` : 'Configure rule'}
         </SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
@@ -71,8 +71,8 @@ export default React.createClass({
           </Section>
 
           {form ?
-            <AlertForm form={form}
-                       onChange={this.onChange} />
+            <RuleForm form={form}
+                      onChange={this.onChange} />
           : null}
         </form>
 
@@ -80,25 +80,24 @@ export default React.createClass({
     );
   },
 
-  loadAlert(alertId) {
+  loadRule(ruleId) {
     this.disposeAsyncAction();
 
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading alert…',
-      form: null,
-      role: null
+      message: 'Loading rule…',
+      form: null
     });
 
-    const result$ = getAlert(alertId);
-    this.responseSubscription = result$.once(alert => {
+    const result$ = getRule(ruleId);
+    this.responseSubscription = result$.once(rule => {
       this.setState({
         loading: false,
         error: false,
         message: null,
-        alert,
-        form: createForm(alert)
+        rule,
+        form: createForm(rule)
       });
     });
 
@@ -106,7 +105,7 @@ export default React.createClass({
       this.setState({
         loading: false,
         error: true,
-        message: 'Failed to load alert.'
+        message: 'Failed to load rule.'
       });
     });
   },
@@ -150,26 +149,19 @@ export default React.createClass({
       return;
     }
 
-    const alert = this.state.alert;
+    const rule = this.state.rule;
     const form = this.state.form;
 
-    const result$ = saveAlert(fromJS(createAlert(
-      alert ? alert.get('id') : null,
+    const result$ = saveRule(fromJS(createRule(
+      rule ? rule.get('id') : null,
       form.get('name').value,
-      alert ? alert.get('enabled') : true,
       form.get('entityType').value,
       form.get('metricName').value,
       1000, // 1s
-      form.get('query').value,
       Number(form.get('window').value),
       form.get('aggregation').value,
-      form.get('threshold').value,
-      Number(form.get('thresholdValue').value),
-      form.get('triggering').value,
-      Number(form.get('severity').value),
-      Number(form.get('expirationTime').value),
-      form.get('text').value,
-      form.get('description').value
+      form.get('conditionOperator').value,
+      Number(form.get('conditionValue').value)
     )));
 
     this.disposeAsyncAction();
@@ -178,10 +170,10 @@ export default React.createClass({
       error: false,
       message: 'Saving…'
     });
-    this.responseSubscription = result$.once(openAlertsConfig);
+    this.responseSubscription = result$.once(openRules);
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save alert: ${error.message}`;
+      const message = `Failed to save rule: ${error.message}`;
       logger.error(message, error);
       this.setState({
         loading: false,
@@ -192,22 +184,18 @@ export default React.createClass({
   }
 });
 
-function createForm(alert) {
-  const match = alert.get('match');
-  const event = alert.get('event');
-  const rule = alert.get('rule');
-
+function createForm(rule) {
   return createMapForm()
     .put('name', createField({
-      value: alert ? alert.get('name') : '',
+      value: rule ? rule.get('name') : '',
       validator: notBlankValidator
     }))
     .put('entityType', createField({
-      value: alert ? match.get('entityType') : undefined,
+      value: rule ? rule.get('entityType') : undefined,
       validator: notBlankValidator
     }))
     .put('metricName', createField({
-      value: alert ? match.get('metricName') : '',
+      value: rule ? rule.get('metricName') : '',
       validator: metricName => {
         return (metricName && metricName != '-1' && metricName.length > 0)
           ? null
@@ -217,10 +205,6 @@ function createForm(alert) {
           }];
         }
     }))
-    .put('query', createField({
-      value: match.get('query'),
-      validator: queryValidator
-    }))
     .put('window', createField({
       value: String(rule.get('window')),
       validator: notBlankValidator
@@ -229,11 +213,11 @@ function createForm(alert) {
       value: rule.get('aggregation'),
       validator: notBlankValidator
     }))
-    .put('threshold', createField({
+    .put('conditionOperator', createField({
       value: rule.get('conditionOperator'),
       validator: notBlankValidator
     }))
-    .put('thresholdValue', createField({
+    .put('conditionValue', createField({
       value: String(rule.get('conditionValue')),
       validator(value) {
         const n = Number(value);
@@ -245,23 +229,5 @@ function createForm(alert) {
         }
         return null;
       }
-    }))
-    .put('triggering', createField({
-      value: event.get('triggering')
-    }))
-    .put('severity', createField({
-      value: String(event.get('severity')),
-      validator: notBlankValidator
-    }))
-    .put('expirationTime', createField({
-      value: String(event.get('expirationTime')),
-      validator: notBlankValidator
-    }))
-    .put('text', createField({
-      value: String(event.get('text')),
-      validator: notBlankValidator
-    }))
-    .put('description', createField({
-      value: String(event.get('description'))
     }));
-}
+  }
