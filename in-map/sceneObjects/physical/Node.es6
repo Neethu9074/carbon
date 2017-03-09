@@ -127,7 +127,7 @@ export default class Node extends SceneObject {
   initialized() {
     super.initialized();
 
-    nodes.add(this.timeBasedId, this);
+    nodes.add(this.id, this);
   }
 
   addLayer(id, node) {
@@ -145,7 +145,7 @@ export default class Node extends SceneObject {
     this.layerLayouter = null;
 
     stickyNotes.remove(this.timeBasedId);
-    nodes.remove(this.timeBasedId);
+    nodes.remove(this.id);
 
     this.group.removeNode(this.id);
 
