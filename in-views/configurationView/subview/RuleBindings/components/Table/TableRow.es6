@@ -110,6 +110,9 @@ function Details({ruleBinding}) {
         <DescriptionItem title='Bounded rule'>
           {ruleBinding.getIn(['ruleIds', 0], '')}
         </DescriptionItem>
+        <DescriptionItem title='Applied on filter query'>
+          {ruleBinding.get('query', '')}
+        </DescriptionItem>
 
         <DescriptionItem title='Last update'>
           {formatDateTime(ruleBinding.get('lastUpdated'))}

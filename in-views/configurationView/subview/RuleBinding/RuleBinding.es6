@@ -5,13 +5,14 @@ import {createLogger} from 'instalog';
 import React from 'react';
 
 import {getRuleBinding, saveRuleBinding, createRuleBinding} from 'in-services/groundskeeper/ruleBindings';
-import {getRules} from 'in-services/groundskeeper/rules';
 import RuleBindingForm from 'in-views/configurationView/subview/RuleBinding/RuleBindingForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import {openRuleBindings} from 'in-stores/navigation/configuration';
+import {queryValidator} from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
+import {getRules} from 'in-services/groundskeeper/rules';
 import Button from 'in-components/Button';
 
 
@@ -184,6 +185,7 @@ export default React.createClass({
       form.get('text').value,
       form.get('description').value,
       Number(form.get('expirationTime').value),
+      form.get('query').value,
       form.get('ruleIds').value.toJS()
     )));
 
@@ -226,6 +228,10 @@ function createForm(ruleBinding) {
     }))
     .put('description', createField({
       value: String(ruleBinding.get('description'))
+    }))
+    .put('query', createField({
+      value: ruleBinding.get('query'),
+      validator: queryValidator
     }))
     .put('ruleIds', createField({
       value: ruleBinding ? ruleBinding.get('ruleIds') : List(),

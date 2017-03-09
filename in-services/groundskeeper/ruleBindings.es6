@@ -58,6 +58,7 @@ export function createRuleBinding(id,
                                   text = 'Event Title',
                                   description = 'Event Description',
                                   expirationTime = 60000,
+                                  query = '',
                                   ruleIds = []) {
   return {
     id: id || generateUniqueShortId(),
@@ -67,6 +68,7 @@ export function createRuleBinding(id,
     text,
     description,
     expirationTime,
+    query,
     ruleIds
   };
 }

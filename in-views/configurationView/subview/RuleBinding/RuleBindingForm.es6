@@ -48,6 +48,26 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
           )}
         </div>
 
+        {form.get('query').map(field =>
+          <FormGroup>
+            <Label htmlFor='ruleBinding-query'
+                   hasError={!field.valid}>
+              Applied on filter query
+            </Label>
+            <Input id='ruleBinding-query'
+                   type='text'
+                   value={field.value}
+                   onChange={e => onChange('query', e.target.value)}
+                   hasError={!field.valid} />
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
+                {message.message}
+              </ValidationBlock>
+            )}
+          </FormGroup>
+        )}
+
         {form.get('severity').map(field =>
           <FormGroup>
             <Label htmlFor='alert-severity'
