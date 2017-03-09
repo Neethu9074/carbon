@@ -31,8 +31,6 @@ export default class Node extends SceneObject {
     this.group = params.group;
     this.layer = createObjectCollectionStream();
     this._cachedLabel = this.id;
-
-    this.timeBasedId = `${this.id}_${Date.now()}`;
   }
 
   init() {
@@ -42,7 +40,7 @@ export default class Node extends SceneObject {
 
     this.layerLayouter = createLayerLayouter(this);
 
-    stickyNotes.add(this.timeBasedId, {
+    stickyNotes.add(this.id, {
       type: NodeStickyNote,
       eventEmitter: this.eventEmitter,
       props: {
@@ -127,7 +125,7 @@ export default class Node extends SceneObject {
   initialized() {
     super.initialized();
 
-    nodes.add(this.timeBasedId, this);
+    nodes.add(this.id, this);
   }
 
   addLayer(id, node) {
@@ -144,8 +142,8 @@ export default class Node extends SceneObject {
     this.layerLayouter.dispose();
     this.layerLayouter = null;
 
-    stickyNotes.remove(this.timeBasedId);
-    nodes.remove(this.timeBasedId);
+    stickyNotes.remove(this.id);
+    nodes.remove(this.id);
 
     this.group.removeNode(this.id);
 

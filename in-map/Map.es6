@@ -1,14 +1,16 @@
 import React from 'react';
 
+import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import {isWebVRSupported, createNoWebVRDialog} from 'in-map/services/webVR';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation/navigation';
 import {isWebGLSupported, isContextLost$} from 'in-map/services/webGL';
+import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {canvas$, setCanvas, clear} from 'in-map/stores/indexStore';
-import SceneComponent from 'in-map/components/SceneComponent';
 import {getWebGLCanvasContext} from 'in-map/services/webGL';
 import {webVRIsActive} from 'in-map/stores/webVRStore';
 import {getIn} from 'in-services/settings';
+import SceneGraph from 'in-map/SceneGraph';
 import connectTo from 'in-hoc/connectTo';
 import 'in-map/Map.less';
 
@@ -38,6 +40,12 @@ React.createClass({
     if (isWebGLSupported() && !this.props.isContextLost) {
       setCanvas(canvas);
     }
+
+    this.sceneGraph = new SceneGraph(
+      canvas,
+      this.props.antialias,
+      this.webGlContext
+    );
   },
 
   componentDidUpdate(prevProps) {
@@ -48,12 +56,12 @@ React.createClass({
 
   componentWillUnmount() {
     clear();
+
+    this.sceneGraph.dispose();
   },
 
   render() {
-    const antialias = this.props.antialias;
     const webVRMode = this.props.webVRMode;
-    const _canvas = this.props.canvas;
 
     let className = block;
     if (webVRMode) {
@@ -70,12 +78,8 @@ React.createClass({
                   this.mainCanvas = canvas;
                   this.webGlContext = getWebGLCanvasContext(canvas);
                 }} />
-        {(_canvas && antialias)
-          ? <SceneComponent canvas={_canvas}
-                            webGlContext={this.webGlContext}
-                            antialias={antialias} />
-          : null
-        }
+        <StickyNoteHoster />
+        <TooltipHoster />
       </div>
     );
   },
