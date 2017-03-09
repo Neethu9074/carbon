@@ -7,13 +7,10 @@ import {
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ExpandableTable from 'in-components/ExpandableTable';
-import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
+import ChartWithLegend from 'in-components/ChartWithLegend';
+import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 
 export default function InstancesTable({snapshot, timeframe, instances}) {
- if (instances.size === 0) {
-   return null;
- }
-
   return (
     <DashboardSection title='Instances'>
       <ExpandableTable data={instances}
@@ -57,26 +54,47 @@ function createRow(instanceId, i, context) {
 }
 
 function createDetails(instanceId, i, context) {
+  const snapshotId = context.snapshot.get('id');
   return (
-    <div>
-      <DashboardSection title='Resources'>
-        <SparkChartsSection snapshot={context.snapshot}
-                            metrics={[
-                              {
-                                metric: 'instances_metrics.' + instanceId + '.cpu',
-                                label: 'CPU',
-                                formatter: percentageZeroDecimalPlaces
-                              }, {
-                                metric: 'instances_metrics.' + instanceId + '.disk',
-                                label: 'Disk',
-                                formatter: bytesZeroDecimalPlaces
-                              }, {
-                                metric: 'instances_metrics.' + instanceId + '.memory',
-                                label: 'Memory',
-                                formatter: bytesZeroDecimalPlaces
-                              }
-                            ]} />
+    <TwoColumnRow>
+      <DashboardSection title='CPU'>
+        <ChartWithLegend snapshotId={snapshotId}
+               timeframe={context.timeframe}
+               margins={{
+                 left: 60
+               }}
+               y1={{
+                 formatter: percentageZeroDecimalPlaces,
+                 tooltipFormatter: percentageZeroDecimalPlaces,
+                 metrics: [
+                   'instances_metrics.' + instanceId + '.cpu'
+                 ],
+                 labels: [
+                   'CPU'
+                 ],
+                 type: 'stackedArea'
+               }}/>
       </DashboardSection>
-    </div>
+      <DashboardSection title='Memory'>
+        <ChartWithLegend snapshotId={snapshotId}
+               timeframe={context.timeframe}
+               margins={{
+                 left: 60
+               }}
+               y1={{
+                 formatter: bytesZeroDecimalPlaces,
+                 tooltipFormatter: bytesZeroDecimalPlaces,
+                 metrics: [
+                   'instances_metrics.' + instanceId + '.disk',
+                   'instances_metrics.' + instanceId + '.memory'
+                 ],
+                 labels: [
+                   'Disk',
+                   'Memory'
+                 ],
+                 type: 'line'
+               }} />
+      </DashboardSection>
+    </TwoColumnRow>
   );
 }
