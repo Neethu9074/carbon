@@ -133,16 +133,16 @@ export default (
 
       <Route component={createAsyncFullscreenOverlayViewComponent(Rules)}
              path='rule'
-             windowTitle='Rules' />
+             windowTitle='Custom Rules' />
       <Route component={createAsyncFullscreenOverlayViewComponent(Rule)}
              path='rule/:ruleId'
-             windowTitle='Rule' />
+             windowTitle='Custom Rule' />
       <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)}
              path='binding'
-             windowTitle='Rule Bindings' />
+             windowTitle='Custom Issues' />
       <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
              path='binding/:ruleBindingId'
-             windowTitle='Rule Binding' />
+             windowTitle='Custom Issue' />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)}
              path='objectives'

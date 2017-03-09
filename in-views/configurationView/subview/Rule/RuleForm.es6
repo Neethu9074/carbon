@@ -22,10 +22,6 @@ export default function RuleForm({form, onChange}) {
   return (
     <fieldset>
       <Section>
-        <SectionHeading>
-          Basic Information
-        </SectionHeading>
-
         {form.get('name').map(field =>
           <FormGroup>
             <Label htmlFor='rule-name'

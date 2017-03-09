@@ -26,7 +26,7 @@ export default React.createClass({
     return {
       loading: true,
       error: false,
-      message: 'Loading rule binding…',
+      message: 'Loading custom issue…',
       form: null,
       ruleBinding: null,
       rules: null
@@ -53,7 +53,7 @@ export default React.createClass({
     return (
       <SubViewWrapper>
         <SubViewHeader>
-          {ruleBinding ? `Configure rule binding: ${ruleBinding.get('text')}` : 'Configure rule binding'}
+          {ruleBinding ? `Configure custom issue: ${ruleBinding.get('text')}` : 'Configure custom issue'}
         </SubViewHeader>
 
         <form onSubmit={this.onSubmit}>
@@ -92,7 +92,7 @@ export default React.createClass({
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading rule binding…',
+      message: 'Loading custom issue…',
       form: null
     });
 
@@ -120,7 +120,7 @@ export default React.createClass({
       this.setState({
         loading: false,
         error: true,
-        message: 'Failed to load rule binding.'
+        message: 'Failed to load custom issue.'
       });
     });
   },
@@ -198,7 +198,7 @@ export default React.createClass({
     this.responseSubscription = result$.once(openRuleBindings);
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save rule binding: ${error.message}`;
+      const message = `Failed to save custom issue: ${error.message}`;
       logger.error(message, error);
       this.setState({
         loading: false,

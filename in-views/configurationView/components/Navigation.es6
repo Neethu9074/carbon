@@ -94,15 +94,14 @@ export default function Navigation() {
         : null}
 
         {customAltertingEnabled && role.canConfigureCustomAlerts ?
-          <NavItem title='Rule Bindings'
-                   href$={ruleBindingViewLink$}
-                   isActive$={isRuleBindingViewLink$} />
-        : null}
-
-        {customAltertingEnabled && role.canConfigureCustomAlerts ?
-          <NavItem title='Rules'
-                   href$={ruleViewLink$}
-                   isActive$={isRuleViewLink$} />
+          <NavItem title='Knowledge Management'>
+            <NavItem title='Custom Rules'
+                     href$={ruleViewLink$}
+                     isActive$={isRuleViewLink$} />
+            <NavItem title='Custom Issues'
+                     href$={ruleBindingViewLink$}
+                     isActive$={isRuleBindingViewLink$} />
+          </NavItem>
         : null}
 
         {role.canViewAuditLog ?

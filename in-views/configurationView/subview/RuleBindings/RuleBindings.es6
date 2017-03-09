@@ -41,7 +41,7 @@ export default React.createClass({
     this.setState({
       error: false,
       loading: true,
-      message: 'Loading rule bindings…'
+      message: 'Loading custom issues…'
     });
 
     const result$ = getRuleBindings();
@@ -55,7 +55,7 @@ export default React.createClass({
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to retrieve rule bindings: ${error.message}`;
+      const message = `Failed to retrieve custom issues: ${error.message}`;
       logger.error(message, error);
       this.setState({
         error: true,
@@ -87,7 +87,7 @@ export default React.createClass({
     this.setState({
       error: false,
       loading: true,
-      message: 'Adding new rule binding…'
+      message: 'Adding new custom issue…'
     });
 
     const result$ = saveRuleBinding(newRuleBinding);
@@ -96,7 +96,7 @@ export default React.createClass({
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save new rule binding: ${error.message}`;
+      const message = `Failed to save new custom issue: ${error.message}`;
       logger.error(message, error);
       this.setState({
         error: true,
@@ -110,7 +110,7 @@ export default React.createClass({
     this.setState({
       error: false,
       loading: true,
-      message: `Removing rule binding ${ruleBindingId}`
+      message: `Removing custom issue ${ruleBindingId}`
     });
 
     const result$ = deleteRuleBinding(ruleBindingId);
@@ -124,7 +124,7 @@ export default React.createClass({
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to remove rule binding ${ruleBindingId}: ${error.message}`;
+      const message = `Failed to remove custom issue ${ruleBindingId}: ${error.message}`;
       logger.error(message, error);
       this.setState({
         error: true,
@@ -143,7 +143,7 @@ export default React.createClass({
       state.status[ruleBindingId] = {
         state: 'loading',
         time: Date.now(),
-        message: 'Saving rule binding…'
+        message: 'Saving custom issue…'
       };
 
       const index = state.ruleBindings.findIndex(eachRuleBinding => ruleBindingId === eachRuleBinding.get('id'));
@@ -218,7 +218,7 @@ export default React.createClass({
         {rulesAvailable ?
           <Section>
             <SectionHeading>
-              rule binding
+              Custom Issues
             </SectionHeading>
 
             <Table items={ruleBindings}
