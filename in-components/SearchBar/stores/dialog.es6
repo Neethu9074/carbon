@@ -1,11 +1,10 @@
+import {createMapForm, createField} from 'formalistic';
 import {createLogger} from 'instalog';
 
 import {saveNewFilter, saveFilter} from 'in-services/groundskeeper/filters';
 import {refresh} from 'in-components/SearchBar/stores/filters';
 import {close} from 'in-components/DialogPresenter/store';
-import MapForm from 'in-services/form/MapForm';
 import {createStore} from 'in-stores/store';
-import Field from 'in-services/form/Field';
 
 const logger = createLogger('SearchBar/stores/dialog');
 
@@ -31,24 +30,36 @@ function clear() {
 
 
 export function setValues(id, name, definition) {
-  const form = new MapForm()
-    .addItem('id', new Field(id))
-    .addItem('name', new Field(name, validateName))
-    .addItem('definition', new Field(definition, validateDefinition));
+  const form = createMapForm()
+    .put('id', createField({
+      value: id
+    }))
+    .put('name', createField({
+      value: name,
+      validator: validateName
+    }))
+    .put('definition', createField({
+      value: definition,
+      validator: validateDefinition
+    }));
   formStore.mutateTo(form);
 }
 
 
 export function setValue(prop, value) {
-  formStore.applyStateMutation(form => form.setValue(prop, value));
+  formStore.applyStateMutation(form => {
+    return form.updateIn([prop], field =>
+      field.setValue(value).setTouched(true)
+    );
+  });
 }
 
 
 export function save() {
   form$.once(form => {
-    const id = form.getItem('id').value;
-    const name = form.getItem('name').value;
-    const definition = form.getItem('definition').value;
+    const id = form.get('id').value;
+    const name = form.get('name').value;
+    const definition = form.get('definition').value;
 
     let result$;
     if (id) {
@@ -74,7 +85,10 @@ export function save() {
 
 function validateName(s) {
   if (!s || s.trim().length === 0) {
-    return 'Please specify a name for the filter.';
+    return [{
+      severity: 'error',
+      message: 'Please specify a name for the filter.'
+    }];
   }
   return null;
 }
@@ -82,7 +96,10 @@ function validateName(s) {
 
 function validateDefinition(s) {
   if (!s || s.trim().length === 0) {
-    return 'Please specify a filter to save.';
+    return [{
+      severity: 'error',
+      message: 'Please specify a filter to save.'
+    }];
   }
   return null;
 }

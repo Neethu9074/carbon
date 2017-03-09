@@ -18,45 +18,48 @@ export default connectTo({
   form: form$,
   error: error$
 }, function SaveDialog({form, error}) {
-  const nameField = form.getItem('name');
-  const definitionField = form.getItem('definition');
-
   return (
     <Dialog header='Save filter'
             onClose={close}>
       <form onSubmit={onSubmit}>
-        <FormGroup>
-          <Label htmlFor='filter-name'>
-            Name
-          </Label>
-          <Input type='text'
-                 id='filter-name'
-                 value={nameField.value}
-                 onChange={e => setValue('name', e.target.value)}
-                 hasError={!nameField.valid}
-                 autoFocus />
-          {nameField.error ?
-            <ValidationBlock hasError>
-              {nameField.error}
-            </ValidationBlock>
-          : null}
-        </FormGroup>
+        {form.get('name').map(field =>
+          <FormGroup>
+            <Label htmlFor='filter-name'>
+              Name
+            </Label>
+            <Input type='text'
+                   id='filter-name'
+                   value={field.value}
+                   onChange={e => setValue('name', e.target.value)}
+                   hasError={!field.valid}
+                   autoFocus />
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
+                {message.message}
+              </ValidationBlock>
+            )}
+          </FormGroup>
+        )}
 
-        <FormGroup>
-          <Label htmlFor='filter-definition'>
-            Definition
-          </Label>
-          <Input type='text'
-                 id='filter-definition'
-                 value={definitionField.value}
-                 onChange={e => setValue('definition', e.target.value)}
-                 hasError={!definitionField.valid} />
-          {definitionField.error ?
-            <ValidationBlock hasError>
-              {definitionField.error}
-            </ValidationBlock>
-          : null}
-        </FormGroup>
+        {form.get('definition').map(field =>
+          <FormGroup>
+            <Label htmlFor='filter-definition'>
+              Definition
+            </Label>
+            <Input type='text'
+                   id='filter-definition'
+                   value={field.value}
+                   onChange={e => setValue('definition', e.target.value)}
+                   hasError={!field.valid} />
+            {field.messages.map((message, i) =>
+              <ValidationBlock hasError
+                               key={i}>
+                {message.message}
+              </ValidationBlock>
+            )}
+          </FormGroup>
+        )}
 
         <div className={`${block}__actions`}>
           <Button disabled={!form.valid}
@@ -76,7 +79,7 @@ export default connectTo({
   function onSubmit(e) {
     e.preventDefault();
 
-    if (form.valid) {
+    if (form.hierarchyValid) {
       save();
     }
   }
