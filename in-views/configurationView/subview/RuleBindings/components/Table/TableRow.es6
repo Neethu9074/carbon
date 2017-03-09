@@ -90,7 +90,6 @@ function Details({ruleBinding}) {
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
-
         <DescriptionItem title='Text'>
           {ruleBinding.get('text')}
         </DescriptionItem>

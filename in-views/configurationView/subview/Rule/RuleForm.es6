@@ -4,6 +4,7 @@ import SectionHeading from 'in-views/configurationView/components/SectionHeading
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import MetricSelector from 'in-components/MetricSelector';
+import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import {getSingular} from 'in-sdk/pluginName';
 import {getCategories} from 'in-sdk/metrics';
@@ -43,6 +44,9 @@ export default function RuleForm({form, onChange}) {
                 {message.message}
               </ValidationBlock>
             )}
+            <HelpBlock>
+              A name for this rule. You can select rules by name in the rule binding dialog.
+            </HelpBlock>
           </FormGroup>
         )}
 
@@ -74,6 +78,9 @@ export default function RuleForm({form, onChange}) {
                 {message.message}
               </ValidationBlock>
             )}
+            <HelpBlock>
+              The entity where this rule is applied on.
+            </HelpBlock>
           </FormGroup>
         )}
 
@@ -94,6 +101,9 @@ export default function RuleForm({form, onChange}) {
                   {message.message}
                 </ValidationBlock>
               )}
+              <HelpBlock>
+                The entities metric which is used for processing.
+              </HelpBlock>
             </FormGroup>
           )
         : null}

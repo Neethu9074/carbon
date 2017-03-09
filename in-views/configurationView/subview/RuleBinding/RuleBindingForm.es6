@@ -44,6 +44,9 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
                   {message.message}
                 </ValidationBlock>
               )}
+              <HelpBlock>
+                The Rule to be bound.
+              </HelpBlock>
             </FormGroup>
           )}
         </div>
@@ -65,6 +68,9 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
                 {message.message}
               </ValidationBlock>
             )}
+            <HelpBlock>
+              A search query which filters all entities that should be targeted by this binding.
+            </HelpBlock>
           </FormGroup>
         )}
 
@@ -96,6 +102,9 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
                 {message.message}
               </ValidationBlock>
             )}
+            <HelpBlock>
+              The severity of issues, created by this rule binding.
+            </HelpBlock>
           </FormGroup>
         )}
 
@@ -108,6 +117,9 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
                     className={`${block}__toggle`}
                     checked={field.value}
                     onChange={e => onChange('triggering', e.target.checked)} />
+            <HelpBlock>
+              Does this issue triggeres an incident?
+            </HelpBlock>
           </FormGroup>
         )}
 
@@ -143,6 +155,9 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
                 {message.message}
               </ValidationBlock>
             )}
+            <HelpBlock>
+              The time events are kept as open.
+            </HelpBlock>
           </FormGroup>
         )}
 
@@ -164,7 +179,7 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
               </ValidationBlock>
             )}
             <HelpBlock>
-              This text is used as description text when this alert happens.
+              This text is used as events text when an issue of this binding happens.
             </HelpBlock>
           </FormGroup>
         )}
@@ -186,6 +201,9 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
                 {message.message}
               </ValidationBlock>
             )}
+            <HelpBlock>
+              This text is used as events description when an issue of this binding happens.
+            </HelpBlock>
           </FormGroup>
         )}
       </Section>
