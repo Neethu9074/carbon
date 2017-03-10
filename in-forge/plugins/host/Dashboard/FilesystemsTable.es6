@@ -8,6 +8,8 @@ import {emptyList} from 'in-services/fixedImmutables';
 import HelpLink from 'in-components/HelpLink';
 import {getMaxValue} from 'in-sdk/metrics';
 import {
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
   kiloBytesTwoDecimalPlaces,
   withSiMultiplyPrefixZeroDecimalPlaces,
@@ -191,8 +193,8 @@ function createDetails(filesystem, name, context) {
 
                y2={{
                  min: 0,
-                 formatter: kiloBytesZeroDecimalPlaces,
-                 tooltipFormatter: kiloBytesTwoDecimalPlaces,
+                 formatter: bytesZeroDecimalPlaces,
+                 tooltipFormatter: bytesTwoDecimalPlaces,
                  metrics: [
                    'fs.' + name + '.readBytes',
                    'fs.' + name + '.writeBytes'
