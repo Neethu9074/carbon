@@ -68,6 +68,11 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
           const dataColumn = dataColumns[columnIndex];
           const dataRow = dataColumn[seriesIndex];
 
+          // data points may be missing
+          if (!dataRow) {
+            continue;
+          }
+
           ctx.lineTo(x.getRange(dataRow[0]), y.getRangeFrom());
         }
 
