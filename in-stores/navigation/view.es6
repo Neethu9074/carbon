@@ -8,13 +8,18 @@ export const isPhysicalMapView$ = navigationParameters$
   .distinct();
 
 
+export const isContainerMapView$ = navigationParameters$
+  .map(params => params.pathname.indexOf('/container') === 0)
+  .distinct();
+
+
 export const isLogicalMapView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/logical') === 0)
   .distinct();
 
 
-export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$])
-  .map(([physical, logical]) => physical || logical)
+export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, isContainerMapView$])
+  .map(([physical, logical, container]) => physical || logical || container)
   .distinct();
 
 export const traceViewLinkWithoutEumTraces$ = getModifiedUrlStream(params => {
