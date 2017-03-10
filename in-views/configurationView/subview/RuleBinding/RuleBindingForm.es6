@@ -11,6 +11,7 @@ import TextArea from 'in-components/form/TextArea';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import {Row, Col} from 'in-components/Grid';
 
 import './RuleBindingForm.less';
 
@@ -76,94 +77,98 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
             </HelpBlock>
           </FormGroup>
         )}
-
-        {form.get('severity').map(field =>
-          <FormGroup>
-            <Label htmlFor='alert-severity'
-                   hasError={!field.valid}>
-              Severity
-            </Label>
-            <select onChange={e => onChange('severity', e.target.value)}
-                    value={field.value}
-                    id='alert-severity'>
-              <option value=''>
-                Please select
-              </option>
-              <option value='0'>
-                change
-              </option>
-              <option value='5'>
-                warning
-              </option>
-              <option value='10'>
-                critical
-              </option>
-            </select>
-            {field.messages.map((message, i) =>
-              <ValidationBlock hasError
-                               key={i}>
-                {message.message}
-              </ValidationBlock>
+        <Row>
+          <Col cols={4}>
+            {form.get('severity').map(field =>
+              <FormGroup>
+                <Label htmlFor='alert-severity'
+                       hasError={!field.valid}>
+                  Severity
+                </Label>
+                <select onChange={e => onChange('severity', e.target.value)}
+                        value={field.value}
+                        id='alert-severity'>
+                  <option value=''>
+                    Please select
+                  </option>
+                  <option value='0'>
+                    change
+                  </option>
+                  <option value='5'>
+                    warning
+                  </option>
+                  <option value='10'>
+                    critical
+                  </option>
+                </select>
+                {field.messages.map((message, i) =>
+                  <ValidationBlock hasError
+                                   key={i}>
+                    {message.message}
+                  </ValidationBlock>
+                )}
+                <HelpBlock>
+                  The severity of issues, created by this rule binding.
+                </HelpBlock>
+              </FormGroup>
             )}
-            <HelpBlock>
-              The severity of issues, created by this rule binding.
-            </HelpBlock>
-          </FormGroup>
-        )}
-
-        {form.get('triggering').map(field =>
-          <FormGroup>
-            <Label htmlFor='alert-triggering'>
-              Triggering
-            </Label>
-            <Toggle id='alert-triggering'
-                    className={`${block}__toggle`}
-                    checked={field.value}
-                    onChange={e => onChange('triggering', e.target.checked)} />
-            <HelpBlock>
-              Does this issue triggeres an incident?
-            </HelpBlock>
-          </FormGroup>
-        )}
-
-        {form.get('expirationTime').map(field =>
-          <FormGroup>
-            <Label htmlFor='alert-expirationTime'
-                   hasError={!field.valid}>
-              Expiration time
-            </Label>
-            <select onChange={e => onChange('expirationTime', e.target.value)}
-                    value={field.value}
-                    id='alert-expirationTime'>
-              <option key=''
-                      value=''>
-                Please select
-              </option>
-              <option value='5000'>
-                5s
-              </option>
-              <option value='10000'>
-                10s
-              </option>
-              <option value='60000'>
-                1min
-              </option>
-              <option value='300000'>
-                5min
-              </option>
-            </select>
-            {field.messages.map((message, i) =>
-              <ValidationBlock hasError
-                               key={i}>
-                {message.message}
-              </ValidationBlock>
+          </Col>
+          <Col cols={4}>
+            {form.get('expirationTime').map(field =>
+              <FormGroup>
+                <Label htmlFor='alert-expirationTime'
+                       hasError={!field.valid}>
+                  Expiration time
+                </Label>
+                <select onChange={e => onChange('expirationTime', e.target.value)}
+                        value={field.value}
+                        id='alert-expirationTime'>
+                  <option key=''
+                          value=''>
+                    Please select
+                  </option>
+                  <option value='5000'>
+                    5s
+                  </option>
+                  <option value='10000'>
+                    10s
+                  </option>
+                  <option value='60000'>
+                    1min
+                  </option>
+                  <option value='300000'>
+                    5min
+                  </option>
+                </select>
+                {field.messages.map((message, i) =>
+                  <ValidationBlock hasError
+                                   key={i}>
+                    {message.message}
+                  </ValidationBlock>
+                )}
+                <HelpBlock>
+                  The time events are kept as open.
+                </HelpBlock>
+              </FormGroup>
             )}
-            <HelpBlock>
-              The time events are kept as open.
-            </HelpBlock>
-          </FormGroup>
-        )}
-
+          </Col>
+          <Col cols={4}>
+            {form.get('triggering').map(field =>
+              <FormGroup>
+                <Label htmlFor='alert-triggering'>
+                  Triggering
+                </Label>
+                <Toggle id='alert-triggering'
+                        className={`${block}__toggle`}
+                        checked={field.value}
+                        onChange={e => onChange('triggering', e.target.checked)} />
+                <HelpBlock>
+                  Does this issue triggeres an incident?
+                </HelpBlock>
+              </FormGroup>
+            )}
+          </Col>
+        </Row>
         {form.get('text').map(field =>
           <FormGroup>
             <Label htmlFor='alert-text'
