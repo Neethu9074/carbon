@@ -1,7 +1,10 @@
+import {fromJS} from 'immutable';
 import React from 'react';
 
+import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import EventDescription from 'in-components/EventDescription';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
@@ -207,6 +210,32 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
           </FormGroup>
         )}
       </Section>
+
+      <Section>
+        <SectionHeading>
+          Event preview
+        </SectionHeading>
+        <EventDescription className={`${block}__issue-preview`}
+                          event={createEvent(form)}
+                          snapshotId='snapshotId' />
+      </Section>
     </fieldset>
   );
+}
+
+function createEvent(form) {
+  return fromJS({
+    id: 'uuid',
+    start: 1489071311000,
+    end: 1489071911000,
+    problem: {
+      fixSuggestion: form.get('description').value,
+      id: 'uuid',
+      problemText: form.get('text').value,
+      snapshotId: 'snapshotId',
+      severity: form.get('severity').value
+    },
+    state: 'closed',
+    type: 'issue'
+  });
 }
