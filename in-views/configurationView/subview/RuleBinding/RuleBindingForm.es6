@@ -232,7 +232,7 @@ function createEvent(form) {
   return fromJS({
     id: 'uuid',
     start: 1489071311000,
-    end: 1489071911000,
+    end: null,
     problem: {
       fixSuggestion: form.get('description').value,
       id: 'uuid',
@@ -240,7 +240,7 @@ function createEvent(form) {
       snapshotId: 'snapshotId',
       severity: form.get('severity').value
     },
-    state: 'closed',
+    state: 'open',
     type: 'issue'
   });
 }
