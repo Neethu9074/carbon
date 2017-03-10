@@ -56,7 +56,7 @@ export function createRuleBinding(id,
                                   triggering = false,
                                   severity = 0,
                                   text = 'Event Title',
-                                  description = 'Event Description',
+                                  description = 'This is the Problem description. You can also use markdown here: \n * Relative change in value: **100%** \n * Confidence: **99.90%**',
                                   expirationTime = 60000,
                                   query = '',
                                   ruleIds = []) {
