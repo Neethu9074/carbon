@@ -79,13 +79,6 @@ export function shortenPathAtSourceAndDestination(path) {
 export function addArrowToDestination(path) {
   const from = path[path.length - 1];
   const to = path[path.length - 2];
-
-  const dir = getDirectionForPoints(from, to);
-  const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
-  if (length <= 1) {
-    return path;
-  }
-
   const arrowGeometry = getArrowGeometry(from, getNormalizedDirectionForPoints(from, to));
 
   for (let i = 0; i < arrowGeometry.length; i++) {
