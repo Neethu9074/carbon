@@ -123,3 +123,11 @@ export function focusEvent(eventId) {
 export function getLinkToCurrentViewWithViewGrouping(vg) {
   return getModifiedUrlStream(params => params.query.vg = vg);
 }
+
+export function setCurrentViewwWithViewGrouping(vg) {
+  mutateUrl(params => {
+    delete params.query.vg;
+    params.query.vg = vg;
+    return params;
+  });
+}

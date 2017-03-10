@@ -20,7 +20,8 @@ export const humanReadableDescriptions = Object.freeze({
   nomad: 'Nomad task name',
   kube: 'Kubernetes pod name',
   infraZone: 'Zone',
-  compose: 'Docker Compose project name'
+  compose: 'Docker Compose project name',
+  custom: 'Custom grouping'
 });
 
 export const availableGroupings = Object.freeze({
@@ -41,6 +42,8 @@ export const viewGroupingShort$ = createTrackingStore({
     .map(params => {
       if (params.query.vg in viewGroupings) {
         return params.query.vg;
+      } else if (params.query.vg && params.query.vg.startsWith('custom-')) {
+        return params.query.vg;
       }
       return null;
     })
@@ -50,5 +53,10 @@ export const viewGroupingShort$ = createTrackingStore({
 
 export const viewGrouping$ = createTrackingStore({
   name: 'view/viewGrouping',
-  observable: viewGroupingShort$.map(grouping => viewGroupings[grouping] || null)
+  observable: viewGroupingShort$.map(grouping => {
+    if (grouping && grouping.startsWith('custom-')) {
+      return grouping;
+    }
+    return viewGroupings[grouping] || null;
+  })
 }).observable;
