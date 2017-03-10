@@ -16,7 +16,7 @@ export default connectTo(props => {
             style={{
               background: '#e2e9ec'
             }}>
-      Enable self monitoring
+      Open Agent Management
     </Button>
   );
 
@@ -25,7 +25,7 @@ export default connectTo(props => {
   }
 
   return (
-    <Tooltip content='Self monitoring is only available for entities which are still under monitoring by Instana.'>
+    <Tooltip content='Agent management is only available when the agent is running.'>
       {button}
     </Tooltip>
   );
