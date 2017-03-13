@@ -9,6 +9,7 @@ import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Toggle from 'in-components/form/Toggle';
+import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import {Row, Col} from 'in-components/Grid';
@@ -29,19 +30,17 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
                      hasError={!field.valid}>
                 Rule
               </Label>
-              <select onChange={e => onChangeInRuleIds(e.target.value)}
-                      value={String(field.value.get(0))}
-                      id='ruleBinding-rule'>
-                <option value=''>
-                  Please select
-                </option>
-                {rules.map(rule =>
-                  <option value={rule.get('id')}
-                          key={rule.get('id')}>
-                    {rule.get('name')}
-                  </option>
-                )}
-              </select>
+              <ComboBox name='ruleBinding-rule'
+                        value={String(field.value.get(0))}
+                        options={[{ value: '', label: 'Please select' }].concat(
+                          rules.toArray().map(rule => {
+                            return {
+                              value: rule.get('id'),
+                              label: rule.get('name')
+                            };
+                          })
+                        )}
+                        onChange={e => onChangeInRuleIds(e = e ? e.value : '')} />
               {field.messages.map((message, i) =>
                 <ValidationBlock hasError
                                  key={i}>
@@ -81,23 +80,18 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
           <Col cols={4}>
             {form.get('severity').map(field =>
               <FormGroup>
-                <Label htmlFor='alert-severity'
+                <Label htmlFor='ruleBinding-severity'
                        hasError={!field.valid}>
                   Severity
                 </Label>
-                <select onChange={e => onChange('severity', e.target.value)}
-                        value={field.value}
-                        id='alert-severity'>
-                  <option value=''>
-                    Please select
-                  </option>
-                  <option value='5'>
-                    warning
-                  </option>
-                  <option value='10'>
-                    critical
-                  </option>
-                </select>
+                <ComboBox name='ruleBinding-severity'
+                          value={field.value}
+                          options={[
+                            { value: '', label: 'Please select' },
+                            { value: '5', label: 'warning' },
+                            { value: '10', label: 'critical' }
+                          ]}
+                          onChange={e => onChange('severity', e = e ? e.value : '')} />
                 {field.messages.map((message, i) =>
                   <ValidationBlock hasError
                                    key={i}>
@@ -110,30 +104,20 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
           <Col cols={4}>
             {form.get('expirationTime').map(field =>
               <FormGroup>
-                <Label htmlFor='alert-expirationTime'
+                <Label htmlFor='ruleBinding-expirationTime'
                        hasError={!field.valid}>
                   Expiration time
                 </Label>
-                <select onChange={e => onChange('expirationTime', e.target.value)}
-                        value={field.value}
-                        id='alert-expirationTime'>
-                  <option key=''
-                          value=''>
-                    Please select
-                  </option>
-                  <option value='5000'>
-                    5s
-                  </option>
-                  <option value='10000'>
-                    10s
-                  </option>
-                  <option value='60000'>
-                    1min
-                  </option>
-                  <option value='300000'>
-                    5min
-                  </option>
-                </select>
+                <ComboBox name='ruleBinding-expirationTime'
+                          value={field.value}
+                          options={[
+                            { value: '', label: 'Please select' },
+                            { value: '5000', label: '5s' },
+                            { value: '10000', label: '10s' },
+                            { value: '60000', label: '1min' },
+                            { value: '300000', label: '5min' }
+                          ]}
+                          onChange={e => onChange('expirationTime', e = e ? e.value : '')} />
                 {field.messages.map((message, i) =>
                   <ValidationBlock hasError
                                    key={i}>
@@ -149,10 +133,10 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
           <Col cols={4}>
             {form.get('triggering').map(field =>
               <FormGroup>
-                <Label htmlFor='alert-triggering'>
+                <Label htmlFor='ruleBinding-triggering'>
                   Triggering
                 </Label>
-                <Toggle id='alert-triggering'
+                <Toggle id='ruleBinding-triggering'
                         className={`${block}__toggle`}
                         checked={field.value}
                         onChange={e => onChange('triggering', e.target.checked)} />
@@ -162,11 +146,11 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
         </Row>
         {form.get('text').map(field =>
           <FormGroup>
-            <Label htmlFor='alert-text'
+            <Label htmlFor='ruleBinding-text'
                    hasError={!field.valid}>
               Text
             </Label>
-            <Input id='alert-text'
+            <Input id='ruleBinding-text'
                    type='text'
                    value={field.value}
                    onChange={e => onChange('text', e.target.value)}
@@ -182,11 +166,11 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
 
         {form.get('description').map(field =>
           <FormGroup>
-            <Label htmlFor='alert-description'
+            <Label htmlFor='ruleBinding-description'
                    hasError={!field.valid}>
               Description
             </Label>
-            <TextArea id='alert-description'
+            <TextArea id='ruleBinding-description'
                       rows='3'
                       value={field.value}
                       onChange={e => onChange('description', e.target.value)}

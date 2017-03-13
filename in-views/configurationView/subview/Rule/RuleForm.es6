@@ -1,10 +1,11 @@
 import React from 'react';
 
+import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import MetricSelector from 'in-components/MetricSelector';
 import HelpBlock from 'in-components/form/HelpBlock';
 import FormGroup from 'in-components/form/FormGroup';
+import ComboBox from 'in-components/ComboBox';
 import {getSingular} from 'in-sdk/pluginName';
 import {getCategories} from 'in-sdk/metrics';
 import Label from 'in-components/form/Label';
@@ -54,22 +55,17 @@ export default function RuleForm({form, onChange}) {
                    hasError={!field.valid}>
               Entity type
             </Label>
-            <select onChange={e => onChange(['entityType', 'metricName'], [e.target.value, '-1'])}
-                    value={field.value}
-                    id='rule-entityType'>
-              <option key=''
-                      value=''>
-                Please select
-              </option>
-              {pluginsWithMetricDefinitions.map(plugin => {
-                return (
-                  <option key={plugin}
-                          value={plugin}>
-                    {getSingular(plugin)}
-                  </option>
-                );
-              })}
-            </select>
+            <ComboBox name='rule-entityType'
+                      value={field.value}
+                      options={[{ value: '', label: 'Please select' }].concat(
+                        pluginsWithMetricDefinitions.map(plugin => {
+                          return {
+                            value: plugin,
+                            label: getSingular(plugin)
+                          };
+                        })
+                      )}
+                      onChange={e => onChange(['entityType', 'metricName'], [e ? e.value : '-1', '-1'])} />
             {field.messages.map((message, i) =>
               <ValidationBlock hasError
                                key={i}>
@@ -91,7 +87,8 @@ export default function RuleForm({form, onChange}) {
                   <MetricSelector id='rule-metricName'
                                   plugin={form.get('entityType').value}
                                   value={form.get('metricName').value}
-                                  onChange={e => onChange('metricName', e.target.value)} />
+                                  useComboBox
+                                  onChange={e => onChange('metricName', e ? e.value : '')} />
                   {field.messages.map((message, i) =>
                     <ValidationBlock hasError
                                      key={i}>
@@ -109,31 +106,18 @@ export default function RuleForm({form, onChange}) {
                        hasError={!field.valid}>
                   Time window
                 </Label>
-                <select onChange={e => onChange('window', e.target.value)}
-                        value={field.value}
-                        id='rule-window'>
-                  <option value=''>
-                    Please select
-                  </option>
-                  <option value='1000'>
-                    1s
-                  </option>
-                  <option value='5000'>
-                    5s
-                  </option>
-                  <option value='10000'>
-                    10s
-                  </option>
-                  <option value='60000'>
-                    1min
-                  </option>
-                  <option value='300000'>
-                    5min
-                  </option>
-                  <option value='600000'>
-                    10min
-                  </option>
-                </select>
+                <ComboBox name='rule-window'
+                          value={field.value}
+                          options={[
+                            { value: '', label: 'Please select' },
+                            { value: '1000', label: '1s' },
+                            { value: '5000', label: '5s' },
+                            { value: '10000', label: '10s' },
+                            { value: '60000', label: '1min' },
+                            { value: '300000', label: '5min' },
+                            { value: '600000', label: '10min' }
+                          ]}
+                          onChange={e => onChange('window', e ? e.value : '')} />
                 {field.messages.map((message, i) =>
                   <ValidationBlock hasError
                                    key={i}>
@@ -150,19 +134,14 @@ export default function RuleForm({form, onChange}) {
                        hasError={!field.valid}>
                   Aggregation
                 </Label>
-                <select onChange={e => onChange('aggregation', e.target.value)}
-                        value={field.value}
-                        id='rule-aggregation'>
-                  <option value=''>
-                    Please select
-                  </option>
-                  <option value='avg'>
-                    avg
-                  </option>
-                  <option value='sum'>
-                    sum
-                  </option>
-                </select>
+                <ComboBox name='rule-aggregation'
+                          value={field.value}
+                          options={[
+                            { value: '', label: 'Please select' },
+                            { value: 'avg', label: 'avg' },
+                            { value: 'sum', label: 'sum' }
+                          ]}
+                          onChange={e => onChange('aggregation', e ? e.value : e)} />
                 {field.messages.map((message, i) =>
                   <ValidationBlock hasError
                                    key={i}>
@@ -179,31 +158,18 @@ export default function RuleForm({form, onChange}) {
                        hasError={!field.valid}>
                   Operator
                 </Label>
-                <select onChange={e => onChange('conditionOperator', e.target.value)}
-                        value={field.value}
-                        id='rule-conditionOperator'>
-                  <option value=''>
-                    Please select
-                  </option>
-                  <option value='<'>
-                    {'<'}
-                  </option>
-                  <option value='<='>
-                    {'<='}
-                  </option>
-                  <option value='=='>
-                    {'=='}
-                  </option>
-                  <option value='>='>
-                    {'>='}
-                  </option>
-                  <option value='>'>
-                    {'>'}
-                  </option>
-                  <option value='!='>
-                    {'!='}
-                  </option>
-                </select>
+                <ComboBox name='rule-conditionOperator'
+                          value={field.value}
+                          options={[
+                            { value: '', label: 'Please select' },
+                            { value: '<', label: '<' },
+                            { value: '<=', label: '<=' },
+                            { value: '==', label: '==' },
+                            { value: '>=', label: '>=' },
+                            { value: '>', label: '>' },
+                            { value: '!=', label: '!=' }
+                          ]}
+                          onChange={e => onChange('conditionOperator', e ? e.value : e)} />
                 {field.messages.map((message, i) =>
                   <ValidationBlock hasError
                                    key={i}>
