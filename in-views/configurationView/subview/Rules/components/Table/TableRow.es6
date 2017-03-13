@@ -100,10 +100,6 @@ function Details({rule}) {
         <DescriptionItem title='Metric'>
           {rule.get('metricName')}
         </DescriptionItem>
-
-        <DescriptionItem title='Rollup'>
-          {formatDurationAccurately(rule.get('rollup'), 1000)}
-        </DescriptionItem>
         <DescriptionItem title='Time window'>
           {formatDurationAccurately(rule.get('window'), 1000)}
         </DescriptionItem>
