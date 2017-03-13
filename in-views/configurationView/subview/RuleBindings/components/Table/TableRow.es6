@@ -8,6 +8,7 @@ import {formatDurationAccurately} from 'in-services/formatters/date';
 import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {formatDateTime} from 'in-services/formatters/date';
+import {getRule} from 'in-services/groundskeeper/rules';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -86,7 +87,12 @@ export function TableRowWrapper({children}) {
   );
 }
 
-function Details({ruleBinding}) {
+const Details = connectTo(props => {
+  return {
+    rule: getRule(props.ruleBinding.getIn(['ruleIds', 0], ''))
+  };
+},
+function Details({ruleBinding, rule}) {
   return (
     <div className={`${block}__details-wrapper`}>
       <DescriptionList>
@@ -103,11 +109,11 @@ function Details({ruleBinding}) {
                          className={`${block}__severity`}>
           {mapSeverityToLabel(ruleBinding.get('severity'))}
         </DescriptionItem>
-        <DescriptionItem title='Triggering'>
+        <DescriptionItem title='Triggering incident'>
           {ruleBinding.get('triggering') ? 'true' : 'false'}
         </DescriptionItem>
         <DescriptionItem title='Bounded rule'>
-          {ruleBinding.getIn(['ruleIds', 0], '')}
+          {rule ? rule.get('name') : ruleBinding.getIn(['ruleIds', 0], '')}
         </DescriptionItem>
         <DescriptionItem title='Applied on filter query'>
           {ruleBinding.get('query', '')}
@@ -119,7 +125,7 @@ function Details({ruleBinding}) {
       </DescriptionList>
     </div>
   );
-}
+});
 
 function mapSeverityToLabel(severity) {
   if (severity === 0) {
