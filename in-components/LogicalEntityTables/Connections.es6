@@ -3,7 +3,7 @@ import React from 'react';
 
 import DefaultConnectionCharts from
   'in-sdk/components/dashboard/DefaultLogicalConnectionDashboard/DefaultConnectionCharts';
-import LogicalEntityTable from 'in-components/LogicalEntityTables/LogicalEntityTable';
+import LogicalConnectionEntityTable from 'in-components/LogicalEntityTables/LogicalConnectionEntityTable';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
 import {viewStructure} from 'in-stores/view';
@@ -13,7 +13,7 @@ export default function Connections({snapshotId, timeframe}) {
 
   return (
     <div>
-      <LogicalEntityTable timeframe={timeframe}
+      <LogicalConnectionEntityTable timeframe={timeframe}
                           title={'Inbound Connections'}
                           dataStream={viewStructure.flatMap(root => {
                                         for (let i = 0, length = root.get('children').size; i < length; i++) {
@@ -26,7 +26,7 @@ export default function Connections({snapshotId, timeframe}) {
                                      })
                                    }
                           createDetails={createDetails} />
-      <LogicalEntityTable timeframe={timeframe}
+      <LogicalConnectionEntityTable timeframe={timeframe}
                           title={'Outbound Connections'}
                           dataStream={viewStructure.flatMap(root => {
                                         for (let i = 0, length = root.get('children').size; i < length; i++) {
