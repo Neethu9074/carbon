@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  twoDecimalPlaces,
   bytesTwoDecimalPlaces,
   timeByMicroTwoDecimalPlaces,
   percentageZeroDecimalPlaces,
@@ -165,7 +164,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                              'Write'
                            ],
                            type: 'line',
-                           formatter: twoDecimalPlaces
+                           formatter: bytesTwoDecimalPlaces
                          }} />
       </DashboardSection>
       { hasNetworkMetrics ?
