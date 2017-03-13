@@ -91,9 +91,6 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
                   <option value=''>
                     Please select
                   </option>
-                  <option value='0'>
-                    change
-                  </option>
                   <option value='5'>
                     warning
                   </option>
