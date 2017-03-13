@@ -9,6 +9,7 @@ import {getRuleLink} from 'in-stores/navigation/configuration';
 import {formatDateTime} from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
 import {getSingular} from 'in-sdk/pluginName';
+import {getCategories} from 'in-sdk/metrics';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -98,7 +99,7 @@ function Details({rule}) {
           </div>
         </DescriptionItem>
         <DescriptionItem title='Metric'>
-          {rule.get('metricName')}
+          {getMetricLabel(rule)}
         </DescriptionItem>
         <DescriptionItem title='Time window'>
           {formatDurationAccurately(rule.get('window'), 1000)}
@@ -116,4 +117,23 @@ function Details({rule}) {
       </DescriptionList>
     </div>
   );
+}
+
+function getMetricLabel(rule) {
+  const metric = rule.get('metricName');
+  const categoryTree = getCategories(rule.get('entityType'));
+  for (let i = 0, length = categoryTree.length; i < length; i++) {
+    const categoryNode = categoryTree[i];
+    if (categoryNode.type === 'metric') {
+      if (categoryNode.metric === metric) {
+        return categoryNode.label;
+      }
+    } else {
+      for (let j = 0, lengthJ = categoryNode.children.length; j < lengthJ; j++) {
+        if(categoryNode.children[j].metric === metric) {
+          return categoryNode.children[j].label;
+        }
+      }
+    }
+  }
 }
