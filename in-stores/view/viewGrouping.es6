@@ -21,7 +21,7 @@ export const humanReadableDescriptions = Object.freeze({
   kube: 'Kubernetes pod name',
   infraZone: 'Zone',
   compose: 'Docker Compose project name',
-  custom: 'Custom grouping'
+  custom: 'Container Labels'
 });
 
 export const availableGroupings = Object.freeze({
