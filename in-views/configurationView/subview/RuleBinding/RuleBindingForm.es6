@@ -134,7 +134,7 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
             {form.get('triggering').map(field =>
               <FormGroup>
                 <Label htmlFor='ruleBinding-triggering'>
-                  Triggering
+                  Triggering incident
                 </Label>
                 <Toggle id='ruleBinding-triggering'
                         className={`${block}__toggle`}
