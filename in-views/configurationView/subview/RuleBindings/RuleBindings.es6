@@ -204,7 +204,7 @@ export default React.createClass({
         <Section>
           <Button kind='info'
                   onClick={this.addNewRuleBinding}>
-            Add New Rule Binding
+            Add Custom Issue
           </Button>
 
           {this.state.message ?
