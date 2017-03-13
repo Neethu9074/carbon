@@ -198,7 +198,7 @@ export default React.createClass({
     return (
       <SubViewWrapper>
         <SubViewHeader>
-          Rule bindings
+          Custom issues
         </SubViewHeader>
 
         <Section>
