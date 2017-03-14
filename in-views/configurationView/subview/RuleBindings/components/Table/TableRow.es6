@@ -55,7 +55,7 @@ function TableRow({ruleBinding, isSelected, onClick, onDeleteRuleBinding, setEna
                     <ConfirmationDialog header='Confirm removal'
                                         description={
                                           <span>
-                                            Are you sure you want to remove the ruleBinding?
+                                            Are you sure you want to remove the custom rule?
                                           </span>
                                         }
                                         bButtonLabel='Remove custom issue'
