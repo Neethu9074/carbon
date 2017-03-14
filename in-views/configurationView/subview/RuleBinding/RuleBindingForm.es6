@@ -72,7 +72,7 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
               </ValidationBlock>
             )}
             <HelpBlock>
-              A filter query which defines for which entities the rule shall be applied.
+              A filter query which defines for which entities the rule shall be applied. If no filter is defined it will be applied on all available entities.
             </HelpBlock>
           </FormGroup>
         )}

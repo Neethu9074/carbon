@@ -58,7 +58,7 @@ function TableRow({ruleBinding, isSelected, onClick, onDeleteRuleBinding, setEna
                                             Are you sure you want to remove the ruleBinding?
                                           </span>
                                         }
-                                        bButtonLabel='Remove ruleBinding'
+                                        bButtonLabel='Remove custom issue'
                                         onB={() => onDeleteRuleBinding(ruleBinding.get('id'))} />
                   )}>
             Delete
