@@ -9353,7 +9353,7 @@
     "react-select": {
       "version": "1.0.0-rc.3",
       "from": "react-select@>=1.0.0-rc.2 <1.0.0-rc.4",
-      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-router/-/react-select-1.0.0-rc.3.tgz"
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-select/-/react-select-1.0.0-rc.3.tgz"
     },
     "react-toggle": {
       "version": "2.2.1",
