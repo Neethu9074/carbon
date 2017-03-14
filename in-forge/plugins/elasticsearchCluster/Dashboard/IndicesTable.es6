@@ -51,6 +51,7 @@ function createHeader() {
         <th>Documents</th>
         <th>Deleted</th>
         <th>Size</th>
+        <th>Metadata Size</th>
       </tr>
     </thead>
   );
@@ -78,6 +79,10 @@ function createRow(indexName, i, context) {
          snapshot={context.snapshot} />,
 
     <Mtd metric={'index.' + indexName + '.size'}
+         snapshot={context.snapshot}
+         formatter={bytesTwoDecimalPlaces} />,
+
+    <Mtd metric={'clusterState.indices.' + indexName + '.indexMetadataSize'}
          snapshot={context.snapshot}
          formatter={bytesTwoDecimalPlaces} />
   ]);
@@ -108,10 +113,12 @@ function createDetails(indexName, i, context) {
                      }}
                      y2={{
                        metrics: [
-                         'index.' + indexName + '.size'
+                         'index.' + indexName + '.size',
+                         'clusterState.indices.' + indexName + '.indexMetadataSize'
                        ],
                        labels: [
-                         'Size'
+                         'Size',
+                         'Metadata Size'
                        ],
                        formatter: bytesZeroDecimalPlaces,
                        tooltipFormatter: bytesTwoDecimalPlaces,
