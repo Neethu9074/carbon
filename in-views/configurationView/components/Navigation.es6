@@ -15,14 +15,16 @@ import {
   isRolesConfigView$,
   userManagementViewLink$,
   isUserManagementView$,
-  alertsViewLink$,
-  isAlertsViewLink$,
   apiTokensViewLink$,
   isApiTokensView$,
   auditLogViewLink$,
   isAuditLogView$,
   objectiveViewLink$,
-  isObjectivesView$
+  isObjectivesView$,
+  ruleViewLink$,
+  isRuleViewLink$,
+  ruleBindingViewLink$,
+  isRuleBindingViewLink$
 } from 'in-stores/navigation/configuration';
 import {customAltertingEnabled, objectivesEnabled} from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
@@ -92,9 +94,14 @@ export default function Navigation() {
         : null}
 
         {customAltertingEnabled && role.canConfigureCustomAlerts ?
-          <NavItem title='Custom Alerts'
-                   href$={alertsViewLink$}
-                   isActive$={isAlertsViewLink$} />
+          <NavItem title='Knowledge Management'>
+            <NavItem title='Custom Rules'
+                     href$={ruleViewLink$}
+                     isActive$={isRuleViewLink$} />
+            <NavItem title='Custom Issues'
+                     href$={ruleBindingViewLink$}
+                     isActive$={isRuleBindingViewLink$} />
+          </NavItem>
         : null}
 
         {role.canViewAuditLog ?

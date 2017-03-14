@@ -1,6 +1,0 @@
-{
-  "name": "AlertsConfig",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./AlertsConfig.es6"
-}

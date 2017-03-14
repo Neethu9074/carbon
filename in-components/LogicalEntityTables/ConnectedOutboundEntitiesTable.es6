@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DefaultCharts from 'in-sdk/components/dashboard/DefaultLogicalConnectionDashboard/DefaultConnectionCharts';
-import LogicalEntityTable from 'in-components/LogicalEntityTables/LogicalEntityTable';
+import LogicalConnectionEntityTable from 'in-components/LogicalEntityTables/LogicalConnectionEntityTable';
 import {getConnectedEntities} from 'in-stores/connectedEntities';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -24,7 +24,7 @@ function ConnectedEntitiesTable({timeframe, connectedEntities}) {
   }
 
   return (
-    <LogicalEntityTable timeframe={timeframe}
+    <LogicalConnectionEntityTable timeframe={timeframe}
                         title={'Connection To'}
                         dataStream={getSnapshot(id).map(_snapshot => [_snapshot])}
                         createDetails={createDetails} />

@@ -9350,6 +9350,11 @@
       "from": "react-router@>=2.8.0 <3.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-router/-/react-router-2.8.1.tgz"
     },
+    "react-select": {
+      "version": "1.0.0-rc.3",
+      "from": "react-select@>=1.0.0-rc.2 <1.0.0-rc.4",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-select/-/react-select-1.0.0-rc.3.tgz"
+    },
     "react-toggle": {
       "version": "2.2.1",
       "from": "react-toggle@>=2.2.0 <3.0.0",

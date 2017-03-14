@@ -23,6 +23,13 @@ export default class Connection extends SceneObject {
 
     this.destinationNode = params.destinationNode;
     this.sourceNode = params.sourceNode;
+
+    // connection Ids are generated in the backend by generateIdForConnection(String sourceId, String destinationId, String relation)
+    // so it can happen that connections are instanced twice (A is selected and connected to B and the user highlights B: The connection between A and B,
+    // which has the same id is instanced twice). If B is un-highlighted it will "steal" the id of selected A->B connection and it cannot be hovered anymore
+    // becuase the id is not part of the connections collection anymore. Since the UI is not interested in connection IDs, but only for collection handling
+    // (so no snapshot retrieval, etc.) we can simply make it unique by addind the current timestamp to the id.
+    this.uidForMultipleInstanceHandling = `${this.id}__${Date.now()}`;
   }
 
   initComponents() {
@@ -34,7 +41,7 @@ export default class Connection extends SceneObject {
     this.getComponent('color').setHex('#bababa');
     this.getComponent('transform').setPositionXYZ(0, 0, 0);
 
-    connections.add(this.id, this);
+    connections.add(this.uidForMultipleInstanceHandling, this);
   }
 
   initEvents() {
@@ -93,7 +100,7 @@ export default class Connection extends SceneObject {
   dispose() {
     super.dispose();
 
-    connections.remove(this.id);
+    connections.remove(this.uidForMultipleInstanceHandling);
 
     if (this.collisionLine) {
       this.collisionLine.geometry.dispose();

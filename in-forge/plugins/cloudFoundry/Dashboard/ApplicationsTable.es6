@@ -7,11 +7,11 @@ import {emptyList} from 'in-services/fixedImmutables';
 import InstancesTable from 'in-forge/plugins/cloudFoundry/Dashboard/InstancesTable';
 
 export default function ApplicationsTable({snapshot, timeframe}) {
- const apps = snapshot.getIn(['data', 'applications'], emptyList).sort();
+  const apps = snapshot.getIn(['data', 'applications'], emptyList).sort();
 
- if (apps.size === 0) {
-   return null;
- }
+  if (apps.length === 0) {
+    return null;
+  }
 
   return (
     <DashboardSection title='Applications'>
@@ -63,6 +63,10 @@ function createRow(appId, i, context) {
 
 function createDetails(appId, i, context) {
   const appInstances = getInstancesForApplication(context.snapshot, appId);
+
+  if (appInstances.length === 0) {
+   return null;
+  }
 
   return (
       <InstancesTable snapshot={context.snapshot}

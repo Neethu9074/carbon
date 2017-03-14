@@ -2,9 +2,11 @@ import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import {availableGroupings, viewGroupingShort$, defaultGrouping, humanReadableDescriptions} from 'in-stores/view/viewGrouping';
+import CustomGroupingDialog from 'in-components/MapOverlayControls/components/CustomGroupingDialog';
 import {physicalViewLink$, containerViewLink$} from 'in-stores/navigation/navigation';
 import {getLinkToCurrentViewWithViewGrouping} from 'in-stores/navigation/view';
 import Control from 'in-components/MapOverlayControls/components/Control';
+import {setActiveDialog} from 'in-components/DialogPresenter/store';
 import ButtonGroup from 'in-components/ButtonGroup';
 import {view$, types} from 'in-stores/view';
 import Button from 'in-components/Button';
@@ -83,6 +85,15 @@ function MenuContent({activeGrouping, availableGroupings}) {
                           activeGrouping={activeGrouping}
                           key={grouping} />
         )}
+      </ButtonGroup>
+      <br />
+      <ButtonGroup>
+        <Button kind={activeGrouping.startsWith('custom-') ? 'primary' : 'secondary'}
+                size='sm'
+                onClick={() => setActiveDialog(<CustomGroupingDialog />)}
+                className={`${block}__custom-button`}>
+          {humanReadableDescriptions['custom']}
+        </Button>
       </ButtonGroup>
     </div>
   );

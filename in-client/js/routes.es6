@@ -12,8 +12,12 @@ import ObjectiveConfig from 'promise?global,configView!in-views/configurationVie
 import ApiTokens from 'promise?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
 import ApiToken from 'promise?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
 import ConfigurationView from 'promise?global,configView!in-views/configurationView/ConfigurationView';
-import AlertsConfig from 'promise?global,configView!in-views/configurationView/subview/AlertsConfig';
-import AlertConfig from 'promise?global,configView!in-views/configurationView/subview/AlertConfig';
+
+import RuleBindings from 'promise?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
+import RuleBinding from 'promise?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
+import Rules from 'promise?global,configView!in-views/configurationView/subview/Rules/Rules';
+import Rule from 'promise?global,configView!in-views/configurationView/subview/Rule/Rule';
+
 import AuditLogView from 'promise?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
@@ -127,12 +131,18 @@ export default (
              path='apiTokens/:apiTokenId'
              windowTitle='API Tokens' />
 
-      <Route component={createAsyncFullscreenOverlayViewComponent(AlertsConfig)}
-             path='alerts'
-             windowTitle='Custom Alerts' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(AlertConfig)}
-             path='alerts/:alertId'
-             windowTitle='Alert Config' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(Rules)}
+             path='rule'
+             windowTitle='Custom Rules' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(Rule)}
+             path='rule/:ruleId'
+             windowTitle='Custom Rule' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)}
+             path='binding'
+             windowTitle='Custom Issues' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
+             path='binding/:ruleBindingId'
+             windowTitle='Custom Issue' />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)}
              path='objectives'

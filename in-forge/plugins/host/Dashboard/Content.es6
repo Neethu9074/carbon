@@ -6,7 +6,7 @@ import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import EnableSelfMonitoringButton from 'in-forge/plugins/host/Dashboard/EnableSelfMonitoringButton';
+import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
@@ -196,22 +196,18 @@ export default function HostDashboard({snapshot, timeframe}) {
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))}
                         timeframe={timeframe} />
 
-      <DashboardSection title='Agent Self Monitoring'>
+      <DashboardSection title='Agent Management'>
         <div className={`${block}__self-monitoring`}>
           <div className={`${block}__self-monitoring-description`}>
             <p>
-              The Instana Agent has self monitoring capabilities which assist troubleshooting and provide deeper
+              The Instana Agent has management and self monitoring capabilities which assist troubleshooting and provide deeper
               insights without the need to log in and review files. This includes inspecting the agent log, running
               sensor versions and more.
-            </p>
-            <p>
-              Please click on <em>Enable self monitoring</em> and after a few seconds a new entity <em>Instana
-              Agent</em> will appear exposing the information.
             </p>
           </div>
 
           <div className={`${block}__self-monitoring-controls`}>
-            <EnableSelfMonitoringButton snapshot={snapshot} />
+            <AgentManagementButton snapshot={snapshot} />
           </div>
         </div>
       </DashboardSection>

@@ -15,6 +15,10 @@ export default connectTo(props => {
   };
 },
 function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
+  if (!isValid) {
+    return null;
+  }
+
   const validationObject = isValid.validationObject;
   const input = (
     <input type='text'

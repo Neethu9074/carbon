@@ -7,10 +7,10 @@ import {
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import ExpandableTable from 'in-components/ExpandableTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
-import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
@@ -71,9 +71,11 @@ function createRow(node, i, context) {
   return [
     <td><AnnotatedHealthBar snapshotId={id} /></td>,
     <td>
-      <SnapshotLink snapshotId={id}>
+      <HierarchicalLink snapshotId={id}
+                        calculateHierarchy
+                        kind='dark'>
         {node.getIn(['data', 'clusterName'])}-{node.getIn(['data', 'hostId'])}
-      </SnapshotLink>
+      </HierarchicalLink>
     </td>,
     <td>{node.getIn(['data', 'version'])}</td>,
     <td>
