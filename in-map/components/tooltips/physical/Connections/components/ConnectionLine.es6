@@ -27,6 +27,10 @@ export default connectTo(props => {
   };
 },
 function ConnectionLine({otherSnapshot, otherZoneSnapshot, connection, nodeIdWhereConnectionsBelongTo}) {
+  if (!connection.sourceNode || !connection.destinationNode) {
+    return null;
+  }
+
   let otherColor = '';
   let zoneLabel = null;
   if (otherZoneSnapshot) {
