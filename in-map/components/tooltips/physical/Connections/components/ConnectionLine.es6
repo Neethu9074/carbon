@@ -3,7 +3,6 @@ import React from 'react';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {getSnapshot} from 'in-stores/snapshot';
-import SvgIcon from 'in-components/SvgIcon';
 import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import {getZone} from 'in-stores/zone';
@@ -14,36 +13,38 @@ import 'in-map/components/tooltips/physical/Connections/components/ConnectionLin
 const block = 'in-connection-item';
 
 export default connectTo(props => {
-  if (!props.connection || !props.connection.sourceNode) {
+  if (!props.connection.sourceNode || !props.connection.destinationNode) {
     return {};
   }
 
-  const sourceId = props.connection.sourceNode.id;
+  const otherId = props.connection.sourceNode.id === props.nodeIdWhereConnectionsBelongTo
+    ? props.connection.destinationNode.id
+    : props.connection.sourceNode.id;
 
   return {
-    sourceSnapshot: getSnapshot(sourceId),
-    sourceZoneSnapshot: getZone(sourceId).flatMap(id => id ? getSnapshot(id) : alwaysNull)
+    otherSnapshot: getSnapshot(otherId),
+    otherZoneSnapshot: getZone(otherId).flatMap(id => id ? getSnapshot(id) : alwaysNull)
   };
 },
-function ConnectionLine({sourceSnapshot, sourceZoneSnapshot, direction}) {
-  let sourceColor = '';
+function ConnectionLine({otherSnapshot, otherZoneSnapshot, connection, nodeIdWhereConnectionsBelongTo}) {
+  let otherColor = '';
   let zoneLabel = null;
-  if (sourceZoneSnapshot) {
-    sourceColor = getColorPool('groups').getColorHex(sourceZoneSnapshot.get('id'));
-    zoneLabel = getLabel(sourceZoneSnapshot);
+  if (otherZoneSnapshot) {
+    otherColor = getColorPool('groups').getColorHex(otherZoneSnapshot.get('id'));
+    zoneLabel = getLabel(otherZoneSnapshot);
   }
+
+  const direction = connection.sourceNode.id === nodeIdWhereConnectionsBelongTo ? 'out' : 'in';
 
   return (
     <div className={block}>
-      <SvgIcon type={direction === 'in' ? 'arrow_right' : 'arrow_left'}
-               width={12}
-               color='#888888' />
+      {direction}
 
       <span className={block + '__ip'}>
-        {getLabel(sourceSnapshot)}
+        {getLabel(otherSnapshot)}
       </span>
 
-      <span style={{sourceColor}}>
+      <span style={{ color: otherColor }}>
         {zoneLabel}
       </span>
     </div>
