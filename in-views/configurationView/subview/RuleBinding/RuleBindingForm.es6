@@ -1,6 +1,7 @@
 import {fromJS} from 'immutable';
 import React from 'react';
 
+import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -50,6 +51,7 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
               <HelpBlock>
                 Select rule that will trigger this issue.
               </HelpBlock>
+              <RuleDetails ruleId={String(field.value.get(0))} />
             </FormGroup>
           )}
         </div>
