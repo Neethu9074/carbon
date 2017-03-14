@@ -19,6 +19,7 @@ import {init as initMessageStore} from 'in-components/MessageDialog/MessageDialo
 import {init as initPersistentConnection} from 'in-services/persistentConnection';
 import {init as initUnhandledErrorHandling} from 'in-services/unhandledErrors';
 import {init as initTimelineStore} from 'in-components/timeline/timelineStore';
+import {init as initBlocks} from 'in-components/SearchBar/stores/blocks';
 import {init as initMaintenanceNoteStore} from 'in-stores/maintenance';
 import {init as initBrowserIdentification} from 'in-services/browser';
 import {init as initTimeOffsetStore} from 'in-stores/timeOffset';
@@ -73,6 +74,7 @@ initUnhandledErrorHandling();
 initAutoFocus();
 initEvents();
 initFaviconHandling();
+initBlocks();
 
 ReactDOM.render((
   <Router history={hashHistory}>

@@ -153,11 +153,11 @@ function onKeyDown(selectedNode, e) {
   }
 
   const key = e.keyCode;
-  if (key === keyCodes.arrows.bottom) {
+  if (key === keyCodes.arrows.down) {
     e.stopPropagation();
     e.preventDefault();
     moveSelectedNode(selectedNode, e, 1);
-  } else if (key === keyCodes.arrows.top) {
+  } else if (key === keyCodes.arrows.up) {
     e.stopPropagation();
     e.preventDefault();
     moveSelectedNode(selectedNode, e, -1);

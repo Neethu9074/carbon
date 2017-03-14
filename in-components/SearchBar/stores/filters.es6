@@ -21,7 +21,6 @@ const errorStore = createStore({
 });
 export const error$ = errorStore.observable;
 
-
 export function refresh() {
   const result$ = getAllFilters();
 

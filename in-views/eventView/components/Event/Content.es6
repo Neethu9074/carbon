@@ -22,7 +22,7 @@ export default function EventContent({event}) {
                   sectionized />
 
       <EventTraces event={event}
-                  sectionized />
+                   sectionized />
 
       <EventDependecyGraph event={event}
                            sectionized />

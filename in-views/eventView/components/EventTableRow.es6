@@ -81,7 +81,6 @@ function Icon({event, isOpen}) {
   }
 
   const iconType = getIconTypeForEventType(getEventType(event), true);
-
   return (
     <div style={{
       background: color
