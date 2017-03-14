@@ -112,7 +112,7 @@ function Details({ruleBinding, rule}) {
         <DescriptionItem title='Triggering incident'>
           {ruleBinding.get('triggering') ? 'true' : 'false'}
         </DescriptionItem>
-        <DescriptionItem title='Bounded rule'>
+        <DescriptionItem title='Bound rule'>
           {rule ? rule.get('name') : ruleBinding.getIn(['ruleIds', 0], '')}
         </DescriptionItem>
         <DescriptionItem title='Applied on filter query'>
