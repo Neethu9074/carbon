@@ -1,18 +1,16 @@
 import React from 'react';
 
 import LabeledValue from 'in-components/TwoColumnView/components/LabeledValue';
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {formatDate, formatTime} from 'in-services/formatters/date';
 
 import './Marker.less';
 
 
-export default function StartedMarker({event}) {
-  const timestamp = event.get('start');
-  const label = (getEventType(event) === EVENT_TYPES.CHANGE) ? 'time' : 'started';
+export default function TriggeredMarker({event}) {
+  const timestamp = event.get('triggeringTime', event.get('start'));
 
   return (
-    <LabeledValue label={label}>
+    <LabeledValue label='Triggered'>
       <span className='in-event-view-marker__time'>
         {formatDate(timestamp)}
       </span>
