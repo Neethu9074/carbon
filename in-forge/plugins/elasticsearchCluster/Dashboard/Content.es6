@@ -5,7 +5,9 @@ import {
   withSiPrefixThreeDecimalPlaces,
   twoDecimalPlaces,
   msTwoDecimalPlaces,
-  msZeroDecimalPlaces
+  msZeroDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import ClusterNodesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/ClusterNodesTable';
 import IndicesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/IndicesTable.es6';
@@ -132,6 +134,26 @@ export default function ElasticsearchClusterDashboard({snapshot, timeframe}) {
                            labels: [
                              'Added',
                              'Removed'
+                           ],
+                           type: 'line'
+                         }} />
+      </DashboardSection>
+
+      <DashboardSection title='Cluster State Size'>
+        <ChartWithLegend snapshotId={snapshot.get('id')}
+                         timeframe={timeframe}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           formatter: bytesZeroDecimalPlaces,
+                           tooltipFormatter: bytesTwoDecimalPlaces,
+                           metrics: [
+                             'clusterState.totalStateSize'
+                           ],
+                           labels: [
+                             'Cluster State Size'
                            ],
                            type: 'line'
                          }} />

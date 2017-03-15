@@ -78,7 +78,7 @@ export default class EventRenderer extends BasicRenderer {
     // and the events range must cross the focused moment so it currentyl active
     // and it has to contain to cetrain selected entityId (if available)
     if (!this.selectedEvent &&
-       (!this.focusedMoment || event.get('start') <= this.focusedMoment) &&
+       (!this.focusedMoment || this.getEventStart(event) <= this.focusedMoment) &&
        (!this.highlightedEntityId || snapshotId === this.highlightedEntityId) &&
        (!this.selectedSnapshotId || snapshotId === this.selectedSnapshotId)) {
       return true;
@@ -89,7 +89,7 @@ export default class EventRenderer extends BasicRenderer {
   }
 
   eventIsOpen(event) {
-    return isEventOpenAtFocusedMoment(event.get('start'), event.get('end'), event.get('state'), this.focusedMoment);
+    return isEventOpenAtFocusedMoment(this.getEventStart(event), event.get('end'), event.get('state'), this.focusedMoment);
   }
 
   draw(event, isHighlighted) {
@@ -116,7 +116,7 @@ export default class EventRenderer extends BasicRenderer {
 
     buffer.globalAlpha = prevValue;
 
-    return x;
+    return scale.getRange(this.getEventStart(event));
   }
 
   drawImage(image, x) {
@@ -129,6 +129,10 @@ export default class EventRenderer extends BasicRenderer {
         iconSize,                       // width
         iconSize);                      // height
       }
+  }
+
+  getEventStart(event) {
+    return event.get('triggeringTime', event.get('start'));
   }
 
   dispose() {
