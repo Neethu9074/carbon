@@ -39,7 +39,7 @@ export default connectTo(props => {
       <Cell content={
         <Icon event={event} />
       } />
-      <Cell content={formatDateTime(event.get('start'))} />
+      <Cell content={formatDateTime(event.get('triggeringTime', event.get('start')))} />
       <Cell content={event.get('state') === 'open'
         ? 'active'
         : formatDateTime(event.get('end'))} />

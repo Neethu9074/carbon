@@ -244,7 +244,7 @@ export function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
 
 
 function insertSorted(store, event) {
-  const time = event.get('start');
+  const time = event.get('triggeringTime', event.get('start'));
   const id = event.get('id');
   // Assigning some props to immutable object to allow for faster binary search and filtering
   event.time = time;

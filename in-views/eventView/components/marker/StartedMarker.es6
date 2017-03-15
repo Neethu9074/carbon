@@ -8,7 +8,7 @@ import './Marker.less';
 
 
 export default function StartedMarker({event}) {
-  const timestamp = event.get('start');
+  const timestamp = event.get('triggeringTime', event.get('start'));
   const label = (getEventType(event) === EVENT_TYPES.CHANGE) ? 'time' : 'started';
 
   return (
