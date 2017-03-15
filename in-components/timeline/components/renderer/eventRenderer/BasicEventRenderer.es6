@@ -96,7 +96,11 @@ export default class EventRenderer extends BasicRenderer {
     const scale = this.scale;
     const x = scale.getRange(event.get('start'));
     if (x <= 0 || x > this.width) {
-      return null;
+      const triggeringX = scale.getRange(this.getEventStart(event));
+      if (triggeringX <= 0 || triggeringX > this.width) {
+        return null;
+      }
+      return triggeringX;
     }
 
     const buffer = this.backBuffer;
@@ -115,7 +119,6 @@ export default class EventRenderer extends BasicRenderer {
     }
 
     buffer.globalAlpha = prevValue;
-
     return scale.getRange(this.getEventStart(event));
   }
 
