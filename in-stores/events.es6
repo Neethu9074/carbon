@@ -47,7 +47,8 @@ export const retrievedEvents$ = createTrackingStore({
       incidents: [],
       objectives: []
     })
-}).observable.startWith({
+})
+.observable.startWith({
   issues: [],
   changes: [],
   incidents: [],
@@ -79,9 +80,9 @@ export const eventsInTimeframe$ = combineLatest([
 
       for (let i = 0, len = eventsToFiler.length; i < len; i++) {
         const event = eventsToFiler[i];
-        if (event.start < from) {
+        if (event.time < from) {
           continue;
-        } else if (event.start > to) {
+        } else if (event.time > to) {
           break;
         }
 
