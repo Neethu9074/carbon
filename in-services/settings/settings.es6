@@ -33,6 +33,7 @@ function loadDefault() {
   setDefaultConfigValue(['map', 'scrollDirection'], 1);
   setDefaultConfigValue(['map', 'antialias'], 'browserAA');
   setDefaultConfigValue(['map', 'excludeUnmonitoredHosts'], false);
+  setDefaultConfigValue(['map', 'showHostLabels'], true);
   setDefaultConfigValue(['map', 'logical', 'layouter'], 'flow'); // [flow, fruchtermann]
   setDefaultConfigValue(['map', 'physical', 'layouter'], 'simple'); // [simple, packed]
   setDefaultConfigValue(['map', 'logical', 'numServiceHops'], 1); // 0 or 1

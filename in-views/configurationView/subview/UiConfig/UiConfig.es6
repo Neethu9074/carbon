@@ -98,6 +98,14 @@ function UiConfig({settings}) {
         </Group>
 
         <Group>
+          <Toggle id='host-labels'
+                  checked={settings.getIn(['map', 'showHostLabels'])}
+                  onChange={e => setIn(['map', 'showHostLabels'], e.target.checked)} />
+          <Heading text='Show host/container labels'
+                   htmlFor='showHostLabels' />
+        </Group>
+
+        <Group>
           <Heading text='Zoom and panning speed'
                    htmlFor='zoom-speed' />
           <input type='range'
@@ -135,7 +143,6 @@ function UiConfig({settings}) {
                  value={settings.getIn(['map', 'packingYSpace'])}
                  onChange={e => setIn(['map', 'packingYSpace'], Number(e.target.value))} />
         </Group>
-
 
         <Group helpText='Anti-aliasing is used to improve the look of the 3D maps. While nice on the eye, it is requiring additional compute resources. Disable anti-aliasing to improve the performance of the 3D maps on slower systems.'>
           <Toggle id='antialiasing'
