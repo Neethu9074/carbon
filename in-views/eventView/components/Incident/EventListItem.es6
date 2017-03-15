@@ -84,7 +84,8 @@ React.createClass({
           : null
         }
 
-        <TimeIndicator event={event} />
+        <TimeIndicator event={event}
+                       isTriggeringEvent={isTriggeringEvent} />
 
         <div className={rightClassName}>
           <div className={`${block}__background`}
@@ -126,11 +127,15 @@ const TimeIndicator = connectTo(props => {
     href: getFixedTimeframeUrl({focusedMoment: props.event.get('start')})
   };
 },
-function TimeIndicator({event, href}) {
+function TimeIndicator({event, href, isTriggeringEvent}) {
+  let timeClass = `${block}__time`;
+  if (isTriggeringEvent) {
+    timeClass += ` ${timeClass}--triggering`;
+  }
   return (
     <div className={`${block}__time-indicator`}>
       <a href={href}>
-        <span className={`${block}__time`}>
+        <span className={timeClass}>
           {formatTime(event.get('start'))}
         </span>
       </a>

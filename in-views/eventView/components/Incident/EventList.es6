@@ -27,11 +27,8 @@ function IncidentEventList({events, incident}) {
       <div className={`${block}__counter`}>
         {`Events (${events.length})`}
       </div>
-
-      <StartedMarker event={incident} />
       <List events={events}
             triggeringProblemId={triggeringProblemId} />
-      <EndedMarker event={incident} />
     </div>
   );
 });
