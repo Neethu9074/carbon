@@ -94,7 +94,7 @@ export default class EventRenderer extends BasicRenderer {
 
   draw(event, isHighlighted) {
     const scale = this.scale;
-    const x = scale.getRange(this.getEventStart(event));
+    const x = scale.getRange(event.get('start'));
     if (x <= 0 || x > this.width) {
       return null;
     }
@@ -116,7 +116,7 @@ export default class EventRenderer extends BasicRenderer {
 
     buffer.globalAlpha = prevValue;
 
-    return x;
+    return scale.getRange(this.getEventStart(event));
   }
 
   drawImage(image, x) {
