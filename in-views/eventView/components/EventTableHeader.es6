@@ -2,6 +2,7 @@ import React from 'react';
 
 import {sortDirection$, toggleSortDirection} from 'in-views/eventView/stores/sortDirection';
 import {getQueryFieldNameForField} from 'in-views/eventView/components/FilterMenu';
+import {eventFilter$} from 'in-views/eventView/stores/eventFilterStore';
 import {sortBy$, setSortBy} from 'in-views/eventView/stores/sortBy';
 import FilterMenu from 'in-views/eventView/components/FilterMenu';
 import SvgIcon from 'in-components/SvgIcon';
@@ -13,6 +14,7 @@ import './EventTableHeader.less';
 const block = 'in-event-view-event-table-header';
 
 export default connectTo({
+  eventFilter: eventFilter$
 },
 React.createClass({
 
@@ -26,6 +28,7 @@ React.createClass({
 
   render() {
     const expandedCell = this.state.expandedCell;
+    const startCell = this.props.eventFilter === 'incident' ? 'triggered' : 'start';
 
     return (
       <div className={block}>
@@ -35,8 +38,8 @@ React.createClass({
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
-        <Cell name='start'
-              field='start'
+        <Cell name={startCell}
+              field={startCell}
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 

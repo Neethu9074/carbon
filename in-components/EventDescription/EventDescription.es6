@@ -55,8 +55,9 @@ export default connectTo(props => {
         <div className={block + '__description'}>
           <Row className={getClassName(this, block, '__time')}>
             <Col cols={6}>
-              Started:<br />
-              {formatDateTime(start)}
+              {(eventType === EVENT_TYPES.INCIDENT) ? 'Triggered:' : 'Started:'}
+              <br />
+              {formatDateTime(event.get('triggeringTime', event.get('start')))}
             </Col>
 
             {!this.props.isOpen && start !== end ?
