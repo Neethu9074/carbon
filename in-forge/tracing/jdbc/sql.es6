@@ -12,7 +12,7 @@ const replacements = [
     'order by',
     'explain'
   ]
-  .map(keyword => new RegExp('\\s+(' + keyword + ')\\s', 'ig'));
+  .map(keyword => new RegExp('(?:^|\\s+)(' + keyword + ')\\s', 'ig'));
 
 export function formatSql(statement) {
   let formattedStatement = statement;

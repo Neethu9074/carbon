@@ -9,7 +9,7 @@ describe('in-forge/tracing/jdbc/sql', () => {
   describe('formatSql', () => {
     describe('select statements', () => {
       it('must format simple select statements', () => {
-        expect(formatSql('SELECT name from person')).to.equal('SELECT name\nFROM person');
+        expect(formatSql('select name from person')).to.equal('SELECT name\nFROM person');
       });
 
       it('must format statements with outer joins', () => {
