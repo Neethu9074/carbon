@@ -94,13 +94,15 @@ export default class EventRenderer extends BasicRenderer {
 
   draw(event, isHighlighted) {
     const scale = this.scale;
-    const x = scale.getRange(event.get('start'));
-    if (x <= 0 || x > this.width) {
-      const triggeringX = scale.getRange(this.getEventStart(event));
-      if (triggeringX <= 0 || triggeringX > this.width) {
+    const positions = {
+      x: scale.getRange(event.get('start')),
+      triggeringX: scale.getRange(this.getEventStart(event))
+    };
+    if (positions.x <= 0 || positions.x > this.width) {
+      if (positions.triggeringX <= 0 || positions.triggeringX > this.width) {
         return null;
       }
-      return triggeringX;
+      return positions;
     }
 
     const buffer = this.backBuffer;
@@ -108,18 +110,18 @@ export default class EventRenderer extends BasicRenderer {
 
     const prevValue = buffer.globalAlpha;
     buffer.globalAlpha = 0.2;
-    buffer.fillRect(x, this.y, 1, 36);
+    buffer.fillRect(positions.triggeringX, this.y, 1, 36);
 
     if (event.get('id') === this.selectedEventId) {
       const to = event.get('state') === 'open' ?
         this.backBuffer.canvas.width :
         scale.getRange(event.get('end'));
 
-      buffer.fillRect(x, this.y, to - x, 36);
+      buffer.fillRect(positions.x, this.y, to - positions.x, 36);
     }
 
     buffer.globalAlpha = prevValue;
-    return scale.getRange(this.getEventStart(event));
+    return positions;
   }
 
   drawImage(image, x) {
