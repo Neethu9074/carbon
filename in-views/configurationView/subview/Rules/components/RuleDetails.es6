@@ -70,12 +70,12 @@ function getMetricLabel(rule) {
     const categoryNode = categoryTree[i];
     if (categoryNode.type === 'metric') {
       if (categoryNode.metric === metric) {
-        return categoryNode.label;
+        return `${categoryNode.label} (${categoryNode.metric})`;
       }
     } else {
       for (let j = 0, lengthJ = categoryNode.children.length; j < lengthJ; j++) {
         if(categoryNode.children[j].metric === metric) {
-          return categoryNode.children[j].label;
+          return `${categoryNode.children[j].label} (${categoryNode.children[j].metric})`;
         }
       }
     }
