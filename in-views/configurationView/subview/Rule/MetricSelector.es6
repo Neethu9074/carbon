@@ -28,7 +28,7 @@ function getMetrics(allOptions, categoryNode) {
   if (categoryNode.type === 'metric') {
     allOptions.push({
      value: categoryNode.metric,
-     label: categoryNode.label
+     label: `${categoryNode.label} (${categoryNode.metric})`
     });
   } else {
     for (let i = 0, length = categoryNode.children.length; i < length; i++) {
