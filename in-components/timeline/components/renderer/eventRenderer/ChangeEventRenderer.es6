@@ -9,12 +9,12 @@ export default class ChangeEventRenderer extends BasicEventRenderer {
   }
 
   draw(event, isHighlighted) {
-    const x = super.draw(event, isHighlighted);
-    if (!x) {
+    const positions = super.draw(event, isHighlighted);
+    if (!positions) {
       return;
     }
 
     this.backBuffer.fillStyle = getColorForEvent(event);
-    this.backBuffer.fillRect(x, this.y + 10, 2, 18);
+    this.backBuffer.fillRect(positions.x, this.y + 10, 2, 18);
   }
 }

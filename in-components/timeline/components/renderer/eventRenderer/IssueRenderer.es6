@@ -10,8 +10,8 @@ export default class IssueRenderer extends BasicEventRenderer {
   }
 
   draw(issue, isHighlighted) {
-    const x = super.draw(issue, isHighlighted);
-    if (!x) {
+    const positions = super.draw(issue, isHighlighted);
+    if (!positions) {
       return;
     }
 
@@ -23,7 +23,7 @@ export default class IssueRenderer extends BasicEventRenderer {
       imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
     }
 
-    this.drawImage(imageToDraw, x);
+    this.drawImage(imageToDraw, positions.x);
   }
 
   getImageByIssueType(issue, ifWarning, ifCritical) {

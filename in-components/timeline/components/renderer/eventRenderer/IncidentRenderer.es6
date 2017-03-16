@@ -9,8 +9,8 @@ export default class IncidentRenderer extends BasicEventRenderer {
   }
 
   draw(incident, isHighlighted) {
-    const x = super.draw(incident, isHighlighted);
-    if (!x) {
+    const positions = super.draw(incident, isHighlighted);
+    if (!positions) {
       return;
     }
 
@@ -25,6 +25,6 @@ export default class IncidentRenderer extends BasicEventRenderer {
       }
     }
 
-    this.drawImage(imageToDraw, x);
+    this.drawImage(imageToDraw, positions.triggeringX);
   }
 }
