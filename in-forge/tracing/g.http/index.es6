@@ -7,8 +7,8 @@ registerSpanDefinition({
   searchAliases: ['go', 'golang', 'http'],
 
   typeName: {
-    singular: 'HTTP Call',
-    plural: 'HTTP Calls'
+    singular: 'HTTP Server Call',
+    plural: 'HTTP Server Calls'
   },
 
   detailView: 'GolangHttpServerSpanDetailView',

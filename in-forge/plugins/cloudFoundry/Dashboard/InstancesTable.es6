@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  percentageZeroDecimalPlaces,
+  percentageTwoDecimalPlaces,
   bytesZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
@@ -64,8 +64,8 @@ function createDetails(instanceId, i, context) {
                  left: 60
                }}
                y1={{
-                 formatter: percentageZeroDecimalPlaces,
-                 tooltipFormatter: percentageZeroDecimalPlaces,
+                 formatter: percentageTwoDecimalPlaces,
+                 tooltipFormatter: percentageTwoDecimalPlaces,
                  metrics: [
                    'instances_metrics.' + instanceId + '.cpu'
                  ],
