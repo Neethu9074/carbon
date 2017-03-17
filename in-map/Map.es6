@@ -57,7 +57,10 @@ React.createClass({
   componentWillUnmount() {
     clear();
 
-    this.sceneGraph.dispose();
+    // null check everything which was created in componentDidMount
+    if (this.sceneGraph) {
+      this.sceneGraph.dispose();
+    }
   },
 
   render() {
