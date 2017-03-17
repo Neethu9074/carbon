@@ -8,7 +8,7 @@ export default connectTo(props => {
     count: props.count$
   };
 }, function TotalTraceCount({count}) {
-  if (count == null) {
+  if (count == null || count < 0) {
     return null;
   }
 
