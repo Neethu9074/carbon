@@ -6,8 +6,8 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
 
 import {
-  noDataDecimalFormatter
-} from 'in-forge/plugins/cloudFoundry/Dashboard/Content';
+  zeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 export default function CloudControllerTable({snapshot, timeframe}) {
  const ccComponents = [''];
@@ -49,19 +49,19 @@ function createRow(componentId, i, context) {
   return ([
     <Mtd metric={'cloud_controller.cc_requests_completed'}
          snapshot={context.snapshot}
-         formatter={noDataDecimalFormatter} />,
+         formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cloud_controller.cc_requests_outstanding'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cloud_controller.cc_total_users'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cloud_controller.cc_thread_count'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'cloud_controller.cc_total_failed_job_count'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />
+        formatter={zeroDecimalPlaces} />
   ]);
 }
 
@@ -77,8 +77,8 @@ function createDetails(componentId, i, context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataDecimalFormatter,
-                 tooltipFormatter: noDataDecimalFormatter,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'cloud_controller.cc_requests_completed',
                    'cloud_controller.cc_requests_outstanding',
@@ -97,8 +97,8 @@ function createDetails(componentId, i, context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataDecimalFormatter,
-                 tooltipFormatter: noDataDecimalFormatter,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'cloud_controller.cc_total_users',
                    'cloud_controller.cc_thread_count',

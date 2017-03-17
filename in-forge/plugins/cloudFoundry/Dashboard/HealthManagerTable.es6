@@ -7,9 +7,9 @@ import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import Mtd from 'in-components/Mtd';
 
 import {
-  noDataDecimalFormatter,
-  noDataBytesFormatter
-} from 'in-forge/plugins/cloudFoundry/Dashboard/Content';
+  zeroDecimalPlaces,
+  bytesZeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 export default function HealthManagerTable({snapshot, timeframe}) {
  const hmComponents = [''];
@@ -54,28 +54,28 @@ function createRow(componentId, i, context) {
   return ([
     <Mtd metric={'hm.hm_api_num_go_routines'}
          snapshot={context.snapshot}
-         formatter={noDataDecimalFormatter} />,
+         formatter={zeroDecimalPlaces} />,
     <Mtd metric={'hm.hm_api_bytes_allocated'}
         snapshot={context.snapshot}
-        formatter={noDataBytesFormatter} />,
+        formatter={bytesZeroDecimalPlaces} />,
     <Mtd metric={'hm.hm_api_bytes_allocated_heap'}
       snapshot={context.snapshot}
-      formatter={noDataBytesFormatter} />,
+      formatter={bytesZeroDecimalPlaces} />,
     <Mtd metric={'hm.hm_api_bytes_allocated_stack'}
       snapshot={context.snapshot}
-      formatter={noDataBytesFormatter} />,
+      formatter={bytesZeroDecimalPlaces} />,
     <Mtd metric={'hm.hm_analyzer_num_crashed_indices'}
          snapshot={context.snapshot}
-         formatter={noDataDecimalFormatter} />,
+         formatter={zeroDecimalPlaces} />,
     <Mtd metric={'hm.hm_analyzer_num_crashed_instances'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'hm.hm_analyzer_num_missing_indices'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'hm.hm_analyzer_num_running_instances'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />
+        formatter={zeroDecimalPlaces} />
   ]);
 }
 
@@ -91,8 +91,8 @@ function createDetails(componentId, i, context) {
                    left: 60
                  }}
                  y1={{
-                   formatter: noDataDecimalFormatter,
-                   tooltipFormatter: noDataDecimalFormatter,
+                   formatter: zeroDecimalPlaces,
+                   tooltipFormatter: zeroDecimalPlaces,
                    metrics: [
                      'hm.hm_api_num_go_routines'
                    ],
@@ -110,8 +110,8 @@ function createDetails(componentId, i, context) {
                    left: 60
                  }}
                  y1={{
-                   formatter: noDataBytesFormatter,
-                   tooltipFormatter: noDataBytesFormatter,
+                   formatter: bytesZeroDecimalPlaces,
+                   tooltipFormatter: bytesZeroDecimalPlaces,
                    metrics: [
                      'hm.hm_api_bytes_allocated',
                      'hm.hm_api_bytes_allocated_heap',
@@ -133,8 +133,8 @@ function createDetails(componentId, i, context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataDecimalFormatter,
-                 tooltipFormatter: noDataDecimalFormatter,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'hm.hm_analyzer_num_crashed_indices',
                    'hm.hm_analyzer_num_crashed_instances',

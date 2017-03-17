@@ -6,9 +6,9 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
 
 import {
-  noDataDecimalFormatter,
-  noDataPercentageFormatter
-} from 'in-forge/plugins/cloudFoundry/Dashboard/Content';
+  zeroDecimalPlaces,
+  percentageTwoDecimalPlaces
+} from 'in-services/formatters/number';
 
 export default function DEATable({snapshot, timeframe}) {
  const deaComponents = [''];
@@ -53,28 +53,28 @@ function createRow(componentId, i, context) {
   return ([
     <Mtd metric={'dea.dea_available_disk_ratio'}
          snapshot={context.snapshot}
-         formatter={noDataPercentageFormatter} />,
+         formatter={percentageTwoDecimalPlaces} />,
     <Mtd metric={'dea.dea_available_memory_ratio'}
         snapshot={context.snapshot}
-        formatter={noDataPercentageFormatter} />,
+        formatter={percentageTwoDecimalPlaces} />,
     <Mtd metric={'dea.dea_registry_born'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'dea.dea_registry_crashed'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'dea.dea_registry_evacuating'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'dea.dea_registry_running'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'dea.dea_registry_starting'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'dea.dea_registry_stopped'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />
+        formatter={zeroDecimalPlaces} />
   ]);
 }
 
@@ -89,8 +89,8 @@ function createDetails(componentId, i, context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataPercentageFormatter,
-                 tooltipFormatter: noDataPercentageFormatter,
+                 formatter: percentageTwoDecimalPlaces,
+                 tooltipFormatter: percentageTwoDecimalPlaces,
                  metrics: [
                    'dea.dea_available_disk_ratio',
                    'dea.dea_available_memory_ratio',
@@ -109,8 +109,8 @@ function createDetails(componentId, i, context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataDecimalFormatter,
-                 tooltipFormatter: noDataDecimalFormatter,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'dea.dea_registry_born',
                    'dea.dea_registry_crashed',
