@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
+import {bytesZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
 import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -9,9 +9,10 @@ import {emptyList} from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
 
+import DatabaseSizesTable from './DatabaseSizesTable';
+
 
 export default function MongoDBDashboard({snapshot, timeframe}) {
-  const dbs = snapshot.getIn(['data', 'databases']);
   const snapshotId = snapshot.get('id');
   const sensorConnectionProblems = snapshot.getIn(['data', 'sensorConnectionProblems'], emptyList);
   if (sensorConnectionProblems.size > 0) {
@@ -42,24 +43,8 @@ export default function MongoDBDashboard({snapshot, timeframe}) {
                        formatter={bytesZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
-
-      {dbs ?
-        <DashboardSection title='Database Size'>
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                             left: 80
-                           }}
-
-                           y1={{
-                             metrics: dbs.toArray().sort().map(name => `dbs.${name}`),
-                             labels: dbs.toArray().sort(),
-                             type: 'line',
-                             formatter: bytesZeroDecimalPlaces,
-                             tooltipFormatter: bytesTwoDecimalPlaces
-                           }} />
-        </DashboardSection>
-      : null}
+      <DatabaseSizesTable snapshot={snapshot}
+                        timeframe={timeframe} />
 
       <DashboardSection title='Document Counter'>
         <ChartWithLegend snapshotId={snapshotId}
