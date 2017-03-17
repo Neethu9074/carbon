@@ -1,4 +1,4 @@
-const SIZE = 0.1;
+const SIZE = 0.2;
 const NUM_SAMPLES = 100;
 const PRE_DEFINED_SPAWN_POSITION_SAMPLES = Array.apply(null, Array(NUM_SAMPLES)).map(() =>
   Math.random() * SIZE - (SIZE / 2));
