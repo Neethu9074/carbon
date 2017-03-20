@@ -14,7 +14,8 @@ const viewGroupings = Object.freeze({
 
 export const humanReadableDescriptions = Object.freeze({
   compose: 'Docker Compose project name',
-  custom: 'Container Labels',
+  custom_container: 'Container labels',
+  custom_physical: 'Snapshot data',
   docker: 'Docker image',
   ecs: 'Amazon ECS task definition family',
   host: 'Host',

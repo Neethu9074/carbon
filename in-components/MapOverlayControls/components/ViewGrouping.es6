@@ -68,9 +68,10 @@ const activeGrouping$ = combineLatest([view$, viewGroupingShort$])
 
 const MenuContent = connectTo({
   availableGroupings: availableGroupings$,
-  activeGrouping: activeGrouping$
+  activeGrouping: activeGrouping$,
+  view: view$
 },
-function MenuContent({activeGrouping, availableGroupings}) {
+function MenuContent({activeGrouping, availableGroupings, view}) {
   if (availableGroupings == null || availableGroupings.length === 0) {
     return null;
   }
@@ -92,7 +93,7 @@ function MenuContent({activeGrouping, availableGroupings}) {
                 size='sm'
                 onClick={() => setActiveDialog(<CustomGroupingDialog />)}
                 className={`${block}__custom-button`}>
-          {humanReadableDescriptions['custom']}
+          {humanReadableDescriptions[view === 'CONTAINER' ? 'custom_container' : 'custom_physical']}
         </Button>
       </ButtonGroup>
     </div>
