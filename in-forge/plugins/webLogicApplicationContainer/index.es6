@@ -23,6 +23,11 @@ registerSnapshotDefinition({
 
   getLabel(s) {
     const id = s.getIn(['data', 'name'], s.get('steadyId'));
-    return 'WebLogic #' + id;
+    const port = s.getIn(['data', 'port']);
+    if(port) {
+      return 'WebLogic #' + id + ' @' + port;
+    } else {
+      return 'WebLogic #' + id;
+    }
   }
 });
