@@ -6,7 +6,7 @@ import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
-import {twoDecimalPlaces} from 'in-services/formatters/number';
+import {zeroDecimalPlaces, twoDecimalPlaces} from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import {getLabel} from 'in-sdk/snapshot';
@@ -80,7 +80,8 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                     'Messages unacknowledged',
                     'Messages total'
                   ],
-                  type: 'line'
+                  type: 'line',
+                  formatter: zeroDecimalPlaces
                 }} />
           <ChartWithLegend snapshotId={snapshotId}
                 timeframe={timeframe}
@@ -111,6 +112,7 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                 left: 80
               }}
               y1={{
+                min: 0,
                 metrics: [
                   'overview.consumers',
                   'overview.connections'
@@ -119,7 +121,8 @@ export default function RabbitMqDashboard({snapshot, timeframe}) {
                   'Consumers',
                   'Connections'
                 ],
-                type: 'line'
+                type: 'line',
+                formatter: zeroDecimalPlaces
               }} />
       </DashboardSection>
 
