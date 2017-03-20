@@ -6,9 +6,9 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 
 import {
-  noDataDecimalFormatter,
-  noDataBytesFormatter
-} from 'in-forge/plugins/cloudFoundry/Dashboard/Content';
+  zeroDecimalPlaces,
+  bytesZeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 export default function DiegoTable({snapshot, timeframe}) {
  const diegoComponents = ['auctioneer', 'stager', 'fileserver'];
@@ -69,8 +69,8 @@ function auctioneerCharts(context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataDecimalFormatter,
-                 tooltipFormatter: noDataDecimalFormatter,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'diego.auctioneer_num_go_routines'
                  ],
@@ -88,8 +88,8 @@ function auctioneerCharts(context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataBytesFormatter,
-                 tooltipFormatter: noDataBytesFormatter,
+                 formatter: bytesZeroDecimalPlaces,
+                 tooltipFormatter: bytesZeroDecimalPlaces,
                  metrics: [
                    'diego.auctioneer_bytes_allocated',
                    'diego.auctioneer_bytes_allocated_heap',
@@ -119,8 +119,8 @@ function stagerCharts(context) {
                    left: 60
                  }}
                  y1={{
-                   formatter: noDataDecimalFormatter,
-                   tooltipFormatter: noDataDecimalFormatter,
+                   formatter: zeroDecimalPlaces,
+                   tooltipFormatter: zeroDecimalPlaces,
                    metrics: [
                      'diego.stager_num_go_routines'
                    ],
@@ -138,8 +138,8 @@ function stagerCharts(context) {
                    left: 60
                  }}
                  y1={{
-                   formatter: noDataBytesFormatter,
-                   tooltipFormatter: noDataBytesFormatter,
+                   formatter: bytesZeroDecimalPlaces,
+                   tooltipFormatter: bytesZeroDecimalPlaces,
                    metrics: [
                      'diego.stager_bytes_allocated',
                      'diego.stager_bytes_allocated_heap',
@@ -161,8 +161,8 @@ function stagerCharts(context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataBytesFormatter,
-                 tooltipFormatter: noDataBytesFormatter,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'diego.stager_staging_req_failed',
                    'diego.stager_staging_req_succeeded'
@@ -189,8 +189,8 @@ function fileserverCharts(context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataDecimalFormatter,
-                 tooltipFormatter: noDataDecimalFormatter,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'diego.fs_num_go_routines'
                  ],
@@ -208,8 +208,8 @@ function fileserverCharts(context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataBytesFormatter,
-                 tooltipFormatter: noDataBytesFormatter,
+                 formatter: bytesZeroDecimalPlaces,
+                 tooltipFormatter: bytesZeroDecimalPlaces,
                  metrics: [
                    'diego.fs_bytes_allocated',
                    'diego.fs_bytes_allocated_heap',

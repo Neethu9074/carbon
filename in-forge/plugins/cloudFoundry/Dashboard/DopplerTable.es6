@@ -6,9 +6,9 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
 
 import {
-  noDataDecimalFormatter,
-  noDataBytesFormatter
-} from 'in-forge/plugins/cloudFoundry/Dashboard/Content';
+  zeroDecimalPlaces,
+  bytesZeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 export default function DopplerTable({snapshot, timeframe}) {
  const dopplerComponents = [''];
@@ -50,19 +50,19 @@ function createRow(componentId, i, context) {
   return ([
     <Mtd metric={'doppler.error_received'}
          snapshot={context.snapshot}
-         formatter={noDataDecimalFormatter} />,
+         formatter={zeroDecimalPlaces} />,
     <Mtd metric={'doppler.total_dropped_msg'}
         snapshot={context.snapshot}
-        formatter={noDataDecimalFormatter} />,
+        formatter={zeroDecimalPlaces} />,
     <Mtd metric={'doppler.bytes_allocated'}
         snapshot={context.snapshot}
-        formatter={noDataBytesFormatter} />,
+        formatter={bytesZeroDecimalPlaces} />,
     <Mtd metric={'doppler.bytes_allocated_heap'}
         snapshot={context.snapshot}
-        formatter={noDataBytesFormatter} />,
+        formatter={bytesZeroDecimalPlaces} />,
     <Mtd metric={'doppler.bytes_allocated_stack'}
         snapshot={context.snapshot}
-        formatter={noDataBytesFormatter} />
+        formatter={bytesZeroDecimalPlaces} />
   ]);
 }
 
@@ -77,8 +77,8 @@ function createDetails(componentId, i, context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataDecimalFormatter,
-                 tooltipFormatter: noDataDecimalFormatter,
+                 formatter: zeroDecimalPlaces,
+                 tooltipFormatter: zeroDecimalPlaces,
                  metrics: [
                    'doppler.error_received',
                    'doppler.total_dropped_msg'
@@ -97,8 +97,8 @@ function createDetails(componentId, i, context) {
                  left: 60
                }}
                y1={{
-                 formatter: noDataBytesFormatter,
-                 tooltipFormatter: noDataBytesFormatter,
+                 formatter: bytesZeroDecimalPlaces,
+                 tooltipFormatter: bytesZeroDecimalPlaces,
                  metrics: [
                    'doppler.bytes_allocated',
                    'doppler.bytes_allocated_heap',
