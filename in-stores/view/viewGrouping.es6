@@ -2,36 +2,36 @@ import {navigationParameters$} from 'in-stores/navigation';
 import {createTrackingStore} from 'in-stores/store';
 
 const viewGroupings = Object.freeze({
+  compose: 'DOCKER_COMPOSE_PROJECT_NAME',
   docker: 'DOCKER_IMAGE',
-  host: 'HOST',
-  marathon: 'MARATHON_APP_ID',
   ecs: 'ECS_TASK_DEFINITION_FAMILY',
-  nomad: 'NOMAD_TASK_NAME',
-  kube: 'KUBERNETES_POD_NAME',
+  host: 'HOST',
   infraZone: 'INFRASTRUCTURE_ZONE',
-  compose: 'DOCKER_COMPOSE_PROJECT_NAME'
+  kube: 'KUBERNETES_POD_NAME',
+  marathon: 'MARATHON_APP_ID',
+  nomad: 'NOMAD_TASK_NAME',
 });
 
 export const humanReadableDescriptions = Object.freeze({
-  ecs: 'Amazon ECS task definition family',
+  compose: 'Docker Compose project name',
+  custom: 'Container Labels',
   docker: 'Docker image',
+  ecs: 'Amazon ECS task definition family',
   host: 'Host',
+  infraZone: 'Zone',
+  kube: 'Kubernetes pod name',
   marathon: 'Marathon application ID',
   nomad: 'Nomad task name',
-  kube: 'Kubernetes pod name',
-  infraZone: 'Zone',
-  compose: 'Docker Compose project name',
-  custom: 'Container Labels'
 });
 
 export const availableGroupings = Object.freeze({
-  PHYSICAL: Object.freeze([]),
+  PHYSICAL: Object.freeze(['infraZone']),
   CONTAINER: Object.freeze(['docker', 'marathon', 'ecs', 'nomad', 'kube', 'infraZone', 'compose', 'host']),
   LOGICAL: Object.freeze([])
 });
 
 export const defaultGrouping = Object.freeze({
-  PHYSICAL: null,
+  PHYSICAL: 'infraZone',
   CONTAINER: 'infraZone',
   LOGICAL: null
 });
