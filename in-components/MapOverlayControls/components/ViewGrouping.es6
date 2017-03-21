@@ -87,15 +87,17 @@ function MenuContent({activeGrouping, availableGroupings, view}) {
                           key={grouping} />
         )}
       </ButtonGroup>
-      <br />
-      <ButtonGroup>
-        <Button kind={activeGrouping.startsWith('custom-') ? 'primary' : 'secondary'}
-                size='sm'
-                onClick={() => setActiveDialog(<CustomGroupingDialog />)}
-                className={`${block}__custom-button`}>
-          {humanReadableDescriptions[view === 'CONTAINER' ? 'custom_container' : 'custom_physical']}
-        </Button>
-      </ButtonGroup>
+      {view === 'CONTAINER' ? <br /> : null}
+      {view === 'CONTAINER' ?
+        <ButtonGroup>
+          <Button kind={activeGrouping.startsWith('custom-') ? 'primary' : 'secondary'}
+                  size='sm'
+                  onClick={() => setActiveDialog(<CustomGroupingDialog />)}
+                  className={`${block}__custom-button`}>
+            {humanReadableDescriptions['custom_container']}
+          </Button>
+        </ButtonGroup>
+      : null}
     </div>
   );
 });
