@@ -16,8 +16,8 @@ registerSnapshotDefinition({
   tableDefinition,
 
   pluginName: {
-    singular: 'Unspecified Custom Service',
-    plural: 'Unspecified Custom Services'
+    singular: 'Custom Service',
+    plural: 'Custom Services'
   },
 
   chartWiggleRoom: 20000,

@@ -13,8 +13,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'Unspecified Custom Service Instance',
-    plural: 'Unspecified Custom Service Instances'
+    singular: 'Custom Service Instance',
+    plural: 'Custom Service Instances'
   },
 
   chartWiggleRoom: 20000,
