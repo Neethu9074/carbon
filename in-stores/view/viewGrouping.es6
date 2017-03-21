@@ -6,10 +6,16 @@ const viewGroupings = Object.freeze({
   docker: 'DOCKER_IMAGE',
   ecs: 'ECS_TASK_DEFINITION_FAMILY',
   host: 'HOST',
-  infraZone: 'INFRASTRUCTURE_ZONE',
   kube: 'KUBERNETES_POD_NAME',
   marathon: 'MARATHON_APP_ID',
   nomad: 'NOMAD_TASK_NAME',
+
+  infraZone: 'INFRASTRUCTURE_ZONE',
+
+  cpuCount: 'CPU_COUNT',
+  cpuModel: 'CPU_MODEL',
+  osArc: 'OS_ARCHITECTURE',
+  osName: 'OS_NAME'
 });
 
 export const humanReadableDescriptions = Object.freeze({
@@ -19,14 +25,20 @@ export const humanReadableDescriptions = Object.freeze({
   docker: 'Docker image',
   ecs: 'Amazon ECS task definition family',
   host: 'Host',
-  infraZone: 'Zone',
   kube: 'Kubernetes pod name',
   marathon: 'Marathon application ID',
   nomad: 'Nomad task name',
+
+  infraZone: 'Zone',
+
+  cpuCount: 'CPU count',
+  cpuModel: 'CPU model',
+  osArc: 'OS architecture',
+  osName: 'OS name'
 });
 
 export const availableGroupings = Object.freeze({
-  PHYSICAL: Object.freeze(['infraZone']),
+  PHYSICAL: Object.freeze(['infraZone', 'cpuCount', 'cpuModel', 'osArc', 'osName']),
   CONTAINER: Object.freeze(['docker', 'marathon', 'ecs', 'nomad', 'kube', 'infraZone', 'compose', 'host']),
   LOGICAL: Object.freeze([])
 });
