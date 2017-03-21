@@ -68,9 +68,10 @@ const activeGrouping$ = combineLatest([view$, viewGroupingShort$])
 
 const MenuContent = connectTo({
   availableGroupings: availableGroupings$,
-  activeGrouping: activeGrouping$
+  activeGrouping: activeGrouping$,
+  view: view$
 },
-function MenuContent({activeGrouping, availableGroupings}) {
+function MenuContent({activeGrouping, availableGroupings, view}) {
   if (availableGroupings == null || availableGroupings.length === 0) {
     return null;
   }
@@ -86,15 +87,17 @@ function MenuContent({activeGrouping, availableGroupings}) {
                           key={grouping} />
         )}
       </ButtonGroup>
-      <br />
-      <ButtonGroup>
-        <Button kind={activeGrouping.startsWith('custom-') ? 'primary' : 'secondary'}
-                size='sm'
-                onClick={() => setActiveDialog(<CustomGroupingDialog />)}
-                className={`${block}__custom-button`}>
-          {humanReadableDescriptions['custom']}
-        </Button>
-      </ButtonGroup>
+      {view === 'CONTAINER' ? <br /> : null}
+      {view === 'CONTAINER' ?
+        <ButtonGroup>
+          <Button kind={activeGrouping.startsWith('custom-') ? 'primary' : 'secondary'}
+                  size='sm'
+                  onClick={() => setActiveDialog(<CustomGroupingDialog />)}
+                  className={`${block}__custom-button`}>
+            {humanReadableDescriptions['custom_container']}
+          </Button>
+        </ButtonGroup>
+      : null}
     </div>
   );
 });
