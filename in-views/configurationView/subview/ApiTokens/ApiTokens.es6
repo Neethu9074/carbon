@@ -28,7 +28,8 @@ export default React.createClass({
       loading: true,
       error: false,
       message: null,
-      apiTokens: emptyList
+      apiTokens: emptyList,
+      selectedToken: null
     };
   },
 
@@ -115,24 +116,30 @@ export default React.createClass({
                 .map(apiToken =>
                   <li key={apiToken.get('id')}
                       className={`${block}__api-token`}>
+                    <div className={`${block}__api-token-headline`}
+                         onClick={() => this.setState({ selectedToken: this.state.selectedToken === apiToken.get('id') ? null : apiToken.get('id') })}>
+                      <div>
+                        <ApiTokenLink className={`${block}__name`}
+                                      apiToken={apiToken}>
+                          {apiToken.get('name')}
+                        </ApiTokenLink>
 
-                    <div>
-                      <ApiTokenLink className={`${block}__name`}
-                                    apiToken={apiToken}>
-                        {apiToken.get('name')}
-                      </ApiTokenLink>
+                      </div>
 
-                      <span className={`${block}__key`}>
-                        {apiToken.get('id')}
-                      </span>
+                      <Button kind='danger'
+                              size='sm'
+                              className={`${block}__remove`}
+                              onClick={() => this.onDelete(apiToken)}>
+                        Delete
+                      </Button>
                     </div>
-
-                    <Button kind='danger'
-                            size='sm'
-                            className={`${block}__remove`}
-                            onClick={() => this.onDelete(apiToken)}>
-                      Delete
-                    </Button>
+                    {this.state.selectedToken === apiToken.get('id') ?
+                      <div>
+                        <span className={`${block}__key`}>
+                          {apiToken.get('id')}
+                        </span>
+                      </div>
+                    : null}
                   </li>
               )}
             </ul>

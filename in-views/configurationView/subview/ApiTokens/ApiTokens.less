@@ -5,15 +5,23 @@
     padding: 0;
   }
 
-  &__api-token {
+  &__api-token-headline {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
+    cursor: pointer;
+  }
+
+  &__api-token {
     border-radius: .125rem;
     padding: .313rem .625rem;
     background: #eef2f4;
     margin-bottom: .375rem;
+
+    &:hover {
+      background: darken(#eef2f4, 5%);
+    }
   }
 
   &__name {
