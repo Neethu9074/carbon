@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import {ClickableSnapshotListItem, ClickableList} from 'in-sdk/components/sidebar/ClickableList';
@@ -14,89 +13,70 @@ import './RelatedSnapshotList.less';
 
 
 const block = 'in-related-snapshot-list';
-const rpt = React.PropTypes;
 
 export default connectTo(props => {
   return {
-    snapshots: getSnapshots(props.snapshotIds)
+    // on large numbers, the component will be drawn multiple time a sec which leads to a hanging UI.
+    // to avoid this, debounce the stream to give the UI enough time to render stuff.
+    snapshots: getSnapshots(props.snapshotIds).debounce(1000)
   };
-}, React.createClass({
-  displayName: 'RelatedSnapshotList',
+},
+function RelatedSnapshotList({initiallyOpen, onRenderItem, snapshots}) {
+  if (!snapshots || snapshots.size === 0) {
+    return null;
+  }
 
-  mixins: [
-    PureRenderMixin
-  ],
+  const groups = getSnapshotsGroupedByPlugin(snapshots);
+  const groupPlugins = Object.keys(groups)
+    .sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
 
-  propTypes: {
-    initiallyOpen: rpt.bool,
-    onRenderItem: rpt.func,
-    snapshots: rpt.array
-  },
+  return (
+    <div>
+      {groupPlugins.map(plugin =>
+        <div key={plugin}>
+          <Separator />
 
-  getDefaultProps() {
-    return {
-      seperate: true
-    };
-  },
+          <Collapsible initiallyOpen={initiallyOpen}>
+            <Collapsible.Header className={block + '__header'}>
+              <div className={block + '__header'}>
+                <PluginIcon className={block + '__plugin-icon'}
+                            snapshot={groups[plugin][0]} />
+                <span>
+                  {getPlural(plugin)} ({groups[plugin].length})
+                </span>
+              </div>
+            </Collapsible.Header>
+            <Collapsible.Content>
+              <ClickableList>
+                {groups[plugin].sort().map(snapshot =>
+                  <ClickableSnapshotListItem key={snapshot.get('id')}
+                                             snapshotId={snapshot.get('id')}>
+                    {onRenderItem ?
+                      onRenderItem(snapshot) :
+                      getLabel(snapshot)
+                    }
+                  </ClickableSnapshotListItem>
+                )}
+              </ClickableList>
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      )}
+    </div>
+  );
+});
 
+function getSnapshotsGroupedByPlugin(snapshots) {
+  const grouping = {};
 
-  render() {
-    if (!this.props.snapshots || this.props.snapshots.size === 0) {
-      return null;
+  snapshots.forEach(snapshot => {
+    const plugin = snapshot.get('plugin');
+    if (!(plugin in grouping)) {
+      grouping[plugin] = [];
     }
 
-    const groups = this.getSnapshotsGroupedByPlugin();
-    const groupPlugins = Object.keys(groups)
-      .sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
+    grouping[plugin].push(snapshot);
+  });
 
-    return (
-      <div>
-        {groupPlugins.map(plugin =>
-          <div key={plugin}>
-            <Separator />
-
-            <Collapsible initiallyOpen={this.props.initiallyOpen}>
-              <Collapsible.Header className={block + '__header'}>
-                <div className={block + '__header'}>
-                  <PluginIcon className={block + '__plugin-icon'}
-                              snapshot={groups[plugin][0]} />
-                  <span>
-                    {getPlural(plugin)} ({groups[plugin].length})
-                  </span>
-                </div>
-              </Collapsible.Header>
-              <Collapsible.Content>
-                <ClickableList>
-                  {groups[plugin].sort().map(snapshot =>
-                    <ClickableSnapshotListItem key={snapshot.get('id')}
-                                               snapshotId={snapshot.get('id')}>
-                      {this.props.onRenderItem ?
-                        this.props.onRenderItem(snapshot) :
-                        getLabel(snapshot)
-                      }
-                    </ClickableSnapshotListItem>
-                  )}
-                </ClickableList>
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        )}
-      </div>
-    );
-  },
-
-  getSnapshotsGroupedByPlugin() {
-    const grouping = {};
-
-    this.props.snapshots.forEach(snapshot => {
-      const plugin = snapshot.get('plugin');
-      if (!(plugin in grouping)) {
-        grouping[plugin] = [];
-      }
-
-      grouping[plugin].push(snapshot);
-    });
-
-    return grouping;
-  }
-}));
+  return grouping;
+}

@@ -16,6 +16,7 @@ export default connectTo(props => {
   if (!snapshotIds) {
     return null;
   }
+
   return (
     <RelatedSnapshotList snapshotIds={snapshotIds}  />
   );
