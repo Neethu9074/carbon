@@ -10,6 +10,5 @@ export const instanaInternalFeaturesEnabled = onlyInternally;
 export const webVrEnabled = onlyInternally;
 export const eumStatisticsEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
-export const customAltertingEnabled = onlyInternally || config.tenant === 'edmunds';
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;

@@ -1,10 +1,10 @@
 import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
-import {objectivesEnabled, customAltertingEnabled} from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import {objectivesEnabled} from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import {isOnPremise} from 'in-services/config';
 import Toggle from 'in-components/form/Toggle';
@@ -108,13 +108,11 @@ export default function ApiTokenForm({form, onChange, disabled}) {
                     name='canConfigureIntegrations'
                     label='Configuration of integrations' />
 
-        { customAltertingEnabled ?
-          <Permission form={form}
-                      disabled={disabled}
-                      onChange={onChange}
-                      name='canConfigureCustomAlerts'
-                      label='Configuration of custom alerts' />
-        : null }
+        <Permission form={form}
+                    disabled={disabled}
+                    onChange={onChange}
+                    name='canConfigureCustomAlerts'
+                    label='Configuration of custom alerts' />
 
         <Permission form={form}
                     disabled={disabled}

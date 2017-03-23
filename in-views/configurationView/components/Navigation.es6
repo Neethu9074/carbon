@@ -26,9 +26,9 @@ import {
   ruleBindingViewLink$,
   isRuleBindingViewLink$
 } from 'in-stores/navigation/configuration';
-import {customAltertingEnabled, objectivesEnabled} from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
+import {objectivesEnabled} from 'in-services/featureFlags';
 import {role} from 'in-stores/user';
 
 import './Navigation.less';
@@ -93,7 +93,7 @@ export default function Navigation() {
           </NavItem>
         : null}
 
-        {customAltertingEnabled && role.canConfigureCustomAlerts ?
+        {role.canConfigureCustomAlerts ?
           <NavItem title='Knowledge Management'>
             <NavItem title='Custom Rules'
                      href$={ruleViewLink$}
