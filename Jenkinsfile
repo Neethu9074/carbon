@@ -12,6 +12,8 @@ node {
   instanaBackendBranch = env.BRANCH_NAME
   
   sh '''
+    . ~/.profile
+
     nvm use
     cp ~/.npmrc-private-registry .npmrc
     npm install -g npm@3.9.5
