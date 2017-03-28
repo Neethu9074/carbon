@@ -11,18 +11,33 @@ node {
   gitCommitAuthor      = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitShortCommitId").trim()
   instanaBackendBranch = env.BRANCH_NAME
   
-  sh '''
-    . ~/.profile
+  if ( instanaBackendBranch == 'master' ) {
+  	def baseDir = '/mnt/efs/data/instana-release'
+    def majorNumber = readProperties  file: "${baseDir}/major.number"
+    majorVersion = majorNumber.value
+    def minorNumberFile = "${baseDir}/ui-client.${majorVersion}.minor.number"
+    if ( fileExists("${minorNumberFile}") ) {
+      def minorNumber = readProperties file: minorNumberFile
+      minorVersion = minorNumber.value as Integer
+      def nextMinorVersion = minorVersion + 1
+      def f = new File(minorNumberFile)
+      f << "value=${nextMinorVersion}"
+    } else {
+      minorVersion = 0
+      def f = new File(minorNumberFile)
+      f << "value=1"
+    }
+  }
 
-    nvm use
+  sh """
     cp ~/.npmrc-private-registry .npmrc
-    npm install -g npm@3.9.5
-
-    nice -19 npm prune
-	nice -19 npm update
-	nice -19 npm install
-	
-	nice -19 npm run test
-	nice -19 npm run build
-  '''
+    
+    npm prune
+    npm update
+    npm install
+    
+    npm run test
+    npm run build
+    tar -xzf ui-client-${instanaBackendBranch}-${majorVersion}.${minorVersion}.tar.gz target/*
+  """
 }
