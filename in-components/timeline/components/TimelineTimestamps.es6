@@ -17,7 +17,7 @@ export default getElementDimensions(connectTo({
   from: from$,
   to: to$
 },
-function TimelineMenu({from ,to, width}) {
+function TimelineMenu({from, to, width}) {
   return (
     <div className={block}>
       <div className={`${block}__line ${block}__second`}>

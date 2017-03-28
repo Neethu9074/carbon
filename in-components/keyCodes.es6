@@ -1,12 +1,13 @@
 export default {
   arrows: {
-    top: 38,
+    up: 38,
     right: 39,
-    bottom: 40,
+    down: 40,
     left: 37
   },
+  space: 32,
   escape: 27,
-  enter: 13,
+  return: 13,
   f: 70,
   n: 78,
   v: 86,

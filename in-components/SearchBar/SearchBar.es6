@@ -1,41 +1,31 @@
 import React from 'react';
 
 import {togglePresets, presetsVisible$} from 'in-components/SearchBar/stores/presetsVisibility';
-import AvailableKeywords from 'in-components/SearchBar/components/AvailableKeywords';
-import {keywordsVisible$} from 'in-components/SearchBar/stores/keywordsVisibility';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
-import Suggestions from 'in-components/SearchBar/components/Suggestions';
+import {clear as clearBlocks} from 'in-components/SearchBar/stores/blocks';
+import {setQuery, query$} from 'in-components/SearchBar/stores/tempQuery';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import {setFocused} from 'in-components/SearchBar/stores/focus';
+import Blocks from 'in-components/SearchBar/components/Blocks';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {expanded$} from 'in-stores/search/searchBarExpanded';
-import {unvalidatedQuery$} from 'in-stores/search/query';
-import {setInputString} from 'in-stores/search/query';
 import {emitResizeEvent} from 'in-services/browser';
+import Input from 'in-components/SearchBar/Input';
 import {showHelp} from 'in-stores/navigation';
-import keyCodes from 'in-components/keyCodes';
-import {
-  highlightNextSuggestion,
-  highlightPreviousSuggestion,
-  selectHighlightedSuggestion
-} from 'in-components/SearchBar/stores/highlightedSuggestion';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import './SearchBar.less';
 
+
 const block = 'in-searchbar';
 
-export const idOfSearchField = 'search';
-
 export default connectTo({
-  unvalidatedQuery: unvalidatedQuery$,
-  expanded: expanded$,
   presetsVisible: presetsVisible$,
-  keywordsVisible: keywordsVisible$
+  expanded: expanded$
 },
-function SearchBar({unvalidatedQuery, expanded, presetsVisible, keywordsVisible}) {
+function SearchBar({expanded, presetsVisible, keywordsVisible}) {
   if (!expanded) {
     return (
       <LifecycleObserver onDidMount={emitResizeEvent} />
@@ -49,9 +39,6 @@ function SearchBar({unvalidatedQuery, expanded, presetsVisible, keywordsVisible}
       {presetsVisible ?
         <FilterPresets />
       : null}
-      {keywordsVisible ?
-        <AvailableKeywords />
-      : null}
 
       <div className={block}>
         <div className={evaluateClassNames({
@@ -62,16 +49,20 @@ function SearchBar({unvalidatedQuery, expanded, presetsVisible, keywordsVisible}
           ?
         </div>
 
-        <input type='search'
-               value={unvalidatedQuery}
-               className={`${block}__input`}
-               placeholder='Search…'
-               onChange={onChange}
-               onKeyDown={onKeyDown}
-               onFocus={onFocus}
-               onBlur={onBlur}
-               autoFocus
-               id={idOfSearchField} />
+        <div className={`${block}__input-wrapper`}>
+          <Blocks />
+          <QueryBoundedInput />
+        </div>
+
+        <div className={`${block}__expand-collapse-wrapper`}
+             onClick={() => {
+               setQuery('');
+               clearBlocks();
+             }}>
+          <SvgIcon type='x'
+                   height={10}
+                   className={`${block}__icon`} />
+        </div>
 
         <div className={evaluateClassNames({
                [`${block}__expand-collapse-wrapper`]: true,
@@ -82,43 +73,25 @@ function SearchBar({unvalidatedQuery, expanded, presetsVisible, keywordsVisible}
                    height={10}
                    className={`${block}__icon`} />
         </div>
-
         <ErrorIndicator />
-        <Suggestions />
       </div>
     </div>
   );
 });
 
-function onChange(e) {
-  setInputString(e.target.value);
-}
-
-function onKeyDown(e) {
-  setFocused(true);
-  if (e.keyCode === keyCodes.enter) {
-    e.preventDefault();
-    selectHighlightedSuggestion();
-  } else if (e.keyCode === keyCodes.arrows.top) {
-    e.preventDefault();
-    highlightPreviousSuggestion();
-  } else if (e.keyCode === keyCodes.arrows.bottom) {
-    e.preventDefault();
-    highlightNextSuggestion();
-  }
-}
-
-function onFocus() {
-  setFocused(true);
-}
-
-function onBlur() {
-  // allow for clicks on suggestions to be recognized. Otherwise the element would be disposed
-  // before handling the click.
-  setTimeout(() => setFocused(false), 200);
-}
-
 function onShowKeywordHelp(e) {
   e.preventDefault();
   showHelp('usingTheSearchBar');
 }
+
+
+const QueryBoundedInput = getElementDimensions(connectTo({
+  query: query$
+},
+function QueryBoundedInput({query, width}) {
+  return (
+    <Input query={query}
+           onChange={setQuery}
+           width={width} />
+  );
+}));

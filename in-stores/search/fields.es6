@@ -1,61 +1,90 @@
-import {find} from 'lodash';
+import {filters$} from 'in-components/SearchBar/stores/filters';
 
-export const fields = window.instana.searchFields;
-export const fieldsCategorized = buildCategorizedFields(fields);
+
+const filterNode = node('filter');
+filters$.subscribe(_filters => {
+  filterNode.description = `(${_filters.size})`;
+  filterNode.children = _filters.toArray()
+  .map(_filter => node(_filter.get('name'), {
+    isPreset: true,
+    query: _filter.get('definition')
+  }));
+});
+
+const fields = window.instana.searchFields;
+const root = buildCategorizedFields(fields);
+
+export function node(name, props = {}) {
+  return {
+    name,
+    description: props.description || '',
+    children: props.children || {},
+    isPreset: props.isPreset || false,
+    query: props.query || name,
+  };
+}
 
 function buildCategorizedFields() {
-  const tree = {
-    name: 'root',
-    children: [],
-    fields: []
-  };
+  const root = node('root');
 
   fields.forEach(field => {
-    let path = field.category;
-    if (field.context) {
-      path = [field.context].concat(path);
+    const path = field.alias.split('.');
+    let currentNode = root;
+
+    for (let i = 0, length = path.length - 1; i < length; i++) {
+      const pathPart = path[i];
+      if (!currentNode.children[pathPart]) {
+        currentNode.children[pathPart] = node(pathPart, {
+          description: field.description
+        });
+      }
+      currentNode = currentNode.children[pathPart];
     }
-    insertField(tree, field, path, 0);
+
+    const lastPart = path[path.length - 1];
+    currentNode.children[lastPart] = node(lastPart, {
+      description: field.description
+    });
   });
+  root.children[filterNode.name] = filterNode;
 
-  sortTree(tree);
-  return tree;
+  mapChildrenObjectsToArrays(root);
+  return root;
 }
 
+function mapChildrenObjectsToArrays(node) {
+  node.children = Object.keys(node.children).map(key => node.children[key]);
+  for (let i = 0, length = node.children.length; i < length; i++) {
+    mapChildrenObjectsToArrays(node.children[i]);
+  }
+}
 
-function insertField(node, field, path, i) {
-  if (i > (path.length - 1)) {
-    node.fields.push(field);
-    return;
+export function findNode(query) {
+  if (!query || query.length === 0) {
+    return root;
+  }
+  return findInNode(root, query);
+}
+
+function findInNode(node, query) {
+  if (!node) {
+    return null;
   }
 
-  const nextNodeName = path[i];
-  let nextNode = find(node.children, childNode => childNode.name === nextNodeName);
-  if (!nextNode) {
-    nextNode = {
-      name: nextNodeName,
-      children: [],
-      fields: []
-    };
-    node.children.push(nextNode);
+  const path = query.split('.');
+  const currentPart = path[0];
+
+  for (let i = 0, length = node.children.length; i < length; i++) {
+    const child = node.children[i];
+    // path.length is only > 1 if the the query contains a '.'
+    if (child.name === currentPart && path.length > 1) {
+      return findInNode(child, query.substring(currentPart.length + 1));
+    }
   }
 
-  insertField(nextNode, field, path, i + 1);
-}
-
-
-function sortTree(node) {
-  node.children.forEach(sortTree);
-  node.children.sort(compareByNameProperty);
-  node.fields.sort(compareByKeywordProperty);
-}
-
-
-function compareByNameProperty(a, b) {
-  return a.name.localeCompare(b.name);
-}
-
-
-function compareByKeywordProperty(a, b) {
-  return a.keyword.localeCompare(b.keyword);
+  // if the user presses dot (.) but the previous string hasn't matched anything, return only directly matching results
+  const children = path.length > 1
+    ? node.children.filter(child => child.name === currentPart)
+    : node.children.filter(child => child.name.startsWith(currentPart));
+  return children.length === 0 ? null : node;
 }
