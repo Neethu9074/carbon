@@ -10,7 +10,7 @@ registerSnapshotDefinition({
   metricDefinitions,
   pluginName: {
     singular: 'CloudFoundry',
-    plural: 'CloudFoundry(s)'
+    plural: 'CloudFoundry'
   },
 
   namesForTypeSearch: ['cf', 'CloudFoundry', 'cloudfoundry'],
