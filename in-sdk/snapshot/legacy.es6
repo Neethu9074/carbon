@@ -3,5 +3,5 @@ export function addLabelFinder() {
 }
 
 export function getLabel(snapshot) {
-  return snapshot.get('label');
+  return snapshot.get('label', 'Unknown');
 }
