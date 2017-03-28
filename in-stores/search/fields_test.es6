@@ -7,43 +7,41 @@ describe('in-components/SearchBar/misc/fields', () => {
   let mod;
 
   beforeEach(() => {
-    window.instana = {
-      searchFields: [
-        { alias: 'entity' },
-        { alias: 'span' },
-        { alias: 'graph' },
-        { alias: 'trace' },
-        { alias: 'event' },
-        { alias: 'log' },
-
-        { alias: 'entity.containerized' },
-        { alias: 'entity.id' },
-        { alias: 'entity.os' },
-        { alias: 'entity.serviceName' },
-        { alias: 'entity.type' },
-        { alias: 'entity.version' },
-
-        { alias: 'span.type' },
-        { alias: 'span.duration' },
-        { alias: 'span.errorCount' },
-        { alias: 'span.location.country' },
-        { alias: 'span.sql.command' },
-
-        { alias: 'graph.connectedTo' },
-        { alias: 'graph.relatedTo' },
-
-        { alias: 'event.open' },
-        { alias: 'event.severity' },
-        { alias: 'event.type' },
-
-        { alias: 'trace.type' },
-        { alias: 'trace.errorCount' },
-
-        { alias: 'log.level' },
-      ]
-    };
-
     mod = proxyquire('in-stores/search/fields', {});
+
+    mod.buildCategorizedFields([
+      { alias: 'entity' },
+      { alias: 'span' },
+      { alias: 'graph' },
+      { alias: 'trace' },
+      { alias: 'event' },
+      { alias: 'log' },
+
+      { alias: 'entity.containerized' },
+      { alias: 'entity.id' },
+      { alias: 'entity.os' },
+      { alias: 'entity.serviceName' },
+      { alias: 'entity.type' },
+      { alias: 'entity.version' },
+
+      { alias: 'span.type' },
+      { alias: 'span.duration' },
+      { alias: 'span.errorCount' },
+      { alias: 'span.location.country' },
+      { alias: 'span.sql.command' },
+
+      { alias: 'graph.connectedTo' },
+      { alias: 'graph.relatedTo' },
+
+      { alias: 'event.open' },
+      { alias: 'event.severity' },
+      { alias: 'event.type' },
+
+      { alias: 'trace.type' },
+      { alias: 'trace.errorCount' },
+
+      { alias: 'log.level' },
+    ]);
   });
 
   afterEach(() => {

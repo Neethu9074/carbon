@@ -11,8 +11,13 @@ filters$.subscribe(_filters => {
   }));
 });
 
-const fields = window.instana.searchFields;
-const root = buildCategorizedFields(fields);
+let tree;
+function getTree() {
+  if (!tree) {
+    buildCategorizedFields();
+  }
+  return tree;
+}
 
 export function node(name, props = {}) {
   return {
@@ -24,8 +29,9 @@ export function node(name, props = {}) {
   };
 }
 
-function buildCategorizedFields() {
+export function buildCategorizedFields(fields) {
   const root = node('root');
+  fields = fields || window.instana.searchFields;
 
   fields.forEach(field => {
     const path = field.alias.split('.');
@@ -49,7 +55,7 @@ function buildCategorizedFields() {
   root.children[filterNode.name] = filterNode;
 
   mapChildrenObjectsToArrays(root);
-  return root;
+  tree = root;
 }
 
 function mapChildrenObjectsToArrays(node) {
@@ -60,6 +66,8 @@ function mapChildrenObjectsToArrays(node) {
 }
 
 export function findNode(query) {
+  const root = getTree();
+
   if (!query || query.length === 0) {
     return root;
   }
