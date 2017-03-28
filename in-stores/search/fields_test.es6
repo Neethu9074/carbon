@@ -44,10 +44,6 @@ describe('in-components/SearchBar/misc/fields', () => {
     ]);
   });
 
-  afterEach(() => {
-    delete window.instana;
-  });
-
   it('returns root on empty null', () => {
     expect(mod.findNode().name).to.equal('root');
   });
