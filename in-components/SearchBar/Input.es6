@@ -3,7 +3,6 @@ import RoEmitter from 'roemitter';
 import React from 'react';
 
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
-import {generateBlocks} from 'in-components/SearchBar/stores/blocks';
 import {replaceWith} from 'in-components/SearchBar/misc/stringUtils';
 import {lex, getTokenForColumn} from 'in-stores/search/lexer';
 import keyCodes from 'in-components/keyCodes';
@@ -171,12 +170,11 @@ export default React.createClass({
   },
 
   updateQuery(newQuery) {
-    const restQueryWithoutBlocks = generateBlocks(newQuery);
-    if (restQueryWithoutBlocks !== newQuery) {
-      this.editor.setValue(restQueryWithoutBlocks);
+    if (this.editor.getValue() !== newQuery) {
+      this.editor.setValue(newQuery);
     }
 
-    this.props.onChange(restQueryWithoutBlocks);
+    this.props.onChange(newQuery);
   },
 
   hide() {

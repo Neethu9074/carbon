@@ -3,11 +3,9 @@ import React from 'react';
 import {togglePresets, presetsVisible$} from 'in-components/SearchBar/stores/presetsVisibility';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
-import {clear as clearBlocks} from 'in-components/SearchBar/stores/blocks';
 import {setQuery, query$} from 'in-components/SearchBar/stores/tempQuery';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import Blocks from 'in-components/SearchBar/components/Blocks';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {expanded$} from 'in-stores/search/searchBarExpanded';
 import {emitResizeEvent} from 'in-services/browser';
@@ -50,15 +48,11 @@ function SearchBar({expanded, presetsVisible, keywordsVisible}) {
         </div>
 
         <div className={`${block}__input-wrapper`}>
-          <Blocks />
           <QueryBoundedInput />
         </div>
 
         <div className={`${block}__expand-collapse-wrapper`}
-             onClick={() => {
-               setQuery('');
-               clearBlocks();
-             }}>
+             onClick={() => setQuery('')}>
           <SvgIcon type='x'
                    height={10}
                    className={`${block}__icon`} />
