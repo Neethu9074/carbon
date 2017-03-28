@@ -8,6 +8,11 @@ import './TextInput.less';
 
 
 const block = 'in-date-picker-text-input';
+const emptyValidObject = {
+  isValid: true,
+  validationObject: {
+  }
+};
 
 export default connectTo(props => {
   return {
@@ -15,9 +20,7 @@ export default connectTo(props => {
   };
 },
 function TextInput({isValid, heading, value, onChange, showInputDescriptions}) {
-  if (!isValid) {
-    return null;
-  }
+  isValid = isValid || emptyValidObject;
 
   const validationObject = isValid.validationObject;
   const input = (
