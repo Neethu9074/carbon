@@ -2,10 +2,13 @@ import CodeMirror from 'codemirror/lib/codemirror.js';
 import RoEmitter from 'roemitter';
 import React from 'react';
 
+import {setInputString, unvalidatedQuery$} from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import {replaceWith} from 'in-components/SearchBar/misc/stringUtils';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import {lex, getTokenForColumn} from 'in-stores/search/lexer';
 import keyCodes from 'in-components/keyCodes';
+import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/SearchBar/misc/codeMirrorModes';
 
@@ -17,7 +20,10 @@ import 'in-components/SearchBar/searchTokenDefinitions.less';
 
 const block = 'in-searchbar-input';
 
-export default React.createClass({
+export default getElementDimensions(connectTo({
+  query: unvalidatedQuery$
+},
+React.createClass({
 
   displayname: 'SearchBar-Input',
 
@@ -174,7 +180,7 @@ export default React.createClass({
       this.editor.setValue(newQuery);
     }
 
-    this.props.onChange(newQuery);
+    setInputString(newQuery);
   },
 
   hide() {
@@ -184,4 +190,4 @@ export default React.createClass({
   show(suggestionConfig) {
     this.setState({ suggestionConfig });
   }
-});
+})));

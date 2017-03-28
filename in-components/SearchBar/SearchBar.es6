@@ -3,11 +3,10 @@ import React from 'react';
 import {togglePresets, presetsVisible$} from 'in-components/SearchBar/stores/presetsVisibility';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
-import {setQuery, query$} from 'in-components/SearchBar/stores/tempQuery';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {expanded$} from 'in-stores/search/searchBarExpanded';
+import {setInputString} from 'in-stores/search/query';
 import {emitResizeEvent} from 'in-services/browser';
 import Input from 'in-components/SearchBar/Input';
 import {showHelp} from 'in-stores/navigation';
@@ -48,11 +47,11 @@ function SearchBar({expanded, presetsVisible, keywordsVisible}) {
         </div>
 
         <div className={`${block}__input-wrapper`}>
-          <QueryBoundedInput />
+          <Input />
         </div>
 
         <div className={`${block}__expand-collapse-wrapper`}
-             onClick={() => setQuery('')}>
+             onClick={() => setInputString('')}>
           <SvgIcon type='x'
                    height={10}
                    className={`${block}__icon`} />
@@ -77,15 +76,3 @@ function onShowKeywordHelp(e) {
   e.preventDefault();
   showHelp('usingTheSearchBar');
 }
-
-
-const QueryBoundedInput = getElementDimensions(connectTo({
-  query: query$
-},
-function QueryBoundedInput({query, width}) {
-  return (
-    <Input query={query}
-           onChange={setQuery}
-           width={width} />
-  );
-}));
