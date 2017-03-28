@@ -29,9 +29,18 @@ CodeMirror.defineMode('instanaSearch', () => {
         classes += ` ${token.token}`;
       }
 
-      const block = getBlockForCursor(state.blocks, stream.pos - 1); // -1 -> pos starts at 1, cursor at 0
+       // -1 -> pos starts at 1, cursor at 0
+      const cursor = stream.pos - 1;
+
+      const block = getBlockForCursor(state.blocks, cursor);
       if (block) {
         classes += ` custom-block`;
+        if (block.isStart(cursor)) {
+          classes += ` custom-block--start`;
+        }
+        if (block.isEnd(cursor)) {
+          classes += ` custom-block--end`;
+        }
       }
       return classes;
     }

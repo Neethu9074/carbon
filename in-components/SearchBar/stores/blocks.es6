@@ -24,11 +24,7 @@ export function generateBlocks(query, blocks, fromCursor) {
       const toCursor = fromCursor + cursor;
       const text = query.substr(0, cursor);
       if (text.trim().length > 0) {
-        blocks.push({
-          start: fromCursor,
-          end: toCursor,
-          text: text
-        });
+        blocks.push(createBlock(fromCursor, toCursor, text));
       }
       return generateBlocks(query.substr(cursor + 1), blocks, toCursor + 1);
     }
@@ -45,4 +41,15 @@ export function getBlockForCursor(blocks, cursor) {
     }
   }
   return null;
+}
+
+function createBlock(start, end, text) {
+  return {
+    start,
+    end,
+    text: text,
+
+    isStart: cursor => cursor === start,
+    isEnd: cursor => cursor === end - 1
+  };
 }
