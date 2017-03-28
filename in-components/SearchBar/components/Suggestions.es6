@@ -51,6 +51,7 @@ export default React.createClass({
 
     // suggestions window has 30rem in width, so the max x postion is full width - 16 * 30 (480);
     const left = Math.min(config.left, searchbarWidth - 480);
+    const scrollElement = document.querySelector('.in-search-suggestions');
 
     return (
       <div className={block}
@@ -62,7 +63,21 @@ export default React.createClass({
                              [`${block}__item--selected`]: i === currentHighlightedRowIndex
                            })}
                 key={child.name}
-                onClick={() => this.onReturn(child)}>
+                onClick={() => this.onReturn(child)}
+                ref={item => {
+                  if (i === currentHighlightedRowIndex && item && scrollElement) {
+                    const topYPosOfItem = item.offsetTop;
+                    const bottomYPosOfItem = item.offsetTop + item.offsetHeight;
+                    const currentYPosOfScrollElement = scrollElement.scrollTop + scrollElement.clientHeight;
+                    if (bottomYPosOfItem > currentYPosOfScrollElement) {
+                      const delta = bottomYPosOfItem - currentYPosOfScrollElement;
+                      scrollElement.scrollTop += delta + 6; // add a margin
+                    } else if (topYPosOfItem < scrollElement.scrollTop) {
+                      const delta = scrollElement.scrollTop - topYPosOfItem;
+                      scrollElement.scrollTop -= delta + 6; // add a margin
+                    }
+                  }
+                }}>
               {child.name}
               <span className={`${block}__description`}>
                 {child.description}
