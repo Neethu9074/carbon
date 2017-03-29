@@ -14,7 +14,12 @@ export default function lexThirdStage(secondStageLexResult, startId) {
           secondStageLexResult[start++].blockId = blockId;
         }
         currentToken.blockId = blockId;
+        currentToken.isBlockingStart = true;
+
         nextToken.blockId = blockId;
+
+        secondStageLexResult[end].isBlockingEnd = true;
+
         i = end;
       }
     }
