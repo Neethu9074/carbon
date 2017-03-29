@@ -19,7 +19,7 @@ export default connectTo({
       }
 
       return focusedMoment$.flatMap(time => createViewStructureObservable({time, viewType: types.logical}))
-        .map(viewStructure => viewStructure.get('children').size > 0);
+        .map(viewStructure => viewStructure.children.length > 0);
     })
     .distinct()
 }, function MapNotes({hasLogicalViewData}) {

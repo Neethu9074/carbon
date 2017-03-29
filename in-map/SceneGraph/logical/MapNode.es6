@@ -12,16 +12,15 @@ export default class MapNode extends Node {
     this.addSubscription(
       getViewStructure().subscribe(structure => {
         const includedIds = structure.includedIds;
-        const services = structure.viewStructure.get('children');
+        const services = structure.viewStructure.children;
 
         this.updateEntities(services
-          .toArray()
-          .filter(entity => includedIds.serviceIds[entity.get('id')])
+          .filter(entity => includedIds.serviceIds[entity.id])
           .map(entity => {
             return {
               NodeType: ServiceNode,
               params: {
-                id: entity.get('id'),
+                id: entity.id,
                 entity,
                 includedIds
               }

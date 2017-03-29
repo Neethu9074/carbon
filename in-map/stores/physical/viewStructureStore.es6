@@ -42,22 +42,22 @@ export function getViewStructure() {
                 const hostIds = {};
                 const layerIds = {};
 
-                _viewStructure.get('children').forEach(group => {
-                  const groupId = group.get('id');
+                _viewStructure.children.forEach(group => {
+                  const groupId = group.id;
                   if (excludeUnmonitoredHosts && groupId === ID_OF_UNMONITORED_ZONE) {
                     groupIds[groupId] = false;
                     return;
                   }
 
-                  group.get('children').forEach(host => {
-                    const hostId = host.get('id');
+                  group.children.forEach(host => {
+                    const hostId = host.id;
                     if (_searchMatches.contains(hostId)) {
                       hostIds[hostId] = true;
                       groupIds[groupId] = true;
                     }
 
-                    host.get('children').forEach(layer => {
-                      const layerId = layer.get('id');
+                    host.children.forEach(layer => {
+                      const layerId = layer.id;
                       if (_searchMatches.contains(layerId)) {
                         layerIds[layerId] = true;
                         hostIds[hostId] = true;

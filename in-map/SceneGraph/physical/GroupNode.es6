@@ -13,14 +13,13 @@ export default class GroupNode extends Node {
     const includedIds = params.includedIds;
     const entity = params.entity;
 
-    this.updateEntities(entity.get('children')
-      .toArray()
-      .filter(entity => includedIds.hostIds[entity.get('id')])
+    this.updateEntities(entity.children
+      .filter(entity => includedIds.hostIds[entity.id])
       .map(entity => {
         return {
           NodeType: HostNode,
           params: {
-            id: entity.get('id'),
+            id: entity.id,
             entity,
             group: this.sceneObjectInstance,
             includedIds

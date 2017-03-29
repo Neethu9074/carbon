@@ -12,16 +12,15 @@ export default class MapNode extends Node {
     this.addSubscription(
       getViewStructure().subscribe(structure => {
         const includedIds = structure.includedIds;
-        const groups = structure.viewStructure.get('children');
+        const groups = structure.viewStructure.children;
 
         this.updateEntities(groups
-          .toArray()
-          .filter(entity => includedIds.groupIds[entity.get('id')])
+          .filter(entity => includedIds.groupIds[entity.id])
           .map(entity => {
             return {
               NodeType: GroupNode,
               params: {
-                id: entity.get('id'),
+                id: entity.id,
                 entity,
                 includedIds
               }
