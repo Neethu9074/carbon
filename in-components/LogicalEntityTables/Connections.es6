@@ -16,8 +16,8 @@ export default function Connections({snapshotId, timeframe}) {
       <LogicalConnectionEntityTable timeframe={timeframe}
                           title={'Inbound Connections'}
                           dataStream={viewStructure.flatMap(root => {
-                                        for (let i = 0, length = root.get('children').size; i < length; i++) {
-                                          const item = root.getIn(['children', i]);
+                                        for (let i = 0, length = root.children.size; i < length; i++) {
+                                          const item = root.children[i];
                                           if (item.get('id') === snapshotId) {
                                             return getUpstreamSnapshotsObservables(item);
                                           }
@@ -29,8 +29,8 @@ export default function Connections({snapshotId, timeframe}) {
       <LogicalConnectionEntityTable timeframe={timeframe}
                           title={'Outbound Connections'}
                           dataStream={viewStructure.flatMap(root => {
-                                        for (let i = 0, length = root.get('children').size; i < length; i++) {
-                                          const item = root.getIn(['children', i]);
+                                        for (let i = 0, length = root.children.size; i < length; i++) {
+                                          const item = root.children[i];
                                           if (item.get('id') === snapshotId) {
                                             return getDownstreamSnapshotsObservables(item);
                                           }

@@ -1,5 +1,3 @@
-import {fromJS} from 'immutable';
-
 import createSubscription from 'in-services/subscription/subscription';
 
 
@@ -19,5 +17,9 @@ export default createSubscription({
     };
   },
 
-  transformData: fromJS
+  transformData
 });
+
+function transformData(view) {
+  return view;
+}

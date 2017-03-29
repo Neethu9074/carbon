@@ -30,8 +30,8 @@ export default class Service extends SceneObject {
   constructor(params) {
     super(params);
 
-    this.isExternal = params.entity.getIn(['metadata', 'external'], false);
-    this.isEum = params.entity.getIn(['metadata', 'eum'], false);
+    this.isExternal = params.entity.metadata.external || false;
+    this.isEum = params.entity.metadata.eum || false;
     this.isUnknown = params.id.startsWith('unknown-service');
     this.includedIds = params.includedIds;
   }

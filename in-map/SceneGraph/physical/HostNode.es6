@@ -48,14 +48,13 @@ export default class HostNode extends Node {
         } else {
           this.disposeMetricNode();
 
-          this.updateEntities(this.entity.get('children')
-            .toArray()
-            .filter(entity => this.includedIds.layerIds[entity.get('id')])
+          this.updateEntities(this.entity.children
+            .filter(entity => this.includedIds.layerIds[entity.id])
             .map(entity => {
               return {
                 NodeType: LayerNode,
                 params: {
-                  id: entity.get('id'),
+                  id: entity.id,
                   entity,
                   node: this.sceneObjectInstance
                 }

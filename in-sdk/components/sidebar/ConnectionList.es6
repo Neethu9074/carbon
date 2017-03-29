@@ -13,32 +13,32 @@ export default connectTo(props => {
   return {
     connections: viewStructure
     .map(root => {
-      for (let i = 0, length = root.get('children').size; i < length; i++) {
-        const item = root.getIn(['children', i]);
-        if (item.get('id') === props.snapshotId) {
+      for (let i = 0, length = root.children.length; i < length; i++) {
+        const item = root.children[i];
+        if (item.id === props.snapshotId) {
           return {
-            outgoing: item.get('outgoingConnections'),
-            incoming: item.get('incomingConnections')
+            outgoing: item.outgoingConnections,
+            incoming: item.incomingConnections
           };
         }
       }
     })
   };
 }, function ConnectionList({connections}) {
-  if (!connections || (connections.outgoing.size === 0 && connections.incoming.size === 0)) {
+  if (!connections || (connections.outgoing.length === 0 && connections.incoming.length === 0)) {
     return null;
   }
 
   return (
     <div>
-      {connections.incoming.size === 0
+      {connections.incoming.length === 0
         ? null
         : <div>
           <Separator />
 
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>
-              {'Inbound Connections (' + connections.incoming.size + ')'}
+              {'Inbound Connections (' + connections.incoming.length + ')'}
             </Collapsible.Header>
             <Collapsible.Content>
               <SnapshotList connections={connections.incoming} />
@@ -47,13 +47,13 @@ export default connectTo(props => {
         </div>
       }
 
-      {connections.outgoing.size === 0
+      {connections.outgoing.length === 0
         ? null
         : <div>
           <Separator />
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>
-              {'Outbound Connections (' + connections.outgoing.size + ')'}
+              {'Outbound Connections (' + connections.outgoing.length + ')'}
             </Collapsible.Header>
             <Collapsible.Content>
               <SnapshotList connections={connections.outgoing} />
@@ -67,7 +67,7 @@ export default connectTo(props => {
 
 const SnapshotList = connectTo(props => {
   return {
-    snapshots: combineLatest(props.connections.map(connection => getSnapshot(connection.get('id'))))
+    snapshots: combineLatest(props.connections.map(connection => getSnapshot(connection.id)))
   };
 }, function SnapshotList({snapshots}) {
   if (!snapshots) {

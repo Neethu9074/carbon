@@ -37,12 +37,12 @@ export function getViewStructure() {
                 const serviceIds = {};
                 const serviceInstanceIds = {};
 
-                _viewStructure.get('children').forEach(service => {
-                  const serviceId = service.get('id');
+                _viewStructure.children.forEach(service => {
+                  const serviceId = service.id;
                   let includeService = _searchMatches.contains(serviceId);
 
-                  service.get('children').forEach(serviceInstance => {
-                    const serviceInstanceId = serviceInstance.get('id');
+                  service.children.forEach(serviceInstance => {
+                    const serviceInstanceId = serviceInstance.id;
                     if (_searchMatches.contains(serviceInstanceId)) {
                       includeService = true;
                       serviceInstanceIds[serviceInstanceId] = true;
@@ -53,11 +53,11 @@ export function getViewStructure() {
                     serviceIds[serviceId] = true;
 
                     if (numServiceHops > 0) {
-                      const incoming = service.get('incomingConnections');
-                      const outgoing = service.get('outgoingConnections');
+                      const incoming = service.incomingConnections;
+                      const outgoing = service.outgoingConnections;
 
-                      incoming.forEach(_incoming => serviceIds[_incoming.get('otherId')] = true);
-                      outgoing.forEach(_incoming => serviceIds[_incoming.get('otherId')] = true);
+                      incoming.forEach(_incoming => serviceIds[_incoming.otherId] = true);
+                      outgoing.forEach(_incoming => serviceIds[_incoming.otherId] = true);
 
                       // TODO: add support for hops > 1
                     }

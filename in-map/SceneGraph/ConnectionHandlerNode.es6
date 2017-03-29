@@ -1,4 +1,3 @@
-import {emptyList} from 'in-services/fixedImmutables';
 import Node from 'in-map/SceneGraph/Node';
 
 
@@ -11,14 +10,14 @@ export default class ConnectionHandlerNode extends Node {
   }
 
   createConnections(entity, entities) {
-    const hostId = entity.get('id');
-    const outgoing = entity.get('outgoingConnections', emptyList);
-    const incoming = entity.get('incomingConnections', emptyList);
+    const hostId = entity.id;
+    const outgoing = entity.outgoingConnections || [];
+    const incoming = entity.incomingConnections || [];
     const connections = [];
 
     outgoing.forEach(entity => {
       const sourceNode = entities[hostId];
-      const destinationNode = entities[entity.get('otherId')];
+      const destinationNode = entities[entity.otherId];
 
       if (sourceNode && destinationNode) {
         connections.push({
@@ -30,7 +29,7 @@ export default class ConnectionHandlerNode extends Node {
     });
 
     incoming.forEach(entity => {
-      const sourceNode = entities[entity.get('otherId')];
+      const sourceNode = entities[entity.otherId];
       const destinationNode = entities[hostId];
 
       if (sourceNode && destinationNode) {
@@ -48,7 +47,7 @@ export default class ConnectionHandlerNode extends Node {
           return {
             NodeType: this.connectionNodeType,
             params: {
-              id: connection.entity.get('id'),
+              id: connection.entity.id,
               entity: connection.entity,
               sourceNode: connection.sourceNode,
               destinationNode: connection.destinationNode
