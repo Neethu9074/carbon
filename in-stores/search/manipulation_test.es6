@@ -69,7 +69,7 @@ describe('in-stores/search/manipulation', () => {
     });
 
     it('must respect quoting', () => {
-      expect(setField('tag:bar OR type:blub', 'tag', '!bar')).to.equal('tag:bar OR type:blub tag:\\!bar');
+      expect(setField('tag:bar OR type:blub', 'tag', '!bar')).to.equal('tag:bar OR type:blub tag:"\\!bar"');
     });
 
     it('must set term with quotes and when they are required', () => {
@@ -84,6 +84,11 @@ describe('in-stores/search/manipulation', () => {
 
     it('must return all the defined field terms', () => {
       expect(getFieldTerms('tag:bar AND (cpuCount:>3 OR cpuCount:0)', 'cpuCount')).to.deep.equal(['>3', '0']);
+    });
+
+    it('must unescape the field terms', () => {
+      expect(getFieldTerms('tag:"hostname\\:amgen\\-dispatcher03.us\\-east\\-1.aetion.net"', 'tag'))
+        .to.deep.equal(['hostname:amgen-dispatcher03.us-east-1.aetion.net']);
     });
   });
 });
