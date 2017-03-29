@@ -1,7 +1,9 @@
+import lexSecondStage from 'in-stores/search/lexer/secondStage';
 import lexFirstStage from 'in-stores/search/lexer/firstStage';
 
+
 export function lex(str) {
-  return lexFirstStage(str);
+  return lexSecondStage(lexFirstStage(str));
 }
 
 export function getTokenForColumn(tokens, pos) {

@@ -111,7 +111,7 @@ React.createClass({
       }
 
       const changedToken = getTokenForColumn(tokens, change.to.ch);
-      if (changedToken == null || changedToken.token !== 'term') {
+      if (changedToken == null || (changedToken.token !== 'term' && changedToken.token !== 'field')) {
         this.hide();
         return;
       }

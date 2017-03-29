@@ -179,7 +179,7 @@ function getChildrenForConfig(config) {
   }
 
   const tokenAtCursor = getTokenForConfig(config);
-  if (!tokenAtCursor || (tokenAtCursor.token !== 'term' && tokenAtCursor.token !== 'whitespace')) {
+  if (!tokenAtCursor || ((tokenAtCursor.token !== 'term' && tokenAtCursor.token !== 'field') && tokenAtCursor.token !== 'whitespace')) {
     return emptyArray;
   }
 
