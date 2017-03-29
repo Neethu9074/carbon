@@ -16,9 +16,9 @@ export default function Connections({snapshotId, timeframe}) {
       <LogicalConnectionEntityTable timeframe={timeframe}
                           title={'Inbound Connections'}
                           dataStream={viewStructure.flatMap(root => {
-                                        for (let i = 0, length = root.children.size; i < length; i++) {
+                                        for (let i = 0, length = root.children.length; i < length; i++) {
                                           const item = root.children[i];
-                                          if (item.get('id') === snapshotId) {
+                                          if (item.id === snapshotId) {
                                             return getUpstreamSnapshotsObservables(item);
                                           }
                                         }
@@ -29,9 +29,9 @@ export default function Connections({snapshotId, timeframe}) {
       <LogicalConnectionEntityTable timeframe={timeframe}
                           title={'Outbound Connections'}
                           dataStream={viewStructure.flatMap(root => {
-                                        for (let i = 0, length = root.children.size; i < length; i++) {
+                                        for (let i = 0, length = root.children.length; i < length; i++) {
                                           const item = root.children[i];
-                                          if (item.get('id') === snapshotId) {
+                                          if (item.id === snapshotId) {
                                             return getDownstreamSnapshotsObservables(item);
                                           }
                                         }
@@ -52,9 +52,9 @@ function createDetails(nodeSnapshot, index, context) {
 
 
 function getDownstreamSnapshotsObservables(entity) {
-  return combineLatest(entity.get('outgoingConnections').toArray().map(c => getSnapshot(c.get('id'))));
+  return combineLatest(entity.outgoingConnections.map(c => getSnapshot(c.id)));
 }
 
 function getUpstreamSnapshotsObservables(entity) {
-  return combineLatest(entity.get('incomingConnections').toArray().map(c => getSnapshot(c.get('id'))));
+  return combineLatest(entity.incomingConnections.map(c => getSnapshot(c.id)));
 }

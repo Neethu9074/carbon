@@ -15,11 +15,5 @@ export default createSubscription({
       time,
       grouping
     };
-  },
-
-  transformData
+  }
 });
-
-function transformData(view) {
-  return view;
-}
