@@ -22,7 +22,6 @@ node {
     if ( fileExists("${minorNumberFile}") ) {
       def minorNumber = readProperties file: minorNumberFile
       minorVersion = minorNumber.value as Integer
-      echo "DEBUG: Major Version: ${majorVersion}"
       def nextMinorVersion = minorVersion + 1
       def f = new File(minorNumberFile)
       f.write("value=${nextMinorVersion}")
@@ -31,9 +30,12 @@ node {
       def f = new File(minorNumberFile)
       f.write("value=1")
     }
+    echo "DEBUG: Minor Version: ${minorVersion}"
   
     sh """
       cp ~/.npmrc-private-registry .npmrc
+      
+      npm install -g npm@3.9.5
       
       npm prune
       npm update
