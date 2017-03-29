@@ -2,6 +2,7 @@ import CodeMirror from 'codemirror/lib/codemirror.js';
 import RoEmitter from 'roemitter';
 import React from 'react';
 
+import {devQuery$, setDevQuery} from 'in-components/SearchBar/stores/devQuery';
 import {setInputString, unvalidatedQuery$} from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import {replaceWith} from 'in-components/SearchBar/misc/stringUtils';
@@ -21,7 +22,7 @@ import 'in-components/SearchBar/searchTokenDefinitions.less';
 const block = 'in-searchbar-input';
 
 export default getElementDimensions(connectTo({
-  query: unvalidatedQuery$
+  query: __DEV__ ? devQuery$ : unvalidatedQuery$
 },
 React.createClass({
 
@@ -180,7 +181,11 @@ React.createClass({
       this.editor.setValue(newQuery);
     }
 
-    setInputString(newQuery);
+    if (__DEV__) {
+      setDevQuery(newQuery);
+    } else {
+      setInputString(newQuery);
+    }
   },
 
   hide() {
