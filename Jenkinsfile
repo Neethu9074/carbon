@@ -1,43 +1,48 @@
-stage 'NPM Build'
+def versionBaseDir = '/mnt/efs/data/instana-release'
 
 node {
-  // build in clean workspace
-  deleteDir()
 
-  checkout scm
+  stage('Node Build') {
+    // build in clean workspace
+    deleteDir()
 
-  gitCommitId          = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-  gitShortCommitId     = gitCommitId.take(6)
-  gitCommitAuthor      = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitShortCommitId").trim()
-  instanaBackendBranch = env.BRANCH_NAME
-  
-  if ( instanaBackendBranch == 'master' ) {
-  	def baseDir = '/mnt/efs/data/instana-release'
-    def majorNumber = readProperties  file: "${baseDir}/major.number"
-    majorVersion = majorNumber.value
-    def minorNumberFile = "${baseDir}/ui-client.${majorVersion}.minor.number"
+    checkout scm
+
+    gitCommitId          = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    gitShortCommitId     = gitCommitId.take(6)
+    gitCommitAuthor      = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitShortCommitId").trim()
+    instanaBackendBranch = env.BRANCH_NAME
+
+    def majorNumber = readProperties  file: "${versionBaseDir}/major.number"
+    majorVersion = majorNumber.value as Integer
+
+    echo "DEBUG: Major Version: ${majorVersion}"
+
+    def minorNumberFile = "${versionBaseDir}/ui-client-${instanaBackendBranch}-${majorVersion}-minor.number"
     if ( fileExists("${minorNumberFile}") ) {
       def minorNumber = readProperties file: minorNumberFile
       minorVersion = minorNumber.value as Integer
+      echo "DEBUG: Major Version: ${majorVersion}"
       def nextMinorVersion = minorVersion + 1
       def f = new File(minorNumberFile)
-      f << "value=${nextMinorVersion}"
+      f.write("value=${nextMinorVersion}")
     } else {
       minorVersion = 0
       def f = new File(minorNumberFile)
-      f << "value=1"
+      f.write("value=1")
     }
+  
+    sh """
+      cp ~/.npmrc-private-registry .npmrc
+      
+      npm prune
+      npm update
+      npm install
+      
+      npm run test
+      npm run build
+      tar -xzf ui-client-${instanaBackendBranch}-${majorVersion}.${minorVersion}.tar.gz target/*
+    """
   }
-
-  sh """
-    cp ~/.npmrc-private-registry .npmrc
-    
-    npm prune
-    npm update
-    npm install
-    
-    npm run test
-    npm run build
-    tar -xzf ui-client-${instanaBackendBranch}-${majorVersion}.${minorVersion}.tar.gz target/*
-  """
 }
+
