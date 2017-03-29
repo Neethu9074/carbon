@@ -29,9 +29,6 @@ export default function lexThirdStage(secondStageLexResult, startId) {
 }
 
 export function getEndCursorForFieldValue(start, tokens) {
-  if (tokens[start].token === 'phrase') {
-    return start;
-  }
   if (tokens[start].token === 'term') {
     return start;
   }
@@ -52,6 +49,12 @@ export function getEndCursorForFieldValue(start, tokens) {
       }
 
       groupingCursor++;
+    }
+  }
+  if (tokens[start].token === 'phrase') {
+    const lexeme = tokens[start].lexeme;
+    if (lexeme.length > 1 && lexeme.startsWith('"') && lexeme.endsWith('"')) {
+      return start;
     }
   }
   return -1;

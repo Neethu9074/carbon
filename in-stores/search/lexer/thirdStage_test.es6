@@ -158,6 +158,22 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
+  it('should search for closing phrase', () => {
+    expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:"a b c"')), 0)).to.deep.equal([
+      { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: 0, isBlockingStart: true },
+      { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: 0 },
+      { token: 'phrase', lexeme: '"a b c"', start: 4, end: 11, blockId: 0, isBlockingEnd: true },
+    ]);
+  });
+
+  it('should ignore invalid phrases', () => {
+    expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:"a b c')), 0)).to.deep.equal([
+      { token: 'field', lexeme: 'foo', start: 0, end: 3 },
+      { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4 },
+      { token: 'phrase', lexeme: '"a b c', start: 4, end: 10 },
+    ]);
+  });
+
   it('should detect multiple blocks', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:(a) OR bar:(b)')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: 0, isBlockingStart: true },
