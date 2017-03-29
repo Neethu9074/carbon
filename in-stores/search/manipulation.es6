@@ -51,7 +51,7 @@ export function getFieldTerms(query, fieldName) {
   const fieldMatcher = buildFieldMatcher(fieldName);
   return reduce(parse(query), (agg, node) => {
     if (fieldMatcher(node)) {
-      agg.push(node.term);
+      agg.push(luceneUnescapeString(node.term));
     }
     return agg;
   }, []);
@@ -65,19 +65,22 @@ export function luceneEscapeString(s) {
 }
 
 
+function luceneUnescapeString(s) {
+  return s.replace(/\\([\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/])/g, (m, c) => c);
+}
+
+
 export function requiresQuotes(s) {
-  return s.indexOf(' ') !== -1;
+  return s.indexOf(' ') !== -1 || s.indexOf('\\') !== -1;
 }
 
 
 function buildFieldMatcher(fieldName, value=undefined) {
   const lowerCasedFieldName = fieldName.toLowerCase();
   const lowerCasedValue = typeof value === 'string' ? luceneEscapeString(value.toLowerCase()) : value;
-  return node => {
-    return node.field &&
+  return node =>  !!node.field &&
         node.field.toLowerCase() === lowerCasedFieldName &&
         (lowerCasedValue === undefined || node.term.toLowerCase() === lowerCasedValue);
-  };
 }
 
 
