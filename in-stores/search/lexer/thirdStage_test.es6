@@ -157,4 +157,24 @@ describe('in-stores/search/lexer/secondStage', () => {
       { token: 'grouping', lexeme: ')', start: 14, end: 15, blockId: 0 }
     ]);
   });
+
+  it('should detect multiple blocks', () => {
+    expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:(a) OR bar:(b)')), 0)).to.deep.equal([
+      { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: 0 },
+      { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: 0 },
+      { token: 'grouping', lexeme: '(', start: 4, end: 5, blockId: 0 },
+      { token: 'term', lexeme: 'a', start: 5, end: 6, blockId: 0 },
+      { token: 'grouping', lexeme: ')', start: 6, end: 7, blockId: 0 },
+
+      { token: 'whitespace', lexeme: ' ', start: 7, end: 8 },
+      { token: 'operator', lexeme: 'OR', start: 8, end: 10 },
+      { token: 'whitespace', lexeme: ' ', start: 10, end: 11 },
+
+      { token: 'field', lexeme: 'bar', start: 11, end: 14, blockId: 1 },
+      { token: 'fieldSeparator', lexeme: ':', start: 14, end: 15, blockId: 1 },
+      { token: 'grouping', lexeme: '(', start: 15, end: 16, blockId: 1 },
+      { token: 'term', lexeme: 'b', start: 16, end: 17, blockId: 1 },
+      { token: 'grouping', lexeme: ')', start: 17, end: 18, blockId: 1 },
+    ]);
+  });
 });
