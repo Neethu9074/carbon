@@ -30,19 +30,17 @@ node {
       f.write("value=1")
     }
     echo "DEBUG: Minor Version: ${minorVersion}"
-  
+
     def archiveName = "ui-client-${instanaBackendBranch}-${majorVersion}.${minorVersion}.tar.gz"
     sh """
       cp ~/.npmrc-private-registry .npmrc
-      
-      npm install -g npm@3.9.5
 
-      npm prune
-      npm update
-      npm install
-      
-      npm run test
-      npm run build
+      npm install -g yarn
+
+      yarn
+
+      yarn run test
+      yarn run build
       tar -czf ${archiveName} target/*
     """
 

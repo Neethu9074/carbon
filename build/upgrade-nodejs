@@ -37,12 +37,13 @@ nvm alias default "$NEW_NODE_VERSION"
 rm -f .git/hooks/pre-commit
 echo "" > .git/hooks/pre-commit
 
-# and install all the dependencies
-npm install
-cd in-server
-npm install
+# install global tools
+npm install -g ec2c proxrox tldr commitizen diff-so-fancy yarn
 
-# install tools that everyone needs ;)
-npm install -g ec2c proxrox tldr commitizen diff-so-fancy yarn npm@3.9.5
+# and install all the dependencies
+yarn
+cd in-server
+yarn
+
 
 echo 'Great success, Node.js is now up to date!'

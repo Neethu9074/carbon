@@ -8,13 +8,11 @@ nvm use
 
 cp "$HOME/.npmrc-private-registry" .npmrc
 
-npm install -g npm@3.9.5
+npm install -g yarn
 
-nice -19 npm prune
-nice -19 npm install
-
-nice -19 npm run test
-nice -19 npm run build
+yarn
+yarn run test
+yarn run build
 
 # archive artifact in Nexus to build a package
 if [[ "$INSTANA_UICLIENT_BRANCH" == "master" ]]; then

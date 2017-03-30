@@ -4,13 +4,12 @@
 
 - [Branching Model](#branching-model)
 - [Getting Started](#getting-started)
-	- [Accessing our artifact repository via NPM](#accessing-our-artifact-repository-via-npm)
+	- [Accessing our artifact repository via Yarn](#accessing-our-artifact-repository-via-yarn)
 	- [Installation of required software](#installation-of-required-software)
-		- [Node.js and NPM](#nodejs-and-npm)
+		- [Node.js and Yarn](#nodejs-and-yarn)
 		- [Nginx](#nginx)
 	- [Setting up local domains](#setting-up-local-domains)
 	- [Executing tasks](#executing-tasks)
-	- [Using Commitizen for Git Commit Messages](#using-commitizen-for-git-commit-messages)
 	- [Upgrading Node.js](#upgrading-nodejs)
 - [Troubleshooting](#troubleshooting)
 	- [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
@@ -29,8 +28,8 @@ We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-mod
 You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
 [Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it easy to switch between installed Node.js versions and allows installation of global modules without super-user privileges.
 
-### Accessing our artifact repository via NPM
-To access our artifact repository (NEXUS) and retrieve dependencies via NPM, you need to add a local `.npmrc` configuration file to the `ui-client` directory. You do so via…
+### Accessing our artifact repository via Yarn
+To access our artifact repository (NEXUS) and retrieve dependencies via Yarn, you need to add a local `.npmrc` configuration file to the `ui-client` directory. You do so via…
 
 ```
 cp .npmrc.sample .npmrc
@@ -40,7 +39,7 @@ You need to edit the `.npmrc` file according to the comments contained within th
 
 ### Installation of required software
 
-#### Node.js and NPM
+#### Node.js and Yarn
 Make sure that you have Git and cURL installed before starting with the following instructions. Execute the instructions in the root directory of the ui-client project.
 
 ```
@@ -50,7 +49,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | b
 # reload bash
 bash
 
-# install and use the project's preferred Node.js version
+# install and use the project's preferred Node.js and Yarn version
 ./build/upgrade-nodejs
 ```
 
@@ -66,16 +65,7 @@ sudo sh -c 'echo "127.0.0.1 local-instana.instana.io" >> /etc/hosts'
 ```
 
 ### Executing tasks
-Tasks are defined in the `package.json`. They can be executed via `npm run <taskname>`. For instance `npm run test` (or `npm test`) to execute the tests, `npm run dev` to start up a proxy and development server or `npm run build` to build the JavaScript files.
-
-### Using Commitizen for Git Commit Messages
-This project is configured for use with the [Commitizen CLI](https://github.com/commitizen/cz-cli). To use it execute the following command:
-
-```
-npm install -g commitizen
-```
-
-And now you can execute `git cz` to commit with nice commit messages.
+Tasks are defined in the `package.json`. They can be executed via `yarn run <taskname>`. For instance `yarn run test` (or `yarn test`) to execute the tests, `yarn run dev` to start up a proxy and development server or `yarn run build` to build the JavaScript files.
 
 ### Upgrading Node.js
 From time to time we are upgrading the Node.js version that we are using for build of the `ui-client` as well as for the `in-server`. Node.js upgrades have been automated. Simply execute the following command in the root of the project to automatically upgrade your Node.js version via NVM.
@@ -84,7 +74,7 @@ From time to time we are upgrading the Node.js version that we are using for bui
 ./build/upgrade-nodejs
 ```
 
-Once executed, verify that it was successful via the usual `npm test`.
+Once executed, verify that it was successful via the usual `yarn run test`.
 
 ## Troubleshooting
 
@@ -114,7 +104,7 @@ Object.keys(instana.dev.storeStates).forEach(key => {
 ```
 
 ### How can I get a list of metrics?
-You can get a list of metrics per entity via `npm run generateMetricOverview`. This will execute a test which prints the metrics to `stdout`. Note that this list is not extensive. For instance, it does not include dynamic metric names such as file system capacity or CPU 1 usage.
+You can get a list of metrics per entity via `yarn run generateMetricOverview`. This will execute a test which prints the metrics to `stdout`. Note that this list is not extensive. For instance, it does not include dynamic metric names such as file system capacity or CPU 1 usage.
 
 ## Theming
 The theming system in place is used to support the default dark theme (called *night*) and a brighter theme with stronger contrasts (called *day*). Themes are switched based on a cookie called `in-theme`. This cookie is read by `in-server` and depending on its value the server returns varying HTML responses.
