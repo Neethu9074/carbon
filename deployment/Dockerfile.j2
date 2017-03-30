@@ -1,4 +1,4 @@
-FROM registry-internal.instana.io/instana/nginx-nodejs:latest
+FROM registry-internal.instana.io/instana/nodejs:latest
 
 MAINTAINER Ben Ripkens "ben@instana.com"
 
@@ -10,20 +10,11 @@ LABEL com.instana.commit.id="{{INSTANA_UICLIENT_COMMIT}}" \
 # the number of copy operations (and thus layers).
 COPY . /opt/all
 
-RUN mkdir -p /etc/nginx \
-             /etc/ssl/certs \
-             /etc/service/nginx \
-             /etc/service/in-server && \
+RUN mkdir -p /etc/service/in-server && \
+
     mv /opt/all/target                             /opt/www && \
-    mv /opt/all/deployment/nginx.conf.j2           /etc/nginx/nginx.conf.j2 && \
-    mv /opt/all/deployment/mime.types              /etc/nginx/mime.types && \
-    mv /opt/all/deployment/.htpasswd               /etc/nginx/.htpasswd && \
     mv /opt/all/deployment/config.json.j2          /opt/www/config.json.j2 && \
     mv /opt/all/deployment/serverConfig.json.j2    /opt/www/serverConfig.json.j2 && \
-    mv /opt/all/deployment/star_instana_io.crt     /etc/ssl/certs/star_instana_io.crt.j2 && \
-    mv /opt/all/deployment/star_instana_io.key     /opt/www/star_instana_io.key.j2 && \
-    mv /opt/all/deployment/dhgroup.pem             /etc/ssl/dhgroup.pem.j2 && \
-    mv /opt/all/deployment/services/nginx.sh       /etc/service/nginx/run && \
     mv /opt/all/deployment/services/in-server.sh   /etc/service/in-server/run && \
     mv /opt/all/deployment/discovery               /opt/discovery && \
     mv /opt/all/deployment/ext-discovery/*         /opt/discovery/ && \
@@ -42,5 +33,3 @@ RUN mkdir -p /etc/nginx \
     rm -rf /opt/all /var/lib/apt/lists/* /tmp/* /var/tmp/**
 
 CMD ["/sbin/my_init"]
-
-EXPOSE 80 443
