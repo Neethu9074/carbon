@@ -174,6 +174,23 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
+  it('should take regex into account', () => {
+    expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:/this is regex/')), 0)).to.deep.equal([
+      { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
+      { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: '0' },
+      { token: 'regex', lexeme: '/this is regex/', start: 4, end: 19, blockId: '0', isBlockingEnd: true },
+    ]);
+  });
+
+  it('should detect lonely regex', () => {
+    expect(lexThirdStage(lexSecondStage(lexFirstStage('/reg/ /ex/ ')), 0)).to.deep.equal([
+      { token: 'regex', lexeme: '/reg/', start: 0, end: 5, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'whitespace', lexeme: ' ', start: 5, end: 6},
+      { token: 'regex', lexeme: '/ex/', start: 6, end: 10, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'whitespace', lexeme: ' ', start: 10, end: 11},
+    ]);
+  });
+
   it('should detect multiple blocks', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:(a) OR bar:(b)')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
