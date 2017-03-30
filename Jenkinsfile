@@ -41,16 +41,49 @@ node {
 
       yarn run test
       yarn run build
+
       tar -czf ${archiveName} target/*
     """
 
-    stash includes: "${archiveName}", name: "ui-client-${gitShortCommitId}"
+    stash includes: "${archiveName}, deployment/**/*", name: "ui-client-${gitShortCommitId}"
   }
 
 }
 
 node {
   stage('Container Build') {
+    deleteDir()
+
     unstash name: "ui-client-${gitShortCommitId}"
+
+    instanaContainerTag = "${majorVersion}-${minorVersion}"
+    if ( instanaBackendBranch == 'master' ) {
+      instanaContainerTag = "instana-release-" + instanaContainerTag
+    }
+
+    withEnv([
+      "GIT_COMMIT=${gitShortCommitId}",
+      "COMMIT_AUTHOR=${gitCommitAuthor}",
+      "INSTANA_CONTAINER_TAG=${instanaContainerTag}",
+      "INSTANA_BACKEND_BRANCH=${instanaBackendBranch}",
+      "JOB_NAME=${env.JOB_NAME}",
+      "BUILD_NUMBER=${env.BUILD_NUMBER}",
+      "BUILD_URL=${env.BUILD_URL}"
+    ]) {
+      sh  'j2 deployment/Dockerfile.j2 > Dockerfile'
+      sh  'mkdir ext-discovery'
+      dir('ext-discovery') {
+        git 'git@github.com:instana/discovery.git'
+      }
+      retry(3) {
+        // wrap in retry as zfs sometimes fails when building containers
+        def containerName = "registry-internal.instana.io/instana/ui-client/${instanaBackendBranch}"
+        sh "docker build -t ${containerName} ."
+        sh "docker tag ${containerName} ${containerName}:${instanaContainerTag}"
+        sh "docker push ${containerName}:latest"
+        sh "docker push ${containerName}:${instanaContainerTag}"
+        sh "docker rmi ${containerName}"
+      }
+    }
   }
 }
