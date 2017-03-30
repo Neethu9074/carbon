@@ -9,7 +9,7 @@ export default function lexThirdStage(secondStageLexResult, startId) {
       let start = i + 2;
       const end = getEndCursorForFieldValue(start, secondStageLexResult);
       if (end >= start) {
-        const blockId = currentBlockId++;
+        const blockId = String(currentBlockId++);
         while(start <= end) {
           secondStageLexResult[start++].blockId = blockId;
         }

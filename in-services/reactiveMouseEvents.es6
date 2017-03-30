@@ -48,3 +48,8 @@ export function onLeave(domElement, callback) {
   return on(domElement, 'mouseleave')
          .subscribe(callback);
 }
+
+export function onEnter(domElement, callback) {
+  return on(domElement, 'mouseenter')
+         .subscribe(callback);
+}

@@ -5,6 +5,7 @@ import React from 'react';
 import {devQuery$, setDevQuery} from 'in-components/SearchBar/stores/devQuery';
 import {setInputString, unvalidatedQuery$} from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
+import {onDown, onMove, onLeave} from 'in-services/reactiveMouseEvents';
 import {replaceWith} from 'in-components/SearchBar/misc/stringUtils';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import {lex, getTokenForColumn} from 'in-stores/search/lexer';
@@ -19,6 +20,8 @@ import './Input.less';
 import 'in-components/SearchBar/searchTokenDefinitions.less';
 
 
+const blockEndClass = 'cm-custom-block--end';
+const blockHighlightedClass = 'cm-custom-block--end--highlighted';
 const block = 'in-searchbar-input';
 
 export default getElementDimensions(connectTo({
@@ -126,11 +129,45 @@ React.createClass({
         left
       });
     });
+
+    const code = document.querySelector('.CodeMirror-code');
+    this.clickSubscription = onDown(code, e => {
+      if (isX(e, e.target)) {
+        const match = e.target.className.match(/custom-blockId-[0-9]+/);
+        if (match) {
+          const parts = match[0].split('-');
+          const blockId = parts[parts.length - 1];
+          this.removeBlockFromQuery(blockId);
+        }
+      }
+    });
+
+    this.moveSubscription = onMove(code, e => {
+      removeAllHighlightedClasses();
+      if (isX(e, e.target)) {
+        addHighlightingClass(e.target);
+      }
+    });
+
+    this.leaveSubscription = onLeave(code, removeAllHighlightedClasses);
   },
 
   componentWillUnmount() {
     // editor events are disposed via GC, so just "delete" the reference
     this.editor = null;
+
+    if (this.clickSubscription) {
+      this.clickSubscription.dispose();
+      this.clickSubscription = null;
+    }
+    if (this.moveSubscription) {
+      this.moveSubscription.dispose();
+      this.moveSubscription = null;
+    }
+    if (this.leaveSubscription) {
+      this.leaveSubscription.dispose();
+      this.leaveSubscription = null;
+    }
 
     this.state.eventEmitter.dispose();
 
@@ -188,6 +225,19 @@ React.createClass({
     }
   },
 
+  removeBlockFromQuery(blockId) {
+    const tokens = this.editor.doc.mode.currentLexResult;
+    let newQuery = '';
+    for (let i = 0, length = tokens.length; i < length; i++) {
+      const token = tokens[i];
+      if (token.blockId !== blockId) {
+        newQuery += token.lexeme;
+      }
+    }
+
+    this.updateQuery(newQuery);
+  },
+
   hide() {
     this.setState({ suggestionConfig: null });
   },
@@ -196,3 +246,30 @@ React.createClass({
     this.setState({ suggestionConfig });
   }
 })));
+
+function isX(mouseEvent, domElement) {
+  if (!domElement) {
+    return false;
+  }
+  if (domElement.className.indexOf(blockEndClass) >= 0) {
+    const rect = domElement.getBoundingClientRect();
+    if (mouseEvent.clientX > rect.right) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function addHighlightingClass(domElement) {
+  const indexOfClass = domElement.className.indexOf(blockHighlightedClass);
+  if (indexOfClass < 0) {
+    domElement.className += ` ${blockHighlightedClass}`;
+  }
+}
+
+function removeAllHighlightedClasses() {
+  const allHighlightedBlocks = document.querySelectorAll(`.${blockHighlightedClass}`);
+  for (let i = 0, length = allHighlightedBlocks.length; i < length; i++) {
+    allHighlightedBlocks[i].className = allHighlightedBlocks[i].className.replace(blockHighlightedClass, '');
+  }
+}

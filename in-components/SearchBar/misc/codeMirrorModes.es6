@@ -6,6 +6,8 @@ import {lex, getTokenForColumn} from 'in-stores/search/lexer';
 
 CodeMirror.defineMode('instanaSearch', () => {
   return {
+    currentLexResult: null,
+
     startState() {
       return {
         lexedFor: '',
@@ -16,7 +18,7 @@ CodeMirror.defineMode('instanaSearch', () => {
     token(stream, state) {
       if (state.lexResult == null || stream.string !== state.lexedFor) {
         state.lexedFor = stream.string;
-        state.lexResult = lexThirdStage(lex(stream.string));
+        this.currentLexResult = state.lexResult = lexThirdStage(lex(stream.string));
       }
 
       const token = getTokenForColumn(state.lexResult, stream.pos);
@@ -31,6 +33,7 @@ CodeMirror.defineMode('instanaSearch', () => {
       const blockId = token.blockId;
       if (blockId >= 0) {
         classes += ` custom-block`;
+        classes += ` custom-blockId-${blockId}`;
         if (token.isBlockingStart) {
           classes += ` custom-block--start`;
         } else if (token.isBlockingEnd) {
