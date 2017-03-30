@@ -13,9 +13,7 @@ export default function lexThirdStage(secondStageLexResult, startId) {
 
 function detectBeginningBlockWithWhitespace(tokens) {
   // edge case, there is just a term and a whitespace
-  if (tokens.length >= 2 && tokens[1].token === 'whitespace' && (
-      tokens[0].token === 'term' || tokens[0].token === 'regex'
-    )) {
+  if (tokens.length >= 2 && isWhitespace(tokens[1]) && (isTerm(tokens[0]) || isRegex(tokens[0]))) {
     const blockId = String(currentBlockId++);
     tokens[0].blockId = blockId;
     tokens[0].isBlockingStart = true;
@@ -26,7 +24,7 @@ function detectBeginningBlockWithWhitespace(tokens) {
 function detectFieldFieldSeperatorValueBlocks(i, tokens) {
   const currentToken = tokens[i];
   const nextToken = tokens[i + 1];
-  if (currentToken.token === 'field' && nextToken.token === 'fieldSeparator') {
+  if (isField(currentToken) && isFieldSeparator(nextToken)) {
     let start = i + 2;
     const end = getEndCursorForFieldValue(start, tokens);
     if (end >= start) {
@@ -50,9 +48,9 @@ function detectLonelyBlocks(i, tokens) {
   const currentToken = tokens[i];
   const nextToken = tokens[i + 1];
 
-  if (currentToken.token === 'whitespace') {
+  if (isWhitespace(currentToken)) {
     const nextNextToken = tokens[i + 2];
-    if (nextNextToken.token === 'whitespace' && (nextToken.token === 'term' || nextToken.token === 'regex')) {
+    if (isWhitespace(nextNextToken) && (isTerm(nextToken) || isRegex(nextToken))) {
       const blockId = String(currentBlockId++);
       nextToken.blockId = blockId;
       nextToken.isBlockingStart = true;
@@ -62,15 +60,15 @@ function detectLonelyBlocks(i, tokens) {
 }
 
 export function getEndCursorForFieldValue(start, tokens) {
-  if (tokens[start].token === 'term') {
+  if (isTerm(tokens[start])) {
     return start;
   }
-  if (tokens[start].token === 'grouping' && tokens[start].lexeme === '(') {
+  if (isGrouping(tokens[start]) && tokens[start].lexeme === '(') {
     let openingGroupings = 1;
     let groupingCursor = start + 1;
 
     while(groupingCursor < tokens.length) {
-      if (tokens[groupingCursor].token === 'grouping') {
+      if (isGrouping(tokens[groupingCursor])) {
         if (openingGroupings === 1 && tokens[groupingCursor].lexeme === ')') {
           return groupingCursor;
         }
@@ -84,7 +82,7 @@ export function getEndCursorForFieldValue(start, tokens) {
       groupingCursor++;
     }
   }
-  if (tokens[start].token === 'phrase') {
+  if (isPhrase(tokens[start])) {
     const lexeme = tokens[start].lexeme;
     if (lexeme.length > 1 && lexeme.startsWith('"') && lexeme.endsWith('"')) {
       return start;
@@ -94,4 +92,32 @@ export function getEndCursorForFieldValue(start, tokens) {
     return start;
   }
   return -1;
+}
+
+function isTerm(token) {
+  return token.token === 'term';
+}
+
+function isField(token) {
+  return token.token === 'field';
+}
+
+function isFieldSeparator(token) {
+  return token.token === 'fieldSeparator';
+}
+
+function isPhrase(token) {
+  return token.token === 'phrase';
+}
+
+function isGrouping(token) {
+  return token.token === 'grouping';
+}
+
+function isWhitespace(token) {
+  return token.token === 'whitespace';
+}
+
+function isRegex(token) {
+  return token.token === 'regex';
 }
