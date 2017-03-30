@@ -31,7 +31,7 @@
 }
 
 .cm-regex {
-  color: #4a91e4;
+  color: #68b0e3;
 }
 
 .cm-operator {
@@ -59,7 +59,7 @@
 }
 
 .cm-field {
-  color: white;
+  color: #ffbf00;
 }
 
 .cm-character {
@@ -88,18 +88,20 @@
       top: 0;
       background: rgba(255, 255, 255, 0.1);
       right: -1.25rem;
-      color: white;
+      font-weight: bold;
+      color: #8c969a;
       line-height: 1.5rem;
       border-left: 1px solid #2d4048;
       padding-left: 6px;
       border-radius: 0 .125rem .125rem 0;
 
-      transition: background .15s ease-in-out;
+      transition: background .15s ease-in-out, color .15s ease-in-out;
     }
 
     &--highlighted::after {
       background: rgba(255, 255, 255, 0.2);;
       cursor: pointer;
+      color: #fff;
     }
   }
 }
