@@ -62,10 +62,10 @@ node {
     }
 
     withEnv([
-      "GIT_COMMIT=${gitShortCommitId}",
+      "NSTANA_UICLIENT_COMMIT=${gitShortCommitId}",
       "COMMIT_AUTHOR=${gitCommitAuthor}",
       "INSTANA_CONTAINER_TAG=${instanaContainerTag}",
-      "INSTANA_BACKEND_BRANCH=${instanaBackendBranch}",
+      "INSTANA_UICLIENT_BRANCH=${instanaBackendBranch}",
       "JOB_NAME=${env.JOB_NAME}",
       "BUILD_NUMBER=${env.BUILD_NUMBER}",
       "BUILD_URL=${env.BUILD_URL}"
