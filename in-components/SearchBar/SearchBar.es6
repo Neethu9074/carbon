@@ -4,6 +4,7 @@ import {togglePresets, presetsVisible$} from 'in-components/SearchBar/stores/pre
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import LifecycleObserver from 'in-components/LifecycleObserver';
+import {refresh} from 'in-components/SearchBar/stores/filters';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {expanded$} from 'in-stores/search/searchBarExpanded';
 import {setInputString} from 'in-stores/search/query';
@@ -25,13 +26,13 @@ export default connectTo({
 function SearchBar({expanded, presetsVisible, keywordsVisible}) {
   if (!expanded) {
     return (
-      <LifecycleObserver onDidMount={emitResizeEvent} />
+      <LifecycleObserver onDidMount={onDidMount} />
     );
   }
 
   return (
     <div>
-      <LifecycleObserver onDidMount={emitResizeEvent} />
+      <LifecycleObserver onDidMount={onDidMount} />
 
       {presetsVisible ?
         <FilterPresets />
@@ -75,4 +76,9 @@ function SearchBar({expanded, presetsVisible, keywordsVisible}) {
 function onShowKeywordHelp(e) {
   e.preventDefault();
   showHelp('usingTheSearchBar');
+}
+
+function onDidMount() {
+  emitResizeEvent();
+  refresh();
 }
