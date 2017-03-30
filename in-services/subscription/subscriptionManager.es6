@@ -20,7 +20,7 @@ export const activeSubscriptions = {};
 const timeUntilDisposingSubscriptionsForHiddenUi = 1000 * 60;
 
 // Whether or not the backend is currently informed aboute active subscriptions.
-let isSubscriptionsActive = true;
+let isSubscriptionsActive = false;
 
 export function subscribe(subscriptionId, event, payload, disposeSubscriptionOnDocumentHidden = true) {
   if (__DEV__) {
@@ -65,15 +65,18 @@ export function unsubscribe(subscriptionId) {
 
 
 export function init() {
-  // resend active subscription upon reconnect. This allows us to keep the ui-backend
-  // stateless, i.e. it does not need to keep a session of established subscriptions
-  // per user.
-  on('reconnect', function onPersistentConnectionReconnect() {
-    Object.keys(activeSubscriptions).forEach(k => {
-      const activeSubscription = activeSubscriptions[k];
-      emit(activeSubscription.event, activeSubscription.payload);
-    });
+  on('server-initialized', () => {
+    if (!isSubscriptionsActive) {
+      isSubscriptionsActive = true;
+      Object.keys(activeSubscriptions).forEach(k => {
+        const activeSubscription = activeSubscriptions[k];
+        emit(activeSubscription.event, activeSubscription.payload);
+      });
+    }
   });
+
+  on('reconnect', () => isSubscriptionsActive = false);
+
 
   // We dispose all subscriptions server side when the window is hidden for a few
   // minutes. We do this to avoid buffering a large amount of data in the UI
