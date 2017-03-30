@@ -194,9 +194,9 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('should also block terms with whitespaces', () => {
+  it('should also block terms if it is the first one', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foobar ')), 0)).to.deep.equal([
-      { token: 'term', lexeme: 'foobar', start: 0, end: 6 },
+      { token: 'term', lexeme: 'foobar', start: 0, end: 6, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 6, end: 7 }
     ]);
 

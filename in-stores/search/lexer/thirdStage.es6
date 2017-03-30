@@ -2,6 +2,14 @@ let currentBlockId = 0;
 export default function lexThirdStage(secondStageLexResult, startId) {
   currentBlockId = startId == undefined ? currentBlockId : startId;
 
+  // edge case, there is just a term and a whitespace
+  if (secondStageLexResult.length >= 2 && secondStageLexResult[0].token === 'term' && secondStageLexResult[1].token === 'whitespace') {
+    const blockId = String(currentBlockId++);
+    secondStageLexResult[0].blockId = blockId;
+    secondStageLexResult[0].isBlockingStart = true;
+    secondStageLexResult[0].isBlockingEnd = true;
+  }
+
   for (let i = 0, length = secondStageLexResult.length - 2; i < length; i++) {
     const currentToken = secondStageLexResult[i];
     const nextToken = secondStageLexResult[i + 1];
