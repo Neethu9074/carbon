@@ -13,11 +13,12 @@ export default function lexThirdStage(secondStageLexResult, startId) {
 
 function detectBeginningBlockWithWhitespace(tokens) {
   // edge case, there is just a term and a whitespace
-  if (tokens.length >= 2 && isWhitespace(tokens[1]) && (isTerm(tokens[0]) || isRegex(tokens[0]))) {
+  const currentToken = tokens[0];
+  if (tokens.length >= 2 && isWhitespace(tokens[1]) && (isTerm(currentToken) || isRegex(currentToken))) {
     const blockId = String(currentBlockId++);
-    tokens[0].blockId = blockId;
-    tokens[0].isBlockingStart = true;
-    tokens[0].isBlockingEnd = true;
+    currentToken.blockId = blockId;
+    currentToken.isBlockingStart = true;
+    currentToken.isBlockingEnd = true;
   }
 }
 

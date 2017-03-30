@@ -7,7 +7,8 @@ filters$.subscribe(_filters => {
   filterNode.children = _filters.toArray()
   .map(_filter => node(_filter.get('name'), {
     isPreset: true,
-    query: _filter.get('definition')
+    query: _filter.get('definition'),
+    description: _filter.get('definition')
   }));
 });
 
