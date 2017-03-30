@@ -20,6 +20,7 @@ describe('in-services.subscriptionManager', () => {
     });
 
     mod.init();
+    persistentConnection.on.getCall(0).args[1]();
   });
 
   describe('getNewSubscriptionId', () => {
@@ -63,6 +64,7 @@ describe('in-services.subscriptionManager', () => {
       mod.subscribe(5, event, payload);
 
       // simulate reconnect
+      persistentConnection.on.getCall(1).args[1]();
       persistentConnection.on.getCall(0).args[1]();
 
       expect(persistentConnection.emit).to.have.callCount(2);
