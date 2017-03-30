@@ -43,8 +43,7 @@ export default React.createClass({
 
   render() {
     const {config, searchbarWidth} = this.props;
-    const {currentHighlightedRowIndex} = this.state;
-    const {availableChildren} = this.state;
+    const {availableChildren, currentHighlightedRowIndex} = this.state;
     if (!config || availableChildren.length === 0) {
       return null;
     }
@@ -183,10 +182,14 @@ function getChildrenForConfig(config) {
     return emptyArray;
   }
 
+  if (tokenAtCursor.token === 'whitespace') {
+    return findNode().children;
+  }
+
   const cappedLexemeAtCursor = tokenAtCursor.lexeme.substr(0, config.cursor - tokenAtCursor.start);
   const node = findNode(cappedLexemeAtCursor);
   if (!node) {
-    return [];
+    return emptyArray;
   }
 
   const lastPartOfCurrentTerm = getSubstringTillDotBackwards(cappedLexemeAtCursor).trim();
