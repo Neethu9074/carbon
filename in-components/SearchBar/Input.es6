@@ -2,7 +2,6 @@ import CodeMirror from 'codemirror/lib/codemirror.js';
 import RoEmitter from 'roemitter';
 import React from 'react';
 
-import {devQuery$, setDevQuery} from 'in-components/SearchBar/stores/devQuery';
 import {setInputString, unvalidatedQuery$} from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import {onDown, onMove, onLeave} from 'in-services/reactiveMouseEvents';
@@ -25,10 +24,8 @@ const blockHighlightedClass = 'cm-custom-block--end--highlighted';
 const block = 'in-searchbar-input';
 
 export default getElementDimensions(connectTo({
-  query: __DEV__ ? devQuery$ : unvalidatedQuery$
-},
-React.createClass({
-
+  query: unvalidatedQuery$
+}, React.createClass({
   displayname: 'SearchBar-Input',
 
   getInitialState() {
@@ -218,11 +215,7 @@ React.createClass({
       this.editor.setValue(newQuery);
     }
 
-    if (__DEV__) {
-      setDevQuery(newQuery);
-    } else {
-      setInputString(newQuery);
-    }
+    setInputString(newQuery);
   },
 
   removeBlockFromQuery(blockId) {
