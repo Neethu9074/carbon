@@ -466,6 +466,14 @@ describe('in-stores/search/lexer/firstStage', () => {
       ]);
     });
 
+    it('must support > and < signs in terms', () => {
+      expect(lexFirstStage('cpuCount:>1')).to.deep.equal([
+        {'start': 0, 'end': 8, 'lexeme': 'cpuCount', 'token': 'term'},
+        {'start': 8, 'end': 9, 'lexeme': ':', 'token': 'fieldSeparator'},
+        {'start': 9, 'end': 11, 'lexeme': '>1', 'token': 'term'}
+      ]);
+    });
+
     it('must support field grouping', () => {
       expect(lexFirstStage('title:(+return +"pink panther")')).to.deep.equal([
         {
