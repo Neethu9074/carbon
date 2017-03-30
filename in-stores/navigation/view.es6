@@ -24,7 +24,7 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, 
 
 export const traceViewLinkWithoutEumTraces$ = getModifiedUrlStream(params => {
     params.pathname = '/traces';
-    params.query.q = encodeURIComponent('-spanType:eum');
+    params.query.q = encodeURIComponent('-trace.type:eum');
   });
 
 
@@ -94,7 +94,7 @@ export const tableViewLink$ = getModifiedUrlStream(params => {
 
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
-  params.query.q = 'selfType:service';
+  params.query.q = 'entity.selfType:service';
 });
 
 

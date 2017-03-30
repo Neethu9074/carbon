@@ -10,7 +10,7 @@ import {getTraceCount} from 'in-stores/traces';
 
 export default function ServiceDashboardSidebar({snapshot}) {
   const snapshotId = snapshot.get('id');
-  const query = `touching:"${snapshotId}" AND spanType:web AND errors:>0`;
+  const query = `trace.touching:"${snapshotId}" AND trace.type:web AND trace.errorCount:>0`;
 
   return (
     <div>

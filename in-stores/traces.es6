@@ -16,7 +16,7 @@ export const totalTraceCountNoFiltering$ = timeframe$
   .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: ''}));
 
 export const totalTraceCountOnlyEum$ = timeframe$
-  .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: ' spanType:eum'}));
+  .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: ' trace.type:eum'}));
 
 // Avoid user visible inconsistencies between counts by calculating the third number.
 // We are calculating it this way because finding EUM traces is cheaper than calculating
@@ -31,7 +31,7 @@ export function getNumberOfTracesStartingAtService(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `startingAt:"${serviceId}"`
+      query: `trace.startingAt:"${serviceId}"`
     })
   );
 }
@@ -40,7 +40,7 @@ export function getNumberOfTracesTouchingService(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `touched_logical_service:"${serviceId}"`
+      query: `trace.touchedLogicalService:"${serviceId}"`
     })
   );
 }
@@ -49,7 +49,7 @@ export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `startingAtInstance:"${serviceId}"`
+      query: `trace.startingAtInstance:"${serviceId}"`
     })
   );
 }
@@ -58,13 +58,13 @@ export function getNumberOfTracesTouchingServiceInstance(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
-      query: `touched_service_instance:"${serviceId}"`
+      query: `trace.touchedServiceInstance:"${serviceId}"`
     })
   );
 }
 
 export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
-  const query = `touched_logical_service:"${id}" OR touched_service_instance:"${id}"`;
+  const query = `trace.touching:"${id}"`;
   return timeframe
     ? createTotalTraceCountObservable({timeframe, query})
     : timeframe$.flatMap(_timeframe => createTotalTraceCountObservable({timeframe: _timeframe, query}));

@@ -6,9 +6,9 @@ import {query$} from 'in-stores/search/query';
 export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilterStore',
   observable: query$.map(query => {
-    const filteredByEvents = containsKeyword(query, 'eventType', 'event');
-    const filteredByIncidents = containsKeyword(query, 'eventType', 'incident');
-    const filteredByObjectives = containsKeyword(query, 'eventType', 'objectiveViolation');
+    const filteredByEvents = containsKeyword(query, 'event.type', 'event');
+    const filteredByIncidents = containsKeyword(query, 'event.type', 'incident');
+    const filteredByObjectives = containsKeyword(query, 'event.type', 'objectiveViolation');
     if (filteredByEvents && filteredByIncidents && filteredByObjectives) {
       return null;
     } else if (filteredByIncidents) {
@@ -25,8 +25,8 @@ export const eventFilter$ = createTrackingStore({
 
 export function setEventTypeFilter(filter) {
   if (filter) {
-    setKeyword('eventType', filter);
+    setKeyword('event.type', filter);
   } else {
-    removeKeyword('eventType');
+    removeKeyword('event.type');
   }
 }

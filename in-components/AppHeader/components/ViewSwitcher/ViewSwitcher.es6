@@ -30,7 +30,7 @@ function ViewSwitcher({navigationParameters, query}) {
   const pathname = navigationParameters.pathname;
 
   const isTable = pathname.indexOf('/table') === 0;
-  const isLogicalTable = isTable && containsKeyword(query, 'selfType', 'service');
+  const isLogicalTable = isTable && containsKeyword(query, 'entity.selfType', 'service');
   const isPhysicalTable = isTable && !isLogicalTable;
   const isPhysicalView = pathname.indexOf('/physical') === 0;
   const isContainerView = pathname.indexOf('/container') === 0;

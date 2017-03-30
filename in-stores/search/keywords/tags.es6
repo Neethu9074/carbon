@@ -7,21 +7,21 @@ import {focusedMoment$} from 'in-stores/timeline';
 
 // A stream of the form ImmutableSet<String> describing the currently active
 // tag filters.
-export const filteredTags$ = query$.map(query => Set(getFieldTerms(query, 'tag').map(t => t.toLowerCase())));
+export const filteredTags$ = query$.map(query => Set(getFieldTerms(query, 'entity.tag').map(t => t.toLowerCase())));
 export const filterableTags$ = focusedMoment$.flatMap(createFilterableTagsObservable);
 
 export function setTagFilter(tag) {
-  mutateQuery(query => setField(query, 'tag', tag));
+  mutateQuery(query => setField(query, 'entity.tag', tag));
 }
 
 export function removeTagFilter(tag) {
-  mutateQuery(query => removeField(query, 'tag', tag));
+  mutateQuery(query => removeField(query, 'entity.tag', tag));
 }
 
 export function removeAllTagFilters() {
-  mutateQuery(query => removeField(query, 'tag'));
+  mutateQuery(query => removeField(query, 'entity.tag'));
 }
 
 export function containsTagFilter(query, tag) {
-  return containsField(query, 'tag', tag);
+  return containsField(query, 'entity.tag', tag);
 }

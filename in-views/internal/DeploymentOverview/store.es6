@@ -7,7 +7,7 @@ import {getSnapshot} from 'in-stores/snapshot';
 const dockerContainers$ = focusedMoment$
   .flatMap(time =>
     search({
-      query: 'selfType:docker',
+      query: 'entity.selfType:docker',
       time,
       view: 'TABLE'
     })
