@@ -36,7 +36,8 @@ CodeMirror.defineMode('instanaSearch', () => {
         classes += ` custom-blockId-${blockId}`;
         if (token.isBlockingStart) {
           classes += ` custom-block--start`;
-        } else if (token.isBlockingEnd) {
+        }
+        if (token.isBlockingEnd) {
           classes += ` custom-block--end`;
         }
       }

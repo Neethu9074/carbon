@@ -22,6 +22,14 @@ export default function lexThirdStage(secondStageLexResult, startId) {
 
         i = end;
       }
+    } else if (currentToken.token === 'whitespace') {
+      const nextNextToken = secondStageLexResult[i + 2];
+      if (nextToken.token === 'term' && nextNextToken.token === 'whitespace') {
+        const blockId = String(currentBlockId++);
+        nextToken.blockId = blockId;
+        nextToken.isBlockingStart = true;
+        nextToken.isBlockingEnd = true;
+      }
     }
   }
 

@@ -95,7 +95,7 @@ describe('in-stores/search/lexer/secondStage', () => {
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: '0' },
       { token: 'term', lexeme: 'money', start: 4, end: 9, blockId: '0', isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 9, end: 10 },
-      { token: 'term', lexeme: 'makes', start: 10, end: 15 },
+      { token: 'term', lexeme: 'makes', start: 10, end: 15, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 15, end: 16 },
       { token: 'term', lexeme: 'rich', start: 16, end: 20 }
     ]);
@@ -191,6 +191,24 @@ describe('in-stores/search/lexer/secondStage', () => {
       { token: 'grouping', lexeme: '(', start: 15, end: 16, blockId: '1' },
       { token: 'term', lexeme: 'b', start: 16, end: 17, blockId: '1' },
       { token: 'grouping', lexeme: ')', start: 17, end: 18, blockId: '1', isBlockingEnd: true },
+    ]);
+  });
+
+  it('should also block terms with whitespaces', () => {
+    expect(lexThirdStage(lexSecondStage(lexFirstStage('foobar ')), 0)).to.deep.equal([
+      { token: 'term', lexeme: 'foobar', start: 0, end: 6 },
+      { token: 'whitespace', lexeme: ' ', start: 6, end: 7 }
+    ]);
+
+    expect(lexThirdStage(lexSecondStage(lexFirstStage(' foobar')), 0)).to.deep.equal([
+      { token: 'whitespace', lexeme: ' ', start: 0, end: 1 },
+      { token: 'term', lexeme: 'foobar', start: 1, end: 7 }
+    ]);
+
+    expect(lexThirdStage(lexSecondStage(lexFirstStage(' foobar ')), 0)).to.deep.equal([
+      { token: 'whitespace', lexeme: ' ', start: 0, end: 1},
+      { token: 'term', lexeme: 'foobar', start: 1, end: 7, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'whitespace', lexeme: ' ', start: 7, end: 8 }
     ]);
   });
 });

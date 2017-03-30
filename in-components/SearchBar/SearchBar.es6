@@ -30,6 +30,7 @@ function SearchBar({expanded, presetsVisible, keywordsVisible}) {
     );
   }
 
+  const collapseClass = `${block}__expand-collapse-wrapper`;
   return (
     <div>
       <LifecycleObserver onDidMount={onDidMount} />
@@ -40,8 +41,8 @@ function SearchBar({expanded, presetsVisible, keywordsVisible}) {
 
       <div className={block}>
         <div className={evaluateClassNames({
-               [`${block}__expand-collapse-wrapper`]: true,
-               [`${block}__expand-collapse-wrapper--menu-visible`]: keywordsVisible
+               [`${collapseClass}`]: true,
+               [`${collapseClass}--menu-visible`]: keywordsVisible
              })}
              onClick={onShowKeywordHelp} >
           ?
@@ -51,7 +52,7 @@ function SearchBar({expanded, presetsVisible, keywordsVisible}) {
           <Input />
         </div>
 
-        <div className={`${block}__expand-collapse-wrapper`}
+        <div className={`${collapseClass}`}
              onClick={() => setInputString('')}>
           <SvgIcon type='x'
                    height={10}
@@ -59,8 +60,8 @@ function SearchBar({expanded, presetsVisible, keywordsVisible}) {
         </div>
 
         <div className={evaluateClassNames({
-               [`${block}__expand-collapse-wrapper`]: true,
-               [`${block}__expand-collapse-wrapper--menu-visible`]: presetsVisible
+               [`${collapseClass}`]: true,
+               [`${collapseClass}--menu-visible`]: presetsVisible
              })}
              onClick={togglePresets} >
           <SvgIcon type='menu'
