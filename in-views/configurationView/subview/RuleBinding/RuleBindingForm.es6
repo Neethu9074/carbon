@@ -51,7 +51,10 @@ export default function RuleBindingForm({rules, form, onChange, onChangeInRuleId
               <HelpBlock>
                 Select rule that will trigger this issue.
               </HelpBlock>
-              <RuleDetails ruleId={String(field.value.get(0))} />
+
+              {field.value.get(0) ?
+                <RuleDetails ruleId={String(field.value.get(0))} />
+              : null}
             </FormGroup>
           )}
         </div>
