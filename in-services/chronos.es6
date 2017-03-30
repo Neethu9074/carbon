@@ -1,3 +1,5 @@
+/* global global:false */
+
 // Copy from:
 // https://github.com/fitzgen/chronos
 // to adapt to webpack and our module loading strategy
@@ -16,6 +18,8 @@ let initialized = false;
 // The interval at which we check for tasks to run. It follows that the
 // smallest timeout interval you can give a task is this value.
 const INTERVAL = 50;
+
+const originalSetTimeout = typeof global !== 'undefined' ? global.setTimeout : window.setTimeout;
 
 // Return a function which calls `fn` as if `args` had been passed in as
 // arguments directly. Don't need to worry about return values because this
@@ -122,9 +126,9 @@ function taskRunner() {
     }
 
     if (i < len) {
-      window.setTimeout(loop, 10);
+      originalSetTimeout(loop, 10);
     } else {
-      window.setTimeout(taskRunner, INTERVAL);
+      originalSetTimeout(taskRunner, INTERVAL);
     }
   }
   loop();
@@ -134,7 +138,7 @@ function taskRunner() {
 // it. Otherwise, do nothing.
 function maybeInit() {
   if (!initialized) {
-    window.setTimeout(taskRunner, INTERVAL);
+    originalSetTimeout(taskRunner, INTERVAL);
     initialized = true;
   }
 }
