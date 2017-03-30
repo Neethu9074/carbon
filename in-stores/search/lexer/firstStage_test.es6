@@ -17,11 +17,33 @@ describe('in-stores/search/lexer/firstStage', () => {
       ]);
     });
 
+    it('must support the wildcard * at the beginning of terms', () => {
+      expect(lexFirstStage('*hello')).to.deep.equal([
+        {
+          token: 'term',
+          lexeme: '*hello',
+          start: 0,
+          end: 6
+        }
+      ]);
+    });
+
     it('must support the wildcard * within terms', () => {
       expect(lexFirstStage('hell*o')).to.deep.equal([
         {
           token: 'term',
           lexeme: 'hell*o',
+          start: 0,
+          end: 6
+        }
+      ]);
+    });
+
+    it('must support the wildcard ? at the beginning of terms', () => {
+      expect(lexFirstStage('?hello')).to.deep.equal([
+        {
+          token: 'term',
+          lexeme: '?hello',
           start: 0,
           end: 6
         }
