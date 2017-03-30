@@ -18,6 +18,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
   const dockerVersion = snapshot.getIn(['data', 'docker_version']);
   const hasNetworkMetrics = snapshot.getIn(['data', 'NetworkMode'], '') === 'bridge';
   const memoryMetricsBugged = dockerVersion === '1.11.0' || dockerVersion === '1.11.1';
+  const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
   const snapshotId = snapshot.get('id');
 
   return (
@@ -96,7 +97,7 @@ export default function DockerDashboard({snapshot, timeframe}) {
                          }} />
       </DashboardSection>
       { !memoryMetricsBugged ?
-        <DashboardSection title='Memory'>
+        <DashboardSection title={`Memory ${memoryLimitBytes ? '(Limit: ' + bytesTwoDecimalPlaces(memoryLimitBytes) + ')' : ''}`}>
           <ChartWithLegend snapshotId={snapshotId}
                            timeframe={timeframe}
                            margins={{
@@ -107,13 +108,11 @@ export default function DockerDashboard({snapshot, timeframe}) {
                              min: 0,
                              metrics: [
                                'memory.usage',
-                               'memory.max_usage',
                                'memory.total_rss',
                                'memory.total_cache'
                              ],
                              labels: [
                                'Usage',
-                               'Max usage',
                                'RSS',
                                'Cache'
                              ],
