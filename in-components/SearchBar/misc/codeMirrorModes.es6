@@ -29,7 +29,7 @@ CodeMirror.defineMode('instanaSearch', () => {
       }
 
       const blockId = token.blockId;
-      if (blockId) {
+      if (blockId != undefined) {
         classes += ` custom-block`;
         if (token.isBlockingStart) {
           classes += ` custom-block--start`;
