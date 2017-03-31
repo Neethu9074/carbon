@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import {alwaysNull} from 'in-services/fixedStreams';
@@ -20,22 +21,28 @@ export default connectTo(props => {
   };
 }, function ServiceInstanceInfo({serviceEntity, physicalEntity}) {
   return (
-    <DescriptionList>
-      {serviceEntity ?
-        <DescriptionItem title={`Service (${getSingular(serviceEntity.get('plugin'))})`}>
-          <SnapshotLink snapshotId={serviceEntity.get('id')}>
-            {getLabel(serviceEntity)}
-          </SnapshotLink>
-        </DescriptionItem>
+    <div>
+      {serviceEntity || physicalEntity ?
+        <Separator />
       : null}
 
-      {physicalEntity ?
-        <DescriptionItem title={`Physical Component (${getSingular(physicalEntity.get('plugin'))})`}>
-          <SnapshotLink snapshotId={physicalEntity.get('id')}>
-            {getLabel(physicalEntity)}
-          </SnapshotLink>
-        </DescriptionItem>
-      : null}
-    </DescriptionList>
+      <DescriptionList>
+        {serviceEntity ?
+          <DescriptionItem title={`Service (${getSingular(serviceEntity.get('plugin'))})`}>
+            <SnapshotLink snapshotId={serviceEntity.get('id')}>
+              {getLabel(serviceEntity)}
+            </SnapshotLink>
+          </DescriptionItem>
+        : null}
+
+        {physicalEntity ?
+          <DescriptionItem title={`Physical Component (${getSingular(physicalEntity.get('plugin'))})`}>
+            <SnapshotLink snapshotId={physicalEntity.get('id')}>
+              {getLabel(physicalEntity)}
+            </SnapshotLink>
+          </DescriptionItem>
+        : null}
+      </DescriptionList>
+    </div>
   );
 });
