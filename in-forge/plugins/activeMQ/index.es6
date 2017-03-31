@@ -19,6 +19,6 @@ registerSnapshotDefinition({
   namesForTypeSearch: ['activemq'],
 
   getLabel(snapshot) {
-    return '@ ' + snapshot.getIn(['data', 'ports'], emptyList).sort().join(', ');
+    return snapshot.getIn(['data', 'brokerName']);
   }
 });

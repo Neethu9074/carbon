@@ -3,6 +3,7 @@ import React from 'react';
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {emptyList} from 'in-services/fixedImmutables';
+import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 
 
 export default function Info({snapshot}) {
@@ -22,14 +23,11 @@ export default function Info({snapshot}) {
       <DescriptionItem title='Ports'>
         {data.get('ports', emptyList).sort().join(', ')}
       </DescriptionItem>
-      <DescriptionItem title='Broker Id'>
-        {data.get('brokerId')}
-      </DescriptionItem>
       <DescriptionItem title='Memory Limit'>
-        {data.get('memoryLimit')}
+        {bytesTwoDecimalPlaces(data.get('memoryLimit'))}
       </DescriptionItem>
       <DescriptionItem title='Store Limit'>
-        {data.get('storeLimit')}
+        {bytesTwoDecimalPlaces(data.get('storeLimit'))}
       </DescriptionItem>
       <DescriptionItem title='Queues Count'>
         {data.get('queues', emptyList).size}
