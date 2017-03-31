@@ -1,29 +1,30 @@
 import {blackListedSearchFieldAliases} from 'in-services/featureFlags';
 import {filters$} from 'in-components/SearchBar/stores/filters';
 
+
 const helpTexts = {
   'entity': '',
-  'entity.host': '',
-  'entity.host.os': '',
-  'entity.service': '',
+  'entity.host': 'Infrastructure host',
+  'entity.host.os': 'Operation system',
+  'entity.service': 'Logical service',
   'entity.docker': '',
-  'entity.docker.label': '',
+  'entity.docker.label': 'Docker key-value-labels',
   'entity.ruby': '',
-  'entity.weblogic': '',
+  'entity.weblogic': 'Oracles Weblogic',
   'entity.nodejs': '',
-  'entity.nodejs.app': '',
+  'entity.nodejs.app': 'Nodejs application',
   'entity.ec2': '',
   'entity.dropwizard': '',
   'entity.elasticsearch': '',
-  'entity.elasticsearch.cluster': '',
-  'entity.marathon': '',
+  'entity.elasticsearch.cluster': 'Elasticsearch cluster',
+  'entity.marathon': 'Mesosphere Marathon',
   'entity.process': '',
   'entity.jboss': '',
   'entity.tomcat': '',
-  'entity.nomad': '',
-  'entity.gce': '',
+  'entity.nomad': 'HashiCorp Nomad scheduler',
+  'entity.gce': 'Google Compute Engine',
   'trace': '',
-  'event': '',
+  'event': 'Changes, issues, incidents and objectives',
   'event.problem': '',
   'span': ''
 };
