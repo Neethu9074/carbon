@@ -3,30 +3,30 @@ import {filters$} from 'in-components/SearchBar/stores/filters';
 
 
 const helpTexts = {
-  'entity.': '',
-  'entity.host.': 'Infrastructure host',
-  'entity.host.os.': 'Operation system',
-  'entity.service.': 'Logical service',
-  'entity.docker.': '',
-  'entity.docker.label.': 'Docker key-value-labels',
-  'entity.ruby.': '',
-  'entity.weblogic.': 'Oracles Weblogic',
-  'entity.nodejs.': '',
-  'entity.nodejs.app.': 'Nodejs application',
-  'entity.ec2.': '',
-  'entity.dropwizard.': '',
-  'entity.elasticsearch.': '',
-  'entity.elasticsearch.cluster.': 'Elasticsearch cluster',
-  'entity.marathon.': 'Mesosphere Marathon',
-  'entity.process.': '',
-  'entity.jboss.': '',
-  'entity.tomcat.': '',
-  'entity.nomad.': 'HashiCorp Nomad scheduler',
-  'entity.gce.': 'Google Compute Engine',
-  'trace.': '',
-  'event.': 'Changes, issues, incidents and objectives',
-  'event.problem.': '',
-  'span.': ''
+  'entity': '',
+  'entity.host': 'Infrastructure host',
+  'entity.host.os': 'Operation system',
+  'entity.service': 'Logical service',
+  'entity.docker': '',
+  'entity.docker.label': 'Docker key-value-labels',
+  'entity.ruby': '',
+  'entity.weblogic': 'Oracles Weblogic',
+  'entity.nodejs': '',
+  'entity.nodejs.app': 'Nodejs application',
+  'entity.ec2': '',
+  'entity.dropwizard': '',
+  'entity.elasticsearch': '',
+  'entity.elasticsearch.cluster': 'Elasticsearch cluster',
+  'entity.marathon': 'Mesosphere Marathon',
+  'entity.process': '',
+  'entity.jboss': '',
+  'entity.tomcat': '',
+  'entity.nomad': 'HashiCorp Nomad scheduler',
+  'entity.gce': 'Google Compute Engine',
+  'trace': '',
+  'event': 'Changes, issues, incidents and objectives',
+  'event.problem': '',
+  'span': ''
 };
 
 const filterNode = node('filter');
@@ -76,13 +76,14 @@ export function buildCategorizedFields(fields) {
 
     for (let i = 0, length = path.length - 1; i < length; i++) {
       const pathPart = path[i];
-      completePath += pathPart + '.';
+      completePath += pathPart;
       if (!currentNode.children[pathPart]) {
         currentNode.children[pathPart] = node(pathPart, {
           path: completePath,
           numChildren: Object.keys(currentNode.children).length
         });
       }
+      completePath += '.';
       currentNode = currentNode.children[pathPart];
     }
 
