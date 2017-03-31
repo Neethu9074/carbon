@@ -4,7 +4,7 @@ export default function lexThirdStage(secondStageLexResult, startId) {
 
   detectBeginningBlockWithWhitespace(secondStageLexResult);
   for (let i = 0, length = secondStageLexResult.length - 2; i < length; i++) {
-    detectFieldFieldSeperatorValueBlocks(i, secondStageLexResult);
+    i = detectFieldFieldSeperatorValueBlocks(i, secondStageLexResult);
     detectLonelyBlocks(i, secondStageLexResult);
   }
 
@@ -43,6 +43,7 @@ function detectFieldFieldSeperatorValueBlocks(i, tokens) {
       i = end;
     }
   }
+  return i;
 }
 
 function detectLonelyBlocks(i, tokens) {

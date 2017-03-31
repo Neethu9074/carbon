@@ -200,14 +200,14 @@ describe('in-stores/search/lexer/secondStage', () => {
       { token: 'grouping', lexeme: ')', start: 6, end: 7, blockId: '0', isBlockingEnd: true },
 
       { token: 'whitespace', lexeme: ' ', start: 7, end: 8 },
-      { token: 'operator', lexeme: 'OR', start: 8, end: 10 },
+      { token: 'operator', lexeme: 'OR', start: 8, end: 10, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 10, end: 11 },
 
-      { token: 'field', lexeme: 'bar', start: 11, end: 14, blockId: '1', isBlockingStart: true },
-      { token: 'fieldSeparator', lexeme: ':', start: 14, end: 15, blockId: '1' },
-      { token: 'grouping', lexeme: '(', start: 15, end: 16, blockId: '1' },
-      { token: 'term', lexeme: 'b', start: 16, end: 17, blockId: '1' },
-      { token: 'grouping', lexeme: ')', start: 17, end: 18, blockId: '1', isBlockingEnd: true },
+      { token: 'field', lexeme: 'bar', start: 11, end: 14, blockId: '2', isBlockingStart: true },
+      { token: 'fieldSeparator', lexeme: ':', start: 14, end: 15, blockId: '2' },
+      { token: 'grouping', lexeme: '(', start: 15, end: 16, blockId: '2' },
+      { token: 'term', lexeme: 'b', start: 16, end: 17, blockId: '2' },
+      { token: 'grouping', lexeme: ')', start: 17, end: 18, blockId: '2', isBlockingEnd: true },
     ]);
   });
 
@@ -231,13 +231,13 @@ describe('in-stores/search/lexer/secondStage', () => {
 
   it('should also block terms if it is the first one', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('AND a OR b ')), 0)).to.deep.equal([
-      { token: 'term', lexeme: 'foobar', start: 0, end: 3, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'operator', lexeme: 'AND', start: 0, end: 3, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 3, end: 4 },
-      { token: 'term', lexeme: 'foobar', start: 4, end: 5, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'term', lexeme: 'a', start: 4, end: 5, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 5, end: 6 },
-      { token: 'term', lexeme: 'foobar', start: 6, end: 8, blockId: '2', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'operator', lexeme: 'OR', start: 6, end: 8, blockId: '2', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 8, end: 9 },
-      { token: 'term', lexeme: 'foobar', start: 9, end: 10, blockId: '3', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'term', lexeme: 'b', start: 9, end: 10, blockId: '3', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 10, end: 11 }
     ]);
   });
