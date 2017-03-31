@@ -86,7 +86,7 @@ export default getElementDimensions(connectTo({
       }
     });
 
-    editor.on('mousedown', () => {
+    editor.on('focus', () => {
       const currentQuery = this.props.query;
       if (currentQuery === '') {
         const {left} = editor.cursorCoords({line: 0, ch: autocompleteShownForCursorPosition}, 'local');
@@ -167,8 +167,6 @@ export default getElementDimensions(connectTo({
     }
 
     this.state.eventEmitter.dispose();
-
-    this.hide();
   },
 
   componentWillUpdate(nextProps) {
