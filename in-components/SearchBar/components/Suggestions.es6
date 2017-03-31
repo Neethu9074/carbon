@@ -79,13 +79,22 @@ export default React.createClass({
                 }}>
               {child.name}
               <span className={`${block}__description`}>
-                {child.description}
+                {this.getNodeDescription(child)}
               </span>
             </li>
           )}
         </ul>
       </div>
     );
+  },
+
+  getNodeDescription(child) {
+    if (child.children.length > 0) {
+      return (child.children.length > 0 && child.description)
+        ? `${child.description} - (${child.children.length})`
+        : `(${child.children.length})`;
+    }
+    return child.description;
   },
 
   setupSubscriptions() {

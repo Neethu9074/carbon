@@ -3,35 +3,34 @@ import {filters$} from 'in-components/SearchBar/stores/filters';
 
 
 const helpTexts = {
-  'entity': '',
-  'entity.host': 'Infrastructure host',
-  'entity.host.os': 'Operation system',
-  'entity.service': 'Logical service',
-  'entity.docker': '',
-  'entity.docker.label': 'Docker key-value-labels',
-  'entity.ruby': '',
-  'entity.weblogic': 'Oracles Weblogic',
-  'entity.nodejs': '',
-  'entity.nodejs.app': 'Nodejs application',
-  'entity.ec2': '',
-  'entity.dropwizard': '',
-  'entity.elasticsearch': '',
-  'entity.elasticsearch.cluster': 'Elasticsearch cluster',
-  'entity.marathon': 'Mesosphere Marathon',
-  'entity.process': '',
-  'entity.jboss': '',
-  'entity.tomcat': '',
-  'entity.nomad': 'HashiCorp Nomad scheduler',
-  'entity.gce': 'Google Compute Engine',
-  'trace': '',
-  'event': 'Changes, issues, incidents and objectives',
-  'event.problem': '',
-  'span': ''
+  'entity.': '',
+  'entity.host.': 'Infrastructure host',
+  'entity.host.os.': 'Operation system',
+  'entity.service.': 'Logical service',
+  'entity.docker.': '',
+  'entity.docker.label.': 'Docker key-value-labels',
+  'entity.ruby.': '',
+  'entity.weblogic.': 'Oracles Weblogic',
+  'entity.nodejs.': '',
+  'entity.nodejs.app.': 'Nodejs application',
+  'entity.ec2.': '',
+  'entity.dropwizard.': '',
+  'entity.elasticsearch.': '',
+  'entity.elasticsearch.cluster.': 'Elasticsearch cluster',
+  'entity.marathon.': 'Mesosphere Marathon',
+  'entity.process.': '',
+  'entity.jboss.': '',
+  'entity.tomcat.': '',
+  'entity.nomad.': 'HashiCorp Nomad scheduler',
+  'entity.gce.': 'Google Compute Engine',
+  'trace.': '',
+  'event.': 'Changes, issues, incidents and objectives',
+  'event.problem.': '',
+  'span.': ''
 };
 
 const filterNode = node('filter');
 filters$.subscribe(_filters => {
-  filterNode.description = `(${_filters.size})`;
   filterNode.children = _filters
   .toArray()
   .map(_filter => node(_filter.get('name'), {
@@ -52,7 +51,7 @@ function getTree() {
 export function node(name, props = {}) {
   return {
     name,
-    description: props.description || helpTexts[name],
+    description: props.description || helpTexts[props.path],
     children: props.children || {},
     isPreset: props.isPreset || false,
     query: props.query || name,
@@ -72,11 +71,16 @@ export function buildCategorizedFields(fields) {
 
     const path = field.alias.split('.');
     let currentNode = root;
+    let completePath = '';
 
     for (let i = 0, length = path.length - 1; i < length; i++) {
       const pathPart = path[i];
+      completePath += pathPart + '.';
       if (!currentNode.children[pathPart]) {
-        currentNode.children[pathPart] = node(pathPart);
+        currentNode.children[pathPart] = node(pathPart, {
+          path: completePath,
+          numChildren: Object.keys(currentNode.children).length
+        });
       }
       currentNode = currentNode.children[pathPart];
     }
