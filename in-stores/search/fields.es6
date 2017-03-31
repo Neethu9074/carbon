@@ -96,3 +96,11 @@ function findInNode(node, query) {
     : node.children.filter(child => child.name.startsWith(currentPart));
   return children.length === 0 ? null : node;
 }
+
+export const operatorTree = node('root', {
+  children: [
+    node('AND', { isPreset: true }),
+    node('OR', { isPreset: true }),
+    node('NOT', { isPreset: true }),
+  ]
+});

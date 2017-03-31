@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {getSubstringTillDotBackwards, getCursorTillNextDot} from 'in-components/SearchBar/misc/stringUtils';
+import {findNode, operatorTree} from 'in-stores/search/fields';
 import {evaluateClassNames} from 'in-services/util/classnames';
 import {lex, getTokenForColumn} from 'in-stores/search/lexer';
 import {emptyArray} from 'in-services/fixedObjects';
-import {findNode} from 'in-stores/search/fields';
 import keyCodes from 'in-components/keyCodes';
 
 import './Suggestions.less';
@@ -178,12 +178,14 @@ function getChildrenForConfig(config) {
   }
 
   const tokenAtCursor = getTokenForConfig(config);
-  if (!tokenAtCursor || ((tokenAtCursor.token !== 'term' && tokenAtCursor.token !== 'field') && tokenAtCursor.token !== 'whitespace')) {
+  if (!tokenAtCursor || (tokenAtCursor.token !== 'operator' && tokenAtCursor.token !== 'term' && tokenAtCursor.token !== 'field' && tokenAtCursor.token !== 'whitespace')) {
     return emptyArray;
   }
 
   if (tokenAtCursor.token === 'whitespace') {
     return findNode().children;
+  } else if (tokenAtCursor.token === 'operator') {
+    return operatorTree.children;
   }
 
   const cappedLexemeAtCursor = tokenAtCursor.lexeme.substr(0, config.cursor - tokenAtCursor.start);
