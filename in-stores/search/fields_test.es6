@@ -29,6 +29,7 @@ describe('in-components/SearchBar/misc/fields', () => {
       { alias: 'span.errorCount' },
       { alias: 'span.location.country' },
       { alias: 'span.sql.command' },
+      { alias: 'span.content' },
 
       { alias: 'graph.connectedTo' },
       { alias: 'graph.relatedTo' },
@@ -62,7 +63,6 @@ describe('in-components/SearchBar/misc/fields', () => {
     expect(mod.findNode('graph').name).to.equal('root');
     expect(mod.findNode('trace').name).to.equal('root');
     expect(mod.findNode('event').name).to.equal('root');
-    expect(mod.findNode('log').name).to.equal('root');
   });
 
   it('should only enter the matching node on dot', () => {
@@ -71,7 +71,6 @@ describe('in-components/SearchBar/misc/fields', () => {
     expect(mod.findNode('graph.').name).to.equal('graph');
     expect(mod.findNode('trace.').name).to.equal('trace');
     expect(mod.findNode('event.').name).to.equal('event');
-    expect(mod.findNode('log.').name).to.equal('log');
   });
 
   it('returns all children for valid second stage', () => {
@@ -92,5 +91,10 @@ describe('in-components/SearchBar/misc/fields', () => {
     expect(mod.findNode('unknown.')).to.equal(null);
     expect(mod.findNode('ent.')).to.equal(null);
     expect(mod.findNode('.')).to.equal(null);
+  });
+
+  it('should skip blacklisted items', () => {
+    expect(mod.findNode('log')).to.equal(null);
+    expect(mod.findNode('span.content')).to.equal(null);
   });
 });

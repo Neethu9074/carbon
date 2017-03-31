@@ -1,3 +1,4 @@
+import {blackListedSearchFieldAliases} from 'in-services/featureFlags';
 import {filters$} from 'in-components/SearchBar/stores/filters';
 
 
@@ -36,6 +37,12 @@ export function buildCategorizedFields(fields) {
   fields = fields || window.instana.searchFields;
 
   fields.forEach(field => {
+    for (let i = 0, length = blackListedSearchFieldAliases.length; i < length; i++) {
+      if (field.alias.startsWith(blackListedSearchFieldAliases[i])) {
+        return;
+      }
+    }
+
     const path = field.alias.split('.');
     let currentNode = root;
 
