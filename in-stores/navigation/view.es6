@@ -69,7 +69,7 @@ export const isTraceView$ = navigationParameters$
 
 export const eventsLinkOnlyIncidents$ = getModifiedUrlStream(params => {
   params.pathname = '/events';
-  params.query.q = encodeURIComponent('eventType:incident');
+  params.query.q = encodeURIComponent('event.type:incident');
 });
 
 
