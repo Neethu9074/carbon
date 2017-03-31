@@ -44,21 +44,8 @@ let tree;
 function getTree() {
   if (!tree) {
     buildCategorizedFields();
-    for (let i = 0, length = tree.children.length; i < length; i++) {
-      print(tree.children[i], '');
-    }
   }
   return tree;
-}
-
-function print(node, path) {
-  path += node.name;
-  if (!node.description) {
-    console.log(path, node.description);
-  }
-  for (let i = 0, length = node.children.length; i < length; i++) {
-    print(node.children[i], path + '.');
-  }
 }
 
 export function node(name, props = {}) {
