@@ -1,3 +1,6 @@
+import {isTerm, isField, isFieldSeparator, isOperator, isPhrase, isGrouping,isWhitespace, isRegex} from 'in-stores/search/lexer';
+
+
 let currentBlockId = 0;
 export default function lexThirdStage(secondStageLexResult, startId) {
   currentBlockId = startId == undefined ? currentBlockId : startId;
@@ -94,36 +97,4 @@ export function getEndCursorForFieldValue(start, tokens) {
     return start;
   }
   return -1;
-}
-
-function isTerm(token) {
-  return token.token === 'term';
-}
-
-function isField(token) {
-  return token.token === 'field';
-}
-
-function isFieldSeparator(token) {
-  return token.token === 'fieldSeparator';
-}
-
-function isOperator(token) {
-  return token.token === 'operator';
-}
-
-function isPhrase(token) {
-  return token.token === 'phrase';
-}
-
-function isGrouping(token) {
-  return token.token === 'grouping';
-}
-
-function isWhitespace(token) {
-  return token.token === 'whitespace';
-}
-
-function isRegex(token) {
-  return token.token === 'regex';
 }

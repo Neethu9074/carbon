@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {lex, getTokenForColumn, isTerm, isField, isFieldSeparator, isOperator, isWhitespace} from 'in-stores/search/lexer';
 import {getSubstringTillDotBackwards, getCursorTillNextDot} from 'in-components/SearchBar/misc/stringUtils';
 import {findNode, operatorTree} from 'in-stores/search/fields';
 import {evaluateClassNames} from 'in-services/util/classnames';
-import {lex, getTokenForColumn} from 'in-stores/search/lexer';
 import {emptyArray} from 'in-services/fixedObjects';
 import keyCodes from 'in-components/keyCodes';
 
@@ -171,7 +171,7 @@ export default React.createClass({
       replaceFrom = -completePartToBeReplaced.length + cursorTillEndOfTokenPart + changedToken.start; // relative -> absolute
       replaceWith = child.query;
       // if the selected suggestion is a leaf, append an fieldSeperator symbol (:), but only if it doesn't exist
-      if (child.children.length === 0 && (!nextToken || nextToken.token !== 'fieldSeparator')) {
+      if (child.children.length === 0 && (!nextToken || !isFieldSeparator(nextToken))) {
         replaceWith += ':';
       }
     }
@@ -190,13 +190,13 @@ function getChildrenForConfig(config) {
   }
 
   const tokenAtCursor = getTokenForConfig(config);
-  if (!tokenAtCursor || (tokenAtCursor.token !== 'operator' && tokenAtCursor.token !== 'term' && tokenAtCursor.token !== 'field' && tokenAtCursor.token !== 'whitespace')) {
+  if (!tokenAtCursor || (!isOperator(tokenAtCursor) && !isTerm(tokenAtCursor) && !isField(tokenAtCursor) && !isWhitespace(tokenAtCursor))) {
     return emptyArray;
   }
 
-  if (tokenAtCursor.token === 'whitespace') {
+  if (isWhitespace(tokenAtCursor)) {
     return findNode().children;
-  } else if (tokenAtCursor.token === 'operator') {
+  } else if (isOperator(tokenAtCursor)) {
     return operatorTree.children;
   }
 

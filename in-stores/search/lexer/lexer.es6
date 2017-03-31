@@ -23,3 +23,35 @@ export function getTokenForColumn(tokens, pos) {
   }
   return null;
 }
+
+export function isTerm(token) {
+  return token.token === 'term';
+}
+
+export function isField(token) {
+  return token.token === 'field';
+}
+
+export function isFieldSeparator(token) {
+  return token.token === 'fieldSeparator';
+}
+
+export function isOperator(token) {
+  return token.token === 'operator';
+}
+
+export function isPhrase(token) {
+  return token.token === 'phrase';
+}
+
+export function isGrouping(token) {
+  return token.token === 'grouping';
+}
+
+export function isWhitespace(token) {
+  return token.token === 'whitespace';
+}
+
+export function isRegex(token) {
+  return token.token === 'regex';
+}
