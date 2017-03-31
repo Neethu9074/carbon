@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {combineLatest} from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -7,6 +8,7 @@ import KPIList from 'in-map/components/stickyNotes/logical/Service/components/KP
 import Heading from 'in-map/components/stickyNotes/logical/Service/components/Heading';
 import {showKpi$, showSticky$} from 'in-map/stores/logical/servicesStore';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
+import {searchMatches$} from 'in-stores/search/searchMatches';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import {emptyArray} from 'in-services/fixedObjects';
 
@@ -21,7 +23,8 @@ const block = 'in-sticky-note-service';
 export default createStickyNote(
   connectTo(props => {
     return {
-      children: getClusterMembers(props.id).map(ids => ids.filter(id => props.includedIds.serviceInstanceIds[id] ? true: false)),
+      children: combineLatest([getClusterMembers(props.id), searchMatches$])
+                .map(([children, searchMatches]) => children.filter(child => (!searchMatches || searchMatches.contains(child)))),
       showSticky: showSticky$.distinct(),
       showKpi: showKpi$.distinct()
     };
