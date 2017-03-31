@@ -97,7 +97,9 @@ export function buildCategorizedFields(fields) {
 }
 
 function mapChildrenObjectsToArrays(node) {
-  node.children = Object.keys(node.children).map(key => node.children[key]);
+  node.children = Object.keys(node.children)
+    .map(key => node.children[key])
+    .sort((a, b) => a.name.localeCompare(b.name));
   for (let i = 0, length = node.children.length; i < length; i++) {
     mapChildrenObjectsToArrays(node.children[i]);
   }
