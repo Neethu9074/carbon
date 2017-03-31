@@ -113,7 +113,7 @@ export default React.createClass({
 
     // TODO: make this better
     this.blurSubscription = this.props.eventEmitter.on('blur')
-      .throttle(200, {leading: false})
+      .throttle(200, { leading: false })
       .subscribe(() => this.props.onClose());
   },
 

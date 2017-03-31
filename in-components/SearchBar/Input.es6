@@ -98,6 +98,18 @@ export default getElementDimensions(connectTo({
       }
     });
 
+    editor.on('mousedown', () => {
+      const currentQuery = this.props.query;
+      if (currentQuery === '') {
+        const {left} = editor.cursorCoords({line: 0, ch: autocompleteShownForCursorPosition}, 'local');
+        this.show({
+          query: currentQuery,
+          cursor: autocompleteShownForCursorPosition,
+          left
+        });
+      }
+    });
+
     editor.on('blur', () => {
       this.state.eventEmitter.emit('blur', true);
     });
@@ -167,6 +179,7 @@ export default getElementDimensions(connectTo({
     }
 
     this.state.eventEmitter.dispose();
+    this.isDisposed = true;
   },
 
   componentWillUpdate(nextProps) {
@@ -230,7 +243,9 @@ export default getElementDimensions(connectTo({
   },
 
   hide() {
-    this.setState({ suggestionConfig: null });
+    if (!this.isDisposed) {
+      this.setState({ suggestionConfig: null });
+    }
   },
 
   show(suggestionConfig) {
