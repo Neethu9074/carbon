@@ -47,28 +47,32 @@ export default class HostNode extends Node {
           });
         } else {
           this.disposeMetricNode();
-
-          this.updateEntities(this.entity.children
-            .filter(entity => this.includedIds.layerIds[entity.id])
-            .map(entity => {
-              return {
-                NodeType: LayerNode,
-                params: {
-                  id: entity.id,
-                  entity,
-                  node: this.sceneObjectInstance
-                }
-              };
-            })
-          );
+          this.addLayer();
         }
       })
     ]);
   }
 
+  addLayer() {
+    this.updateEntities(this.entity.children
+      .filter(entity => this.includedIds.layerIds[entity.id])
+      .map(entity => {
+        return {
+          NodeType: LayerNode,
+          params: {
+            id: entity.id,
+            entity,
+            node: this.sceneObjectInstance
+          }
+        };
+      })
+    );
+  }
+
   update(params) {
     this.includedIds = params.includedIds;
     this.entity = params.entity;
+    this.addLayer();
   }
 
   disposeMetricNode() {
