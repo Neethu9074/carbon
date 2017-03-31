@@ -55,6 +55,7 @@ export function node(name, props = {}) {
     children: props.children || {},
     isPreset: props.isPreset || false,
     query: props.query || name,
+    termType: props.termType
   };
 }
 
@@ -87,7 +88,8 @@ export function buildCategorizedFields(fields) {
 
     const lastPart = path[path.length - 1];
     currentNode.children[lastPart] = node(lastPart, {
-      description: field.description
+      description: field.description,
+      termType: field.termType
     });
   });
   root.children[filterNode.name] = filterNode;

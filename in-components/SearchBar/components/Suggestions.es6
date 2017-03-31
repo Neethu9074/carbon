@@ -94,6 +94,9 @@ export default React.createClass({
         ? `${child.description} - (${child.children.length})`
         : `(${child.children.length})`;
     }
+    if (child.termType && (child.termType === 'string' || child.termType === 'long')) {
+      return `${child.termType} - ${child.description}`;
+    }
     return child.description;
   },
 
