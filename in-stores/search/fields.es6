@@ -102,5 +102,7 @@ export const operatorTree = node('root', {
     node('AND', { isPreset: true }),
     node('OR', { isPreset: true }),
     node('NOT', { isPreset: true }),
+    node('+', { isPreset: true }),
+    node('-', { isPreset: true })
   ]
 });
