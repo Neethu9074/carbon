@@ -87,27 +87,11 @@ export default getElementDimensions(connectTo({
     });
 
     editor.on('focus', () => {
-      const currentQuery = this.props.query;
-      if (currentQuery === '') {
-        const {left} = editor.cursorCoords({line: 0, ch: autocompleteShownForCursorPosition}, 'local');
-        this.show({
-          query: currentQuery,
-          cursor: autocompleteShownForCursorPosition,
-          left
-        });
-      }
+      this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
     });
 
     editor.on('mousedown', () => {
-      const currentQuery = this.props.query;
-      if (currentQuery === '') {
-        const {left} = editor.cursorCoords({line: 0, ch: autocompleteShownForCursorPosition}, 'local');
-        this.show({
-          query: currentQuery,
-          cursor: autocompleteShownForCursorPosition,
-          left
-        });
-      }
+      this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
     });
 
     editor.on('blur', () => {
@@ -240,6 +224,18 @@ export default getElementDimensions(connectTo({
     }
 
     this.updateQuery(newQuery);
+  },
+
+  openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition) {
+    const currentQuery = this.props.query;
+    if (currentQuery === '') {
+      const {left} = this.editor.cursorCoords({line: 0, ch: autocompleteShownForCursorPosition}, 'local');
+      this.show({
+        query: currentQuery,
+        cursor: autocompleteShownForCursorPosition,
+        left
+      });
+    }
   },
 
   hide() {
