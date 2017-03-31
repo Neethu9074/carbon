@@ -1,6 +1,32 @@
 import {blackListedSearchFieldAliases} from 'in-services/featureFlags';
 import {filters$} from 'in-components/SearchBar/stores/filters';
 
+const helpTexts = {
+  'entity': '',
+  'entity.host': '',
+  'entity.host.os': '',
+  'entity.service': '',
+  'entity.docker': '',
+  'entity.docker.label': '',
+  'entity.ruby': '',
+  'entity.weblogic': '',
+  'entity.nodejs': '',
+  'entity.nodejs.app': '',
+  'entity.ec2': '',
+  'entity.dropwizard': '',
+  'entity.elasticsearch': '',
+  'entity.elasticsearch.cluster': '',
+  'entity.marathon': '',
+  'entity.process': '',
+  'entity.jboss': '',
+  'entity.tomcat': '',
+  'entity.nomad': '',
+  'entity.gce': '',
+  'trace': '',
+  'event': '',
+  'event.problem': '',
+  'span': ''
+};
 
 const filterNode = node('filter');
 filters$.subscribe(_filters => {
@@ -18,14 +44,27 @@ let tree;
 function getTree() {
   if (!tree) {
     buildCategorizedFields();
+    for (let i = 0, length = tree.children.length; i < length; i++) {
+      print(tree.children[i], '');
+    }
   }
   return tree;
+}
+
+function print(node, path) {
+  path += node.name;
+  if (!node.description) {
+    console.log(path, node.description);
+  }
+  for (let i = 0, length = node.children.length; i < length; i++) {
+    print(node.children[i], path + '.');
+  }
 }
 
 export function node(name, props = {}) {
   return {
     name,
-    description: props.description || '',
+    description: props.description || helpTexts[name],
     children: props.children || {},
     isPreset: props.isPreset || false,
     query: props.query || name,
