@@ -37,8 +37,11 @@ nvm alias default "$NEW_NODE_VERSION"
 rm -f .git/hooks/pre-commit
 echo "" > .git/hooks/pre-commit
 
+# install yarn
+npm install -g yarn
+
 # install global tools
-npm install -g ec2c proxrox tldr commitizen diff-so-fancy yarn
+yarn global add ec2c proxrox tldr commitizen diff-so-fancy yarn
 
 # and install all the dependencies
 yarn
