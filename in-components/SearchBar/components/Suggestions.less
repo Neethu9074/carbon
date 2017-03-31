@@ -1,17 +1,15 @@
 .in-search-suggestions {
   position: absolute;
-  top: 1.8rem;
+  top: 2rem;
 
   width: 30rem;
-  margin: 0 .4rem 0 -2.1rem;
+  margin: 0 .4rem 0 -.563rem;
   padding: .3rem 0;
 
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-  font-size: 0.75rem;
-  background: rgba(45, 64, 72, 0.98);
+  border-radius: 0 0 .188rem .188rem;
+  font-size: .813rem;
+  background: #2D4048;
   color: #8c969a;
-  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.3);
 
   max-height: 15rem;
   overflow-y: scroll;
@@ -24,12 +22,11 @@
 
   &__item {
     padding: .25rem .5rem;
+    color: #90A3AB;
     cursor: pointer;
 
     &:hover, &--selected {
-      background: #43565e;
-      border-radius: 0.2rem;
-      color: white;
+      background: #42565E;
     }
   }
 

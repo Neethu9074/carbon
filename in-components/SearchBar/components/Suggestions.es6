@@ -49,7 +49,7 @@ export default React.createClass({
     }
 
     // suggestions window has 30rem in width, so the max x postion is full width - 16 * 30 (480);
-    const left = Math.min(config.left, searchbarWidth - 380);
+    const left = Math.min(config.left, searchbarWidth - 396);
     const scrollElement = document.querySelector('.in-search-suggestions');
 
     return (
@@ -100,9 +100,9 @@ export default React.createClass({
     });
 
     // TODO: make this better
-    this.blurSubscription = this.props.eventEmitter.on('blur')
-      .throttle(200, {leading: false})
-      .subscribe(() => this.props.onClose());
+    // this.blurSubscription = this.props.eventEmitter.on('blur')
+    //   .throttle(200, {leading: false})
+    //   .subscribe(() => this.props.onClose());
   },
 
   disposeSubscriptions() {
