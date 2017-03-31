@@ -4,7 +4,8 @@ import {filters$} from 'in-components/SearchBar/stores/filters';
 const filterNode = node('filter');
 filters$.subscribe(_filters => {
   filterNode.description = `(${_filters.size})`;
-  filterNode.children = _filters.toArray()
+  filterNode.children = _filters
+  .toArray()
   .map(_filter => node(_filter.get('name'), {
     isPreset: true,
     query: _filter.get('definition'),
@@ -41,9 +42,7 @@ export function buildCategorizedFields(fields) {
     for (let i = 0, length = path.length - 1; i < length; i++) {
       const pathPart = path[i];
       if (!currentNode.children[pathPart]) {
-        currentNode.children[pathPart] = node(pathPart, {
-          description: field.description
-        });
+        currentNode.children[pathPart] = node(pathPart);
       }
       currentNode = currentNode.children[pathPart];
     }
