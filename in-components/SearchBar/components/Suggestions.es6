@@ -78,6 +78,7 @@ export default React.createClass({
                   }
                 }}>
               {child.name}
+              <TermType node={child} />
               <span className={`${block}__description`}>
                 {this.getNodeDescription(child)}
               </span>
@@ -93,9 +94,6 @@ export default React.createClass({
       return (child.children.length > 0 && child.description)
         ? `${child.description} - (${child.children.length})`
         : `(${child.children.length})`;
-    }
-    if (child.termType && (child.termType === 'string' || child.termType === 'long')) {
-      return `${child.termType} - ${child.description}`;
     }
     return child.description;
   },
@@ -183,6 +181,21 @@ export default React.createClass({
     });
   }
 });
+
+function TermType({node}) {
+  const termType = (node.termType && (node.termType === 'string' || node.termType === 'long'))
+    ? node.termType
+    : null;
+  if (!termType) {
+    return null;
+  }
+
+  return (
+    <span className={`${block}__term-type`}>
+      {termType}
+    </span>
+  );
+}
 
 function getChildrenForConfig(config) {
   if (!config) {
