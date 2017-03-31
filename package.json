@@ -19,7 +19,7 @@
     "check-bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"in-*/**/*.es6\"",
-    "precommit": "lint-staged"
+    "precommit": "yarn run test:unit && lint-staged"
   },
   "lint-staged": {
     "*.es6": [
