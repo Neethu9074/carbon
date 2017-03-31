@@ -6,7 +6,7 @@ import JumpToTracesOfServiceButton from 'in-sdk/components/sidebar/JumpToTracesO
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 
-export default function ServiceDashboardSidebar({snapshot}) {
+export default function ServiceDashboardSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>

@@ -29,10 +29,7 @@ export default React.createClass({
     const colorClass = this.props.type !== 'light' ? ' ' + rectClass + '--' + this.props.type : '';
 
     for (let i = 1; i < 6; i++) {
-      rects.push(
-        <div key={i}
-             className={rectClass + '--' + i + ' ' + rectClass + colorClass} />
-      );
+      rects.push(<div key={i} className={rectClass + '--' + i + ' ' + rectClass + colorClass} />);
     }
 
     let classes = block;
@@ -41,8 +38,7 @@ export default React.createClass({
     }
 
     return (
-      <div className={classes}
-           style={this.props.style}>
+      <div className={classes} style={this.props.style}>
         {rects}
       </div>
     );

@@ -7,7 +7,7 @@ import './MapSidebarHeader.less';
 
 const block = 'in-map-sidebar-header';
 
-export default function MapSidebarHeader({snapshot}) {
+export default function MapSidebarHeader({ snapshot }) {
   return (
     <div className={block}>
       <ViewDashboardButton snapshotId={snapshot.get('id')} />

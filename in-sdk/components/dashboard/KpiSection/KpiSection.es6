@@ -4,10 +4,9 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 
 import './KpiSection.less';
 
-
 const block = 'in-kpi-section';
 
-export function KpiHeading({children}) {
+export function KpiHeading({ children }) {
   return (
     <div className={block + '__heading'}>
       {children}
@@ -15,8 +14,7 @@ export function KpiHeading({children}) {
   );
 }
 
-
-export function KpiKeyValue({label, children}) {
+export function KpiKeyValue({ label, children }) {
   return (
     <div className={block + '__kv'}>
       <span className={block + '__key'}>
@@ -29,11 +27,9 @@ export function KpiKeyValue({label, children}) {
   );
 }
 
-
-export function KpiSection({children}) {
+export function KpiSection({ children }) {
   return (
-    <DashboardSection className={block}
-                      title='Summary'>
+    <DashboardSection className={block} title="Summary">
       {children}
     </DashboardSection>
   );

@@ -1,4 +1,4 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import LCP from 'in-map/singleMeshFactories/ContentProvider/LineContentProvider';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
@@ -11,13 +11,11 @@ import {
   intersects,
   flatten
 } from 'in-map/misc/Connections';
-import {requestRendering} from 'in-map/stores/renderingStore';
+import { requestRendering } from 'in-map/stores/renderingStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 
-
 export default class Connection extends SceneObject {
-
   constructor(params) {
     super(params);
 
@@ -33,7 +31,7 @@ export default class Connection extends SceneObject {
   }
 
   initComponents() {
-    super.initComponents({color: 0xbababa});
+    super.initComponents({ color: 0xbababa });
 
     this.lineContentProvider = new LCP(this.getVertices.bind(this), this.getColors.bind(this));
     this.addComponent('mesh', new MeshComponent(this, this.lineContentProvider, 'connections'));
@@ -80,9 +78,8 @@ export default class Connection extends SceneObject {
     }
 
     return flatten(
-           addArrowToDestination(
-           shortenPathAtSourceAndDestination(
-           getManhattanPath(from.x, from.z, to.x, to.z))));
+      addArrowToDestination(shortenPathAtSourceAndDestination(getManhattanPath(from.x, from.z, to.x, to.z)))
+    );
   }
 
   getColors(vertices) {

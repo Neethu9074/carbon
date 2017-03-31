@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {on, off} from 'in-services/persistentConnection';
+import { on, off } from 'in-services/persistentConnection';
 import Toast from 'in-components/Toast';
-
 
 export default React.createClass({
   displayName: 'ConnectionStatus',

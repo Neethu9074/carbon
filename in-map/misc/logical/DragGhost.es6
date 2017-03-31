@@ -1,9 +1,8 @@
-import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
-import {Mesh, MeshBasicMaterial, Vector3} from 'in-map/3DLibProvider';
-import {requestRendering} from 'in-map/stores/renderingStore';
+import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
+import { Mesh, MeshBasicMaterial, Vector3 } from 'in-map/3DLibProvider';
+import { requestRendering } from 'in-map/stores/renderingStore';
 import ghosts from 'in-map/stores/logical/ghostsStore';
-import {eventBus} from 'in-map/services/eventBus';
-
+import { eventBus } from 'in-map/services/eventBus';
 
 const GHOST_MATERIAL = new MeshBasicMaterial({
   transparent: true,
@@ -15,10 +14,7 @@ export default class DragGhost {
     this.originalId = parent.id;
     this.currentPosition = new Vector3();
 
-    const sceneObject = this.sceneObject = new Mesh(
-      ghostGeometry,
-      GHOST_MATERIAL
-    );
+    const sceneObject = (this.sceneObject = new Mesh(ghostGeometry, GHOST_MATERIAL));
     addSceneObject(sceneObject);
     ghosts.add(this.originalId);
 

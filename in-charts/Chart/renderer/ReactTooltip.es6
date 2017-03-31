@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {formatDateTime} from 'in-services/formatters/date';
+import { formatDateTime } from 'in-services/formatters/date';
 
 import './ReactTooltip.less';
 
 const block = 'in-chart-v2-tooltip';
 
-function MetricBlock({dataColumn, config, axisName}) {
+function MetricBlock({ dataColumn, config, axisName }) {
   if (!dataColumn) {
     return (
       <div>
@@ -20,25 +20,26 @@ function MetricBlock({dataColumn, config, axisName}) {
 
   return (
     <div>
-      {dataColumn.map((dataRow, i) =>
-        <div className={`${block}__metric`}
-             key={i}>
-          <dt style={{
-                color: axisConfig.colors[i]
-              }}
-              className={`${block}__metric-name`}>
+      {dataColumn.map((dataRow, i) => (
+        <div className={`${block}__metric`} key={i}>
+          <dt
+            style={{
+              color: axisConfig.colors[i]
+            }}
+            className={`${block}__metric-name`}
+          >
             {axisConfig.labels[i]}
           </dt>
           <dd className={`${block}__metric-value`}>
             {dataRow != null && dataRow[1] != null ? formatter(dataRow[1]) : ''}
           </dd>
         </div>
-      )}
+      ))}
     </div>
   );
 }
 
-export default function ReactTooltip({time, config, y1DataColumn, y2DataColumn, dataPointsAvailable}) {
+export default function ReactTooltip({ time, config, y1DataColumn, y2DataColumn, dataPointsAvailable }) {
   if (!dataPointsAvailable) {
     return null;
   }
@@ -51,20 +52,13 @@ export default function ReactTooltip({time, config, y1DataColumn, y2DataColumn, 
       </p>
 
       <dl className={`${block}__metrics`}>
-        <MetricBlock dataColumn={y1DataColumn}
-                     config={config}
-                     axisName='y1' />
+        <MetricBlock dataColumn={y1DataColumn} config={config} axisName="y1" />
 
-        {config.y2 ?
-          <MetricBlock dataColumn={y2DataColumn}
-                       config={config}
-                       axisName='y2' />
-        : null}
+        {config.y2 ? <MetricBlock dataColumn={y2DataColumn} config={config} axisName="y2" /> : null}
       </dl>
     </div>
   );
 }
-
 
 function identity(a) {
   return a;

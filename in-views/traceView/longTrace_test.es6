@@ -1,13 +1,12 @@
 /* eslint-env mocha, node */
 
-import {fromJS} from 'immutable';
-import {expect} from 'chai';
+import { fromJS } from 'immutable';
+import { expect } from 'chai';
 
-import {transform, withoutDuplicatatedStackTraceLines} from 'in-views/traceView/longTraceBuilder';
-import {compress} from 'in-views/traceView/longTraceCompressor';
+import { transform, withoutDuplicatatedStackTraceLines } from 'in-views/traceView/longTraceBuilder';
+import { compress } from 'in-views/traceView/longTraceCompressor';
 
 describe('in-views/traceView', () => {
-
   describe('longTraceBuilder', () => {
     describe('transformation', () => {
       testFile('simpleTrace', transformToLongStackTrace);
@@ -25,18 +24,16 @@ describe('in-views/traceView', () => {
     describe('withoutDuplicatatedStackTraceLines', () => {
       it('must remove duplicate stack trace lines', () => {
         const span = fromJS([
-          {c: 'a', m: '', n: 1},
-          {c: 'b', m: '', n: 2},
-          {c: 'c', m: '', n: 3},
-          {c: 'd', m: '', n: 4}
+          { c: 'a', m: '', n: 1 },
+          { c: 'b', m: '', n: 2 },
+          { c: 'c', m: '', n: 3 },
+          { c: 'd', m: '', n: 4 }
         ]);
 
-        const parent = fromJS([
-          {c: 'b', m: '', n: 2}
-        ]);
+        const parent = fromJS([{ c: 'b', m: '', n: 2 }]);
 
         expect(withoutDuplicatatedStackTraceLines(parent, span).map(v => v.toJS())).to.deep.equal([
-          {c: 'a', m: '', n: 1}
+          { c: 'a', m: '', n: 1 }
         ]);
       });
     });
@@ -50,14 +47,12 @@ describe('in-views/traceView', () => {
     }
   });
 
-
   function testFile(name, givenToActual) {
     it(`must translate ${name} content to long trace`, () => {
       const given = require(`./longTraceTestData/${name}_given.es6`).default;
       const expected = require(`./longTraceTestData/${name}_expected.es6`).default;
       const actual = givenToActual(given);
-      expect(removeSpanAndStacktraceDetails(actual))
-        .to.deep.equal(expected, `Actual: ${JSON.stringify(actual, 0, 2)}`);
+      expect(removeSpanAndStacktraceDetails(actual)).to.deep.equal(expected, `Actual: ${JSON.stringify(actual, 0, 2)}`);
     });
   }
 

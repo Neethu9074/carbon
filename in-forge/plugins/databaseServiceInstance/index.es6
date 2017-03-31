@@ -1,10 +1,9 @@
-import {registerSnapshotDefinition, getLabel} from 'in-sdk/snapshot';
-import {plugins} from 'in-forge/constants';
+import { registerSnapshotDefinition, getLabel } from 'in-sdk/snapshot';
+import { plugins } from 'in-forge/constants';
 
 import databaseIconPath from 'in-forge/plugins/databaseServiceInstance/iconPath';
 
 import metricDefinitions from './metricDefinitions';
-
 
 registerSnapshotDefinition({
   plugin: plugins.databaseServiceInstance,

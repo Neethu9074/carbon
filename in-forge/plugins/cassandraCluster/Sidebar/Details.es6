@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {bytesTwoDecimalPlaces, withSiPrefixZeroDecimalPlaces} from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -9,8 +9,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function CassandraClusterSidebar({snapshot}) {
+export default function CassandraClusterSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -23,22 +22,26 @@ export default function CassandraClusterSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <SparkChartsSection snapshot={snapshot}
-                          metrics={[
-                            {
-                              metric: 'nodeCount',
-                              label: 'Nodes',
-                              formatter: withSiPrefixZeroDecimalPlaces
-                            }, {
-                              metric: 'keyspaceCount',
-                              label: 'Keyspaces',
-                              formatter: withSiPrefixZeroDecimalPlaces
-                            }, {
-                              metric: 'overallDiskSize',
-                              label: 'Store Size',
-                              formatter: bytesTwoDecimalPlaces
-                            }
-                          ]} />
+      <SparkChartsSection
+        snapshot={snapshot}
+        metrics={[
+          {
+            metric: 'nodeCount',
+            label: 'Nodes',
+            formatter: withSiPrefixZeroDecimalPlaces
+          },
+          {
+            metric: 'keyspaceCount',
+            label: 'Keyspaces',
+            formatter: withSiPrefixZeroDecimalPlaces
+          },
+          {
+            metric: 'overallDiskSize',
+            label: 'Store Size',
+            formatter: bytesTwoDecimalPlaces
+          }
+        ]}
+      />
 
       <ClusterMemberList snapshotId={snapshotId} />
 

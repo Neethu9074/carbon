@@ -1,14 +1,14 @@
-import {createMapForm, createField, notBlankValidator} from 'formalistic';
-import {createLogger} from 'instalog';
-import {Map} from 'immutable';
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createLogger } from 'instalog';
+import { Map } from 'immutable';
 import React from 'react';
 
 import ApiTokenForm from 'in-views/configurationView/subview/ApiTokens/ApiTokenForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {getApiToken, saveApiToken} from 'in-services/groundskeeper/apiTokens';
+import { getApiToken, saveApiToken } from 'in-services/groundskeeper/apiTokens';
 import Section from 'in-views/configurationView/components/Section';
-import {openApiTokens} from 'in-stores/navigation/configuration';
+import { openApiTokens } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
 
@@ -83,7 +83,7 @@ export default React.createClass({
   },
 
   render() {
-    const {apiToken, form} = this.state;
+    const { apiToken, form } = this.state;
 
     return (
       <SubViewWrapper>
@@ -93,26 +93,20 @@ export default React.createClass({
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form ?
-              <Button kind='success'
-                      type='submit'
-                      disabled={!form.hierarchyValid && form.touched}>
-                Save
-              </Button>
-            : null}
+            {form
+              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                  Save
+                </Button>
+              : null}
 
-            {this.state.message ?
-              <Notification failure={this.state.error}
-                            loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+            {this.state.message
+              ? <Notification failure={this.state.error} loading={this.state.loading}>
+                  {this.state.message}
+                </Notification>
+              : null}
           </Section>
 
-          {form ?
-            <ApiTokenForm form={form}
-                          onChange={this.onChange} />
-          : null}
+          {form ? <ApiTokenForm form={form} onChange={this.onChange} /> : null}
         </form>
 
       </SubViewWrapper>
@@ -120,9 +114,7 @@ export default React.createClass({
   },
 
   onChange(fieldName, value) {
-    const updatedForm = this.state.form.updateIn([fieldName], field =>
-      field.setValue(value).setTouched(true)
-    );
+    const updatedForm = this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
 
     this.setState({
       form: updatedForm
@@ -134,7 +126,7 @@ export default React.createClass({
 
     if (!this.state.form.hierarchyValid) {
       this.setState({
-        form: this.state.form.setTouched(true, {recurse: true})
+        form: this.state.form.setTouched(true, { recurse: true })
       });
       return;
     }
@@ -161,25 +153,27 @@ export default React.createClass({
   }
 });
 
-
 function createForm(apiToken) {
   return createMapForm()
-    .put('id', createField({value: apiToken.get('id')}))
-    .put('name', createField({
-      value: apiToken.get('name'),
-      validator: notBlankValidator
-    }))
-    .put('canConfigureServiceMapping', createField({value: apiToken.get('canConfigureServiceMapping')}))
-    .put('canConfigureEumApplications', createField({value: apiToken.get('canConfigureEumApplications')}))
-    .put('canConfigureUsers', createField({value: apiToken.get('canConfigureUsers')}))
-    .put('canInstallNewAgents', createField({value: apiToken.get('canInstallNewAgents')}))
-    .put('canSeeUsageInformation', createField({value: apiToken.get('canSeeUsageInformation')}))
-    .put('canConfigureIntegrations', createField({value: apiToken.get('canConfigureIntegrations')}))
-    .put('canSeeOnPremLicenseInformation', createField({value: apiToken.get('canSeeOnPremLicenseInformation')}))
-    .put('canConfigureRoles', createField({value: apiToken.get('canConfigureRoles')}))
-    .put('canConfigureCustomAlerts', createField({value: apiToken.get('canConfigureCustomAlerts')}))
-    .put('canConfigureApiTokens', createField({value: apiToken.get('canConfigureApiTokens')}))
-    .put('canConfigureAgentRunMode', createField({value: apiToken.get('canConfigureAgentRunMode')}))
-    .put('canViewAuditLog', createField({value: apiToken.get('canViewAuditLog')}))
-    .put('canConfigureObjectives', createField({value: apiToken.get('canConfigureObjectives')}));
+    .put('id', createField({ value: apiToken.get('id') }))
+    .put(
+      'name',
+      createField({
+        value: apiToken.get('name'),
+        validator: notBlankValidator
+      })
+    )
+    .put('canConfigureServiceMapping', createField({ value: apiToken.get('canConfigureServiceMapping') }))
+    .put('canConfigureEumApplications', createField({ value: apiToken.get('canConfigureEumApplications') }))
+    .put('canConfigureUsers', createField({ value: apiToken.get('canConfigureUsers') }))
+    .put('canInstallNewAgents', createField({ value: apiToken.get('canInstallNewAgents') }))
+    .put('canSeeUsageInformation', createField({ value: apiToken.get('canSeeUsageInformation') }))
+    .put('canConfigureIntegrations', createField({ value: apiToken.get('canConfigureIntegrations') }))
+    .put('canSeeOnPremLicenseInformation', createField({ value: apiToken.get('canSeeOnPremLicenseInformation') }))
+    .put('canConfigureRoles', createField({ value: apiToken.get('canConfigureRoles') }))
+    .put('canConfigureCustomAlerts', createField({ value: apiToken.get('canConfigureCustomAlerts') }))
+    .put('canConfigureApiTokens', createField({ value: apiToken.get('canConfigureApiTokens') }))
+    .put('canConfigureAgentRunMode', createField({ value: apiToken.get('canConfigureAgentRunMode') }))
+    .put('canViewAuditLog', createField({ value: apiToken.get('canViewAuditLog') }))
+    .put('canConfigureObjectives', createField({ value: apiToken.get('canConfigureObjectives') }));
 }

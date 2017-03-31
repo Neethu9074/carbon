@@ -1,10 +1,9 @@
 import React from 'react';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
-import {onMove} from 'in-services/reactiveMouseEvents';
-import {applyTransform} from 'in-services/util/dom';
-import {theme} from 'in-services/theme';
-
+import { onMove } from 'in-services/reactiveMouseEvents';
+import { applyTransform } from 'in-services/util/dom';
+import { theme } from 'in-services/theme';
 
 const rpt = React.PropTypes;
 const OFFSET = 15;
@@ -16,7 +15,6 @@ const DEFAULT_STYLE = {
 
 export default function Tooltip(ComposedComponent) {
   return React.createClass({
-
     displayName: 'Tooltip',
 
     propTypes: {
@@ -46,11 +44,9 @@ export default function Tooltip(ComposedComponent) {
 
     render() {
       return (
-        <div ref={tooltip => this.tooltip = tooltip}
-             style={DEFAULT_STYLE}>
+        <div ref={tooltip => this.tooltip = tooltip} style={DEFAULT_STYLE}>
           <TooltipFrame>
-            <ComposedComponent {...this.props}
-                               {...this.state} />
+            <ComposedComponent {...this.props} {...this.state} />
           </TooltipFrame>
         </div>
       );

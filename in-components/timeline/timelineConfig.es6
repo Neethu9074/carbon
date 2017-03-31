@@ -8,7 +8,6 @@ export const darkColor = 'rgba(45, 64, 72, 1)';
 export const lightColor = '#92A5AE';
 export const midColor = '#43565E';
 
-
 // Time range constants
 const minute = 1000 * 60;
 const hour = minute * 60;

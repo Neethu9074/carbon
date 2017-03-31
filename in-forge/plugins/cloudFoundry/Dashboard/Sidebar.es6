@@ -7,8 +7,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import GeneralInfo from '../GeneralInfo';
 import Info from '../Info';
 
-export default function CloudFoundrySidebar({snapshot}) {
-
+export default function CloudFoundrySidebar({ snapshot }) {
   return (
     <div>
       <Separator />

@@ -1,32 +1,32 @@
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-export default function EtcdInfo({snapshot}) {
+export default function EtcdInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title='PID'>
+      <DescriptionItem title="PID">
         {data.get('pid')}
       </DescriptionItem>
-      <DescriptionItem title='Cluster version'>
+      <DescriptionItem title="Cluster version">
         {data.get('version_cluster')}
       </DescriptionItem>
-      <DescriptionItem title='Server version'>
+      <DescriptionItem title="Server version">
         {data.get('version_server')}
       </DescriptionItem>
-      <DescriptionItem title='Id'>
+      <DescriptionItem title="Id">
         {data.get('id')}
       </DescriptionItem>
-      <DescriptionItem title='Name'>
+      <DescriptionItem title="Name">
         {data.get('name')}
       </DescriptionItem>
-      <DescriptionItem title='Leader id'>
+      <DescriptionItem title="Leader id">
         {data.get('leader_id')}
       </DescriptionItem>
-      <DescriptionItem title='State'>
+      <DescriptionItem title="State">
         {data.get('state')}
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />

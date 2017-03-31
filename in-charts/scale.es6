@@ -15,17 +15,33 @@ class Scale {
     this.domainTo = 1;
   }
 
-  setRangeFrom(v) { this.rangeFrom = v; }
-  getRangeFrom() { return this.rangeFrom; }
+  setRangeFrom(v) {
+    this.rangeFrom = v;
+  }
+  getRangeFrom() {
+    return this.rangeFrom;
+  }
 
-  setRangeTo(v) { this.rangeTo = v; }
-  getRangeTo() { return this.rangeTo; }
+  setRangeTo(v) {
+    this.rangeTo = v;
+  }
+  getRangeTo() {
+    return this.rangeTo;
+  }
 
-  setDomainFrom(v) { this.domainFrom = v; }
-  getDomainFrom() { return this.domainFrom; }
+  setDomainFrom(v) {
+    this.domainFrom = v;
+  }
+  getDomainFrom() {
+    return this.domainFrom;
+  }
 
-  setDomainTo(v) { this.domainTo = v; }
-  getDomainTo() { return this.domainTo; }
+  setDomainTo(v) {
+    this.domainTo = v;
+  }
+  getDomainTo() {
+    return this.domainTo;
+  }
 
   getRange(domainValue) {
     const domainRange = this.domainTo - this.domainFrom;
@@ -36,11 +52,11 @@ class Scale {
       return (this.rangeTo - this.rangeFrom) / 2 + this.rangeFrom;
     }
     const percentageOfDomain = 1 / (this.domainTo - this.domainFrom) * (domainValue - this.domainFrom);
-    return (percentageOfDomain * (this.rangeTo - this.rangeFrom)) + this.rangeFrom;
+    return percentageOfDomain * (this.rangeTo - this.rangeFrom) + this.rangeFrom;
   }
 
   getDomain(rangeValue) {
     const percentageOfRange = 1 / (this.rangeTo - this.rangeFrom) * (rangeValue - this.rangeFrom);
-    return (percentageOfRange * (this.domainTo - this.domainFrom)) + this.domainFrom;
+    return percentageOfRange * (this.domainTo - this.domainFrom) + this.domainFrom;
   }
 }

@@ -1,6 +1,5 @@
-import {navigationParameters$, mutateUrl} from 'in-stores/navigation';
-import {createTrackingStore} from 'in-stores/store';
-
+import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
+import { createTrackingStore } from 'in-stores/store';
 
 export const showAggregations$ = createTrackingStore({
   name: 'metric/showAggregations',
@@ -9,7 +8,6 @@ export const showAggregations$ = createTrackingStore({
     .map(params => params.query.sa === '1')
     .distinct()
 }).observable;
-
 
 export function toggle() {
   mutateUrl(params => {

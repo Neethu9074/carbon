@@ -5,8 +5,7 @@ import Info from 'in-forge/plugins/dropwizardApplicationContainer/Info';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
-
-export default function DropwizardSidebar({snapshot}) {
+export default function DropwizardSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

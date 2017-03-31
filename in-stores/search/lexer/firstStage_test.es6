@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import lexFirstStage from 'in-stores/search/lexer/firstStage';
 
@@ -362,58 +362,58 @@ describe('in-stores/search/lexer/firstStage', () => {
     it('must parse ranges', () => {
       expect(lexFirstStage('mod_date:[20020101 TO 20030101]')).to.deep.equal([
         {
-          'start': 0,
-          'end': 8,
-          'lexeme': 'mod_date',
-          'token': 'term'
+          start: 0,
+          end: 8,
+          lexeme: 'mod_date',
+          token: 'term'
         },
         {
-          'start': 8,
-          'end': 9,
-          'lexeme': ':',
-          'token': 'fieldSeparator'
+          start: 8,
+          end: 9,
+          lexeme: ':',
+          token: 'fieldSeparator'
         },
         {
-          'start': 9,
-          'end': 10,
-          'lexeme': '[',
-          'token': 'range'
+          start: 9,
+          end: 10,
+          lexeme: '[',
+          token: 'range'
         },
         {
-          'start': 10,
-          'end': 18,
-          'lexeme': '20020101',
-          'token': 'term'
+          start: 10,
+          end: 18,
+          lexeme: '20020101',
+          token: 'term'
         },
         {
-          'start': 18,
-          'end': 19,
-          'lexeme': ' ',
-          'token': 'whitespace'
+          start: 18,
+          end: 19,
+          lexeme: ' ',
+          token: 'whitespace'
         },
         {
-          'start': 19,
-          'end': 21,
-          'lexeme': 'TO',
-          'token': 'term'
+          start: 19,
+          end: 21,
+          lexeme: 'TO',
+          token: 'term'
         },
         {
-          'start': 21,
-          'end': 22,
-          'lexeme': ' ',
-          'token': 'whitespace'
+          start: 21,
+          end: 22,
+          lexeme: ' ',
+          token: 'whitespace'
         },
         {
-          'start': 22,
-          'end': 30,
-          'lexeme': '20030101',
-          'token': 'term'
+          start: 22,
+          end: 30,
+          lexeme: '20030101',
+          token: 'term'
         },
         {
-          'start': 30,
-          'end': 31,
-          'lexeme': ']',
-          'token': 'range'
+          start: 30,
+          end: 31,
+          lexeme: ']',
+          token: 'range'
         }
       ]);
     });
@@ -468,67 +468,67 @@ describe('in-stores/search/lexer/firstStage', () => {
 
     it('must support > and < signs in terms', () => {
       expect(lexFirstStage('cpuCount:>1')).to.deep.equal([
-        {'start': 0, 'end': 8, 'lexeme': 'cpuCount', 'token': 'term'},
-        {'start': 8, 'end': 9, 'lexeme': ':', 'token': 'fieldSeparator'},
-        {'start': 9, 'end': 11, 'lexeme': '>1', 'token': 'term'}
+        { start: 0, end: 8, lexeme: 'cpuCount', token: 'term' },
+        { start: 8, end: 9, lexeme: ':', token: 'fieldSeparator' },
+        { start: 9, end: 11, lexeme: '>1', token: 'term' }
       ]);
     });
 
     it('must support field grouping', () => {
       expect(lexFirstStage('title:(+return +"pink panther")')).to.deep.equal([
         {
-          'start': 0,
-          'end': 5,
-          'lexeme': 'title',
-          'token': 'term'
+          start: 0,
+          end: 5,
+          lexeme: 'title',
+          token: 'term'
         },
         {
-          'start': 5,
-          'end': 6,
-          'lexeme': ':',
-          'token': 'fieldSeparator'
+          start: 5,
+          end: 6,
+          lexeme: ':',
+          token: 'fieldSeparator'
         },
         {
-          'start': 6,
-          'end': 7,
-          'lexeme': '(',
-          'token': 'grouping'
+          start: 6,
+          end: 7,
+          lexeme: '(',
+          token: 'grouping'
         },
         {
-          'start': 7,
-          'end': 8,
-          'lexeme': '+',
-          'token': 'operator'
+          start: 7,
+          end: 8,
+          lexeme: '+',
+          token: 'operator'
         },
         {
-          'start': 8,
-          'end': 14,
-          'lexeme': 'return',
-          'token': 'term'
+          start: 8,
+          end: 14,
+          lexeme: 'return',
+          token: 'term'
         },
         {
-          'start': 14,
-          'end': 15,
-          'lexeme': ' ',
-          'token': 'whitespace'
+          start: 14,
+          end: 15,
+          lexeme: ' ',
+          token: 'whitespace'
         },
         {
-          'start': 15,
-          'end': 16,
-          'lexeme': '+',
-          'token': 'operator'
+          start: 15,
+          end: 16,
+          lexeme: '+',
+          token: 'operator'
         },
         {
-          'start': 16,
-          'end': 30,
-          'lexeme': '"pink panther"',
-          'token': 'phrase'
+          start: 16,
+          end: 30,
+          lexeme: '"pink panther"',
+          token: 'phrase'
         },
         {
-          'start': 30,
-          'end': 31,
-          'lexeme': ')',
-          'token': 'grouping'
+          start: 30,
+          end: 31,
+          lexeme: ')',
+          token: 'grouping'
         }
       ]);
     });

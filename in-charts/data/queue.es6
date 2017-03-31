@@ -6,7 +6,7 @@
  * charts and stacked bar charts. Line charts and scatter plots can generally
  * work with requireExistenceInAllSeries=false (the default).
  */
-export default function createQueue({numberOfSeries, requireExistenceInAllSeries = false}) {
+export default function createQueue({ numberOfSeries, requireExistenceInAllSeries = false }) {
   const series = [];
   clear();
 
@@ -16,7 +16,6 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
     clear,
     get: requireExistenceInAllSeries ? getStrict : getLoose
   };
-
 
   function addDataPoints(seriesIndex, dataPoints) {
     for (let i = 0, len = dataPoints.length; i < len; i++) {
@@ -29,11 +28,9 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
     }
   }
 
-
   function addDataPoint(seriesIndex, dataPoint) {
     series[seriesIndex][dataPoint[0]] = dataPoint;
   }
-
 
   function getStrict() {
     const dataColumns = [];
@@ -71,7 +68,6 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
     return dataColumns;
   }
 
-
   function isDataPointInEverySeries(time) {
     for (let i = 0; i < numberOfSeries; i++) {
       if (!series[i].hasOwnProperty(time)) {
@@ -81,14 +77,12 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
     return true;
   }
 
-
   function getLoose() {
     const dataColumns = [];
 
     // maps time:number => column:DataColumn
     // for fast data column creation.
     const timeToColumn = {};
-
 
     for (let seriesIndex = 0; seriesIndex < numberOfSeries; seriesIndex++) {
       const eachSeries = series[seriesIndex];
@@ -125,11 +119,9 @@ export default function createQueue({numberOfSeries, requireExistenceInAllSeries
     return dataColumns;
   }
 
-
   function dataColumnSorter(a, b) {
     return a.time - b.time;
   }
-
 
   function clear() {
     for (let i = 0; i < numberOfSeries; i++) {

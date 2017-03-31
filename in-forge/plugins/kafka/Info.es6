@@ -1,22 +1,21 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-
-export default function KafkaInfo({snapshot}) {
+export default function KafkaInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title='Version'>
+      <DescriptionItem title="Version">
         {data.get('version')}
       </DescriptionItem>
-      <DescriptionItem title='Zookeeper Connect'>
+      <DescriptionItem title="Zookeeper Connect">
         {data.get('config.zookeeper')}
       </DescriptionItem>
-      <DescriptionItem title='Process ID'>
+      <DescriptionItem title="Process ID">
         {data.get('pid')}
       </DescriptionItem>
-      <DescriptionItem title='Node Id'>
+      <DescriptionItem title="Node Id">
         {data.get('node_id')}
       </DescriptionItem>
     </DescriptionList>

@@ -1,6 +1,6 @@
 // @flow
 
-import {normalizePath, isLastPathElement, alwaysValidValidator} from 'in-services/form/util';
+import { normalizePath, isLastPathElement, alwaysValidValidator } from 'in-services/form/util';
 
 /*::
 import type {
@@ -9,7 +9,6 @@ import type {
 
 type Items = Array<Item>;
 */
-
 
 export default class ListForm {
   /*::
@@ -21,7 +20,7 @@ export default class ListForm {
   length: number;
   */
 
-  constructor(validator/*: Validator */ = alwaysValidValidator, items/*: Items*/) {
+  constructor(validator /*: Validator */ = alwaysValidValidator, items /*: Items*/) {
     this.items = items || [];
     this.length = this.items.length;
     this.validator = validator;
@@ -30,7 +29,7 @@ export default class ListForm {
     this.pristine = this._isPristine();
   }
 
-  addItem(path/*: Path*/, item/*: Item */, i/*: number*/ = 0) {
+  addItem(path /*: Path*/, item /*: Item */, i /*: number*/ = 0) {
     path = normalizePath(path);
     const key = path[i];
 
@@ -45,12 +44,12 @@ export default class ListForm {
       newValueForKey = pathItem.addItem(path, item, i + 1);
     }
 
-    const newItems/*: Items*/ = this.items.slice();
+    const newItems /*: Items*/ = this.items.slice();
     newItems[key] = newValueForKey;
     return new ListForm(this.validator, newItems);
   }
 
-  getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+  getItem(path /*: Path*/, i /*: number*/ = 0) /*: Item*/ {
     path = normalizePath(path);
     const key = path[i];
 
@@ -66,7 +65,7 @@ export default class ListForm {
     return item;
   }
 
-  setValue(path/*: Path*/, value/*: Value*/, i/*: number*/ = 0)/*: Item*/ {
+  setValue(path /*: Path*/, value /*: Value*/, i /*: number*/ = 0) /*: Item*/ {
     path = normalizePath(path);
     const key = path[i];
 
@@ -76,17 +75,17 @@ export default class ListForm {
     }
 
     const newItemForKey = item.setValue(path, value, i + 1);
-    const newItems/*: Items*/ = this.items.slice();
+    const newItems /*: Items*/ = this.items.slice();
     newItems[key] = newItemForKey;
     return new ListForm(this.validator, newItems);
   }
 
-  removeItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+  removeItem(path /*: Path*/, i /*: number*/ = 0) /*: Item*/ {
     path = normalizePath(path);
     const key = path[i];
 
     if (isLastPathElement(path, i)) {
-      const newItems/*: Items*/ = this.items.slice();
+      const newItems /*: Items*/ = this.items.slice();
       newItems.splice(key, 1);
       return new ListForm(this.validator, newItems);
     }
@@ -96,7 +95,7 @@ export default class ListForm {
       return this;
     }
     const newItemForKey = item.removeItem(path, i + 1);
-    const newItems/*: Items*/ = this.items.slice();
+    const newItems /*: Items*/ = this.items.slice();
     newItems[key] = newItemForKey;
     return new ListForm(this.validator, newItems);
   }
@@ -125,29 +124,27 @@ export default class ListForm {
     return this.items.map(item => item.toJS());
   }
 
-  map(mapper/*: Mapper*/) {
-    return this.items
-      .map((value, i) => mapper(value, i));
+  map(mapper /*: Mapper*/) {
+    return this.items.map((value, i) => mapper(value, i));
   }
 
-  mapItem(mapper/*: Mapper*/) {
+  mapItem(mapper /*: Mapper*/) {
     return mapper(this);
   }
 
-  forEach(consumer/*: Consumer*/) {
-    return this.items
-      .forEach(consumer);
+  forEach(consumer /*: Consumer*/) {
+    return this.items.forEach(consumer);
   }
 
-  moveUp(path/*: Path*/)/*: ListForm*/ {
+  moveUp(path /*: Path*/) /*: ListForm*/ {
     return this._move(path, +1);
   }
 
-  moveDown(path/*: Path*/)/*: ListForm*/ {
+  moveDown(path /*: Path*/) /*: ListForm*/ {
     return this._move(path, -1);
   }
 
-  _move(path/*: Path*/, positionModification/*: number */, i/*: number*/ = 0) {
+  _move(path /*: Path*/, positionModification /*: number */, i /*: number*/ = 0) {
     path = normalizePath(path);
     const key = path[i];
 
@@ -157,13 +154,13 @@ export default class ListForm {
     }
 
     if (!isLastPathElement(path, i)) {
-      const newItems/*: Items*/ = this.items.slice();
+      const newItems /*: Items*/ = this.items.slice();
       newItems[key] = item._move(path, positionModification, i + 1);
       return new ListForm(this.validator, newItems);
     }
 
     const newIndex = Math.min(this.items.length - 1, Math.max(0, key + positionModification));
-    const newItems/*: Items*/ = this.items.slice();
+    const newItems /*: Items*/ = this.items.slice();
     newItems.splice(key, 1);
     newItems.splice(newIndex, 0, this.items[key]);
     return new ListForm(this.validator, newItems);

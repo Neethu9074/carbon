@@ -1,10 +1,9 @@
 /* eslint-env mocha, node */
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
-
+import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 
 describe('in-map', () => {
   describe('sceneObjectComponents/MeshComponent', () => {
@@ -42,13 +41,13 @@ describe('in-map', () => {
     });
 
     it('should update fragment when node changes', () => {
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
+      sceneObject.eventEmitter.emit('positionChanged', { x: 1, y: 0, z: 2 });
       expect(factory.needsUpdate).to.have.callCount(1);
 
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
+      sceneObject.eventEmitter.emit('scaleChanged', { x: 1, y: 2, z: 1 });
       expect(factory.needsUpdate).to.have.callCount(2);
 
-      sceneObject.eventEmitter.emit('colorChanged', {r: 1, g: 2, b: 1});
+      sceneObject.eventEmitter.emit('colorChanged', { r: 1, g: 2, b: 1 });
       expect(factory.needsUpdate).to.have.callCount(3);
     });
   });

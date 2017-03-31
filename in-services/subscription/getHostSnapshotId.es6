@@ -5,7 +5,7 @@ export default createSubscription({
 
   getId(snapshot) {
     return JSON.stringify(snapshot.get('entityId').toJS());
-   },
+  },
 
   getData(subscriptionId, snapshot) {
     return {

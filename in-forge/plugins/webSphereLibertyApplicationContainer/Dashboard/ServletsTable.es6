@@ -1,14 +1,13 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import {zeroDecimalPlaces, muSecondsToMillisTwoDecimalPlaces} from 'in-services/formatters/number';
-import {emptyMap, emptyList} from 'in-services/fixedImmutables';
+import { zeroDecimalPlaces, muSecondsToMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import Mtd from 'in-components/Mtd';
 
-
-export default function ServletsTable({snapshot, timeframe}) {
+export default function ServletsTable({ snapshot, timeframe }) {
   const servlets = [];
   snapshot.getIn(['data', 'applications'], emptyMap).sort().forEach((appData, appName) => {
     appData.get('servlets', emptyList).sort().forEach(servletName => {
@@ -23,16 +22,18 @@ export default function ServletsTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Servlets'>
-      <ExpandableTable data={servlets}
-                       getKey={getKey}
-                       createHeader={createHeader}
-                       createRow={createRow}
-                       context={{
-                         snapshot,
-                         timeframe
-                       }}
-                       createDetails={createDetails} />
+    <DashboardSection title="Servlets">
+      <ExpandableTable
+        data={servlets}
+        getKey={getKey}
+        createHeader={createHeader}
+        createRow={createRow}
+        context={{
+          snapshot,
+          timeframe
+        }}
+        createDetails={createDetails}
+      />
     </DashboardSection>
   );
 }
@@ -55,53 +56,53 @@ function createHeader() {
 }
 
 function createRow(servlet, i, context) {
-  return ([
+  return [
     <td>{servlet.appName}</td>,
     <td>{servlet.servletName}</td>,
-    <Mtd metric={'servlets.' + servlet.appName + '.' + servlet.servletName + '.requests'}
-         formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot} />,
-    <Mtd metric={'servlets.' + servlet.appName + '.' + servlet.servletName + '.avgResponseTime'}
-         formatter={muSecondsToMillisTwoDecimalPlaces}
-         snapshot={context.snapshot} />
-  ]);
+    <Mtd
+      metric={'servlets.' + servlet.appName + '.' + servlet.servletName + '.requests'}
+      formatter={zeroDecimalPlaces}
+      snapshot={context.snapshot}
+    />,
+    <Mtd
+      metric={'servlets.' + servlet.appName + '.' + servlet.servletName + '.avgResponseTime'}
+      formatter={muSecondsToMillisTwoDecimalPlaces}
+      snapshot={context.snapshot}
+    />
+  ];
 }
 
 function createDetails(servlet, i, context) {
   return (
     <div>
-      <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                       timeframe={context.timeframe}
-                       margins={{
-                         left: 80,
-                         right: 40
-                       }}
-                       y1={{
-                         formatter: zeroDecimalPlaces,
-                         metrics: [
-                           'servlets.' + servlet.appName + '.' + servlet.servletName + '.requests'
-                         ],
-                         labels: [
-                           'Requests'
-                         ],
-                         type: 'line'
-                       }} />
-      <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                       timeframe={context.timeframe}
-                       margins={{
-                         left: 80,
-                         right: 40
-                       }}
-                       y1={{
-                         formatter: muSecondsToMillisTwoDecimalPlaces,
-                         metrics: [
-                           'servlets.' + servlet.appName + '.' + servlet.servletName + '.avgResponseTime'
-                         ],
-                         labels: [
-                           'Average Response Time'
-                         ],
-                         type: 'line'
-                       }} />
+      <ChartWithLegend
+        snapshotId={context.snapshot.get('id')}
+        timeframe={context.timeframe}
+        margins={{
+          left: 80,
+          right: 40
+        }}
+        y1={{
+          formatter: zeroDecimalPlaces,
+          metrics: ['servlets.' + servlet.appName + '.' + servlet.servletName + '.requests'],
+          labels: ['Requests'],
+          type: 'line'
+        }}
+      />
+      <ChartWithLegend
+        snapshotId={context.snapshot.get('id')}
+        timeframe={context.timeframe}
+        margins={{
+          left: 80,
+          right: 40
+        }}
+        y1={{
+          formatter: muSecondsToMillisTwoDecimalPlaces,
+          metrics: ['servlets.' + servlet.appName + '.' + servlet.servletName + '.avgResponseTime'],
+          labels: ['Average Response Time'],
+          type: 'line'
+        }}
+      />
     </div>
   );
 }

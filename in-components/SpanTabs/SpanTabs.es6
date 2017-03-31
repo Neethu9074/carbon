@@ -20,8 +20,7 @@ export const SpanTabs = React.createClass({
   },
 
   render() {
-    const children = this.props.children
-      .filter(child => child && child.props.children);
+    const children = this.props.children.filter(child => child && child.props.children);
 
     if (children.length === 1) {
       return children[0].props.children;
@@ -32,16 +31,18 @@ export const SpanTabs = React.createClass({
     return (
       <div className={block}>
         <ul className={block + '__tab-list'}>
-          {children.map((child, i) =>
-            <li key={i}
-                onClick={() => this.setState({selectedTab: i})}
-                className={classnames({
-                  [block + '__tab']: true,
-                  [block + '__tab--selected']: i === this.state.selectedTab
-                })}>
+          {children.map((child, i) => (
+            <li
+              key={i}
+              onClick={() => this.setState({ selectedTab: i })}
+              className={classnames({
+                [block + '__tab']: true,
+                [block + '__tab--selected']: i === this.state.selectedTab
+              })}
+            >
               {child.props.title}
             </li>
-          )}
+          ))}
         </ul>
 
         {selectedTab.props.children}
@@ -49,7 +50,6 @@ export const SpanTabs = React.createClass({
     );
   }
 });
-
 
 export const SpanTab = function SpanTag() {
   return null;

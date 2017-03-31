@@ -1,4 +1,4 @@
-import {allStates} from 'in-stores/store';
+import { allStates } from 'in-stores/store';
 
 window.instana.dev = window.instana.dev || {};
 window.instana.dev.storeStates = allStates;

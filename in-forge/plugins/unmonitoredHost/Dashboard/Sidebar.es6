@@ -5,8 +5,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function UnmonitoredHostSidebar({snapshot}) {
+export default function UnmonitoredHostSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

@@ -1,21 +1,10 @@
-import {
-  activity,
-  hitRate,
-  number
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { activity, hitRate, number } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [
-      'totalQueries',
-      'totalCommittedTransactions'
-    ],
-    labels: [
-      'Queries',
-      'Committed Transactions'
-    ],
+    metrics: ['totalQueries', 'totalCommittedTransactions'],
+    labels: ['Queries', 'Committed Transactions'],
     min: 0,
     formatter: activity,
     isAvailable(snapshot) {

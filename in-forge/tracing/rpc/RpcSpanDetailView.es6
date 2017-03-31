@@ -1,17 +1,17 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-export default function HttpSpanDetailView({span}) {
+export default function HttpSpanDetailView({ span }) {
   return (
     <DescriptionList>
-      <DescriptionItem title='Call'>
+      <DescriptionItem title="Call">
         {span.getIn(['data', 'rpc', 'call'])}
       </DescriptionItem>
-      <DescriptionItem title='Host'>
+      <DescriptionItem title="Host">
         {span.getIn(['data', 'rpc', 'host'])}
       </DescriptionItem>
-      <DescriptionItem title='Baggage'>
+      <DescriptionItem title="Baggage">
         {span.getIn(['data', 'baggage'])}
       </DescriptionItem>
     </DescriptionList>

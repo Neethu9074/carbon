@@ -2,7 +2,6 @@ import React from 'react';
 
 import './TableHeader.less';
 
-
 const block = 'in-objectives-table-header';
 
 export default function TableHeader() {
@@ -21,7 +20,7 @@ export default function TableHeader() {
   );
 }
 
-function Header({children}) {
+function Header({ children }) {
   return (
     <h3 className={`${block}__column_heading`}>
       {children}

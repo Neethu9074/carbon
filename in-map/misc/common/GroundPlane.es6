@@ -1,9 +1,7 @@
-import {MeshBasicMaterial, Mesh, PlaneBufferGeometry} from 'in-map/3DLibProvider';
-import {removeSceneObject} from 'in-map/stores/sceneStore';
-
+import { MeshBasicMaterial, Mesh, PlaneBufferGeometry } from 'in-map/3DLibProvider';
+import { removeSceneObject } from 'in-map/stores/sceneStore';
 
 export default class GroundPlane {
-
   constructor(size) {
     this.size = size;
 
@@ -13,7 +11,7 @@ export default class GroundPlane {
       depthWrite: false
     });
 
-    const ground = this.ground = new Mesh(geo, mat);
+    const ground = (this.ground = new Mesh(geo, mat));
     // turn the group around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
     ground.rotation.x = -90 * Math.PI / 180;

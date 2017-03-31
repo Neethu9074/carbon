@@ -1,23 +1,17 @@
 /* global require:false */
-import {
-  PlaneBufferGeometry,
-  Mesh,
-  DoubleSide,
-  MeshBasicMaterial} from 'in-map/3DLibProvider';
-import {resourceLoaded} from 'in-components/globeView/stores/isLoadingStore';
-import {loadImage} from 'in-map/services/imageLoader';
-
+import { PlaneBufferGeometry, Mesh, DoubleSide, MeshBasicMaterial } from 'in-map/3DLibProvider';
+import { resourceLoaded } from 'in-components/globeView/stores/isLoadingStore';
+import { loadImage } from 'in-map/services/imageLoader';
 
 export default class Effects {
-
   constructor(parent) {
     require([
       'in-components/globeView/components/textures/globeOverlayEffectMap.png',
       'in-components/globeView/components/textures/globeOuterGlowEffectMap.png'
     ], (overlayMapPath, outerGlowMapPath) => {
-      const planeGeometry = this.planeGeometry = new PlaneBufferGeometry(1.2929, 1.2929, 1, 1);
+      const planeGeometry = (this.planeGeometry = new PlaneBufferGeometry(1.2929, 1.2929, 1, 1));
 
-      const effectPlaneOuterGlow = this.effectPlaneOuterGlow = new Mesh(
+      const effectPlaneOuterGlow = (this.effectPlaneOuterGlow = new Mesh(
         planeGeometry,
         new MeshBasicMaterial({
           color: 0xffffff,
@@ -29,12 +23,12 @@ export default class Effects {
             resourceLoaded('globeEffectOuterGlowMap');
           })
         })
-      );
+      ));
 
       effectPlaneOuterGlow.renderOrder = 10;
       parent.add(effectPlaneOuterGlow);
 
-      const effectPlaneOverlay = this.effectPlaneOverlay = new Mesh(
+      const effectPlaneOverlay = (this.effectPlaneOverlay = new Mesh(
         planeGeometry,
         new MeshBasicMaterial({
           color: 0xffffff,
@@ -47,7 +41,7 @@ export default class Effects {
             resourceLoaded('globeEffectOverlayMap');
           })
         })
-      );
+      ));
 
       effectPlaneOverlay.renderOrder = 11;
       parent.add(effectPlaneOverlay);
@@ -58,11 +52,7 @@ export default class Effects {
   getScaleFromDistance(x) {
     const x2 = x * x;
     const x3 = x2 * x;
-    return 0.1602564088 * x3 * x
-           - 1.130730373 * x3
-           + 3.043502314 * x2
-           - 3.764695004 * x
-           + 3.075177139;
+    return 0.1602564088 * x3 * x - 1.130730373 * x3 + 3.043502314 * x2 - 3.764695004 * x + 3.075177139;
   }
 
   update(camDistance) {

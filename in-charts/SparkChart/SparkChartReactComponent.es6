@@ -4,7 +4,6 @@ import React from 'react';
 
 import createSparkChart from 'in-charts/SparkChart/SparkChart';
 
-
 const block = 'in-spark-chart';
 const rpt = React.PropTypes;
 
@@ -51,9 +50,7 @@ export default React.createClass({
     if (this.props.className) {
       classes += ' ' + this.props.className;
     }
-    return (
-      <div className={classes} />
-    );
+    return <div className={classes} />;
   },
 
   disposeSparkChart() {

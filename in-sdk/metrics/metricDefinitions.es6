@@ -1,5 +1,5 @@
-import {number} from 'in-services/formatters/number';
-import {emptyArray} from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
+import { emptyArray } from 'in-services/fixedObjects';
 
 // {
 //   <plugin>: [
@@ -45,7 +45,7 @@ export function registerMetricDefinition(plugin, metricDefinition) {
     metricDefinition.labels = [metricDefinition.label];
   }
 
-  const metricDefinitionsForPlugin = metricDefinitions[plugin] = metricDefinitions[plugin] || [];
+  const metricDefinitionsForPlugin = (metricDefinitions[plugin] = metricDefinitions[plugin] || []);
 
   for (let i = 0, len = metricDefinition.metrics.length; i < len; i++) {
     const metric = metricDefinition.metrics[i];
@@ -72,7 +72,6 @@ function getMin(metricDefinition) {
   return metricDefinition.getMin || alwaysUndefined;
 }
 
-
 function getMax(metricDefinition) {
   if (typeof metricDefinition.max === 'function') {
     return metricDefinition.max;
@@ -81,7 +80,6 @@ function getMax(metricDefinition) {
   }
   return metricDefinition.getMax || alwaysUndefined;
 }
-
 
 function getTestFunction(metric) {
   const type = typeof metric;
@@ -105,10 +103,12 @@ function getLabel(label) {
   throw new Error(`Unsupported label of type ${type}: ${label}`);
 }
 
-
-function alwaysUndefined() { return undefined; }
-function alwaysTrue() { return true; }
-
+function alwaysUndefined() {
+  return undefined;
+}
+function alwaysTrue() {
+  return true;
+}
 
 export function getMetricDefinition(plugin, metric) {
   const metricDefinitionsForPlugin = metricDefinitions[plugin];
@@ -126,7 +126,6 @@ export function getMetricDefinition(plugin, metric) {
   return getDefaultMetricDefinition(metric);
 }
 
-
 function getDefaultMetricDefinition(metric) {
   return {
     metric,
@@ -139,7 +138,6 @@ function getDefaultMetricDefinition(metric) {
     formatter: number
   };
 }
-
 
 function bindMetricMatchToGetters(metric, metricDefinition) {
   if (!(metricDefinition.metric instanceof RegExp)) {
@@ -154,20 +152,17 @@ function bindMetricMatchToGetters(metric, metricDefinition) {
   return metricDefinition;
 }
 
-
 function simpleCurryOne(fn, value) {
   return a => fn(a, value);
 }
-
 
 export function getCategories(plugin) {
   if (categories[plugin]) {
     return categories[plugin];
   }
-  const pluginCategories = categories[plugin] = buildCategories(plugin);
+  const pluginCategories = (categories[plugin] = buildCategories(plugin));
   return pluginCategories;
 }
-
 
 function buildCategories(plugin) {
   const metricDefinitionsForPlugin = metricDefinitions[plugin];
@@ -191,7 +186,6 @@ function buildCategories(plugin) {
   sortCategories(root);
   return root.children;
 }
-
 
 function insertMetric(node, metricDefinitionForPlugin, category) {
   category = category || metricDefinitionForPlugin.category;
@@ -225,7 +219,6 @@ function insertMetric(node, metricDefinitionForPlugin, category) {
   insertMetric(nextNode, metricDefinitionForPlugin, category.slice(1));
 }
 
-
 function sortCategories(node) {
   if (node.children) {
     node.children.sort((a, b) => a.label.localeCompare(b.label));
@@ -234,7 +227,5 @@ function sortCategories(node) {
 }
 
 export function getMetricMatch(pre, post) {
-  return post
-    ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i')
-    : new RegExp(`^${pre}\\.(.*)$`, 'i');
+  return post ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i') : new RegExp(`^${pre}\\.(.*)$`, 'i');
 }

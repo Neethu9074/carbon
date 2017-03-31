@@ -1,14 +1,13 @@
 /* eslint-env mocha, node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {resetStoreRegistry} from 'in-stores/store';
-import {PATH_NAMES} from 'in-stores/navigation';
+import { resetStoreRegistry } from 'in-stores/store';
+import { PATH_NAMES } from 'in-stores/navigation';
 import keyCodes from 'in-components/keyCodes';
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 describe('shortcuts/dashboard', () => {
   let onKeyPressed;
@@ -97,18 +96,21 @@ describe('shortcuts/dashboard', () => {
     });
 
     navigationMock = {
-      goToDashboard: () => navigationParametersStore.applyStateMutation(oldParams => {
-        oldParams.pathname = PATH_NAMES.DASHBOARD;
-        return oldParams;
-      }),
-      goToRootOfView: () => navigationParametersStore.applyStateMutation(oldParams => {
-        oldParams.pathname = PATH_NAMES.MAP;
-        return oldParams;
-      }),
-      setSnapshotId: id => navigationParametersStore.applyStateMutation(oldParams => {
-        id ? oldParams.query.snapshotId = id : delete oldParams.query.snapshotId;
-        return oldParams;
-      }),
+      goToDashboard: () =>
+        navigationParametersStore.applyStateMutation(oldParams => {
+          oldParams.pathname = PATH_NAMES.DASHBOARD;
+          return oldParams;
+        }),
+      goToRootOfView: () =>
+        navigationParametersStore.applyStateMutation(oldParams => {
+          oldParams.pathname = PATH_NAMES.MAP;
+          return oldParams;
+        }),
+      setSnapshotId: id =>
+        navigationParametersStore.applyStateMutation(oldParams => {
+          id ? (oldParams.query.snapshotId = id) : delete oldParams.query.snapshotId;
+          return oldParams;
+        }),
       navigationParameters$: navigationParametersStore.observable,
       PATH_NAMES
     };

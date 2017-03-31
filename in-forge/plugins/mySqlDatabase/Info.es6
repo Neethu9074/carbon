@@ -1,27 +1,26 @@
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-
-export default function MySqlInfo({snapshot}) {
+export default function MySqlInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title='Process ID'>
+      <DescriptionItem title="Process ID">
         {data.get('pid')}
       </DescriptionItem>
-      <DescriptionItem title='Port'>
+      <DescriptionItem title="Port">
         {data.get('port')}
       </DescriptionItem>
-      <DescriptionItem title='Version'>
+      <DescriptionItem title="Version">
         {getVersion(data)}
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title='Role'>
+      <DescriptionItem title="Role">
         {data.get('role')}
       </DescriptionItem>
-      <DescriptionItem title='Replication Group Name'>
+      <DescriptionItem title="Replication Group Name">
         {data.get('replicationGroup')}
       </DescriptionItem>
     </DescriptionList>

@@ -1,5 +1,4 @@
-import {getModifiedUrlStream} from 'in-stores/navigation/navigation';
-
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 
 export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
   const query = encodeURIComponent(`trace.startingAt:"${snapshotId}"`);
@@ -10,7 +9,6 @@ export function getTraceViewFilteredByServiceStartingAtLink(snapshotId) {
   });
 }
 
-
 export function getTraceViewFilteredByTouchingLink(snapshotId) {
   const query = encodeURIComponent(`trace.touching:"${snapshotId}"`);
   return getModifiedUrlStream(params => {
@@ -19,7 +17,6 @@ export function getTraceViewFilteredByTouchingLink(snapshotId) {
     params.query.ss = '1';
   });
 }
-
 
 export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) {
   const query = encodeURIComponent(`trace.startingAtInstance:"${snapshotId}"`);
@@ -30,8 +27,7 @@ export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) 
   });
 }
 
-
-export function getTraceViewFilteredBySnapshotIdAndTimeframe({snapshotId, from, to}) {
+export function getTraceViewFilteredBySnapshotIdAndTimeframe({ snapshotId, from, to }) {
   const query = encodeURIComponent(`trace.touching:"${snapshotId}"`);
   return getModifiedUrlStream(params => {
     params.pathname = '/traces';
@@ -41,7 +37,6 @@ export function getTraceViewFilteredBySnapshotIdAndTimeframe({snapshotId, from, 
     params.query['timeline.ws'] = to - from;
   });
 }
-
 
 export function getCurrentViewWithFilter(filter) {
   filter = encodeURIComponent(filter);

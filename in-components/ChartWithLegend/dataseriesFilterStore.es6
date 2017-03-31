@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 const rpt = React.PropTypes;
 
@@ -9,18 +9,20 @@ export const filterStoreShape = rpt.shape({
   toggleFilter: rpt.func.isRequired
 });
 
-
 export default function createDataSeriesFilterStore() {
   const filterChanges$ = create();
   const activeFilters$ = filterChanges$
-    .scan((filters, toggeledFilter) => {
-      if (filters[toggeledFilter]) {
-        delete filters[toggeledFilter];
-      } else {
-        filters[toggeledFilter] = true;
-      }
-      return filters;
-    }, Object.create(null))
+    .scan(
+      (filters, toggeledFilter) => {
+        if (filters[toggeledFilter]) {
+          delete filters[toggeledFilter];
+        } else {
+          filters[toggeledFilter] = true;
+        }
+        return filters;
+      },
+      Object.create(null)
+    )
     .startWith(Object.create(null));
 
   return {

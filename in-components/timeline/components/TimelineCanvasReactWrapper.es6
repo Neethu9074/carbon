@@ -6,16 +6,12 @@ import createTimelineRenderer from 'in-components/timeline/components/timelineCa
 
 import './TimelineCanvasReactWrapper.less';
 
-
 const block = 'in-timeline-canvas';
 
 export default React.createClass({
-
   displayName: 'TimelineCanvasReactWrapper',
 
-  mixins: [
-    PureRenderMixin
-  ],
+  mixins: [PureRenderMixin],
 
   componentDidMount() {
     this.renderer = createTimelineRenderer({
@@ -31,12 +27,9 @@ export default React.createClass({
 
   render() {
     return (
-      <div ref={container => this.container = container}
-           className={block}>
-        <canvas ref={_canvas => this.timelineCanvas = _canvas}
-                className={block + '__canvas'} />
-        <div ref={glassPane => this.glassPane = glassPane}
-             className={block + '__glasspane'} />
+      <div ref={container => this.container = container} className={block}>
+        <canvas ref={_canvas => this.timelineCanvas = _canvas} className={block + '__canvas'} />
+        <div ref={glassPane => this.glassPane = glassPane} className={block + '__glasspane'} />
         <TimelineTimestamps />
       </div>
     );

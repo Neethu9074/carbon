@@ -1,6 +1,6 @@
-import {List} from 'immutable';
+import { List } from 'immutable';
 
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 const store = createStore({
   name: 'theme',
@@ -17,12 +17,7 @@ activeTheme.subscribe(theme => {
 export const theme = window.instana.activeThemeConfig;
 export default theme;
 
-
-export const availableThemes = List([
-  'day',
-  'night'
-]);
-
+export const availableThemes = List(['day', 'night']);
 
 export function setActiveTheme(newActiveTheme) {
   store.applyStateMutation(() => newActiveTheme);

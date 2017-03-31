@@ -12,7 +12,6 @@ export function generateUniqueShortId(desiredLength = 16) {
   return result;
 }
 
-
 function randomByte() {
   if (!crypto || !crypto.getRandomValues) {
     return Math.floor(Math.random() * 256);

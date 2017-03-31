@@ -1,12 +1,11 @@
 /* eslint-env mocha, node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {fromJS} from 'immutable';
-import {expect} from 'chai';
+import { fromJS } from 'immutable';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
-
+import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 
 describe('in-map', () => {
   describe('sceneObjectComponents/HealthComponent', () => {
@@ -21,11 +20,14 @@ describe('in-map', () => {
 
       const Component = proxyquire('in-map/sceneObjectComponents/HealthComponent/HealthComponent', {
         'in-stores/events': {
-          getHealthInfoAtFocusedMoment: () => create().startWith(fromJS({
-            problem: {
-              severity: 5
-            }
-          }))
+          getHealthInfoAtFocusedMoment: () =>
+            create().startWith(
+              fromJS({
+                problem: {
+                  severity: 5
+                }
+              })
+            )
         }
       }).default;
 

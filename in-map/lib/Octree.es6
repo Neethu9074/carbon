@@ -1,8 +1,4 @@
-import {
-  Raycaster,
-  Object3D,
-  Vector3
-} from 'in-map/3DLibProvider';
+import { Raycaster, Object3D, Vector3 } from 'in-map/3DLibProvider';
 
 export const OCTREE = {};
 
@@ -13,25 +9,24 @@ export const OCTREE = {};
  * @author Collin Hover / http://collinhover.com/
  * based on Dynamic Octree by Piko3D @ http://www.piko3d.com/ and Octree by Marek Pawlowski @ pawlowski.it
  */
- (function (OCTREE) {
-
-  "use strict";
+(function(OCTREE) {
+  'use strict';
   /*===================================================
   utility
   =====================================================*/
 
-  function isNumber (n) {
+  function isNumber(n) {
     return !isNaN(n) && isFinite(n);
   }
 
-  function isArray (target) {
+  function isArray(target) {
     // return  Object.prototype.toString.call(target) === '[object Array]';
     // we are only inserting objects without length property, so this should do the trick
     return target.length >= 0 ? true : false;
   }
 
-  function toArray (target) {
-    return target ? (isArray (target) !== true ? [target] : target) : [];
+  function toArray(target) {
+    return target ? isArray(target) !== true ? [target] : target : [];
   }
 
   function indexOfValue(array, value) {
@@ -57,8 +52,7 @@ export const OCTREE = {};
   /*===================================================
   octree
   =====================================================*/
-  OCTREE.Octree = function (parameters) {
-
+  OCTREE.Octree = function(parameters) {
     // handle parameters
     parameters = parameters || {};
 
@@ -86,12 +80,12 @@ export const OCTREE = {};
     this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_POS_Z] = { index: this.INDEX_OUTSIDE_POS_Z, count: 0, x: 0, y: 0, z: 1 };
     this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_NEG_Z] = { index: this.INDEX_OUTSIDE_NEG_Z, count: 0, x: 0, y: 0, z: -1 };
 
-    this.FLAG_POS_X = 1 << (this.INDEX_OUTSIDE_POS_X + 1);
-    this.FLAG_NEG_X = 1 << (this.INDEX_OUTSIDE_NEG_X + 1);
-    this.FLAG_POS_Y = 1 << (this.INDEX_OUTSIDE_POS_Y + 1);
-    this.FLAG_NEG_Y = 1 << (this.INDEX_OUTSIDE_NEG_Y + 1);
-    this.FLAG_POS_Z = 1 << (this.INDEX_OUTSIDE_POS_Z + 1);
-    this.FLAG_NEG_Z = 1 << (this.INDEX_OUTSIDE_NEG_Z + 1);
+    this.FLAG_POS_X = 1 << this.INDEX_OUTSIDE_POS_X + 1;
+    this.FLAG_NEG_X = 1 << this.INDEX_OUTSIDE_NEG_X + 1;
+    this.FLAG_POS_Y = 1 << this.INDEX_OUTSIDE_POS_Y + 1;
+    this.FLAG_NEG_Y = 1 << this.INDEX_OUTSIDE_NEG_Y + 1;
+    this.FLAG_POS_Z = 1 << this.INDEX_OUTSIDE_POS_Z + 1;
+    this.FLAG_NEG_Z = 1 << this.INDEX_OUTSIDE_NEG_Z + 1;
 
     this.utilVec31Search = new Vector3();
     this.utilVec32Search = new Vector3();
@@ -112,7 +106,7 @@ export const OCTREE = {};
   };
 
   OCTREE.Octree.prototype = {
-    update: function () {
+    update: function() {
       // add any deferred objects that were waiting for render cycle
       if (this.objectsDeferred.length > 0) {
         for (var i = 0, il = this.objectsDeferred.length; i < il; i++) {
@@ -124,25 +118,19 @@ export const OCTREE = {};
       }
     },
 
-    add: function (object, options) {
+    add: function(object, options) {
       // add immediately
       if (this.undeferred) {
         this.updateObject(object);
         this.addDeferred(object, options);
       } else {
         // defer add until update called
-        this.objectsDeferred.push({object: object, options: options});
+        this.objectsDeferred.push({ object: object, options: options });
       }
     },
 
-    addDeferred: function (object, options) {
-      var i, l,
-        geometry,
-        faces,
-        useFaces,
-        vertices,
-        useVertices,
-        objectData;
+    addDeferred: function(object, options) {
+      var i, l, geometry, faces, useFaces, vertices, useVertices, objectData;
 
       // ensure object is not object data
 
@@ -170,25 +158,23 @@ export const OCTREE = {};
           geometry = object.geometry;
           vertices = geometry.vertices;
 
-          for (i = 0, l = vertices.length; i < l; i++) {
+          for ((i = 0), (l = vertices.length); i < l; i++) {
             this.addObjectData(object, vertices[i]);
           }
-
         } else if (useFaces === true) {
           geometry = object.geometry;
           faces = geometry.faces;
 
-          for (i = 0, l = faces.length; i < l; i++) {
+          for ((i = 0), (l = faces.length); i < l; i++) {
             this.addObjectData(object, faces[i]);
           }
-
         } else {
           this.addObjectData(object);
         }
       }
     },
 
-    addObjectData: function (object, part) {
+    addObjectData: function(object, part) {
       var objectData = new OCTREE.ROctreeObjectData(object, part);
 
       // add to tree objects data list
@@ -198,11 +184,8 @@ export const OCTREE = {};
       this.root.addObject(objectData);
     },
 
-    remove: function (object) {
-      var i, l,
-        objectData = object,
-        index,
-        objectsDataRemoved;
+    remove: function(object) {
+      var i, l, objectData = object, index, objectsDataRemoved;
 
       // ensure object is not object data for index search
       if (object instanceof OCTREE.ROctreeObjectData) {
@@ -224,7 +207,7 @@ export const OCTREE = {};
           objectsDataRemoved = this.root.removeObject(objectData);
 
           // remove from objects data list
-          for (i = 0, l = objectsDataRemoved.length; i < l; i++) {
+          for ((i = 0), (l = objectsDataRemoved.length); i < l; i++) {
             objectData = objectsDataRemoved[i];
             index = indexOfValue(this.objectsData, objectData);
 
@@ -233,7 +216,6 @@ export const OCTREE = {};
             }
           }
         }
-
       } else if (this.objectsDeferred.length > 0) {
         // check and remove from deferred
         index = indexOfPropertyWithValue(this.objectsDeferred, 'object', object);
@@ -244,34 +226,26 @@ export const OCTREE = {};
       }
     },
 
-    extend: function (octree) {
-      var i, l,
-        objectsData,
-        objectData;
+    extend: function(octree) {
+      var i, l, objectsData, objectData;
 
       if (octree instanceof OCTREE.Octree) {
         // for each object data
         objectsData = octree.objectsData;
 
-        for (i = 0, l = objectsData.length; i < l; i++) {
+        for ((i = 0), (l = objectsData.length); i < l; i++) {
           objectData = objectsData[i];
           this.add(objectData, { useFaces: objectData.faces, useVertices: objectData.vertices });
         }
       }
     },
 
-    rebuild: function () {
-      var i, l,
-        node,
-        object,
-        objectData,
-        indexOctant,
-        indexOctantLast,
-        objectsUpdate = [];
+    rebuild: function() {
+      var i, l, node, object, objectData, indexOctant, indexOctantLast, objectsUpdate = [];
 
       // check all object data for changes in position
       // assumes all object matrices are up to date
-      for (i = 0, l = this.objectsData.length; i < l; i++) {
+      for ((i = 0), (l = this.objectsData.length); i < l; i++) {
         objectData = this.objectsData[i];
         node = objectData.node;
 
@@ -293,7 +267,7 @@ export const OCTREE = {};
       }
 
       // update changed objects
-      for (i = 0, l = objectsUpdate.length; i < l; i++) {
+      for ((i = 0), (l = objectsUpdate.length); i < l; i++) {
         objectData = objectsUpdate[i];
 
         // remove object from current node
@@ -304,11 +278,8 @@ export const OCTREE = {};
       }
     },
 
-    updateObject: function (object) {
-      var i, l,
-        parentCascade = [object],
-        parent,
-        parentUpdate;
+    updateObject: function(object) {
+      var i, l, parentCascade = [object], parent, parentUpdate;
 
       // search all parents between object and root for world matrix update
       parent = object.parent;
@@ -317,7 +288,7 @@ export const OCTREE = {};
         parent = parent.parent;
       }
 
-      for (i = 0, l = parentCascade.length; i < l; i++) {
+      for ((i = 0), (l = parentCascade.length); i < l; i++) {
         parent = parentCascade[i];
 
         if (parent.matrixWorldNeedsUpdate === true) {
@@ -331,8 +302,9 @@ export const OCTREE = {};
       }
     },
 
-    search: function (position, radius, organizeByObject, direction) {
-      var i, l,
+    search: function(position, radius, organizeByObject, direction) {
+      var i,
+        l,
         node,
         objects,
         objectData,
@@ -358,7 +330,7 @@ export const OCTREE = {};
       }
 
       // search each node of root
-      for (i = 0, l = this.root.nodesIndices.length; i < l; i++) {
+      for ((i = 0), (l = this.root.nodesIndices.length); i < l; i++) {
         node = this.root.nodesByIndex[this.root.nodesIndices[i]];
         objects = node.search(position, radius, objects, direction, directionPct);
       }
@@ -369,7 +341,7 @@ export const OCTREE = {};
         resultsObjectsIndices = [];
 
         // for each object data found
-        for (i = 0, l = objects.length; i < l; i++) {
+        for ((i = 0), (l = objects.length); i < l; i++) {
           objectData = objects[i];
           object = objectData.object;
 
@@ -402,7 +374,7 @@ export const OCTREE = {};
       return results;
     },
 
-    setRoot: function (root) {
+    setRoot: function(root) {
       if (root instanceof OCTREE.OctreeNode) {
         // store new root
         this.root = root;
@@ -412,19 +384,19 @@ export const OCTREE = {};
       }
     },
 
-    getDepthEnd: function () {
+    getDepthEnd: function() {
       return this.root.getDepthEnd();
     },
 
-    getNodeCountEnd: function () {
+    getNodeCountEnd: function() {
       return this.root.getNodeCountEnd();
     },
 
-    getObjectCountEnd: function () {
+    getObjectCountEnd: function() {
       return this.root.getObjectCountEnd();
     },
 
-    toConsole: function () {
+    toConsole: function() {
       this.root.toConsole();
     }
   };
@@ -433,7 +405,7 @@ export const OCTREE = {};
   object data
   =====================================================*/
 
-  OCTREE.ROctreeObjectData = function (object, part) {
+  OCTREE.ROctreeObjectData = function(object, part) {
     // properties
     this.object = object;
 
@@ -454,7 +426,7 @@ export const OCTREE = {};
   };
 
   OCTREE.ROctreeObjectData.prototype = {
-    update: function () {
+    update: function() {
       var object = this.object;
       if (this.vertices) {
         this.radius = object.material.size || 1;
@@ -474,14 +446,14 @@ export const OCTREE = {};
       }
 
       this.radius *= Math.max(object.scale.x, object.scale.y, object.scale.z);
-    },
+    }
   };
 
   /*===================================================
   node
   =====================================================*/
 
-  OCTREE.OctreeNode = function (parameters) {
+  OCTREE.OctreeNode = function(parameters) {
     // utility
     this.utilVec31Branch = new Vector3();
     this.utilVec31Expand = new Vector3();
@@ -521,7 +493,7 @@ export const OCTREE = {};
   };
 
   OCTREE.OctreeNode.prototype = {
-    setParent: function (parent) {
+    setParent: function(parent) {
       // store new parent
       if (parent !== this && this.parent !== parent) {
         this.parent = parent;
@@ -529,7 +501,7 @@ export const OCTREE = {};
       }
     },
 
-    updateProperties: function () {
+    updateProperties: function() {
       var i, l;
 
       // properties
@@ -541,23 +513,20 @@ export const OCTREE = {};
       }
 
       // cascade
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+      for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
         this.nodesByIndex[this.nodesIndices[i]].updateProperties();
       }
     },
 
-    reset: function (cascade, removeVisual) {
-      var i, l,
-        node,
-        nodesIndices = this.nodesIndices || [],
-        nodesByIndex = this.nodesByIndex;
+    reset: function(cascade, removeVisual) {
+      var i, l, node, nodesIndices = this.nodesIndices || [], nodesByIndex = this.nodesByIndex;
 
       this.objects = [];
       this.nodesIndices = [];
       this.nodesByIndex = {};
 
       // unset parent in nodes
-      for (i = 0, l = nodesIndices.length; i < l; i++) {
+      for ((i = 0), (l = nodesIndices.length); i < l; i++) {
         node = nodesByIndex[nodesIndices[i]];
         node.setParent(undefined);
 
@@ -572,7 +541,7 @@ export const OCTREE = {};
       }
     },
 
-    addNode: function (node, indexOctant) {
+    addNode: function(node, indexOctant) {
       node.indexOctant = indexOctant;
       if (indexOfValue(this.nodesIndices, indexOctant) === -1) {
         this.nodesIndices.push(indexOctant);
@@ -584,7 +553,7 @@ export const OCTREE = {};
       }
     },
 
-    removeNode: function (indexOctant) {
+    removeNode: function(indexOctant) {
       var index, node;
 
       index = indexOfValue(this.nodesIndices, indexOctant);
@@ -600,7 +569,7 @@ export const OCTREE = {};
       }
     },
 
-    addObject: function (object) {
+    addObject: function(object) {
       var index, indexOctant, node;
 
       // get object octant index
@@ -628,42 +597,39 @@ export const OCTREE = {};
       }
     },
 
-    addObjectWithoutCheck: function (objects) {
-      var i, l,
-        object;
+    addObjectWithoutCheck: function(objects) {
+      var i, l, object;
 
-      for (i = 0, l = objects.length; i < l; i++) {
+      for ((i = 0), (l = objects.length); i < l; i++) {
         object = objects[i];
         this.objects.push(object);
         object.node = this;
       }
     },
 
-    removeObject: function (object) {
-      var i, l,
-        nodesRemovedFrom,
-        removeData;
+    removeObject: function(object) {
+      var i, l, nodesRemovedFrom, removeData;
 
       // cascade through tree to find and remove object
-      removeData = this.removeObjectRecursive(object, { searchComplete: false, nodesRemovedFrom: [], objectsDataRemoved: [] });
+      removeData = this.removeObjectRecursive(object, {
+        searchComplete: false,
+        nodesRemovedFrom: [],
+        objectsDataRemoved: []
+      });
 
       // if object removed, try to shrink the nodes it was removed from
       nodesRemovedFrom = removeData.nodesRemovedFrom;
 
       if (nodesRemovedFrom.length > 0) {
-        for (i = 0, l = nodesRemovedFrom.length; i < l; i++) {
+        for ((i = 0), (l = nodesRemovedFrom.length); i < l; i++) {
           nodesRemovedFrom[i].shrink();
         }
       }
       return removeData.objectsDataRemoved;
     },
 
-    removeObjectRecursive: function (object, removeData) {
-      var i, l,
-        index = -1,
-        objectData,
-        node,
-        objectRemoved;
+    removeObjectRecursive: function(object, removeData) {
+      var i, l, index = -1, objectData, node, objectRemoved;
 
       // find index of object in objects list
       // search and remove object data (fast)
@@ -675,7 +641,7 @@ export const OCTREE = {};
           this.objects.splice(index, 1);
           object.node = undefined;
           removeData.objectsDataRemoved.push(object);
-          removeData.searchComplete = objectRemoved = true;
+          removeData.searchComplete = (objectRemoved = true);
         }
       } else {
         // search each object data for object and remove (slow)
@@ -701,7 +667,7 @@ export const OCTREE = {};
 
       // if search not complete, search nodes
       if (removeData.searchComplete !== true) {
-        for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+        for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
           node = this.nodesByIndex[this.nodesIndices[i]];
           // try removing object from node
           removeData = node.removeObjectRecursive(object, removeData);
@@ -713,14 +679,14 @@ export const OCTREE = {};
       return removeData;
     },
 
-    checkGrow: function () {
+    checkGrow: function() {
       // if object count above max
       if (this.objects.length > this.tree.objectsThreshold && this.tree.objectsThreshold > 0) {
         this.grow();
       }
     },
 
-    grow: function () {
+    grow: function() {
       var indexOctant,
         object,
         objectsExpand = [],
@@ -728,11 +694,12 @@ export const OCTREE = {};
         objectsSplit = [],
         objectsSplitOctants = [],
         objectsRemaining = [],
-        i, l;
+        i,
+        l;
 
       // for each object
 
-      for (i = 0, l = this.objects.length; i < l; i++) {
+      for ((i = 0), (l = this.objects.length); i < l; i++) {
         object = this.objects[i];
 
         // get object octant index
@@ -742,12 +709,10 @@ export const OCTREE = {};
         if (indexOctant > -1) {
           objectsSplit.push(object);
           objectsSplitOctants.push(indexOctant);
-
         } else if (indexOctant < -1) {
           // lies outside radius
           objectsExpand.push(object);
           objectsExpandOctants.push(indexOctant);
-
         } else {
           // lies across bounds between octants
           objectsRemaining.push(object);
@@ -771,12 +736,8 @@ export const OCTREE = {};
       this.checkMerge();
     },
 
-    split: function (objects, octants) {
-      var i, l,
-        indexOctant,
-        object,
-        node,
-        objectsRemaining;
+    split: function(objects, octants) {
+      var i, l, indexOctant, object, node, objectsRemaining;
 
       // if not at max depth
       if (this.depth < this.tree.depthMax) {
@@ -785,7 +746,7 @@ export const OCTREE = {};
         objectsRemaining = [];
 
         // for each object
-        for (i = 0, l = objects.length; i < l; i++) {
+        for ((i = 0), (l = objects.length); i < l; i++) {
           object = objects[i];
 
           // get object octant index
@@ -809,24 +770,22 @@ export const OCTREE = {};
       return objectsRemaining;
     },
 
-    branch: function (indexOctant) {
-      var node,
-        overlap,
-        radius,
-        radiusOffset,
-        offset,
-        position;
+    branch: function(indexOctant) {
+      var node, overlap, radius, radiusOffset, offset, position;
 
       // node exists
       if (this.nodesByIndex[indexOctant] instanceof OCTREE.OctreeNode) {
         node = this.nodesByIndex[indexOctant];
       } else {
-
         // properties
-        radius = (this.radiusOverlap) * 0.5;
+        radius = this.radiusOverlap * 0.5;
         overlap = radius * this.tree.overlapPct;
         radiusOffset = radius - overlap;
-        offset = this.utilVec31Branch.set(indexOctant & 1 ? radiusOffset : -radiusOffset, indexOctant & 2 ? radiusOffset : -radiusOffset, indexOctant & 4 ? radiusOffset : -radiusOffset);
+        offset = this.utilVec31Branch.set(
+          indexOctant & 1 ? radiusOffset : -radiusOffset,
+          indexOctant & 2 ? radiusOffset : -radiusOffset,
+          indexOctant & 4 ? radiusOffset : -radiusOffset
+        );
         position = new Vector3().addVectors(this.position, offset);
 
         // node
@@ -844,8 +803,9 @@ export const OCTREE = {};
       return node;
     },
 
-    expand: function (objects, octants) {
-      var i, l,
+    expand: function(objects, octants) {
+      var i,
+        l,
         object,
         objectsRemaining,
         objectsExpand,
@@ -865,7 +825,9 @@ export const OCTREE = {};
         infoPotential3,
         indexPotentialBitwise1,
         indexPotentialBitwise2,
-        octantX, octantY, octantZ,
+        octantX,
+        octantY,
+        octantZ,
         overlap,
         radius,
         radiusOffset,
@@ -884,20 +846,19 @@ export const OCTREE = {};
         objectsExpand = [];
 
         // reset counts
-        for (i = 0, l = iom.length; i < l; i++) {
+        for ((i = 0), (l = iom.length); i < l; i++) {
           iom[i].count = 0;
         }
 
         // for all outside objects, find outside octants containing most objects
-        for (i = 0, l = objects.length; i < l; i++) {
+        for ((i = 0), (l = objects.length); i < l; i++) {
           object = objects[i];
 
           // get object octant index
-          indexOctant = octants[i] ;
+          indexOctant = octants[i];
 
           // if object outside this, include in calculations
           if (indexOctant < -1) {
-
             // convert octant index to outside flags
             flagsOutside = -indexOctant - this.tree.INDEX_OUTSIDE_OFFSET;
 
@@ -936,7 +897,7 @@ export const OCTREE = {};
           indexOutsideCounts = iom.slice(0);
 
           // sort outside index count so highest is first
-          indexOutsideCounts.sort(function (a, b) {
+          indexOutsideCounts.sort(function(a, b) {
             return b.count - a.count;
           });
 
@@ -960,7 +921,12 @@ export const OCTREE = {};
           indexPotentialBitwise1 = infoPotential1.index | 1;
           indexPotentialBitwise2 = infoPotential2.index | 1;
 
-          infoIndexOutside3 = indexPotentialBitwise1 !== indexOutsideBitwise1 && indexPotentialBitwise1 !== indexOutsideBitwise2 ? infoPotential1 : indexPotentialBitwise2 !== indexOutsideBitwise1 && indexPotentialBitwise2 !== indexOutsideBitwise2 ? infoPotential2 : infoPotential3;
+          infoIndexOutside3 = indexPotentialBitwise1 !== indexOutsideBitwise1 &&
+            indexPotentialBitwise1 !== indexOutsideBitwise2
+            ? infoPotential1
+            : indexPotentialBitwise2 !== indexOutsideBitwise1 && indexPotentialBitwise2 !== indexOutsideBitwise2
+                ? infoPotential2
+                : infoPotential3;
 
           // get this octant normal based on outside octant indices
           octantX = infoIndexOutside1.x + infoIndexOutside2.x + infoIndexOutside3.x;
@@ -976,12 +942,18 @@ export const OCTREE = {};
           radius = this.radius;
 
           // radius of parent comes from reversing overlap of this, unless overlap percent is 0
-          radiusParent = this.tree.overlapPct > 0 ? overlap / ((0.5 * this.tree.overlapPct) * (1 + this.tree.overlapPct)) : radius * 2;
+          radiusParent = this.tree.overlapPct > 0
+            ? overlap / (0.5 * this.tree.overlapPct * (1 + this.tree.overlapPct))
+            : radius * 2;
           overlapParent = radiusParent * this.tree.overlapPct;
 
           // parent offset is difference between radius + overlap of parent and child
-          radiusOffset = (radiusParent + overlapParent) - (radius + overlap);
-          offset.set(indexOctant & 1 ? radiusOffset : -radiusOffset, indexOctant & 2 ? radiusOffset : -radiusOffset, indexOctant & 4 ? radiusOffset : -radiusOffset);
+          radiusOffset = radiusParent + overlapParent - (radius + overlap);
+          offset.set(
+            indexOctant & 1 ? radiusOffset : -radiusOffset,
+            indexOctant & 2 ? radiusOffset : -radiusOffset,
+            indexOctant & 4 ? radiusOffset : -radiusOffset
+          );
           position = new Vector3().addVectors(this.position, offset);
 
           // parent
@@ -998,7 +970,7 @@ export const OCTREE = {};
           this.tree.setRoot(parent);
 
           // add all expand objects to parent
-          for (i = 0, l = objectsExpand.length; i < l; i++) {
+          for ((i = 0), (l = objectsExpand.length); i < l; i++) {
             this.tree.root.addObject(objectsExpand[i]);
           }
         }
@@ -1013,7 +985,7 @@ export const OCTREE = {};
       return objectsRemaining;
     },
 
-    shrink: function () {
+    shrink: function() {
       // merge check
       this.checkMerge();
 
@@ -1021,12 +993,13 @@ export const OCTREE = {};
       this.tree.root.checkContract();
     },
 
-    checkMerge: function () {
-      var nodeParent = this,
-        nodeMerge;
+    checkMerge: function() {
+      var nodeParent = this, nodeMerge;
 
       // traverse up tree as long as node + entire subtree's object count is under minimum
-      while (nodeParent.parent instanceof OCTREE.OctreeNode && nodeParent.getObjectCountEnd() < this.tree.objectsThreshold) {
+      while (
+        nodeParent.parent instanceof OCTREE.OctreeNode && nodeParent.getObjectCountEnd() < this.tree.objectsThreshold
+      ) {
         nodeMerge = nodeParent;
         nodeParent = nodeParent.parent;
       }
@@ -1037,14 +1010,12 @@ export const OCTREE = {};
       }
     },
 
-    merge: function (nodes) {
-      var i, l,
-        j, k,
-        node;
+    merge: function(nodes) {
+      var i, l, j, k, node;
 
       // handle nodes
       nodes = toArray(nodes);
-      for (i = 0, l = nodes.length; i < l; i++) {
+      for ((i = 0), (l = nodes.length); i < l; i++) {
         node = nodes[i];
 
         // gather node + all subtree objects
@@ -1061,20 +1032,15 @@ export const OCTREE = {};
       this.checkMerge();
     },
 
-    checkContract: function () {
-      var i, l,
-        node,
-        nodeObjectsCount,
-        nodeHeaviest,
-        nodeHeaviestObjectsCount,
-        outsideHeaviestObjectsCount;
+    checkContract: function() {
+      var i, l, node, nodeObjectsCount, nodeHeaviest, nodeHeaviestObjectsCount, outsideHeaviestObjectsCount;
 
       // find node with highest object count
       if (this.nodesIndices.length > 0) {
         nodeHeaviestObjectsCount = 0;
         outsideHeaviestObjectsCount = this.objects.length;
 
-        for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+        for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
           node = this.nodesByIndex[this.nodesIndices[i]];
           nodeObjectsCount = node.getObjectCountEnd();
           outsideHeaviestObjectsCount += nodeObjectsCount;
@@ -1095,12 +1061,11 @@ export const OCTREE = {};
       }
     },
 
-    contract: function (nodeRoot) {
-      var i, l,
-        node;
+    contract: function(nodeRoot) {
+      var i, l, node;
 
       // handle all nodes
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+      for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
         node = this.nodesByIndex[this.nodesIndices[i]];
 
         // if node is not new root
@@ -1126,15 +1091,20 @@ export const OCTREE = {};
       nodeRoot.checkContract();
     },
 
-    getOctantIndex: function (objectData) {
-      var i, l,
+    getOctantIndex: function(objectData) {
+      var i,
+        l,
         positionObj,
         radiusObj,
         position = this.position,
         radiusOverlap = this.radiusOverlap,
         overlap = this.overlap,
-        deltaX, deltaY, deltaZ,
-        distX, distY, distZ,
+        deltaX,
+        deltaY,
+        deltaZ,
+        distX,
+        distY,
+        distZ,
         distance,
         indexOctant = 0;
 
@@ -1210,7 +1180,7 @@ export const OCTREE = {};
       return objectData.indexOctant;
     },
 
-    getOctantIndexFromPosition: function (x, y, z) {
+    getOctantIndexFromPosition: function(x, y, z) {
       var indexOctant = 0;
       if (x > 0) {
         indexOctant = indexOctant | 1;
@@ -1227,10 +1197,8 @@ export const OCTREE = {};
       return indexOctant;
     },
 
-    search: function (position, radius, objects, direction, directionPct) {
-      var i, l,
-        node,
-        intersects;
+    search: function(position, radius, objects, direction, directionPct) {
+      var i, l, node, intersects;
 
       // test intersects by parameters
       if (direction) {
@@ -1245,7 +1213,7 @@ export const OCTREE = {};
         objects = objects.concat(this.objects);
 
         // search subtree
-        for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+        for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
           node = this.nodesByIndex[this.nodesIndices[i]];
           objects = node.search(position, radius, objects, direction);
         }
@@ -1253,11 +1221,8 @@ export const OCTREE = {};
       return objects;
     },
 
-    intersectSphere: function (position, radius) {
-      var  distance = radius * radius,
-        px = position.x,
-        py = position.y,
-        pz = position.z;
+    intersectSphere: function(position, radius) {
+      var distance = radius * radius, px = position.x, py = position.y, pz = position.z;
 
       if (px < this.left) {
         distance -= Math.pow(px - this.left, 2);
@@ -1280,7 +1245,7 @@ export const OCTREE = {};
       return distance >= 0;
     },
 
-    intersectRay: function (origin, direction, distance, directionPct) {
+    intersectRay: function(origin, direction, distance, directionPct) {
       if (typeof directionPct === 'undefined') {
         directionPct = this.utilVec31Ray.set(1, 1, 1).divide(direction);
       }
@@ -1309,12 +1274,11 @@ export const OCTREE = {};
       return true;
     },
 
-    getDepthEnd: function (depth) {
-      var i, l,
-        node;
+    getDepthEnd: function(depth) {
+      var i, l, node;
 
       if (this.nodesIndices.length > 0) {
-        for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+        for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
           node = this.nodesByIndex[this.nodesIndices[i]];
           depth = node.getDepthEnd(depth);
         }
@@ -1325,43 +1289,39 @@ export const OCTREE = {};
       return depth;
     },
 
-    getNodeCountEnd: function () {
+    getNodeCountEnd: function() {
       return this.tree.root.getNodeCountRecursive() + 1;
     },
 
-    getNodeCountRecursive: function () {
-      var i, l,
-        count = this.nodesIndices.length;
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+    getNodeCountRecursive: function() {
+      var i, l, count = this.nodesIndices.length;
+      for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
         count += this.nodesByIndex[this.nodesIndices[i]].getNodeCountRecursive();
       }
       return count;
     },
 
-    getObjectsEnd: function (objects) {
-      var i, l,
-        node;
+    getObjectsEnd: function(objects) {
+      var i, l, node;
 
       objects = (objects || []).concat(this.objects);
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+      for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
         node = this.nodesByIndex[this.nodesIndices[i]];
         objects = node.getObjectsEnd(objects);
       }
       return objects;
     },
 
-    getObjectCountEnd: function () {
-      var i, l,
-        count = this.objects.length;
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+    getObjectCountEnd: function() {
+      var i, l, count = this.objects.length;
+      for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
         count += this.nodesByIndex[this.nodesIndices[i]].getObjectCountEnd();
       }
       return count;
     },
 
-    getObjectCountStart: function () {
-      var count = this.objects.length,
-        parent = this.parent;
+    getObjectCountStart: function() {
+      var count = this.objects.length, parent = this.parent;
 
       while (parent instanceof OCTREE.OctreeNode) {
         count += parent.objects.length;
@@ -1370,18 +1330,38 @@ export const OCTREE = {};
       return count;
     },
 
-    toConsole: function (space) {
-      var i, l,
-        node,
-        spaceAddition = '   ';
+    toConsole: function(space) {
+      var i, l, node, spaceAddition = '   ';
 
       space = typeof space === 'string' ? space : spaceAddition;
 
-      console.log((this.parent ? space + ' octree NODE > ' : ' octree ROOT > '), this, ' // id: ', this.id, ' // indexOctant: ', this.indexOctant, ' // position: ', this.position.x, this.position.y, this.position.z, ' // radius: ', this.radius, ' // depth: ', this.depth);
-      console.log((this.parent ? space + ' ' : ' '), '+ objects (', this.objects.length, ') ', this.objects);
-      console.log((this.parent ? space + ' ' : ' '), '+ children (', this.nodesIndices.length, ')', this.nodesIndices, this.nodesByIndex);
+      console.log(
+        this.parent ? space + ' octree NODE > ' : ' octree ROOT > ',
+        this,
+        ' // id: ',
+        this.id,
+        ' // indexOctant: ',
+        this.indexOctant,
+        ' // position: ',
+        this.position.x,
+        this.position.y,
+        this.position.z,
+        ' // radius: ',
+        this.radius,
+        ' // depth: ',
+        this.depth
+      );
+      console.log(this.parent ? space + ' ' : ' ', '+ objects (', this.objects.length, ') ', this.objects);
+      console.log(
+        this.parent ? space + ' ' : ' ',
+        '+ children (',
+        this.nodesIndices.length,
+        ')',
+        this.nodesIndices,
+        this.nodesByIndex
+      );
 
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
+      for ((i = 0), (l = this.nodesIndices.length); i < l; i++) {
         node = this.nodesByIndex[this.nodesIndices[i]];
         node.toConsole(space + spaceAddition);
       }
@@ -1392,11 +1372,8 @@ export const OCTREE = {};
   raycaster additional functionality
   =====================================================*/
 
-  Raycaster.prototype.intersectOctreeObject = function (object, recursive) {
-    var intersects,
-      octreeObject,
-      facesAll,
-      facesSearch;
+  Raycaster.prototype.intersectOctreeObject = function(object, recursive) {
+    var intersects, octreeObject, facesAll, facesSearch;
 
     if (object.object instanceof Object3D) {
       octreeObject = object;
@@ -1418,21 +1395,18 @@ export const OCTREE = {};
       if (facesSearch.length > 0) {
         object.geometry.faces = facesAll;
       }
-
     } else {
       intersects = this.intersectObject(object, recursive);
     }
     return intersects;
   };
 
-  Raycaster.prototype.intersectOctreeObjects = function (objects, recursive) {
-    var i, il,
-      intersects = [];
+  Raycaster.prototype.intersectOctreeObjects = function(objects, recursive) {
+    var i, il, intersects = [];
 
-    for (i = 0, il = objects.length; i < il; i++) {
+    for ((i = 0), (il = objects.length); i < il; i++) {
       intersects = intersects.concat(this.intersectOctreeObject(objects[i], recursive));
     }
     return intersects;
   };
-
-}(OCTREE));
+})(OCTREE);

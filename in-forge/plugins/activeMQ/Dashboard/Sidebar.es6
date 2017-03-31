@@ -6,8 +6,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import Info from 'in-forge/plugins/activeMQ/Info';
 
-
-export default function ActiveMQSidebar({snapshot}) {
+export default function ActiveMQSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

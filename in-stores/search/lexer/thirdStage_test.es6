@@ -1,55 +1,56 @@
 /* eslint-env mocha */
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {getEndCursorForFieldValue} from 'in-stores/search/lexer/thirdStage';
+import { getEndCursorForFieldValue } from 'in-stores/search/lexer/thirdStage';
 import lexSecondStage from 'in-stores/search/lexer/secondStage';
 import lexThirdStage from 'in-stores/search/lexer/thirdStage';
 import lexFirstStage from 'in-stores/search/lexer/firstStage';
 
-
 describe('in-stores/search/lexer/secondStage', () => {
-
   describe('getEndCursorForFieldValue', () => {
-    expect(getEndCursorForFieldValue(0, [
-      { token: 'whitespace' }
-    ])).to.equal(-1);
+    expect(getEndCursorForFieldValue(0, [{ token: 'whitespace' }])).to.equal(-1);
 
-    expect(getEndCursorForFieldValue(1, [
-      { token: 'whitespace' },
-      { token: 'term' }
-    ])).to.equal(1);
+    expect(getEndCursorForFieldValue(1, [{ token: 'whitespace' }, { token: 'term' }])).to.equal(1);
 
-    expect(getEndCursorForFieldValue(0, [
-      { token: 'grouping', lexeme: '(' },
-      { token: 'term' },
-      { token: 'whitespace' },
-      { token: 'term' },
-      { token: 'grouping', lexeme: ')' },
-    ])).to.equal(4);
+    expect(
+      getEndCursorForFieldValue(0, [
+        { token: 'grouping', lexeme: '(' },
+        { token: 'term' },
+        { token: 'whitespace' },
+        { token: 'term' },
+        { token: 'grouping', lexeme: ')' }
+      ])
+    ).to.equal(4);
 
-    expect(getEndCursorForFieldValue(2, [
-      { token: 'termn' },
-      { token: 'whitespace' },
-      { token: 'grouping', lexeme: '(' },
-      { token: 'term' },
-      { token: 'grouping', lexeme: ')' },
-    ])).to.equal(4);
+    expect(
+      getEndCursorForFieldValue(2, [
+        { token: 'termn' },
+        { token: 'whitespace' },
+        { token: 'grouping', lexeme: '(' },
+        { token: 'term' },
+        { token: 'grouping', lexeme: ')' }
+      ])
+    ).to.equal(4);
 
-    expect(getEndCursorForFieldValue(0, [
-      { token: 'grouping', lexeme: '(' },
-      { token: 'term' },
-      { token: 'grouping', lexeme: '(' },
-      { token: 'term' },
-      { token: 'grouping', lexeme: ')' },
-    ])).to.equal(-1);
+    expect(
+      getEndCursorForFieldValue(0, [
+        { token: 'grouping', lexeme: '(' },
+        { token: 'term' },
+        { token: 'grouping', lexeme: '(' },
+        { token: 'term' },
+        { token: 'grouping', lexeme: ')' }
+      ])
+    ).to.equal(-1);
 
-    expect(getEndCursorForFieldValue(0, [
-      { token: 'grouping', lexeme: '(' },
-      { token: 'term' },
-      { token: 'grouping', lexeme: ')' },
-      { token: 'term' },
-      { token: 'grouping', lexeme: ')' },
-    ])).to.equal(2);
+    expect(
+      getEndCursorForFieldValue(0, [
+        { token: 'grouping', lexeme: '(' },
+        { token: 'term' },
+        { token: 'grouping', lexeme: ')' },
+        { token: 'term' },
+        { token: 'grouping', lexeme: ')' }
+      ])
+    ).to.equal(2);
   });
 
   it('must parse terms', () => {
@@ -73,7 +74,7 @@ describe('in-stores/search/lexer/secondStage', () => {
   it('must ignore values without a field', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage(':bar')), 0)).to.deep.equal([
       { token: 'fieldSeparator', lexeme: ':', start: 0, end: 1 },
-      { token: 'term', lexeme: 'bar', start: 1, end: 4 },
+      { token: 'term', lexeme: 'bar', start: 1, end: 4 }
     ]);
   });
 
@@ -162,7 +163,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:"a b c"')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: '0' },
-      { token: 'phrase', lexeme: '"a b c"', start: 4, end: 11, blockId: '0', isBlockingEnd: true },
+      { token: 'phrase', lexeme: '"a b c"', start: 4, end: 11, blockId: '0', isBlockingEnd: true }
     ]);
   });
 
@@ -170,7 +171,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:"a b c')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3 },
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4 },
-      { token: 'phrase', lexeme: '"a b c', start: 4, end: 10 },
+      { token: 'phrase', lexeme: '"a b c', start: 4, end: 10 }
     ]);
   });
 
@@ -178,16 +179,16 @@ describe('in-stores/search/lexer/secondStage', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:/this is regex/')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: '0' },
-      { token: 'regex', lexeme: '/this is regex/', start: 4, end: 19, blockId: '0', isBlockingEnd: true },
+      { token: 'regex', lexeme: '/this is regex/', start: 4, end: 19, blockId: '0', isBlockingEnd: true }
     ]);
   });
 
   it('should detect lonely regex', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('/reg/ /ex/ ')), 0)).to.deep.equal([
       { token: 'regex', lexeme: '/reg/', start: 0, end: 5, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
-      { token: 'whitespace', lexeme: ' ', start: 5, end: 6},
+      { token: 'whitespace', lexeme: ' ', start: 5, end: 6 },
       { token: 'regex', lexeme: '/ex/', start: 6, end: 10, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
-      { token: 'whitespace', lexeme: ' ', start: 10, end: 11},
+      { token: 'whitespace', lexeme: ' ', start: 10, end: 11 }
     ]);
   });
 
@@ -198,16 +199,14 @@ describe('in-stores/search/lexer/secondStage', () => {
       { token: 'grouping', lexeme: '(', start: 4, end: 5, blockId: '0' },
       { token: 'term', lexeme: 'a', start: 5, end: 6, blockId: '0' },
       { token: 'grouping', lexeme: ')', start: 6, end: 7, blockId: '0', isBlockingEnd: true },
-
       { token: 'whitespace', lexeme: ' ', start: 7, end: 8 },
       { token: 'operator', lexeme: 'OR', start: 8, end: 10, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 10, end: 11 },
-
       { token: 'field', lexeme: 'bar', start: 11, end: 14, blockId: '2', isBlockingStart: true },
       { token: 'fieldSeparator', lexeme: ':', start: 14, end: 15, blockId: '2' },
       { token: 'grouping', lexeme: '(', start: 15, end: 16, blockId: '2' },
       { token: 'term', lexeme: 'b', start: 16, end: 17, blockId: '2' },
-      { token: 'grouping', lexeme: ')', start: 17, end: 18, blockId: '2', isBlockingEnd: true },
+      { token: 'grouping', lexeme: ')', start: 17, end: 18, blockId: '2', isBlockingEnd: true }
     ]);
   });
 
@@ -223,7 +222,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
 
     expect(lexThirdStage(lexSecondStage(lexFirstStage(' foobar ')), 0)).to.deep.equal([
-      { token: 'whitespace', lexeme: ' ', start: 0, end: 1},
+      { token: 'whitespace', lexeme: ' ', start: 0, end: 1 },
       { token: 'term', lexeme: 'foobar', start: 1, end: 7, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 7, end: 8 }
     ]);

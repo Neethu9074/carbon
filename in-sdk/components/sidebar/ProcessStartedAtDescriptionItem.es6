@@ -1,12 +1,13 @@
 import React from 'react';
 
 import getSnapshotFromHierarchyByPlugin from 'in-sdk/components/hoc/getSnapshotFromHierarchyByPlugin';
-import {formatDateTime, fromNowAccurately} from 'in-services/formatters/date';
-import {DescriptionItem} from 'in-components/DescriptionList';
-import {plugins} from 'in-forge/constants';
+import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
+import { DescriptionItem } from 'in-components/DescriptionList';
+import { plugins } from 'in-forge/constants';
 
-export default getSnapshotFromHierarchyByPlugin(plugins.process,
-    function ProcessStartedAtDescriptionItem({processSnapshot}) {
+export default getSnapshotFromHierarchyByPlugin(plugins.process, function ProcessStartedAtDescriptionItem({
+  processSnapshot
+}) {
   if (!processSnapshot) {
     return null;
   }
@@ -17,7 +18,7 @@ export default getSnapshotFromHierarchyByPlugin(plugins.process,
   }
 
   return (
-    <DescriptionItem title='Started At'>
+    <DescriptionItem title="Started At">
       {formatDateTime(start)} ({fromNowAccurately(start)})
     </DescriptionItem>
   );

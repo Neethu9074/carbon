@@ -5,13 +5,12 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {getType, getSpanDetailView} from 'in-sdk/tracing';
+import { getType, getSpanDetailView } from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
 import './SpanForgeDetails.less';
 
 const block = 'in-span-forge-details';
-
 
 export default React.createClass({
   displayName: 'SpanForgeDetails',
@@ -43,7 +42,7 @@ export default React.createClass({
 
     if (detailViewPath) {
       const self = this;
-      require(['./forgeDetailProvider.es6'], (loadSpanDetailComponent) => {
+      require(['./forgeDetailProvider.es6'], loadSpanDetailComponent => {
         self.setState({
           componentType: type,
           Component: loadSpanDetailComponent.default(type, detailViewPath)
@@ -54,15 +53,11 @@ export default React.createClass({
 
   render() {
     if (!this.state.Component) {
-      return <LoadingIndicator type='dark' />;
+      return <LoadingIndicator type="dark" />;
     } else if (this.state.componentType !== getType(this.props.span)) {
-      return <LoadingIndicator type='dark' />;
+      return <LoadingIndicator type="dark" />;
     }
 
-    return (
-      <Jail component={this.state.Component}
-            props={this.props}
-            className={block} />
-    );
+    return <Jail component={this.state.Component} props={this.props} className={block} />;
   }
 });

@@ -1,10 +1,8 @@
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
-import {onDown} from 'in-services/reactiveMouseEvents';
-import {eventBus} from 'in-map/services/eventBus';
-
+import { onDown } from 'in-services/reactiveMouseEvents';
+import { eventBus } from 'in-map/services/eventBus';
 
 export default class DragAndDropDecorator extends Decorator {
-
   constructor(controller, canvas) {
     super(controller);
 
@@ -22,10 +20,9 @@ export default class DragAndDropDecorator extends Decorator {
 
     this.addSubscriptions([
       onDown(this.canvas, () => {
-        const {hittenObject} = this.cameraController.getObjectOnCursor();
+        const { hittenObject } = this.cameraController.getObjectOnCursor();
         this.dragedObjectId = hittenObject ? hittenObject.parentSceneObject.id : null;
       }),
-
       this.eventEmitter.on('onPanStart').subscribe(() => {
         this.eventEmitter.emit('isDragingObject', this.dragedObjectId ? this.dragedObjectId : false);
 
@@ -39,7 +36,6 @@ export default class DragAndDropDecorator extends Decorator {
           });
         }
       }),
-
       this.eventEmitter.on('onPanEnd').subscribe(() => {
         this.disposeMouseMoveSubscription();
 

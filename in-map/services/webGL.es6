@@ -1,5 +1,4 @@
-import {create} from 'reactive-observables';
-
+import { create } from 'reactive-observables';
 
 // https://www.khronos.org/webgl/wiki/FAQ
 // it is recommended that you check for success or failure to initialize.
@@ -33,7 +32,6 @@ export function getWebGLCanvasContext(canvas) {
   // if context is != null, the browser supports WebGL and initialization worked.
   return context;
 }
-
 
 export const isContextLost$ = create();
 

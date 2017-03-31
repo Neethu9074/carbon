@@ -1,4 +1,4 @@
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 // used to generate IDs for messages
 let idCounter = 0;
@@ -16,7 +16,6 @@ const messagesStore = createStore({
   initialValue: []
 });
 export const messages$ = messagesStore.observable;
-
 
 export function addMessage(messageParam, id = null) {
   id = id == null ? idCounter++ : id;
@@ -42,7 +41,6 @@ export function addMessage(messageParam, id = null) {
   return id;
 }
 
-
 export function removeMessage(id) {
   messagesStore.applyStateMutation(messages => {
     messages = messages.slice();
@@ -52,9 +50,7 @@ export function removeMessage(id) {
     }
     return messages;
   });
-
 }
-
 
 function getIndexOfMessage(messages, id) {
   for (let i = 0, len = messages.length; i < len; i++) {

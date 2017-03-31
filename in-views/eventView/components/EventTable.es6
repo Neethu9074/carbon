@@ -1,26 +1,30 @@
 import Infinite from 'react-infinite';
 import React from 'react';
 
-import {rawEventList$, loadMoreRawEvents} from 'in-views/eventView/stores/rawEventListStore';
+import { rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
 import EventTableRow from 'in-views/eventView/components/EventTableRow';
-import {isLoading$} from 'in-views/eventView/stores/isLoadingStore';
+import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
 import './EventTable.less';
 
-
 const block = 'in-event-view-event-table';
 
-export default getElementDimensions(connectTo({
-  events: rawEventList$,
-  isInfiniteLoading: isLoading$
-}, EventTable));
+export default getElementDimensions(
+  connectTo(
+    {
+      events: rawEventList$,
+      isInfiniteLoading: isLoading$
+    },
+    EventTable
+  )
+);
 
-function EventTable({events, height, isInfiniteLoading}) {
+function EventTable({ events, height, isInfiniteLoading }) {
   if (!events) {
-    return <LoadingIndicator type='dark' />;
+    return <LoadingIndicator type="dark" />;
   }
 
   if (!isInfiniteLoading && events.length === 0) {
@@ -35,9 +39,7 @@ function EventTable({events, height, isInfiniteLoading}) {
 
   return (
     <div className={block}>
-      <InfiniteTable height={height}
-                     events={events}
-                     isInfiniteLoading={isInfiniteLoading} />
+      <InfiniteTable height={height} events={events} isInfiniteLoading={isInfiniteLoading} />
     </div>
   );
 }
@@ -49,23 +51,22 @@ EventTable.propTypes = {
   height: rpt.number
 };
 
-function InfiniteTable({height, events, isInfiniteLoading}) {
+function InfiniteTable({ height, events, isInfiniteLoading }) {
   if (!height || events.length === 0) {
     return null;
   }
 
   return (
-    <Infinite className={`${block}__scroll-area`}
-              containerHeight={height - 24/* Height of the header */}
-              elementHeight={26}
-              loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
-              infiniteLoadBeginEdgeOffset={height * 0.5}
-              onInfiniteLoad={loadMoreRawEvents}
-              isInfiniteLoading={isInfiniteLoading}>
-      {events.map(event =>
-        <EventTableRow key={event.id}
-                       rawEvent={event} />
-      )}
+    <Infinite
+      className={`${block}__scroll-area`}
+      containerHeight={height - 24 /* Height of the header */}
+      elementHeight={26}
+      loadingSpinnerDelegate={<LoadingIndicator type="dark" />}
+      infiniteLoadBeginEdgeOffset={height * 0.5}
+      onInfiniteLoad={loadMoreRawEvents}
+      isInfiniteLoading={isInfiniteLoading}
+    >
+      {events.map(event => <EventTableRow key={event.id} rawEvent={event} />)}
     </Infinite>
   );
 }

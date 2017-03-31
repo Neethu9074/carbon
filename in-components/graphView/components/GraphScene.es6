@@ -1,13 +1,12 @@
 import NodesGeometry from 'in-components/graphView/components/NodesGeometry';
 import EdgesGeometry from 'in-components/graphView/components/EdgesGeometry';
 import createControls from 'in-components/graphView/components/Controls';
-import {PerspectiveCamera, Scene} from 'in-map/3DLibProvider';
-
+import { PerspectiveCamera, Scene } from 'in-map/3DLibProvider';
 
 export default class GraphScene {
   constructor(renderer) {
     this.camera = new PerspectiveCamera(75, 1, 1, 1000);
-    const scene = this.scene = new Scene();
+    const scene = (this.scene = new Scene());
 
     this.nodesGeometry = new NodesGeometry();
     scene.add(this.nodesGeometry.renderableGeometry());
@@ -15,16 +14,12 @@ export default class GraphScene {
     this.edgesGeometry = new EdgesGeometry();
     scene.add(this.edgesGeometry.renderableGeometry());
 
-    this.controls = createControls(
-      renderer.domElement,
-      this.camera,
-      {
-        cameraMoveSpeed: 4,
-        startingWorldDistance: 0,
-        startingZoomDistance: 30,
-        zoomSpeed: 5
-      }
-    );
+    this.controls = createControls(renderer.domElement, this.camera, {
+      cameraMoveSpeed: 4,
+      startingWorldDistance: 0,
+      startingZoomDistance: 30,
+      zoomSpeed: 5
+    });
   }
 
   resize(width, height) {

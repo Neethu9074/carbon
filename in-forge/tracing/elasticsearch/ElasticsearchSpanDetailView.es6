@@ -1,40 +1,38 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 
-export default function ElasticsearchSpanDetailView({span}) {
+export default function ElasticsearchSpanDetailView({ span }) {
   const query = span.getIn(['data', 'elasticsearch', 'query']);
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title='Action'>
+        <DescriptionItem title="Action">
           {span.getIn(['data', 'elasticsearch', 'action'])}
         </DescriptionItem>
-        <DescriptionItem title='Index'>
+        <DescriptionItem title="Index">
           {span.getIn(['data', 'elasticsearch', 'index'])}
         </DescriptionItem>
-        <DescriptionItem title='Type'>
+        <DescriptionItem title="Type">
           {span.getIn(['data', 'elasticsearch', 'type'])}
         </DescriptionItem>
-        <DescriptionItem title='Hits'>
+        <DescriptionItem title="Hits">
           {span.getIn(['data', 'elasticsearch', 'hits'])}
         </DescriptionItem>
-        <DescriptionItem title='Error'>
+        <DescriptionItem title="Error">
           {span.getIn(['data', 'elasticsearch', 'error'])}
         </DescriptionItem>
 
-        {query ?
-          <DescriptionItem title='Query'>
-            <Code code={prettyPrintQuery(query)}
-                  lang='json' />
-          </DescriptionItem>
-        : null}
+        {query
+          ? <DescriptionItem title="Query">
+              <Code code={prettyPrintQuery(query)} lang="json" />
+            </DescriptionItem>
+          : null}
       </DescriptionList>
     </div>
   );
 }
-
 
 function prettyPrintQuery(query) {
   let json;

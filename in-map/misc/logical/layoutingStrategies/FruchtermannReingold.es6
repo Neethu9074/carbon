@@ -4,8 +4,7 @@ const GRAVITY = 100;
 const SPEED = 0.1;
 const SCALE = 2;
 
-export default function applyLayout({nodes, edges, storedNodePositions}) {
-
+export default function applyLayout({ nodes, edges, storedNodePositions }) {
   const sigmaGraph = buildSigmaGraphStructure(nodes, edges, storedNodePositions);
   start(sigmaGraph);
   applyPositionUpdate(sigmaGraph);
@@ -144,7 +143,7 @@ function atomicGo(graph, maxDisplace, k) {
     dist = Math.sqrt(xDist * xDist + yDist * yDist) + 0.0001; // 0.0001 to avoid devide by 0 exceptions
     // dist = Math.sqrt(xDist * xDist + yDist * yDist) - nSource.size - nTarget.size;
 
-    attractiveF = (dist * dist) / k;
+    attractiveF = dist * dist / k;
 
     const xDisplacement = xDist / dist * attractiveF;
     const yDisplacement = yDist / dist * attractiveF;

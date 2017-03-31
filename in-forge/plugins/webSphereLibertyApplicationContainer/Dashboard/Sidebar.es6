@@ -9,8 +9,7 @@ import Apps from '../Apps';
 import Ports from '../Ports';
 import Info from '../Info';
 
-
-export default function WebSphereSidebar({snapshot}) {
+export default function WebSphereSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

@@ -7,8 +7,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import Info from '../Info';
 import ConfigInfo from '../Config';
 
-export default function OpenLDAPSidebar({snapshot}) {
-
+export default function OpenLDAPSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -23,7 +22,7 @@ export default function OpenLDAPSidebar({snapshot}) {
       </Collapsible>
 
       <Separator />
-      
+
       <Collapsible initiallyOpen>
         <Collapsible.Header>
           Config

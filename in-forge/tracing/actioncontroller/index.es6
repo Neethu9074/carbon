@@ -1,4 +1,4 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
+import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'actioncontroller',
@@ -12,7 +12,8 @@ registerSpanDefinition({
   detailView: 'ActionControllerSpanDetailView',
 
   getLabel(span) {
-    return (span.getIn(['data', 'actioncontroller', 'controller']) + '#' +
-      span.getIn(['data', 'actioncontroller', 'action']));
+    return span.getIn(['data', 'actioncontroller', 'controller']) +
+      '#' +
+      span.getIn(['data', 'actioncontroller', 'action']);
   }
 });

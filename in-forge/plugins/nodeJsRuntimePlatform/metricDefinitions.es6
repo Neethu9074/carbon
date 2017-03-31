@@ -1,10 +1,5 @@
-import {
-  millis,
-  number,
-  bytes
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { millis, number, bytes } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -18,26 +13,14 @@ export default [
     }
   },
   {
-    metrics: [
-      'activeHandles',
-      'activeRequests'
-    ],
-    labels: [
-      '#Handles',
-      '#Requests'
-    ],
+    metrics: ['activeHandles', 'activeRequests'],
+    labels: ['#Handles', '#Requests'],
     min: 0,
     formatter: number
   },
   {
-    metrics: [
-      'gc.minorGcs',
-      'gc.majorGcs'
-    ],
-    labels: [
-      '#Minor GCs',
-      '#Major GCs'
-    ],
+    metrics: ['gc.minorGcs', 'gc.majorGcs'],
+    labels: ['#Minor GCs', '#Major GCs'],
     min: 0,
     category: ['GC'],
     formatter: bytes,
@@ -46,16 +29,8 @@ export default [
     }
   },
   {
-    metrics: [
-      'memory.rss',
-      'memory.heapUsed',
-      'gc.usedHeapSizeAfterGc'
-    ],
-    labels: [
-      'RSS',
-      'Heap Size',
-      'Heap Size After GC'
-    ],
+    metrics: ['memory.rss', 'memory.heapUsed', 'gc.usedHeapSizeAfterGc'],
+    labels: ['RSS', 'Heap Size', 'Heap Size After GC'],
     min: 0,
     category: ['GC'],
     formatter: number,
@@ -64,29 +39,15 @@ export default [
     }
   },
   {
-    metrics: [
-      'memory.rss',
-      'memory.heapUsed'
-    ],
-    labels: [
-      'RSS',
-      'Heap Size'
-    ],
+    metrics: ['memory.rss', 'memory.heapUsed'],
+    labels: ['RSS', 'Heap Size'],
     min: 0,
     category: ['Memory'],
     formatter: bytes
   },
   {
-    metrics: [
-      'libuv.max',
-      'libuv.sum',
-      'libuv.lag'
-    ],
-    labels: [
-      'Longest time spent in a single loop',
-      'Total time spent in loop',
-      'Event loop lag'
-    ],
+    metrics: ['libuv.max', 'libuv.sum', 'libuv.lag'],
+    labels: ['Longest time spent in a single loop', 'Total time spent in loop', 'Event loop lag'],
     min: 0,
     category: ['Event Loop'],
     formatter: millis,

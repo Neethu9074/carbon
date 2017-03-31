@@ -1,21 +1,23 @@
 import Hammer from 'hammerjs';
 
-import {onWheel} from 'in-services/reactiveMouseEvents';
-import {getDeltaTime} from 'in-map/misc/time';
-
+import { onWheel } from 'in-services/reactiveMouseEvents';
+import { getDeltaTime } from 'in-map/misc/time';
 
 const RAD_2_DEG = Math.PI / 180;
 
-export default function createControls(canvas, camera, {
-  poi,
-  cameraMoveSpeed = 4,
-  startingZoomDistance = 1.5,
-  maxZoomIn = 1.1,
-  maxZoomOut = 2,
-  zoomSpeed = 3,
-  zoomSteps = 0.025
-}) {
-
+export default function createControls(
+  canvas,
+  camera,
+  {
+    poi,
+    cameraMoveSpeed = 4,
+    startingZoomDistance = 1.5,
+    maxZoomIn = 1.1,
+    maxZoomOut = 2,
+    zoomSpeed = 3,
+    zoomSteps = 0.025
+  }
+) {
   let targetRotationX = 0;
   let targetRotationY = 0;
   let currentRotationX = 0;
@@ -25,7 +27,6 @@ export default function createControls(canvas, camera, {
   camera.translateZ(startingZoomDistance);
 
   const mouseWheelSubscription = onWheel(canvas, onMouseWheel);
-
 
   const eventHandler = new Hammer(canvas);
 
@@ -38,7 +39,7 @@ export default function createControls(canvas, camera, {
   eventHandler.on('panstart', e => setCursorToEvent(e));
   eventHandler.on('pan', onPan);
 
-  eventHandler.get('pinch').set({enable: true});
+  eventHandler.get('pinch').set({ enable: true });
   eventHandler.on('pinchin', e => onPinch(e.distance));
   eventHandler.on('pinchout', e => onPinch(-1 * e.distance));
 

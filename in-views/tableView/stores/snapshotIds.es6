@@ -1,12 +1,12 @@
-import {translateSearchableEntityTypeToFullyQualifiedPluginIds} from 'in-sdk/search/defaultOperators';
-import {clearSelectedSnapshots} from 'in-views/tableView/stores/selectedSnapshots';
+import { translateSearchableEntityTypeToFullyQualifiedPluginIds } from 'in-sdk/search/defaultOperators';
+import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
 import createSearchObservable from 'in-services/subscription/search';
-import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
-import {setKeyword, getValues} from 'in-stores/search/keywords';
-import {clearMetrics} from 'in-views/tableView/stores/metrics';
-import {setColumn} from 'in-views/tableView/stores/sorting';
-import {focusedMoment$} from 'in-stores/timeline';
-import {query$} from 'in-stores/search/query';
+import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
+import { setKeyword, getValues } from 'in-stores/search/keywords';
+import { clearMetrics } from 'in-views/tableView/stores/metrics';
+import { setColumn } from 'in-views/tableView/stores/sorting';
+import { focusedMoment$ } from 'in-stores/timeline';
+import { query$ } from 'in-stores/search/query';
 
 export const selectedType$ = query$
   .map(query => {
@@ -18,11 +18,9 @@ export const selectedType$ = query$
   })
   .distinct();
 
-
 export function setSelectedType(type) {
   setKeyword('entity.selfType', type);
 }
-
 
 export const plugin$ = selectedType$
   .map(type => {
@@ -46,33 +44,26 @@ export const plugin$ = selectedType$
     clearSelectedSnapshots();
   });
 
+export const snapshotIds$ = query$.flatMap(query => {
+  query = query || '';
+  if (!getSelectedType(query)) {
+    query += ` entity.selfType:host`;
+  }
 
-export const snapshotIds$ = query$
-  .flatMap(query => {
-    query = query || '';
-    if (!getSelectedType(query)) {
-      query += ` entity.selfType:host`;
-    }
-
-    return focusedMoment$
-      .flatMap(focusedMoment => {
-        return createSearchObservable({
-          query: query,
-          time: focusedMoment,
-          view: 'TABLE'
-        })
-        .map(list => list.toArray());
-      });
+  return focusedMoment$.flatMap(focusedMoment => {
+    return createSearchObservable({
+      query: query,
+      time: focusedMoment,
+      view: 'TABLE'
+    }).map(list => list.toArray());
   });
-
+});
 
 export const matchedSnapshotCount$ = snapshotIds$.map(snapshotIds => snapshotIds.length);
-
 
 function getSelectedType(query) {
   return getValues(query, 'entity.selfType')[0];
 }
-
 
 function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
   for (const plugin in fullyQualifiedPlugins) {

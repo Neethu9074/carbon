@@ -1,6 +1,5 @@
-import {emptyMap} from 'in-services/fixedImmutables';
+import { emptyMap } from 'in-services/fixedImmutables';
 import unknownIconSvgPath from './unknownIconPath';
-
 
 const iconSvgPathRegistry = {};
 
@@ -31,10 +30,12 @@ export function getIconPath(snapshotOrPlugin) {
 }
 
 export function getAllSvgIconPaths() {
-  const icons = [{
-    id: 'unknownIcon',
-    path: unknownIconSvgPath
-  }];
+  const icons = [
+    {
+      id: 'unknownIcon',
+      path: unknownIconSvgPath
+    }
+  ];
   Object.keys(iconSvgPathRegistry).forEach(key => {
     icons.push({
       id: key,

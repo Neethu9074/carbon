@@ -1,17 +1,16 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-
-export default function TomcatInfo({snapshot}) {
+export default function TomcatInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title='Version'>
+      <DescriptionItem title="Version">
         {data.get('version')}
       </DescriptionItem>
-      <DescriptionItem title='Home'>
+      <DescriptionItem title="Home">
         {data.get('home-dir')}
       </DescriptionItem>
     </DescriptionList>

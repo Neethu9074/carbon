@@ -1,9 +1,9 @@
-import {Set} from 'immutable';
+import { Set } from 'immutable';
 
-import {setField, removeField, containsField, getFieldTerms} from 'in-stores/search/manipulation';
+import { setField, removeField, containsField, getFieldTerms } from 'in-stores/search/manipulation';
 import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
-import {query$, mutateQuery} from 'in-stores/search/query';
-import {focusedMoment$} from 'in-stores/timeline';
+import { query$, mutateQuery } from 'in-stores/search/query';
+import { focusedMoment$ } from 'in-stores/timeline';
 
 // A stream of the form ImmutableSet<String> describing the currently active
 // tag filters.

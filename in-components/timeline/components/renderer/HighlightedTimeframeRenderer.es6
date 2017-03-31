@@ -1,15 +1,15 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 
 export default class HighlightedTimeframeRenderer extends BasicRenderer {
-
   constructor(backBuffer, scale, height) {
     super(backBuffer, scale);
 
     this.height = height;
     this.highlightedTimeframe = null;
-    this.subscription = highlightedTimeframe$
-      .subscribe(highlightedTimeframe => this.highlightedTimeframe = highlightedTimeframe);
+    this.subscription = highlightedTimeframe$.subscribe(
+      highlightedTimeframe => this.highlightedTimeframe = highlightedTimeframe
+    );
   }
 
   draw() {

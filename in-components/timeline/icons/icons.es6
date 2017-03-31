@@ -1,7 +1,7 @@
 import issueCriticalIcon from 'in-components/timeline/icons/issue_critical.svg';
 import issueWarningIcon from 'in-components/timeline/icons/issue_warning.svg';
 import incidentIcon from 'in-components/timeline/icons/incident.svg';
-import {hexToRGB} from 'in-services/formatters/color';
+import { hexToRGB } from 'in-services/formatters/color';
 import theme from 'in-services/theme';
 
 const icons = {};
@@ -11,10 +11,14 @@ icons.incidentImage = loadImage(incidentIcon, loadedImage => {
   icons.incidentCriticalImageColored = createColorCanvasFrom(loadedImage, hexToRGB(theme.health[10]));
 });
 
-icons.issueWarningImage = loadImage(issueWarningIcon, loadedImage =>
-  icons.issueWarningImageColored = createColorCanvasFrom(loadedImage, hexToRGB(theme.health[5])));
-icons.issueCriticalImage = loadImage(issueCriticalIcon, loadedImage =>
-  icons.issueCriticalImageColored = createColorCanvasFrom(loadedImage, hexToRGB(theme.health[10])));
+icons.issueWarningImage = loadImage(
+  issueWarningIcon,
+  loadedImage => icons.issueWarningImageColored = createColorCanvasFrom(loadedImage, hexToRGB(theme.health[5]))
+);
+icons.issueCriticalImage = loadImage(
+  issueCriticalIcon,
+  loadedImage => icons.issueCriticalImageColored = createColorCanvasFrom(loadedImage, hexToRGB(theme.health[10]))
+);
 
 function loadImage(src, callback) {
   const image = document.createElement('img');

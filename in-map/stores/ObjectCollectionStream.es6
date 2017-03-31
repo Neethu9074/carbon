@@ -1,14 +1,12 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 import createObjectCollection from 'in-map/stores/ObjectCollection';
-
 
 export default function createCollection() {
   const collection = createObjectCollection();
 
   const objects$ = create();
   objects$.emit(collection.objects);
-
 
   function add(id, object) {
     collection.add(id, object);

@@ -1,7 +1,6 @@
-import {Line, BufferGeometry, MeshBasicMaterial, Vector3} from 'in-map/3DLibProvider';
-import {updateAttribute} from 'in-map/services/geometryAttributes';
-import {UP} from 'in-map/misc/fixedVectors';
-
+import { Line, BufferGeometry, MeshBasicMaterial, Vector3 } from 'in-map/3DLibProvider';
+import { updateAttribute } from 'in-map/services/geometryAttributes';
+import { UP } from 'in-map/misc/fixedVectors';
 
 const COLLISION_LINE_MATERIAL = new MeshBasicMaterial();
 
@@ -32,9 +31,9 @@ export function getNormalizedDirectionForPoints(a, b) {
 
   // normalize them
   const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
-  dir.x /= (length);
-  dir.y /= (length);
-  dir.z /= (length);
+  dir.x /= length;
+  dir.y /= length;
+  dir.z /= length;
 
   return dir;
 }
@@ -42,7 +41,7 @@ export function getNormalizedDirectionForPoints(a, b) {
 export function getDirectionForPoints(a, b) {
   a.z = a.z || 0;
   b.z = b.z || 0;
-  return {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
+  return { x: b.x - a.x, y: b.y - a.y, z: b.z - a.z };
 }
 
 export function shortenPathAtSourceAndDestination(path) {
@@ -92,9 +91,7 @@ function getArrowGeometry(position, dir) {
   const arrowLength = 0.25;
 
   // because the arrow are laying on the ground, the up-vector is 0 1 0
-  const right = UP.clone()
-                  .cross(dir)
-                  .multiplyScalar(arrowLength * 1.5); // shorten to get a angle < 45 degree
+  const right = UP.clone().cross(dir).multiplyScalar(arrowLength * 1.5); // shorten to get a angle < 45 degree
   const arrowLineX = (right.x + dir.x) * arrowLength;
   const arrowLineZ = (right.z + dir.z) * arrowLength;
   const arrowLineXLeft = (-right.x + dir.x) * arrowLength;
@@ -102,9 +99,9 @@ function getArrowGeometry(position, dir) {
 
   return [
     position,
-    {x: position.x + arrowLineX, y: position.y, z: position.z + arrowLineZ},
+    { x: position.x + arrowLineX, y: position.y, z: position.z + arrowLineZ },
     position,
-    {x: position.x + arrowLineXLeft, y: position.y, z: position.z + arrowLineZLeft}
+    { x: position.x + arrowLineXLeft, y: position.y, z: position.z + arrowLineZLeft }
   ];
 }
 
@@ -127,10 +124,7 @@ export function getCenterPosition(from, to) {
 
 export function calculateLogicalCollisionMesh(from, to) {
   const geometry = new BufferGeometry();
-  updateAttribute(geometry, 'position', [
-    from.x, from.y, from.z,
-    to.x, to.y, to.z
-  ]);
+  updateAttribute(geometry, 'position', [from.x, from.y, from.z, to.x, to.y, to.z]);
   return new Line(geometry, COLLISION_LINE_MATERIAL);
 }
 
@@ -156,6 +150,7 @@ export function getOffsetVectors(from, to) {
   const right = direction.cross(UP).multiplyScalar(0.25);
 
   return {
-    right, forward
+    right,
+    forward
   };
 }

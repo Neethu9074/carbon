@@ -1,5 +1,5 @@
-import {expanded$} from 'in-stores/search/searchBarExpanded';
-import {createTrackingStore} from 'in-stores/store';
+import { expanded$ } from 'in-stores/search/searchBarExpanded';
+import { createTrackingStore } from 'in-stores/store';
 
 export const headerHeight$ = createTrackingStore({
   name: 'header/height',

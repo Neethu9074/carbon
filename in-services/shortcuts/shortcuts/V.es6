@@ -1,5 +1,4 @@
-import {eventBus} from 'in-map/services/eventBus';
-
+import { eventBus } from 'in-map/services/eventBus';
 
 export default function onPressed() {
   if (eventBus) {

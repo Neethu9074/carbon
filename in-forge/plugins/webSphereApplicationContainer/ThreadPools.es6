@@ -1,12 +1,11 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import {yesOrNo} from 'in-services/formatters/boolean';
+import { yesOrNo } from 'in-services/formatters/boolean';
 
-
-export default function JettyThreadsInfo({snapshot}) {
+export default function JettyThreadsInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
@@ -17,16 +16,16 @@ export default function JettyThreadsInfo({snapshot}) {
         <Collapsible.Header>Web Container Thread Pool</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title='Min Threads'>
+            <DescriptionItem title="Min Threads">
               {data.get('threadPools.webContainer.minimumSize')}
             </DescriptionItem>
-            <DescriptionItem title='Max Threads'>
+            <DescriptionItem title="Max Threads">
               {data.get('threadPools.webContainer.maximumSize')}
             </DescriptionItem>
-            <DescriptionItem title='Inactivity Timeout'>
+            <DescriptionItem title="Inactivity Timeout">
               {data.get('threadPools.webContainer.inactivityTimeout')}
             </DescriptionItem>
-            <DescriptionItem title='Growable'>
+            <DescriptionItem title="Growable">
               {yesOrNo(data.get('threadPools.webContainer.growable'))}
             </DescriptionItem>
           </DescriptionList>

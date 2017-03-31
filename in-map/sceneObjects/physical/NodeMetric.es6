@@ -4,7 +4,7 @@ import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
-import {Mesh, RawShaderMaterial, DoubleSide} from 'in-map/3DLibProvider';
+import { Mesh, RawShaderMaterial, DoubleSide } from 'in-map/3DLibProvider';
 
 import {
   NUM_POINTS_PER_SLICE,
@@ -16,21 +16,19 @@ import {
   getSlicedGeometry as getSlicedFullGeometry,
   INDEX_MASK as FULL_INDEX_MASK
 } from 'in-map/singleMeshFactories/ContentProvider/PredefinedFullSlicedCubes';
-import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import NodeMetricTooltip from 'in-map/components/tooltips/physical/NodeMetric';
-import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
 import createMetricHandler from 'in-map/misc/physical/MetricHandler';
-import {updateAttribute} from 'in-map/services/geometryAttributes';
+import { updateAttribute } from 'in-map/services/geometryAttributes';
 import AnimationController from 'in-map/misc/AnimationController';
-import {requestRendering} from 'in-map/stores/renderingStore';
+import { requestRendering } from 'in-map/stores/renderingStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {isWebVRActive} from 'in-map/stores/webVRStore';
-
+import { isWebVRActive } from 'in-map/stores/webVRStore';
 
 const METRIC_MARGIN = 0.9;
 
 export default class NodeMetric extends SceneObject {
-
   constructor(params) {
     super(params);
 
@@ -46,7 +44,7 @@ export default class NodeMetric extends SceneObject {
   init() {
     super.init();
 
-    const sceneObject = this.sceneObject = new Mesh(
+    const sceneObject = (this.sceneObject = new Mesh(
       this.getGeometry(1),
       new RawShaderMaterial({
         fragmentShader: fragmentShader,
@@ -59,7 +57,7 @@ export default class NodeMetric extends SceneObject {
           }
         }
       })
-    );
+    ));
     addSceneObject(sceneObject);
 
     this.animationController = new AnimationController({
@@ -72,10 +70,10 @@ export default class NodeMetric extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    this.addComponent('collision', new CollisionComponent(this,
-                                                          PREDEFINED_COLLISION_OBJECTS.BOX,
-                                                          OCTREE_LAYER.LAYER,
-                                                          this.dashboardId));
+    this.addComponent(
+      'collision',
+      new CollisionComponent(this, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.LAYER, this.dashboardId)
+    );
 
     this.addComponent('screenPosition', new ScreenPositionComponent(this));
 
@@ -85,26 +83,16 @@ export default class NodeMetric extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscriptions([
-      this.parentNode.eventEmitter.on('positionChanged').subscribe(position => {
+    this.addSubscriptions([this.parentNode.eventEmitter.on('positionChanged').subscribe(position => {
         this.getComponent('transform').setPosition(position);
         this.sceneObject.position.copy(position);
-      }),
+      }), this.parentNode.eventEmitter.on('scaleChanged').subscribe(scale => {
+        this.getComponent('transform').setScaleXYZ(scale.x * METRIC_MARGIN, scale.y, scale.z * METRIC_MARGIN);
 
-      this.parentNode.eventEmitter.on('scaleChanged').subscribe(scale => {
-        this.getComponent('transform').setScaleXYZ(scale.x * METRIC_MARGIN,
-                                                   scale.y,
-                                                   scale.z * METRIC_MARGIN);
-
-        this.sceneObject.scale.set(scale.x * METRIC_MARGIN,
-                                   scale.y,
-                                   scale.z * METRIC_MARGIN);
-      }),
-
-      this.parentNode.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
+        this.sceneObject.scale.set(scale.x * METRIC_MARGIN, scale.y, scale.z * METRIC_MARGIN);
+      }), this.parentNode.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
         this.eventEmitter.emit('snapshotChanged', snapshot);
-      })
-    ]);
+      })]);
 
     this.metricHandler = createMetricHandler(this, this.parentNode.id);
   }

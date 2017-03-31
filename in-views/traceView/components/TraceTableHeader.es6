@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {setSortDirection, sortDirection$} from 'in-views/traceView/stores/sortDirection';
-import {setSortBy, sortBy$} from 'in-views/traceView/stores/sortBy';
+import { setSortDirection, sortDirection$ } from 'in-views/traceView/stores/sortDirection';
+import { setSortBy, sortBy$ } from 'in-views/traceView/stores/sortBy';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,12 +12,15 @@ const cellClassName = block + '__cell';
 const selectedClassName = cellClassName + '--selected';
 const rpt = React.PropTypes;
 
-export default connectTo({
+export default connectTo(
+  {
     sortDirection: sortDirection$,
     sortBy: sortBy$
-  }, TraceTableHeader);
+  },
+  TraceTableHeader
+);
 
-function TraceTableHeader({sortDirection, sortBy}) {
+function TraceTableHeader({ sortDirection, sortBy }) {
   return (
     <div className={block}>
       {renderCell('Timestamp', 'ts', sortDirection, sortBy)}
@@ -54,8 +57,10 @@ function renderCell(name, field, sortDirection, sortBy) {
   }
 
   return (
-    <div onClick={() => onClick(field, sortBy, sortDirection)}
-         className={cellClassName + getCellClassName(field, sortBy)}>
+    <div
+      onClick={() => onClick(field, sortBy, sortDirection)}
+      className={cellClassName + getCellClassName(field, sortBy)}
+    >
       <div className={toggleClassName}>
         {name}
         {getSortIcon(field, sortDirection, sortBy)}
@@ -84,13 +89,8 @@ function getSortIcon(cell, sortDirection, sortBy) {
     }
 
     return (
-      <div className={toggleClassName}
-           onClick={() => onClick(cell, sortBy, sortDirection)}>
-        <SvgIcon className={`${block}__icon`}
-                 type={iconType}
-                 width={5}
-                 height={5}
-                 color='#6b8088' />
+      <div className={toggleClassName} onClick={() => onClick(cell, sortBy, sortDirection)}>
+        <SvgIcon className={`${block}__icon`} type={iconType} width={5} height={5} color="#6b8088" />
       </div>
     );
   }

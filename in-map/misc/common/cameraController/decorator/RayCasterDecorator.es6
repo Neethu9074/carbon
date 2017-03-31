@@ -1,14 +1,12 @@
-import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
-import {setTooltip, clear as clearTooltip} from 'in-map/stores/tooltipStore';
+import { setTooltip, clear as clearTooltip } from 'in-map/stores/tooltipStore';
 import connections from 'in-map/stores/connectionsStore';
-import {emptyArray} from 'in-services/fixedObjects';
-import {Raycaster} from 'in-map/3DLibProvider';
-
+import { emptyArray } from 'in-services/fixedObjects';
+import { Raycaster } from 'in-map/3DLibProvider';
 
 export default class RayCasterDecorator extends Decorator {
-
   constructor(controller, map) {
     super(controller);
 
@@ -36,9 +34,9 @@ export default class RayCasterDecorator extends Decorator {
 
     this.addSubscriptions([
       this.eventEmitter.on('onMouseMoved').subscribe(() => this.handleRayCasting()),
-
-      connections.stream.subscribe(_connections =>
-        this.currentConnections = Object.keys(_connections).map(key => _connections[key]))
+      connections.stream.subscribe(
+        _connections => this.currentConnections = Object.keys(_connections).map(key => _connections[key])
+      )
     ]);
   }
 
@@ -49,7 +47,7 @@ export default class RayCasterDecorator extends Decorator {
     const lastHittenObject = lastHitten.object;
     const lastHoveredConnections = lastHitten.connections;
 
-    const {hittenObject, hoveredConnections} = this.cameraController.getObjectOnCursor();
+    const { hittenObject, hoveredConnections } = this.cameraController.getObjectOnCursor();
 
     // replace with the new data
     lastHitten.object = hittenObject;
@@ -85,9 +83,10 @@ export default class RayCasterDecorator extends Decorator {
 
     // find the hitten object
     const hittenObject = PhysicsServiceLocator.checkRaycaster(this.raycaster);
-    const hoveredConnections = hittenObject ?
-      emptyArray : // don't calculate if another object than a connection was hitten
-      this.currentConnections.filter(connection => connection.intersects(this.raycaster));
+    const hoveredConnections = hittenObject
+      ? emptyArray
+      : // don't calculate if another object than a connection was hitten
+        this.currentConnections.filter(connection => connection.intersects(this.raycaster));
 
     return {
       hittenObject,

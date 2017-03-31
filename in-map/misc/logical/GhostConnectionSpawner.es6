@@ -1,7 +1,6 @@
 import DragConnection from 'in-map/misc/logical/DragConnection';
 import ghosts from 'in-map/stores/logical/ghostsStore';
 
-
 export default class GhostEdgeSpawnerComponent {
   constructor(sceneObject) {
     this.ghostConnection = null;
@@ -22,9 +21,7 @@ export default class GhostEdgeSpawnerComponent {
 
       // if there is a new ghost node which is a ghost of one of this connections endpoints
       if (source || destination) {
-        this.ghostConnection = new DragConnection(source
-          ? destinationPosition
-          : sourcePosition);
+        this.ghostConnection = new DragConnection(source ? destinationPosition : sourcePosition);
       } else {
         this.disposeGhostConnection();
       }

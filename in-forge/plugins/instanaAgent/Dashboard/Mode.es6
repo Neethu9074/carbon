@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {setMode} from 'in-forge/plugins/instanaAgent/selfMonitoring';
-import {modes} from 'in-forge/plugins/instanaAgent/modes';
-import {close} from 'in-components/DialogPresenter/store';
+import { setMode } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import { modes } from 'in-forge/plugins/instanaAgent/modes';
+import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
@@ -33,32 +33,31 @@ export default React.createClass({
     const currentMode = this.props.snapshot.getIn(['data', 'mode']);
 
     return (
-      <Dialog header='Change Agent Mode'
-              onClose={close}
-              contentClassName={block}>
+      <Dialog header="Change Agent Mode" onClose={close} contentClassName={block}>
         <p>
           Change the monitoring detail level of this agent. Currently, this agent is running in the{' '}
           <strong>{modes[currentMode]}</strong> mode. Mode changes become active within a few seconds.
         </p>
 
         <FormGroup>
-          <Label htmlFor='agent-mode'>
+          <Label htmlFor="agent-mode">
             Mode
           </Label>
 
-          <Select id='agent-mode'
-                 value={this.getCurrentlySelectedMode()}
-                 onChange={e => this.setState({mode: parseInt(e.target.value, 10)})}
-                 autoFocus>
-            <option value='0'>{modes[0]}</option>
-            <option value='1'>{modes[1]}</option>
-            <option value='2'>{modes[2]}</option>
+          <Select
+            id="agent-mode"
+            value={this.getCurrentlySelectedMode()}
+            onChange={e => this.setState({ mode: parseInt(e.target.value, 10) })}
+            autoFocus
+          >
+            <option value="0">{modes[0]}</option>
+            <option value="1">{modes[1]}</option>
+            <option value="2">{modes[2]}</option>
           </Select>
         </FormGroup>
 
         <div>
-          <Button kind='success'
-                  onClick={this.switchMode}>
+          <Button kind="success" onClick={this.switchMode}>
             Change Mode
           </Button>
         </div>

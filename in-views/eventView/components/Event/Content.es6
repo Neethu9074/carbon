@@ -8,24 +8,18 @@ import Header from 'in-views/eventView/components/Event/Header';
 
 import 'in-views/eventView/components/Event/Content.less';
 
-
-export default function EventContent({event}) {
+export default function EventContent({ event }) {
   return (
     <div>
       <Header event={event} />
 
-      <ProblemDescription event={event}
-                          sectionized
-                          className='in-event-view-event-content' />
+      <ProblemDescription event={event} sectionized className="in-event-view-event-content" />
 
-      <EventChart event={event}
-                  sectionized />
+      <EventChart event={event} sectionized />
 
-      <EventTraces event={event}
-                   sectionized />
+      <EventTraces event={event} sectionized />
 
-      <EventDependecyGraph event={event}
-                           sectionized />
+      <EventDependecyGraph event={event} sectionized />
     </div>
   );
 }

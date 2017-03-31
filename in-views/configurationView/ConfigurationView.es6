@@ -9,15 +9,15 @@ import './ConfigurationView.less';
 
 const block = 'in-configuration-view';
 
-export default function ConfigurationView({children}) {
+export default function ConfigurationView({ children }) {
   return (
     <FullscreenOverlayView className={block}>
       <Navigation />
-      {children ?
-        <ActiveSubView>
-          {children}
-        </ActiveSubView>
-      : <DefaultConfigView />}
+      {children
+        ? <ActiveSubView>
+            {children}
+          </ActiveSubView>
+        : <DefaultConfigView />}
     </FullscreenOverlayView>
   );
 }

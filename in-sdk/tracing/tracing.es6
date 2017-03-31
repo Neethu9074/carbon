@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 
-export {registry, registerSpanDefinition, getSpanDefinition} from 'in-sdk/tracing/registry';
-import {getSpanDefinition} from 'in-sdk/tracing';
+export { registry, registerSpanDefinition, getSpanDefinition } from 'in-sdk/tracing/registry';
+import { getSpanDefinition } from 'in-sdk/tracing';
 
 import messagingIcon from 'in-sdk/tracing/categoryIcons/messaging.svg';
 import databaseIcon from 'in-sdk/tracing/categoryIcons/database.svg';
@@ -33,7 +33,7 @@ const categoryIcons = {
 export const SPAN_KINDS = {
   INTERMEDIATE: 'intermediate',
   ENTRY: 'entry',
-  EXIT: 'exit',
+  EXIT: 'exit'
 };
 
 export function getType(span) {

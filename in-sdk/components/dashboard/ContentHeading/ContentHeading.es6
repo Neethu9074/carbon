@@ -4,7 +4,7 @@ import './ContentHeading.less';
 
 const block = 'in-dashboard__content-heading';
 
-export default function ContentHeading({children, className}) {
+export default function ContentHeading({ children, className }) {
   let classes = block;
   if (className) {
     classes = `${classes} ${className}`;

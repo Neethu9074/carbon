@@ -6,8 +6,7 @@ import MetersTable from 'in-sdk/components/dashboard/customMetrics/MetersTable';
 import TimersTable from 'in-sdk/components/dashboard/customMetrics/TimersTable';
 import HistogramsTable from 'in-sdk/components/dashboard/customMetrics/HistogramsTable';
 
-
-export default function DropwizardDashboard({snapshot, timeframe}) {
+export default function DropwizardDashboard({ snapshot, timeframe }) {
   return (
     <div>
       <GaugesTable snapshot={snapshot} timeframe={timeframe} />

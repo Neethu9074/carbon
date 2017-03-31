@@ -1,32 +1,29 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {timeframe$, setTo, timelineScale$, fixFocusedMomentIfNotFixed} from 'in-components/timeline/timelineStore';
-import {bigBangTimestamp$, timeframeShape} from 'in-stores/timeline';
-import {onMove, onUp} from 'in-services/reactiveMouseEvents';
-import {serverTime$} from 'in-stores/serverTime';
+import { timeframe$, setTo, timelineScale$, fixFocusedMomentIfNotFixed } from 'in-components/timeline/timelineStore';
+import { bigBangTimestamp$, timeframeShape } from 'in-stores/timeline';
+import { onMove, onUp } from 'in-services/reactiveMouseEvents';
+import { serverTime$ } from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
 
 import './TimelineTimeframeMarker.less';
 
-
 const block = 'in-timeline-timeframe-marker';
 const rpt = React.PropTypes;
 
-export default connectTo({
+export default connectTo(
+  {
     serverTime: serverTime$.throttle(10000),
     bigBangTimestamp: bigBangTimestamp$,
     scale: timelineScale$,
     timeframe: timeframe$
   },
   React.createClass({
-
     displayName: 'TimelineTimeframeMarker',
 
-    mixins: [
-      PureRenderMixin
-    ],
+    mixins: [PureRenderMixin],
 
     lastXPosition: null,
     subscription: null,
@@ -75,12 +72,14 @@ export default connectTo({
 
       return (
         <div className={block}>
-          <div className={block + '__marker'}
-               onMouseDown={this.onMouseDown}
-               style={{
-                 left: leftWidthAdjusted + '%',
-                 width: width + '%'
-               }} />
+          <div
+            className={block + '__marker'}
+            onMouseDown={this.onMouseDown}
+            style={{
+              left: leftWidthAdjusted + '%',
+              width: width + '%'
+            }}
+          />
         </div>
       );
     },

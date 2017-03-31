@@ -8,8 +8,7 @@ import {
   calcRanks
 } from 'in-map/misc/logical/layoutingStrategies/nodeHelper';
 
-
-export default function applyLayout({nodes, edges}) {
+export default function applyLayout({ nodes, edges }) {
   if (nodes.length === 0) {
     return;
   }
@@ -32,5 +31,4 @@ export default function applyLayout({nodes, edges}) {
   centerNodes(N);
   applyPosition(N);
 }
-
 // - highlight subtree on highlight service/connection

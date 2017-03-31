@@ -1,4 +1,4 @@
-import {parse_backtrace} from '../backtrace';
+import { parse_backtrace } from '../backtrace';
 
 /**
  * Parses out information about each thread and includes
@@ -12,25 +12,24 @@ import {parse_backtrace} from '../backtrace';
  * @returns {Array} an array of output.
  */
 export function parseThreads(report, crash, threads) {
-  crash   = crash || report['crash'] || {};
+  crash = crash || report['crash'] || {};
   threads = threads || crash['threads'] || [];
 
   var rows = [];
-  var idx  = 0;
+  var idx = 0;
 
-  threads.forEach(function (thread) {
+  threads.forEach(function(thread) {
     if (idx++ !== 0) {
       rows.push('');
     }
 
     var index = thread['index'];
-    var name  = thread['name'];
+    var name = thread['name'];
     var queue = thread['dispatch_queue'];
 
     if (name) {
       rows.push(`Thread ${index} name:  ${name}`);
-    }
-    else if (queue) {
+    } else if (queue) {
       rows.push(`Thread ${index} name:  Dispatch queue: ${queue}`);
     }
 

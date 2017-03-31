@@ -1,24 +1,28 @@
-import {createLogger} from 'instalog';
-import {Map} from 'immutable';
+import { createLogger } from 'instalog';
+import { Map } from 'immutable';
 import React from 'react';
 
-import {createRuleBinding, getRuleBindings, saveRuleBinding, deleteRuleBinding, setEnabled} from 'in-services/groundskeeper/ruleBindings';
+import {
+  createRuleBinding,
+  getRuleBindings,
+  saveRuleBinding,
+  deleteRuleBinding,
+  setEnabled
+} from 'in-services/groundskeeper/ruleBindings';
 import Table from 'in-views/configurationView/subview/RuleBindings/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
-import {openRuleBinding} from 'in-stores/navigation/configuration';
+import { openRuleBinding } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
-import {close} from 'in-components/DialogPresenter/store';
-import {emptyList} from 'in-services/fixedImmutables';
+import { close } from 'in-components/DialogPresenter/store';
+import { emptyList } from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
-
 
 const logger = createLogger('RuleBindings');
 
 export default React.createClass({
-
   displayName: 'RuleBindings',
 
   getInitialState() {
@@ -147,7 +151,8 @@ export default React.createClass({
       };
 
       const index = state.ruleBindings.findIndex(eachRuleBinding => ruleBindingId === eachRuleBinding.get('id'));
-      const newRuleBindings = state.ruleBindings.update(index, modifiableRuleBindings => modifiableRuleBindings.set('enabled', enabled));
+      const newRuleBindings = state.ruleBindings.update(index, modifiableRuleBindings =>
+        modifiableRuleBindings.set('enabled', enabled));
       return {
         status: state.status,
         ruleBindings: newRuleBindings
@@ -182,7 +187,8 @@ export default React.createClass({
 
         // roll back the role change
         const index = state.ruleBindings.findIndex(eachRuleBinding => ruleBindingId === eachRuleBinding.get('id'));
-        const newRuleBindings = state.ruleBindings.update(index, modifiableRuleBindings => modifiableRuleBindings.set('enabled', previousEnabled));
+        const newRuleBindings = state.ruleBindings.update(index, modifiableRuleBindings =>
+          modifiableRuleBindings.set('enabled', previousEnabled));
         return {
           status: state.status,
           ruleBindings: newRuleBindings
@@ -192,7 +198,7 @@ export default React.createClass({
   },
 
   render() {
-    const {ruleBindings} = this.state;
+    const { ruleBindings } = this.state;
     const rulesAvailable = ruleBindings && ruleBindings.size > 0;
 
     return (
@@ -202,31 +208,31 @@ export default React.createClass({
         </SubViewHeader>
 
         <Section>
-          <Button kind='info'
-                  onClick={this.addNewRuleBinding}>
+          <Button kind="info" onClick={this.addNewRuleBinding}>
             Add Custom Issue
           </Button>
 
-          {this.state.message ?
-            <Notification failure={this.state.error}
-                          loading={this.state.loading}>
-              {this.state.message}
-            </Notification>
-          : null}
+          {this.state.message
+            ? <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            : null}
         </Section>
 
-        {rulesAvailable ?
-          <Section>
-            <SectionHeading>
-              Custom Issues
-            </SectionHeading>
+        {rulesAvailable
+          ? <Section>
+              <SectionHeading>
+                Custom Issues
+              </SectionHeading>
 
-            <Table items={ruleBindings}
-                   onDeleteRuleBinding={this.onDeleteRuleBinding}
-                   setEnabled={this.setEnabled}
-                   status={this.state.status} />
-          </Section>
-        : null}
+              <Table
+                items={ruleBindings}
+                onDeleteRuleBinding={this.onDeleteRuleBinding}
+                setEnabled={this.setEnabled}
+                status={this.state.status}
+              />
+            </Section>
+          : null}
       </SubViewWrapper>
     );
   }

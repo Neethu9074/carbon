@@ -36,8 +36,7 @@ function attemptExtraction(stream, result) {
       start: startPosition,
       end: startPosition + 1
     });
-
-  // ranges
+    // ranges
   } else if (/\{|\}|\[|\]/.test(char)) {
     result.push({
       token: 'range',
@@ -45,24 +44,21 @@ function attemptExtraction(stream, result) {
       start: startPosition,
       end: startPosition + 1
     });
-
-  // Is it whitespace?
+    // Is it whitespace?
   } else if (WHITESPACE_REGEXP.test(char)) {
     var whitespaceToken = stream.eatWhile(WHITESPACE_REGEXP);
     whitespaceToken.lexeme = char + whitespaceToken.lexeme;
     whitespaceToken.start = startPosition;
     whitespaceToken.token = 'whitespace';
     result.push(whitespaceToken);
-
-  // is it a term?
+    // is it a term?
   } else if (TERM_REGEXP.test(char)) {
     var termToken = stream.eatWhile(TERM_REGEXP);
     termToken.lexeme = char + termToken.lexeme;
     termToken.start = startPosition;
     termToken.token = 'term';
     result.push(termToken);
-
-  // Is it a phrase (quoted string)?
+    // Is it a phrase (quoted string)?
   } else if (char === '"') {
     var phraseToken = stream.eatWhile(function(eachChar, gatheredLexeme) {
       if (eachChar !== '"') {
@@ -86,8 +82,7 @@ function attemptExtraction(stream, result) {
     }
     phraseToken.token = 'phrase';
     result.push(phraseToken);
-
-  // Is it a regex?
+    // Is it a regex?
   } else if (char === '/') {
     var regexToken = stream.eatWhile(function(eachChar, gatheredLexeme) {
       if (eachChar !== '/') {
@@ -111,8 +106,7 @@ function attemptExtraction(stream, result) {
     }
     regexToken.token = 'regex';
     result.push(regexToken);
-
-  // fields
+    // fields
   } else if (char === ':') {
     result.push({
       token: 'fieldSeparator',
@@ -120,22 +114,19 @@ function attemptExtraction(stream, result) {
       start: startPosition,
       end: startPosition + 1
     });
-
   } else if (char === '~') {
     var fuzzy = stream.eatWhile(/\d|\./);
     fuzzy.start = startPosition;
     fuzzy.token = 'fuzzy';
     fuzzy.lexeme = char + fuzzy.lexeme;
     result.push(fuzzy);
-
-  // boosting?
+    // boosting?
   } else if (char === '^') {
     var boost = stream.eatWhile(/\d/);
     boost.start = startPosition;
     boost.token = 'boost';
     boost.lexeme = char + boost.lexeme;
     result.push(boost);
-
   } else {
     result.push({
       token: 'unknown',

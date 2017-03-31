@@ -1,9 +1,5 @@
-import {
-  millis,
-  number
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { millis, number } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -14,13 +10,7 @@ export default [
       'threadPool.standbyThreads',
       'threadPool.stuckThreads'
     ],
-    labels: [
-      'Idle Threads',
-      'Total Threads',
-      'Hogging Threads',
-      'Stand by Threads',
-      'Stuck Threads'
-    ],
+    labels: ['Idle Threads', 'Total Threads', 'Hogging Threads', 'Stand by Threads', 'Stuck Threads'],
     min: 0,
     category: ['Thread Pool'],
     formatter: number
@@ -33,13 +23,7 @@ export default [
       'serverLogMessages.criticals',
       'serverLogMessages.emergencies'
     ],
-    labels: [
-      'Warning',
-      'Error',
-      'Alert',
-      'Critical',
-      'Emergencie'
-    ],
+    labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergencie'],
     min: 0,
     formatter: number
   },

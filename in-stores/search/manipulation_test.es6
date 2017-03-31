@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {removeField, containsField, setField, getFieldTerms} from 'in-stores/search/manipulation';
+import { removeField, containsField, setField, getFieldTerms } from 'in-stores/search/manipulation';
 
 describe('in-stores/search/manipulation', () => {
   describe('removeField', () => {
@@ -15,11 +15,15 @@ describe('in-stores/search/manipulation', () => {
     });
 
     it('must retain operators (variation 1)', () => {
-      expect(removeField('(type:bar AND cpuCount:>1) OR (blub:bla OR cpuCount:0)', 'type')).to.equal('cpuCount:>1 OR (blub:bla OR cpuCount:0)');
+      expect(removeField('(type:bar AND cpuCount:>1) OR (blub:bla OR cpuCount:0)', 'type')).to.equal(
+        'cpuCount:>1 OR (blub:bla OR cpuCount:0)'
+      );
     });
 
     it('must retain operators (variation 2)', () => {
-      expect(removeField('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0)', 'type')).to.equal('cpuCount:>1 OR (blub:bla OR cpuCount:0)');
+      expect(removeField('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0)', 'type')).to.equal(
+        'cpuCount:>1 OR (blub:bla OR cpuCount:0)'
+      );
     });
 
     it('must resolve to nothing', () => {
@@ -65,7 +69,9 @@ describe('in-stores/search/manipulation', () => {
     });
 
     it('must set field in a complicated query', () => {
-      expect(setField('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0)', 'tag', 'dev')).to.equal('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0) tag:dev');
+      expect(setField('(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0)', 'tag', 'dev')).to.equal(
+        '(cpuCount:>1 AND type:bar) OR (blub:bla OR cpuCount:0) tag:dev'
+      );
     });
 
     it('must respect quoting', () => {
@@ -73,7 +79,9 @@ describe('in-stores/search/manipulation', () => {
     });
 
     it('must set term with quotes and when they are required', () => {
-      expect(setField('tag:bar OR type:blub', 'tag', 'we like clean strings')).to.equal('tag:bar OR type:blub tag:"we like clean strings"');
+      expect(setField('tag:bar OR type:blub', 'tag', 'we like clean strings')).to.equal(
+        'tag:bar OR type:blub tag:"we like clean strings"'
+      );
     });
   });
 
@@ -87,8 +95,9 @@ describe('in-stores/search/manipulation', () => {
     });
 
     it('must unescape the field terms', () => {
-      expect(getFieldTerms('tag:"hostname\\:amgen\\-dispatcher03.us\\-east\\-1.aetion.net"', 'tag'))
-        .to.deep.equal(['hostname:amgen-dispatcher03.us-east-1.aetion.net']);
+      expect(getFieldTerms('tag:"hostname\\:amgen\\-dispatcher03.us\\-east\\-1.aetion.net"', 'tag')).to.deep.equal([
+        'hostname:amgen-dispatcher03.us-east-1.aetion.net'
+      ]);
     });
   });
 });

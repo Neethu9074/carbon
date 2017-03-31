@@ -1,9 +1,7 @@
 import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
-import {getColorForEvent} from 'in-services/issueTracker';
-
+import { getColorForEvent } from 'in-services/issueTracker';
 
 export default class ChangeEventRenderer extends BasicEventRenderer {
-
   constructor(backBuffer, scale, iconSize, yOffset = 111) {
     super(backBuffer, scale, yOffset, iconSize);
   }

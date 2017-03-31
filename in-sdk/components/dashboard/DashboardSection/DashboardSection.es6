@@ -6,18 +6,18 @@ import './DashboardSection.less';
 
 const block = 'in-dashboard-section';
 
-export default function DashboardSection({title, children, className}) {
+export default function DashboardSection({ title, children, className }) {
   let classes = block;
   if (className) {
     classes = `${classes} ${className}`;
   }
   return (
     <div className={classes}>
-      {title ?
-        <ContentHeading>
-          {title}
-        </ContentHeading>
-      : null}
+      {title
+        ? <ContentHeading>
+            {title}
+          </ContentHeading>
+        : null}
       {children}
     </div>
   );

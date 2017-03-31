@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {generateUniqueShortId} from 'in-services/util/id';
+import { generateUniqueShortId } from 'in-services/util/id';
 
 describe('in-services/util/id', () => {
   it('must generate unique string IDs', () => {

@@ -1,4 +1,4 @@
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 const highlightedSpanIdStore = createStore({
   name: 'traceView/stores/highlightedSpanId',

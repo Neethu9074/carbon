@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {getSnapshot as loadSnapshot} from 'in-stores/snapshot';
-
+import { getSnapshot as loadSnapshot } from 'in-stores/snapshot';
 
 export default function getSnapshot(ComposedComponent) {
   return React.createClass({
@@ -53,10 +52,7 @@ export default function getSnapshot(ComposedComponent) {
     },
 
     render() {
-      return (
-        <ComposedComponent {...this.props}
-                           {...this.state} />
-      );
+      return <ComposedComponent {...this.props} {...this.state} />;
     }
   });
 }

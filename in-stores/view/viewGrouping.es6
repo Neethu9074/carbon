@@ -1,5 +1,5 @@
-import {navigationParameters$} from 'in-stores/navigation';
-import {createTrackingStore} from 'in-stores/store';
+import { navigationParameters$ } from 'in-stores/navigation';
+import { createTrackingStore } from 'in-stores/store';
 
 const viewGroupings = Object.freeze({
   compose: 'DOCKER_COMPOSE_PROJECT_NAME',
@@ -62,7 +62,6 @@ export const viewGroupingShort$ = createTrackingStore({
     })
     .distinct()
 }).observable;
-
 
 export const viewGrouping$ = createTrackingStore({
   name: 'view/viewGrouping',

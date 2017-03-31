@@ -1,4 +1,4 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
@@ -10,12 +10,11 @@ import createrIsEntityOnlineObservable from 'in-services/subscription/isOnline';
 import createFoundationsObservable from 'in-services/subscription/foundations';
 import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
-import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
-import {alwaysNull, alwaysEmptyArray} from 'in-services/fixedStreams';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import {createTrackingStore} from 'in-stores/store';
-import {focusedMoment$} from 'in-stores/timeline';
-
+import { createTrackingStore } from 'in-stores/store';
+import { focusedMoment$ } from 'in-stores/timeline';
 
 const selectedSnapshotIdStore = createTrackingStore({
   name: 'snapshot/selectedSnapshotId',
@@ -33,16 +32,13 @@ const selectedSnapshotIdStore = createTrackingStore({
 export const selectedSnapshotId = selectedSnapshotIdStore.observable;
 export const selectedSnapshotId$ = selectedSnapshotId;
 
-
 export const selectedSnapshot = createTrackingStore({
   name: 'snapshot/selectedSnapshot',
   observable: selectedSnapshotId
     .flatMap(snapshotId => {
       if (snapshotId) {
         return focusedMoment$.flatMap(focusedMoment =>
-          createSnapshotObservable({snapshotId, time: focusedMoment})
-            .startWith(null)
-        );
+          createSnapshotObservable({ snapshotId, time: focusedMoment }).startWith(null));
       }
       return alwaysNull;
     })
@@ -50,30 +46,27 @@ export const selectedSnapshot = createTrackingStore({
 }).observable;
 export const selectedSnapshot$ = selectedSnapshot;
 
-
 export const selectedSnapshotWithId = createTrackingStore({
   name: 'snapshot/selectedSnapshotWithId',
-  observable: combineLatest([selectedSnapshotId, selectedSnapshot])
-    .map(([snapshotId, snapshot]) => {
-      if (!snapshotId) {
-        return {
-          snapshotId: null,
-          snapshot: null
-        };
-      } else if (snapshot && snapshot.get('id') !== snapshotId) {
-        return {
-          snapshotId: snapshotId,
-          snapshot: null
-        };
-      }
-
+  observable: combineLatest([selectedSnapshotId, selectedSnapshot]).map(([snapshotId, snapshot]) => {
+    if (!snapshotId) {
       return {
-        snapshotId,
-        snapshot
+        snapshotId: null,
+        snapshot: null
       };
-    })
-}).observable;
+    } else if (snapshot && snapshot.get('id') !== snapshotId) {
+      return {
+        snapshotId: snapshotId,
+        snapshot: null
+      };
+    }
 
+    return {
+      snapshotId,
+      snapshot
+    };
+  })
+}).observable;
 
 export function setSelectedSnapshotId(id) {
   if (id == null) {
@@ -88,7 +81,6 @@ export function setSelectedSnapshotId(id) {
   }
 }
 
-
 export function clearSelectedSnapshotId() {
   mutateUrl(navParams => {
     delete navParams.query.snapshotId;
@@ -96,17 +88,13 @@ export function clearSelectedSnapshotId() {
   });
 }
 
-
 export function getSnapshot(snapshotId, time) {
   if (time === undefined) {
-    return focusedMoment$.flatMap(focusedMoment =>
-      createSnapshotObservable({snapshotId, time: focusedMoment})
-    );
+    return focusedMoment$.flatMap(focusedMoment => createSnapshotObservable({ snapshotId, time: focusedMoment }));
   }
 
-  return createSnapshotObservable({snapshotId, time});
+  return createSnapshotObservable({ snapshotId, time });
 }
-
 
 export function getSnapshots(snapshotIds, time) {
   // support immutable data structures as well
@@ -118,14 +106,15 @@ export function getSnapshots(snapshotIds, time) {
     return alwaysEmptyArray;
   }
 
-  return combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId, time).startWith(null)))
-    // Do not show snapshots which are still loading
-    .map(snapshots => snapshots.filter(s => s))
-    // We will have lots of incremental updates. One update every few
-    // milliseconds is enough.
-    .throttle(100);
+  return (
+    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId, time).startWith(null)))
+      // Do not show snapshots which are still loading
+      .map(snapshots => snapshots.filter(s => s))
+      // We will have lots of incremental updates. One update every few
+      // milliseconds is enough.
+      .throttle(100)
+  );
 }
-
 
 // This is useful to retrieve a process or host snapshot for another snapshot, e.g. JVM, that is
 // located within the physical hierarchy. While the logic looks rather inefficient, the truth is
@@ -151,60 +140,48 @@ export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
       })
       .distinct();
   },
-
   (snapshotId, plugin) => snapshotId + plugin,
-
   3000
 );
 
-
-
 export function getPhysicalHierarchy(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
-    createPhysicalHierarchyObservable({snapshotId, time: focusedMoment}));
+    createPhysicalHierarchyObservable({ snapshotId, time: focusedMoment }));
 }
-
 
 export function getHighlightedMapEntity(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
-    createHighlightedMapEntityObservable({snapshotId, time: focusedMoment}));
+    createHighlightedMapEntityObservable({ snapshotId, time: focusedMoment }));
 }
-
 
 export function getFoundations(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment =>
-    createFoundationsObservable({snapshotId, time: focusedMoment}));
+  return focusedMoment$.flatMap(focusedMoment => createFoundationsObservable({ snapshotId, time: focusedMoment }));
 }
-
 
 export function getRunningComponents(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
-    createRunningComponentsObservable({snapshotId, time: focusedMoment}));
+    createRunningComponentsObservable({ snapshotId, time: focusedMoment }));
 }
-
 
 export function getDeployedUnits(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment =>
-    createDeployedUnitsObservable({snapshotId, time: focusedMoment}));
+  return focusedMoment$.flatMap(focusedMoment => createDeployedUnitsObservable({ snapshotId, time: focusedMoment }));
 }
 
-
 export function getRawPayload(snapshotId, payloadName) {
-  return createRawPayloadObservable({snapshotId, payloadName});
+  return createRawPayloadObservable({ snapshotId, payloadName });
 }
 
 export function getServiceInstances(snapshotId) {
-  return focusedMoment$.flatMap(focusedMoment =>
-    createServiceInstancesObservable({snapshotId, time: focusedMoment}));
+  return focusedMoment$.flatMap(focusedMoment => createServiceInstancesObservable({ snapshotId, time: focusedMoment }));
 }
 
 export function isEntityOnline(snapshotId) {
-  return createrIsEntityOnlineObservable({snapshotId});
+  return createrIsEntityOnlineObservable({ snapshotId });
 }
 
 export function getSnapshotVersions(snapshotId, time) {
   if (time === undefined) {
-    return focusedMoment$.flatMap(_time => createSnapshotVersionsObservable({snapshotId, time: _time}));
+    return focusedMoment$.flatMap(_time => createSnapshotVersionsObservable({ snapshotId, time: _time }));
   }
-  return createSnapshotVersionsObservable({snapshotId, time});
+  return createSnapshotVersionsObservable({ snapshotId, time });
 }

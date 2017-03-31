@@ -1,4 +1,4 @@
-import {simpleServiceGeometry, externalServiceGeometry, eumServiceGeometry} from 'in-map/misc/fixedGeometries';
+import { simpleServiceGeometry, externalServiceGeometry, eumServiceGeometry } from 'in-map/misc/fixedGeometries';
 import CylinderHCP from 'in-map/singleMeshFactories/ContentProvider/CylinderHighlightingContentProvider';
 import CloudHCP from 'in-map/singleMeshFactories/ContentProvider/CloudHighlightingContentProvider';
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
@@ -13,20 +13,18 @@ import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
-import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
-import {changePosition} from 'in-map/stores/logical/layouterStore';
+import { changePosition } from 'in-map/stores/logical/layouterStore';
 import services from 'in-map/stores/logical/servicesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {isWebVRActive} from 'in-map/stores/webVRStore';
+import { isWebVRActive } from 'in-map/stores/webVRStore';
 import DragGhost from 'in-map/misc/logical/DragGhost';
-import {eventBus} from 'in-map/services/eventBus';
-import {theme} from 'in-services/theme';
-
+import { eventBus } from 'in-map/services/eventBus';
+import { theme } from 'in-services/theme';
 
 export default class Service extends SceneObject {
-
   constructor(params) {
     super(params);
 
@@ -56,7 +54,6 @@ export default class Service extends SceneObject {
 
     if (isWebVRActive) {
       this.addComponent('mesh', new MeshComponent(this, this.isExternal ? CloudCP : CylinderCP, 'nodes'));
-
     } else {
       if (this.isExternal && !this.isEum) {
         this.addComponent('mesh', new MeshComponent(this, CloudCP, 'nodes'));
@@ -65,8 +62,10 @@ export default class Service extends SceneObject {
 
         this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CloudCP, 'solid'));
 
-        this.addComponent('highlighting_mesh_secondary_solid', new HighlightingMeshComponent(this, CloudHCP, 'secondary_solid', 'isSecondaryHighlighted'));
-
+        this.addComponent(
+          'highlighting_mesh_secondary_solid',
+          new HighlightingMeshComponent(this, CloudHCP, 'secondary_solid', 'isSecondaryHighlighted')
+        );
       } else if (this.isEum) {
         this.addComponent('mesh', new MeshComponent(this, EumCP, 'nodes'));
 
@@ -74,8 +73,10 @@ export default class Service extends SceneObject {
 
         this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, EumCP, 'solid'));
 
-        this.addComponent('highlighting_mesh_secondary_solid', new HighlightingMeshComponent(this, EumHCP, 'secondary_solid', 'isSecondaryHighlighted'));
-
+        this.addComponent(
+          'highlighting_mesh_secondary_solid',
+          new HighlightingMeshComponent(this, EumHCP, 'secondary_solid', 'isSecondaryHighlighted')
+        );
       } else {
         this.addComponent('mesh', new MeshComponent(this, CylinderCP, 'nodes'));
 
@@ -83,31 +84,41 @@ export default class Service extends SceneObject {
 
         this.addComponent('highlighting_mesh_solid', new HighlightingMeshComponent(this, CylinderCP, 'solid'));
 
-        this.addComponent('highlighting_mesh_secondary_solid', new HighlightingMeshComponent(this, CylinderHCP, 'secondary_solid', 'isSecondaryHighlighted'));
+        this.addComponent(
+          'highlighting_mesh_secondary_solid',
+          new HighlightingMeshComponent(this, CylinderHCP, 'secondary_solid', 'isSecondaryHighlighted')
+        );
       }
 
-      this.addComponent('collision', new CollisionComponent(this,
-                                                            PREDEFINED_COLLISION_OBJECTS.BOX,
-                                                            OCTREE_LAYER.NODES));
+      this.addComponent(
+        'collision',
+        new CollisionComponent(this, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.NODES)
+      );
 
       if (!this.isUnknown) {
-        this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
-          return {
-            x: pos.x + scale.x,
-            y: pos.y + scale.y,
-            z: pos.z - scale.z / 2
-          };
-        }));
+        this.addComponent(
+          'screenPosition',
+          new ScreenPositionComponent(this, (pos, scale) => {
+            return {
+              x: pos.x + scale.x,
+              y: pos.y + scale.y,
+              z: pos.z - scale.z / 2
+            };
+          })
+        );
       }
     }
 
-    this.addComponent('icon', new IconComponent(this, 6, (pos, scale) => {
-      return {
-        x: 0,
-        y: scale.y + 0.75,
-        z: 0
-      };
-    }));
+    this.addComponent(
+      'icon',
+      new IconComponent(this, 6, (pos, scale) => {
+        return {
+          x: 0,
+          y: scale.y + 0.75,
+          z: 0
+        };
+      })
+    );
 
     this.addComponent('snapshot', new SnapshotComponent(this));
 
@@ -125,8 +136,7 @@ export default class Service extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscriptions([
-      eventBus.on('dragObjectStart').subscribe(id => {
+    this.addSubscriptions([eventBus.on('dragObjectStart').subscribe(id => {
         if (this.id === id) {
           if (this.isExternal && !this.isEum) {
             this.dragGhost = new DragGhost(this, externalServiceGeometry);
@@ -137,9 +147,7 @@ export default class Service extends SceneObject {
           }
           this.dragGhost.setScale(this.getComponent('transform').getScale());
         }
-      }),
-
-      eventBus.on('dragObjectStop').subscribe(() => {
+      }), eventBus.on('dragObjectStop').subscribe(() => {
         if (this.dragGhost) {
           const positionToSet = this.dragGhost.getCurrentPosition();
           this.getComponent('transform').setPosition(positionToSet);
@@ -147,16 +155,11 @@ export default class Service extends SceneObject {
           this.dragGhost.dispose();
           this.dragGhost = null;
         }
-      }),
-
-      this.eventEmitter.on('healthChanged').subscribe(health => {
+      }), this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
         this.getComponent('color').setHex(color);
-      }),
-
-      this.eventEmitter.on('positionChanged').subscribe(pos => changePosition(this.id, pos.x, pos.y, pos.z))
-    ]);
+      }), this.eventEmitter.on('positionChanged').subscribe(pos => changePosition(this.id, pos.x, pos.y, pos.z))]);
   }
 
   initialized() {

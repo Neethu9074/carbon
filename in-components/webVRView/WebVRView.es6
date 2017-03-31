@@ -4,7 +4,6 @@ import Map from 'in-map/index.es6';
 
 import './WebVRView.less';
 
-
 const block = 'in-webvr-view';
 
 export default function WebVRView() {

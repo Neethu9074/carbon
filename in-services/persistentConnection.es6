@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-import {isSafari} from 'in-services/browser';
+import { isSafari } from 'in-services/browser';
 
 let transports = ['polling', 'websocket'];
 
@@ -20,11 +20,11 @@ if (__DEV__) {
 let socket;
 
 export function init() {
-  window.instana.dev.socket = socket = io(window.location.origin, {
+  window.instana.dev.socket = (socket = io(window.location.origin, {
     path: '/api/data',
     transports,
     requestTimeout: 60000
-  });
+  }));
 }
 
 export function emit(event, payload) {

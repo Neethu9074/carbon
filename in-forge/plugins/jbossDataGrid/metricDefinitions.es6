@@ -1,21 +1,10 @@
-import {
-  percentage,
-  millis,
-  number
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { percentage, millis, number } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [
-      'hotRod.numberOfLocalConnections',
-      'hotRod.numberOfGlobalConnections'
-    ],
-    labels: [
-      'Number Of Local Connections',
-      'Number Of Global Connections'
-    ],
+    metrics: ['hotRod.numberOfLocalConnections', 'hotRod.numberOfGlobalConnections'],
+    labels: ['Number Of Local Connections', 'Number Of Global Connections'],
     min: 0,
     category: ['Connections'],
     formatter: number

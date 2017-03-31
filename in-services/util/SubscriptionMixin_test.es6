@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import sinon from 'sinon';
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import SubscriptionMixin from './SubscriptionMixin';
 

@@ -1,8 +1,7 @@
 /* global process:false, require:false */
-import {isEqual} from 'lodash';
+import { isEqual } from 'lodash';
 
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 export const PATH_NAMES = {
   DASHBOARD: '/dashboard',
@@ -24,7 +23,6 @@ if (process.env.IS_TEST) {
   hashHistory = require('react-router').hashHistory;
 }
 
-
 const store = createStore({
   name: 'navigation',
   initialValue: {
@@ -44,7 +42,6 @@ hashHistory.listen(location => {
   });
 });
 
-
 export function mutateUrl(mutator) {
   navigationParameters$.once(currentLocation => {
     const newLocation = cloneNavigationParameters(currentLocation);
@@ -56,7 +53,6 @@ export function mutateUrl(mutator) {
   });
 }
 
-
 export function getModifiedUrlStream(mapParams) {
   return navigationParameters$
     .map(params => {
@@ -66,7 +62,6 @@ export function getModifiedUrlStream(mapParams) {
     })
     .distinct();
 }
-
 
 // We explicitly clone this manually for the best performance we can get.
 // We have a terribly large number of navigation object clone instructions which we
@@ -85,11 +80,9 @@ function cloneNavigationParameters(params) {
   return cloned;
 }
 
-
 function toUrl(params) {
   return `/#${toBaseUrl(params)}`;
 }
-
 
 function toBaseUrl(params) {
   let url = params.pathname;
@@ -107,27 +100,21 @@ function toBaseUrl(params) {
   return url;
 }
 
-
-export function buildUrlStream({path}) {
+export function buildUrlStream({ path }) {
   return getModifiedUrlStream(params => {
     params.pathname = path;
     delete params.query.q;
   });
 }
 
-
 export function buildPathStartsWithStream(path) {
-  return navigationParameters$
-    .map(params => params.pathname.indexOf(path) === 0)
-    .distinct();
+  return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
 }
-
 
 function getActiveView(params) {
   const match = params.pathname.match(/\/([a-z]+)\/?/i);
   return match ? match[1] : 'physical';
 }
-
 
 export function goHome() {
   mutateUrl(navParams => {
@@ -142,7 +129,6 @@ export const homeLink$ = getModifiedUrlStream(params => {
   params.query = {};
 });
 
-
 export function goToDashboard(snapshotId) {
   mutateUrl(params => {
     const view = getActiveView(params);
@@ -151,7 +137,6 @@ export function goToDashboard(snapshotId) {
     return params;
   });
 }
-
 
 export function getDashboardLink(snapshotId) {
   snapshotId = encodeURIComponent(snapshotId);
@@ -162,13 +147,11 @@ export function getDashboardLink(snapshotId) {
   });
 }
 
-
 export const isDashboardOpen$ = navigationParameters$
   .map(params => {
     return /\/[a-z]+\/dashboard/i.test(params.pathname);
   })
   .distinct();
-
 
 export function getLinkToSnapshotInCurrentView(snapshotId) {
   snapshotId = encodeURIComponent(snapshotId);
@@ -184,7 +167,7 @@ export function closeDashboard() {
   });
 }
 
-export function getFixedTimeframeUrl({windowSize, to, focusedMoment, clearHighlightedTimeframe = false}) {
+export function getFixedTimeframeUrl({ windowSize, to, focusedMoment, clearHighlightedTimeframe = false }) {
   return getModifiedUrlStream(navParams => {
     if (!focusedMoment) {
       navParams.query['timeline.fm'] = encodeURIComponent('');
@@ -204,7 +187,6 @@ export function getFixedTimeframeUrl({windowSize, to, focusedMoment, clearHighli
   });
 }
 
-
 export function getTimelineLiveUrl() {
   return getModifiedUrlStream(navParams => {
     delete navParams.query.fm;
@@ -213,11 +195,9 @@ export function getTimelineLiveUrl() {
   });
 }
 
-
 export const closeDashboardLink$ = getModifiedUrlStream(params => {
   params.pathname = params.pathname.replace(/\/dashboard/i, '');
 });
-
 
 export function goToLogicalView() {
   mutateUrl(navParams => {
@@ -226,13 +206,11 @@ export function goToLogicalView() {
   });
 }
 
-
 export const logicalViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/logical';
   delete params.query.q;
   delete params.query.vg;
 });
-
 
 export function goToPhysicalView() {
   mutateUrl(navParams => {
@@ -253,7 +231,6 @@ export const containerViewLink$ = getModifiedUrlStream(params => {
   delete params.query.vg;
 });
 
-
 export function goToRootOfView() {
   mutateUrl(navParams => {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
@@ -261,14 +238,12 @@ export function goToRootOfView() {
   });
 }
 
-
 export function goToGraph() {
   mutateUrl(navParams => {
     navParams.pathname = PATH_NAMES.GRAPH;
     return navParams;
   });
 }
-
 
 export function goToTraceView() {
   mutateUrl(navParams => {
@@ -284,14 +259,12 @@ export function goToEventsView() {
   });
 }
 
-
 export function showHelp(id) {
   mutateUrl(navParams => {
     navParams.query.help = encodeURIComponent(id);
     return navParams;
   });
 }
-
 
 export function closeHelpIfOpen(id) {
   mutateUrl(navParams => {
@@ -302,7 +275,6 @@ export function closeHelpIfOpen(id) {
   });
 }
 
-
 export function closeCurrentHelpIfOpen() {
   mutateUrl(navParams => {
     if (navParams.query.help) {
@@ -311,7 +283,6 @@ export function closeCurrentHelpIfOpen() {
     return navParams;
   });
 }
-
 
 export function closeHelp() {
   mutateUrl(navParams => {

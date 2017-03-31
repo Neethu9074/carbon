@@ -1,10 +1,6 @@
-import {
-  siPrefixPerSecond,
-  siPrefix
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-import {isInstanaTenant} from 'in-services/config';
-
+import { siPrefixPerSecond, siPrefix } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { isInstanaTenant } from 'in-services/config';
 
 const metricDefinitions = [
   {

@@ -1,17 +1,17 @@
 import React from 'react';
 
-import {percentageTwoDecimalPlaces} from 'in-services/formatters/number';
+import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 
 import './NetworkElement.less';
 
-
 const block = 'in-trace-view-network-element';
 
-export default function TreeNetworkElement({parent, element, parentSpanForPercentageCalculation}) {
+export default function TreeNetworkElement({ parent, element, parentSpanForPercentageCalculation }) {
   let duration = null;
   // be really pesimistic here and assume that everyone go bad.
-  if (parent != null && element.children.length === 1 && element.children[0].type === 'span'
-      && parent.type === 'span') {
+  if (
+    parent != null && element.children.length === 1 && element.children[0].type === 'span' && parent.type === 'span'
+  ) {
     duration = parent.span.get('duration') - element.children[0].span.get('duration');
     duration = Math.max(duration, 0);
   }

@@ -6,7 +6,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-export default function GolangDashboardSidebar({snapshot}) {
+export default function GolangDashboardSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

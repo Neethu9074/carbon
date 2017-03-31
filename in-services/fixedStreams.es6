@@ -1,7 +1,7 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
-import {emptyMap, emptyList} from 'in-services/fixedImmutables';
-import {emptyArray} from 'in-services/fixedObjects';
+import { emptyMap, emptyList } from 'in-services/fixedImmutables';
+import { emptyArray } from 'in-services/fixedObjects';
 
 export const alwaysNull = always(null);
 export const alwaysFalse = always(false);

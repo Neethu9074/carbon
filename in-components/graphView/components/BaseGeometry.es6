@@ -1,17 +1,15 @@
-import {BufferGeometry, RawShaderMaterial} from 'in-map/3DLibProvider';
-import {updateAttribute} from 'in-map/services/geometryAttributes';
-
+import { BufferGeometry, RawShaderMaterial } from 'in-map/3DLibProvider';
+import { updateAttribute } from 'in-map/services/geometryAttributes';
 
 export default class BaseGeometry {
-
   constructor() {
     this.emptyVertices = [Number.MAX_VALUE, 0, 0, Number.MAX_VALUE, 0, 0];
 
-    const geometry = this.geometry = new BufferGeometry();
+    const geometry = (this.geometry = new BufferGeometry());
     geometry.dynamic = true;
 
     const shader = this.getShader();
-    const material = this.material = new RawShaderMaterial({
+    const material = (this.material = new RawShaderMaterial({
       fragmentShader: shader.fragmentShader,
       vertexShader: shader.vertexShader,
       transparent: true,
@@ -22,11 +20,11 @@ export default class BaseGeometry {
           value: 0.0
         }
       }
-    });
+    }));
 
     this.start = Date.now();
 
-    const mesh = this.mesh = this.getMesh(geometry, material);
+    const mesh = (this.mesh = this.getMesh(geometry, material));
     mesh.frustumCulled = false;
 
     updateAttribute(this.geometry, 'position', this.emptyVertices);
@@ -67,7 +65,6 @@ export default class BaseGeometry {
   dispose() {
     this.geometry.dispose();
     this.material.dispose();
-
     // TODO: dispose rest
   }
 }

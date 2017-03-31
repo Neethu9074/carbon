@@ -10,7 +10,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-export default function GlassfishSidebar({snapshot}) {
+export default function GlassfishSidebar({ snapshot }) {
   const apps = snapshot.getIn(['data', 'applications']);
   return (
     <div>
@@ -25,20 +25,19 @@ export default function GlassfishSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      {apps && apps.size > 0 ?
-        <div>
-          <Separator />
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>
-              Applications
-            </Collapsible.Header>
-            <Collapsible.Content>
-              <AppList snapshot={snapshot} />
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
-        : null
-      }
+      {apps && apps.size > 0
+        ? <div>
+            <Separator />
+            <Collapsible initiallyOpen={false}>
+              <Collapsible.Header>
+                Applications
+              </Collapsible.Header>
+              <Collapsible.Content>
+                <AppList snapshot={snapshot} />
+              </Collapsible.Content>
+            </Collapsible>
+          </div>
+        : null}
 
       <Separator />
 

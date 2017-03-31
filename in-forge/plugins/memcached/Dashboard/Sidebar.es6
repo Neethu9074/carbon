@@ -6,8 +6,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function MemcachedSidebar({snapshot}) {
+export default function MemcachedSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

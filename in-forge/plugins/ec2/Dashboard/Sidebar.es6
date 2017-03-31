@@ -4,7 +4,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-export default function EC2SidebarDetails({snapshot}) {
+export default function EC2SidebarDetails({ snapshot }) {
   return (
     <div>
       <Separator />

@@ -3,13 +3,11 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import {setTemporaryNotification} from 'in-stores/temporaryNotification';
+import { setTemporaryNotification } from 'in-stores/temporaryNotification';
 import RefWrapper from 'in-components/RefWrapper';
 import Button from 'in-components/Button';
 
-
 let Clipboard;
-
 
 export default React.createClass({
   displayName: 'CopyToClipboardButton',
@@ -46,9 +44,8 @@ export default React.createClass({
   render() {
     const text = this.props.children || 'Copy to clipboard';
     return (
-      <RefWrapper ref='button'>
-        <Button kind='secondary'
-                size='sm'>
+      <RefWrapper ref="button">
+        <Button kind="secondary" size="sm">
           {text}
         </Button>
       </RefWrapper>

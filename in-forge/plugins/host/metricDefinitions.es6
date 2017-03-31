@@ -1,12 +1,6 @@
-import {
-  percentage,
-  number,
-  bytes,
-  kiloBytes,
-  siMultiplyPrefix
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-import {isWindows} from 'in-forge/plugins/host/hostUtils';
+import { percentage, number, bytes, kiloBytes, siMultiplyPrefix } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { isWindows } from 'in-forge/plugins/host/hostUtils';
 
 const availableCpuMetricSuffixes = {
   user: 'User',
@@ -58,70 +52,30 @@ export default [
     }
   },
   {
-    metrics: [
-      'cpu.user',
-      'cpu.sys',
-      'cpu.wait',
-      'cpu.nice',
-      'cpu.steal'
-    ],
-    labels: [
-      'User',
-      'System',
-      'Wait',
-      'Nice',
-      'Steal'
-    ],
+    metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
+    labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
     category: ['CPU'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: [
-      'swap.pgin',
-      'swap.pgout'
-    ],
-    labels: [
-      'Page-In',
-      'Page-Out'
-    ],
+    metrics: ['swap.pgin', 'swap.pgout'],
+    labels: ['Page-In', 'Page-Out'],
     category: ['Memory'],
     min: 0,
     formatter: number
   },
   {
-    metrics: [
-      'tcp.established',
-      'tcp.opens',
-      'tcp.inSegs',
-      'tcp.outSegs'
-    ],
-    labels: [
-      'Established',
-      'Open/s',
-      'In Segments/s',
-      'Out Segments/s'
-    ],
+    metrics: ['tcp.established', 'tcp.opens', 'tcp.inSegs', 'tcp.outSegs'],
+    labels: ['Established', 'Open/s', 'In Segments/s', 'Out Segments/s'],
     category: ['Network'],
     min: 0,
     formatter: number
   },
   {
-    metrics: [
-      'tcp.establishedResets',
-      'tcp.resets',
-      'tcp.fails',
-      'tcp.errors',
-      'tcp.retrans'
-    ],
-    labels: [
-      'Established Resets',
-      'Out Resets',
-      'Fail',
-      'Error',
-      'Retransmission'
-    ],
+    metrics: ['tcp.establishedResets', 'tcp.resets', 'tcp.fails', 'tcp.errors', 'tcp.retrans'],
+    labels: ['Established Resets', 'Out Resets', 'Fail', 'Error', 'Retransmission'],
     category: ['Network'],
     min: 0,
     max: 1,

@@ -1,4 +1,4 @@
-import {createLogger} from 'instalog';
+import { createLogger } from 'instalog';
 import React from 'react';
 
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
@@ -9,7 +9,7 @@ const logger = createLogger('in-components/AsyncFullscreenView');
 export const createAsyncFullscreenOverlayViewComponent = createAsyncComponent.bind(
   null,
   <FullscreenOverlayView>
-    <LoadingIndicator type='dark' />
+    <LoadingIndicator type="dark" />
   </FullscreenOverlayView>
 );
 
@@ -30,16 +30,18 @@ export function createAsyncComponent(loadingPlaceholder, load) {
         return;
       }
 
-      load()
-        .then(_ResolvedComponent => {
+      load().then(
+        _ResolvedComponent => {
           _ResolvedComponent = _ResolvedComponent.default;
           ResolvedComponent = _ResolvedComponent;
           this.setState({
             Component: _ResolvedComponent
           });
-        }, err => {
+        },
+        err => {
           logger.error(`Failed to load async component`, err);
-        });
+        }
+      );
     },
 
     render() {

@@ -1,8 +1,7 @@
-export {registerSnapshotDefinition, getSnapshotDefinition} from 'in-sdk/snapshot/registry';
-export {addLabelFinder, getLabel} from 'in-sdk/snapshot/legacy';
-import {getSnapshotDefinition} from 'in-sdk/snapshot/registry';
-export {getIconSvgPath} from 'in-sdk/iconRegistry';
-
+export { registerSnapshotDefinition, getSnapshotDefinition } from 'in-sdk/snapshot/registry';
+export { addLabelFinder, getLabel } from 'in-sdk/snapshot/legacy';
+import { getSnapshotDefinition } from 'in-sdk/snapshot/registry';
+export { getIconSvgPath } from 'in-sdk/iconRegistry';
 
 export function getChartWiggleRoom(plugin) {
   const chartWiggleRoom = getSnapshotDefinition(plugin).chartWiggleRoom;
@@ -12,7 +11,6 @@ export function getChartWiggleRoom(plugin) {
   return chartWiggleRoom;
 }
 
-
 export function getPower(snapshot) {
   const get = getSnapshotDefinition(snapshot.get('plugin')).getPower;
   if (get) {
@@ -21,11 +19,9 @@ export function getPower(snapshot) {
   return -1;
 }
 
-
 export function getShowZoneInSidebarHeader(plugin) {
   return getSnapshotDefinition(plugin).showZoneInSidebarHeader === true;
 }
-
 
 export function supportsCodeView(snapshot, file) {
   const snapshotDefinition = getSnapshotDefinition(snapshot.get('plugin'));
@@ -42,7 +38,6 @@ export function supportsCodeView(snapshot, file) {
 
   return supports(snapshot, file);
 }
-
 
 export function getCodeView(snapshot, file, line) {
   return getSnapshotDefinition(snapshot.get('plugin')).getCodeView(snapshot, file, line);

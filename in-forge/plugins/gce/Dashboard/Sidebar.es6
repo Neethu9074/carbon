@@ -4,7 +4,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-export default function GceSidebarDetails({snapshot}) {
+export default function GceSidebarDetails({ snapshot }) {
   return (
     <div>
       <Separator />

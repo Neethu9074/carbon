@@ -4,7 +4,7 @@ import './ActiveSubView.less';
 
 const block = 'in-config-view-active-view';
 
-export default function ActiveSubView({children}) {
+export default function ActiveSubView({ children }) {
   return (
     <div className={block}>
       {children}

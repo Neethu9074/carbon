@@ -5,40 +5,37 @@ import ServletsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboar
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {yesOrNo} from 'in-services/formatters/boolean';
-import {emptyMap} from 'in-services/fixedImmutables';
+import { yesOrNo } from 'in-services/formatters/boolean';
+import { emptyMap } from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
-
-export default function DeploymentsTable({snapshot, timeframe}) {
-  const deployments = snapshot.getIn(['data', 'deployments'], emptyMap)
-                              .filter(c => c.get('contextRoot'))
-                              .sort();
+export default function DeploymentsTable({ snapshot, timeframe }) {
+  const deployments = snapshot.getIn(['data', 'deployments'], emptyMap).filter(c => c.get('contextRoot')).sort();
 
   if (deployments.size === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title='Web Deployments'>
-      <ExpandableTable data={deployments}
-                       getKey={getKey}
-                       createHeader={createHeader}
-                       createRow={createRow}
-                       context={{
-                         snapshot,
-                         timeframe
-                       }}
-                       createDetails={createDetails} />
+    <DashboardSection title="Web Deployments">
+      <ExpandableTable
+        data={deployments}
+        getKey={getKey}
+        createHeader={createHeader}
+        createRow={createRow}
+        context={{
+          snapshot,
+          timeframe
+        }}
+        createDetails={createDetails}
+      />
     </DashboardSection>
   );
 }
 
-
 function getKey(deployment, runtimeName) {
   return runtimeName;
 }
-
 
 function createHeader() {
   return (
@@ -54,45 +51,34 @@ function createHeader() {
   );
 }
 
-
 function createRow(deployment, runtimeName, context) {
-  return ([
+  return [
     <td>{runtimeName}</td>,
-
     <td>{deployment.get('contextRoot')}</td>,
-
     <td>{yesOrNo(deployment.get('enabled'))}</td>,
-
     <td>{deployment.get('status')}</td>,
-
-    <Mtd metric={'sessions.' + runtimeName + '.activeSessions'}
-         snapshot={context.snapshot} />
-  ]);
+    <Mtd metric={'sessions.' + runtimeName + '.activeSessions'} snapshot={context.snapshot} />
+  ];
 }
-
 
 function createDetails(deploymentName, deploymentContext, context) {
   return (
     <div>
-      <ServletsTable deploymentContext={deploymentContext}
-                     snapshot={context.snapshot}
-                     timeframe={context.timeframe} />
+      <ServletsTable deploymentContext={deploymentContext} snapshot={context.snapshot} timeframe={context.timeframe} />
 
-      <ChartWithLegend snapshotId={context.snapshot.get('id')}
-             timeframe={context.timeframe}
-             margins={{
-               left: 80
-             }}
-             y1={{
-               metrics: [
-                 'sessions.' + deploymentContext + '.activeSessions'
-               ],
-               labels: [
-                 'Active Sessions'
-               ],
-               type: 'line',
-               min: 0
-             }} />
+      <ChartWithLegend
+        snapshotId={context.snapshot.get('id')}
+        timeframe={context.timeframe}
+        margins={{
+          left: 80
+        }}
+        y1={{
+          metrics: ['sessions.' + deploymentContext + '.activeSessions'],
+          labels: ['Active Sessions'],
+          type: 'line',
+          min: 0
+        }}
+      />
     </div>
   );
 }

@@ -1,9 +1,5 @@
-import {
-  number,
-  bytes
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { number, bytes } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -34,14 +30,8 @@ export default [
     isAvailable
   },
   {
-    metrics: [
-      'overview.consumers',
-      'overview.connections'
-    ],
-    labels: [
-      'Consumers',
-      'Connections'
-    ],
+    metrics: ['overview.consumers', 'overview.connections'],
+    labels: ['Consumers', 'Connections'],
     min: 0,
     category: ['Overview'],
     formatter: number,

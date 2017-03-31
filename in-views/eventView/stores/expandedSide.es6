@@ -1,4 +1,4 @@
-import {createExpandedViewStore} from 'in-components/TwoColumnView/store';
+import { createExpandedViewStore } from 'in-components/TwoColumnView/store';
 
 const store = createExpandedViewStore('eventView/expandedSide');
 

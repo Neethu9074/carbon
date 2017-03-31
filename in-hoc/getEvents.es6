@@ -1,11 +1,9 @@
 import React from 'react';
 
-import {getOpenIssuesAtFocusedMoment} from 'in-stores/events';
-
+import { getOpenIssuesAtFocusedMoment } from 'in-stores/events';
 
 export default function getEvents(ComposedComponent) {
   return React.createClass({
-
     displayName: 'getEvents hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
@@ -40,8 +38,9 @@ export default function getEvents(ComposedComponent) {
       if (snapshotId) {
         this.subscription = getOpenIssuesAtFocusedMoment(snapshotId).subscribe(allEvents => {
           const events = allEvents && allEvents.size > 0
-            ? allEvents.toArray().sort((i1, i2) =>
-              i1.getIn(['problem', 'severity'], 0) - i2.getIn(['problem', 'severity'], 0))
+            ? allEvents
+                .toArray()
+                .sort((i1, i2) => i1.getIn(['problem', 'severity'], 0) - i2.getIn(['problem', 'severity'], 0))
             : null;
           this.setState({
             events
@@ -58,10 +57,7 @@ export default function getEvents(ComposedComponent) {
     },
 
     render() {
-      return (
-        <ComposedComponent {...this.props}
-                           {...this.state} />
-      );
+      return <ComposedComponent {...this.props} {...this.state} />;
     }
   });
 }

@@ -1,11 +1,13 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
 import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
 import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import HttpResponseError from 'in-services/http/HttpResponseError';
 
-export default function({method, url, queryParams, data, timeout = 30000, responseType = 'json', ignoreAbortErrors=true}) {
+export default function(
+  { method, url, queryParams, data, timeout = 30000, responseType = 'json', ignoreAbortErrors = true }
+) {
   url = formatUrl(url, queryParams);
   let xhr;
 
@@ -61,8 +63,8 @@ export default function({method, url, queryParams, data, timeout = 30000, respon
 
 function formatUrl(url, queryParams = {}) {
   const queryPart = Object.keys(queryParams)
-  .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
-  .join('&');
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
+    .join('&');
 
   return url + '?' + queryPart;
 }

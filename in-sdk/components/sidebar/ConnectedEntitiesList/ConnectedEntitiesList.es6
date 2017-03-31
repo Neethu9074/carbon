@@ -1,15 +1,14 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SnapshotLabel from 'in-sdk/components/sidebar/SnapshotLabel';
-import {getConnectedEntities} from 'in-stores/connectedEntities';
+import { getConnectedEntities } from 'in-stores/connectedEntities';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import {emptyMap} from 'in-services/fixedImmutables';
-import {getSnapshot} from 'in-stores/snapshot';
+import { emptyMap } from 'in-services/fixedImmutables';
+import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-
 
 export default connectTo(
   props => {
@@ -19,9 +18,11 @@ export default connectTo(
         // displaying running components for a previously selected snapshot.
         .startWith(emptyMap)
     };
-  }, ConnectedEntitiesList);
+  },
+  ConnectedEntitiesList
+);
 
-function ConnectedEntitiesList({connectedEntities}) {
+function ConnectedEntitiesList({ connectedEntities }) {
   if (!connectedEntities) {
     return null;
   }
@@ -31,35 +32,37 @@ function ConnectedEntitiesList({connectedEntities}) {
 
   return (
     <div>
-      {sourceId ? <Separator />  : null}
+      {sourceId ? <Separator /> : null}
       {sourceId ? <Entity snapshotId={sourceId} title={'Connection From (1)'} /> : null}
-      {sourceId && destinationId ? <Separator />  : null}
+      {sourceId && destinationId ? <Separator /> : null}
       {destinationId ? <Entity snapshotId={destinationId} title={'Connection To (1)'} /> : null}
     </div>
   );
 }
 
-const Entity = connectTo(props => {
-  return {
-    snapshot: getSnapshot(props.snapshotId)
-  };
-}, function Entity({title, snapshot}) {
-  if (!snapshot) {
-    return null;
-  }
-  const snapshotId = snapshot.get('id');
+const Entity = connectTo(
+  props => {
+    return {
+      snapshot: getSnapshot(props.snapshotId)
+    };
+  },
+  function Entity({ title, snapshot }) {
+    if (!snapshot) {
+      return null;
+    }
+    const snapshotId = snapshot.get('id');
 
-  return (
-    <DescriptionList>
-      <DescriptionItem title={title}>
-        <SnapshotLink key={snapshotId}
-                      snapshotId={snapshotId}>
-          <SnapshotLabel snapshotId={snapshotId} />
-        </SnapshotLink>
-      </DescriptionItem>
-    </DescriptionList>
-  );
-});
+    return (
+      <DescriptionList>
+        <DescriptionItem title={title}>
+          <SnapshotLink key={snapshotId} snapshotId={snapshotId}>
+            <SnapshotLabel snapshotId={snapshotId} />
+          </SnapshotLink>
+        </DescriptionItem>
+      </DescriptionList>
+    );
+  }
+);
 
 ConnectedEntitiesList.propTypes = {
   connectedEntities: irpt.map

@@ -5,17 +5,21 @@ import './Button.less';
 const rpt = React.PropTypes;
 const block = 'in-button';
 
-export default function Button({className,
-                                kind = 'default',
-                                type = 'button',
-                                size = 'lg',
-                                onClick,
-                                style,
-                                children,
-                                target,
-                                href,
-                                disabled,
-                                autoFocus}) {
+export default function Button(
+  {
+    className,
+    kind = 'default',
+    type = 'button',
+    size = 'lg',
+    onClick,
+    style,
+    children,
+    target,
+    href,
+    disabled,
+    autoFocus
+  }
+) {
   let classes = `${block} ${block}--${kind} ${block}--${size}`;
   if (className) {
     classes = `${classes} ${className}`;
@@ -33,28 +37,25 @@ export default function Button({className,
 
   if (!href) {
     return (
-      <button className={classes}
-              type={type}
-              onClick={onClick}
-              style={style}
-              autoFocus={autoFocus}>
+      <button className={classes} type={type} onClick={onClick} style={style} autoFocus={autoFocus}>
         {children}
       </button>
     );
   }
 
   return (
-    <a href={href}
-       className={classes}
-       onClick={onClick ? onClick : stopPropagation}
-       style={style}
-       target={target}
-       autoFocus={autoFocus}>
+    <a
+      href={href}
+      className={classes}
+      onClick={onClick ? onClick : stopPropagation}
+      style={style}
+      target={target}
+      autoFocus={autoFocus}
+    >
       {children}
     </a>
   );
 }
-
 
 Button.propTypes = {
   className: rpt.string,
@@ -69,7 +70,6 @@ Button.propTypes = {
   disabled: rpt.bool,
   autoFocus: rpt.bool
 };
-
 
 function stopPropagation(e) {
   e.stopPropagation();

@@ -1,16 +1,15 @@
 /* global require:false */
-import {loadViveController} from 'in-map/services/webVR';
-import {loadObject} from 'in-map/services/objectLoader';
-import {MeshBasicMaterial} from 'in-map/3DLibProvider';
-import {loadImage} from 'in-map/services/imageLoader';
-
+import { loadViveController } from 'in-map/services/webVR';
+import { loadObject } from 'in-map/services/objectLoader';
+import { MeshBasicMaterial } from 'in-map/3DLibProvider';
+import { loadImage } from 'in-map/services/imageLoader';
 
 export default function createViveController(wrapper, controls, id) {
   let forward = 0;
   let strife = 0;
 
   const ViveController = loadViveController();
-  const rightHandController =  new ViveController(id);
+  const rightHandController = new ViveController(id);
   rightHandController.standingMatrix = controls.getStandingMatrix();
   rightHandController.matrixAutoUpdate = true;
   wrapper.camTransformObject.add(rightHandController);

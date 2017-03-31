@@ -1,13 +1,13 @@
 /* eslint-disable react/no-danger */
 
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import {addMessage, removeMessage} from 'in-components/MessageFlyout/stores/messages';
-import {toHtml} from 'in-services/formatters/markdown';
-import {isOnPremise} from 'in-services/config';
-import {createStore} from 'in-stores/store';
-import {getIn} from 'in-services/settings';
+import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
+import { toHtml } from 'in-services/formatters/markdown';
+import { isOnPremise } from 'in-services/config';
+import { createStore } from 'in-stores/store';
+import { getIn } from 'in-services/settings';
 import http from 'in-services/http';
 
 const messageId = 'maintenanceNote';
@@ -17,7 +17,6 @@ const messageStore = createStore({
   initialValue: null
 });
 const message$ = messageStore.observable.distinct();
-
 
 const messageReadStore = createStore({
   name: 'maintenance/messageRead',
@@ -29,32 +28,33 @@ function markAsRead() {
   messageReadStore.mutateTo(true);
 }
 
-
 export function init() {
   if (!isOnPremise()) {
     retrieveLatestMessage();
     setInterval(retrieveLatestMessage, 1000 * 60 * 10);
 
-    combineLatest([message$, messageRead$, getIn(['showMaintenanceNotes'])])
-      .subscribe(([message, messageRead, showMaintenanceNotes]) => {
-        const hasContent = message != null && message.trim().length > 0;
-        if (!hasContent || messageRead || !showMaintenanceNotes) {
-          removeMessage(messageId);
-        } else if (hasContent) {
-          addMessage(
-            {
-              type: 'info',
-              icon: 'server',
-              content: <div dangerouslySetInnerHTML={{__html: toHtml(message)}} />,
-              onClick: markAsRead
-            },
-            messageId
-          );
-        }
-      });
+    combineLatest([message$, messageRead$, getIn(['showMaintenanceNotes'])]).subscribe(([
+      message,
+      messageRead,
+      showMaintenanceNotes
+    ]) => {
+      const hasContent = message != null && message.trim().length > 0;
+      if (!hasContent || messageRead || !showMaintenanceNotes) {
+        removeMessage(messageId);
+      } else if (hasContent) {
+        addMessage(
+          {
+            type: 'info',
+            icon: 'server',
+            content: <div dangerouslySetInnerHTML={{ __html: toHtml(message) }} />,
+            onClick: markAsRead
+          },
+          messageId
+        );
+      }
+    });
   }
 }
-
 
 function retrieveLatestMessage() {
   const observable = http({

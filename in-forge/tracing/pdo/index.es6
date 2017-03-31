@@ -1,5 +1,5 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
-import {shortenSqlStatement} from 'in-forge/tracing/jdbc/sql';
+import { registerSpanDefinition } from 'in-sdk/tracing';
+import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 
 registerSpanDefinition({
   type: 'pdo',
@@ -15,8 +15,7 @@ registerSpanDefinition({
   getLabel(span) {
     const statement = span.getIn(['data', 'pdo', 'stmt']);
     if (statement == null) {
-      return span.getIn(['data', 'pdo', 'dsn'])
-        + '(' + span.getIn(['data', 'pdo', 'driver']) + ')';
+      return span.getIn(['data', 'pdo', 'dsn']) + '(' + span.getIn(['data', 'pdo', 'driver']) + ')';
     }
     return shortenSqlStatement(statement);
   }

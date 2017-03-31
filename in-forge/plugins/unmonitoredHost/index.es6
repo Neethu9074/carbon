@@ -1,11 +1,10 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {plugins} from 'in-forge/constants';
+import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { plugins } from 'in-forge/constants';
 
 import iconSvgPath from 'in-sdk/unknownIconPath';
 
 import metricDefinitions from './metricDefinitions';
-
 
 registerSnapshotDefinition({
   plugin: plugins.unmonitoredHost,
@@ -17,11 +16,7 @@ registerSnapshotDefinition({
   }
 });
 
-setHumanReadablePluginName(
-  plugins.unmonitoredHost,
-  'Unmonitored Host',
-  'Unmonitored Hosts'
-);
+setHumanReadablePluginName(plugins.unmonitoredHost, 'Unmonitored Host', 'Unmonitored Hosts');
 
 addLabelFinder(plugins.unmonitoredHost, labelFinder);
 

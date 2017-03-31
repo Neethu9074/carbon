@@ -1,10 +1,9 @@
-import {combineLatest} from 'reactive-observables';
-import {interval} from 'reactive-observables';
-import {isEqual} from 'lodash';
+import { combineLatest } from 'reactive-observables';
+import { interval } from 'reactive-observables';
+import { isEqual } from 'lodash';
 
-import {data$} from 'in-views/tableView/stores/content';
-import {createStore} from 'in-stores/store';
-
+import { data$ } from 'in-views/tableView/stores/content';
+import { createStore } from 'in-stores/store';
 
 const directionStore = createStore({
   name: 'tableView/stores/sorting/direction',
@@ -20,7 +19,6 @@ export function invertDirection() {
   directionStore.applyStateMutation(direction => direction === 'asc' ? 'desc' : 'asc');
 }
 
-
 const columnStore = createStore({
   name: 'tableView/stores/sorting/column',
   initialValue: null
@@ -30,7 +28,6 @@ export const column$ = columnStore.observable;
 export function setColumn(column) {
   columnStore.mutateTo(column);
 }
-
 
 export const sortedSnapshotIds$ = combineLatest([data$, direction$, column$, interval(3000).startWith(0)])
   .nextFrame()

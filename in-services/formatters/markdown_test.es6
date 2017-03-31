@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {toHtml} from 'in-services/formatters/markdown';
+import { toHtml } from 'in-services/formatters/markdown';
 
 describe('in-services.formatters.markdown', () => {
   it('should not fail on bad markdown types', () => {

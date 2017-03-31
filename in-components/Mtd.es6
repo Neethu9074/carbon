@@ -5,7 +5,6 @@ import MetricValue from './MetricValue';
 
 const rpt = React.PropTypes;
 const Mtd = React.createClass({
-
   propTypes: {
     snapshot: irpt.map.isRequired,
     metric: rpt.string.isRequired,
@@ -16,12 +15,10 @@ const Mtd = React.createClass({
   render() {
     return (
       <td>
-        <MetricValue {...this.props}
-                     snapshotId={this.props.snapshot.get('id')} />
+        <MetricValue {...this.props} snapshotId={this.props.snapshot.get('id')} />
       </td>
     );
   }
-
 });
 
 export default Mtd;

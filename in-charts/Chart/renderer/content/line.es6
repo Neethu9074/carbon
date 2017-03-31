@@ -1,9 +1,8 @@
-export default function createLineContentRenderer({axisName, config}) {
+export default function createLineContentRenderer({ axisName, config }) {
   const ctx = config.ctx.animationBuffer;
   const x = config.scales.x;
   const y = config.scales[axisName];
   const colors = config[axisName].colors;
-
 
   return {
     requireExistenceInAllSeries: false,
@@ -24,9 +23,7 @@ export default function createLineContentRenderer({axisName, config}) {
       const singlePointsToAdd = [];
 
       // going left to right
-      for (let columnIndex = 0, len = dataColumns.length;
-           columnIndex < len;
-           columnIndex++) {
+      for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
         const dataColumn = dataColumns[columnIndex];
         const dataRow = dataColumn[seriesIndex];
 
@@ -38,7 +35,7 @@ export default function createLineContentRenderer({axisName, config}) {
         const xToRender = x.getRange(dataRow[0]);
         const yToRender = y.getRange(dataRow[1]);
 
-        if ((xToRender - previousX) > config.maxDistanceBetweenPoints || columnIndex === 0) {
+        if (xToRender - previousX > config.maxDistanceBetweenPoints || columnIndex === 0) {
           ctx.moveTo(xToRender, yToRender);
 
           // draw these points later on as otherwise we would fill the line chart.

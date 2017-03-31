@@ -26,21 +26,24 @@ const originalSetTimeout = typeof global !== 'undefined' ? global.setTimeout : w
 // is only used asynchrnously, and don't need to worry about new arguments
 // because we know there will be no more.
 function curry(args, fn) {
-  return args.length === 0 ? fn : function() {
-    fn.apply(null, args);
-  };
+  return args.length === 0
+    ? fn
+    : function() {
+        fn.apply(null, args);
+      };
 }
 
-var keys = typeof Object.keys === 'function' ? Object.keys : function(obj) {
-  var ks = [],
-    k;
-  for (k in obj) {
-    if (obj.hasOwnProperty(k)) {
-      ks.push(k);
-    }
-  }
-  return ks;
-};
+var keys = typeof Object.keys === 'function'
+  ? Object.keys
+  : function(obj) {
+      var ks = [], k;
+      for (k in obj) {
+        if (obj.hasOwnProperty(k)) {
+          ks.push(k);
+        }
+      }
+      return ks;
+    };
 
 function slice(ary, n) {
   return Array.prototype.slice.call(ary, n);
@@ -51,7 +54,6 @@ function roundToNearestInterval(n) {
   var diff = n % INTERVAL;
   return diff < INTERVAL / 2 ? n - diff : n + INTERVAL - diff;
 }
-
 
 // ## Tasks
 //
@@ -75,7 +77,7 @@ function makeTask(repeats, ms, fn) {
 // returns how many milliseconds are left till the next time it should be
 // run.
 function decrementTimeTillNext(task) {
-  return task.next = task.timeout - ((+new Date()) - task.lastTimeRan);
+  return (task.next = task.timeout - (+new Date() - task.lastTimeRan));
 }
 
 // Return true if the task repeats multiple times, false if it is a task to
@@ -92,9 +94,8 @@ function runTask(task) {
 
 // Reset the countdown till the next time this task is executed.
 function resetTimeTillNext(task) {
-  return task.next = task.timeout;
+  return (task.next = task.timeout);
 }
-
 
 // ## Task Runner
 //
@@ -103,16 +104,14 @@ function resetTimeTillNext(task) {
 // which only run once and have already been run.
 
 function taskRunner() {
-  var i = 0,
-    tasksToRun = keys(tasks),
-    len = tasksToRun.length;
+  var i = 0, tasksToRun = keys(tasks), len = tasksToRun.length;
 
   // Make sure that the taskRunner's main loop doesn't block the browser's
   // UI thread by yielding with `setTimeout` if we are running for longer
   // than 50 ms.
   function loop() {
     var start;
-    for (start = +new Date; i < len && (+new Date()) - start < 50; i++) {
+    for (start = +new Date(); i < len && +new Date() - start < 50; i++) {
       if (tasks[tasksToRun[i]] && decrementTimeTillNext(tasks[tasksToRun[i]]) < INTERVAL / 2) {
         runTask(tasks[tasksToRun[i]]);
         if (tasks[tasksToRun[i]]) {
@@ -149,9 +148,7 @@ function maybeInit() {
 // public set* functions. Returns a task id.
 function registerTask(repeats, fn, ms, args) {
   var id = taskIdCounter++;
-  tasks[id] = makeTask(repeats,
-    roundToNearestInterval(ms),
-    curry(args, fn));
+  tasks[id] = makeTask(repeats, roundToNearestInterval(ms), curry(args, fn));
   maybeInit();
   return id;
 }
@@ -163,7 +160,6 @@ function deregisterTask(repeats, id) {
   return tasks[id] && tasks[id].repeats === repeats && delete tasks[id];
 }
 
-
 // ## Public API
 //
 // The arguments and return values of the functions exposed in the public
@@ -171,12 +167,12 @@ function deregisterTask(repeats, id) {
 // `window` by the HTML 5 specification. The only exception is
 // `minimumInterval`, which is specific to Chronos.
 
-export function setTimeout(fn, ms /*, args... */ ) {
+export function setTimeout(fn, ms /*, args... */) {
   var args = slice(arguments, 2);
   return registerTask(false, fn, ms, args);
 }
 
-export function setInterval(fn, ms /*, args... */ ) {
+export function setInterval(fn, ms /*, args... */) {
   var args = slice(arguments, 2);
   return registerTask(true, fn, ms, args);
 }

@@ -1,6 +1,5 @@
-import {emptyObject} from 'in-services/fixedObjects';
-import {createStore} from 'in-stores/store';
-
+import { emptyObject } from 'in-services/fixedObjects';
+import { createStore } from 'in-stores/store';
 
 const connectedHighlightedIds = createStore({
   name: 'logical/connectedHighlightedIds',
@@ -8,7 +7,6 @@ const connectedHighlightedIds = createStore({
 });
 
 export const connectedHighlightedIds$ = connectedHighlightedIds.observable;
-
 
 export function setIds(ids) {
   connectedHighlightedIds.mutateTo(ids ? ids : emptyObject);

@@ -1,5 +1,3 @@
 export default function GenericZoneInfo() {
-  return (
-    null
-  );
+  return null;
 }

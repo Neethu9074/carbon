@@ -18,3 +18,7 @@ ln -s ../in-views node_modules/in-views
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"
 nice -19 proxrox install
+
+echo "Install commit hooks"
+rm -f .git/hooks/pre-commit
+node ./node_modules/husky/bin/install.js

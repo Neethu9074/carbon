@@ -1,5 +1,5 @@
-import {setField, removeField, containsField, getFieldTerms} from 'in-stores/search/manipulation';
-import {mutateQuery} from 'in-stores/search/query';
+import { setField, removeField, containsField, getFieldTerms } from 'in-stores/search/manipulation';
+import { mutateQuery } from 'in-stores/search/query';
 
 export function setKeyword(keyword, value, negate = false) {
   mutateQuery(query => {

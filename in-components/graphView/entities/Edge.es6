@@ -1,5 +1,4 @@
 export default class Edge {
-
   constructor(edgeId, from, to, relation, springyGraph, springyEdge) {
     this.edgeId = edgeId;
     this.from = from;
@@ -16,5 +15,4 @@ export default class Edge {
   dispose() {
     // TODO dispose subscriptions
   }
-
 }

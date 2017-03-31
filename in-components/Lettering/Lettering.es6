@@ -4,7 +4,7 @@ import './Lettering.less';
 
 const block = 'in-lettering';
 
-export default function Lettering({className, onClick}) {
+export default function Lettering({ className, onClick }) {
   let classes = block;
   if (className) {
     classes = `${block} ${className}`;
@@ -15,8 +15,7 @@ export default function Lettering({className, onClick}) {
   }
 
   return (
-    <div className={classes}
-         onClick={onClick}>
+    <div className={classes} onClick={onClick}>
       instana Inc.
     </div>
   );

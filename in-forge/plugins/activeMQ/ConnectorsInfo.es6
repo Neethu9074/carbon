@@ -1,19 +1,21 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {emptyMap} from 'in-services/fixedImmutables';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { emptyMap } from 'in-services/fixedImmutables';
 
-
-export default function ConnectorsInfo({snapshot}) {
+export default function ConnectorsInfo({ snapshot }) {
   const data = snapshot.get('data');
   const transportConnectors = data.get('transportConnectors', emptyMap);
   return (
     <DescriptionList>
-      {transportConnectors.map((connectorURI, connectorName) =>
-        <DescriptionItem key={connectorName} title={connectorName}>
-          {connectorURI}
-        </DescriptionItem>).valueSeq().toArray()
-      }
+      {transportConnectors
+        .map((connectorURI, connectorName) => (
+          <DescriptionItem key={connectorName} title={connectorName}>
+            {connectorURI}
+          </DescriptionItem>
+        ))
+        .valueSeq()
+        .toArray()}
     </DescriptionList>
   );
 }

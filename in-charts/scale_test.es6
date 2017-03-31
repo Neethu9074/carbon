@@ -1,7 +1,7 @@
 /* eslint-disable comma-style */
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import createScale from 'in-charts/scale';
 

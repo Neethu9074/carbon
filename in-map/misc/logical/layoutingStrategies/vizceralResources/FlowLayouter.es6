@@ -15,18 +15,11 @@
  *     limitations under the License.
  *
  */
-import {
-  forceSecondaryRankPromotions,
-  forcePrimaryRankPromotions,
-  longestPathRanking,
-  normalizeRanks
-} from './ranker';
-import {remove, restore} from './acyclicFAS';
+import { forceSecondaryRankPromotions, forcePrimaryRankPromotions, longestPathRanking, normalizeRanks } from './ranker';
+import { remove, restore } from './acyclicFAS';
 import Graph from './Graph';
 
-
 export default class LTRTreeLayouter {
-
   constructor() {}
 
   sortNodesByDepth(graph) {
@@ -42,13 +35,19 @@ export default class LTRTreeLayouter {
     }
 
     // Remove empty ranks (and normalize to base 0)
-    nodesSortedByDepth = nodesSortedByDepth.reduce((a, n) => { a.push(n); return a; }, []);
+    nodesSortedByDepth = nodesSortedByDepth.reduce(
+      (a, n) => {
+        a.push(n);
+        return a;
+      },
+      []
+    );
 
     const maxNodesPerDepth = 30;
     for (let i = 0; i < nodesSortedByDepth.length; i++) {
       const nodesInDepth = nodesSortedByDepth[i];
       if (nodesInDepth.length > maxNodesPerDepth) {
-        const nodesToKeep = Math.min((nodesInDepth.length / 2) - 1, maxNodesPerDepth);
+        const nodesToKeep = Math.min(nodesInDepth.length / 2 - 1, maxNodesPerDepth);
         const newNodeDepth = nodesInDepth.splice(nodesToKeep);
         nodesSortedByDepth.splice(i + 1, 0, newNodeDepth);
       }
@@ -84,10 +83,12 @@ export default class LTRTreeLayouter {
       const curXDelta = xDelta * column;
       const yDelta = dimensions.height / (nodesAtDepth.length + 1);
       const needsYOffset = yDelta < lastYDelta ? lastYDelta % yDelta < 1 : yDelta % lastYDelta < 1;
-      if (needsYOffset) { yOffset = -yOffset; }
+      if (needsYOffset) {
+        yOffset = -yOffset;
+      }
 
       for (let j = 0; j < nodesAtDepth.length; j++) {
-        const curYDelta = (yDelta * (j + 1)) + (needsYOffset ? yOffset : 0);
+        const curYDelta = yDelta * (j + 1) + (needsYOffset ? yOffset : 0);
         nodePositions[nodesAtDepth[j].name] = { x: curXDelta, y: curYDelta };
       }
 
@@ -132,7 +133,11 @@ export default class LTRTreeLayouter {
 }
 
 function weightSort(a, b) {
-  if (a.weight === b.weight) { return 0; }
-  if (a.weight === undefined || a.weight < b.weight) { return 1; }
+  if (a.weight === b.weight) {
+    return 0;
+  }
+  if (a.weight === undefined || a.weight < b.weight) {
+    return 1;
+  }
   return -1;
 }

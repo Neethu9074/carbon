@@ -7,8 +7,10 @@ import {
   disable,
   saveRules
 } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms';
-import {notification$} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/notification';
-import {openEditor} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/editAsJson';
+import {
+  notification$
+} from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/notification';
+import { openEditor } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/editAsJson';
 import Rule from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Rule';
 import StoreAwareTemporaryPresenter from 'in-components/StoreAwareTemporaryPresenter';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
@@ -18,56 +20,62 @@ import LifecycleObserver from 'in-components/LifecycleObserver';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
+export default connectTo(
+  {
+    ruleForms: ruleForms$
+  },
+  function GenericServiceExtractionConfiguration({
+    ruleForms,
+    ruleType,
+    title,
+    helpTexts,
+    matchSpecificationOptionsTree,
+    matchSpecificationOptions
+  }) {
+    return (
+      <SubViewWrapper>
+        <LifecycleObserver onWillMount={() => enable(ruleType)} onWillUnmount={disable} />
 
-export default connectTo({
-  ruleForms: ruleForms$
-}, function GenericServiceExtractionConfiguration({ruleForms, ruleType, title, helpTexts,
-    matchSpecificationOptionsTree, matchSpecificationOptions}) {
-  return (
-    <SubViewWrapper>
-      <LifecycleObserver onWillMount={() => enable(ruleType)}
-                         onWillUnmount={disable} />
+        <SubViewHeader>
+          {title}
+        </SubViewHeader>
 
-      <SubViewHeader>
-        {title}
-      </SubViewHeader>
+        <Section>
+          {ruleForms != null
+            ? <span>
+                <Button kind="info" onClick={() => addNewRule()}>
+                  Add Rule
+                </Button>
+                {' '}
+                <Button kind="info" onClick={openEditor}>
+                  Edit as JSON
+                </Button>
+                {' '}
+                <Button kind="success" disabled={!ruleForms.valid} onClick={() => saveRules(ruleForms)}>
+                  Save
+                </Button>
+              </span>
+            : null}
 
-      <Section>
-        {ruleForms != null ?
-          <span>
-            <Button kind='info'
-                    onClick={() => addNewRule()}>
-              Add Rule
-            </Button>
-            {' '}
-            <Button kind='info'
-                    onClick={openEditor}>
-              Edit as JSON
-            </Button>
-            {' '}
-            <Button kind='success'
-                    disabled={!ruleForms.valid}
-                    onClick={() => saveRules(ruleForms)}>
-              Save
-            </Button>
-          </span>
-        : null}
+          <StoreAwareTemporaryPresenter config$={notification$} />
 
-        <StoreAwareTemporaryPresenter config$={notification$} />
+          <p>
+            {helpTexts.viewHelp}
+          </p>
+        </Section>
 
-        <p>
-          {helpTexts.viewHelp}
-        </p>
-      </Section>
-
-      {ruleForms && ruleForms.map((ruleForm, i) =>
-        <Rule key={ruleForm.getItem('id').value}
+        {ruleForms &&
+          ruleForms.map((ruleForm, i) => (
+            <Rule
+              key={ruleForm.getItem('id').value}
               ruleForm={ruleForm}
               path={[i]}
               helpTexts={helpTexts}
               matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-              matchSpecificationOptions={matchSpecificationOptions} />
-      )}
-    </SubViewWrapper>
-  );
-});
+              matchSpecificationOptions={matchSpecificationOptions}
+            />
+          ))}
+      </SubViewWrapper>
+    );
+  }
+);

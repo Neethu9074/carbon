@@ -1,8 +1,6 @@
 import React from 'react';
 
-import {
-  zeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -15,39 +13,29 @@ import JgroupsDefaultThreadPoolTable from './JgroupsDefaultThreadPoolTable.es6';
 import JgroupsOOBThreadPoolTable from './JgroupsOOBThreadPoolTable.es6';
 import JgroupsTimerThreadPoolTable from './JgroupsTimerThreadPoolTable.es6';
 
-export default function JbossDataGridDashboard({snapshot, timeframe}) {
+export default function JbossDataGridDashboard({ snapshot, timeframe }) {
   return (
     <div>
-      <CacheLatencyThroughputTable snapshot={snapshot}
-                                 timeframe={timeframe} />
-      <CacheHitsAndMissesTable snapshot={snapshot}
-                                   timeframe={timeframe} />
-      <CacheOtherStatsTable snapshot={snapshot}
-                                   timeframe={timeframe} />
-      <JgroupsDefaultThreadPoolTable snapshot={snapshot}
-                            timeframe={timeframe} />
-      <JgroupsOOBThreadPoolTable snapshot={snapshot}
-                                     timeframe={timeframe} />
-      <JgroupsTimerThreadPoolTable snapshot={snapshot}
-                                     timeframe={timeframe} />
-      <DashboardSection title='Hot Rod Connections'>
-        <ChartWithLegend snapshotId={snapshot.get('id')}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           formatter: zeroDecimalPlaces,
-                           metrics: [
-                             'hotRod.numberOfLocalConnections',
-                             'hotRod.numberOfGlobalConnections'
-                           ],
-                           labels: [
-                             'Number Of Local Connections',
-                             'Number Of Global Connections'
-                           ],
-                           type: 'line'
-                         }} />
+      <CacheLatencyThroughputTable snapshot={snapshot} timeframe={timeframe} />
+      <CacheHitsAndMissesTable snapshot={snapshot} timeframe={timeframe} />
+      <CacheOtherStatsTable snapshot={snapshot} timeframe={timeframe} />
+      <JgroupsDefaultThreadPoolTable snapshot={snapshot} timeframe={timeframe} />
+      <JgroupsOOBThreadPoolTable snapshot={snapshot} timeframe={timeframe} />
+      <JgroupsTimerThreadPoolTable snapshot={snapshot} timeframe={timeframe} />
+      <DashboardSection title="Hot Rod Connections">
+        <ChartWithLegend
+          snapshotId={snapshot.get('id')}
+          timeframe={timeframe}
+          margins={{
+            left: 80
+          }}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            metrics: ['hotRod.numberOfLocalConnections', 'hotRod.numberOfGlobalConnections'],
+            labels: ['Number Of Local Connections', 'Number Of Global Connections'],
+            type: 'line'
+          }}
+        />
       </DashboardSection>
     </div>
   );

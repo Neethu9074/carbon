@@ -5,7 +5,7 @@ import React from 'react';
 
 import NotificationDialog from 'in-components/NotificationDialog';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {closeHelp} from 'in-stores/navigation';
+import { closeHelp } from 'in-stores/navigation';
 
 import './HelpDialog.less';
 
@@ -71,16 +71,13 @@ const HelpDialog = React.createClass({
     let content;
     if (this.state.article) {
       content = (
-        <NotificationDialog title={this.state.article.meta.title}
-                            onClose={closeHelp}>
-          <div dangerouslySetInnerHTML={{__html: this.state.article.html}}
-                className={`${block}__content`} />
+        <NotificationDialog title={this.state.article.meta.title} onClose={closeHelp}>
+          <div dangerouslySetInnerHTML={{ __html: this.state.article.html }} className={`${block}__content`} />
         </NotificationDialog>
       );
     } else if (this.state.error) {
       content = (
-        <NotificationDialog title='Help Article Missing'
-                            onClose={closeHelp}>
+        <NotificationDialog title="Help Article Missing" onClose={closeHelp}>
           <p className={`${block}__content`}>
             Sorry, we failed to retrieve the help article :(.
           </p>
@@ -88,8 +85,7 @@ const HelpDialog = React.createClass({
       );
     } else {
       content = (
-        <NotificationDialog title='Loading help text…'
-                            onClose={closeHelp}>
+        <NotificationDialog title="Loading help text…" onClose={closeHelp}>
           <LoadingIndicator />
         </NotificationDialog>
       );

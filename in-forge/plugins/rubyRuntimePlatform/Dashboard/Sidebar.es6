@@ -7,7 +7,7 @@ import Info from 'in-forge/plugins/rubyRuntimePlatform/Info';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import TagList from 'in-sdk/components/sidebar/TagList';
 
-export default function RubyDashboardSidebar({snapshot}) {
+export default function RubyDashboardSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -21,8 +21,7 @@ export default function RubyDashboardSidebar({snapshot}) {
 
       <TagList snapshot={snapshot} />
 
-      <KeyValuePopup header='Gem Bundle'
-                     data={snapshot.getIn(['data', 'versions'])} />
+      <KeyValuePopup header="Gem Bundle" data={snapshot.getIn(['data', 'versions'])} />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

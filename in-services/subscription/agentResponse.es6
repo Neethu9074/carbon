@@ -1,8 +1,8 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
-import {getNewSubscriptionId} from 'in-services/subscription/subscriptionManager';
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {on, off, emit} from 'in-services/persistentConnection';
+import { getNewSubscriptionId } from 'in-services/subscription/subscriptionManager';
+import { getDataEvent } from 'in-services/subscription/dataEvent';
+import { on, off, emit } from 'in-services/persistentConnection';
 
 /*
  * WARNING:
@@ -10,7 +10,7 @@ import {on, off, emit} from 'in-services/persistentConnection';
  * subscription has side effect. We cannot automatically restart these subscriptions.
  */
 
-export default function createAgentResponseObservable({action, target, args}) {
+export default function createAgentResponseObservable({ action, target, args }) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
@@ -25,7 +25,7 @@ export default function createAgentResponseObservable({action, target, args}) {
   const observable = create({
     stop() {
       off(dataEvent, onData);
-      emit('unsubscribe', {subscriptionId});
+      emit('unsubscribe', { subscriptionId });
     }
   });
 

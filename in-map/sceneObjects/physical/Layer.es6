@@ -8,15 +8,13 @@ import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
-import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {isWebVRActive} from 'in-map/stores/webVRStore';
-import {theme} from 'in-services/theme';
-
+import { isWebVRActive } from 'in-map/stores/webVRStore';
+import { theme } from 'in-services/theme';
 
 export default class Layer extends SceneObject {
-
   constructor(params) {
     super(params);
 
@@ -29,7 +27,6 @@ export default class Layer extends SceneObject {
 
     if (isWebVRActive) {
       this.addComponent('mesh', new MeshComponent(this, FCCP, 'layer'));
-
     } else {
       this.addComponent('mesh', new MeshComponent(this, CCP, 'layer'));
 
@@ -39,10 +36,10 @@ export default class Layer extends SceneObject {
 
       this.addComponent('highlighting_mesh', new HighlightingMeshComponent(this, CHCP));
 
-
-      this.addComponent('collision', new CollisionComponent(this,
-                                                            PREDEFINED_COLLISION_OBJECTS.BOX,
-                                                            OCTREE_LAYER.LAYER));
+      this.addComponent(
+        'collision',
+        new CollisionComponent(this, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.LAYER)
+      );
     }
 
     this.addComponent('snapshot', new SnapshotComponent(this));
@@ -56,20 +53,16 @@ export default class Layer extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscriptions([
-      this.eventEmitter.on('healthChanged').subscribe(health => {
+    this.addSubscriptions([this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#dfdfdf';
         this.getComponent('color').setHex(color);
-      }),
-
-      this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
+      }), this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
         this._cachedPlugin = snapshot.get('plugin');
 
         // readd this layer to trigger a relayout
         this.node.addLayer(this.id, this);
-      })
-    ]);
+      })]);
   }
 
   dispose() {

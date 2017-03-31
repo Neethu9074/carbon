@@ -1,9 +1,7 @@
-import {get_crash_thread, pad_hex, get_last_exception} from '../util';
-import {parse_errors} from '../errors';
-import {parse as parseThreads} from './threads';
-import {parse as parseCpu} from './cpu';
-
-
+import { get_crash_thread, pad_hex, get_last_exception } from '../util';
+import { parse_errors } from '../errors';
+import { parse as parseThreads } from './threads';
+import { parse as parseCpu } from './cpu';
 
 /**
  * Parses out the extra information available against the
@@ -14,9 +12,9 @@ import {parse as parseCpu} from './cpu';
  * @returns {string[]} an array of output.
  */
 export function parseExtras(report) {
-  const crash  = report['crash'] || {};
+  const crash = report['crash'] || {};
 
-  return [ '', 'Extra Information:' ].concat(
+  return ['', 'Extra Information:'].concat(
     parse_nsexception(crash),
     parse_crash_thread(report),
     parse_last_exception(report),
@@ -52,13 +50,13 @@ function parse_crash_thread(report) {
     return [];
   }
 
-  var rows  = [];
+  var rows = [];
   var stack = crashed['stack'];
   var naddr = crashed['notable_addresses'];
 
   if (stack) {
     var start = pad_hex(stack['dump_start'], '0', 8);
-    var end   = pad_hex(stack['dump_end'], '0', 8);
+    var end = pad_hex(stack['dump_end'], '0', 8);
 
     rows.push('');
     rows.push(`Stack Dump (0x${start}-0x${end}):`);
@@ -82,11 +80,11 @@ function parse_last_exception(report) {
     return [];
   }
 
-  var rows   = [];
-  var addr   = last_exception['address'];
-  var name   = last_exception['name'];
+  var rows = [];
+  var addr = last_exception['address'];
+  var name = last_exception['name'];
   var reason = last_exception['reason'];
-  var paddr  = pad_hex(addr, '0', 8);
+  var paddr = pad_hex(addr, '0', 8);
 
   rows.push('');
   rows.push(`Last deallocated NSException (0x${paddr}): ${name}: ${reason}`);
@@ -102,9 +100,7 @@ function parse_last_exception(report) {
 function parse_diagnosis(crash) {
   var diagnosis = crash['diagnosis'];
 
-  return diagnosis
-    ? [ '', `${crash['crashed_thread'] ? 'Recrash' : 'CrashDoctor'} Diagnosis: ${diagnosis}` ]
-    : [ ];
+  return diagnosis ? ['', `${crash['crashed_thread'] ? 'Recrash' : 'CrashDoctor'} Diagnosis: ${diagnosis}`] : [];
 }
 
 function parse_recrash(report) {
@@ -114,26 +110,16 @@ function parse_recrash(report) {
     return [];
   }
 
-  var rows = [
-    '',
-    'Handler crashed while reporting:',
-    ''
-  ];
+  var rows = ['', 'Handler crashed while reporting:', ''];
 
-  var crash  = recrash['crash'];
-  var error  = crash['error'];
+  var crash = recrash['crash'];
+  var error = crash['error'];
   var thread = crash['crashed_thread'];
 
-  var error_report  = parse_errors(error, thread);
-  var thread_report = parseThreads(report, recrash, [ thread ]);
-  var cpu_report    = parseCpu(report, thread);
+  var error_report = parse_errors(error, thread);
+  var thread_report = parseThreads(report, recrash, [thread]);
+  var cpu_report = parseCpu(report, thread);
   var diagnosis_rep = parse_diagnosis(crash);
 
-  return rows.concat(
-    error_report,
-    '',
-    thread_report,
-    cpu_report,
-    diagnosis_rep
-  );
+  return rows.concat(error_report, '', thread_report, cpu_report, diagnosis_rep);
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {emptyList} from 'in-services/fixedImmutables';
+import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
@@ -12,8 +12,7 @@ import {
 } from 'in-services/formatters/number';
 import Mtd from 'in-components/Mtd';
 
-
-export default function IndicesTable({snapshot, timeframe}) {
+export default function IndicesTable({ snapshot, timeframe }) {
   const indices = snapshot.getIn(['data', 'index_names'], emptyList);
 
   if (indices.size === 0) {
@@ -21,25 +20,25 @@ export default function IndicesTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Index Details'>
-      <ExpandableTable data={indices}
-                       getKey={getKey}
-                       createHeader={createHeader}
-                       createRow={createRow}
-                       context={{
-                         snapshot,
-                         timeframe
-                       }}
-                       createDetails={createDetails} />
+    <DashboardSection title="Index Details">
+      <ExpandableTable
+        data={indices}
+        getKey={getKey}
+        createHeader={createHeader}
+        createRow={createRow}
+        context={{
+          snapshot,
+          timeframe
+        }}
+        createDetails={createDetails}
+      />
     </DashboardSection>
   );
 }
 
-
 function getKey(indexName) {
   return indexName;
 }
-
 
 function createHeader() {
   return (
@@ -57,72 +56,61 @@ function createHeader() {
   );
 }
 
-
 function createRow(indexName, i, context) {
-  return ([
+  return [
     <td>{indexName}</td>,
-
-    <Mtd metric={'index.' + indexName + '.number_of_shards'}
-         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-         snapshot={context.snapshot} />,
-
-    <Mtd metric={'index.' + indexName + '.number_of_replicas'}
-         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-         snapshot={context.snapshot} />,
-
-    <Mtd metric={'index.' + indexName + '.document_count'}
-         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-         snapshot={context.snapshot} />,
-
-    <Mtd metric={'index.' + indexName + '.deleted_count'}
-         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-         snapshot={context.snapshot} />,
-
-    <Mtd metric={'index.' + indexName + '.size'}
-         snapshot={context.snapshot}
-         formatter={bytesTwoDecimalPlaces} />,
-
-    <Mtd metric={'clusterState.indices.' + indexName + '.indexMetadataSize'}
-         snapshot={context.snapshot}
-         formatter={bytesTwoDecimalPlaces} />
-  ]);
+    <Mtd
+      metric={'index.' + indexName + '.number_of_shards'}
+      formatter={withSiMultiplyPrefixZeroDecimalPlaces}
+      snapshot={context.snapshot}
+    />,
+    <Mtd
+      metric={'index.' + indexName + '.number_of_replicas'}
+      formatter={withSiMultiplyPrefixZeroDecimalPlaces}
+      snapshot={context.snapshot}
+    />,
+    <Mtd
+      metric={'index.' + indexName + '.document_count'}
+      formatter={withSiMultiplyPrefixZeroDecimalPlaces}
+      snapshot={context.snapshot}
+    />,
+    <Mtd
+      metric={'index.' + indexName + '.deleted_count'}
+      formatter={withSiMultiplyPrefixZeroDecimalPlaces}
+      snapshot={context.snapshot}
+    />,
+    <Mtd metric={'index.' + indexName + '.size'} snapshot={context.snapshot} formatter={bytesTwoDecimalPlaces} />,
+    <Mtd
+      metric={'clusterState.indices.' + indexName + '.indexMetadataSize'}
+      snapshot={context.snapshot}
+      formatter={bytesTwoDecimalPlaces}
+    />
+  ];
 }
-
 
 function createDetails(indexName, i, context) {
   return (
-    <ChartWithLegend snapshotId={context.snapshot.get('id')}
-                     timeframe={context.timeframe}
-                     margins={{
-                       left: 80,
-                       right: 80
-                     }}
-
-                     y1={{
-                       metrics: [
-                         'index.' + indexName + '.document_count',
-                         'index.' + indexName + '.deleted_count'
-                       ],
-                       labels: [
-                         'Documents',
-                         'Deletions'
-                       ],
-                       formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                       tooltipFormatter: zeroDecimalPlaces,
-                       type: 'line'
-                     }}
-                     y2={{
-                       metrics: [
-                         'index.' + indexName + '.size',
-                         'clusterState.indices.' + indexName + '.indexMetadataSize'
-                       ],
-                       labels: [
-                         'Size',
-                         'Metadata Size'
-                       ],
-                       formatter: bytesZeroDecimalPlaces,
-                       tooltipFormatter: bytesTwoDecimalPlaces,
-                       type: 'line'
-                      }} />
+    <ChartWithLegend
+      snapshotId={context.snapshot.get('id')}
+      timeframe={context.timeframe}
+      margins={{
+        left: 80,
+        right: 80
+      }}
+      y1={{
+        metrics: ['index.' + indexName + '.document_count', 'index.' + indexName + '.deleted_count'],
+        labels: ['Documents', 'Deletions'],
+        formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+        tooltipFormatter: zeroDecimalPlaces,
+        type: 'line'
+      }}
+      y2={{
+        metrics: ['index.' + indexName + '.size', 'clusterState.indices.' + indexName + '.indexMetadataSize'],
+        labels: ['Size', 'Metadata Size'],
+        formatter: bytesZeroDecimalPlaces,
+        tooltipFormatter: bytesTwoDecimalPlaces,
+        type: 'line'
+      }}
+    />
   );
 }

@@ -7,13 +7,12 @@ import './SidebarContent.less';
 
 const block = 'in-sidebar-content';
 
-export default function SidebarContent({snapshot, ForgeDetailsComponent}) {
+export default function SidebarContent({ snapshot, ForgeDetailsComponent }) {
   return (
     <div className={block}>
       <SidebarHeader snapshot={snapshot} />
 
-      <Jail component={ForgeDetailsComponent}
-            props={{snapshot}} />
+      <Jail component={ForgeDetailsComponent} props={{ snapshot }} />
     </div>
   );
 }

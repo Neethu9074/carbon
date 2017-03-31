@@ -1,12 +1,11 @@
-import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
-
+import { ID_OF_UNMONITORED_ZONE } from 'in-services/unmonitoredZone';
 
 const MAX_VALUE = Number.MAX_VALUE;
 const squashFactor = 0.5;
 const groupMargin = 1;
 const nodeMargin = 2;
 
-export default function applyLayout({groups}) {
+export default function applyLayout({ groups }) {
   // the first group starts at (0, 0)
   let groupXCursor = 0;
   let width = 0;
@@ -39,20 +38,16 @@ export default function applyLayout({groups}) {
     const dim = groupDimensions[group.id];
 
     const transform = group.getComponent('transform');
-    transform.setPositionXYZ(xOffset + dim.x + dim.width / 2,
-                             0,
-                             yOffset - dim.height / 2);
-    transform.setScaleXYZ(dim.width,
-                          1,
-                          dim.height);
+    transform.setPositionXYZ(xOffset + dim.x + dim.width / 2, 0, yOffset - dim.height / 2);
+    transform.setScaleXYZ(dim.width, 1, dim.height);
 
     let nodeXCursor = dim.x + 1;
     let nodeYCursor = 1;
 
     sortNodes(_nodes).forEach(node => {
-      node.getComponent('transform').setPositionXYZ(xOffset + nodeXCursor + 0.5,
-                                                    0,
-                                                    yOffset - nodeYCursor + 0.5 - groupMargin);
+      node
+        .getComponent('transform')
+        .setPositionXYZ(xOffset + nodeXCursor + 0.5, 0, yOffset - nodeYCursor + 0.5 - groupMargin);
 
       nodeXCursor += nodeMargin + 1;
       if (nodeXCursor >= dim.x + dim.width) {

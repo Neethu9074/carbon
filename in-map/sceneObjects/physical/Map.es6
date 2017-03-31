@@ -1,19 +1,17 @@
 import FadeByDistanceSingleMeshFactory from 'in-map/singleMeshFactories/FadeByDistanceSingleMeshFactory';
-import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
-import {CONTROL_PRESETS, setControls} from 'in-components/MapOverlayControls/stores/controlsStore';
+import { selectedSnapshotIdForHighlightingInMap$ } from 'in-map/stores/selectedMapSceneObjectStore';
+import { CONTROL_PRESETS, setControls } from 'in-components/MapOverlayControls/stores/controlsStore';
 import BasicSingleMeshFactory from 'in-map/singleMeshFactories/BasicSingleMeshFactory';
 import LineSingleMeshFactory from 'in-map/singleMeshFactories/LineSingleMeshFactory';
 import IconSingleMeshFactory from 'in-map/singleMeshFactories/IconSingleMeshFactory';
 import createCameraController from 'in-map/misc/physical/CameraController';
-import {addFactory, getFactory} from 'in-map/stores/factoriesStore';
-import {requestRendering} from 'in-map/stores/renderingStore';
+import { addFactory, getFactory } from 'in-map/stores/factoriesStore';
+import { requestRendering } from 'in-map/stores/renderingStore';
 import GroundPlane from 'in-map/misc/physical/GroundPlane';
 import createLayouter from 'in-map/misc/physical/Layouter';
 import BaseMap from 'in-map/sceneObjects/common/Map';
 
-
 export default class Map extends BaseMap {
-
   constructor(params) {
     super(params);
 
@@ -27,14 +25,14 @@ export default class Map extends BaseMap {
 
     this.layouter = createLayouter();
 
-    addFactory('nodes', new FadeByDistanceSingleMeshFactory({renderOrder: 3}));
-    addFactory('solid_layer', new FadeByDistanceSingleMeshFactory({renderOrder: 2}));
-    addFactory('solid', new FadeByDistanceSingleMeshFactory({renderOrder: 3}));
-    addFactory('highlighting', new LineSingleMeshFactory({useSceneObjectColors: false}));
+    addFactory('nodes', new FadeByDistanceSingleMeshFactory({ renderOrder: 3 }));
+    addFactory('solid_layer', new FadeByDistanceSingleMeshFactory({ renderOrder: 2 }));
+    addFactory('solid', new FadeByDistanceSingleMeshFactory({ renderOrder: 3 }));
+    addFactory('highlighting', new LineSingleMeshFactory({ useSceneObjectColors: false }));
     addFactory('connections', new LineSingleMeshFactory());
-    addFactory('layer', new BasicSingleMeshFactory({renderOrder: 2}));
+    addFactory('layer', new BasicSingleMeshFactory({ renderOrder: 2 }));
     addFactory('lines', new LineSingleMeshFactory());
-    addFactory('icons', new IconSingleMeshFactory({useSceneObjectColors: false}));
+    addFactory('icons', new IconSingleMeshFactory({ useSceneObjectColors: false }));
   }
 
   initEvents() {

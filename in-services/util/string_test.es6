@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {isBlank} from 'in-services/util/string';
+import { isBlank } from 'in-services/util/string';
 
 describe('in-services/util/string', () => {
   describe('isBlank', () => {

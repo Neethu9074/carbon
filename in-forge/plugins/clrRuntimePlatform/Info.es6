@@ -1,20 +1,19 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-
-export default function CLRInfo({snapshot}) {
+export default function CLRInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title='Name'>
+      <DescriptionItem title="Name">
         {data.get('name')}
       </DescriptionItem>
-      <DescriptionItem title='CLR Version'>
+      <DescriptionItem title="CLR Version">
         {data.get('runtimeVersion')}
       </DescriptionItem>
-      <DescriptionItem title='Arguments'>
+      <DescriptionItem title="Arguments">
         {data.get('arguments')}
       </DescriptionItem>
     </DescriptionList>

@@ -1,16 +1,14 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
-import {alwaysEmptyArray} from 'in-services/fixedStreams';
-import {getSnapshot} from 'in-stores/snapshot';
-import {createStore} from 'in-stores/store';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { getSnapshot } from 'in-stores/snapshot';
+import { createStore } from 'in-stores/store';
 
 const selectedSnapshotIdsStore = createStore({
   name: 'tableView/stores/selectedSnapshots/selectedSnapshotIds',
   initialValue: []
 });
-export const selectedSnapshotIds$ = selectedSnapshotIdsStore
-  .observable
-  .distinct();
+export const selectedSnapshotIds$ = selectedSnapshotIdsStore.observable.distinct();
 
 export function toggleSnapshotId(snapshotId) {
   selectedSnapshotIdsStore.applyStateMutation(selectedSnapshotIds => {
@@ -31,17 +29,14 @@ export function clearSelectedSnapshots() {
   selectedSnapshotIdsStore.mutateTo([]);
 }
 
-export const selectedSnapshots$ = selectedSnapshotIds$
-  .flatMap(snapshotIds => {
-    if (snapshotIds.length === 0) {
-      return alwaysEmptyArray;
-    }
+export const selectedSnapshots$ = selectedSnapshotIds$.flatMap(snapshotIds => {
+  if (snapshotIds.length === 0) {
+    return alwaysEmptyArray;
+  }
 
-    return combineLatest(snapshotIds.map(id => getSnapshot(id).startWith(null)));
-  });
+  return combineLatest(snapshotIds.map(id => getSnapshot(id).startWith(null)));
+});
 
 export function isSelected(snapshotId) {
-  return selectedSnapshotIds$
-    .map(selectedSnapshotIds => selectedSnapshotIds.indexOf(snapshotId) !== -1)
-    .distinct();
+  return selectedSnapshotIds$.map(selectedSnapshotIds => selectedSnapshotIds.indexOf(snapshotId) !== -1).distinct();
 }

@@ -1,5 +1,4 @@
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 const metricsStore = createStore({
   name: 'tableView/stores/metrics',

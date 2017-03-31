@@ -10,8 +10,7 @@ import JettyConnectors from '../JettyConnectors.es6';
 import JettyWebApps from '../JettyWebApps.es6';
 import Info from '../Info.es6';
 
-
-export default function JettySidebar({snapshot}) {
+export default function JettySidebar({ snapshot }) {
   return (
     <div>
       <Separator />

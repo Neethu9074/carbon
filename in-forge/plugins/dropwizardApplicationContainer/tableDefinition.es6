@@ -1,4 +1,4 @@
-import {instanaInternalFeaturesEnabled} from 'in-services/featureFlags';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 
 import instanaTableDefinition from 'in-forge/plugins/dropwizardApplicationContainer/instanaTableDefinition';
 

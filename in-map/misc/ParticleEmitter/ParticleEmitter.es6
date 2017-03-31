@@ -1,5 +1,5 @@
-import {combineLatest} from 'reactive-observables';
-import {remove} from 'lodash';
+import { combineLatest } from 'reactive-observables';
+import { remove } from 'lodash';
 
 import fragmentShader from 'in-map/misc/ParticleEmitter/shader/fragmentShader.glsl';
 import vertexShader from 'in-map/misc/ParticleEmitter/shader/vertexShader.glsl';
@@ -12,25 +12,23 @@ import {
   DoubleSide,
   Points
 } from 'in-map/3DLibProvider';
-import {getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
+import { getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import createPositionGenerator from 'in-map/misc/ParticleEmitter/PlaneSpawnPositionGenerator';
-import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
-import {particlesAreActive$} from 'in-map/stores/logical/particlesStore';
-import {showAggregations$} from 'in-stores/metric/showAggregations';
+import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
+import { particlesAreActive$ } from 'in-map/stores/logical/particlesStore';
+import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
-import {requestRendering} from 'in-map/stores/renderingStore';
-import {isWebVRActive} from 'in-map/stores/webVRStore';
-import {loadImage} from 'in-map/services/imageLoader';
-import {focusedMoment$} from 'in-stores/timeline';
-import {eventBus} from 'in-map/services/eventBus';
-
+import { requestRendering } from 'in-map/stores/renderingStore';
+import { isWebVRActive } from 'in-map/stores/webVRStore';
+import { loadImage } from 'in-map/services/imageLoader';
+import { focusedMoment$ } from 'in-stores/timeline';
+import { eventBus } from 'in-map/services/eventBus';
 
 const START_POS = 100000;
 const MAX_PARTICLES = 150;
 const TIME_TO_LIFE_PER_UNIT = 0.2;
 
 export default class ParticleEmitter {
-
   constructor(sceneObject) {
     this.id = sceneObject.id;
 
@@ -48,7 +46,7 @@ export default class ParticleEmitter {
     this.severities = new Float32Array(MAX_PARTICLES);
     this.vertices = new Float32Array(MAX_PARTICLES * 3);
 
-    const geometry = this.geometry = new BufferGeometry();
+    const geometry = (this.geometry = new BufferGeometry());
     geometry.dynamic = true;
 
     this.geometry.addAttribute('position', new BufferAttribute(this.vertices, 3));
@@ -60,7 +58,7 @@ export default class ParticleEmitter {
     texture.generateMipmaps = false;
     texture.flipY = false;
 
-    const material = this.material = new RawShaderMaterial({
+    const material = (this.material = new RawShaderMaterial({
       fragmentShader,
       vertexShader,
       transparent: true,
@@ -70,10 +68,10 @@ export default class ParticleEmitter {
         texture: { type: 't', value: texture },
         distance: { type: 'f', value: isWebVRActive ? 200 : 1500 }
       }
-    });
+    }));
 
     // a global mesh that stores global geometry
-    const mesh = this.mesh = new Points(geometry, material);
+    const mesh = (this.mesh = new Points(geometry, material));
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
@@ -81,10 +79,10 @@ export default class ParticleEmitter {
 
     this.resetParticles();
 
-    this.startSubscription = combineLatest([
-      particlesAreActive$,
-      focusedMoment$
-    ]).subscribe(([particlesAreActive, focusedMoment]) => {
+    this.startSubscription = combineLatest([particlesAreActive$, focusedMoment$]).subscribe(([
+      particlesAreActive,
+      focusedMoment
+    ]) => {
       this.stop();
 
       if (particlesAreActive) {
@@ -165,22 +163,19 @@ export default class ParticleEmitter {
   }
 
   getMetric(metric, timeWindowAggregation) {
-    return showAggregations$
-      .flatMap(showAggregations => {
-        if (!showAggregations) {
-          return getMetricForFocusedMoment({snapshotId: this.id, metric})
-            .map(v => v[1] == null ? 0 : v[1])
-            .distinct();
-        }
+    return showAggregations$.flatMap(showAggregations => {
+      if (!showAggregations) {
+        return getMetricForFocusedMoment({ snapshotId: this.id, metric }).map(v => v[1] == null ? 0 : v[1]).distinct();
+      }
 
-        return getTimeWindowBasedMetricAggregation({
-            snapshotId: this.id,
-            metric,
-            timeWindowAggregation: timeWindowAggregation
-          })
-          .map(v => v == null ? 0 : v)
-          .distinct();
-      });
+      return getTimeWindowBasedMetricAggregation({
+        snapshotId: this.id,
+        metric,
+        timeWindowAggregation: timeWindowAggregation
+      })
+        .map(v => v == null ? 0 : v)
+        .distinct();
+    });
   }
 
   update(dt) {
@@ -320,8 +315,8 @@ export default class ParticleEmitter {
     particlesPerSecond = Math.min(particlesPerSecond, TIME_TO_LIFE_PER_UNIT * (MAX_PARTICLES / 3));
 
     this.particlesPerSecond = particlesPerSecond;
-    this.secToNextParticle = (particlesPerSecond > 0) ? 1 / particlesPerSecond : Number.MAX_VALUE;
-    this.secToNextError = (errorRate > 0) ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
+    this.secToNextParticle = particlesPerSecond > 0 ? 1 / particlesPerSecond : Number.MAX_VALUE;
+    this.secToNextError = errorRate > 0 ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
   }
 
   disposeSubscription(subscription) {

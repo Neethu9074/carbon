@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {highlightSpanId} from 'in-views/traceView/stores/highlightedSpan';
+import { highlightSpanId } from 'in-views/traceView/stores/highlightedSpan';
 import spanCategoryColors from 'in-stores/colorCoding/spanCategories';
-import {getLabel, getCategory, SPAN_KINDS} from 'in-sdk/tracing';
-import {getStart, getEnd} from 'in-views/traceView/util';
-import {getAxisConfig} from 'in-charts/timeFormatting';
-import {getTickPositions} from 'in-charts/timeAxis';
+import { getLabel, getCategory, SPAN_KINDS } from 'in-sdk/tracing';
+import { getStart, getEnd } from 'in-views/traceView/util';
+import { getAxisConfig } from 'in-charts/timeFormatting';
+import { getTickPositions } from 'in-charts/timeAxis';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
@@ -17,7 +17,7 @@ const height = 7;
 const timeAxisOffset = 16;
 const tooltipAlignment = 'topMiddle';
 
-function FlameGraphElement({span, currentDepth, scale}) {
+function FlameGraphElement({ span, currentDepth, scale }) {
   const top = (currentDepth - 1) * (margin + height);
   const left = scale.getRange(span.get('start'));
   // reduce by 0.1 to give it some wiggle room between two adjacent spans
@@ -31,43 +31,49 @@ function FlameGraphElement({span, currentDepth, scale}) {
 
   return (
     <div>
-      {span.get('childSpans').toArray().map(childSpan =>
-        <FlameGraphElement key={childSpan.get('spanId')}
-                           span={childSpan}
-                           currentDepth={currentDepth + 1}
-                           scale={scale} />
-      )}
+      {span
+        .get('childSpans')
+        .toArray()
+        .map(childSpan => (
+          <FlameGraphElement
+            key={childSpan.get('spanId')}
+            span={childSpan}
+            currentDepth={currentDepth + 1}
+            scale={scale}
+          />
+        ))}
 
-      {span.get('kind') === SPAN_KINDS.ENTRY && currentDepth > 1 ?
-        <Tooltip content='Network and Serialization'
-                 align={tooltipAlignment}>
-          <div className={`${block}__network`}
-               style={{
-                 top: `${top - 1}px`,
-                 left: `${left}%`,
-                 width: `${width}%`
-               }}
-               onClick={() => onSpanClick(span)} />
-        </Tooltip>
-      : null}
+      {span.get('kind') === SPAN_KINDS.ENTRY && currentDepth > 1
+        ? <Tooltip content="Network and Serialization" align={tooltipAlignment}>
+            <div
+              className={`${block}__network`}
+              style={{
+                top: `${top - 1}px`,
+                left: `${left}%`,
+                width: `${width}%`
+              }}
+              onClick={() => onSpanClick(span)}
+            />
+          </Tooltip>
+        : null}
 
-      <Tooltip content={getLabel(span)}
-               align={tooltipAlignment}>
-        <div className={classesForSpanElement}
-             style={{
-               top: `${top}px`,
-               left: `${left}%`,
-               width: `${width}%`,
-               background: color
-             }}
-             onClick={() => onSpanClick(span)} />
+      <Tooltip content={getLabel(span)} align={tooltipAlignment}>
+        <div
+          className={classesForSpanElement}
+          style={{
+            top: `${top}px`,
+            left: `${left}%`,
+            width: `${width}%`,
+            background: color
+          }}
+          onClick={() => onSpanClick(span)}
+        />
       </Tooltip>
     </div>
   );
 }
 
-
-export default function TraceFlameGraph({trace}) {
+export default function TraceFlameGraph({ trace }) {
   const start = getStart(trace);
   let end = getEnd(trace);
   if (start === end) {
@@ -86,24 +92,20 @@ export default function TraceFlameGraph({trace}) {
   const tickPositions = getTickPositions(x, axisConfig, true);
 
   return (
-    <div style={{
-           height: `${chartHeight + timeAxisOffset}px`
-         }}
-         className={block}>
+    <div
+      style={{
+        height: `${chartHeight + timeAxisOffset}px`
+      }}
+      className={block}
+    >
       <div className={`${block}__element-wrapper`}>
-        <TimeAxis tickPositions={tickPositions}
-                  axisConfig={axisConfig}
-                  start={start}
-                  chartHeight={chartHeight} />
+        <TimeAxis tickPositions={tickPositions} axisConfig={axisConfig} start={start} chartHeight={chartHeight} />
 
-        <FlameGraphElement span={trace}
-                           currentDepth={1}
-                           scale={x} />
+        <FlameGraphElement span={trace} currentDepth={1} scale={x} />
       </div>
     </div>
   );
 }
-
 
 function getMaxSpanNestingDepth(span) {
   let maxDepth = 1;
@@ -115,26 +117,28 @@ function getMaxSpanNestingDepth(span) {
   return maxDepth;
 }
 
-
-function TimeAxis({tickPositions, axisConfig, start, chartHeight}) {
+function TimeAxis({ tickPositions, axisConfig, start, chartHeight }) {
   return (
-    <div className={`${block}__time-axis`}
-         style={{
-           height: `${chartHeight + timeAxisOffset}px`
-         }}>
-      {tickPositions.map(position =>
-        <div style={{
-               left: `${position.range}%`
-             }}
-             className={`${block}__time-axis-tick`}
-             key={position.range}>
+    <div
+      className={`${block}__time-axis`}
+      style={{
+        height: `${chartHeight + timeAxisOffset}px`
+      }}
+    >
+      {tickPositions.map(position => (
+        <div
+          style={{
+            left: `${position.range}%`
+          }}
+          className={`${block}__time-axis-tick`}
+          key={position.range}
+        >
           {axisConfig.relativeFormatter(position.domain - start)}
         </div>
-      )}
+      ))}
     </div>
   );
 }
-
 
 function onSpanClick(span) {
   const spanId = span.get('spanId');

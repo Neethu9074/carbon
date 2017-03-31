@@ -1,4 +1,4 @@
-import {on, create} from 'reactive-observables';
+import { on, create } from 'reactive-observables';
 
 import CombinedEventsRenderer from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
 import HighlightedTimeframeRenderer from 'in-components/timeline/components/renderer/HighlightedTimeframeRenderer';
@@ -9,19 +9,18 @@ import FocusedMomentRenderer from 'in-components/timeline/components/renderer/Fo
 import EventsGraphRenderer from 'in-components/timeline/components/renderer/EventsGraphRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import createApplyTimeButton from 'in-components/timeline/components/renderer/applyTimeButton';
-import {timeframe$, to$, from$, setTimelineScale} from 'in-components/timeline/timelineStore';
+import { timeframe$, to$, from$, setTimelineScale } from 'in-components/timeline/timelineStore';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
-import {drawMode$, DRAW_MODES, isCollapsed$} from 'in-components/timeline/timelineStore';
-import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
+import { drawMode$, DRAW_MODES, isCollapsed$ } from 'in-components/timeline/timelineStore';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
-import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
-import {updateCanvasDimensions} from 'in-charts/canvas';
-import {getAxisConfig} from 'in-charts/timeFormatting';
+import { eventsInTimeframe$, highlightedEvent$ } from 'in-stores/events';
+import { updateCanvasDimensions } from 'in-charts/canvas';
+import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
-
-export default function createTimelineRenderer({container, canvas, glassPane}) {
+export default function createTimelineRenderer({ container, canvas, glassPane }) {
   const changeSignal = true;
   const height = 148;
   let width;
@@ -100,20 +99,14 @@ export default function createTimelineRenderer({container, canvas, glassPane}) {
     changes.emit(changeSignal);
   });
 
-  const resizeSubscription = on(window, 'resize')
-    .debounce(500)
-    .subscribe(resize);
+  const resizeSubscription = on(window, 'resize').debounce(500).subscribe(resize);
 
   // initial resize
   resize();
 
-  const drawSubscription = changes
-    .debounce(300)
-    .subscribe(draw);
+  const drawSubscription = changes.debounce(300).subscribe(draw);
 
-  const realtimeDrawSubscription = realtimeDrawStream
-    .nextFrame()
-    .subscribe(draw);
+  const realtimeDrawSubscription = realtimeDrawStream.nextFrame().subscribe(draw);
 
   return {
     canvas: screenBufferCanvas,
@@ -144,7 +137,6 @@ export default function createTimelineRenderer({container, canvas, glassPane}) {
         markedIncidentRenderer.draw(categorizedEvents.incidents);
         hoveredEventLineRenderer.draw();
         combinedEventsRenderer.drawEvents(categorizedEvents);
-
       } else if (drawMode === DRAW_MODES.EVENTS_GRAPH) {
         eventsGraphRenderer.draw(categorizedEvents);
       }

@@ -1,4 +1,4 @@
-import {setHighlightedTimeframe, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
+import { setHighlightedTimeframe, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 import {
   setTo,
   setHighlightedEventScreenPosition,
@@ -17,12 +17,11 @@ import {
   setHighlightedMoment,
   clearHighlightedMoment
 } from 'in-stores/timeline';
-import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
-import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
-import {selectEvent} from 'in-services/issueTracker';
-import {bigBangTimestamp$} from 'in-stores/timeline';
-import {serverTime$} from 'in-stores/serverTime';
-
+import { eventsInTimeframe$, getNearestEvent, setHighlightedEvent } from 'in-stores/events';
+import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/reactiveMouseEvents';
+import { selectEvent } from 'in-services/issueTracker';
+import { bigBangTimestamp$ } from 'in-stores/timeline';
+import { serverTime$ } from 'in-stores/serverTime';
 
 export default function createMouseEvents(domElement, scale, realtimeDrawStream) {
   const changeSignal = true;
@@ -73,14 +72,16 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     // [0, 1] 0 -> left, 0.5 -> middle, 1 -> right, etc
     const normalizedMouseXPosition = e.rawEvent.offsetX / scale.getRangeTo();
 
-    const newTimeFrame = getNewTimeframeByScroll(e.scrollDirection,
-                                                 e.scrollSpeed,
-                                                 oldWindowSize,
-                                                 normalizedMouseXPosition);
+    const newTimeFrame = getNewTimeframeByScroll(
+      e.scrollDirection,
+      e.scrollSpeed,
+      oldWindowSize,
+      normalizedMouseXPosition
+    );
 
-    const to = newTimeFrame.to ?
-      Math.max(bigBangTimestamp + newTimeFrame.windowSize, newTimeFrame.to) :
-      newTimeFrame.to;
+    const to = newTimeFrame.to
+      ? Math.max(bigBangTimestamp + newTimeFrame.windowSize, newTimeFrame.to)
+      : newTimeFrame.to;
 
     setTimeFrame(newTimeFrame.windowSize, to);
   });
@@ -92,8 +93,9 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     };
 
     const step = 0.05 * scrollSpeed;
-    const newWindowSize = getValidWindowSize(scrollDirection < 0 ? oldWindowSize * (1 - step) :
-                                                                   oldWindowSize * (1 + step));
+    const newWindowSize = getValidWindowSize(
+      scrollDirection < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step)
+    );
 
     newTimeFrame.windowSize = newWindowSize;
 
@@ -196,10 +198,14 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     }
 
     setHighlightedEvent(eventAtCursor);
-    setHighlightedEventScreenPosition(eventAtCursor ? {
-      x: screenX,
-      y: isCollapsed ? 140 : resultDependingOnY(y, 60, 100, 140)
-    } : null);
+    setHighlightedEventScreenPosition(
+      eventAtCursor
+        ? {
+            x: screenX,
+            y: isCollapsed ? 140 : resultDependingOnY(y, 60, 100, 140)
+          }
+        : null
+    );
 
     realtimeDrawStream.emit(changeSignal);
 
@@ -225,17 +231,22 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     const pixelPanned = lastXPosOnPan - x;
 
     if (isFocusedMomentPanning) {
-      const newTimestamp = Math.max(bigBangTimestamp, // minimum is the big bang time
-                           Math.min(serverTime,       // maximum is servertime
-                                                      // because it's not allowed to scroll to future times
-                            scale.getDomain(lastXPosOnPan + pixelPanned)));
+      const newTimestamp = Math.max(
+        bigBangTimestamp, // minimum is the big bang time
+        Math.min(
+          serverTime, // maximum is servertime
+          // because it's not allowed to scroll to future times
+          scale.getDomain(lastXPosOnPan + pixelPanned)
+        )
+      );
       setFocusedMoment(newTimestamp);
-
     } else {
       domElement.style.cursor = 'ew-resize';
 
-      const newTimestamp = Math.max(bigBangTimestamp + timeframe.windowSize,
-                           Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned)));
+      const newTimestamp = Math.max(
+        bigBangTimestamp + timeframe.windowSize,
+        Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned))
+      );
       setTo(newTimestamp);
     }
 
@@ -262,10 +273,12 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
       return null;
     }
 
-    const eventsToCheck = resultDependingOnY(y,
+    const eventsToCheck = resultDependingOnY(
+      y,
       categorizedEvents.incidents,
       categorizedEvents.issues,
-      categorizedEvents.changes);
+      categorizedEvents.changes
+    );
 
     if (!eventsToCheck) {
       return null;

@@ -1,9 +1,7 @@
 import Subscriber from 'in-map/misc/Subscriber';
 
-
 export default class Node extends Subscriber {
-
-  constructor({InstanceType, params}) {
+  constructor({ InstanceType, params }) {
     super();
 
     this.id = params.id;
@@ -25,6 +23,7 @@ export default class Node extends Subscriber {
     if (!child) {
       this.children[params.id] = new NodeType(params);
     }
+
     // don't create child if it's already there
   }
 
@@ -61,9 +60,7 @@ export default class Node extends Subscriber {
       const entity = currentNodes[i];
       const child = this.children[entity.params.id];
       // create or update node
-      child
-        ? child.update(entity.params)
-        : this.addChild(entity.NodeType, entity.params);
+      child ? child.update(entity.params) : this.addChild(entity.NodeType, entity.params);
     }
   }
 

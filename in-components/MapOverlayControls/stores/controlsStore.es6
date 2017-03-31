@@ -1,4 +1,4 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 import getPhysicalContent from 'in-components/MapOverlayControls/components/physicalContent';
 import getLogicalContent from 'in-components/MapOverlayControls/components/logicalContent';

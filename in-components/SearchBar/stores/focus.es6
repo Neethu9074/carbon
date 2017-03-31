@@ -1,4 +1,4 @@
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 const focusStore = createStore({
   name: 'in-components/SearchBar/stores/focus',

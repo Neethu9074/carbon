@@ -1,5 +1,5 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
-import {getLabel} from 'in-forge/tracing/http/spanDefinition';
+import { registerSpanDefinition } from 'in-sdk/tracing';
+import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'spring-web',

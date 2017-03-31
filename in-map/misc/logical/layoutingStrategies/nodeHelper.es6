@@ -28,13 +28,9 @@ export function transformNodes(_nodes, _edges) {
       const source = _edges[iE].sourceNode.id;
       const destination = _edges[iE].destinationNode.id;
 
-      ((source === nodeId) && LUT[destination])
-        ? transformedNode.outgoingConnections.push(LUT[destination])
-        : null;
+      source === nodeId && LUT[destination] ? transformedNode.outgoingConnections.push(LUT[destination]) : null;
 
-      ((destination === nodeId) && LUT[source])
-        ? transformedNode.incomingConnections.push(LUT[source])
-        : null;
+      destination === nodeId && LUT[source] ? transformedNode.incomingConnections.push(LUT[source]) : null;
     }
   });
 
@@ -71,11 +67,12 @@ export function calcRanks(nodes, vizceralPosition) {
     const position = vizceralPosition[node.name];
     let isDisconnected = false;
 
-    if (!position ||
-        (node.outgoingConnections.length === 0 &&
-         node.incomingConnections.length === 1 &&
-         isUnknown(node.incomingConnections[0])
-      )) {
+    if (
+      !position ||
+      (node.outgoingConnections.length === 0 &&
+        node.incomingConnections.length === 1 &&
+        isUnknown(node.incomingConnections[0]))
+    ) {
       isDisconnected = true;
     }
 
@@ -103,9 +100,10 @@ export function applyRanks(nodes, nodesLUT, edges, edgesLUT) {
     columns[node.rank].nodes.push(node);
   }
 
-  const sortedColumns = Object.keys(columns).filter(rank => Number(rank) >= 0)
-                                            .map(rank => columns[rank])
-                                            .sort((c1, c2) => c1.rank - c2.rank);
+  const sortedColumns = Object.keys(columns)
+    .filter(rank => Number(rank) >= 0)
+    .map(rank => columns[rank])
+    .sort((c1, c2) => c1.rank - c2.rank);
 
   applyColumns(nodesLUT, sortedColumns, edgesLUT);
   applyDisconnected(columns[DISCONNECTED_NODES_RANK]);
@@ -118,7 +116,9 @@ function applyColumns(nodesLUT, columns, edgesLUT) {
   }
 
   //first column is ordered by connections
-  const firstColumnNodes = columns[0].nodes.sort((n1, n2) => n2.outgoingConnections.length - n1.outgoingConnections.length);
+  const firstColumnNodes = columns[0].nodes.sort(
+    (n1, n2) => n2.outgoingConnections.length - n1.outgoingConnections.length
+  );
   for (let iN = 0, lengthN = firstColumnNodes.length; iN < lengthN; iN++) {
     const node = firstColumnNodes[iN];
     node.x = 0;
@@ -148,7 +148,7 @@ function applyColumns(nodesLUT, columns, edgesLUT) {
     for (let iN = 0, lengthN = column.nodes.length; iN < lengthN; iN++) {
       const node = column.nodes[iN];
       let index = 0;
-      while(node.y === undefined) {
+      while (node.y === undefined) {
         const y = index++ * DISTANCE_BETWEEN_ROWS;
         if (!occupiedPositions[y]) {
           node.y = y;
@@ -200,8 +200,8 @@ export function centerNodes(nodes) {
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
-    node.x = node.x - minX - (width / 2);
-    node.y = node.y - minY - (height / 2);
+    node.x = node.x - minX - width / 2;
+    node.y = node.y - minY - height / 2;
   }
 }
 

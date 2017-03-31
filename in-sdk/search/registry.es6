@@ -24,10 +24,7 @@ const contexts = {
 // }
 export function addKeywordOperator(operatorDefinition) {
   if (__DEV__) {
-    invariant(
-      operatorDefinition.context in contexts,
-      `Context type: ${operatorDefinition.context} is unknown.`
-    );
+    invariant(operatorDefinition.context in contexts, `Context type: ${operatorDefinition.context} is unknown.`);
 
     invariant(
       ['number', 'string', 'selection', 'entities'].indexOf(operatorDefinition.type) !== -1,
@@ -38,7 +35,6 @@ export function addKeywordOperator(operatorDefinition) {
   const context = contexts[operatorDefinition.context];
   context.push(operatorDefinition);
 }
-
 
 export function getKeywordOperators(requestedContexts) {
   let result = [];

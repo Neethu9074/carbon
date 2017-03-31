@@ -6,8 +6,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function HAProxySidebar({snapshot}) {
+export default function HAProxySidebar({ snapshot }) {
   return (
     <div>
       <Separator />

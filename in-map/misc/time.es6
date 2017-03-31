@@ -1,5 +1,4 @@
-import {create} from 'reactive-observables';
-
+import { create } from 'reactive-observables';
 
 let millisWatingForComponentUpdate = 200;
 let timeCounterForComponentUpdate = 0;
@@ -19,7 +18,7 @@ export function addTimeEventListener(timeEventCallback) {
 
 export function update(highResTimestamp) {
   timeNow = highResTimestamp;
-  const deltaTimeInMs = (timeNow - timeOfLastFrameUpdate);
+  const deltaTimeInMs = timeNow - timeOfLastFrameUpdate;
   deltaTime = deltaTimeInMs / 1000; // in ms
 
   // clamp the deltaTime to a max of 0.5 seconds. If the map is laggy because of

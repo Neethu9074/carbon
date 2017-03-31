@@ -1,5 +1,5 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
-import {getLabel} from 'in-forge/tracing/log/spanDefinition';
+import { registerSpanDefinition } from 'in-sdk/tracing';
+import { getLabel } from 'in-forge/tracing/log/spanDefinition';
 
 registerSpanDefinition({
   type: 'log.log4j2',

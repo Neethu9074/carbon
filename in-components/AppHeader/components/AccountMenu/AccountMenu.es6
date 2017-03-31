@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {toggleMenu} from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
+import { toggleMenu } from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
 import Menu from 'in-components/AppHeader/components/AccountMenu/components/Menu';
 import Gravatar from 'in-components/Gravatar';
 import Button from 'in-components/Button';
-import {user} from 'in-stores/user';
+import { user } from 'in-stores/user';
 
 import './AccountMenu.less';
 
@@ -15,13 +15,9 @@ export default function AccountMenu() {
     <div className={block}>
       <Menu />
 
-      <Button className={`${block}__avatar-wrapper`}
-              kind='secondary'
-              size='sm'
-              onClick={toggleMenu}>
+      <Button className={`${block}__avatar-wrapper`} kind="secondary" size="sm" onClick={toggleMenu}>
 
-        <Gravatar className={`${block}__avatar`}
-                  email={user.email} />
+        <Gravatar className={`${block}__avatar`} email={user.email} />
       </Button>
     </div>
   );

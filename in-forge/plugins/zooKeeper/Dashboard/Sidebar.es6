@@ -5,9 +5,9 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import StandaloneInfo from 'in-forge/plugins/zooKeeper/StandaloneInfo';
 import ReplicatedInfo from 'in-forge/plugins/zooKeeper/ReplicatedInfo';
 import ModeInfo from 'in-forge/plugins/zooKeeper/ModeInfo';
-import {emptyList} from 'in-services/fixedImmutables';
+import { emptyList } from 'in-services/fixedImmutables';
 
-export default function ZooKeeperSidebar({snapshot}) {
+export default function ZooKeeperSidebar({ snapshot }) {
   const version = snapshot.getIn(['data', 'version']);
   const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList);
 
@@ -29,28 +29,28 @@ export default function ZooKeeperSidebar({snapshot}) {
       </div>
     );
   } else if (peerNames.size > 0) {
-      return (
-        <div>
-          <Separator />
+    return (
+      <div>
+        <Separator />
 
-          <ModeInfo snapshot={snapshot} />
+        <ModeInfo snapshot={snapshot} />
 
-          {peerNames.map(peerName =>
-            <div key={peerName}>
-              <Separator />
+        {peerNames.map(peerName => (
+          <div key={peerName}>
+            <Separator />
 
-              <Collapsible initiallyOpen={false}>
-                <Collapsible.Header>
-                  Peer: {peerName}
-                </Collapsible.Header>
-                <Collapsible.Content>
-                  <ReplicatedInfo snapshot={snapshot} peer={peerName} />
-                </Collapsible.Content>
-              </Collapsible>
-            </div>
-          )}
-        </div>
-      );
+            <Collapsible initiallyOpen={false}>
+              <Collapsible.Header>
+                Peer: {peerName}
+              </Collapsible.Header>
+              <Collapsible.Content>
+                <ReplicatedInfo snapshot={snapshot} peer={peerName} />
+              </Collapsible.Content>
+            </Collapsible>
+          </div>
+        ))}
+      </div>
+    );
   }
   return null;
 }

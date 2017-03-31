@@ -1,16 +1,14 @@
-import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
-import {RepeatWrapping, MeshBasicMaterial} from 'in-map/3DLibProvider';
-import {hexToRGBNormalized} from 'in-services/formatters/color';
-import {requestRendering} from 'in-map/stores/renderingStore';
+import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
+import { RepeatWrapping, MeshBasicMaterial } from 'in-map/3DLibProvider';
+import { hexToRGBNormalized } from 'in-services/formatters/color';
+import { requestRendering } from 'in-map/stores/renderingStore';
 import BaseGroundPlane from 'in-map/misc/common/GroundPlane';
-import {loadImage} from 'in-map/services/imageLoader';
+import { loadImage } from 'in-map/services/imageLoader';
 import theme from 'in-services/theme';
 
 import groundTexturePath from 'in-map/misc/physical/ground.png';
 
-
 export default class GroundPlane extends BaseGroundPlane {
-
   constructor() {
     super(1000);
 
@@ -25,7 +23,7 @@ export default class GroundPlane extends BaseGroundPlane {
       requestRendering();
     });
 
-    texture.wrapS = texture.wrapT = RepeatWrapping;
+    texture.wrapS = (texture.wrapT = RepeatWrapping);
     texture.repeat.set(repating, repating);
 
     // set the ground anisotropy to the max because it's a huge ground always

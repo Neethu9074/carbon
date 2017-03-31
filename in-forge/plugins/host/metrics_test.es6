@@ -1,13 +1,12 @@
 /* eslint-env mocha */
-import {fromJS} from 'immutable';
-import {expect} from 'chai';
+import { fromJS } from 'immutable';
+import { expect } from 'chai';
 
-import {getFormattedValue} from 'in-sdk/metrics';
+import { getFormattedValue } from 'in-sdk/metrics';
 
 import './index';
 
 describe('metrics', () => {
-
   describe('format value', () => {
     let snapshot;
     const osPlugin = 'host';
@@ -27,8 +26,7 @@ describe('metrics', () => {
     });
 
     it('should format bytes to whateverBytes', () => {
-      expect(getFormattedValue('memory.free', snapshot, 512))
-      .to.equal('512 B');
+      expect(getFormattedValue('memory.free', snapshot, 512)).to.equal('512 B');
     });
 
     it('should format normalized to normalized', () => {
@@ -40,13 +38,11 @@ describe('metrics', () => {
     });
 
     it('should format normalized to percentage', () => {
-      expect(getFormattedValue('cpu.user', snapshot, 0.5))
-      .to.equal('50%');
+      expect(getFormattedValue('cpu.user', snapshot, 0.5)).to.equal('50%');
     });
 
     it('should format normalized to percentage', () => {
-      expect(getFormattedValue('cpu.wait', snapshot, 0.25))
-      .to.equal('25%');
+      expect(getFormattedValue('cpu.wait', snapshot, 0.25)).to.equal('25%');
     });
 
     it('should round normalized', () => {
@@ -58,18 +54,15 @@ describe('metrics', () => {
     });
 
     it('should round normalized', () => {
-    expect(getFormattedValue('load', snapshot, 0.040234542)).to.equal(0.04);
+      expect(getFormattedValue('load', snapshot, 0.040234542)).to.equal(0.04);
     });
 
     it('should round percentages', () => {
-      expect(getFormattedValue('cpu.wait', snapshot, 0.04003123))
-      .to.equal('4%');
+      expect(getFormattedValue('cpu.wait', snapshot, 0.04003123)).to.equal('4%');
     });
 
     it('should round percentages', () => {
-      expect(getFormattedValue('cpu.wait', snapshot, 0.041))
-      .to.equal('4.1%');
+      expect(getFormattedValue('cpu.wait', snapshot, 0.041)).to.equal('4.1%');
     });
   });
-
 });

@@ -1,8 +1,7 @@
 /* eslint-env mocha */
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {yesOrNo} from 'in-services/formatters/boolean';
-
+import { yesOrNo } from 'in-services/formatters/boolean';
 
 describe('in-services/formatters/boolean', () => {
   describe('yesOrNo', () => {

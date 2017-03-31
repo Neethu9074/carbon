@@ -1,8 +1,8 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import search from 'in-services/subscription/search';
-import {focusedMoment$} from 'in-stores/timeline';
-import {getSnapshot} from 'in-stores/snapshot';
+import { focusedMoment$ } from 'in-stores/timeline';
+import { getSnapshot } from 'in-stores/snapshot';
 
 const dockerContainers$ = focusedMoment$
   .flatMap(time =>
@@ -10,11 +10,9 @@ const dockerContainers$ = focusedMoment$
       query: 'entity.selfType:docker',
       time,
       view: 'TABLE'
-    })
-  )
-  .flatMap(dockerSnapshotIds => combineLatest(dockerSnapshotIds.map(dockerSnapshotId =>
-    getSnapshot(dockerSnapshotId).startWith(null)
-  )))
+    }))
+  .flatMap(dockerSnapshotIds =>
+    combineLatest(dockerSnapshotIds.map(dockerSnapshotId => getSnapshot(dockerSnapshotId).startWith(null))))
   .map(dockerSnapshots => dockerSnapshots.filter(snapshot => snapshot))
   .throttle(500);
 
@@ -57,6 +55,6 @@ function getDescription(docker) {
     imageTag: docker.getIn(['data', 'Labels', 'com.instana.image.tag']),
     tenant: taskNameMatch[0],
     unit: taskNameMatch[1],
-    commit: docker.getIn(['data', 'Labels', 'com.instana.commit.id']),
+    commit: docker.getIn(['data', 'Labels', 'com.instana.commit.id'])
   };
 }

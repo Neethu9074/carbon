@@ -33,9 +33,9 @@ const l = 1;
 const t = 0;
 
 // Bit operation utilities
-const bit = (mask, digit) => (mask >> digit) & 1;
+const bit = (mask, digit) => mask >> digit & 1;
 const is = (mask, digit) => bit(mask, digit) === 1;
-const set = (mask, digit) => mask | (1 << digit);
+const set = (mask, digit) => mask | 1 << digit;
 const unset = (mask, digit) => mask & ~(1 << digit);
 const swap = (mask, digitA, digitB) => {
   const bitA = bit(mask, digitA);
@@ -45,10 +45,10 @@ const swap = (mask, digitA, digitB) => {
 };
 
 // Dimension utilities
-const width = (element) => (element.right - element.left);
-const height = (element) => (element.bottom - element.top);
-const centerX = (element) => element.left + width(element) / 2;
-const centerY = (element) => element.top + height(element) / 2;
+const width = element => element.right - element.left;
+const height = element => element.bottom - element.top;
+const centerX = element => element.left + width(element) / 2;
+const centerY = element => element.top + height(element) / 2;
 
 const createElement = () => {
   return {
@@ -72,7 +72,6 @@ const createElement = () => {
 // +--+--+--+
 // X% Y% X% (of screen width)
 const AutoAlignmentResolver = {
-
   // X% percentage of screen space for the corners
   cornerFactor: 0.2, // 20%
 
@@ -102,18 +101,18 @@ const AutoAlignmentResolver = {
       // Left
       if (this.isLeft(center, bounds)) {
         return Align.bottomLeft;
-      // Right
+        // Right
       } else if (this.isRight(center, bounds)) {
         return Align.bottomRight;
       }
       // Middle
       return Align.bottomMiddle;
-    // Bottom
+      // Bottom
     } else if (this.isBottom(center, bounds)) {
       // Left
       if (this.isLeft(center, bounds)) {
         return Align.topLeft;
-      // Right
+        // Right
       } else if (this.isRight(center, bounds)) {
         return Align.topRight;
       }
@@ -131,10 +130,9 @@ const AutoAlignmentResolver = {
 // Calculates 'top', 'left', 'right' and 'bottom' attributes
 // for DOM tooltips and other elements.
 const TooltipCalculator = {
-
   margin: 10,
 
-  direction: {x: 0, y: 0 },
+  direction: { x: 0, y: 0 },
 
   offset: { x: 0, y: 0 },
 
@@ -204,13 +202,13 @@ const TooltipCalculator = {
   // for alignment, depending on the current mask
   updateAttributes(mask) {
     // 'left' | 'right' alignment
-    if (is(mask, l) || is(mask, t) && is(mask, ra) || is(mask, b) && is(mask, la)) {
+    if (is(mask, l) || (is(mask, t) && is(mask, ra)) || (is(mask, b) && is(mask, la))) {
       this.attr.x = 'right';
     } else {
       this.attr.x = 'left';
     }
     // 'top' | 'bottom' alignment
-    if (is(mask, t) || is(mask, l) && is(mask, la) || is(mask, r) && is(mask, ra)) {
+    if (is(mask, t) || (is(mask, l) && is(mask, la)) || (is(mask, r) && is(mask, ra))) {
       this.attr.y = 'bottom';
     } else {
       this.attr.y = 'top';
@@ -239,8 +237,8 @@ const TooltipCalculator = {
 
   // Checks if the tooltip leaves the bounds and shrinks it accordingly
   bindToBounds(data, bounds, tooltip) {
-    const lowerBounds = [ 'left', 'top'];
-    const upperBounds = [ 'right', 'bottom'];
+    const lowerBounds = ['left', 'top'];
+    const upperBounds = ['right', 'bottom'];
 
     if (width(tooltip) > width(bounds)) {
       data.left = bounds.left;
@@ -250,12 +248,12 @@ const TooltipCalculator = {
       data.top = bounds.top;
       data.bottom = bounds.bottom;
     }
-    lowerBounds.forEach((value) => {
+    lowerBounds.forEach(value => {
       if (data[value] !== null && data[value] < bounds[value]) {
         data[value] = bounds[value];
       }
     });
-    upperBounds.forEach((value) => {
+    upperBounds.forEach(value => {
       if (data[value] !== null && data[value] > bounds[value]) {
         data[value] = bounds[value];
       }
@@ -265,17 +263,13 @@ const TooltipCalculator = {
   // Provides a clipped mask which contains a better alignment to avoid
   // any bound collision
   clipMask(mask, data, bounds, tooltip) {
-    Object
-      .keys(data)
-      .filter((key) => data[key] != null)
-      .forEach((key) => {
-        if (key === 'left' || key === 'right') {
-          mask = this.clipInternally(key, mask, data[key], bounds.left, bounds.right, width(tooltip), l, r);
-        } else {
-          mask = this.clipInternally(key, mask, data[key], bounds.top, bounds.bottom, height(tooltip), t, b);
-        }
+    Object.keys(data).filter(key => data[key] != null).forEach(key => {
+      if (key === 'left' || key === 'right') {
+        mask = this.clipInternally(key, mask, data[key], bounds.left, bounds.right, width(tooltip), l, r);
+      } else {
+        mask = this.clipInternally(key, mask, data[key], bounds.top, bounds.bottom, height(tooltip), t, b);
       }
-    );
+    });
     return mask;
   },
 
@@ -286,8 +280,7 @@ const TooltipCalculator = {
 
     // Switch the clipping condition accordingly since
     // the coordinate system changes for right and bottom alignment
-    if (key === 'right' && this.attr.x === 'right' ||
-        key === 'bottom' && this.attr.y === 'bottom') {
+    if ((key === 'right' && this.attr.x === 'right') || (key === 'bottom' && this.attr.y === 'bottom')) {
       clippingA = coord - size < clipLimit1;
       clippingB = coord > clipLimit2;
     }
@@ -303,7 +296,7 @@ const TooltipCalculator = {
 
   // Retrieves the actual alignment of the mask
   retrieveAlignment(mask, align) {
-    Object.keys(Align).forEach((key) => {
+    Object.keys(Align).forEach(key => {
       if (Align[key] === mask) {
         align = key;
       }

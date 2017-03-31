@@ -1,12 +1,11 @@
 /* eslint-env mocha, node */
-import {fromJS} from 'immutable';
-import {expect} from 'chai';
+import { fromJS } from 'immutable';
+import { expect } from 'chai';
 
 import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
-import {setHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import {setFocusedMoment} from 'in-components/timeline/timelineStore';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
-
+import { setHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
+import { setFocusedMoment } from 'in-components/timeline/timelineStore';
+import { setSelectedSnapshotId } from 'in-stores/snapshot';
 
 describe('BasicEventRenderer', () => {
   const eventRenderer = new BasicEventRenderer();

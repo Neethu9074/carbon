@@ -1,40 +1,38 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 
-export default function MongoSpanDetailView({span}) {
+export default function MongoSpanDetailView({ span }) {
   const query = getQueryForFormatting(span);
 
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title='Hostname'>
+        <DescriptionItem title="Hostname">
           {span.getIn(['data', 'peer', 'hostname'])}
         </DescriptionItem>
-        <DescriptionItem title='Port'>
+        <DescriptionItem title="Port">
           {span.getIn(['data', 'peer', 'port'])}
         </DescriptionItem>
-        <DescriptionItem title='Service'>
+        <DescriptionItem title="Service">
           {span.getIn(['data', 'mongo', 'service'])}
         </DescriptionItem>
-        <DescriptionItem title='Protocol'>
+        <DescriptionItem title="Protocol">
           {span.getIn(['data', 'mongo', 'protocol'])}
         </DescriptionItem>
-        <DescriptionItem title='Namespace'>
+        <DescriptionItem title="Namespace">
           {span.getIn(['data', 'mongo', 'namespace'])}
         </DescriptionItem>
-        {query ?
-          <DescriptionItem title='Query'>
-            <Code code={query}
-                  lang='json' />
-          </DescriptionItem>
-        : null}
+        {query
+          ? <DescriptionItem title="Query">
+              <Code code={query} lang="json" />
+            </DescriptionItem>
+          : null}
       </DescriptionList>
     </div>
   );
 }
-
 
 function getQueryForFormatting(span) {
   let query = '';
@@ -68,7 +66,6 @@ function getQueryForFormatting(span) {
       query += command;
     }
   }
-
 
   if (query.length > 0) {
     return query.trim();

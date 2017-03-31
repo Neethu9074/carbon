@@ -1,5 +1,4 @@
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 const position = createStore({
   name: 'DetailPopupPresenter/YPositionStore',
@@ -14,7 +13,6 @@ export function setPosition(_content) {
 export function clearPosition() {
   position.applyStateMutation(() => null);
 }
-
 
 const needsUpdate = createStore({
   name: 'DetailPopupPresenter/YPosition/needsUpdateStore',

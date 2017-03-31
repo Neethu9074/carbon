@@ -5,24 +5,24 @@ import ExpandableTable from 'in-components/ExpandableTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
 
-import {
-  zeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
-export default function CloudControllerTable({snapshot, timeframe}) {
- const ccComponents = [''];
+export default function CloudControllerTable({ snapshot, timeframe }) {
+  const ccComponents = [''];
 
- return (
-    <DashboardSection title='Cloud Controller'>
-      <ExpandableTable data={ccComponents}
-                       getKey={getKey}
-                       createHeader={createHeader}
-                       createRow={createRow}
-                       context={{
-                         snapshot,
-                         timeframe
-                       }}
-                       createDetails={createDetails} />
+  return (
+    <DashboardSection title="Cloud Controller">
+      <ExpandableTable
+        data={ccComponents}
+        getKey={getKey}
+        createHeader={createHeader}
+        createRow={createRow}
+        context={{
+          snapshot,
+          timeframe
+        }}
+        createDetails={createDetails}
+      />
     </DashboardSection>
   );
 }
@@ -46,23 +46,21 @@ function createHeader() {
 }
 
 function createRow(componentId, i, context) {
-  return ([
-    <Mtd metric={'cloud_controller.cc_requests_completed'}
-         snapshot={context.snapshot}
-         formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'cloud_controller.cc_requests_outstanding'}
-        snapshot={context.snapshot}
-        formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'cloud_controller.cc_total_users'}
-        snapshot={context.snapshot}
-        formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'cloud_controller.cc_thread_count'}
-        snapshot={context.snapshot}
-        formatter={zeroDecimalPlaces} />,
-    <Mtd metric={'cloud_controller.cc_total_failed_job_count'}
-        snapshot={context.snapshot}
-        formatter={zeroDecimalPlaces} />
-  ]);
+  return [
+    <Mtd metric={'cloud_controller.cc_requests_completed'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
+    <Mtd
+      metric={'cloud_controller.cc_requests_outstanding'}
+      snapshot={context.snapshot}
+      formatter={zeroDecimalPlaces}
+    />,
+    <Mtd metric={'cloud_controller.cc_total_users'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
+    <Mtd metric={'cloud_controller.cc_thread_count'} snapshot={context.snapshot} formatter={zeroDecimalPlaces} />,
+    <Mtd
+      metric={'cloud_controller.cc_total_failed_job_count'}
+      snapshot={context.snapshot}
+      formatter={zeroDecimalPlaces}
+    />
+  ];
 }
 
 function createDetails(componentId, i, context) {
@@ -70,47 +68,41 @@ function createDetails(componentId, i, context) {
 
   return (
     <div>
-      <DashboardSection title='Requests'>
-        <ChartWithLegend snapshotId={snapshotId}
-               timeframe={context.timeframe}
-               margins={{
-                 left: 60
-               }}
-               y1={{
-                 formatter: zeroDecimalPlaces,
-                 tooltipFormatter: zeroDecimalPlaces,
-                 metrics: [
-                   'cloud_controller.cc_requests_completed',
-                   'cloud_controller.cc_requests_outstanding',
-                 ],
-                 labels: [
-                   'Requests completed',
-                   'Requests outstanding'
-                 ],
-                 type: 'line'
-               }} />
+      <DashboardSection title="Requests">
+        <ChartWithLegend
+          snapshotId={snapshotId}
+          timeframe={context.timeframe}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: ['cloud_controller.cc_requests_completed', 'cloud_controller.cc_requests_outstanding'],
+            labels: ['Requests completed', 'Requests outstanding'],
+            type: 'line'
+          }}
+        />
       </DashboardSection>
-      <DashboardSection title='Statistics'>
-        <ChartWithLegend snapshotId={snapshotId}
-               timeframe={context.timeframe}
-               margins={{
-                 left: 60
-               }}
-               y1={{
-                 formatter: zeroDecimalPlaces,
-                 tooltipFormatter: zeroDecimalPlaces,
-                 metrics: [
-                   'cloud_controller.cc_total_users',
-                   'cloud_controller.cc_thread_count',
-                   'cloud_controller.cc_total_failed_job_count'
-                 ],
-                 labels: [
-                   'Total users',
-                   'Thread count',
-                   'Total failed jobs'
-                 ],
-                 type: 'line'
-               }} />
+      <DashboardSection title="Statistics">
+        <ChartWithLegend
+          snapshotId={snapshotId}
+          timeframe={context.timeframe}
+          margins={{
+            left: 60
+          }}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: [
+              'cloud_controller.cc_total_users',
+              'cloud_controller.cc_thread_count',
+              'cloud_controller.cc_total_failed_job_count'
+            ],
+            labels: ['Total users', 'Thread count', 'Total failed jobs'],
+            type: 'line'
+          }}
+        />
       </DashboardSection>
     </div>
   );

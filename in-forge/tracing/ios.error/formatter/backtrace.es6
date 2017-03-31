@@ -1,4 +1,4 @@
-import {pad_right, pad_hex, to_hex} from './util';
+import { pad_right, pad_hex, to_hex } from './util';
 /**
  * Traces down a thread to provide a backtrace of actions.
  * This will output memory addresses and method names (if
@@ -23,11 +23,11 @@ export function parse_backtrace(backtrace) {
     var sym_addr = trace['symbol_addr'] || 0;
 
     // names
-    var obj_name =  trace['object_name'];
-    var sym_name =  trace['symbol_name'];
+    var obj_name = trace['object_name'];
+    var sym_name = trace['symbol_name'];
 
     // padded fields
-    var padded_num  = pad_right(num++, ' ', 3);
+    var padded_num = pad_right(num++, ' ', 3);
     var padded_name = pad_right(obj_name, ' ', 31);
     var padded_addr = pad_hex(ist_addr, '0', 8);
 

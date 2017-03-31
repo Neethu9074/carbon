@@ -1,8 +1,7 @@
 /* eslint-env mocha */
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {formatDate, formatTime, formatDateTime, formatDurationAccurately} from 'in-services/formatters/date';
-
+import { formatDate, formatTime, formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
 
 describe('in-services/formatters/date', () => {
   describe('formatTime', () => {

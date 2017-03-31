@@ -1,6 +1,5 @@
-import {hexToRGBNormalized} from 'in-services/formatters/color';
-import {Color} from 'in-map/3DLibProvider';
-
+import { hexToRGBNormalized } from 'in-services/formatters/color';
+import { Color } from 'in-map/3DLibProvider';
 
 const colorService = new Color(0, 0, 0);
 
@@ -9,7 +8,7 @@ export default class ColorGenerator {
     this.desiredNumberOfColors = desiredNumberOfColors;
     this.progress = 0;
     this.colorIndex = 0;
-    this.stepsPerGenerate = 1 / (desiredNumberOfColors);
+    this.stepsPerGenerate = 1 / desiredNumberOfColors;
 
     this.setHueRange(25, 360);
     this.setSatRange(85, 100);
@@ -64,9 +63,9 @@ export default class ColorGenerator {
   }
 
   createColor() {
-    const h = this.minHue + ((this.maxHue - this.minHue) * this.progress);
-    const s = this.minSat + ((this.maxSat - this.minSat) * this.progress);
-    const l = this.minLum + ((this.maxLum - this.minLum) * this.progress);
+    const h = this.minHue + (this.maxHue - this.minHue) * this.progress;
+    const s = this.minSat + (this.maxSat - this.minSat) * this.progress;
+    const l = this.minLum + (this.maxLum - this.minLum) * this.progress;
 
     this.progress += this.stepsPerGenerate;
     if (this.progress > 1) {
@@ -77,7 +76,9 @@ export default class ColorGenerator {
     const hex = '#' + colorService.getHexString();
 
     return {
-      h, s, l,
+      h,
+      s,
+      l,
       hex
     };
   }
@@ -106,7 +107,7 @@ export function createColorPool(nameOfPool, numColors = 10) {
   const colorGenerator = new ColorGenerator(numColors);
   const tagColorCache = {};
 
-  const getColor = (tag) => {
+  const getColor = tag => {
     if (tag in tagColorCache) {
       return tagColorCache[tag];
     }

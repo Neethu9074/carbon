@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import { withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -8,8 +8,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function ElasticsearchSidebar({snapshot}) {
+export default function ElasticsearchSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -23,26 +22,31 @@ export default function ElasticsearchSidebar({snapshot}) {
 
       <Separator />
 
-      <SparkChartsSection snapshot={snapshot}
-                          metrics={[
-                            {
-                              metric: 'indices_count',
-                              label: 'Indices',
-                              formatter: withSiPrefixThreeDecimalPlaces
-                            }, {
-                              metric: 'shards.node_active_shards',
-                              label: 'Active Shards',
-                              formatter: withSiPrefixThreeDecimalPlaces
-                            }, {
-                              metric: 'indices.document_count',
-                              label: 'Documents',
-                              formatter: withSiPrefixThreeDecimalPlaces
-                            }, {
-                              metric: 'indices.store_size',
-                              label: 'Size of store',
-                              formatter: bytesTwoDecimalPlaces
-                            }
-                          ]} />
+      <SparkChartsSection
+        snapshot={snapshot}
+        metrics={[
+          {
+            metric: 'indices_count',
+            label: 'Indices',
+            formatter: withSiPrefixThreeDecimalPlaces
+          },
+          {
+            metric: 'shards.node_active_shards',
+            label: 'Active Shards',
+            formatter: withSiPrefixThreeDecimalPlaces
+          },
+          {
+            metric: 'indices.document_count',
+            label: 'Documents',
+            formatter: withSiPrefixThreeDecimalPlaces
+          },
+          {
+            metric: 'indices.store_size',
+            label: 'Size of store',
+            formatter: bytesTwoDecimalPlaces
+          }
+        ]}
+      />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

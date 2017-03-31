@@ -9,15 +9,15 @@ import {
   Vector2,
   Object3D,
   MeshBasicMaterial,
-  MeshPhongMaterial} from 'in-map/3DLibProvider';
-import {resourceLoaded} from 'in-components/globeView/stores/isLoadingStore';
+  MeshPhongMaterial
+} from 'in-map/3DLibProvider';
+import { resourceLoaded } from 'in-components/globeView/stores/isLoadingStore';
 import GlobeOverlay from 'in-components/globeView/components/GlobeOverlay';
 import createControls from 'in-components/globeView/components/Controls';
 import Effects from 'in-components/globeView/components/Effects';
 import Clouds from 'in-components/globeView/components/Clouds';
 import Traces from 'in-components/globeView/components/Traces';
-import {loadImage} from 'in-map/services/imageLoader';
-
+import { loadImage } from 'in-map/services/imageLoader';
 
 export default class GlobeScene {
   constructor(renderer) {
@@ -26,17 +26,19 @@ export default class GlobeScene {
   }
 
   initScene() {
-    const scene = this.scene = new Scene();
+    const scene = (this.scene = new Scene());
 
-    const poi = this.poi = new Object3D();
+    const poi = (this.poi = new Object3D());
 
-    const camera = this.camera = new PerspectiveCamera(65, 1, 0.1, 10);
+    const camera = (this.camera = new PerspectiveCamera(65, 1, 0.1, 10));
     scene.add(camera);
 
-    const globe = this.globe = new Mesh(
+    const globe = (this.globe = new Mesh(
       new SphereBufferGeometry(0.5, 100, 100),
-      new MeshBasicMaterial({ color: 0x000000 })
-    );
+      new MeshBasicMaterial({
+        color: 0x000000
+      })
+    ));
     globe.renderOrder = 2;
 
     require([
@@ -84,13 +86,9 @@ export default class GlobeScene {
   }
 
   initControls(renderer) {
-    this.controls = createControls(
-      renderer.domElement,
-      this.camera,
-      {
-        poi: this.poi
-      }
-    );
+    this.controls = createControls(renderer.domElement, this.camera, {
+      poi: this.poi
+    });
   }
 
   resize(width, height) {

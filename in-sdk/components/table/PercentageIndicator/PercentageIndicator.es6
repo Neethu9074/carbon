@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
-import {showAggregations$} from 'in-stores/metric/showAggregations';
+import { getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
+import { showAggregations$ } from 'in-stores/metric/showAggregations';
 
 import './PercentageIndicator.less';
 
@@ -30,8 +30,7 @@ export default React.createClass({
 
   getStream(props) {
     if (props.createMetricValueStream) {
-      return props.createMetricValueStream(this.props.snapshotId)
-        .distinct();
+      return props.createMetricValueStream(this.props.snapshotId).distinct();
     }
 
     if (props.timeWindowAggregation) {
@@ -39,37 +38,34 @@ export default React.createClass({
         snapshotId: props.snapshotId,
         metric: props.metric,
         timeWindowAggregation: props.timeWindowAggregation
-      })
-      .distinct();
+      }).distinct();
     }
 
     if (props.optionalTimeWindowAggregation) {
-      return showAggregations$
-        .flatMap(showAggregations => {
-          if (showAggregations) {
-            return getTimeWindowBasedMetricAggregation({
-              snapshotId: props.snapshotId,
-              metric: props.metric,
-              timeWindowAggregation: props.optionalTimeWindowAggregation
-            })
-            .distinct();
-          }
-
-          return getMetricForFocusedMoment({
+      return showAggregations$.flatMap(showAggregations => {
+        if (showAggregations) {
+          return getTimeWindowBasedMetricAggregation({
             snapshotId: props.snapshotId,
-            metric: props.metric
-          })
+            metric: props.metric,
+            timeWindowAggregation: props.optionalTimeWindowAggregation
+          }).distinct();
+        }
+
+        return getMetricForFocusedMoment({
+          snapshotId: props.snapshotId,
+          metric: props.metric
+        })
           .map(v => v[1])
           .distinct();
-        });
+      });
     }
 
     return getMetricForFocusedMoment({
       snapshotId: props.snapshotId,
       metric: props.metric
     })
-    .map(v => v[1])
-    .distinct();
+      .map(v => v[1])
+      .distinct();
   },
 
   establishSubscription(stream) {
@@ -121,10 +117,8 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
-        <div className={`${block}__level`}
-             ref={node => this.level = node} />
-        <span className={`${block}__value`}
-              ref={node => this.value = node} />
+        <div className={`${block}__level`} ref={node => this.level = node} />
+        <span className={`${block}__value`} ref={node => this.value = node} />
       </div>
     );
   }

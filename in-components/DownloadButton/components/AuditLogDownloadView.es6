@@ -1,16 +1,17 @@
 import React from 'react';
 
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
-import {baseUrl} from 'in-services/config';
+import { baseUrl } from 'in-services/config';
 
-
-export default function AuditLogDownloadView({offset, query}) {
+export default function AuditLogDownloadView({ offset, query }) {
   return (
-    <DownloadView data
-                  jsonLink={`${baseUrl}/api/auditlog`}
-                  queryParams={{
-                    offset,
-                    query
-                  }} />
+    <DownloadView
+      data
+      jsonLink={`${baseUrl}/api/auditlog`}
+      queryParams={{
+        offset,
+        query
+      }}
+    />
   );
 }

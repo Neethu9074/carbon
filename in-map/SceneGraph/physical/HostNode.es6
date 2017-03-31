@@ -1,19 +1,17 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import HostConnectionNode from 'in-map/SceneGraph/physical/HostConnectionNode';
 import ConnectionHandlerNode from 'in-map/SceneGraph/ConnectionHandlerNode';
 import HostMetricNode from 'in-map/SceneGraph/physical/HostMetricNode';
 import NodeSceneObject from 'in-map/sceneObjects/physical/Node';
 import LayerNode from 'in-map/SceneGraph/physical/LayerNode';
-import {nodes} from 'in-map/stores/physical/nodesStore';
-import {activeMetric$} from 'in-stores/metric';
+import { nodes } from 'in-map/stores/physical/nodesStore';
+import { activeMetric$ } from 'in-stores/metric';
 import Node from 'in-map/SceneGraph/Node';
 
-
 export default class HostNode extends Node {
-
   constructor(params) {
-    super({InstanceType: NodeSceneObject, params});
+    super({ InstanceType: NodeSceneObject, params });
 
     this.connectionNode = new ConnectionHandlerNode({
       params: {
@@ -25,16 +23,12 @@ export default class HostNode extends Node {
     this.metricNode = null;
 
     this.addSubscriptions([
-      combineLatest([
-        this.sceneObjectInstance.eventEmitter.on('isHighlighted').distinct(),
-        nodes.stream
-      ])
-      .subscribe(([isHighlighted, _nodes]) =>
-        isHighlighted
-          ? this.connectionNode.createConnections(this.entity, _nodes)
-          : this.connectionNode.clearConnections()
+      combineLatest([this.sceneObjectInstance.eventEmitter.on('isHighlighted').distinct(), nodes.stream]).subscribe(
+        ([isHighlighted, _nodes]) =>
+          isHighlighted
+            ? this.connectionNode.createConnections(this.entity, _nodes)
+            : this.connectionNode.clearConnections()
       ),
-
       activeMetric$.subscribe(activeMetric => {
         if (activeMetric) {
           // clear current layer
@@ -54,9 +48,8 @@ export default class HostNode extends Node {
   }
 
   addLayer() {
-    this.updateEntities(this.entity.children
-      .filter(entity => this.includedIds.layerIds[entity.id])
-      .map(entity => {
+    this.updateEntities(
+      this.entity.children.filter(entity => this.includedIds.layerIds[entity.id]).map(entity => {
         return {
           NodeType: LayerNode,
           params: {

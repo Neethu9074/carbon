@@ -8,8 +8,16 @@ import './Element.less';
 
 const block = 'in-trace-tree-element';
 
-export default function TraceTreeElement({parentSpanForPercentageCalculation, element, trace, parentDepth, parent,
-    totalTimeIndentationDepth}) {
+export default function TraceTreeElement(
+  {
+    parentSpanForPercentageCalculation,
+    element,
+    trace,
+    parentDepth,
+    parent,
+    totalTimeIndentationDepth
+  }
+) {
   let newParentSpanForPercentageCalculation = parentSpanForPercentageCalculation;
   if (element.type === 'span' && parentSpanForPercentageCalculation.get('async')) {
     newParentSpanForPercentageCalculation = element.span;
@@ -28,31 +36,37 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
   let details;
   if (elementType === 'span') {
     details = (
-      <TreeSpanElement trace={trace}
-                       span={element.span}
-                       parentSpanForPercentageCalculation={parentSpanForPercentageCalculation}
-                       parent={parent}
-                       depth={depth}
-                       totalTimeIndentationDepth={totalTimeIndentationDepth} />
+      <TreeSpanElement
+        trace={trace}
+        span={element.span}
+        parentSpanForPercentageCalculation={parentSpanForPercentageCalculation}
+        parent={parent}
+        depth={depth}
+        totalTimeIndentationDepth={totalTimeIndentationDepth}
+      />
     );
   } else if (elementType === 'stackTrace') {
     details = (
-      <div style={{
-             paddingLeft: `${depth * 20}px`
-           }}>
-        <TreeStackTraceElement stackTrace={element.stackTrace}
-                               parent={parent}
-                               parentSpan={element.parentSpan} />
+      <div
+        style={{
+          paddingLeft: `${depth * 20}px`
+        }}
+      >
+        <TreeStackTraceElement stackTrace={element.stackTrace} parent={parent} parentSpan={element.parentSpan} />
       </div>
     );
   } else if (elementType === 'network') {
     details = (
-      <div style={{
-             paddingLeft: `${depth * 20}px`
-           }}>
-        <TreeNetworkElement parent={parent}
-                            parentSpanForPercentageCalculation={parentSpanForPercentageCalculation}
-                            element={element} />
+      <div
+        style={{
+          paddingLeft: `${depth * 20}px`
+        }}
+      >
+        <TreeNetworkElement
+          parent={parent}
+          parentSpanForPercentageCalculation={parentSpanForPercentageCalculation}
+          element={element}
+        />
       </div>
     );
   } else {
@@ -63,16 +77,18 @@ export default function TraceTreeElement({parentSpanForPercentageCalculation, el
     <li className={block}>
       {details}
 
-      <ul className='in-trace-view-tree__element-container'>
-        {element.children.map((childElement, i) =>
-          <TraceTreeElement element={childElement}
-                            key={i}
-                            parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
-                            trace={trace}
-                            parent={element}
-                            parentDepth={depth}
-                            totalTimeIndentationDepth={totalTimeIndentationDepth} />
-        )}
+      <ul className="in-trace-view-tree__element-container">
+        {element.children.map((childElement, i) => (
+          <TraceTreeElement
+            element={childElement}
+            key={i}
+            parentSpanForPercentageCalculation={newParentSpanForPercentageCalculation}
+            trace={trace}
+            parent={element}
+            parentDepth={depth}
+            totalTimeIndentationDepth={totalTimeIndentationDepth}
+          />
+        ))}
       </ul>
     </li>
   );

@@ -1,17 +1,16 @@
-import {SPAN_KINDS} from 'in-sdk/tracing';
-
+import { SPAN_KINDS } from 'in-sdk/tracing';
 
 export default {
-  'traceId': '1',
-  'start': 1468562943766,
-  'spanId': '1',
-  'error': false,
-  'data': {},
-  'duration': 108,
-  'async': false,
-  'name': 'spring-web',
-  'kind': SPAN_KINDS.ENTRY,
-  'stackTrace': [
+  traceId: '1',
+  start: 1468562943766,
+  spanId: '1',
+  error: false,
+  data: {},
+  duration: 108,
+  async: false,
+  name: 'spring-web',
+  kind: SPAN_KINDS.ENTRY,
+  stackTrace: [
     {
       c: 'ShoppingResource',
       m: 'checkout',
@@ -22,17 +21,17 @@ export default {
       m: 'run'
     }
   ],
-  'childSpans': [
+  childSpans: [
     {
-      'start': 1468562943771,
-      'spanId': '2',
-      'error': false,
-      'data': {},
-      'name': 'jdbc',
-      'duration': 20,
-      'async': false,
-      'kind': SPAN_KINDS.EXIT,
-      'stackTrace': [
+      start: 1468562943771,
+      spanId: '2',
+      error: false,
+      data: {},
+      name: 'jdbc',
+      duration: 20,
+      async: false,
+      kind: SPAN_KINDS.EXIT,
+      stackTrace: [
         {
           c: 'ShoppingDao',
           m: 'store',
@@ -48,18 +47,18 @@ export default {
           m: 'run'
         }
       ],
-      'childSpans': []
+      childSpans: []
     },
     {
-      'start': 1468562943771,
-      'spanId': '3',
-      'error': false,
-      'data': {},
-      'name': 'jdbc',
-      'duration': 20,
-      'async': false,
-      'kind': SPAN_KINDS.EXIT,
-      'stackTrace': [
+      start: 1468562943771,
+      spanId: '3',
+      error: false,
+      data: {},
+      name: 'jdbc',
+      duration: 20,
+      async: false,
+      kind: SPAN_KINDS.EXIT,
+      stackTrace: [
         {
           c: 'ShoppingDao',
           m: 'update',
@@ -75,7 +74,7 @@ export default {
           m: 'run'
         }
       ],
-      'childSpans': []
+      childSpans: []
     }
   ]
 };

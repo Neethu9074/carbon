@@ -1,8 +1,4 @@
-import {
-  hitRate,
-  number
-} from 'in-services/formatters/number';
-
+import { hitRate, number } from 'in-services/formatters/number';
 
 export default [
   {
@@ -31,33 +27,15 @@ export default [
     isAvailable
   },
   {
-    metrics: [
-      'cache_hit_rate'
-    ],
-    labels: [
-      'Cache Hit Rate'
-    ],
+    metrics: ['cache_hit_rate'],
+    labels: ['Cache Hit Rate'],
     min: 0,
     formatter: hitRate,
     isAvailable
   },
   {
-    metrics: [
-      'threads',
-      'threads_created',
-      'threads_failed',
-      'threads_limited',
-      'thread_queue_len',
-      'sess_queued'
-    ],
-    labels: [
-      'Threads',
-      'Created',
-      'Failed',
-      'Limited',
-      'Queue',
-      'Queued requests'
-    ],
+    metrics: ['threads', 'threads_created', 'threads_failed', 'threads_limited', 'thread_queue_len', 'sess_queued'],
+    labels: ['Threads', 'Created', 'Failed', 'Limited', 'Queue', 'Queued requests'],
     min: 0,
     category: ['Threads'],
     formatter: number,
@@ -73,15 +51,7 @@ export default [
       'backend_busy',
       'backend_req'
     ],
-    labels: [
-      'Connections',
-      'Recycled',
-      'Reused',
-      'Idle closed',
-      'Unhealthy',
-      'Busy',
-      'Requests'
-    ],
+    labels: ['Connections', 'Recycled', 'Reused', 'Idle closed', 'Unhealthy', 'Busy', 'Requests'],
     min: 0,
     category: ['Backend'],
     formatter: number,

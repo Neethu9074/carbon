@@ -1,7 +1,7 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
-import {isMapView$, isTraceView$, isEventView$, isTableView$} from 'in-stores/navigation/view';
-import {createTrackingStore} from 'in-stores/store';
+import { isMapView$, isTraceView$, isEventView$, isTableView$ } from 'in-stores/navigation/view';
+import { createTrackingStore } from 'in-stores/store';
 
 const mapViewSearchContexts = ['entity'];
 const tableViewSearchContexts = ['entity'];

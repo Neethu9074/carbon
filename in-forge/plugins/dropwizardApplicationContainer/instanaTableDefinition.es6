@@ -1,11 +1,11 @@
-import {memoize} from 'lodash';
+import { memoize } from 'lodash';
 import React from 'react';
 
-import {siPrefixPerSecond} from 'in-services/formatters/number';
+import { siPrefixPerSecond } from 'in-services/formatters/number';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import {getMetricForFocusedMoment} from 'in-stores/metric';
+import { getMetricForFocusedMoment } from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
-import {getLabel} from 'in-sdk/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
 
 const getTenantUnitCoordinates = memoize(
   function getTenantUnitCoordinates(snapshot) {
@@ -32,7 +32,6 @@ const getTenantUnitCoordinates = memoize(
   snapshot => snapshot.get('id')
 );
 
-
 export default [
   {
     title: 'App',
@@ -42,33 +41,36 @@ export default [
 
       return {
         content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')}
-                            kind='dark'>
+          <HierarchicalLink snapshotId={snapshot.get('id')} kind="dark">
             {label}
           </HierarchicalLink>
         ),
         sortable: label
       };
     }
-  }, {
+  },
+  {
     title: 'Environment',
     sortableType: String,
     get(snapshot) {
       return getTenantUnitCoordinates(snapshot).environment;
     }
-  }, {
+  },
+  {
     title: 'Tenant',
     sortableType: String,
     get(snapshot) {
       return getTenantUnitCoordinates(snapshot).tenant;
     }
-  }, {
+  },
+  {
     title: 'Unit',
     sortableType: String,
     get(snapshot) {
       return getTenantUnitCoordinates(snapshot).unit;
     }
-  }, {
+  },
+  {
     title: 'Accepted Spans',
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -80,7 +82,8 @@ export default [
       null,
       'metrics.meters.com.instana.filler.topology.spans.SpansStreamInitializer.accepted-from-kafka-spans'
     )
-  }, {
+  },
+  {
     title: 'Dropped Spans',
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -92,7 +95,8 @@ export default [
       null,
       'metrics.meters.com.instana.filler.spanbuffer.ScheduledSpanBatcher.dropped-spans'
     )
-  }, {
+  },
+  {
     title: 'Raw Messages',
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -106,7 +110,8 @@ export default [
         `retrieved-messages.${coords.environment}_${coords.tenant}_${coords.unit}_raw_messages`;
       return getMeterCellContent(metric, snapshot);
     }
-  }, {
+  },
+  {
     title: 'Dropped Messages',
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -118,7 +123,8 @@ export default [
       null,
       'metrics.meters.com.instana.filler.topology.RawMessagesStreamInitializer.dropped-messages'
     )
-  }, {
+  },
+  {
     title: 'Combined Metrics',
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -132,7 +138,8 @@ export default [
         `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_combined_metrics`;
       return getMeterCellContent(metric, snapshot);
     }
-  }, {
+  },
+  {
     title: 'Rollups',
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -146,7 +153,8 @@ export default [
         `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_rollups`;
       return getMeterCellContent(metric, snapshot);
     }
-  }, {
+  },
+  {
     title: 'Snapshots',
     sortableType: Number,
     defaultSortDirection: 'desc',
@@ -163,14 +171,15 @@ export default [
   }
 ];
 
-
 function getMeterCellContent(metric, snapshot) {
   return {
     content: (
-      <MetricValue snapshotId={snapshot.get('id')}
-                   metric={metric}
-                   formatter={siPrefixPerSecond.detailed}
-                   optionalTimeWindowAggregation='mean' />
+      <MetricValue
+        snapshotId={snapshot.get('id')}
+        metric={metric}
+        formatter={siPrefixPerSecond.detailed}
+        optionalTimeWindowAggregation="mean"
+      />
     ),
     sortable$: getMetricForFocusedMoment({
       snapshotId: snapshot.get('id'),

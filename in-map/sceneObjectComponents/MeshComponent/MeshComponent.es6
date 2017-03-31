@@ -1,10 +1,8 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
-import {getFactory} from 'in-map/stores/factoriesStore';
-
+import { getFactory } from 'in-map/stores/factoriesStore';
 
 export default class MeshComponent extends SceneObjectComponent {
-
   constructor(sceneObject, contentProvider, factoryId) {
     super(sceneObject, '_mesh');
 

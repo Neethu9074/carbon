@@ -1,4 +1,4 @@
-import {List, Set, Map} from 'immutable';
+import { List, Set, Map } from 'immutable';
 
 // We should create empty Lists, Maps, Sets only once and cache them. This
 // is important for two important reasons:

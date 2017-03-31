@@ -1,10 +1,8 @@
-import {registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {plugins} from 'in-forge/constants';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
-
-
 
 registerSnapshotDefinition({
   plugin: plugins.logicalHttpConnection,
@@ -21,7 +19,7 @@ registerSnapshotDefinition({
 
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'source', 'service_name']) +
-                ' to ' +
-                snapshot.getIn(['data', 'destination', 'service_name']);
+      ' to ' +
+      snapshot.getIn(['data', 'destination', 'service_name']);
   }
 });

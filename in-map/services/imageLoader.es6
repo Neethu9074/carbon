@@ -1,8 +1,6 @@
-import {ImageLoader, Texture} from 'in-map/3DLibProvider';
-
+import { ImageLoader, Texture } from 'in-map/3DLibProvider';
 
 const IMAGE_LOADER = new ImageLoader();
-
 
 export function loadImage(url, callback) {
   const texture = new Texture();

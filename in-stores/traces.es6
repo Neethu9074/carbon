@@ -1,39 +1,40 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import subscribeToPhysicalEndpointImplementation from 'in-services/subscription/physicalEndpointImplementation';
-import {loadingPlaceholder, alwaysLoadingPlaceholder$} from 'in-components/EntityInformation';
+import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/EntityInformation';
 import createTotalTraceCountObservable from 'in-services/subscription/totalTraceCount';
-import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import createTraceObservable from 'in-services/subscription/trace';
-import {timeframe as timeframe$} from 'in-stores/timeline';
-import {debouncedQuery$} from 'in-stores/search/query';
-import {createTrackingStore} from 'in-stores/store';
-import {alwaysNull} from 'in-services/fixedStreams';
-import {getSnapshot} from 'in-stores/snapshot';
+import { timeframe as timeframe$ } from 'in-stores/timeline';
+import { debouncedQuery$ } from 'in-stores/search/query';
+import { createTrackingStore } from 'in-stores/store';
+import { alwaysNull } from 'in-services/fixedStreams';
+import { getSnapshot } from 'in-stores/snapshot';
 
+export const totalTraceCountNoFiltering$ = timeframe$.flatMap(timeframe =>
+  createTotalTraceCountObservable({ timeframe, query: '' }));
 
-export const totalTraceCountNoFiltering$ = timeframe$
-  .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: ''}));
-
-export const totalTraceCountOnlyEum$ = timeframe$
-  .flatMap(timeframe => createTotalTraceCountObservable({timeframe, query: ' trace.type:eum'}));
+export const totalTraceCountOnlyEum$ = timeframe$.flatMap(timeframe =>
+  createTotalTraceCountObservable({ timeframe, query: ' trace.type:eum' }));
 
 // Avoid user visible inconsistencies between counts by calculating the third number.
 // We are calculating it this way because finding EUM traces is cheaper than calculating
 // non-EUM traces.
-export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFiltering$, totalTraceCountOnlyEum$])
-  .map(([total, eum]) => total - eum);
+export const totalTraceCountWithoutEum$ = combineLatest([totalTraceCountNoFiltering$, totalTraceCountOnlyEum$]).map(
+  ([total, eum]) => total - eum
+);
 
-export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, debouncedQuery$])
-  .flatMap(([timeframe, luceneQuery]) => createTotalTraceCountObservable({timeframe, query: luceneQuery || ''}));
+export const totalTraceCountActiveFilter$ = combineLatest([timeframe$, debouncedQuery$]).flatMap(([
+  timeframe,
+  luceneQuery
+]) => createTotalTraceCountObservable({ timeframe, query: luceneQuery || '' }));
 
 export function getNumberOfTracesStartingAtService(serviceId) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
       query: `trace.startingAt:"${serviceId}"`
-    })
-  );
+    }));
 }
 
 export function getNumberOfTracesTouchingService(serviceId) {
@@ -41,8 +42,7 @@ export function getNumberOfTracesTouchingService(serviceId) {
     createTotalTraceCountObservable({
       timeframe,
       query: `trace.touchedLogicalService:"${serviceId}"`
-    })
-  );
+    }));
 }
 
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
@@ -50,8 +50,7 @@ export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
     createTotalTraceCountObservable({
       timeframe,
       query: `trace.startingAtInstance:"${serviceId}"`
-    })
-  );
+    }));
 }
 
 export function getNumberOfTracesTouchingServiceInstance(serviceId) {
@@ -59,27 +58,23 @@ export function getNumberOfTracesTouchingServiceInstance(serviceId) {
     createTotalTraceCountObservable({
       timeframe,
       query: `trace.touchedServiceInstance:"${serviceId}"`
-    })
-  );
+    }));
 }
 
 export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
   const query = `trace.touching:"${id}"`;
   return timeframe
-    ? createTotalTraceCountObservable({timeframe, query})
-    : timeframe$.flatMap(_timeframe => createTotalTraceCountObservable({timeframe: _timeframe, query}));
+    ? createTotalTraceCountObservable({ timeframe, query })
+    : timeframe$.flatMap(_timeframe => createTotalTraceCountObservable({ timeframe: _timeframe, query }));
 }
-
 
 export function getTraceCount(query) {
   return timeframe$.flatMap(timeframe =>
     createTotalTraceCountObservable({
       timeframe,
       query
-    })
-  );
+    }));
 }
-
 
 /**
  * ############################
@@ -136,9 +131,9 @@ export function getEntitySnapshot$BySpan(span, connectionEndpointType) {
   if (physicalEndpoint) {
     const time = span.get('start');
     snapshot$ = subscribeToPhysicalEndpointImplementation({
-        time,
-        physicalEndpoint
-      })
+      time,
+      physicalEndpoint
+    })
       .startWith(loadingPlaceholder)
       .flatMap(physicalEndpointImplementationSnapshotId => {
         if (!physicalEndpointImplementationSnapshotId) {
@@ -147,8 +142,7 @@ export function getEntitySnapshot$BySpan(span, connectionEndpointType) {
           return alwaysLoadingPlaceholder$;
         }
 
-        return getSnapshot(physicalEndpointImplementationSnapshotId, time)
-          .startWith(loadingPlaceholder);
+        return getSnapshot(physicalEndpointImplementationSnapshotId, time).startWith(loadingPlaceholder);
       });
   }
 

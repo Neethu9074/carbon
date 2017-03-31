@@ -1,8 +1,8 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
-import {getTableDefinition, supportTableView} from 'in-sdk/snapshot';
-import {snapshotIds$} from 'in-views/tableView/stores/snapshotIds';
-import {getSnapshot} from 'in-stores/snapshot';
+import { getTableDefinition, supportTableView } from 'in-sdk/snapshot';
+import { snapshotIds$ } from 'in-views/tableView/stores/snapshotIds';
+import { getSnapshot } from 'in-stores/snapshot';
 
 let snapshotsSubscription;
 
@@ -29,10 +29,8 @@ export const data$ = create({
 });
 
 export function enable() {
-  snapshotsSubscription = snapshotIds$
-    .subscribe(onSnapshotIdsUpdate);
+  snapshotsSubscription = snapshotIds$.subscribe(onSnapshotIdsUpdate);
 }
-
 
 function onSnapshotIdsUpdate(snapshotIds) {
   mark();
@@ -41,11 +39,9 @@ function onSnapshotIdsUpdate(snapshotIds) {
   notifyAboutDataChanges();
 }
 
-
 function mark() {
   Object.keys(data).forEach(snapshotId => data[snapshotId].marked = true);
 }
-
 
 function sweep() {
   Object.keys(data).forEach(snapshotId => {
@@ -55,7 +51,6 @@ function sweep() {
   });
 }
 
-
 export function disable() {
   if (snapshotsSubscription) {
     snapshotsSubscription.dispose();
@@ -64,7 +59,6 @@ export function disable() {
   Object.keys(data).forEach(removeSnapshotId);
 }
 
-
 function addSnapshotId(snapshotId) {
   let snapshotData = data[snapshotId];
   if (snapshotData) {
@@ -72,42 +66,40 @@ function addSnapshotId(snapshotId) {
     return;
   }
 
-  snapshotData = data[snapshotId] = {
+  snapshotData = (data[snapshotId] = {
     snapshotId,
     mutationCount: 0,
     marked: false,
     columns: []
-  };
+  });
 
-  snapshotData.snapshotSubscription = getSnapshot(snapshotId)
-    .subscribe(snapshot => {
-      snapshotData.id = snapshotId;
-      snapshotData.snapshot = snapshot;
-      if (!supportTableView(snapshot.get('plugin'))) {
-        return;
-      }
+  snapshotData.snapshotSubscription = getSnapshot(snapshotId).subscribe(snapshot => {
+    snapshotData.id = snapshotId;
+    snapshotData.snapshot = snapshot;
+    if (!supportTableView(snapshot.get('plugin'))) {
+      return;
+    }
 
-      const tableDefinition = getTableDefinition(snapshot.get('plugin'));
-      disposeColumnSubscriptions(snapshotData);
+    const tableDefinition = getTableDefinition(snapshot.get('plugin'));
+    disposeColumnSubscriptions(snapshotData);
 
-      tableDefinition.forEach((columnDefinition, i) => {
-        establishColumnSubscription(snapshotData, columnDefinition, i);
-      });
-
-      notifyAboutDataChanges(snapshotData);
+    tableDefinition.forEach((columnDefinition, i) => {
+      establishColumnSubscription(snapshotData, columnDefinition, i);
     });
-}
 
+    notifyAboutDataChanges(snapshotData);
+  });
+}
 
 function establishColumnSubscription(snapshotData, columnDefinition, i) {
   const defaultSortable = columnDefinition.sortableType === Number ? -1 : 0;
-  const columnData = snapshotData.columns[i] = {
+  const columnData = (snapshotData.columns[i] = {
     content: '',
     sortable: defaultSortable,
     contentSubscription: null,
     sortableSubscription: null,
     style: columnDefinition.style
-  };
+  });
 
   const result = columnDefinition.get(snapshotData.snapshot);
   if (result == null) {
@@ -122,42 +114,36 @@ function establishColumnSubscription(snapshotData, columnDefinition, i) {
   }
 
   if (typeof result.subscribe === 'function') {
-    columnData.contentSubscription = result
-      .subscribe(columnContentDefinition => {
-        if (columnData.content !== columnContentDefinition.content) {
-          columnData.content = columnContentDefinition.content;
-          notifyAboutDataChanges(snapshotData);
-        }
+    columnData.contentSubscription = result.subscribe(columnContentDefinition => {
+      if (columnData.content !== columnContentDefinition.content) {
+        columnData.content = columnContentDefinition.content;
+        notifyAboutDataChanges(snapshotData);
+      }
 
-        if (columnData.sortable !== columnContentDefinition.sortable) {
-          columnData.sortable = columnContentDefinition.sortable;
-        }
-      });
+      if (columnData.sortable !== columnContentDefinition.sortable) {
+        columnData.sortable = columnContentDefinition.sortable;
+      }
+    });
     return;
   }
 
   if (result.content != null) {
     columnData.content = result.content;
   } else if (result.content$ != null) {
-    columnData.contentSubscription = result.content$
-      .distinct()
-      .subscribe(content => {
-        columnData.content = content;
-        notifyAboutDataChanges(snapshotData);
-      });
+    columnData.contentSubscription = result.content$.distinct().subscribe(content => {
+      columnData.content = content;
+      notifyAboutDataChanges(snapshotData);
+    });
   }
 
   if (result.sortable != null) {
     columnData.sortable = result.sortable;
   } else if (result.sortable$ != null) {
-    columnData.sortableSubscription = result.sortable$
-      .distinct()
-      .subscribe(sortable => {
-        columnData.sortable = sortable;
-      });
+    columnData.sortableSubscription = result.sortable$.distinct().subscribe(sortable => {
+      columnData.sortable = sortable;
+    });
   }
 }
-
 
 function notifyAboutDataChanges(snapshotData) {
   if (snapshotData) {
@@ -165,7 +151,6 @@ function notifyAboutDataChanges(snapshotData) {
   }
   data$.emit(data);
 }
-
 
 function removeSnapshotId(snapshotId) {
   const snapshotData = data[snapshotId];
@@ -178,7 +163,6 @@ function removeSnapshotId(snapshotId) {
 
   disposeColumnSubscriptions(snapshotData);
 }
-
 
 function disposeColumnSubscriptions(snapshotData) {
   snapshotData.columns.forEach(column => {
@@ -194,13 +178,14 @@ function disposeColumnSubscriptions(snapshotData) {
   });
 }
 
-
 export function getRowDataForSnapshotId(snapshotId) {
   let lastMutationCount;
-  return data$
-    .map(d => d[snapshotId])
-    .filter(d => d != null)
-    // simulating a distinct based on value operator
-    .distinct(d => d.mutationCount !== lastMutationCount)
-    .tap(d => lastMutationCount = d.mutationCount);
+  return (
+    data$
+      .map(d => d[snapshotId])
+      .filter(d => d != null)
+      // simulating a distinct based on value operator
+      .distinct(d => d.mutationCount !== lastMutationCount)
+      .tap(d => lastMutationCount = d.mutationCount)
+  );
 }

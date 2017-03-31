@@ -1,15 +1,15 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-export default function LdapSpanDetailView({span}) {
+export default function LdapSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title='Query'>
+        <DescriptionItem title="Query">
           {span.getIn(['data', 'ldap', 'query'])}
         </DescriptionItem>
-        <DescriptionItem title='Error'>
+        <DescriptionItem title="Error">
           {span.getIn(['data', 'ldap', 'error'])}
         </DescriptionItem>
       </DescriptionList>

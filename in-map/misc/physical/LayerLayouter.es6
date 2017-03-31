@@ -1,11 +1,10 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
-import {LAYER_LAYOUTING} from 'in-map/misc/TimingConfig';
+import { LAYER_LAYOUTING } from 'in-map/misc/TimingConfig';
 
-import {getFactory} from 'in-map/stores/factoriesStore';
-
+import { getFactory } from 'in-map/stores/factoriesStore';
 
 const LAYER_MARGIN = 0.9; // 90%
 
@@ -13,18 +12,17 @@ export default function createLayouter(node) {
   const fragments = [];
   const factory = getFactory('icons');
 
-  const layerSubscription = combineLatest([node.eventEmitter.on('positionChanged'),
-                                           node.eventEmitter.on('scaleChanged'),
-                                           node.layer.stream])
-                            .debounce(LAYER_LAYOUTING)
-                            .subscribe(([nodePosition, nodeScale, _layer]) => {
-                              const plugins = applyLayout(nodePosition,
-                                                          nodeScale,
-                                                          Object.keys(_layer).map(key => _layer[key]));
+  const layerSubscription = combineLatest([
+    node.eventEmitter.on('positionChanged'),
+    node.eventEmitter.on('scaleChanged'),
+    node.layer.stream
+  ])
+    .debounce(LAYER_LAYOUTING)
+    .subscribe(([nodePosition, nodeScale, _layer]) => {
+      const plugins = applyLayout(nodePosition, nodeScale, Object.keys(_layer).map(key => _layer[key]));
 
-
-                              setupPluginIcons(plugins);
-                            });
+      setupPluginIcons(plugins);
+    });
 
   function applyLayout(nodePosition, nodeScale, _layer) {
     const numLayer = _layer.length;
@@ -76,13 +74,9 @@ export default function createLayouter(node) {
       }
 
       const transform = layer.getComponent('transform');
-      transform.setScaleXYZ(nodeScale.x * LAYER_MARGIN,
-                            heightOfEachLayer * LAYER_MARGIN,
-                            nodeScale.z * LAYER_MARGIN);
+      transform.setScaleXYZ(nodeScale.x * LAYER_MARGIN, heightOfEachLayer * LAYER_MARGIN, nodeScale.z * LAYER_MARGIN);
 
-      transform.setPositionXYZ(nodePosition.x,
-                               currentYPosition,
-                               nodePosition.z);
+      transform.setPositionXYZ(nodePosition.x, currentYPosition, nodePosition.z);
 
       currentYPosition += heightOfEachLayer;
     }
@@ -100,8 +94,9 @@ export default function createLayouter(node) {
 
   function calculateHeightForEachGap(heightOfNode, numGaps) {
     return numGaps === 0
-      ? 0 // avoid devide by zero exception
-      : (heightOfNode / numGaps) * 0.1; // 0.1 = maxPercentUsedByGaps
+      ? 0
+      : // avoid devide by zero exception
+        heightOfNode / numGaps * 0.1; // 0.1 = maxPercentUsedByGaps
   }
 
   function setupPluginIcons(plugins) {
@@ -109,18 +104,15 @@ export default function createLayouter(node) {
 
     Object.keys(plugins).forEach(key => {
       const icon = plugins[key];
-      const fragment = createFragment(node.id + '_' + key,
-                                      node,
-                                      PCP,
-                                      {
-                                        positionOffset: {
-                                          x: 0.6,
-                                          y: icon.from + ((icon.to - icon.from) / 2), // place in the middle
-                                          z: 0.6
-                                        },
-                                        type: key,
-                                        iconSize: 1
-                                      });
+      const fragment = createFragment(node.id + '_' + key, node, PCP, {
+        positionOffset: {
+          x: 0.6,
+          y: icon.from + (icon.to - icon.from) / 2, // place in the middle
+          z: 0.6
+        },
+        type: key,
+        iconSize: 1
+      });
       factory.add(fragment);
       fragments.push(fragment);
     });

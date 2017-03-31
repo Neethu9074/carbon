@@ -1,17 +1,16 @@
-import {fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
-import {roundToNearestTimeBlock} from 'in-services/subscription/util';
-
+import { roundToNearestTimeBlock } from 'in-services/subscription/util';
 
 export default createSubscription({
   eventId: 'subscribe-snapshot',
 
-  getId({snapshotId, time}) {
+  getId({ snapshotId, time }) {
     return snapshotId + roundToNearestTimeBlock(time);
   },
 
-  getData(subscriptionId, {snapshotId, time}) {
+  getData(subscriptionId, { snapshotId, time }) {
     return {
       subscriptionId,
       snapshotId,

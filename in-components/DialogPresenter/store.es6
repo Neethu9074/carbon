@@ -1,4 +1,4 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 // null or a react component
 export const activeDialog$ = create().emit(null);

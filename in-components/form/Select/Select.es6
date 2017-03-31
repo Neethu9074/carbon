@@ -1,7 +1,7 @@
-import {assign} from 'lodash';
+import { assign } from 'lodash';
 import React from 'react';
 
-import {evaluateClassNames} from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import './Select.less';
 
@@ -15,7 +15,5 @@ export default function FormSelect(props) {
     [props.className]: props.className
   });
   delete selectProps.hasError;
-  return (
-    <select {...selectProps} />
-  );
+  return <select {...selectProps} />;
 }

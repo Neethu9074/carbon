@@ -1,16 +1,15 @@
 /* eslint-env mocha */
 
-import {create} from 'reactive-observables';
-import {fromJS, List} from 'immutable';
+import { create } from 'reactive-observables';
+import { fromJS, List } from 'immutable';
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {resetStoreRegistry} from 'in-stores/store';
-import {theme} from 'in-services/theme';
+import { resetStoreRegistry } from 'in-stores/store';
+import { theme } from 'in-services/theme';
 
 describe('in-stores/events', () => {
-
   let mod;
   let subscriber;
   let from$;
@@ -58,11 +57,11 @@ describe('in-stores/events', () => {
         focusedMoment$,
         resolvedFocusedMoment$
       },
-      'in-services/subscription/totalRawEventsCount': {default: () => getTotalEventsCount},
-      'in-services/subscription/eventUpdates': {default: getEventUpdates},
-      'in-services/subscription/events': {default: getEvents},
-      'in-services/subscription/openEvents': {default: () => create()},
-      'in-stores/serverTime': {serverTime$},
+      'in-services/subscription/totalRawEventsCount': { default: () => getTotalEventsCount },
+      'in-services/subscription/eventUpdates': { default: getEventUpdates },
+      'in-services/subscription/events': { default: getEvents },
+      'in-services/subscription/openEvents': { default: () => create() },
+      'in-stores/serverTime': { serverTime$ },
       'in-services/stores/highlightedEntityId': {
         setHighlightedEntityId() {},
         clearHighlightedEntityId() {}
@@ -79,13 +78,17 @@ describe('in-stores/events', () => {
     });
 
     it('should include historic data in aggregation', () => {
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 10,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 10,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
       mod.retrievedEvents$.subscribe(subscriber);
 
@@ -98,20 +101,28 @@ describe('in-stores/events', () => {
     it('should combine successive historic updates', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 10,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 10,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'bar',
-        'start': 5,
-        'state': 'open',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'bar',
+            start: 5,
+            state: 'open',
+            type: 'issue'
+          }
+        ])
+      );
 
       const result = subscriber.getCall(1).args[0].issues;
       expect(result.length).to.equal(2);
@@ -124,20 +135,28 @@ describe('in-stores/events', () => {
     it('should merge historic with live updates', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 10,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 10,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'bar',
-        'start': 5,
-        'state': 'open',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'bar',
+            start: 5,
+            state: 'open',
+            type: 'issue'
+          }
+        ])
+      );
 
       const result = subscriber.getCall(1).args[0].issues;
       expect(result.length).to.equal(2);
@@ -150,28 +169,40 @@ describe('in-stores/events', () => {
     it('should provide sorted events list', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 10,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 10,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'bar',
-        'start': 5,
-        'state': 'open',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'bar',
+            start: 5,
+            state: 'open',
+            type: 'issue'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 15,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 15,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
       const result = subscriber.getCall(2).args[0].issues;
       expect(result.length).to.equal(3);
@@ -202,20 +233,28 @@ describe('in-stores/events', () => {
     it('should merge events in same time', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'bar',
-        'start': 5,
-        'state': 'open',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'bar',
+            start: 5,
+            state: 'open',
+            type: 'issue'
+          }
+        ])
+      );
 
       const result = subscriber.getCall(2).args[0].issues;
       expect(result.length).to.equal(2);
@@ -226,28 +265,40 @@ describe('in-stores/events', () => {
     it('should categorized events', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'change'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 20,
+            state: 'closed',
+            type: 'change'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 19,
-        'end': 20,
-        'state': 'closed',
-        'type': 'incident'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 19,
+            end: 20,
+            state: 'closed',
+            type: 'incident'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'bar',
-        'start': 15,
-        'state': 'open',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'bar',
+            start: 15,
+            state: 'open',
+            type: 'issue'
+          }
+        ])
+      );
 
       const result = subscriber.getCall(3).args[0];
       expect(result.issues.length).to.equal(1);
@@ -266,24 +317,32 @@ describe('in-stores/events', () => {
     it('should update events', () => {
       mod.retrievedEvents$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'bar',
-        'start': 15,
-        'state': 'open',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'bar',
+            start: 15,
+            state: 'open',
+            type: 'issue'
+          }
+        ])
+      );
 
       let result = subscriber.getCall(1).args[0];
       expect(result.issues.length).to.equal(1);
       expect(result.issues[0].get('end')).to.equal(undefined);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'bar',
-        'start': 15,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'bar',
+            start: 15,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
       result = subscriber.getCall(2).args[0];
       expect(result.issues.length).to.equal(1);
@@ -302,21 +361,29 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 19,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 19,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
       const result = subscriber.getCall(2).args[0];
       expect(result.issues.length).to.equal(1);
@@ -330,25 +397,35 @@ describe('in-stores/events', () => {
 
       mod.openEventsAtServerTime$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 11,
-        'type': 'issue',
-        'state': 'open'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 11,
+            type: 'issue',
+            state: 'open'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 19,
-        'end': 10,
-        'type': 'issue',
-        'state': 'closed'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 19,
+            end: 10,
+            type: 'issue',
+            state: 'closed'
+          }
+        ])
+      );
 
-      getTotalEventsCount.emit(fromJS({
-        incidentCount: 123
-      }));
+      getTotalEventsCount.emit(
+        fromJS({
+          incidentCount: 123
+        })
+      );
 
       expect(subscriber.callCount).to.equal(2);
       const result = subscriber.getCall(1).args[0];
@@ -363,21 +440,29 @@ describe('in-stores/events', () => {
 
       mod.openEventsAtFocusedMoment$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 11,
-        'type': 'issue',
-        'state': 'open'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 11,
+            type: 'issue',
+            state: 'open'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 19,
-        'end': 10,
-        'type': 'issue',
-        'state': 'closed'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 19,
+            end: 10,
+            type: 'issue',
+            state: 'closed'
+          }
+        ])
+      );
 
       expect(subscriber.callCount).to.equal(4);
       const result = subscriber.getCall(3).args[0];
@@ -391,19 +476,27 @@ describe('in-stores/events', () => {
 
       mod.openEventsAtFocusedMoment$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 11,
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 11,
+            type: 'issue'
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 19,
-        'end': 10,
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 19,
+            end: 10,
+            type: 'issue'
+          }
+        ])
+      );
 
       expect(subscriber.callCount).to.equal(4);
       const result = subscriber.getCall(3).args[0];
@@ -420,35 +513,47 @@ describe('in-stores/events', () => {
 
       mod.getOpenIssuesAtFocusedMoment(snapshotId).subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 10,
-        'type': 'issue',
-        problem: {
-          snapshotId
-        }
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 10,
+            type: 'issue',
+            problem: {
+              snapshotId
+            }
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo2',
-        'start': 0,
-        'end': 7,
-        'type': 'issue',
-        problem: {
-          snapshotId
-        }
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo2',
+            start: 0,
+            end: 7,
+            type: 'issue',
+            problem: {
+              snapshotId
+            }
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 19,
-        'end': 10,
-        'type': 'issue',
-        problem: {
-          snapshotId: 'watAnderes'
-        }
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 19,
+            end: 10,
+            type: 'issue',
+            problem: {
+              snapshotId: 'watAnderes'
+            }
+          }
+        ])
+      );
 
       expect(subscriber.callCount).to.equal(4);
       const result = subscriber.getCall(3).args[0];
@@ -457,41 +562,52 @@ describe('in-stores/events', () => {
       expect(result.getIn([1, 'id'])).to.equal('foo');
     });
 
-
     it('should only return issues for the selected snapshot at the focused moment', () => {
       focusedMoment$.emit(7);
 
       mod.getOpenIssuesAtFocusedMoment(snapshotId).subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 10,
-        'type': 'issue',
-        problem: {
-          snapshotId
-        }
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 10,
+            type: 'issue',
+            problem: {
+              snapshotId
+            }
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo2',
-        'start': 0,
-        'end': 7,
-        'type': 'issue',
-        problem: {
-          snapshotId
-        }
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo2',
+            start: 0,
+            end: 7,
+            type: 'issue',
+            problem: {
+              snapshotId
+            }
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 19,
-        'end': 10,
-        'type': 'issue',
-        problem: {
-          snapshotId: 'watAnderes'
-        }
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 19,
+            end: 10,
+            type: 'issue',
+            problem: {
+              snapshotId: 'watAnderes'
+            }
+          }
+        ])
+      );
 
       expect(subscriber.callCount).to.equal(4);
       const result = subscriber.getCall(3).args[0];
@@ -499,7 +615,6 @@ describe('in-stores/events', () => {
       expect(result.getIn([0, 'id'])).to.equal('foo');
     });
   });
-
 
   describe('getMostImportantEventAtFocusedMoment', () => {
     const snapshotId = '1234567890abc';
@@ -509,56 +624,72 @@ describe('in-stores/events', () => {
 
       mod.getMostImportantEventAtFocusedMoment(snapshotId).subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 10,
-        'type': 'issue',
-        severity: 6,
-        problem: {
-          snapshotId
-        }
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 10,
+            type: 'issue',
+            severity: 6,
+            problem: {
+              snapshotId
+            }
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo2',
-        'start': 0,
-        'end': 7,
-        'type': 'issue',
-        problem: {
-          snapshotId
-        },
-        severity: 3
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo2',
+            start: 0,
+            end: 7,
+            type: 'issue',
+            problem: {
+              snapshotId
+            },
+            severity: 3
+          }
+        ])
+      );
 
-      getEventsResult.emit(fromJS([{
-        'id': 'pups',
-        'start': 19,
-        'end': 10,
-        'type': 'issue',
-        problem: {
-          snapshotId: 'watAnderes'
-        }
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'pups',
+            start: 19,
+            end: 10,
+            type: 'issue',
+            problem: {
+              snapshotId: 'watAnderes'
+            }
+          }
+        ])
+      );
 
       expect(subscriber.callCount).to.equal(2);
       expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo');
 
-      getEventsResult.emit(fromJS([{
-        id: 'foo',
-        start: 5,
-        end: 6,
-        type: 'issue',
-        snapshotId,
-        severity: 6
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 6,
+            type: 'issue',
+            snapshotId,
+            severity: 6
+          }
+        ])
+      );
 
       expect(subscriber.callCount).to.equal(3);
       expect(subscriber.getCall(2).args[0].get('id')).to.equal('foo2');
     });
   });
 
-    describe('getNearestEvent$', () => {
+  describe('getNearestEvent$', () => {
     it('should return null if there are no events', () => {
       timeframe$.emit({
         to: 100,
@@ -585,13 +716,17 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
       const result = subscriber.getCall(2).args[0];
 
@@ -608,25 +743,31 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }, {
-        'id': 'bar',
-        'start': 19,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }, {
-        'id': 'pups',
-        'start': 40,
-        'end': 50,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          },
+          {
+            id: 'bar',
+            start: 19,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          },
+          {
+            id: 'pups',
+            start: 40,
+            end: 50,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
       const result = subscriber.getCall(2).args[0];
 
@@ -647,19 +788,24 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getEventsResult.emit(fromJS([{
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }, {
-        'id': 'bar',
-        'start': 19,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue'
-      }]));
+      getEventsResult.emit(
+        fromJS([
+          {
+            id: 'foo',
+            start: 5,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          },
+          {
+            id: 'bar',
+            start: 19,
+            end: 20,
+            state: 'closed',
+            type: 'issue'
+          }
+        ])
+      );
 
       const issues = subscriber.getCall(2).args[0].issues;
 
@@ -674,11 +820,11 @@ describe('in-stores/events', () => {
   describe('getColorForEventAtFocusedMomentAsStream', () => {
     it('should color issues according to server time when no focused moment is defined', () => {
       const issue = fromJS({
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue',
+        id: 'foo',
+        start: 5,
+        end: 20,
+        state: 'closed',
+        type: 'issue',
         problem: {
           severity: 9
         }
@@ -692,11 +838,11 @@ describe('in-stores/events', () => {
 
     it('should color issues according to server time when no focused moment is defined', () => {
       const issue = fromJS({
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'open',
-        'type': 'issue',
+        id: 'foo',
+        start: 5,
+        end: 20,
+        state: 'open',
+        type: 'issue',
         problem: {
           severity: 9
         }
@@ -710,11 +856,11 @@ describe('in-stores/events', () => {
 
     it('should color issues according to focused moment when one is selected', () => {
       const issue = fromJS({
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue',
+        id: 'foo',
+        start: 5,
+        end: 20,
+        state: 'closed',
+        type: 'issue',
         problem: {
           severity: 9
         }
@@ -728,11 +874,11 @@ describe('in-stores/events', () => {
 
     it('should color issues according to focused moment when one is selected', () => {
       const issue = fromJS({
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'closed',
-        'type': 'issue',
+        id: 'foo',
+        start: 5,
+        end: 20,
+        state: 'closed',
+        type: 'issue',
         problem: {
           severity: 9
         }
@@ -746,11 +892,11 @@ describe('in-stores/events', () => {
 
     it('should color changes using the default color', () => {
       const issue = fromJS({
-        'id': 'foo',
-        'start': 5,
-        'end': 20,
-        'state': 'open',
-        'type': 'change'
+        id: 'foo',
+        start: 5,
+        end: 20,
+        state: 'open',
+        type: 'change'
       });
       focusedMoment$.emit(null);
 
@@ -759,22 +905,25 @@ describe('in-stores/events', () => {
       expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
     });
 
-    it('should color issues according to focused moment time when focused moment is defined' +
-        'and issue was open so it has no end defined', () => {
-      const issue = fromJS({
-        'id': 'foo',
-        'start': 5,
-        'state': 'open',
-        'type': 'issue',
-        problem: {
-          severity: 9
-        }
-      });
-      focusedMoment$.emit(null);
+    it(
+      'should color issues according to focused moment time when focused moment is defined' +
+        'and issue was open so it has no end defined',
+      () => {
+        const issue = fromJS({
+          id: 'foo',
+          start: 5,
+          state: 'open',
+          type: 'issue',
+          problem: {
+            severity: 9
+          }
+        });
+        focusedMoment$.emit(null);
 
-      mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
+        mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
-      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
-    });
+        expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
+      }
+    );
   });
 });

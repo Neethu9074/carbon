@@ -10,8 +10,7 @@ import Datasources from '../Datasources';
 import WebApps from '../WebApps';
 import Info from '../Info';
 
-
-export default function WebSphereSidebar({snapshot}) {
+export default function WebSphereSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

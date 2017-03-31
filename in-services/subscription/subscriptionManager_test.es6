@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import sinon from 'sinon';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 
 describe('in-services.subscriptionManager', () => {
@@ -36,7 +36,7 @@ describe('in-services.subscriptionManager', () => {
   describe('subscribe', () => {
     it('should send subscription to persistent connection', () => {
       const event = 'subscribe-view';
-      const payload = {a: 'foo'};
+      const payload = { a: 'foo' };
       mod.subscribe(5, event, payload);
       expect(persistentConnection.emit).to.have.been.calledWith(event, payload);
     });
@@ -60,7 +60,7 @@ describe('in-services.subscriptionManager', () => {
 
     it('should resend active subscriptions to backend', () => {
       const event = 'subscribe-view';
-      const payload = {a: 'foo'};
+      const payload = { a: 'foo' };
       mod.subscribe(5, event, payload);
 
       // simulate reconnect
@@ -68,10 +68,7 @@ describe('in-services.subscriptionManager', () => {
       persistentConnection.on.getCall(0).args[1]();
 
       expect(persistentConnection.emit).to.have.callCount(2);
-      expect(persistentConnection.emit.getCall(1).args).to.deep.equal([
-        event,
-        payload
-      ]);
+      expect(persistentConnection.emit.getCall(1).args).to.deep.equal([event, payload]);
     });
   });
 });

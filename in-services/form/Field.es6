@@ -1,11 +1,10 @@
 // @flow
 
-import {isPathExhausted, normalizePath, alwaysValidValidator} from 'in-services/form/util';
+import { isPathExhausted, normalizePath, alwaysValidValidator } from 'in-services/form/util';
 
 /*::
 import type {Path, Item, NormalizedPath, Validator, ValidationError, Value, Mapper} from 'in-services/form/types';
 */
-
 
 export default class Field {
   /*::
@@ -17,7 +16,7 @@ export default class Field {
   error: ValidationError;
   */
 
-  constructor(value/*: Value*/, validator/*: Validator*/ = alwaysValidValidator, initialValue/*: Value*/) {
+  constructor(value /*: Value*/, validator /*: Validator*/ = alwaysValidValidator, initialValue /*: Value*/) {
     this.value = value;
     if (arguments.length < 3) {
       this.initialValue = value;
@@ -30,15 +29,15 @@ export default class Field {
     this.pristine = this.value === this.initialValue;
   }
 
-  static addItem(path/*: Path*/, item/*: Item*/, i/*: number*/ = 0)/*: Field*/ {
+  static addItem(path /*: Path*/, item /*: Item*/, i /*: number*/ = 0) /*: Field*/ {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot add sub fields to fields`);
   }
 
-  static getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+  static getItem(path /*: Path*/, i /*: number*/ = 0) /*: Item*/ {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot get field values via get()`);
   }
 
-  static removeItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+  static removeItem(path /*: Path*/, i /*: number*/ = 0) /*: Item*/ {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot call remove on fields.`);
   }
 
@@ -50,16 +49,17 @@ export default class Field {
     throw new Error(`Cannot call move on fields.`);
   }
 
-  static _move(path/*: Path*/, positionModification/*: number */, i/*: number*/ = 0) {
+  static _move(path /*: Path*/, positionModification /*: number */, i /*: number*/ = 0) {
     throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". Cannot call move on fields.`);
   }
 
-  setValue(path/*: Path*/, value/*: Value*/, i/*: number*/ = 0)/*: Item*/ {
+  setValue(path /*: Path*/, value /*: Value*/, i /*: number*/ = 0) /*: Item*/ {
     path = normalizePath(path);
 
     if (!isPathExhausted(path, i)) {
-      throw new Error(`Field found at path "${path.slice(0, i + 1).join(' > ')}". ` +
-        'Cannot set nested structures for fields.');
+      throw new Error(
+        `Field found at path "${path.slice(0, i + 1).join(' > ')}". ` + 'Cannot set nested structures for fields.'
+      );
     }
 
     return new Field(value, this.validator, this.initialValue);
@@ -69,7 +69,7 @@ export default class Field {
     return this.value;
   }
 
-  map(mapper/*: Mapper*/) {
+  map(mapper /*: Mapper*/) {
     return mapper(this);
   }
 }

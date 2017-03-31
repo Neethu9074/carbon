@@ -1,12 +1,11 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-
-export default function Info({snapshot}) {
+export default function Info({ snapshot }) {
   return (
     <DescriptionList>
-      <DescriptionItem title='Version'>
+      <DescriptionItem title="Version">
         {snapshot.getIn(['data', 'version'])}
       </DescriptionItem>
     </DescriptionList>

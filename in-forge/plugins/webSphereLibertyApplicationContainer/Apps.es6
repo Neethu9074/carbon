@@ -1,12 +1,11 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import {emptyMap} from 'in-services/fixedImmutables';
+import { emptyMap } from 'in-services/fixedImmutables';
 
-
-export default function Apps({snapshot}) {
+export default function Apps({ snapshot }) {
   const apps = snapshot.getIn(['data', 'applications'], emptyMap).toOrderedMap();
   if (apps.size === 0) {
     return null;
@@ -21,11 +20,13 @@ export default function Apps({snapshot}) {
         </Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            {apps.map((appData, appName) =>
-              <DescriptionItem title={appName}>
-                {appData.get('state')}
-              </DescriptionItem>
-            ).valueSeq()}
+            {apps
+              .map((appData, appName) => (
+                <DescriptionItem title={appName}>
+                  {appData.get('state')}
+                </DescriptionItem>
+              ))
+              .valueSeq()}
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

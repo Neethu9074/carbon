@@ -1,22 +1,11 @@
 import semver from 'semver';
 
-import {
-  percentage,
-  number,
-  bytes
-} from 'in-services/formatters/number';
-
+import { percentage, number, bytes } from 'in-services/formatters/number';
 
 export default [
   {
-    metrics: [
-      'requests',
-      'kBytes'
-    ],
-    labels: [
-      'Requests',
-      'kBytes'
-    ],
+    metrics: ['requests', 'kBytes'],
+    labels: ['Requests', 'kBytes'],
     min: 0,
     formatter: number,
     isAvailable(snapshot) {
@@ -25,18 +14,8 @@ export default [
     }
   },
   {
-    metrics: [
-      'conns_total',
-      'conns_async_writing',
-      'conns_async_keep_alive',
-      'conns_async_closing'
-    ],
-    labels: [
-      'Connections',
-      'Async Connections Writing',
-      'Async Connections Keep-alive',
-      'Async Connections Closing'
-    ],
+    metrics: ['conns_total', 'conns_async_writing', 'conns_async_keep_alive', 'conns_async_closing'],
+    labels: ['Connections', 'Async Connections Writing', 'Async Connections Keep-alive', 'Async Connections Closing'],
     min: 0,
     category: ['Connections'],
     formatter: number,
@@ -58,29 +37,14 @@ export default [
       'worker.graceful',
       'worker.idle'
     ],
-    labels: [
-      'Waiting',
-      'Starting',
-      'Reading',
-      'Writing',
-      'Keepalive',
-      'Dns',
-      'Closing',
-      'Logging',
-      'Graceful',
-      'Idle'
-    ],
+    labels: ['Waiting', 'Starting', 'Reading', 'Writing', 'Keepalive', 'Dns', 'Closing', 'Logging', 'Graceful', 'Idle'],
     min: 0,
     category: ['Worker'],
     formatter: number
   },
   {
-    metrics: [
-      'cpu_load'
-    ],
-    labels: [
-      'CPU load'
-    ],
+    metrics: ['cpu_load'],
+    labels: ['CPU load'],
     min: 0,
     formatter: percentage,
     isAvailable(snapshot) {
@@ -89,12 +53,8 @@ export default [
     }
   },
   {
-    metrics: [
-      'bytes_per_req'
-    ],
-    labels: [
-      'Traffic per request'
-    ],
+    metrics: ['bytes_per_req'],
+    labels: ['Traffic per request'],
     min: 0,
     formatter: bytes,
     isAvailable(snapshot) {

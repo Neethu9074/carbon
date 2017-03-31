@@ -6,7 +6,6 @@ import {
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
 
-
 const defaultKpis = () => [
   {
     metric: 'count',
@@ -14,13 +13,15 @@ const defaultKpis = () => [
     formatter: zeroDecimalPlaces,
     valueOnlyFormatter: zeroDecimalPlacesPerSecond,
     timeWindowAggregation: 'adjustedCount'
-  }, {
+  },
+  {
     metric: 'duration.mean',
     label: 'avg. latency',
     formatter: msTwoDecimalPlaces,
     valueOnlyFormatter: msTwoDecimalPlaces,
     timeWindowAggregation: 'mean'
-  }, {
+  },
+  {
     metric: 'error_rate',
     label: 'error rate',
     formatter: percentageTwoDecimalPlaces,

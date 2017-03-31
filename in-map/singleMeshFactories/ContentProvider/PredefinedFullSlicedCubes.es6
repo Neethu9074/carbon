@@ -1,61 +1,113 @@
-import {updateAttribute} from 'in-map/services/geometryAttributes';
-import {hexToRGBNormalized} from 'in-services/formatters/color';
-import {BufferGeometry} from 'in-map/3DLibProvider';
-import {theme} from 'in-services/theme';
-
+import { updateAttribute } from 'in-map/services/geometryAttributes';
+import { hexToRGBNormalized } from 'in-services/formatters/color';
+import { BufferGeometry } from 'in-map/3DLibProvider';
+import { theme } from 'in-services/theme';
 
 export const NUM_POINTS_PER_SLICE = 90;
 const FRONT = theme.map.colors.cubeColorFalloffValues.right;
 const TOP = theme.map.colors.cubeColorFalloffValues.top;
 const DEFAULT_FALLOFF_COLORS = [
-  FRONT.r, FRONT.g, FRONT.b,
-  FRONT.r, FRONT.g, FRONT.b,
-  FRONT.r, FRONT.g, FRONT.b,
-
-  FRONT.r, FRONT.g, FRONT.b,
-  FRONT.r, FRONT.g, FRONT.b,
-  FRONT.r, FRONT.g, FRONT.b,
-
-  TOP.r, TOP.g, TOP.b,
-  TOP.r, TOP.g, TOP.b,
-  TOP.r, TOP.g, TOP.b,
-
-  TOP.r, TOP.g, TOP.b,
-  TOP.r, TOP.g, TOP.b,
-  TOP.r, TOP.g, TOP.b,
-
-  1, 1, 1,
-  1, 1, 1,
-  1, 1, 1,
-
-  1, 1, 1,
-  1, 1, 1,
-  1, 1, 1,
-
-  1, 1, 1,
-  1, 1, 1,
-  1, 1, 1,
-
-  1, 1, 1,
-  1, 1, 1,
-  1, 1, 1,
-
-  FRONT.r, FRONT.g, FRONT.b,
-  FRONT.r, FRONT.g, FRONT.b,
-  FRONT.r, FRONT.g, FRONT.b,
-
-  FRONT.r, FRONT.g, FRONT.b,
-  FRONT.r, FRONT.g, FRONT.b,
-  FRONT.r, FRONT.g, FRONT.b
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  TOP.r,
+  TOP.g,
+  TOP.b,
+  TOP.r,
+  TOP.g,
+  TOP.b,
+  TOP.r,
+  TOP.g,
+  TOP.b,
+  TOP.r,
+  TOP.g,
+  TOP.b,
+  TOP.r,
+  TOP.g,
+  TOP.b,
+  TOP.r,
+  TOP.g,
+  TOP.b,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b,
+  FRONT.r,
+  FRONT.g,
+  FRONT.b
 ];
 
 const ALL_COLORS = [];
 for (let i = 0; i < theme.chart.strokeColors.length; i++) {
   const rgb = hexToRGBNormalized(theme.chart.strokeColors[i]);
   for (let j = 0; j < DEFAULT_FALLOFF_COLORS.length; j += 3) {
-    ALL_COLORS.push(DEFAULT_FALLOFF_COLORS[j]     * rgb.r,
-                    DEFAULT_FALLOFF_COLORS[j + 1] * rgb.g,
-                    DEFAULT_FALLOFF_COLORS[j + 2] * rgb.b);
+    ALL_COLORS.push(
+      DEFAULT_FALLOFF_COLORS[j] * rgb.r,
+      DEFAULT_FALLOFF_COLORS[j + 1] * rgb.g,
+      DEFAULT_FALLOFF_COLORS[j + 2] * rgb.b
+    );
   }
 }
 
@@ -69,16 +121,15 @@ const PREDEFINED_COLORS = {
   5: ALL_COLORS.slice(0, NUM_POINTS_PER_SLICE * 5)
 };
 
-
 export function getSlicedGeometry(numSlices) {
   let vertices = PREDEFINED_VERTICES[numSlices];
   if (!vertices) {
-    vertices = PREDEFINED_VERTICES[numSlices] = calculateVertices(numSlices);
+    vertices = (PREDEFINED_VERTICES[numSlices] = calculateVertices(numSlices));
   }
 
   let colors = PREDEFINED_COLORS[numSlices];
   if (!colors) {
-    colors = PREDEFINED_COLORS[numSlices] = ALL_COLORS.slice(0, NUM_POINTS_PER_SLICE * numSlices);
+    colors = (PREDEFINED_COLORS[numSlices] = ALL_COLORS.slice(0, NUM_POINTS_PER_SLICE * numSlices));
   }
 
   const sharedHeights = new Array(numSlices * NUM_POINTS_PER_SLICE);
@@ -99,49 +150,100 @@ function calculateVertices(numSlices) {
   for (let i = 0; i < numSlices; i++) {
     vertices.push(
       // front
-      -0.5, 0, 0.5,
-      0.5, 0, 0.5,
-      0.5, 1, 0.5,
-
-      -0.5, 0, 0.5,
-      0.5, 1, 0.5,
-      -0.5, 1, 0.5,
-
+      -0.5,
+      0,
+      0.5,
+      0.5,
+      0,
+      0.5,
+      0.5,
+      1,
+      0.5,
+      -0.5,
+      0,
+      0.5,
+      0.5,
+      1,
+      0.5,
+      -0.5,
+      1,
+      0.5,
       // top
-      -0.5, 1, 0.5,
-      0.5, 1, 0.5,
-      0.5, 1, -0.5,
-
-      -0.5, 1, 0.5,
-      0.5, 1, -0.5,
-      -0.5, 1, -0.5,
-
+      -0.5,
+      1,
+      0.5,
+      0.5,
+      1,
+      0.5,
+      0.5,
+      1,
+      -0.5,
+      -0.5,
+      1,
+      0.5,
+      0.5,
+      1,
+      -0.5,
+      -0.5,
+      1,
+      -0.5,
       // left
-      -0.5, 0, -0.5,
-      -0.5, 0, 0.5,
-      -0.5, 1, -0.5,
-
-      -0.5, 0, 0.5,
-      -0.5, 1, 0.5,
-      -0.5, 1, -0.5,
-
+      -0.5,
+      0,
+      -0.5,
+      -0.5,
+      0,
+      0.5,
+      -0.5,
+      1,
+      -0.5,
+      -0.5,
+      0,
+      0.5,
+      -0.5,
+      1,
+      0.5,
+      -0.5,
+      1,
+      -0.5,
       // right
-      0.5, 0, -0.5,
-      0.5, 0, 0.5,
-      0.5, 1, -0.5,
-
-      0.5, 0, 0.5,
-      0.5, 1, 0.5,
-      0.5, 1, -0.5,
-
+      0.5,
+      0,
+      -0.5,
+      0.5,
+      0,
+      0.5,
+      0.5,
+      1,
+      -0.5,
+      0.5,
+      0,
+      0.5,
+      0.5,
+      1,
+      0.5,
+      0.5,
+      1,
+      -0.5,
       // back
-      0.5, 1, -0.5,
-      0.5, 0, -0.5,
-      -0.5, 0, -0.5,
-
-      -0.5, 1, -0.5,
-      0.5, 1, -0.5,
-      -0.5, 0, -0.5
+      0.5,
+      1,
+      -0.5,
+      0.5,
+      0,
+      -0.5,
+      -0.5,
+      0,
+      -0.5,
+      -0.5,
+      1,
+      -0.5,
+      0.5,
+      1,
+      -0.5,
+      -0.5,
+      0,
+      -0.5
     );
   }
   return vertices;
@@ -154,43 +256,34 @@ for (let i = 0; i < theme.chart.strokeColors.length; i++) {
     i,
     i,
     i + 1,
-
     i,
     i + 1,
     i + 1,
-
     // top
     i + 1,
     i + 1,
     i + 1,
-
     i + 1,
     i + 1,
     i + 1,
-
     // left
     i,
     i,
     i + 1,
-
     i,
     i + 1,
     i + 1,
-
     // right
     i,
     i,
     i + 1,
-
     i,
     i + 1,
     i + 1,
-
     // back
     i + 1,
     i,
     i,
-
     i + 1,
     i + 1,
     i

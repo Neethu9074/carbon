@@ -1,20 +1,14 @@
-import {
-  SphereBufferGeometry,
-  Mesh,
-  Vector3,
-  RawShaderMaterial} from 'in-map/3DLibProvider';
+import { SphereBufferGeometry, Mesh, Vector3, RawShaderMaterial } from 'in-map/3DLibProvider';
 
 import fragmentShader from 'in-components/globeView/components/shader/globeFragmentShader.glsl';
 import vertexShader from 'in-components/globeView/components/shader/globeVertexShader.glsl';
 
-
 export default class Clouds {
-
   constructor(scene) {
     this.center = new Vector3();
     this.cameraPosition = new Vector3();
 
-    const globe = this.globe = new Mesh(
+    const globe = (this.globe = new Mesh(
       new SphereBufferGeometry(0.501, 100, 100),
       new RawShaderMaterial({
         vertexShader,
@@ -27,7 +21,7 @@ export default class Clouds {
           }
         }
       })
-    );
+    ));
 
     globe.renderOrder = 12;
     scene.add(globe);

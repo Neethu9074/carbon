@@ -1,7 +1,7 @@
-import {parse} from 'lucene';
+import { parse } from 'lucene';
 
-import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
-import {createStore} from 'in-stores/store';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { createStore } from 'in-stores/store';
 
 const unvalidatedQueryStore = createStore({
   name: 'search/unvalidatedQuery',
@@ -28,46 +28,36 @@ const errorStore = createStore({
 });
 export const error$ = errorStore.observable;
 
+navigationParameters$.subscribe(params => {
+  const query = params.query;
+  if ('q' in query) {
+    unvalidatedQueryStore.mutateTo(decodeURIComponent(query.q));
+  } else {
+    unvalidatedQueryStore.mutateTo('');
+  }
+});
 
-navigationParameters$
-  .subscribe(params => {
-    const query = params.query;
-    if ('q' in query) {
-      unvalidatedQueryStore.mutateTo(decodeURIComponent(query.q));
-    } else {
-      unvalidatedQueryStore.mutateTo('');
-    }
+unvalidatedQuery$.skipFirst().debounce(500).subscribe(query => {
+  mutateUrl(navParams => {
+    navParams.query.q = encodeURIComponent(query);
+    return navParams;
   });
+});
 
-
-unvalidatedQuery$
-  .skipFirst()
-  .debounce(500)
-  .subscribe(query => {
-    mutateUrl(navParams => {
-      navParams.query.q = encodeURIComponent(query);
-      return navParams;
-    });
-  });
-
-
-unvalidatedQuery$
-  .subscribe(unvalidatedQuery => {
-    try {
-      const parsedQuery = parse(unvalidatedQuery);
-      errorStore.mutateTo(null);
-      queryStore.mutateTo(unvalidatedQuery);
-      parsedQueryStore.mutateTo(parsedQuery);
-    } catch (e) {
-      errorStore.mutateTo(e.message);
-    }
-  });
-
+unvalidatedQuery$.subscribe(unvalidatedQuery => {
+  try {
+    const parsedQuery = parse(unvalidatedQuery);
+    errorStore.mutateTo(null);
+    queryStore.mutateTo(unvalidatedQuery);
+    parsedQueryStore.mutateTo(parsedQuery);
+  } catch (e) {
+    errorStore.mutateTo(e.message);
+  }
+});
 
 export function setInputString(newString) {
   unvalidatedQueryStore.mutateTo(newString);
 }
-
 
 export function mutateQuery(fn) {
   mutateUrl(navParams => {

@@ -1,10 +1,9 @@
-import {registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {plugins} from 'in-forge/constants';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { plugins } from 'in-forge/constants';
 
 import iconSvgPath from 'in-forge/plugins/logicalRabbitMqPublisherConnection/iconPath';
 
 import metricDefinitions from './metricDefinitions';
-
 
 registerSnapshotDefinition({
   plugin: plugins.logicalRabbitMqConsumerConnection,
@@ -21,7 +20,7 @@ registerSnapshotDefinition({
 
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'source', 'service_name']) +
-                ' to ' +
-                snapshot.getIn(['data', 'destination', 'service_name']);
+      ' to ' +
+      snapshot.getIn(['data', 'destination', 'service_name']);
   }
 });

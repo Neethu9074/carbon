@@ -6,18 +6,14 @@ import getEvents from 'in-hoc/getEvents';
 
 import './EventListing.less';
 
-
 const block = 'in-event-listing';
 const rpt = React.PropTypes;
 
 export default getEvents(
   React.createClass({
-
     displayName: 'EventListing',
 
-    mixins: [
-      PureRenderMixin
-    ],
+    mixins: [PureRenderMixin],
 
     propTypes: {
       snapshotId: rpt.string.isRequired,
@@ -34,12 +30,14 @@ export default getEvents(
 
       return (
         <div>
-          {events.map(event =>
-            <EventDescription className={block + '__item'}
-                              key={event.get('id')}
-                              event={event}
-                              snapshotId={this.props.snapshotId} />)
-          }
+          {events.map(event => (
+            <EventDescription
+              className={block + '__item'}
+              key={event.get('id')}
+              event={event}
+              snapshotId={this.props.snapshotId}
+            />
+          ))}
         </div>
       );
     }

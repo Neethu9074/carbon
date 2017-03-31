@@ -2,13 +2,11 @@ import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraCon
 import createNullService from 'in-map/misc/serviceLocator/cameraController/CameraControllerNullService';
 import createWebVRController from 'in-map/misc/common/cameraController/WebVRCameraController';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {isWebVRActive} from 'in-map/stores/webVRStore';
-import {eventBus} from 'in-map/services/eventBus';
-import {canvas$} from 'in-map/stores/indexStore';
-
+import { isWebVRActive } from 'in-map/stores/webVRStore';
+import { eventBus } from 'in-map/services/eventBus';
+import { canvas$ } from 'in-map/stores/indexStore';
 
 export default class Map extends SceneObject {
-
   constructor(params) {
     super(params);
 
@@ -29,14 +27,13 @@ export default class Map extends SceneObject {
     this.addSubscriptions([
       canvas$.once(canvas => {
         if (canvas) {
-          CameraControllerServiceLocator.provide(isWebVRActive
-            ? createWebVRController(canvas)
-            : this.createController()(canvas, this));
+          CameraControllerServiceLocator.provide(
+            isWebVRActive ? createWebVRController(canvas) : this.createController()(canvas, this)
+          );
         } else {
           CameraControllerServiceLocator.provide(createNullService());
         }
       }),
-
       eventBus.on('update').subscribe(CameraControllerServiceLocator.update)
     ]);
   }

@@ -1,6 +1,5 @@
-import {navigationParameters$, mutateUrl} from 'in-stores/navigation';
-import {createTrackingStore} from 'in-stores/store';
-
+import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
+import { createTrackingStore } from 'in-stores/store';
 
 export const expanded$ = createTrackingStore({
   name: 'search/searchBarExpanded',
@@ -9,7 +8,6 @@ export const expanded$ = createTrackingStore({
     .map(params => params.query.ss === '1')
     .distinct()
 }).observable;
-
 
 export function toggle() {
   mutateUrl(params => {
@@ -20,7 +18,6 @@ export function toggle() {
     }
   });
 }
-
 
 export function open() {
   mutateUrl(params => {

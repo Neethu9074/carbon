@@ -3,13 +3,12 @@ import React from 'react';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import {emptyList} from 'in-services/fixedImmutables';
+import { emptyList } from 'in-services/fixedImmutables';
 
 import SolrCoreInfo from '../SolrCoreInfo';
 import Info from '../Info';
 
-
-export default function SolrSidebar({snapshot}) {
+export default function SolrSidebar({ snapshot }) {
   const coreNames = snapshot.getIn(['data', 'core_names'], emptyList).toArray().sort();
 
   return (
@@ -25,7 +24,7 @@ export default function SolrSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      {coreNames.map(cn =>
+      {coreNames.map(cn => (
         <div key={cn}>
           <Separator />
 
@@ -38,7 +37,7 @@ export default function SolrSidebar({snapshot}) {
             </Collapsible.Content>
           </Collapsible>
         </div>
-      )}
+      ))}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

@@ -1,30 +1,26 @@
-import {PerspectiveCamera, Matrix4} from 'in-map/3DLibProvider';
-import {width, height} from 'in-map/stores/indexStore';
-import {dimensions$} from 'in-map/stores/indexStore';
+import { PerspectiveCamera, Matrix4 } from 'in-map/3DLibProvider';
+import { width, height } from 'in-map/stores/indexStore';
+import { dimensions$ } from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
-
 
 const INVERSE = new Matrix4();
 
 export default class VRCamera extends Subscriber {
-
   constructor() {
     super();
 
-    const camera = this.camera = new PerspectiveCamera(
+    const camera = (this.camera = new PerspectiveCamera(
       45, // fov
       width / height, // aspect
       0.1, // near
       2000 // far
-    );
+    ));
 
     camera.projection = new Matrix4();
   }
 
   initEvents() {
-    this.addSubscription(
-      dimensions$.subscribe(() => this.updateCameraFromSize())
-    );
+    this.addSubscription(dimensions$.subscribe(() => this.updateCameraFromSize()));
   }
 
   updateCameraFromSize() {

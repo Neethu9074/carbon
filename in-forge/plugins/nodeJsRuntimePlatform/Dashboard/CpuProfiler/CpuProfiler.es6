@@ -5,7 +5,7 @@ import CpuProfilingButton from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard
 import ResultPresenter from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/ResultPresenter';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 
-export default function CpuProfiler({snapshot}) {
+export default function CpuProfiler({ snapshot }) {
   const sensorVersion = snapshot.getIn(['data', 'sensorVersion']);
 
   if (!semver.satisfies(sensorVersion, '>=1.14.0')) {
@@ -13,7 +13,7 @@ export default function CpuProfiler({snapshot}) {
   }
 
   return (
-    <DashboardSection title='CPU Profiling'>
+    <DashboardSection title="CPU Profiling">
       <CpuProfilingButton snapshot={snapshot} />
 
       <ResultPresenter snapshot={snapshot} />

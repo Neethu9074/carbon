@@ -1,9 +1,8 @@
-import {blackListedSearchFieldAliases} from 'in-services/featureFlags';
-import {filters$} from 'in-components/SearchBar/stores/filters';
-
+import { blackListedSearchFieldAliases } from 'in-services/featureFlags';
+import { filters$ } from 'in-components/SearchBar/stores/filters';
 
 const helpTexts = {
-  'entity': 'Infrastructure and application entity',
+  entity: 'Infrastructure and application entity',
   'entity.host': 'Infrastructure host',
   'entity.host.os': 'Operating system',
   'entity.service': 'Logical service',
@@ -22,20 +21,19 @@ const helpTexts = {
   'entity.tomcat': 'Apache Tomcat',
   'entity.nomad': 'HashiCorp Nomad scheduler',
   'entity.gce': 'Google Compute Engine',
-  'trace': 'Trace and root span',
-  'event': 'Changes, issues, incidents and objectives',
-  'span': ''
+  trace: 'Trace and root span',
+  event: 'Changes, issues, incidents and objectives',
+  span: ''
 };
 
 const filterNode = node('filter');
 filters$.subscribe(_filters => {
-  filterNode.children = _filters
-  .toArray()
-  .map(_filter => node(_filter.get('name'), {
-    isPreset: true,
-    query: _filter.get('definition'),
-    description: _filter.get('definition')
-  }));
+  filterNode.children = _filters.toArray().map(_filter =>
+    node(_filter.get('name'), {
+      isPreset: true,
+      query: _filter.get('definition'),
+      description: _filter.get('definition')
+    }));
 });
 
 let tree;

@@ -1,5 +1,4 @@
-import {getCategory, SPAN_KINDS} from 'in-sdk/tracing';
-
+import { getCategory, SPAN_KINDS } from 'in-sdk/tracing';
 
 export function getSelfTime(span) {
   let selfTime = span.get('duration');
@@ -10,7 +9,6 @@ export function getSelfTime(span) {
   });
   return Math.max(selfTime, 0);
 }
-
 
 export function getDepth(span, currentDepth) {
   const kind = span.get('kind');
@@ -29,7 +27,6 @@ export function getDepth(span, currentDepth) {
 
   return maxDepth;
 }
-
 
 export function getErrorCount(span) {
   let count = 0;
@@ -50,12 +47,12 @@ export function getCalls(span, count) {
     }
 
     const batchSize = span.get('batchSize');
-    count += (batchSize === 0 ? 1 : batchSize);
+    count += batchSize === 0 ? 1 : batchSize;
   }
 
   if (count == null) {
     const batchSize = span.get('batchSize');
-    count = (batchSize === 0 ? 1 : batchSize);
+    count = batchSize === 0 ? 1 : batchSize;
   }
 
   span.get('childSpans').forEach(childSpan => {
@@ -69,12 +66,12 @@ export function getPerCategorySummary(span, collector) {
   collector = collector || {};
 
   const category = getCategory(span);
-  const categorySummary = collector[category] = collector[category] || {
+  const categorySummary = (collector[category] = collector[category] || {
     category,
     calls: 0,
     durationTotal: 0,
     durationSelf: 0
-  };
+  });
   categorySummary.calls += Math.max(1, span.get('batchSize', 1));
   categorySummary.durationTotal += span.get('duration');
   categorySummary.durationSelf += getSelfTime(span);
@@ -83,7 +80,6 @@ export function getPerCategorySummary(span, collector) {
 
   return collector;
 }
-
 
 export function getStart(span) {
   let earliestStart = span.get('start');
@@ -94,7 +90,6 @@ export function getStart(span) {
 
   return earliestStart;
 }
-
 
 export function getEnd(span) {
   let latestEnd = span.get('start') + span.get('duration');

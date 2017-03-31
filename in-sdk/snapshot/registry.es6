@@ -1,18 +1,16 @@
 import React from 'react';
 
-import {addIconSvgPathToRegistry, addIconPathCallback} from 'in-sdk/iconRegistry';
-import {setAggregation, setStatAggregation} from 'in-sdk/metrics/aggregation';
+import { addIconSvgPathToRegistry, addIconPathCallback } from 'in-sdk/iconRegistry';
+import { setAggregation, setStatAggregation } from 'in-sdk/metrics/aggregation';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {registerMetricDefinition} from 'in-sdk/metrics';
-import {addSearchableEntityType} from 'in-sdk/search';
-import {addLabelFinder} from 'in-sdk/snapshot';
-
+import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
+import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { registerMetricDefinition } from 'in-sdk/metrics';
+import { addSearchableEntityType } from 'in-sdk/search';
+import { addLabelFinder } from 'in-sdk/snapshot';
 
 // maps plugin => snapshot defintion
 export const registry = {};
-
 
 export function registerSnapshotDefinition(snapshotDefinition) {
   registry[snapshotDefinition.plugin] = snapshotDefinition;
@@ -23,7 +21,6 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerIconPath(snapshotDefinition);
 }
 
-
 export function getSnapshotDefinition(plugin) {
   const defintion = registry[plugin];
   if (!defintion) {
@@ -31,7 +28,6 @@ export function getSnapshotDefinition(plugin) {
   }
   return defintion;
 }
-
 
 function enrichTableDefinition(snapshotDefinition) {
   if (!snapshotDefinition.tableDefinition) {
@@ -52,16 +48,12 @@ function enrichTableDefinition(snapshotDefinition) {
     },
     get(snapshot) {
       return {
-        content: (
-          <AnnotatedHealthBar snapshotId={snapshot.get('id')} />
-        ),
-        sortable$: getHealthInfoAtFocusedMoment(snapshot.get('id'))
-          .map(healthInfo => healthInfo.get('maxSeverity'))
+        content: <AnnotatedHealthBar snapshotId={snapshot.get('id')} />,
+        sortable$: getHealthInfoAtFocusedMoment(snapshot.get('id')).map(healthInfo => healthInfo.get('maxSeverity'))
       };
     }
   });
 }
-
 
 function registerLegacySdkHooks(snapshotDefinition) {
   if (snapshotDefinition.pluginName) {
@@ -73,10 +65,7 @@ function registerLegacySdkHooks(snapshotDefinition) {
   }
 
   if (snapshotDefinition.getLabel) {
-    addLabelFinder(
-      snapshotDefinition.plugin,
-      snapshotDefinition.getLabel
-    );
+    addLabelFinder(snapshotDefinition.plugin, snapshotDefinition.getLabel);
   }
 
   if (snapshotDefinition.metricAggregations) {
@@ -92,7 +81,6 @@ function registerLegacySdkHooks(snapshotDefinition) {
   }
 }
 
-
 function registerSearchHooks(snapshotDefinition) {
   if (snapshotDefinition.namesForTypeSearch) {
     snapshotDefinition.namesForTypeSearch.forEach(name => {
@@ -101,13 +89,12 @@ function registerSearchHooks(snapshotDefinition) {
   }
 }
 
-
 function registerMetricDefinitions(snapshotDefinition) {
   if (!snapshotDefinition.metricDefinitions) {
     return;
   }
-  snapshotDefinition.metricDefinitions
-    .forEach(metricDefinition => registerMetricDefinition(snapshotDefinition.plugin, metricDefinition));
+  snapshotDefinition.metricDefinitions.forEach(metricDefinition =>
+    registerMetricDefinition(snapshotDefinition.plugin, metricDefinition));
 }
 
 function registerIconPath(snapshotDefinition) {

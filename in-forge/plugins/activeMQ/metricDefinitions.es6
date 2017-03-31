@@ -1,8 +1,4 @@
-import {
-  number,
-  percentage
-} from 'in-services/formatters/number';
-
+import { number, percentage } from 'in-services/formatters/number';
 
 export default [
   {
@@ -26,14 +22,8 @@ export default [
     formatter: number
   },
   {
-    metrics: [
-      'memoryPercentUsage',
-      'storePercentUsage'
-    ],
-    labels: [
-      'Memory Usage',
-      'Store Usage'
-    ],
+    metrics: ['memoryPercentUsage', 'storePercentUsage'],
+    labels: ['Memory Usage', 'Store Usage'],
     min: 0,
     formatter: percentage
   }

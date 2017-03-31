@@ -1,4 +1,4 @@
-export default function createStackedAreaContentRenderer({axisName, config}) {
+export default function createStackedAreaContentRenderer({ axisName, config }) {
   const ctx = config.ctx.animationBuffer;
   const x = config.scales.x;
   const y = config.scales[axisName];
@@ -26,7 +26,6 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
     });
   }
 
-
   function getBoundsForRow(dataRow) {
     if (!config.hasActiveFilters) {
       return [dataRow[0].y0, dataRow[dataRow.length - 1].y1];
@@ -45,7 +44,6 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
 
     return [min, max];
   }
-
 
   function render(dataColumns) {
     const activeSeries = config.activeSeries[axisName];
@@ -69,9 +67,11 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
         let seriesEndIndex = null;
 
         // going left to right
-        for (let columnIndex = startingPoint, len = dataColumns.length;
-           columnIndex < len && seriesEndIndex == null;
-           columnIndex++) {
+        for (
+          let columnIndex = startingPoint, len = dataColumns.length;
+          columnIndex < len && seriesEndIndex == null;
+          columnIndex++
+        ) {
           const dataColumn = dataColumns[columnIndex];
           const dataRow = dataColumn[seriesIndex];
           const xToRender = x.getRange(dataRow[0]);
@@ -80,7 +80,7 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
             // subtract one to ensure that the line is always visible
             ctx.moveTo(xToRender, y.getRange(dataRow.y1) - 1);
             previousX = xToRender;
-          } else if ((xToRender - previousX) > config.maxDistanceBetweenPoints) {
+          } else if (xToRender - previousX > config.maxDistanceBetweenPoints) {
             seriesEndIndex = columnIndex;
           } else {
             // subtract one to ensure that the line is always visible
@@ -94,9 +94,7 @@ export default function createStackedAreaContentRenderer({axisName, config}) {
         }
 
         // going right to left to draw the bottom line
-        for (let columnIndex = seriesEndIndex - 1;
-           columnIndex >= startingPoint;
-           columnIndex--) {
+        for (let columnIndex = seriesEndIndex - 1; columnIndex >= startingPoint; columnIndex--) {
           const dataColumn = dataColumns[columnIndex];
           const dataRow = dataColumn[seriesIndex];
 

@@ -1,5 +1,5 @@
-import {generateUniqueShortId} from 'in-services/util/id';
-import {createStore} from 'in-stores/store';
+import { generateUniqueShortId } from 'in-services/util/id';
+import { createStore } from 'in-stores/store';
 
 const store = createStore({
   name: 'configurationView/subview/GenericServiceExtractionConfiguration/stores/notification',
@@ -8,7 +8,7 @@ const store = createStore({
 
 export const notification$ = store.observable;
 
-export function showNofitication({children, duration}) {
+export function showNofitication({ children, duration }) {
   store.mutateTo({
     id: generateUniqueShortId(),
     children,

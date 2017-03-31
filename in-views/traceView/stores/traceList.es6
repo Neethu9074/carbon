@@ -1,15 +1,15 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
-import {sortDirection$} from 'in-views/traceView/stores/sortDirection';
+import { sortDirection$ } from 'in-views/traceView/stores/sortDirection';
 import createTracesObservable from 'in-services/subscription/traces';
-import {debouncedQuery$ as query$} from 'in-stores/search/query';
-import {msZeroDecimalPlaces} from 'in-services/formatters/number';
-import {autoUpdate$} from 'in-views/traceView/stores/autoUpdate';
-import {formatDateTime} from 'in-services/formatters/date';
-import {timeframe$, from$, to$} from 'in-stores/timeline';
-import {sortBy$} from 'in-views/traceView/stores/sortBy';
-import {createStore} from 'in-stores/store';
-import {getLabel} from 'in-sdk/tracing';
+import { debouncedQuery$ as query$ } from 'in-stores/search/query';
+import { msZeroDecimalPlaces } from 'in-services/formatters/number';
+import { autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
+import { formatDateTime } from 'in-services/formatters/date';
+import { timeframe$, from$, to$ } from 'in-stores/timeline';
+import { sortBy$ } from 'in-views/traceView/stores/sortBy';
+import { createStore } from 'in-stores/store';
+import { getLabel } from 'in-sdk/tracing';
 
 let initPhase = false;
 let enabled = false;
@@ -33,13 +33,11 @@ const tracesStore = createStore({
 });
 export const traces$ = tracesStore.observable;
 
-
 const isLoadingStore = createStore({
   name: 'traceView/stores/traceList/isLoading',
   initialValue: false
 });
 export const isLoading$ = isLoadingStore.observable;
-
 
 export function enable() {
   initPhase = true;
@@ -47,32 +45,39 @@ export function enable() {
   clearInterval(autoUpdateHandle);
 
   subscriptions.push(timeframe$.subscribe(refresh));
-  subscriptions.push(sortBy$.subscribe(_sortBy => {
-    sortByField = _sortBy;
-    refresh();
-  }));
-  subscriptions.push(sortDirection$.subscribe(_sortDirection => {
-    sortDirection = _sortDirection;
-    refresh();
-  }));
-  subscriptions.push(query$.subscribe(_query => {
-    query = _query;
-    refresh();
-  }));
-  subscriptions.push(autoUpdate$.subscribe(autoUpdate => {
-    clearInterval(autoUpdateHandle);
-
-    if (autoUpdate) {
+  subscriptions.push(
+    sortBy$.subscribe(_sortBy => {
+      sortByField = _sortBy;
       refresh();
-      autoUpdateHandle = setInterval(refresh, 10000);
-    }
-  }));
+    })
+  );
+  subscriptions.push(
+    sortDirection$.subscribe(_sortDirection => {
+      sortDirection = _sortDirection;
+      refresh();
+    })
+  );
+  subscriptions.push(
+    query$.subscribe(_query => {
+      query = _query;
+      refresh();
+    })
+  );
+  subscriptions.push(
+    autoUpdate$.subscribe(autoUpdate => {
+      clearInterval(autoUpdateHandle);
+
+      if (autoUpdate) {
+        refresh();
+        autoUpdateHandle = setInterval(refresh, 10000);
+      }
+    })
+  );
 
   initPhase = false;
   enabled = true;
   refresh();
 }
-
 
 export function disable() {
   enabled = false;
@@ -83,22 +88,19 @@ export function disable() {
   subscriptions = [];
 }
 
-
 export function refresh() {
   if (initPhase || !enabled) {
     return;
   }
 
-  combineLatest([to$, from$])
-    .once(([to, from]) => {
-      maxTimestamp = to;
-      minTimestamp = from;
+  combineLatest([to$, from$]).once(([to, from]) => {
+    maxTimestamp = to;
+    minTimestamp = from;
 
-      tracesStore.mutateTo([]);
-      loadMoreTraces();
-    });
+    tracesStore.mutateTo([]);
+    loadMoreTraces();
+  });
 }
-
 
 export function loadMoreTraces() {
   if (initPhase || !enabled) {
@@ -113,17 +115,15 @@ export function loadMoreTraces() {
     const isAscTsSort = sortByField === 'ts' && sortDirection === 'asc';
     const maxTimestampForQuery = isAscTsSort ? maxTimestamp : getMaxStartMillis(traces, maxTimestamp);
     loadSubscription = createTracesObservable({
-        maxTimestamp: maxTimestampForQuery,
-        minTimestamp,
-        sortByField,
-        sortMode: sortDirection,
-        query,
-        offset
-      })
-      .once(addNewTraces);
+      maxTimestamp: maxTimestampForQuery,
+      minTimestamp,
+      sortByField,
+      sortMode: sortDirection,
+      query,
+      offset
+    }).once(addNewTraces);
   });
 }
-
 
 function getMaxStartMillis(traces, fallback) {
   if (traces.length === 0) {
@@ -135,7 +135,6 @@ function getMaxStartMillis(traces, fallback) {
   }
   return max;
 }
-
 
 function addNewTraces(newTraces) {
   const transformedTraces = newTraces.toArray().map(trace => {
@@ -163,7 +162,6 @@ function addNewTraces(newTraces) {
   });
   isLoadingStore.mutateTo(false);
 }
-
 
 function disposeExistingLoad() {
   if (loadSubscription) {

@@ -1,45 +1,22 @@
-import {
-  number,
-  bytes,
-  percentage
-} from 'in-services/formatters/number';
-
+import { number, bytes, percentage } from 'in-services/formatters/number';
 
 export default [
   {
-    metrics: [
-      'stats.usedMemory',
-      'stats.residentMemory'
-    ],
-    labels: [
-      'Used Memory',
-      'Resident Memory'
-    ],
+    metrics: ['stats.usedMemory', 'stats.residentMemory'],
+    labels: ['Used Memory', 'Resident Memory'],
     formatter: number,
     min: 0
   },
   {
     formatter: percentage,
-    metrics: [
-      'stats.cpuUsage'
-    ],
-    labels: [
-      'Cpu Usage'
-    ],
+    metrics: ['stats.cpuUsage'],
+    labels: ['Cpu Usage'],
     min: 0
   },
   {
     formatter: bytes,
-    metrics: [
-      'stats.diskUsageData',
-      'stats.diskUsageLog',
-      'stats.diskUsageTrace'
-    ],
-    labels: [
-      'Data Size',
-      'Log Size',
-      'Trace Size'
-    ],
+    metrics: ['stats.diskUsageData', 'stats.diskUsageLog', 'stats.diskUsageTrace'],
+    labels: ['Data Size', 'Log Size', 'Trace Size'],
     min: 0
   },
   {
@@ -51,55 +28,25 @@ export default [
       'stats.sessionsBlockedCount',
       'stats.sessionsBlockingCount'
     ],
-    labels: [
-      'Total',
-      'Idle',
-      'Running',
-      'Blocked',
-      'Blocking'
-    ],
+    labels: ['Total', 'Idle', 'Running', 'Blocked', 'Blocking'],
     min: 0
   },
   {
     formatter: number,
-    metrics: [
-      'stats.sessionsDatabaseUsers',
-      'stats.sessionsApplications',
-      'stats.sessionsApplicationUsers'
-    ],
-    labels: [
-      'Database Users',
-      'Running',
-      'Application Users'
-    ],
+    metrics: ['stats.sessionsDatabaseUsers', 'stats.sessionsApplications', 'stats.sessionsApplicationUsers'],
+    labels: ['Database Users', 'Running', 'Application Users'],
     min: 0
   },
   {
     formatter: number,
-    metrics: [
-      'stats.threadsTotalCount',
-      'stats.threadsActiveCount',
-      'stats.threadsBlockedCount'
-    ],
-    labels: [
-      'Total',
-      'Active',
-      'Blocked'
-    ],
+    metrics: ['stats.threadsTotalCount', 'stats.threadsActiveCount', 'stats.threadsBlockedCount'],
+    labels: ['Total', 'Active', 'Blocked'],
     min: 0
   },
   {
     formatter: number,
-    metrics: [
-      'stats.threadsJobWorkerCount',
-      'stats.threadsJobWorkerActiveCount',
-      'stats.threadsJobWorkerBlockedCount'
-    ],
-    labels: [
-      'Total',
-      'Active',
-      'Blocked'
-    ],
+    metrics: ['stats.threadsJobWorkerCount', 'stats.threadsJobWorkerActiveCount', 'stats.threadsJobWorkerBlockedCount'],
+    labels: ['Total', 'Active', 'Blocked'],
     min: 0
   },
   {
@@ -109,11 +56,7 @@ export default [
       'stats.threadsSqlExecutorActiveCount',
       'stats.threadsSqlExecutorBlockedCount'
     ],
-    labels: [
-      'Total',
-      'Active',
-      'Blocked'
-    ],
+    labels: ['Total', 'Active', 'Blocked'],
     min: 0
   },
   {
@@ -125,13 +68,7 @@ export default [
       'stats.rollbacks',
       'stats.commits'
     ],
-    labels: [
-      'Statement Executions',
-      'Statement Compilations',
-      'Update Transactions',
-      'Rollbacks',
-      'Commits'
-    ],
+    labels: ['Statement Executions', 'Statement Compilations', 'Update Transactions', 'Rollbacks', 'Commits'],
     min: 0
   },
   {
@@ -141,11 +78,7 @@ export default [
       'stats.indexServerActiveRequests',
       'stats.indexServerPendingRequests'
     ],
-    labels: [
-      'Finished Requests',
-      'Active Requests',
-      'Pending Requests'
-    ],
+    labels: ['Finished Requests', 'Active Requests', 'Pending Requests'],
     min: 0
   }
 ];

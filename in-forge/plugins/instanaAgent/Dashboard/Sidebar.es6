@@ -5,7 +5,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-export default function InstanaAgentSidebar({snapshot}) {
+export default function InstanaAgentSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

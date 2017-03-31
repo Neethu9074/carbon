@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {getAxisConfig} from './timeFormatting';
+import { getAxisConfig } from './timeFormatting';
 
 describe('timeFormatting', () => {
   let formatter;

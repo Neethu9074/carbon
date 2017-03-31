@@ -1,20 +1,23 @@
 import React from 'react';
 
-import {zeroDecimalPlaces} from 'in-services/formatters/number';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(props => {
-  return {
-    count: props.count$
-  };
-}, function TotalTraceCount({count}) {
-  if (count == null || count < 0) {
-    return null;
-  }
+export default connectTo(
+  props => {
+    return {
+      count: props.count$
+    };
+  },
+  function TotalTraceCount({ count }) {
+    if (count == null || count < 0) {
+      return null;
+    }
 
-  return (
-    <span>
-      &nbsp;({zeroDecimalPlaces(count)})
-    </span>
-  );
-});
+    return (
+      <span>
+        &nbsp;({zeroDecimalPlaces(count)})
+      </span>
+    );
+  }
+);

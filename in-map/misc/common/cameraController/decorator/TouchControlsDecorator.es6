@@ -1,11 +1,9 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 import Hammer from 'hammerjs';
 
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
 
-
 export default class TouchControlsDecorator extends Decorator {
-
   constructor(controller, canvas) {
     super(controller);
 
@@ -29,7 +27,7 @@ export default class TouchControlsDecorator extends Decorator {
   initEvents() {
     super.initEvents();
 
-    const eventHandler = this.eventHandler = new Hammer(this.canvas);
+    const eventHandler = (this.eventHandler = new Hammer(this.canvas));
     const minMovementForPan = 15; // in px
 
     eventHandler.on('panstart', this.onPanStart.bind(this));
@@ -40,12 +38,12 @@ export default class TouchControlsDecorator extends Decorator {
     eventHandler.on('pan', this.onPan.bind(this));
     eventHandler.on('panend', this.onPanEnd.bind(this));
 
-    eventHandler.get('pinch').set({enable: true});
+    eventHandler.get('pinch').set({ enable: true });
     eventHandler.on('pinchin', this.onPinchIn.bind(this));
     eventHandler.on('pinchout', this.onPinchOut.bind(this));
     eventHandler.on('pinchstart', () => this.pinchDistance = 0);
 
-    eventHandler.get('tap').set({threshold: minMovementForPan - 1});
+    eventHandler.get('tap').set({ threshold: minMovementForPan - 1 });
     eventHandler.on('tap', this.onTab.bind(this));
 
     eventHandler.get('press').set({
@@ -54,10 +52,10 @@ export default class TouchControlsDecorator extends Decorator {
     });
 
     this.addSubscriptions([
-      combineLatest([
-        this.eventEmitter.on('onMove'),
-        this.eventEmitter.on('isDragingObject')
-      ]).subscribe(([delta, isDraging]) => {
+      combineLatest([this.eventEmitter.on('onMove'), this.eventEmitter.on('isDragingObject')]).subscribe(([
+        delta,
+        isDraging
+      ]) => {
         if (!isDraging) {
           this.move(delta.dx, delta.dy);
         }
@@ -69,7 +67,7 @@ export default class TouchControlsDecorator extends Decorator {
 
   checkDoubleClick() {
     const now = Date.now();
-    const deltaTime = (now - this.timeSinceLastTap);
+    const deltaTime = now - this.timeSinceLastTap;
     this.timeSinceLastTap = now;
     if (deltaTime < 300) {
       return true;
@@ -84,11 +82,11 @@ export default class TouchControlsDecorator extends Decorator {
 
   onPan(event) {
     const pointer = event.pointers[0];
-    const dx = (pointer.clientX - this.cursor.x);
-    const dy = (pointer.clientY - this.cursor.y);
+    const dx = pointer.clientX - this.cursor.x;
+    const dy = pointer.clientY - this.cursor.y;
 
     this.setCursorToEvent(event);
-    this.eventEmitter.emit('onMove', {dx, dy});
+    this.eventEmitter.emit('onMove', { dx, dy });
   }
 
   onPanEnd() {
@@ -134,7 +132,7 @@ export default class TouchControlsDecorator extends Decorator {
     const max = this.cameraController.maxZoomLevel;
 
     // [0, 1] => [1, 11]
-    const nZoomLevel = (this.cameraController.zoomLevel / (max - min) * 10) + 1;
+    const nZoomLevel = this.cameraController.zoomLevel / (max - min) * 10 + 1;
     dx *= nZoomLevel;
     dy *= nZoomLevel;
 

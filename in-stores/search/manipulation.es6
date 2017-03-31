@@ -1,8 +1,7 @@
-import {parse, toString} from 'lucene';
-import {assign} from 'lodash';
+import { parse, toString } from 'lucene';
+import { assign } from 'lodash';
 
-
-export function removeField(query, fieldName, value=undefined) {
+export function removeField(query, fieldName, value = undefined) {
   const fieldMatcher = buildFieldMatcher(fieldName, value);
 
   const newAst = manipulate(parse(query), node => fieldMatcher(node) ? null : node);
@@ -14,12 +13,10 @@ export function removeField(query, fieldName, value=undefined) {
   return toString(newAst);
 }
 
-
-export function containsField(query, fieldName, value=undefined) {
+export function containsField(query, fieldName, value = undefined) {
   const fieldMatcher = buildFieldMatcher(fieldName, value);
   return Boolean(reduce(parse(query), (hasField, node) => hasField || fieldMatcher(node), false));
 }
-
 
 export function setField(query, fieldName, value) {
   if (containsField(query, fieldName, value)) {
@@ -27,7 +24,7 @@ export function setField(query, fieldName, value) {
   }
 
   const escapedValue = luceneEscapeString(value);
-  const astForField = {field: fieldName, term: escapedValue, quoted: requiresQuotes(escapedValue)};
+  const astForField = { field: fieldName, term: escapedValue, quoted: requiresQuotes(escapedValue) };
 
   let ast = parse(query);
   if (ast.left && !ast.right) {
@@ -46,17 +43,19 @@ export function setField(query, fieldName, value) {
   return toString(ast);
 }
 
-
 export function getFieldTerms(query, fieldName) {
   const fieldMatcher = buildFieldMatcher(fieldName);
-  return reduce(parse(query), (agg, node) => {
-    if (fieldMatcher(node)) {
-      agg.push(luceneUnescapeString(node.term));
-    }
-    return agg;
-  }, []);
+  return reduce(
+    parse(query),
+    (agg, node) => {
+      if (fieldMatcher(node)) {
+        agg.push(luceneUnescapeString(node.term));
+      }
+      return agg;
+    },
+    []
+  );
 }
-
 
 export function luceneEscapeString(s) {
   return s.replace(/[\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/]/g, c => {
@@ -64,25 +63,22 @@ export function luceneEscapeString(s) {
   });
 }
 
-
 function luceneUnescapeString(s) {
   return s.replace(/\\([\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/])/g, (m, c) => c);
 }
-
 
 export function requiresQuotes(s) {
   return s.indexOf(' ') !== -1 || s.indexOf('\\') !== -1;
 }
 
-
-function buildFieldMatcher(fieldName, value=undefined) {
+function buildFieldMatcher(fieldName, value = undefined) {
   const lowerCasedFieldName = fieldName.toLowerCase();
   const lowerCasedValue = typeof value === 'string' ? luceneEscapeString(value.toLowerCase()) : value;
-  return node =>  !!node.field &&
-        node.field.toLowerCase() === lowerCasedFieldName &&
-        (lowerCasedValue === undefined || node.term.toLowerCase() === lowerCasedValue);
+  return node =>
+    !!node.field &&
+    node.field.toLowerCase() === lowerCasedFieldName &&
+    (lowerCasedValue === undefined || node.term.toLowerCase() === lowerCasedValue);
 }
-
 
 function manipulate(ast, visitor) {
   if (ast.field) {
@@ -112,7 +108,6 @@ function manipulate(ast, visitor) {
   newAstNode.right = right;
   return visitor(newAstNode);
 }
-
 
 function reduce(ast, reducer, initialValue) {
   let reduced = initialValue;

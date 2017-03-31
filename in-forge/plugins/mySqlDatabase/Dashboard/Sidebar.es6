@@ -7,8 +7,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function MySqlSidebar({snapshot}) {
+export default function MySqlSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

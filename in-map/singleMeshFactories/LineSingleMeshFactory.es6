@@ -2,11 +2,9 @@ import fragmentShader from 'in-map/singleMeshFactories/basicFragmentShader.glsl'
 import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
 
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
-import {LineSegments, RawShaderMaterial} from 'in-map/3DLibProvider';
-
+import { LineSegments, RawShaderMaterial } from 'in-map/3DLibProvider';
 
 export default class LineSingleMeshFactory extends ASingleMeshFactory {
-
   constructor(options) {
     super(options);
   }

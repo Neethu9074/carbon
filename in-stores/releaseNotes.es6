@@ -1,8 +1,8 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
-import {hashCode} from 'in-services/formatters/string';
-import {isOnPremise} from 'in-services/config';
-import {createStore} from 'in-stores/store';
+import { hashCode } from 'in-services/formatters/string';
+import { isOnPremise } from 'in-services/config';
+import { createStore } from 'in-stores/store';
 import http from 'in-services/http';
 
 const localStorageKey = 'in-read-release-notes';
@@ -15,12 +15,9 @@ const readReleaseNotesStore = createStore({
 });
 
 // ensure that the read state is persisted in localStorage
-readReleaseNotesStore.observable
-  .skipFirst()
-  .distinct()
-  .subscribe(readReleaseNotes => {
-    localStorage.setItem(localStorageKey, readReleaseNotes);
-  });
+readReleaseNotesStore.observable.skipFirst().distinct().subscribe(readReleaseNotes => {
+  localStorage.setItem(localStorageKey, readReleaseNotes);
+});
 
 // stores the latest release notes, but does not account for the users read state
 const currentReleaseNotesStore = createStore({
@@ -30,15 +27,15 @@ const currentReleaseNotesStore = createStore({
 
 const currentReleaseNotes$ = currentReleaseNotesStore.observable.distinct();
 
-export const releaseNotes$ = combineLatest([
-    readReleaseNotesStore.observable,
-    currentReleaseNotes$
-  ]).map(([readState, currentReleaseNotes]) => {
-    if (readState === hashCode(currentReleaseNotes)) {
-      return null;
-    }
-    return currentReleaseNotes;
-  });
+export const releaseNotes$ = combineLatest([readReleaseNotesStore.observable, currentReleaseNotes$]).map(([
+  readState,
+  currentReleaseNotes
+]) => {
+  if (readState === hashCode(currentReleaseNotes)) {
+    return null;
+  }
+  return currentReleaseNotes;
+});
 
 if (!isOnPremise()) {
   retrieveLatestReleaseNotes();
@@ -67,13 +64,11 @@ function retrieveLatestReleaseNotes() {
   });
 }
 
-
 export function markAsRead() {
   currentReleaseNotes$.once(releaseNotes => {
     readReleaseNotesStore.applyStateMutation(() => hashCode(releaseNotes));
   });
 }
-
 
 export function showReleaseNotes() {
   readReleaseNotesStore.applyStateMutation(() => 0);

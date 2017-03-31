@@ -1,11 +1,10 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
-import {navigationParameters$} from 'in-stores/navigation';
-import {viewGrouping$} from 'in-stores/view/viewGrouping';
-import {createTrackingStore} from 'in-stores/store';
-import {focusedMoment$} from 'in-stores/timeline';
-
+import { navigationParameters$ } from 'in-stores/navigation';
+import { viewGrouping$ } from 'in-stores/view/viewGrouping';
+import { createTrackingStore } from 'in-stores/store';
+import { focusedMoment$ } from 'in-stores/timeline';
 
 export const types = {
   logical: 'LOGICAL',
@@ -18,8 +17,7 @@ const store = createTrackingStore({
   observable: navigationParameters$
     .map(params => {
       const pathname = params.pathname;
-      if (pathname.indexOf('/logical') === 0 ||
-          pathname.indexOf('/webVR/logical') === 0) {
+      if (pathname.indexOf('/logical') === 0 || pathname.indexOf('/webVR/logical') === 0) {
         return types.logical;
       } else if (pathname.indexOf('/container') === 0) {
         return types.container;
@@ -33,11 +31,9 @@ export const view$ = view;
 
 export const viewStructure = createTrackingStore({
   name: 'view/viewStructure',
-  observable: combineLatest([view, focusedMoment$, viewGrouping$])
-    .flatMap(([viewType, time, grouping]) => createViewStructureObservable({viewType, time, grouping}))
+  observable: combineLatest([view, focusedMoment$, viewGrouping$]).flatMap(([viewType, time, grouping]) =>
+    createViewStructureObservable({ viewType, time, grouping }))
 }).observable;
 
-
 export const physicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
-  createViewStructureObservable({viewType: types.physical, time: focusedMoment})
-);
+  createViewStructureObservable({ viewType: types.physical, time: focusedMoment }));

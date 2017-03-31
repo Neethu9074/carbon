@@ -1,22 +1,20 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './MatchPresenter.less';
 
 const block = 'in-config-generic-ex-rule-match-presenter';
 
-export default function MatchPresenter({match, prefix}) {
+export default function MatchPresenter({ match, prefix }) {
   let content;
   let captureGroups;
 
   if (match) {
     content = (
       <div>
-        <SvgIcon type='ok'
-                 height={13}
-                 className={`${block}__indicator ${block}__indicator--match`} />
+        <SvgIcon type="ok" height={13} className={`${block}__indicator ${block}__indicator--match`} />
         Matches
       </div>
     );
@@ -35,8 +33,7 @@ export default function MatchPresenter({match, prefix}) {
                 title = `${title} (full match)`;
               }
               return (
-                <DescriptionItem title={title}
-                                 key={i}>
+                <DescriptionItem title={title} key={i}>
                   <code>{m || '<emtpy string>'}</code>
                 </DescriptionItem>
               );
@@ -48,9 +45,7 @@ export default function MatchPresenter({match, prefix}) {
   } else {
     content = (
       <div>
-        <SvgIcon type='x'
-                 height={13}
-                 className={`${block}__indicator ${block}__indicator--no-match`} />
+        <SvgIcon type="x" height={13} className={`${block}__indicator ${block}__indicator--no-match`} />
         No match
       </div>
     );

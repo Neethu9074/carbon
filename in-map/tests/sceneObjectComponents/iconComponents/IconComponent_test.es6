@@ -1,10 +1,9 @@
 /* eslint-env mocha, node */
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
-
+import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 
 describe('in-map', () => {
   describe('sceneObjectComponents/iconComponents/IconComponent', () => {
@@ -16,7 +15,7 @@ describe('in-map', () => {
     beforeEach(() => {
       sceneObject = createSceneObject();
 
-      getIconPositionCallback = sinon.stub().returns({x: 0, y: 0, z: 0});
+      getIconPositionCallback = sinon.stub().returns({ x: 0, y: 0, z: 0 });
 
       factory = {
         add: sinon.stub(),
@@ -49,13 +48,13 @@ describe('in-map', () => {
       expect(factory.add).to.have.callCount(1);
       expect(factory.needsUpdate).to.have.callCount(0);
 
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
+      sceneObject.eventEmitter.emit('positionChanged', { x: 1, y: 0, z: 2 });
+      sceneObject.eventEmitter.emit('scaleChanged', { x: 1, y: 2, z: 1 });
       expect(factory.needsUpdate).to.have.callCount(1);
 
       expect(getIconPositionCallback).to.have.callCount(1);
-      expect(getIconPositionCallback.getCall(0).args[0]).to.deep.equal({x: 1, y: 0, z: 2});
-      expect(getIconPositionCallback.getCall(0).args[1]).to.deep.equal({x: 1, y: 2, z: 1});
+      expect(getIconPositionCallback.getCall(0).args[0]).to.deep.equal({ x: 1, y: 0, z: 2 });
+      expect(getIconPositionCallback.getCall(0).args[1]).to.deep.equal({ x: 1, y: 2, z: 1 });
     });
   });
 });

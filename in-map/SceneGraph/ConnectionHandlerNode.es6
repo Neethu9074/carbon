@@ -1,10 +1,8 @@
 import Node from 'in-map/SceneGraph/Node';
 
-
 export default class ConnectionHandlerNode extends Node {
-
   constructor(params) {
-    super({params});
+    super({ params });
 
     this.connectionNodeType = params.connectionNodeType;
   }
@@ -42,8 +40,8 @@ export default class ConnectionHandlerNode extends Node {
     });
 
     for (let i = 0, length = connections.length; i < length; i++) {
-      this.updateEntities(connections
-        .map(connection => {
+      this.updateEntities(
+        connections.map(connection => {
           return {
             NodeType: this.connectionNodeType,
             params: {

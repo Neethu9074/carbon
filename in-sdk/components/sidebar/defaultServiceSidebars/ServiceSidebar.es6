@@ -7,8 +7,7 @@ import TracesButtonWrapper from 'in-sdk/components/sidebar/TracesButtonWrapper';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import ConnectionList from 'in-sdk/components/sidebar/ConnectionList';
 
-
-export default function ServiceSidebar({snapshot}) {
+export default function ServiceSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>

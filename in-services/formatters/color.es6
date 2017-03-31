@@ -23,10 +23,10 @@ export function hexToRGB(style) {
 
   hex = Math.floor(hex);
 
-  const r = (hex >> 16 & 255);
-  const g = (hex >> 8 & 255);
-  const b = (hex & 255);
-  return {r, g, b};
+  const r = hex >> 16 & 255;
+  const g = hex >> 8 & 255;
+  const b = hex & 255;
+  return { r, g, b };
 }
 
 /**
@@ -34,5 +34,5 @@ export function hexToRGB(style) {
  */
 export function hexToRGBNormalized(style) {
   const rgb = hexToRGB(style);
-  return {r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255};
+  return { r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255 };
 }

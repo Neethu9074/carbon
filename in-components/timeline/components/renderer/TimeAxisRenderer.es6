@@ -1,19 +1,11 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {getTickPositions} from 'in-charts/timeAxis';
+import { getTickPositions } from 'in-charts/timeAxis';
 
-import {
-  font,
-  darkColorTransparent,
-  darkColor,
-  lightColor,
-  midColor
-} from 'in-components/timeline/timelineConfig';
-
+import { font, darkColorTransparent, darkColor, lightColor, midColor } from 'in-components/timeline/timelineConfig';
 
 const edgeWidth = 260;
 
 export default class TimeAxisRenderer extends BasicRenderer {
-
   constructor(backBuffer, scale) {
     super(backBuffer, scale);
 
@@ -69,7 +61,6 @@ export default class TimeAxisRenderer extends BasicRenderer {
 
     buffer.fillStyle = '#334750';
     buffer.fillRect(0, 18, scale.getRangeTo() - scale.getRangeFrom(), 1);
-
 
     // mark the start and end
     buffer.fillStyle = midColor;

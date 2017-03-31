@@ -1,4 +1,4 @@
-import {twoDecimalPlaces} from 'in-services/formatters/number';
+import { twoDecimalPlaces } from 'in-services/formatters/number';
 
 const textHeightInPx = 13;
 const textMarginInPx = 5;
@@ -41,7 +41,6 @@ export default function createAnimatableContentRenderer(config) {
     renderXAxis();
   }
 
-
   function doesAxisNeedToBeRendered(axisName) {
     if (!config[axisName]) {
       return false;
@@ -60,7 +59,6 @@ export default function createAnimatableContentRenderer(config) {
     return false;
   }
 
-
   function clearOverflowingAxisContent() {
     animationCtx.clearRect(
       config.margins.left,
@@ -69,7 +67,6 @@ export default function createAnimatableContentRenderer(config) {
       config.margins.bottom
     );
   }
-
 
   function renderXAxis() {
     const ticks = getXTickPositions();
@@ -90,7 +87,6 @@ export default function createAnimatableContentRenderer(config) {
     animationCtx.fillStyle = axisTickColor;
     animationCtx.fill();
   }
-
 
   function getXTickPositions() {
     const formatting = config.xAxisFormattingConfig;
@@ -118,7 +114,6 @@ export default function createAnimatableContentRenderer(config) {
     return ticks;
   }
 
-
   function renderAxisContent(axisName) {
     const newDataColumns = config.queues[axisName].get();
     const axisContentRenderer = config.axisContentRenderers[axisName];
@@ -135,7 +130,6 @@ export default function createAnimatableContentRenderer(config) {
     updateScale(dataColumns, axisName);
     axisContentRenderer.render(dataColumns);
   }
-
 
   function updateScale(dataColumns, axisName) {
     const axisConfig = config[axisName];
@@ -179,7 +173,6 @@ export default function createAnimatableContentRenderer(config) {
     scale.setDomainTo(max);
   }
 
-
   function renderYAxis(axisName) {
     const scale = config.scales[axisName];
     const formatter = config[axisName].formatter || twoDecimalPlaces;
@@ -209,7 +202,6 @@ export default function createAnimatableContentRenderer(config) {
     staticCtx.fillStyle = axisTickColor;
     staticCtx.fill();
   }
-
 
   function getYTickPositions(scale) {
     const ticks = [];
@@ -246,7 +238,6 @@ export default function createAnimatableContentRenderer(config) {
 
     return ticks;
   }
-
 
   function getBoundsForRow(column, axisName) {
     const activeSeries = config.activeSeries[axisName];

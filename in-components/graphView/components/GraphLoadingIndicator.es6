@@ -1,15 +1,17 @@
 import React from 'react';
 
-import {isLoading$} from 'in-components/graphView/graphViewStore';
+import { isLoading$ } from 'in-components/graphView/graphViewStore';
 import connectTo from 'in-hoc/connectTo';
 
 import './GraphLoadingIndicator.less';
 
 const block = 'in-graph-loading-indicator';
 
-export default connectTo({
+export default connectTo(
+  {
     isLoading: isLoading$
-  }, function GraphLoadingIndicator({isLoading}) {
+  },
+  function GraphLoadingIndicator({ isLoading }) {
     if (!isLoading) {
       return null;
     }

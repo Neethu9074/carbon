@@ -1,11 +1,9 @@
 import ChangeEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/ChangeEventRenderer';
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
-import {isCollapsed$} from 'in-components/timeline/timelineStore';
-
+import { isCollapsed$ } from 'in-components/timeline/timelineStore';
 
 export default class CombinedEventsRenderer {
-
   constructor(backBuffer, scale) {
     this.changeEventRenderer = new ChangeEventRenderer(backBuffer, scale, 14);
     this.incidentRenderer = new IncidentRenderer(backBuffer, scale, 16);

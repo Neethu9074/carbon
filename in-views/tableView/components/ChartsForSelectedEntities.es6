@@ -1,24 +1,23 @@
 import React from 'react';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
-import {selectedSnapshots$} from 'in-views/tableView/stores/selectedSnapshots';
-import {metrics$, removeMetric} from 'in-views/tableView/stores/metrics';
-import {plugin$} from 'in-views/tableView/stores/snapshotIds';
+import { selectedSnapshots$ } from 'in-views/tableView/stores/selectedSnapshots';
+import { metrics$, removeMetric } from 'in-views/tableView/stores/metrics';
+import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import DownloadButton from 'in-components/DownloadButton';
-import {getMetricDefinition} from 'in-sdk/metrics';
+import { getMetricDefinition } from 'in-sdk/metrics';
 import SvgIcon from 'in-components/SvgIcon';
-import {getPlural} from 'in-sdk/pluginName';
+import { getPlural } from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
-import {getLabel} from 'in-sdk/snapshot';
-
+import { getLabel } from 'in-sdk/snapshot';
 
 import './ChartsForSelectedEntities.less';
 
 const block = 'in-table-view-charts';
 
-function SelectedChart({metric, snapshots}) {
+function SelectedChart({ metric, snapshots }) {
   const definition = getMetricDefinition(snapshots[0].get('plugin'), metric);
 
   let max = undefined;
@@ -41,83 +40,76 @@ function SelectedChart({metric, snapshots}) {
   return (
     <div className={`${block}__chart`}>
       <h2 className={`${block}__chart-title`}>
-        {definition.category.map((part, i) =>
+        {definition.category.map((part, i) => (
           <span key={i}>
             {part}
 
-            <SvgIcon height={9}
-                     type='chevron_right'
-                     className={`${block}__breadcrumb-separator`} />
+            <SvgIcon height={9} type="chevron_right" className={`${block}__breadcrumb-separator`} />
           </span>
-        )}
+        ))}
         {definition.label}
 
         <div className={`${block}__button-panel`}>
           <DownloadButton>
-            <MetricChartDownloadView metric={metric}
-                                     label={definition.label}
-                                     snapshots={snapshots} />
+            <MetricChartDownloadView metric={metric} label={definition.label} snapshots={snapshots} />
           </DownloadButton>
 
-          <Button onClick={() => removeMetric(metric)}
-                  kind='secondary'
-                  size='sm'
-                  className={`${block}__button`}>
+          <Button onClick={() => removeMetric(metric)} kind="secondary" size="sm" className={`${block}__button`}>
             Remove
           </Button>
         </div>
       </h2>
 
-      <ChartWithLegend snapshotIds={snapshots.map(s => s.get('id'))}
-                       margins={{
-                         left: 90
-                       }}
-                       y1={{
-                         metrics: snapshots.map(() => definition.metric),
-                         labels: snapshots.map(s => getLabel(s)),
-                         type: 'line',
-                         min,
-                         max,
-                         formatter: definition.formatter.detailed,
-                         tooltipFormatter: definition.formatter.detailed
-                       }} />
+      <ChartWithLegend
+        snapshotIds={snapshots.map(s => s.get('id'))}
+        margins={{
+          left: 90
+        }}
+        y1={{
+          metrics: snapshots.map(() => definition.metric),
+          labels: snapshots.map(s => getLabel(s)),
+          type: 'line',
+          min,
+          max,
+          formatter: definition.formatter.detailed,
+          tooltipFormatter: definition.formatter.detailed
+        }}
+      />
     </div>
   );
 }
 
-export default connectTo({
-  metrics: metrics$,
-  snapshots: selectedSnapshots$,
-  plugin: plugin$
-}, function ChartsForSelectedEntities({metrics, snapshots, plugin}) {
-  metrics = metrics || [];
-  snapshots = snapshots || [];
-  snapshots = snapshots
-    .filter(snapshot => !!snapshot);
+export default connectTo(
+  {
+    metrics: metrics$,
+    snapshots: selectedSnapshots$,
+    plugin: plugin$
+  },
+  function ChartsForSelectedEntities({ metrics, snapshots, plugin }) {
+    metrics = metrics || [];
+    snapshots = snapshots || [];
+    snapshots = snapshots.filter(snapshot => !!snapshot);
 
-  if (snapshots.length === 0 && metrics.length === 0) {
-    return null;
-  } else if (snapshots.length === 0 && metrics.length > 0) {
+    if (snapshots.length === 0 && metrics.length === 0) {
+      return null;
+    } else if (snapshots.length === 0 && metrics.length > 0) {
+      return (
+        <div className={`${block}__incomplete-selection`}>
+          Please select {getPlural(plugin)} for which to visualize the chosen metrics.
+        </div>
+      );
+    } else if (snapshots.length > 0 && metrics.length === 0) {
+      return (
+        <div className={`${block}__incomplete-selection`}>
+          Please select metrics to visualize for the selected {getPlural(plugin)}.
+        </div>
+      );
+    }
+
     return (
-      <div className={`${block}__incomplete-selection`}>
-        Please select {getPlural(plugin)} for which to visualize the chosen metrics.
-      </div>
-    );
-  } else if (snapshots.length > 0 && metrics.length === 0) {
-    return (
-      <div className={`${block}__incomplete-selection`}>
-        Please select metrics to visualize for the selected {getPlural(plugin)}.
+      <div className={block}>
+        {metrics.map(metric => <SelectedChart snapshots={snapshots} metric={metric} key={metric} />)}
       </div>
     );
   }
-
-  return (
-    <div className={block}>
-      {metrics.map(metric =>
-        <SelectedChart snapshots={snapshots}
-                       metric={metric}
-                       key={metric} />
-      )}
-    </div>
-  );
-});
+);

@@ -4,9 +4,8 @@ import './TwoColumnRow.less';
 
 const block = 'in-dashboard-two-column-row';
 
-export default function TwoColumnRow({children}) {
-  children = React.Children.toArray(children)
-    .filter(child => !!child);
+export default function TwoColumnRow({ children }) {
+  children = React.Children.toArray(children).filter(child => !!child);
   const count = children.length;
   if (count === 0) {
     return null;

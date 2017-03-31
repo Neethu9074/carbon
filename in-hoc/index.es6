@@ -5,6 +5,8 @@
 // We want developers to only use parts of in-hoc so that unused code
 // can successfully be eliminated by Webpack and uglifyJS.
 
-throw new Error('You should never require the whole in-hoc module. ' +
-  'Please import only parts of it via import ' +
-  '\'in-hoc/foobar\'.');
+throw new Error(
+  'You should never require the whole in-hoc module. ' +
+    'Please import only parts of it via import ' +
+    "'in-hoc/foobar'."
+);

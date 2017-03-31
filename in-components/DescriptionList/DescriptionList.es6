@@ -1,8 +1,7 @@
-
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 
-import {evaluateClassNames, joinClassNames} from 'in-services/util/classnames';
+import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 
 import './DescriptionList.less';
 
@@ -10,8 +9,7 @@ const block = 'in-detail-pane';
 const listClassName = `${block}__description-list`;
 const itemClassName = `${block}__description-item`;
 
-
-export function DescriptionList({children, className}) {
+export function DescriptionList({ children, className }) {
   return (
     <dl className={joinClassNames(listClassName, className)}>
       {children}
@@ -19,29 +17,28 @@ export function DescriptionList({children, className}) {
   );
 }
 
-
-export function DescriptionItem({title, children, onClick, className, addSeparator}) {
+export function DescriptionItem({ title, children, onClick, className, addSeparator }) {
   if (isItemEmpty(children)) {
     return null;
   }
 
   return (
-    <div className={evaluateClassNames({
-           [itemClassName]: true,
-           [`${itemClassName}--with-separator`]: addSeparator,
-           [className]: className
-         })}>
+    <div
+      className={evaluateClassNames({
+        [itemClassName]: true,
+        [`${itemClassName}--with-separator`]: addSeparator,
+        [className]: className
+      })}
+    >
       <dt className={block + '__description-title'}>
         {title}
       </dt>
-      <dd className={`${block}__description-text`}
-          onClick={onClick}>
+      <dd className={`${block}__description-text`} onClick={onClick}>
         {children}
       </dd>
     </div>
   );
 }
-
 
 function isItemEmpty(children) {
   if (children === null || children === undefined) {

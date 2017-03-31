@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {getMostImportantEventAtFocusedMoment} from 'in-stores/events';
-
+import { getMostImportantEventAtFocusedMoment } from 'in-stores/events';
 
 export default function getMostImportantEvent(ComposedComponent) {
   return React.createClass({
@@ -40,8 +39,7 @@ export default function getMostImportantEvent(ComposedComponent) {
         this.subscription = getMostImportantEventAtFocusedMoment(snapshotId).subscribe(mostImportantEvent =>
           this.setState({
             mostImportantEvent
-          })
-        );
+          }));
       }
     },
 
@@ -53,10 +51,7 @@ export default function getMostImportantEvent(ComposedComponent) {
     },
 
     render() {
-      return (
-        <ComposedComponent {...this.props}
-                           {...this.state} />
-      );
+      return <ComposedComponent {...this.props} {...this.state} />;
     }
   });
 }

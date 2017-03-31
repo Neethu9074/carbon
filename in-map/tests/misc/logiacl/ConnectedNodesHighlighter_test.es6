@@ -1,12 +1,11 @@
 /* eslint-env mocha, node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import connections from 'in-map/stores/connectionsStore';
-
 
 describe('in-map', () => {
   describe('misc/logiacl/ConnectedNodesHighlighter', () => {
@@ -87,9 +86,9 @@ describe('in-map', () => {
 
       expect(setIds).to.have.callCount(1);
       expect(setIds.getCall(0).args[0]).to.deep.equal({
-        'foo': true,
-        'bar': true,
-        'foo_c': true
+        foo: true,
+        bar: true,
+        foo_c: true
       });
 
       connections.remove('foo_c');
@@ -106,9 +105,9 @@ describe('in-map', () => {
 
       expect(setIds).to.have.callCount(1);
       expect(setIds.getCall(0).args[0]).to.deep.equal({
-        'foo': true,
-        'bar': true,
-        'foo_c': true
+        foo: true,
+        bar: true,
+        foo_c: true
       });
 
       connections.remove('foo_c');
@@ -125,9 +124,9 @@ describe('in-map', () => {
 
       expect(setIds).to.have.callCount(1);
       expect(setIds.getCall(0).args[0]).to.deep.equal({
-        'foo': true,
-        'bar': true,
-        'foo_c': true
+        foo: true,
+        bar: true,
+        foo_c: true
       });
 
       connections.add('foo_c2', {
@@ -138,11 +137,11 @@ describe('in-map', () => {
 
       expect(setIds).to.have.callCount(2);
       expect(setIds.getCall(1).args[0]).to.deep.equal({
-        'foo': true,
-        'bar': true,
-        'foo_c': true,
-        'foo_c2': true,
-        'unknown': true
+        foo: true,
+        bar: true,
+        foo_c: true,
+        foo_c2: true,
+        unknown: true
       });
 
       connections.remove('foo_c');

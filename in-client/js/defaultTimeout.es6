@@ -1,4 +1,4 @@
-import {isSafari} from 'in-services/browser';
+import { isSafari } from 'in-services/browser';
 
 // We have seen cases where socket.io XHR polling requests run into
 // bugs in the Safari internal network helper process. This resulted in
@@ -38,5 +38,4 @@ if (isSafari()) {
     xhr.timeout = 60000;
     return xhr;
   };
-
 }

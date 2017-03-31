@@ -1,6 +1,6 @@
 const CIRCLE_ARC = 2 * Math.PI;
 
-export default function createPointContentRenderer({axisName, config}) {
+export default function createPointContentRenderer({ axisName, config }) {
   const ctx = config.ctx.animationBuffer;
   const x = config.scales.x;
   const y = config.scales[axisName];
@@ -22,9 +22,7 @@ export default function createPointContentRenderer({axisName, config}) {
       ctx.strokeStyle = colors[seriesIndex];
 
       // going left to right
-      for (let columnIndex = 0, len = dataColumns.length;
-         columnIndex < len;
-         columnIndex++) {
+      for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
         const dataColumn = dataColumns[columnIndex];
         const dataRow = dataColumn[seriesIndex];
 

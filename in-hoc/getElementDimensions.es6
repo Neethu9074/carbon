@@ -3,10 +3,10 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import {debouncedResize$} from 'in-services/browser';
+import { debouncedResize$ } from 'in-services/browser';
 
 export default function getElementDimensions(ComposedComponent) {
-  return  React.createClass({
+  return React.createClass({
     displayName: 'ElementDimensionHoc',
 
     getInitialState() {
@@ -18,8 +18,7 @@ export default function getElementDimensions(ComposedComponent) {
     componentDidMount() {
       this.domNode = ReactDOM.findDOMNode(this);
       this.calculateDimensions();
-      this.subscription = debouncedResize$
-        .subscribe(this.calculateDimensions);
+      this.subscription = debouncedResize$.subscribe(this.calculateDimensions);
     },
 
     calculateDimensions() {
@@ -34,11 +33,7 @@ export default function getElementDimensions(ComposedComponent) {
     },
 
     render() {
-      return (
-        <ComposedComponent {...this.props}
-                           height={this.state.height}
-                           width={this.state.width} />
-      );
+      return <ComposedComponent {...this.props} height={this.state.height} width={this.state.width} />;
     }
   });
 }

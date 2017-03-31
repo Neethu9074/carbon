@@ -1,38 +1,18 @@
-import {
-  millis,
-  number
-} from 'in-services/formatters/number';
-import {isPerformanceDataAvailable} from 'in-forge/plugins/mySqlDatabase/util';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { millis, number } from 'in-services/formatters/number';
+import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [
-      'status.COM_SELECT',
-      'status.COM_UPDATE',
-      'status.COM_INSERT',
-      'status.COM_DELETE',
-      'status.COM_OTHER'
-    ],
-    labels: [
-      'SELECTS',
-      'UPDATES',
-      'INSERTS',
-      'DELETES',
-      'OTHER'
-    ],
+    metrics: ['status.COM_SELECT', 'status.COM_UPDATE', 'status.COM_INSERT', 'status.COM_DELETE', 'status.COM_OTHER'],
+    labels: ['SELECTS', 'UPDATES', 'INSERTS', 'DELETES', 'OTHER'],
     min: 0,
     category: ['Queries'],
     formatter: number
   },
   {
-    metrics: [
-      'status.SLOW_QUERIES',
-      'status.COM_SHOW_ERRORS'
-    ],
-    labels: [
-    ],
+    metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
+    labels: [],
     min: 0,
     category: ['Slow Queries'],
     formatter: number
@@ -48,33 +28,15 @@ export default [
     }
   },
   {
-    metrics: [
-      'status.THREADS_CONNECTED',
-      'status.MAX_USED_CONNECTIONS',
-      'status.ABORTED_CONNECTS'
-    ],
-    labels: [
-      'Connections',
-      'Max used connections',
-      'Aborted connects'
-    ],
+    metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
+    labels: ['Connections', 'Max used connections', 'Aborted connects'],
     min: 0,
     category: ['Clients'],
     formatter: number
   },
   {
-    metrics: [
-      'status.KEY_READ_REQUESTS',
-      'status.KEY_WRITE_REQUESTS',
-      'status.KEY_READS',
-      'status.KEY_WRITES'
-    ],
-    labels: [
-      'Read Requests',
-      'Write Requests',
-      'Reads',
-      'Writes'
-    ],
+    metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS', 'status.KEY_READS', 'status.KEY_WRITES'],
+    labels: ['Read Requests', 'Write Requests', 'Reads', 'Writes'],
     min: 0,
     formatter: number
   },
@@ -125,5 +87,6 @@ export default [
     category: ['Queries'],
     formatter: number
   }
+
   // TODO: Wait metric
 ];

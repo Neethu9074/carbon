@@ -1,9 +1,8 @@
-import {registerSnapshotDefinition, getLabel} from 'in-sdk/snapshot';
+import { registerSnapshotDefinition, getLabel } from 'in-sdk/snapshot';
 import iconSvgPath from 'in-sdk/unknownIconPath';
-import {plugins} from 'in-forge/constants';
+import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
-
 
 registerSnapshotDefinition({
   plugin: plugins.ftpServiceInstance,

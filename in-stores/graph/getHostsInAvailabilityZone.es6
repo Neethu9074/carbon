@@ -1,5 +1,4 @@
-import {physicalViewStructure$} from 'in-stores/view';
-
+import { physicalViewStructure$ } from 'in-stores/view';
 
 const mappedView$ = physicalViewStructure$.map(physicalView => {
   const groups = {};
@@ -8,7 +7,6 @@ const mappedView$ = physicalViewStructure$.map(physicalView => {
   });
   return groups;
 });
-
 
 export default function getHostsInAvailabilityZone(zoneSnapshotId) {
   return mappedView$.map(groupsMap => groupsMap[zoneSnapshotId]);

@@ -1,20 +1,22 @@
-import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
-import {Vector3, Object3D} from 'in-map/3DLibProvider';
-import {getDeltaTime} from 'in-map/misc/time';
-
+import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/reactiveMouseEvents';
+import { Vector3, Object3D } from 'in-map/3DLibProvider';
+import { getDeltaTime } from 'in-map/misc/time';
 
 const RAD_2_DEG = Math.PI / 180;
 
-export default function createControls(canvas, camera, {
-  maxZoomIn = 0,
-  maxZoomOut = 10000,
-  startingWorldDistance = 300,
-  startingZoomDistance = 30,
-  cameraMoveSpeed = 10,
-  zoomSteps = 1,
-  zoomSpeed = 1
-}) {
-
+export default function createControls(
+  canvas,
+  camera,
+  {
+    maxZoomIn = 0,
+    maxZoomOut = 10000,
+    startingWorldDistance = 300,
+    startingZoomDistance = 30,
+    cameraMoveSpeed = 10,
+    zoomSteps = 1,
+    zoomSpeed = 1
+  }
+) {
   const targetPosition = new Vector3(0, 0, 0);
   let targetRotationX = 0;
   let targetRotationY = 0;

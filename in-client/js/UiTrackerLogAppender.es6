@@ -1,10 +1,9 @@
-import {user, role} from 'in-stores/user';
+import { user, role } from 'in-stores/user';
 import http from 'in-services/http';
 
 let totalNumberOfReportedErrors = 0;
 
 export default class UiTrackerLogAppender {
-
   constructor() {
     this.activePriority = 0;
   }
@@ -17,11 +16,15 @@ export default class UiTrackerLogAppender {
     const formattedPayload = opts.params
       .map(part => {
         if (part instanceof Error) {
-          return JSON.stringify({
-            type: 'error',
-            message: part.message,
-            stack: part.stack
-          }, 0, 2);
+          return JSON.stringify(
+            {
+              type: 'error',
+              message: part.message,
+              stack: part.stack
+            },
+            0,
+            2
+          );
         } else if (typeof part === 'object') {
           return JSON.stringify(part, 0, 2);
         }
@@ -61,9 +64,9 @@ export default class UiTrackerLogAppender {
       url: '/uiTracker/log',
       data: message
     })
-    // ignore all errors
-    .errors()
-    .subscribe(() => {});
+      // ignore all errors
+      .errors()
+      .subscribe(() => {});
 
     totalNumberOfReportedErrors++;
   }
@@ -75,5 +78,4 @@ export default class UiTrackerLogAppender {
   setActivePriority(priority) {
     this.activePriority = priority;
   }
-
 }

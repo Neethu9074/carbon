@@ -1,5 +1,4 @@
 export default class Subscriber {
-
   constructor() {
     this.subscriptions = [];
   }

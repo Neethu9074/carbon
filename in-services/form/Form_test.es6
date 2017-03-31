@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import ListForm from 'in-services/form/ListForm';
 import MapForm from 'in-services/form/MapForm';
@@ -13,21 +13,17 @@ describe('in-services/form/MapForm', () => {
     form = new MapForm();
   });
 
-
   it('must have no fields initially', () => {
     expect(form.toJS()).to.deep.equal({});
   });
-
 
   it('must be valid initially', () => {
     expect(form.valid).to.equal(true);
   });
 
-
   it('must be pristine initially', () => {
     expect(form.pristine).to.equal(true);
   });
-
 
   it('must add new fields by keeping the existing form unchanged', () => {
     const newForm = form.addItem('vocation', new Field('Blacksmith'));
@@ -42,7 +38,6 @@ describe('in-services/form/MapForm', () => {
     expect(field.pristine).to.equal(true);
     expect(newForm.pristine).to.equal(true);
   });
-
 
   it('must support field changes and rerun validations', () => {
     const form2 = form.addItem(
@@ -63,7 +58,6 @@ describe('in-services/form/MapForm', () => {
     expect(form3.valid).to.equal(true);
   });
 
-
   it('must support field removals', () => {
     const form2 = form.addItem(
       'vocation',
@@ -75,23 +69,19 @@ describe('in-services/form/MapForm', () => {
     expect(form2.getItem('vocation').value).to.equal('Blacksmith');
   });
 
-
   it('must not complain about missing paths when removing', () => {
     form.removeItem('vocation');
   });
 
-
   it('must complain about missing paths when adding item at paths which do not exist', () => {
-    expect(() => form.addItem(['404', 'vocation']))
-      .to.throw(/Cannot add item, because sub path does not exist for: "404"/);
+    expect(() => form.addItem(['404', 'vocation'])).to.throw(
+      /Cannot add item, because sub path does not exist for: "404"/
+    );
   });
-
 
   it('must complain about missing paths when setting values for sub paths which do not exist', () => {
-    expect(() => form.setValue(['404', 'vocation'], 'Broken'))
-      .to.throw(/Cannot find item at path "404"/);
+    expect(() => form.setValue(['404', 'vocation'], 'Broken')).to.throw(/Cannot find item at path "404"/);
   });
-
 
   describe('nested maps', () => {
     beforeEach(() => {
@@ -134,7 +124,8 @@ describe('in-services/form/MapForm', () => {
     });
 
     it('must modify deeply nested structures', () => {
-      const subField = form.addItem(['a', 'sub'], new MapForm())
+      const subField = form
+        .addItem(['a', 'sub'], new MapForm())
         .addItem(['a', 'sub', 'subfield'], new Field('subvalue'))
         .setValue(['a', 'sub', 'subfield'], 'foo')
         .getItem(['a', 'sub', 'subfield']);
@@ -146,27 +137,28 @@ describe('in-services/form/MapForm', () => {
     });
   });
 
-
   describe('maps and lists', () => {
     beforeEach(() => {
       form = new ListForm()
-        .addItem(0, new MapForm()
-          .addItem('id', new Field(1))
-          .addItem('enabled', new Field(true))
-          .addItem('name', new Field('rule1'))
-          .addItem('matchSpecification', new MapForm())
-          .addItem('extractSpecification', new MapForm()
-            .addItem('label', new Field('Service for Rule 1'))))
-        .addItem(1, new MapForm()
-          .addItem('id', new Field(2))
-          .addItem('enabled', new Field(false))
-          .addItem('name', new Field('rule2'))
-          .addItem('matchSpecification', new MapForm()
-            .addItem('host', new Field('(.*)')))
-          .addItem('extractSpecification', new MapForm()
-            .addItem('label', new Field('Service for Rule 2'))));
+        .addItem(
+          0,
+          new MapForm()
+            .addItem('id', new Field(1))
+            .addItem('enabled', new Field(true))
+            .addItem('name', new Field('rule1'))
+            .addItem('matchSpecification', new MapForm())
+            .addItem('extractSpecification', new MapForm().addItem('label', new Field('Service for Rule 1')))
+        )
+        .addItem(
+          1,
+          new MapForm()
+            .addItem('id', new Field(2))
+            .addItem('enabled', new Field(false))
+            .addItem('name', new Field('rule2'))
+            .addItem('matchSpecification', new MapForm().addItem('host', new Field('(.*)')))
+            .addItem('extractSpecification', new MapForm().addItem('label', new Field('Service for Rule 2')))
+        );
     });
-
 
     it('must serialize to JS', () => {
       expect(form.toJS()).to.deep.equal([
@@ -193,7 +185,6 @@ describe('in-services/form/MapForm', () => {
       ]);
     });
 
-
     it('must set values at deeply nested structures', () => {
       form = form.setValue([1, 'matchSpecification', 'host'], 'example.com');
       expect(form.getItem(1).toJS()).to.deep.equal({
@@ -209,23 +200,23 @@ describe('in-services/form/MapForm', () => {
       });
     });
 
-
     it('must remove list items', () => {
       form = form.removeItem(0);
-      expect(form.toJS()).to.deep.equal([{
-        id: 2,
-        enabled: false,
-        name: 'rule2',
-        matchSpecification: {
-          host: '(.*)'
-        },
-        extractSpecification: {
-          label: 'Service for Rule 2'
+      expect(form.toJS()).to.deep.equal([
+        {
+          id: 2,
+          enabled: false,
+          name: 'rule2',
+          matchSpecification: {
+            host: '(.*)'
+          },
+          extractSpecification: {
+            label: 'Service for Rule 2'
+          }
         }
-      }]);
+      ]);
     });
   });
-
 
   describe('validation', () => {
     it('must validate fields', () => {
@@ -248,36 +239,32 @@ describe('in-services/form/MapForm', () => {
     });
   });
 
-
   describe('list moving', () => {
     beforeEach(() => {
       form = new ListForm()
-        .addItem(0, new MapForm()
-          .addItem('id', new Field(1)))
-        .addItem(1, new MapForm()
-          .addItem('id', new Field(2)))
-        .addItem(2, new MapForm()
-          .addItem('id', new Field(3)));
+        .addItem(0, new MapForm().addItem('id', new Field(1)))
+        .addItem(1, new MapForm().addItem('id', new Field(2)))
+        .addItem(2, new MapForm().addItem('id', new Field(3)));
     });
 
     it('must support moving of field items', () => {
       form = form.moveUp(1);
-      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 3}, {id: 2}]);
+      expect(form.toJS()).to.deep.equal([{ id: 1 }, { id: 3 }, { id: 2 }]);
 
       form = form.moveUp(2);
-      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 3}, {id: 2}]);
+      expect(form.toJS()).to.deep.equal([{ id: 1 }, { id: 3 }, { id: 2 }]);
 
       form = form.moveUp(1);
-      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 2}, {id: 3}]);
+      expect(form.toJS()).to.deep.equal([{ id: 1 }, { id: 2 }, { id: 3 }]);
 
       form = form.moveUp(0);
-      expect(form.toJS()).to.deep.equal([{id: 2}, {id: 1}, {id: 3}]);
+      expect(form.toJS()).to.deep.equal([{ id: 2 }, { id: 1 }, { id: 3 }]);
 
       form = form.moveDown(1);
-      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 2}, {id: 3}]);
+      expect(form.toJS()).to.deep.equal([{ id: 1 }, { id: 2 }, { id: 3 }]);
 
       form = form.moveDown(0);
-      expect(form.toJS()).to.deep.equal([{id: 1}, {id: 2}, {id: 3}]);
+      expect(form.toJS()).to.deep.equal([{ id: 1 }, { id: 2 }, { id: 3 }]);
     });
 
     it('must fail to move map elements', () => {
@@ -285,11 +272,9 @@ describe('in-services/form/MapForm', () => {
     });
   });
 
-
   function dirtyValidator(value) {
     return value.indexOf('Black') === 0 ? 'Too dirty' : null;
   }
-
 
   function atLeastOnePropertyValidator(mapForm) {
     return mapForm.keys().length === 0 ? 'No keys' : null;

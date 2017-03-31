@@ -46,6 +46,6 @@ const PhysicsServiceLocator = (function create() {
     removeCollisionObject,
     dispose
   };
-}());
+})();
 
 export default PhysicsServiceLocator;

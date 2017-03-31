@@ -1,4 +1,4 @@
-export default function createDataHolder({numberOfSeries}) {
+export default function createDataHolder({ numberOfSeries }) {
   // A data column has the form Array<DataPoint>
   let dataColumns = [];
 
@@ -9,16 +9,12 @@ export default function createDataHolder({numberOfSeries}) {
     clear
   };
 
-
   function getDataColumns() {
     return dataColumns;
   }
 
-
   function insertSorted(newDataColumns) {
-    for (let newIndex = 0, newLength = newDataColumns.length;
-         newIndex < newLength;
-         newIndex++) {
+    for (let newIndex = 0, newLength = newDataColumns.length; newIndex < newLength; newIndex++) {
       const newDataColumn = newDataColumns[newIndex];
       const newTime = newDataColumn.time;
       let columnMerged = false;
@@ -44,7 +40,6 @@ export default function createDataHolder({numberOfSeries}) {
     }
   }
 
-
   function mergeColumns(existingDataColumn, newDataColumn) {
     for (let i = 0; i < numberOfSeries; i++) {
       const newDataPoint = newDataColumn[i];
@@ -53,7 +48,6 @@ export default function createDataHolder({numberOfSeries}) {
       }
     }
   }
-
 
   function expireDataPointsOlderThan(minTimestamp) {
     let i = 0;
@@ -69,7 +63,6 @@ export default function createDataHolder({numberOfSeries}) {
       dataColumns.splice(0, i);
     }
   }
-
 
   function clear() {
     dataColumns = [];

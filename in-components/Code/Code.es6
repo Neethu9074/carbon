@@ -64,7 +64,6 @@ export default React.createClass({
     let line = this.props.line;
     const lang = this.props.lang;
 
-
     if (line != null && lang === 'java') {
       line = getActualJavaLine(code, line);
     }
@@ -87,7 +86,7 @@ export default React.createClass({
     const lineHighlight = preElement.querySelector('.line-highlight');
     const scrollElement = document.querySelector('.in-code-retrieval-dialog__content');
     if (scrollElement && lineHighlight) {
-      scrollElement.scrollTop = lineHighlight.offsetTop - (scrollElement.clientHeight / 2);
+      scrollElement.scrollTop = lineHighlight.offsetTop - scrollElement.clientHeight / 2;
     }
   },
 
@@ -109,10 +108,8 @@ export default React.createClass({
     }
 
     return (
-      <pre ref={pre => this.pre = pre}
-           className={preClasses}>
-        <code ref={code => this.code = code}
-              className={classes} />
+      <pre ref={pre => this.pre = pre} className={preClasses}>
+        <code ref={code => this.code = code} className={classes} />
       </pre>
     );
   }

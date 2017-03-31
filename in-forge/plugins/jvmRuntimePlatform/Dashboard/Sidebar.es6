@@ -9,8 +9,7 @@ import List from 'in-sdk/components/sidebar/List';
 import AppInfo from '../AppInfo';
 import Info from '../Info';
 
-
-export default function JvmRuntimeSidebar({snapshot}) {
+export default function JvmRuntimeSidebar({ snapshot }) {
   const args = snapshot.getIn(['data', 'jvm.args']);
 
   return (
@@ -33,19 +32,19 @@ export default function JvmRuntimeSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      {args ?
-        <div>
-          <Separator />
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>JVM Arguments</Collapsible.Header>
-            <Collapsible.Content>
-              <List>
-                {args.toArray().map((arg, i) => <List.Item key={i}>{arg}</List.Item>)}
-              </List>
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
-      : null}
+      {args
+        ? <div>
+            <Separator />
+            <Collapsible initiallyOpen={false}>
+              <Collapsible.Header>JVM Arguments</Collapsible.Header>
+              <Collapsible.Content>
+                <List>
+                  {args.toArray().map((arg, i) => <List.Item key={i}>{arg}</List.Item>)}
+                </List>
+              </Collapsible.Content>
+            </Collapsible>
+          </div>
+        : null}
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshotId={snapshot.get('id')} />

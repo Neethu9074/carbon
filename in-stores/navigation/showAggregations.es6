@@ -1,4 +1,4 @@
-import {getModifiedUrlStream} from 'in-stores/navigation/navigation';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 
 export const toggleShowAggregationsLink$ = getModifiedUrlStream(params => {
   if (params.query.sa === '1') {

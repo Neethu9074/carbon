@@ -1,12 +1,10 @@
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 const isWebVRActiveStore = createStore({
   name: 'isWebVRActiveStoreStore',
   initialValue: false
 });
 export const isWebVRActive$ = isWebVRActiveStore.observable;
-
 
 export let isWebVRActive;
 

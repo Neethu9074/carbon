@@ -1,14 +1,13 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function ElasticsearchClusterSidebar({snapshot}) {
+export default function ElasticsearchClusterSidebar({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
@@ -28,13 +27,13 @@ export default function ElasticsearchClusterSidebar({snapshot}) {
         <Collapsible.Header>Nodes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title='Nodes'>
+            <DescriptionItem title="Nodes">
               {data.get('nodeCount')}
             </DescriptionItem>
-            <DescriptionItem title='Data Nodes'>
+            <DescriptionItem title="Data Nodes">
               {data.get('dataNodeCount')}
             </DescriptionItem>
-            <DescriptionItem title='Master Nodes'>
+            <DescriptionItem title="Master Nodes">
               {data.get('masterNodeCount')}
             </DescriptionItem>
           </DescriptionList>

@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import {
   bytesPerSecondTwoDecimalPlaces,
@@ -40,7 +40,7 @@ describe('in-services.formatter.number', () => {
 
     it('should handle fractions correctly', () => {
       // 1/5 * 3 is 0.6000000000000001
-      expect(twoDecimalPlaces((1 / 5) * 3)).to.equal('0.60');
+      expect(twoDecimalPlaces(1 / 5 * 3)).to.equal('0.60');
     });
   });
 
@@ -59,7 +59,7 @@ describe('in-services.formatter.number', () => {
 
     it('should handle fractions correctly', () => {
       // 1/5 * 3 is 0.6000000000000001
-      expect(percentageTwoDecimalPlaces(((1 / 5) * 3) / 100)).to.equal('0.60%');
+      expect(percentageTwoDecimalPlaces(1 / 5 * 3 / 100)).to.equal('0.60%');
     });
   });
 
@@ -74,7 +74,7 @@ describe('in-services.formatter.number', () => {
 
     it('should handle fractions correctly', () => {
       // 1/5 * 3 is 0.6000000000000001
-      expect(bytesTwoDecimalPlaces((1 / 5) * 3)).to.equal('0.60 B');
+      expect(bytesTwoDecimalPlaces(1 / 5 * 3)).to.equal('0.60 B');
     });
   });
 
@@ -151,7 +151,7 @@ describe('in-services.formatter.number', () => {
 
     it('should handle fractions correctly', () => {
       // 1/5 * 3 is 0.6000000000000001
-      expect(withSiMultiplyPrefixThreeDecimalPlaces((1 / 5) * 3)).to.equal('0.600');
+      expect(withSiMultiplyPrefixThreeDecimalPlaces(1 / 5 * 3)).to.equal('0.600');
     });
 
     it('should support negative values', () => {

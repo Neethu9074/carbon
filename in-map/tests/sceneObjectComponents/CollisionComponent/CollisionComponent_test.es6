@@ -1,11 +1,10 @@
 /* eslint-env mocha, node */
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS} from 'in-map/misc/serviceLocator/physics/physicsConstants';
-import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
-
+import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 
 describe('in-map', () => {
   describe('sceneObjectComponents/CollisionComponent', () => {
@@ -28,9 +27,7 @@ describe('in-map', () => {
         }
       }).default;
 
-      component = new Component(sceneObject,
-                                PREDEFINED_COLLISION_OBJECTS.BOX,
-                                OCTREE_LAYER.NODES);
+      component = new Component(sceneObject, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.NODES);
       component.initEvents();
     });
 
@@ -47,8 +44,8 @@ describe('in-map', () => {
     it('should add the collision geometry to physics when position and scale are available', () => {
       expect(addCollisionObject).to.have.callCount(0);
 
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
+      sceneObject.eventEmitter.emit('positionChanged', { x: 1, y: 0, z: 2 });
+      sceneObject.eventEmitter.emit('scaleChanged', { x: 1, y: 2, z: 1 });
 
       expect(addCollisionObject).to.have.callCount(1);
       const mesh = addCollisionObject.getCall(0).args[0];
@@ -66,15 +63,15 @@ describe('in-map', () => {
     it('should refresh the collision mesh each time position or scale changes', () => {
       expect(addCollisionObject).to.have.callCount(0);
 
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
+      sceneObject.eventEmitter.emit('positionChanged', { x: 1, y: 0, z: 2 });
+      sceneObject.eventEmitter.emit('scaleChanged', { x: 1, y: 2, z: 1 });
 
       expect(addCollisionObject).to.have.callCount(1);
 
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
+      sceneObject.eventEmitter.emit('positionChanged', { x: 1, y: 0, z: 2 });
       expect(addCollisionObject).to.have.callCount(2);
 
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
+      sceneObject.eventEmitter.emit('scaleChanged', { x: 1, y: 2, z: 1 });
       expect(addCollisionObject).to.have.callCount(3);
     });
   });

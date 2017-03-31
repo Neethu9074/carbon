@@ -1,6 +1,5 @@
-import {navigationParameters$} from 'in-stores/navigation/navigation';
-import {mutateUrl} from 'in-stores/navigation/navigation';
-
+import { navigationParameters$ } from 'in-stores/navigation/navigation';
+import { mutateUrl } from 'in-stores/navigation/navigation';
 
 export function goToLogicalView() {
   mutateUrl(navParams => {

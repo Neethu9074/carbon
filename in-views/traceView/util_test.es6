@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 
-import {fromJS} from 'immutable';
-import {expect} from 'chai';
+import { fromJS } from 'immutable';
+import { expect } from 'chai';
 
-import {getDepth, getCalls} from 'in-views/traceView/util';
-import {SPAN_KINDS} from 'in-sdk/tracing';
+import { getDepth, getCalls } from 'in-views/traceView/util';
+import { SPAN_KINDS } from 'in-sdk/tracing';
 
 describe('in-views/traceView/util', () => {
   describe('getDepth', () => {

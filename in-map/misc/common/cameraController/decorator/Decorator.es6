@@ -1,5 +1,4 @@
-import {createLogger} from 'instalog';
-
+import { createLogger } from 'instalog';
 
 const logger = createLogger('camera controller decorator');
 

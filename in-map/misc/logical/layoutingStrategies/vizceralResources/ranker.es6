@@ -26,9 +26,7 @@ export function longestPathRanking(graph) {
     if (!visited[nodeName]) {
       visited[nodeName] = true;
 
-      let rank = graph.outgoingEdges(nodeName)
-        .map(edge => dfs(edge.target) - minimumLength)
-        .sort((a, b) => a - b)[0];
+      let rank = graph.outgoingEdges(nodeName).map(edge => dfs(edge.target) - minimumLength).sort((a, b) => a - b)[0];
 
       if (rank === undefined) {
         rank = 0;

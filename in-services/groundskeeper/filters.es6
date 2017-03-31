@@ -1,20 +1,17 @@
-import {fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 
 import config from 'in-services/config';
 import http from 'in-services/http';
-
 
 export function getAllFilters() {
   return http({
     method: 'GET',
     url: `/ump/${config.tenant}/${config.tenantUnit}/filters`
-  })
-  .map(response => {
+  }).map(response => {
     response.body.sort((a, b) => a.name.localeCompare(b.name));
     return fromJS(response.body);
   });
 }
-
 
 export function saveNewFilter(name, definition) {
   return http({
@@ -24,10 +21,8 @@ export function saveNewFilter(name, definition) {
       name,
       definition
     }
-  })
-  .map(response => response.body);
+  }).map(response => response.body);
 }
-
 
 export function saveFilter(id, name, definition) {
   return http({
@@ -38,15 +33,12 @@ export function saveFilter(id, name, definition) {
       name,
       definition
     }
-  })
-  .map(response => response.body);
+  }).map(response => response.body);
 }
-
 
 export function removeFilter(id) {
   return http({
     method: 'DELETE',
     url: `/ump/${config.tenant}/${config.tenantUnit}/filters/${encodeURIComponent(id)}`
-  })
-  .map(response => response.body);
+  }).map(response => response.body);
 }

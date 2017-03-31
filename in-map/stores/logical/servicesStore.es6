@@ -1,10 +1,8 @@
 import createCollection from 'in-map/stores/ObjectCollectionStream';
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 const services = createCollection();
 export default services;
-
 
 const showKpi = createStore({
   name: 'logical/serviceSticky/kpis',

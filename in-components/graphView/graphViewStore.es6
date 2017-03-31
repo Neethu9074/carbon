@@ -1,4 +1,4 @@
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 const isLoadingStore = createStore({
   name: 'graphViewIsLoading',
@@ -14,7 +14,6 @@ export function markAsLoading() {
 export function markAsFinished() {
   isLoadingStore.applyStateMutation(() => false);
 }
-
 
 const statisticsStore = createStore({
   name: 'graphViewStatistics',

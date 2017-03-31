@@ -7,20 +7,16 @@ import Particles from 'in-components/MapOverlayControls/components/Particles';
 import Icons from 'in-components/MapOverlayControls/components/Icons';
 import Zoom from 'in-components/MapOverlayControls/components/Zoom';
 
-
 export default function getLogicalContent() {
   const controls = [
-    <Zoom key='zoom' />,
-    <ShowAggregates key='aggregates' />,
-    <Particles key='particles' />,
-    <LogicalLayouting key='layouting' />
+    <Zoom key="zoom" />,
+    <ShowAggregates key="aggregates" />,
+    <Particles key="particles" />,
+    <LogicalLayouting key="layouting" />
   ];
 
   if (__DEV__) {
-    controls.push(
-      <Icons key='icons' />,
-      <MapStatistics key='mapstatistics' />
-    );
+    controls.push(<Icons key="icons" />, <MapStatistics key="mapstatistics" />);
   }
 
   return controls.reverse();

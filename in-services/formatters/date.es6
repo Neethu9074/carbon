@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import {getIn} from 'in-services/settings';
+import { getIn } from 'in-services/settings';
 
 export const timeFormat = 'HH:mm:ss';
 export const dateFormat = 'YYYY-MM-DD';
@@ -35,16 +35,13 @@ export function formatTime(millis) {
   return millis ? formatTimeInternal(new Date(millis)) : null;
 }
 
-
 export function formatTimeWithoutSeconds(millis) {
   return millis ? formatTimeWithoutSecondsInternal(new Date(millis)) : null;
 }
 
-
 export function formatDate(millis) {
   return millis ? formatDateInternal(new Date(millis)) : null;
 }
-
 
 export function formatDateTime(millis) {
   if (!millis) {
@@ -54,11 +51,9 @@ export function formatDateTime(millis) {
   return `${formatDateInternal(date)} ${formatTimeInternal(date)}`;
 }
 
-
 export function fromNow(millis) {
   return moment(millis).fromNow();
 }
-
 
 export function formatDuration(millis) {
   return moment.duration(millis).humanize();
@@ -128,7 +123,6 @@ export function formatDurationRaw(millis) {
   }).format(timeFormat);
 }
 
-
 function formatTimeInternalAccordingToLocalTime(date) {
   const hours = ensureTwoChars(date.getHours());
   const minutes = ensureTwoChars(date.getMinutes());
@@ -136,13 +130,11 @@ function formatTimeInternalAccordingToLocalTime(date) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-
 function formatTimeWithoutSecondsInternalAccordingToLocalTime(date) {
   const hours = ensureTwoChars(date.getHours());
   const minutes = ensureTwoChars(date.getMinutes());
   return `${hours}:${minutes}`;
 }
-
 
 function formatDateInternalAccordingToLocalTime(date) {
   const year = date.getFullYear();
@@ -151,7 +143,6 @@ function formatDateInternalAccordingToLocalTime(date) {
   return `${year}-${month}-${day}`;
 }
 
-
 function formatTimeInternalAccordingToUTC(date) {
   const hours = ensureTwoChars(date.getUTCHours());
   const minutes = ensureTwoChars(date.getUTCMinutes());
@@ -159,13 +150,11 @@ function formatTimeInternalAccordingToUTC(date) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-
 function formatTimeWithoutSecondsInternalAccordingToUTC(date) {
   const hours = ensureTwoChars(date.getUTCHours());
   const minutes = ensureTwoChars(date.getUTCMinutes());
   return `${hours}:${minutes}`;
 }
-
 
 function formatDateInternalAccordingToUTC(date) {
   const year = date.getUTCFullYear();
@@ -174,7 +163,6 @@ function formatDateInternalAccordingToUTC(date) {
   return `${year}-${month}-${day}`;
 }
 
-
 function ensureTwoChars(s) {
   if (s < 10) {
     return `0${s}`;
@@ -182,51 +170,41 @@ function ensureTwoChars(s) {
   return s;
 }
 
-
 export function parseDate(dateString) {
   return parseDateInternal(dateString);
 }
-
 
 function parseDateAsUtc(dateString) {
   return moment.utc(dateString, dateFormat).toDate();
 }
 
-
 function parseDateAccordingToLocalTime(dateString) {
   return moment(dateString, dateFormat).toDate();
 }
-
 
 export function parseDateTime(dateTimeString) {
   return parseDateTimeInternal(dateTimeString);
 }
 
-
 function parseDateTimeAsUtc(dateTimeString) {
   return moment.utc(dateTimeString, dateTimeFormat).toDate();
 }
-
 
 function parseDateTimeAccordingToLocalTime(dateTimeString) {
   return moment(dateTimeString, dateTimeFormat).toDate();
 }
 
-
 export function parseTime(timeString) {
   return parseTimeInternal(timeString);
 }
-
 
 function parseTimeAsUtc(timeString) {
   return moment.utc(timeString, timeFormat).toDate();
 }
 
-
 function parseTimeAccordingToLocalTime(timeString) {
   return moment(timeString, timeFormat).toDate();
 }
-
 
 export function mergeDates(date, time) {
   const dateTime = new Date();

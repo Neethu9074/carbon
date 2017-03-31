@@ -3,10 +3,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation} from 'in-stores/metric';
-import {showAggregations$} from 'in-stores/metric/showAggregations';
-import {timeframeShape} from 'in-stores/timeline';
-
+import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
+import { showAggregations$ } from 'in-stores/metric/showAggregations';
+import { timeframeShape } from 'in-stores/timeline';
 
 const rpt = React.PropTypes;
 export default React.createClass({
@@ -24,7 +23,7 @@ export default React.createClass({
     time: rpt.number,
     className: rpt.string,
     formatter: rpt.func,
-    metric: rpt.string,
+    metric: rpt.string
   },
 
   componentDidMount() {
@@ -33,8 +32,7 @@ export default React.createClass({
 
   getStream(props) {
     if (props.createMetricValueStream) {
-      return props.createMetricValueStream(this.props.snapshotId)
-        .distinct();
+      return props.createMetricValueStream(this.props.snapshotId).distinct();
     }
 
     if (props.timeWindowAggregation) {
@@ -47,24 +45,22 @@ export default React.createClass({
     }
 
     if (props.optionalTimeWindowAggregation) {
-      return showAggregations$
-        .flatMap(showAggregations => {
-          if (showAggregations) {
-            return getTimeWindowBasedMetricAggregation({
-              snapshotId: props.snapshotId,
-              metric: props.metric,
-              timeWindowAggregation: props.optionalTimeWindowAggregation
-            })
-            .distinct();
-          }
-
-          return getMetricForFocusedMoment({
+      return showAggregations$.flatMap(showAggregations => {
+        if (showAggregations) {
+          return getTimeWindowBasedMetricAggregation({
             snapshotId: props.snapshotId,
-            metric: props.metric
-          })
+            metric: props.metric,
+            timeWindowAggregation: props.optionalTimeWindowAggregation
+          }).distinct();
+        }
+
+        return getMetricForFocusedMoment({
+          snapshotId: props.snapshotId,
+          metric: props.metric
+        })
           .map(v => v[1])
           .distinct();
-        });
+      });
     }
 
     if (props.time) {
@@ -73,16 +69,16 @@ export default React.createClass({
         metric: props.metric,
         time: props.time
       })
-      .map(v => v[1])
-      .distinct();
+        .map(v => v[1])
+        .distinct();
     }
 
     return getMetricForFocusedMoment({
       snapshotId: props.snapshotId,
       metric: props.metric
     })
-    .map(v => v[1])
-    .distinct();
+      .map(v => v[1])
+      .distinct();
   },
 
   establishSubscription(stream) {
@@ -125,9 +121,6 @@ export default React.createClass({
   },
 
   render() {
-    return (
-      <span className={this.props.className}
-            ref={node => this.node = node} />
-    );
+    return <span className={this.props.className} ref={node => this.node = node} />;
   }
 });

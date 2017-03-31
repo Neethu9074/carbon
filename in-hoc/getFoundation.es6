@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {alwaysNull} from 'in-services/fixedStreams';
-import {getFoundations} from 'in-stores/snapshot';
-import {getSnapshot} from 'in-stores/snapshot';
+import { alwaysNull } from 'in-services/fixedStreams';
+import { getFoundations } from 'in-stores/snapshot';
+import { getSnapshot } from 'in-stores/snapshot';
 
 export default function getFoundationHoc(ComposedComponent) {
   return React.createClass({
@@ -37,26 +37,22 @@ export default function getFoundationHoc(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        const foundationSnapshotId$ = getFoundations(snapshotId)
-          .map(foundations => foundations.first());
+        const foundationSnapshotId$ = getFoundations(snapshotId).map(foundations => foundations.first());
 
-        const foundationSnapshot$ = foundationSnapshotId$
-          .flatMap(foundationsnapshotId => {
-            if (foundationsnapshotId) {
-              return getSnapshot(foundationsnapshotId);
-            }
-            return alwaysNull;
-          });
+        const foundationSnapshot$ = foundationSnapshotId$.flatMap(foundationsnapshotId => {
+          if (foundationsnapshotId) {
+            return getSnapshot(foundationsnapshotId);
+          }
+          return alwaysNull;
+        });
 
-        this.foundationSnapshotIdSubscription = foundationSnapshotId$
-          .subscribe(foundationSnapshotId => {
-            this.setState({foundationSnapshotId});
-          });
+        this.foundationSnapshotIdSubscription = foundationSnapshotId$.subscribe(foundationSnapshotId => {
+          this.setState({ foundationSnapshotId });
+        });
 
-        this.foundationSnapshotSubscription = foundationSnapshot$
-          .subscribe(foundationSnapshot => {
-            this.setState({foundationSnapshot});
-          });
+        this.foundationSnapshotSubscription = foundationSnapshot$.subscribe(foundationSnapshot => {
+          this.setState({ foundationSnapshot });
+        });
       }
     },
 
@@ -73,10 +69,7 @@ export default function getFoundationHoc(ComposedComponent) {
     },
 
     render() {
-      return (
-        <ComposedComponent {...this.props}
-                           {...this.state} />
-      );
+      return <ComposedComponent {...this.props} {...this.state} />;
     }
   });
 }

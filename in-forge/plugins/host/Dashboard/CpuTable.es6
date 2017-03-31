@@ -1,16 +1,13 @@
-import {Range} from 'immutable';
+import { Range } from 'immutable';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {
-  percentageZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import Mtd from 'in-components/Mtd';
 
-
-export default function CpuTable({snapshot, timeframe}) {
+export default function CpuTable({ snapshot, timeframe }) {
   const cpuCount = snapshot.getIn(['data', 'cpu.count'], 1);
   const cpus = Range(1, cpuCount + 1);
 
@@ -19,25 +16,25 @@ export default function CpuTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Individual CPU Usage'>
-      <ExpandableTable data={cpus}
-                       getKey={getKey}
-                       createHeader={createHeader}
-                       createRow={createRow}
-                       context={{
-                         snapshot,
-                         timeframe
-                       }}
-                       createDetails={createDetails} />
+    <DashboardSection title="Individual CPU Usage">
+      <ExpandableTable
+        data={cpus}
+        getKey={getKey}
+        createHeader={createHeader}
+        createRow={createRow}
+        context={{
+          snapshot,
+          timeframe
+        }}
+        createDetails={createDetails}
+      />
     </DashboardSection>
   );
 }
 
-
 function getKey(cpuNo) {
   return cpuNo;
 }
-
 
 function createHeader() {
   return (
@@ -54,60 +51,39 @@ function createHeader() {
   );
 }
 
-
 function createRow(cpuNo, index, context) {
-  return ([
+  return [
     <td>CPU {cpuNo}</td>,
-
-    <Mtd metric={'cpus.' + cpuNo + '.user'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />,
-
-    <Mtd metric={'cpus.' + cpuNo + '.sys'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />,
-
-    <Mtd metric={'cpus.' + cpuNo + '.wait'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />,
-
-    <Mtd metric={'cpus.' + cpuNo + '.nice'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />,
-
-    <Mtd metric={'cpus.' + cpuNo + '.steal'}
-         snapshot={context.snapshot}
-         formatter={percentageZeroDecimalPlaces} />
-  ]);
+    <Mtd metric={'cpus.' + cpuNo + '.user'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
+    <Mtd metric={'cpus.' + cpuNo + '.sys'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
+    <Mtd metric={'cpus.' + cpuNo + '.wait'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
+    <Mtd metric={'cpus.' + cpuNo + '.nice'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
+    <Mtd metric={'cpus.' + cpuNo + '.steal'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />
+  ];
 }
-
 
 function createDetails(cpuNo, index, context) {
   return (
-    <ChartWithLegend snapshotId={context.snapshot.get('id')}
-           timeframe={context.timeframe}
-           margins={{
-             left: 60
-           }}
-           y1={{
-             min: 0,
-             max: 1,
-             formatter: percentageZeroDecimalPlaces,
-             metrics: [
-               'cpus.' + cpuNo + '.user',
-               'cpus.' + cpuNo + '.sys',
-               'cpus.' + cpuNo + '.wait',
-               'cpus.' + cpuNo + '.nice',
-               'cpus.' + cpuNo + '.steal'
-             ],
-             labels: [
-               'User',
-               'System',
-               'Wait',
-               'Nice',
-               'Steal'
-             ],
-             type: 'stackedArea'
-           }} />
+    <ChartWithLegend
+      snapshotId={context.snapshot.get('id')}
+      timeframe={context.timeframe}
+      margins={{
+        left: 60
+      }}
+      y1={{
+        min: 0,
+        max: 1,
+        formatter: percentageZeroDecimalPlaces,
+        metrics: [
+          'cpus.' + cpuNo + '.user',
+          'cpus.' + cpuNo + '.sys',
+          'cpus.' + cpuNo + '.wait',
+          'cpus.' + cpuNo + '.nice',
+          'cpus.' + cpuNo + '.steal'
+        ],
+        labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+        type: 'stackedArea'
+      }}
+    />
   );
 }

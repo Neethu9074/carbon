@@ -1,17 +1,16 @@
-import {createLogger} from 'instalog';
-import {fromJS} from 'immutable';
+import { createLogger } from 'instalog';
+import { fromJS } from 'immutable';
 
 import createKeyboardController from 'in-map/misc/common/KeyboardController/KeyboardController';
 import createViveController from 'in-map/misc/common/ViveController/ViveController';
-import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
-import {toggleParticles} from 'in-map/stores/logical/particlesStore';
-import {setActiveMetric, clearActiveMetric} from 'in-stores/metric';
-import {requestRendering} from 'in-map/stores/renderingStore';
-import {loadVRControlsWrapper} from 'in-map/services/webVR';
-import {Object3D, Vector3} from 'in-map/3DLibProvider';
+import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
+import { toggleParticles } from 'in-map/stores/logical/particlesStore';
+import { setActiveMetric, clearActiveMetric } from 'in-stores/metric';
+import { requestRendering } from 'in-map/stores/renderingStore';
+import { loadVRControlsWrapper } from 'in-map/services/webVR';
+import { Object3D, Vector3 } from 'in-map/3DLibProvider';
 import WebVRCamera from 'in-map/misc/WebVRCamera';
-import {getDeltaTime} from 'in-map/misc/time';
-
+import { getDeltaTime } from 'in-map/misc/time';
 
 let currentMetric = undefined;
 
@@ -38,8 +37,8 @@ class WebVRCameraController {
     addSceneObject(this.camTransformObject);
 
     const VRControlsClass = loadVRControlsWrapper();
-    this.vrControls = new VRControlsClass(this.camera.getRenderableCamera(),
-                                          e => logger.info('Failed to create VR controls', e));
+    this.vrControls = new VRControlsClass(this.camera.getRenderableCamera(), e =>
+      logger.info('Failed to create VR controls', e));
     this.updateCamera();
 
     // controller
@@ -53,17 +52,19 @@ class WebVRCameraController {
     switch (currentMetric) {
       case 'load':
         currentMetric = 'usage';
-        setActiveMetric(fromJS({
-          name: 'Usage',
-          longLabel: `CPU Usage`,
-          metrics: [
-            {name: 'cpu.user', label: 'User', timeWindowAggregation: 'mean'},
-            {name: 'cpu.sys', label: 'System', timeWindowAggregation: 'mean'},
-            {name: 'cpu.wait', label: 'Wait', timeWindowAggregation: 'mean'},
-            {name: 'cpu.nice', label: 'Nice', timeWindowAggregation: 'mean'},
-            {name: 'cpu.steal', label: 'Steal', timeWindowAggregation: 'mean'}
-          ]
-        }));
+        setActiveMetric(
+          fromJS({
+            name: 'Usage',
+            longLabel: `CPU Usage`,
+            metrics: [
+              { name: 'cpu.user', label: 'User', timeWindowAggregation: 'mean' },
+              { name: 'cpu.sys', label: 'System', timeWindowAggregation: 'mean' },
+              { name: 'cpu.wait', label: 'Wait', timeWindowAggregation: 'mean' },
+              { name: 'cpu.nice', label: 'Nice', timeWindowAggregation: 'mean' },
+              { name: 'cpu.steal', label: 'Steal', timeWindowAggregation: 'mean' }
+            ]
+          })
+        );
         break;
       case 'usage':
         currentMetric = undefined;
@@ -71,11 +72,13 @@ class WebVRCameraController {
         break;
       default:
         currentMetric = 'load';
-        setActiveMetric(fromJS({
-          name: 'Load',
-          longLabel: `CPU Load`,
-          metrics: [{name: 'load.1min', label: 'Load', timeWindowAggregation: 'mean'}]
-        }));
+        setActiveMetric(
+          fromJS({
+            name: 'Load',
+            longLabel: `CPU Load`,
+            metrics: [{ name: 'load.1min', label: 'Load', timeWindowAggregation: 'mean' }]
+          })
+        );
     }
   }
 

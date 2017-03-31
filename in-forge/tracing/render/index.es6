@@ -1,4 +1,4 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
+import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'render',
@@ -13,6 +13,6 @@ registerSpanDefinition({
   detailView: 'RenderSpanDetailView',
 
   getLabel(span) {
-    return (span.getIn(['data', 'render', 'type']) + ' => ' + span.getIn(['data', 'render', 'name']));
+    return span.getIn(['data', 'render', 'type']) + ' => ' + span.getIn(['data', 'render', 'name']);
   }
 });

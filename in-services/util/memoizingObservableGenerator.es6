@@ -1,4 +1,4 @@
-import {setTimeout, clearTimeout} from 'in-services/chronos';
+import { setTimeout, clearTimeout } from 'in-services/chronos';
 
 export default function memoize(createObservable, idGenerator, tti = 10000) {
   const cache = {};
@@ -9,10 +9,14 @@ export default function memoize(createObservable, idGenerator, tti = 10000) {
       return cache[id];
     }
 
-    const observable = createObservable.apply(this, arguments)
-      .delayedStop(tti, () => {
+    const observable = createObservable.apply(this, arguments).delayedStop(
+      tti,
+      () => {
         delete cache[id];
-      }, setTimeout, clearTimeout);
+      },
+      setTimeout,
+      clearTimeout
+    );
     cache[id] = observable;
     return observable;
   };

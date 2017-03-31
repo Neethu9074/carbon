@@ -1,5 +1,5 @@
-import {format} from 'd3-format';
-import {repeat} from 'lodash';
+import { format } from 'd3-format';
+import { repeat } from 'lodash';
 
 const byteBase = 1024;
 
@@ -43,7 +43,6 @@ export const millis = {
   compact: timeByMillisTwoDecimalPlaces,
   detailed: timeByMillisTwoDecimalPlaces
 };
-
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, 0) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, 2) + '/s';
@@ -103,7 +102,6 @@ export const siPrefixPerSecond = {
   compact: d => withSiPrefixZeroDecimalPlaces(d) + ' / sec',
   detailed: d => withSiPrefixThreeDecimalPlaces(d) + ' / sec'
 };
-
 
 export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiPrefixZeroDecimalPlaces(d | 0);
 export const withSiMultiplyPrefixThreeDecimalPlaces = d => {
@@ -185,8 +183,7 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   }
 
   if (num < 1) {
-    return (neg ? '-' : '') +
-           ( num === 0 ? '0' : num.toFixed(numberOfDecimalPlaces)) + ' B';
+    return (neg ? '-' : '') + (num === 0 ? '0' : num.toFixed(numberOfDecimalPlaces)) + ' B';
   }
 
   exponent = Math.min(Math.floor(Math.log(num) / Math.log(byteBase)), units.length - 1);
@@ -195,7 +192,6 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
 
   return (neg ? '-' : '') + num + ' ' + unit;
 }
-
 
 /**
  * Format a time to improve readability for humans. Turn a raw
@@ -210,24 +206,30 @@ function formatTime(t) {
     return '0µs';
   }
 
-  const formatValue = v => ((v * 100) | 0) / 100;
+  const formatValue = v => (v * 100 | 0) / 100;
 
-  const units = [{
+  const units = [
+    {
       unit: 'µs',
       range: 1000
-    }, {
+    },
+    {
       unit: 'ms',
       range: 1000
-    }, {
+    },
+    {
       unit: 's',
       range: 60
-    }, {
+    },
+    {
       unit: 'min',
       range: 60
-    }, {
+    },
+    {
       unit: 'h',
       range: 24
-    }, {
+    },
+    {
       unit: 'd',
       range: Number.MAX_VALUE
     }

@@ -1,15 +1,13 @@
 import ServiceConnectionNode from 'in-map/SceneGraph/logical/ServiceConnectionNode';
 import ConnectionHandlerNode from 'in-map/SceneGraph/ConnectionHandlerNode';
-import {CONNECTIONS_NODE_CHECKING} from 'in-map/misc/TimingConfig';
+import { CONNECTIONS_NODE_CHECKING } from 'in-map/misc/TimingConfig';
 import services from 'in-map/stores/logical/servicesStore';
 import Service from 'in-map/sceneObjects/logical/Service';
 import Node from 'in-map/SceneGraph/Node';
 
-
 export default class ServiceNode extends Node {
-
   constructor(params) {
-    super({InstanceType: Service, params});
+    super({ InstanceType: Service, params });
 
     this.connectionHandlerNode = new ConnectionHandlerNode({
       params: {

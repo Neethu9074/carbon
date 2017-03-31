@@ -1,10 +1,10 @@
-import {createMapForm, createField} from 'formalistic';
-import {createLogger} from 'instalog';
+import { createMapForm, createField } from 'formalistic';
+import { createLogger } from 'instalog';
 
-import {saveNewFilter, saveFilter} from 'in-services/groundskeeper/filters';
-import {refresh} from 'in-components/SearchBar/stores/filters';
-import {close} from 'in-components/DialogPresenter/store';
-import {createStore} from 'in-stores/store';
+import { saveNewFilter, saveFilter } from 'in-services/groundskeeper/filters';
+import { refresh } from 'in-components/SearchBar/stores/filters';
+import { close } from 'in-components/DialogPresenter/store';
+import { createStore } from 'in-stores/store';
 
 const logger = createLogger('SearchBar/stores/dialog');
 
@@ -20,40 +20,42 @@ const errorStore = createStore({
 });
 export const error$ = errorStore.observable;
 
-
 clear();
-
 
 function clear() {
   setValues('', '', '');
 }
 
-
 export function setValues(id, name, definition) {
   const form = createMapForm()
-    .put('id', createField({
-      value: id
-    }))
-    .put('name', createField({
-      value: name,
-      validator: validateName
-    }))
-    .put('definition', createField({
-      value: definition,
-      validator: validateDefinition
-    }));
+    .put(
+      'id',
+      createField({
+        value: id
+      })
+    )
+    .put(
+      'name',
+      createField({
+        value: name,
+        validator: validateName
+      })
+    )
+    .put(
+      'definition',
+      createField({
+        value: definition,
+        validator: validateDefinition
+      })
+    );
   formStore.mutateTo(form);
 }
 
-
 export function setValue(prop, value) {
   formStore.applyStateMutation(form => {
-    return form.updateIn([prop], field =>
-      field.setValue(value).setTouched(true)
-    );
+    return form.updateIn([prop], field => field.setValue(value).setTouched(true));
   });
 }
-
 
 export function save() {
   form$.once(form => {
@@ -82,24 +84,26 @@ export function save() {
   });
 }
 
-
 function validateName(s) {
   if (!s || s.trim().length === 0) {
-    return [{
-      severity: 'error',
-      message: 'Please specify a name for the filter.'
-    }];
+    return [
+      {
+        severity: 'error',
+        message: 'Please specify a name for the filter.'
+      }
+    ];
   }
   return null;
 }
 
-
 function validateDefinition(s) {
   if (!s || s.trim().length === 0) {
-    return [{
-      severity: 'error',
-      message: 'Please specify a filter to save.'
-    }];
+    return [
+      {
+        severity: 'error',
+        message: 'Please specify a filter to save.'
+      }
+    ];
   }
   return null;
 }

@@ -1,4 +1,4 @@
-import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 
 export default function createHighlightedTimeframeRenderer(config) {
   let highlightedTimeframe;
@@ -6,9 +6,7 @@ export default function createHighlightedTimeframeRenderer(config) {
   const top = config.margins.top;
   const bottom = config.height - config.margins.top - config.margins.bottom;
 
-  config.subscriptions.push(highlightedTimeframe$
-    .throttle(20)
-    .subscribe(tf => highlightedTimeframe = tf));
+  config.subscriptions.push(highlightedTimeframe$.throttle(20).subscribe(tf => highlightedTimeframe = tf));
 
   return {
     render

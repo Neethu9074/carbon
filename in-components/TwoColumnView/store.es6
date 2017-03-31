@@ -1,6 +1,6 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 export const noExpandedSides$ = create().emit(null).freeze();
 

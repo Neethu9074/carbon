@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import {getMetricForFocusedMoment} from 'in-stores/metric';
+import { getMetricForFocusedMoment } from 'in-stores/metric';
 import MetricValue from 'in-components/MetricValue';
-import {getLabel} from 'in-sdk/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
 
 export default [
   {
@@ -15,29 +15,29 @@ export default [
 
       return {
         content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')}
-                            kind='dark'>
+          <HierarchicalLink snapshotId={snapshot.get('id')} kind="dark">
             {label}
           </HierarchicalLink>
         ),
         sortable: label
       };
     }
-  }, {
+  },
+  {
     title: 'Java Version',
     sortableType: String,
     get(snapshot) {
-      return snapshot.getIn(['data', 'jvm.version']) + ' ' +
-             snapshot.getIn(['data', 'jvm.build']);
+      return snapshot.getIn(['data', 'jvm.version']) + ' ' + snapshot.getIn(['data', 'jvm.build']);
     }
-  }, {
+  },
+  {
     title: 'Java Runtime',
     sortableType: String,
     get(snapshot) {
-      return snapshot.getIn(['data', 'jvm.vendor']) + ' ' +
-             snapshot.getIn(['data', 'jvm.name']);
+      return snapshot.getIn(['data', 'jvm.vendor']) + ' ' + snapshot.getIn(['data', 'jvm.name']);
     }
-  }, {
+  },
+  {
     title: 'Max Heap',
     sortableType: String,
     style: {
@@ -50,7 +50,8 @@ export default [
         sortable: snapshot.getIn(['data', 'memory.max'])
       };
     }
-  }, {
+  },
+  {
     title: 'Heap Used',
     sortableType: Number,
     style: {
@@ -61,16 +62,17 @@ export default [
     get(snapshot) {
       return {
         content: (
-          <MetricValue snapshotId={snapshot.get('id')}
-                       metric='memory.used'
-                       formatter={bytesTwoDecimalPlaces}
-                       optionalTimeWindowAggregation='mean' />
+          <MetricValue
+            snapshotId={snapshot.get('id')}
+            metric="memory.used"
+            formatter={bytesTwoDecimalPlaces}
+            optionalTimeWindowAggregation="mean"
+          />
         ),
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
           metric: 'memory.used'
-        })
-        .map(v => v[1])
+        }).map(v => v[1])
       };
     }
   }

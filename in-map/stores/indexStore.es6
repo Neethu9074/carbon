@@ -1,5 +1,4 @@
-import {create} from 'reactive-observables';
-
+import { create } from 'reactive-observables';
 
 export const canvas$ = create();
 
@@ -10,7 +9,6 @@ export function setCanvas(newCanvas) {
 export function clear() {
   canvas$.emit(null);
 }
-
 
 export const dimensions$ = create();
 

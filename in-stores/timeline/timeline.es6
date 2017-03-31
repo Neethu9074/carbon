@@ -1,12 +1,12 @@
-import {create} from 'reactive-observables';
-import {createLogger} from 'instalog';
+import { create } from 'reactive-observables';
+import { createLogger } from 'instalog';
 import React from 'react';
 
 import getBigBangTimestamp from 'in-services/subscription/bigBangTimestamp';
-import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
-import {createStore, createTrackingStore} from 'in-stores/store';
-import {serverTime$} from 'in-stores/serverTime';
-import {isBlank} from 'in-services/util/string';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { createStore, createTrackingStore } from 'in-stores/store';
+import { serverTime$ } from 'in-stores/serverTime';
+import { isBlank } from 'in-services/util/string';
 
 const logger = createLogger('in-stores/timeline');
 
@@ -45,18 +45,20 @@ export const timeframe$ = createTrackingStore({
         }
       }
 
-      return {to, windowSize};
+      return { to, windowSize };
     })
     .distinct((prev, next) => prev.to !== next.to || prev.windowSize !== next.windowSize)
 }).observable;
 export const timeframe = timeframe$;
 
-export const to$ = timeframe$.flatMap(_timeframe => {
-  if (_timeframe.to) {
-    return create().emit(_timeframe.to);
-  }
-  return serverTime$;
-}).distinct();
+export const to$ = timeframe$
+  .flatMap(_timeframe => {
+    if (_timeframe.to) {
+      return create().emit(_timeframe.to);
+    }
+    return serverTime$;
+  })
+  .distinct();
 
 export function setTo(to) {
   mutateUrl(navParams => {
@@ -120,23 +122,25 @@ export function lockFocusedMoment() {
 
 export const live$ = focusedMoment$.map(moment => !moment).distinct();
 
-export const resolvedFocusedMoment$ = focusedMoment$.flatMap(_focusedMoment => {
-  if (_focusedMoment == null) {
-    return serverTime$;
-  }
-  return focusedMoment$;
-}).distinct();
+export const resolvedFocusedMoment$ = focusedMoment$
+  .flatMap(_focusedMoment => {
+    if (_focusedMoment == null) {
+      return serverTime$;
+    }
+    return focusedMoment$;
+  })
+  .distinct();
 
-
-export const from$ = timeframe$.flatMap(_timeframe => {
-  return to$.map(to => to - _timeframe.windowSize);
-}).distinct();
+export const from$ = timeframe$
+  .flatMap(_timeframe => {
+    return to$.map(to => to - _timeframe.windowSize);
+  })
+  .distinct();
 
 export const timeframeShape = React.PropTypes.shape({
   windowSize: React.PropTypes.number.isRequired,
   to: React.PropTypes.number
 });
-
 
 export function setTimeframe(windowSize, to = null) {
   mutateUrl(navParams => {
@@ -145,7 +149,6 @@ export function setTimeframe(windowSize, to = null) {
     return navParams;
   });
 }
-
 
 const highlightedMomentStore = createStore({
   name: 'timeline/highlightedMoment',
@@ -166,7 +169,6 @@ export function setHighlightedMoment(t) {
 export function clearHighlightedMoment() {
   highlightedMomentStore.applyStateMutation(() => null);
 }
-
 
 export const bigBangTimestamp = createTrackingStore({
   name: 'timeline/bigBangTimestamp',

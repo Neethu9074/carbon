@@ -4,17 +4,15 @@ import React from 'react';
 import NotificationDialog from 'in-components/NotificationDialog';
 import connectTo from 'in-hoc/connectTo';
 
-import {clearMessage, message$} from './MessageDialogStores';
-
+import { clearMessage, message$ } from './MessageDialogStores';
 
 const rpt = React.PropTypes;
 
-export default
-  connectTo({
+export default connectTo(
+  {
     message: message$
   },
   React.createClass({
-
     displayName: 'MessageDialog',
 
     mixins: [PureRenderMixin],
@@ -30,8 +28,7 @@ export default
       }
 
       return (
-        <NotificationDialog title={message.title}
-                            onClose={this.onClose}>
+        <NotificationDialog title={message.title} onClose={this.onClose}>
           <p>
             {message.text}
           </p>

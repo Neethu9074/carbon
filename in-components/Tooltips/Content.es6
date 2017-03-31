@@ -1,12 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {getClassName} from 'in-services/react';
+import { getClassName } from 'in-services/react';
 
 import './Content.less';
 
 export default React.createClass({
-
   mixins: [PureRenderMixin],
 
   propTypes: {

@@ -9,8 +9,7 @@ import CassandraCommunicationInfo from '../CassandraCommunicationInfo';
 import CassandraTopologyInfo from '../CassandraTopologyInfo';
 import Info from '../Info';
 
-
-export default function CassandraSidebar({snapshot}) {
+export default function CassandraSidebar({ snapshot }) {
   const data = snapshot.get('data');
   const tokens = data.get('tokens');
 
@@ -34,8 +33,7 @@ export default function CassandraSidebar({snapshot}) {
           Topology
         </Collapsible.Header>
         <Collapsible.Content>
-          <CassandraTopologyInfo snapshotId={snapshot.get('id')}
-                                 snapshot={snapshot} />
+          <CassandraTopologyInfo snapshotId={snapshot.get('id')} snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
@@ -50,24 +48,21 @@ export default function CassandraSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      {tokens && tokens.size > 0 ?
-        <div>
-          <Separator />
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>
-              Tokens ({tokens.size})
-            </Collapsible.Header>
-            <Collapsible.Content>
-              <List>
-                {tokens.toArray().sort().map((token, i) =>
-                  <List.Item key={i}>{token}</List.Item>
-                )}
-              </List>
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
-        : null
-      }
+      {tokens && tokens.size > 0
+        ? <div>
+            <Separator />
+            <Collapsible initiallyOpen={false}>
+              <Collapsible.Header>
+                Tokens ({tokens.size})
+              </Collapsible.Header>
+              <Collapsible.Content>
+                <List>
+                  {tokens.toArray().sort().map((token, i) => <List.Item key={i}>{token}</List.Item>)}
+                </List>
+              </Collapsible.Content>
+            </Collapsible>
+          </div>
+        : null}
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

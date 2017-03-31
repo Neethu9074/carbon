@@ -8,8 +8,7 @@ import AppPoolList from '../AppPoolList.es6';
 import WebSiteList from '../WebSiteList.es6';
 import Info from '../Info';
 
-
-export default function MsIISSidebar({snapshot}) {
+export default function MsIISSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

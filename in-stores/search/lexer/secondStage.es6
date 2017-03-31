@@ -1,5 +1,4 @@
-import {isTerm, isFieldSeparator} from 'in-stores/search/lexer';
-
+import { isTerm, isFieldSeparator } from 'in-stores/search/lexer';
 
 export default function lexSecondStage(firstStageLexResult) {
   // skip first element, beacuse we are searching for an ':' with a prev element === term

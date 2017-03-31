@@ -1,17 +1,17 @@
-import {parseCpu} from './parsers/cpu';
-import {parseExtras} from './parsers/extras';
-import {parseHeader} from './parsers/headers';
-import {parseImages} from './parsers/images';
-import {parseReasons} from './parsers/reason';
-import {parseThreads} from './parsers/threads';
+import { parseCpu } from './parsers/cpu';
+import { parseExtras } from './parsers/extras';
+import { parseHeader } from './parsers/headers';
+import { parseImages } from './parsers/images';
+import { parseReasons } from './parsers/reason';
+import { parseThreads } from './parsers/threads';
 
 const parsers = {
-  cpu : parseCpu,
-  extras : parseExtras,
-  headers : parseHeader,
-  images : parseImages,
-  reason : parseReasons,
-  threads : parseThreads
+  cpu: parseCpu,
+  extras: parseExtras,
+  headers: parseHeader,
+  images: parseImages,
+  reason: parseReasons,
+  threads: parseThreads
 };
 
 /**

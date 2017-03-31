@@ -1,22 +1,20 @@
-import {createMapForm, createField, notBlankValidator} from 'formalistic';
-import {createLogger} from 'instalog';
-import {fromJS} from 'immutable';
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createLogger } from 'instalog';
+import { fromJS } from 'immutable';
 import React from 'react';
 
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {getRule, saveRule, createRule} from 'in-services/groundskeeper/rules';
+import { getRule, saveRule, createRule } from 'in-services/groundskeeper/rules';
 import RuleForm from 'in-views/configurationView/subview/Rule/RuleForm';
 import Section from 'in-views/configurationView/components/Section';
-import {openRules} from 'in-stores/navigation/configuration';
+import { openRules } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
-
 
 const logger = createLogger('Rule');
 
 export default React.createClass({
-
   displayName: 'Rule',
 
   getInitialState() {
@@ -44,7 +42,7 @@ export default React.createClass({
   },
 
   render() {
-    const {form, rule} = this.state;
+    const { form, rule } = this.state;
 
     return (
       <SubViewWrapper>
@@ -54,26 +52,20 @@ export default React.createClass({
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form ?
-              <Button kind='success'
-                      type='submit'
-                      disabled={!form.hierarchyValid && form.touched}>
-                Save
-              </Button>
-            : null}
+            {form
+              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                  Save
+                </Button>
+              : null}
 
-            {this.state.message ?
-              <Notification failure={this.state.error}
-                            loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+            {this.state.message
+              ? <Notification failure={this.state.error} loading={this.state.loading}>
+                  {this.state.message}
+                </Notification>
+              : null}
           </Section>
 
-          {form ?
-            <RuleForm form={form}
-                      onChange={this.onChange} />
-          : null}
+          {form ? <RuleForm form={form} onChange={this.onChange} /> : null}
         </form>
 
       </SubViewWrapper>
@@ -124,14 +116,10 @@ export default React.createClass({
     let updatedForm = this.state.form;
     if (Array.isArray(fieldName)) {
       for (let i = 0, length = fieldName.length; i < length; i++) {
-        updatedForm = updatedForm.updateIn([fieldName[i]], field =>
-          field.setValue(value[i]).setTouched(true)
-        );
+        updatedForm = updatedForm.updateIn([fieldName[i]], field => field.setValue(value[i]).setTouched(true));
       }
     } else {
-      updatedForm = updatedForm.updateIn([fieldName], field =>
-        field.setValue(value).setTouched(true)
-      );
+      updatedForm = updatedForm.updateIn([fieldName], field => field.setValue(value).setTouched(true));
     }
 
     this.setState({
@@ -144,7 +132,7 @@ export default React.createClass({
 
     if (!this.state.form.hierarchyValid) {
       this.setState({
-        form: this.state.form.setTouched(true, {recurse: true})
+        form: this.state.form.setTouched(true, { recurse: true })
       });
       return;
     }
@@ -152,17 +140,21 @@ export default React.createClass({
     const rule = this.state.rule;
     const form = this.state.form;
 
-    const result$ = saveRule(fromJS(createRule(
-      rule ? rule.get('id') : null,
-      form.get('name').value,
-      form.get('entityType').value,
-      form.get('metricName').value,
-      1000, // 1s
-      Number(form.get('window').value),
-      form.get('aggregation').value,
-      form.get('conditionOperator').value,
-      Number(form.get('conditionValue').value)
-    )));
+    const result$ = saveRule(
+      fromJS(
+        createRule(
+          rule ? rule.get('id') : null,
+          form.get('name').value,
+          form.get('entityType').value,
+          form.get('metricName').value,
+          1000, // 1s
+          Number(form.get('window').value),
+          form.get('aggregation').value,
+          form.get('conditionOperator').value,
+          Number(form.get('conditionValue').value)
+        )
+      )
+    );
 
     this.disposeAsyncAction();
     this.setState({
@@ -186,48 +178,73 @@ export default React.createClass({
 
 function createForm(rule) {
   return createMapForm()
-    .put('name', createField({
-      value: rule ? rule.get('name') : '',
-      validator: notBlankValidator
-    }))
-    .put('entityType', createField({
-      value: rule ? rule.get('entityType') : undefined,
-      validator: notBlankValidator
-    }))
-    .put('metricName', createField({
-      value: rule ? rule.get('metricName') : '',
-      validator: metricName => {
-        return (metricName && metricName != '-1' && metricName.length > 0)
-          ? null
-          : [{
-            severity: 'error',
-            message: `Please enter a valid metric.`
-          }];
+    .put(
+      'name',
+      createField({
+        value: rule ? rule.get('name') : '',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'entityType',
+      createField({
+        value: rule ? rule.get('entityType') : undefined,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'metricName',
+      createField({
+        value: rule ? rule.get('metricName') : '',
+        validator: metricName => {
+          return metricName && metricName != '-1' && metricName.length > 0
+            ? null
+            : [
+                {
+                  severity: 'error',
+                  message: `Please enter a valid metric.`
+                }
+              ];
         }
-    }))
-    .put('window', createField({
-      value: String(rule.get('window')),
-      validator: notBlankValidator
-    }))
-    .put('aggregation', createField({
-      value: rule.get('aggregation'),
-      validator: notBlankValidator
-    }))
-    .put('conditionOperator', createField({
-      value: rule.get('conditionOperator'),
-      validator: notBlankValidator
-    }))
-    .put('conditionValue', createField({
-      value: String(rule.get('conditionValue')),
-      validator(value) {
-        const n = Number(value);
-        if (isNaN(n)) {
-          return [{
-            severity: 'error',
-            message: 'Please enter a number (use . as a decimal separator).'
-          }];
+      })
+    )
+    .put(
+      'window',
+      createField({
+        value: String(rule.get('window')),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'aggregation',
+      createField({
+        value: rule.get('aggregation'),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'conditionOperator',
+      createField({
+        value: rule.get('conditionOperator'),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'conditionValue',
+      createField({
+        value: String(rule.get('conditionValue')),
+        validator(value) {
+          const n = Number(value);
+          if (isNaN(n)) {
+            return [
+              {
+                severity: 'error',
+                message: 'Please enter a number (use . as a decimal separator).'
+              }
+            ];
+          }
+          return null;
         }
-        return null;
-      }
-    }));
-  }
+      })
+    );
+}

@@ -1,7 +1,6 @@
-import {List} from 'immutable';
+import { List } from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
-
 
 export default createSubscription({
   eventId: 'subscribe-filterable-tags',

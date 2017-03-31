@@ -1,26 +1,25 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-
-export default function CassandraCommunicationInfo({snapshot}) {
+export default function CassandraCommunicationInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title='Node Status'>
+      <DescriptionItem title="Node Status">
         {data.get('mode')}
       </DescriptionItem>
 
-      <DescriptionItem title='Gossip Running'>
+      <DescriptionItem title="Gossip Running">
         {data.get('gossipRunning')}
       </DescriptionItem>
 
-      <DescriptionItem title='Thrift Running'>
+      <DescriptionItem title="Thrift Running">
         {data.get('thriftRunning')}
       </DescriptionItem>
 
-      <DescriptionItem title='CQL/Native Transport Running'>
+      <DescriptionItem title="CQL/Native Transport Running">
         {data.get('nativeTransportRunning')}
       </DescriptionItem>
 

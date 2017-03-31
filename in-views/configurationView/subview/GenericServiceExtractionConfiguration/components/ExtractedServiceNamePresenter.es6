@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {createFormatter} from 'in-services/formatters/string';
+import { createFormatter } from 'in-services/formatters/string';
 
 import './ExtractedServiceNamePresenter.less';
 
 const block = 'in-config-generic-ex-rule-service-name-presenter';
 
-export default function ExtractedServiceNamePresenter({ruleForm, matches}) {
+export default function ExtractedServiceNamePresenter({ ruleForm, matches }) {
   const ruleKeys = ruleForm.getItem('matchSpecification').keys();
   const mismatches = ruleKeys.filter(key => !matches[key]);
 
@@ -18,11 +18,14 @@ export default function ExtractedServiceNamePresenter({ruleForm, matches}) {
       </div>
     );
   } else {
-    const formatter = ruleKeys.reduce((parentFormatter, key) => {
-      const keyMatches = matches[key];
-      const keyFormatter = createFormatter(`${key}-`);
-      return formatString => keyFormatter(parentFormatter(formatString), keyMatches);
-    }, s => s);
+    const formatter = ruleKeys.reduce(
+      (parentFormatter, key) => {
+        const keyMatches = matches[key];
+        const keyFormatter = createFormatter(`${key}-`);
+        return formatString => keyFormatter(parentFormatter(formatString), keyMatches);
+      },
+      s => s
+    );
 
     content = (
       <div className={`${block}__content`}>

@@ -1,21 +1,11 @@
 /* eslint-env mocha, node */
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  addTimeEventListener,
-  getBigBangTime,
-  getDeltaTime,
-  getFPS,
-  getNow,
-  reset,
-  update
-} from 'in-map/misc/time';
-
+import { addTimeEventListener, getBigBangTime, getDeltaTime, getFPS, getNow, reset, update } from 'in-map/misc/time';
 
 describe('in-map', () => {
   describe('misc/time', () => {
-
     beforeEach(() => {
       reset();
     });

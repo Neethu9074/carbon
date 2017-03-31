@@ -1,4 +1,4 @@
-import {createLogger} from 'instalog';
+import { createLogger } from 'instalog';
 import React from 'react';
 
 import {
@@ -12,10 +12,13 @@ import {
   SavingRulesFailedNotification,
   SavingRulesSuccessfulNotification
 } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Notifications';
-import {getServiceExtractionConfig, savePartialServiceExtractionConfig} from 'in-services/groundskeeper/serviceExtraction';
-import {ListForm, MapForm, Field} from 'in-services/form';
-import {generateUniqueShortId} from 'in-services/util/id';
-import {createStore} from 'in-stores/store';
+import {
+  getServiceExtractionConfig,
+  savePartialServiceExtractionConfig
+} from 'in-services/groundskeeper/serviceExtraction';
+import { ListForm, MapForm, Field } from 'in-services/form';
+import { generateUniqueShortId } from 'in-services/util/id';
+import { createStore } from 'in-stores/store';
 
 let ruleType;
 const logger = createLogger('httpExtraction/ruleForms');
@@ -25,7 +28,6 @@ const ruleFormsStore = createStore({
   initialValue: null
 });
 export const ruleForms$ = ruleFormsStore.observable;
-
 
 export function addNewRule(id) {
   const ruleForm = new MapForm()
@@ -39,44 +41,36 @@ export function addNewRule(id) {
   ruleFormsStore.applyStateMutation(ruleForms => ruleForms.addItem(ruleForms.length, ruleForm));
 }
 
-
 export function addMatchSpecification(rulePath, matchName, initialValue) {
   const path = [...rulePath, 'matchSpecification', matchName];
   const field = new Field(initialValue, matchSpecificationMustCompileRule);
   ruleFormsStore.applyStateMutation(ruleForms => ruleForms.addItem(path, field));
 }
 
-
 export function removeMatchSpecification(rulePath, matchName) {
   const path = [...rulePath, 'matchSpecification', matchName];
   ruleFormsStore.applyStateMutation(ruleForms => ruleForms.removeItem(path));
 }
 
-
 export function setValue(path, value) {
   ruleFormsStore.applyStateMutation(ruleForms => ruleForms.setValue(path, value));
 }
-
 
 export function moveRuleUp(path) {
   ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveUp(path));
 }
 
-
 export function moveRuleDown(path) {
   ruleFormsStore.applyStateMutation(ruleForms => ruleForms.moveDown(path));
 }
-
 
 export function removeRule(path) {
   ruleFormsStore.applyStateMutation(ruleForms => ruleForms.removeItem(path));
 }
 
-
 export function removeAllRules() {
   ruleFormsStore.mutateTo(null);
 }
-
 
 export function enable(_ruleType) {
   ruleType = _ruleType;
@@ -84,37 +78,30 @@ export function enable(_ruleType) {
   loadRules();
 }
 
-
 export function disable() {
   removeAllRules();
 }
-
 
 function loadRules() {
   showNofitication({
     children: <LoadingRulesNotification />
   });
 
-  const loadedRuleForms$ = getServiceExtractionConfig(ruleType)
-    .map(createRuleForms);
+  const loadedRuleForms$ = getServiceExtractionConfig(ruleType).map(createRuleForms);
 
-  loadedRuleForms$
-    .once(ruleForms => {
-      ruleFormsStore.mutateTo(ruleForms);
-      clearNotification();
+  loadedRuleForms$.once(ruleForms => {
+    ruleFormsStore.mutateTo(ruleForms);
+    clearNotification();
+  });
+
+  loadedRuleForms$.errors().once(error => {
+    showNofitication({
+      children: <LoadingRulesFailedNotification error={error} />
     });
 
-  loadedRuleForms$
-    .errors()
-    .once(error => {
-      showNofitication({
-        children: <LoadingRulesFailedNotification error={error} />
-      });
-
-      logger.error(`Failed to load rules: ${error.message}`, error);
-    });
+    logger.error(`Failed to load rules: ${error.message}`, error);
+  });
 }
-
 
 function createRuleForms(rules) {
   let ruleForms = new ListForm();
@@ -123,8 +110,10 @@ function createRuleForms(rules) {
     let matchSpecificationForm = new MapForm(atLeastOneMatchSpecificationRule);
 
     Object.keys(rule.matchSpecification).forEach(matchKey => {
-      matchSpecificationForm = matchSpecificationForm
-        .addItem(matchKey, new Field(rule.matchSpecification[matchKey], matchSpecificationMustCompileRule));
+      matchSpecificationForm = matchSpecificationForm.addItem(
+        matchKey,
+        new Field(rule.matchSpecification[matchKey], matchSpecificationMustCompileRule)
+      );
     });
 
     const ruleForm = new MapForm()
@@ -139,7 +128,6 @@ function createRuleForms(rules) {
 
   return ruleForms;
 }
-
 
 export function saveRules(ruleForms) {
   showNofitication({
@@ -165,7 +153,6 @@ export function saveRules(ruleForms) {
   });
 }
 
-
 export function createRulesFromRuleForms(ruleForms) {
   return ruleForms.map((ruleForm, i) => {
     const matchSpecification = {};
@@ -188,14 +175,12 @@ export function createRulesFromRuleForms(ruleForms) {
   });
 }
 
-
 function atLeastOneMatchSpecificationRule(mapForm) {
   if (mapForm.keys().length === 0) {
     return 'At least one match expression is required.';
   }
   return null;
 }
-
 
 function matchSpecificationMustCompileRule(regex) {
   try {
@@ -207,7 +192,6 @@ function matchSpecificationMustCompileRule(regex) {
     return e.message;
   }
 }
-
 
 export function setRuleFormsFromJsonUserInput(rules) {
   if (!(rules instanceof Array)) {
@@ -221,8 +205,10 @@ export function setRuleFormsFromJsonUserInput(rules) {
 
     if (rule.matchSpecification) {
       Object.keys(rule.matchSpecification).forEach(matchKey => {
-        matchSpecificationForm = matchSpecificationForm
-          .addItem(matchKey, new Field(String(rule.matchSpecification[matchKey]), matchSpecificationMustCompileRule));
+        matchSpecificationForm = matchSpecificationForm.addItem(
+          matchKey,
+          new Field(String(rule.matchSpecification[matchKey]), matchSpecificationMustCompileRule)
+        );
       });
     }
 

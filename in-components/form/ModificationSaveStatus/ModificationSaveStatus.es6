@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {joinClassNames} from 'in-services/util/classnames';
+import { joinClassNames } from 'in-services/util/classnames';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -33,7 +33,7 @@ export default React.createClass({
     this.startTimeoutForStatusRemoval(this.props);
   },
 
-  startTimeoutForStatusRemoval({status}) {
+  startTimeoutForStatusRemoval({ status }) {
     this.disposeCurrentTimeout();
 
     if (!status) {
@@ -44,7 +44,7 @@ export default React.createClass({
   },
 
   setDummyValue() {
-    this.setState({time: Date.now()});
+    this.setState({ time: Date.now() });
   },
 
   componentWillReceiveProps(nextProps) {
@@ -60,12 +60,11 @@ export default React.createClass({
   },
 
   render() {
-    const {status} = this.props;
+    const { status } = this.props;
     if (!status || Date.now() >= status.time + showModificationStatusForMillis) {
       if (this.props.reserveSpace) {
         return (
-          <span className={joinClassNames(this.props.className, `${block}__space-blocker`)}
-                style={{width: '16px'}} />
+          <span className={joinClassNames(this.props.className, `${block}__space-blocker`)} style={{ width: '16px' }} />
         );
       }
       return null;
@@ -90,10 +89,7 @@ export default React.createClass({
 
     return (
       <Tooltip content={tooltip}>
-        <SvgIcon type={iconType}
-                 className={className}
-                 width={16}
-                 spinning={spinning} />
+        <SvgIcon type={iconType} className={className} width={16} spinning={spinning} />
       </Tooltip>
     );
   }

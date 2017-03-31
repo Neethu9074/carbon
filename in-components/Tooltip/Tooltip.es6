@@ -1,10 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {createLogger} from 'instalog';
+import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import {setActiveTooltip, clearActiveTooltip} from 'in-services/stores/tooltip';
-
+import { setActiveTooltip, clearActiveTooltip } from 'in-services/stores/tooltip';
 
 const logger = createLogger('in-components/Tooltip');
 const rpt = React.PropTypes;
@@ -15,15 +14,23 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    content: rpt.oneOfType([
-      rpt.element.isRequired,
-      rpt.string.isRequired
-    ]),
+    content: rpt.oneOfType([rpt.element.isRequired, rpt.string.isRequired]),
     children: rpt.any.isRequired,
-    align: rpt.oneOf(['leftBottom', 'leftMiddle', 'leftTop',
-                 'topLeft', 'topMiddle', 'topRight',
-                 'rightTop', 'rightMiddle', 'rightBottom',
-                 'bottomLeft', 'bottomMiddle', 'bottomRight', 'auto'])
+    align: rpt.oneOf([
+      'leftBottom',
+      'leftMiddle',
+      'leftTop',
+      'topLeft',
+      'topMiddle',
+      'topRight',
+      'rightTop',
+      'rightMiddle',
+      'rightBottom',
+      'bottomLeft',
+      'bottomMiddle',
+      'bottomRight',
+      'auto'
+    ])
   },
 
   getDefaultProps() {
@@ -56,7 +63,10 @@ export default React.createClass({
       this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
     } catch (e) {
       // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this error…
-      logger.debug(`Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(this.props.content)}`, e);
+      logger.debug(
+        `Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(this.props.content)}`,
+        e
+      );
     }
   },
 

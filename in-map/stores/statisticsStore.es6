@@ -1,12 +1,11 @@
 import createCollection from 'in-map/stores/ObjectCollectionStream';
 import services from 'in-map/stores/logical/servicesStore';
-import {groups} from 'in-map/stores/physical/groupsStore';
+import { groups } from 'in-map/stores/physical/groupsStore';
 import connections from 'in-map/stores/connectionsStore';
-import {nodes} from 'in-map/stores/physical/nodesStore';
-import {getBigBangTime, getFPS} from 'in-map/misc/time';
-import {eventBus} from 'in-map/services/eventBus';
-import {scene$} from 'in-map/stores/sceneStore';
-
+import { nodes } from 'in-map/stores/physical/nodesStore';
+import { getBigBangTime, getFPS } from 'in-map/misc/time';
+import { eventBus } from 'in-map/services/eventBus';
+import { scene$ } from 'in-map/stores/sceneStore';
 
 const statistics = createCollection();
 export default statistics;

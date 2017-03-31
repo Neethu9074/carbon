@@ -1,7 +1,4 @@
-import {
-  number
-} from 'in-services/formatters/number';
-
+import { number } from 'in-services/formatters/number';
 
 export default [
   {

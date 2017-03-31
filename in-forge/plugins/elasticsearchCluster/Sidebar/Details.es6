@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import { withSiPrefixThreeDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -9,8 +9,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function ElasticsearchClusterSidebar({snapshot}) {
+export default function ElasticsearchClusterSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -24,30 +23,36 @@ export default function ElasticsearchClusterSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <SparkChartsSection snapshot={snapshot}
-                          metrics={[
-                            {
-                              metric: 'node_count',
-                              label: 'Nodes',
-                              formatter: withSiPrefixThreeDecimalPlaces
-                            }, {
-                              metric: 'indices_count',
-                              label: 'Indices',
-                              formatter: withSiPrefixThreeDecimalPlaces
-                            }, {
-                              metric: 'active_shards_count',
-                              label: 'Active Shards',
-                              formatter: withSiPrefixThreeDecimalPlaces
-                            }, {
-                              metric: 'document_count',
-                              label: 'Documents',
-                              formatter: withSiPrefixThreeDecimalPlaces
-                            }, {
-                              metric: 'store_size',
-                              label: 'Store Size',
-                              formatter: bytesTwoDecimalPlaces
-                            }
-                          ]} />
+      <SparkChartsSection
+        snapshot={snapshot}
+        metrics={[
+          {
+            metric: 'node_count',
+            label: 'Nodes',
+            formatter: withSiPrefixThreeDecimalPlaces
+          },
+          {
+            metric: 'indices_count',
+            label: 'Indices',
+            formatter: withSiPrefixThreeDecimalPlaces
+          },
+          {
+            metric: 'active_shards_count',
+            label: 'Active Shards',
+            formatter: withSiPrefixThreeDecimalPlaces
+          },
+          {
+            metric: 'document_count',
+            label: 'Documents',
+            formatter: withSiPrefixThreeDecimalPlaces
+          },
+          {
+            metric: 'store_size',
+            label: 'Store Size',
+            formatter: bytesTwoDecimalPlaces
+          }
+        ]}
+      />
 
       <ClusterMemberList snapshotId={snapshotId} />
 

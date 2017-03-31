@@ -1,7 +1,4 @@
-import {
-  ms, number, percentage
-} from 'in-services/formatters/number';
-
+import { ms, number, percentage } from 'in-services/formatters/number';
 
 export default [
   {

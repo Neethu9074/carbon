@@ -1,9 +1,4 @@
-import {
-  kiloBytes,
-  number,
-  millis
-} from 'in-services/formatters/number';
-
+import { kiloBytes, number, millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -14,27 +9,15 @@ export default [
     formatter: kiloBytes
   },
   {
-    metrics: [
-      'gc.heap_live',
-      'gc.heap_free'
-    ],
-    labels: [
-      'Live',
-      'Free'
-    ],
+    metrics: ['gc.heap_live', 'gc.heap_free'],
+    labels: ['Live', 'Free'],
     min: 0,
     category: ['Heap Slots'],
     formatter: number
   },
   {
-    metrics: [
-      'gc.minorGcs',
-      'gc.majorGcs'
-    ],
-    labels: [
-      '#Minor GCs',
-      '#Major GCs'
-    ],
+    metrics: ['gc.minorGcs', 'gc.majorGcs'],
+    labels: ['#Minor GCs', '#Major GCs'],
     min: 0,
     category: ['GC'],
     formatter: number

@@ -1,7 +1,6 @@
-import {createLogger} from 'instalog';
+import { createLogger } from 'instalog';
 
-import {addSearchableTraceType} from 'in-sdk/search';
-
+import { addSearchableTraceType } from 'in-sdk/search';
 
 let missingSpanDefinitionReported = false;
 
@@ -38,7 +37,6 @@ export function registerSpanDefinition(spanDefinition) {
   }
 }
 
-
 export function getSpanDefinition(type, span) {
   const spanDefinition = registry[type];
   if (spanDefinition) {
@@ -46,8 +44,10 @@ export function getSpanDefinition(type, span) {
   }
 
   if (!missingSpanDefinitionReported) {
-    createLogger('in-sdk/tracing/registry')
-      .warn(`Span definition for ${type} could not be found.`, span ? span.toJS() : undefined);
+    createLogger('in-sdk/tracing/registry').warn(
+      `Span definition for ${type} could not be found.`,
+      span ? span.toJS() : undefined
+    );
     missingSpanDefinitionReported = true;
   }
 

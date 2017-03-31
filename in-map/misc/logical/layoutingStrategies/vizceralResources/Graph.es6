@@ -16,22 +16,24 @@
  *
  */
 /* eslint no-underscore-dangle: 0, no-restricted-syntax: 0 */
-import {remove} from 'lodash';
+import { remove } from 'lodash';
 
-import {find} from 'in-services/arrayUtils';
+import { find } from 'in-services/arrayUtils';
 
 export default class Graph {
-
   constructor(nodes, edges) {
     this.nodes = nodes;
     this.edges = edges;
 
     this.validateData(nodes, edges);
 
-    this._entryNodeMap = this.nodes.reduce((val, node) => {
-      val[node.name] = true;
-      return val;
-    }, {});
+    this._entryNodeMap = this.nodes.reduce(
+      (val, node) => {
+        val[node.name] = true;
+        return val;
+      },
+      {}
+    );
     this._incomingNodes = {};
     this._outgoingNodes = {};
 
@@ -57,10 +59,13 @@ export default class Graph {
   }
 
   validateData(nodes, edges) {
-    const nodeMap = nodes.reduce((val, node) => {
-      val[node.name] = node;
-      return val;
-    }, {});
+    const nodeMap = nodes.reduce(
+      (val, node) => {
+        val[node.name] = node;
+        return val;
+      },
+      {}
+    );
 
     // Warn if connection connects to a node that doesnt exist
     let i;
@@ -121,8 +126,10 @@ export default class Graph {
     delete this._outgoingNodes[edge.source][edge.target];
     delete this._incomingNodes[edge.target][edge.source];
     if (this._outgoingEdges[edge.source]) {
-      remove(this._outgoingEdges[edge.source], anEdge =>
-        anEdge.source === edge.source && anEdge.target === edge.target);
+      remove(
+        this._outgoingEdges[edge.source],
+        anEdge => anEdge.source === edge.source && anEdge.target === edge.target
+      );
     }
     remove(this.edges, anEdge => anEdge.source === edge.source && anEdge.target === edge.target);
   }

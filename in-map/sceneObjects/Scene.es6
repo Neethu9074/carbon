@@ -1,25 +1,23 @@
-import {on} from 'reactive-observables';
+import { on } from 'reactive-observables';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
-import {clear as clearRenderingStore, requestRendering, frame$} from 'in-map/stores/renderingStore';
+import { clear as clearRenderingStore, requestRendering, frame$ } from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
-import {update as updateTime, getDeltaTime, reset as resetTime} from 'in-map/misc/time';
+import { update as updateTime, getDeltaTime, reset as resetTime } from 'in-map/misc/time';
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
 import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsService';
-import {setScene, clear as clearSceneStore} from 'in-map/stores/sceneStore';
-import {contextIsLost, contextIsAvailable} from 'in-map/services/webGL';
-import {clear as clearFactories} from 'in-map/stores/factoriesStore';
-import {eventBus, createEventBus} from 'in-map/services/eventBus';
-import {WebGLRenderer, Scene} from 'in-map/3DLibProvider';
+import { setScene, clear as clearSceneStore } from 'in-map/stores/sceneStore';
+import { contextIsLost, contextIsAvailable } from 'in-map/services/webGL';
+import { clear as clearFactories } from 'in-map/stores/factoriesStore';
+import { eventBus, createEventBus } from 'in-map/services/eventBus';
+import { WebGLRenderer, Scene } from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {loadVREffectWrapper} from 'in-map/services/webVR';
-import {isWebVRActive} from 'in-map/stores/webVRStore';
-import {setDimensions} from 'in-map/stores/indexStore';
-import {theme} from 'in-services/theme';
-
+import { loadVREffectWrapper } from 'in-map/services/webVR';
+import { isWebVRActive } from 'in-map/stores/webVRStore';
+import { setDimensions } from 'in-map/stores/indexStore';
+import { theme } from 'in-services/theme';
 
 export default class MainScene extends SceneObject {
-
   constructor(params) {
     super(params);
 
@@ -35,7 +33,7 @@ export default class MainScene extends SceneObject {
     resetTime();
 
     const chromeVersion = this.getChromeVersion();
-    this.enableContinousRenderingEach30Frame = (chromeVersion && chromeVersion >= 53 && chromeVersion <= 54);
+    this.enableContinousRenderingEach30Frame = chromeVersion && chromeVersion >= 53 && chromeVersion <= 54;
     this.frameCounter = 0;
 
     this.isDisposed = false;
@@ -60,7 +58,6 @@ export default class MainScene extends SceneObject {
 
     this.addSubscriptions([
       frame$.subscribe(() => this.shouldRenderScene = true),
-
       on(window, 'resize').subscribe(this.onWindowResize.bind(this))
     ]);
 
@@ -68,12 +65,11 @@ export default class MainScene extends SceneObject {
       this.addSubscription(
         eventBus.on('enterFullscreen').subscribe(shouldEnter => {
           if (shouldEnter) {
-            this.renderTarget.isPresenting
-              ? this.renderTarget.exitPresent()
-              : this.renderTarget.requestPresent();
+            this.renderTarget.isPresenting ? this.renderTarget.exitPresent() : this.renderTarget.requestPresent();
             eventBus.emit('enterFullscreen', false);
           }
-        }));
+        })
+      );
     }
 
     this.handleLostContext();
@@ -122,11 +118,11 @@ export default class MainScene extends SceneObject {
   }
 
   setupRenderer() {
-    const renderer = this.renderer = new WebGLRenderer({
+    const renderer = (this.renderer = new WebGLRenderer({
       canvas: this.canvas,
       context: this.webGlContext,
       antialias: this.antialias === 'browserAA' ? true : false
-    });
+    }));
 
     renderer.setSize(0, 0);
     renderer.setClearColor(0x445b63, 1.0);
@@ -174,7 +170,6 @@ export default class MainScene extends SceneObject {
         event.preventDefault();
         contextIsLost();
       }),
-
       on(this.canvas, 'webglcontextrestored').subscribe(() => {
         // at the point that this method is called the browser has reset all state
         // to the default WebGL state and all previously allocated resources are invalid.

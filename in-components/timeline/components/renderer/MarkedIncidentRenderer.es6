@@ -1,17 +1,16 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {selectedIncident$} from 'in-stores/events';
-
+import { selectedIncident$ } from 'in-stores/events';
 
 const white = '#ffffff';
 
 export default class MarkedIncidentRenderer extends BasicRenderer {
-
   constructor(backBuffer, scale) {
     super(backBuffer, scale);
 
     this.selectedIncidentId = null;
-    this.selectedIncidentSubscription = selectedIncident$.subscribe(incident =>
-      this.selectedIncidentId = incident ? incident.get('id') : null);
+    this.selectedIncidentSubscription = selectedIncident$.subscribe(
+      incident => this.selectedIncidentId = incident ? incident.get('id') : null
+    );
   }
 
   draw(incidents) {
@@ -38,9 +37,7 @@ export default class MarkedIncidentRenderer extends BasicRenderer {
       return;
     }
 
-    const to = match.get('state') === 'open' ?
-      this.backBuffer.canvas.width :
-      this.scale.getRange(match.get('end'));
+    const to = match.get('state') === 'open' ? this.backBuffer.canvas.width : this.scale.getRange(match.get('end'));
 
     const buffer = this.backBuffer;
     buffer.globalAlpha = 0.2;

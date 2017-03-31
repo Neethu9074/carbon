@@ -2,7 +2,6 @@ import React from 'react';
 
 import Notification from 'in-components/form/Notification';
 
-
 export function LoadingRulesNotification() {
   return (
     <Notification loading>

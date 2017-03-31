@@ -1,5 +1,4 @@
-import {SPAN_KINDS} from 'in-sdk/tracing';
-
+import { SPAN_KINDS } from 'in-sdk/tracing';
 
 export function transform(span) {
   const result = {
@@ -8,7 +7,6 @@ export function transform(span) {
     span,
     children: []
   };
-
 
   const childSpans = span.get('childSpans');
   let parentForChildren = result;
@@ -27,7 +25,6 @@ export function transform(span) {
 
   return result;
 }
-
 
 function insertSpanIntoParent(parentResult, span, parentSpan) {
   let currentParent = parentResult;
@@ -50,9 +47,11 @@ function insertSpanIntoParent(parentResult, span, parentSpan) {
       // It is allowed to reuse stack trace elements when the next sibling span / stack trace
       // time is smaller than the time of this span. Would we reuse them, then we would create
       // a long stack which loses track of time.
-      if (child.type === 'stackTrace' &&
-          child.id === id &&
-          (i + 1 === len || currentParent.children[i + 1].start < span.start)) {
+      if (
+        child.type === 'stackTrace' &&
+        child.id === id &&
+        (i + 1 === len || currentParent.children[i + 1].start < span.start)
+      ) {
         child.spans.push(span);
         return child;
       }
@@ -72,7 +71,6 @@ function insertSpanIntoParent(parentResult, span, parentSpan) {
   }
 }
 
-
 export function withoutDuplicatatedStackTraceLines(parentSpanStackTrace, spanStackTrace) {
   let result = spanStackTrace.toArray();
 
@@ -80,9 +78,12 @@ export function withoutDuplicatatedStackTraceLines(parentSpanStackTrace, spanSta
     let splitPoint;
     for (let i = 0, len = result.length; i < len && splitPoint == null; i++) {
       const childStackTraceElement = result[i];
-      if (childStackTraceElement.get('c', childStackTraceElement.get('f')) === parentStackTraceElement.get('c', parentStackTraceElement.get('f')) &&
-          childStackTraceElement.get('m') === parentStackTraceElement.get('m') &&
-          childStackTraceElement.get('n') === parentStackTraceElement.get('n')) {
+      if (
+        childStackTraceElement.get('c', childStackTraceElement.get('f')) ===
+          parentStackTraceElement.get('c', parentStackTraceElement.get('f')) &&
+        childStackTraceElement.get('m') === parentStackTraceElement.get('m') &&
+        childStackTraceElement.get('n') === parentStackTraceElement.get('n')
+      ) {
         splitPoint = i;
       }
     }
@@ -94,7 +95,6 @@ export function withoutDuplicatatedStackTraceLines(parentSpanStackTrace, spanSta
 
   return result;
 }
-
 
 function stringifyStackTraceElement(stackTraceElement) {
   const result = `${stackTraceElement.get('c', stackTraceElement.get('f'))}#${stackTraceElement.get('m')}`;

@@ -1,5 +1,4 @@
-import {create} from 'reactive-observables';
-
+import { create } from 'reactive-observables';
 
 export const tooltip$ = create();
 

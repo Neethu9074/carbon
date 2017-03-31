@@ -5,34 +5,40 @@ import {
   mutateUrl
 } from 'in-stores/navigation/navigation';
 
-export const configurationViewLink$ = buildUrlStream({path: '/config'});
+export const configurationViewLink$ = buildUrlStream({ path: '/config' });
 
 const httpServiceExtractionConfigViewPath = '/config/httpServiceExtraction';
-export const httpServiceExtractionConfigurationViewLink$ = buildUrlStream({path: httpServiceExtractionConfigViewPath});
+export const httpServiceExtractionConfigurationViewLink$ = buildUrlStream({
+  path: httpServiceExtractionConfigViewPath
+});
 export const isHttpServiceExtractionConfigurationView$ = buildPathStartsWithStream(httpServiceExtractionConfigViewPath);
 
 const ejbServiceExtractionConfigViewPath = '/config/ejbServiceExtraction';
-export const ejbServiceExtractionConfigurationViewLink$ = buildUrlStream({path: ejbServiceExtractionConfigViewPath});
+export const ejbServiceExtractionConfigurationViewLink$ = buildUrlStream({ path: ejbServiceExtractionConfigViewPath });
 export const isEjbServiceExtractionConfigurationView$ = buildPathStartsWithStream(ejbServiceExtractionConfigViewPath);
 
 const elasticsearchServiceExtractionConfigViewPath = '/config/elasticsearchServiceExtraction';
-export const elasticsearchServiceExtractionConfigurationViewLink$ = buildUrlStream({path: elasticsearchServiceExtractionConfigViewPath});
-export const isElasticsearchServiceExtractionConfigurationView$ = buildPathStartsWithStream(elasticsearchServiceExtractionConfigViewPath);
+export const elasticsearchServiceExtractionConfigurationViewLink$ = buildUrlStream({
+  path: elasticsearchServiceExtractionConfigViewPath
+});
+export const isElasticsearchServiceExtractionConfigurationView$ = buildPathStartsWithStream(
+  elasticsearchServiceExtractionConfigViewPath
+);
 
 const userInterfaceConfigViewPath = '/config/userInterface';
-export const userInterfaceConfigViewLink$ = buildUrlStream({path: userInterfaceConfigViewPath});
+export const userInterfaceConfigViewLink$ = buildUrlStream({ path: userInterfaceConfigViewPath });
 export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfaceConfigViewPath);
 
 const eumKeysViewPath = '/config/eumKeys';
-export const eumKeysViewLink$ = buildUrlStream({path: eumKeysViewPath});
+export const eumKeysViewLink$ = buildUrlStream({ path: eumKeysViewPath });
 export const isEumKeysView$ = buildPathStartsWithStream(eumKeysViewPath);
 
 const userManagementViewPath = '/config/users';
-export const userManagementViewLink$ = buildUrlStream({path: userManagementViewPath});
+export const userManagementViewLink$ = buildUrlStream({ path: userManagementViewPath });
 export const isUserManagementView$ = buildPathStartsWithStream(userManagementViewPath);
 
 const rolesConfigViewPath = '/config/rolesConfig';
-export const rolesConfigViewLink$ = buildUrlStream({path: rolesConfigViewPath});
+export const rolesConfigViewLink$ = buildUrlStream({ path: rolesConfigViewPath });
 export const isRolesConfigView$ = buildPathStartsWithStream(rolesConfigViewPath);
 
 export function getRoleConfigLink(roleId) {
@@ -52,7 +58,7 @@ function getRoleConfigPath(roleId) {
 }
 
 const apiTokensViewPath = '/config/apiTokens';
-export const apiTokensViewLink$ = buildUrlStream({path: apiTokensViewPath});
+export const apiTokensViewLink$ = buildUrlStream({ path: apiTokensViewPath });
 export const isApiTokensView$ = buildPathStartsWithStream(apiTokensViewPath);
 
 export function openApiTokenConfig(apiTokenId) {
@@ -71,12 +77,9 @@ function getApiTokenConfigPath(apiTokenId) {
   return `/config/apiTokens/${encodeURIComponent(apiTokenId)}`;
 }
 
-
 const auditLogViewPath = '/config/auditlog';
-export const auditLogViewLink$ = buildUrlStream({path: auditLogViewPath});
+export const auditLogViewLink$ = buildUrlStream({ path: auditLogViewPath });
 export const isAuditLogView$ = buildPathStartsWithStream(auditLogViewPath);
-
-
 
 function getObjectiveConfigPath(objectiveId) {
   return `/config/objectives/${encodeURIComponent(objectiveId)}`;
@@ -99,15 +102,13 @@ export function openObjectivesConfig() {
 }
 
 const objectiveViewPath = '/config/objectives';
-export const objectiveViewLink$ = buildUrlStream({path: objectiveViewPath});
+export const objectiveViewLink$ = buildUrlStream({ path: objectiveViewPath });
 export const isObjectivesView$ = buildPathStartsWithStream(objectiveViewPath);
-
-
 
 // custom alerting rules ------------------------------------
 // rule
 const ruleViewPath = '/config/rule';
-export const ruleViewLink$ = buildUrlStream({path: ruleViewPath});
+export const ruleViewLink$ = buildUrlStream({ path: ruleViewPath });
 export const isRuleViewLink$ = buildPathStartsWithStream(ruleViewPath);
 
 function getRulePath(id) {
@@ -132,7 +133,7 @@ export function openRules() {
 
 // binding
 const ruleBindingViewPath = '/config/binding';
-export const ruleBindingViewLink$ = buildUrlStream({path: ruleBindingViewPath});
+export const ruleBindingViewLink$ = buildUrlStream({ path: ruleBindingViewPath });
 export const isRuleBindingViewLink$ = buildPathStartsWithStream(ruleBindingViewPath);
 
 function getRuleBindingPath(id) {
@@ -154,4 +155,5 @@ function getRuleBindingsPath() {
 export function openRuleBindings() {
   mutateUrl(params => params.pathname = getRuleBindingsPath());
 }
+
 // end custom alerting rules ------------------------------------

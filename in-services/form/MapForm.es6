@@ -1,8 +1,8 @@
 // @flow
 
-import {assign} from 'lodash';
+import { assign } from 'lodash';
 
-import {normalizePath, isLastPathElement, alwaysValidValidator} from 'in-services/form/util';
+import { normalizePath, isLastPathElement, alwaysValidValidator } from 'in-services/form/util';
 
 /*::
 import type {
@@ -14,7 +14,6 @@ type Items = {
 };
 */
 
-
 export default class MapForm {
   /*::
   items: Items
@@ -24,7 +23,7 @@ export default class MapForm {
   validator: Validator;
   */
 
-  constructor(validator/*: Validator */ = alwaysValidValidator, items/*: Items*/) {
+  constructor(validator /*: Validator */ = alwaysValidValidator, items /*: Items*/) {
     this.items = items || {};
     this.error = validator(this);
     this.valid = this.error == null && this._isValid();
@@ -32,7 +31,7 @@ export default class MapForm {
     this.validator = validator;
   }
 
-  addItem(path/*: Path*/, item/*: Item */, i/*: number*/ = 0) {
+  addItem(path /*: Path*/, item /*: Item */, i /*: number*/ = 0) {
     path = normalizePath(path);
     const key = path[i];
 
@@ -47,12 +46,12 @@ export default class MapForm {
       newValueForKey = pathItem.addItem(path, item, i + 1);
     }
 
-    const newItems/*: Items*/ = {};
-    assign(newItems, this.items, {[key]: newValueForKey});
+    const newItems /*: Items*/ = {};
+    assign(newItems, this.items, { [key]: newValueForKey });
     return new MapForm(this.validator, newItems);
   }
 
-  getItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+  getItem(path /*: Path*/, i /*: number*/ = 0) /*: Item*/ {
     path = normalizePath(path);
 
     const key = path[i];
@@ -69,7 +68,7 @@ export default class MapForm {
     return item;
   }
 
-  setValue(path/*: Path*/, value/*: Value*/, i/*: number*/ = 0)/*: Item*/ {
+  setValue(path /*: Path*/, value /*: Value*/, i /*: number*/ = 0) /*: Item*/ {
     path = normalizePath(path);
     const key = path[i];
 
@@ -79,17 +78,17 @@ export default class MapForm {
     }
 
     const newItemForKey = item.setValue(path, value, i + 1);
-    const newItems/*: Items*/ = {};
-    assign(newItems, this.items, {[key]: newItemForKey});
+    const newItems /*: Items*/ = {};
+    assign(newItems, this.items, { [key]: newItemForKey });
     return new MapForm(this.validator, newItems);
   }
 
-  removeItem(path/*: Path*/, i/*: number*/ = 0)/*: Item*/ {
+  removeItem(path /*: Path*/, i /*: number*/ = 0) /*: Item*/ {
     path = normalizePath(path);
     const key = path[i];
 
     if (isLastPathElement(path, i)) {
-      const newItems/*: Items*/ = {};
+      const newItems /*: Items*/ = {};
       assign(newItems, this.items);
       delete newItems[key];
       return new MapForm(this.validator, newItems);
@@ -100,8 +99,8 @@ export default class MapForm {
       return this;
     }
     const newItemForKey = item.removeItem(path, i + 1);
-    const newItems/*: Items*/ = {};
-    assign(newItems, this.items, {[key]: newItemForKey});
+    const newItems /*: Items*/ = {};
+    assign(newItems, this.items, { [key]: newItemForKey });
     return new MapForm(this.validator, newItems);
   }
 
@@ -143,33 +142,31 @@ export default class MapForm {
     return Object.keys(this.items);
   }
 
-  containsKey(key/*: string*/) {
+  containsKey(key /*: string*/) {
     return Object.prototype.hasOwnProperty.call(this.items, key);
   }
 
-  map(mapper/*: Mapper*/) {
-    return this.keys()
-      .map(key => mapper(this.items[key], key));
+  map(mapper /*: Mapper*/) {
+    return this.keys().map(key => mapper(this.items[key], key));
   }
 
-  mapItem(mapper/*: Mapper*/) {
+  mapItem(mapper /*: Mapper*/) {
     return mapper(this);
   }
 
-  forEach(consumer/*: Consumer*/) {
-    return this.keys()
-      .forEach(key => consumer(this.items[key], key));
+  forEach(consumer /*: Consumer*/) {
+    return this.keys().forEach(key => consumer(this.items[key], key));
   }
 
-  moveUp(path/*: Path*/)/*: MapForm*/ {
+  moveUp(path /*: Path*/) /*: MapForm*/ {
     return this._move(path, -1);
   }
 
-  moveDown(path/*: Path*/)/*: MapForm*/ {
+  moveDown(path /*: Path*/) /*: MapForm*/ {
     return this._move(path, +1);
   }
 
-  _move(path/*: Path*/, positionModification/*: number */, i/*: number*/ = 0)/*: MapForm*/  {
+  _move(path /*: Path*/, positionModification /*: number */, i /*: number*/ = 0) /*: MapForm*/ {
     path = normalizePath(path);
     const key = path[i];
 
@@ -182,8 +179,8 @@ export default class MapForm {
       throw new Error(`Cannot find item at path "${path.slice(0, i + 1).join(' > ')}".`);
     }
 
-    const newItems/*: Items*/ = {};
-    assign(newItems, this.items, {[key]: item._move(path, positionModification, i + 1)});
+    const newItems /*: Items*/ = {};
+    assign(newItems, this.items, { [key]: item._move(path, positionModification, i + 1) });
     return new MapForm(this.validator, newItems);
   }
 }

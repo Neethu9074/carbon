@@ -7,26 +7,20 @@ import DEATable from 'in-forge/plugins/cloudFoundry/Dashboard/DEATable';
 import CloudControllerTable from 'in-forge/plugins/cloudFoundry/Dashboard/CloudControllerTable';
 import HealthManagerTable from 'in-forge/plugins/cloudFoundry/Dashboard/HealthManagerTable';
 
-export default function CloudFoundryDashboard({snapshot, timeframe}) {
+export default function CloudFoundryDashboard({ snapshot, timeframe }) {
   return (
     <div>
-      <ApplicationsTable snapshot={snapshot}
-                         timeframe={timeframe} />
+      <ApplicationsTable snapshot={snapshot} timeframe={timeframe} />
 
-      <DiegoTable snapshot={snapshot}
-                  timeframe={timeframe} />
+      <DiegoTable snapshot={snapshot} timeframe={timeframe} />
 
-      <DopplerTable snapshot={snapshot}
-                    timeframe={timeframe} />
+      <DopplerTable snapshot={snapshot} timeframe={timeframe} />
 
-      <DEATable snapshot={snapshot}
-                timeframe={timeframe} />
+      <DEATable snapshot={snapshot} timeframe={timeframe} />
 
-      <CloudControllerTable snapshot={snapshot}
-                            timeframe={timeframe} />
+      <CloudControllerTable snapshot={snapshot} timeframe={timeframe} />
 
-      <HealthManagerTable snapshot={snapshot}
-                          timeframe={timeframe} />
+      <HealthManagerTable snapshot={snapshot} timeframe={timeframe} />
 
     </div>
   );

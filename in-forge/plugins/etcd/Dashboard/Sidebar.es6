@@ -6,7 +6,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-export default function EtcdSidebar({snapshot}) {
+export default function EtcdSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

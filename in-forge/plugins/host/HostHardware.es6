@@ -4,12 +4,11 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import getForgeComponent from 'in-services/getForgeComponent';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import getFoundation from 'in-hoc/getFoundation';
-import {getSingular} from 'in-sdk/pluginName';
-
+import { getSingular } from 'in-sdk/pluginName';
 
 export default getFoundation(HostHardware);
 
-function HostHardware({foundationSnapshot}) {
+function HostHardware({ foundationSnapshot }) {
   if (!foundationSnapshot) return null;
   const Details = getForgeSpecificComponent(foundationSnapshot);
 
@@ -30,9 +29,5 @@ function HostHardware({foundationSnapshot}) {
 }
 
 function getForgeSpecificComponent(snapshot) {
-  return getForgeComponent(
-    './' +
-    snapshot.get('plugin') +
-    '/Sidebar/Details.es6'
-  );
+  return getForgeComponent('./' + snapshot.get('plugin') + '/Sidebar/Details.es6');
 }

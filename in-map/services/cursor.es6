@@ -1,8 +1,7 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
-import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
-import {canvas$} from 'in-map/stores/indexStore';
-
+import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
+import { canvas$ } from 'in-map/stores/indexStore';
 
 let subscription;
 export function init() {
@@ -10,8 +9,7 @@ export function init() {
     return;
   }
 
-  subscription = combineLatest([
-    highlightedEntityId$,
-    canvas$
-  ]).subscribe(([id, canvas]) => canvas ? (canvas.style.cursor = id ? 'pointer' : 'auto') : null);
+  subscription = combineLatest([highlightedEntityId$, canvas$]).subscribe(
+    ([id, canvas]) => canvas ? (canvas.style.cursor = id ? 'pointer' : 'auto') : null
+  );
 }

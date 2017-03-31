@@ -4,15 +4,14 @@
 // load all the plugins
 import 'in-forge/plugins/index';
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 import path from 'path';
 import fs from 'fs';
 
-import {plugins, fullyQualifiedPlugins} from 'in-forge/constants';
-import {getChartWiggleRoom} from 'in-sdk/snapshot';
+import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
+import { getChartWiggleRoom } from 'in-sdk/snapshot';
 
-const dirNames = fs.readdirSync(__dirname)
-  .filter(file => fs.statSync(path.join(__dirname, file)).isDirectory());
+const dirNames = fs.readdirSync(__dirname).filter(file => fs.statSync(path.join(__dirname, file)).isDirectory());
 
 describe('in-forge/plugins', () => {
   it('must define as many plugins in the constants as there are directories in in-forge/plugins', () => {

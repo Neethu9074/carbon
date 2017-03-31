@@ -7,16 +7,18 @@ import './SvgIcon.less';
 
 const block = 'in-svg-icon';
 
-export default function SvgIcon({
-  type,
-  width,
-  height,
-  className,
-  color,
-  onClick,
-  style,
-  spinning
-}) {
+export default function SvgIcon(
+  {
+    type,
+    width,
+    height,
+    className,
+    color,
+    onClick,
+    style,
+    spinning
+  }
+) {
   const icon = icons[type];
   if (!icon) {
     if (__DEV__) {
@@ -49,44 +51,41 @@ export default function SvgIcon({
   }
 
   return (
-    <svg className={classNames}
-         width={width}
-         height={height}
-         style={style}
-         viewBox={'0 0 ' + icon.width + ' ' + icon.height}
-         fill={color}
-         onClick={onClick}>
+    <svg
+      className={classNames}
+      width={width}
+      height={height}
+      style={style}
+      viewBox={'0 0 ' + icon.width + ' ' + icon.height}
+      fill={color}
+      onClick={onClick}
+    >
       {/* Ensure that the whole width/height is clickable in Safari */}
-      <rect width='100%'
-            height='100%'
-            fill='rgba(0, 0, 0, 0)' />
+      <rect width="100%" height="100%" fill="rgba(0, 0, 0, 0)" />
       <path d={icon.path} />
     </svg>
   );
 }
 
-export function SvgIconList({className}) {
+export function SvgIconList({ className }) {
   const iconNames = Object.keys(icons).sort();
   return (
     <ul className={className}>
-      {iconNames.map(key =>
-        <li key={key}
-            style={{listStyle: 'none'}}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center'
-          }}>
-            <SvgIcon type={key}
-                     width={16}
-                     height={16}
-                     color='#fff'
-                     spinning={key === 'spinner'} />
-            <span style={{marginLeft: '10px'}}>
+      {iconNames.map(key => (
+        <li key={key} style={{ listStyle: 'none' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <SvgIcon type={key} width={16} height={16} color="#fff" spinning={key === 'spinner'} />
+            <span style={{ marginLeft: '10px' }}>
               {key}
             </span>
           </div>
         </li>
-      )}
+      ))}
     </ul>
   );
 }

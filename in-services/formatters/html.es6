@@ -1,10 +1,9 @@
 /* global require:false */
 
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 let cachedPurifier;
 let cachedAnsiConverter;
-
 
 /**
  * This function replaces a set of commonly used HTML chars like <, > and & with
@@ -17,17 +16,12 @@ let cachedAnsiConverter;
  * user, e.g. Apache HTTPD configs. AND REMEMBER TO SANITIZE AFTERWARDS!
  */
 export function replaceHtmlChars(s) {
-  return s
-    .replace(/\&/g, '&amp;')
-    .replace(/\</g, '&lt;')
-    .replace(/\>/g, '&gt;');
+  return s.replace(/\&/g, '&amp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 }
-
 
 export function sanitize(html) {
   return getLoadedPurifier().map(purifier => purifier.sanitize(html));
 }
-
 
 export function getLoadedPurifier() {
   const result = create();
@@ -44,11 +38,9 @@ export function getLoadedPurifier() {
   return result;
 }
 
-
 export function ansiToHtml(ansi) {
   return getLoadedAnsiConverter().map(converter => converter.ansiToHtml(ansi));
 }
-
 
 export function getLoadedAnsiConverter() {
   const result = create();

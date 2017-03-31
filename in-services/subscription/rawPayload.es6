@@ -1,14 +1,13 @@
-import {fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
-
 
 export default createSubscription({
   eventId: 'subscribe-raw-payload',
 
-  getId: ({snapshotId, payloadName}) => snapshotId + payloadName,
+  getId: ({ snapshotId, payloadName }) => snapshotId + payloadName,
 
-  getData: (subscriptionId, {snapshotId, payloadName}) => {
+  getData: (subscriptionId, { snapshotId, payloadName }) => {
     return {
       subscriptionId,
       snapshotId,

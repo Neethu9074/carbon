@@ -1,16 +1,16 @@
 import React from 'react';
 
-import {bytesTwoDecimalPlaces, percentageZeroDecimalPlaces} from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import PercentageIndicator from 'in-sdk/components/table/PercentageIndicator';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
-import {getMetricForFocusedMoment} from 'in-stores/metric';
-import {alwaysNull} from 'in-services/fixedStreams';
-import {getFoundations} from 'in-stores/snapshot';
-import {always} from 'in-services/fixedStreams';
-import {getSnapshot} from 'in-stores/snapshot';
-import {getLabel} from 'in-sdk/snapshot';
-import {getZone} from 'in-stores/zone';
+import { getMetricForFocusedMoment } from 'in-stores/metric';
+import { alwaysNull } from 'in-services/fixedStreams';
+import { getFoundations } from 'in-stores/snapshot';
+import { always } from 'in-services/fixedStreams';
+import { getSnapshot } from 'in-stores/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
+import { getZone } from 'in-stores/zone';
 
 const nonVirtualized$ = always({
   content: '',
@@ -40,8 +40,7 @@ export default [
           const zoneLabel = getLabel(zone);
           return {
             content: (
-              <HierarchicalLink snapshotId={zone.get('id')}
-                                kind='dark'>
+              <HierarchicalLink snapshotId={zone.get('id')} kind="dark">
                 {zoneLabel}
               </HierarchicalLink>
             ),
@@ -49,28 +48,30 @@ export default [
           };
         });
     }
-  }, {
+  },
+  {
     title: 'FQDN',
     sortableType: String,
     get(snapshot) {
       const fqdn = snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']));
       return {
         content: (
-          <HierarchicalLink snapshotId={snapshot.get('id')}
-                            kind='dark'>
+          <HierarchicalLink snapshotId={snapshot.get('id')} kind="dark">
             {fqdn}
           </HierarchicalLink>
         ),
         sortable: fqdn
       };
     }
-  }, {
+  },
+  {
     title: 'Hostname',
     sortableType: String,
     get(snapshot) {
       return snapshot.getIn(['data', 'hostname']);
     }
-  }, {
+  },
+  {
     title: 'OS',
     sortableType: String,
     get(snapshot) {
@@ -84,35 +85,35 @@ export default [
         sortable: `${data.get('os.name', '')} ${data.get('os.version', '')} (${data.get('os.arch', '')})`
       };
     }
-  }, {
+  },
+  {
     title: 'Type',
     sortableType: String,
     style: {
       maxWidth: '8rem'
     },
     get(snapshot) {
-      return getFoundations(snapshot.get('id'))
-        .flatMap(foundations => {
-          if (foundations.size === 0) {
-            return nonVirtualized$;
-          }
+      return getFoundations(snapshot.get('id')).flatMap(foundations => {
+        if (foundations.size === 0) {
+          return nonVirtualized$;
+        }
 
-          const foundationId = foundations.first();
-          return getSnapshot(foundationId)
-            .map(foundation => {
-              const instanceType = foundation.getIn(['data', 'instance-type']) || '';
-              return {
-                content: (
-                  <ImageAndLabel snapshot={snapshot}>
-                    {instanceType}
-                  </ImageAndLabel>
-                ),
-                sortable: instanceType
-              };
-            });
+        const foundationId = foundations.first();
+        return getSnapshot(foundationId).map(foundation => {
+          const instanceType = foundation.getIn(['data', 'instance-type']) || '';
+          return {
+            content: (
+              <ImageAndLabel snapshot={snapshot}>
+                {instanceType}
+              </ImageAndLabel>
+            ),
+            sortable: instanceType
+          };
         });
+      });
     }
-  }, {
+  },
+  {
     title: '#CPUs',
     style: {
       textAlign: 'right',
@@ -122,7 +123,8 @@ export default [
     get(snapshot) {
       return snapshot.getIn(['data', 'cpu.count']);
     }
-  }, {
+  },
+  {
     title: 'CPU Usage',
     style: {
       textAlign: 'right',
@@ -133,19 +135,21 @@ export default [
     get(snapshot) {
       return {
         content: (
-          <PercentageIndicator snapshotId={snapshot.get('id')}
-                               metric='cpu.used'
-                               formatter={percentageZeroDecimalPlaces}
-                               optionalTimeWindowAggregation='mean' />
+          <PercentageIndicator
+            snapshotId={snapshot.get('id')}
+            metric="cpu.used"
+            formatter={percentageZeroDecimalPlaces}
+            optionalTimeWindowAggregation="mean"
+          />
         ),
-        sortable$:  getMetricForFocusedMoment({
+        sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
           metric: 'cpu.used'
-        })
-        .map(v => v[1])
+        }).map(v => v[1])
       };
     }
-  }, {
+  },
+  {
     title: 'Memory',
     style: {
       textAlign: 'right',
@@ -159,7 +163,8 @@ export default [
         sortable: memoryTotal
       };
     }
-  }, {
+  },
+  {
     title: 'Memory Used',
     style: {
       textAlign: 'right',
@@ -170,16 +175,17 @@ export default [
     get(snapshot) {
       return {
         content: (
-          <PercentageIndicator snapshotId={snapshot.get('id')}
-                               metric='memory.used'
-                               formatter={percentageZeroDecimalPlaces}
-                               optionalTimeWindowAggregation='mean' />
+          <PercentageIndicator
+            snapshotId={snapshot.get('id')}
+            metric="memory.used"
+            formatter={percentageZeroDecimalPlaces}
+            optionalTimeWindowAggregation="mean"
+          />
         ),
         sortable$: getMetricForFocusedMoment({
           snapshotId: snapshot.get('id'),
           metric: 'memory.used'
-        })
-        .map(v => v[1])
+        }).map(v => v[1])
       };
     }
   }

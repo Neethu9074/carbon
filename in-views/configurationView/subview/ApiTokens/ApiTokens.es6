@@ -1,18 +1,18 @@
-import {createLogger} from 'instalog';
-import {Map} from 'immutable';
+import { createLogger } from 'instalog';
+import { Map } from 'immutable';
 import React from 'react';
 
-import {getApiTokens, saveApiToken, deleteApiToken} from 'in-services/groundskeeper/apiTokens';
+import { getApiTokens, saveApiToken, deleteApiToken } from 'in-services/groundskeeper/apiTokens';
 import ApiTokenLink from 'in-views/configurationView/subview/ApiTokens/ApiTokenLink';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
+import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import {openApiTokenConfig} from 'in-stores/navigation/configuration';
+import { openApiTokenConfig } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
-import {generateUniqueShortId} from 'in-services/util/id';
-import {emptyList} from 'in-services/fixedImmutables';
+import { generateUniqueShortId } from 'in-services/util/id';
+import { emptyList } from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
 
 import './ApiTokens.less';
@@ -81,12 +81,11 @@ export default React.createClass({
   },
 
   render() {
-    const {apiTokens} = this.state;
+    const { apiTokens } = this.state;
 
     let sortedApiTokens;
     if (apiTokens) {
-      sortedApiTokens = apiTokens.toArray()
-        .sort((a, b) => a.get('name').localeCompare(b.get('name')));
+      sortedApiTokens = apiTokens.toArray().sort((a, b) => a.get('name').localeCompare(b.get('name')));
     }
 
     return (
@@ -96,55 +95,57 @@ export default React.createClass({
         </SubViewHeader>
 
         <Section>
-          <Button kind='info'
-                  onClick={this.addNewApiToken}>
+          <Button kind="info" onClick={this.addNewApiToken}>
             Add API Token
           </Button>
 
-          {this.state.message ?
-            <Notification failure={this.state.error}
-                          loading={this.state.loading}>
-              {this.state.message}
-            </Notification>
-          : null}
+          {this.state.message
+            ? <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            : null}
         </Section>
 
-        {sortedApiTokens && sortedApiTokens.length > 0 ?
-          <Section>
-            <ul className={`${block}__api-tokens`}>
-              {sortedApiTokens
-                .map(apiToken =>
-                  <li key={apiToken.get('id')}
-                      className={`${block}__api-token`}>
-                    <div className={`${block}__api-token-headline`}
-                         onClick={() => this.setState({ selectedToken: this.state.selectedToken === apiToken.get('id') ? null : apiToken.get('id') })}>
+        {sortedApiTokens && sortedApiTokens.length > 0
+          ? <Section>
+              <ul className={`${block}__api-tokens`}>
+                {sortedApiTokens.map(apiToken => (
+                  <li key={apiToken.get('id')} className={`${block}__api-token`}>
+                    <div
+                      className={`${block}__api-token-headline`}
+                      onClick={() =>
+                        this.setState({
+                          selectedToken: this.state.selectedToken === apiToken.get('id') ? null : apiToken.get('id')
+                        })}
+                    >
                       <div>
-                        <ApiTokenLink className={`${block}__name`}
-                                      apiToken={apiToken}>
+                        <ApiTokenLink className={`${block}__name`} apiToken={apiToken}>
                           {apiToken.get('name')}
                         </ApiTokenLink>
 
                       </div>
 
-                      <Button kind='danger'
-                              size='sm'
-                              className={`${block}__remove`}
-                              onClick={() => this.onDelete(apiToken)}>
+                      <Button
+                        kind="danger"
+                        size="sm"
+                        className={`${block}__remove`}
+                        onClick={() => this.onDelete(apiToken)}
+                      >
                         Delete
                       </Button>
                     </div>
-                    {this.state.selectedToken === apiToken.get('id') ?
-                      <div>
-                        <span className={`${block}__key`}>
-                          {apiToken.get('id')}
-                        </span>
-                      </div>
-                    : null}
+                    {this.state.selectedToken === apiToken.get('id')
+                      ? <div>
+                          <span className={`${block}__key`}>
+                            {apiToken.get('id')}
+                          </span>
+                        </div>
+                      : null}
                   </li>
-              )}
-            </ul>
-          </Section>
-        : null}
+                ))}
+              </ul>
+            </Section>
+          : null}
       </SubViewWrapper>
     );
   },
@@ -179,17 +180,19 @@ export default React.createClass({
 
   onDelete(apiToken) {
     setActiveDialog(
-      <ConfirmationDialog header='Confirm removal'
-                          description={
-                            <span>
-                              Are you sure you want to remove the API token <strong>{apiToken.get('name')}</strong>?
-                            </span>
-                          }
-                          bButtonLabel='Remove API token'
-                          onB={() => {
-                            close();
-                            this.onDeleteAfterConfirmation(apiToken);
-                          }} />
+      <ConfirmationDialog
+        header="Confirm removal"
+        description={
+          <span>
+            Are you sure you want to remove the API token <strong>{apiToken.get('name')}</strong>?
+          </span>
+        }
+        bButtonLabel="Remove API token"
+        onB={() => {
+          close();
+          this.onDeleteAfterConfirmation(apiToken);
+        }}
+      />
     );
   },
 

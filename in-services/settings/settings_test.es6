@@ -1,7 +1,7 @@
 /* eslint-env mocha,node */
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {setIn, settingsStore} from './settings.es6';
+import { setIn, settingsStore } from './settings.es6';
 
 describe('settings', () => {
   let settings;
@@ -9,7 +9,9 @@ describe('settings', () => {
   beforeEach(() => {
     global.localStorage = {
       setItem() {},
-      getItem() { return null; }
+      getItem() {
+        return null;
+      }
     };
     settingsStore.subscribe(data => settings = data);
   });
@@ -30,5 +32,4 @@ describe('settings', () => {
     const value = settings.getIn(['map', 'scrollSpeed']);
     expect(value).to.equal(10);
   });
-
 });

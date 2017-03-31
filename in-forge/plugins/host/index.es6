@@ -1,14 +1,13 @@
-import {registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {addKeywordOperator} from 'in-sdk/search';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { addKeywordOperator } from 'in-sdk/search';
 
 import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
 import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
 import appleIconSvgPath from 'in-forge/plugins/host/icons/appleIconPath';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition.es6';
 import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
-import {plugins} from 'in-forge/constants';
+import { plugins } from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
-
 
 const linuxPlugin = plugins.host + '_linux';
 const applePlugin = plugins.host + '_apple';

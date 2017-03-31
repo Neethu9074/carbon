@@ -1,9 +1,7 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {hexToRGBNormalized} from 'in-services/formatters/color';
-
+import { hexToRGBNormalized } from 'in-services/formatters/color';
 
 export default class ColorComponent extends SceneObjectComponent {
-
   constructor(sceneObject) {
     super(sceneObject, '_color');
 
@@ -25,9 +23,7 @@ export default class ColorComponent extends SceneObjectComponent {
 
   setRGB(r, g, b) {
     const color = this.color;
-    if (color.r === r &&
-        color.g === g &&
-        color.b === b) {
+    if (color.r === r && color.g === g && color.b === b) {
       return;
     }
 

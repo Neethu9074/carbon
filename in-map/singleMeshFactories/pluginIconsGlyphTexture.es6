@@ -1,6 +1,5 @@
-import {Texture, LinearFilter} from 'in-map/3DLibProvider';
-import {getAllSvgIconPaths} from 'in-sdk/iconRegistry';
-
+import { Texture, LinearFilter } from 'in-map/3DLibProvider';
+import { getAllSvgIconPaths } from 'in-sdk/iconRegistry';
 
 const allIcons = getAllSvgIconPaths();
 export const config = {
@@ -10,7 +9,7 @@ export const config = {
 };
 
 const canvas = document.createElement('canvas');
-canvas.width = canvas.height = config.numElementsPerColumn * config.iconWidth;
+canvas.width = (canvas.height = config.numElementsPerColumn * config.iconWidth);
 
 const context = canvas.getContext('2d');
 context.fillStyle = '#fff';
@@ -21,7 +20,6 @@ glyphTexture.magFilter = LinearFilter;
 glyphTexture.generateMipmaps = false;
 glyphTexture.needsUpdate = true;
 glyphTexture.flipY = false;
-
 
 export function init() {
   const iconWidth = config.iconWidth;
@@ -42,7 +40,7 @@ export function init() {
     context.fill(p);
 
     // update Look Up Table
-    config.LUT[icon.id] = {x, y};
+    config.LUT[icon.id] = { x, y };
 
     column++;
     if (column >= config.numElementsPerColumn) {

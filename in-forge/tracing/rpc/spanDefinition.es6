@@ -1,4 +1,4 @@
-import {config} from 'in-services/config';
+import { config } from 'in-services/config';
 
 export function getLabel(span) {
   const host = config.tenant === 'douglas' ? span.getIn(['data', 'rpc', 'host'], '') : '';

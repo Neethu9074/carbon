@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
@@ -25,14 +25,14 @@ describe('in-services/http/HttpResponseStatusCodeError', () => {
 
   it('must use embedded error messages when available for JSON content type', () => {
     response.getHeader.withArgs('Content-Type').returns('application/jsOn');
-    response.body = JSON.stringify({error: errorMessage});
+    response.body = JSON.stringify({ error: errorMessage });
     error = new HttpResponseStatusCodeError(response, method, url);
     expect(error.message).to.equal(errorMessage);
   });
 
   it('must use embedded error messages when available for HAL content type', () => {
     response.getHeader.withArgs('Content-Type').returns('application/hal+json');
-    response.body = JSON.stringify({error: errorMessage});
+    response.body = JSON.stringify({ error: errorMessage });
     error = new HttpResponseStatusCodeError(response, method, url);
     expect(error.message).to.equal(errorMessage);
   });

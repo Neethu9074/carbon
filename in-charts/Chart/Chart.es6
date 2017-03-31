@@ -1,7 +1,7 @@
-import {on, create} from 'reactive-observables';
+import { on, create } from 'reactive-observables';
 
-import {setHighlightedTimeframe, clearHighlightedTimeframe} from 'in-stores/timeline/highlightedTimeframe';
-import {highlightedMoment$, clearHighlightedMoment, setHighlightedMoment} from 'in-stores/timeline';
+import { setHighlightedTimeframe, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import { highlightedMoment$, clearHighlightedMoment, setHighlightedMoment } from 'in-stores/timeline';
 import createHighlightedTimeframeRenderer from 'in-charts/Chart/renderer/highlightedTimeframe';
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
@@ -10,13 +10,12 @@ import createApplyTimeButton from 'in-charts/Chart/applyTimeButton';
 import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
-import {toServerTime} from 'in-stores/timeOffset';
-import {getIn} from 'in-services/settings';
+import { toServerTime } from 'in-stores/timeOffset';
+import { getIn } from 'in-services/settings';
 
 import './Chart.less';
 
-
-const signalRoSpec = {emitLatestOnSubscribe: false};
+const signalRoSpec = { emitLatestOnSubscribe: false };
 const animationDuration = 2000;
 const maxFps = 15;
 
@@ -44,7 +43,6 @@ export default function createChart(config) {
   const highlightedTimeframeRenderer = createHighlightedTimeframeRenderer(config);
   const applyTimeButtonRenderer = createApplyTimeButton(config);
 
-
   let isRendering = false;
   let restartRenderingSubscription;
   let renderTimeAndDataIntervalHandle;
@@ -63,40 +61,28 @@ export default function createChart(config) {
     dispose
   };
 
-
   function addLowDetailModeSupport() {
-    config.subscriptions.push(getIn(['charts', 'adaptToDevicePixelRatio'])
-      .subscribe(adaptToDevicePixelRatio => {
+    config.subscriptions.push(
+      getIn(['charts', 'adaptToDevicePixelRatio']).subscribe(adaptToDevicePixelRatio => {
         config.devicePixelRatio = adaptToDevicePixelRatio ? window.devicePixelRatio : 1;
         if (!initPhase) {
           onResize();
         }
-      }));
+      })
+    );
   }
-
 
   function addTooltipSupport() {
-    config.subscriptions.push(highlightedMoment$
-      .throttle(20)
-      .subscribe(onHighlightedMomentChange));
+    config.subscriptions.push(highlightedMoment$.throttle(20).subscribe(onHighlightedMomentChange));
 
-    config.subscriptions.push(
-      on(config.dom.glassPane, 'mousemove')
-      .subscribe(onMouseMove));
+    config.subscriptions.push(on(config.dom.glassPane, 'mousemove').subscribe(onMouseMove));
 
-    config.subscriptions.push(
-      on(config.dom.glassPane, 'mouseleave')
-      .subscribe(onMouseLeave));
+    config.subscriptions.push(on(config.dom.glassPane, 'mouseleave').subscribe(onMouseLeave));
 
-    config.subscriptions.push(
-      on(config.dom.glassPane, 'mousedown')
-      .subscribe(onMouseDown));
+    config.subscriptions.push(on(config.dom.glassPane, 'mousedown').subscribe(onMouseDown));
 
-    config.subscriptions.push(
-      on(config.dom.glassPane, 'mouseup')
-      .subscribe(onMouseUp));
+    config.subscriptions.push(on(config.dom.glassPane, 'mouseup').subscribe(onMouseUp));
   }
-
 
   function onMouseMove(e) {
     const time = config.scales.x.getDomain(e.offsetX);
@@ -113,12 +99,10 @@ export default function createChart(config) {
     e.preventDefault();
   }
 
-
   function onMouseLeave() {
     clearHighlightedMoment();
     timeframeHighlightDraggingStart = null;
   }
-
 
   function onMouseDown(e) {
     e.preventDefault();
@@ -127,17 +111,14 @@ export default function createChart(config) {
     timeframeHighlightDraggingStart = getTimeAtPosition(e.offsetX);
   }
 
-
   function onMouseUp() {
     timeframeHighlightDraggingStart = null;
   }
-
 
   function getTimeAtPosition(x) {
     const time = config.scales.x.getDomain(x);
     return Math.max(Math.min(time, config.scales.x.getDomainTo()), config.scales.x.getDomainFrom());
   }
-
 
   function onHighlightedMomentChange(highlightedMoment) {
     if (highlightedMoment != null) {
@@ -146,7 +127,6 @@ export default function createChart(config) {
       tooltipRenderer.hideTooltip();
     }
   }
-
 
   function dispose() {
     tooltipRenderer.dispose();
@@ -157,14 +137,9 @@ export default function createChart(config) {
     config.subscriptions.forEach(s => s.dispose());
   }
 
-
   function addWindowResizeSupport() {
-    config.subscriptions.push(
-      on(window, 'resize')
-      .debounce(500)
-      .subscribe(onResize));
+    config.subscriptions.push(on(window, 'resize').debounce(500).subscribe(onResize));
   }
-
 
   function onResize() {
     domController.resize();
@@ -172,13 +147,9 @@ export default function createChart(config) {
     restartRendering();
   }
 
-
   function addVisibilityChangeSupport() {
-    config.subscriptions.push(
-      on(document, 'visibilitychange')
-      .subscribe(onVisibilityChange));
+    config.subscriptions.push(on(document, 'visibilitychange').subscribe(onVisibilityChange));
   }
-
 
   function onVisibilityChange() {
     if (document.hidden) {
@@ -188,19 +159,16 @@ export default function createChart(config) {
     }
   }
 
-
   function startRendering() {
     if (isRendering || document.hidden || initPhase) {
       return;
     }
     isRendering = true;
 
-    restartRenderingSubscription = config.signals.restartRendering$
-      .subscribe(restartRendering);
+    restartRenderingSubscription = config.signals.restartRendering$.subscribe(restartRendering);
 
     calculateMaxDistanceBetweenPoints();
     borderRenderer.render();
-
 
     let prev = 0;
     const animate = () => {
@@ -208,7 +176,7 @@ export default function createChart(config) {
       const scales = config.scales;
       const windowSize = config.timeframe.windowSize;
       const chartWiggleRoom = config.chartWiggleRoom;
-      const to = config.timeframe.to || (toServerTime(now, config.serverTimeOffset) - chartWiggleRoom);
+      const to = config.timeframe.to || toServerTime(now, config.serverTimeOffset) - chartWiggleRoom;
 
       scales.x.setDomainFrom(to - windowSize + chartWiggleRoom);
       scales.x.setDomainTo(to);
@@ -234,7 +202,6 @@ export default function createChart(config) {
     animationCopyHandle = requestAnimationFrameWithFps(animate, maxFps);
   }
 
-
   function calculateMaxDistanceBetweenPoints() {
     const now = Date.now();
     config.scales.x.setDomainFrom(now - config.timeframe.windowSize);
@@ -246,7 +213,6 @@ export default function createChart(config) {
     const maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
     config.maxDistanceBetweenPoints = maxDistanceBetweenPoints;
   }
-
 
   function copyBackBufferToScreenBuffer() {
     const dpr = config.devicePixelRatio;
@@ -266,7 +232,6 @@ export default function createChart(config) {
     );
   }
 
-
   function stopRendering() {
     if (!isRendering) {
       return;
@@ -282,7 +247,6 @@ export default function createChart(config) {
     }
     clearInterval(renderTimeAndDataIntervalHandle);
   }
-
 
   function restartRendering() {
     stopRendering();

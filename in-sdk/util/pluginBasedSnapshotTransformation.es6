@@ -1,4 +1,4 @@
-import {createLogger} from 'instalog';
+import { createLogger } from 'instalog';
 
 export default function generatePluginBasedSnapshotTransformation(label, fallback) {
   const logger = createLogger('in-sdk.' + label);
@@ -9,10 +9,7 @@ export default function generatePluginBasedSnapshotTransformation(label, fallbac
   return {
     addMapping(plugin, provider) {
       if (plugin in mappings) {
-        logger.info(
-          'Duplicated registration of ' + label + 'Provider for ' +
-          'plugin' + plugin
-        );
+        logger.info('Duplicated registration of ' + label + 'Provider for ' + 'plugin' + plugin);
       }
       mappings[plugin] = provider;
     },

@@ -1,7 +1,6 @@
 import createTimestampObservable from 'in-services/subscription/timestamp';
-import {on} from 'in-services/persistentConnection';
-import {createStore} from 'in-stores/store';
-
+import { on } from 'in-services/persistentConnection';
+import { createStore } from 'in-stores/store';
 
 // This is an attempt to "synchronize" the time between client (browser) and
 // server (backend). This needs to be done as we cannot expect that the user
@@ -38,7 +37,6 @@ let syncIntervalHandle;
 // Negative values indicate that the local click is behing the server clock.
 let offsets = [];
 
-
 const offsetStore = createStore({
   name: 'timeOffsetMillis',
   initialValue: 0
@@ -46,13 +44,11 @@ const offsetStore = createStore({
 export const offset = offsetStore.observable;
 export const offset$ = offset;
 
-
 export function init() {
   on('connect', start);
   on('reconnect', start);
   on('disconnect', stop);
 }
-
 
 /**
  * Translate local time to server time by subtracting the offset
@@ -71,7 +67,6 @@ export function toServerTime(d, off) {
   return millis - off;
 }
 
-
 function start() {
   stop();
 
@@ -81,7 +76,6 @@ function start() {
   syncIntervalHandle = setInterval(synchronize, syncInterval);
 }
 
-
 function stop() {
   if (syncIntervalHandle) {
     clearInterval(syncIntervalHandle);
@@ -89,12 +83,9 @@ function stop() {
   }
 }
 
-
 function synchronize() {
-  createTimestampObservable({originate: Date.now()})
-    .once(processTimestampReply);
+  createTimestampObservable({ originate: Date.now() }).once(processTimestampReply);
 }
-
 
 /**
  * Process the server reply and try to get an offset approximation.
@@ -115,13 +106,9 @@ function processTimestampReply(reply) {
 
   const difference = receiving - oneway;
   offsets.push(difference);
-  offsets = offsets.slice(
-    offsets.length - numberOfValuesForOffetMean,
-    offsets.length
-  );
+  offsets = offsets.slice(offsets.length - numberOfValuesForOffetMean, offsets.length);
   offsetStore.applyStateMutation(() => getOffset());
 }
-
 
 /**
  * Returns the number of milliseconds that the local clock differs from the

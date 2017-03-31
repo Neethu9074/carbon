@@ -1,25 +1,23 @@
 import RoEmitter from 'roemitter';
 
-import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {timelineHeight$} from 'in-components/timeline/timelineStore';
-import {requestRendering} from 'in-map/stores/renderingStore';
-import {getFactory} from 'in-map/stores/factoriesStore';
-import {Object3D, Vector3} from 'in-map/3DLibProvider';
+import { setSelectedSnapshotId, clearSelectedSnapshotId } from 'in-stores/snapshot';
+import { timelineHeight$ } from 'in-components/timeline/timelineStore';
+import { requestRendering } from 'in-map/stores/renderingStore';
+import { getFactory } from 'in-map/stores/factoriesStore';
+import { Object3D, Vector3 } from 'in-map/3DLibProvider';
 import Camera from 'in-map/misc/OrthographicCamera';
-import {emptyArray} from 'in-services/fixedObjects';
-import {clearSelectedEvent} from 'in-stores/events';
-import {goToDashboard} from 'in-stores/navigation';
-import {height} from 'in-map/stores/indexStore';
+import { emptyArray } from 'in-services/fixedObjects';
+import { clearSelectedEvent } from 'in-stores/events';
+import { goToDashboard } from 'in-stores/navigation';
+import { height } from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
-import {ZERO} from 'in-map/misc/fixedVectors';
-
+import { ZERO } from 'in-map/misc/fixedVectors';
 
 const MIN_ZOOM_IN_FOR_FOCUS = 100;
 const FOCUS_MARGIN = 0.02;
 let BOTTOM_MARGIN_IN_PX = 0;
 
 export default class BasicCameraController extends Subscriber {
-
   constructor(factoryIdForFocusCalculation, yaw = -40) {
     super();
 
@@ -54,14 +52,12 @@ export default class BasicCameraController extends Subscriber {
   }
 
   initEvents() {
-    this.addSubscriptions([
-      this.eventEmitter.on('onClicked').subscribe(() => {
-        const {object, connections} = this.lastHitten;
+    this.addSubscriptions([this.eventEmitter.on('onClicked').subscribe(() => {
+        const { object, connections } = this.lastHitten;
 
         if (object) {
           setSelectedSnapshotId(object.dashboardId);
-
-        // dont reset the click if you clicken on connections
+          // dont reset the click if you clicken on connections
         } else if (connections.length === 0) {
           // the was something clicked but no object or connection available -> reset
           clearSelectedSnapshotId();
@@ -69,16 +65,11 @@ export default class BasicCameraController extends Subscriber {
         } else {
           setSelectedSnapshotId(connections[0].id);
         }
-      }),
-
-      this.eventEmitter.on('onDoubleClicked').subscribe(() => {
+      }), this.eventEmitter.on('onDoubleClicked').subscribe(() => {
         if (this.lastHitten.object) {
           goToDashboard(this.lastHitten.object.dashboardId);
         }
-      }),
-
-      timelineHeight$.subscribe(timelineHeight => BOTTOM_MARGIN_IN_PX = timelineHeight)
-    ]);
+      }), timelineHeight$.subscribe(timelineHeight => BOTTOM_MARGIN_IN_PX = timelineHeight)]);
   }
 
   getRenderableCamera() {
@@ -97,7 +88,7 @@ export default class BasicCameraController extends Subscriber {
     this.updateCamera();
   }
 
-  flyToPosition(config = {x: 0, z: 0}) {
+  flyToPosition(config = { x: 0, z: 0 }) {
     this.camTransformObject.position.setX(config.x);
     this.camTransformObject.position.setZ(config.z);
 
@@ -134,7 +125,7 @@ export default class BasicCameraController extends Subscriber {
     }
 
     minX -= FOCUS_MARGIN;
-    minY -= (FOCUS_MARGIN + yOffset);
+    minY -= FOCUS_MARGIN + yOffset;
     maxX += FOCUS_MARGIN;
     maxY += FOCUS_MARGIN;
 
@@ -150,9 +141,7 @@ export default class BasicCameraController extends Subscriber {
     const heightInScreenSpace = maxY - minY;
 
     // screenSpace goes from [-1, 1]
-    const inPercent = widthInScreenSpace > heightInScreenSpace
-      ? widthInScreenSpace / 2
-      : heightInScreenSpace / 2;
+    const inPercent = widthInScreenSpace > heightInScreenSpace ? widthInScreenSpace / 2 : heightInScreenSpace / 2;
 
     const zoomLevelToSet = this.zoomLevel * inPercent;
 
@@ -182,10 +171,12 @@ export default class BasicCameraController extends Subscriber {
       maxZ = Math.max(maxZ, z);
     }
 
-    if (this.camTransformObject.position.x > maxX ||
-        this.camTransformObject.position.x < minX ||
-        this.camTransformObject.position.z > maxZ ||
-        this.camTransformObject.position.z < minZ) {
+    if (
+      this.camTransformObject.position.x > maxX ||
+      this.camTransformObject.position.x < minX ||
+      this.camTransformObject.position.z > maxZ ||
+      this.camTransformObject.position.z < minZ
+    ) {
       this.flyToPosition(ZERO);
     }
   }
@@ -210,7 +201,6 @@ export default class BasicCameraController extends Subscriber {
     this.camera.update();
 
     requestRendering();
-
     // TODO: clamp the position to avoid overflow of the level area
   }
 

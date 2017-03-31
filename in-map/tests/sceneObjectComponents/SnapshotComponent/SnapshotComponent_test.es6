@@ -1,12 +1,11 @@
 /* eslint-env mocha, node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {fromJS} from 'immutable';
-import {expect} from 'chai';
+import { fromJS } from 'immutable';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {createSceneObject} from 'in-map/tests/sceneObjectComponents/helper';
-
+import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 
 describe('in-map', () => {
   describe('sceneObjectComponents/SnapshotComponent', () => {

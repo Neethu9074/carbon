@@ -1,7 +1,7 @@
 /* eslint-disable react/no-did-mount-set-state */
 
-import {on} from 'reactive-observables';
-import {isEqual} from 'lodash';
+import { on } from 'reactive-observables';
+import { isEqual } from 'lodash';
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
@@ -37,12 +37,10 @@ export default React.createClass({
       height: this.scrollElement.clientHeight
     });
 
-    this.scrollSubscription = on(this.scrollElement, 'scroll', {passive: true})
+    this.scrollSubscription = on(this.scrollElement, 'scroll', { passive: true })
       .throttle(200)
       .subscribe(this.onScroll);
-    this.resizeSubscription = on(window, 'resize')
-      .throttle(200)
-      .subscribe(this.onResize);
+    this.resizeSubscription = on(window, 'resize').throttle(200).subscribe(this.onResize);
     this.checkHandle = setTimeout(this.checkForNewElements, 500);
   },
 
@@ -56,7 +54,8 @@ export default React.createClass({
   checkForNewElements() {
     clearTimeout(this.checkHandle);
 
-    const sections = slice.call(document.querySelectorAll('.in-dashboard .in-dashboard-section'))
+    const sections = slice
+      .call(document.querySelectorAll('.in-dashboard .in-dashboard-section'))
       .map((section, i) => {
         // unnamed sections may exist
         const heading = section.querySelector('.in-dashboard__content-heading');
@@ -75,7 +74,7 @@ export default React.createClass({
       .filter(section => !!section);
 
     if (!isEqual(this.state.sections, sections)) {
-      this.setState({sections});
+      this.setState({ sections });
       this.checkHandle = setTimeout(this.checkForNewElements, 1000);
     } else {
       this.checkHandle = setTimeout(this.checkForNewElements, 3000);
@@ -116,13 +115,15 @@ export default React.createClass({
             (section.bottom > top && section.bottom < bottom) ||
             (section.top < top && section.bottom > bottom);
           return (
-            <li key={section.key}
-                className={classnames({
-                  [`${block}__item`]: true,
-                  [`${block}__item--in-view`]: isInView
-                })}
-                 // subtract 43 to account for padding and overlays
-                onClick={() => this.scrollElement.scrollTop = section.top - 43}>
+            <li
+              key={section.key}
+              className={classnames({
+                [`${block}__item`]: true,
+                [`${block}__item--in-view`]: isInView
+              })}
+              // subtract 43 to account for padding and overlays
+              onClick={() => this.scrollElement.scrollTop = section.top - 43}
+            >
               {section.label}
             </li>
           );

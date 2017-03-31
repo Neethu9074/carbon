@@ -1,11 +1,10 @@
-import {create} from 'reactive-observables';
-import {fromJS} from 'immutable';
+import { create } from 'reactive-observables';
+import { fromJS } from 'immutable';
 
-import {emptyMap} from 'in-services/fixedImmutables';
-
+import { emptyMap } from 'in-services/fixedImmutables';
 
 const settingsPath = 'in-settings';
-export const settingsStore = create({emitLatestOnSubscribe: true});
+export const settingsStore = create({ emitLatestOnSubscribe: true });
 export const settings$ = settingsStore;
 
 let settings = getFromStorage();
@@ -66,19 +65,21 @@ export function toggleIn(path) {
 }
 
 export function getIn(path, defaultValue) {
-  return settingsStore.map(set => {
-    return set.getIn(path, defaultValue);
-  }).distinct();
+  return settingsStore
+    .map(set => {
+      return set.getIn(path, defaultValue);
+    })
+    .distinct();
 }
 
 function setToStorage() {
-  if (typeof(Storage) !== 'undefined') {
+  if (typeof Storage !== 'undefined') {
     localStorage.setItem(settingsPath, JSON.stringify(settings.toJS()));
   }
 }
 
 function getFromStorage() {
-  if (typeof(localStorage) === 'undefined') {
+  if (typeof localStorage === 'undefined') {
     return null;
   }
   const temp = localStorage.getItem(settingsPath);

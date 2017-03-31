@@ -1,14 +1,4 @@
-const statAggregationMetricSuffixes = [
-  '.mean',
-  '.min',
-  '.25th',
-  '.50th',
-  '.75th',
-  '.95th',
-  '.98th',
-  '.99th',
-  '.max'
-];
+const statAggregationMetricSuffixes = ['.mean', '.min', '.25th', '.50th', '.75th', '.95th', '.98th', '.99th', '.max'];
 
 const defaultAggregation = 'mean';
 const aggregationDefinitions = {

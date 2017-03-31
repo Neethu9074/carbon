@@ -1,15 +1,14 @@
 import React from 'react';
 
-import {formatDateTime} from 'in-services/formatters/date';
-import {getAxisConfig} from 'in-charts/timeFormatting';
-import {getTickPositions} from 'in-charts/timeAxis';
+import { formatDateTime } from 'in-services/formatters/date';
+import { getAxisConfig } from 'in-charts/timeFormatting';
+import { getTickPositions } from 'in-charts/timeAxis';
 
 import './TimeAxis.less';
 
-
 const block = 'in-event-view-detail-chart-time-axis';
 
-export default function TimeAxis({scale}) {
+export default function TimeAxis({ scale }) {
   // full width / max pixels per timestamp
   const maxSteps = Math.ceil((scale.getRangeTo() - scale.getRangeFrom()) / 180);
 
@@ -27,16 +26,16 @@ export default function TimeAxis({scale}) {
     <div className={block}>
       {tickPositions.map((position, index) => {
         const x = Math.ceil(position.range);
-        const time = index === 0
-          ? formatDateTime(position.domain)
-          : axisConfig.formatter(position.domain);
+        const time = index === 0 ? formatDateTime(position.domain) : axisConfig.formatter(position.domain);
 
         return (
-          <div key={x}
-               className={`${block}__tick`}
-               style={{
-                 left: x
-               }}>
+          <div
+            key={x}
+            className={`${block}__tick`}
+            style={{
+              left: x
+            }}
+          >
             {time}
           </div>
         );

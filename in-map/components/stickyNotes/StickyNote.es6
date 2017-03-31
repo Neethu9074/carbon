@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {applyTransform} from 'in-services/util/dom';
-
+import { applyTransform } from 'in-services/util/dom';
 
 const rpt = React.PropTypes;
 const DEFAULT_STYLE = {
@@ -13,7 +12,6 @@ const DEFAULT_STYLE = {
 
 export default function StickyNote(ComposedComponent) {
   return React.createClass({
-
     displayName: 'StickyNote',
 
     propTypes: {
@@ -32,8 +30,7 @@ export default function StickyNote(ComposedComponent) {
     },
 
     componentDidUpdate(prevProps) {
-      if (this.props.id !== prevProps.id ||
-          this.props.eventEmitter !== prevProps.eventEmitter) {
+      if (this.props.id !== prevProps.id || this.props.eventEmitter !== prevProps.eventEmitter) {
         this.setupSubscriptions();
       }
     },
@@ -43,14 +40,10 @@ export default function StickyNote(ComposedComponent) {
     },
 
     render() {
-      const content = this.state.isVisible
-        ? (<ComposedComponent {...this.props}
-                              wrapper={this.stickyNote} />)
-        : null;
+      const content = this.state.isVisible ? <ComposedComponent {...this.props} wrapper={this.stickyNote} /> : null;
 
       return (
-        <div ref={stickyNote => this.stickyNote = stickyNote}
-             style={DEFAULT_STYLE}>
+        <div ref={stickyNote => this.stickyNote = stickyNote} style={DEFAULT_STYLE}>
           {content}
         </div>
       );
@@ -59,13 +52,15 @@ export default function StickyNote(ComposedComponent) {
     setupSubscriptions(props = this.props) {
       this.disposeSubscriptions();
 
-      this.positionSubscription = props.eventEmitter.on('screenPositionChanged' + props.id)
+      this.positionSubscription = props.eventEmitter
+        .on('screenPositionChanged' + props.id)
         .subscribe(newPosition =>
           applyTransform(this.stickyNote, `translate3d(${newPosition.x}px,${newPosition.y}px,0)`));
 
-      this.visibilitySubscription = props.eventEmitter.on('isVisibleChanged' + props.id)
+      this.visibilitySubscription = props.eventEmitter
+        .on('isVisibleChanged' + props.id)
         .distinct()
-        .subscribe(isVisible => this.setState({isVisible}));
+        .subscribe(isVisible => this.setState({ isVisible }));
     },
 
     disposeSubscriptions() {

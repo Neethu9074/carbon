@@ -1,9 +1,7 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
-
+import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 
 export default class HealthComponent extends SceneObjectComponent {
-
   constructor(sceneObject) {
     super(sceneObject, '_health');
   }
@@ -11,7 +9,8 @@ export default class HealthComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(getHealthInfoAtFocusedMoment(this.sceneObject.id).subscribe(health =>
-      this.emitToClient('healthChanged', health)));
+    this.addSubscription(
+      getHealthInfoAtFocusedMoment(this.sceneObject.id).subscribe(health => this.emitToClient('healthChanged', health))
+    );
   }
 }

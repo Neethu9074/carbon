@@ -1,6 +1,4 @@
-import {
-  number
-} from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 
 export default [
   {
@@ -31,7 +29,7 @@ export default [
     category: ['Sessions'],
     formatter: number,
     isAvailable(snapshot) {
-       return snapshot.getIn(['data', 'httpsessionsMax'], false);
+      return snapshot.getIn(['data', 'httpsessionsMax'], false);
     }
   }
 ];

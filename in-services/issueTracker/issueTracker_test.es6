@@ -1,14 +1,12 @@
 /* eslint-env mocha */
 import proxyquire from 'proxyquire';
-import {fromJS} from 'immutable';
-import {expect} from 'chai';
+import { fromJS } from 'immutable';
+import { expect } from 'chai';
 
-import {resetStoreRegistry} from 'in-stores/store';
-import {theme} from 'in-services/theme';
-
+import { resetStoreRegistry } from 'in-stores/store';
+import { theme } from 'in-services/theme';
 
 describe('issueTracker', () => {
-
   let issueTracker;
 
   beforeEach(() => {
@@ -16,7 +14,6 @@ describe('issueTracker', () => {
 
     issueTracker = proxyquire('./issueTracker', {});
   });
-
 
   describe('getColorForEvent', () => {
     let event;
@@ -42,6 +39,5 @@ describe('issueTracker', () => {
       const color = issueTracker.getColorForEvent(event);
       expect(color).to.equal(theme.health[0]);
     });
-
   });
 });

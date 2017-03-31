@@ -1,10 +1,8 @@
 import Subscriber from 'in-map/misc/Subscriber';
 
-
 let idCounter = 0;
 
 export default class SceneObjectComponent extends Subscriber {
-
   constructor(sceneObject, postId) {
     super();
 

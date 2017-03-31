@@ -1,5 +1,5 @@
-import {pad_left, pad_hex, pad_right, get_crash_thread} from '../util';
-import {get_cpu_arch, get_cpu_type, get_registers} from '../cpu';
+import { pad_left, pad_hex, pad_right, get_crash_thread } from '../util';
+import { get_cpu_arch, get_cpu_type, get_registers } from '../cpu';
 
 /**
  * Parses out the CPU registers dump from the crash. This is
@@ -19,9 +19,9 @@ export function parseCpu(report, thread) {
   }
 
   var index = crashed['index'];
-  var sys   = report['system'] || {};
-  var type  = sys['binary_cpu_type'];
-  var sub   = sys['binary_cpu_subtype'];
+  var sys = report['system'] || {};
+  var type = sys['binary_cpu_type'];
+  var sub = sys['binary_cpu_subtype'];
 
   var arch;
   if (!type && !sub) {
@@ -45,11 +45,11 @@ export function parseCpu(report, thread) {
       line = '';
     }
 
-    var register      = reg_order[i];
+    var register = reg_order[i];
     var register_addr = registers[register] || 0;
     var register_name = pad_left(register, ' ', 6);
-    var register_loc  = pad_hex(register_addr, '0', 8);
-    var register_pad  = pad_right(register_loc, ' ', 9);
+    var register_loc = pad_hex(register_addr, '0', 8);
+    var register_pad = pad_right(register_loc, ' ', 9);
 
     line += `${register_name}: 0x${register_pad}`;
   }

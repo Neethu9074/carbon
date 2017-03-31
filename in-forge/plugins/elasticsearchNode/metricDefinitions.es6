@@ -1,22 +1,10 @@
-import {
-  siMultiplyPrefix,
-  siPrefix,
-  number,
-  millis,
-  bytes,
-  ms
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { siMultiplyPrefix, siPrefix, number, millis, bytes, ms } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [
-      'indices.query_latency'
-    ],
-    labels: [
-      'Latency'
-    ],
+    metrics: ['indices.query_latency'],
+    labels: ['Latency'],
     min: 0,
     formatter: ms
   },
@@ -30,41 +18,19 @@ export default [
       'indices.index_count',
       'indices.deleted_count'
     ],
-    labels: [
-      'Number Of Queries',
-      'Indices',
-      'Active',
-      'Active Primary',
-      'Overall Documents',
-      'Added',
-      'Removed'
-    ],
+    labels: ['Number Of Queries', 'Indices', 'Active', 'Active Primary', 'Overall Documents', 'Added', 'Removed'],
     min: 0,
     formatter: siPrefix
   },
   {
-    metrics: [
-      'indices.refresh_count',
-      'indices.flush_count',
-      'indices.segment_count'
-    ],
-    labels: [
-      'Refresh Count',
-      'Flush Count',
-      'Segments'
-    ],
+    metrics: ['indices.refresh_count', 'indices.flush_count', 'indices.segment_count'],
+    labels: ['Refresh Count', 'Flush Count', 'Segments'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metrics: [
-      'indices.refresh_time',
-      'indices.flush_time'
-    ],
-    labels: [
-      'Refresh Time',
-      'Flush Time'
-    ],
+    metrics: ['indices.refresh_time', 'indices.flush_time'],
+    labels: ['Refresh Time', 'Flush Time'],
     min: 0,
     formatter: millis
   },

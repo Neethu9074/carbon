@@ -1,4 +1,4 @@
-import {getModifiedUrlStream} from 'in-stores/navigation/navigation';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 
 export function getCurrentViewWithTimelineCenteredAt(moment, windowSize = 1000 * 60 * 10) {
   const to = moment == null ? '' : moment + windowSize / 2;

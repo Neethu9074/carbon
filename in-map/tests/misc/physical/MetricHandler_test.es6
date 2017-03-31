@@ -1,11 +1,10 @@
 /* eslint-env mocha, node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 import RoEmitter from 'roemitter';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
-
 
 describe('in-map', () => {
   describe('misc/physical/Layouter', () => {
@@ -17,13 +16,17 @@ describe('in-map', () => {
     let node;
 
     beforeEach(() => {
-      activeMetric$ = create().startWith((fromJS({
-        label: 'Load',
-        metrics: [{
+      activeMetric$ = create().startWith(
+        fromJS({
           label: 'Load',
-          name: 'load.1min'
-        }]
-      })));
+          metrics: [
+            {
+              label: 'Load',
+              name: 'load.1min'
+            }
+          ]
+        })
+      );
 
       setMetricValues = sinon.stub();
       getMaxValue = sinon.stub().returns(10);
@@ -36,7 +39,7 @@ describe('in-map', () => {
       const createMetricHandler = proxyquire('in-map/misc/physical/MetricHandler', {
         'in-stores/metric': {
           activeMetric$,
-          getMetricForFocusedMoment: () => create().startWith({'1': 1})
+          getMetricForFocusedMoment: () => create().startWith({ '1': 1 })
         },
         'in-sdk/metrics': {
           getMaxValue

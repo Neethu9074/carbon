@@ -1,19 +1,16 @@
-import {create, on} from 'reactive-observables';
+import { create, on } from 'reactive-observables';
 
 import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
 import GraphScene from 'in-components/graphView/components/GraphScene';
 import Graph from 'in-components/graphView/entities/Graph';
-import {update as updateTime} from 'in-map/misc/time';
-import {WebGLRenderer} from 'in-map/3DLibProvider';
+import { update as updateTime } from 'in-map/misc/time';
+import { WebGLRenderer } from 'in-map/3DLibProvider';
 
-
-export default function createUniverseRenderer({container, canvas}) {
+export default function createUniverseRenderer({ container, canvas }) {
   let isRunning = true;
   const changeSignal = true;
   const changes = create();
-  const updateSubscription = changes
-    .debounce(1000)
-    .subscribe(update);
+  const updateSubscription = changes.debounce(1000).subscribe(update);
 
   const renderer = new WebGLRenderer({
     canvas,
@@ -25,9 +22,7 @@ export default function createUniverseRenderer({container, canvas}) {
   const graphScene = new GraphScene(renderer);
   const graph = new Graph();
 
-  const resizeSubscription = on(window, 'resize')
-    .debounce(500)
-    .subscribe(resize);
+  const resizeSubscription = on(window, 'resize').debounce(500).subscribe(resize);
 
   // initial resize
   resize();

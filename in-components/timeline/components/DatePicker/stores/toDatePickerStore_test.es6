@@ -1,18 +1,16 @@
 /* eslint-env mocha */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
-import {stub} from 'sinon';
+import { expect } from 'chai';
+import { stub } from 'sinon';
 
-import {resetStoreRegistry} from 'in-stores/store';
-
+import { resetStoreRegistry } from 'in-stores/store';
 
 describe('timeline/datepicker/to', () => {
   let mod;
   let bigBangTimestamp$;
   let serverTime$;
   let fromTimestamp$;
-
 
   beforeEach(() => {
     resetStoreRegistry();

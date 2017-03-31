@@ -1,7 +1,7 @@
 /* eslint-env mocha */
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {joinClassNames} from 'in-services/util/classnames';
+import { joinClassNames } from 'in-services/util/classnames';
 import classnames from 'in-services/util/classnames';
 
 describe('util.classnames', () => {
@@ -21,15 +21,15 @@ describe('util.classnames', () => {
 
   describe('default export', () => {
     it('must turn an object into a class string', () => {
-      expect(classnames({foo: true, bar: false})).to.equal('foo');
+      expect(classnames({ foo: true, bar: false })).to.equal('foo');
     });
 
     it('must handle falsy values', () => {
-      expect(classnames({bar: null})).to.equal('');
+      expect(classnames({ bar: null })).to.equal('');
     });
 
     it('must handle truthy values', () => {
-      expect(classnames({bar: 'blub'})).to.equal('bar');
+      expect(classnames({ bar: 'blub' })).to.equal('bar');
     });
   });
 });

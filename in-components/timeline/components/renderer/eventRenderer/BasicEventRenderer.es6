@@ -1,18 +1,16 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker/issueTracker';
-import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
-import {focusedMoment$} from 'in-components/timeline/timelineStore';
-import {selectedEvent$, selectedEventId$} from 'in-stores/events';
-import {isEventOpenAtFocusedMoment} from 'in-stores/events';
-import {getColorForEvent} from 'in-services/issueTracker';
-import {selectedSnapshotId} from 'in-stores/snapshot';
-import {emptyArray} from 'in-services/fixedObjects';
-
+import { getEventType, EVENT_TYPES } from 'in-services/issueTracker/issueTracker';
+import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
+import { focusedMoment$ } from 'in-components/timeline/timelineStore';
+import { selectedEvent$, selectedEventId$ } from 'in-stores/events';
+import { isEventOpenAtFocusedMoment } from 'in-stores/events';
+import { getColorForEvent } from 'in-services/issueTracker';
+import { selectedSnapshotId } from 'in-stores/snapshot';
+import { emptyArray } from 'in-services/fixedObjects';
 
 const highlightedColor = '#ffffff';
 
 export default class EventRenderer extends BasicRenderer {
-
   constructor(backBuffer, scale, y, iconSize) {
     super(backBuffer, scale);
 
@@ -77,10 +75,12 @@ export default class EventRenderer extends BasicRenderer {
     // the event is active (which means that it will be drawn normally) if there is no incident selected
     // and the events range must cross the focused moment so it currentyl active
     // and it has to contain to cetrain selected entityId (if available)
-    if (!this.selectedEvent &&
-       (!this.focusedMoment || this.getEventStart(event) <= this.focusedMoment) &&
-       (!this.highlightedEntityId || snapshotId === this.highlightedEntityId) &&
-       (!this.selectedSnapshotId || snapshotId === this.selectedSnapshotId)) {
+    if (
+      !this.selectedEvent &&
+      (!this.focusedMoment || this.getEventStart(event) <= this.focusedMoment) &&
+      (!this.highlightedEntityId || snapshotId === this.highlightedEntityId) &&
+      (!this.selectedSnapshotId || snapshotId === this.selectedSnapshotId)
+    ) {
       return true;
     }
 
@@ -89,7 +89,12 @@ export default class EventRenderer extends BasicRenderer {
   }
 
   eventIsOpen(event) {
-    return isEventOpenAtFocusedMoment(this.getEventStart(event), event.get('end'), event.get('state'), this.focusedMoment);
+    return isEventOpenAtFocusedMoment(
+      this.getEventStart(event),
+      event.get('end'),
+      event.get('state'),
+      this.focusedMoment
+    );
   }
 
   draw(event, isHighlighted) {
@@ -113,9 +118,7 @@ export default class EventRenderer extends BasicRenderer {
     buffer.fillRect(positions.triggeringX, this.y, 1, 36);
 
     if (event.get('id') === this.selectedEventId) {
-      const to = event.get('state') === 'open' ?
-        this.backBuffer.canvas.width :
-        scale.getRange(event.get('end'));
+      const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : scale.getRange(event.get('end'));
 
       buffer.fillRect(positions.x, this.y, to - positions.x, 36);
     }
@@ -129,11 +132,13 @@ export default class EventRenderer extends BasicRenderer {
       const iconSize = this.iconSize;
 
       this.backBuffer.drawImage(
-        image, x - iconSize / 2,        // x
+        image,
+        x - iconSize / 2, // x
         this.y + 20 - iconSize / 2 - 1, // y
-        iconSize,                       // width
-        iconSize);                      // height
-      }
+        iconSize, // width
+        iconSize
+      ); // height
+    }
   }
 
   getEventStart(event) {

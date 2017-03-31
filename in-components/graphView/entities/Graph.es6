@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 
-import {markAsFinished} from 'in-components/graphView/graphViewStore';
+import { markAsFinished } from 'in-components/graphView/graphViewStore';
 import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
 import getGraph from 'in-services/subscription/graph';
-import {focusedMoment$} from 'in-stores/timeline';
+import { focusedMoment$ } from 'in-stores/timeline';
 
 export default class Graph {
   constructor() {
@@ -18,9 +18,9 @@ export default class Graph {
     // maps edge id => edge instance
     this.edges = {};
 
-    this.graphSubscription = focusedMoment$.flatMap(focusedMoment => {
-        return getGraph(focusedMoment)
-          .throttle(60000);
+    this.graphSubscription = focusedMoment$
+      .flatMap(focusedMoment => {
+        return getGraph(focusedMoment).throttle(60000);
       })
       .once(this.processEdgeModifications.bind(this));
   }
@@ -29,7 +29,6 @@ export default class Graph {
     // maps node id => node instance
     // used to remove unused nodes from the graph
     const modifiedNodes = {};
-
 
     edgeModifications.forEach(edgeModification => {
       const edgeId = edgeModification.id;
@@ -71,11 +70,9 @@ export default class Graph {
       }
     });
 
-
     this.removeUnusedNodes();
     this.restartLayoutProcess();
   }
-
 
   removeUnusedNodes() {
     Object.keys(this.nodes).forEach(snapshotId => {
@@ -89,7 +86,6 @@ export default class Graph {
     });
   }
 
-
   restartLayoutProcess() {
     console.log(
       '(Re-) starting layout with %s nodes and %s edges',
@@ -100,13 +96,14 @@ export default class Graph {
     this.springyLayout.start(3, () => {}, markAsFinished);
   }
 
-
   processGraphRetrieval(graph) {
-    const edgesToRemove = Object.keys(this.edges)
-      .reduce((agg, edgeId) => {
+    const edgesToRemove = Object.keys(this.edges).reduce(
+      (agg, edgeId) => {
         agg[edgeId] = true;
         return agg;
-      }, {});
+      },
+      {}
+    );
 
     graph.forEach(newEdge => {
       const edgeId = newEdge.id;
@@ -121,14 +118,7 @@ export default class Graph {
       const toNode = this.getOrCreateNode(newEdge.to);
       const springyEdge = this.springyGraph.newEdge(fromNode.springyNode, toNode.springyNode);
 
-      this.edges[edgeId] = new Edge(
-        edgeId,
-        fromNode,
-        toNode,
-        newEdge.relation,
-        this.springyGraph,
-        springyEdge
-      );
+      this.edges[edgeId] = new Edge(edgeId, fromNode, toNode, newEdge.relation, this.springyGraph, springyEdge);
       fromNode.increaseEdgeCount();
       toNode.increaseEdgeCount();
     });
@@ -148,15 +138,14 @@ export default class Graph {
     this.restartLayoutProcess();
   }
 
-
   getOrCreateNode(snapshotId) {
     let existingNode = this.nodes[snapshotId];
     if (existingNode) {
       return existingNode;
     }
 
-    const springyNode = this.springyGraph.newNode({label: snapshotId});
-    existingNode = this.nodes[snapshotId] = new Node(snapshotId, this.springyGraph, springyNode);
+    const springyNode = this.springyGraph.newNode({ label: snapshotId });
+    existingNode = (this.nodes[snapshotId] = new Node(snapshotId, this.springyGraph, springyNode));
     return existingNode;
   }
 

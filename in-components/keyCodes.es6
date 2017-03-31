@@ -18,7 +18,6 @@ export default {
   p: 80,
   c: 67
 };
-
 /*
 Key                 Code
 backspace           8

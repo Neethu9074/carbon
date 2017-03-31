@@ -9,7 +9,7 @@ import './TableView.less';
 
 const block = 'in-table-view';
 
-export default function TableView({children}) {
+export default function TableView({ children }) {
   const view = (
     <FullscreenOverlayView className={block}>
       <Header />

@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {replaceHtmlChars} from 'in-services/formatters/html';
+import { replaceHtmlChars } from 'in-services/formatters/html';
 
 describe('in-services/formatters/html', () => {
   it('must replace common HTML chars', () => {
@@ -18,7 +18,8 @@ describe('in-services/formatters/html', () => {
 </VirtualHost>
     `.trim();
 
-    expect(replaceHtmlChars(s)).to.equal(`
+    expect(replaceHtmlChars(s)).to.equal(
+      `
 &lt;VirtualHost localhost:90&gt;
 &lt;Location "/server-status"&gt;
    SetHandler server-status
@@ -28,6 +29,7 @@ describe('in-services/formatters/html', () => {
    Allow from localhost
 &lt;/Location&gt;
 &lt;/VirtualHost&gt;
-      `.trim());
+      `.trim()
+    );
   });
 });

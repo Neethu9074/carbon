@@ -1,9 +1,7 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {getSnapshot} from 'in-stores/snapshot';
-
+import { getSnapshot } from 'in-stores/snapshot';
 
 export default class IconComponent extends SceneObjectComponent {
-
   constructor(sceneObject, alternativeId) {
     super(sceneObject, '_snapshot');
 
@@ -13,8 +11,10 @@ export default class IconComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(getSnapshot(this.alternativeId ? this.alternativeId : this.sceneObject.id)
-                           .subscribe(snapshot => this.emitToClient('snapshotChanged', snapshot)));
+    this.addSubscription(
+      getSnapshot(this.alternativeId ? this.alternativeId : this.sceneObject.id).subscribe(snapshot =>
+        this.emitToClient('snapshotChanged', snapshot))
+    );
   }
 
   dispose() {

@@ -1,29 +1,24 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {getFactory} from 'in-map/stores/factoriesStore';
-import {ZERO} from 'in-map/misc/fixedVectors';
-
+import { getFactory } from 'in-map/stores/factoriesStore';
+import { ZERO } from 'in-map/misc/fixedVectors';
 
 export default class IconComponent extends SceneObjectComponent {
-
   constructor(sceneObject, iconSize, getIconPosition) {
     super(sceneObject, '_icon');
 
     this.getIconPositionCallback = getIconPosition;
 
     this.factory = getFactory('icons');
-    this.fragment = createFragment(this.id,
-                                   sceneObject,
-                                   PCP,
-                                   {
-                                     positionOffset: ZERO.clone(),
-                                     type: undefined,
-                                     iconSize
-                                   });
+    this.fragment = createFragment(this.id, sceneObject, PCP, {
+      positionOffset: ZERO.clone(),
+      type: undefined,
+      iconSize
+    });
     this.factory.add(this.fragment);
   }
 

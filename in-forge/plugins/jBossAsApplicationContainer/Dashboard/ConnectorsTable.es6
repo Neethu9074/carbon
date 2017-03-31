@@ -1,14 +1,13 @@
 import React from 'react';
 
-import {msZeroDecimalPlaces, zeroDecimalPlaces} from 'in-services/formatters/number';
+import { msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {emptyList} from 'in-services/fixedImmutables';
+import { emptyList } from 'in-services/fixedImmutables';
 import Mtd from 'in-components/Mtd';
 
-
-export default function ConnectorsTable({snapshot, timeframe}) {
+export default function ConnectorsTable({ snapshot, timeframe }) {
   const connectors = snapshot.getIn(['data', 'connectors'], emptyList);
 
   if (connectors.size === 0) {
@@ -16,25 +15,25 @@ export default function ConnectorsTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Connectors'>
-      <ExpandableTable data={connectors}
-                       getKey={getKey}
-                       createHeader={createHeader}
-                       createRow={createRow}
-                       context={{
-                         snapshot,
-                         timeframe
-                       }}
-                       createDetails={createDetails} />
+    <DashboardSection title="Connectors">
+      <ExpandableTable
+        data={connectors}
+        getKey={getKey}
+        createHeader={createHeader}
+        createRow={createRow}
+        context={{
+          snapshot,
+          timeframe
+        }}
+        createDetails={createDetails}
+      />
     </DashboardSection>
   );
 }
 
-
 function getKey(indexName) {
   return indexName;
 }
-
 
 function createHeader() {
   return (
@@ -49,60 +48,53 @@ function createHeader() {
   );
 }
 
-
 function createRow(connectorName, i, context) {
-  return ([
+  return [
     <td>{connectorName}</td>,
-
-    <Mtd metric={'connectors.' + connectorName + '.avgResponseTime'}
-         formatter={msZeroDecimalPlaces}
-         snapshot={context.snapshot} />,
-    <Mtd metric={'connectors.' + connectorName + '.requests'}
-         formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot} />,
-    <Mtd metric={'connectors.' + connectorName + '.errors'}
-         formatter={zeroDecimalPlaces}
-         snapshot={context.snapshot} />
-  ]);
+    <Mtd
+      metric={'connectors.' + connectorName + '.avgResponseTime'}
+      formatter={msZeroDecimalPlaces}
+      snapshot={context.snapshot}
+    />,
+    <Mtd
+      metric={'connectors.' + connectorName + '.requests'}
+      formatter={zeroDecimalPlaces}
+      snapshot={context.snapshot}
+    />,
+    <Mtd metric={'connectors.' + connectorName + '.errors'} formatter={zeroDecimalPlaces} snapshot={context.snapshot} />
+  ];
 }
-
 
 function createDetails(connectorName, i, context) {
   return (
     <div>
-      <ChartWithLegend snapshotId={context.snapshot.get('id')}
-             timeframe={context.timeframe}
-             margins={{
-               left: 80
-             }}
-             y1={{
-               formatter: msZeroDecimalPlaces,
-               metrics: [
-                 'connectors.' + connectorName + '.avgResponseTime'
-               ],
-               labels: [
-                 'Average Response Time'
-               ],
-               type: 'line'
-             }} />
+      <ChartWithLegend
+        snapshotId={context.snapshot.get('id')}
+        timeframe={context.timeframe}
+        margins={{
+          left: 80
+        }}
+        y1={{
+          formatter: msZeroDecimalPlaces,
+          metrics: ['connectors.' + connectorName + '.avgResponseTime'],
+          labels: ['Average Response Time'],
+          type: 'line'
+        }}
+      />
 
-      <ChartWithLegend snapshotId={context.snapshot.get('id')}
-             timeframe={context.timeframe}
-             margins={{
-               left: 80
-             }}
-             y1={{
-               formatter: zeroDecimalPlaces,
-               metrics: [
-                 'connectors.' + connectorName + '.requests',
-                 'connectors.' + connectorName + '.errors'
-               ],
-               labels: [
-                 'Requests',
-                 'Errors'
-               ],
-               type: 'line'
-             }} />
+      <ChartWithLegend
+        snapshotId={context.snapshot.get('id')}
+        timeframe={context.timeframe}
+        margins={{
+          left: 80
+        }}
+        y1={{
+          formatter: zeroDecimalPlaces,
+          metrics: ['connectors.' + connectorName + '.requests', 'connectors.' + connectorName + '.errors'],
+          labels: ['Requests', 'Errors'],
+          type: 'line'
+        }}
+      />
     </div>
   );
 }

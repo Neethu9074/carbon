@@ -1,19 +1,24 @@
-import {createLogger} from 'instalog';
-import {Map} from 'immutable';
+import { createLogger } from 'instalog';
+import { Map } from 'immutable';
 import React from 'react';
 
-import {createObjective, getObjectives, saveObjective, deleteObjective, setEnabled} from 'in-services/groundskeeper/objectives';
+import {
+  createObjective,
+  getObjectives,
+  saveObjective,
+  deleteObjective,
+  setEnabled
+} from 'in-services/groundskeeper/objectives';
 import Table from 'in-views/configurationView/subview/ObjectivesConfig/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {openObjectiveConfig} from 'in-stores/navigation/configuration';
+import { openObjectiveConfig } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
-import {close} from 'in-components/DialogPresenter/store';
-import {emptyList} from 'in-services/fixedImmutables';
+import { close } from 'in-components/DialogPresenter/store';
+import { emptyList } from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
-
 
 const logger = createLogger('ObjectivesConfig');
 
@@ -146,7 +151,8 @@ export default React.createClass({
       };
 
       const index = state.objectives.findIndex(eachObjective => objectiveId === eachObjective.get('id'));
-      const newObjectives = state.objectives.update(index, modifiableObjectives => modifiableObjectives.set('enabled', enabled));
+      const newObjectives = state.objectives.update(index, modifiableObjectives =>
+        modifiableObjectives.set('enabled', enabled));
       return {
         status: state.status,
         objectives: newObjectives
@@ -181,7 +187,8 @@ export default React.createClass({
 
         // roll back the role change
         const index = state.objectives.findIndex(eachObjective => objectiveId === eachObjective.get('id'));
-        const newObjectives = state.objectives.update(index, modifiableObjectives => modifiableObjectives.set('enabled', previousEnabled));
+        const newObjectives = state.objectives.update(index, modifiableObjectives =>
+          modifiableObjectives.set('enabled', previousEnabled));
         return {
           status: state.status,
           objectives: newObjectives
@@ -191,7 +198,7 @@ export default React.createClass({
   },
 
   render() {
-    const {objectives} = this.state;
+    const { objectives } = this.state;
     const objectivesAvailable = objectives && objectives.size > 0;
 
     return (
@@ -201,31 +208,31 @@ export default React.createClass({
         </SubViewHeader>
 
         <Section>
-          <Button kind='info'
-                  onClick={this.addNewObjective}>
+          <Button kind="info" onClick={this.addNewObjective}>
             Add New Objective
           </Button>
 
-          {this.state.message ?
-            <Notification failure={this.state.error}
-                          loading={this.state.loading}>
-              {this.state.message}
-            </Notification>
-          : null}
+          {this.state.message
+            ? <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            : null}
         </Section>
 
-        {objectivesAvailable ?
-          <Section>
-            <SectionHeading>
-              Objectives
-            </SectionHeading>
+        {objectivesAvailable
+          ? <Section>
+              <SectionHeading>
+                Objectives
+              </SectionHeading>
 
-            <Table items={objectives}
-                   onDeleteObjective={this.onDeleteObjective}
-                   setEnabled={this.setEnabled}
-                   status={this.state.status} />
-          </Section>
-        : null}
+              <Table
+                items={objectives}
+                onDeleteObjective={this.onDeleteObjective}
+                setEnabled={this.setEnabled}
+                status={this.state.status}
+              />
+            </Section>
+          : null}
       </SubViewWrapper>
     );
   }

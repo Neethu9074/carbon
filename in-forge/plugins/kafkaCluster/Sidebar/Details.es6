@@ -1,8 +1,6 @@
 import React from 'react';
 
-import {
-  zeroDecimalPlaces,
-  msZeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
@@ -11,8 +9,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function KafkaClusterSidebar({snapshot}) {
+export default function KafkaClusterSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -26,22 +23,26 @@ export default function KafkaClusterSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <SparkChartsSection snapshot={snapshot}
-                          metrics={[
-                            {
-                              metric: 'broker.messagesIn',
-                              label: 'Brokers Msg.In',
-                              formatter: zeroDecimalPlaces
-                            }, {
-                              metric: 'broker.partitionCount',
-                              label: 'Brokers Partitions',
-                              formatter: zeroDecimalPlaces
-                            }, {
-                              metric: 'broker.totalTimeProduce',
-                              label: 'Prod. Latency',
-                              formatter: msZeroDecimalPlaces
-                            }
-                          ]} />
+      <SparkChartsSection
+        snapshot={snapshot}
+        metrics={[
+          {
+            metric: 'broker.messagesIn',
+            label: 'Brokers Msg.In',
+            formatter: zeroDecimalPlaces
+          },
+          {
+            metric: 'broker.partitionCount',
+            label: 'Brokers Partitions',
+            formatter: zeroDecimalPlaces
+          },
+          {
+            metric: 'broker.totalTimeProduce',
+            label: 'Prod. Latency',
+            formatter: msZeroDecimalPlaces
+          }
+        ]}
+      />
 
       <ClusterMemberList snapshotId={snapshotId} />
 

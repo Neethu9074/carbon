@@ -3,19 +3,16 @@ import React from 'react';
 
 import './Frame.less';
 
-
 const block = 'in-tooltip__frame';
 const rpt = React.PropTypes;
 
 export default React.createClass({
-
   mixins: [PureRenderMixin],
 
   propTypes: {
     children: rpt.any.isRequired,
     anchor: rpt.string
   },
-
 
   render() {
     const children = this.props.children;

@@ -5,8 +5,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function StatsdSidebar({snapshot}) {
+export default function StatsdSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

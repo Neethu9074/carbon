@@ -1,5 +1,5 @@
-import {hideUsageInfo} from 'in-stores/usageInfo';
-import {createStore} from 'in-stores/store';
+import { hideUsageInfo } from 'in-stores/usageInfo';
+import { createStore } from 'in-stores/store';
 
 const isOpen = createStore({
   name: 'isAccountMenuOpenStore',

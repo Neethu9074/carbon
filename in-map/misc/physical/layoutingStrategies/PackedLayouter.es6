@@ -1,23 +1,17 @@
-import {ID_OF_UNMONITORED_ZONE} from 'in-services/unmonitoredZone';
+import { ID_OF_UNMONITORED_ZONE } from 'in-services/unmonitoredZone';
 import Packer from 'in-map/misc/physical/Packer';
-
 
 let groupMarginWidth;
 let groupMarginHeight;
 const groupPadding = 1;
 const nodeMargin = 2;
 
-export default function applyLayout({groups, packingXSpace = 1, packingYSpace = 1}) {
+export default function applyLayout({ groups, packingXSpace = 1, packingYSpace = 1 }) {
   groupMarginWidth = packingXSpace;
   groupMarginHeight = packingYSpace;
 
   const dimensions = calculateDimensions(groups);
-  groups.forEach(group => setGroupPosition(
-    group,
-    dimensions[group.id],
-    -dimensions.width / 2,
-    dimensions.height / 4
-  ));
+  groups.forEach(group => setGroupPosition(group, dimensions[group.id], -dimensions.width / 2, dimensions.height / 4));
 }
 
 function calculateDimensions(_groups) {
@@ -94,12 +88,12 @@ function calculateDimensions(_groups) {
 
 function setGroupPosition(group, dimension, xOffset, yOffset) {
   const transform = group.getComponent('transform');
-  transform.setPositionXYZ(xOffset + dimension.width / 2 + dimension.x,
-                           0,
-                           yOffset - dimension.height / 2 - dimension.y);
-  transform.setScaleXYZ(dimension.width,
-                        1,
-                        dimension.height);
+  transform.setPositionXYZ(
+    xOffset + dimension.width / 2 + dimension.x,
+    0,
+    yOffset - dimension.height / 2 - dimension.y
+  );
+  transform.setScaleXYZ(dimension.width, 1, dimension.height);
 
   const _nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
   setNodesPositions(_nodes, dimension, xOffset, yOffset);
@@ -110,9 +104,9 @@ function setNodesPositions(_nodes, groupDimension, xOffset, yOffset) {
   let nodeYCursor = groupDimension.y + groupPadding;
 
   sortNodes(_nodes).forEach(node => {
-    node.getComponent('transform').setPositionXYZ(xOffset + nodeXCursor + 0.5,
-                                                  0,
-                                                  yOffset - nodeYCursor + 0.5 - groupPadding);
+    node
+      .getComponent('transform')
+      .setPositionXYZ(xOffset + nodeXCursor + 0.5, 0, yOffset - nodeYCursor + 0.5 - groupPadding);
 
     nodeXCursor += nodeMargin + 1;
     if (nodeXCursor >= groupDimension.x + groupDimension.width) {
@@ -126,7 +120,6 @@ function sortNodes(_nodes) {
   _nodes.sort((a, b) => a._cachedLabel.localeCompare(b._cachedLabel));
   return _nodes;
 }
-
 
 function setDimensionsFromCurrentLayout(dimensions, _groups) {
   _groups.forEach(group => {

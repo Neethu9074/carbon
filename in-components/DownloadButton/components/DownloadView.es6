@@ -5,12 +5,10 @@ import Button from 'in-components/Button';
 
 import './DownloadView.less';
 
-
 const block = 'in-metric-chart-download-view';
 const rpt = React.PropTypes;
 
 export default React.createClass({
-
   displayName: 'DownloadView',
 
   propTypes: {
@@ -25,34 +23,32 @@ export default React.createClass({
   render() {
     const data = this.props.data;
     if (!data) {
-      return (
-        <LoadingIndicator type='dark'
-                          inline />
-      );
+      return <LoadingIndicator type="dark" inline />;
     }
 
     return (
       <div>
-        <a ref={link => this.downloadLink = link}
-           onClick={stopPropagation} />
+        <a ref={link => this.downloadLink = link} onClick={stopPropagation} />
         <div className={block}>
-          {this.props.getCsvData ?
-            <DownloadButtonCsv onClick={(fileType) => this.downloadFile(this.props.getCsvData, fileType)} />
-          : null}
-          {this.props.getJsonData ?
-            <DownloadButtonJson onClick={(fileType) => this.downloadFile(this.props.getJsonData, fileType)} />
-          : null}
-          {this.props.jsonLink ?
-            <DownloadLink label='Download as JSON'
-                          href={formatUrl(this.props.jsonLink, this.props.queryParams)} />
-          : null}
+          {this.props.getCsvData
+            ? <DownloadButtonCsv onClick={fileType => this.downloadFile(this.props.getCsvData, fileType)} />
+            : null}
+          {this.props.getJsonData
+            ? <DownloadButtonJson onClick={fileType => this.downloadFile(this.props.getJsonData, fileType)} />
+            : null}
+          {this.props.jsonLink
+            ? <DownloadLink label="Download as JSON" href={formatUrl(this.props.jsonLink, this.props.queryParams)} />
+            : null}
         </div>
       </div>
     );
   },
 
   downloadFile(transformData, fileType) {
-    this.downloadLink.setAttribute('href', `data:text/${fileType};charset=utf-8,${encodeURIComponent(transformData(this.props.data))}`);
+    this.downloadLink.setAttribute(
+      'href',
+      `data:text/${fileType};charset=utf-8,${encodeURIComponent(transformData(this.props.data))}`
+    );
     this.downloadLink.setAttribute('download', `${this.props.fileName}.${fileType}`);
     this.downloadLink.click();
   }
@@ -60,8 +56,8 @@ export default React.createClass({
 
 function formatUrl(url, queryParams = {}) {
   const queryPart = Object.keys(queryParams)
-  .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
-  .join('&');
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
+    .join('&');
 
   return url + '?' + queryPart;
 }
@@ -70,38 +66,25 @@ function stopPropagation(e) {
   e.stopPropagation();
 }
 
-function DownloadButtonCsv({onClick}) {
-  return (
-    <DownloadButton label={'Download (*.csv)'}
-                    onClick={() => onClick('csv')} />
-  );
+function DownloadButtonCsv({ onClick }) {
+  return <DownloadButton label={'Download (*.csv)'} onClick={() => onClick('csv')} />;
 }
 
-function DownloadButtonJson({onClick}) {
-  return (
-    <DownloadButton label={'Download (*.json)'}
-                    onClick={() => onClick('json')} />
-  );
+function DownloadButtonJson({ onClick }) {
+  return <DownloadButton label={'Download (*.json)'} onClick={() => onClick('json')} />;
 }
 
-function DownloadButton({label, onClick}) {
+function DownloadButton({ label, onClick }) {
   return (
-    <Button key={label}
-            className={`${block}__button`}
-            kind='info'
-            onClick={onClick}>
+    <Button key={label} className={`${block}__button`} kind="info" onClick={onClick}>
       {label}
     </Button>
   );
 }
 
-function DownloadLink({label, href}) {
+function DownloadLink({ label, href }) {
   return (
-    <Button key={label}
-            className={`${block}__button`}
-            kind='info'
-            target='_blank'
-            href={href}>
+    <Button key={label} className={`${block}__button`} kind="info" target="_blank" href={href}>
       {label}
     </Button>
   );

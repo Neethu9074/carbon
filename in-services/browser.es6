@@ -1,4 +1,4 @@
-import {create, on} from 'reactive-observables';
+import { create, on } from 'reactive-observables';
 
 export const resize$ = create();
 export const debouncedResize$ = resize$.debounce(300);
@@ -12,11 +12,9 @@ export function init() {
   on(window, 'resize').subscribe(emitResizeEvent);
 }
 
-
 export function emitResizeEvent() {
   resize$.emit(true);
 }
-
 
 // We only need an approximate match for a few browser categories. Note that this only
 // covers a very limited set of user agent strings and is far from a complete library.

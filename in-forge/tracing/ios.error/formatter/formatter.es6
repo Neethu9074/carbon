@@ -1,4 +1,4 @@
-import {convert} from './converter';
+import { convert } from './converter';
 
 /**
  * Converts a JSON crash report to Apple format.

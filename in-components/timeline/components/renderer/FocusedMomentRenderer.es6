@@ -1,11 +1,9 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {focusedMomentXPosition$} from 'in-components/timeline/timelineStore';
-
+import { focusedMomentXPosition$ } from 'in-components/timeline/timelineStore';
 
 const color = '#9fffff';
 
 export default class FocusedMomentRenderer extends BasicRenderer {
-
   constructor(backBuffer, scale) {
     super(backBuffer, scale);
 

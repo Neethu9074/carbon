@@ -3,7 +3,6 @@ export function column(dataPoints) {
   return dataPoints;
 }
 
-
 export function getTime(dataColumn) {
   for (let i = 0; i < dataColumn.length; i++) {
     const dataPoint = dataColumn[i];

@@ -1,11 +1,9 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {requestRendering} from 'in-map/stores/renderingStore';
-import {ZERO} from 'in-map/misc/fixedVectors';
-import {Vector3} from 'in-map/3DLibProvider';
-
+import { requestRendering } from 'in-map/stores/renderingStore';
+import { ZERO } from 'in-map/misc/fixedVectors';
+import { Vector3 } from 'in-map/3DLibProvider';
 
 export default class TransformationComponent extends SceneObjectComponent {
-
   constructor(sceneObject) {
     super(sceneObject, '_transformation');
 
@@ -19,16 +17,16 @@ export default class TransformationComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(this.sceneObject.eventEmitter.on('powerChanged').subscribe(power => {
-      const currentScale = this.getScale();
-      this.setScaleXYZ(currentScale.x, power, currentScale.z);
-    }));
+    this.addSubscription(
+      this.sceneObject.eventEmitter.on('powerChanged').subscribe(power => {
+        const currentScale = this.getScale();
+        this.setScaleXYZ(currentScale.x, power, currentScale.z);
+      })
+    );
   }
 
   setPositionXYZ(x, y, z) {
-    if (this.position.x === x &&
-        this.position.y === y &&
-        this.position.z === z) {
+    if (this.position.x === x && this.position.y === y && this.position.z === z) {
       return;
     }
 
@@ -42,11 +40,9 @@ export default class TransformationComponent extends SceneObjectComponent {
   }
 
   setScaleXYZ(x, y, z) {
-    if (this.scale.x === x &&
-        this.scale.y === y &&
-        this.scale.z === z) {
-        return;
-      }
+    if (this.scale.x === x && this.scale.y === y && this.scale.z === z) {
+      return;
+    }
 
     this.scale.set(x, y, z);
     this.emitToClient('scaleChanged', this.scale);

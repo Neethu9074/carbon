@@ -12,7 +12,7 @@ import MatchSpecificationSelector
   from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/RuleTester';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import {evaluateClassNames} from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpBlock from 'in-components/form/HelpBlock';
 import TextArea from 'in-components/form/TextArea';
@@ -46,159 +46,172 @@ export default React.createClass({
 
   componentWillMount() {
     if (!this.props.ruleForm.valid) {
-      this.setState({isExpanded: true});
+      this.setState({ isExpanded: true });
     }
   },
 
   render() {
-    const {ruleForm, path, helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions} = this.props;
+    const { ruleForm, path, helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions } = this.props;
     const id = ruleForm.getItem('id').value;
 
     return (
       <div>
         <div className={`${block}__actions-wrapper`}>
-          <div className={evaluateClassNames({
-                 [`${block}__actions`]: true,
-                 [`${block}__actions--has-error`]: !ruleForm.valid
-               })}>
-            <SvgIcon type='chevron_up'
-                     width={12}
-                     className={`${block}__up`}
-                     onClick={() => moveRuleDown(path)} />
-            <SvgIcon type='chevron_down'
-                     width={12}
-                     className={`${block}__down`}
-                     onClick={() => moveRuleUp(path)} />
-            <SvgIcon type={this.state.isExpanded ? 'timeline_close' : 'timeline_open'}
-                     width={12}
-                     className={`${block}__toggle`}
-                     onClick={this.toggleExpanded} />
+          <div
+            className={evaluateClassNames({
+              [`${block}__actions`]: true,
+              [`${block}__actions--has-error`]: !ruleForm.valid
+            })}
+          >
+            <SvgIcon type="chevron_up" width={12} className={`${block}__up`} onClick={() => moveRuleDown(path)} />
+            <SvgIcon type="chevron_down" width={12} className={`${block}__down`} onClick={() => moveRuleUp(path)} />
+            <SvgIcon
+              type={this.state.isExpanded ? 'timeline_close' : 'timeline_open'}
+              width={12}
+              className={`${block}__toggle`}
+              onClick={this.toggleExpanded}
+            />
           </div>
         </div>
 
-        <div className={evaluateClassNames({
-               [block]: true,
-               [`${block}--has-error`]: !ruleForm.valid
-             })}>
+        <div
+          className={evaluateClassNames({
+            [block]: true,
+            [`${block}--has-error`]: !ruleForm.valid
+          })}
+        >
           <div className={`${block}__header`}>
-            {ruleForm.getItem('name').map(nameField =>
-              <FormGroup className={evaluateClassNames({
-                           [`${block}__name-group`]: true,
-                           [`${block}__without-bottom-margin`]: !this.state.isExpanded
-                         })}>
+            {ruleForm.getItem('name').map(nameField => (
+              <FormGroup
+                className={evaluateClassNames({
+                  [`${block}__name-group`]: true,
+                  [`${block}__without-bottom-margin`]: !this.state.isExpanded
+                })}
+              >
                 <Label htmlFor={`${id}-rule-name`}>Rule Name</Label>
-                <Input type='text'
-                       id={`${id}-rule-name`}
-                       value={nameField.value}
-                       onChange={e => setValue([...path, 'name'], e.target.value)} />
+                <Input
+                  type="text"
+                  id={`${id}-rule-name`}
+                  value={nameField.value}
+                  onChange={e => setValue([...path, 'name'], e.target.value)}
+                />
               </FormGroup>
-            )}
+            ))}
 
-            {ruleForm.getItem('enabled').map(enabledField =>
-              <FormGroup className={evaluateClassNames({
-                           [`${block}__without-bottom-margin`]: !this.state.isExpanded
-                         })}>
+            {ruleForm.getItem('enabled').map(enabledField => (
+              <FormGroup
+                className={evaluateClassNames({
+                  [`${block}__without-bottom-margin`]: !this.state.isExpanded
+                })}
+              >
                 <Label htmlFor={`${id}-enabled`}>Enabled</Label>
-                <Toggle id={`${id}-enabled`}
-                        checked={enabledField.value}
-                        onChange={e => setValue([...path, 'enabled'], e.target.checked)} />
+                <Toggle
+                  id={`${id}-enabled`}
+                  checked={enabledField.value}
+                  onChange={e => setValue([...path, 'enabled'], e.target.checked)}
+                />
               </FormGroup>
-            )}
+            ))}
           </div>
 
-          {this.state.isExpanded ? (
-            <div>
-              {ruleForm.getItem('matchSpecification').mapItem(matchSpecificationForm =>
-                <MatchSpecificationSelector id={id}
-                                            matchSpecificationForm={matchSpecificationForm}
-                                            matchSpecificationOptionsTree={matchSpecificationOptionsTree}
-                                            helpTexts={helpTexts}
-                                            onChangeMatchOption={this.onChangeMatchOption} />
-              )}
+          {this.state.isExpanded
+            ? <div>
+                {ruleForm
+                  .getItem('matchSpecification')
+                  .mapItem(matchSpecificationForm => (
+                    <MatchSpecificationSelector
+                      id={id}
+                      matchSpecificationForm={matchSpecificationForm}
+                      matchSpecificationOptionsTree={matchSpecificationOptionsTree}
+                      helpTexts={helpTexts}
+                      onChangeMatchOption={this.onChangeMatchOption}
+                    />
+                  ))}
 
-              {ruleForm.getItem('matchSpecification').keys().sort().map(key => {
-                const field = ruleForm.getItem(['matchSpecification', key]);
+                {ruleForm.getItem('matchSpecification').keys().sort().map(key => {
+                  const field = ruleForm.getItem(['matchSpecification', key]);
 
-                return (
-                  <FormGroup key={key}>
-                    <Label htmlFor={`${id}-${key}`}
-                           hasError={!field.valid}>
-                      Match: {matchSpecificationOptions[key].titleName}
+                  return (
+                    <FormGroup key={key}>
+                      <Label htmlFor={`${id}-${key}`} hasError={!field.valid}>
+                        Match: {matchSpecificationOptions[key].titleName}
 
-                      <a href='#'
-                         onClick={e => this.removeMatch(e, key)}
-                         className={`${block}__remove-match`}>
-                        Remove
-                      </a>
-                    </Label>
-                    <Input type='text'
-                           id={`${id}-${key}`}
-                           placeholder={matchSpecificationOptions[key].placeholder}
-                           value={field.value}
-                           onChange={e => setValue([...path, 'matchSpecification', key], e.target.value)}
-                           hasError={!field.valid} />
-                    {field.error ?
-                      <ValidationBlock hasError>
-                        {field.error}
-                      </ValidationBlock>
-                    : null}
+                        <a href="#" onClick={e => this.removeMatch(e, key)} className={`${block}__remove-match`}>
+                          Remove
+                        </a>
+                      </Label>
+                      <Input
+                        type="text"
+                        id={`${id}-${key}`}
+                        placeholder={matchSpecificationOptions[key].placeholder}
+                        value={field.value}
+                        onChange={e => setValue([...path, 'matchSpecification', key], e.target.value)}
+                        hasError={!field.valid}
+                      />
+                      {field.error
+                        ? <ValidationBlock hasError>
+                            {field.error}
+                          </ValidationBlock>
+                        : null}
+                      <HelpBlock>
+                        {matchSpecificationOptions[key].help}
+                      </HelpBlock>
+                    </FormGroup>
+                  );
+                })}
+
+                {ruleForm.getItem('label').map(labelField => (
+                  <FormGroup>
+                    <Label htmlFor={`${id}-service-name`}>Service Name</Label>
+                    <Input
+                      type="text"
+                      id={`${id}-service-name`}
+                      placeholder="Shop"
+                      value={labelField.value}
+                      onChange={e => setValue([...path, 'label'], e.target.value)}
+                    />
                     <HelpBlock>
-                      {matchSpecificationOptions[key].help}
+                      {helpTexts.serviceNameHelp}
                     </HelpBlock>
                   </FormGroup>
-                );
-              })}
+                ))}
 
-              {ruleForm.getItem('label').map(labelField =>
-                <FormGroup>
-                  <Label htmlFor={`${id}-service-name`}>Service Name</Label>
-                  <Input type='text'
-                         id={`${id}-service-name`}
-                         placeholder='Shop'
-                         value={labelField.value}
-                         onChange={e => setValue([...path, 'label'], e.target.value)} />
-                  <HelpBlock>
-                    {helpTexts.serviceNameHelp}
-                  </HelpBlock>
-                </FormGroup>
-              )}
+                {ruleForm.getItem('comment').map(commentField => (
+                  <FormGroup>
+                    <Label htmlFor={`${id}-comment`}>Comment</Label>
+                    <TextArea
+                      rows="3"
+                      id={`${id}-comment`}
+                      value={commentField.value}
+                      onChange={e => setValue([...path, 'comment'], e.target.value)}
+                    />
+                    <HelpBlock>
+                      {helpTexts.commentHelp}
+                    </HelpBlock>
+                  </FormGroup>
+                ))}
 
-              {ruleForm.getItem('comment').map(commentField =>
-                <FormGroup>
-                  <Label htmlFor={`${id}-comment`}>Comment</Label>
-                  <TextArea rows='3'
-                            id={`${id}-comment`}
-                            value={commentField.value}
-                            onChange={e => setValue([...path, 'comment'], e.target.value)} />
-                  <HelpBlock>
-                    {helpTexts.commentHelp}
-                  </HelpBlock>
-                </FormGroup>
-              )}
-
-              <div className={`${block}__buttons`}>
-                {!this.state.isTesting ?
-                  <Button kind='info'
-                          size='sm'
-                          onClick={this.toggleTesting}>
-                    Test Rule
+                <div className={`${block}__buttons`}>
+                  {!this.state.isTesting
+                    ? <Button kind="info" size="sm" onClick={this.toggleTesting}>
+                        Test Rule
+                      </Button>
+                    : null}
+                  {' '}
+                  <Button kind="danger" size="sm" onClick={() => removeRule(path)}>
+                    Remove Rule
                   </Button>
-                : null}
-                {' '}
-                <Button kind='danger'
-                        size='sm'
-                        onClick={() => removeRule(path)}>
-                  Remove Rule
-                </Button>
-              </div>
+                </div>
 
-              {this.state.isTesting ?
-                <RuleTester toggleRuleTesting={this.toggleTesting}
-                            ruleForm={ruleForm}
-                            matchSpecificationOptions={matchSpecificationOptions} />
-                            : null}
-            </div>
-          ) : null}
+                {this.state.isTesting
+                  ? <RuleTester
+                      toggleRuleTesting={this.toggleTesting}
+                      ruleForm={ruleForm}
+                      matchSpecificationOptions={matchSpecificationOptions}
+                    />
+                  : null}
+              </div>
+            : null}
         </div>
       </div>
     );

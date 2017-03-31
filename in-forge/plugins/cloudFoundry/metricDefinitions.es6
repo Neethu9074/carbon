@@ -1,7 +1,4 @@
-import {
-  siPrefix
-} from 'in-services/formatters/number';
-
+import { siPrefix } from 'in-services/formatters/number';
 
 export default [
   {

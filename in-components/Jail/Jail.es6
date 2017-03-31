@@ -1,8 +1,8 @@
-import {createLogger} from 'instalog';
+import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import {getClassName} from 'in-services/react';
+import { getClassName } from 'in-services/react';
 
 import ContextWrapper from './ContextWrapper';
 
@@ -35,9 +35,7 @@ const Jail = React.createClass({
 
   componentDidUpdate(prevProps) {
     if (this.props.component !== prevProps.component) {
-      ReactDOM.unmountComponentAtNode(
-        ReactDOM.findDOMNode(this)
-      );
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
     }
     this.renderInprisonedComponent();
   },
@@ -48,12 +46,7 @@ const Jail = React.createClass({
     const props = this.props.props || {};
 
     try {
-      ReactDOM.render(
-        <ContextWrapper context={this.context}
-                        component={Component}
-                        props={props} />,
-        domNode
-      );
+      ReactDOM.render(<ContextWrapper context={this.context} component={Component} props={props} />, domNode);
     } catch (e) {
       logger.error(
         'Failed to render component',
@@ -81,9 +74,7 @@ const Jail = React.createClass({
   },
 
   componentWillUnmount() {
-    ReactDOM.unmountComponentAtNode(
-      ReactDOM.findDOMNode(this)
-    );
+    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
   },
 
   render() {

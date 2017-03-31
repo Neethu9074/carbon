@@ -1,4 +1,4 @@
-import {updateCanvasDimensions} from 'in-charts/canvas';
+import { updateCanvasDimensions } from 'in-charts/canvas';
 
 const block = 'in-chart';
 
@@ -8,23 +8,21 @@ const highestZoomLevel = 60; /* min seconds in time window */
 
 export default function createDomController(config) {
   const height = config.height;
-  const dom = config.dom = createDomElements();
-  const ctx = config.ctx = {
+  const dom = (config.dom = createDomElements());
+  const ctx = (config.ctx = {
     animationScreen: dom.animationScreen.getContext('2d'),
     animationBuffer: dom.animationBuffer.getContext('2d'),
     staticScreen: dom.staticScreen.getContext('2d')
-  };
+  });
 
   return {
     resize,
     dispose
   };
 
-
   function dispose() {
     config.container.removeChild(dom.wrapper);
   }
-
 
   function createDomElements() {
     const result = {
@@ -57,11 +55,10 @@ export default function createDomController(config) {
     return result;
   }
 
-
   function resize() {
-    const width = config.width = dom.wrapper.clientWidth | 0;
+    const width = (config.width = dom.wrapper.clientWidth | 0);
     // * 2 to account for animation duration
-    const bufferWidth = config.bufferWidth = config.width + Math.ceil(config.width / highestZoomLevel * 2);
+    const bufferWidth = (config.bufferWidth = config.width + Math.ceil(config.width / highestZoomLevel * 2));
     config.bounds = {
       top: config.margins.top,
       bottom: height - config.margins.bottom,

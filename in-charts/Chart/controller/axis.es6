@@ -1,21 +1,20 @@
 import invariant from 'invariant';
 
 import createStackedAreaContentRenderer from 'in-charts/Chart/renderer/content/stackedArea';
-import {getDefaultMetricRollupDuration, getMetricsForTimeframe} from 'in-stores/metric';
+import { getDefaultMetricRollupDuration, getMetricsForTimeframe } from 'in-stores/metric';
 import createIntegralContentRenderer from 'in-charts/Chart/renderer/content/integral';
 import createPointContentRenderer from 'in-charts/Chart/renderer/content/point';
 import createLineContentRenderer from 'in-charts/Chart/renderer/content/line';
 import createAreaContentRenderer from 'in-charts/Chart/renderer/content/area';
 import createDataHolder from 'in-charts/data/dataHolder';
-import {getAxisConfig} from 'in-charts/timeFormatting';
-import {timeframe$, to$} from 'in-stores/timeline';
-import {getChartWiggleRoom} from 'in-sdk/snapshot';
+import { getAxisConfig } from 'in-charts/timeFormatting';
+import { timeframe$, to$ } from 'in-stores/timeline';
+import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import createQueue from 'in-charts/data/queue';
-import {getSnapshot} from 'in-stores/snapshot';
-import {offset$} from 'in-stores/timeOffset';
+import { getSnapshot } from 'in-stores/snapshot';
+import { offset$ } from 'in-stores/timeOffset';
 import createScale from 'in-charts/scale';
-import {theme} from 'in-services/theme';
-
+import { theme } from 'in-services/theme';
 
 const contentRendererCreators = {
   stackedArea: createStackedAreaContentRenderer,
@@ -24,7 +23,6 @@ const contentRendererCreators = {
   integral: createIntegralContentRenderer,
   area: createAreaContentRenderer
 };
-
 
 export default function createAxisController(config) {
   let timeframeSpecificSubscriptions = [];
@@ -35,7 +33,7 @@ export default function createAxisController(config) {
   // of availability of metrics. We are removing x millis from the right border in order to
   // hide this fact from the user.
   config.chartWiggleRoom = 5000;
-  const scales = config.scales = createScales();
+  const scales = (config.scales = createScales());
   config.axisContentRenderers = createAxisContentRenderers();
   config.queues = createQueues();
   config.dataHolders = createDataHolders();
@@ -46,7 +44,6 @@ export default function createAxisController(config) {
     resize,
     dispose
   };
-
 
   function resize() {
     scales.x.setRangeFrom(config.bounds.left);
@@ -63,17 +60,14 @@ export default function createAxisController(config) {
     }
   }
 
-
   function dispose() {
     disposeTimeframeSpecificSubscriptions();
   }
-
 
   function disposeTimeframeSpecificSubscriptions() {
     timeframeSpecificSubscriptions.forEach(s => s.dispose());
     timeframeSpecificSubscriptions = [];
   }
-
 
   function determineNumberOfSeries() {
     config.y1.numberOfSeries = getNumberOfDataSeries('y1');
@@ -86,12 +80,9 @@ export default function createAxisController(config) {
     return config[axisName].labels.length;
   }
 
-
   function addDataSeriesTogglingSupport() {
-    config.subscriptions.push(config.activeFilters$
-      .subscribe(onActiveFiltersChange));
+    config.subscriptions.push(config.activeFilters$.subscribe(onActiveFiltersChange));
   }
-
 
   function onActiveFiltersChange(hiddenSeries) {
     config.hasActiveFilters = Object.keys(hiddenSeries).length > 0;
@@ -104,7 +95,6 @@ export default function createAxisController(config) {
     config.signals.restartRendering$.emit(true);
   }
 
-
   function getActiveSeries(hiddenSeries, axisName) {
     const activeSeries = {};
 
@@ -116,7 +106,6 @@ export default function createAxisController(config) {
     return activeSeries;
   }
 
-
   function determineSeriesColors() {
     const colors = theme.chart.strokeColors;
     config.y1.colors = config.y1.labels.map((label, i) => colors[i % colors.length]);
@@ -125,7 +114,6 @@ export default function createAxisController(config) {
       config.y2.colors = config.y2.labels.map((label, i) => colors[(i + config.y1.numberOfSeries) % colors.length]);
     }
   }
-
 
   function createScales() {
     const result = {};
@@ -141,30 +129,32 @@ export default function createAxisController(config) {
     return result;
   }
 
-
   function establishSubscriptions() {
-    config.subscriptions.push(getSnapshot(config.snapshotId ? config.snapshotId : config.snapshotIds[0])
-      .map(snapshot => getChartWiggleRoom(snapshot.get('plugin')))
-      .distinct()
-      .subscribe(chartWiggleRoom => {
-        config.chartWiggleRoom = chartWiggleRoom;
-        config.signals.restartRendering$.emit(true);
-      }));
+    config.subscriptions.push(
+      getSnapshot(config.snapshotId ? config.snapshotId : config.snapshotIds[0])
+        .map(snapshot => getChartWiggleRoom(snapshot.get('plugin')))
+        .distinct()
+        .subscribe(chartWiggleRoom => {
+          config.chartWiggleRoom = chartWiggleRoom;
+          config.signals.restartRendering$.emit(true);
+        })
+    );
 
     const actualTimeframe$ = config.timeframe$ || timeframe$;
-    config.subscriptions.push(actualTimeframe$.subscribe(timeframe => {
-      clearData();
-      config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;
-      config.timeframe = timeframe;
-      config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
-      disposeTimeframeSpecificSubscriptions();
-      subscribeToDataSources();
-      config.signals.restartRendering$.emit(true);
-    }));
+    config.subscriptions.push(
+      actualTimeframe$.subscribe(timeframe => {
+        clearData();
+        config.rollup = getDefaultMetricRollupDuration(timeframe) || 1000;
+        config.timeframe = timeframe;
+        config.xAxisFormattingConfig = getAxisConfig(timeframe.windowSize);
+        disposeTimeframeSpecificSubscriptions();
+        subscribeToDataSources();
+        config.signals.restartRendering$.emit(true);
+      })
+    );
     config.subscriptions.push(to$.subscribe(to => config.to = to));
     config.subscriptions.push(offset$.subscribe(serverTimeOffset => config.serverTimeOffset = serverTimeOffset));
   }
-
 
   function subscribeToDataSources() {
     subscribeToDataSourcesForAxis('y1');
@@ -172,7 +162,6 @@ export default function createAxisController(config) {
       subscribeToDataSourcesForAxis('y2');
     }
   }
-
 
   function subscribeToDataSourcesForAxis(axisName) {
     const metrics = config[axisName].metrics;
@@ -186,8 +175,7 @@ export default function createAxisController(config) {
           snapshotId: snapshotId,
           metric: metrics[i],
           timeframe: config.timeframe
-        })
-        .subscribe(dataPoints => {
+        }).subscribe(dataPoints => {
           // data points are not guaranteed to be filled
           if (dataPoints) {
             queue.addDataPoints(i, dataPoints);
@@ -195,9 +183,9 @@ export default function createAxisController(config) {
         })
       );
     }
+
     /* eslint-enable no-loop-func */
   }
-
 
   function createAxisContentRenderers() {
     const result = {};
@@ -210,7 +198,6 @@ export default function createAxisController(config) {
     return result;
   }
 
-
   function createContentRenderer(axisName) {
     const contentRendererCreator = contentRendererCreators[config[axisName].type];
 
@@ -218,9 +205,8 @@ export default function createAxisController(config) {
       invariant(contentRendererCreator, `Unknown content renderer ${config[axisName].type}`);
     }
 
-    return contentRendererCreator({config, axisName});
+    return contentRendererCreator({ config, axisName });
   }
-
 
   function createQueues() {
     const result = {};
@@ -233,14 +219,12 @@ export default function createAxisController(config) {
     return result;
   }
 
-
   function createQueueForAxis(axisName) {
     return createQueue({
       numberOfSeries: config[axisName].numberOfSeries,
       requireExistenceInAllSeries: config.axisContentRenderers[axisName].requireExistenceInAllSeries
     });
   }
-
 
   function createDataHolders() {
     const result = {};
@@ -256,7 +240,6 @@ export default function createAxisController(config) {
 
     return result;
   }
-
 
   function clearData() {
     config.dataHolders.y1.clear();

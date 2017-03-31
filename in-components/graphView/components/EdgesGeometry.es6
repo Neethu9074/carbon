@@ -2,11 +2,9 @@ import fragmentShader from 'in-components/graphView/components/edgeFragmentShade
 import vertexShader from 'in-components/graphView/components/edgeVertexShader.glsl';
 
 import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
-import {LineSegments} from 'in-map/3DLibProvider';
-
+import { LineSegments } from 'in-map/3DLibProvider';
 
 export default class NodesGeometry extends BaseGeometry {
-
   constructor() {
     super();
   }

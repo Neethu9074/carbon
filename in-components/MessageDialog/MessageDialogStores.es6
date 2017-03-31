@@ -1,6 +1,5 @@
 import createMessageObservable from 'in-services/subscription/message';
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 /*
 */

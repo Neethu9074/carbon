@@ -1,11 +1,11 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
-import {debouncedQuery$ as query$} from 'in-stores/search/query';
-import {formatDateTime} from 'in-services/formatters/date';
-import {timeframe$, from$, to$} from 'in-stores/timeline';
+import { debouncedQuery$ as query$ } from 'in-stores/search/query';
+import { formatDateTime } from 'in-services/formatters/date';
+import { timeframe$, from$, to$ } from 'in-stores/timeline';
 import getLogs from 'in-services/subscription/getLogs';
-import {emptyArray} from 'in-services/fixedObjects';
-import {createStore} from 'in-stores/store';
+import { emptyArray } from 'in-services/fixedObjects';
+import { createStore } from 'in-stores/store';
 
 let initPhase = false;
 let enabled = false;
@@ -26,29 +26,28 @@ const linesStore = createStore({
 });
 export const lines$ = linesStore.observable;
 
-
 const isLoadingStore = createStore({
   name: 'in-views/logView/isLoading',
   initialValue: false
 });
 export const isLoading$ = isLoadingStore.observable;
 
-
 export function enable() {
   initPhase = true;
   subscriptions = [];
 
   subscriptions.push(timeframe$.subscribe(refresh));
-  subscriptions.push(query$.subscribe(_query => {
-    query = _query;
-    refresh();
-  }));
+  subscriptions.push(
+    query$.subscribe(_query => {
+      query = _query;
+      refresh();
+    })
+  );
 
   initPhase = false;
   enabled = true;
   refresh();
 }
-
 
 export function disable() {
   enabled = false;
@@ -58,22 +57,19 @@ export function disable() {
   subscriptions = [];
 }
 
-
 export function refresh() {
   if (initPhase || !enabled) {
     return;
   }
 
-  combineLatest([to$, from$])
-    .once(([to, from]) => {
-      maxTimestamp = to;
-      minTimestamp = from;
+  combineLatest([to$, from$]).once(([to, from]) => {
+    maxTimestamp = to;
+    minTimestamp = from;
 
-      linesStore.mutateTo(emptyArray);
-      loadMoreLines();
-    });
+    linesStore.mutateTo(emptyArray);
+    loadMoreLines();
+  });
 }
-
 
 export function loadMoreLines() {
   if (initPhase || !enabled) {
@@ -88,46 +84,47 @@ export function loadMoreLines() {
     const maxTimestampForQuery = lines.length > 0 ? lines[lines.length - 1].time : maxTimestamp;
     if (maxTimestampForQuery != null) {
       loadSubscription = getLogs({
-          maxTimestamp: maxTimestampForQuery,
-          minTimestamp,
-          query,
-          offset
-        })
-        .once(addNewLines);
+        maxTimestamp: maxTimestampForQuery,
+        minTimestamp,
+        query,
+        offset
+      }).once(addNewLines);
     }
   });
 }
 
-
 function addNewLines(newLines) {
-  const transformedLines = newLines.reduce((agg, line) => {
-    const lines = line.message.split('\n');
-    const time = line.time;
-    const timeFormatted = formatDateTime(line.time);
+  const transformedLines = newLines.reduce(
+    (agg, line) => {
+      const lines = line.message.split('\n');
+      const time = line.time;
+      const timeFormatted = formatDateTime(line.time);
 
-    agg.push({
-      timeFormatted,
-      time,
-      message: lines[0],
-      hostSnapshotId: line.hostSnapshotId,
-      level: line.level,
-      levelColor: getLevelColor(line.level),
-      logger: line.logger,
-      component: line.component
-    });
+      agg.push({
+        timeFormatted,
+        time,
+        message: lines[0],
+        hostSnapshotId: line.hostSnapshotId,
+        level: line.level,
+        levelColor: getLevelColor(line.level),
+        logger: line.logger,
+        component: line.component
+      });
 
-    for (let i = 1, len = lines.length; i < len; i++) {
-      const message = lines[i];
-      if (message && message.length > 0) {
-        agg.push({
-          message,
-          continuation: true
-        });
+      for (let i = 1, len = lines.length; i < len; i++) {
+        const message = lines[i];
+        if (message && message.length > 0) {
+          agg.push({
+            message,
+            continuation: true
+          });
+        }
       }
-    }
 
-    return agg;
-  }, []);
+      return agg;
+    },
+    []
+  );
 
   linesStore.applyStateMutation(existingLines => {
     return existingLines.concat(transformedLines);
@@ -135,14 +132,12 @@ function addNewLines(newLines) {
   isLoadingStore.mutateTo(false);
 }
 
-
 function disposeExistingLoad() {
   if (loadSubscription) {
     loadSubscription.dispose();
     loadSubscription = null;
   }
 }
-
 
 function getLevelColor(level) {
   if (!level) {

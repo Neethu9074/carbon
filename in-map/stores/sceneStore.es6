@@ -1,7 +1,6 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
-import {requestRendering} from 'in-map/stores/renderingStore';
-
+import { requestRendering } from 'in-map/stores/renderingStore';
 
 export const scene$ = create();
 

@@ -1,10 +1,9 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addSearchableEntityType} from 'in-sdk/search';
-import {plugins} from 'in-forge/constants';
+import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { addSearchableEntityType } from 'in-sdk/search';
+import { plugins } from 'in-forge/constants';
 
 import iconSvgPath from './iconPath';
-
 
 registerSnapshotDefinition({
   plugin: plugins.javaMailLogicalService,
@@ -12,11 +11,7 @@ registerSnapshotDefinition({
   iconSvgPath
 });
 
-setHumanReadablePluginName(
-  plugins.javaMailLogicalService,
-  'Java Mail',
-  'Java Mails'
-);
+setHumanReadablePluginName(plugins.javaMailLogicalService, 'Java Mail', 'Java Mails');
 
 addLabelFinder(plugins.javaMailLogicalService, getLabel);
 

@@ -1,8 +1,7 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import {getSnapshot as loadSnapshot} from 'in-stores/snapshot';
-
+import { getSnapshot as loadSnapshot } from 'in-stores/snapshot';
 
 export default function getSnapshots(ComposedComponent) {
   return React.createClass({
@@ -50,11 +49,9 @@ export default function getSnapshots(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotIds) {
-        this.subscription = combineLatest(snapshotIds.map(id => loadSnapshot(id)))
-          .subscribe(snapshots => {
-            this.setState({snapshots});
-          }
-        );
+        this.subscription = combineLatest(snapshotIds.map(id => loadSnapshot(id))).subscribe(snapshots => {
+          this.setState({ snapshots });
+        });
       }
     },
 
@@ -66,10 +63,7 @@ export default function getSnapshots(ComposedComponent) {
     },
 
     render() {
-      return (
-        <ComposedComponent {...this.props}
-                           {...this.state} />
-      );
+      return <ComposedComponent {...this.props} {...this.state} />;
     }
   });
 }

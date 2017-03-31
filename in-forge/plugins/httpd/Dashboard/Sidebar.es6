@@ -6,8 +6,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function HttpdSidebar({snapshot}) {
+export default function HttpdSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -19,8 +18,7 @@ export default function HttpdSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <KeyValuePopup header='Modules'
-                     data={snapshot.getIn(['data', 'modules'])} />
+      <KeyValuePopup header="Modules" data={snapshot.getIn(['data', 'modules'])} />
     </div>
   );
 }

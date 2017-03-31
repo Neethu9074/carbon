@@ -1,5 +1,5 @@
-import {formatTimeWithoutSeconds, formatTime, formatDateTime, formatDate} from 'in-services/formatters/date';
-import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import { formatTimeWithoutSeconds, formatTime, formatDateTime, formatDate } from 'in-services/formatters/date';
+import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 
 const timeFormats = [
   {
@@ -92,7 +92,6 @@ const timeFormats = [
   }
 ];
 
-
 export function getAxisConfig(timerangeMillis) {
   for (let i = 0, len = timeFormats.length; i < len; i++) {
     const format = timeFormats[i];
@@ -102,7 +101,6 @@ export function getAxisConfig(timerangeMillis) {
   }
   throw new Error(`No axis config known for time range: ${timerangeMillis}.`);
 }
-
 
 function composeCeil(...fns) {
   const fnCount = fns.length;
@@ -115,14 +113,12 @@ function composeCeil(...fns) {
   };
 }
 
-
 function ceilTo10Millis(date) {
   const millis = date.getMilliseconds();
   if (millis > 0) {
     date.setMilliseconds(millis + (10 - millis % 10));
   }
 }
-
 
 function ceilTo100Millis(date) {
   const millis = date.getMilliseconds();
@@ -131,14 +127,12 @@ function ceilTo100Millis(date) {
   }
 }
 
-
 function ceilToFullSecond(date) {
   const millis = date.getMilliseconds();
   if (millis > 0) {
     date.setMilliseconds(millis + 1000 - millis);
   }
 }
-
 
 function ceilTo10Seconds(date) {
   const seconds = date.getSeconds();
@@ -148,14 +142,12 @@ function ceilTo10Seconds(date) {
   }
 }
 
-
 function ceilToFullMinute(date) {
   const seconds = date.getSeconds();
   if (seconds > 0) {
     date.setSeconds(seconds + 60 - seconds);
   }
 }
-
 
 function ceilToFiveMinuteStep(date) {
   const minutes = date.getMinutes();
@@ -165,14 +157,12 @@ function ceilToFiveMinuteStep(date) {
   }
 }
 
-
 function ceilToFullHour(date) {
   const minutes = date.getMinutes();
   if (minutes > 0) {
     date.setMinutes(minutes + 60 - minutes);
   }
 }
-
 
 function ceilToTwoHourStep(date) {
   const hours = date.getHours();
@@ -182,14 +172,12 @@ function ceilToTwoHourStep(date) {
   }
 }
 
-
 function ceilToFullDay(date) {
   const hours = date.getHours();
   if (hours > 0) {
     date.setHours(hours + 24 - hours);
   }
 }
-
 
 function ceilToStartOfWeek(date) {
   // Caution: Deliberately chosen getDay and getDate. There is no setDay in the Date

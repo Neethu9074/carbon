@@ -1,10 +1,8 @@
 import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
 import icons from 'in-components/timeline/icons/icons';
 
-
 export default class IssueRenderer extends BasicEventRenderer {
-
   constructor(backBuffer, scale, iconSize, yOffset = 74) {
     super(backBuffer, scale, yOffset, iconSize);
   }
@@ -27,7 +25,6 @@ export default class IssueRenderer extends BasicEventRenderer {
   }
 
   getImageByIssueType(issue, ifWarning, ifCritical) {
-    return getEventType(issue) === EVENT_TYPES.ISSUE_WARNING ?
-      ifWarning : ifCritical;
+    return getEventType(issue) === EVENT_TYPES.ISSUE_WARNING ? ifWarning : ifCritical;
   }
 }

@@ -1,7 +1,6 @@
 import lexSecondStage from 'in-stores/search/lexer/secondStage';
 import lexFirstStage from 'in-stores/search/lexer/firstStage';
 
-
 export function lex(str) {
   return lexSecondStage(lexFirstStage(str));
 }

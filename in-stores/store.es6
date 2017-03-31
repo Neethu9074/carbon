@@ -1,15 +1,14 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import invariant from 'invariant';
-
 
 // Keeps track of the current state of all created stores. Will
 // be used for debugging purposes in the future.
 export const allStates = {};
 
-export function createStore({name, initialValue = null}) {
-  invariant(!(name in allStates), 'Store (' + name +  ') already exists');
+export function createStore({ name, initialValue = null }) {
+  invariant(!(name in allStates), 'Store (' + name + ') already exists');
 
-  let currentState = allStates[name] = initialValue;
+  let currentState = (allStates[name] = initialValue);
   const observable = create();
   observable.emit(currentState);
 
@@ -27,14 +26,13 @@ export function createStore({name, initialValue = null}) {
   }
 
   function mutateTo(newValue) {
-    currentState = allStates[name] = newValue;
+    currentState = (allStates[name] = newValue);
     observable.emit(currentState);
   }
 }
 
-
-export function createTrackingStore({name, observable}) {
-  invariant(!(name in allStates), 'Store (' + name +  ') already exists');
+export function createTrackingStore({ name, observable }) {
+  invariant(!(name in allStates), 'Store (' + name + ') already exists');
   invariant(observable != null, 'Observable must be provided');
 
   allStates[name] = undefined;

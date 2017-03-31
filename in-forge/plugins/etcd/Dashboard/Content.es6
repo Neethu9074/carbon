@@ -4,97 +4,82 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import TwoColumnRow from 'in-sdk/components/dashboard/TwoColumnRow';
 import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
-import {
-  zeroDecimalPlaces,
-  bytesZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
-export default function EtcdDashboard({snapshot, timeframe}) {
+export default function EtcdDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return (
-      <DashboardNotification type='info'>
+      <DashboardNotification type="info">
         {sensorConnectionStatus}
-      </DashboardNotification>);
+      </DashboardNotification>
+    );
   }
   return (
     <div>
-      <DashboardSection title='Requests'>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           metrics: [
-                             'requests_received',
-                             'requests_sent'
-                           ],
-                           labels: [
-                             'Received',
-                             'Sent'
-                           ],
-                           formatter: zeroDecimalPlaces,
-                           type: 'line'
-                         }} />
+      <DashboardSection title="Requests">
+        <ChartWithLegend
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 80
+          }}
+          y1={{
+            metrics: ['requests_received', 'requests_sent'],
+            labels: ['Received', 'Sent'],
+            formatter: zeroDecimalPlaces,
+            type: 'line'
+          }}
+        />
       </DashboardSection>
-      <DashboardSection title='Traffic'>
-        <ChartWithLegend snapshotId={snapshotId}
-                         timeframe={timeframe}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           metrics: [
-                             'bytes_per_sec_received',
-                             'bytes_per_sec_sent'
-                           ],
-                           labels: [
-                             'Received',
-                             'Sent'
-                           ],
-                           formatter: bytesZeroDecimalPlaces,
-                           type: 'line'
-                         }} />
+      <DashboardSection title="Traffic">
+        <ChartWithLegend
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          margins={{
+            left: 80
+          }}
+          y1={{
+            metrics: ['bytes_per_sec_received', 'bytes_per_sec_sent'],
+            labels: ['Received', 'Sent'],
+            formatter: bytesZeroDecimalPlaces,
+            type: 'line'
+          }}
+        />
       </DashboardSection>
-      <DashboardSection title='Storage'>
+      <DashboardSection title="Storage">
         <TwoColumnRow>
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: [
-                               'storage.expire_count'
-                             ],
-                             labels: [
-                               'Expire count'
-                             ],
-                             formatter: zeroDecimalPlaces,
-                             type: 'line'
-                          }} />
-          <ChartWithLegend snapshotId={snapshotId}
-                           timeframe={timeframe}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             metrics: [
-                               'storage.watchers'
-                             ],
-                             labels: [
-                               'Watchers'
-                             ],
-                             formatter: zeroDecimalPlaces,
-                             type: 'line'
-                          }} />
+          <ChartWithLegend
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              metrics: ['storage.expire_count'],
+              labels: ['Expire count'],
+              formatter: zeroDecimalPlaces,
+              type: 'line'
+            }}
+          />
+          <ChartWithLegend
+            snapshotId={snapshotId}
+            timeframe={timeframe}
+            margins={{
+              left: 80
+            }}
+            y1={{
+              metrics: ['storage.watchers'],
+              labels: ['Watchers'],
+              formatter: zeroDecimalPlaces,
+              type: 'line'
+            }}
+          />
         </TwoColumnRow>
 
-        <OperationsTable snapshot={snapshot}
-                    timeframe={timeframe} />
+        <OperationsTable snapshot={snapshot} timeframe={timeframe} />
       </DashboardSection>
     </div>
   );

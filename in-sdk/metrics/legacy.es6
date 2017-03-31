@@ -1,4 +1,4 @@
-import {find} from 'in-services/arrayUtils';
+import { find } from 'in-services/arrayUtils';
 
 // {
 //   metric: /^memory\.free/,
@@ -29,12 +29,8 @@ export function addFormattedValueLocator(metric, locator) {
   });
 }
 
-
 export function getMaxValue(metric, snapshot) {
-  const locator = find(
-    maxValueLocators,
-    eachLocator => metric.match(eachLocator.metric)
-  );
+  const locator = find(maxValueLocators, eachLocator => metric.match(eachLocator.metric));
 
   if (!locator) {
     throw new Error('No locator found for metric ' + metric);
@@ -44,10 +40,7 @@ export function getMaxValue(metric, snapshot) {
 }
 
 export function getMinValue(metric, snapshot) {
-  const locator = find(
-    minValueLocators,
-    eachLocator => metric.match(eachLocator.metric)
-  );
+  const locator = find(minValueLocators, eachLocator => metric.match(eachLocator.metric));
 
   if (!locator) {
     throw new Error('No locator found for metric ' + metric);
@@ -56,10 +49,7 @@ export function getMinValue(metric, snapshot) {
 }
 
 export function getFormattedValue(metric, snapshot, value) {
-  const locator = find(
-    formattedValueLocators,
-    eachLocator => metric.match(eachLocator.metric)
-  );
+  const locator = find(formattedValueLocators, eachLocator => metric.match(eachLocator.metric));
 
   if (!locator) {
     throw new Error('No locator found for metric ' + metric);

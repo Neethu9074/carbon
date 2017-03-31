@@ -1,5 +1,4 @@
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 const changesVisibilityStore = createStore({
   name: 'eventView/changesVisibilityStore',

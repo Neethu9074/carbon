@@ -1,10 +1,12 @@
-export function getTickPositions(scale, {stepSize, ceilToNearestStep}, leftAligned = false) {
+export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAligned = false) {
   // special case: Trace with 0 time.
   if (scale.getDomainFrom() >= scale.getDomainTo()) {
-    return [{
-      range: scale.getRangeFrom(),
-      domain: scale.getDomainFrom()
-    }];
+    return [
+      {
+        range: scale.getRangeFrom(),
+        domain: scale.getDomainFrom()
+      }
+    ];
   }
 
   const ticks = [];

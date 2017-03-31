@@ -1,23 +1,18 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {MeshBasicMaterial, Mesh} from 'in-map/3DLibProvider';
-
+import { MeshBasicMaterial, Mesh } from 'in-map/3DLibProvider';
 
 const COLLISION_MESH_MATERIAL = new MeshBasicMaterial();
 
 export default class CollisionComponent extends SceneObjectComponent {
-
   constructor(sceneObject, collisionGeometry, layerId, dashboardId) {
     super(sceneObject, '_collision');
 
     this.layerId = layerId;
 
-    const mesh = this.collisionMesh = new Mesh(
-      collisionGeometry,
-      COLLISION_MESH_MATERIAL
-    );
+    const mesh = (this.collisionMesh = new Mesh(collisionGeometry, COLLISION_MESH_MATERIAL));
     mesh.dashboardId = dashboardId || sceneObject.id;
     mesh.parentSceneObject = sceneObject;
     mesh.rotationAutoUpdate = false;

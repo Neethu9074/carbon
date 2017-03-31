@@ -1,12 +1,11 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import createDataSeriesFilterStore from './dataseriesFilterStore';
 
 describe('in-components/ChartWithLegend/dataseriesFilterStore', () => {
-
   let store;
   let subscriber;
 
@@ -22,12 +21,12 @@ describe('in-components/ChartWithLegend/dataseriesFilterStore', () => {
 
   it('should add filters', () => {
     store.toggleFilter('foobar');
-    expect(subscriber.getCall(1).args[0]).to.deep.equal({foobar: true});
+    expect(subscriber.getCall(1).args[0]).to.deep.equal({ foobar: true });
   });
 
   it('should toggle filters', () => {
     store.toggleFilter('foobar');
-    expect(subscriber.getCall(1).args[0]).to.deep.equal({foobar: true});
+    expect(subscriber.getCall(1).args[0]).to.deep.equal({ foobar: true });
 
     store.toggleFilter('foobar');
     expect(subscriber.getCall(2).args[0]).to.deep.equal({});
@@ -35,9 +34,9 @@ describe('in-components/ChartWithLegend/dataseriesFilterStore', () => {
 
   it('should add multiple filters', () => {
     store.toggleFilter('foobar');
-    expect(subscriber.getCall(1).args[0]).to.deep.equal({foobar: true});
+    expect(subscriber.getCall(1).args[0]).to.deep.equal({ foobar: true });
 
     store.toggleFilter('blub');
-    expect(subscriber.getCall(2).args[0]).to.deep.equal({foobar: true, blub: true});
+    expect(subscriber.getCall(2).args[0]).to.deep.equal({ foobar: true, blub: true });
   });
 });

@@ -1,4 +1,4 @@
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 const selectedNodeStore = createStore({
   name: 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/selectedNode/selectedNode',

@@ -7,20 +7,15 @@ import {
   DoubleSide,
   Points
 } from 'in-map/3DLibProvider';
-import {resourceLoaded} from 'in-components/globeView/stores/isLoadingStore';
-import {loadImage} from 'in-map/services/imageLoader';
+import { resourceLoaded } from 'in-components/globeView/stores/isLoadingStore';
+import { loadImage } from 'in-map/services/imageLoader';
 
 import fragmentShader from 'in-components/globeView/components/shader/starFieldFragmentShader.glsl';
 import vertexShader from 'in-components/globeView/components/shader/starFieldVertexShader.glsl';
 
-
 export default class StarField {
-
   constructor(parent) {
-
-    require([
-      'in-components/globeView/components/textures/star.png'
-    ], (starMap) => {
+    require(['in-components/globeView/components/textures/star.png'], starMap => {
       this.numStars = 300;
       this.vertices = new Float32Array(this.numStars * 3);
       this.sizes = new Float32Array(this.numStars * 1);
@@ -30,7 +25,7 @@ export default class StarField {
       texture.generateMipmaps = false;
       texture.flipY = false;
 
-      const material = this.material = new RawShaderMaterial({
+      const material = (this.material = new RawShaderMaterial({
         fragmentShader,
         vertexShader,
         transparent: true,
@@ -39,13 +34,13 @@ export default class StarField {
         uniforms: {
           texture: { type: 't', value: texture }
         }
-      });
+      }));
 
-      const geometry = this.geometry = new BufferGeometry();
+      const geometry = (this.geometry = new BufferGeometry());
       this.geometry.addAttribute('position', new BufferAttribute(this.vertices, 3));
       this.geometry.addAttribute('size', new BufferAttribute(this.sizes, 1));
 
-      const starField = this.starField = new Points(geometry, material);
+      const starField = (this.starField = new Points(geometry, material));
       starField.rotationAutoUpdate = false;
       starField.matrixAutoUpdate = false;
       starField.frustumCulled = false;

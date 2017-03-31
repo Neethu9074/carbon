@@ -1,6 +1,6 @@
-import {create, combineLatest} from 'reactive-observables';
+import { create, combineLatest } from 'reactive-observables';
 
-import {setLive} from 'in-components/timeline/components/DatePicker/stores/liveStore';
+import { setLive } from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {
   timeframe$ as globalTimeframe$,
   setTimeframe as setGlobalTimeframe,
@@ -8,11 +8,10 @@ import {
   setFocusedMoment as setGlobalFocusedMoment,
   bigBangTimestamp$
 } from 'in-stores/timeline';
-import {serverTime$} from 'in-stores/serverTime';
+import { serverTime$ } from 'in-stores/serverTime';
 import activeTheme from 'in-themes/active.json';
-import {createStore} from 'in-stores/store';
-import {getIn} from 'in-services/settings';
-
+import { createStore } from 'in-stores/store';
+import { getIn } from 'in-services/settings';
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
@@ -22,8 +21,7 @@ let currentBigBangTimestamp;
 let currentServerTime;
 
 export function init() {
-  combineLatest([bigBangTimestamp$, serverTime$])
-  .subscribe(props => {
+  combineLatest([bigBangTimestamp$, serverTime$]).subscribe(props => {
     currentBigBangTimestamp = props[0];
     currentServerTime = props[1];
 
@@ -62,7 +60,6 @@ export function toggleMenu() {
   isCollapsedStore.applyStateMutation(oldValue => !oldValue);
 }
 
-
 const showTimeSelector = createStore({
   name: 'showTimeSelectorStore',
   initialValue: false
@@ -81,7 +78,6 @@ export function openTimeSelector(view = true) {
   }
 }
 
-
 /*
   we need to seperate the global timeline.timeframe store from this timeframeStore because
   we want to update the timelines timeframe in realtime. If the user drags in time, this store gets updated.
@@ -95,10 +91,7 @@ export const timeframe$ = timeframeStore.observable.filter(timeframe => timefram
 
 // create cycle
 globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
-timeframe$
-  .throttle(500)
-  .subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
-
+timeframe$.throttle(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
 
 export function setTimeFrame(windowSize, to) {
   timeframeStore.applyStateMutation(() => createTimeframe(getValidWindowSize(windowSize), to));
@@ -145,17 +138,11 @@ export function getValidWindowSize(windowSize) {
   return Math.max(MAX_ZOOM_LEVEL, Math.min(MIN_ZOOM_LEVEL, windowSize));
 }
 
-
-export const to$ = timeframe$.flatMap(_timeframe => _timeframe.to ? create()
-                                                                    .emit(_timeframe.to)
-                                                                    .freeze() :
-                                                                    serverTime$)
+export const to$ = timeframe$
+  .flatMap(_timeframe => _timeframe.to ? create().emit(_timeframe.to).freeze() : serverTime$)
   .distinct();
 
-export const from$ = timeframe$
-  .flatMap(_timeframe => to$.map(to => to - _timeframe.windowSize))
-  .distinct();
-
+export const from$ = timeframe$.flatMap(_timeframe => to$.map(to => to - _timeframe.windowSize)).distinct();
 
 const highlightedEventScreenPosition = createStore({
   name: 'highlightedEventScreenPositionStore',
@@ -167,7 +154,6 @@ export function setHighlightedEventScreenPosition(pos) {
   highlightedEventScreenPosition.applyStateMutation(() => pos);
 }
 
-
 const timelineScale = createStore({
   name: 'timelineScaleStore',
   initialValue: null
@@ -176,7 +162,6 @@ export const timelineScale$ = timelineScale.observable;
 export function setTimelineScale(scale) {
   timelineScale.applyStateMutation(() => scale);
 }
-
 
 export const DRAW_MODES = {
   DISCRETE_EVENTS: 0,
@@ -193,14 +178,11 @@ export function setDrawMode(mode) {
   drawMode.applyStateMutation(() => mode);
 }
 
-
 const focusedMoment = createStore({
   name: 'timelineFocusedMomentStore',
   initialValue: undefined
 });
-export const focusedMoment$ = focusedMoment.observable
-  .filter(fm => fm !== undefined)
-  .distinct();
+export const focusedMoment$ = focusedMoment.observable.filter(fm => fm !== undefined).distinct();
 
 export function setFocusedMoment(newFocusedMoment) {
   focusedMoment.applyStateMutation(() => newFocusedMoment);
@@ -208,21 +190,16 @@ export function setFocusedMoment(newFocusedMoment) {
 
 globalFocusedMoment$.subscribe(setFocusedMoment);
 
-focusedMoment$
-  .skipFirst()
-  .debounce(1000)
-  .subscribe(setGlobalFocusedMoment);
+focusedMoment$.skipFirst().debounce(1000).subscribe(setGlobalFocusedMoment);
 
 export function fixFocusedMomentIfNotFixed() {
-  combineLatest([to$, focusedMoment$])
-    .once(e => {
-      const to = e[0];
-      if (to && !e[1]) {
-        setFocusedMoment(to);
-      }
-    });
+  combineLatest([to$, focusedMoment$]).once(e => {
+    const to = e[0];
+    if (to && !e[1]) {
+      setFocusedMoment(to);
+    }
+  });
 }
-
 
 const focusedMomentXPosition = createStore({
   name: 'focusedMomentXPositionStore',
@@ -230,26 +207,24 @@ const focusedMomentXPosition = createStore({
 });
 export const focusedMomentXPosition$ = focusedMomentXPosition.observable.distinct();
 
+combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$]).subscribe(props => {
+  const serverTime = props[0];
+  const scale = props[1];
+  const moment = props[2];
+  const timeframe = props[3];
 
-combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$])
-  .subscribe(props => {
-    const serverTime = props[0];
-    const scale = props[1];
-    const moment = props[2];
-    const timeframe = props[3];
+  if (!scale) {
+    return;
+  }
 
-    if (!scale) {
-      return;
-    }
+  let x;
+  if (moment) {
+    x = scale.getRange(moment);
+  } else if (!timeframe.to) {
+    x = scale.getRange(scale.getDomainTo());
+  } else {
+    x = scale.getRange(serverTime);
+  }
 
-    let x;
-    if (moment) {
-      x = scale.getRange(moment);
-    } else if (!timeframe.to) {
-      x = scale.getRange(scale.getDomainTo());
-    } else {
-      x = scale.getRange(serverTime);
-    }
-
-    focusedMomentXPosition.applyStateMutation(() => x);
-  });
+  focusedMomentXPosition.applyStateMutation(() => x);
+});

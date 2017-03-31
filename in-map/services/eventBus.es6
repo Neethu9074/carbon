@@ -1,19 +1,11 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 import RoEmitter from 'roemitter';
 
-import {
-  setShowSticky as showConnectionSticky
-} from 'in-map/stores/logical/connectionsStore';
-import {
-  setShowSticky as showServiceSticky,
-  setShowKpi as showServiceKpi
-} from 'in-map/stores/logical/servicesStore';
-import {
-  setShowSticky as showNodesSticky
-} from 'in-map/stores/physical/nodesStore';
-import {currentLayoutingStrategy$, packedLayouting$} from 'in-map/stores/physical/layouterStore';
-import {setShowSticky as showGroupLabelSticky} from 'in-map/stores/physical/groupsStore';
-
+import { setShowSticky as showConnectionSticky } from 'in-map/stores/logical/connectionsStore';
+import { setShowSticky as showServiceSticky, setShowKpi as showServiceKpi } from 'in-map/stores/logical/servicesStore';
+import { setShowSticky as showNodesSticky } from 'in-map/stores/physical/nodesStore';
+import { currentLayoutingStrategy$, packedLayouting$ } from 'in-map/stores/physical/layouterStore';
+import { setShowSticky as showGroupLabelSticky } from 'in-map/stores/physical/groupsStore';
 
 export let eventBus;
 
@@ -35,10 +27,13 @@ export function createEventBus() {
     showNodesSticky(zoomLevel < 250);
   });
 
-  combineLatest([
-    currentLayoutingStrategy$,
-    eventBus.on('zoomLevelChanged')
-  ]).subscribe(([currentLayoutingStrategy, zoomLevel]) => {
-      showGroupLabelSticky((currentLayoutingStrategy === packedLayouting$ && zoomLevel < 550) || currentLayoutingStrategy !== packedLayouting$);
+  combineLatest([currentLayoutingStrategy$, eventBus.on('zoomLevelChanged')]).subscribe(([
+    currentLayoutingStrategy,
+    zoomLevel
+  ]) => {
+    showGroupLabelSticky(
+      (currentLayoutingStrategy === packedLayouting$ && zoomLevel < 550) ||
+        currentLayoutingStrategy !== packedLayouting$
+    );
   });
 }

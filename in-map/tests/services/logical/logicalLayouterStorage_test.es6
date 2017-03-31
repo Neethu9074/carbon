@@ -1,10 +1,9 @@
 /* eslint-env mocha,node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {fromJS} from 'immutable';
-import {expect} from 'chai';
+import { fromJS } from 'immutable';
+import { expect } from 'chai';
 import sinon from 'sinon';
-
 
 describe('layoutingStorage', () => {
   let changePosition;
@@ -73,5 +72,4 @@ describe('layoutingStorage', () => {
     expect(changePosition.getCall(0).args[2]).to.equal(1);
     expect(changePosition.getCall(0).args[3]).to.equal(-1);
   });
-
 });

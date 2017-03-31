@@ -1,11 +1,5 @@
-import {
-  siPrefix,
-  millis,
-  number,
-  bytes
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { siPrefix, millis, number, bytes } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -17,14 +11,7 @@ export default [
       'threads.blocked',
       'threads.terminated'
     ],
-    labels: [
-      'New',
-      'Runnable',
-      'Timed-Waiting',
-      'Waiting',
-      'Blocked',
-      'Terminated'
-    ],
+    labels: ['New', 'Runnable', 'Timed-Waiting', 'Waiting', 'Blocked', 'Terminated'],
     min: 0,
     category: ['Threads'],
     formatter: number
@@ -66,6 +53,5 @@ export default [
     min: 0,
     formatter: siPrefix
   }
-
   // TODO: Implement MemoryPoolsTable metricss
 ];

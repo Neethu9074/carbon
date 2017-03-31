@@ -1,21 +1,21 @@
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-export default function VarnishInfo({snapshot}) {
+export default function VarnishInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title='Port'>
+      <DescriptionItem title="Port">
         {data.get('port')}
       </DescriptionItem>
-      <DescriptionItem title='Version'>
+      <DescriptionItem title="Version">
         {data.get('version')}
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title='Thread pools'>
+      <DescriptionItem title="Thread pools">
         {data.get('thread_pools')}
       </DescriptionItem>
     </DescriptionList>

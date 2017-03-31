@@ -1,24 +1,22 @@
-import {createLogger} from 'instalog';
-import {Map} from 'immutable';
+import { createLogger } from 'instalog';
+import { Map } from 'immutable';
 import React from 'react';
 
-import {createRule, getRules, saveRule, deleteRule} from 'in-services/groundskeeper/rules';
+import { createRule, getRules, saveRule, deleteRule } from 'in-services/groundskeeper/rules';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Table from 'in-views/configurationView/subview/Rules/components/Table';
 import Section from 'in-views/configurationView/components/Section';
-import {openRule} from 'in-stores/navigation/configuration';
+import { openRule } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
-import {close} from 'in-components/DialogPresenter/store';
-import {emptyList} from 'in-services/fixedImmutables';
+import { close } from 'in-components/DialogPresenter/store';
+import { emptyList } from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
-
 
 const logger = createLogger('Rules');
 
 export default React.createClass({
-
   displayName: 'Rules',
 
   getInitialState() {
@@ -136,7 +134,7 @@ export default React.createClass({
   },
 
   render() {
-    const {rules} = this.state;
+    const { rules } = this.state;
     const rulesAvailable = rules && rules.size > 0;
 
     return (
@@ -146,30 +144,26 @@ export default React.createClass({
         </SubViewHeader>
 
         <Section>
-          <Button kind='info'
-                  onClick={this.addNewRule}>
+          <Button kind="info" onClick={this.addNewRule}>
             Add New Rule
           </Button>
 
-          {this.state.message ?
-            <Notification failure={this.state.error}
-                          loading={this.state.loading}>
-              {this.state.message}
-            </Notification>
-          : null}
+          {this.state.message
+            ? <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            : null}
         </Section>
 
-        {rulesAvailable ?
-          <Section>
-            <SectionHeading>
-              Custom rule
-            </SectionHeading>
+        {rulesAvailable
+          ? <Section>
+              <SectionHeading>
+                Custom rule
+              </SectionHeading>
 
-            <Table items={rules}
-                   onDeleteRule={this.onDeleteRule}
-                   status={this.state.status} />
-          </Section>
-        : null}
+              <Table items={rules} onDeleteRule={this.onDeleteRule} status={this.state.status} />
+            </Section>
+          : null}
       </SubViewWrapper>
     );
   }

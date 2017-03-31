@@ -3,10 +3,9 @@ import createHistoricMetricsObservable from 'in-services/subscription/historicMe
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import {timeframe$, focusedMoment$} from 'in-stores/timeline';
-import {getAggregation} from 'in-sdk/metrics';
-import {createStore} from 'in-stores/store';
-
+import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
+import { getAggregation } from 'in-sdk/metrics';
+import { createStore } from 'in-stores/store';
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
@@ -38,8 +37,7 @@ const rollupDurationThresholds = [
   }
 ];
 
-
-export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
+export function getLiveMetrics({ snapshotId, metric, timeframe = null, rollup }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe);
   }
@@ -57,8 +55,7 @@ export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
   });
 }
 
-
-function getHistoricMetrics({snapshotId, metric, timeframe, rollup}) {
+function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
   if (rollup === undefined) {
     rollup = getDefaultMetricRollupDuration(timeframe);
   }
@@ -77,28 +74,24 @@ function getHistoricMetrics({snapshotId, metric, timeframe, rollup}) {
   });
 }
 
-
 export const getMetricForFocusedMoment = memoize(
-  ({snapshotId, metric}) => {
+  ({ snapshotId, metric }) => {
     return focusedMoment$.flatMap(focusedMoment => {
       if (focusedMoment == null) {
-        return getLiveMetrics({snapshotId, metric});
+        return getLiveMetrics({ snapshotId, metric });
       }
 
-      return getHistoricMetric({snapshotId, metric, time: focusedMoment});
+      return getHistoricMetric({ snapshotId, metric, time: focusedMoment });
     });
   },
-
-  ({snapshotId, metric}) => snapshotId + metric,
-
+  ({ snapshotId, metric }) => snapshotId + metric,
   500
 );
 
-
-export function getHistoricMetric({snapshotId, metric, time}) {
+export function getHistoricMetric({ snapshotId, metric, time }) {
   const now = Date.now();
-  const availableRollupDefinitions = rollupDurationThresholds.filter(rollupDefinition =>
-    time >= now - rollupDefinition.availableFor && rollupDefinition.rollup != null
+  const availableRollupDefinitions = rollupDurationThresholds.filter(
+    rollupDefinition => time >= now - rollupDefinition.availableFor && rollupDefinition.rollup != null
   );
   const rollup = availableRollupDefinitions[0].rollup;
 
@@ -116,7 +109,6 @@ export function getHistoricMetric({snapshotId, metric, time}) {
   });
 }
 
-
 export function getHistoricMetricsWithLiveUpdates(opts) {
   const live$ = getLiveMetrics(opts)
     // bring the two streams into the same format
@@ -125,13 +117,9 @@ export function getHistoricMetricsWithLiveUpdates(opts) {
   return live$.merge(historic$);
 }
 
-
 export function getMetricsForTimeframe(opts) {
-  return opts.timeframe.to ?
-    getHistoricMetrics(opts) :
-    getHistoricMetricsWithLiveUpdates(opts);
+  return opts.timeframe.to ? getHistoricMetrics(opts) : getHistoricMetricsWithLiveUpdates(opts);
 }
-
 
 export function getDefaultMetricRollupDuration(timeframe) {
   if (!timeframe) {
@@ -144,15 +132,15 @@ export function getDefaultMetricRollupDuration(timeframe) {
   const to = timeframe.to ? timeframe.to : now;
   const from = to - timeframe.windowSize;
 
-  const availableRollupDefinitions = rollupDurationThresholds.filter(rollupDefinition =>
-    from >= now - rollupDefinition.availableFor
+  const availableRollupDefinitions = rollupDurationThresholds.filter(
+    rollupDefinition => from >= now - rollupDefinition.availableFor
   );
 
   for (let i = 0, len = availableRollupDefinitions.length; i < len; i++) {
     // this works because the rollupDurationThresholds array is sorted by rollup
     // the first rollup matching the requirements is returned
     const rollupDefinition = availableRollupDefinitions[i];
-    const rollup = (rollupDefinition && rollupDefinition.rollup) ? rollupDefinition.rollup : 1000;
+    const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : 1000;
     if (timeframe.windowSize / rollup <= MAX_NUMBER_OF_METRICS_FOR_CHARTS) {
       return rollupDefinition.rollup;
     }
@@ -161,9 +149,7 @@ export function getDefaultMetricRollupDuration(timeframe) {
   return rollupDurationThresholds[rollupDurationThresholds.length - 1].rollup;
 }
 
-export const currentRollup$ = timeframe$
-  .map(getRollupForTimeframe);
-
+export const currentRollup$ = timeframe$.map(getRollupForTimeframe);
 
 export function getRollupForTimeframe(timeframe) {
   const rollup = getDefaultMetricRollupDuration(timeframe);
@@ -176,7 +162,6 @@ export function getRollupForTimeframe(timeframe) {
 
   return 'Unknown rollup';
 }
-
 
 export const activeMetric = createStore({
   name: 'metric',
@@ -198,15 +183,15 @@ export function getPixelAwareRollupSize(timeframe, pixels) {
   const to = timeframe.to ? timeframe.to : now;
   const from = to - timeframe.windowSize;
   const maxNumberOfDataPoints = pixels * (window.devicePixelRatio || 1);
-  const availableRollupDefinitions = rollupDurationThresholds.filter(rollupDefinition =>
-    from >= now - rollupDefinition.availableFor
+  const availableRollupDefinitions = rollupDurationThresholds.filter(
+    rollupDefinition => from >= now - rollupDefinition.availableFor
   );
 
   for (let i = 0, len = availableRollupDefinitions.length; i < len; i++) {
     // this works because the rollupDurationThresholds array is sorted by rollup
     // the first rollup matching the requirements is returned
     const rollupDefinition = availableRollupDefinitions[i];
-    const rollup = (rollupDefinition && rollupDefinition.rollup) ? rollupDefinition.rollup : 1000;
+    const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : 1000;
     if (timeframe.windowSize / rollup <= maxNumberOfDataPoints) {
       return rollupDefinition.rollup;
     }
@@ -215,8 +200,7 @@ export function getPixelAwareRollupSize(timeframe, pixels) {
   return rollupDurationThresholds[rollupDurationThresholds.length - 1].rollup;
 }
 
-
-export function getTimeWindowBasedMetricAggregation({snapshotId, metric, timeWindowAggregation, timeframe}) {
+export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, timeWindowAggregation, timeframe }) {
   return timeframe
     ? getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metric, timeWindowAggregation)
     : timeframe$.flatMap(_timeframe =>

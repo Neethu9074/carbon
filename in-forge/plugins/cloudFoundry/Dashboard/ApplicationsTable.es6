@@ -2,11 +2,11 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {emptyList} from 'in-services/fixedImmutables';
+import { emptyList } from 'in-services/fixedImmutables';
 
 import InstancesTable from 'in-forge/plugins/cloudFoundry/Dashboard/InstancesTable';
 
-export default function ApplicationsTable({snapshot, timeframe}) {
+export default function ApplicationsTable({ snapshot, timeframe }) {
   const apps = snapshot.getIn(['data', 'applications'], emptyList).sort();
 
   if (apps.length === 0) {
@@ -14,16 +14,18 @@ export default function ApplicationsTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='Applications'>
-      <ExpandableTable data={apps}
-                       getKey={getKey}
-                       createHeader={createHeader}
-                       createRow={createRow}
-                       context={{
-                         snapshot,
-                         timeframe
-                       }}
-                       createDetails={createDetails} />
+    <DashboardSection title="Applications">
+      <ExpandableTable
+        data={apps}
+        getKey={getKey}
+        createHeader={createHeader}
+        createRow={createRow}
+        context={{
+          snapshot,
+          timeframe
+        }}
+        createDetails={createDetails}
+      />
     </DashboardSection>
   );
 }
@@ -50,7 +52,7 @@ function createHeader() {
 
 function createRow(appId, i, context) {
   const data = context.snapshot.get('data');
-  return ([
+  return [
     <td>{data.get('applications_data.' + appId + '.name')}</td>,
     <td>{data.get('applications_data.' + appId + '.state')}</td>,
     <td>{data.get('applications_data.' + appId + '.disk_quota')}</td>,
@@ -58,21 +60,17 @@ function createRow(appId, i, context) {
     <td>{data.get('applications_data.' + appId + '.num_instances')}</td>,
     <td>{data.get('applications_data.' + appId + '.running_instances')}</td>,
     <td>{data.get('applications_data.' + appId + '.urls')}</td>
-  ]);
+  ];
 }
 
 function createDetails(appId, i, context) {
   const appInstances = getInstancesForApplication(context.snapshot, appId);
 
   if (appInstances.length === 0) {
-   return null;
+    return null;
   }
 
-  return (
-      <InstancesTable snapshot={context.snapshot}
-                      timeframe={context.timeframe}
-                      instances={appInstances} />
-  );
+  return <InstancesTable snapshot={context.snapshot} timeframe={context.timeframe} instances={appInstances} />;
 }
 
 function getInstancesForApplication(snapshot, appId) {

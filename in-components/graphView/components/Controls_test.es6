@@ -1,10 +1,9 @@
 /* eslint-env mocha, node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {PerspectiveCamera} from 'in-map/3DLibProvider';
-
+import { PerspectiveCamera } from 'in-map/3DLibProvider';
 
 describe('controls', () => {
   let createControls;
@@ -113,11 +112,11 @@ describe('controls', () => {
     expect(camera.position.z).to.equal(30);
 
     onMouseDown.emit(true);
-    onMouseMove.emit({movementX: 10, movementY: 20});
+    onMouseMove.emit({ movementX: 10, movementY: 20 });
     onMouseUp.emit(true);
     controls.update();
 
-    const deltaY = controls.poi.rotation.toVector3().y - (5 * Math.PI / 180);
+    const deltaY = controls.poi.rotation.toVector3().y - 5 * Math.PI / 180;
     expect(deltaY < 0.000001).to.equal(true);
 
     controls.dispose();

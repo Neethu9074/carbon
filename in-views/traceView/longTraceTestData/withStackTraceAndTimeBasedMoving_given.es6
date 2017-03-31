@@ -1,28 +1,27 @@
-import {SPAN_KINDS} from 'in-sdk/tracing';
-
+import { SPAN_KINDS } from 'in-sdk/tracing';
 
 export default {
-  'traceId': '1',
-  'start': 10,
-  'spanId': '1',
-  'async': false,
-  'name': 'spring-web',
-  'kind': SPAN_KINDS.ENTRY,
-  'stackTrace': [
+  traceId: '1',
+  start: 10,
+  spanId: '1',
+  async: false,
+  name: 'spring-web',
+  kind: SPAN_KINDS.ENTRY,
+  stackTrace: [
     {
       c: 'Thread',
       m: ''
     }
   ],
-  'childSpans': [
+  childSpans: [
     {
-      'traceId': '1',
-      'start': 11,
-      'spanId': '2',
-      'async': false,
-      'name': 'hc',
-      'kind': SPAN_KINDS.EXIT,
-      'stackTrace': [
+      traceId: '1',
+      start: 11,
+      spanId: '2',
+      async: false,
+      name: 'hc',
+      kind: SPAN_KINDS.EXIT,
+      stackTrace: [
         {
           c: 'ClassC',
           m: ''
@@ -40,16 +39,16 @@ export default {
           m: ''
         }
       ],
-      'childSpans': []
+      childSpans: []
     },
     {
-      'traceId': '1',
-      'start': 12,
-      'spanId': '3',
-      'async': false,
-      'name': 'hc',
-      'kind': SPAN_KINDS.EXIT,
-      'stackTrace': [
+      traceId: '1',
+      start: 12,
+      spanId: '3',
+      async: false,
+      name: 'hc',
+      kind: SPAN_KINDS.EXIT,
+      stackTrace: [
         {
           c: 'ClassD',
           m: ''
@@ -63,16 +62,16 @@ export default {
           m: ''
         }
       ],
-      'childSpans': []
+      childSpans: []
     },
     {
-      'traceId': '1',
-      'start': 13,
-      'spanId': '4',
-      'async': false,
-      'name': 'hc',
-      'kind': SPAN_KINDS.EXIT,
-      'stackTrace': [
+      traceId: '1',
+      start: 13,
+      spanId: '4',
+      async: false,
+      name: 'hc',
+      kind: SPAN_KINDS.EXIT,
+      stackTrace: [
         {
           c: 'ClassE',
           m: ''
@@ -90,7 +89,7 @@ export default {
           m: ''
         }
       ],
-      'childSpans': []
+      childSpans: []
     }
   ]
 };

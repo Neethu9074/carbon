@@ -1,5 +1,5 @@
-import {navigationParameters$} from 'in-stores/navigation';
-import {createTrackingStore} from 'in-stores/store';
+import { navigationParameters$ } from 'in-stores/navigation';
+import { createTrackingStore } from 'in-stores/store';
 
 export const helpId$ = createTrackingStore({
   name: 'helpId',

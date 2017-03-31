@@ -1,6 +1,5 @@
 import createObjectCollection from 'in-map/stores/ObjectCollection';
 
-
 const factories = createObjectCollection();
 
 export function addFactory(id, factory) {

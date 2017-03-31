@@ -1,7 +1,6 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 
 export default class BackgroundRenderer extends BasicRenderer {
-
   constructor(backBuffer, scale, height) {
     super(backBuffer, scale);
 

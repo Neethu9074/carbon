@@ -15,8 +15,6 @@ export default function addSection(ComposedComponent, isPresent) {
         </Section>
       );
     }
-    return (
-      <ComposedComponent {...props} />
-    );
+    return <ComposedComponent {...props} />;
   };
 }

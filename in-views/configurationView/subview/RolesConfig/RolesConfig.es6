@@ -1,19 +1,19 @@
-import {createLogger} from 'instalog';
-import {Map} from 'immutable';
+import { createLogger } from 'instalog';
+import { Map } from 'immutable';
 import React from 'react';
 
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {getRoles, saveRole, deleteRole} from 'in-services/groundskeeper/roles';
-import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
+import { getRoles, saveRole, deleteRole } from 'in-services/groundskeeper/roles';
+import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Role from 'in-views/configurationView/subview/RolesConfig/Role';
 import Section from 'in-views/configurationView/components/Section';
-import {openRoleConfig} from 'in-stores/navigation/configuration';
+import { openRoleConfig } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
-import {generateUniqueShortId} from 'in-services/util/id';
-import {emptySet} from 'in-services/fixedImmutables';
+import { generateUniqueShortId } from 'in-services/util/id';
+import { emptySet } from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
 
 import './RolesConfig.less';
@@ -29,7 +29,7 @@ export default React.createClass({
       loading: true,
       error: false,
       message: null,
-      roles: emptySet,
+      roles: emptySet
     };
   },
 
@@ -82,7 +82,7 @@ export default React.createClass({
   },
 
   render() {
-    const {roles} = this.state;
+    const { roles } = this.state;
 
     return (
       <SubViewWrapper>
@@ -91,17 +91,15 @@ export default React.createClass({
         </SubViewHeader>
 
         <Section>
-          <Button kind='info'
-                  onClick={this.addNewRole}>
+          <Button kind="info" onClick={this.addNewRole}>
             Add New Role
           </Button>
 
-          {this.state.message ?
-            <Notification failure={this.state.error}
-                          loading={this.state.loading}>
-              {this.state.message}
-            </Notification>
-          : null}
+          {this.state.message
+            ? <Notification failure={this.state.error} loading={this.state.loading}>
+                {this.state.message}
+              </Notification>
+            : null}
         </Section>
 
         <Section>
@@ -110,15 +108,13 @@ export default React.createClass({
           </SectionHeading>
 
           <ul className={`${block}__roles`}>
-            {roles && roles.toArray()
-              // do not show the fallback role
-              .filter(role => role.get('id') !== '-2')
-              .sort((a, b) => a.get('name').localeCompare(b.get('name')))
-              .map(role =>
-                <Role role={role}
-                      key={role.get('id')}
-                      onDelete={this.onDelete} />
-            )}
+            {roles &&
+              roles
+                .toArray()
+                // do not show the fallback role
+                .filter(role => role.get('id') !== '-2')
+                .sort((a, b) => a.get('name').localeCompare(b.get('name')))
+                .map(role => <Role role={role} key={role.get('id')} onDelete={this.onDelete} />)}
           </ul>
         </Section>
       </SubViewWrapper>
@@ -164,17 +160,19 @@ export default React.createClass({
 
   onDelete(role) {
     setActiveDialog(
-      <ConfirmationDialog header='Confirm removal'
-                          description={
-                            <span>
-                              Are you sure you want to remove the role <strong>{role.get('name')}</strong>?
-                            </span>
-                          }
-                          bButtonLabel='Remove role'
-                          onB={() => {
-                            close();
-                            this.onDeleteAfterConfirmation(role);
-                          }} />
+      <ConfirmationDialog
+        header="Confirm removal"
+        description={
+          <span>
+            Are you sure you want to remove the role <strong>{role.get('name')}</strong>?
+          </span>
+        }
+        bButtonLabel="Remove role"
+        onB={() => {
+          close();
+          this.onDeleteAfterConfirmation(role);
+        }}
+      />
     );
   },
 

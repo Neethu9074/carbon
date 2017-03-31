@@ -1,6 +1,5 @@
 import TCP from 'in-map/singleMeshFactories/ContentProvider/TraceContentProvider';
-import {BufferAttribute, BufferGeometry} from 'in-map/3DLibProvider';
-
+import { BufferAttribute, BufferGeometry } from 'in-map/3DLibProvider';
 
 export default function TraceBufferGeometry() {
   BufferGeometry.call(this);

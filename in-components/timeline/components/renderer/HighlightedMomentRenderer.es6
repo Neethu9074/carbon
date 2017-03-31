@@ -1,13 +1,11 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {formatDate, formatTime} from 'in-services/formatters/date';
-import {font} from 'in-components/timeline/timelineConfig';
-import {highlightedMoment$} from 'in-stores/timeline';
-
+import { formatDate, formatTime } from 'in-services/formatters/date';
+import { font } from 'in-components/timeline/timelineConfig';
+import { highlightedMoment$ } from 'in-stores/timeline';
 
 const width = 120;
 
 export default class HighlightedMomentRenderer extends BasicRenderer {
-
   constructor(backBuffer, scale) {
     super(backBuffer, scale);
 

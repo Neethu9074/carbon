@@ -7,7 +7,7 @@ import MatchPresenter
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import {Row, Col} from 'in-components/Grid';
+import { Row, Col } from 'in-components/Grid';
 import Button from 'in-components/Button';
 
 import './RuleTester.less';
@@ -56,26 +56,25 @@ export default React.createClass({
         {this.getHeader()}
 
         <Row>
-          {matchKeys.map(key =>
-            <Col cols={6}
-                 key={key}>
+          {matchKeys.map(key => (
+            <Col cols={6} key={key}>
               <FormGroup>
                 <Label htmlFor={`${id}-test-${key}`}>{this.props.matchSpecificationOptions[key].titleName}</Label>
-                <Input type='text'
-                       id={`${id}-test-${key}`}
-                       placeholder={this.props.matchSpecificationOptions[key].testPlaceholder}
-                       value={this.state[key] || ''}
-                       onChange={e => this.setState({[key]: e.target.value})} />
+                <Input
+                  type="text"
+                  id={`${id}-test-${key}`}
+                  placeholder={this.props.matchSpecificationOptions[key].testPlaceholder}
+                  value={this.state[key] || ''}
+                  onChange={e => this.setState({ [key]: e.target.value })}
+                />
               </FormGroup>
 
-              <MatchPresenter match={matches[key]}
-                              prefix={`${key}-`} />
+              <MatchPresenter match={matches[key]} prefix={`${key}-`} />
             </Col>
-          )}
+          ))}
         </Row>
 
-        <ExtractedServiceNamePresenter ruleForm={ruleForm}
-                                       matches={matches} />
+        <ExtractedServiceNamePresenter ruleForm={ruleForm} matches={matches} />
       </div>
     );
   },
@@ -85,10 +84,7 @@ export default React.createClass({
       <h3>
         Rule Tester
 
-        <Button kind='info'
-                size='sm'
-                className='pull-right'
-                onClick={this.props.toggleRuleTesting}>
+        <Button kind="info" size="sm" className="pull-right" onClick={this.props.toggleRuleTesting}>
           Hide Rule Tester
         </Button>
       </h3>

@@ -1,9 +1,9 @@
-import {sortedIndexBy} from 'lodash';
+import { sortedIndexBy } from 'lodash';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
 import ReactTooltip from 'in-charts/Chart/renderer/ReactTooltip';
-import {applyTransform} from 'in-services/util/dom';
+import { applyTransform } from 'in-services/util/dom';
 
 export default function createTooltipRenderer(config) {
   let highlightedMoment;
@@ -21,11 +21,9 @@ export default function createTooltipRenderer(config) {
     dispose
   };
 
-
   function dispose() {
     ReactDOM.unmountComponentAtNode(config.dom.tooltipContainer);
   }
-
 
   function showTooltip(_highlightedMoment) {
     dataPointsExistingAtMoment = null;
@@ -53,15 +51,16 @@ export default function createTooltipRenderer(config) {
     repositionTooltip();
 
     ReactDOM.render(
-      <ReactTooltip config={config}
-                    y1DataColumn={y1DataColumn}
-                    y2DataColumn={y2DataColumn}
-                    dataPointsAvailable={dataPointsAvailable}
-                    time={dataPointsExistingAtMoment} />,
+      <ReactTooltip
+        config={config}
+        y1DataColumn={y1DataColumn}
+        y2DataColumn={y2DataColumn}
+        dataPointsAvailable={dataPointsAvailable}
+        time={dataPointsExistingAtMoment}
+      />,
       config.dom.tooltipContainer
     );
   }
-
 
   function hideTooltip() {
     highlightedMoment = null;
@@ -71,7 +70,6 @@ export default function createTooltipRenderer(config) {
     config.dom.tooltipLine.style.display = 'none';
     config.dom.tooltipContainer.style.display = 'none';
   }
-
 
   function repositionTooltip() {
     const time = dataPointsExistingAtMoment != null ? dataPointsExistingAtMoment : highlightedMoment;
@@ -101,20 +99,15 @@ export default function createTooltipRenderer(config) {
     }
   }
 
-
   function lookForDataPoint(axisName, searchFor) {
     const data = config.dataHolders[axisName].getDataColumns();
-    const i = sortedIndexBy(
-      data,
-      searchFor,
-      column => {
-        if (column.time) {
-          return column.time;
-        }
-        // this iteratee function will be called for the search value as well
-        return column;
+    const i = sortedIndexBy(data, searchFor, column => {
+      if (column.time) {
+        return column.time;
       }
-    );
+      // this iteratee function will be called for the search value as well
+      return column;
+    });
 
     const prev = data[i - 1];
     if (prev && prev.time === searchFor) {

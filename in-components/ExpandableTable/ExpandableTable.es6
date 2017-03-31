@@ -1,5 +1,5 @@
 import irpt from 'react-immutable-proptypes';
-import {Iterable} from 'immutable';
+import { Iterable } from 'immutable';
 import React from 'react';
 
 import './ExpandableTable.less';
@@ -12,11 +12,7 @@ export default React.createClass({
   displayName: 'ExpandableTable',
 
   propTypes: {
-    data: rpt.oneOfType([
-      rpt.array,
-      rpt.object,
-      irpt.iterable
-    ]).isRequired,
+    data: rpt.oneOfType([rpt.array, rpt.object, irpt.iterable]).isRequired,
     getKey: rpt.func.isRequired,
     createHeader: rpt.func.isRequired,
     createRow: rpt.func.isRequired,
@@ -24,13 +20,11 @@ export default React.createClass({
     context: rpt.any
   },
 
-
   getInitialState() {
     return {
       selectedKeys: {}
     };
   },
-
 
   render() {
     let classes = block;
@@ -48,7 +42,6 @@ export default React.createClass({
       </table>
     );
   },
-
 
   flatMapRows(mapperFn) {
     let result = [];
@@ -77,7 +70,6 @@ export default React.createClass({
     return result;
   },
 
-
   createRow(val, index, context) {
     const key = this.props.getKey(val, index, context);
     const rowContent = this.props.createRow(val, index, context);
@@ -103,14 +95,12 @@ export default React.createClass({
     return [
       row,
       <tr key={key + '--details'}>
-        <td colSpan='100'
-            className={block + '__details'}>
+        <td colSpan="100" className={block + '__details'}>
           {this.props.createDetails(val, index, context)}
         </td>
       </tr>
     ];
   },
-
 
   onClick(key) {
     this.setState(state => {

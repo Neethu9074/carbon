@@ -1,4 +1,4 @@
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 export function onImageLoad(url) {
   const result = create();

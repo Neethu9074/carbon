@@ -1,4 +1,4 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
+import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'page',

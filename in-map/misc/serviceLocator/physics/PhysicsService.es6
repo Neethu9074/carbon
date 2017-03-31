@@ -1,9 +1,8 @@
-import {OCTREE} from 'in-map/lib/Octree';
+import { OCTREE } from 'in-map/lib/Octree';
 
-import {OCTREE_LAYER} from 'in-map/misc/serviceLocator/physics/physicsConstants';
-import {addTimeEventListener} from 'in-map/misc/time';
-import {eventBus} from 'in-map/services/eventBus';
-
+import { OCTREE_LAYER } from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import { addTimeEventListener } from 'in-map/misc/time';
+import { eventBus } from 'in-map/services/eventBus';
 
 export default function createPhysicsService() {
   const octrees = [];
@@ -48,7 +47,7 @@ export default function createPhysicsService() {
 
   function addCollisionObject(obj, layer = 0) {
     if (obj) {
-      octrees[layer].add(obj, {useFaces: false});
+      octrees[layer].add(obj, { useFaces: false });
     }
   }
 
@@ -90,7 +89,8 @@ export default function createPhysicsService() {
         ray.origin,
         ray.far,
         true, // true -> organized by objects
-        ray.direction).filter(object => object.object.isEnabled);
+        ray.direction
+      ).filter(object => object.object.isEnabled);
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {

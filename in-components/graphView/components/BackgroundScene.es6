@@ -1,15 +1,14 @@
 import {
-PlaneBufferGeometry,
-OrthographicCamera,
-MeshBasicMaterial,
-LinearFilter,
-DoubleSide,
-Scene,
-Mesh
+  PlaneBufferGeometry,
+  OrthographicCamera,
+  MeshBasicMaterial,
+  LinearFilter,
+  DoubleSide,
+  Scene,
+  Mesh
 } from 'in-map/3DLibProvider';
 import galaxyImagePath from 'in-components/graphView/components/background.jpg';
-import {loadImage} from 'in-map/services/imageLoader';
-
+import { loadImage } from 'in-map/services/imageLoader';
 
 export default class BackgroundScene {
   constructor() {
@@ -21,10 +20,7 @@ export default class BackgroundScene {
       depthWrite: false
     });
 
-    const plane = this.plane = new Mesh(
-      new PlaneBufferGeometry(1, 1, 1, 1, 1, 1),
-      material
-    );
+    const plane = (this.plane = new Mesh(new PlaneBufferGeometry(1, 1, 1, 1, 1, 1), material));
 
     plane.rotationAutoUpdate = false;
     plane.matrixAutoUpdate = false;

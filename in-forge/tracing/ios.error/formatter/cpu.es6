@@ -39,20 +39,30 @@ const CPU_ARM_TYPES = {
 
 // register map
 const REGISTERS = {
-  ARM: [
-    'r0', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7',
-    'r8', 'r9', 'r10', 'r11', 'ip','sp', 'lr', 'pc',
-    'cpsr'
-  ],
-  X86: [
-    'eax', 'ebx', 'ecx', 'edx', 'edi', 'esi', 'ebp',
-    'esp', 'ss', 'eflags', 'eip', 'cs', 'ds', 'es',
-    'fs', 'gs'
-  ],
+  ARM: ['r0', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'r10', 'r11', 'ip', 'sp', 'lr', 'pc', 'cpsr'],
+  X86: ['eax', 'ebx', 'ecx', 'edx', 'edi', 'esi', 'ebp', 'esp', 'ss', 'eflags', 'eip', 'cs', 'ds', 'es', 'fs', 'gs'],
   X86_64: [
-    'rax', 'rbx', 'rcx', 'rdx', 'rdi', 'rsi', 'rbp',
-    'rsp', 'r8', 'r9', 'r10', 'r11', 'r12', 'r13',
-    'r14', 'r15', 'rip', 'rflags', 'cs', 'fs', 'gs'
+    'rax',
+    'rbx',
+    'rcx',
+    'rdx',
+    'rdi',
+    'rsi',
+    'rbp',
+    'rsp',
+    'r8',
+    'r9',
+    'r10',
+    'r11',
+    'r12',
+    'r13',
+    'r14',
+    'r15',
+    'rip',
+    'rflags',
+    'cs',
+    'fs',
+    'gs'
   ]
 };
 
@@ -112,7 +122,7 @@ export function get_registers(cpu) {
     return REGISTERS.ARM;
   }
 
-  if (~[ 'x86', 'i386', 'i486', 'i686' ].indexOf(cpu)) {
+  if (~['x86', 'i386', 'i486', 'i686'].indexOf(cpu)) {
     return REGISTERS.X86;
   }
 

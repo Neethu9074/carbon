@@ -1,18 +1,17 @@
-import {createMapForm, createField, notBlankValidator} from 'formalistic';
-import {fromJS, List} from 'immutable';
-import {createLogger} from 'instalog';
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { fromJS, List } from 'immutable';
+import { createLogger } from 'instalog';
 import React from 'react';
 
-import {getObjective, saveObjective, createObjective} from 'in-services/groundskeeper/objectives';
+import { getObjective, saveObjective, createObjective } from 'in-services/groundskeeper/objectives';
 import ObjectiveForm from 'in-views/configurationView/subview/ObjectiveConfig/ObjectiveForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import {openObjectivesConfig} from 'in-stores/navigation/configuration';
+import { openObjectivesConfig } from 'in-stores/navigation/configuration';
 import Section from 'in-views/configurationView/components/Section';
-import {queryValidator} from 'in-stores/search/validations';
+import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import Button from 'in-components/Button';
-
 
 const logger = createLogger('ObjectiveConfig');
 
@@ -44,7 +43,7 @@ export default React.createClass({
   },
 
   render() {
-    const {form, objective} = this.state;
+    const { form, objective } = this.state;
 
     return (
       <SubViewWrapper>
@@ -54,29 +53,28 @@ export default React.createClass({
 
         <form onSubmit={this.onSubmit}>
           <Section>
-            {form ?
-              <Button kind='success'
-                      type='submit'
-                      disabled={!form.hierarchyValid && form.touched}>
-                Save
-              </Button>
-            : null}
+            {form
+              ? <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                  Save
+                </Button>
+              : null}
 
-            {this.state.message ?
-              <Notification failure={this.state.error}
-                            loading={this.state.loading}>
-                {this.state.message}
-              </Notification>
-            : null}
+            {this.state.message
+              ? <Notification failure={this.state.error} loading={this.state.loading}>
+                  {this.state.message}
+                </Notification>
+              : null}
           </Section>
 
-          {form ?
-            <ObjectiveForm form={form}
-                       onChange={this.onChange}
-                       onChangeInThresholds={this.onChangeInThresholds}
-                       onAddThreshold={this.onAddThreshold}
-                       onRemoveThreshold={this.onRemoveThreshold} />
-          : null}
+          {form
+            ? <ObjectiveForm
+                form={form}
+                onChange={this.onChange}
+                onChangeInThresholds={this.onChangeInThresholds}
+                onAddThreshold={this.onAddThreshold}
+                onRemoveThreshold={this.onRemoveThreshold}
+              />
+            : null}
         </form>
 
       </SubViewWrapper>
@@ -128,14 +126,10 @@ export default React.createClass({
     let updatedForm = this.state.form;
     if (Array.isArray(fieldName)) {
       for (let i = 0, length = fieldName.length; i < length; i++) {
-        updatedForm = updatedForm.updateIn([fieldName[i]], field =>
-          field.setValue(value[i]).setTouched(true)
-        );
+        updatedForm = updatedForm.updateIn([fieldName[i]], field => field.setValue(value[i]).setTouched(true));
       }
     } else {
-      updatedForm = updatedForm.updateIn([fieldName], field =>
-        field.setValue(value).setTouched(true)
-      );
+      updatedForm = updatedForm.updateIn([fieldName], field => field.setValue(value).setTouched(true));
     }
 
     this.setState({
@@ -146,12 +140,17 @@ export default React.createClass({
   onAddThreshold() {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['thresholds'], field =>
-      field.setValue(field.value.push(fromJS({
-             value: 0,
-             severity: 0,
-             message: ''
-           })))
-           .setTouched(true));
+      field
+        .setValue(
+          field.value.push(
+            fromJS({
+              value: 0,
+              severity: 0,
+              message: ''
+            })
+          )
+        )
+        .setTouched(true));
 
     this.setState({
       form: updatedForm
@@ -161,8 +160,7 @@ export default React.createClass({
   onRemoveThreshold(index) {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['thresholds'], field =>
-      field.setValue(field.value.delete(index))
-           .setTouched(true));
+      field.setValue(field.value.delete(index)).setTouched(true));
 
     this.setState({
       form: updatedForm
@@ -172,8 +170,7 @@ export default React.createClass({
   onChangeInThresholds(index, fieldName, value) {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['thresholds'], field =>
-      field.setValue(field.value.setIn([index, fieldName], value))
-           .setTouched(true));
+      field.setValue(field.value.setIn([index, fieldName], value)).setTouched(true));
 
     this.setState({
       form: updatedForm
@@ -185,7 +182,7 @@ export default React.createClass({
 
     if (!this.state.form.hierarchyValid) {
       this.setState({
-        form: this.state.form.setTouched(true, {recurse: true})
+        form: this.state.form.setTouched(true, { recurse: true })
       });
       return;
     }
@@ -193,16 +190,20 @@ export default React.createClass({
     const objective = this.state.objective;
     const form = this.state.form;
 
-    const result$ = saveObjective(fromJS(createObjective(
-      objective ? objective.get('id') : null,
-      form.get('name').value,
-      objective ? objective.get('enabled') : true,
-      form.get('filteringQuery').value,
-      form.get('timePattern').value,
-      form.get('timeZoneId').value,
-      form.get('reductionOperation').value,
-      form.get('thresholds').value.toJS()
-    )));
+    const result$ = saveObjective(
+      fromJS(
+        createObjective(
+          objective ? objective.get('id') : null,
+          form.get('name').value,
+          objective ? objective.get('enabled') : true,
+          form.get('filteringQuery').value,
+          form.get('timePattern').value,
+          form.get('timeZoneId').value,
+          form.get('reductionOperation').value,
+          form.get('thresholds').value.toJS()
+        )
+      )
+    );
 
     this.disposeAsyncAction();
     this.setState({
@@ -229,30 +230,48 @@ function createForm(objective) {
   const rule = objective.get('rule');
 
   return createMapForm()
-    .put('name', createField({
-      value: objective ? objective.get('name') : '',
-      validator: notBlankValidator
-    }))
-    .put('filteringQuery', createField({
-      value: match ? match.get('filteringQuery') : '',
-      validator: queryValidator
-    }))
-    .put('timePattern', createField({
-      value: match ? match.get('timePattern') : '',
-      validator: notBlankValidator
-    }))
-    .put('timeZoneId', createField({
-      value: match ? match.get('timeZoneId') : '',
-      validator: notBlankValidator
-    }))
-    .put('reductionOperation', createField({
-      value: rule ? rule.get('reductionOperation') : '',
-      validator: notBlankValidator
-    }))
-    .put('thresholds', createField({
-      value: rule ? rule.get('thresholds') : List(),
-      validator: thresholdValidator
-    }));
+    .put(
+      'name',
+      createField({
+        value: objective ? objective.get('name') : '',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'filteringQuery',
+      createField({
+        value: match ? match.get('filteringQuery') : '',
+        validator: queryValidator
+      })
+    )
+    .put(
+      'timePattern',
+      createField({
+        value: match ? match.get('timePattern') : '',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'timeZoneId',
+      createField({
+        value: match ? match.get('timeZoneId') : '',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'reductionOperation',
+      createField({
+        value: rule ? rule.get('reductionOperation') : '',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'thresholds',
+      createField({
+        value: rule ? rule.get('thresholds') : List(),
+        validator: thresholdValidator
+      })
+    );
 }
 
 function thresholdValidator(thresholds) {
@@ -265,11 +284,9 @@ function thresholdValidator(thresholds) {
   thresholds.forEach((threshold, i) => {
     const value = threshold.get('value');
 
-    const isValueValid = (!isNaN(value)) && (value % 1 === 0) && (value >= 0) && (value !== '');
+    const isValueValid = !isNaN(value) && value % 1 === 0 && value >= 0 && value !== '';
     if (!isValueValid) {
-      messages.values[i] = [
-        'The value must be an integer >= 0'
-      ];
+      messages.values[i] = ['The value must be an integer >= 0'];
     }
 
     const messageError = notBlankValidator(threshold.get('message'));
@@ -285,8 +302,10 @@ function thresholdValidator(thresholds) {
     }
   });
 
-  return [{
-    severity: ((messages.values.length + messages.message.length + messages.severity.length) === 0) ? null : 'error',
-    messages
-  }];
+  return [
+    {
+      severity: messages.values.length + messages.message.length + messages.severity.length === 0 ? null : 'error',
+      messages
+    }
+  ];
 }

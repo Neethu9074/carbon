@@ -1,9 +1,8 @@
 import createEventObservable from 'in-services/subscription/event';
-import {mapSeverityToHealth, health} from 'in-services/health';
-import {focusEvent} from 'in-stores/navigation/view';
-import {clearSelectedEvent} from 'in-stores/events';
-import {theme} from 'in-services/theme';
-
+import { mapSeverityToHealth, health } from 'in-services/health';
+import { focusEvent } from 'in-stores/navigation/view';
+import { clearSelectedEvent } from 'in-stores/events';
+import { theme } from 'in-services/theme';
 
 export const EVENT_TYPES = {
   CHANGE: 0,
@@ -75,21 +74,19 @@ export function getEventType(event) {
       return EVENT_TYPES.OBJECTIVE;
     case 'change':
       return EVENT_TYPES.CHANGE;
-    case 'issue':
-      {
-        const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity'], 0));
-        if (eventHealth === health.warning) {
-          return EVENT_TYPES.ISSUE_WARNING;
-        } else if (eventHealth === health.danger) {
-          return EVENT_TYPES.ISSUE_CRITICAL;
-        }
-        return EVENT_TYPES.ISSUE_OK;
+    case 'issue': {
+      const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity'], 0));
+      if (eventHealth === health.warning) {
+        return EVENT_TYPES.ISSUE_WARNING;
+      } else if (eventHealth === health.danger) {
+        return EVENT_TYPES.ISSUE_CRITICAL;
       }
+      return EVENT_TYPES.ISSUE_OK;
+    }
     default:
       return EVENT_TYPES.CHANGE;
   }
 }
-
 
 export function selectEvent(event) {
   focusEvent(event.get('id'));
@@ -99,7 +96,6 @@ export function clearEvent() {
   clearSelectedEvent();
 }
 
-
 export function getEvent(eventId) {
-  return createEventObservable({eventId});
+  return createEventObservable({ eventId });
 }

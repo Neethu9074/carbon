@@ -1,6 +1,5 @@
-import {addKeywordOperator} from 'in-sdk/search/registry';
-import {fullyQualifiedPlugins} from 'in-forge/constants';
-
+import { addKeywordOperator } from 'in-sdk/search/registry';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 
 addKeywordOperator({
   context: 'entity',
@@ -42,14 +41,13 @@ addKeywordOperator({
 
 export function addSearchableEntityType(label, shortPluginId) {
   label = label.toLowerCase();
-  const typesForLabel = searchableEntityTypes[label] = searchableEntityTypes[label] || [];
+  const typesForLabel = (searchableEntityTypes[label] = searchableEntityTypes[label] || []);
   typesForLabel.push(fullyQualifiedPlugins[shortPluginId]);
 }
 
 export function translateSearchableEntityTypeToFullyQualifiedPluginIds(type) {
   return searchableEntityTypes[type.toLowerCase()];
 }
-
 
 const searchableTraceTypes = {
   // <type> => [<full name of trace plugin>]
@@ -74,10 +72,9 @@ addKeywordOperator({
 });
 export function addSearchableTraceType(label, name) {
   label = label.toLowerCase();
-  const typesForLabel = searchableTraceTypes[label] = searchableTraceTypes[label] || [];
+  const typesForLabel = (searchableTraceTypes[label] = searchableTraceTypes[label] || []);
   typesForLabel.push(name);
 }
-
 
 addKeywordOperator({
   context: 'trace',

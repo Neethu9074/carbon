@@ -1,21 +1,10 @@
-import {
-  millis,
-  muSecondsToMillis,
-  number
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { millis, muSecondsToMillis, number } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [
-      'threadPool.activeThreads',
-      'threadPool.poolSize'
-    ],
-    labels: [
-      'Active Threads',
-      'Pool Size'
-    ],
+    metrics: ['threadPool.activeThreads', 'threadPool.poolSize'],
+    labels: ['Active Threads', 'Pool Size'],
     min: 0,
     category: ['Thread Pool'],
     formatter: number

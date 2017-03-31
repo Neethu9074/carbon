@@ -2,7 +2,7 @@ import React from 'react';
 
 import Tooltip from 'in-components/Tooltip';
 
-export default function GeoLocation({geo}) {
+export default function GeoLocation({ geo }) {
   if (!geo) {
     return null;
   }
@@ -29,7 +29,7 @@ export default function GeoLocation({geo}) {
   }
 
   return (
-    <Tooltip content='Geo information by GeoLite2, data created by MaxMind, available from http://www.maxmind.com.'>
+    <Tooltip content="Geo information by GeoLite2, data created by MaxMind, available from http://www.maxmind.com.">
       <div>
         {location}
       </div>

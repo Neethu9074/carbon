@@ -1,14 +1,13 @@
 import React from 'react';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
-
-export default function Info({snapshot}) {
+export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title='Master Process ID'>
+      <DescriptionItem title="Master Process ID">
         {data.get('pid')}
       </DescriptionItem>
     </DescriptionList>

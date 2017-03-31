@@ -1,18 +1,9 @@
-import {
-  number
-} from 'in-services/formatters/number';
-
+import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    metrics: [
-      'instruments.http.sessions',
-      'instruments.concurrent.requests'
-    ],
-    labels: [
-      'Current Sessions',
-      'Concurrent Requests'
-    ],
+    metrics: ['instruments.http.sessions', 'instruments.concurrent.requests'],
+    labels: ['Current Sessions', 'Concurrent Requests'],
     min: 0,
     category: ['Traffic'],
     formatter: number

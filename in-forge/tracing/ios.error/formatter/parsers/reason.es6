@@ -1,4 +1,4 @@
-import {get_last_exception} from '../util';
+import { get_last_exception } from '../util';
 
 /**
  * Parses out the reason for why the error occurred. We take
@@ -11,13 +11,13 @@ import {get_last_exception} from '../util';
 export function parseReasons(report) {
   var rows = [''];
 
-  var crash  = report['crash'] || {};
-  var error  = crash['error'];
-  var type   = error['type'];
+  var crash = report['crash'] || {};
+  var error = crash['error'];
+  var type = error['type'];
   var reason = error['reason'];
 
   var user_exception = error['user_reported'];
-  var ns_exception   = error['nsexception'];
+  var ns_exception = error['nsexception'];
 
   if (ns_exception) {
     rows.push(format(ns_exception));
@@ -30,8 +30,10 @@ export function parseReasons(report) {
 
     if (last_exception) {
       rows.push(format(last_exception, reason));
-      rows.push('NOTE: This exception has been deallocated! ' +
-        'Stack trace is crash from attempting to access this zombie exception.');
+      rows.push(
+        'NOTE: This exception has been deallocated! ' +
+          'Stack trace is crash from attempting to access this zombie exception.'
+      );
       rows.push('');
     }
 
@@ -77,9 +79,9 @@ function format(exception, reason) {
 }
 
 function zombie_exception(report) {
-  var crash  = report['crash'] || {};
-  var error  = crash['error'];
-  var mach   = error['mach'];
+  var crash = report['crash'] || {};
+  var error = crash['error'];
+  var mach = error['mach'];
 
   var exc_name = mach['exception_name'] || '0';
   var code_name = mach['code_name'] || '0x00000000';

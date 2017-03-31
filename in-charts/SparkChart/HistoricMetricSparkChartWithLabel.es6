@@ -6,7 +6,6 @@ import MetricValue from 'in-components/MetricValue';
 
 import './HistoricMetricSparkChartWithLabel.less';
 
-
 const rpt = React.PropTypes;
 const block = 'in-spark-chart-with-label';
 
@@ -25,14 +24,18 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
-        <MetricValue snapshotId={this.props.snapshotId}
-                     metric={this.props.metric}
-                     formatter={this.props.formatter}
-                     className={block + '__value'} />
-        <HistoricMetricSparkChart {...this.props}
-                                  design={this.props.design}
-                                  className={block + '__chart'}
-                                  tooltipFormatter={this.props.formatter} />
+        <MetricValue
+          snapshotId={this.props.snapshotId}
+          metric={this.props.metric}
+          formatter={this.props.formatter}
+          className={block + '__value'}
+        />
+        <HistoricMetricSparkChart
+          {...this.props}
+          design={this.props.design}
+          className={block + '__chart'}
+          tooltipFormatter={this.props.formatter}
+        />
       </div>
     );
   }

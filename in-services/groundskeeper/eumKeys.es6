@@ -4,8 +4,7 @@ export function getAllEumKeys() {
   return http({
     method: 'GET',
     url: `/api/eumApps`
-  })
-  .map(response => {
+  }).map(response => {
     const keys = response.body || [];
     keys.sort((a, b) => a.appName.localeCompare(b.appName));
     return keys;
@@ -16,8 +15,7 @@ export function removeKey(keyId) {
   return http({
     method: 'DELETE',
     url: `/api/eumApps/${encodeURIComponent(keyId)}`
-  })
-  .map(response => response.body);
+  }).map(response => response.body);
 }
 
 export function addKey(appName) {
@@ -27,10 +25,8 @@ export function addKey(appName) {
     queryParams: {
       name: appName
     }
-  })
-  .map(response => response.body);
+  }).map(response => response.body);
 }
-
 
 export function renameKey(apiKey, newAppName) {
   return http({
@@ -39,6 +35,5 @@ export function renameKey(apiKey, newAppName) {
     queryParams: {
       name: newAppName
     }
-  })
-  .map(response => response);
+  }).map(response => response);
 }

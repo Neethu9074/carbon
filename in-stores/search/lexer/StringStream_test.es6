@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import StringStream from 'in-stores/search/lexer/StringStream';
 

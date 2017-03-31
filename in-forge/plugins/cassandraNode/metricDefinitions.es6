@@ -1,10 +1,5 @@
-import {
-  muSecondsToMillis,
-  percentage,
-  number
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { muSecondsToMillis, percentage, number } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -81,18 +76,8 @@ export default [
     formatter: number
   },
   {
-    metrics: [
-      'cache.counter.hit',
-      'cache.key.hit',
-      'cache.row.hit',
-      'bloomFilterFalse'
-    ],
-    labels: [
-      'Counter',
-      'Key',
-      'Row',
-      'Miss Rate'
-    ],
+    metrics: ['cache.counter.hit', 'cache.key.hit', 'cache.row.hit', 'bloomFilterFalse'],
+    labels: ['Counter', 'Key', 'Row', 'Miss Rate'],
     min: 0,
     max: 1,
     formatter: percentage

@@ -1,8 +1,7 @@
 /* eslint-env mocha */
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {rgbToHex, hexToRGB, hexToRGBNormalized} from 'in-services/formatters/color';
-
+import { rgbToHex, hexToRGB, hexToRGBNormalized } from 'in-services/formatters/color';
 
 describe('in-services/formatters/color', () => {
   describe('formatColors', () => {

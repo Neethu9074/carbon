@@ -7,8 +7,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function Sidebar({snapshot}) {
+export default function Sidebar({ snapshot }) {
   return (
     <div>
       <Separator />

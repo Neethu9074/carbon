@@ -1,11 +1,10 @@
 /* eslint-env mocha, node */
 import proxyquire from 'proxyquire';
 import RoEmitter from 'roemitter';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import createObjectCollection from 'in-map/stores/ObjectCollectionStream';
-
 
 describe('in-map', () => {
   describe('misc/physical/LayerLayouter', () => {
@@ -51,27 +50,26 @@ describe('in-map', () => {
       });
 
       it('should return 1 if there are is one plugins', () => {
-        expect(layouter.countDifferentPluginsFromSortedArray([
-          { _cachedPlugin: 'plugin1' }
-        ])).to.equal(1);
+        expect(layouter.countDifferentPluginsFromSortedArray([{ _cachedPlugin: 'plugin1' }])).to.equal(1);
       });
 
       it('should return 2 if there are two plugins', () => {
-        expect(layouter.countDifferentPluginsFromSortedArray([
-          { _cachedPlugin: 'plugin1' },
-          { _cachedPlugin: 'plugin2' }
-        ])).to.equal(2);
+        expect(
+          layouter.countDifferentPluginsFromSortedArray([{ _cachedPlugin: 'plugin1' }, { _cachedPlugin: 'plugin2' }])
+        ).to.equal(2);
       });
 
       it('should return 3 if there are multiple objects with the same plugins', () => {
-        expect(layouter.countDifferentPluginsFromSortedArray([
-          { _cachedPlugin: 'plugin1' },
-          { _cachedPlugin: 'plugin1' },
-          { _cachedPlugin: 'plugin2' },
-          { _cachedPlugin: 'plugin2' },
-          { _cachedPlugin: 'plugin3' },
-          { _cachedPlugin: 'plugin2' }
-        ])).to.equal(3);
+        expect(
+          layouter.countDifferentPluginsFromSortedArray([
+            { _cachedPlugin: 'plugin1' },
+            { _cachedPlugin: 'plugin1' },
+            { _cachedPlugin: 'plugin2' },
+            { _cachedPlugin: 'plugin2' },
+            { _cachedPlugin: 'plugin3' },
+            { _cachedPlugin: 'plugin2' }
+          ])
+        ).to.equal(3);
       });
     });
 
@@ -89,15 +87,14 @@ describe('in-map', () => {
       });
     });
 
-
     it('should add a plugins to factory and center it', () => {
-      const nodePosition = {x: 1, y: 2, z: 3};
-      const nodeScale = {x: 1, y: 4, z: 1};
+      const nodePosition = { x: 1, y: 2, z: 3 };
+      const nodeScale = { x: 1, y: 4, z: 1 };
 
       eventEmitter.emit('positionChanged', nodePosition);
       eventEmitter.emit('scaleChanged', nodeScale);
 
-      layer.add('id1',  createLayer('plugin_1'));
+      layer.add('id1', createLayer('plugin_1'));
 
       expect(factory.add.getCall(0).args).to.have.length(1);
 
@@ -106,14 +103,14 @@ describe('in-map', () => {
     });
 
     it('should only add unique plugins to factory', () => {
-      const nodePosition = {x: 1, y: 2, z: 3};
-      const nodeScale = {x: 1, y: 4, z: 1};
+      const nodePosition = { x: 1, y: 2, z: 3 };
+      const nodeScale = { x: 1, y: 4, z: 1 };
 
       eventEmitter.emit('positionChanged', nodePosition);
       eventEmitter.emit('scaleChanged', nodeScale);
 
-      layer.add('id1',  createLayer('plugin_1'));
-      layer.add('id2',  createLayer('plugin_2'));
+      layer.add('id1', createLayer('plugin_1'));
+      layer.add('id2', createLayer('plugin_2'));
 
       expect(factory.add.getCall(0).args).to.have.length(1);
 
@@ -122,11 +119,11 @@ describe('in-map', () => {
     });
 
     it('should position the layer icons in the middle', () => {
-      const nodePosition = {x: 1, y: 2, z: 3};
-      const nodeScale = {x: 1, y: 4, z: 1};
+      const nodePosition = { x: 1, y: 2, z: 3 };
+      const nodeScale = { x: 1, y: 4, z: 1 };
 
-      layer.add('id1',  createLayer('plugin_1'));
-      layer.add('id2',  createLayer('plugin_2'));
+      layer.add('id1', createLayer('plugin_1'));
+      layer.add('id2', createLayer('plugin_2'));
 
       eventEmitter.emit('positionChanged', nodePosition);
       eventEmitter.emit('scaleChanged', nodeScale);
@@ -136,15 +133,15 @@ describe('in-map', () => {
     });
 
     it('should merge same plugins', () => {
-      const nodePosition = {x: 1, y: 2, z: 3};
-      const nodeScale = {x: 1, y: 6, z: 1};
+      const nodePosition = { x: 1, y: 2, z: 3 };
+      const nodeScale = { x: 1, y: 6, z: 1 };
 
-      layer.add('id1',  createLayer('plugin_1'));
-      layer.add('id2',  createLayer('plugin_1'));
-      layer.add('id3',  createLayer('plugin_2'));
-      layer.add('id4',  createLayer('plugin_2'));
-      layer.add('id5',  createLayer('plugin_3'));
-      layer.add('id6',  createLayer('plugin_4'));
+      layer.add('id1', createLayer('plugin_1'));
+      layer.add('id2', createLayer('plugin_1'));
+      layer.add('id3', createLayer('plugin_2'));
+      layer.add('id4', createLayer('plugin_2'));
+      layer.add('id5', createLayer('plugin_3'));
+      layer.add('id6', createLayer('plugin_4'));
 
       eventEmitter.emit('positionChanged', nodePosition);
       eventEmitter.emit('scaleChanged', nodeScale);

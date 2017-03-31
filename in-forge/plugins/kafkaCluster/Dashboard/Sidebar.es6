@@ -8,8 +8,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-export default function KafkaClusterSidebar({snapshot}) {
-
+export default function KafkaClusterSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -22,8 +21,7 @@ export default function KafkaClusterSidebar({snapshot}) {
 
       <ClusterMemberList snapshotId={snapshot.get('id')} />
 
-      <KeyValuePopup header='Topics/Partitions'
-                     data={snapshot.getIn(['data', 'partitions'])} />
+      <KeyValuePopup header="Topics/Partitions" data={snapshot.getIn(['data', 'partitions'])} />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

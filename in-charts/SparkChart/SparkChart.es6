@@ -1,25 +1,29 @@
-import {on} from 'reactive-observables';
-import {sortedIndexBy} from 'lodash';
+import { on } from 'reactive-observables';
+import { sortedIndexBy } from 'lodash';
 
 import createDataHolder from 'in-charts/data/dataHolder';
-import {updateCanvasDimensions} from 'in-charts/canvas';
-import {serverTime$} from 'in-stores/serverTime';
+import { updateCanvasDimensions } from 'in-charts/canvas';
+import { serverTime$ } from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 
-import {highlightedMoment$, setHighlightedMoment, clearHighlightedMoment} from 'in-stores/timeline';
+import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 
 import './SparkChart.less';
 
 const block = 'in-spark-chart';
 
-export default function createSparkChart({width,
-                                          height,
-                                          datasource,
-                                          container,
-                                          timeframe,
-                                          tooltipFormatter,
-                                          design = 'light',
-                                          wiggleRoom}) {
+export default function createSparkChart(
+  {
+    width,
+    height,
+    datasource,
+    container,
+    timeframe,
+    tooltipFormatter,
+    design = 'light',
+    wiggleRoom
+  }
+) {
   let metricLineStrokeColor;
   let metricLineFillColor;
   let metricAxisStrokeColor;
@@ -33,7 +37,7 @@ export default function createSparkChart({width,
     metricAxisStrokeColor = '#ffffff';
   }
 
-  const dataHolder = createDataHolder({numberOfSeries: 1});
+  const dataHolder = createDataHolder({ numberOfSeries: 1 });
   const xScale = createScale();
   xScale.setRangeFrom(0);
   xScale.setRangeTo(width);
@@ -93,30 +97,25 @@ export default function createSparkChart({width,
     }
   });
 
-  on(glassPane, 'mousemove')
-    .subscribe(e => setHighlightedMoment(xScale.getDomain(e.offsetX)));
+  on(glassPane, 'mousemove').subscribe(e => setHighlightedMoment(xScale.getDomain(e.offsetX)));
 
-  on(glassPane, 'mouseleave')
-    .subscribe(clearHighlightedMoment);
+  on(glassPane, 'mouseleave').subscribe(clearHighlightedMoment);
 
-  const highlightedMomentSubscription = highlightedMoment$
-    .subscribe(highlightedMoment => {
-      if (highlightedMoment) {
-        tooltipContainer.style.display = 'block';
-        tooltipLine.style.display = 'block';
-        tooltipLine.style.left = `${xScale.getRange(highlightedMoment)}px`;
-        fillTooltip(highlightedMoment);
-      } else {
-        tooltipContainer.style.display = 'none';
-        tooltipLine.style.display = 'none';
-      }
-    });
-
+  const highlightedMomentSubscription = highlightedMoment$.subscribe(highlightedMoment => {
+    if (highlightedMoment) {
+      tooltipContainer.style.display = 'block';
+      tooltipLine.style.display = 'block';
+      tooltipLine.style.left = `${xScale.getRange(highlightedMoment)}px`;
+      fillTooltip(highlightedMoment);
+    } else {
+      tooltipContainer.style.display = 'none';
+      tooltipLine.style.display = 'none';
+    }
+  });
 
   return {
     dispose
   };
-
 
   function dispose() {
     dataSubscription.dispose();
@@ -126,7 +125,6 @@ export default function createSparkChart({width,
     }
     container.removeChild(wrapper);
   }
-
 
   function render() {
     const dataColumns = dataHolder.getDataColumns();
@@ -139,9 +137,7 @@ export default function createSparkChart({width,
     ctx.beginPath();
     let xToRender;
     let firstX;
-    for (let columnIndex = 0, len = dataColumns.length;
-         columnIndex < len;
-         columnIndex++) {
+    for (let columnIndex = 0, len = dataColumns.length; columnIndex < len; columnIndex++) {
       const dataRow = dataColumns[columnIndex];
       xToRender = xScale.getRange(dataRow[0]);
 
@@ -176,7 +172,6 @@ export default function createSparkChart({width,
     ctx.closePath();
   }
 
-
   function updateYScale(dataColumns) {
     let min = dataColumns[0][1];
     let max = dataColumns[0][1];
@@ -189,7 +184,6 @@ export default function createSparkChart({width,
     yScale.setDomainFrom(min);
     yScale.setDomainTo(max);
   }
-
 
   function fillTooltip(highlightedMoment) {
     const dataPoint = lookForDataPoint(highlightedMoment);
@@ -205,7 +199,7 @@ export default function createSparkChart({width,
 
     tooltipContainer.textContent = valueToShow;
     const x = xScale.getRange(dataPoint[0]);
-    if (x > (width / 2)) {
+    if (x > width / 2) {
       const position = width - x + 10;
       tooltipContainer.style.right = `${position}px`;
       tooltipContainer.style.left = null;
@@ -216,23 +210,18 @@ export default function createSparkChart({width,
     }
   }
 
-
   function lookForDataPoint(highlightedMoment) {
     const dataColumns = dataHolder.getDataColumns();
     if (dataColumns.length === 0) {
       return null;
     }
-    const i = sortedIndexBy(
-      dataColumns,
-      highlightedMoment,
-      column => {
-        if (column.time) {
-          return column.time;
-        }
-        // this iteratee function will be called for the search value as well
-        return column;
+    const i = sortedIndexBy(dataColumns, highlightedMoment, column => {
+      if (column.time) {
+        return column.time;
       }
-    );
+      // this iteratee function will be called for the search value as well
+      return column;
+    });
     return dataColumns[i];
   }
 }

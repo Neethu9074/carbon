@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 import createScale from 'in-charts/scale';
 
 import './NavigationTiming.less';
@@ -10,28 +10,36 @@ const timings = [
   {
     prop: 'unl',
     label: 'Unload'
-  }, {
+  },
+  {
     prop: 'red',
     label: 'Redirect'
-  }, {
+  },
+  {
     prop: 'apc',
     label: 'AppCache'
-  }, {
+  },
+  {
     prop: 'dns',
     label: 'DNS'
-  }, {
+  },
+  {
     prop: 'tcp',
     label: 'TCP'
-  }, {
+  },
+  {
     prop: 'req',
     label: 'Request'
-  }, {
+  },
+  {
     prop: 'rsp',
     label: 'Response'
-  }, {
+  },
+  {
     prop: 'pro',
     label: 'Processing'
-  }, {
+  },
+  {
     prop: 'loa',
     label: 'Load'
   }
@@ -59,8 +67,7 @@ export default function NavigationTiming(props) {
         elapsedTime += time;
 
         return (
-          <div key={timing.prop}
-               className={`${block}__timings`}>
+          <div key={timing.prop} className={`${block}__timings`}>
             <dt className={`${block}__label`}>
               {timing.label}
             </dt>
@@ -68,11 +75,13 @@ export default function NavigationTiming(props) {
               {msZeroDecimalPlaces(time)}
             </dd>
             <div className={`${block}__indicator-wrapper`}>
-              <div style={{
-                     left: `${offset}%`,
-                     width: `${width}%`
-                   }}
-                   className={`${block}__indicator`} />
+              <div
+                style={{
+                  left: `${offset}%`,
+                  width: `${width}%`
+                }}
+                className={`${block}__indicator`}
+              />
             </div>
           </div>
         );

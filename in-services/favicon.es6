@@ -1,8 +1,7 @@
 import Favico from 'favico.js';
 
-import {openEventsAtServerTime$} from 'in-stores/events';
-import {theme} from 'in-services/theme';
-
+import { openEventsAtServerTime$ } from 'in-stores/events';
+import { theme } from 'in-services/theme';
 
 const noIncidents = {
   count: 0,
@@ -11,8 +10,8 @@ const noIncidents = {
 
 export function init() {
   const favicon = new Favico({
-      animation: 'none',
-      textColor: '#000000'
+    animation: 'none',
+    textColor: '#000000'
   });
 
   openEventsAtServerTime$
@@ -29,7 +28,9 @@ export function init() {
 
       return noIncidents;
     })
-    .distinct((prev, next) => prev.color !== next.color || prev.count !== next.count || prev.textColor !== next.textColor)
+    .distinct(
+      (prev, next) => prev.color !== next.color || prev.count !== next.count || prev.textColor !== next.textColor
+    )
     .subscribe(config => {
       favicon.badge(config.count, {
         bgColor: config.color,

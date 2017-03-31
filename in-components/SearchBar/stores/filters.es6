@@ -1,11 +1,11 @@
-import {createLogger} from 'instalog';
-import {List} from 'immutable';
+import { createLogger } from 'instalog';
+import { List } from 'immutable';
 import React from 'react';
 
-import {getAllFilters, removeFilter} from 'in-services/groundskeeper/filters';
-import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
+import { getAllFilters, removeFilter } from 'in-services/groundskeeper/filters';
+import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 const logger = createLogger('SearchBar/stores/filers');
 
@@ -35,29 +35,30 @@ export function refresh() {
   });
 }
 
-
 export function remove(id, name) {
   setActiveDialog(
-    <ConfirmationDialog header='Confirm removal'
-                        description={
-                          <span>
-                            Are you sure you want to remove the filter <strong>{name}</strong>?
-                          </span>
-                        }
-                        bButtonLabel='Remove filter'
-                        onB={() => {
-                          close();
-                          const result$ = removeFilter(id);
+    <ConfirmationDialog
+      header="Confirm removal"
+      description={
+        <span>
+          Are you sure you want to remove the filter <strong>{name}</strong>?
+        </span>
+      }
+      bButtonLabel="Remove filter"
+      onB={() => {
+        close();
+        const result$ = removeFilter(id);
 
-                          result$.once(() => {
-                            errorStore.mutateTo(null);
-                            refresh();
-                          });
+        result$.once(() => {
+          errorStore.mutateTo(null);
+          refresh();
+        });
 
-                          result$.errors().once(error => {
-                            logger.error(`Failed to remove filter ${id}: ${error.message}`, error);
-                            errorStore.mutateTo('Failed to remove filter.');
-                          });
-                        }} />
+        result$.errors().once(error => {
+          logger.error(`Failed to remove filter ${id}: ${error.message}`, error);
+          errorStore.mutateTo('Failed to remove filter.');
+        });
+      }}
+    />
   );
 }

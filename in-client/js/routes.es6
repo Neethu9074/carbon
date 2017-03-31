@@ -1,8 +1,11 @@
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully functional
-import ElasticServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
-import HttpServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
-import EjbServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
+import ElasticServiceExtractionConfiguration
+  from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
+import HttpServiceExtractionConfiguration
+  from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
+import EjbServiceExtractionConfiguration
+  from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
 import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import DeploymentOverview from 'promise?global,internal!in-views/internal/DeploymentOverview/DeploymentOverview';
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
@@ -21,15 +24,15 @@ import Rule from 'promise?global,configView!in-views/configurationView/subview/R
 import AuditLogView from 'promise?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
-import {instanaInternalFeaturesEnabled} from 'in-services/featureFlags';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
 import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
 import LogView from 'promise?global!in-views/logView/LogView';
-import {Route, IndexRedirect} from 'react-router';
+import { Route, IndexRedirect } from 'react-router';
 import React from 'react';
 
-import {createAsyncFullscreenOverlayViewComponent} from 'in-components/routing/createAsyncComponent';
+import { createAsyncFullscreenOverlayViewComponent } from 'in-components/routing/createAsyncComponent';
 import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
@@ -38,144 +41,137 @@ import App from 'in-client/js/App';
 import Map from 'in-map/index';
 
 export default (
-  <Route path='/'
-         component={App}>
-    <Route path='physical'
-           component={Map}
-           windowTitle='Infrastructure Host Map'>
-      <Route path='dashboard'
-             component={Dashboard}
-             windowTitle='Dashboard' />
+  <Route path="/" component={App}>
+    <Route path="physical" component={Map} windowTitle="Infrastructure Host Map">
+      <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
     </Route>
 
-    <Route path='logical'
-           component={Map}
-           windowTitle='Application Map'>
-      <Route path='dashboard'
-             component={Dashboard}
-             windowTitle='Dashboard' />
+    <Route path="logical" component={Map} windowTitle="Application Map">
+      <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
     </Route>
 
-    <Route path='container'
-           component={Map}
-           windowTitle='Infrastructure Container Map'>
-      <Route path='dashboard'
-             component={Dashboard}
-             windowTitle='Dashboard' />
+    <Route path="container" component={Map} windowTitle="Infrastructure Container Map">
+      <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
     </Route>
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)}
-           path='traces'
-           windowTitle='Traces'>
-      <Route path='dashboard'
-             component={Dashboard}
-             windowTitle='Dashboard' />
+    <Route component={createAsyncFullscreenOverlayViewComponent(TraceView)} path="traces" windowTitle="Traces">
+      <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
     </Route>
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(EventView)}
-           path='events'
-           windowTitle='Events'>
-      <Route component={Dashboard}
-             path='dashboard'
-             windowTitle='Dashboard' />
+    <Route component={createAsyncFullscreenOverlayViewComponent(EventView)} path="events" windowTitle="Events">
+      <Route component={Dashboard} path="dashboard" windowTitle="Dashboard" />
     </Route>
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(TableView)}
-           path='table'
-           windowTitle='Comparison Table'>
-      <Route component={Dashboard}
-             path='dashboard'
-             windowTitle='Dashboard' />
+    <Route component={createAsyncFullscreenOverlayViewComponent(TableView)} path="table" windowTitle="Comparison Table">
+      <Route component={Dashboard} path="dashboard" windowTitle="Dashboard" />
     </Route>
 
-    <Route component={createAsyncFullscreenOverlayViewComponent(LogView)}
-           path='logs'
-           windowTitle='Logs'>
-      <Route component={Dashboard}
-             path='dashboard'
-             windowTitle='Dashboard' />
+    <Route component={createAsyncFullscreenOverlayViewComponent(LogView)} path="logs" windowTitle="Logs">
+      <Route component={Dashboard} path="dashboard" windowTitle="Dashboard" />
     </Route>
 
-    <Route path='config'
-           component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}
-           windowTitle='Settings'>
-      <Route component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
-             path='httpServiceExtraction'
-             windowTitle='HTTP Service Extraction' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(EjbServiceExtractionConfiguration)}
-             path='ejbServiceExtraction'
-             windowTitle='EJB Service Extraction' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(ElasticServiceExtractionConfiguration)}
-             path='elasticsearchServiceExtraction'
-             windowTitle='Elasticsearch Service Extraction' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
-             path='userInterface'
-             windowTitle='User Interface Settings' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
-             path='eumKeys'
-             windowTitle='EUM Keys' />
+    <Route
+      path="config"
+      component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}
+      windowTitle="Settings"
+    >
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
+        path="httpServiceExtraction"
+        windowTitle="HTTP Service Extraction"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(EjbServiceExtractionConfiguration)}
+        path="ejbServiceExtraction"
+        windowTitle="EJB Service Extraction"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(ElasticServiceExtractionConfiguration)}
+        path="elasticsearchServiceExtraction"
+        windowTitle="Elasticsearch Service Extraction"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
+        path="userInterface"
+        windowTitle="User Interface Settings"
+      />
+      <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)} path="eumKeys" windowTitle="EUM Keys" />
 
-      <Route component={createAsyncFullscreenOverlayViewComponent(RolesConfig)}
-             path='rolesConfig'
-             windowTitle='Role Config' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)}
-             path='rolesConfig/:roleId'
-             windowTitle='Role Config' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
-             path='users'
-             windowTitle='User Management' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(ApiTokens)}
-             path='apiTokens'
-             windowTitle='API Tokens' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(ApiToken)}
-             path='apiTokens/:apiTokenId'
-             windowTitle='API Tokens' />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(RolesConfig)}
+        path="rolesConfig"
+        windowTitle="Role Config"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(RoleConfig)}
+        path="rolesConfig/:roleId"
+        windowTitle="Role Config"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
+        path="users"
+        windowTitle="User Management"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(ApiTokens)}
+        path="apiTokens"
+        windowTitle="API Tokens"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(ApiToken)}
+        path="apiTokens/:apiTokenId"
+        windowTitle="API Tokens"
+      />
 
-      <Route component={createAsyncFullscreenOverlayViewComponent(Rules)}
-             path='rule'
-             windowTitle='Custom Rules' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(Rule)}
-             path='rule/:ruleId'
-             windowTitle='Custom Rule' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)}
-             path='binding'
-             windowTitle='Custom Issues' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
-             path='binding/:ruleBindingId'
-             windowTitle='Custom Issue' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(Rules)} path="rule" windowTitle="Custom Rules" />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(Rule)}
+        path="rule/:ruleId"
+        windowTitle="Custom Rule"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(RuleBindings)}
+        path="binding"
+        windowTitle="Custom Issues"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
+        path="binding/:ruleBindingId"
+        windowTitle="Custom Issue"
+      />
 
-      <Route component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)}
-             path='objectives'
-             windowTitle='Objectives' />
-      <Route component={createAsyncFullscreenOverlayViewComponent(ObjectiveConfig)}
-             path='objectives/:objectiveId'
-             windowTitle='Objectives' />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)}
+        path="objectives"
+        windowTitle="Objectives"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(ObjectiveConfig)}
+        path="objectives/:objectiveId"
+        windowTitle="Objectives"
+      />
 
-      <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)}
-             path='auditlog'
-             windowTitle='Audit Log' />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(AuditLogView)}
+        path="auditlog"
+        windowTitle="Audit Log"
+      />
     </Route>
 
-    <Route component={GraphView}
-           path='graph'
-           windowTitle='Graph' />
-    <Route component={GlobeView}
-           path='globe'
-           windowTitle='World Globe' />
-    <Route component={WebVRView}
-           path='webVR/physical'
-           windowTitle='Physical WebVR View' />
-    <Route component={WebVRView}
-           path='webVR/logical'
-           windowTitle='Logical WebVR View' />
+    <Route component={GraphView} path="graph" windowTitle="Graph" />
+    <Route component={GlobeView} path="globe" windowTitle="World Globe" />
+    <Route component={WebVRView} path="webVR/physical" windowTitle="Physical WebVR View" />
+    <Route component={WebVRView} path="webVR/logical" windowTitle="Logical WebVR View" />
 
     {/* Internal dashboards */}
-    {instanaInternalFeaturesEnabled ?
-      <Route component={createAsyncFullscreenOverlayViewComponent(DeploymentOverview)}
-             path='/internal/deploymentOverview'
-             windowTitle='Deployment Overview' />
-    : null}
+    {instanaInternalFeaturesEnabled
+      ? <Route
+          component={createAsyncFullscreenOverlayViewComponent(DeploymentOverview)}
+          path="/internal/deploymentOverview"
+          windowTitle="Deployment Overview"
+        />
+      : null}
 
-    <IndexRedirect to='/physical' />
+    <IndexRedirect to="/physical" />
   </Route>
 );

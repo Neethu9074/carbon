@@ -1,13 +1,12 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {msTwoDecimalPlaces, zeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
-import {KpiSection, KpiHeading, KpiKeyValue} from 'in-sdk/components/dashboard/KpiSection';
+import { msTwoDecimalPlaces, zeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import MetricValue from 'in-components/MetricValue';
-import {getLabel} from 'in-sdk/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
 
-
-export default function DefaultKpiSection({snapshot}) {
+export default function DefaultKpiSection({ snapshot }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -15,20 +14,14 @@ export default function DefaultKpiSection({snapshot}) {
       <KpiHeading>
         {getLabel(snapshot)}
       </KpiHeading>
-      <KpiKeyValue label='calls/s'>
-        <MetricValue snapshotId={snapshotId}
-                     metric='count'
-                     formatter={zeroDecimalPlaces} />
+      <KpiKeyValue label="calls/s">
+        <MetricValue snapshotId={snapshotId} metric="count" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
-      <KpiKeyValue label='avg. latency'>
-        <MetricValue snapshotId={snapshotId}
-                     metric='duration.mean'
-                     formatter={msTwoDecimalPlaces} />
+      <KpiKeyValue label="avg. latency">
+        <MetricValue snapshotId={snapshotId} metric="duration.mean" formatter={msTwoDecimalPlaces} />
       </KpiKeyValue>
-      <KpiKeyValue label='error rate'>
-        <MetricValue snapshotId={snapshotId}
-                     metric='error_rate'
-                     formatter={percentageTwoDecimalPlaces} />
+      <KpiKeyValue label="error rate">
+        <MetricValue snapshotId={snapshotId} metric="error_rate" formatter={percentageTwoDecimalPlaces} />
       </KpiKeyValue>
     </KpiSection>
   );

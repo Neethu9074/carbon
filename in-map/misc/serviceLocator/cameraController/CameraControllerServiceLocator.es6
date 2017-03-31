@@ -1,6 +1,5 @@
 import createNullService from 'in-map/misc/serviceLocator/cameraController/CameraControllerNullService';
 
-
 const CameraControllerServiceLocator = (function create() {
   const nullService = createNullService();
   let service = nullService;
@@ -53,6 +52,6 @@ const CameraControllerServiceLocator = (function create() {
     update,
     provide
   };
-}());
+})();
 
 export default CameraControllerServiceLocator;

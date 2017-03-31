@@ -7,7 +7,7 @@ import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 
 import Info from '../Info';
 
-export default function PythonDashboardSidebar({snapshot}) {
+export default function PythonDashboardSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -19,8 +19,7 @@ export default function PythonDashboardSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <KeyValuePopup header='Loaded Modules'
-                     data={snapshot.getIn(['data', 'snapshot.versions'])} />
+      <KeyValuePopup header="Loaded Modules" data={snapshot.getIn(['data', 'snapshot.versions'])} />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

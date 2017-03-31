@@ -1,10 +1,9 @@
 /* eslint-env mocha */
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import ColorGenerator from './ColorGenerator';
 
 describe('util.ColorGenerator', () => {
-
   it('should return only 2 colors', () => {
     const c = new ColorGenerator(2);
 
@@ -41,5 +40,4 @@ describe('util.ColorGenerator', () => {
     expect(color1.s).not.to.equal(color4.s);
     expect(color1.l).not.to.equal(color4.l);
   });
-
 });

@@ -1,6 +1,5 @@
 import createCollection from 'in-map/stores/ObjectCollectionStream';
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 export const nodes = createCollection();
 

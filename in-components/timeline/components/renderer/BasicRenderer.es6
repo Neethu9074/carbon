@@ -1,5 +1,4 @@
 export default class BasicRenderer {
-
   constructor(backBuffer, scale) {
     this.backBuffer = backBuffer;
     this.scale = scale;

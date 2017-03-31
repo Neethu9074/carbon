@@ -1,19 +1,25 @@
 import React from 'react';
 
-import {lex, getTokenForColumn, isTerm, isField, isFieldSeparator, isOperator, isWhitespace} from 'in-stores/search/lexer';
-import {getSubstringTillDotBackwards, getCursorTillNextDot} from 'in-components/SearchBar/misc/stringUtils';
-import {findNode, operatorTree} from 'in-stores/search/fields';
-import {evaluateClassNames} from 'in-services/util/classnames';
-import {emptyArray} from 'in-services/fixedObjects';
+import {
+  lex,
+  getTokenForColumn,
+  isTerm,
+  isField,
+  isFieldSeparator,
+  isOperator,
+  isWhitespace
+} from 'in-stores/search/lexer';
+import { getSubstringTillDotBackwards, getCursorTillNextDot } from 'in-components/SearchBar/misc/stringUtils';
+import { findNode, operatorTree } from 'in-stores/search/fields';
+import { evaluateClassNames } from 'in-services/util/classnames';
+import { emptyArray } from 'in-services/fixedObjects';
 import keyCodes from 'in-components/keyCodes';
 
 import './Suggestions.less';
 
-
 const block = 'in-search-suggestions';
 
 export default React.createClass({
-
   displayName: 'Suggestion',
 
   getInitialState() {
@@ -42,8 +48,8 @@ export default React.createClass({
   },
 
   render() {
-    const {config, searchbarWidth} = this.props;
-    const {availableChildren, currentHighlightedRowIndex} = this.state;
+    const { config, searchbarWidth } = this.props;
+    const { availableChildren, currentHighlightedRowIndex } = this.state;
     if (!config || availableChildren.length === 0) {
       return null;
     }
@@ -53,37 +59,38 @@ export default React.createClass({
     const scrollElement = document.querySelector('.in-search-suggestions');
 
     return (
-      <div className={block}
-           style={{ left }}>
+      <div className={block} style={{ left }}>
         <ul className={`${block}__list`}>
-          {availableChildren.map((child, i) =>
-            <li className={evaluateClassNames({
-                             [`${block}__item`]: true,
-                             [`${block}__item--selected`]: i === currentHighlightedRowIndex
-                           })}
-                key={child.name}
-                onClick={() => this.onReturn(child)}
-                ref={item => {
-                  if (i === currentHighlightedRowIndex && item && scrollElement) {
-                    const topYPosOfItem = item.offsetTop;
-                    const bottomYPosOfItem = item.offsetTop + item.offsetHeight;
-                    const currentYPosOfScrollElement = scrollElement.scrollTop + scrollElement.clientHeight;
-                    if (bottomYPosOfItem > currentYPosOfScrollElement) {
-                      const delta = bottomYPosOfItem - currentYPosOfScrollElement;
-                      scrollElement.scrollTop += delta + 6; // add a margin
-                    } else if (topYPosOfItem < scrollElement.scrollTop) {
-                      const delta = scrollElement.scrollTop - topYPosOfItem;
-                      scrollElement.scrollTop -= delta + 6; // add a margin
-                    }
+          {availableChildren.map((child, i) => (
+            <li
+              className={evaluateClassNames({
+                [`${block}__item`]: true,
+                [`${block}__item--selected`]: i === currentHighlightedRowIndex
+              })}
+              key={child.name}
+              onClick={() => this.onReturn(child)}
+              ref={item => {
+                if (i === currentHighlightedRowIndex && item && scrollElement) {
+                  const topYPosOfItem = item.offsetTop;
+                  const bottomYPosOfItem = item.offsetTop + item.offsetHeight;
+                  const currentYPosOfScrollElement = scrollElement.scrollTop + scrollElement.clientHeight;
+                  if (bottomYPosOfItem > currentYPosOfScrollElement) {
+                    const delta = bottomYPosOfItem - currentYPosOfScrollElement;
+                    scrollElement.scrollTop += delta + 6; // add a margin
+                  } else if (topYPosOfItem < scrollElement.scrollTop) {
+                    const delta = scrollElement.scrollTop - topYPosOfItem;
+                    scrollElement.scrollTop -= delta + 6; // add a margin
                   }
-                }}>
+                }
+              }}
+            >
               {child.name}
               <TermType node={child} />
               <span className={`${block}__description`}>
                 {this.getNodeDescription(child)}
               </span>
             </li>
-          )}
+          ))}
         </ul>
       </div>
     );
@@ -91,7 +98,7 @@ export default React.createClass({
 
   getNodeDescription(child) {
     if (child.children.length > 0) {
-      return (child.children.length > 0 && child.description)
+      return child.children.length > 0 && child.description
         ? `${child.description} - (${child.children.length})`
         : `(${child.children.length})`;
     }
@@ -110,7 +117,8 @@ export default React.createClass({
     });
 
     // TODO: make this better
-    this.blurSubscription = this.props.eventEmitter.on('blur')
+    this.blurSubscription = this.props.eventEmitter
+      .on('blur')
       .throttle(200, { leading: false })
       .subscribe(() => this.props.onClose());
   },
@@ -128,7 +136,10 @@ export default React.createClass({
 
   onArrowDown() {
     this.setState({
-      currentHighlightedRowIndex: Math.min(this.state.availableChildren.length - 1, this.state.currentHighlightedRowIndex + 1)
+      currentHighlightedRowIndex: Math.min(
+        this.state.availableChildren.length - 1,
+        this.state.currentHighlightedRowIndex + 1
+      )
     });
   },
 
@@ -177,7 +188,7 @@ export default React.createClass({
     this.props.onSelectSuggestion({
       replaceFrom,
       replaceTo,
-      replaceWith,
+      replaceWith
     });
   }
 });
@@ -203,7 +214,10 @@ function getChildrenForConfig(config) {
   }
 
   const tokenAtCursor = getTokenForConfig(config);
-  if (!tokenAtCursor || (!isOperator(tokenAtCursor) && !isTerm(tokenAtCursor) && !isField(tokenAtCursor) && !isWhitespace(tokenAtCursor))) {
+  if (
+    !tokenAtCursor ||
+    (!isOperator(tokenAtCursor) && !isTerm(tokenAtCursor) && !isField(tokenAtCursor) && !isWhitespace(tokenAtCursor))
+  ) {
     return emptyArray;
   }
 

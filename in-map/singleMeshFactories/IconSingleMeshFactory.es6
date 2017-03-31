@@ -1,15 +1,13 @@
 import fragmentShader from 'in-map/singleMeshFactories/pointFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/pointVertexShader.glsl';
 
-import {glyphTexture, config} from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
+import { glyphTexture, config } from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
-import {updateAttribute} from 'in-map/services/geometryAttributes';
-import {Points, RawShaderMaterial} from 'in-map/3DLibProvider';
-import {isWebVRActive} from 'in-map/stores/webVRStore';
-
+import { updateAttribute } from 'in-map/services/geometryAttributes';
+import { Points, RawShaderMaterial } from 'in-map/3DLibProvider';
+import { isWebVRActive } from 'in-map/stores/webVRStore';
 
 export default class IconSingleMeshFactory extends ASingleMeshFactory {
-
   constructor(options) {
     super(options);
 
@@ -79,8 +77,8 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
 
       const xy = config.LUT[fragment.additionalParams.type];
       xy
-        // use right bottom UV coords to show nothing but emptiness
-        ? uvCoords.push(xy.x / textureWidth, xy.y / textureWidth)
+        ? // use right bottom UV coords to show nothing but emptiness
+          uvCoords.push(xy.x / textureWidth, xy.y / textureWidth)
         : uvCoords.push(0, 0);
     }
 

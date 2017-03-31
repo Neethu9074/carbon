@@ -1,13 +1,11 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addSearchableEntityType} from 'in-sdk/search';
-import {plugins} from 'in-forge/constants';
+import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
+import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { addSearchableEntityType } from 'in-sdk/search';
+import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
-
-
 
 registerSnapshotDefinition({
   plugin: plugins.elasticsearch,
@@ -18,17 +16,11 @@ registerSnapshotDefinition({
   getCodeView
 });
 
-setHumanReadablePluginName(
-  plugins.elasticsearch,
-  'Elasticsearch Node',
-  'Elasticsearch Nodes'
-);
+setHumanReadablePluginName(plugins.elasticsearch, 'Elasticsearch Node', 'Elasticsearch Nodes');
 
 addLabelFinder(
   plugins.elasticsearch,
-  snapshot => snapshot.getIn(['data', 'cluster.name'])
-              + '-'
-              + snapshot.getIn(['data', 'node.name'])
+  snapshot => snapshot.getIn(['data', 'cluster.name']) + '-' + snapshot.getIn(['data', 'node.name'])
 );
 
 addSearchableEntityType('elastic', plugins.elasticsearch);

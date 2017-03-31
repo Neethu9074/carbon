@@ -4,8 +4,7 @@ export function getServiceExtractionConfig(type = null) {
   return http({
     method: 'GET',
     url: `/api/serviceExtractionConfigs`
-  })
-  .map(response => {
+  }).map(response => {
     const rules = response.body.rules;
     if (type == null) {
       return rules;
@@ -13,7 +12,6 @@ export function getServiceExtractionConfig(type = null) {
     return rules.filter(rule => rule.type === type);
   });
 }
-
 
 export function saveServiceExtractionConfig(rules) {
   return http({
@@ -23,17 +21,14 @@ export function saveServiceExtractionConfig(rules) {
       lastModificationTimestamp: Date.now(),
       rules
     }
-  })
-  .map(() => true);
+  }).map(() => true);
 }
 
-
 export function savePartialServiceExtractionConfig(ruleType, rules) {
-  return getServiceExtractionConfig()
-    .flatMap(existingRules => {
-      // merge with rules of other types
-      existingRules = existingRules.filter(rule => rule.type !== ruleType);
-      existingRules = existingRules.concat(rules);
-      return saveServiceExtractionConfig(existingRules);
-    });
+  return getServiceExtractionConfig().flatMap(existingRules => {
+    // merge with rules of other types
+    existingRules = existingRules.filter(rule => rule.type !== ruleType);
+    existingRules = existingRules.concat(rules);
+    return saveServiceExtractionConfig(existingRules);
+  });
 }

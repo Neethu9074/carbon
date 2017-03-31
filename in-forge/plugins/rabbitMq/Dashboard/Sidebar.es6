@@ -7,8 +7,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-
-export default function RabbitMqSidebar({snapshot}) {
+export default function RabbitMqSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -22,8 +21,7 @@ export default function RabbitMqSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <KeyValuePopup header='Queues'
-                     data={snapshot.getIn(['data', 'queues'])} />
+      <KeyValuePopup header="Queues" data={snapshot.getIn(['data', 'queues'])} />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

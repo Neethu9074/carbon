@@ -1,13 +1,11 @@
-import {Matrix4, OrthographicCamera} from 'in-map/3DLibProvider';
-import {width, height} from 'in-map/stores/indexStore';
-import {dimensions$} from 'in-map/stores/indexStore';
+import { Matrix4, OrthographicCamera } from 'in-map/3DLibProvider';
+import { width, height } from 'in-map/stores/indexStore';
+import { dimensions$ } from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
-
 
 const INVERSE = new Matrix4();
 
 export default class OrthographicCameraWrapper extends Subscriber {
-
   constructor() {
     super();
 
@@ -18,11 +16,14 @@ export default class OrthographicCameraWrapper extends Subscriber {
     const aspect = width / height;
     const left = -cameraSizeHalf * aspect;
     const top = cameraSizeHalf;
-    const camera = this.camera = new OrthographicCamera(
-      left, -left, top, -top,
+    const camera = (this.camera = new OrthographicCamera(
+      left,
+      -left,
+      top,
+      -top,
       0.1, // near
       2500 // far
-    );
+    ));
 
     camera.projection = new Matrix4();
 
@@ -32,9 +33,7 @@ export default class OrthographicCameraWrapper extends Subscriber {
   }
 
   initEvents() {
-    this.addSubscription(
-      dimensions$.subscribe(() => this.updateCameraFromSize())
-    );
+    this.addSubscription(dimensions$.subscribe(() => this.updateCameraFromSize()));
   }
 
   update() {

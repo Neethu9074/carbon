@@ -37,36 +37,39 @@ export default React.createClass({
       <CenterAlignment>
         <span>HTTP Rules</span>
 
-        <Button disabled={!!parseError}
-                onClick={() => this.props.onSaveAndClose(JSON.parse(this.getValue()))}
-                kind='success'
-                size='sm'>
+        <Button
+          disabled={!!parseError}
+          onClick={() => this.props.onSaveAndClose(JSON.parse(this.getValue()))}
+          kind="success"
+          size="sm"
+        >
           Apply to form
         </Button>
       </CenterAlignment>
     );
 
     return (
-      <Dialog header={header}
-              onClose={this.props.onClose}>
+      <Dialog header={header} onClose={this.props.onClose}>
 
         <div className={`${block}__margin-remover`}>
-          {parseError ?
-            <p className={`${block}__parse-error`}>
-              {parseError}
-            </p>
-          : null}
+          {parseError
+            ? <p className={`${block}__parse-error`}>
+                {parseError}
+              </p>
+            : null}
 
-          <Editor value={this.getValue()}
-                  onChange={newValue => this.setState({value: newValue})}
-                  options={{
-                    mode: 'application/json',
-                    styleActiveLine: true,
-                    lineNumbers: true,
-                    lint: true,
-                    gutters: ['CodeMirror-lint-markers']
-                  }}
-                  className={`${block}__editor`} />
+          <Editor
+            value={this.getValue()}
+            onChange={newValue => this.setState({ value: newValue })}
+            options={{
+              mode: 'application/json',
+              styleActiveLine: true,
+              lineNumbers: true,
+              lint: true,
+              gutters: ['CodeMirror-lint-markers']
+            }}
+            className={`${block}__editor`}
+          />
         </div>
       </Dialog>
     );

@@ -1,15 +1,15 @@
-import {fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription({
   eventId: 'subscribe-event',
 
-  getId({eventId}) {
+  getId({ eventId }) {
     return eventId;
   },
 
-  getData(subscriptionId, {eventId}) {
+  getData(subscriptionId, { eventId }) {
     return {
       subscriptionId,
       eventId

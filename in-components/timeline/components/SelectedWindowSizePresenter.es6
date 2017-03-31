@@ -1,48 +1,42 @@
-import {TransitionMotion, spring} from 'react-motion';
-import {create} from 'reactive-observables';
+import { TransitionMotion, spring } from 'react-motion';
+import { create } from 'reactive-observables';
 import React from 'react';
 
-import {timeframe$, isCollapsed$} from 'in-components/timeline/timelineStore';
-import {formatDurationAccurately} from 'in-services/formatters/date';
+import { timeframe$, isCollapsed$ } from 'in-components/timeline/timelineStore';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import connectTo from 'in-hoc/connectTo';
 
 import './SelectedWindowSizePresenter.less';
 
 const block = 'in-selected-window-size-presenter';
 
-
 const shownMessage$ = create();
 
 // automatically clear temporary notifications after 6 seconds
-shownMessage$
-  .debounce(3000, {leading: false})
-  .subscribe(message => {
-    if (!message) {
-      return;
-    }
+shownMessage$.debounce(3000, { leading: false }).subscribe(message => {
+  if (!message) {
+    return;
+  }
 
-    shownMessage$.emit(null);
-  });
+  shownMessage$.emit(null);
+});
 
 // automatically show a message when the focused moment is changed
-timeframe$
-  .skipFirst()
-  .map(timeframe => timeframe.windowSize)
-  .distinct()
-  .subscribe(windowSize => {
-    shownMessage$.emit(windowSize);
-  });
+timeframe$.skipFirst().map(timeframe => timeframe.windowSize).distinct().subscribe(windowSize => {
+  shownMessage$.emit(windowSize);
+});
 
-
-export default connectTo({
+export default connectTo(
+  {
     shownMessage: shownMessage$,
     isCollapsed: isCollapsed$
-  }, function SelectedWindowSizePresenter({shownMessage, isCollapsed}) {
+  },
+  function SelectedWindowSizePresenter({ shownMessage, isCollapsed }) {
     const items = [];
     if (shownMessage) {
       items.push({
         key: 'message',
-        style: {opacity: spring(1)},
+        style: { opacity: spring(1) },
         data: shownMessage
       });
     }
@@ -53,18 +47,18 @@ export default connectTo({
     }
 
     return (
-      <TransitionMotion willLeave={willLeave}
-                        willEnter={willEnter}
-                        styles={items}>
-        {interpolatedStyles =>
+      <TransitionMotion willLeave={willLeave} willEnter={willEnter} styles={items}>
+        {interpolatedStyles => (
           <div>
             {interpolatedStyles.map(config => {
               return (
-                <div key={config.key}
-                     className={classes}
-                     style={{
-                       opacity: config.style.opacity
-                     }}>
+                <div
+                  key={config.key}
+                  className={classes}
+                  style={{
+                    opacity: config.style.opacity
+                  }}
+                >
                   <div className={block + '__time'}>
                     {formatDurationAccurately(config.data)}
                   </div>
@@ -72,17 +66,16 @@ export default connectTo({
               );
             })}
           </div>
-        }
+        )}
       </TransitionMotion>
     );
   }
 );
 
-
 function willEnter() {
-  return {opacity: 0};
+  return { opacity: 0 };
 }
 
 function willLeave() {
-  return {opacity: spring(0)};
+  return { opacity: spring(0) };
 }

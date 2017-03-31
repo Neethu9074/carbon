@@ -1,12 +1,11 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addSearchableEntityType} from 'in-sdk/search';
-import {plugins} from 'in-forge/constants';
+import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { addSearchableEntityType } from 'in-sdk/search';
+import { plugins } from 'in-forge/constants';
 
 import iconSvgPath from 'in-forge/plugins/cassandraNode/iconPath';
 
 import metricDefinitions from './metricDefinitions';
-
 
 registerSnapshotDefinition({
   plugin: plugins.cassandraCluster,
@@ -15,11 +14,7 @@ registerSnapshotDefinition({
   metricDefinitions
 });
 
-setHumanReadablePluginName(
-  plugins.cassandraCluster,
-  'Cassandra Cluster',
-  'Cassandra Cluster'
-);
+setHumanReadablePluginName(plugins.cassandraCluster, 'Cassandra Cluster', 'Cassandra Cluster');
 
 addLabelFinder(plugins.cassandraCluster, snapshot => snapshot.getIn(['data', 'groupId']));
 

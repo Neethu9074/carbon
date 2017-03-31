@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 
 import createSubscription from 'in-services/subscription/subscription';
 
@@ -7,14 +7,17 @@ export default createSubscription({
 
   getId: () => '',
 
-  getData: (subscriptionId) => {
+  getData: subscriptionId => {
     return {
       subscriptionId
     };
   },
 
-  transformData: usageInfo => usageInfo ? Map({
-    type: usageInfo.type.toLowerCase(),
-    note: usageInfo.note
-  }) : null
+  transformData: usageInfo =>
+    usageInfo
+      ? Map({
+          type: usageInfo.type.toLowerCase(),
+          note: usageInfo.note
+        })
+      : null
 });

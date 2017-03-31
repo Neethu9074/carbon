@@ -1,6 +1,6 @@
 import getLogCountInternal from 'in-services/subscription/getLogCount';
-import {luceneEscapeString} from 'in-stores/search/manipulation';
-import {timeframe$} from 'in-stores/timeline';
+import { luceneEscapeString } from 'in-stores/search/manipulation';
+import { timeframe$ } from 'in-stores/timeline';
 
 export function getLogQueryForHost(snapshotId) {
   return `host:"${luceneEscapeString(snapshotId)}"`;

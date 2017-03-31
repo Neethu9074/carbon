@@ -2,10 +2,9 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ExpandableTable from 'in-components/ExpandableTable';
-import {emptyMap} from 'in-services/fixedImmutables';
+import { emptyMap } from 'in-services/fixedImmutables';
 
-
-export default function HttpServersTable({snapshot, timeframe}) {
+export default function HttpServersTable({ snapshot, timeframe }) {
   const servers = snapshot.getIn(['data', 'http'], emptyMap);
 
   if (servers.size === 0) {
@@ -13,15 +12,17 @@ export default function HttpServersTable({snapshot, timeframe}) {
   }
 
   return (
-    <DashboardSection title='HTTP Servers'>
-      <ExpandableTable data={servers}
-                       getKey={getKey}
-                       createHeader={createHeader}
-                       createRow={createRow}
-                       context={{
-                         snapshot,
-                         timeframe
-                       }} />
+    <DashboardSection title="HTTP Servers">
+      <ExpandableTable
+        data={servers}
+        getKey={getKey}
+        createHeader={createHeader}
+        createRow={createRow}
+        context={{
+          snapshot,
+          timeframe
+        }}
+      />
     </DashboardSection>
   );
 }
@@ -42,13 +43,10 @@ function createHeader() {
   );
 }
 
-
 function createRow(server) {
-  return ([
+  return [
     <td>{server.get('type')}</td>,
-
     <td>{server.getIn(['address', 'address'])}</td>,
-
     <td>{server.getIn(['address', 'port'])}</td>
-  ]);
+  ];
 }

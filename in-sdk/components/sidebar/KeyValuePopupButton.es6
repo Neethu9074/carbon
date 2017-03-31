@@ -9,15 +9,12 @@ import Button from 'in-components/Button';
 
 import './KeyValuePopup.less';
 
-
 const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'KeyValuePopupButton',
 
-  mixins: [
-    PureRenderMixin
-  ],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     title: rpt.string.isRequired,
@@ -36,9 +33,7 @@ export default React.createClass({
     }
 
     return (
-      <Button onClick={() => toggleContent({title: this.props.title, data})}
-              size='sm'
-              kind='secondary'>
+      <Button onClick={() => toggleContent({ title: this.props.title, data })} size="sm" kind="secondary">
         {this.props.children}
       </Button>
     );

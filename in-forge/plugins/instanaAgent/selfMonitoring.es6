@@ -1,7 +1,7 @@
 import logging from 'instalog';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
-import {goToDashboard} from 'in-stores/navigation/navigation';
+import { goToDashboard } from 'in-stores/navigation/navigation';
 
 const logger = logging.createLogger('in-forge/instanaAgent/selfMonitoring');
 
@@ -34,7 +34,7 @@ export function setMode(snapshot, mode) {
     action: 'agent.mode',
     target: snapshot.get('volatileId'),
     args: {
-      'mode' : mode
+      mode: mode
     }
   }).once(response => {
     logger.info('Agent set mode response', response);

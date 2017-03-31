@@ -1,8 +1,8 @@
 /* eslint-env mocha */
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {alwaysNull, alwaysEmptyArray} from './fixedStreams';
+import { alwaysNull, alwaysEmptyArray } from './fixedStreams';
 
 describe('fixedStreams', () => {
   testPrimitive('alwaysNull', null);
@@ -56,6 +56,6 @@ function getImplementation(name) {
     case 'alwaysNull':
       return alwaysNull;
     default:
-    return null;
+      return null;
   }
 }

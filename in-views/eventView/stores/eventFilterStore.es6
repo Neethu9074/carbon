@@ -1,7 +1,6 @@
-import {setKeyword, removeKeyword, containsKeyword} from 'in-stores/search/keywords';
-import {createTrackingStore} from 'in-stores/store';
-import {query$} from 'in-stores/search/query';
-
+import { setKeyword, removeKeyword, containsKeyword } from 'in-stores/search/keywords';
+import { createTrackingStore } from 'in-stores/store';
+import { query$ } from 'in-stores/search/query';
 
 export const eventFilter$ = createTrackingStore({
   name: 'eventView/eventFilterStore',
@@ -21,7 +20,6 @@ export const eventFilter$ = createTrackingStore({
     return null;
   })
 }).observable;
-
 
 export function setEventTypeFilter(filter) {
   if (filter) {

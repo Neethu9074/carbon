@@ -1,18 +1,17 @@
 const replacements = [
-    'select',
-    'from',
-    'where',
-    'group by',
-    'inner join',
-    'outer join',
-    'left join',
-    'right join',
-    'limit',
-    'and',
-    'order by',
-    'explain'
-  ]
-  .map(keyword => new RegExp('(?:^|\\s+)(' + keyword + ')\\s', 'ig'));
+  'select',
+  'from',
+  'where',
+  'group by',
+  'inner join',
+  'outer join',
+  'left join',
+  'right join',
+  'limit',
+  'and',
+  'order by',
+  'explain'
+].map(keyword => new RegExp('(?:^|\\s+)(' + keyword + ')\\s', 'ig'));
 
 export function formatSql(statement) {
   let formattedStatement = statement;

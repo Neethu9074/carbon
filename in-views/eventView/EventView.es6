@@ -2,26 +2,26 @@ import React from 'react';
 
 import EventDetailHeader from 'in-views/eventView/components/EventDetailHeader';
 import EventTableHeader from 'in-views/eventView/components/EventTableHeader';
-import {enable, disable} from 'in-views/eventView/stores/rawEventListStore';
+import { enable, disable } from 'in-views/eventView/stores/rawEventListStore';
 import EventListHeader from 'in-views/eventView/components/EventListHeader';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
 import EventDetails from 'in-views/eventView/components/EventDetails';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
-import {expandedSide$} from 'in-views/eventView/stores/expandedSide';
+import { expandedSide$ } from 'in-views/eventView/stores/expandedSide';
 import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 
-
-export default function EventView({children}) {
+export default function EventView({ children }) {
   return (
     <div>
-      <LifecycleObserver onWillMount={enable}
-                         onWillUnmount={disable} />
+      <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
 
-      <TwoColumnView leftContent={getLeftContent()}
-                     rightContent={getRightContent()}
-                     leftWidth='50rem'
-                     expandedSide$={expandedSide$} />
+      <TwoColumnView
+        leftContent={getLeftContent()}
+        rightContent={getRightContent()}
+        leftWidth="50rem"
+        expandedSide$={expandedSide$}
+      />
 
       {children}
     </div>
@@ -30,17 +30,17 @@ export default function EventView({children}) {
 
 function getLeftContent() {
   return [
-    <EventListHeader key='EventListHeader' />,
-    <EventTableHeader key='EventTableHeader' />,
-    <EventTable key='EventTable' />
+    <EventListHeader key="EventListHeader" />,
+    <EventTableHeader key="EventTableHeader" />,
+    <EventTable key="EventTable" />
   ];
 }
 
 function getRightContent() {
   return [
-    <ViewHeader key='EventViewHeader'>
+    <ViewHeader key="EventViewHeader">
       <EventDetailHeader />
     </ViewHeader>,
-    <EventDetails key='EventDetails' />
+    <EventDetails key="EventDetails" />
   ];
 }

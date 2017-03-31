@@ -7,7 +7,7 @@ import './DashboardHeader.less';
 
 const block = 'in-dashboard-header';
 
-export default function DashboardHeader({snapshotId}) {
+export default function DashboardHeader({ snapshotId }) {
   return (
     <header className={block}>
       <DashboardCloseButton />

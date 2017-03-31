@@ -1,5 +1,5 @@
-import {registerSpanDefinition} from 'in-sdk/tracing';
-import {shortenSqlStatement} from 'in-forge/tracing/jdbc/sql';
+import { registerSpanDefinition } from 'in-sdk/tracing';
+import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 
 registerSpanDefinition({
   type: 'mysql',

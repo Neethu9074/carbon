@@ -7,10 +7,10 @@
  * @returns {*} the entry of the crashed thread.
  */
 export function get_crash_thread(report) {
-  var crash   = report['crash'] || {};
+  var crash = report['crash'] || {};
   var threads = crash['threads'] || [];
 
-  var thread = threads.find(function (thread) {
+  var thread = threads.find(function(thread) {
     return !!thread['crashed'];
   });
 
@@ -88,13 +88,12 @@ export function to_hex(number) {
   return number.toString(16);
 }
 
-
 /*
   Private functions.
  */
 
 function pad(input, char, count, direction) {
-  var ipt = '' + (input);
+  var ipt = '' + input;
   var rem = count - ipt.length;
   if (rem < 1) {
     return ipt;

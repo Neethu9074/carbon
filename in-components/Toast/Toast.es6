@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 import './Toast.less';
@@ -25,16 +23,14 @@ const Toast = React.createClass({
     const classes = 'in-toast';
 
     return (
-      <div className={classes} key='toast'>
+      <div className={classes} key="toast">
         {this.props.children}
 
-        {this.props.action ?
-          <a href='#'
-             className='in-toast__action'
-             onClick={this.props.onClick}>
-            {this.props.action}
-          </a>
-        : null}
+        {this.props.action
+          ? <a href="#" className="in-toast__action" onClick={this.props.onClick}>
+              {this.props.action}
+            </a>
+          : null}
       </div>
     );
   }

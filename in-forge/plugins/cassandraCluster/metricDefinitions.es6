@@ -1,21 +1,10 @@
-import {
-  muSecondsToMillis,
-  number,
-  bytes
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { muSecondsToMillis, number, bytes } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [
-      'clientrequests.read.count',
-      'clientrequests.write.count'
-    ],
-    labels: [
-      'Read',
-      'Write'
-    ],
+    metrics: ['clientrequests.read.count', 'clientrequests.write.count'],
+    labels: ['Read', 'Write'],
     min: 0,
     formatter: number
   },
@@ -45,22 +34,14 @@ export default [
     formatter: muSecondsToMillis
   },
   {
-    metrics: [
-      'overallDiskSize'
-    ],
-    labels: [
-      'Overall Disk Size'
-    ],
+    metrics: ['overallDiskSize'],
+    labels: ['Overall Disk Size'],
     min: 0,
     formatter: bytes
   },
   {
-    metrics: [
-      'keyspaceCount'
-    ],
-    labels: [
-      'Keyspaces'
-    ],
+    metrics: ['keyspaceCount'],
+    labels: ['Keyspaces'],
     min: 0,
     formatter: number
   },

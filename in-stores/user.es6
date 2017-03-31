@@ -1,6 +1,6 @@
-import {find} from 'lodash';
+import { find } from 'lodash';
 
-import {config} from 'in-services/config';
+import { config } from 'in-services/config';
 
 export const ownerRoleId = '-1';
 export const fallbackRoleId = '-2';

@@ -1,4 +1,4 @@
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 const highlightedEntityIdStore = createStore({
   name: 'highlighted entity id',
@@ -6,7 +6,6 @@ const highlightedEntityIdStore = createStore({
 });
 
 export const highlightedEntityId$ = highlightedEntityIdStore.observable.distinct();
-
 
 export function setHighlightedEntityId(id) {
   highlightedEntityIdStore.mutateTo(id);

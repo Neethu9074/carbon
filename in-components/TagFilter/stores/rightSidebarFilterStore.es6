@@ -1,4 +1,4 @@
-import {createStore} from 'in-stores/store';
+import { createStore } from 'in-stores/store';
 
 const tagsFilterStore = createStore({
   name: 'tagsFilter',

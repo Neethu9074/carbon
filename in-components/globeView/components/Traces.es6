@@ -1,15 +1,8 @@
 import logging from 'instalog';
 
-import {
-  Mesh,
-  Color,
-  Object3D,
-  MeshBasicMaterial,
-  DoubleSide
-} from 'in-map/3DLibProvider';
+import { Mesh, Color, Object3D, MeshBasicMaterial, DoubleSide } from 'in-map/3DLibProvider';
 import TraceBufferGeometry from 'in-components/globeView/components/TraceGeometry';
-import {ZERO} from 'in-map/misc/fixedVectors';
-
+import { ZERO } from 'in-map/misc/fixedVectors';
 
 const sizeForMaxColor = 100;
 const fromColor = { r: 0, g: 0.5, b: 1 };
@@ -18,12 +11,10 @@ const degToRad = Math.PI / 180;
 const logger = logging.createLogger('globeview');
 
 export default class Traces {
-
   constructor(parent) {
-
     logger.info('TODO: write own shader for inner glow');
 
-    const wrapper = this.wrapper = new Object3D();
+    const wrapper = (this.wrapper = new Object3D());
     wrapper.renderOrder = 1;
     parent.add(wrapper);
 
@@ -31,7 +22,6 @@ export default class Traces {
     const yOffset = 0;
     wrapper.rotateX(xOffset * degToRad);
     wrapper.rotateY(yOffset * degToRad);
-
 
     // north pole
     this.addTrace({ latitude: 90.0, longitude: 0.0 });
@@ -51,7 +41,7 @@ export default class Traces {
     }
   }
 
-  addTrace({latitude, longitude, size = 7}) {
+  addTrace({ latitude, longitude, size = 7 }) {
     latitude *= degToRad;
     longitude *= degToRad;
 

@@ -1,7 +1,4 @@
-import {
-  number
-} from 'in-services/formatters/number';
-
+import { number } from 'in-services/formatters/number';
 
 export default [
   {
@@ -12,13 +9,7 @@ export default [
       'waitstats.CXPACKET.wait_time_ms',
       'waitstats.WRITELOG.wait_time_ms'
     ],
-    labels: [
-      'Page IO-Latch EX',
-      'Page IO-Latch SH',
-      'Async Network IO',
-      'CX-Packet',
-      'Writelog'
-    ],
+    labels: ['Page IO-Latch EX', 'Page IO-Latch SH', 'Async Network IO', 'CX-Packet', 'Writelog'],
     min: 0,
     category: ['Wait Times'],
     formatter: number
@@ -28,10 +19,7 @@ export default [
       'perfcounters.sqlserver:general statistics\\logins\/sec',
       'perfcounters.sqlserver:general statistics\\user connections'
     ],
-    labels: [
-      'Logins/sec.',
-      'Connections'
-    ],
+    labels: ['Logins/sec.', 'Connections'],
     min: 0,
     formatter: number
   }

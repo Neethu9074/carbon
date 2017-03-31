@@ -1,5 +1,13 @@
-import {isTerm, isField, isFieldSeparator, isOperator, isPhrase, isGrouping,isWhitespace, isRegex} from 'in-stores/search/lexer';
-
+import {
+  isTerm,
+  isField,
+  isFieldSeparator,
+  isOperator,
+  isPhrase,
+  isGrouping,
+  isWhitespace,
+  isRegex
+} from 'in-stores/search/lexer';
 
 let currentBlockId = 0;
 export default function lexThirdStage(secondStageLexResult, startId) {
@@ -17,7 +25,11 @@ export default function lexThirdStage(secondStageLexResult, startId) {
 function detectBeginningBlockWithWhitespace(tokens) {
   // edge case, there is just a term and a whitespace
   const currentToken = tokens[0];
-  if (tokens.length >= 2 && isWhitespace(tokens[1]) && (isTerm(currentToken) || isRegex(currentToken) || isOperator(currentToken))) {
+  if (
+    tokens.length >= 2 &&
+    isWhitespace(tokens[1]) &&
+    (isTerm(currentToken) || isRegex(currentToken) || isOperator(currentToken))
+  ) {
     const blockId = String(currentBlockId++);
     currentToken.blockId = blockId;
     currentToken.isBlockingStart = true;
@@ -33,7 +45,7 @@ function detectFieldFieldSeperatorValueBlocks(i, tokens) {
     const end = getEndCursorForFieldValue(start, tokens);
     if (end >= start) {
       const blockId = String(currentBlockId++);
-      while(start <= end) {
+      while (start <= end) {
         tokens[start++].blockId = blockId;
       }
       currentToken.blockId = blockId;
@@ -72,7 +84,7 @@ export function getEndCursorForFieldValue(start, tokens) {
     let openingGroupings = 1;
     let groupingCursor = start + 1;
 
-    while(groupingCursor < tokens.length) {
+    while (groupingCursor < tokens.length) {
       if (isGrouping(tokens[groupingCursor])) {
         if (openingGroupings === 1 && tokens[groupingCursor].lexeme === ')') {
           return groupingCursor;

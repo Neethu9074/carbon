@@ -1,38 +1,32 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
-import {mutateUrl, navigationParameters$, getModifiedUrlStream} from 'in-stores/navigation/navigation';
-
+import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 
 export const isPhysicalMapView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/physical') === 0)
   .distinct();
 
-
 export const isContainerMapView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/container') === 0)
   .distinct();
 
-
 export const isLogicalMapView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/logical') === 0)
   .distinct();
-
 
 export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, isContainerMapView$])
   .map(([physical, logical, container]) => physical || logical || container)
   .distinct();
 
 export const traceViewLinkWithoutEumTraces$ = getModifiedUrlStream(params => {
-    params.pathname = '/traces';
-    params.query.q = encodeURIComponent('-trace.type:eum');
-  });
-
+  params.pathname = '/traces';
+  params.query.q = encodeURIComponent('-trace.type:eum');
+});
 
 export const logView$ = getModifiedUrlStream(params => {
   params.pathname = '/logs';
   delete params.query.q;
 });
-
 
 export function getLogViewLinkWithQuery(query) {
   query = encodeURIComponent(query);
@@ -43,7 +37,6 @@ export function getLogViewLinkWithQuery(query) {
   });
 }
 
-
 export function getTraceViewLinkWithQuery(query) {
   query = encodeURIComponent(query);
   return getModifiedUrlStream(params => {
@@ -53,7 +46,6 @@ export function getTraceViewLinkWithQuery(query) {
   });
 }
 
-
 export function getTraceViewLinkShowingTrace(traceId) {
   const encodedTraceId = encodeURIComponent(traceId);
   return getModifiedUrlStream(params => {
@@ -62,21 +54,14 @@ export function getTraceViewLinkShowingTrace(traceId) {
   });
 }
 
-export const isTraceView$ = navigationParameters$
-  .map(params => params.pathname.indexOf('/traces') === 0)
-  .distinct();
-
+export const isTraceView$ = navigationParameters$.map(params => params.pathname.indexOf('/traces') === 0).distinct();
 
 export const eventsLinkOnlyIncidents$ = getModifiedUrlStream(params => {
   params.pathname = '/events';
   params.query.q = encodeURIComponent('event.type:incident');
 });
 
-
-export const isEventView$ = navigationParameters$
-  .map(params => params.pathname.indexOf('/events') === 0)
-  .distinct();
-
+export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
 
 export function getEventViewWithEvent(eventId) {
   return getModifiedUrlStream(params => {
@@ -85,23 +70,17 @@ export function getEventViewWithEvent(eventId) {
   });
 }
 
-
 export const tableViewLink$ = getModifiedUrlStream(params => {
-    params.pathname = '/table';
-    delete params.query.q;
-  });
-
+  params.pathname = '/table';
+  delete params.query.q;
+});
 
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
   params.query.q = 'entity.selfType:service';
 });
 
-
-export const isTableView$ = navigationParameters$
-  .map(params => params.pathname.indexOf('/table') === 0)
-  .distinct();
-
+export const isTableView$ = navigationParameters$.map(params => params.pathname.indexOf('/table') === 0).distinct();
 
 export function focusEvent(eventId) {
   mutateUrl(params => {

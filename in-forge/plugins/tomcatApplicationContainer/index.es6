@@ -1,11 +1,10 @@
-import {addLabelFinder, registerSnapshotDefinition} from 'in-sdk/snapshot';
-import {supportsCodeView, getCodeView} from 'in-forge/codeView/java';
-import {setHumanReadablePluginName} from 'in-sdk/pluginName';
-import {addSearchableEntityType} from 'in-sdk/search';
-import {plugins} from 'in-forge/constants';
+import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
+import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { addSearchableEntityType } from 'in-sdk/search';
+import { plugins } from 'in-forge/constants';
 
 import iconSvgPath from './iconPath';
-
 
 registerSnapshotDefinition({
   plugin: plugins.tomcat,
@@ -15,12 +14,7 @@ registerSnapshotDefinition({
   getCodeView
 });
 
-
-setHumanReadablePluginName(
-  plugins.tomcat,
-  'Tomcat Server',
-  'Tomcat Servers'
-);
+setHumanReadablePluginName(plugins.tomcat, 'Tomcat Server', 'Tomcat Servers');
 
 addLabelFinder(
   plugins.tomcat,
@@ -31,8 +25,7 @@ addLabelFinder(
 
     const connectorConfig = snapshot.getIn(['data', 'connector-config']);
     if (connectorConfig && connectorConfig.size > 0) {
-      label += ' @ ' + snapshot.getIn(['data', 'connector-config'])
-        .map(data => data.getIn(['port'])).join(',');
+      label += ' @ ' + snapshot.getIn(['data', 'connector-config']).map(data => data.getIn(['port'])).join(',');
     }
     return label;
   }

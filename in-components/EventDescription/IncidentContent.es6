@@ -1,24 +1,26 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
+import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import SnapshotDescription from 'in-components/SnapshotDescription';
-import {toHtml} from 'in-services/formatters/markdown';
-import {emptyList} from 'in-services/fixedImmutables';
-import {getEvent} from 'in-services/issueTracker';
+import { toHtml } from 'in-services/formatters/markdown';
+import { emptyList } from 'in-services/fixedImmutables';
+import { getEvent } from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
-
 
 const block = 'in-event-description';
 
-export default connectTo(props => {
-  return {
-    events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id)))
-  };
-}, IncidentContent);
+export default connectTo(
+  props => {
+    return {
+      events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id)))
+    };
+  },
+  IncidentContent
+);
 
-function IncidentContent({incident, events}) {
+function IncidentContent({ incident, events }) {
   if (!events || events.length === 0) {
     return null;
   }
@@ -36,32 +38,37 @@ function IncidentContent({incident, events}) {
         started here:
       </span>
 
-      <Header event={firstEvent}
-              text={problem.get('problemText')} />
+      <Header event={firstEvent} text={problem.get('problemText')} />
 
-      <div className={block + '__suggestion'}
-           dangerouslySetInnerHTML={{__html: toHtml(problem.get('fixSuggestion'))}} />
+      <div
+        className={block + '__suggestion'}
+        dangerouslySetInnerHTML={{ __html: toHtml(problem.get('fixSuggestion')) }}
+      />
 
-      <SnapshotDescription snapshotId={problem.get('snapshotId', '')}
-                           time={firstEvent.get('start')} />
+      <SnapshotDescription snapshotId={problem.get('snapshotId', '')} time={firstEvent.get('start')} />
     </div>
   );
 }
 
-const Header = connectTo(props => {
-  return {
-    color: getColorForEventAtFocusedMomentAsStream(props.event)
-  };
-}, ({color, text}) => {
-  return (
-    <div className={block + '__header'}
-         style={{
-           color: color ? color : '#ffffff'
-         }}>
-      {text}
-    </div>
-  );
-});
+const Header = connectTo(
+  props => {
+    return {
+      color: getColorForEventAtFocusedMomentAsStream(props.event)
+    };
+  },
+  ({ color, text }) => {
+    return (
+      <div
+        className={block + '__header'}
+        style={{
+          color: color ? color : '#ffffff'
+        }}
+      >
+        {text}
+      </div>
+    );
+  }
+);
 
 const rpt = React.PropTypes;
 IncidentContent.propTypes = {

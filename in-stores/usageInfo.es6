@@ -1,12 +1,12 @@
 /* eslint-disable react/no-danger */
 
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import {addMessage, removeMessage} from 'in-components/MessageFlyout/stores/messages';
+import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import createUsageInfoSubscription from 'in-services/subscription/usageInfo';
-import {createTrackingStore, createStore} from 'in-stores/store';
-import {toHtml} from 'in-services/formatters/markdown';
+import { createTrackingStore, createStore } from 'in-stores/store';
+import { toHtml } from 'in-services/formatters/markdown';
 
 const messageId = 'usageInfo';
 
@@ -14,7 +14,6 @@ const usageInfo$ = createTrackingStore({
   name: 'usageInfo/usageInfo',
   observable: createUsageInfoSubscription()
 }).observable;
-
 
 const usageInfoVisibleStore = createStore({
   name: 'usageInfo/usageInfoVisible',
@@ -32,20 +31,19 @@ export function init() {
     return;
   }
 
-  combineLatest([usageInfo$, usageInfoVisible$])
-    .subscribe(([usageInfo, visible]) => {
-      if (usageInfo == null || !visible) {
-        removeMessage(messageId);
-      } else if (usageInfo) {
-        addMessage(
-          {
-            type: usageInfo.get('type'),
-            icon: 'info',
-            content: <div dangerouslySetInnerHTML={{__html: toHtml(usageInfo.get('note'))}} />,
-            onClick: hideUsageInfo
-          },
-          messageId
-        );
-      }
-    });
+  combineLatest([usageInfo$, usageInfoVisible$]).subscribe(([usageInfo, visible]) => {
+    if (usageInfo == null || !visible) {
+      removeMessage(messageId);
+    } else if (usageInfo) {
+      addMessage(
+        {
+          type: usageInfo.get('type'),
+          icon: 'info',
+          content: <div dangerouslySetInnerHTML={{ __html: toHtml(usageInfo.get('note')) }} />,
+          onClick: hideUsageInfo
+        },
+        messageId
+      );
+    }
+  });
 }

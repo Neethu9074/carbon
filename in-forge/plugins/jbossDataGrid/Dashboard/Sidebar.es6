@@ -9,8 +9,7 @@ import JbossDataGridPorts from '../JbossDataGridPorts.es6';
 import Info from '../Info.es6';
 import JbossDataGridClusters from '../JbossDataGridClusters.es6';
 
-
-export default function JbossDataGridSidebar({snapshot}) {
+export default function JbossDataGridSidebar({ snapshot }) {
   return (
     <div>
       <Separator />

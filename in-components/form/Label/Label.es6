@@ -1,7 +1,7 @@
-import {assign} from 'lodash';
+import { assign } from 'lodash';
 import React from 'react';
 
-import {evaluateClassNames} from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import './Label.less';
 
@@ -16,7 +16,5 @@ export default function FormLabel(props) {
   });
   delete labelProps.hasError;
 
-  return (
-    <label {...labelProps} />
-  );
+  return <label {...labelProps} />;
 }

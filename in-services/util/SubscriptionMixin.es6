@@ -6,18 +6,12 @@ const SubscriptionMixin = {
   },
 
   addSubscription(subscription) {
-    invariant(
-      typeof subscription.dispose === 'function',
-      'subscription must be disposable'
-    );
+    invariant(typeof subscription.dispose === 'function', 'subscription must be disposable');
     this.subscriptions.push(subscription);
   },
 
   disposeSubscription(subscription) {
-    invariant(
-      typeof subscription.dispose === 'function',
-      'subscription must be disposable'
-    );
+    invariant(typeof subscription.dispose === 'function', 'subscription must be disposable');
 
     this.subscriptions.splice(this.subscriptions.indexOf(subscription));
     subscription.dispose();

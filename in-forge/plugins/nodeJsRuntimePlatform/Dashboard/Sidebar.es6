@@ -8,8 +8,7 @@ import TagList from 'in-sdk/components/sidebar/TagList';
 
 import Info from '../Info';
 
-
-export default function NodejsDashboardSidebar({snapshot}) {
+export default function NodejsDashboardSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -23,11 +22,9 @@ export default function NodejsDashboardSidebar({snapshot}) {
 
       <TagList snapshot={snapshot} />
 
-      <KeyValuePopup header='Dependencies'
-                     data={snapshot.getIn(['data', 'dependencies'])} />
+      <KeyValuePopup header="Dependencies" data={snapshot.getIn(['data', 'dependencies'])} />
 
-      <KeyValuePopup header='Runtime Versions'
-                     data={snapshot.getIn(['data', 'versions'])} />
+      <KeyValuePopup header="Runtime Versions" data={snapshot.getIn(['data', 'versions'])} />
 
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

@@ -1,12 +1,11 @@
 /* eslint-env mocha,node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
-import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
-
+import { sceneObjects } from 'in-map/stores/focusableSceneObjectsStore';
 
 describe('layoutingStorage', () => {
   let mod;
@@ -31,8 +30,7 @@ describe('layoutingStorage', () => {
     });
   });
 
-  afterEach(() => {
-  });
+  afterEach(() => {});
 
   it('should do nothing if there is either no camera nor focusable objects', () => {
     mod.focusId('id1');

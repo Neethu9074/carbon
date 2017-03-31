@@ -1,11 +1,10 @@
 /* eslint-env mocha */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
-import {stub} from 'sinon';
+import { expect } from 'chai';
+import { stub } from 'sinon';
 
-import {resetStoreRegistry} from 'in-stores/store';
-
+import { resetStoreRegistry } from 'in-stores/store';
 
 describe('timeline/datepicker/focusedMoment', () => {
   let mod;
@@ -13,7 +12,6 @@ describe('timeline/datepicker/focusedMoment', () => {
   let fromTimestamp$;
   let toTimestamp$;
   let serverTime$;
-
 
   beforeEach(() => {
     resetStoreRegistry();
@@ -100,7 +98,6 @@ describe('timeline/datepicker/focusedMoment', () => {
       expect(isDateTimeValid).to.have.callCount(3);
       expect(isDateTimeValid.getCall(2).args[0].date).to.equal(false);
     });
-
 
     it('should validate time if it is in the range', () => {
       setValidTimes();

@@ -1,9 +1,8 @@
-import {fullyQualifiedPlugins, plugins} from 'in-forge/constants';
-import {registerSnapshotDefinition} from 'in-sdk/snapshot';
+import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 
 import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
-
 
 const labelMapping = {
   [fullyQualifiedPlugins.logicalHttpConnection]: 'Unknown Http Service',

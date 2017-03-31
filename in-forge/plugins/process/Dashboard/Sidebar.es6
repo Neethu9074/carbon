@@ -8,8 +8,7 @@ import ArgList from 'in-forge/plugins/process/ArgList';
 
 import Info from '../Info';
 
-
-export default function ProcessSidebar({snapshot}) {
+export default function ProcessSidebar({ snapshot }) {
   const args = snapshot.getIn(['data', 'args']);
 
   return (
@@ -25,21 +24,19 @@ export default function ProcessSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-
-      {args && args.size > 0 ?
-        <div>
-          <Separator />
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>
-              Arguments
-            </Collapsible.Header>
-            <Collapsible.Content>
-              <ArgList snapshot={snapshot} />
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
-        : null
-      }
+      {args && args.size > 0
+        ? <div>
+            <Separator />
+            <Collapsible initiallyOpen={false}>
+              <Collapsible.Header>
+                Arguments
+              </Collapsible.Header>
+              <Collapsible.Content>
+                <ArgList snapshot={snapshot} />
+              </Collapsible.Content>
+            </Collapsible>
+          </div>
+        : null}
       <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshotId={snapshot.get('id')} />
     </div>

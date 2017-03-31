@@ -1,20 +1,16 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {
-  timeframe$,
-  setWindowSize
-} from 'in-components/timeline/timelineStore';
-import {formatDurationAccurately} from 'in-services/formatters/date';
-import {slices} from 'in-components/timeline/timelineConfig';
-import {timeframeShape} from 'in-stores/timeline';
+import { timeframe$, setWindowSize } from 'in-components/timeline/timelineStore';
+import { formatDurationAccurately } from 'in-services/formatters/date';
+import { slices } from 'in-components/timeline/timelineConfig';
+import { timeframeShape } from 'in-stores/timeline';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Slider from 'in-components/Slider';
 import connectTo from 'in-hoc/connectTo';
 
 import './TimelineNavigation.less';
-
 
 function getIndexOfSlice(time) {
   for (let i = 0; i < slices.length; ++i) {
@@ -27,16 +23,14 @@ function getIndexOfSlice(time) {
 
 const block = 'in-timeline-navigation';
 
-
-export default connectTo({
+export default connectTo(
+  {
     timeframe: timeframe$
-  }, React.createClass({
-
+  },
+  React.createClass({
     displayName: 'TimelineNavigation',
 
-    mixins: [
-      PureRenderMixin
-    ],
+    mixins: [PureRenderMixin],
 
     propTypes: {
       timeframe: timeframeShape
@@ -50,23 +44,17 @@ export default connectTo({
       const value = slices.length - getIndexOfSlice(timeframe.windowSize) - 1;
       return (
         <div className={block}>
-          <SvgIcon className={block + '__icon-zoom'}
-                   type='search'
-                   width={12}
-                   color='#6b8088'
-                   onClick={this.zoomOut} />
-          <Slider onChange={this.onZoomChanged}
-                  min={0}
-                  max={slices.length - 1}
-                  step={1}
-                  value={value}
-                  className={block + '__slider'} />
-          <SvgIcon className={block + '__icon-zoom'}
-                   type='search'
-                   width={16}
-                   color='#6b8088'
-                   onClick={this.zoomIn} />
-          <Tooltip content='Selected time window size'>
+          <SvgIcon className={block + '__icon-zoom'} type="search" width={12} color="#6b8088" onClick={this.zoomOut} />
+          <Slider
+            onChange={this.onZoomChanged}
+            min={0}
+            max={slices.length - 1}
+            step={1}
+            value={value}
+            className={block + '__slider'}
+          />
+          <SvgIcon className={block + '__icon-zoom'} type="search" width={16} color="#6b8088" onClick={this.zoomIn} />
+          <Tooltip content="Selected time window size">
             <div className={`${block}__window-size`}>
               {formatDurationAccurately(timeframe.windowSize)}
             </div>
@@ -81,7 +69,7 @@ export default connectTo({
 
     zoomOut() {
       const currentIndex = getIndexOfSlice(this.props.timeframe.windowSize);
-      if (currentIndex < (slices.length - 1)) {
+      if (currentIndex < slices.length - 1) {
         setWindowSize(slices[currentIndex + 1]);
       }
     },

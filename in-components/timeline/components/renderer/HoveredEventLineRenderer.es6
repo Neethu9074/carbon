@@ -1,11 +1,9 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
-import {focusedMoment$} from 'in-components/timeline/timelineStore';
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
-import {getColorForEventAtFocusedMoment} from 'in-stores/events';
-
+import { focusedMoment$ } from 'in-components/timeline/timelineStore';
+import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
+import { getColorForEventAtFocusedMoment } from 'in-stores/events';
 
 export default class HoveredEventLineRenderer extends BasicRenderer {
-
   constructor(backBuffer, scale) {
     super(backBuffer, scale);
 
@@ -41,9 +39,7 @@ export default class HoveredEventLineRenderer extends BasicRenderer {
       return;
     }
 
-    const to = event.get('state') === 'open' ?
-      this.backBuffer.canvas.width :
-      this.scale.getRange(event.get('end'));
+    const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : this.scale.getRange(event.get('end'));
 
     const buffer = this.backBuffer;
     buffer.globalAlpha = 0.2;

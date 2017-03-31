@@ -1,13 +1,11 @@
-import {Animation, CubicEasing} from 'koijs';
+import { Animation, CubicEasing } from 'koijs';
 
-import {eventBus} from 'in-map/services/eventBus';
-
+import { eventBus } from 'in-map/services/eventBus';
 
 const easing = new CubicEasing('inOut');
 
 export default class AnimationController {
-
-  constructor({onUpdate, onStop, timeToAnimate, repeat = false}) {
+  constructor({ onUpdate, onStop, timeToAnimate, repeat = false }) {
     this.repeat = repeat;
     this.onStop = onStop;
     this.onUpdate = onUpdate;
@@ -18,8 +16,8 @@ export default class AnimationController {
 
   setupAnimation() {
     const animation = new Animation({
-      from: {v: 0.0}, // 0%
-      to: {v: 1.0},   // 100%,
+      from: { v: 0.0 }, // 0%
+      to: { v: 1.0 }, // 100%,
       easing,
       autoUpdate: false,
       animationTime: this.timeToAnimate,

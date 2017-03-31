@@ -1,7 +1,7 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
-import {defaultsDeep} from 'lodash';
+import { defaultsDeep } from 'lodash';
 
 const defaultOptions = {
   pure: true
@@ -87,10 +87,7 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
     },
 
     render() {
-      return (
-        <ComposedComponent {...this.props}
-                           {...this.state} />
-      );
+      return <ComposedComponent {...this.props} {...this.state} />;
     }
   });
 }

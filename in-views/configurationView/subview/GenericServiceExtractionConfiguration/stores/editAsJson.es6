@@ -1,28 +1,23 @@
 import React from 'react';
 
-import EditAsJsonDialog from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/EditAsJsonDialog';
+import EditAsJsonDialog
+  from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/EditAsJsonDialog';
 import {
   createRulesFromRuleForms,
   ruleForms$,
   setRuleFormsFromJsonUserInput
 } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/stores/ruleForms';
-import {setActiveDialog, close} from 'in-components/DialogPresenter/store';
+import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 
 export function openEditor() {
   // strip ID, type and order
 
-  ruleForms$
-    .once(ruleForms => {
-      const rules = removeValuesWhichAreMeaninglessToUsers(createRulesFromRuleForms(ruleForms));
-      const initialValue = JSON.stringify(rules, 0, 2);
-      setActiveDialog(
-        <EditAsJsonDialog initialValue={initialValue}
-                          onSaveAndClose={save}
-                          onClose={close} />
-      );
-    });
+  ruleForms$.once(ruleForms => {
+    const rules = removeValuesWhichAreMeaninglessToUsers(createRulesFromRuleForms(ruleForms));
+    const initialValue = JSON.stringify(rules, 0, 2);
+    setActiveDialog(<EditAsJsonDialog initialValue={initialValue} onSaveAndClose={save} onClose={close} />);
+  });
 }
-
 
 function removeValuesWhichAreMeaninglessToUsers(rules) {
   rules.forEach(rule => {
@@ -33,7 +28,6 @@ function removeValuesWhichAreMeaninglessToUsers(rules) {
   });
   return rules;
 }
-
 
 function save(value) {
   close();

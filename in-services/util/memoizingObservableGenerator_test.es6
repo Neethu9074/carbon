@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import sinon from 'sinon';
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
 
@@ -14,10 +14,7 @@ describe('in-services/util/memoizingObservableGenerator', () => {
   beforeEach(() => {
     stop = sinon.stub();
     subscriber = sinon.stub();
-    creator = memoize(
-      arg => create({stop}).emit(arg),
-      JSON.stringify.bind(JSON)
-    );
+    creator = memoize(arg => create({ stop }).emit(arg), JSON.stringify.bind(JSON));
   });
 
   it('should create new observable', () => {

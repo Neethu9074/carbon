@@ -1,9 +1,9 @@
 /* eslint-env mocha */
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import React from 'react';
 
-import {resetStoreRegistry} from 'in-stores/store';
+import { resetStoreRegistry } from 'in-stores/store';
 
 describe('in-components/MessageFlyout/stores/messages', () => {
   let mod;
@@ -20,7 +20,7 @@ describe('in-components/MessageFlyout/stores/messages', () => {
   });
 
   it('must add messages without IDs', () => {
-    const id = mod.addMessage({type: 'warning', content: <div />});
+    const id = mod.addMessage({ type: 'warning', content: <div /> });
     withLatestMessages(messages => {
       expect(messages.length).to.equal(1);
       expect(messages[0].id).to.equal(id);
@@ -29,8 +29,8 @@ describe('in-components/MessageFlyout/stores/messages', () => {
   });
 
   it('must update messages that were added without IDs', () => {
-    const id = mod.addMessage({type: 'warning', content: <div />});
-    mod.addMessage({type: 'error', content: <div />}, id);
+    const id = mod.addMessage({ type: 'warning', content: <div /> });
+    mod.addMessage({ type: 'error', content: <div /> }, id);
     withLatestMessages(messages => {
       expect(messages.length).to.equal(1);
       expect(messages[0].id).to.equal(id);
@@ -39,7 +39,7 @@ describe('in-components/MessageFlyout/stores/messages', () => {
   });
 
   it('must add messages with IDs', () => {
-    const id = mod.addMessage({type: 'warning', content: <div />}, 'foo');
+    const id = mod.addMessage({ type: 'warning', content: <div /> }, 'foo');
     expect(id).to.equal('foo');
     withLatestMessages(messages => {
       expect(messages.length).to.equal(1);
@@ -49,8 +49,8 @@ describe('in-components/MessageFlyout/stores/messages', () => {
   });
 
   it('must update messages that were added with IDs', () => {
-    mod.addMessage({type: 'warning', content: <div />}, 'foo');
-    mod.addMessage({type: 'error', content: <div />}, 'foo');
+    mod.addMessage({ type: 'warning', content: <div /> }, 'foo');
+    mod.addMessage({ type: 'error', content: <div /> }, 'foo');
     withLatestMessages(messages => {
       expect(messages.length).to.equal(1);
       expect(messages[0].id).to.equal('foo');
@@ -59,11 +59,11 @@ describe('in-components/MessageFlyout/stores/messages', () => {
   });
 
   it('must not remove existing messages when updating', () => {
-    mod.addMessage({type: 'info', content: <div />}, 1);
-    mod.addMessage({type: 'error', content: <div />}, 2);
-    mod.addMessage({type: 'info', content: <div />}, 3);
+    mod.addMessage({ type: 'info', content: <div /> }, 1);
+    mod.addMessage({ type: 'error', content: <div /> }, 2);
+    mod.addMessage({ type: 'info', content: <div /> }, 3);
 
-    mod.addMessage({type: 'warning', content: <div />}, 2);
+    mod.addMessage({ type: 'warning', content: <div /> }, 2);
 
     withLatestMessages(messages => {
       expect(messages.length).to.equal(3);
@@ -75,9 +75,9 @@ describe('in-components/MessageFlyout/stores/messages', () => {
   });
 
   it('must remove messages', () => {
-    mod.addMessage({type: 'info', content: <div />}, 1);
-    mod.addMessage({type: 'error', content: <div />}, 2);
-    mod.addMessage({type: 'info', content: <div />}, 3);
+    mod.addMessage({ type: 'info', content: <div /> }, 1);
+    mod.addMessage({ type: 'error', content: <div /> }, 2);
+    mod.addMessage({ type: 'info', content: <div /> }, 3);
 
     mod.removeMessage(2);
 

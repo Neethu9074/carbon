@@ -7,7 +7,7 @@ import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import ConnectionStatus from 'in-components/ConnectionStatus';
 import DialogPresenter from 'in-components/DialogPresenter';
-import {setWindowTitleFromRoute} from 'in-services/title';
+import { setWindowTitleFromRoute } from 'in-services/title';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';

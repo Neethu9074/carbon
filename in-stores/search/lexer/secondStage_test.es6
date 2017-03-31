@@ -1,12 +1,10 @@
 /* eslint-env mocha */
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 import lexSecondStage from 'in-stores/search/lexer/secondStage';
 import lexFirstStage from 'in-stores/search/lexer/firstStage';
 
-
 describe('in-stores/search/lexer/secondStage', () => {
-
   it('must parse ignore terms', () => {
     expect(lexSecondStage(lexFirstStage('hello'))).to.deep.equal([
       {
@@ -28,7 +26,7 @@ describe('in-stores/search/lexer/secondStage', () => {
   it('must ignore values without a field', () => {
     expect(lexSecondStage(lexFirstStage(':bar'))).to.deep.equal([
       { token: 'fieldSeparator', lexeme: ':', start: 0, end: 1 },
-      { token: 'term', lexeme: 'bar', start: 1, end: 4 },
+      { token: 'term', lexeme: 'bar', start: 1, end: 4 }
     ]);
   });
 

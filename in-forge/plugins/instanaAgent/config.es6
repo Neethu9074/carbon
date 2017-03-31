@@ -2,7 +2,6 @@ import logging from 'instalog';
 
 import createAgentResponseObservable from 'in-services/subscription/agentResponse';
 
-
 const logger = logging.createLogger('in-forge/instanaAgent/config');
 
 export function get(snapshot) {

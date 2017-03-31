@@ -1,5 +1,4 @@
-import {createStore} from 'in-stores/store';
-
+import { createStore } from 'in-stores/store';
 
 const content = createStore({
   name: 'DetailPopupPresenter/ContentStore',
@@ -17,8 +16,7 @@ export function toggleContent(_content) {
       return _content;
     }
 
-    if (currentContent.title === _content.title &&
-        currentContent.data === _content.data) {
+    if (currentContent.title === _content.title && currentContent.data === _content.data) {
       return null;
     }
 

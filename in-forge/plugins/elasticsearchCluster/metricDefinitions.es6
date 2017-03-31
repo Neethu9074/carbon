@@ -1,21 +1,10 @@
-import {
-  siMultiplyPrefix,
-  siPrefix,
-  number,
-  bytes,
-  ms
-} from 'in-services/formatters/number';
-import {getMetricMatch} from 'in-sdk/metrics/metricDefinitions';
-
+import { siMultiplyPrefix, siPrefix, number, bytes, ms } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [
-      'query_latency'
-    ],
-    labels: [
-      'Latency'
-    ],
+    metrics: ['query_latency'],
+    labels: ['Latency'],
     min: 0,
     formatter: ms
   },
@@ -48,16 +37,8 @@ export default [
     formatter: siPrefix
   },
   {
-    metrics: [
-      'indices_count',
-      'shards.node_active_shards',
-      'indices.document_count'
-    ],
-    labels: [
-      'Indices',
-      'Active Shards',
-      'Documents'
-    ],
+    metrics: ['indices_count', 'shards.node_active_shards', 'indices.document_count'],
+    labels: ['Indices', 'Active Shards', 'Documents'],
     min: 0,
     category: ['Nodes'],
     formatter: number

@@ -1,8 +1,7 @@
-import {on} from 'reactive-observables';
+import { on } from 'reactive-observables';
 
-import {isLogicalMapView$, goToPhysicalView, goToLogicalView} from 'in-stores/navigation/navigationWebVR';
+import { isLogicalMapView$, goToPhysicalView, goToLogicalView } from 'in-stores/navigation/navigationWebVR';
 import keyCodes from 'in-components/keyCodes';
-
 
 export default function createKeyboardController(controls) {
   let strife = 0;

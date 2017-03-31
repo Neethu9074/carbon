@@ -9,8 +9,7 @@ import NomadInfo from 'in-forge/plugins/docker/NomadInfo';
 
 import Info from 'in-forge/plugins/docker/Info';
 
-
-export default function DockerSidebar({snapshot}) {
+export default function DockerSidebar({ snapshot }) {
   const labels = snapshot.getIn(['data', 'Labels']);
 
   return (
@@ -26,8 +25,7 @@ export default function DockerSidebar({snapshot}) {
         </Collapsible.Content>
       </Collapsible>
 
-      <KeyValuePopup header='Container Labels'
-                     data={labels} />
+      <KeyValuePopup header="Container Labels" data={labels} />
 
       <MarathonInfo snapshot={snapshot} />
 

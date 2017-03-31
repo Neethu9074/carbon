@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
-import {getServiceSideForOverview} from 'in-sdk/tracing';
+import { getServiceSideForOverview } from 'in-sdk/tracing';
 
 import './TraceTableRow.less';
 
@@ -9,7 +9,7 @@ const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
 const rpt = React.PropTypes;
 
-export default function TraceTableRow({selectedTraceId, trace, onClick}) {
+export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
   let classes = block;
   if (selectedTraceId === trace.id) {
     classes += ' ' + block + '--selected';
@@ -19,8 +19,7 @@ export default function TraceTableRow({selectedTraceId, trace, onClick}) {
   const serviceSnapshotId = trace[`${side}ServiceId`];
 
   return (
-    <div className={classes}
-         onClick={() => onClick(trace.id)}>
+    <div className={classes} onClick={() => onClick(trace.id)}>
       <span className={cellClassName}>
         {trace.start}
       </span>
@@ -34,10 +33,9 @@ export default function TraceTableRow({selectedTraceId, trace, onClick}) {
         {trace.totalErrorCount}
       </span>
       <span className={cellClassName}>
-        {serviceSnapshotId ?
-          <EntityColumnContent serviceSnapshotId={serviceSnapshotId}
-                               time={trace.startMillis} />
-        : null}
+        {serviceSnapshotId
+          ? <EntityColumnContent serviceSnapshotId={serviceSnapshotId} time={trace.startMillis} />
+          : null}
       </span>
     </div>
   );

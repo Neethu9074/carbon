@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {keys$, enable, disable} from 'in-views/configurationView/subview/EumKeys/stores/keys';
+import { keys$, enable, disable } from 'in-views/configurationView/subview/EumKeys/stores/keys';
 import NewAppForm from 'in-views/configurationView/subview/EumKeys/components/NewAppForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -10,34 +10,28 @@ import LifecycleObserver from 'in-components/LifecycleObserver';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({
-  keys: keys$
-}, function EumKeys({keys}) {
-  return (
-    <SubViewWrapper>
-      <LifecycleObserver onWillMount={enable}
-                         onWillUnmount={disable} />
-      <SubViewHeader>
-        End-User Monitoring Keys
-      </SubViewHeader>
+export default connectTo(
+  {
+    keys: keys$
+  },
+  function EumKeys({ keys }) {
+    return (
+      <SubViewWrapper>
+        <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
+        <SubViewHeader>
+          End-User Monitoring Keys
+        </SubViewHeader>
 
-      {keys == null ?
-        <LoadingIndicator type='dark' />
-      : null}
+        {keys == null ? <LoadingIndicator type="dark" /> : null}
 
-      {keys != null ?
-        <Section>
-          <NewAppForm />
-        </Section>
-      : null}
+        {keys != null
+          ? <Section>
+              <NewAppForm />
+            </Section>
+          : null}
 
-      {keys != null ?
-        keys.map(key =>
-          <Key key={key.id}
-               apiKey={key.id}
-               name={key.appName} />
-        )
-      : null}
-    </SubViewWrapper>
-  );
-});
+        {keys != null ? keys.map(key => <Key key={key.id} apiKey={key.id} name={key.appName} />) : null}
+      </SubViewWrapper>
+    );
+  }
+);

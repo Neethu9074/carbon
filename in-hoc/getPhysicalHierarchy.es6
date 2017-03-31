@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {getPhysicalHierarchy as loadPhysicalHierarchy} from 'in-stores/snapshot';
-import {emptyList} from 'in-services/fixedImmutables';
-
+import { getPhysicalHierarchy as loadPhysicalHierarchy } from 'in-stores/snapshot';
+import { emptyList } from 'in-services/fixedImmutables';
 
 export default function getPhysicalHierarchy(ComposedComponent) {
   return React.createClass({
@@ -36,7 +35,7 @@ export default function getPhysicalHierarchy(ComposedComponent) {
         });
         this.subscription = loadPhysicalHierarchy(props.snapshotId)
           .startWith(emptyList)
-          .subscribe(physicalHierarchy => this.setState({physicalHierarchy}));
+          .subscribe(physicalHierarchy => this.setState({ physicalHierarchy }));
       }
     },
 
@@ -53,10 +52,7 @@ export default function getPhysicalHierarchy(ComposedComponent) {
     },
 
     render() {
-      return (
-        <ComposedComponent {...this.props}
-                           {...this.state} />
-      );
+      return <ComposedComponent {...this.props} {...this.state} />;
     }
   });
 }

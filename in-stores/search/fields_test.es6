@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
-
+import { expect } from 'chai';
 
 describe('in-components/SearchBar/misc/fields', () => {
   let mod;
@@ -16,32 +15,26 @@ describe('in-components/SearchBar/misc/fields', () => {
       { alias: 'trace' },
       { alias: 'event' },
       { alias: 'log' },
-
       { alias: 'entity.containerized' },
       { alias: 'entity.id' },
       { alias: 'entity.os' },
       { alias: 'entity.serviceName' },
       { alias: 'entity.type' },
       { alias: 'entity.version' },
-
       { alias: 'span.type' },
       { alias: 'span.duration' },
       { alias: 'span.errorCount' },
       { alias: 'span.location.country' },
       { alias: 'span.sql.command' },
       { alias: 'span.content' },
-
       { alias: 'graph.connectedTo' },
       { alias: 'graph.relatedTo' },
-
       { alias: 'event.open' },
       { alias: 'event.severity' },
       { alias: 'event.type' },
-
       { alias: 'trace.type' },
       { alias: 'trace.errorCount' },
-
-      { alias: 'log.level' },
+      { alias: 'log.level' }
     ]);
   });
 

@@ -1,16 +1,14 @@
 /* eslint-env mocha, node */
-import {create} from 'reactive-observables';
+import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
-import {resetStoreRegistry} from 'in-stores/store';
+import { resetStoreRegistry } from 'in-stores/store';
 import keyCodes from 'in-components/keyCodes';
 
-
 describe('shortcuts/C', () => {
-
   let selectedEntityId;
   let currentService;
   let focusEntityId;
@@ -63,7 +61,7 @@ describe('shortcuts/C', () => {
       'in-map/stores/focusableSceneObjectsStore': {
         sceneObjects: {
           stream: create().startWith({
-            'id1': {
+            id1: {
               getFocusPosition: () => {
                 return {
                   x: 1,

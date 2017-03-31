@@ -1,15 +1,17 @@
 import React from 'react';
 
-import {error$} from 'in-stores/search/query';
+import { error$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 
 import './ErrorIndicator.less';
 
 const block = 'in-search-error-indicator';
 
-export default connectTo({
+export default connectTo(
+  {
     error: error$
-  }, function ErrorIndicator({error}) {
+  },
+  function ErrorIndicator({ error }) {
     if (!error) {
       return null;
     }

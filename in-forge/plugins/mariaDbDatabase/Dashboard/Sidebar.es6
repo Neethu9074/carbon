@@ -8,8 +8,7 @@ import TagList from 'in-sdk/components/sidebar/TagList';
 
 import Info from '../Info';
 
-
-export default function MariaDbSidebar({snapshot}) {
+export default function MariaDbSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
