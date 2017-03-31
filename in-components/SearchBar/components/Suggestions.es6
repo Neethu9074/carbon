@@ -49,7 +49,7 @@ export default React.createClass({
     }
 
     // suggestions window has 30rem in width, so the max x postion is full width - 16 * 30 (480);
-    const left = Math.min(config.left, searchbarWidth - 480);
+    const left = Math.min(config.left, searchbarWidth - 380);
     const scrollElement = document.querySelector('.in-search-suggestions');
 
     return (
