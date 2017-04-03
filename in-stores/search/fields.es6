@@ -1,6 +1,8 @@
 import { blackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 
+export const aliasMap = {};
+
 const helpTexts = {
   entity: 'Infrastructure and application entity',
   'entity.host': 'Infrastructure host',
@@ -45,6 +47,8 @@ function getTree() {
 }
 
 export function node(name, props = {}) {
+  aliasMap[name] = true;
+
   return {
     name,
     description: props.description || helpTexts[props.path],

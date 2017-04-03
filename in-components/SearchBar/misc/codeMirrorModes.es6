@@ -1,7 +1,8 @@
 import CodeMirror from 'codemirror/lib/codemirror.js';
 
-import lexThirdStage from 'in-stores/search/lexer/thirdStage';
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
+import lexThirdStage from 'in-stores/search/lexer/thirdStage';
+import { aliasMap } from 'in-stores/search/fields';
 
 CodeMirror.defineMode('instanaSearch', () => {
   return {
@@ -27,6 +28,16 @@ CodeMirror.defineMode('instanaSearch', () => {
       let classes = 'character';
       if (token) {
         classes += ` ${token.token}`;
+      }
+
+      // regex are unsupported, therefore error
+      if (token.token === 'regex') {
+        classes += ' error';
+      }
+
+      // if the current field path doesn't exist -> error
+      if (token.token === 'field' && !aliasMap[token.lexeme]) {
+        classes += ' error';
       }
 
       const blockId = token.blockId;
