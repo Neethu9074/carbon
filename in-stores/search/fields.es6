@@ -26,7 +26,7 @@ const helpTexts = {
   span: ''
 };
 
-const filterNode = node('filter');
+const filterNode = node('filter', { description: 'Predefined filter' });
 filters$.subscribe(_filters => {
   filterNode.children = _filters.toArray().map(_filter =>
     node(_filter.get('name'), {
