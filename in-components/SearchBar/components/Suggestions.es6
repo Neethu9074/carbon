@@ -115,12 +115,6 @@ export default React.createClass({
         this.onReturn();
       }
     });
-
-    // TODO: make this better
-    this.blurSubscription = this.props.eventEmitter
-      .on('blur')
-      .throttle(200, { leading: false })
-      .subscribe(() => this.props.onClose());
   },
 
   disposeSubscriptions() {
@@ -193,10 +187,8 @@ export default React.createClass({
   }
 });
 
-function TermType({node}) {
-  const termType = (node.termType && (node.termType === 'string' || node.termType === 'long'))
-    ? node.termType
-    : null;
+function TermType({ node }) {
+  const termType = node.termType && (node.termType === 'string' || node.termType === 'long') ? node.termType : null;
   if (!termType) {
     return null;
   }

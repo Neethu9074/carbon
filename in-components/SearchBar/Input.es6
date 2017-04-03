@@ -101,6 +101,12 @@ export default getElementDimensions(
           this.state.eventEmitter.emit('blur', true);
         });
 
+        // TODO: make this better
+        this.blurSubscription = this.state.eventEmitter
+          .on('blur')
+          .throttle(200, { leading: false })
+          .subscribe(this.hide);
+
         editor.on('change', (editor, change) => {
           const query = this.editor.getValue();
           this.updateQuery(query);
@@ -164,9 +170,12 @@ export default getElementDimensions(
           this.leaveSubscription.dispose();
           this.leaveSubscription = null;
         }
+        if (this.blurSubscription) {
+          this.blurSubscription.dispose();
+          this.blurSubscription = null;
+        }
 
         this.state.eventEmitter.dispose();
-        this.isDisposed = true;
       },
 
       componentWillUpdate(nextProps) {
@@ -185,7 +194,6 @@ export default getElementDimensions(
               eventEmitter={this.state.eventEmitter}
               onSelectSuggestion={this.onSelectSuggestion}
               config={this.state.suggestionConfig}
-              onClose={this.hide}
             />
           </div>
         );
@@ -244,9 +252,7 @@ export default getElementDimensions(
       },
 
       hide() {
-        if (!this.isDisposed) {
-          this.setState({ suggestionConfig: null });
-        }
+        this.setState({ suggestionConfig: null });
       },
 
       show(suggestionConfig) {
