@@ -41,7 +41,8 @@ export default getElementDimensions(
         const editor = (this.editor = CodeMirror(this.input, {
           mode: 'instanaSearch',
           value: this.props.query,
-          autofocus: true
+          autofocus: true,
+          scrollbarStyle: null
         }));
 
         let autocompleteShownForCursorPosition = null;
