@@ -13,4 +13,4 @@ export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
 
-export const blackListedSearchFieldAliases = ['log', 'span.content'];
+export const blackListedSearchFieldKeywords = ['log', 'span.content'];

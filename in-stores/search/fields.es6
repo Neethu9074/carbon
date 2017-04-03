@@ -1,4 +1,4 @@
-import { blackListedSearchFieldAliases } from 'in-services/featureFlags';
+import { blackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 
 const helpTexts = {
@@ -60,13 +60,13 @@ export function buildCategorizedFields(fields) {
   fields = fields || window.instana.searchFields;
 
   fields.forEach(field => {
-    for (let i = 0, length = blackListedSearchFieldAliases.length; i < length; i++) {
-      if (field.alias.startsWith(blackListedSearchFieldAliases[i])) {
+    for (let i = 0, length = blackListedSearchFieldKeywords.length; i < length; i++) {
+      if (field.keyword.startsWith(blackListedSearchFieldKeywords[i])) {
         return;
       }
     }
 
-    const path = field.alias.split('.');
+    const path = field.keyword.split('.');
     let currentNode = root;
     let completePath = '';
 
