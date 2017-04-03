@@ -60,6 +60,17 @@ describe('in-stores/search/lexer/firstStage', () => {
         }
       ]);
     });
+
+    it('must support umlauts', () => {
+      expect(lexFirstStage('Tschüß')).to.deep.equal([
+        {
+          token: 'term',
+          lexeme: 'Tschüß',
+          start: 0,
+          end: 6
+        }
+      ]);
+    });
   });
 
   describe('phrases', () => {
