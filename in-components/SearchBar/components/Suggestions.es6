@@ -84,11 +84,13 @@ export default React.createClass({
                 }
               }}
             >
-              {child.name}
-              <TermType node={child} />
-              <span className={`${block}__description`}>
-                {child.description}
+              <span className={`${block}__label`}>
+                {child.name}
               </span>
+              <TermType node={child} />
+              <div className={`${block}__description`}>
+                {child.description}
+              </div>
             </li>
           ))}
         </ul>
