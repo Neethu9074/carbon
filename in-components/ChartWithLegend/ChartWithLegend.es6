@@ -4,6 +4,8 @@ import createDataSeriesFilterStore from 'in-components/ChartWithLegend/dataserie
 import { currentRollup$, getRollupForTimeframe } from 'in-stores/metric';
 import Chart from 'in-charts/Chart/ChartReactComponent';
 import ChartLegend from 'in-components/ChartLegend';
+import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import './ChartWithLegend.less';
@@ -13,11 +15,14 @@ const block = 'in-chart-with-legend';
 export default connectTo(
   props => {
     if (props.currentRollup) {
-      return {};
+      return {
+        defaultRollup: currentRollup$
+      };
     }
 
     return {
-      currentRollup: props.timeframe$ ? props.timeframe$.map(getRollupForTimeframe) : currentRollup$
+      currentRollup: props.timeframe$ ? props.timeframe$.map(getRollupForTimeframe) : currentRollup$,
+      defaultRollup: currentRollup$
     };
   },
   React.createClass({
@@ -38,6 +43,11 @@ export default connectTo(
       return (
         <div className={block}>
           <div className={block + '__rollup-indicator'}>
+            {props.defaultRollup !== props.currentRollup
+              ? <Tooltip content={`Chart rollup differs from default rollup (${props.defaultRollup}).`}>
+                  <SvgIcon type="danger_sign" className={`${block}__rollup-warning`} width={16} />
+                </Tooltip>
+              : null}
             Rollup {props.currentRollup}
           </div>
 
