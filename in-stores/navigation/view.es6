@@ -1,6 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { trySetField } from 'in-stores/search/manipulation';
 
 export const isPhysicalMapView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/physical') === 0)
@@ -20,12 +21,11 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, 
 
 export const traceViewLinkWithoutEumTraces$ = getModifiedUrlStream(params => {
   params.pathname = '/traces';
-  params.query.q = encodeURIComponent('-trace.type:eum');
+  params.query.q = trySetField(decodeURIComponent(params.query.q || ''), '-trace.type', 'eum');
 });
 
 export const logView$ = getModifiedUrlStream(params => {
   params.pathname = '/logs';
-  delete params.query.q;
 });
 
 export function getLogViewLinkWithQuery(query) {
@@ -58,7 +58,7 @@ export const isTraceView$ = navigationParameters$.map(params => params.pathname.
 
 export const eventsLinkOnlyIncidents$ = getModifiedUrlStream(params => {
   params.pathname = '/events';
-  params.query.q = encodeURIComponent('event.type:incident');
+  params.query.q = trySetField(decodeURIComponent(params.query.q || ''), 'event.type', 'incident');
 });
 
 export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
@@ -72,12 +72,11 @@ export function getEventViewWithEvent(eventId) {
 
 export const tableViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
-  delete params.query.q;
 });
 
 export const tableViewFilteredForServicesLink$ = getModifiedUrlStream(params => {
   params.pathname = '/table';
-  params.query.q = 'entity.selfType:service';
+  params.query.q = trySetField(decodeURIComponent(params.query.q || ''), 'entity.selfType', 'service');
 });
 
 export const isTableView$ = navigationParameters$.map(params => params.pathname.indexOf('/table') === 0).distinct();
@@ -91,7 +90,6 @@ export function focusEvent(eventId) {
       params.pathname = '/events';
     } else {
       params.pathname = '/events';
-      delete params.query.q;
     }
     params.query.eventId = encodeURIComponent(eventId);
     delete params.query.snapshotId;

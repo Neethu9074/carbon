@@ -18,6 +18,16 @@ export function containsField(query, fieldName, value = undefined) {
   return Boolean(reduce(parse(query), (hasField, node) => hasField || fieldMatcher(node), false));
 }
 
+// Tries to set the field and will fall back to just appending it to the back
+// when the query cannot be properly parsed.
+export function trySetField(query, fieldName, value) {
+  try {
+    return setField(query, fieldName, value);
+  } catch (e) {
+    return `${query} ${fieldName}:${value}`;
+  }
+}
+
 export function setField(query, fieldName, value) {
   if (containsField(query, fieldName, value)) {
     return query;

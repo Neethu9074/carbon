@@ -103,7 +103,6 @@ function toBaseUrl(params) {
 export function buildUrlStream({ path }) {
   return getModifiedUrlStream(params => {
     params.pathname = path;
-    delete params.query.q;
   });
 }
 
@@ -208,7 +207,6 @@ export function goToLogicalView() {
 
 export const logicalViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/logical';
-  delete params.query.q;
   delete params.query.vg;
 });
 
@@ -221,13 +219,11 @@ export function goToPhysicalView() {
 
 export const physicalViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/physical';
-  delete params.query.q;
   delete params.query.vg;
 });
 
 export const containerViewLink$ = getModifiedUrlStream(params => {
   params.pathname = '/container';
-  delete params.query.q;
   delete params.query.vg;
 });
 
