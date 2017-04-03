@@ -176,6 +176,8 @@ export default React.createClass({
       // if the selected suggestion is a leaf, append an fieldSeperator symbol (:), but only if it doesn't exist
       if (child.children.length === 0 && (!nextToken || !isFieldSeparator(nextToken))) {
         replaceWith += ':';
+      } else if (child.children.length > 0) {
+        replaceWith += '.';
       }
     }
 

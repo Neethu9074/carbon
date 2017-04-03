@@ -108,21 +108,23 @@ export default getElementDimensions(
           .subscribe(this.hide);
 
         editor.on('change', (editor, change) => {
+          const { ch } = editor.doc.getCursor();
+          const cursor = ch - 1;
           const query = this.editor.getValue();
           this.updateQuery(query);
 
           const tokens = lex(query);
-          if (change.origin !== '+input') {
+          if (change.origin !== '+input' && change.origin !== 'setValue') {
             return;
           }
 
-          const changedToken = getTokenForColumn(tokens, change.to.ch);
+          const changedToken = getTokenForColumn(tokens, cursor);
           if (changedToken == null || (changedToken.token !== 'term' && changedToken.token !== 'field')) {
             this.hide();
             return;
           }
 
-          autocompleteShownForCursorPosition = change.to.ch + 1;
+          autocompleteShownForCursorPosition = cursor + 1;
 
           const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
           this.show({
