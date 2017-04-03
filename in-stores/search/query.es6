@@ -63,6 +63,7 @@ unvalidatedQuery$
       };
     }
   })
+  .debounce(200)
   .flatMap(previousResult => {
     if (previousResult.error) {
       return always(previousResult);
