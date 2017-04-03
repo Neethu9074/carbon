@@ -43,8 +43,8 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
     return this.material;
   }
 
-  rebuild() {
-    const numVertices = super.rebuild();
+  build() {
+    const numVertices = super.build();
     if (numVertices === 0) {
       return;
     }
