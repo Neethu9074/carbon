@@ -28,7 +28,7 @@ function detectBeginningBlockWithWhitespace(tokens) {
   if (
     tokens.length >= 2 &&
     isWhitespace(tokens[1]) &&
-    (isTerm(currentToken) || isRegex(currentToken) || isOperator(currentToken))
+    (isTerm(currentToken) || isRegex(currentToken) || isPhrase(currentToken) || isOperator(currentToken))
   ) {
     const blockId = String(currentBlockId++);
     currentToken.blockId = blockId;
@@ -67,7 +67,10 @@ function detectLonelyBlocks(i, tokens) {
 
   if (isWhitespace(currentToken)) {
     const nextNextToken = tokens[i + 2];
-    if (isWhitespace(nextNextToken) && (isTerm(nextToken) || isRegex(nextToken) || isOperator(nextToken))) {
+    if (
+      isWhitespace(nextNextToken) &&
+      (isTerm(nextToken) || isRegex(nextToken) || isPhrase(nextToken) || isOperator(nextToken))
+    ) {
       const blockId = String(currentBlockId++);
       nextToken.blockId = blockId;
       nextToken.isBlockingStart = true;

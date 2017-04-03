@@ -192,6 +192,23 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
+  it('should detect lonely phrases', () => {
+    expect(lexThirdStage(lexSecondStage(lexFirstStage('"" "foo bar" ')), 0)).to.deep.equal([
+      { token: 'phrase', lexeme: '""', start: 0, end: 2, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'whitespace', lexeme: ' ', start: 2, end: 3 },
+      {
+        token: 'phrase',
+        lexeme: '"foo bar"',
+        start: 3,
+        end: 12,
+        blockId: '1',
+        isBlockingStart: true,
+        isBlockingEnd: true
+      },
+      { token: 'whitespace', lexeme: ' ', start: 12, end: 13 }
+    ]);
+  });
+
   it('should detect multiple blocks', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:(a) OR bar:(b)')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
