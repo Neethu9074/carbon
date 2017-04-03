@@ -1,6 +1,8 @@
 import { parse } from 'lucene';
 
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { validate } from 'in-services/api/search';
+import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
 
 const unvalidatedQueryStore = createStore({
@@ -44,16 +46,45 @@ unvalidatedQuery$.skipFirst().debounce(500).subscribe(query => {
   });
 });
 
-unvalidatedQuery$.subscribe(unvalidatedQuery => {
-  try {
-    const parsedQuery = parse(unvalidatedQuery);
-    errorStore.mutateTo(null);
-    queryStore.mutateTo(unvalidatedQuery);
-    parsedQueryStore.mutateTo(parsedQuery);
-  } catch (e) {
-    errorStore.mutateTo(e.message);
-  }
-});
+unvalidatedQuery$
+  .map(query => {
+    try {
+      const parsedQuery = parse(query);
+      return {
+        query,
+        parsedQuery,
+        error: null
+      };
+    } catch (e) {
+      return {
+        query,
+        parsedQuery: null,
+        error: e.message
+      };
+    }
+  })
+  .flatMap(previousResult => {
+    if (previousResult.error) {
+      return always(previousResult);
+    }
+
+    return validate(previousResult.query).map(validationResult => {
+      return {
+        query: previousResult.query,
+        parsedQuery: previousResult.parsedQuery,
+        error: validationResult.body.valid ? null : validationResult.body.error
+      };
+    });
+  })
+  .subscribe(result => {
+    if (result.error) {
+      errorStore.mutateTo(result.error);
+    } else {
+      errorStore.mutateTo(null);
+      queryStore.mutateTo(result.query);
+      parsedQueryStore.mutateTo(result.parsedQuery);
+    }
+  });
 
 export function setInputString(newString) {
   unvalidatedQueryStore.mutateTo(newString);

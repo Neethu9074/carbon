@@ -6,7 +6,16 @@ import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import HttpResponseError from 'in-services/http/HttpResponseError';
 
 export default function(
-  { method, url, queryParams, data, timeout = 30000, responseType = 'json', ignoreAbortErrors = true }
+  {
+    method,
+    url,
+    queryParams,
+    data,
+    timeout = 30000,
+    responseType = 'json',
+    ignoreAbortErrors = true,
+    treat400AsError = true
+  }
 ) {
   url = formatUrl(url, queryParams);
   let xhr;
@@ -37,7 +46,10 @@ export default function(
             body: xhr.response,
             getHeader: name => xhr.getResponseHeader(name)
           };
-          if (199 < response.status && response.status < 300) {
+          if (
+            (199 < response.status && response.status < 300) ||
+            (!treat400AsError && 399 < response.status && response.status < 500)
+          ) {
             if (responseType === 'json' && response.body && response.body.length > 0) {
               response.body = JSON.parse(response.body);
             }
