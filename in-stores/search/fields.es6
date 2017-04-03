@@ -137,11 +137,5 @@ function findInNode(node, query) {
 }
 
 export const operatorTree = node('root', {
-  children: [
-    node('AND', { isPreset: true }),
-    node('OR', { isPreset: true }),
-    node('NOT', { isPreset: true }),
-    node('+', { isPreset: true }),
-    node('-', { isPreset: true })
-  ]
+  children: [node('AND', { isPreset: true }), node('OR', { isPreset: true }), node('NOT', { isPreset: true })]
 });
