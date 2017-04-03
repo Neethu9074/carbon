@@ -5,7 +5,7 @@ import React from 'react';
 
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getRule, saveRule, createRule } from 'in-services/groundskeeper/rules';
+import { getRule, saveRule, createRule } from 'in-services/api/rules';
 import RuleForm from 'in-views/configurationView/subview/Rule/RuleForm';
 import Section from 'in-views/configurationView/components/Section';
 import { openRules } from 'in-stores/navigation/configuration';

@@ -4,7 +4,7 @@ import { fromJS, List } from 'immutable';
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import { getRuleBinding, saveRuleBinding, createRuleBinding } from 'in-services/groundskeeper/ruleBindings';
+import { getRuleBinding, saveRuleBinding, createRuleBinding } from 'in-services/api/ruleBindings';
 import RuleBindingForm from 'in-views/configurationView/subview/RuleBinding/RuleBindingForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -12,7 +12,7 @@ import Section from 'in-views/configurationView/components/Section';
 import { openRuleBindings } from 'in-stores/navigation/configuration';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
-import { getRules } from 'in-services/groundskeeper/rules';
+import { getRules } from 'in-services/api/rules';
 import Button from 'in-components/Button';
 
 const logger = createLogger('RuleBinding');

@@ -1,7 +1,7 @@
 import { create } from 'reactive-observables';
 import React from 'react';
 
-import { getAllEumKeys, removeKey, addKey, renameKey } from 'in-services/groundskeeper/eumKeys';
+import { getAllEumKeys, removeKey, addKey, renameKey } from 'in-services/api/eumKeys';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { alwaysNull } from 'in-services/fixedStreams';

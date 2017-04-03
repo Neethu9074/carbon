@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getTenantsWithUnits } from 'in-services/groundskeeper/account';
+import { getTenantsWithUnits } from 'in-services/api/account';
 import classnames from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon';

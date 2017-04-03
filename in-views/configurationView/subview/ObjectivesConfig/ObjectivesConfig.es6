@@ -2,13 +2,7 @@ import { createLogger } from 'instalog';
 import { Map } from 'immutable';
 import React from 'react';
 
-import {
-  createObjective,
-  getObjectives,
-  saveObjective,
-  deleteObjective,
-  setEnabled
-} from 'in-services/groundskeeper/objectives';
+import { createObjective, getObjectives, saveObjective, deleteObjective, setEnabled } from 'in-services/api/objectives';
 import Table from 'in-views/configurationView/subview/ObjectivesConfig/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';

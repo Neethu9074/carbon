@@ -8,7 +8,7 @@ import {
   saveRuleBinding,
   deleteRuleBinding,
   setEnabled
-} from 'in-services/groundskeeper/ruleBindings';
+} from 'in-services/api/ruleBindings';
 import Table from 'in-views/configurationView/subview/RuleBindings/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';

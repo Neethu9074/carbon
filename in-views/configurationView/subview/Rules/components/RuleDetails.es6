@@ -3,7 +3,7 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getRule } from 'in-services/groundskeeper/rules';
+import { getRule } from 'in-services/api/rules';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';

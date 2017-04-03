@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import { Map } from 'immutable';
 import React from 'react';
 
-import { createRule, getRules, saveRule, deleteRule } from 'in-services/groundskeeper/rules';
+import { createRule, getRules, saveRule, deleteRule } from 'in-services/api/rules';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';

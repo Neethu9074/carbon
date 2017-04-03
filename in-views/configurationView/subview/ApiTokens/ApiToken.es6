@@ -6,7 +6,7 @@ import React from 'react';
 import ApiTokenForm from 'in-views/configurationView/subview/ApiTokens/ApiTokenForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getApiToken, saveApiToken } from 'in-services/groundskeeper/apiTokens';
+import { getApiToken, saveApiToken } from 'in-services/api/apiTokens';
 import Section from 'in-views/configurationView/components/Section';
 import { openApiTokens } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';

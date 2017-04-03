@@ -3,7 +3,7 @@ import { fromJS, List } from 'immutable';
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import { getObjective, saveObjective, createObjective } from 'in-services/groundskeeper/objectives';
+import { getObjective, saveObjective, createObjective } from 'in-services/api/objectives';
 import ObjectiveForm from 'in-views/configurationView/subview/ObjectiveConfig/ObjectiveForm';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';

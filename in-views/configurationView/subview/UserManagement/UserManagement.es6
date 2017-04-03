@@ -1,13 +1,7 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import {
-  getUsers,
-  setRole,
-  removeUserFromTenant,
-  revokeInvitation,
-  sendInvitation
-} from 'in-services/groundskeeper/users';
+import { getUsers, setRole, removeUserFromTenant, revokeInvitation, sendInvitation } from 'in-services/api/users';
 import UserInvitationDialog from 'in-views/configurationView/subview/UserManagement/UserInvitationDialog';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
@@ -18,7 +12,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Section from 'in-views/configurationView/components/Section';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import Notification from 'in-components/form/Notification';
-import { getRoles } from 'in-services/groundskeeper/roles';
+import { getRoles } from 'in-services/api/roles';
 import Gravatar from 'in-components/Gravatar';
 import { fallbackRoleId } from 'in-stores/user';
 import { config } from 'in-services/config';

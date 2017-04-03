@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import { Map } from 'immutable';
 import React from 'react';
 
-import { getApiTokens, saveApiToken, deleteApiToken } from 'in-services/groundskeeper/apiTokens';
+import { getApiTokens, saveApiToken, deleteApiToken } from 'in-services/api/apiTokens';
 import ApiTokenLink from 'in-views/configurationView/subview/ApiTokens/ApiTokenLink';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';

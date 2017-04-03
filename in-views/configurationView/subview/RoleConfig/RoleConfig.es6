@@ -7,7 +7,7 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
 import Section from 'in-views/configurationView/components/Section';
-import { getRole, saveRole } from 'in-services/groundskeeper/roles';
+import { getRole, saveRole } from 'in-services/api/roles';
 import { openRoles } from 'in-stores/navigation/configuration';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';

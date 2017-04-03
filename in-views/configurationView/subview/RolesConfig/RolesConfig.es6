@@ -5,7 +5,7 @@ import React from 'react';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getRoles, saveRole, deleteRole } from 'in-services/groundskeeper/roles';
+import { getRoles, saveRole, deleteRole } from 'in-services/api/roles';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Role from 'in-views/configurationView/subview/RolesConfig/Role';

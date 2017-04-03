@@ -1,7 +1,7 @@
 import { createMapForm, createField } from 'formalistic';
 import { createLogger } from 'instalog';
 
-import { saveNewFilter, saveFilter } from 'in-services/groundskeeper/filters';
+import { saveNewFilter, saveFilter } from 'in-services/api/filters';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import { close } from 'in-components/DialogPresenter/store';
 import { createStore } from 'in-stores/store';

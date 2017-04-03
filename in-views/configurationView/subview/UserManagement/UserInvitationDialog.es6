@@ -3,7 +3,7 @@ import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
-import { getRoles } from 'in-services/groundskeeper/roles';
+import { getRoles } from 'in-services/api/roles';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import { fallbackRoleId } from 'in-stores/user';

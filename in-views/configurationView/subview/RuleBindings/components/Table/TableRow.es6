@@ -8,7 +8,7 @@ import { formatDurationAccurately } from 'in-services/formatters/date';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getRule } from 'in-services/groundskeeper/rules';
+import { getRule } from 'in-services/api/rules';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';

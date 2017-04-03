@@ -12,10 +12,7 @@ import {
   SavingRulesFailedNotification,
   SavingRulesSuccessfulNotification
 } from 'in-views/configurationView/subview/GenericServiceExtractionConfiguration/components/Notifications';
-import {
-  getServiceExtractionConfig,
-  savePartialServiceExtractionConfig
-} from 'in-services/groundskeeper/serviceExtraction';
+import { getServiceExtractionConfig, savePartialServiceExtractionConfig } from 'in-services/api/serviceExtraction';
 import { ListForm, MapForm, Field } from 'in-services/form';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { createStore } from 'in-stores/store';

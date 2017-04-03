@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import { List } from 'immutable';
 import React from 'react';
 
-import { getAllFilters, removeFilter } from 'in-services/groundskeeper/filters';
+import { getAllFilters, removeFilter } from 'in-services/api/filters';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { createStore } from 'in-stores/store';
