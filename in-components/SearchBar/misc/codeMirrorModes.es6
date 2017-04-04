@@ -2,13 +2,15 @@ import CodeMirror from 'codemirror/lib/codemirror.js';
 
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
 import lexThirdStage from 'in-stores/search/lexer/thirdStage';
-import { aliasMap } from 'in-stores/search/fields';
+import { getTree, aliasMap } from 'in-stores/search/fields';
 
 CodeMirror.defineMode('instanaSearch', () => {
   return {
     currentLexResult: null,
 
     startState() {
+      getTree();
+
       return {
         lexedFor: '',
         lexResult: null

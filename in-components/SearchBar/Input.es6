@@ -3,11 +3,11 @@ import RoEmitter from 'roemitter';
 import React from 'react';
 
 import { setInputString, unvalidatedQuery$ } from 'in-stores/search/query';
-import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import { onDown, onMove, onLeave } from 'in-services/reactiveMouseEvents';
+import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import { replaceWith } from 'in-components/SearchBar/misc/stringUtils';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import keyCodes from 'in-components/keyCodes';
 import connectTo from 'in-hoc/connectTo';
 

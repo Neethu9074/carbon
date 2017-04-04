@@ -39,7 +39,7 @@ filters$.subscribe(_filters => {
 });
 
 let tree;
-function getTree() {
+export function getTree() {
   if (!tree) {
     buildCategorizedFields();
   }
