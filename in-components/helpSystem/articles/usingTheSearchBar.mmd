@@ -1,49 +1,24 @@
 ---
-title: Using the search bar
+title: Using the Search Bar
 ...
 
-**We changed the search syntax to the lucene syntax. Please change your queries accordingly, e.g. replace `=` with `:`.**
+The Instana search functionality can be used to filter the 3D maps, comparison tables, trace- and incident views.
+Leveraging the [lucene query syntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html), the search bar has
+extensive abilities to search using fuzzy and wildcard searches as well as boolean operators. For example, the following
+query restricts views to production hosts with less than four CPUs:
 
-The search bar allows you to filter the views to your liking. A variety of queries are supported like free text queries, queries for tags, CPU counts and more.
+`entity.host.cpuCount:<4 AND entity.zone:production`.
 
-## Infrastructure View
+## Search Bar Interaction
+The search bar supports autocompletion for search fields and will syntax highlight the lucene query while you type.
+Once typing, the search bar will propose search fields that match the current input. You can accept proposed fields
+by hitting `RETURN`. Hit `CTRL+SPACE` to open the auto completion popup.
 
-The following listing shows the currently supported inputs. Entities matching these inputs will remain on the map respectively table. Note that the default operator used to combine multiple query terms is `AND`, i.e. all terms must match.
+## Lucene Query Syntax Cheat Sheet
 
-- **Free Text Query:** Any text to search for. Example: `elasticsearch`.
-- **Tag Query:** Use `tag:myTag`, e.g. `tag:production` or `tag:development` to search for entities with the specified tag.
-- **Type Query:** To search for specific types of entities, e.g. all Elasticsearch nodes, use `entityType:elasticsearch`.
-- **Hostname Query:** You can search for hostnames via `hostname:shopping`.
-- **Host FQDN Query:** FQDN queries work just like hostname queries: `fqdn:shopping.example.com`.
-- **Host CPU Count Query:** Queries for CPU counts support varying operators. This allows searches like `cpuCount:>1` to search for all hosts with more than one CPU. In a similar way, queries for lower CPU counts or an exact CPU count are possible.
-- **Host Memory Query:** Memory queries work just like CPU count queries: `memory>1024`. At the time of writing, the amount of memory is represented in bytes and needs to be queried in bytes.
-- **Zone Query:** Use `zone:us-east-1d` to search for EC2, GCE and custom zones.
-- **Service Query:** Use `service:shop` to search for logical services (and components where these services run on).
+ - **Fielded search:** `entity.host.cpuCount:>4`
+ - **Boolean operators:** `entity.host.cpuCount:<4 AND entity.zone:production`
+ - **Grouping:** `(entity.host.cpuCount:<4 AND entity.zone:production) OR entity.host.cpuCount:>4`
+ - **Wildcard searches:** `entity.type:*container*`
 
-
-## Application View
-
-Enter in the Application View the name of the Service you are looking for. You can enter an asterisk (`*`) at the end of the search term as a wildcard.
-
-## Trace View
-
-In the Trace View you can search for the request (e.g. `GET "/shop"`) by putting the parts containing the `"/"` sign into double quotes. Please also leverage the wildcard `*`.
-In addition to this you can search for specific response times of traces by entering the one of the following expressions (you can always use `:`, `:<`, `:>`) with the time in ms.
-
-```
-duration:>100
-```
-
-You can also search for traces containing errors:
-```
-errors:>0
-errors:3
-```
-
-You can search for content in spans using the search keyword `spanContent`. This is an early version of the feature that we will enhance and there are some limits to it at the moment.
-Please let us know what you are missing through our support.
-```
-spanContent:"select from products"
-```
-
-Please refer to https://instana.atlassian.net/wiki/display/DOCS/Search for more information.
+Please refer to the [documentation](https://instana.atlassian.net/wiki/display/DOCS/Search) for more information.
