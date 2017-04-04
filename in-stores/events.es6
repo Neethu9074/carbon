@@ -75,7 +75,10 @@ export const eventsInTimeframe$ = combineLatest([
     for (let i = 0, len = eventsToFiler.length; i < len; i++) {
       const event = eventsToFiler[i];
       if (event.time < from) {
-        continue;
+        const eventTo = event.state === 'open' ? Number.MAX_VALUE : event.end;
+        if (eventTo < from) {
+          continue;
+        }
       } else if (event.time > to) {
         break;
       }

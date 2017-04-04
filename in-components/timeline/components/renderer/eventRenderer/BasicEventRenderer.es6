@@ -103,6 +103,9 @@ export default class EventRenderer extends BasicRenderer {
       x: scale.getRange(event.get('start')),
       triggeringX: scale.getRange(this.getEventStart(event))
     };
+
+    this.drawSelectedEventTimerange(event, positions);
+
     if (positions.x <= 0 || positions.x > this.width) {
       if (positions.triggeringX <= 0 || positions.triggeringX > this.width) {
         return null;
@@ -125,6 +128,22 @@ export default class EventRenderer extends BasicRenderer {
 
     buffer.globalAlpha = prevValue;
     return positions;
+  }
+
+  drawSelectedEventTimerange(event, positions) {
+    if (event.get('id') !== this.selectedEventId) {
+      return;
+    }
+
+    const scale = this.scale;
+    const buffer = this.backBuffer;
+    const prevValue = buffer.globalAlpha;
+    const from = Math.max(0, Math.min(positions.x, positions.triggeringX));
+    const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : scale.getRange(event.get('end'));
+
+    buffer.globalAlpha = 0.2;
+    buffer.fillRect(from, this.y, to - from, 36);
+    buffer.globalAlpha = prevValue;
   }
 
   drawImage(image, x) {
