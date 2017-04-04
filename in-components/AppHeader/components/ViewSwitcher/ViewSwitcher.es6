@@ -10,10 +10,10 @@ import {
 } from 'in-stores/navigation/view';
 import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-stores/navigation';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { logViewEnabled, cockpitEnabled } from 'in-services/featureFlags';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { containsKeyword } from 'in-stores/search/keywords';
 import { openEventsAtServerTime$ } from 'in-stores/events';
-import { logViewEnabled } from 'in-services/featureFlags';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
 import { theme } from 'in-services/theme';
@@ -39,7 +39,14 @@ export default connectTo(
     return (
       <div className={block}>
         <ul className={block + '__list'}>
-          <View label="cockpit" icon="dashboard" isActive={pathname.indexOf('/cockpit') === 0} href$={cockpitLink$} />
+          {cockpitEnabled
+            ? <View
+                label="cockpit"
+                icon="dashboard"
+                isActive={pathname.indexOf('/cockpit') === 0}
+                href$={cockpitLink$}
+              />
+            : null}
 
           <View
             label="infrastructure"

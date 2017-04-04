@@ -7,7 +7,6 @@ import HttpServiceExtractionConfiguration
 import EjbServiceExtractionConfiguration
   from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
 import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
-import DeploymentOverview from 'promise?global,internal!in-views/internal/DeploymentOverview/DeploymentOverview';
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
 import ObjectivesConfig from 'promise?global,configView!in-views/configurationView/subview/ObjectivesConfig';
 import RoleConfig from 'promise?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
@@ -24,11 +23,11 @@ import Rule from 'promise?global,configView!in-views/configurationView/subview/R
 import AuditLogView from 'promise?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise?global,configView!in-views/configurationView/subview/UiConfig';
 import EumKeys from 'promise?global,configView!in-views/configurationView/subview/EumKeys';
-import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import TraceView from 'promise?global!in-views/traceView/TraceView';
 import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
 import LogView from 'promise?global!in-views/logView/LogView';
+import { cockpitEnabled } from 'in-services/featureFlags';
 import { Route, IndexRedirect } from 'react-router';
 import React from 'react';
 
@@ -166,15 +165,6 @@ export default (
     <Route component={WebVRView} path="webVR/physical" windowTitle="Physical WebVR View" />
     <Route component={WebVRView} path="webVR/logical" windowTitle="Logical WebVR View" />
 
-    {/* Internal dashboards */}
-    {instanaInternalFeaturesEnabled
-      ? <Route
-          component={createAsyncFullscreenOverlayViewComponent(DeploymentOverview)}
-          path="/internal/deploymentOverview"
-          windowTitle="Deployment Overview"
-        />
-      : null}
-
-    <IndexRedirect to="/cockpit" />
+    <IndexRedirect to={cockpitEnabled ? '/cockpit' : '/physical'} />
   </Route>
 );
