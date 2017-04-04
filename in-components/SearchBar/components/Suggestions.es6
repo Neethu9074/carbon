@@ -183,14 +183,13 @@ export default React.createClass({
 });
 
 function TermType({ node }) {
-  const termType = node.termType && (node.termType === 'string' || node.termType === 'long') ? node.termType : null;
-  if (!termType) {
+  if (!node.termType) {
     return null;
   }
 
   return (
     <span className={`${block}__term-type`}>
-      {termType}
+      {node.termType}
     </span>
   );
 }
@@ -221,7 +220,10 @@ function getChildrenForConfig(config) {
   }
 
   const lastPartOfCurrentTerm = getSubstringTillDotBackwards(cappedLexemeAtCursor).trim();
-  return node.children.filter(child => child.name.startsWith(lastPartOfCurrentTerm));
+  return node.children
+    .filter(child => child.name.startsWith(lastPartOfCurrentTerm))
+    // hide ID suggestions
+    .filter(child => child.termType !== 'id');
 }
 
 function getTokenForConfig(config) {
