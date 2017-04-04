@@ -14,8 +14,8 @@ export const typeFilter$ = createTrackingStore({
   })
 }).observable;
 
-export function setTypeFilter(value, negate) {
-  setKeyword('trace.type', value, negate);
+export function setTypeFilter(value) {
+  setKeyword('trace.type', value);
 }
 
 export function removeTypeFilter() {

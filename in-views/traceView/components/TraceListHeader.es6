@@ -33,7 +33,7 @@ export default connectTo(
             All Calls
           </TraceListFilterToggle>
 
-          <TraceListFilterToggle filter="without-eum" onClick={() => setTypeFilter('eum', true)}>
+          <TraceListFilterToggle filter="without-eum" onClick={() => setTypeFilter('server')}>
             Server Calls
             <Count count$={totalTraceCountWithoutEum$} />
           </TraceListFilterToggle>
