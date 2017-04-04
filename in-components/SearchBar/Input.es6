@@ -50,6 +50,7 @@ export default getElementDimensions(
         }));
 
         let autocompleteShownForCursorPosition = null;
+        let isFocused = false;
 
         editor.on('cursorActivity', () => {
           const currentCursorPosition = editor.getCursor().ch;
@@ -109,6 +110,7 @@ export default getElementDimensions(
         });
 
         editor.on('focus', () => {
+          isFocused = true;
           this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
         });
 
@@ -117,6 +119,7 @@ export default getElementDimensions(
         });
 
         editor.on('blur', () => {
+          isFocused = false;
           this.state.eventEmitter.emit('blur', true);
         });
 
@@ -133,7 +136,7 @@ export default getElementDimensions(
           this.updateQuery(query);
 
           const tokens = lex(query);
-          if (change.origin !== '+input' && change.origin !== 'setValue') {
+          if (!isFocused || (change.origin !== '+input' && change.origin !== 'setValue')) {
             return;
           }
 
