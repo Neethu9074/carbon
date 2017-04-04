@@ -1,5 +1,5 @@
-import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { addSearchableEntityType } from 'in-sdk/search';
 import { plugins } from 'in-forge/constants';
 
@@ -14,11 +14,5 @@ registerSnapshotDefinition({
 });
 
 setHumanReadablePluginName(plugins.nginx, 'Nginx', 'Nginx');
-
-addLabelFinder(plugins.nginx, getLabel);
-
-function getLabel() {
-  return 'Nginx';
-}
 
 addSearchableEntityType('nginx', plugins.nginx);

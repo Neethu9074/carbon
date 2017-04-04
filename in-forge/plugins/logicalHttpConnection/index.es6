@@ -15,11 +15,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Http Connection',
     plural: 'Http Connections'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'source', 'service_name']) +
-      ' to ' +
-      snapshot.getIn(['data', 'destination', 'service_name']);
   }
 });

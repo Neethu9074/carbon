@@ -14,9 +14,5 @@ registerSnapshotDefinition({
     plural: 'Python Apps'
   },
 
-  namesForTypeSearch: ['py', 'python'],
-
-  getLabel(s) {
-    return s.getIn(['data', 'snapshot.name']);
-  }
+  namesForTypeSearch: ['py', 'python']
 });

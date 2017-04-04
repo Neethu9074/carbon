@@ -15,11 +15,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Browser Connection',
     plural: 'Browser Connections'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'source', 'service_name']) +
-      ' to ' +
-      snapshot.getIn(['data', 'destination', 'service_name']);
   }
 });

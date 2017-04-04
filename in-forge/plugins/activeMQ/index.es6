@@ -14,9 +14,5 @@ registerSnapshotDefinition({
     plural: 'ActiveMQs'
   },
 
-  namesForTypeSearch: ['activemq'],
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'brokerName']);
-  }
+  namesForTypeSearch: ['activemq']
 });

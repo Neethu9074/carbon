@@ -12,9 +12,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Cassandra Keyspace',
     plural: 'Cassandra Keyspaces'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'service_name']);
   }
 });

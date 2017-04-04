@@ -12,11 +12,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'PDO Connection',
     plural: 'PDO Connections'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'source', 'service_name']) +
-      ' to ' +
-      snapshot.getIn(['data', 'destination', 'service_name']);
   }
 });

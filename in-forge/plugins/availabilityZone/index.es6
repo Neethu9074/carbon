@@ -12,9 +12,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Availability Zone',
     plural: 'Availability Zones'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'groupId']);
   }
 });

@@ -18,9 +18,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Dropwizard App',
     plural: 'Dropwizard Apps'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'name'], '');
   }
 });

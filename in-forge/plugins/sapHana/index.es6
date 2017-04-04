@@ -14,12 +14,5 @@ registerSnapshotDefinition({
     plural: 'SAP HANA'
   },
 
-  namesForTypeSearch: ['sap', 'hana'],
-
-  getLabel(snapshot) {
-    const data = snapshot.get('data');
-    const dbName = data.get('name');
-    const instanceId = data.get('instanceId');
-    return dbName + '@' + instanceId;
-  }
+  namesForTypeSearch: ['sap', 'hana']
 });

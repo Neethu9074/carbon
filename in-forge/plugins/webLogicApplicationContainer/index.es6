@@ -17,15 +17,5 @@ registerSnapshotDefinition({
     plural: 'WebLogic Servers'
   },
 
-  namesForTypeSearch: ['weblogic'],
-
-  getLabel(s) {
-    const id = s.getIn(['data', 'name'], s.get('steadyId'));
-    const port = s.getIn(['data', 'port']);
-    if (port) {
-      return 'WebLogic #' + id + ' @' + port;
-    } else {
-      return 'WebLogic #' + id;
-    }
-  }
+  namesForTypeSearch: ['weblogic']
 });

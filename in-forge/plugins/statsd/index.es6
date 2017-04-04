@@ -13,9 +13,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Statsd',
     plural: 'Statsd'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'kind']);
   }
 });

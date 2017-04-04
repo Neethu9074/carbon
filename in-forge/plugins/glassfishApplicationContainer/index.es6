@@ -15,9 +15,5 @@ registerSnapshotDefinition({
     plural: 'Glassfish'
   },
 
-  namesForTypeSearch: ['glassfish'],
-
-  getLabel(snapshot) {
-    return 'Glassfish ' + snapshot.getIn(['data', 'version']);
-  }
+  namesForTypeSearch: ['glassfish']
 });

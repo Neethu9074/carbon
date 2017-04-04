@@ -17,10 +17,5 @@ registerSnapshotDefinition({
     plural: 'WebSphere Liberty Servers'
   },
 
-  namesForTypeSearch: ['websphere'],
-
-  getLabel(s) {
-    const id = s.getIn(['data', 'name'], s.get('steadyId'));
-    return 'WebSphere #' + id;
-  }
+  namesForTypeSearch: ['websphere']
 });

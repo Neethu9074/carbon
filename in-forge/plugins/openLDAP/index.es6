@@ -14,9 +14,5 @@ registerSnapshotDefinition({
     singular: 'OpenLDAP Node',
     plural: 'OpenLDAP Nodes'
   },
-  namesForTypeSearch: ['openldap'],
-
-  getLabel() {
-    return 'OpenLDAP';
-  }
+  namesForTypeSearch: ['openldap']
 });

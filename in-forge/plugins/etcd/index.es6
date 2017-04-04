@@ -14,9 +14,5 @@ registerSnapshotDefinition({
     singular: 'Etcd Node',
     plural: 'Etcd Nodes'
   },
-  namesForTypeSearch: ['etcd'],
-
-  getLabel(snapshot) {
-    return 'Etcd - ' + snapshot.getIn(['data', 'name']);
-  }
+  namesForTypeSearch: ['etcd']
 });

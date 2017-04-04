@@ -1,5 +1,5 @@
-import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { addSearchableEntityType } from 'in-sdk/search';
 import { plugins } from 'in-forge/constants';
 
@@ -14,7 +14,5 @@ registerSnapshotDefinition({
 });
 
 setHumanReadablePluginName(plugins.mssql, 'MsSQL Instance', 'MsSQL Instances');
-
-addLabelFinder(plugins.mssql, snapshot => 'MSSQL @' + snapshot.getIn(['data', 'instance']));
 
 addSearchableEntityType('mssql', plugins.mssql);

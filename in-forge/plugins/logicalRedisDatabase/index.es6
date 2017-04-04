@@ -18,9 +18,5 @@ registerSnapshotDefinition({
     plural: 'Redis Databases'
   },
 
-  chartWiggleRoom: 20000,
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'service_name']);
-  }
+  chartWiggleRoom: 20000
 });

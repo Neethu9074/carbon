@@ -14,9 +14,5 @@ registerSnapshotDefinition({
   namesForTypeSearch: ['gce'],
 
   iconSvgPath,
-  metricDefinitions,
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'instance-id']);
-  }
+  metricDefinitions
 });

@@ -1,5 +1,5 @@
-import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
@@ -13,9 +13,3 @@ registerSnapshotDefinition({
 });
 
 setHumanReadablePluginName(plugins.javaWebApp, 'JVM Web App', 'JVM Web Apps');
-
-addLabelFinder(plugins.javaWebApp, getLabel);
-
-function getLabel(s) {
-  return 'JVM Web App#' + s.get('steadyId');
-}

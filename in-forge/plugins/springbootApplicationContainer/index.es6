@@ -15,24 +15,5 @@ registerSnapshotDefinition({
     singular: 'Spring Boot App',
     plural: 'Spring Boot Apps'
   },
-  namesForTypeSearch: ['spring'],
-
-  getLabel(snapshot) {
-    const data = snapshot.get('data');
-    const portsMap = data.get('ports');
-    const appName = data.get('name');
-    const version = data.get('version');
-    let label = 'Springboot';
-    if (appName) {
-      label = appName;
-      if (version) {
-        label += ' ' + version;
-      }
-    }
-    if (portsMap && portsMap.size > 0) {
-      const ports = portsMap.valueSeq().join(', ');
-      label += ' @' + ports;
-    }
-    return label;
-  }
+  namesForTypeSearch: ['spring']
 });

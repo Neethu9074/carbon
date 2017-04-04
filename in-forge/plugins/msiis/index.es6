@@ -1,5 +1,5 @@
-import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { addSearchableEntityType } from 'in-sdk/search';
 import { plugins } from 'in-forge/constants';
 
@@ -14,8 +14,6 @@ registerSnapshotDefinition({
 });
 
 setHumanReadablePluginName(plugins.msiis, 'Internet Information Server', 'Internet Information Servers');
-
-addLabelFinder(plugins.msiis, snapshot => 'IIS ' + snapshot.getIn(['data', 'iis.version']));
 
 addSearchableEntityType('msiis', plugins.msiis);
 addSearchableEntityType('iis', plugins.msiis);

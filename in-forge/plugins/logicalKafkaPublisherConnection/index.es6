@@ -15,11 +15,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Kafka Publisher Connection',
     plural: 'Kafka Publisher Connections'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'source', 'service_name']) +
-      ' to ' +
-      snapshot.getIn(['data', 'destination', 'service_name']);
   }
 });

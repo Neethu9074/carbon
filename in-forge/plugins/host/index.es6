@@ -47,10 +47,6 @@ registerSnapshotDefinition({
   getPower(snapshot) {
     const data = snapshot.get('data');
     return data.get('memory.total', 1) * data.get('cpu.count', 1);
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']));
   }
 });
 

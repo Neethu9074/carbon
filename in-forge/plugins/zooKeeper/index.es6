@@ -15,9 +15,5 @@ registerSnapshotDefinition({
     plural: 'ZooKeepers'
   },
 
-  namesForTypeSearch: ['zookeeper'],
-
-  getLabel(snapshot) {
-    return 'ZooKeeper ' + snapshot.getIn(['data', 'client_port'], '');
-  }
+  namesForTypeSearch: ['zookeeper']
 });

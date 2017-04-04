@@ -17,20 +17,5 @@ registerSnapshotDefinition({
     plural: 'WebSpheres'
   },
 
-  namesForTypeSearch: ['websphere'],
-
-  getLabel(s) {
-    const data = s.get('data');
-    const cellName = data.get('cellName');
-    const nodeName = data.get('nodeName');
-    const serverName = data.get('serverName');
-    if (cellName && nodeName && serverName) {
-      return 'WebSphere @' + cellName + '/' + nodeName + '/' + serverName;
-    }
-    return getFallbackLabel(s);
-  }
+  namesForTypeSearch: ['websphere']
 });
-
-function getFallbackLabel(s) {
-  return 'WebSphere #' + s.get('steadyId');
-}

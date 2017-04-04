@@ -17,9 +17,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Database',
     plural: 'Databases'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'service_name']);
   }
 });

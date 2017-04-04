@@ -13,9 +13,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: '.NET App',
     plural: '.NET Apps'
-  },
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'name']);
   }
 });

@@ -17,24 +17,5 @@ registerSnapshotDefinition({
     plural: 'Ruby Apps'
   },
 
-  namesForTypeSearch: ['ruby', 'rubylang'],
-
-  getLabel(s) {
-    const data = s.get('data');
-    const name = data.get('name');
-    if (name) {
-      return name;
-    }
-
-    const rubyVersion = data.get('ruby_version');
-    if (!rubyVersion) {
-      return getFallbackLabel(s);
-    }
-
-    return 'Ruby v' + rubyVersion;
-  }
+  namesForTypeSearch: ['ruby', 'rubylang']
 });
-
-function getFallbackLabel(s) {
-  return 'Ruby#' + s.get('data').get('pid');
-}

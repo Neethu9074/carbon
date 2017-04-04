@@ -1,5 +1,5 @@
-import { addLabelFinder, registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { addSearchableEntityType } from 'in-sdk/search';
 import { plugins } from 'in-forge/constants';
 
@@ -15,7 +15,5 @@ registerSnapshotDefinition({
 });
 
 setHumanReadablePluginName(plugins.cassandraCluster, 'Cassandra Cluster', 'Cassandra Cluster');
-
-addLabelFinder(plugins.cassandraCluster, snapshot => snapshot.getIn(['data', 'groupId']));
 
 addSearchableEntityType('cassandraCluster', plugins.cassandraCluster);

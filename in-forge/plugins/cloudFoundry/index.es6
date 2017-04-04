@@ -13,20 +13,5 @@ registerSnapshotDefinition({
     plural: 'CloudFoundry'
   },
 
-  namesForTypeSearch: ['cf', 'CloudFoundry', 'cloudfoundry'],
-
-  getLabel(s) {
-    const data = s.get('data');
-    const id = data.get('id');
-
-    if (id) {
-      return `CloudFoundry - ${id}`;
-    }
-
-    return getFallbackLabel();
-  }
+  namesForTypeSearch: ['cf', 'CloudFoundry', 'cloudfoundry']
 });
-
-function getFallbackLabel() {
-  return 'CloudFoundry';
-}

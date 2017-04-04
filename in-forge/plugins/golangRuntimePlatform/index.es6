@@ -15,9 +15,5 @@ registerSnapshotDefinition({
     plural: 'Golang Apps'
   },
 
-  namesForTypeSearch: ['go', 'golang'],
-
-  getLabel(s) {
-    return s.getIn(['data', 'snapshot.name']);
-  }
+  namesForTypeSearch: ['go', 'golang']
 });
