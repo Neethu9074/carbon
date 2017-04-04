@@ -51,13 +51,13 @@ unvalidatedQuery$
     try {
       const parsedQuery = parse(query);
       return {
-        query,
+        query: query.trim(),
         parsedQuery,
         error: null
       };
     } catch (e) {
       return {
-        query,
+        query: query.trim(),
         parsedQuery: null,
         error: e.message
       };
