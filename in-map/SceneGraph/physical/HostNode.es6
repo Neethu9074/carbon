@@ -34,11 +34,13 @@ export default class HostNode extends Node {
           // clear current layer
           this.updateEntities([]);
 
-          this.metricNode = new HostMetricNode({
-            id: `${params.id}_metric`,
-            dashboardId: params.id,
-            node: this.sceneObjectInstance
-          });
+          if (!this.metricNode) {
+            this.metricNode = new HostMetricNode({
+              id: `${params.id}_metric`,
+              dashboardId: params.id,
+              node: this.sceneObjectInstance
+            });
+          }
         } else {
           this.disposeMetricNode();
           this.addLayer();
