@@ -47,8 +47,6 @@ function getTree() {
 }
 
 export function node(name, props = {}) {
-  aliasMap[name] = true;
-
   return {
     name,
     description: props.description || helpTexts[props.path],
@@ -71,6 +69,8 @@ export function buildCategorizedFields(fields) {
     }
 
     const path = field.keyword.split('.');
+    aliasMap[field.keyword] = true;
+
     let currentNode = root;
     let completePath = '';
 
