@@ -1,5 +1,8 @@
+/* eslint-disable react/no-find-dom-node */
+
 import CodeMirror from 'codemirror/lib/codemirror.js';
 import RoEmitter from 'roemitter';
+import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { setInputString, unvalidatedQuery$ } from 'in-stores/search/query';
@@ -8,6 +11,7 @@ import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import { replaceWith } from 'in-components/SearchBar/misc/stringUtils';
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import { applyTransform } from 'in-services/util/dom';
 import keyCodes from 'in-components/keyCodes';
 import connectTo from 'in-hoc/connectTo';
 
@@ -53,6 +57,20 @@ export default getElementDimensions(
             this.hide();
           }
           autocompleteShownForCursorPosition = currentCursorPosition;
+
+          // The cursor position is fucked up at the end of block elements because we are using
+          // CSS pseudo elements. We need to account for this and change the cursor position
+          // using CSS transforms when the cursor is positioned at the end of a block element.
+          const { ch } = editor.doc.getCursor();
+          const cursor = ch - 1;
+          const tokens = lex(this.editor.getValue());
+          const token = getTokenForColumn(tokens, cursor);
+          const domNode = ReactDOM.findDOMNode(this).querySelector('.CodeMirror-cursors');
+          if (token && token.isBlockingEnd && tokens[tokens.length - 1] !== token && ch === token.end) {
+            applyTransform(domNode, 'translate(-24px, 0)');
+          } else {
+            applyTransform(domNode, 'translate(0, 0)');
+          }
         });
 
         editor.on('keydown', (editor, event) => {

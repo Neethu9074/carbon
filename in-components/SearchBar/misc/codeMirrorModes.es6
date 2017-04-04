@@ -1,7 +1,6 @@
 import CodeMirror from 'codemirror/lib/codemirror.js';
 
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
-import lexThirdStage from 'in-stores/search/lexer/thirdStage';
 import { getTree, aliasMap } from 'in-stores/search/fields';
 
 CodeMirror.defineMode('instanaSearch', () => {
@@ -20,7 +19,7 @@ CodeMirror.defineMode('instanaSearch', () => {
     token(stream, state) {
       if (state.lexResult == null || stream.string !== state.lexedFor) {
         state.lexedFor = stream.string;
-        this.currentLexResult = (state.lexResult = lexThirdStage(lex(stream.string)));
+        this.currentLexResult = (state.lexResult = lex(stream.string));
       }
 
       const token = getTokenForColumn(state.lexResult, stream.pos);
