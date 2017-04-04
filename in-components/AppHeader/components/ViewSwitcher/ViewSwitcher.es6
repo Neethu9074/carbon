@@ -5,7 +5,8 @@ import {
   traceViewLinkWithoutEumTraces$,
   tableViewLink$,
   tableViewFilteredForServicesLink$,
-  logView$
+  logView$,
+  cockpitLink$
 } from 'in-stores/navigation/view';
 import { logicalViewLink$, physicalViewLink$, navigationParameters$ } from 'in-stores/navigation';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
@@ -38,6 +39,8 @@ export default connectTo(
     return (
       <div className={block}>
         <ul className={block + '__list'}>
+          <View label="cockpit" icon="dashboard" isActive={pathname.indexOf('/cockpit') === 0} href$={cockpitLink$} />
+
           <View
             label="infrastructure"
             icon="infrastructure"

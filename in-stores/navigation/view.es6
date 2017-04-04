@@ -3,6 +3,8 @@ import { combineLatest } from 'reactive-observables';
 import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { trySetField } from 'in-stores/search/manipulation';
 
+export const cockpitLink$ = getModifiedUrlStream(params => params.pathname = '/cockpit');
+
 export const isPhysicalMapView$ = navigationParameters$
   .map(params => params.pathname.indexOf('/physical') === 0)
   .distinct();

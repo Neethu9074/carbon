@@ -37,11 +37,14 @@ import GraphView from 'in-components/graphView/GraphView';
 import GlobeView from 'in-components/globeView/GlobeView';
 import WebVRView from 'in-components/webVRView/WebVRView';
 import Dashboard from 'in-components/Dashboard';
+import Cockpit from 'in-views/cockpit/Cockpit';
 import App from 'in-client/js/App';
 import Map from 'in-map/index';
 
 export default (
   <Route path="/" component={App}>
+    <Route path="cockpit" component={Cockpit} windowTitle="Cockpit" />
+
     <Route path="physical" component={Map} windowTitle="Infrastructure Host Map">
       <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
     </Route>
@@ -172,6 +175,6 @@ export default (
         />
       : null}
 
-    <IndexRedirect to="/physical" />
+    <IndexRedirect to="/cockpit" />
   </Route>
 );
