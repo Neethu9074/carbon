@@ -4,7 +4,7 @@ import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 
 export default function Cockpit() {
   return (
-    <FullscreenOverlayView>
+    <FullscreenOverlayView overlayTimeline>
       Welcome to da cockpit
     </FullscreenOverlayView>
   );

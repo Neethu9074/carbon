@@ -18,7 +18,14 @@ export default connectTo(
       headerHeight: headerHeight$
     };
   },
-  function FullscreenOverlayView({ isOpen, timelineHeight, headerHeight, children, className }) {
+  function FullscreenOverlayView({
+    isOpen,
+    timelineHeight,
+    headerHeight,
+    children,
+    className,
+    overlayTimeline = false
+  }) {
     if (!isOpen) {
       return null;
     }
@@ -26,6 +33,10 @@ export default connectTo(
     let classes = block;
     if (className) {
       classes = `${classes} ${className}`;
+    }
+
+    if (overlayTimeline) {
+      timelineHeight = 0;
     }
 
     return (
