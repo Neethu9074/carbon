@@ -21,7 +21,7 @@ export const isMapView$ = combineLatest([isPhysicalMapView$, isLogicalMapView$, 
 
 export const traceViewLinkWithoutEumTraces$ = getModifiedUrlStream(params => {
   params.pathname = '/traces';
-  params.query.q = trySetField(decodeURIComponent(params.query.q || ''), '-trace.type', 'eum');
+  params.query.q = trySetField(decodeURIComponent(params.query.q || ''), 'trace.type', 'server');
 });
 
 export const logView$ = getModifiedUrlStream(params => {

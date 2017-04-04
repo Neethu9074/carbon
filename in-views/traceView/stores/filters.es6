@@ -5,9 +5,9 @@ import { query$ } from 'in-stores/search/query';
 export const typeFilter$ = createTrackingStore({
   name: 'traceView/stores/filters/eventFilterStore',
   observable: query$.map(query => {
-    if (containsKeyword(query, 'trace.type', 'eum', false)) {
+    if (containsKeyword(query, 'trace.type', 'eum')) {
       return 'eum';
-    } else if (containsKeyword(query, 'trace.type', 'eum', true)) {
+    } else if (containsKeyword(query, 'trace.type', 'server')) {
       return 'without-eum';
     }
     return 'all';
