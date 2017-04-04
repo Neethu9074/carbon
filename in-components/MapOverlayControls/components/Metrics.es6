@@ -3,6 +3,7 @@ import React from 'react';
 
 import { setActiveMetric, clearActiveMetric, activeMetric$ } from 'in-stores/metric';
 import Control from 'in-components/MapOverlayControls/components/Control';
+import { types, view$ } from 'in-stores/view';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -30,45 +31,35 @@ function createMenuContent() {
   return <MetricPanel />;
 }
 
-const metricList = {
-  CPU: {
-    Load: [{ name: 'load.1min', label: 'Load', timeWindowAggregation: 'mean' }],
-    Usage: [
-      { name: 'cpu.user', label: 'User', timeWindowAggregation: 'mean' },
-      { name: 'cpu.sys', label: 'System', timeWindowAggregation: 'mean' },
-      { name: 'cpu.wait', label: 'Wait', timeWindowAggregation: 'mean' },
-      { name: 'cpu.nice', label: 'Nice', timeWindowAggregation: 'mean' },
-      { name: 'cpu.steal', label: 'Steal', timeWindowAggregation: 'mean' }
-    ]
+const MetricPanel = connectTo(
+  {
+    view: view$
   },
-  Memory: {
-    Used: [{ name: 'memory.used', label: 'Memory used', timeWindowAggregation: 'mean' }]
-  }
-};
+  React.createClass({
+    displayName: 'MetricPanel',
 
-const MetricPanel = React.createClass({
-  displayName: 'MetricPanel',
+    getInitialState() {
+      return {
+        isOpen: true
+      };
+    },
 
-  getInitialState() {
-    return {
-      isOpen: true
-    };
-  },
+    render() {
+      const metricList = getMetricList(this.props.view);
+      return (
+        <div className={block}>
+          {this.state.isOpen
+            ? <div className={`${block}__wrapper`}>
+                {Object.keys(metricList).map(topic => <Topic key={topic} label={topic} list={metricList} />)}
+              </div>
+            : null}
 
-  render() {
-    return (
-      <div className={block}>
-        {this.state.isOpen
-          ? <div className={`${block}__wrapper`}>
-              {Object.keys(metricList).map(topic => <Topic key={topic} label={topic} list={metricList} />)}
-            </div>
-          : null}
-
-        <DropDown onClick={() => this.setState({ isOpen: !this.state.isOpen })} isOpen={this.state.isOpen} />
-      </div>
-    );
-  }
-});
+          <DropDown onClick={() => this.setState({ isOpen: !this.state.isOpen })} isOpen={this.state.isOpen} />
+        </div>
+      );
+    }
+  })
+);
 
 const DropDown = connectTo(
   {
@@ -156,3 +147,31 @@ const Metric = connectTo(
     );
   }
 );
+
+function getMetricList(view) {
+  if (view === types.container) {
+    return {
+      CPU: {
+        Usage: [{ name: 'cpu.total_usage', label: 'Total CPU Usage', timeWindowAggregation: 'mean' }]
+      },
+      Memory: {
+        MemUsage: [{ name: 'memory.usage', label: 'Memory Usage', timeWindowAggregation: 'mean' }]
+      }
+    };
+  }
+  return {
+    CPU: {
+      Load: [{ name: 'load.1min', label: 'Load', timeWindowAggregation: 'mean' }],
+      Usage: [
+        { name: 'cpu.user', label: 'User', timeWindowAggregation: 'mean' },
+        { name: 'cpu.sys', label: 'System', timeWindowAggregation: 'mean' },
+        { name: 'cpu.wait', label: 'Wait', timeWindowAggregation: 'mean' },
+        { name: 'cpu.nice', label: 'Nice', timeWindowAggregation: 'mean' },
+        { name: 'cpu.steal', label: 'Steal', timeWindowAggregation: 'mean' }
+      ]
+    },
+    Memory: {
+      Used: [{ name: 'memory.used', label: 'Memory used', timeWindowAggregation: 'mean' }]
+    }
+  };
+}
