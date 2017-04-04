@@ -3,6 +3,7 @@ import React from 'react';
 
 import { setActiveMetric, clearActiveMetric, activeMetric$ } from 'in-stores/metric';
 import Control from 'in-components/MapOverlayControls/components/Control';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { types, view$ } from 'in-stores/view';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -124,15 +125,12 @@ const Metric = connectTo(
     activeMetric: activeMetric$
   },
   function Metric({ activeMetric, metricKey, metric, topic }) {
-    let className = `${block}__metric`;
-
-    if (activeMetric && activeMetric.get('name') === metricKey) {
-      className += ` ${className}--active`;
-    }
-
     return (
       <div
-        className={className}
+        className={evaluateClassNames({
+          [`${block}__metric`]: true,
+          [`${block}__metric--active`]: activeMetric && activeMetric.get('name') === metricKey
+        })}
         onClick={() =>
           setActiveMetric(
             fromJS({
