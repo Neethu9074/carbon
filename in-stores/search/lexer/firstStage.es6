@@ -1,7 +1,8 @@
 import StringStream from './StringStream';
 
 const OPERATORS = ['AND', 'OR', 'NOT', '+', '-'];
-const TERM_REGEXP = /[a-z0-9öäüß\*\?\.\_\>\<\=]/i;
+const TERM_REGEXP_START = /[a-z0-9öäüß\*\?\.\_\>\<\=]/i;
+const TERM_REGEXP_CONTINUATION = /[a-z0-9öäüß\*\?\.\_\-\>\<\=]/i;
 const WHITESPACE_REGEXP = /\s/;
 
 export default function lexFirstStage(source) {
@@ -52,8 +53,8 @@ function attemptExtraction(stream, result) {
     whitespaceToken.token = 'whitespace';
     result.push(whitespaceToken);
     // is it a term?
-  } else if (TERM_REGEXP.test(char)) {
-    var termToken = stream.eatWhile(TERM_REGEXP);
+  } else if (TERM_REGEXP_START.test(char)) {
+    var termToken = stream.eatWhile(TERM_REGEXP_CONTINUATION);
     termToken.lexeme = char + termToken.lexeme;
     termToken.start = startPosition;
     termToken.token = 'term';

@@ -71,6 +71,17 @@ describe('in-stores/search/lexer/firstStage', () => {
         }
       ]);
     });
+
+    it('must support minus within plain terms', () => {
+      expect(lexFirstStage('ip-123')).to.deep.equal([
+        {
+          token: 'term',
+          lexeme: 'ip-123',
+          start: 0,
+          end: 6
+        }
+      ]);
+    });
   });
 
   describe('phrases', () => {
@@ -540,6 +551,23 @@ describe('in-stores/search/lexer/firstStage', () => {
           end: 31,
           lexeme: ')',
           token: 'grouping'
+        }
+      ]);
+    });
+
+    it('must treat leading minus of terms as an operator', () => {
+      expect(lexFirstStage('-ip-123')).to.deep.equal([
+        {
+          start: 0,
+          end: 1,
+          lexeme: '-',
+          token: 'operator'
+        },
+        {
+          start: 1,
+          end: 7,
+          lexeme: 'ip-123',
+          token: 'term'
         }
       ]);
     });

@@ -6,7 +6,8 @@ import {
   isPhrase,
   isGrouping,
   isWhitespace,
-  isRegex
+  isRegex,
+  isProhibitOrRequiredOperator
 } from 'in-stores/search/lexer';
 
 let currentBlockId = 0;
@@ -14,10 +15,9 @@ export default function lexThirdStage(secondStageLexResult, startId) {
   currentBlockId = startId == undefined ? currentBlockId : startId;
 
   detectBeginningBlockWithWhitespace(secondStageLexResult);
-  for (let i = 0, length = secondStageLexResult.length - 2; i < length; i++) {
-    i = detectFieldFieldSeperatorValueBlocks(i, secondStageLexResult);
-    detectLonelyBlocks(i, secondStageLexResult);
-  }
+  detectFieldFieldSeperatorValueBlocks(secondStageLexResult);
+  detectLonelyBlocks(secondStageLexResult);
+  mergeRequiredAndProhibitOperatorWithFollowingBlock(secondStageLexResult);
 
   return secondStageLexResult;
 }
@@ -37,44 +37,60 @@ function detectBeginningBlockWithWhitespace(tokens) {
   }
 }
 
-function detectFieldFieldSeperatorValueBlocks(i, tokens) {
-  const currentToken = tokens[i];
-  const nextToken = tokens[i + 1];
-  if (isField(currentToken) && isFieldSeparator(nextToken)) {
-    let start = i + 2;
-    const end = getEndCursorForFieldValue(start, tokens);
-    if (end >= start) {
-      const blockId = String(currentBlockId++);
-      while (start <= end) {
-        tokens[start++].blockId = blockId;
+function detectFieldFieldSeperatorValueBlocks(tokens) {
+  for (let i = 0, length = tokens.length - 2; i < length; i++) {
+    const currentToken = tokens[i];
+    const nextToken = tokens[i + 1];
+    if (isField(currentToken) && isFieldSeparator(nextToken)) {
+      let start = i + 2;
+      const end = getEndCursorForFieldValue(start, tokens);
+      if (end >= start) {
+        const blockId = String(currentBlockId++);
+        while (start <= end) {
+          tokens[start++].blockId = blockId;
+        }
+        currentToken.blockId = blockId;
+        currentToken.isBlockingStart = true;
+
+        nextToken.blockId = blockId;
+
+        tokens[end].isBlockingEnd = true;
+
+        i = end;
       }
-      currentToken.blockId = blockId;
-      currentToken.isBlockingStart = true;
-
-      nextToken.blockId = blockId;
-
-      tokens[end].isBlockingEnd = true;
-
-      i = end;
     }
   }
-  return i;
 }
 
-function detectLonelyBlocks(i, tokens) {
-  const currentToken = tokens[i];
-  const nextToken = tokens[i + 1];
+function detectLonelyBlocks(tokens) {
+  for (let i = 0, length = tokens.length - 1; i < length; i++) {
+    const currentToken = tokens[i];
+    const nextToken = tokens[i + 1];
 
-  if (isWhitespace(currentToken)) {
-    const nextNextToken = tokens[i + 2];
-    if (
-      isWhitespace(nextNextToken) &&
-      (isTerm(nextToken) || isRegex(nextToken) || isPhrase(nextToken) || isOperator(nextToken))
-    ) {
-      const blockId = String(currentBlockId++);
-      nextToken.blockId = blockId;
-      nextToken.isBlockingStart = true;
-      nextToken.isBlockingEnd = true;
+    if (isWhitespace(currentToken) || isProhibitOrRequiredOperator(currentToken)) {
+      const nextNextToken = tokens[i + 2];
+      if (
+        (nextNextToken == null || isWhitespace(nextNextToken)) &&
+        (isTerm(nextToken) || isRegex(nextToken) || isPhrase(nextToken) || isOperator(nextToken)) &&
+        nextToken.blockId == null
+      ) {
+        const blockId = String(currentBlockId++);
+        nextToken.blockId = blockId;
+        nextToken.isBlockingStart = true;
+        nextToken.isBlockingEnd = true;
+      }
+    }
+  }
+}
+
+function mergeRequiredAndProhibitOperatorWithFollowingBlock(tokens) {
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+    const nextToken = tokens[i + 1];
+    if (isProhibitOrRequiredOperator(token) && nextToken && !isOperator(nextToken) && nextToken.isBlockingStart) {
+      token.isBlockingStart = true;
+      token.blockId = nextToken.blockId;
+      delete nextToken.isBlockingStart;
     }
   }
 }

@@ -40,6 +40,10 @@ export function isOperator(token) {
   return token.token === 'operator';
 }
 
+export function isProhibitOrRequiredOperator(token) {
+  return isOperator(token) && (token.lexeme === '+' || token.lexeme === '-');
+}
+
 export function isPhrase(token) {
   return token.token === 'phrase';
 }

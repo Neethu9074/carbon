@@ -84,7 +84,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('a set field token for a valid field sequence, term - fieldSeperator - term)', () => {
+  it('must set field token for a valid field sequence, term - fieldSeperator - term)', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:bar')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: '0' },
@@ -98,7 +98,7 @@ describe('in-stores/search/lexer/secondStage', () => {
       { token: 'whitespace', lexeme: ' ', start: 9, end: 10 },
       { token: 'term', lexeme: 'makes', start: 10, end: 15, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 15, end: 16 },
-      { token: 'term', lexeme: 'rich', start: 16, end: 20 }
+      { token: 'term', lexeme: 'rich', start: 16, end: 20, blockId: '2', isBlockingStart: true, isBlockingEnd: true }
     ]);
   });
 
@@ -159,7 +159,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('should search for closing phrase', () => {
+  it('must search for closing phrase', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:"a b c"')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: '0' },
@@ -167,7 +167,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('should ignore invalid phrases', () => {
+  it('must ignore invalid phrases', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:"a b c')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3 },
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4 },
@@ -175,7 +175,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('should take regex into account', () => {
+  it('must take regex into account', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:/this is regex/')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: '0' },
@@ -183,7 +183,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('should detect lonely regex', () => {
+  it('must detect lonely regex', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('/reg/ /ex/ ')), 0)).to.deep.equal([
       { token: 'regex', lexeme: '/reg/', start: 0, end: 5, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 5, end: 6 },
@@ -192,7 +192,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('should detect lonely phrases', () => {
+  it('must detect lonely phrases', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('"" "foo bar" ')), 0)).to.deep.equal([
       { token: 'phrase', lexeme: '""', start: 0, end: 2, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 2, end: 3 },
@@ -209,7 +209,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('should detect multiple blocks', () => {
+  it('must detect multiple blocks', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foo:(a) OR bar:(b)')), 0)).to.deep.equal([
       { token: 'field', lexeme: 'foo', start: 0, end: 3, blockId: '0', isBlockingStart: true },
       { token: 'fieldSeparator', lexeme: ':', start: 3, end: 4, blockId: '0' },
@@ -217,17 +217,17 @@ describe('in-stores/search/lexer/secondStage', () => {
       { token: 'term', lexeme: 'a', start: 5, end: 6, blockId: '0' },
       { token: 'grouping', lexeme: ')', start: 6, end: 7, blockId: '0', isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 7, end: 8 },
-      { token: 'operator', lexeme: 'OR', start: 8, end: 10, blockId: '1', isBlockingStart: true, isBlockingEnd: true },
+      { token: 'operator', lexeme: 'OR', start: 8, end: 10, blockId: '2', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 10, end: 11 },
-      { token: 'field', lexeme: 'bar', start: 11, end: 14, blockId: '2', isBlockingStart: true },
-      { token: 'fieldSeparator', lexeme: ':', start: 14, end: 15, blockId: '2' },
-      { token: 'grouping', lexeme: '(', start: 15, end: 16, blockId: '2' },
-      { token: 'term', lexeme: 'b', start: 16, end: 17, blockId: '2' },
-      { token: 'grouping', lexeme: ')', start: 17, end: 18, blockId: '2', isBlockingEnd: true }
+      { token: 'field', lexeme: 'bar', start: 11, end: 14, blockId: '1', isBlockingStart: true },
+      { token: 'fieldSeparator', lexeme: ':', start: 14, end: 15, blockId: '1' },
+      { token: 'grouping', lexeme: '(', start: 15, end: 16, blockId: '1' },
+      { token: 'term', lexeme: 'b', start: 16, end: 17, blockId: '1' },
+      { token: 'grouping', lexeme: ')', start: 17, end: 18, blockId: '1', isBlockingEnd: true }
     ]);
   });
 
-  it('should also block terms if it is the first one', () => {
+  it('must also block terms if it is the first one', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('foobar ')), 0)).to.deep.equal([
       { token: 'term', lexeme: 'foobar', start: 0, end: 6, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 6, end: 7 }
@@ -235,7 +235,7 @@ describe('in-stores/search/lexer/secondStage', () => {
 
     expect(lexThirdStage(lexSecondStage(lexFirstStage(' foobar')), 0)).to.deep.equal([
       { token: 'whitespace', lexeme: ' ', start: 0, end: 1 },
-      { token: 'term', lexeme: 'foobar', start: 1, end: 7 }
+      { token: 'term', lexeme: 'foobar', start: 1, end: 7, blockId: '0', isBlockingStart: true, isBlockingEnd: true }
     ]);
 
     expect(lexThirdStage(lexSecondStage(lexFirstStage(' foobar ')), 0)).to.deep.equal([
@@ -245,7 +245,7 @@ describe('in-stores/search/lexer/secondStage', () => {
     ]);
   });
 
-  it('should also block terms if it is the first one', () => {
+  it('must also block terms if it is the first one', () => {
     expect(lexThirdStage(lexSecondStage(lexFirstStage('AND a OR b ')), 0)).to.deep.equal([
       { token: 'operator', lexeme: 'AND', start: 0, end: 3, blockId: '0', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 3, end: 4 },
@@ -256,5 +256,42 @@ describe('in-stores/search/lexer/secondStage', () => {
       { token: 'term', lexeme: 'b', start: 9, end: 10, blockId: '3', isBlockingStart: true, isBlockingEnd: true },
       { token: 'whitespace', lexeme: ' ', start: 10, end: 11 }
     ]);
+  });
+
+  describe('required / prohibit operator', () => {
+    it('must block required operator with the following block for fields', () => {
+      expect(lexThirdStage(lexSecondStage(lexFirstStage('+foo:bar')), 0)).to.deep.equal([
+        { token: 'operator', lexeme: '+', start: 0, end: 1, blockId: '0', isBlockingStart: true },
+        { token: 'field', lexeme: 'foo', start: 1, end: 4, blockId: '0' },
+        { token: 'fieldSeparator', lexeme: ':', start: 4, end: 5, blockId: '0' },
+        { token: 'term', lexeme: 'bar', start: 5, end: 8, blockId: '0', isBlockingEnd: true }
+      ]);
+    });
+
+    it('must not block required operator with the following operator block', () => {
+      expect(lexThirdStage(lexSecondStage(lexFirstStage('+AND foo:bar')), 0)).to.deep.equal([
+        { token: 'operator', lexeme: '+', start: 0, end: 1 },
+        {
+          token: 'operator',
+          lexeme: 'AND',
+          start: 1,
+          end: 4,
+          blockId: '1',
+          isBlockingStart: true,
+          isBlockingEnd: true
+        },
+        { token: 'whitespace', lexeme: ' ', start: 4, end: 5 },
+        { token: 'field', lexeme: 'foo', start: 5, end: 8, blockId: '0', isBlockingStart: true },
+        { token: 'fieldSeparator', lexeme: ':', start: 8, end: 9, blockId: '0' },
+        { token: 'term', lexeme: 'bar', start: 9, end: 12, blockId: '0', isBlockingEnd: true }
+      ]);
+    });
+
+    it('must block required operator with the following term', () => {
+      expect(lexThirdStage(lexSecondStage(lexFirstStage('+foobar')), 0)).to.deep.equal([
+        { token: 'operator', lexeme: '+', start: 0, end: 1, blockId: '0', isBlockingStart: true },
+        { token: 'term', lexeme: 'foobar', start: 1, end: 7, blockId: '0', isBlockingEnd: true }
+      ]);
+    });
   });
 });
