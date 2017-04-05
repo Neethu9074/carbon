@@ -1,3 +1,5 @@
+@import "~in-themes/active.less";
+
 .in-search-suggestions {
   position: absolute;
   top: 2rem;
@@ -13,6 +15,7 @@
 
   max-height: 15rem;
   overflow-y: scroll;
+  z-index: @z-index__search-suggestions;
 
   &__list {
     list-style: none;
