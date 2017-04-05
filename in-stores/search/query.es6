@@ -59,7 +59,7 @@ unvalidatedQuery$
       return {
         query: query.trim(),
         parsedQuery: null,
-        error: e.message
+        error: 'Invalid lucene query.'
       };
     }
   })
