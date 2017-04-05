@@ -203,9 +203,6 @@ function getChildrenForConfig(config) {
   }
 
   if (config.field) {
-    /* eslint-disable no-console */
-    console.log('Show for field', config.field, 'for current input', config.fieldValue);
-    console.log('Suggestions', getValueSuggestions(config.field, config.fieldValue));
     return getValueSuggestions(config.field, config.fieldValue).map(field => createNode(field));
   }
 
