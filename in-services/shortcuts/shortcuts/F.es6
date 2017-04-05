@@ -1,4 +1,3 @@
-import { idOfSearchField } from 'in-components/SearchBar/SearchBar';
 import { open } from 'in-stores/search/searchBarExpanded';
 
 export default function onPressed(e) {
@@ -10,8 +9,8 @@ export default function onPressed(e) {
   open();
 
   // In cases were the field is already visible, we want to force refocus of the field.
-  const searchField = document.getElementById(idOfSearchField);
+  const searchField = document.querySelector('.in-searchbar .CodeMirror');
   if (searchField) {
-    searchField.focus();
+    searchField.CodeMirror.focus();
   }
 }
