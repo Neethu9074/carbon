@@ -141,6 +141,31 @@ export default getElementDimensions(
           }
 
           const changedToken = getTokenForColumn(tokens, cursor);
+          const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
+
+          // handle auto completion for field values
+          const previousToken = tokens[tokens.indexOf(changedToken) - 1];
+          const previousPreviousToken = tokens[tokens.indexOf(previousToken) - 1];
+          const startingFieldedValue = changedToken &&
+            changedToken.token === 'fieldSeparator' &&
+            previousToken &&
+            previousToken.token === 'field';
+          const inFieldedValue = changedToken &&
+            (changedToken.token === 'phrase' || changedToken.token === 'term') &&
+            previousToken &&
+            previousToken.token === 'fieldSeparator' &&
+            previousPreviousToken &&
+            previousPreviousToken.token === 'field';
+          if (startingFieldedValue || inFieldedValue) {
+            this.show({
+              query,
+              cursor: autocompleteShownForCursorPosition,
+              left,
+              field: startingFieldedValue ? previousToken.lexeme : previousPreviousToken.lexeme,
+              fieldValue: startingFieldedValue ? '' : changedToken.lexeme
+            });
+          }
+
           if (changedToken == null || (changedToken.token !== 'term' && changedToken.token !== 'field')) {
             this.hide();
             return;
@@ -148,7 +173,6 @@ export default getElementDimensions(
 
           autocompleteShownForCursorPosition = cursor + 1;
 
-          const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
           this.show({
             query,
             cursor: autocompleteShownForCursorPosition,

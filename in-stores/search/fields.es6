@@ -1,5 +1,7 @@
 import { blackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
+import { emptyArray } from 'in-services/fixedObjects';
+import { find } from 'in-services/arrayUtils';
 
 export const aliasMap = {};
 
@@ -143,3 +145,16 @@ function findInNode(node, query) {
 export const operatorTree = node('root', {
   children: [node('AND', { isPreset: true }), node('OR', { isPreset: true }), node('NOT', { isPreset: true })]
 });
+
+export function getValueSuggestions(keyword, currentValue) {
+  const field = find(window.instana.searchFields, field => field.keyword === keyword);
+  if (!field) {
+    return emptyArray;
+  }
+
+  if (!currentValue) {
+    return field.fixedValues;
+  }
+
+  return field.fixedValues.filter(value => value.indexOf(currentValue) !== -1);
+}

@@ -10,7 +10,7 @@ import {
   isWhitespace
 } from 'in-stores/search/lexer';
 import { getSubstringTillDotBackwards, getCursorTillNextDot } from 'in-components/SearchBar/misc/stringUtils';
-import { findNode, operatorTree } from 'in-stores/search/fields';
+import { findNode, operatorTree, getValueSuggestions } from 'in-stores/search/fields';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import keyCodes from 'in-components/keyCodes';
@@ -199,6 +199,12 @@ function getChildrenForConfig(config) {
     return emptyArray;
   }
 
+  if (config.field) {
+    /* eslint-disable no-console */
+    console.log('Show for field', config.field, 'for current input', config.fieldValue);
+    console.log('Suggestions', getValueSuggestions(config.field, config.fieldValue));
+  }
+
   const tokenAtCursor = getTokenForConfig(config);
   if (
     !tokenAtCursor ||
@@ -220,10 +226,10 @@ function getChildrenForConfig(config) {
   }
 
   const lastPartOfCurrentTerm = getSubstringTillDotBackwards(cappedLexemeAtCursor).trim();
-  return node.children
-    .filter(child => child.name.startsWith(lastPartOfCurrentTerm))
-    // hide ID suggestions
-    .filter(child => child.termType !== 'id');
+  return (
+    node.children.filter(child => child.name.startsWith(lastPartOfCurrentTerm))// hide ID suggestions
+    .filter(child => child.termType !== 'id')
+  );
 }
 
 function getTokenForConfig(config) {
