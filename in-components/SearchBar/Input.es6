@@ -79,11 +79,16 @@ export default getElementDimensions(
           if (event.keyCode === keyCodes.space && event.ctrlKey) {
             event.preventDefault();
 
+            const query = this.props.query;
+            const tokens = lex(query);
             const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
+            const { field, fieldValue } = this.getFieldConfig(tokens, autocompleteShownForCursorPosition - 1);
             this.show({
-              query: this.props.query,
+              query,
               cursor: autocompleteShownForCursorPosition,
-              left
+              left,
+              field,
+              fieldValue
             });
           }
 
@@ -140,35 +145,22 @@ export default getElementDimensions(
             return;
           }
 
-          const changedToken = getTokenForColumn(tokens, cursor);
-          const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
-
           autocompleteShownForCursorPosition = cursor + 1;
 
-          // handle auto completion for field values
-          const previousToken = tokens[tokens.indexOf(changedToken) - 1];
-          const previousPreviousToken = tokens[tokens.indexOf(previousToken) - 1];
-          const startingFieldedValue = changedToken &&
-            changedToken.token === 'fieldSeparator' &&
-            previousToken &&
-            previousToken.token === 'field';
-          const inFieldedValue = changedToken &&
-            (changedToken.token === 'phrase' || changedToken.token === 'term') &&
-            previousToken &&
-            previousToken.token === 'fieldSeparator' &&
-            previousPreviousToken &&
-            previousPreviousToken.token === 'field';
-          if (startingFieldedValue || inFieldedValue) {
+          const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
+          const { field, fieldValue } = this.getFieldConfig(tokens, cursor);
+          if (field || fieldValue) {
             this.show({
               query,
               cursor: autocompleteShownForCursorPosition,
               left,
-              field: startingFieldedValue ? previousToken.lexeme : previousPreviousToken.lexeme,
-              fieldValue: startingFieldedValue ? '' : changedToken.lexeme
+              field,
+              fieldValue
             });
             return;
           }
 
+          const changedToken = getTokenForColumn(tokens, cursor);
           if (
             changedToken == null ||
             (changedToken.token !== 'term' && changedToken.token !== 'field' && changedToken.token !== 'fieldSeparator')
@@ -301,6 +293,31 @@ export default getElementDimensions(
             left
           });
         }
+      },
+
+      getFieldConfig(tokens, cursor) {
+        const changedToken = getTokenForColumn(tokens, cursor);
+
+        // handle auto completion for field values
+        const previousToken = tokens[tokens.indexOf(changedToken) - 1];
+        const previousPreviousToken = tokens[tokens.indexOf(previousToken) - 1];
+        const startingFieldedValue = changedToken &&
+          changedToken.token === 'fieldSeparator' &&
+          previousToken &&
+          previousToken.token === 'field';
+        const inFieldedValue = changedToken &&
+          (changedToken.token === 'phrase' || changedToken.token === 'term') &&
+          previousToken &&
+          previousToken.token === 'fieldSeparator' &&
+          previousPreviousToken &&
+          previousPreviousToken.token === 'field';
+        if (startingFieldedValue || inFieldedValue) {
+          return {
+            field: startingFieldedValue ? previousToken.lexeme : previousPreviousToken.lexeme,
+            fieldValue: startingFieldedValue ? '' : changedToken.lexeme
+          };
+        }
+        return {};
       },
 
       hide() {
