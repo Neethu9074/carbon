@@ -14,6 +14,7 @@ module.exports = {
     footer: zIndex++,
     fullscreenView: zIndex++,
     footerSelectedTimeNotification: zIndex++,
+    footerTimePicker: zIndex++,
     mapNotes: zIndex++,
 
     searchMenu: zIndex++,
