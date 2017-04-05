@@ -51,6 +51,12 @@ export default function createTooltipRenderer(config) {
       return;
     }
 
+    // it makes no sense to show a tooltip for a time that is too far off the desired time.
+    if (Math.abs(dataPointsExistingAtMoment - highlightedMoment) > config.rollup * 2.3) {
+      hideTooltip();
+      return;
+    }
+
     repositionTooltip();
 
     ReactDOM.render(
