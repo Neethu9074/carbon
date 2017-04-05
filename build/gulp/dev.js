@@ -1,21 +1,24 @@
 /* eslint-env node */
-/* eslint-disable no-var, strict, vars-on-top */
+/* eslint-disable strict, no-console */
 
 'use strict';
 
-var fs = require('fs');
-var gulp = require('gulp');
-var path = require('path');
-var runSequence = require('run-sequence');
-var inquirer = require('inquirer');
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var gutil = require('gulp-util');
-var execSync = require('child_process').execSync;
+const chalk = require('chalk');
+const fs = require('fs');
+const gulp = require('gulp');
+const path = require('path');
+const runSequence = require('run-sequence');
+const inquirer = require('inquirer');
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const gutil = require('gulp-util');
+const execSync = require('child_process').execSync;
+const clearConsole = require('react-dev-utils/clearConsole');
+const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
-var webpackConfig = require('../../webpack.config.js');
-var paths = require('./paths');
-var buildUtil = require('./util');
+const webpackConfig = require('../../webpack.config.js');
+const paths = require('./paths');
+const buildUtil = require('./util');
 
 // will be populated with data using the askForDevOptions task
 var devModeOptions;
@@ -293,11 +296,12 @@ gulp.task('webpack:dev', () => {
   config.debug = true;
 
   // Start a webpack-dev-server
-  new WebpackDevServer(webpack(config), {
+  new WebpackDevServer(createWebpackCompiler(config), {
     publicPath: '/bundle',
     contentBase: 'target/assets/',
     inline: true,
     noInfo: true,
+    quiet: true,
     watchOptions: {
       ignored: /node_modules/
     },
@@ -316,3 +320,90 @@ gulp.task('webpack:dev', () => {
   // continue to run asynchronously
   return new Promise(() => {});
 });
+
+function createWebpackCompiler(config, onReadyCallback) {
+  // "Compiler" is a low-level interface to Webpack.
+  // It lets us listen to some events and provide our own custom messages.
+  let compiler;
+  try {
+    compiler = webpack(config);
+  } catch (err) {
+    console.log(chalk.red('Failed to compile.'));
+    console.log();
+    console.log(err.message || err);
+    console.log();
+    process.exit(1);
+  }
+
+  // "invalid" event fires when you have changed a file, and Webpack is
+  // recompiling a bundle. WebpackDevServer takes care to pause serving the
+  // bundle, so if you refresh, it'll wait instead of serving the old one.
+  // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
+  compiler.plugin('invalid', () => {
+    if (process.stdout.isTTY) {
+      clearConsole();
+    }
+    console.log('Compiling...');
+  });
+
+  let isFirstCompile = true;
+
+  // "done" event fires when Webpack has finished recompiling the bundle.
+  // Whether or not you have warnings or errors, you will get this event.
+  compiler.plugin('done', stats => {
+    if (process.stdout.isTTY) {
+      clearConsole();
+    }
+
+    // We have switched off the default Webpack output in WebpackDevServer
+    // options so we are going to "massage" the warnings and errors and present
+    // them in a readable focused way.
+    const messages = formatWebpackMessages(stats.toJson({}, true));
+    const isSuccessful = !messages.errors.length && !messages.warnings.length;
+    const showInstructions = isSuccessful && (process.stdout.isTTY || isFirstCompile);
+
+    if (isSuccessful) {
+      console.log(chalk.green('Compiled successfully!'));
+    }
+
+    if (typeof onReadyCallback === 'function') {
+      onReadyCallback(showInstructions);
+    }
+    isFirstCompile = false;
+
+    // If errors exist, only show errors.
+    if (messages.errors.length) {
+      console.log(chalk.red('Failed to compile.'));
+      console.log();
+      messages.errors.forEach(message => {
+        console.log(message);
+        console.log();
+      });
+      return;
+    }
+
+    // Show warnings if no errors were found.
+    if (messages.warnings.length) {
+      console.log(chalk.yellow('Compiled with warnings.'));
+      console.log();
+      messages.warnings.forEach(message => {
+        console.log(message);
+        console.log();
+      });
+      // Teach some ESLint tricks.
+      console.log('You may use special comments to disable some warnings.');
+      console.log(
+        'Use ' +
+          chalk.yellow('// eslint-disable-next-line') +
+          ' to ignore the next line.'
+      );
+      console.log(
+        'Use ' +
+          chalk.yellow('/* eslint-disable */') +
+          ' to ignore all warnings in a file.'
+      );
+    }
+  });
+
+  return compiler;
+};
