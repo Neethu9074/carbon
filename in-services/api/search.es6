@@ -6,7 +6,6 @@ export function validate(query) {
     url: `/api/search/validate`,
     queryParams: {
       q: query
-    },
-    treat400AsError: false
+    }
   });
 }
