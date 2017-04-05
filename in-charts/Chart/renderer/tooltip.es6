@@ -46,6 +46,9 @@ export default function createTooltipRenderer(config) {
       y2DataColumn = null;
     } else if (!y1DataColumn && y2DataColumn) {
       dataPointsExistingAtMoment = y2DataColumn.time;
+    } else if (!y1DataColumn && !y2DataColumn) {
+      hideTooltip();
+      return;
     }
 
     repositionTooltip();
