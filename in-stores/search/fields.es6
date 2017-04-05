@@ -1,5 +1,6 @@
 import { blackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
+import { requiresQuotes } from 'in-stores/search/manipulation';
 import { emptyArray } from 'in-services/fixedObjects';
 import { find } from 'in-services/arrayUtils';
 
@@ -54,7 +55,7 @@ export function node(name, props = {}) {
     description: props.description || helpTexts[props.path],
     children: props.children || {},
     isPreset: props.isPreset || false,
-    query: props.query || name,
+    query: props.query || (requiresQuotes(name) ? `"${name}"` : name),
     termType: props.termType
   };
 }
