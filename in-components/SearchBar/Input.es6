@@ -141,7 +141,9 @@ export default getElementDimensions(
           this.updateQuery(query);
 
           const tokens = lex(query);
-          if (!isFocused || (change.origin !== '+input' && change.origin !== 'setValue')) {
+          if (
+            !isFocused || (change.origin !== '+input' && change.origin !== '+delete' && change.origin !== 'setValue')
+          ) {
             return;
           }
 
