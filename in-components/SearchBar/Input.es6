@@ -76,7 +76,10 @@ export default getElementDimensions(
 
         editor.on('keydown', (editor, event) => {
           // open the suggestions when user hitting ctrl + space
-          if (event.keyCode === keyCodes.space && event.ctrlKey) {
+          if (
+            (event.keyCode === keyCodes.space && event.ctrlKey) ||
+            (event.keyCode === keyCodes.arrows.down && this.state.suggestionConfig == null)
+          ) {
             event.preventDefault();
 
             const query = this.props.query;
@@ -90,6 +93,7 @@ export default getElementDimensions(
               field,
               fieldValue
             });
+            return;
           }
 
           // send allowed navigation keys to the suggestions component
