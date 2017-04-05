@@ -13,6 +13,8 @@ const helpTexts = {
   'entity.service': 'Logical service',
   'entity.docker': 'Docker image and container',
   'entity.ruby': 'Ruby application',
+  'entity.jvm': 'Java virtual machine',
+  'entity.jvm.app': 'JVM based application',
   'entity.weblogic': 'Oracles Weblogic',
   'entity.nodejs': 'Node.js runtime and application',
   'entity.nodejs.app': 'Node.js application',
