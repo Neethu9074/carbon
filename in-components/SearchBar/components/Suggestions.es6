@@ -159,8 +159,11 @@ export default React.createClass({
     let replaceFrom;
     const replaceTo = changedToken.end; // always delete all what comes after the change in this current token
 
-    // if a preset was choosen, replace the whole term with the presets definition (query)
-    if (child.isPreset) {
+    if (isFieldSeparator(changedToken)) {
+      replaceWith = `${child.query} `;
+      replaceFrom = changedToken.start + 1;
+    } else if (child.isPreset) {
+      // if a preset was choosen, replace the whole term with the presets definition (query)
       replaceWith = `${child.query} `;
       replaceFrom = changedToken.start;
     } else {
