@@ -156,5 +156,5 @@ export function getValueSuggestions(keyword, currentValue) {
     return field.fixedValues;
   }
 
-  return field.fixedValues.filter(value => value.indexOf(currentValue) !== -1);
+  return field.fixedValues.filter(value => value !== currentValue && value.indexOf(currentValue) !== -1);
 }
