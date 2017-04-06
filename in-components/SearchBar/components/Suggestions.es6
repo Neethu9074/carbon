@@ -137,13 +137,14 @@ export default React.createClass({
   },
 
   onReturn(child) {
-    const config = this.props.config;
+    const { config, onSelectSuggestion } = this.props;
+    const { availableChildren, currentHighlightedRowIndex } = this.state;
     if (!config || this.state.availableChildren.length === 0) {
       return;
     }
 
     // a child can be given if the user clicks, or it can be calculated via current index if using the keyboard
-    child = child || this.state.availableChildren[this.state.currentHighlightedRowIndex];
+    child = child || availableChildren[currentHighlightedRowIndex];
 
     const changedToken = getTokenForConfig(config);
     const cursorRelativeToToken = config.cursor - changedToken.start;
@@ -157,8 +158,6 @@ export default React.createClass({
 
     let replaceWith;
     let replaceFrom;
-    const replaceTo = changedToken.end; // always delete all what comes after the change in this current token
-
     if (isFieldSeparator(changedToken)) {
       replaceWith = `${child.query} `;
       replaceFrom = changedToken.start + 1;
@@ -177,9 +176,9 @@ export default React.createClass({
       }
     }
 
-    this.props.onSelectSuggestion({
+    onSelectSuggestion({
       replaceFrom,
-      replaceTo,
+      replaceTo: changedToken.end, // always delete all what comes after the change in this current token
       replaceWith
     });
   }
@@ -228,10 +227,10 @@ function getChildrenForConfig(config) {
 
   const lastPartOfCurrentTerm = getSubstringTillDotBackwards(cappedLexemeAtCursor).trim();
   return node.children
-    .filter(child => child.name.startsWith(lastPartOfCurrentTerm)) // hide ID suggestions
-    .filter(child => child.termType !== 'id');
+    .filter(child => child.name.startsWith(lastPartOfCurrentTerm))
+    .filter(child => child.termType !== 'id'); // hide ID suggestions
 }
 
-function getTokenForConfig(config) {
-  return getTokenForColumn(lex(config.query), config.cursor - 1); // exclusive
+function getTokenForConfig({ query, cursor }) {
+  return getTokenForColumn(lex(query), cursor - 1); // exclusive
 }
