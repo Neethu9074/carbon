@@ -110,7 +110,6 @@ export default class EventRenderer extends BasicRenderer {
       if (positions.triggeringX <= 0 || positions.triggeringX > this.width) {
         return null;
       }
-      return positions;
     }
 
     this.backBuffer.fillStyle = isHighlighted ? highlightedColor : getColorForEvent(event);
