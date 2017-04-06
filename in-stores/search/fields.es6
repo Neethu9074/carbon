@@ -1,4 +1,4 @@
-import { blackListedSearchFieldKeywords } from 'in-services/featureFlags';
+import { blackListedSearchFieldValues, blackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 import { requiresQuotes } from 'in-stores/search/manipulation';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -155,9 +155,17 @@ export function getValueSuggestions(keyword, currentValue) {
     return emptyArray;
   }
 
+  const values = field.fixedValues.filter(
+    value => blackListedSearchFieldValues[keyword] && blackListedSearchFieldValues[keyword].indexOf(value) === -1
+  );
+
   if (!currentValue) {
-    return field.fixedValues;
+    return values;
   }
 
-  return field.fixedValues.filter(value => value !== currentValue && value.indexOf(currentValue) !== -1);
+  return values
+    .filter(value => value !== currentValue && value.indexOf(currentValue) !== -1)
+    .filter(
+      value => blackListedSearchFieldValues[keyword] && blackListedSearchFieldValues[keyword].indexOf(value) === -1
+    );
 }
