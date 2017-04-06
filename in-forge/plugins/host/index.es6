@@ -13,6 +13,7 @@ const linuxPlugin = plugins.host + '_linux';
 const applePlugin = plugins.host + '_apple';
 const windowsPlugin = plugins.host + '_windows';
 const aixPlugin = plugins.host + '_aix';
+const solarisPlugin = plugins.host + '_solaris';
 
 registerSnapshotDefinition({
   plugin: plugins.host,
@@ -29,13 +30,17 @@ registerSnapshotDefinition({
     [linuxPlugin]: linuxIconSvgPath,
     [applePlugin]: appleIconSvgPath,
     [windowsPlugin]: windowsIconSvgPath,
-    [aixPlugin]: aixIconPath
+    [aixPlugin]: aixIconPath,
+    // TODO Simon: Put the right icon here!
+    [solarisPlugin]: linuxIconSvgPath
   },
 
   getIconPath(snapshot) {
     const os = snapshot.getIn(['data', 'os.name'], '');
     if (os.match(/aix/i)) {
       return aixPlugin;
+    } else if (os.match(/solaris/i)) {
+      return solarisPlugin;
     } else if (os.match(/linux/i)) {
       return linuxPlugin;
     } else if (os.match(/windows/i)) {
