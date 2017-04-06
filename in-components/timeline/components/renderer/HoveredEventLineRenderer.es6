@@ -34,18 +34,23 @@ export default class HoveredEventLineRenderer extends BasicRenderer {
       return;
     }
 
-    const x = this.scale.getRange(event.get('start'));
-    if (x <= 0 || x > this.width) {
-      return;
-    }
+    const positions = {
+      x: this.scale.getRange(event.get('start')),
+      triggeringX: this.scale.getRange(this.getEventStart(event))
+    };
 
+    const from = Math.max(0, Math.min(positions.x, positions.triggeringX));
     const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : this.scale.getRange(event.get('end'));
 
     const buffer = this.backBuffer;
     buffer.globalAlpha = 0.2;
     buffer.fillStyle = getColorForEventAtFocusedMoment(event, this.focusedMoment);
-    buffer.fillRect(x, this.y, to - x, 36);
+    buffer.fillRect(from, this.y, to - from, 36);
     buffer.globalAlpha = 1;
+  }
+
+  getEventStart(event) {
+    return event.get('triggeringTime', event.get('start'));
   }
 
   dispose() {
