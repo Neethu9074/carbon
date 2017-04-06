@@ -23,7 +23,7 @@ const helpTexts = {
   'entity.elasticsearch': 'Elasticsearch database',
   'entity.elasticsearch.cluster': 'Elasticsearch cluster',
   'entity.marathon': 'Mesosphere Marathon',
-  'entity.process': 'Operating system processe',
+  'entity.process': 'Operating system process',
   'entity.jboss': 'JBoss application server',
   'entity.tomcat': 'Apache Tomcat',
   'entity.nomad': 'HashiCorp Nomad scheduler',
