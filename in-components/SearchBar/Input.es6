@@ -123,7 +123,16 @@ export default getElementDimensions(
           this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
         });
 
-        editor.on('mousedown', () => {
+        editor.on('mousedown', (editor, event) => {
+          // Add a space at the end of the query when the query clicks after the last block. This is helpful as
+          // otherwise the cursor will be positioned within the block, even though this is rarely what the user
+          // wants.
+          const lastCharacterElement = document.querySelector(
+            '.in-searchbar .CodeMirror-code .cm-character.cm-custom-block--end:last-child'
+          );
+          if (lastCharacterElement && lastCharacterElement.getBoundingClientRect().right < event.screenX + 5) {
+            editor.setValue(editor.getValue() + ' ');
+          }
           this.openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition);
         });
 
