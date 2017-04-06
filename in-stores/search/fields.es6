@@ -11,7 +11,7 @@ const helpTexts = {
   'entity.host': 'Infrastructure host',
   'entity.host.os': 'Operating system',
   'entity.service': 'Logical service',
-  'entity.docker': 'Docker image and container',
+  'entity.docker': 'Docker container',
   'entity.ruby': 'Ruby application',
   'entity.jvm': 'Java virtual machine',
   'entity.jvm.app': 'JVM based application',
@@ -29,11 +29,11 @@ const helpTexts = {
   'entity.nomad': 'HashiCorp Nomad scheduler',
   'entity.gce': 'Google Compute Engine',
   trace: 'Trace and root span',
-  event: 'Changes, issues, incidents and objectives',
+  event: 'Changes, issues and incidents',
   span: ''
 };
 
-const filterNode = node('filter', { description: 'Predefined filter' });
+const filterNode = node('filter', { description: 'Saved filter' });
 filters$.subscribe(_filters => {
   filterNode.children = _filters.toArray().map(_filter =>
     node(_filter.get('name'), {
