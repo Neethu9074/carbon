@@ -156,7 +156,7 @@ export function getValueSuggestions(keyword, currentValue) {
   }
 
   const values = field.fixedValues.filter(
-    value => blackListedSearchFieldValues[keyword] && blackListedSearchFieldValues[keyword].indexOf(value) === -1
+    value => !blackListedSearchFieldValues[keyword] || blackListedSearchFieldValues[keyword].indexOf(value) === -1
   );
 
   if (!currentValue) {

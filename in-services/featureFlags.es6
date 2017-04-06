@@ -17,5 +17,5 @@ export const cockpitEnabled = false;
 // hide the following trace type auto completions: iosError, ios, android, androidError, xRay, python
 export const blackListedSearchFieldKeywords = ['log', 'span.content'];
 export const blackListedSearchFieldValues = {
-  'trace.type': ['ios', 'ios.error', 'android', 'android.error', 'xRay', 'python']
+  'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python']
 };
