@@ -227,7 +227,7 @@ function getChildrenForConfig(config) {
 
   const lastPartOfCurrentTerm = getSubstringTillDotBackwards(cappedLexemeAtCursor).trim();
   return node.children
-    .filter(child => child.name.startsWith(lastPartOfCurrentTerm))
+    .filter(child => child.name.indexOf(lastPartOfCurrentTerm) >= 0)
     .filter(child => child.termType !== 'id'); // hide ID suggestions
 }
 
