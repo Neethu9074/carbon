@@ -5,6 +5,7 @@ import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
 import appleIconSvgPath from 'in-forge/plugins/host/icons/appleIconPath';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition.es6';
 import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
+import aixIconPath from 'in-forge/plugins/host/icons/aixIconPath';
 import { plugins } from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
 
@@ -28,8 +29,7 @@ registerSnapshotDefinition({
     [linuxPlugin]: linuxIconSvgPath,
     [applePlugin]: appleIconSvgPath,
     [windowsPlugin]: windowsIconSvgPath,
-    // TODO Simon: Put the right icon here!
-    [aixPlugin]: linuxIconSvgPath
+    [aixPlugin]: aixIconPath
   },
 
   getIconPath(snapshot) {
