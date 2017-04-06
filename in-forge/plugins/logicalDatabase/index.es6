@@ -10,7 +10,6 @@ registerSnapshotDefinition({
 
   iconSvgPath,
   chartWiggleRoom: 20000,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

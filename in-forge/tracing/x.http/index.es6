@@ -4,7 +4,6 @@ import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'x.http',
   category: 'xray',
-  searchAliases: ['xray', 'x-ray', 'http'],
 
   typeName: {
     singular: 'HTTP Call',

@@ -9,7 +9,6 @@ registerSnapshotDefinition({
   plugin: plugins.logicalRedisDatabase,
 
   iconSvgPath,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

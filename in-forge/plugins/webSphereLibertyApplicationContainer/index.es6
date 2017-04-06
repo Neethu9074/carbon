@@ -7,7 +7,6 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.webSphereLiberty,
-
   iconSvgPath,
   metricDefinitions,
   supportsCodeView,
@@ -15,7 +14,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'WebSphere Liberty Server',
     plural: 'WebSphere Liberty Servers'
-  },
-
-  namesForTypeSearch: ['websphere']
+  }
 });

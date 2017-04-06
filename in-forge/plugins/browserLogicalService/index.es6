@@ -1,7 +1,6 @@
 import { zeroDecimalPlacesPerSecond, msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import tableDefinition from 'in-forge/plugins/defaultLogicalService/tableDefinition';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { addKeywordOperator } from 'in-sdk/search/registry';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
 import { addMapping } from 'in-sdk/kpi';
@@ -9,9 +8,7 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.browserLogicalService,
-
   iconSvgPath,
-  namesForTypeSearch: ['service', 'eum', 'browser'],
   tableDefinition,
   metricDefinitions,
   metricAggregations: {
@@ -49,24 +46,3 @@ addMapping(plugins.browserLogicalService, () => [
     valueOnlyFormatter: msZeroDecimalPlaces
   }
 ]);
-
-addKeywordOperator({
-  context: 'trace',
-  type: 'string',
-  keyword: 'browser',
-  field: 'data.page.userAgent.browser.name'
-});
-
-addKeywordOperator({
-  context: 'trace',
-  type: 'string',
-  keyword: 'country',
-  field: 'data.page.geo.country'
-});
-
-addKeywordOperator({
-  context: 'trace',
-  type: 'string',
-  keyword: 'os',
-  field: 'data.page.userAgent.os.name'
-});

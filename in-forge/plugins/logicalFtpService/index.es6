@@ -8,7 +8,6 @@ registerSnapshotDefinition({
   plugin: plugins.logicalFtpService,
 
   iconSvgPath,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

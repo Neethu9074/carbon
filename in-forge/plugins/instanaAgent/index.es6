@@ -1,5 +1,4 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { addSearchableEntityType } from 'in-sdk/search';
 import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
@@ -12,12 +11,9 @@ registerSnapshotDefinition({
   tableDefinition,
   iconSvgPath,
   metricDefinitions,
-  namesForTypeSearch: ['agent'],
 
   pluginName: {
     singular: 'Instana Agent',
     plural: 'Instana Agents'
   }
 });
-
-addSearchableEntityType('agent', plugins.instanaAgent);

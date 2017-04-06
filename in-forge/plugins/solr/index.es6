@@ -1,7 +1,5 @@
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
-import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { addSearchableEntityType } from 'in-sdk/search';
 import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
@@ -13,9 +11,9 @@ registerSnapshotDefinition({
   iconSvgPath,
   metricDefinitions,
   supportsCodeView,
-  getCodeView
+  getCodeView,
+  pluginName: {
+    singular: 'Solr',
+    plural: 'Solr'
+  }
 });
-
-setHumanReadablePluginName(plugins.solr, 'Solr', 'Solr');
-
-addSearchableEntityType('solr', plugins.solr);

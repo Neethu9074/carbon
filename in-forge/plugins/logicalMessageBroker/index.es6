@@ -9,7 +9,6 @@ registerSnapshotDefinition({
   plugin: plugins.logicalMessageBroker,
 
   iconSvgPath,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

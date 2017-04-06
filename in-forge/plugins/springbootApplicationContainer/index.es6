@@ -14,6 +14,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Spring Boot App',
     plural: 'Spring Boot Apps'
-  },
-  namesForTypeSearch: ['spring']
+  }
 });

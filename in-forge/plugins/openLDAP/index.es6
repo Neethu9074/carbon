@@ -13,6 +13,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'OpenLDAP Node',
     plural: 'OpenLDAP Nodes'
-  },
-  namesForTypeSearch: ['openldap']
+  }
 });

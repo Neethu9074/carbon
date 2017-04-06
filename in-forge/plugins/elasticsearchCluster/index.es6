@@ -1,4 +1,3 @@
-import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -8,9 +7,10 @@ import metricDefinitions from './metricDefinitions';
 
 registerSnapshotDefinition({
   plugin: plugins.elasticsearchCluster,
-
   iconSvgPath,
-  metricDefinitions
+  metricDefinitions,
+  pluginName: {
+    singular: 'Elasticsearch Cluster',
+    plural: 'Elasticsearch Clusters'
+  }
 });
-
-setHumanReadablePluginName(plugins.elasticsearchCluster, 'Elasticsearch Cluster', 'Elasticsearch Cluster');

@@ -9,7 +9,6 @@ registerSnapshotDefinition({
   plugin: plugins.ldapLogicalService,
 
   iconSvgPath,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

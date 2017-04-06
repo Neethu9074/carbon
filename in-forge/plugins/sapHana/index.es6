@@ -6,13 +6,10 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.sapHana,
-
   iconSvgPath,
   metricDefinitions,
   pluginName: {
     singular: 'SAP HANA',
     plural: 'SAP HANA'
-  },
-
-  namesForTypeSearch: ['sap', 'hana']
+  }
 });

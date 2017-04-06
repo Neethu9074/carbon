@@ -3,7 +3,6 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'aspnetmvccontroller',
   category: 'generic',
-  searchAliases: ['aspmvc', 'aspnetmvc', 'mvccontroller'],
 
   typeName: {
     singular: 'ASP.Net MVC-Controller',

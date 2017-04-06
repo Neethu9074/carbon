@@ -4,7 +4,7 @@ registerSpanDefinition({
   type: 'page.err',
   category: 'eum',
   serviceSideForOverview: 'source',
-  searchAliases: ['page', 'eum', 'error', 'eumError'],
+
   showSelfTime: false,
 
   typeName: {

@@ -9,7 +9,6 @@ registerSnapshotDefinition({
   plugin: plugins.logicalWebApp,
 
   iconSvgPath,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

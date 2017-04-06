@@ -7,7 +7,6 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.webLogic,
-
   iconSvgPath,
   metricDefinitions,
   supportsCodeView,
@@ -15,7 +14,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'WebLogic Server',
     plural: 'WebLogic Servers'
-  },
-
-  namesForTypeSearch: ['weblogic']
+  }
 });

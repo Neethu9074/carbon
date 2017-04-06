@@ -6,14 +6,10 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.glassfish,
-
   iconSvgPath,
   metricDefinitions,
-
   pluginName: {
     singular: 'Glassfish',
     plural: 'Glassfish'
-  },
-
-  namesForTypeSearch: ['glassfish']
+  }
 });

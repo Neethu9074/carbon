@@ -8,13 +8,11 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.dropwizard,
-
   iconSvgPath,
   metricDefinitions,
   tableDefinition,
   supportsCodeView,
   getCodeView,
-  namesForTypeSearch: ['dropwizard'],
   pluginName: {
     singular: 'Dropwizard App',
     plural: 'Dropwizard Apps'

@@ -10,11 +10,9 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.docker,
-
   iconSvgPath,
   metricDefinitions,
   tableDefinition,
-  namesForTypeSearch: ['docker'],
 
   pluginName: {
     singular: 'Docker Container',

@@ -9,7 +9,6 @@ registerSnapshotDefinition({
   plugin: plugins.logicalMongoDbDatabase,
 
   iconSvgPath,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

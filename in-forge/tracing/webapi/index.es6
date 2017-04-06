@@ -3,7 +3,6 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'webapi',
   category: 'generic',
-  searchAliases: ['webapi'],
 
   typeName: {
     singular: 'WebAPI-Controller',

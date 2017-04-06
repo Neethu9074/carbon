@@ -12,7 +12,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'ActiveMQ',
     plural: 'ActiveMQs'
-  },
-
-  namesForTypeSearch: ['activemq']
+  }
 });

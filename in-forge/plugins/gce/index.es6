@@ -10,9 +10,6 @@ registerSnapshotDefinition({
     singular: 'GCE Instance',
     plural: 'GCE Instances'
   },
-
-  namesForTypeSearch: ['gce'],
-
   iconSvgPath,
   metricDefinitions
 });

@@ -11,7 +11,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'CloudFoundry',
     plural: 'CloudFoundry'
-  },
-
-  namesForTypeSearch: ['cf', 'CloudFoundry', 'cloudfoundry']
+  }
 });

@@ -6,14 +6,10 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.zookeeper,
-
   iconSvgPath,
   metricDefinitions,
-
   pluginName: {
     singular: 'ZooKeeper',
     plural: 'ZooKeepers'
-  },
-
-  namesForTypeSearch: ['zookeeper']
+  }
 });

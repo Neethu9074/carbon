@@ -6,14 +6,10 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.golang,
-
   iconSvgPath,
   metricDefinitions,
-
   pluginName: {
     singular: 'Golang App',
     plural: 'Golang Apps'
-  },
-
-  namesForTypeSearch: ['go', 'golang']
+  }
 });

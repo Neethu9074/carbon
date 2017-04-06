@@ -1,4 +1,3 @@
-import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -7,9 +6,10 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.genericHardware,
-
   iconSvgPath,
-  metricDefinitions
+  metricDefinitions,
+  pluginName: {
+    singular: 'Generic Hardware',
+    plural: 'Generic Hardware'
+  }
 });
-
-setHumanReadablePluginName(plugins.genericHardware, 'Generic Hardware', 'Generic Hardware');

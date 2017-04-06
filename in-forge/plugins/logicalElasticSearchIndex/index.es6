@@ -9,7 +9,6 @@ registerSnapshotDefinition({
   plugin: plugins.logicalElasticSearchIndex,
 
   iconSvgPath,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

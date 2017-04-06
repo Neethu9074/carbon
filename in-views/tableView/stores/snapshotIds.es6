@@ -1,4 +1,3 @@
-import { translateSearchableEntityTypeToFullyQualifiedPluginIds } from 'in-sdk/search/defaultOperators';
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
 import createSearchObservable from 'in-services/subscription/search';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
@@ -7,6 +6,17 @@ import { clearMetrics } from 'in-views/tableView/stores/metrics';
 import { setColumn } from 'in-views/tableView/stores/sorting';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { query$ } from 'in-stores/search/query';
+
+// TODO: Read this mapping from backend
+const entityTypeToFullyQualifiedPlugin = {
+  host: fullyQualifiedPlugins.host,
+  docker: fullyQualifiedPlugins.docker,
+  jvm: fullyQualifiedPlugins.jvmRuntimePlatform,
+  nodejs: fullyQualifiedPlugins.nodeJsRuntimePlatform,
+  service: fullyQualifiedPlugins.defaultLogicalService,
+  dropwizard: fullyQualifiedPlugins.dropwizardApplicationContainer,
+  agent: fullyQualifiedPlugins.instanaAgent
+};
 
 export const selectedType$ = query$
   .map(query => {
@@ -24,15 +34,9 @@ export function setSelectedType(type) {
 
 export const plugin$ = selectedType$
   .map(type => {
-    // Ben 2016-11-02
-    // A small hack to support aggregations for services.
-    // Consider revisiting this when we have more of these aggregations.
-    if (type === 'service') {
-      return plugins.defaultLogicalService;
-    }
-    const pluginIds = translateSearchableEntityTypeToFullyQualifiedPluginIds(type);
-    if (pluginIds) {
-      return translateFullyQualifiedPluginToShortPluginName(pluginIds[0]) || plugins.host;
+    const pluginId = entityTypeToFullyQualifiedPlugin[type];
+    if (pluginId) {
+      return translateFullyQualifiedPluginToShortPluginName(pluginId) || plugins.host;
     }
 
     return plugins.host;

@@ -4,7 +4,6 @@ import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'py.http',
   category: 'http',
-  searchAliases: ['py', 'python', 'http'],
 
   typeName: {
     singular: 'HTTP Call',

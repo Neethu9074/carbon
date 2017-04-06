@@ -1,7 +1,5 @@
 import { createLogger } from 'instalog';
 
-import { addSearchableTraceType } from 'in-sdk/search';
-
 let missingSpanDefinitionReported = false;
 
 // maps type => spanDefinition
@@ -28,13 +26,6 @@ function defaultSpanDefinition(span) {
 
 export function registerSpanDefinition(spanDefinition) {
   registry[spanDefinition.type] = spanDefinition;
-
-  const aliases = spanDefinition.searchAliases;
-  if (aliases) {
-    for (let i = 0, len = aliases.length; i < len; i++) {
-      addSearchableTraceType(aliases[i], spanDefinition.type);
-    }
-  }
 }
 
 export function getSpanDefinition(type, span) {

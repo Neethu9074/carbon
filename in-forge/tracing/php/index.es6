@@ -3,7 +3,6 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'php',
   category: 'http',
-  searchAliases: ['php'],
 
   typeName: {
     singular: 'PHP request',

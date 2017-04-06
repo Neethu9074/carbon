@@ -1,5 +1,4 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { addKeywordOperator } from 'in-sdk/search';
 
 import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
 import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
@@ -22,8 +21,6 @@ registerSnapshotDefinition({
   showZoneInSidebarHeader: true,
   tableDefinition,
   metricDefinitions,
-
-  namesForTypeSearch: ['host'],
 
   icons: {
     [plugins.host]: linuxIconSvgPath,
@@ -48,32 +45,4 @@ registerSnapshotDefinition({
     const data = snapshot.get('data');
     return data.get('memory.total', 1) * data.get('cpu.count', 1);
   }
-});
-
-addKeywordOperator({
-  context: 'entity',
-  type: 'number',
-  keyword: 'cpuCount',
-  field: 'cpuCount'
-});
-
-addKeywordOperator({
-  context: 'entity',
-  type: 'string',
-  keyword: 'hostname',
-  field: 'hostname'
-});
-
-addKeywordOperator({
-  context: 'entity',
-  type: 'string',
-  keyword: 'fqdn',
-  field: 'fqdn'
-});
-
-addKeywordOperator({
-  context: 'entity',
-  type: 'number',
-  keyword: 'memory',
-  field: 'memory'
 });

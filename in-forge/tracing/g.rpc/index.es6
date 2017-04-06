@@ -4,7 +4,6 @@ import { getLabel } from 'in-forge/tracing/rpc/spanDefinition';
 registerSpanDefinition({
   type: 'g.rpc',
   category: 'rpc',
-  searchAliases: ['go', 'golang', 'rpc'],
 
   typeName: {
     singular: 'RPC Call',

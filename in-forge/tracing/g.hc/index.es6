@@ -4,7 +4,6 @@ import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 registerSpanDefinition({
   type: 'g.hc',
   category: 'http',
-  searchAliases: ['go', 'golang', 'http'],
 
   typeName: {
     singular: 'HTTP Client Call',

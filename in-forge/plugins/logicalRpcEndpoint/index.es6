@@ -9,7 +9,6 @@ registerSnapshotDefinition({
   plugin: plugins.logicalRpcEndpoint,
 
   iconSvgPath,
-  namesForTypeSearch: ['service'],
   tableDefinition,
   metricDefinitions,
 

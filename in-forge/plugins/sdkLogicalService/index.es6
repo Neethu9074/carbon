@@ -8,10 +8,8 @@ import metricDefinitions from './metricDefinitions';
 
 registerSnapshotDefinition({
   plugin: plugins.sdkLogicalService,
-
   iconSvgPath,
   metricDefinitions,
-  namesForTypeSearch: ['service'],
   tableDefinition,
 
   pluginName: {

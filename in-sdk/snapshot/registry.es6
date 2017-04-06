@@ -6,7 +6,6 @@ import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerMetricDefinition } from 'in-sdk/metrics';
-import { addSearchableEntityType } from 'in-sdk/search';
 import { addLabelFinder } from 'in-sdk/snapshot';
 
 // maps plugin => snapshot defintion
@@ -16,7 +15,6 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registry[snapshotDefinition.plugin] = snapshotDefinition;
   enrichTableDefinition(snapshotDefinition);
   registerLegacySdkHooks(snapshotDefinition);
-  registerSearchHooks(snapshotDefinition);
   registerMetricDefinitions(snapshotDefinition);
   registerIconPath(snapshotDefinition);
 }
@@ -77,14 +75,6 @@ function registerLegacySdkHooks(snapshotDefinition) {
       } else {
         setAggregation(metric, aggregation);
       }
-    });
-  }
-}
-
-function registerSearchHooks(snapshotDefinition) {
-  if (snapshotDefinition.namesForTypeSearch) {
-    snapshotDefinition.namesForTypeSearch.forEach(name => {
-      addSearchableEntityType(name, snapshotDefinition.plugin);
     });
   }
 }

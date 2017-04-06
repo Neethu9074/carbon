@@ -4,7 +4,7 @@ registerSpanDefinition({
   type: 'page',
   category: 'eum',
   serviceSideForOverview: 'source',
-  searchAliases: ['page', 'eum'],
+
   showSelfTime: false,
 
   typeName: {

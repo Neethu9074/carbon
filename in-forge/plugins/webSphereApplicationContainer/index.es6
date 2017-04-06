@@ -7,7 +7,6 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.webSphere,
-
   iconSvgPath,
   metricDefinitions,
   supportsCodeView,
@@ -15,7 +14,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'WebSphere',
     plural: 'WebSpheres'
-  },
-
-  namesForTypeSearch: ['websphere']
+  }
 });

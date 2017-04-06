@@ -8,11 +8,8 @@ registerSnapshotDefinition({
   plugin: plugins.python,
   iconSvgPath,
   metricDefinitions,
-
   pluginName: {
     singular: 'Python App',
     plural: 'Python Apps'
-  },
-
-  namesForTypeSearch: ['py', 'python']
+  }
 });

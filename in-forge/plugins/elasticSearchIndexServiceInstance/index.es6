@@ -15,9 +15,5 @@ registerSnapshotDefinition({
     plural: 'Elasticsearch Index Instances'
   },
 
-  chartWiggleRoom: 20000,
-
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'name']);
-  }
+  chartWiggleRoom: 20000
 });

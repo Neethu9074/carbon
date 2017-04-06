@@ -17,7 +17,6 @@ registerSnapshotDefinition({
   },
 
   tableDefinition,
-  namesForTypeSearch: ['node', 'node.js', 'nodejs'],
 
   getCodeView
 });

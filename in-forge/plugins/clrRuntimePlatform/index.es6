@@ -6,10 +6,8 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.clrRuntimePlatform,
-
   iconSvgPath,
   metricDefinitions,
-  namesForTypeSearch: ['clr'],
   pluginName: {
     singular: '.NET App',
     plural: '.NET Apps'

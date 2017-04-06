@@ -15,7 +15,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Ruby App',
     plural: 'Ruby Apps'
-  },
-
-  namesForTypeSearch: ['ruby', 'rubylang']
+  }
 });

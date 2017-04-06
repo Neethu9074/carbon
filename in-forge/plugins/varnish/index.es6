@@ -6,13 +6,10 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.varnish,
-
   iconSvgPath,
   metricDefinitions,
-
   pluginName: {
     singular: 'Varnish Node',
     plural: 'Varnish Nodes'
-  },
-  namesForTypeSearch: ['varnish']
+  }
 });

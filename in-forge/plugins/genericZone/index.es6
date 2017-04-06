@@ -1,4 +1,3 @@
-import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -7,9 +6,10 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.genericZone,
-
   iconSvgPath,
-  metricDefinitions
+  metricDefinitions,
+  pluginName: {
+    singular: 'Generic Zone',
+    plural: 'Generic Zones'
+  }
 });
-
-setHumanReadablePluginName(plugins.genericZone, 'Generic Zone', 'Generic Zones');
