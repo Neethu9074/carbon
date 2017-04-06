@@ -11,6 +11,7 @@ import 'in-forge/plugins/host/metrics';
 const linuxPlugin = plugins.host + '_linux';
 const applePlugin = plugins.host + '_apple';
 const windowsPlugin = plugins.host + '_windows';
+const aixPlugin = plugins.host + '_aix';
 
 registerSnapshotDefinition({
   plugin: plugins.host,
@@ -26,12 +27,16 @@ registerSnapshotDefinition({
     [plugins.host]: linuxIconSvgPath,
     [linuxPlugin]: linuxIconSvgPath,
     [applePlugin]: appleIconSvgPath,
-    [windowsPlugin]: windowsIconSvgPath
+    [windowsPlugin]: windowsIconSvgPath,
+    // TODO Simon: Put the right icon here!
+    [aixPlugin]: linuxIconSvgPath
   },
 
   getIconPath(snapshot) {
     const os = snapshot.getIn(['data', 'os.name'], '');
-    if (os.match(/linux/i)) {
+    if (os.match(/aix/i)) {
+      return aixPlugin;
+    } else if (os.match(/linux/i)) {
       return linuxPlugin;
     } else if (os.match(/windows/i)) {
       return windowsPlugin;
