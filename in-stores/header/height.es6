@@ -3,5 +3,5 @@ import { createTrackingStore } from 'in-stores/store';
 
 export const headerHeight$ = createTrackingStore({
   name: 'header/height',
-  observable: expanded$.map(expanded => expanded ? 78 : 40)
+  observable: expanded$.map(expanded => expanded ? 80 : 40)
 }).observable;
