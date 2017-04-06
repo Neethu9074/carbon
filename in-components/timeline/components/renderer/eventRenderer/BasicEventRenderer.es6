@@ -113,20 +113,13 @@ export default class EventRenderer extends BasicRenderer {
       return positions;
     }
 
-    const buffer = this.backBuffer;
-    buffer.fillStyle = isHighlighted ? highlightedColor : getColorForEvent(event);
+    this.backBuffer.fillStyle = isHighlighted ? highlightedColor : getColorForEvent(event);
 
-    const prevValue = buffer.globalAlpha;
-    buffer.globalAlpha = 0.2;
-    buffer.fillRect(positions.triggeringX, this.y, 1, 36);
+    const prevValue = this.backBuffer.globalAlpha;
+    this.backBuffer.globalAlpha = 0.2;
+    this.backBuffer.fillRect(positions.triggeringX, this.y, 1, 36);
+    this.backBuffer.globalAlpha = prevValue;
 
-    if (event.get('id') === this.selectedEventId) {
-      const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : scale.getRange(event.get('end'));
-
-      buffer.fillRect(positions.x, this.y, to - positions.x, 36);
-    }
-
-    buffer.globalAlpha = prevValue;
     return positions;
   }
 
@@ -135,15 +128,14 @@ export default class EventRenderer extends BasicRenderer {
       return;
     }
 
-    const scale = this.scale;
-    const buffer = this.backBuffer;
-    const prevValue = buffer.globalAlpha;
+    const prevValue = this.backBuffer.globalAlpha;
     const from = Math.max(0, Math.min(positions.x, positions.triggeringX));
-    const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : scale.getRange(event.get('end'));
+    const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : this.scale.getRange(event.get('end'));
 
-    buffer.globalAlpha = 0.2;
-    buffer.fillRect(from, this.y, to - from, 36);
-    buffer.globalAlpha = prevValue;
+    this.backBuffer.globalAlpha = 0.2;
+    this.backBuffer.fillStyle = highlightedColor;
+    this.backBuffer.fillRect(from, this.y, to - from, 36);
+    this.backBuffer.globalAlpha = prevValue;
   }
 
   drawImage(image, x) {

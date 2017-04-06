@@ -32,8 +32,8 @@ export default class MarkedIncidentRenderer extends BasicRenderer {
       return;
     }
 
-    const x = this.scale.getRange(match.get('start'));
-    if (x <= 0 || x > this.width) {
+    const x = Math.max(0, this.scale.getRange(match.get('start')));
+    if (x > this.width) {
       return;
     }
 
