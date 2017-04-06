@@ -1,6 +1,7 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 
 import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
+import solarisIconPath from 'in-forge/plugins/host/icons/solarisIconPath';
 import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
 import appleIconSvgPath from 'in-forge/plugins/host/icons/appleIconPath';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition.es6';
@@ -31,8 +32,7 @@ registerSnapshotDefinition({
     [applePlugin]: appleIconSvgPath,
     [windowsPlugin]: windowsIconSvgPath,
     [aixPlugin]: aixIconPath,
-    // TODO Simon: Put the right icon here!
-    [solarisPlugin]: linuxIconSvgPath
+    [solarisPlugin]: solarisIconPath
   },
 
   getIconPath(snapshot) {
