@@ -54,7 +54,7 @@ export default getElementDimensions(
 
         editor.on('cursorActivity', () => {
           const currentCursorPosition = editor.getCursor().ch;
-          if (autocompleteShownForCursorPosition != editor.getCursor().ch) {
+          if (autocompleteShownForCursorPosition != currentCursorPosition) {
             this.hide();
           }
           autocompleteShownForCursorPosition = currentCursorPosition;
@@ -64,7 +64,7 @@ export default getElementDimensions(
           // using CSS transforms when the cursor is positioned at the end of a block element.
           const { ch } = editor.doc.getCursor();
           const cursor = ch - 1;
-          const tokens = lex(this.editor.getValue());
+          const tokens = lex(editor.getValue());
           const token = getTokenForColumn(tokens, cursor);
           const domNode = ReactDOM.findDOMNode(this).querySelector('.CodeMirror-cursors');
           if (token && token.isBlockingEnd && tokens[tokens.length - 1] !== token && ch === token.end) {
@@ -139,19 +139,19 @@ export default getElementDimensions(
           .subscribe(this.hide);
 
         editor.on('change', (editor, change) => {
-          const { ch } = editor.doc.getCursor();
-          const cursor = ch - 1;
-          const query = this.editor.getValue();
+          const query = editor.getValue();
           this.updateQuery(query);
 
-          const tokens = lex(query);
           if (
             !isFocused || (change.origin !== '+input' && change.origin !== '+delete' && change.origin !== 'setValue')
           ) {
             return;
           }
 
-          autocompleteShownForCursorPosition = cursor + 1;
+          const { ch } = editor.doc.getCursor();
+          const cursor = ch - 1;
+          const tokens = lex(query);
+          autocompleteShownForCursorPosition = ch;
 
           const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
           const { field, fieldValue } = this.getFieldConfig(tokens, cursor);
@@ -182,7 +182,7 @@ export default getElementDimensions(
           });
         });
 
-        const code = document.querySelector('.CodeMirror-code');
+        const code = ReactDOM.findDOMNode(this).querySelector('.CodeMirror-code');
         this.clickSubscription = onDown(code, e => {
           if (isX(e, e.target)) {
             const match = e.target.className.match(/custom-blockId-[0-9]+/);
