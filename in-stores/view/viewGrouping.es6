@@ -55,7 +55,7 @@ export const viewGroupingShort$ = createTrackingStore({
     .map(params => {
       if (params.query.vg in viewGroupings) {
         return params.query.vg;
-      } else if (params.query.vg && params.query.vg.startsWith('custom-')) {
+      } else if (params.query.vg && params.query.vg.indexOf('custom-') === 0) {
         return params.query.vg;
       }
       return null;
@@ -66,7 +66,7 @@ export const viewGroupingShort$ = createTrackingStore({
 export const viewGrouping$ = createTrackingStore({
   name: 'view/viewGrouping',
   observable: viewGroupingShort$.map(grouping => {
-    if (grouping && grouping.startsWith('custom-')) {
+    if (grouping && grouping.indexOf('custom-') === 0) {
       return grouping;
     }
     return viewGroupings[grouping] || null;

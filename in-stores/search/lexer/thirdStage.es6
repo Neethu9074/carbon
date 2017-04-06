@@ -120,7 +120,7 @@ export function getEndCursorForFieldValue(start, tokens) {
   }
   if (isPhrase(tokens[start])) {
     const lexeme = tokens[start].lexeme;
-    if (lexeme.length > 1 && lexeme.startsWith('"') && lexeme.endsWith('"')) {
+    if (lexeme.length > 1 && lexeme[0] === '"' && lexeme[lexeme.length - 1] === '"') {
       return start;
     }
   }

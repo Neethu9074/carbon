@@ -102,7 +102,7 @@ const MenuContent = connectTo(
         {view === 'CONTAINER'
           ? <ButtonGroup>
               <Button
-                kind={activeGrouping.startsWith('custom-') ? 'primary' : 'secondary'}
+                kind={activeGrouping.indexOf('custom-') === 0 ? 'primary' : 'secondary'}
                 size="sm"
                 onClick={() => setActiveDialog(<CustomGroupingDialog />)}
                 className={`${block}__custom-button`}

@@ -68,7 +68,7 @@ export function buildCategorizedFields(fields) {
 
   fields.forEach(field => {
     for (let i = 0, length = blackListedSearchFieldKeywords.length; i < length; i++) {
-      if (field.keyword.startsWith(blackListedSearchFieldKeywords[i])) {
+      if (field.keyword.indexOf(blackListedSearchFieldKeywords[i]) === 0) {
         return;
       }
     }
@@ -141,7 +141,7 @@ function findInNode(node, query) {
   // if the user presses dot (.) but the previous string hasn't matched anything, return only directly matching results
   const children = path.length > 1
     ? node.children.filter(child => child.name === currentPart)
-    : node.children.filter(child => child.name.startsWith(currentPart));
+    : node.children.filter(child => child.name.indexOf(currentPart) === 0);
   return children.length === 0 ? null : node;
 }
 

@@ -102,7 +102,7 @@ export function get_cpu_arch(major, minor) {
  * @returns {*} the type of the CPU arch.
  */
 export function get_cpu_type(arch) {
-  if (arch !== 'arm64' && arch.startsWith('arm')) {
+  if (arch !== 'arm64' && arch.indexOf('arm') === 0) {
     return ARCH_TYPES['arm'];
   }
   return ARCH_TYPES[arch] || 'Unknown';
@@ -118,7 +118,7 @@ export function get_cpu_type(arch) {
 export function get_registers(cpu) {
   cpu = cpu.toLowerCase();
 
-  if (cpu.startsWith('arm')) {
+  if (cpu.indexOf('arm') === 0) {
     return REGISTERS.ARM;
   }
 
