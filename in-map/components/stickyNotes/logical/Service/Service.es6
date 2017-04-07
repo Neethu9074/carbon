@@ -29,7 +29,7 @@ export default createStickyNote(
       };
     },
     React.createClass({
-      displayName: 'process cluster sticky',
+      displayName: 'process cluster stickynote',
 
       mixins: [PureRenderMixin],
 
