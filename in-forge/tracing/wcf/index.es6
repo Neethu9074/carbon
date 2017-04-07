@@ -2,7 +2,7 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'wcf',
-  category: 'generic',
+  category: 'remote',
 
   typeName: {
     singular: 'WCF-Service',
