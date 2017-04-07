@@ -2,13 +2,26 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  line-height: 2.1;
+  background: #1D3345;
+  padding: 0 10px;
+
+  &:nth-child(odd) {
+    background: #243C4F;
+  }
 
   &__key {
-    color: #9fffff;
+    color: #F3F8F9;
+    font-weight: 300;
   }
 
   &__value {
     margin-left: .25rem;
-    color: white
+    color: #fff;
+    font-weight: bold;
+  }
+
+  &__icon {
+    margin: 0 8px 0 0;
   }
 }

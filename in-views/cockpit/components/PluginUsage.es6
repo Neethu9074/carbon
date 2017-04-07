@@ -17,7 +17,7 @@ export default function PluginUsage({ pluginIdFiler }) {
   return (
     <div>
       {pluginIds.map(pluginId => (
-        <Metric label={getPlural(pluginId)} key={pluginId}>
+        <Metric label={getPlural(pluginId)} key={pluginId} pluginId={pluginId}>
           <MetricValue
             snapshotId={ID_OF_PROCESSING_STATISTICS}
             metric={`plugin.${pluginId}`}
