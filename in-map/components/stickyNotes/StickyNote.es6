@@ -1,23 +1,21 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import {applyTransform} from 'in-services/util/dom';
+import { applyTransform } from 'in-services/util/dom';
 
+import 'in-map/components/stickyNotes/StickyNote.less';
 
+const block = 'in-sticky-node';
+const invisibleClass = `${block}__invisible`;
 const rpt = React.PropTypes;
-const DEFAULT_STYLE = {
-  position: 'absolute',
-  zIndex: 0,
-  left: 0,
-  top: 0
-};
 
 export default function StickyNote(ComposedComponent) {
   return React.createClass({
-
     displayName: 'StickyNote',
 
     propTypes: {
       eventEmitter: rpt.object.isRequired,
+      showSticky$: rpt.object.isRequired,
       id: rpt.string.isRequired
     },
 
@@ -32,8 +30,7 @@ export default function StickyNote(ComposedComponent) {
     },
 
     componentDidUpdate(prevProps) {
-      if (this.props.id !== prevProps.id ||
-          this.props.eventEmitter !== prevProps.eventEmitter) {
+      if (this.props.id !== prevProps.id || this.props.eventEmitter !== prevProps.eventEmitter) {
         this.setupSubscriptions();
       }
     },
@@ -43,15 +40,13 @@ export default function StickyNote(ComposedComponent) {
     },
 
     render() {
-      const content = this.state.isVisible
-        ? (<ComposedComponent {...this.props}
-                              wrapper={this.stickyNote} />)
-        : null;
+      if (!this.state.isVisible) {
+        return <div className={invisibleClass} ref={stickyNote => this.stickyNote = stickyNote} />;
+      }
 
       return (
-        <div ref={stickyNote => this.stickyNote = stickyNote}
-             style={DEFAULT_STYLE}>
-          {content}
+        <div className={block} ref={stickyNote => this.stickyNote = stickyNote}>
+          <ComposedComponent {...this.props} wrapper={this.stickyNote} />
         </div>
       );
     },
@@ -59,24 +54,25 @@ export default function StickyNote(ComposedComponent) {
     setupSubscriptions(props = this.props) {
       this.disposeSubscriptions();
 
-      this.positionSubscription = props.eventEmitter.on('screenPositionChanged' + props.id)
-        .subscribe(newPosition =>
-          applyTransform(this.stickyNote, `translate3d(${newPosition.x}px,${newPosition.y}px,0)`));
-
-      this.visibilitySubscription = props.eventEmitter.on('isVisibleChanged' + props.id)
-        .distinct()
-        .subscribe(isVisible => this.setState({isVisible}));
+      this.positionSubscription = combineLatest([
+        props.eventEmitter.on('screenPositionChanged' + props.id),
+        props.eventEmitter.on('isVisibleChanged' + props.id).distinct(),
+        props.showSticky$.distinct()
+      ]).subscribe(([_position, _isVisible, _showSticky]) => {
+        const isVisible = _showSticky && _isVisible;
+        if (isVisible) {
+          applyTransform(this.stickyNote, `translate3d(${_position.x}px,${_position.y}px,0)`);
+        }
+        if (isVisible !== this.state.isVisible) {
+          this.setState({ isVisible });
+        }
+      });
     },
 
     disposeSubscriptions() {
       if (this.positionSubscription) {
         this.positionSubscription.dispose();
         this.positionSubscription = null;
-      }
-
-      if (this.visibilitySubscription) {
-        this.visibilitySubscription.dispose();
-        this.visibilitySubscription = null;
       }
     }
   });

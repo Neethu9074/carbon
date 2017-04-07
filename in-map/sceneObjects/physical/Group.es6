@@ -5,16 +5,15 @@ import GroundStickyNote from 'in-map/components/stickyNotes/physical/Group';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import createObjectCollection from 'in-map/stores/ObjectCollection';
-import {getColorPool} from 'in-services/util/ColorGenerator';
+import { showSticky$ } from 'in-map/stores/physical/groupsStore';
+import { getColorPool } from 'in-services/util/ColorGenerator';
+import { groups } from 'in-map/stores/physical/groupsStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
-import {groups} from 'in-map/stores/physical/groupsStore';
-import {isWebVRActive} from 'in-map/stores/webVRStore';
-import {eventBus} from 'in-map/services/eventBus';
-import {getLabel} from 'in-sdk/snapshot';
-
+import { isWebVRActive } from 'in-map/stores/webVRStore';
+import { eventBus } from 'in-map/services/eventBus';
+import { getLabel } from 'in-sdk/snapshot';
 
 export default class Group extends SceneObject {
-
   constructor(params) {
     super(params);
 
@@ -29,9 +28,10 @@ export default class Group extends SceneObject {
     if (!isWebVRActive) {
       stickyNotes.add(this.id, {
         type: GroundStickyNote,
-        eventEmitter: this.eventEmitter,
         props: {
-          id: this.id
+          id: this.id,
+          eventEmitter: this.eventEmitter,
+          showSticky$
         }
       });
     }
@@ -43,13 +43,16 @@ export default class Group extends SceneObject {
     this.addComponent('mesh', new MeshComponent(this, FCP, 'lines'));
 
     if (!isWebVRActive) {
-      this.addComponent('screenPosition', new ScreenPositionComponent(this, (pos, scale) => {
-        return {
-          x: pos.x,
-          y: pos.y,
-          z: pos.z + scale.z / 2
-        };
-      }));
+      this.addComponent(
+        'screenPosition',
+        new ScreenPositionComponent(this, (pos, scale) => {
+          return {
+            x: pos.x,
+            y: pos.y,
+            z: pos.z + scale.z / 2
+          };
+        })
+      );
     }
 
     this.getComponent('color').setColor(getColorPool('groups').getColorRGB(this.id));
@@ -60,10 +63,12 @@ export default class Group extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
-      this._cachedLabel = snapshot ? getLabel(snapshot) : this._cachedLabel;
-      eventBus.emit('layoutNeedsUpdate', true);
-    }));
+    this.addSubscription(
+      this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
+        this._cachedLabel = snapshot ? getLabel(snapshot) : this._cachedLabel;
+        eventBus.emit('layoutNeedsUpdate', true);
+      })
+    );
   }
 
   initialized() {

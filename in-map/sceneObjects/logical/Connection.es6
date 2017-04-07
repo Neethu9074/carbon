@@ -1,6 +1,6 @@
-import {combineLatest} from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
-import {hexToRGB, rgbToHex} from 'in-services/formatters/color';
+import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
 
 import ParticleEmitterComponent from 'in-map/sceneObjectComponents/ParticleEmitterComponent';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
@@ -18,21 +18,17 @@ import {
   intersects,
   flatten
 } from 'in-map/misc/Connections';
-import {
-  CONNECTIONS_BIDIRECTIONAL_CHECK,
-  CONNECTIONS_COLLISION_MESH_UPDATE
-} from 'in-map/misc/TimingConfig';
+import { CONNECTIONS_BIDIRECTIONAL_CHECK, CONNECTIONS_COLLISION_MESH_UPDATE } from 'in-map/misc/TimingConfig';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
+import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
-import {emptyArray} from 'in-services/fixedObjects';
-import {theme} from 'in-services/theme';
-
+import { emptyArray } from 'in-services/fixedObjects';
+import { theme } from 'in-services/theme';
 
 export default class Connection extends SceneObject {
-
   constructor(params) {
     super(params);
 
@@ -46,9 +42,10 @@ export default class Connection extends SceneObject {
 
     stickyNotes.add(this.id, {
       type: ConnectionStickyNote,
-      eventEmitter: this.eventEmitter,
       props: {
-        id: this.id
+        id: this.id,
+        eventEmitter: this.eventEmitter,
+        showSticky$
       }
     });
 
@@ -89,19 +86,18 @@ export default class Connection extends SceneObject {
         this.destinationNode.eventEmitter.on('positionChanged'),
         this.eventEmitter.on('isBidirectionalChanged')
       ]).subscribe(([from, to]) => {
-
         from = from.clone();
         to = to.clone();
         this.addOffsetIfBidirectional(from, to);
 
-        this.eventEmitter.emit('changePosition', {from, to});
+        this.eventEmitter.emit('changePosition', { from, to });
       }),
 
-      this.eventEmitter.on('changePosition').subscribe(fromTo =>
-        this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
+      this.eventEmitter
+        .on('changePosition')
+        .subscribe(fromTo => this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
 
-      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE)
-                                            .subscribe(fromTo => {
+      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE).subscribe(fromTo => {
         this.disposeCollisionLine();
         this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
       }),
@@ -120,10 +116,7 @@ export default class Connection extends SceneObject {
             newColor = theme.health[Math.floor(severity)];
           } else {
             newColor = hexToRGB(theme.health[Math.floor(severity)]);
-            newColor = rgbToHex(
-              newColor.r * 0.65,
-              newColor.g * 0.65,
-              newColor.b * 0.65);
+            newColor = rgbToHex(newColor.r * 0.65, newColor.g * 0.65, newColor.b * 0.65);
           }
         } else {
           newColor = isHighlighted ? '#ffffff' : '#5c6e74';
@@ -131,25 +124,22 @@ export default class Connection extends SceneObject {
         this.getComponent('color').setHex(newColor);
       }),
 
-      connections.stream
-        .throttle(CONNECTIONS_BIDIRECTIONAL_CHECK)
-        .subscribe(_connections => {
-          let isBidirectional = false;
-          const keys = Object.keys(_connections);
-          for (let i = 0, length = keys.length; i < length; i++) {
-            const connection = _connections[keys[i]];
-            if (connection.sourceNode === this.destinationNode &&
-                connection.destinationNode === this.sourceNode) {
-              isBidirectional = true;
-              break;
-            }
+      connections.stream.throttle(CONNECTIONS_BIDIRECTIONAL_CHECK).subscribe(_connections => {
+        let isBidirectional = false;
+        const keys = Object.keys(_connections);
+        for (let i = 0, length = keys.length; i < length; i++) {
+          const connection = _connections[keys[i]];
+          if (connection.sourceNode === this.destinationNode && connection.destinationNode === this.sourceNode) {
+            isBidirectional = true;
+            break;
           }
+        }
 
-          if (this.isBidirectional !== isBidirectional) {
-            this.isBidirectional = isBidirectional;
-            this.eventEmitter.emit('isBidirectionalChanged', isBidirectional);
-          }
-        })
+        if (this.isBidirectional !== isBidirectional) {
+          this.isBidirectional = isBidirectional;
+          this.eventEmitter.emit('isBidirectionalChanged', isBidirectional);
+        }
+      })
     ]);
 
     this.eventEmitter.emit('isBidirectionalChanged', this.isBidirectional);
@@ -172,9 +162,7 @@ export default class Connection extends SceneObject {
     const to = toPosition.clone();
     this.addOffsetIfBidirectional(from, to);
 
-    const path = flatten(
-                 addArrowToDestination(
-                 shortenPathAtSourceAndDestination([from, to])));
+    const path = flatten(addArrowToDestination(shortenPathAtSourceAndDestination([from, to])));
 
     return path;
   }
