@@ -15,7 +15,8 @@ const entityTypeToFullyQualifiedPlugin = {
   nodejs: fullyQualifiedPlugins.nodeJsRuntimePlatform,
   service: fullyQualifiedPlugins.defaultLogicalService,
   dropwizard: fullyQualifiedPlugins.dropwizardApplicationContainer,
-  agent: fullyQualifiedPlugins.instanaAgent
+  agent: fullyQualifiedPlugins.instanaAgent,
+  process: fullyQualifiedPlugins.process
 };
 
 export const selectedType$ = query$

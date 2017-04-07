@@ -15,7 +15,8 @@ const domains = {
     host: 'Hosts',
     jvm: 'JVMs',
     nodejs: 'Node.js Apps',
-    docker: 'Docker Containers'
+    docker: 'Docker Containers',
+    process: 'Processes'
   },
   Application: {
     service: 'Services'
