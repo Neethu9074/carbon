@@ -30,6 +30,7 @@ import EventView from 'promise?global!in-views/eventView/EventView';
 import TableView from 'promise?global!in-views/tableView/TableView';
 import LogView from 'promise?global!in-views/logView/LogView';
 import { cockpitEnabled } from 'in-services/featureFlags';
+import TableTest from 'in-views/tableTest/TableTest';
 import { Route, IndexRedirect } from 'react-router';
 import React from 'react';
 
@@ -45,6 +46,7 @@ import Map from 'in-map/index';
 export default (
   <Route path="/" component={App}>
     <Route path="cockpit" component={Cockpit} windowTitle="Cockpit" />
+    <Route path="tableTest" component={TableTest} windowTitle="Table Test" />
 
     <Route path="physical" component={Map} windowTitle="Infrastructure Host Map">
       <Route path="dashboard" component={Dashboard} windowTitle="Dashboard" />
