@@ -42,7 +42,7 @@ export default function MatchSpecificationSelector(
 ) {
   return (
     <FormGroup>
-      <Label htmlFor={`${id}-select-match-rule`}>Match</Label>
+      <Label htmlFor={`${id}-select-match-rule`}>Add Match Expression</Label>
       <Select id={`${id}-select-match-rule`} onChange={onChangeMatchOption}>
         <option value="">Please Select</option>
 

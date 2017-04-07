@@ -104,7 +104,7 @@ export default React.createClass({
                   [`${block}__without-bottom-margin`]: !this.state.isExpanded
                 })}
               >
-                <Label htmlFor={`${id}-enabled`}>Enabled</Label>
+                <Label htmlFor={`${id}-enabled`}>{enabledField.value ? 'Enabled' : 'Disabled'}</Label>
                 <Toggle
                   id={`${id}-enabled`}
                   checked={enabledField.value}
@@ -134,7 +134,7 @@ export default React.createClass({
                   return (
                     <FormGroup key={key}>
                       <Label htmlFor={`${id}-${key}`} hasError={!field.valid}>
-                        Match: {matchSpecificationOptions[key].titleName}
+                        Match Expression: {matchSpecificationOptions[key].titleName}
 
                         <a href="#" onClick={e => this.removeMatch(e, key)} className={`${block}__remove-match`}>
                           Remove
