@@ -3,7 +3,7 @@ import { config } from 'in-services/config';
 const onlyInternally = config.tenant === 'instana' &&
   config.environment !== 'staging' &&
   config.tenantUnit !== 'current' &&
-  !config.tenantUnit.indexOf('training') === 0;
+  config.tenantUnit.indexOf('training') === -1;
 
 export const instanaInternalFeaturesEnabled = onlyInternally;
 
