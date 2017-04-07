@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import createViewStructureObservable from 'in-services/subscription/view';
-import { ID_OF_UNMONITORED_ZONE } from 'in-services/unmonitoredZone';
+import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { debouncedQuery$ } from 'in-stores/search/query';

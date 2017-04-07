@@ -1,1 +1,0 @@
-export const ID_OF_UNMONITORED_ZONE = '5nXT64z0gY0pShCaT5VQ7wGu-0E';

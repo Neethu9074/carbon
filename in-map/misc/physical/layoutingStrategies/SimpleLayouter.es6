@@ -1,4 +1,4 @@
-import { ID_OF_UNMONITORED_ZONE } from 'in-services/unmonitoredZone';
+import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 
 const MAX_VALUE = Number.MAX_VALUE;
 const squashFactor = 0.5;

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import Lettering from 'in-components/Lettering';
+import { build } from 'in-services/config';
 import Dialog from 'in-components/Dialog';
-import build from 'in-services/build';
 
 import './AboutInstanaDialog.less';
 

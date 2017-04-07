@@ -1,4 +1,4 @@
-import { ID_OF_UNMONITORED_ZONE } from 'in-services/unmonitoredZone';
+import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import Packer from 'in-map/misc/physical/Packer';
 
 let groupMarginWidth;
