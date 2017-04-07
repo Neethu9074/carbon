@@ -6,9 +6,9 @@ import React from 'react';
 import ServiceInstanceList from 'in-map/components/stickyNotes/logical/Service/components/ServiceInstanceList';
 import KPIList from 'in-map/components/stickyNotes/logical/Service/components/KPIList';
 import Heading from 'in-map/components/stickyNotes/logical/Service/components/Heading';
-import { showKpi$, showSticky$ } from 'in-map/stores/logical/servicesStore';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
+import { showKpi$ } from 'in-map/stores/logical/servicesStore';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import { emptyArray } from 'in-services/fixedObjects';
 
@@ -25,7 +25,6 @@ export default createStickyNote(
       return {
         children: combineLatest([getClusterMembers(props.id), searchMatches$]).map(([children, searchMatches]) =>
           children.filter(child => !searchMatches || searchMatches.contains(child))),
-        showSticky: showSticky$.distinct(),
         showKpi: showKpi$.distinct()
       };
     },
@@ -36,7 +35,6 @@ export default createStickyNote(
 
       propTypes: {
         id: rpt.string.isRequired,
-        showSticky: rpt.bool,
         wrapper: rpt.object,
         children: irpt.set,
         showKpi: rpt.bool
@@ -50,10 +48,6 @@ export default createStickyNote(
       },
 
       render() {
-        if (!this.props.showSticky) {
-          return null;
-        }
-
         const isExpanded = this.state.expanded;
         this.props.wrapper.style.zIndex = isExpanded || this.state.kpisAreExpanded ? 1 : 0;
 

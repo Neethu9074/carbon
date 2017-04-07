@@ -2,7 +2,6 @@ import React from 'react';
 
 import { selectedSnapshotId, setSelectedSnapshotId } from 'in-stores/snapshot';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
-import { showSticky$ } from 'in-map/stores/physical/groupsStore';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -15,15 +14,10 @@ export default createStickyNote(
     props => {
       return {
         snapshot: getSnapshot(props.id),
-        selectedId: selectedSnapshotId,
-        showSticky: showSticky$.distinct()
+        selectedId: selectedSnapshotId
       };
     },
-    function Group({ selectedId, showSticky, snapshot, id }) {
-      if (!showSticky) {
-        return null;
-      }
-
+    function Group({ selectedId, snapshot, id }) {
       let label;
       if (snapshot) {
         label = getLabel(snapshot);

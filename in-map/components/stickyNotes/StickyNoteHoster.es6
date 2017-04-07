@@ -18,9 +18,7 @@ export default connectTo(
           const stickyDefinition = stickies[key];
           const StickyNote = stickyDefinition.type;
 
-          return (
-            <StickyNote key={key} id={key} eventEmitter={stickyDefinition.eventEmitter} {...stickyDefinition.props} />
-          );
+          return <StickyNote key={key} id={key} {...stickyDefinition.props} />;
         })}
       </div>
     );

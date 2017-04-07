@@ -5,9 +5,10 @@ import GroundStickyNote from 'in-map/components/stickyNotes/physical/Group';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import createObjectCollection from 'in-map/stores/ObjectCollection';
+import { showSticky$ } from 'in-map/stores/physical/groupsStore';
 import { getColorPool } from 'in-services/util/ColorGenerator';
-import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { groups } from 'in-map/stores/physical/groupsStore';
+import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { isWebVRActive } from 'in-map/stores/webVRStore';
 import { eventBus } from 'in-map/services/eventBus';
 import { getLabel } from 'in-sdk/snapshot';
@@ -27,9 +28,10 @@ export default class Group extends SceneObject {
     if (!isWebVRActive) {
       stickyNotes.add(this.id, {
         type: GroundStickyNote,
-        eventEmitter: this.eventEmitter,
         props: {
-          id: this.id
+          id: this.id,
+          eventEmitter: this.eventEmitter,
+          showSticky$
         }
       });
     }

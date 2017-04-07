@@ -22,6 +22,7 @@ import { CONNECTIONS_BIDIRECTIONAL_CHECK, CONNECTIONS_COLLISION_MESH_UPDATE } fr
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
+import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -41,9 +42,10 @@ export default class Connection extends SceneObject {
 
     stickyNotes.add(this.id, {
       type: ConnectionStickyNote,
-      eventEmitter: this.eventEmitter,
       props: {
-        id: this.id
+        id: this.id,
+        eventEmitter: this.eventEmitter,
+        showSticky$
       }
     });
 
@@ -90,9 +92,11 @@ export default class Connection extends SceneObject {
 
         this.eventEmitter.emit('changePosition', { from, to });
       }),
+
       this.eventEmitter
         .on('changePosition')
         .subscribe(fromTo => this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
+
       this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE).subscribe(fromTo => {
         this.disposeCollisionLine();
         this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);

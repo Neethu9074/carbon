@@ -17,6 +17,7 @@ import NodeStickyNote from 'in-map/components/stickyNotes/physical/Node';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import NodeTooltip from 'in-map/components/tooltips/physical/Node';
+import { showSticky$ } from 'in-map/stores/physical/nodesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { nodes } from 'in-map/stores/physical/nodesStore';
 import { isWebVRActive } from 'in-map/stores/webVRStore';
@@ -40,9 +41,10 @@ export default class Node extends SceneObject {
 
     stickyNotes.add(this.id, {
       type: NodeStickyNote,
-      eventEmitter: this.eventEmitter,
       props: {
-        id: this.id
+        id: this.id,
+        eventEmitter: this.eventEmitter,
+        showSticky$
       }
     });
   }

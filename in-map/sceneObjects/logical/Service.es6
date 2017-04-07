@@ -17,6 +17,7 @@ import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceL
 import ServiceStickyNote from 'in-map/components/stickyNotes/logical/Service';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import { changePosition } from 'in-map/stores/logical/layouterStore';
+import { showSticky$ } from 'in-map/stores/logical/servicesStore';
 import services from 'in-map/stores/logical/servicesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { isWebVRActive } from 'in-map/stores/webVRStore';
@@ -40,10 +41,11 @@ export default class Service extends SceneObject {
     if (!this.isUnknown) {
       stickyNotes.add(this.id, {
         type: ServiceStickyNote,
-        eventEmitter: this.eventEmitter,
         props: {
           id: this.id,
-          isExternal: this.isExternal
+          eventEmitter: this.eventEmitter,
+          isExternal: this.isExternal,
+          showSticky$
         }
       });
     }
