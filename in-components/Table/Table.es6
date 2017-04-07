@@ -6,7 +6,7 @@ import { createStore } from 'in-components/Table/stores/content';
 export default class Table extends React.Component {
   constructor(props) {
     super(props);
-    this.newStore(props);
+    this.store = this.newStore(props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -14,7 +14,7 @@ export default class Table extends React.Component {
       this.disposeStore();
       this.newStore(nextProps);
     } else if (this.props.rows !== nextProps.rows) {
-      this.store.updateRows(nextProps.rows);
+      this.store.onRowChange(nextProps.rows);
     }
   }
 
@@ -22,7 +22,11 @@ export default class Table extends React.Component {
     if (__DEV__) {
       validateProps(props);
     }
-    this.store = createStore(props.maxItemsPerPage || 10);
+    this.store = createStore({
+      columnDefinitions: props.cols,
+      maxItemsPerPage: props.maxItemsPerPage || 10
+    });
+    this.store.onRowChange(props.rows);
   }
 
   disposeStore() {

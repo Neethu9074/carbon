@@ -34,8 +34,8 @@ const cols = [
       getSnapshotId() {
         return ID_OF_PROCESSING_STATISTICS;
       },
-      getMetricName(plugin) {
-        return `plugin.${plugin}`;
+      getMetricName(row) {
+        return `plugin.${row.plugin}`;
       },
       formatter: percentage,
       timeWindowAggregation: 'mean'
