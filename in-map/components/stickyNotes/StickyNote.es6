@@ -1,3 +1,4 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { applyTransform } from 'in-services/util/dom';
@@ -52,26 +53,23 @@ export default function StickyNote(ComposedComponent) {
     setupSubscriptions(props = this.props) {
       this.disposeSubscriptions();
 
-      this.positionSubscription = props.eventEmitter
-        .on('screenPositionChanged' + props.id)
-        .subscribe(newPosition =>
-          applyTransform(this.stickyNote, `translate3d(${newPosition.x}px,${newPosition.y}px,0)`));
-
-      this.visibilitySubscription = props.eventEmitter
-        .on('isVisibleChanged' + props.id)
-        .distinct()
-        .subscribe(isVisible => this.setState({ isVisible }));
+      this.tempSub = combineLatest([
+        props.eventEmitter.on('screenPositionChanged' + props.id),
+        props.eventEmitter.on('isVisibleChanged' + props.id).distinct()
+      ]).subscribe(([_position, _isVisible]) => {
+        if (_isVisible) {
+          applyTransform(this.stickyNote, `translate3d(${_position.x}px,${_position.y}px,0)`);
+        }
+        if (_isVisible !== this.state.isVisible) {
+          this.setState({ isVisible: _isVisible });
+        }
+      });
     },
 
     disposeSubscriptions() {
-      if (this.positionSubscription) {
-        this.positionSubscription.dispose();
-        this.positionSubscription = null;
-      }
-
-      if (this.visibilitySubscription) {
-        this.visibilitySubscription.dispose();
-        this.visibilitySubscription = null;
+      if (this.tempSub) {
+        this.tempSub.dispose();
+        this.tempSub = null;
       }
     }
   });
