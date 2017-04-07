@@ -1,18 +1,17 @@
 import React from 'react';
 
-import 'in-views/cockpit/Metric.less';
+import './Metric.less';
 
 const block = 'in-cockpit-metric';
 
-export default function Cockpit({ metric }) {
+export default function Metric({ label, children }) {
   return (
     <div className={block}>
       <div className={`${block}__key`}>
-        {metric}
+        {label}
       </div>
-      :
       <div className={`${block}__value`}>
-        12.5
+        {children}
       </div>
     </div>
   );

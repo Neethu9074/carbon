@@ -1,10 +1,10 @@
 import React from 'react';
 
-import 'in-views/cockpit/Tile.less';
+import './Tile.less';
 
 const block = 'in-cockpit-tile';
 
-export default function Cockpit({ header, children }) {
+export default function Tile({ header, children }) {
   return (
     <div className={block}>
       <div className={`${block}__header`}>
