@@ -12,7 +12,7 @@ export const eumStatisticsEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
-export const cockpitEnabled = false;
+export const cockpitEnabled = onlyInternally;
 
 export const blackListedSearchFieldKeywords = ['log', 'span.content'];
 export const blackListedSearchFieldValues = {
