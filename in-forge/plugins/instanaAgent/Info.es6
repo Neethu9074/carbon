@@ -10,6 +10,10 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
+      <DescriptionItem title="Boot Version">
+        {data.get('boot')}
+      </DescriptionItem>
+
       {mode
         ? <DescriptionItem title="Mode">
             {modes[mode]}

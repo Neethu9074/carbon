@@ -22,6 +22,13 @@ export default [
     }
   },
   {
+    title: 'Boot Version',
+    sortableType: String,
+    get(snapshot) {
+      return snapshot.getIn(['data', 'boot'], 'unkown');
+    }
+  },
+  {
     title: 'Mode',
     sortableType: String,
     get(snapshot) {
