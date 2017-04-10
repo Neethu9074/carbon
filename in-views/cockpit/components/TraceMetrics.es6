@@ -1,27 +1,16 @@
 import React from 'react';
 
-import { totalTraceCountWithoutEum$, totalTraceCountOnlyEum$ } from 'in-stores/traces';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import Metric from 'in-views/cockpit/components/Metric';
-import Count from 'in-views/traceView/components/Count';
+import MetricValue from 'in-components/MetricValue';
 
 export default function TraceMetrics() {
   return (
     <div>
-      <Metric label="Server Calls">
-        <Count count$={totalTraceCountWithoutEum$} formatCount={formatCount} />
-      </Metric>
-      <Metric label="EUM Calls">
-        <Count count$={totalTraceCountOnlyEum$} formatCount={formatCount} />
+      <Metric label="Received traces">
+        <MetricValue snapshotId={ID_OF_PROCESSING_STATISTICS} metric="traces" formatter={zeroDecimalPlaces} />
       </Metric>
     </div>
-  );
-}
-
-function formatCount(count) {
-  return (
-    <span>
-      {zeroDecimalPlaces(count)}
-    </span>
   );
 }
