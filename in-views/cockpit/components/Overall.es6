@@ -1,0 +1,19 @@
+import React from 'react';
+
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
+import Metric from 'in-views/cockpit/components/Metric';
+import MetricValue from 'in-components/MetricValue';
+
+export default function TraceMetrics() {
+  return (
+    <div>
+      <Metric label="Raw messages">
+        <MetricValue snapshotId={ID_OF_PROCESSING_STATISTICS} metric="rawMessages" formatter={zeroDecimalPlaces} />
+      </Metric>
+      <Metric label="Metrics">
+        <MetricValue snapshotId={ID_OF_PROCESSING_STATISTICS} metric="metrics" formatter={zeroDecimalPlaces} />
+      </Metric>
+    </div>
+  );
+}
