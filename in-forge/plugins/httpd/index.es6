@@ -9,7 +9,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'Apache httpd',
-    plural: 'Apache httpds'
+    singular: 'Apache HTTPd',
+    plural: 'Apache HTTPds'
   }
 });
