@@ -28,33 +28,23 @@ describe('in-map', () => {
     });
 
     it('should set white as default color', () => {
-      expect(component.color.r).to.equal(1);
-      expect(component.color.g).to.equal(1);
-      expect(component.color.b).to.equal(1);
+      expect(component.color).to.equal('#ffffff');
 
       expect(colorChanged).to.have.callCount(0);
     });
 
     it('should fire event if color changes in any way', () => {
-      component.setRGB(1, 0, 0.5);
-      expect(colorChanged).to.have.callCount(1);
-      expect(colorChanged.getCall(0).args[0]).to.deep.equal({ r: 1, g: 0, b: 0.5 });
-
-      component.setColor({ r: 0, g: 1, b: 0.1 });
-      expect(colorChanged).to.have.callCount(2);
-      expect(colorChanged.getCall(0).args[0]).to.deep.equal({ r: 0, g: 1, b: 0.1 });
-
       component.setHex('#ff00ff');
-      expect(colorChanged).to.have.callCount(3);
-      expect(colorChanged.getCall(0).args[0]).to.deep.equal({ r: 1, g: 0, b: 1 });
+      expect(colorChanged).to.have.callCount(1);
+      expect(colorChanged.getCall(0).args[0]).to.deep.equal('#ff00ff');
     });
 
     it('should not fire when setting the same color again', () => {
-      component.setRGB(1, 0, 0.5);
+      component.setHex('#abcdef');
       expect(colorChanged).to.have.callCount(1);
-      expect(colorChanged.getCall(0).args[0]).to.deep.equal({ r: 1, g: 0, b: 0.5 });
+      expect(colorChanged.getCall(0).args[0]).to.equal('#abcdef');
 
-      component.setRGB(1, 0, 0.5);
+      component.setHex('#abcdef');
       expect(colorChanged).to.have.callCount(1);
     });
   });

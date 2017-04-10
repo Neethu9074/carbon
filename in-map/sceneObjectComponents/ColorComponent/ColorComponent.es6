@@ -5,36 +5,28 @@ export default class ColorComponent extends SceneObjectComponent {
   constructor(sceneObject) {
     super(sceneObject, '_color');
 
-    // pure white as default
-    this.color = {
-      r: 1,
-      g: 1,
-      b: 1
-    };
+    this.color = '#ffffff';
+    this.colorAsRGB = null;
   }
 
   setHex(hex) {
-    this.setColor(hexToRGBNormalized(hex));
-  }
-
-  setColor(color) {
-    this.setRGB(color.r, color.g, color.b);
-  }
-
-  setRGB(r, g, b) {
-    const color = this.color;
-    if (color.r === r && color.g === g && color.b === b) {
-      return;
+    if (this.color !== hex) {
+      this.color = hex;
+      this.colorAsRGB = null;
+      this.emitToClient('colorChanged', hex);
     }
-
-    color.r = r;
-    color.g = g;
-    color.b = b;
-    this.emitToClient('colorChanged', color);
   }
 
   getColor() {
     return this.color;
+  }
+
+  getColorAsRGB() {
+    // lazy generate rgb colors
+    if (!this.colorAsRGB) {
+      this.colorAsRGB = hexToRGBNormalized(this.color);
+    }
+    return this.colorAsRGB;
   }
 
   dispose() {

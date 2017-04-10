@@ -1,8 +1,8 @@
 import RoEmitter from 'roemitter';
 
 import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
-import createCollection from 'in-map/stores/ObjectCollectionStream';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
+import createCollection from 'in-map/stores/ObjectCollectionStream';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { BufferGeometry } from 'in-map/3DLibProvider';
 import { FACTORY } from 'in-map/misc/TimingConfig';
@@ -86,7 +86,9 @@ export default class ASingleMeshFactory extends Subscriber {
       const fragmentColors = fragment.contentProvider.getColors(fragmentVertices);
 
       // use the default color if the factory user denies the using of scene objects color
-      const color = this.useSceneObjectColors ? fragment.sceneObject.getComponent('color').getColor() : DEFAULT_COLOR;
+      const color = this.useSceneObjectColors
+        ? fragment.sceneObject.getComponent('color').getColorAsRGB()
+        : DEFAULT_COLOR;
 
       for (let j = 0, numVertices = fragmentVertices.length; j < numVertices; j += 3) {
         vertices[index] = position.x + scale.x * fragmentVertices[j];
