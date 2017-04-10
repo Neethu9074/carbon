@@ -1,24 +1,23 @@
-import {createLogger} from 'instalog';
+import { createLogger } from 'instalog';
 import RoEmitter from 'roemitter';
 
 import TransformationComponent from 'in-map/sceneObjectComponents/TransformationComponent';
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';
 import ColorComponent from 'in-map/sceneObjectComponents/ColorComponent';
-import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
-import {init as initCursorService} from 'in-map/services/cursor';
+import { sceneObjects } from 'in-map/stores/focusableSceneObjectsStore';
+import { init as initCursorService } from 'in-map/services/cursor';
 import Subscriber from 'in-map/misc/Subscriber';
-
 
 const logger = createLogger('in-map-sceneObject');
 
 export default class SceneObject extends Subscriber {
-
   constructor(params) {
     super();
 
     this.id = params.id;
 
     this.components = {};
+    this.defaultColor = params.defaultColor;
     this.eventEmitter = new RoEmitter(this.id);
   }
 
@@ -29,7 +28,7 @@ export default class SceneObject extends Subscriber {
   initComponents() {
     this.addComponent('transform', new TransformationComponent(this));
 
-    this.addComponent('color', new ColorComponent(this));
+    this.addComponent('color', new ColorComponent(this, this.defaultColor));
 
     this.addComponent('highlighting', new HighlightingComponent(this));
   }

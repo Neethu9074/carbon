@@ -29,11 +29,11 @@ import { emptyArray } from 'in-services/fixedObjects';
 import { theme } from 'in-services/theme';
 
 export default class Connection extends SceneObject {
-  constructor(params) {
-    super(params);
+  constructor({ id, destinationNode, sourceNode }) {
+    super({ id, defaultColor: '#5c6e74' });
 
-    this.destinationNode = params.destinationNode;
-    this.sourceNode = params.sourceNode;
+    this.destinationNode = destinationNode;
+    this.sourceNode = sourceNode;
     this.isBidirectional = false;
   }
 
