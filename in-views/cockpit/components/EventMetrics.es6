@@ -9,6 +9,9 @@ export default connectTo(
     eventsInTimeframe: eventsInTimeframe$
   },
   function EventMetrics({ eventsInTimeframe }) {
+    if (!eventsInTimeframe) {
+      return null;
+    }
     return (
       <div>
         <Metric label="Objectives">

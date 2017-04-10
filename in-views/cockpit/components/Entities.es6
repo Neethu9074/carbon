@@ -5,7 +5,7 @@ import { ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import Metric from 'in-views/cockpit/components/Metric';
 import MetricValue from 'in-components/MetricValue';
 
-export default function TraceMetrics() {
+export default function Entities() {
   return (
     <div>
       <Metric label="Total">
