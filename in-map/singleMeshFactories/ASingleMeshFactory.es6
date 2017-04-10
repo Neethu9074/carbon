@@ -31,7 +31,7 @@ export default class ASingleMeshFactory extends Subscriber {
 
     this.eventEmitter = new RoEmitter();
     this.addSubscription(
-      this.eventEmitter.on('build').throttle(FACTORY, { leading: false }).subscribe(() => this.build())
+      this.eventEmitter.on('build').debounce(FACTORY, { leading: false }).subscribe(() => this.build())
     );
   }
 
