@@ -108,7 +108,7 @@ export default class Connection extends SceneObject {
         this.eventEmitter.on('isSecondaryHighlighted')
       ]).subscribe(([health, isHighlighted, isSecondaryHighlighted]) => {
         isHighlighted = isHighlighted || isSecondaryHighlighted;
-        let newColor;
+        let newColor = '#5c6e74';
 
         const severity = health.get('maxSeverity', 0);
         if (severity > 0) {
@@ -118,8 +118,8 @@ export default class Connection extends SceneObject {
             newColor = hexToRGB(theme.health[Math.floor(severity)]);
             newColor = rgbToHex(newColor.r * 0.65, newColor.g * 0.65, newColor.b * 0.65);
           }
-        } else {
-          newColor = isHighlighted ? '#ffffff' : '#5c6e74';
+        } else if (isHighlighted) {
+          newColor = '#ffffff';
         }
         this.getComponent('color').setHex(newColor);
       }),

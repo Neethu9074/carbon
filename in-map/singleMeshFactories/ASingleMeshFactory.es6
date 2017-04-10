@@ -1,13 +1,12 @@
 import RoEmitter from 'roemitter';
 
-import {addSceneObject, removeSceneObject} from 'in-map/stores/sceneStore';
+import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
+import { updateAttribute } from 'in-map/services/geometryAttributes';
 import createCollection from 'in-map/stores/ObjectCollectionStream';
-import {updateAttribute} from 'in-map/services/geometryAttributes';
-import {requestRendering} from 'in-map/stores/renderingStore';
-import {BufferGeometry} from 'in-map/3DLibProvider';
-import {FACTORY} from 'in-map/misc/TimingConfig';
+import { requestRendering } from 'in-map/stores/renderingStore';
+import { BufferGeometry } from 'in-map/3DLibProvider';
+import { FACTORY } from 'in-map/misc/TimingConfig';
 import Subscriber from 'in-map/misc/Subscriber';
-
 
 // the default color is (1, 1, 1), because 1 is the neutral value on multiplication
 const DEFAULT_COLOR = {
@@ -17,7 +16,6 @@ const DEFAULT_COLOR = {
 };
 
 export default class ASingleMeshFactory extends Subscriber {
-
   constructor(options = {}) {
     super();
 
@@ -25,24 +23,23 @@ export default class ASingleMeshFactory extends Subscriber {
     this.fragments = createCollection();
 
     this.renderOrder = options.renderOrder || 2;
-    this.useSceneObjectColors = options.useSceneObjectColors === undefined
-      ? true
-      : options.useSceneObjectColors;
+    this.useSceneObjectColors = options.useSceneObjectColors === undefined ? true : options.useSceneObjectColors;
 
     // represents the geometry for all combined fragments
     this.geometry = new BufferGeometry();
     this.geometry.dynamic = false;
 
     this.eventEmitter = new RoEmitter();
-    this.addSubscription(this.eventEmitter.on('rebuild').throttle(FACTORY, {leading: false})
-                                                        .subscribe(() => this.rebuild()));
+    this.addSubscription(
+      this.eventEmitter.on('rebuild').throttle(FACTORY, { leading: false }).subscribe(() => this.rebuild())
+    );
   }
 
   init() {
     this.material = this.getMaterial();
 
     // a global mesh that stores global geometry
-    const mesh = this.mesh = this.getMesh(this.geometry, this.material);
+    const mesh = (this.mesh = this.getMesh(this.geometry, this.material));
     mesh.renderOrder = this.renderOrder;
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
@@ -90,7 +87,7 @@ export default class ASingleMeshFactory extends Subscriber {
 
       // use the default color if the factory user denies the using of scene objects color
       const color = this.useSceneObjectColors
-        ? fragment.sceneObject.getComponent('color').getColor()
+        ? fragment.sceneObject.getComponent('color').getColorAsRGB()
         : DEFAULT_COLOR;
 
       for (let j = 0, numVertices = fragmentVertices.length; j < numVertices; j += 3) {

@@ -55,7 +55,7 @@ export default class Group extends SceneObject {
       );
     }
 
-    this.getComponent('color').setColor(getColorPool('groups').getColorRGB(this.id));
+    this.getComponent('color').setHex(getColorPool('groups').getColorHex(this.id));
 
     this.addComponent('snapshot', new SnapshotComponent(this));
   }
