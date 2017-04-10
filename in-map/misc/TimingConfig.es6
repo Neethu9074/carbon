@@ -10,4 +10,4 @@ export const LOGICAL_LAYOUTING = 50;
 export const LAYER_LAYOUTING = 50;
 export const POWER_CHECKING = 200;
 export const AUTO_FOCUS = 500;
-export const FACTORY = 50;
+export const FACTORY = 100;
