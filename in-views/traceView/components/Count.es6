@@ -1,6 +1,3 @@
-import React from 'react';
-
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -9,15 +6,11 @@ export default connectTo(
       count: props.count$
     };
   },
-  function TotalTraceCount({ count }) {
+  function TotalTraceCount({ count, formatCount }) {
     if (count == null || count < 0) {
       return null;
     }
 
-    return (
-      <span>
-        &nbsp;({zeroDecimalPlaces(count)})
-      </span>
-    );
+    return formatCount(count);
   }
 );

@@ -6,6 +6,7 @@ import { toggleAutoUpdate, autoUpdate$ } from 'in-views/traceView/stores/autoUpd
 import { setTypeFilter, removeTypeFilter } from 'in-views/traceView/stores/filters';
 import { expandedSide$, toggleLeft } from 'in-views/traceView/stores/expandedSide';
 import ViewHeader from 'in-components/TwoColumnView/components/ViewHeader';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { refresh } from 'in-views/traceView/stores/traceList';
 import Count from 'in-views/traceView/components/Count';
 import AutoUpdate from 'in-components/AutoUpdate';
@@ -26,7 +27,7 @@ export default connectTo(
         <div className={`${block}__left-side`}>
           <h1 className={`${block}__title`}>
             Traces
-            <Count count$={totalTraceCountActiveFilter$} />
+            <Count count$={totalTraceCountActiveFilter$} formatCount={formatCount} />
           </h1>
 
           <TraceListFilterToggle filter="all" onClick={removeTypeFilter}>
@@ -35,12 +36,12 @@ export default connectTo(
 
           <TraceListFilterToggle filter="without-eum" onClick={() => setTypeFilter('server')}>
             Server Calls
-            <Count count$={totalTraceCountWithoutEum$} />
+            <Count count$={totalTraceCountWithoutEum$} formatCount={formatCount} />
           </TraceListFilterToggle>
 
           <TraceListFilterToggle filter="eum" onClick={() => setTypeFilter('eum')}>
             EUM Calls
-            <Count count$={totalTraceCountOnlyEum$} />
+            <Count count$={totalTraceCountOnlyEum$} formatCount={formatCount} />
           </TraceListFilterToggle>
         </div>
 
@@ -62,3 +63,11 @@ export default connectTo(
     );
   }
 );
+
+function formatCount(count) {
+  return (
+    <span>
+      &nbsp;({zeroDecimalPlaces(count)})
+    </span>
+  );
+}

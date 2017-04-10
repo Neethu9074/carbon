@@ -2,6 +2,8 @@ import React from 'react';
 
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
 import EventMetrics from 'in-views/cockpit/components/EventMetrics';
+import TraceMetrics from 'in-views/cockpit/components/TraceMetrics';
+import SpanMetrics from 'in-views/cockpit/components/SpanMetrics';
 import PluginUsage from 'in-views/cockpit/components/PluginUsage';
 import Tile from 'in-views/cockpit/components/Tile';
 import { Row, Col } from 'in-components/Grid/Grid';
@@ -35,10 +37,14 @@ export default function Cockpit() {
       </Row>
       <Row>
         <Col cols={6}>
-          <Tile header="Traces" />
+          <Tile header="Traces">
+            <TraceMetrics />
+          </Tile>
         </Col>
         <Col cols={6}>
-          <Tile header="Spans" />
+          <Tile header="Spans">
+            <SpanMetrics />
+          </Tile>
         </Col>
       </Row>
     </FullscreenOverlayView>
