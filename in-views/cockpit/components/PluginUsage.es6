@@ -11,8 +11,8 @@ const sortedShortPluginIds = Object.keys(plugins)
   .map(key => plugins[key])
   .sort((a, b) => compareIgnoreCase(getPlural(a), getPlural(b)));
 
-export default function PluginUsage({ pluginIdFiler }) {
-  const pluginIds = sortedShortPluginIds.filter(pluginIdFiler);
+export default function PluginUsage({ pluginIdFilter }) {
+  const pluginIds = sortedShortPluginIds.filter(pluginIdFilter);
 
   return (
     <div>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
+import EventMetrics from 'in-views/cockpit/components/EventMetrics';
 import PluginUsage from 'in-views/cockpit/components/PluginUsage';
 import Tile from 'in-views/cockpit/components/Tile';
 import { Row, Col } from 'in-components/Grid/Grid';
@@ -18,16 +19,18 @@ export default function Cockpit() {
       <Row>
         <Col cols={4}>
           <Tile header="Infrastructure">
-            <PluginUsage pluginIdFiler={isPhysicalPlugin} />
+            <PluginUsage pluginIdFilter={isPhysicalPlugin} />
           </Tile>
         </Col>
         <Col cols={4}>
           <Tile header="Application">
-            <PluginUsage pluginIdFiler={isLogicalPlugin} />
+            <PluginUsage pluginIdFilter={isLogicalPlugin} />
           </Tile>
         </Col>
         <Col cols={4}>
-          <Tile header="Events" />
+          <Tile header="Events">
+            <EventMetrics />
+          </Tile>
         </Col>
       </Row>
       <Row>

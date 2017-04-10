@@ -10,7 +10,7 @@ export default function Metric({ label, children, pluginId }) {
   return (
     <div className={block}>
       <div className={`${block}__key`}>
-        <PluginIcon plugin={pluginId} color="#F3F8F9" dimension={12} className={`${block}__icon`} />
+        <Icon plugin={pluginId} />
         {label}
       </div>
       <div className={`${block}__value`}>
@@ -18,4 +18,11 @@ export default function Metric({ label, children, pluginId }) {
       </div>
     </div>
   );
+}
+
+function Icon({ plugin }) {
+  if (plugin) {
+    return <PluginIcon plugin={plugin} color="#F3F8F9" dimension={12} className={`${block}__icon`} />;
+  }
+  return null;
 }
