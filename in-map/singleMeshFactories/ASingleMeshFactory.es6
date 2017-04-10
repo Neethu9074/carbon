@@ -63,6 +63,7 @@ export default class ASingleMeshFactory extends Subscriber {
         removeSceneObject(this.mesh);
         this.isAddedToScene = false;
       }
+      // return number of created vertices to higher factories
       return 0;
     }
 
