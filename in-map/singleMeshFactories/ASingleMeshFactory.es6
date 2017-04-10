@@ -31,7 +31,7 @@ export default class ASingleMeshFactory extends Subscriber {
 
     this.eventEmitter = new RoEmitter();
     this.addSubscription(
-      this.eventEmitter.on('rebuild').throttle(FACTORY, { leading: false }).subscribe(() => this.rebuild())
+      this.eventEmitter.on('build').throttle(FACTORY, { leading: false }).subscribe(() => this.build())
     );
   }
 
@@ -54,7 +54,7 @@ export default class ASingleMeshFactory extends Subscriber {
     this.fragments.remove(id);
   }
 
-  rebuild() {
+  build() {
     // transform map to array
     const fragments = Object.keys(this.fragments.objects).map(key => this.fragments.objects[key]);
 
@@ -63,6 +63,7 @@ export default class ASingleMeshFactory extends Subscriber {
         removeSceneObject(this.mesh);
         this.isAddedToScene = false;
       }
+      // return number of created vertices to higher factories
       return 0;
     }
 
@@ -119,7 +120,7 @@ export default class ASingleMeshFactory extends Subscriber {
   }
 
   needsUpdate() {
-    this.eventEmitter.emit('rebuild', true);
+    this.eventEmitter.emit('build', true);
   }
 
   dispose() {
