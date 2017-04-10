@@ -2,10 +2,10 @@ import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectCompon
 import { hexToRGBNormalized } from 'in-services/formatters/color';
 
 export default class ColorComponent extends SceneObjectComponent {
-  constructor(sceneObject) {
+  constructor(sceneObject, defaultColor = '#ffffff') {
     super(sceneObject, '_color');
 
-    this.color = '#ffffff';
+    this.color = defaultColor;
     this.colorAsRGB = null;
   }
 

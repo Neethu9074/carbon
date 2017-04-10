@@ -17,6 +17,7 @@ export default class SceneObject extends Subscriber {
     this.id = params.id;
 
     this.components = {};
+    this.defaultColor = params.defaultColor;
     this.eventEmitter = new RoEmitter(this.id);
   }
 
@@ -27,7 +28,7 @@ export default class SceneObject extends Subscriber {
   initComponents() {
     this.addComponent('transform', new TransformationComponent(this));
 
-    this.addComponent('color', new ColorComponent(this));
+    this.addComponent('color', new ColorComponent(this, this.defaultColor));
 
     this.addComponent('highlighting', new HighlightingComponent(this));
   }
