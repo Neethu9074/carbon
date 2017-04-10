@@ -63,12 +63,8 @@ export default createStickyNote(
           <div className={contentClassName}>
             {this.renderKpis(kpisAreExpanded => this.setState({ kpisAreExpanded }))}
 
-<<<<<<< HEAD
             <Heading
               expanded={isExpanded}
-=======
-            <Heading expanded={isExpanded}
->>>>>>> only update stickies position if its truely active
               snapshotId={this.props.id}
               onClick={() => this.setState({ expanded: !this.state.expanded })}
             >
