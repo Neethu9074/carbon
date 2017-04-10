@@ -30,6 +30,9 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
         <KpiKeyValue label="All Queues Messages Enqueue">
           <MetricValue snapshotId={snapshotId} metric="totalQueuesEnqueueCount" />
         </KpiKeyValue>
+        <KpiKeyValue label="All Topics Messages Enqueue">
+          <MetricValue snapshotId={snapshotId} metric="totalTopicsEnqueueCount" />
+        </KpiKeyValue>
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshotId} metric="memoryPercentUsage" formatter={percentage} />
         </KpiKeyValue>
@@ -60,8 +63,8 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
             left: 80
           }}
           y1={{
-            metrics: ['totalTopicsDequeueCount', 'totalTopicsEnqueueCount'],
-            labels: ['All Topics Messages Dequeue', 'All Topics Messages Enqueue'],
+            metrics: ['totalTopicsEnqueueCount', 'totalTopicsDequeueCount'],
+            labels: ['All Topics Messages Enqueue', 'All Topics Messages Dequeue'],
             type: 'line'
           }}
         />
@@ -74,8 +77,8 @@ export default function ActiveMQDashboard({ snapshot, timeframe }) {
             left: 80
           }}
           y1={{
-            metrics: ['totalConnectionsCount', 'totalConsumerCount', 'totalProducerCount'],
-            labels: ['Total Connections', 'Total Consumers', 'Total Producers'],
+            metrics: ['totalConnectionsCount', 'totalProducerCount', 'totalConsumerCount'],
+            labels: ['Total Connections', 'Total Producers', 'Total Consumers'],
             type: 'line'
           }}
         />
