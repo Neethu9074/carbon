@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 
 import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {LAYER_LAYOUTING} from 'in-map/misc/TimingConfig';
 
 import {getFactory} from 'in-map/stores/factoriesStore';
@@ -16,7 +17,7 @@ export default function createLayouter(node) {
   const layerSubscription = combineLatest([node.eventEmitter.on('positionChanged'),
                                            node.eventEmitter.on('scaleChanged'),
                                            node.layer.stream])
-                            .debounce(LAYER_LAYOUTING)
+                            .debounce(LAYER_LAYOUTING, {setTimeout, clearTimeout})
                             .subscribe(([nodePosition, nodeScale, _layer]) => {
                               const plugins = applyLayout(nodePosition,
                                                           nodeScale,

@@ -27,7 +27,7 @@ function createMenuContent() {
 const block = 'in-sidebar-map-stats';
 
 const Statistics = connectTo({
-  _statistics: statistics.stream.throttle(1000)
+  _statistics: statistics.stream.throttle(1000, {setTimeout, clearTimeout})
 },
 function StatisticsList({_statistics}) {
   if (!_statistics) {

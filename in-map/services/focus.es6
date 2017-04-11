@@ -1,6 +1,7 @@
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import {selectedSnapshotIdForHighlightingInMap$} from 'in-map/stores/selectedMapSceneObjectStore';
 import {sceneObjects} from 'in-map/stores/focusableSceneObjectsStore';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {AUTO_FOCUS} from 'in-map/misc/TimingConfig';
 import {query$} from 'in-stores/search/query';
 
@@ -27,5 +28,5 @@ export function clampCameraPositionToVerticesDimensions() {
 
 
 export function init() {
-  query$.debounce(AUTO_FOCUS).subscribe(clampCameraPositionToVerticesDimensions);
+  query$.debounce(AUTO_FOCUS, {setTimeout, clearTimeout}).subscribe(clampCameraPositionToVerticesDimensions);
 }

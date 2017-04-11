@@ -24,7 +24,7 @@ export default function createHighlightedTimeframeRenderer(config) {
     .subscribe(isVisible => isVisible ? show() : hide()));
 
   config.subscriptions.push(highlightedTimeframe$
-    .throttle(20)
+    .throttle(20, {setTimeout, clearTimeout})
     .subscribe(tf => highlightedTimeframe = tf));
 
   config.subscriptions.push(

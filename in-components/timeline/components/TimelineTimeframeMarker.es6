@@ -15,7 +15,7 @@ const block = 'in-timeline-timeframe-marker';
 const rpt = React.PropTypes;
 
 export default connectTo({
-    serverTime: serverTime$.throttle(10000),
+    serverTime: serverTime$.throttle(10000, {setTimeout, clearTimeout}),
     bigBangTimestamp: bigBangTimestamp$,
     scale: timelineScale$,
     timeframe: timeframe$

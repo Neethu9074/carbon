@@ -4,6 +4,7 @@ import React from 'react';
 
 import {timeframe$, isCollapsed$} from 'in-components/timeline/timelineStore';
 import {formatDurationAccurately} from 'in-services/formatters/date';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import connectTo from 'in-hoc/connectTo';
 
 import './SelectedWindowSizePresenter.less';
@@ -15,7 +16,7 @@ const shownMessage$ = create();
 
 // automatically clear temporary notifications after 6 seconds
 shownMessage$
-  .debounce(3000, {leading: false})
+  .debounce(3000, {setTimeout, clearTimeout, leading: false})
   .subscribe(message => {
     if (!message) {
       return;

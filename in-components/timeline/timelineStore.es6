@@ -1,6 +1,7 @@
 import {create, combineLatest} from 'reactive-observables';
 
 import {setLive} from 'in-components/timeline/components/DatePicker/stores/liveStore';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {
   timeframe$ as globalTimeframe$,
   setTimeframe as setGlobalTimeframe,
@@ -96,7 +97,7 @@ export const timeframe$ = timeframeStore.observable.filter(timeframe => timefram
 // create cycle
 globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
 timeframe$
-  .throttle(500)
+  .throttle(500, {setTimeout, clearTimeout})
   .subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
 
 
@@ -210,7 +211,7 @@ globalFocusedMoment$.subscribe(setFocusedMoment);
 
 focusedMoment$
   .skipFirst()
-  .debounce(1000)
+  .debounce(1000, {setTimeout, clearTimeout})
   .subscribe(setGlobalFocusedMoment);
 
 export function fixFocusedMomentIfNotFixed() {

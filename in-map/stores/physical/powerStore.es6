@@ -3,7 +3,7 @@ import {POWER_CHECKING} from 'in-map/misc/TimingConfig';
 
 
 export const powers = createCollection();
-export const maxPower$ = powers.stream.throttle(POWER_CHECKING)
+export const maxPower$ = powers.stream.throttle(POWER_CHECKING, {setTimeout, clearTimeout})
                                       .map(_powers => Object.keys(_powers).map(key => _powers[key])
                                                                           .reduce(powerReducer, 0));
 

@@ -1,6 +1,7 @@
 import {parse} from 'lucene';
 
 import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {createStore} from 'in-stores/store';
 
 const unvalidatedQueryStore = createStore({
@@ -14,7 +15,7 @@ const queryStore = createStore({
   initialValue: ''
 });
 export const query$ = queryStore.observable.distinct();
-export const debouncedQuery$ = query$.debounce(200);
+export const debouncedQuery$ = query$.debounce(200, {setTimeout, clearTimeout});
 
 const parsedQueryStore = createStore({
   name: 'search/parsedQuery',

@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 
 import {currentLayoutingStrategy$} from 'in-map/stores/physical/layouterStore';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {PHYSICAL_LAYOUTING} from 'in-map/misc/TimingConfig';
 import {groups} from 'in-map/stores/physical/groupsStore';
 import {nodes} from 'in-map/stores/physical/nodesStore';
@@ -14,7 +15,7 @@ export default function createLayouter() {
                                                    layouting$,
                                                    nodes.stream,
                                                    eventBus.on('layoutNeedsUpdate')])
-                                    .debounce(PHYSICAL_LAYOUTING)
+                                    .debounce(PHYSICAL_LAYOUTING, {setTimeout, clearTimeout})
                                     .map(([_groups, layoutStrategy]) => {
                                       const config = layoutStrategy.config;
                                       config.groups = Object.keys(_groups).map(key => _groups[key]);

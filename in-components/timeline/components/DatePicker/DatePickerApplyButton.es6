@@ -26,7 +26,7 @@ export default connectTo(props => {
             fromValid$,
             toValid$
           ])
-          .throttle(200)
+          .throttle(200, {setTimeout, clearTimeout})
           .map(([focusedMomentValid, fromValid, toValid]) => {
             return {
               fixedTimestampsAreValid: focusedMomentValid.date &&

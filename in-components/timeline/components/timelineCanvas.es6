@@ -16,6 +16,7 @@ import {drawMode$, DRAW_MODES, isCollapsed$} from 'in-components/timeline/timeli
 import {highlightedTimeframe$} from 'in-stores/timeline/highlightedTimeframe';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
 import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
@@ -101,14 +102,14 @@ export default function createTimelineRenderer({container, canvas, glassPane}) {
   });
 
   const resizeSubscription = on(window, 'resize')
-    .debounce(500)
+    .debounce(500, {setTimeout, clearTimeout})
     .subscribe(resize);
 
   // initial resize
   resize();
 
   const drawSubscription = changes
-    .debounce(300)
+    .debounce(300, {setTimeout, clearTimeout})
     .subscribe(draw);
 
   const realtimeDrawSubscription = realtimeDrawStream

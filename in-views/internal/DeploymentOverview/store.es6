@@ -16,7 +16,7 @@ const dockerContainers$ = focusedMoment$
     getSnapshot(dockerSnapshotId).startWith(null)
   )))
   .map(dockerSnapshots => dockerSnapshots.filter(snapshot => snapshot))
-  .throttle(500);
+  .throttle(500, {setTimeout, clearTimeout});
 
 export const overview$ = dockerContainers$.map(dockerContainers => {
   const result = [];

@@ -7,7 +7,7 @@ export default function createHighlightedTimeframeRenderer(config) {
   const bottom = config.height - config.margins.top - config.margins.bottom;
 
   config.subscriptions.push(highlightedTimeframe$
-    .throttle(20)
+    .throttle(20, {setTimeout, clearTimeout})
     .subscribe(tf => highlightedTimeframe = tf));
 
   return {

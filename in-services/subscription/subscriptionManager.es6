@@ -3,6 +3,7 @@ import invariant from 'invariant';
 
 import {getDataEvent} from 'in-services/subscription/dataEvent';
 import {on, off, emit} from 'in-services/persistentConnection';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 
 // {
 //   <id>: {
@@ -84,7 +85,7 @@ export function init() {
     .map(() => document.hidden);
 
   documentVisibility$
-    .debounce(timeUntilDisposingSubscriptionsForHiddenUi)
+    .debounce(timeUntilDisposingSubscriptionsForHiddenUi, {setTimeout, clearTimeout})
     .filter(hidden => hidden)
     .subscribe(() => {
       if (isSubscriptionsActive) {

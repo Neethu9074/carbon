@@ -23,6 +23,7 @@ import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connecti
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -97,7 +98,7 @@ export default class Connection extends SceneObject {
         .on('changePosition')
         .subscribe(fromTo => this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
 
-      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE).subscribe(fromTo => {
+      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE, {setTimeout, clearTimeout}).subscribe(fromTo => {
         this.disposeCollisionLine();
         this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
       }),
@@ -124,7 +125,7 @@ export default class Connection extends SceneObject {
         this.getComponent('color').setHex(newColor);
       }),
 
-      connections.stream.throttle(CONNECTIONS_BIDIRECTIONAL_CHECK).subscribe(_connections => {
+      connections.stream.throttle(CONNECTIONS_BIDIRECTIONAL_CHECK, {setTimeout, clearTimeout}).subscribe(_connections => {
         let isBidirectional = false;
         const keys = Object.keys(_connections);
         for (let i = 0, length = keys.length; i < length; i++) {
