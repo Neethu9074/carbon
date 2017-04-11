@@ -21,8 +21,8 @@ export default class ConnectionHandlerNode extends Node {
 
       if (sourceNode && destinationNode) {
         connections.push({
-          sourceNode,
-          destinationNode,
+          sourceNode: sourceNode.sceneObjectInstance || sourceNode,
+          destinationNode: destinationNode.sceneObjectInstance || destinationNode,
           entity
         });
       }
@@ -34,8 +34,8 @@ export default class ConnectionHandlerNode extends Node {
 
       if (sourceNode && destinationNode) {
         connections.push({
-          sourceNode,
-          destinationNode,
+          sourceNode: sourceNode.sceneObjectInstance || sourceNode,
+          destinationNode: destinationNode.sceneObjectInstance || destinationNode,
           entity
         });
       }
@@ -50,7 +50,8 @@ export default class ConnectionHandlerNode extends Node {
               id: connection.entity.id,
               entity: connection.entity,
               sourceNode: connection.sourceNode,
-              destinationNode: connection.destinationNode
+              destinationNode: connection.destinationNode,
+              bidirectional: connection.entity.bidirectional || false
             }
           };
         })

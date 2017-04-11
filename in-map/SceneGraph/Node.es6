@@ -7,6 +7,7 @@ export default class Node extends Subscriber {
     super();
 
     this.id = params.id;
+    this.params = params;
     this.children = {};
 
     if (InstanceType) {
@@ -17,7 +18,7 @@ export default class Node extends Subscriber {
       this.sceneObjectInstance.initialized();
     }
 
-    this.update(params);
+    this.update({}, params);
   }
 
   addChild(NodeType, params) {
@@ -59,11 +60,17 @@ export default class Node extends Subscriber {
     // update or create nodes
     for (let i = 0, length = currentNodes.length; i < length; i++) {
       const entity = currentNodes[i];
-      const child = this.children[entity.params.id];
+      const existingChild = this.children[entity.params.id];
+
       // create or update node
-      child
-        ? child.update(entity.params)
-        : this.addChild(entity.NodeType, entity.params);
+      if (existingChild) {
+        if (existingChild.params !== entity.params) {
+          existingChild.update(existingChild.params, entity.params);
+          existingChild.params = entity.params;
+        }
+      } else {
+        this.addChild(entity.NodeType, entity.params);
+      }
     }
   }
 

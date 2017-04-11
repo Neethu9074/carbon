@@ -9,9 +9,9 @@ export default class GroupNode extends Node {
     super({InstanceType: Group, params});
   }
 
-  update(params) {
-    const includedIds = params.includedIds;
-    const entity = params.entity;
+  update(oldParams, newParams) {
+    const includedIds = newParams.includedIds;
+    const entity = newParams.entity;
 
     this.updateEntities(entity.children
       .filter(entity => includedIds.hostIds[entity.id])

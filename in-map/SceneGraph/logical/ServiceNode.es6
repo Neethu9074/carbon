@@ -1,8 +1,5 @@
 import ServiceConnectionNode from 'in-map/SceneGraph/logical/ServiceConnectionNode';
 import ConnectionHandlerNode from 'in-map/SceneGraph/ConnectionHandlerNode';
-import {CONNECTIONS_NODE_CHECKING} from 'in-map/misc/TimingConfig';
-import {setTimeout, clearTimeout} from 'in-services/chronos';
-import services from 'in-map/stores/logical/servicesStore';
 import Service from 'in-map/sceneObjects/logical/Service';
 import Node from 'in-map/SceneGraph/Node';
 
@@ -18,24 +15,10 @@ export default class ServiceNode extends Node {
       },
       connectionNodeType: ServiceConnectionNode
     });
-
-    this.addSubscription(
-      services.stream.debounce(CONNECTIONS_NODE_CHECKING, {setTimeout, clearTimeout}).subscribe(_services => {
-        this.services = _services;
-        this.updateConnections();
-      })
-    );
   }
 
-  update(params) {
-    this.entity = params.entity;
-    this.updateConnections();
-  }
-
-  updateConnections() {
-    if (this.entity && this.services) {
-      this.connectionHandlerNode.createConnections(this.entity, this.services);
-    }
+  updateConnections(servicesAsSceneObjects) {
+    this.connectionHandlerNode.createConnections(this.params.entity, servicesAsSceneObjects);
   }
 
   dispose() {
