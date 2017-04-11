@@ -1,6 +1,7 @@
 import { parse } from 'lucene';
 
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { setTimeout, clearTimeout } from 'in-services/chronos';
 import { validate } from 'in-services/api/search';
 import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
@@ -16,7 +17,7 @@ const queryStore = createStore({
   initialValue: ''
 });
 export const query$ = queryStore.observable.distinct();
-export const debouncedQuery$ = query$.debounce(200);
+export const debouncedQuery$ = query$.debounce(200, { setTimeout, clearTimeout });
 
 const parsedQueryStore = createStore({
   name: 'search/parsedQuery',
@@ -39,7 +40,7 @@ navigationParameters$.subscribe(params => {
   }
 });
 
-unvalidatedQuery$.skipFirst().debounce(500).subscribe(query => {
+unvalidatedQuery$.skipFirst().debounce(500, { setTimeout, clearTimeout }).subscribe(query => {
   mutateUrl(navParams => {
     navParams.query.q = encodeURIComponent(query);
     return navParams;

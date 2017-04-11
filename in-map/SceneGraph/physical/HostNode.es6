@@ -64,9 +64,9 @@ export default class HostNode extends Node {
     );
   }
 
-  update(params) {
-    this.includedIds = params.includedIds;
-    this.entity = params.entity;
+  update(oldParams, newParams) {
+    this.includedIds = newParams.includedIds;
+    this.entity = newParams.entity;
     this.addLayer();
   }
 

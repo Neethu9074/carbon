@@ -24,6 +24,13 @@ export default class MapNode extends Node {
             };
           })
         );
+
+        const childrenAsArray = Object.keys(this.children);
+        for (let i = 0, length = childrenAsArray.length; i < length; i++) {
+          const serviceId = childrenAsArray[i];
+          const service = this.children[serviceId];
+          service.updateConnections(this.children);
+        }
       })
     );
   }

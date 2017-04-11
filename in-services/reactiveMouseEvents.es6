@@ -6,7 +6,7 @@ export function onWheel(domElement, callback) {
   return combineLatest([
     getIn(['map', 'scrollSpeed']),
     getIn(['map', 'scrollDirection']),
-    on(domElement, 'wheel', { passive: true }).throttle(50)
+    on(domElement, 'wheel', { passive: true }).throttle(50, { setTimeout, clearTimeout })
   ]).subscribe(props => {
     const event = props[2];
 

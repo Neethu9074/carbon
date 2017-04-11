@@ -18,7 +18,7 @@ export default connectTo(
         // Always start with an empty set to avoid inconsistent view,
         // displaying running components for a previously selected snapshot.
         .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id))))
-        .throttle(1000)
+        .throttle(1000, { setTimeout, clearTimeout })
     };
   },
   function ClusterNodesTable({ clusterNodes, timeframe }) {

@@ -8,6 +8,7 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import { fromNow, formatDateTime } from 'in-services/formatters/date';
+import { setTimeout, clearTimeout } from 'in-services/chronos';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getAuditLog } from 'in-services/auditLog';
@@ -65,7 +66,7 @@ export default connectTo(
 const AuditLogEntries = connectTo(
   props => {
     return {
-      log: query$.debounce(200).flatMap(query => getAuditLog(props.offset, query)),
+      log: query$.debounce(200, { setTimeout, clearTimeout }).flatMap(query => getAuditLog(props.offset, query)),
       query: query$
     };
   },

@@ -13,6 +13,7 @@ import createSnapshotObservable from 'in-services/subscription/snapshot';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { setTimeout, clearTimeout } from 'in-services/chronos';
 import { createTrackingStore } from 'in-stores/store';
 import { focusedMoment$ } from 'in-stores/timeline';
 
@@ -112,7 +113,7 @@ export function getSnapshots(snapshotIds, time) {
       .map(snapshots => snapshots.filter(s => s))
       // We will have lots of incremental updates. One update every few
       // milliseconds is enough.
-      .throttle(100)
+      .throttle(100, { setTimeout, clearTimeout })
   );
 }
 
@@ -125,7 +126,7 @@ export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
   function getSnapshotFromPhysicalHierarchyByPlugin(snapshotId, plugin) {
     return getPhysicalHierarchy(snapshotId)
       .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id).startWith(null))))
-      .debounce(300)
+      .debounce(300, { setTimeout, clearTimeout })
       .map(snapshots => {
         for (let i = 0, len = snapshots.length; i < len; i++) {
           const snapshot = snapshots[i];

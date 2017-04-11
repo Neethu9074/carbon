@@ -18,23 +18,24 @@ import {
   intersects,
   flatten
 } from 'in-map/misc/Connections';
-import { CONNECTIONS_BIDIRECTIONAL_CHECK, CONNECTIONS_COLLISION_MESH_UPDATE } from 'in-map/misc/TimingConfig';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
+import { CONNECTIONS_COLLISION_MESH_UPDATE } from 'in-map/misc/TimingConfig';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
+import { setTimeout, clearTimeout } from 'in-services/chronos';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
 import { theme } from 'in-services/theme';
 
 export default class Connection extends SceneObject {
-  constructor({ id, destinationNode, sourceNode }) {
+  constructor({ id, destinationNode, sourceNode, bidirectional }) {
     super({ id, defaultColor: '#5c6e74' });
 
     this.destinationNode = destinationNode;
     this.sourceNode = sourceNode;
-    this.isBidirectional = false;
+    this.setBidirectional(bidirectional);
   }
 
   init() {
@@ -97,10 +98,13 @@ export default class Connection extends SceneObject {
         .on('changePosition')
         .subscribe(fromTo => this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
 
-      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE).subscribe(fromTo => {
-        this.disposeCollisionLine();
-        this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
-      }),
+      this.eventEmitter
+        .on('changePosition')
+        .debounce(CONNECTIONS_COLLISION_MESH_UPDATE, { setTimeout, clearTimeout })
+        .subscribe(fromTo => {
+          this.disposeCollisionLine();
+          this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
+        }),
       combineLatest([
         this.eventEmitter.on('healthChanged'),
         this.eventEmitter.on('isHighlighted'),
@@ -121,32 +125,19 @@ export default class Connection extends SceneObject {
           newColor = '#ffffff';
         }
         this.getComponent('color').setHex(newColor);
-      }),
-      connections.stream.throttle(CONNECTIONS_BIDIRECTIONAL_CHECK).subscribe(_connections => {
-        let isBidirectional = false;
-        const keys = Object.keys(_connections);
-        for (let i = 0, length = keys.length; i < length; i++) {
-          const connection = _connections[keys[i]];
-          if (connection.sourceNode === this.destinationNode && connection.destinationNode === this.sourceNode) {
-            isBidirectional = true;
-            break;
-          }
-        }
-
-        if (this.isBidirectional !== isBidirectional) {
-          this.isBidirectional = isBidirectional;
-          this.eventEmitter.emit('isBidirectionalChanged', isBidirectional);
-        }
       })
     ]);
-
-    this.eventEmitter.emit('isBidirectionalChanged', this.isBidirectional);
   }
 
   initialized() {
     super.initialized();
 
     connections.add(this.id, this);
+  }
+
+  setBidirectional(isBidirectional) {
+    this.isBidirectional = isBidirectional;
+    this.eventEmitter.emit('isBidirectionalChanged', isBidirectional);
   }
 
   getVertices() {

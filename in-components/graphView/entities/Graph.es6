@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import { markAsFinished } from 'in-components/graphView/graphViewStore';
 import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
@@ -20,7 +19,7 @@ export default class Graph {
 
     this.graphSubscription = focusedMoment$
       .flatMap(focusedMoment => {
-        return getGraph(focusedMoment).throttle(60000);
+        return getGraph(focusedMoment).throttle(60000, { setTimeout, clearTimeout });
       })
       .once(this.processEdgeModifications.bind(this));
   }

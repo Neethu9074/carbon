@@ -2,6 +2,7 @@ import { create, on } from 'reactive-observables';
 
 import BackgroundScene from 'in-components/globeView/components/BackgroundScene';
 import GlobeScene from 'in-components/globeView/components/GlobeScene';
+import { setTimeout, clearTimeout } from 'in-services/chronos';
 import { update as updateTime } from 'in-map/misc/time';
 import { WebGLRenderer } from 'in-map/3DLibProvider';
 
@@ -9,7 +10,7 @@ export default function createUniverseRenderer({ container, canvas }) {
   let isRunning = true;
   const changeSignal = true;
   const changes = create();
-  const updateSubscription = changes.debounce(1000).subscribe(update);
+  const updateSubscription = changes.debounce(1000, { setTimeout, clearTimeout }).subscribe(update);
 
   const renderer = new WebGLRenderer({
     canvas,
@@ -21,7 +22,7 @@ export default function createUniverseRenderer({ container, canvas }) {
   const backgroundScene = new BackgroundScene();
   const globeScene = new GlobeScene(renderer);
 
-  const resizeSubscription = on(window, 'resize').debounce(500).subscribe(resize);
+  const resizeSubscription = on(window, 'resize').debounce(500, { setTimeout, clearTimeout }).subscribe(resize);
 
   // initial resize
   resize();

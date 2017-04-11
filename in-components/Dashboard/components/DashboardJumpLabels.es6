@@ -1,5 +1,4 @@
 /* eslint-disable react/no-did-mount-set-state */
-
 import { on } from 'reactive-observables';
 import { isEqual } from 'lodash';
 import React from 'react';
@@ -38,9 +37,9 @@ export default React.createClass({
     });
 
     this.scrollSubscription = on(this.scrollElement, 'scroll', { passive: true })
-      .throttle(200)
+      .throttle(200, { setTimeout, clearTimeout })
       .subscribe(this.onScroll);
-    this.resizeSubscription = on(window, 'resize').throttle(200).subscribe(this.onResize);
+    this.resizeSubscription = on(window, 'resize').throttle(200, { setTimeout, clearTimeout }).subscribe(this.onResize);
     this.checkHandle = setTimeout(this.checkForNewElements, 500);
   },
 

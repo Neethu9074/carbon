@@ -26,7 +26,7 @@ const block = 'in-sidebar-map-stats';
 
 const Statistics = connectTo(
   {
-    _statistics: statistics.stream.throttle(1000)
+    _statistics: statistics.stream.throttle(1000, { setTimeout, clearTimeout })
   },
   function StatisticsList({ _statistics }) {
     if (!_statistics) {
@@ -41,7 +41,6 @@ const Statistics = connectTo(
           if (typeof statistic === 'string' || typeof statistic === 'number') {
             return <KeyValue key={key} name={key} value={statistic} />;
           }
-
           return (
             <Collapsible key={key}>
               <Collapsible.Header>

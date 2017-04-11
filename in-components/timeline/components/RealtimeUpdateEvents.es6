@@ -7,7 +7,9 @@ import { highlightedMoment$ } from 'in-stores/timeline';
   this "class"is just to get all this realtime updates out of the canvas renderer class.
 */
 export default function createRealtimeUpateEvents(realtimeDrawStream, changeSignal) {
-  const highlightedEntityIdSubscription = highlightedEntityId$.throttle(100).subscribe(emitRealtimeSignal); // throttle this to avoid flickering when moving the mosue fast over the map
+  const highlightedEntityIdSubscription = highlightedEntityId$
+    .throttle(100, { setTimeout, clearTimeout }) // throttle this to avoid flickering when moving the mosue fast over the map
+    .subscribe(emitRealtimeSignal);
   const selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(emitRealtimeSignal);
   const focusedMomentSubscription = focusedMoment$.subscribe(emitRealtimeSignal);
   const fromSubscription = from$.subscribe(emitRealtimeSignal);
