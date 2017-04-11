@@ -80,6 +80,7 @@ import './vaadin';
 import './vertx.client';
 import './vertx.server';
 import './wcf';
+import './wcfclient';
 import './webapi';
 import './wicket';
 import './x.hc';
