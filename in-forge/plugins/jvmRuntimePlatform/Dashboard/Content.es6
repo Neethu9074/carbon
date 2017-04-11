@@ -6,9 +6,11 @@ import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMe
 import { bytesTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import { getLabel, getCodeView } from 'in-sdk/snapshot';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
+import Button from 'in-components/Button';
 
 import './Content.less';
 
@@ -25,6 +27,12 @@ export default function JVMDashboard({ snapshot, timeframe }) {
         <KpiKeyValue label="Memory Used">
           <MetricValue snapshotId={snapshotId} metric="memory.used" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
+
+        {__DEV__
+          ? <Button onClick={() => getSource(snapshot)} kind="secondary">
+              Get source for arbitrary class
+            </Button>
+          : null}
       </KpiSection>
 
       <DashboardSection title="Threads">
@@ -102,4 +110,12 @@ export default function JVMDashboard({ snapshot, timeframe }) {
       <JmxMetricsTable snapshot={snapshot} timeframe={timeframe} />
     </div>
   );
+}
+
+function getSource(snapshot) {
+  const classname = prompt('Please provide the fully qualified class name');
+  if (!classname) {
+    return;
+  }
+  setActiveDialog(getCodeView(snapshot, classname));
 }
