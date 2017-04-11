@@ -5,6 +5,8 @@
 /* eslint-disable instana-import-order/instana-import-order */
 import 'in-forge';
 
+import {setSetTimeoutFn, setClearTimeoutFn} from 'reactive-observables/timers';
+import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {Router, hashHistory} from 'react-router';
 import ReactDOM from 'react-dom';
 import logging from 'instalog';
@@ -54,6 +56,10 @@ if (__DEV__) {
   window.React = React;
   window.React.Perf = require('react-addons-perf');
 }
+
+// configure reactive-observables to use chronos by default
+setSetTimeoutFn(setTimeout);
+setClearTimeoutFn(clearTimeout);
 
 // kick of the init process
 initGlyphTexture();
