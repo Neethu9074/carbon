@@ -108,7 +108,7 @@ function VersionList({title, versions, focusedMoment}) {
 
 const ListItem = connectTo(props => {
   return {
-    link: getCurrentViewWithTimelineCenteredAt(props.to)
+    link: getCurrentViewWithTimelineCenteredAt(props.to == null ? props.to : props.to - ((props.to - props.from) / 2))
   };
 },
 function ListItem({from, to, link}) {
