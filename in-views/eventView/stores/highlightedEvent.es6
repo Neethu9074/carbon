@@ -1,4 +1,3 @@
-import { setTimeout, clearTimeout } from 'in-services/chronos';
 import { createStore } from 'in-stores/store';
 
 const highlightedEventStore = createStore({
@@ -11,7 +10,7 @@ export const highlightedEventId$ = highlightedEventStore.observable;
 // temporary highlighting mechanism
 highlightedEventId$
   .filter(eventId => eventId != null)
-  .debounce(1000, { setTimeout, clearTimeout })
+  .debounce(1000)
   .subscribe(() => highlightedEventStore.mutateTo(null));
 
 export function highlightEventId(eventId) {

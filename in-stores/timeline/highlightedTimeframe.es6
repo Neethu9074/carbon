@@ -1,6 +1,5 @@
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
 import { createStore } from 'in-stores/store';
-import { setTimeout, clearTimeout } from 'in-services/chronos';
 
 const queryKey = 'tl.tf';
 
@@ -43,7 +42,7 @@ navigationParameters$.subscribe(params => {
   }
 });
 
-highlightedTimeframe$.skipFirst().debounce(500, { setTimeout, clearTimeout }).subscribe(tf => {
+highlightedTimeframe$.skipFirst().debounce(500).subscribe(tf => {
   mutateUrl(navParams => {
     if (tf) {
       navParams.query[queryKey] = encodeURIComponent(`${tf[0]},${tf[1]}`);

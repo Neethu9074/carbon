@@ -26,13 +26,12 @@ const block = 'in-sidebar-map-stats';
 
 const Statistics = connectTo(
   {
-    _statistics: statistics.stream.throttle(1000, { setTimeout, clearTimeout })
+    _statistics: statistics.stream.throttle(1000)
   },
   function StatisticsList({ _statistics }) {
     if (!_statistics) {
       return null;
     }
-
     const keys = Object.keys(_statistics);
     return (
       <div className={block}>

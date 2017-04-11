@@ -15,7 +15,7 @@ const rpt = React.PropTypes;
 
 export default connectTo(
   {
-    serverTime: serverTime$.throttle(10000, { setTimeout, clearTimeout }),
+    serverTime: serverTime$.throttle(10000),
     bigBangTimestamp: bigBangTimestamp$,
     scale: timelineScale$,
     timeframe: timeframe$

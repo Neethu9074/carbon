@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { sceneObjects } from 'in-map/stores/focusableSceneObjectsStore';
-import { setTimeout, clearTimeout } from 'in-services/chronos';
 import { formatDateTime } from 'in-services/formatters/date';
 import { focusedMoment$ } from 'in-stores/timeline';
 import { focusId } from 'in-map/services/focus';
@@ -15,7 +14,7 @@ const block = 'in-sidebar-map__focus-icon';
 
 export default connectTo(
   {
-    focusableSceneObjects: sceneObjects.stream.debounce(100, { setTimeout, clearTimeout }),
+    focusableSceneObjects: sceneObjects.stream.debounce(),
     focusedMoment: focusedMoment$
   },
   function FocusButton({ focusedMoment, snapshot, focusableSceneObjects }) {

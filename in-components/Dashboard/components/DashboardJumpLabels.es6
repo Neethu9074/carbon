@@ -37,9 +37,9 @@ export default React.createClass({
     });
 
     this.scrollSubscription = on(this.scrollElement, 'scroll', { passive: true })
-      .throttle(200, { setTimeout, clearTimeout })
+      .throttle(200)
       .subscribe(this.onScroll);
-    this.resizeSubscription = on(window, 'resize').throttle(200, { setTimeout, clearTimeout }).subscribe(this.onResize);
+    this.resizeSubscription = on(window, 'resize').throttle(200).subscribe(this.onResize);
     this.checkHandle = setTimeout(this.checkForNewElements, 500);
   },
 

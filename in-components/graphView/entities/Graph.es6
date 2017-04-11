@@ -19,7 +19,7 @@ export default class Graph {
 
     this.graphSubscription = focusedMoment$
       .flatMap(focusedMoment => {
-        return getGraph(focusedMoment).throttle(60000, { setTimeout, clearTimeout });
+        return getGraph(focusedMoment).throttle(60000);
       })
       .once(this.processEdgeModifications.bind(this));
   }

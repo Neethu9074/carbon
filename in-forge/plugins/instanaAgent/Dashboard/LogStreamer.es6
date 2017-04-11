@@ -73,7 +73,7 @@ export default React.createClass({
         { log: '', error: null }
       )
       .nextFrame()
-      .throttle(500, { setTimeout, clearTimeout })
+      .throttle(500)
       .map(aggregated => {
         return {
           log: replaceHtmlChars(aggregated.log),

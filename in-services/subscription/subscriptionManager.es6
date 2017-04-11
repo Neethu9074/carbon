@@ -3,7 +3,6 @@ import invariant from 'invariant';
 
 import { getDataEvent } from 'in-services/subscription/dataEvent';
 import { on, off, emit } from 'in-services/persistentConnection';
-import { setTimeout, clearTimeout } from 'in-services/chronos';
 
 // {
 //   <id>: {
@@ -77,15 +76,12 @@ export function init() {
   // minutes. We do this to avoid buffering a large amount of data in the UI
   const documentVisibility$ = reactiveOn(document, 'visibilitychange').map(() => document.hidden);
 
-  documentVisibility$
-    .debounce(timeUntilDisposingSubscriptionsForHiddenUi, { setTimeout, clearTimeout })
-    .filter(hidden => hidden)
-    .subscribe(() => {
-      if (isSubscriptionsActive) {
-        isSubscriptionsActive = false;
-        unsubscribeAllFromBackendWhichCanBeAutoDisposed();
-      }
-    });
+  documentVisibility$.debounce(timeUntilDisposingSubscriptionsForHiddenUi).filter(hidden => hidden).subscribe(() => {
+    if (isSubscriptionsActive) {
+      isSubscriptionsActive = false;
+      unsubscribeAllFromBackendWhichCanBeAutoDisposed();
+    }
+  });
 
   documentVisibility$.filter(hidden => !hidden).subscribe(() => {
     if (!isSubscriptionsActive) {

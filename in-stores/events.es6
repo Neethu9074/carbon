@@ -1,3 +1,4 @@
+/* global process:false */
 import { combineLatest } from 'reactive-observables';
 import { sortedIndexBy } from 'lodash';
 import { List, Map } from 'immutable';
@@ -11,7 +12,6 @@ import getEventUpdates from 'in-services/subscription/eventUpdates';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import getOpenEvents from 'in-services/subscription/openEvents';
-import { setTimeout, clearTimeout } from 'in-services/chronos';
 import getEvents from 'in-services/subscription/events';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { theme } from 'in-services/theme';
@@ -45,17 +45,19 @@ export const retrievedEvents$ = createTrackingStore({
         objectives: []
       }
     )
-}).observable.startWith({
-  issues: [],
-  changes: [],
-  incidents: [],
-  objectives: []
-});
+}).observable
+  .startWith({
+    issues: [],
+    changes: [],
+    incidents: [],
+    objectives: []
+  })
+  .throttle(process.env.IS_TEST ? 0 : 1000);
 
 export const eventsInTimeframe$ = combineLatest([
   timeframe$.flatMap(timeframe => {
     if (timeframe.to == null) {
-      return to$.throttle(10000, { setTimeout, clearTimeout });
+      return to$.throttle(10000);
     }
     return to$;
   }),
@@ -319,7 +321,7 @@ export const highlightedEvent$ = highlightedEvent.observable
   // Event highlighting is prone to high frequency changes. We need to protect the backend
   // against this as retrieving the data for event displaying is expensive to retrieve
   // (entities for highlighting).
-  .debounce(200, { setTimeout, clearTimeout });
+  .debounce(200);
 
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);

@@ -54,7 +54,7 @@ export default function createMetricHandler(node, snapshotId) {
           .distinct();
       })
     )
-      .throttle(METRIC_PILLAR_REFRESH, { setTimeout, clearTimeout })
+      .throttle(METRIC_PILLAR_REFRESH)
       .subscribe(values => node.setMetricValues(values));
   }
 

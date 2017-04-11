@@ -4,7 +4,6 @@ import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import createCollection from 'in-map/stores/ObjectCollectionStream';
 import { requestRendering } from 'in-map/stores/renderingStore';
-import { setTimeout, clearTimeout } from 'in-services/chronos';
 import { BufferGeometry } from 'in-map/3DLibProvider';
 import { FACTORY } from 'in-map/misc/TimingConfig';
 import Subscriber from 'in-map/misc/Subscriber';
@@ -32,10 +31,7 @@ export default class ASingleMeshFactory extends Subscriber {
 
     this.eventEmitter = new RoEmitter();
     this.addSubscription(
-      this.eventEmitter
-        .on('build')
-        .debounce(FACTORY, { setTimeout, clearTimeout, leading: false })
-        .subscribe(() => this.build())
+      this.eventEmitter.on('build').debounce(FACTORY, { leading: false }).subscribe(() => this.build())
     );
   }
 
