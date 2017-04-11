@@ -1,10 +1,12 @@
+import { combineLatest } from 'reactive-observables';
+
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
 import createSearchObservable from 'in-services/subscription/search';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
 import { setKeyword, getValues } from 'in-stores/search/keywords';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
+import { focusedMoment$, timeframe$ } from 'in-stores/timeline';
 import { setColumn } from 'in-views/tableView/stores/sorting';
-import { focusedMoment$ } from 'in-stores/timeline';
 import { query$ } from 'in-stores/search/query';
 
 // TODO: Read this mapping from backend
@@ -55,11 +57,12 @@ export const snapshotIds$ = query$.flatMap(query => {
     query += ` entity.selfType:host`;
   }
 
-  return focusedMoment$.flatMap(focusedMoment => {
+  return combineLatest([timeframe$, focusedMoment$]).flatMap(([timeframe, focusedMoment]) => {
     return createSearchObservable({
       query: query,
       time: focusedMoment,
-      view: 'TABLE'
+      view: 'TABLE',
+      timeframe
     }).map(list => list.toArray());
   });
 });
