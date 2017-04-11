@@ -170,6 +170,10 @@ export default class Service extends SceneObject {
     services.add(this.id, this);
   }
 
+  setServiceInstances(serviceInstances) {
+    this.eventEmitter.emit('serviceInstancesChanged', serviceInstances);
+  }
+
   dispose() {
     super.dispose();
 

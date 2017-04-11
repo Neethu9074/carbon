@@ -1,15 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { combineLatest } from 'reactive-observables';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import ServiceInstanceList from 'in-map/components/stickyNotes/logical/Service/components/ServiceInstanceList';
 import KPIList from 'in-map/components/stickyNotes/logical/Service/components/KPIList';
 import Heading from 'in-map/components/stickyNotes/logical/Service/components/Heading';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
-import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { showKpi$ } from 'in-map/stores/logical/servicesStore';
-import { getClusterMembers } from 'in-stores/clusterMembers';
 import { emptyArray } from 'in-services/fixedObjects';
 
 import connectTo from 'in-hoc/connectTo';
@@ -23,8 +19,7 @@ export default createStickyNote(
   connectTo(
     props => {
       return {
-        children: combineLatest([getClusterMembers(props.id), searchMatches$]).map(([children, searchMatches]) =>
-          children.filter(child => !searchMatches || searchMatches.contains(child))),
+        serviceInstances: props.eventEmitter.on('serviceInstancesChanged'),
         showKpi: showKpi$.distinct()
       };
     },
@@ -34,9 +29,9 @@ export default createStickyNote(
       mixins: [PureRenderMixin],
 
       propTypes: {
+        serviceInstances: rpt.array,
         id: rpt.string.isRequired,
         wrapper: rpt.object,
-        children: irpt.set,
         showKpi: rpt.bool
       },
 
@@ -51,8 +46,8 @@ export default createStickyNote(
         const isExpanded = this.state.expanded;
         this.props.wrapper.style.zIndex = isExpanded || this.state.kpisAreExpanded ? 1 : 0;
 
-        const children = this.props.children || emptyArray;
-        const childrenAreAvailable = children && children.size > 0;
+        const serviceInstances = this.props.serviceInstances || emptyArray;
+        const childrenAreAvailable = serviceInstances && serviceInstances.length > 0;
 
         let contentClassName = block;
         if (isExpanded) {
@@ -65,12 +60,11 @@ export default createStickyNote(
 
             <Heading expanded={isExpanded}
               snapshotId={this.props.id}
-              onClick={() => this.setState({ expanded: !this.state.expanded })}
-            >
-              {children}
+              onClick={() => this.setState({ expanded: !this.state.expanded })}>
+              {serviceInstances}
             </Heading>
 
-            {isExpanded && childrenAreAvailable ? <ServiceInstanceList ids={children} /> : null}
+            {isExpanded && childrenAreAvailable ? <ServiceInstanceList serviceInstances={serviceInstances} /> : null}
           </div>
         );
       },

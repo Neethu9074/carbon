@@ -20,7 +20,7 @@ function Icon({children, snapshot, highlighted, expanded, onClick}) {
     return null;
   }
 
-  const childrenAreAvailable = children && children.size > 0;
+  const childrenAreAvailable = children && children.length > 0;
 
   let headerClassName = block;
   if (highlighted || expanded) {
@@ -31,7 +31,7 @@ function Icon({children, snapshot, highlighted, expanded, onClick}) {
     ? (
       <div className={headerClassName}
            onClick={onClick}>
-        {getLabel(snapshot) + ' (' + children.size + ')'}
+        {getLabel(snapshot) + ' (' + children.length + ')'}
         <ExpandIcon expanded={expanded} />
       </div>
     )
