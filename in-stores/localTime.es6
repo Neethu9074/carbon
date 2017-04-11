@@ -1,6 +1,5 @@
 import {create} from 'reactive-observables';
 
-import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {createTrackingStore} from 'in-stores/store';
 
 // EXPLICITLY USING A TIMEOUT TO AVOID EVENT LOOP CONGESTION.

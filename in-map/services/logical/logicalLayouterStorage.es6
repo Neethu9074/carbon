@@ -1,12 +1,10 @@
 import {PERSIST_LOGICAL_SERVICE_POSITIONS, SERVICE_POSITION_STORAGE_TTL} from 'in-map/misc/TimingConfig';
 import {nodePositions$, changePosition, removeId} from 'in-map/stores/logical/layouterStore';
-import {setTimeout, clearTimeout} from 'in-services/chronos';
-
 
 const layoutingPath = 'in-layouting';
 
 nodePositions$.distinct()
-              .debounce(PERSIST_LOGICAL_SERVICE_POSITIONS, {setTimeout, clearTimeout})
+              .debounce(PERSIST_LOGICAL_SERVICE_POSITIONS)
               .subscribe(nodes => save(nodes));
 
 function save(nodes) {

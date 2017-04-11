@@ -3,7 +3,6 @@ import React from 'react';
 import {controls$} from 'in-components/MapOverlayControls/stores/controlsStore';
 import {timelineHeight$} from 'in-components/timeline/timelineStore';
 import Menu from 'in-components/MapOverlayControls/components/Menu';
-import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {isWebVRActive$} from 'in-map/stores/webVRStore';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -14,7 +13,7 @@ import 'in-components/MapOverlayControls/MapOverlayControls.less';
 const block = 'in-map-overlaycontrols';
 
 export default connectTo({
-  isWebVRActive: isWebVRActive$.debounce(1000, {setTimeout, clearTimeout}),
+  isWebVRActive: isWebVRActive$.debounce(1000),
   timelineHeight: timelineHeight$,
   controls: controls$
 },

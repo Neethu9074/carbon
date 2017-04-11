@@ -9,7 +9,7 @@ export function onWheel(domElement, callback) {
     getIn(['map', 'scrollSpeed']),
     getIn(['map', 'scrollDirection']),
     on(domElement, 'wheel', {passive: true})
-      .throttle(50, {setTimeout, clearTimeout})
+      .throttle(50)
   ])
   .subscribe(props => {
     const event = props[2];

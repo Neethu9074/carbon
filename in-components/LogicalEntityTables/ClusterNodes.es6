@@ -17,7 +17,7 @@ export default function ClusterNodes({snapshotId, timeframe}) {
                                     .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id))))
 
                                     // throttle because of massive snapshot updates which would produce a rerender/call
-                                    .throttle(1000, {setTimeout, clearTimeout})
+                                    .throttle(1000)
                                   }
                         createDetails={createDetails} />
   );

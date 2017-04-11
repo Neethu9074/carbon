@@ -2,7 +2,6 @@ import React from 'react';
 
 import {ClickableSnapshotListItem, ClickableList} from 'in-sdk/components/sidebar/ClickableList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import {setTimeout, clearTimeout} from 'in-services/chronos';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import PluginIcon from 'in-components/PluginIcon';
 import {getSnapshots} from 'in-stores/snapshot';
@@ -19,7 +18,7 @@ export default connectTo(props => {
   return {
     // on large numbers, the component will be drawn multiple time a sec which leads to a hanging UI.
     // to avoid this, debounce the stream to give the UI enough time to render stuff.
-    snapshots: getSnapshots(props.snapshotIds).debounce(1000, {setTimeout, clearTimeout})
+    snapshots: getSnapshots(props.snapshotIds).debounce(1000)
   };
 },
 function RelatedSnapshotList({initiallyOpen, onRenderItem, snapshots}) {

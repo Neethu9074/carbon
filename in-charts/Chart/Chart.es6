@@ -10,7 +10,6 @@ import createApplyTimeButton from 'in-charts/Chart/applyTimeButton';
 import createAxisController from 'in-charts/Chart/controller/axis';
 import createBorderRenderer from 'in-charts/Chart/renderer/border';
 import createDomController from 'in-charts/Chart/controller/dom';
-import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {toServerTime} from 'in-stores/timeOffset';
 import {getIn} from 'in-services/settings';
 
@@ -78,7 +77,7 @@ export default function createChart(config) {
 
   function addTooltipSupport() {
     config.subscriptions.push(highlightedMoment$
-      .throttle(20, {setTimeout, clearTimeout})
+      .throttle(20)
       .subscribe(onHighlightedMomentChange));
 
     config.subscriptions.push(
@@ -162,7 +161,7 @@ export default function createChart(config) {
   function addWindowResizeSupport() {
     config.subscriptions.push(
       on(window, 'resize')
-      .debounce(500, {setTimeout, clearTimeout})
+      .debounce(500)
       .subscribe(onResize));
   }
 

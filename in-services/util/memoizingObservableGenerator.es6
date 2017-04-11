@@ -1,5 +1,3 @@
-import {setTimeout, clearTimeout} from 'in-services/chronos';
-
 export default function memoize(createObservable, idGenerator, tti = 10000) {
   const cache = {};
 

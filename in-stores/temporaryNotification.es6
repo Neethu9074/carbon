@@ -1,4 +1,3 @@
-import {setTimeout, clearTimeout} from 'in-services/chronos';
 import {formatDateTime} from 'in-services/formatters/date';
 import {focusedMoment$} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
@@ -19,7 +18,7 @@ export function clearTemporaryNotification() {
 
 // automatically clear temporary notifications after 6 seconds
 temporaryNotification$
-  .debounce(3000, {setTimeout, clearTimeout, leading: false})
+  .debounce(3000, {leading: false})
   .subscribe(notification => {
     if (!notification) {
       return;

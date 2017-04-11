@@ -23,7 +23,6 @@ import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
 import { CONNECTIONS_COLLISION_MESH_UPDATE } from 'in-map/misc/TimingConfig';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
-import {setTimeout, clearTimeout} from 'in-services/chronos';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -98,7 +97,7 @@ export default class Connection extends SceneObject {
         .on('changePosition')
         .subscribe(fromTo => this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
 
-      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE, {setTimeout, clearTimeout}).subscribe(fromTo => {
+      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE).subscribe(fromTo => {
         this.disposeCollisionLine();
         this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
       }),

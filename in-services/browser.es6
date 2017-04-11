@@ -1,9 +1,7 @@
 import {create, on} from 'reactive-observables';
 
-import {setTimeout, clearTimeout} from 'in-services/chronos';
-
 export const resize$ = create();
-export const debouncedResize$ = resize$.debounce(300, {setTimeout, clearTimeout});
+export const debouncedResize$ = resize$.debounce(300);
 
 export function init() {
   const browser = getBrowser();

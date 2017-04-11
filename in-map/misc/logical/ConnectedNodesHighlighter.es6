@@ -16,7 +16,7 @@ export default class ConnectedNodesHighlighter {
       highlightedEntityId$,
       connections.stream
     ])
-    .throttle(CONNECTED_HIGHLIGHTING_CHECK, {setTimeout, clearTimeout})
+    .throttle(CONNECTED_HIGHLIGHTING_CHECK)
     .subscribe(([selectedId, highlightedEntityId, connections]) => {
       if (!highlightedEntityId && !selectedId) {
         clearIds();
