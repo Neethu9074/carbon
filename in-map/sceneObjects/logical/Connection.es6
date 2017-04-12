@@ -95,6 +95,7 @@ export default class Connection extends SceneObject {
         this.addOffsetIfBidirectional(from, to);
 
         updateLogicalCollisionMesh(this.collisionLine, from, to);
+        this.getComponent('particles').setFromAndTo(from, to);
         this.eventEmitter.emit('positionChanged', getCenterPosition(from, to));
       }),
 

@@ -10,13 +10,9 @@ export default class ParticleEmitterComponent extends SceneObjectComponent {
     this.particleEmitter = new ParticleEmitter(sceneObject);
   }
 
-  initEvents() {
-    super.initEvents();
-
-    this.addSubscription(this.sceneObject.eventEmitter.on('changePosition').subscribe(fromTo => {
-      this.particleEmitter.setFromAndTo(fromTo.from, fromTo.to);
-      this.particleEmitter.updateVertices();
-    }));
+  setFromAndTo(from, to) {
+    this.particleEmitter.setFromAndTo(from, to);
+    this.particleEmitter.updateVertices();
   }
 
   dispose() {
