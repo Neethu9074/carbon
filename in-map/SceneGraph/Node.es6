@@ -70,14 +70,10 @@ export default class Node extends Subscriber {
   }
 
   disposeChildren() {
-    const nodesToDelete = [];
-    let indexOfDeletedNodes = 0;
     for(let nodeId in this.children) {
-      nodesToDelete[indexOfDeletedNodes++] = nodeId;
+      this.children[nodeId].dispose();
     }
-    for (let i = 0, length = nodesToDelete.length; i < length; i++) {
-      this.removeChild(nodesToDelete[i]);
-    }
+    this.children = {};
   }
 
   dispose() {
