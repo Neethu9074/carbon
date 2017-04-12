@@ -11,9 +11,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const errorPages = require('./errorPages.js');
 const serverConfig = require('./serverConfig.js');
-
 const assetRoutes = require('./routes/assets');
 const indexRoutes = require('./routes/index');
+require('./admin');
 
 const app = express();
 
