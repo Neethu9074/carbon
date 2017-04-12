@@ -12,3 +12,9 @@ export const eumStatisticsEnabled = onlyInternally;
 export const logViewEnabled = onlyInternally;
 export const objectivesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
+
+// Charts will hide small gaps in timeseries data to account for infrastructure hiccups and delays.
+// For example, the following configuration will hide up to 2.3s of missing data points.
+// rollup = 1s
+// allowedMultiplesOfRollupSizeMissingInCharts = 2.3
+export const allowedMultiplesOfRollupSizeMissingInCharts = config.tenant === 'edmunds' ? 50 : 2.3;

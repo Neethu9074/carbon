@@ -5,6 +5,7 @@ import {highlightedMoment$, clearHighlightedMoment, setHighlightedMoment} from '
 import createHighlightedTimeframeRenderer from 'in-charts/Chart/renderer/highlightedTimeframe';
 import createAnimatableContentRenderer from 'in-charts/Chart/renderer/animatableContent';
 import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
+import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
 import createTooltipRenderer from 'in-charts/Chart/renderer/tooltip';
 import createApplyTimeButton from 'in-charts/Chart/applyTimeButton';
 import createAxisController from 'in-charts/Chart/controller/axis';
@@ -242,7 +243,7 @@ export default function createChart(config) {
 
     // The next expected point is the point at we which we would expect a next data point
     // to exist. We add a small margin to this to account for errors and delays.
-    const expectedNextPoint = config.scales.x.getDomainFrom() + config.rollup * 2.3;
+    const expectedNextPoint = config.scales.x.getDomainFrom() + config.rollup * allowedMultiplesOfRollupSizeMissingInCharts;
     const maxDistanceBetweenPoints = config.scales.x.getRange(expectedNextPoint) - config.scales.x.getRangeFrom();
     config.maxDistanceBetweenPoints = maxDistanceBetweenPoints;
   }
