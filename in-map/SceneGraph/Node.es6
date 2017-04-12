@@ -1,6 +1,5 @@
 import Subscriber from 'in-map/misc/Subscriber';
 
-
 export default class Node extends Subscriber {
 
   constructor({InstanceType, params}) {
@@ -22,11 +21,7 @@ export default class Node extends Subscriber {
   }
 
   addChild(NodeType, params) {
-    const child = this.children[params.id];
-    if (!child) {
-      this.children[params.id] = new NodeType(params);
-    }
-    // don't create child if it's already there
+    this.children[params.id] = new NodeType(params);
   }
 
   removeChild(id) {
@@ -39,27 +34,24 @@ export default class Node extends Subscriber {
 
   update() {}
 
-  updateEntities(entities) {
-    const currentNodesMap = {};
-    const currentNodes = [];
-    for (let i = 0, length = entities.length; i < length; i++) {
-      const entity = entities[i];
-      currentNodesMap[entity.params.id] = entity;
-      currentNodes.push(entity);
+  updateEntities(newNodes) {
+    const newNodesMap = {};
+    for (let i = 0, length = newNodes.length; i < length; i++) {
+      const entity = newNodes[i];
+      newNodesMap[entity.params.id] = entity;
     }
 
-    // remove nodes, which are not in the entity list anymore
-    const oldNodesMap = Object.keys(this.children);
-    for (let i = 0, length = oldNodesMap.length; i < length; i++) {
-      const nodeId = oldNodesMap[i];
-      if (!currentNodesMap[nodeId]) {
+    const currentNodes = Object.keys(this.children);
+    for (let i = 0, length = currentNodes.length; i < length; i++) {
+      const nodeId = this.children[currentNodes[i]];
+      if (!newNodesMap[nodeId]) {
         this.removeChild(nodeId);
       }
     }
 
     // update or create nodes
-    for (let i = 0, length = currentNodes.length; i < length; i++) {
-      const entity = currentNodes[i];
+    for (let i = 0, length = newNodes.length; i < length; i++) {
+      const entity = newNodes[i];
       const existingChild = this.children[entity.params.id];
 
       // create or update node
