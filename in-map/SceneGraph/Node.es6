@@ -41,12 +41,15 @@ export default class Node extends Subscriber {
       newNodesMap[entity.params.id] = entity;
     }
 
-    const currentNodes = Object.keys(this.children);
-    for (let i = 0, length = currentNodes.length; i < length; i++) {
-      const nodeId = this.children[currentNodes[i]];
+    const nodesToDelete = [];
+    let indexOfDeletedNodes = 0;
+    for(let nodeId in this.children) {
       if (!newNodesMap[nodeId]) {
-        this.removeChild(nodeId);
+        nodesToDelete[indexOfDeletedNodes++] = nodeId;
       }
+    }
+    for (let i = 0, length = nodesToDelete.length; i < length; i++) {
+      this.removeChild(nodesToDelete[i]);
     }
 
     // update or create nodes
@@ -67,9 +70,13 @@ export default class Node extends Subscriber {
   }
 
   disposeChildren() {
-    const currentChildren = Object.keys(this.children);
-    for (let i = 0, length = currentChildren.length; i < length; i++) {
-      this.removeChild(currentChildren[i]);
+    const nodesToDelete = [];
+    let indexOfDeletedNodes = 0;
+    for(let nodeId in this.children) {
+      nodesToDelete[indexOfDeletedNodes++] = nodeId;
+    }
+    for (let i = 0, length = nodesToDelete.length; i < length; i++) {
+      this.removeChild(nodesToDelete[i]);
     }
   }
 
