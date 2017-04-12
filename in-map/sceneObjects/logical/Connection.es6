@@ -11,8 +11,9 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import {
   shortenPathAtSourceAndDestination,
-  calculateLogicalCollisionMesh,
+  updateLogicalCollisionMesh,
   addArrowToDestination,
+  logicalCollisionMesh,
   getCenterPosition,
   getOffsetVectors,
   intersects,
@@ -50,6 +51,7 @@ export default class Connection extends SceneObject {
     });
 
     this.ghostConncetionSpawner = new GhostConncetionSpawner(this);
+    this.collisionLine = logicalCollisionMesh();
   }
 
   initComponents() {
@@ -98,8 +100,7 @@ export default class Connection extends SceneObject {
         .subscribe(fromTo => this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
 
       this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE).subscribe(fromTo => {
-        this.disposeCollisionLine();
-        this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
+        updateLogicalCollisionMesh(this.collisionLine, fromTo.from, fromTo.to);
       }),
 
       combineLatest([
@@ -166,13 +167,6 @@ export default class Connection extends SceneObject {
     return intersects(raycaster, this.collisionLine);
   }
 
-  disposeCollisionLine() {
-    if (this.collisionLine) {
-      this.collisionLine.geometry.dispose();
-      this.collisionLine = null;
-    }
-  }
-
   addOffsetIfBidirectional(from, to) {
     if (this.isBidirectional) {
       const offset = getOffsetVectors(from, to);
@@ -191,7 +185,8 @@ export default class Connection extends SceneObject {
     connections.remove(this.id);
 
     this.ghostConncetionSpawner.dispose();
-    this.disposeCollisionLine();
+    this.collisionLine.geometry.dispose();
+    this.collisionLine = null;
 
     this.lineContentProvider = null;
     this.destinationNode = null;

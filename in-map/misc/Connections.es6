@@ -1,9 +1,9 @@
-import {Line, BufferGeometry, MeshBasicMaterial, Vector3} from 'in-map/3DLibProvider';
+import {Line, BufferGeometry, LineBasicMaterial, Vector3} from 'in-map/3DLibProvider';
 import {updateAttribute} from 'in-map/services/geometryAttributes';
 import {UP} from 'in-map/misc/fixedVectors';
 
 
-const COLLISION_LINE_MATERIAL = new MeshBasicMaterial();
+const COLLISION_LINE_MATERIAL = new LineBasicMaterial();
 
 export function getManhattanPath(fromX, fromY, toX, toY) {
   const p0 = new Vector3(fromX, 0, fromY);
@@ -125,19 +125,30 @@ export function getCenterPosition(from, to) {
   };
 }
 
-export function calculateLogicalCollisionMesh(from, to) {
-  const geometry = new BufferGeometry();
-  updateAttribute(geometry, 'position', [
+export function updateLogicalCollisionMesh(collisionLine, from, to) {
+  updateAttribute(collisionLine.geometry, 'position', [
     from.x, from.y, from.z,
     to.x, to.y, to.z
   ]);
-  return new Line(geometry, COLLISION_LINE_MATERIAL);
 }
 
-export function calculatePhysicalCollisionMesh(from, to) {
+export function logicalCollisionMesh() {
   const geometry = new BufferGeometry();
-  updateAttribute(geometry, 'position', flatten(getManhattanPath(from.x, from.z, to.x, to.z)));
-  return new Line(geometry, COLLISION_LINE_MATERIAL);
+  const line = new Line(geometry, COLLISION_LINE_MATERIAL);
+  line.frustumCulled = false;
+  return line;
+}
+
+export function physicalCollisionMesh() {
+  const geometry = new BufferGeometry();
+  const line = new Line(geometry, COLLISION_LINE_MATERIAL);
+  line.frustumCulled = false;
+  return line;
+}
+
+export function updatePhysicalCollisionMesh(collisionLine, from, to) {
+  const vertices = flatten(getManhattanPath(from.x, from.z, to.x, to.z));
+  updateAttribute(collisionLine.geometry, 'position', vertices);
 }
 
 export function intersects(raycaster, collisionLine) {
