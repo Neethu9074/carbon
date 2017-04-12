@@ -14,19 +14,23 @@ export default class MapNode extends Node {
         const includedIds = structure.includedIds;
         const groups = structure.viewStructure.children;
 
-        this.updateEntities(groups
-          .filter(entity => includedIds.groupIds[entity.id])
-          .map(entity => {
-            return {
+        const filteredGroups = [];
+        let filteredGroupsIndex = 0;
+        for (let i = 0, length = groups.length; i < length; i++) {
+          const group = groups[i];
+          if (includedIds.groupIds[group.id]) {
+            filteredGroups[filteredGroupsIndex++] = {
               NodeType: GroupNode,
               params: {
-                id: entity.id,
-                entity,
+                id: group.id,
+                entity: group,
                 includedIds
               }
             };
-          })
-        );
+          }
+        }
+
+        this.updateEntities(filteredGroups);
       })
     );
   }

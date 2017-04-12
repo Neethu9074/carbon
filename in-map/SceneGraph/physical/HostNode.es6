@@ -56,19 +56,26 @@ export default class HostNode extends Node {
   }
 
   addLayer() {
-    this.updateEntities(this.entity.children
-      .filter(entity => this.includedIds.layerIds[entity.id])
-      .map(entity => {
-        return {
+    const includedIds = this.includedIds;
+    const layers = this.entity.children;
+
+    const filteredLayer = [];
+    let filteredLayerIndex = 0;
+    for (let i = 0, length = layers.length; i < length; i++) {
+      const layer = layers[i];
+      if (includedIds.layerIds[layer.id]) {
+        filteredLayer[filteredLayerIndex++] = {
           NodeType: LayerNode,
           params: {
-            id: entity.id,
-            entity,
+            id: layer.id,
+            entity: layer,
             node: this.sceneObjectInstance
           }
         };
-      })
-    );
+      }
+    }
+
+    this.updateEntities(filteredLayer);
   }
 
   update(oldParams, newParams) {
