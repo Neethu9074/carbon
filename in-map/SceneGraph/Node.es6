@@ -35,6 +35,12 @@ export default class Node extends Subscriber {
   update() {}
 
   updateEntities(newNodes) {
+    // edge case tweak: if there are no new children, remove all what is left
+    if (newNodes.length === 0) {
+      this.disposeChildren();
+      return;
+    }
+
     const newNodesMap = {};
     for (let i = 0, length = newNodes.length; i < length; i++) {
       const entity = newNodes[i];
