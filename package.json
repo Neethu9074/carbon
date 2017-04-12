@@ -19,7 +19,8 @@
     "check-bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"in-*/**/*.es6\"",
-    "precommit": "yarn run test:unit && lint-staged"
+    "check-yarn-lock-exists": "./build/precommit/checkYarnLock.js",
+    "precommit": "yarn run check-yarn-lock-exists && yarn run test:unit && lint-staged"
   },
   "lint-staged": {
     "*.es6": [
@@ -55,10 +56,10 @@
     "markdown-it-link-target": "^1.0.1",
     "moment": "^2.14.1",
     "prismjs": "^1.5.1",
-    "react": "^15.3.1",
-    "react-addons-perf": "^15.3.1",
-    "react-addons-pure-render-mixin": "^15.3.1",
-    "react-addons-shallow-compare": "^15.4.2",
+    "react": ">=15.4.0 <15.5.0",
+    "react-addons-perf": ">=15.4.0 <15.5.0",
+    "react-addons-pure-render-mixin": ">=15.4.0 <15.5.0",
+    "react-addons-shallow-compare": ">=15.4.0 <15.5.0",
     "react-codemirror": "0.2.6",
     "react-day-picker": "^2.4.1",
     "react-dom": "^15.3.1",
