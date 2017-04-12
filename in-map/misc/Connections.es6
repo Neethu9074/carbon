@@ -81,8 +81,9 @@ export function addArrowToDestination(path) {
   const to = path[path.length - 2];
   const arrowGeometry = getArrowGeometry(from, getNormalizedDirectionForPoints(from, to));
 
+  const endOfPathArray = path.length;
   for (let i = 0; i < arrowGeometry.length; i++) {
-    path.push(arrowGeometry[i]);
+    path[endOfPathArray + i] = arrowGeometry[i];
   }
 
   return path;
@@ -111,8 +112,11 @@ function getArrowGeometry(position, dir) {
 export function flatten(path) {
   const flattenedPath = [];
   for (let i = 0, length = path.length; i < length; i++) {
+    const indexInPathArray = i * 3;
     const position = path[i];
-    flattenedPath.push(position.x, position.y, position.z);
+    flattenedPath[indexInPathArray] = position.x;
+    flattenedPath[indexInPathArray + 1] = position.y;
+    flattenedPath[indexInPathArray + 2] = position.z;
   }
   return flattenedPath;
 }
