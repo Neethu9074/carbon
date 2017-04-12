@@ -21,9 +21,9 @@ import {
 } from 'in-map/misc/Connections';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
-import { CONNECTIONS_COLLISION_MESH_UPDATE } from 'in-map/misc/TimingConfig';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
+import {LOGICAL_CONNECTION_REACTION} from 'in-map/misc/TimingConfig';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -87,20 +87,15 @@ export default class Connection extends SceneObject {
         this.sourceNode.eventEmitter.on('positionChanged'),
         this.destinationNode.eventEmitter.on('positionChanged'),
         this.eventEmitter.on('isBidirectionalChanged')
-      ]).subscribe(([from, to]) => {
+      ])
+      .debounce(LOGICAL_CONNECTION_REACTION)
+      .subscribe(([from, to]) => {
         from = from.clone();
         to = to.clone();
         this.addOffsetIfBidirectional(from, to);
 
-        this.eventEmitter.emit('changePosition', { from, to });
-      }),
-
-      this.eventEmitter
-        .on('changePosition')
-        .subscribe(fromTo => this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
-
-      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE).subscribe(fromTo => {
-        updateLogicalCollisionMesh(this.collisionLine, fromTo.from, fromTo.to);
+        updateLogicalCollisionMesh(this.collisionLine, from, to);
+        this.eventEmitter.emit('positionChanged', getCenterPosition(from, to));
       }),
 
       combineLatest([
