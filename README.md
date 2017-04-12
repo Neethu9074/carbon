@@ -43,6 +43,12 @@ You need to edit the `.npmrc` file according to the comments contained within th
 Make sure that you have Git and cURL installed before starting with the following instructions. Execute the instructions in the root directory of the ui-client project.
 
 ```
+# ensure that you have build and compiler tools available on your system:
+# ubuntu
+sudo apt-get build-essential
+# os x
+xcode-select --install
+
 # download and install NVM
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
 
