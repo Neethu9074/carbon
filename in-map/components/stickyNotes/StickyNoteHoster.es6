@@ -12,14 +12,17 @@ export default connectTo(
       return null;
     }
 
+    const stickyComponents = [];
+    let stickyComponentsIndex = 0;
+    for(let key in stickies) {
+      const stickyDefinition = stickies[key];
+      const StickyNote = stickyDefinition.type;
+      stickyComponents[stickyComponentsIndex++] = <StickyNote key={key} id={key} {...stickyDefinition.props} />;
+    }
+
     return (
       <div>
-        {Object.keys(stickies).map(key => {
-          const stickyDefinition = stickies[key];
-          const StickyNote = stickyDefinition.type;
-
-          return <StickyNote key={key} id={key} {...stickyDefinition.props} />;
-        })}
+        {stickyComponents}
       </div>
     );
   }
