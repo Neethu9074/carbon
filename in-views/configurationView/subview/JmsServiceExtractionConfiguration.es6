@@ -43,7 +43,7 @@ const matchSpecificationOptions = {
 
 export default function JmsServiceExtractionConfiguration() {
   return (
-    <GenericServiceExtractionConfiguration ruleType='jms'
+    <GenericServiceExtractionConfiguration ruleType='messagebroker'
                                            title='JMS Service Extraction Rules'
                                            helpTexts={helpTexts}
                                            matchSpecificationOptionsTree={matchSpecificationOptionsTree}
