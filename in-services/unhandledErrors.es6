@@ -52,6 +52,7 @@ function showUnhandledErrorMessage(e) {
           icon: 'error',
           content: (
             <p>
+              <strong>This message is only visible for Instana employees!</strong>{' '}
               An unhandled error occured. Please report this error and how you produced it. Error message: {e.message}
             </p>
           )
