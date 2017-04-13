@@ -5,22 +5,22 @@
   "main": "index.js",
   "license": "UNLICENSED",
   "scripts": {
-    "postinstall": "./build/postInstall",
     "clean": "gulp clean",
     "build": "export BUILD_DEV='false' && gulp build",
     "try-build": "export BUILD_DEV='false' && gulp try-build",
     "test": "yarn run test:unit && yarn run test:lint",
     "test:lint": "eslint --ext .es6 in-* gulpfile.js",
     "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
+    "check:updates": "ncu",
+    "check:licenses": "license-checker > licenses.txt",
+    "check:bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
+    "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
     "dev": "export BUILD_DEV='true' && export NODE_ENV='development' && gulp dev",
     "translateIconRegistry": "node in-components/SvgIcon/registryTranslator.js",
-    "check-updates": "ncu",
-    "check-licenses": "license-checker > licenses.txt",
-    "check-bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"in-*/**/*.es6\"",
-    "check-yarn-lock-exists": "./build/precommit/checkYarnLock.js",
-    "precommit": "yarn run check-yarn-lock-exists && yarn run test:unit && lint-staged"
+    "postinstall": "./build/postInstall",
+    "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && lint-staged"
   },
   "lint-staged": {
     "*.es6": [
