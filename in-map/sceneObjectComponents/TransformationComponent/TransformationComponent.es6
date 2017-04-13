@@ -55,6 +55,27 @@ export default class TransformationComponent extends SceneObjectComponent {
     requestRendering();
   }
 
+  setTransform(position, scale) {
+    this.setTransformXYZ(position.x, position.y, position.z, scale.x, scale.y, scale.z);
+  }
+
+  setTransformXYZ(px, py, pz, sx, sy, sz) {
+    const position = this.transform.position;
+    const scale = this.transform.scale;
+    if (position.x === px &&
+        position.y === py &&
+        position.z === pz &&
+        scale.x === sx &&
+        scale.y === sy &&
+        scale.z === sz) {
+      return;
+    }
+    position.set(px, py, pz);
+    scale.set(sx, sy, sz);
+    this.emitToClient('transformationChanged', this.transform);
+    requestRendering();
+  }
+
   setScale(newScale) {
     this.setScaleXYZ(newScale.x, newScale.y, newScale.z);
   }

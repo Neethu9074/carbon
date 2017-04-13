@@ -104,5 +104,21 @@ describe('in-map', () => {
       expect(transformChanged.getCall(1).args[0].scale.y).to.equal(10);
       expect(transformChanged.getCall(1).args[0].scale.z).to.equal(1);
     });
+
+    it('should callback transform if the it has changed', () => {
+      expect(transformChanged).to.have.callCount(1);
+
+      component.setTransform({x: 1, y: 2, z: 0}, {x: 2, y: 2, z: 2});
+      expect(transformChanged).to.have.callCount(2);
+      expect(transformChanged.getCall(0).args[0].position.x).to.equal(1);
+      expect(transformChanged.getCall(0).args[0].position.y).to.equal(2);
+      expect(transformChanged.getCall(0).args[0].position.z).to.equal(0);
+      expect(transformChanged.getCall(0).args[0].scale.x).to.equal(2);
+      expect(transformChanged.getCall(0).args[0].scale.y).to.equal(2);
+      expect(transformChanged.getCall(0).args[0].scale.z).to.equal(2);
+
+      component.setTransform({x: 1, y: 2, z: 0}, {x: 2, y: 2, z: 2});
+      expect(transformChanged).to.have.callCount(2);
+    });
   });
 });

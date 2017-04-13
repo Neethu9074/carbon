@@ -90,13 +90,12 @@ export default class NodeMetric extends SceneObject {
         const position = transform.position;
         const scale = transform.scale;
 
-        this.getComponent('transform').setPosition(position);
+        this.getComponent('transform').setTransformXYZ(position.x, position.y, position.z,
+                                                       scale.x * METRIC_MARGIN,
+                                                       scale.y,
+                                                       scale.z * METRIC_MARGIN);
+
         this.sceneObject.position.copy(position);
-
-        this.getComponent('transform').setScaleXYZ(scale.x * METRIC_MARGIN,
-                                                   scale.y,
-                                                   scale.z * METRIC_MARGIN);
-
         this.sceneObject.scale.set(scale.x * METRIC_MARGIN,
                                    scale.y,
                                    scale.z * METRIC_MARGIN);

@@ -10,14 +10,13 @@ import {eventBus} from 'in-map/services/eventBus';
 export default function createLayouter() {
   const layoutingSubscription = currentLayoutingStrategy$
                                   .flatMap(layouting$ =>
-                                    combineLatest([groups.stream,
+                                    combineLatest([groups.stream.debounce(PHYSICAL_LAYOUTING).map(mapGroupsToArray),
                                                    layouting$,
                                                    nodes.stream,
                                                    eventBus.on('layoutNeedsUpdate')])
                                     .debounce(PHYSICAL_LAYOUTING)
                                     .map(([_groups, layoutStrategy]) => {
-                                      const config = layoutStrategy.config;
-                                      config.groups = Object.keys(_groups).map(key => _groups[key]);
+                                      layoutStrategy.config.groups = _groups;
                                       return layoutStrategy;
                                     })
                                   )
@@ -26,6 +25,15 @@ export default function createLayouter() {
   return {
     dispose
   };
+
+  function mapGroupsToArray(_groups) {
+    const groups = [];
+    let groupIndex = 0;
+    for(let key in _groups) {
+      groups[groupIndex++] = _groups[key];
+    }
+    return groups;
+  }
 
   function dispose() {
     layoutingSubscription.dispose();
