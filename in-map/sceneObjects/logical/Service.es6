@@ -161,8 +161,8 @@ export default class Service extends SceneObject {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
         this.getComponent('color').setHex(color);
-      }), this.eventEmitter.on('transformationChanged').subscribe(transform =>
-        changePosition(this.id, transform.position.x, transform.position.y, transform.position.z))]);
+      }), this.eventEmitter.on('positionChanged').subscribe(position =>
+        changePosition(this.id, position.x, position.y, position.z))]);
   }
 
   initialized() {

@@ -5,7 +5,6 @@ const SPEED = 0.1;
 const SCALE = 2;
 
 export default function applyLayout({nodes, edges, storedNodePositions}) {
-
   const sigmaGraph = buildSigmaGraphStructure(nodes, edges, storedNodePositions);
   start(sigmaGraph);
   applyPositionUpdate(sigmaGraph);
