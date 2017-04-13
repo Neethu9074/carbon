@@ -3,6 +3,7 @@
 import ElasticServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/ElasticServiceExtractionConfiguration';
 import HttpServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/HttpServiceExtractionConfiguration';
 import EjbServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/EjbServiceExtractionConfiguration';
+import JmsServiceExtractionConfiguration from 'promise?global,configView!in-views/configurationView/subview/JmsServiceExtractionConfiguration';
 import UserManagement from 'promise?global,configView!in-views/configurationView/subview/UserManagement/UserManagement';
 import DeploymentOverview from 'promise?global,internal!in-views/internal/DeploymentOverview/DeploymentOverview';
 import RolesConfig from 'promise?global,configView!in-views/configurationView/subview/RolesConfig/RolesConfig';
@@ -108,6 +109,9 @@ export default (
       <Route component={createAsyncFullscreenOverlayViewComponent(ElasticServiceExtractionConfiguration)}
              path='elasticsearchServiceExtraction'
              windowTitle='Elasticsearch Service Extraction' />
+      <Route component={createAsyncFullscreenOverlayViewComponent(JmsServiceExtractionConfiguration)}
+             path='jmsServiceExtraction'
+             windowTitle='JMS Service Extraction' />
       <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
              path='userInterface'
              windowTitle='User Interface Settings' />
