@@ -1,11 +1,11 @@
 import { combineLatest, create } from 'reactive-observables';
 
+import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
 import createRawEventsObservable from 'in-services/subscription/rawEvents';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import { setIsLoading } from 'in-views/eventView/stores/isLoadingStore';
 import { autoUpdate$ } from 'in-views/eventView/stores/autoUpdate';
 import { debouncedQuery$ as query$ } from 'in-stores/search/query';
-import { timeframe$, from$, to$ } from 'in-stores/timeline';
 import { sortBy$ } from 'in-views/eventView/stores/sortBy';
 import { emptyArray } from 'in-services/fixedObjects';
 import { createStore } from 'in-stores/store';
@@ -20,6 +20,7 @@ let loadSubscription;
 // hits refresh (or via auto refresh).
 let maxTimestamp;
 let minTimestamp;
+let focusedMoment;
 
 let autoUpdateHandle;
 
@@ -51,6 +52,7 @@ export function enable() {
       sortByField = _sortBy;
       refreshStream.emit(true);
     }),
+    focusedMoment$.subscribe(() => refreshStream.emit(true)),
     timeframe$.subscribe(() => refreshStream.emit(true)),
     query$.subscribe(_query => {
       query = _query;
@@ -91,7 +93,8 @@ export function refresh() {
     return;
   }
 
-  combineLatest([to$, from$]).once(([to, from]) => {
+  combineLatest([focusedMoment$, to$, from$]).once(([_focusedMoment, to, from]) => {
+    focusedMoment = _focusedMoment;
     maxTimestamp = to;
     minTimestamp = from;
 
@@ -116,6 +119,7 @@ export function loadMoreRawEvents() {
       : Math.max(minTimestamp, getMaxStartMillis(events, maxTimestamp));
 
     loadSubscription = createRawEventsObservable({
+      time: focusedMoment,
       maxTimestamp: maxTimestampForQuery,
       minTimestamp,
       sortByField,

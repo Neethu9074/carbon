@@ -1,8 +1,8 @@
 import { combineLatest } from 'reactive-observables';
 
+import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
 import { debouncedQuery$ as query$ } from 'in-stores/search/query';
 import { formatDateTime } from 'in-services/formatters/date';
-import { timeframe$, from$, to$ } from 'in-stores/timeline';
 import getLogs from 'in-services/subscription/getLogs';
 import { emptyArray } from 'in-services/fixedObjects';
 import { createStore } from 'in-stores/store';
@@ -17,6 +17,7 @@ let loadSubscription;
 // hits refresh (or via auto refresh).
 let maxTimestamp;
 let minTimestamp;
+let focusedMoment;
 
 let query;
 
@@ -37,6 +38,7 @@ export function enable() {
   subscriptions = [];
 
   subscriptions.push(timeframe$.subscribe(refresh));
+  subscriptions.push(focusedMoment$.subscribe(refresh));
   subscriptions.push(
     query$.subscribe(_query => {
       query = _query;
@@ -62,7 +64,8 @@ export function refresh() {
     return;
   }
 
-  combineLatest([to$, from$]).once(([to, from]) => {
+  combineLatest([focusedMoment$, to$, from$]).once(([_focusedMoment, to, from]) => {
+    focusedMoment = _focusedMoment;
     maxTimestamp = to;
     minTimestamp = from;
 
@@ -84,6 +87,7 @@ export function loadMoreLines() {
     const maxTimestampForQuery = lines.length > 0 ? lines[lines.length - 1].time : maxTimestamp;
     if (maxTimestampForQuery != null) {
       loadSubscription = getLogs({
+        time: focusedMoment,
         maxTimestamp: maxTimestampForQuery,
         minTimestamp,
         query,

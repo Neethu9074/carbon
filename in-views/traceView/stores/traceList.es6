@@ -1,12 +1,12 @@
 import { combineLatest } from 'reactive-observables';
 
+import { timeframe$, from$, to$, focusedMoment$ } from 'in-stores/timeline';
 import { sortDirection$ } from 'in-views/traceView/stores/sortDirection';
 import createTracesObservable from 'in-services/subscription/traces';
 import { debouncedQuery$ as query$ } from 'in-stores/search/query';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
 import { formatDateTime } from 'in-services/formatters/date';
-import { timeframe$, from$, to$ } from 'in-stores/timeline';
 import { sortBy$ } from 'in-views/traceView/stores/sortBy';
 import { createStore } from 'in-stores/store';
 import { getLabel } from 'in-sdk/tracing';
@@ -22,6 +22,7 @@ let autoUpdateHandle;
 // hits refresh (or via auto refresh).
 let maxTimestamp;
 let minTimestamp;
+let focusedMoment;
 
 let sortByField;
 let sortDirection;
@@ -45,6 +46,7 @@ export function enable() {
   clearInterval(autoUpdateHandle);
 
   subscriptions.push(timeframe$.subscribe(refresh));
+  subscriptions.push(focusedMoment$.subscribe(refresh));
   subscriptions.push(
     sortBy$.subscribe(_sortBy => {
       sortByField = _sortBy;
@@ -93,7 +95,8 @@ export function refresh() {
     return;
   }
 
-  combineLatest([to$, from$]).once(([to, from]) => {
+  combineLatest([focusedMoment$, to$, from$]).once(([_focusedMoment, to, from]) => {
+    focusedMoment = _focusedMoment;
     maxTimestamp = to;
     minTimestamp = from;
 
@@ -115,6 +118,7 @@ export function loadMoreTraces() {
     const isAscTsSort = sortByField === 'ts' && sortDirection === 'asc';
     const maxTimestampForQuery = isAscTsSort ? maxTimestamp : getMaxStartMillis(traces, maxTimestamp);
     loadSubscription = createTracesObservable({
+      time: focusedMoment,
       maxTimestamp: maxTimestampForQuery,
       minTimestamp,
       sortByField,
