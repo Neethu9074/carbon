@@ -1,5 +1,3 @@
-import { combineLatest } from 'reactive-observables';
-
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import { MeshBasicMaterial, Mesh } from 'in-map/3DLibProvider';
@@ -25,20 +23,16 @@ export default class CollisionComponent extends SceneObjectComponent {
     const mesh = this.collisionMesh;
 
     this.addSubscription(
-      combineLatest([
-        this.sceneObject.eventEmitter.on('positionChanged'),
-        this.sceneObject.eventEmitter.on('scaleChanged')
-      ]).subscribe(([pos, scale]) => {
-        mesh.position.set(pos.x, pos.y + scale.y / 2, pos.z);
-        mesh.scale.copy(scale);
+      this.sceneObject.eventEmitter.on('transformationChanged').subscribe(transform => {
+        mesh.position.set(transform.position.x, transform.position.y + transform.scale.y / 2, transform.position.z);
+        mesh.scale.copy(transform.scale);
 
         mesh.updateMatrix();
         mesh.updateMatrixWorld();
 
         PhysicsServiceLocator.removeCollisionObject(mesh, this.layerId);
         PhysicsServiceLocator.addCollisionObject(mesh, this.layerId);
-      })
-    );
+      }));
   }
 
   dispose() {

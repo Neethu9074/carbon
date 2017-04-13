@@ -17,8 +17,7 @@ export default class MeshComponent extends SceneObjectComponent {
     const eventEmitter = this.sceneObject.eventEmitter;
 
     this.addSubscriptions([
-      eventEmitter.on('positionChanged').subscribe(() => this.factory.needsUpdate()),
-      eventEmitter.on('scaleChanged').subscribe(() => this.factory.needsUpdate()),
+      eventEmitter.on('transformationChanged').subscribe(() => this.factory.needsUpdate()),
       eventEmitter.on('colorChanged').subscribe(() => this.factory.needsUpdate())
     ]);
   }

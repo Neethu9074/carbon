@@ -28,11 +28,13 @@ if (__DEV__) {
   groups.stream.subscribe(_groups => numGroups = Object.keys(_groups).length);
   services.stream.subscribe(_services => numServices = Object.keys(_services).length);
   nodes.stream.subscribe(_nodes => {
-    const keys = Object.keys(_nodes);
-    numNodes = keys.length;
-
+    numNodes = 0;
     numLayer = 0;
-    keys.forEach(key => numLayer += Object.keys(_nodes[key].layer).length);
+
+    for(let nodeKey in _nodes) {
+      numNodes++;
+      numLayer += Object.keys(_nodes[nodeKey].layer.objects).length;
+    }
   });
   connections.stream.subscribe(_connections => numConnections = Object.keys(_connections).length);
 

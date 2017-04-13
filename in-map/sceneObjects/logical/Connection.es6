@@ -11,8 +11,9 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import {
   shortenPathAtSourceAndDestination,
-  calculateLogicalCollisionMesh,
+  updateLogicalCollisionMesh,
   addArrowToDestination,
+  logicalCollisionMesh,
   getCenterPosition,
   getOffsetVectors,
   intersects,
@@ -20,9 +21,9 @@ import {
 } from 'in-map/misc/Connections';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
-import { CONNECTIONS_COLLISION_MESH_UPDATE } from 'in-map/misc/TimingConfig';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
+import {LOGICAL_CONNECTION_REACTION} from 'in-map/misc/TimingConfig';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -50,6 +51,7 @@ export default class Connection extends SceneObject {
     });
 
     this.ghostConncetionSpawner = new GhostConncetionSpawner(this);
+    this.collisionLine = logicalCollisionMesh();
   }
 
   initComponents() {
@@ -82,24 +84,23 @@ export default class Connection extends SceneObject {
 
     this.addSubscriptions([
       combineLatest([
-        this.sourceNode.eventEmitter.on('positionChanged'),
-        this.destinationNode.eventEmitter.on('positionChanged'),
+        this.sourceNode.eventEmitter.on('transformationChanged'),
+        this.destinationNode.eventEmitter.on('transformationChanged'),
         this.eventEmitter.on('isBidirectionalChanged')
-      ]).subscribe(([from, to]) => {
-        from = from.clone();
-        to = to.clone();
+      ])
+      .debounce(LOGICAL_CONNECTION_REACTION)
+      .subscribe(([fromTransform, toTransform]) => {
+        const from = fromTransform.position.clone();
+        const to = toTransform.position.clone();
         this.addOffsetIfBidirectional(from, to);
 
-        this.eventEmitter.emit('changePosition', { from, to });
-      }),
+        updateLogicalCollisionMesh(this.collisionLine, from, to);
+        this.getComponent('particles').setFromAndTo(from, to);
 
-      this.eventEmitter
-        .on('changePosition')
-        .subscribe(fromTo => this.eventEmitter.emit('positionChanged', getCenterPosition(fromTo.from, fromTo.to))),
-
-      this.eventEmitter.on('changePosition').debounce(CONNECTIONS_COLLISION_MESH_UPDATE).subscribe(fromTo => {
-        this.disposeCollisionLine();
-        this.collisionLine = calculateLogicalCollisionMesh(fromTo.from, fromTo.to);
+        this.eventEmitter.emit('transformationChanged', {
+          position: getCenterPosition(from, to),
+          scale: this.getComponent('transform').getScale()
+        });
       }),
       combineLatest([
         this.eventEmitter.on('healthChanged'),
@@ -164,13 +165,6 @@ export default class Connection extends SceneObject {
     return intersects(raycaster, this.collisionLine);
   }
 
-  disposeCollisionLine() {
-    if (this.collisionLine) {
-      this.collisionLine.geometry.dispose();
-      this.collisionLine = null;
-    }
-  }
-
   addOffsetIfBidirectional(from, to) {
     if (this.isBidirectional) {
       const offset = getOffsetVectors(from, to);
@@ -189,7 +183,8 @@ export default class Connection extends SceneObject {
     connections.remove(this.id);
 
     this.ghostConncetionSpawner.dispose();
-    this.disposeCollisionLine();
+    this.collisionLine.geometry.dispose();
+    this.collisionLine = null;
 
     this.lineContentProvider = null;
     this.destinationNode = null;

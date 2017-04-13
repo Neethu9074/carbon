@@ -5,7 +5,8 @@ import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 
 import {
   shortenPathAtSourceAndDestination,
-  calculatePhysicalCollisionMesh,
+  updatePhysicalCollisionMesh,
+  physicalCollisionMesh,
   addArrowToDestination,
   getManhattanPath,
   intersects,
@@ -28,6 +29,12 @@ export default class Connection extends SceneObject {
     // becuase the id is not part of the connections collection anymore. Since the UI is not interested in connection IDs, but only for collection handling
     // (so no snapshot retrieval, etc.) we can simply make it unique by addind the current timestamp to the id.
     this.uidForMultipleInstanceHandling = `${this.id}__${Date.now()}`;
+  }
+
+  init() {
+    super.init();
+
+    this.collisionLine = physicalCollisionMesh();
   }
 
   initComponents() {
@@ -53,14 +60,14 @@ export default class Connection extends SceneObject {
 
     this.addSubscriptions([
       combineLatest([
-        this.sourceNode.eventEmitter.on('positionChanged'),
-        this.destinationNode.eventEmitter.on('positionChanged')
-      ]).subscribe(([from, to]) => {
-        if (this.collisionLine) {
-          this.collisionLine.geometry.dispose();
-        }
-        this.collisionLine = calculatePhysicalCollisionMesh(from, to);
-        this.eventEmitter.emit('positionChanged', this.getPosition());
+        this.sourceNode.eventEmitter.on('transformationChanged'),
+        this.destinationNode.eventEmitter.on('transformationChanged')
+      ]).subscribe(([fromTransform, toTransform]) => {
+        updatePhysicalCollisionMesh(this.collisionLine, fromTransform.position, toTransform.position);
+        this.eventEmitter.emit('transformationChanged', {
+          position: this.getPosition(),
+          scale: this.getComponent('transform').getScale()
+        });
         requestRendering();
       })
     ]);
@@ -99,10 +106,8 @@ export default class Connection extends SceneObject {
 
     connections.remove(this.uidForMultipleInstanceHandling);
 
-    if (this.collisionLine) {
-      this.collisionLine.geometry.dispose();
-      this.collisionLine = null;
-    }
+    this.collisionLine.geometry.dispose();
+    this.collisionLine = null;
 
     this.lineContentProvider = null;
     this.destinationNode = null;

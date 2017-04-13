@@ -20,20 +20,24 @@ export default connectTo(
       return null;
     }
 
-    const childrenAreAvailable = children && children.size > 0;
+  const childrenAreAvailable = children && children.length > 0;
 
-    let headerClassName = block;
-    if (highlighted || expanded) {
-      headerClassName += ' ' + headerClassName + '--highlighted';
-    }
-
-    return childrenAreAvailable
-      ? <div className={headerClassName} onClick={onClick}>
-          {getLabel(snapshot) + ' (' + children.size + ')'}
-          <ExpandIcon expanded={expanded} />
-        </div>
-      : <div className={headerClassName}>
-          {getLabel(snapshot)}
-        </div>;
+  let headerClassName = block;
+  if (highlighted || expanded) {
+    headerClassName += ' ' + headerClassName + '--highlighted';
   }
-);
+
+  return childrenAreAvailable
+    ? (
+      <div className={headerClassName}
+           onClick={onClick}>
+        {getLabel(snapshot) + ' (' + children.length + ')'}
+        <ExpandIcon expanded={expanded} />
+      </div>
+    )
+    : (
+      <div className={headerClassName}>
+        {getLabel(snapshot)}
+      </div>
+    );
+});

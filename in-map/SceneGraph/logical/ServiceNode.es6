@@ -19,6 +19,11 @@ export default class ServiceNode extends Node {
     this.connectionHandlerNode.createConnections(this.params.entity, servicesAsSceneObjects);
   }
 
+  update(oldParams, newParams) {
+    const serviceInstances = newParams.entity.children;
+    this.sceneObjectInstance.setServiceInstances(serviceInstances.filter(si => newParams.includedIds.serviceInstanceIds[si.id]));
+  }
+
   dispose() {
     this.connectionHandlerNode.dispose();
     this.services = null;

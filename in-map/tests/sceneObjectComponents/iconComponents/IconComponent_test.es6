@@ -48,8 +48,7 @@ describe('in-map', () => {
       expect(factory.add).to.have.callCount(1);
       expect(factory.needsUpdate).to.have.callCount(0);
 
-      sceneObject.eventEmitter.emit('positionChanged', { x: 1, y: 0, z: 2 });
-      sceneObject.eventEmitter.emit('scaleChanged', { x: 1, y: 2, z: 1 });
+      sceneObject.eventEmitter.emit('transformationChanged', { position: {x: 1, y: 0, z: 2}, scale: {x: 1, y: 2, z: 1}});
       expect(factory.needsUpdate).to.have.callCount(1);
 
       expect(getIconPositionCallback).to.have.callCount(1);

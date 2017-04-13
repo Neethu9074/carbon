@@ -34,9 +34,11 @@ export default class RayCasterDecorator extends Decorator {
 
     this.addSubscriptions([
       this.eventEmitter.on('onMouseMoved').subscribe(() => this.handleRayCasting()),
-      connections.stream.subscribe(
-        _connections => this.currentConnections = Object.keys(_connections).map(key => _connections[key])
-      )
+
+      // each time a connection is created, this one fires. To avoid massive Object->Array mappings
+      // debounce this stream
+      connections.stream.debounce(100).subscribe(_connections =>
+        this.currentConnections = Object.keys(_connections).map(key => _connections[key]))
     ]);
   }
 

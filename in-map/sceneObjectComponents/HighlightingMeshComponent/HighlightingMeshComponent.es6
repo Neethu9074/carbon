@@ -18,8 +18,8 @@ export default class HighlightingMeshComponent extends SceneObjectComponent {
     const eventEmitter = this.sceneObject.eventEmitter;
 
     this.addSubscriptions([
-      eventEmitter.on('positionChanged').subscribe(() => factory.needsUpdate()),
-      eventEmitter.on('scaleChanged').subscribe(() => factory.needsUpdate()),
+      eventEmitter.on('transformationChanged').subscribe(() => factory.needsUpdate()),
+
       eventEmitter.on(this.eventToListen).distinct().subscribe(isHighlighted => {
         isHighlighted
           ? factory.add(createFragment(this.id, this.sceneObject, this.contentProvider))

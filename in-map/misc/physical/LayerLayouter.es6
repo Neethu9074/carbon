@@ -11,18 +11,18 @@ export default function createLayouter(node) {
   const fragments = [];
   const factory = getFactory('icons');
 
-  const layerSubscription = combineLatest([
-    node.eventEmitter.on('positionChanged'),
-    node.eventEmitter.on('scaleChanged'),
-    node.layer.stream
-  ])
-    .debounce(LAYER_LAYOUTING)
-    .subscribe(([nodePosition, nodeScale, _layer]) => {
-      const plugins = applyLayout(nodePosition, nodeScale, Object.keys(_layer).map(key => _layer[key]));
-      setupPluginIcons(plugins);
-    });
+  const layerSubscription = combineLatest([node.eventEmitter.on('transformationChanged'),
+                                           node.layer.stream])
+                            .debounce(LAYER_LAYOUTING)
+                            .subscribe(([nodeTransform, _layer]) => {
+                              const plugins = applyLayout(nodeTransform,
+                                                          Object.keys(_layer).map(key => _layer[key]));
+                              setupPluginIcons(plugins);
+                            });
 
-  function applyLayout(nodePosition, nodeScale, _layer) {
+  function applyLayout(nodeTransform, _layer) {
+    const nodePosition = nodeTransform.position;
+    const nodeScale = nodeTransform.scale;
     const numLayer = _layer.length;
     if (numLayer === 0) {
       return {};
@@ -72,9 +72,12 @@ export default function createLayouter(node) {
       }
 
       const transform = layer.getComponent('transform');
-      transform.setScaleXYZ(nodeScale.x * LAYER_MARGIN, heightOfEachLayer * LAYER_MARGIN, nodeScale.z * LAYER_MARGIN);
-
-      transform.setPositionXYZ(nodePosition.x, currentYPosition, nodePosition.z);
+      transform.setTransformXYZ(nodePosition.x,
+                                currentYPosition,
+                                nodePosition.z,
+                                nodeScale.x * LAYER_MARGIN,
+                                heightOfEachLayer * LAYER_MARGIN,
+                                nodeScale.z * LAYER_MARGIN);
 
       currentYPosition += heightOfEachLayer;
     }

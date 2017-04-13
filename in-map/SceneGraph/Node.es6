@@ -20,12 +20,7 @@ export default class Node extends Subscriber {
   }
 
   addChild(NodeType, params) {
-    const child = this.children[params.id];
-    if (!child) {
-      this.children[params.id] = new NodeType(params);
-    }
-
-    // don't create child if it's already there
+    this.children[params.id] = new NodeType(params);
   }
 
   removeChild(id) {
@@ -38,27 +33,33 @@ export default class Node extends Subscriber {
 
   update() {}
 
-  updateEntities(entities) {
-    const currentNodesMap = {};
-    const currentNodes = [];
-    for (let i = 0, length = entities.length; i < length; i++) {
-      const entity = entities[i];
-      currentNodesMap[entity.params.id] = entity;
-      currentNodes.push(entity);
+  updateEntities(newNodes) {
+    // edge case tweak: if there are no new children, remove all what is left
+    if (newNodes.length === 0) {
+      this.disposeChildren();
+      return;
     }
 
-    // remove nodes, which are not in the entity list anymore
-    const oldNodesMap = Object.keys(this.children);
-    for (let i = 0, length = oldNodesMap.length; i < length; i++) {
-      const nodeId = oldNodesMap[i];
-      if (!currentNodesMap[nodeId]) {
-        this.removeChild(nodeId);
+    const newNodesMap = {};
+    for (let i = 0, length = newNodes.length; i < length; i++) {
+      const entity = newNodes[i];
+      newNodesMap[entity.params.id] = entity;
+    }
+
+    const nodesToDelete = [];
+    let indexOfDeletedNodes = 0;
+    for(let nodeId in this.children) {
+      if (!newNodesMap[nodeId]) {
+        nodesToDelete[indexOfDeletedNodes++] = nodeId;
       }
+    }
+    for (let i = 0, length = nodesToDelete.length; i < length; i++) {
+      this.removeChild(nodesToDelete[i]);
     }
 
     // update or create nodes
-    for (let i = 0, length = currentNodes.length; i < length; i++) {
-      const entity = currentNodes[i];
+    for (let i = 0, length = newNodes.length; i < length; i++) {
+      const entity = newNodes[i];
       const existingChild = this.children[entity.params.id];
 
       if (existingChild) {
@@ -73,10 +74,10 @@ export default class Node extends Subscriber {
   }
 
   disposeChildren() {
-    const currentChildren = Object.keys(this.children);
-    for (let i = 0, length = currentChildren.length; i < length; i++) {
-      this.removeChild(currentChildren[i]);
+    for(let nodeId in this.children) {
+      this.children[nodeId].dispose();
     }
+    this.children = {};
   }
 
   dispose() {

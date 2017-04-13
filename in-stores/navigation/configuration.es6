@@ -25,6 +25,10 @@ export const isElasticsearchServiceExtractionConfigurationView$ = buildPathStart
   elasticsearchServiceExtractionConfigViewPath
 );
 
+const jmsServiceExtractionConfigViewPath = '/config/jmsServiceExtraction';
+export const jmsServiceExtractionConfigurationViewLink$ = buildUrlStream({path: jmsServiceExtractionConfigViewPath});
+export const isJmsServiceExtractionConfigurationView$ = buildPathStartsWithStream(jmsServiceExtractionConfigViewPath);
+
 const userInterfaceConfigViewPath = '/config/userInterface';
 export const userInterfaceConfigViewLink$ = buildUrlStream({ path: userInterfaceConfigViewPath });
 export const isUserInterfaceConfigView$ = buildPathStartsWithStream(userInterfaceConfigViewPath);

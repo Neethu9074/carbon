@@ -1,3 +1,4 @@
+import { emptyArray } from 'in-services/fixedObjects';
 import Node from 'in-map/SceneGraph/Node';
 
 export default class ConnectionHandlerNode extends Node {
@@ -9,56 +10,43 @@ export default class ConnectionHandlerNode extends Node {
 
   createConnections(entity, entities) {
     const hostId = entity.id;
-    const outgoing = entity.outgoingConnections || [];
-    const incoming = entity.incomingConnections || [];
+    const outgoing = entity.outgoingConnections || emptyArray;
+    const incoming = entity.incomingConnections || emptyArray;
+    const NodeType = this.connectionNodeType;
     const connections = [];
 
-    outgoing.forEach(entity => {
-      const sourceNode = entities[hostId];
-      const destinationNode = entities[entity.otherId];
-
+    let connectionIndex = 0;
+    function addConnection(entity, sourceNode, destinationNode) {
       if (sourceNode && destinationNode) {
-        connections.push({
-          sourceNode: sourceNode.sceneObjectInstance || sourceNode,
-          destinationNode: destinationNode.sceneObjectInstance || destinationNode,
-          entity
-        });
+        connections[connectionIndex++] = {
+          NodeType,
+          params: {
+            id: entity.id,
+            entity,
+            bidirectional: entity.bidirectional || false,
+            sourceNode: sourceNode.sceneObjectInstance || sourceNode,
+            destinationNode: destinationNode.sceneObjectInstance || destinationNode
+          }
+        };
       }
-    });
+    }
 
-    incoming.forEach(entity => {
-      const sourceNode = entities[entity.otherId];
-      const destinationNode = entities[hostId];
-
-      if (sourceNode && destinationNode) {
-        connections.push({
-          sourceNode: sourceNode.sceneObjectInstance || sourceNode,
-          destinationNode: destinationNode.sceneObjectInstance || destinationNode,
-          entity
-        });
-      }
-    });
+    for (let i = 0, length = outgoing.length; i < length; i++) {
+      const entity = outgoing[i];
+      addConnection(entity, entities[hostId], entities[entity.otherId]);
+    }
+    for (let i = 0, length = incoming.length; i < length; i++) {
+      const entity = incoming[i];
+      addConnection(entity, entities[entity.otherId], entities[hostId]);
+    }
 
     for (let i = 0, length = connections.length; i < length; i++) {
-      this.updateEntities(
-        connections.map(connection => {
-          return {
-            NodeType: this.connectionNodeType,
-            params: {
-              id: connection.entity.id,
-              entity: connection.entity,
-              sourceNode: connection.sourceNode,
-              destinationNode: connection.destinationNode,
-              bidirectional: connection.entity.bidirectional || false
-            }
-          };
-        })
-      );
+      this.updateEntities(connections);
     }
   }
 
   clearConnections() {
-    this.updateEntities([]);
+    this.updateEntities(emptyArray);
   }
 
   dispose() {

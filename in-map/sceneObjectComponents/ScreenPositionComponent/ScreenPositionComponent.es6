@@ -1,5 +1,3 @@
-import { combineLatest } from 'reactive-observables';
-
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import { width, height } from 'in-map/stores/indexStore';
@@ -32,10 +30,11 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
     this.addSubscriptions([
       eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()),
-      combineLatest([eventEmitter.on('positionChanged'), eventEmitter.on('scaleChanged')]).subscribe(([pos, scale]) =>
-        this.set3DPositionToProject(
-          this.get3DPositionToProjectCallback ? this.get3DPositionToProjectCallback(pos, scale) : pos
-        ))
+      eventEmitter.on('transformationChanged').subscribe(transform =>
+        this.set3DPositionToProject(this.get3DPositionToProjectCallback
+                                      ? this.get3DPositionToProjectCallback(transform.position, transform.scale)
+                                      : transform.position)
+      )
     ]);
   }
 

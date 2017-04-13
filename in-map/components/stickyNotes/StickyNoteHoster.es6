@@ -5,21 +5,24 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
-    stickies: stickyNotes.stream.throttle(500)
+    stickies: stickyNotes.stream.debounce(250)
   },
   function StickyNoteHoster({ stickies }) {
     if (!stickies) {
       return null;
     }
 
+    const stickyComponents = [];
+    let stickyComponentsIndex = 0;
+    for(let key in stickies) {
+      const stickyDefinition = stickies[key];
+      const StickyNote = stickyDefinition.type;
+      stickyComponents[stickyComponentsIndex++] = <StickyNote key={key} id={key} {...stickyDefinition.props} />;
+    }
+
     return (
       <div>
-        {Object.keys(stickies).map(key => {
-          const stickyDefinition = stickies[key];
-          const StickyNote = stickyDefinition.type;
-
-          return <StickyNote key={key} id={key} {...stickyDefinition.props} />;
-        })}
+        {stickyComponents}
       </div>
     );
   }

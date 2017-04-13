@@ -38,8 +38,12 @@ export default function applyLayout({ groups }) {
     const dim = groupDimensions[group.id];
 
     const transform = group.getComponent('transform');
-    transform.setPositionXYZ(xOffset + dim.x + dim.width / 2, 0, yOffset - dim.height / 2);
-    transform.setScaleXYZ(dim.width, 1, dim.height);
+    transform.setTransformXYZ(xOffset + dim.x + dim.width / 2,
+                              0,
+                              yOffset - dim.height / 2,
+                              dim.width,
+                              1,
+                              dim.height);
 
     let nodeXCursor = dim.x + 1;
     let nodeYCursor = 1;

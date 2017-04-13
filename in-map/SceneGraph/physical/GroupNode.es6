@@ -9,20 +9,25 @@ export default class GroupNode extends Node {
 
   update(oldParams, newParams) {
     const includedIds = newParams.includedIds;
-    const entity = newParams.entity;
+    const nodes = newParams.entity.children;
 
-    this.updateEntities(
-      entity.children.filter(entity => includedIds.hostIds[entity.id]).map(entity => {
-        return {
+    const filteredNodes = [];
+    let filteredNodesIndex = 0;
+    for (let i = 0, length = nodes.length; i < length; i++) {
+      const node = nodes[i];
+      if (includedIds.hostIds[node.id]) {
+        filteredNodes[filteredNodesIndex++] = {
           NodeType: HostNode,
           params: {
-            id: entity.id,
-            entity,
+            id: node.id,
+            entity: node,
             group: this.sceneObjectInstance,
             includedIds
           }
         };
-      })
-    );
+      }
+    }
+
+    this.updateEntities(filteredNodes);
   }
 }
