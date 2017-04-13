@@ -2,9 +2,9 @@ export default function Packer() {
   let root;
   function fit(blocks) {
     let n, node, block, len = blocks.length;
-    let w = len > 0 ? blocks[0].w : 0;
-    let h = len > 0 ? blocks[0].h : 0;
-    root = { x: 0, y: 0, w: w, h: h };
+    const w = len > 0 ? blocks[0].w : 0;
+    const h = len > 0 ? blocks[0].h: 0;
+    root = { x: 0, y: 0, w, h };
     for (n = 0; n < len ; n++) {
       block = blocks[n];
       node = findNode(root, block.w, block.h);
@@ -47,7 +47,7 @@ export default function Packer() {
     else if (canGrowDown)
       return growDown(w, h);
     else
-      return null; // need to ensure sensible root starting size to avoid this happening
+      return growDown(w, h);
   }
 
   function growRight(w, h) {
