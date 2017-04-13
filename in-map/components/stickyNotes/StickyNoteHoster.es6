@@ -5,7 +5,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
-    stickies: stickyNotes.stream.throttle(500)
+    stickies: stickyNotes.stream.debounce(250)
   },
   function StickyNoteHoster({ stickies }) {
     if (!stickies) {
