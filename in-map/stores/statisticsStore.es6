@@ -31,7 +31,7 @@ if (__DEV__) {
     numNodes = 0;
     numLayer = 0;
 
-    for(let nodeKey in _nodes) {
+    for (let nodeKey in _nodes) {
       numNodes++;
       numLayer += Object.keys(_nodes[nodeKey].layer.objects).length;
     }

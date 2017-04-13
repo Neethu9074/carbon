@@ -152,7 +152,8 @@ export default React.createClass({
 
       const index = state.ruleBindings.findIndex(eachRuleBinding => ruleBindingId === eachRuleBinding.get('id'));
       const newRuleBindings = state.ruleBindings.update(index, modifiableRuleBindings =>
-        modifiableRuleBindings.set('enabled', enabled));
+        modifiableRuleBindings.set('enabled', enabled)
+      );
       return {
         status: state.status,
         ruleBindings: newRuleBindings
@@ -188,7 +189,8 @@ export default React.createClass({
         // roll back the role change
         const index = state.ruleBindings.findIndex(eachRuleBinding => ruleBindingId === eachRuleBinding.get('id'));
         const newRuleBindings = state.ruleBindings.update(index, modifiableRuleBindings =>
-          modifiableRuleBindings.set('enabled', previousEnabled));
+          modifiableRuleBindings.set('enabled', previousEnabled)
+        );
         return {
           status: state.status,
           ruleBindings: newRuleBindings

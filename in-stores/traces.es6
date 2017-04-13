@@ -12,10 +12,12 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 
 export const totalTraceCountNoFiltering$ = timeframe$.flatMap(timeframe =>
-  createTotalTraceCountObservable({ timeframe, query: '' }));
+  createTotalTraceCountObservable({ timeframe, query: '' })
+);
 
 export const totalTraceCountOnlyEum$ = timeframe$.flatMap(timeframe =>
-  createTotalTraceCountObservable({ timeframe, query: ' trace.type:eum' }));
+  createTotalTraceCountObservable({ timeframe, query: ' trace.type:eum' })
+);
 
 // Avoid user visible inconsistencies between counts by calculating the third number.
 // We are calculating it this way because finding EUM traces is cheaper than calculating
@@ -34,7 +36,8 @@ export function getNumberOfTracesStartingAtService(serviceId) {
     createTotalTraceCountObservable({
       timeframe,
       query: `trace.startingAt:"${serviceId}"`
-    }));
+    })
+  );
 }
 
 export function getNumberOfTracesTouchingService(serviceId) {
@@ -42,7 +45,8 @@ export function getNumberOfTracesTouchingService(serviceId) {
     createTotalTraceCountObservable({
       timeframe,
       query: `trace.touchedLogicalService:"${serviceId}"`
-    }));
+    })
+  );
 }
 
 export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
@@ -50,7 +54,8 @@ export function getNumberOfTracesStartingAtServiceInstance(serviceId) {
     createTotalTraceCountObservable({
       timeframe,
       query: `trace.startingAtInstance:"${serviceId}"`
-    }));
+    })
+  );
 }
 
 export function getNumberOfTracesTouchingServiceInstance(serviceId) {
@@ -58,7 +63,8 @@ export function getNumberOfTracesTouchingServiceInstance(serviceId) {
     createTotalTraceCountObservable({
       timeframe,
       query: `trace.touchedServiceInstance:"${serviceId}"`
-    }));
+    })
+  );
 }
 
 export function getNumberOfTracesTouchingServiceOrServiceInstance(id, timeframe) {
@@ -73,7 +79,8 @@ export function getTraceCount(query) {
     createTotalTraceCountObservable({
       timeframe,
       query
-    }));
+    })
+  );
 }
 
 /**

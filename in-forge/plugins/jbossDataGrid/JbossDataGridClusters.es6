@@ -5,9 +5,9 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 
-const formatBoolean = value => value ? 'Yes' : 'No';
-const nullOrFormatBoolean = value => value == null ? null : formatBoolean(value);
-const nullOrMsZeroDecimalPlaces = value => value == null ? null : msZeroDecimalPlaces(value);
+const formatBoolean = value => (value ? 'Yes' : 'No');
+const nullOrFormatBoolean = value => (value == null ? null : formatBoolean(value));
+const nullOrMsZeroDecimalPlaces = value => (value == null ? null : msZeroDecimalPlaces(value));
 
 export default function JbossDataGridClusters({ snapshot }) {
   const data = snapshot.get('data');

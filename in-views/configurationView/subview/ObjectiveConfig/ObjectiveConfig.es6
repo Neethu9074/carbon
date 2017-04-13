@@ -150,7 +150,8 @@ export default React.createClass({
             })
           )
         )
-        .setTouched(true));
+        .setTouched(true)
+    );
 
     this.setState({
       form: updatedForm
@@ -160,7 +161,8 @@ export default React.createClass({
   onRemoveThreshold(index) {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['thresholds'], field =>
-      field.setValue(field.value.delete(index)).setTouched(true));
+      field.setValue(field.value.delete(index)).setTouched(true)
+    );
 
     this.setState({
       form: updatedForm
@@ -170,7 +172,8 @@ export default React.createClass({
   onChangeInThresholds(index, fieldName, value) {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['thresholds'], field =>
-      field.setValue(field.value.setIn([index, fieldName], value)).setTouched(true));
+      field.setValue(field.value.setIn([index, fieldName], value)).setTouched(true)
+    );
 
     this.setState({
       form: updatedForm

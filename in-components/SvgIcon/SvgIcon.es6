@@ -7,18 +7,7 @@ import './SvgIcon.less';
 
 const block = 'in-svg-icon';
 
-export default function SvgIcon(
-  {
-    type,
-    width,
-    height,
-    className,
-    color,
-    onClick,
-    style,
-    spinning
-  }
-) {
+export default function SvgIcon({ type, width, height, className, color, onClick, style, spinning }) {
   const icon = icons[type];
   if (!icon) {
     if (__DEV__) {

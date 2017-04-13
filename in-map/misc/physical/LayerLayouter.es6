@@ -11,14 +11,12 @@ export default function createLayouter(node) {
   const fragments = [];
   const factory = getFactory('icons');
 
-  const layerSubscription = combineLatest([node.eventEmitter.on('transformationChanged'),
-                                           node.layer.stream])
-                            .debounce(LAYER_LAYOUTING)
-                            .subscribe(([nodeTransform, _layer]) => {
-                              const plugins = applyLayout(nodeTransform,
-                                                          Object.keys(_layer).map(key => _layer[key]));
-                              setupPluginIcons(plugins);
-                            });
+  const layerSubscription = combineLatest([node.eventEmitter.on('transformationChanged'), node.layer.stream])
+    .debounce(LAYER_LAYOUTING)
+    .subscribe(([nodeTransform, _layer]) => {
+      const plugins = applyLayout(nodeTransform, Object.keys(_layer).map(key => _layer[key]));
+      setupPluginIcons(plugins);
+    });
 
   function applyLayout(nodeTransform, _layer) {
     const nodePosition = nodeTransform.position;
@@ -72,12 +70,14 @@ export default function createLayouter(node) {
       }
 
       const transform = layer.getComponent('transform');
-      transform.setTransformXYZ(nodePosition.x,
-                                currentYPosition,
-                                nodePosition.z,
-                                nodeScale.x * LAYER_MARGIN,
-                                heightOfEachLayer * LAYER_MARGIN,
-                                nodeScale.z * LAYER_MARGIN);
+      transform.setTransformXYZ(
+        nodePosition.x,
+        currentYPosition,
+        nodePosition.z,
+        nodeScale.x * LAYER_MARGIN,
+        heightOfEachLayer * LAYER_MARGIN,
+        nodeScale.z * LAYER_MARGIN
+      );
 
       currentYPosition += heightOfEachLayer;
     }

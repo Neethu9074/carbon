@@ -39,7 +39,8 @@ export default function getMostImportantEvent(ComposedComponent) {
         this.subscription = getMostImportantEventAtFocusedMoment(snapshotId).subscribe(mostImportantEvent =>
           this.setState({
             mostImportantEvent
-          }));
+          })
+        );
       }
     },
 

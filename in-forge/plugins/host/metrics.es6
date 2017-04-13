@@ -14,11 +14,13 @@ addMaxValueLocator(/^cpu\.(user|sys|wait|nice|steal|idle)/, () => 1);
 addMinValueLocator(/^cpu\.(user|sys|wait|nice|steal|idle)/, zero);
 
 addMaxValueLocator(/^fs\.(.*)\.free/, (snapshot, matches) =>
-  snapshot.getIn(['data', 'filesystems', matches[1], 'capacity']));
+  snapshot.getIn(['data', 'filesystems', matches[1], 'capacity'])
+);
 addMinValueLocator(/^fs\.(.*)\.free/, zero);
 
 addMaxValueLocator(/^fs\.(.*)\.ifree/, (snapshot, matches) =>
-  snapshot.getIn(['data', 'filesystems', matches[1], 'icapacity']));
+  snapshot.getIn(['data', 'filesystems', matches[1], 'icapacity'])
+);
 addMinValueLocator(/^fs\.(.*)\.ifree/, zero);
 
 addFormattedValueLocator(
@@ -31,10 +33,10 @@ addFormattedValueLocator(/^memory\.used/, (max, value) => percentageZeroDecimalP
 addFormattedValueLocator(
   /^load/,
   // 0.01 => 0.01, 0.01001 => 0.01
-  (max, value) => (value * 100 | 0) / 100
+  (max, value) => ((value * 100) | 0) / 100
 );
 
 addFormattedValueLocator(
   /^cpu\.(user|sys|wait|nice|steal|idle)/,
-  (max, value) => (value * 10000 | 0) / 100 + '%' // 0.301 => 30%
+  (max, value) => ((value * 10000) | 0) / 100 + '%' // 0.301 => 30%
 );

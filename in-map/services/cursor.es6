@@ -10,6 +10,6 @@ export function init() {
   }
 
   subscription = combineLatest([highlightedEntityId$, canvas$]).subscribe(
-    ([id, canvas]) => canvas ? (canvas.style.cursor = id ? 'pointer' : 'auto') : null
+    ([id, canvas]) => (canvas ? (canvas.style.cursor = id ? 'pointer' : 'auto') : null)
   );
 }

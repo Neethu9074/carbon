@@ -32,7 +32,8 @@ export default class CollisionComponent extends SceneObjectComponent {
 
         PhysicsServiceLocator.removeCollisionObject(mesh, this.layerId);
         PhysicsServiceLocator.addCollisionObject(mesh, this.layerId);
-      }));
+      })
+    );
   }
 
   dispose() {

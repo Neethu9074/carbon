@@ -42,7 +42,7 @@ describe('in-services/form/MapForm', () => {
   it('must support field changes and rerun validations', () => {
     const form2 = form.addItem(
       'vocation',
-      new Field('Blacksmith', value => value.indexOf('Black') === 0 ? 'Too dirty' : null)
+      new Field('Blacksmith', value => (value.indexOf('Black') === 0 ? 'Too dirty' : null))
     );
     const form3 = form2.setValue('vocation', 'Window Cleaner');
 
@@ -61,7 +61,7 @@ describe('in-services/form/MapForm', () => {
   it('must support field removals', () => {
     const form2 = form.addItem(
       'vocation',
-      new Field('Blacksmith', value => value.indexOf('Black') === 0 ? 'Too dirty' : null)
+      new Field('Blacksmith', value => (value.indexOf('Black') === 0 ? 'Too dirty' : null))
     );
     const form3 = form2.removeItem('vocation');
 

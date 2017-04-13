@@ -18,5 +18,6 @@ export const highlightedEntityIds$ = combineLatest([highlightedEntityId$, select
       getHighlightedEntityIds({
         snapshotId: snapshotId,
         time: focusedMoment
-      }));
+      })
+    );
   });

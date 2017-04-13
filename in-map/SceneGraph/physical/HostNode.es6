@@ -25,9 +25,9 @@ export default class HostNode extends Node {
     this.addSubscriptions([
       combineLatest([this.sceneObjectInstance.eventEmitter.on('isHighlighted').distinct(), nodes.stream]).subscribe(
         ([isHighlighted, _nodes]) =>
-          isHighlighted
+          (isHighlighted
             ? this.connectionNode.createConnections(this.entity, _nodes)
-            : this.connectionNode.clearConnections()
+            : this.connectionNode.clearConnections())
       ),
       activeMetric$.subscribe(activeMetric => {
         if (activeMetric) {

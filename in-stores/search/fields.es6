@@ -40,7 +40,8 @@ filters$.subscribe(_filters => {
       isPreset: true,
       query: _filter.get('definition'),
       description: _filter.get('definition')
-    }));
+    })
+  );
 });
 
 let tree;

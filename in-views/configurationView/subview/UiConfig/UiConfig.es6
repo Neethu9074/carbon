@@ -41,9 +41,7 @@ export default connectTo(
             <Heading text="Automatically collapse timeline" htmlFor="toggle-timeline-expand" />
           </Group>
 
-          <Group
-            helpText="We will inform you about upcoming Instana server maintenance via small flyouts in the top-right corner. Sometimes though, these flyouts can disturb your workflow. Untick this checkbox to permanently hide maintenance notes."
-          >
+          <Group helpText="We will inform you about upcoming Instana server maintenance via small flyouts in the top-right corner. Sometimes though, these flyouts can disturb your workflow. Untick this checkbox to permanently hide maintenance notes.">
             <Toggle
               id="maintenance-notes"
               checked={settings.get('showMaintenanceNotes')}
@@ -52,9 +50,7 @@ export default connectTo(
             <Heading text="Show maintenance notes" htmlFor="maintenance-notes" />
           </Group>
 
-          <Group
-            helpText="Toggle the quality of chart rendering. Disable this to have fluent chart animations on slower systems."
-          >
+          <Group helpText="Toggle the quality of chart rendering. Disable this to have fluent chart animations on slower systems.">
             <Toggle
               id="chart-quality"
               checked={settings.getIn(['charts', 'adaptToDevicePixelRatio'])}
@@ -103,9 +99,7 @@ export default connectTo(
             <Heading text="Show zoom panel" htmlFor="zoom-panel" />
           </Group>
 
-          <Group
-            helpText="Instana automatically detects open TCP connections to hosts which are not monitored by Instana. These hosts are visualized as unmonitored hosts on the map."
-          >
+          <Group helpText="Instana automatically detects open TCP connections to hosts which are not monitored by Instana. These hosts are visualized as unmonitored hosts on the map.">
             <Toggle
               id="unmonitored-hosts"
               checked={!settings.getIn(['map', 'excludeUnmonitoredHosts'])}
@@ -171,9 +165,7 @@ export default connectTo(
             />
           </Group>
 
-          <Group
-            helpText="Anti-aliasing is used to improve the look of the 3D maps. While nice on the eye, it is requiring additional compute resources. Disable anti-aliasing to improve the performance of the 3D maps on slower systems."
-          >
+          <Group helpText="Anti-aliasing is used to improve the look of the 3D maps. While nice on the eye, it is requiring additional compute resources. Disable anti-aliasing to improve the performance of the 3D maps on slower systems.">
             <Toggle
               id="antialiasing"
               checked={settings.getIn(['map', 'antialias']) === 'browserAA'}
@@ -187,9 +179,10 @@ export default connectTo(
           </SectionHeading>
           <Group>
             <Heading
-              text={
-                `Compact layouter: Space between groups in x direction (${settings.getIn(['map', 'packingXSpace'])})`
-              }
+              text={`Compact layouter: Space between groups in x direction (${settings.getIn([
+                'map',
+                'packingXSpace'
+              ])})`}
               htmlFor="packing_x_direction"
             />
             <input
@@ -205,9 +198,10 @@ export default connectTo(
           </Group>
           <Group>
             <Heading
-              text={
-                `Compact layouter: Space between groups in y direction (${settings.getIn(['map', 'packingYSpace'])})`
-              }
+              text={`Compact layouter: Space between groups in y direction (${settings.getIn([
+                'map',
+                'packingYSpace'
+              ])})`}
               htmlFor="packing_y_direction"
             />
             <input
@@ -227,9 +221,11 @@ export default connectTo(
           </SectionHeading>
           <Group>
             <Heading
-              text={
-                `Number of shown hops when filtering services (${settings.getIn(['map', 'logical', 'numServiceHops'])})`
-              }
+              text={`Number of shown hops when filtering services (${settings.getIn([
+                'map',
+                'logical',
+                'numServiceHops'
+              ])})`}
               htmlFor="num_service_hops"
             />
             <input

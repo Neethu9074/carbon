@@ -9,7 +9,7 @@ export const config = {
 };
 
 const canvas = document.createElement('canvas');
-canvas.width = (canvas.height = config.numElementsPerColumn * config.iconWidth);
+canvas.width = canvas.height = config.numElementsPerColumn * config.iconWidth;
 
 const context = canvas.getContext('2d');
 context.fillStyle = '#fff';

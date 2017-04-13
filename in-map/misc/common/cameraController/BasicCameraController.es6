@@ -52,7 +52,8 @@ export default class BasicCameraController extends Subscriber {
   }
 
   initEvents() {
-    this.addSubscriptions([this.eventEmitter.on('onClicked').subscribe(() => {
+    this.addSubscriptions([
+      this.eventEmitter.on('onClicked').subscribe(() => {
         const { object, connections } = this.lastHitten;
 
         if (object) {
@@ -65,11 +66,14 @@ export default class BasicCameraController extends Subscriber {
         } else {
           setSelectedSnapshotId(connections[0].id);
         }
-      }), this.eventEmitter.on('onDoubleClicked').subscribe(() => {
+      }),
+      this.eventEmitter.on('onDoubleClicked').subscribe(() => {
         if (this.lastHitten.object) {
           goToDashboard(this.lastHitten.object.dashboardId);
         }
-      }), timelineHeight$.subscribe(timelineHeight => BOTTOM_MARGIN_IN_PX = timelineHeight)]);
+      }),
+      timelineHeight$.subscribe(timelineHeight => BOTTOM_MARGIN_IN_PX = timelineHeight)
+    ]);
   }
 
   getRenderableCamera() {

@@ -10,8 +10,8 @@ export const number = {
   detailed: twoDecimalPlaces
 };
 
-export const activityZeroDecimalPlaces = d => d < 0 ? 'No activity' : zeroDecimalPlaces(d);
-export const activityTwoDecimalPlaces = d => d < 0 ? 'No activity' : twoDecimalPlaces(d);
+export const activityZeroDecimalPlaces = d => (d < 0 ? 'No activity' : zeroDecimalPlaces(d));
+export const activityTwoDecimalPlaces = d => (d < 0 ? 'No activity' : twoDecimalPlaces(d));
 export const activity = {
   compact: activityZeroDecimalPlaces,
   detailed: activityTwoDecimalPlaces
@@ -134,8 +134,8 @@ export const muSecondsToMillis = {
   detailed: muSecondsToMillisTwoDecimalPlaces
 };
 
-export const hitRateZeroDecimalPlaces = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
-export const hitRateTwoDecimalPlaces = d => d < 0 ? 'No activity' : percentageTwoDecimalPlaces(d);
+export const hitRateZeroDecimalPlaces = d => (d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d));
+export const hitRateTwoDecimalPlaces = d => (d < 0 ? 'No activity' : percentageTwoDecimalPlaces(d));
 export const hitRate = {
   compact: hitRateZeroDecimalPlaces,
   detailed: hitRateTwoDecimalPlaces
@@ -206,7 +206,7 @@ function formatTime(t) {
     return '0µs';
   }
 
-  const formatValue = v => (v * 100 | 0) / 100;
+  const formatValue = v => ((v * 100) | 0) / 100;
 
   const units = [
     {

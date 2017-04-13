@@ -33,9 +33,9 @@ const l = 1;
 const t = 0;
 
 // Bit operation utilities
-const bit = (mask, digit) => mask >> digit & 1;
+const bit = (mask, digit) => (mask >> digit) & 1;
 const is = (mask, digit) => bit(mask, digit) === 1;
-const set = (mask, digit) => mask | 1 << digit;
+const set = (mask, digit) => mask | (1 << digit);
 const unset = (mask, digit) => mask & ~(1 << digit);
 const swap = (mask, digitA, digitB) => {
   const bitA = bit(mask, digitA);

@@ -32,8 +32,10 @@ export const view$ = view;
 export const viewStructure = createTrackingStore({
   name: 'view/viewStructure',
   observable: combineLatest([view, focusedMoment$, viewGrouping$]).flatMap(([viewType, time, grouping]) =>
-    createViewStructureObservable({ viewType, time, grouping }))
+    createViewStructureObservable({ viewType, time, grouping })
+  )
 }).observable;
 
 export const physicalViewStructure$ = focusedMoment$.flatMap(focusedMoment =>
-  createViewStructureObservable({ viewType: types.physical, time: focusedMoment }));
+  createViewStructureObservable({ viewType: types.physical, time: focusedMoment })
+);

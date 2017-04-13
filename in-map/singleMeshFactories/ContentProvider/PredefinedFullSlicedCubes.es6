@@ -124,12 +124,12 @@ const PREDEFINED_COLORS = {
 export function getSlicedGeometry(numSlices) {
   let vertices = PREDEFINED_VERTICES[numSlices];
   if (!vertices) {
-    vertices = (PREDEFINED_VERTICES[numSlices] = calculateVertices(numSlices));
+    vertices = PREDEFINED_VERTICES[numSlices] = calculateVertices(numSlices);
   }
 
   let colors = PREDEFINED_COLORS[numSlices];
   if (!colors) {
-    colors = (PREDEFINED_COLORS[numSlices] = ALL_COLORS.slice(0, NUM_POINTS_PER_SLICE * numSlices));
+    colors = PREDEFINED_COLORS[numSlices] = ALL_COLORS.slice(0, NUM_POINTS_PER_SLICE * numSlices);
   }
 
   const sharedHeights = new Array(numSlices * NUM_POINTS_PER_SLICE);

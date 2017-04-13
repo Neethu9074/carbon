@@ -19,7 +19,7 @@ CodeMirror.defineMode('instanaSearch', () => {
     token(stream, state) {
       if (state.lexResult == null || stream.string !== state.lexedFor) {
         state.lexedFor = stream.string;
-        this.currentLexResult = (state.lexResult = lex(stream.string));
+        this.currentLexResult = state.lexResult = lex(stream.string);
       }
 
       const token = getTokenForColumn(state.lexResult, stream.pos);

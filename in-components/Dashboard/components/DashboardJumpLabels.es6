@@ -110,7 +110,8 @@ export default React.createClass({
     return (
       <ol className={block}>
         {this.state.sections.map(section => {
-          const isInView = (section.top > top && section.top < bottom) ||
+          const isInView =
+            (section.top > top && section.top < bottom) ||
             (section.bottom > top && section.bottom < bottom) ||
             (section.top < top && section.bottom > bottom);
           return (

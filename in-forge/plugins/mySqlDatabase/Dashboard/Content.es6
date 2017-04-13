@@ -10,7 +10,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-const msFormatter = d => d < 0 ? 'No activity' : msTwoDecimalPlaces(d);
+const msFormatter = d => (d < 0 ? 'No activity' : msTwoDecimalPlaces(d));
 
 export default function MySqlDashboard({ snapshot, timeframe }) {
   const data = snapshot.get('data');

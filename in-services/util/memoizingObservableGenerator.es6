@@ -7,11 +7,9 @@ export default function memoize(createObservable, idGenerator, tti = 10000) {
       return cache[id];
     }
 
-    const observable = createObservable.apply(this, arguments).delayedStop(
-      tti,
-      () => {
-        delete cache[id];
-      });
+    const observable = createObservable.apply(this, arguments).delayedStop(tti, () => {
+      delete cache[id];
+    });
     cache[id] = observable;
     return observable;
   };

@@ -9,7 +9,7 @@ import Mtd from 'in-components/Mtd';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 
-const queriesFormatter = d => d < 0 ? 'No activity' : zeroDecimalPlaces(d);
+const queriesFormatter = d => (d < 0 ? 'No activity' : zeroDecimalPlaces(d));
 
 export default function DatabasesTable({ snapshot, timeframe }) {
   const databases = snapshot.getIn(['data', 'dbs'], emptyList).toArray().sort();

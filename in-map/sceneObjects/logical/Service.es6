@@ -138,7 +138,8 @@ export default class Service extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscriptions([eventBus.on('dragObjectStart').subscribe(id => {
+    this.addSubscriptions([
+      eventBus.on('dragObjectStart').subscribe(id => {
         if (this.id === id) {
           if (this.isExternal && !this.isEum) {
             this.dragGhost = new DragGhost(this, externalServiceGeometry);
@@ -149,7 +150,8 @@ export default class Service extends SceneObject {
           }
           this.dragGhost.setScale(this.getComponent('transform').getScale());
         }
-      }), eventBus.on('dragObjectStop').subscribe(() => {
+      }),
+      eventBus.on('dragObjectStop').subscribe(() => {
         if (this.dragGhost) {
           const positionToSet = this.dragGhost.getCurrentPosition();
           this.getComponent('transform').setPosition(positionToSet);
@@ -157,11 +159,16 @@ export default class Service extends SceneObject {
           this.dragGhost.dispose();
           this.dragGhost = null;
         }
-      }), this.eventEmitter.on('healthChanged').subscribe(health => {
+      }),
+      this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
         this.getComponent('color').setHex(color);
-      }), this.eventEmitter.on('positionChanged').subscribe(position => changePosition(this.id, position.x, position.y, position.z))]);
+      }),
+      this.eventEmitter
+        .on('positionChanged')
+        .subscribe(position => changePosition(this.id, position.x, position.y, position.z))
+    ]);
   }
 
   initialized() {

@@ -44,22 +44,19 @@ function onUnhandledError(e) {
 function showUnhandledErrorMessage(e) {
   // decouple from any existing pending React updates to ensure that
   // this message makes it to the user.
-  setTimeout(
-    () => {
-      addMessage(
-        {
-          type: 'error',
-          icon: 'error',
-          content: (
-            <p>
-              <strong>This message is only visible for Instana employees!</strong>{' '}
-              An unhandled error occured. Please report this error and how you produced it. Error message: {e.message}
-            </p>
-          )
-        },
-        'unhandled-error'
-      );
-    },
-    0
-  );
+  setTimeout(() => {
+    addMessage(
+      {
+        type: 'error',
+        icon: 'error',
+        content: (
+          <p>
+            <strong>This message is only visible for Instana employees!</strong>{' '}
+            An unhandled error occured. Please report this error and how you produced it. Error message: {e.message}
+          </p>
+        )
+      },
+      'unhandled-error'
+    );
+  }, 0);
 }

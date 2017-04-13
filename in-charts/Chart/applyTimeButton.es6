@@ -19,7 +19,7 @@ export default function createHighlightedTimeframeRenderer(config) {
   );
 
   config.subscriptions.push(
-    eventEmitter.on('isVisible').distinct().subscribe(isVisible => isVisible ? show() : hide())
+    eventEmitter.on('isVisible').distinct().subscribe(isVisible => (isVisible ? show() : hide()))
   );
 
   config.subscriptions.push(highlightedTimeframe$.throttle(20).subscribe(tf => highlightedTimeframe = tf));

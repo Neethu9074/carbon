@@ -23,7 +23,7 @@ export default connectTo(
 
     return {
       otherSnapshot: getSnapshot(otherId),
-      otherZoneSnapshot: getZone(otherId).flatMap(id => id ? getSnapshot(id) : alwaysNull)
+      otherZoneSnapshot: getZone(otherId).flatMap(id => (id ? getSnapshot(id) : alwaysNull))
     };
   },
   function ConnectionLine({ otherSnapshot, otherZoneSnapshot, connection, nodeIdWhereConnectionsBelongTo }) {

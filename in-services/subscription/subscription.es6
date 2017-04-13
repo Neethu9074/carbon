@@ -5,9 +5,14 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import { getDataEvent } from 'in-services/subscription/dataEvent';
 import { on, off } from 'in-services/persistentConnection';
 
-export default function(
-  { eventId, getId, getData, transformData = identity, memoizeFor = 10000, disposeSubscriptionOnDocumentHidden = true }
-) {
+export default function({
+  eventId,
+  getId,
+  getData,
+  transformData = identity,
+  memoizeFor = 10000,
+  disposeSubscriptionOnDocumentHidden = true
+}) {
   return memoize(
     createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData, disposeSubscriptionOnDocumentHidden),
     getId,

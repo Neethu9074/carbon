@@ -99,7 +99,8 @@ export function setTimeFrame(windowSize, to) {
 
 export function moveTimeFrame(windowSizeToMove) {
   timeframeStore.applyStateMutation(prevTimeFrame =>
-    createTimeframe(prevTimeFrame.windowSize, prevTimeFrame.to - windowSizeToMove));
+    createTimeframe(prevTimeFrame.windowSize, prevTimeFrame.to - windowSizeToMove)
+  );
 }
 
 export function setTo(to) {
@@ -139,7 +140,7 @@ export function getValidWindowSize(windowSize) {
 }
 
 export const to$ = timeframe$
-  .flatMap(_timeframe => _timeframe.to ? create().emit(_timeframe.to).freeze() : serverTime$)
+  .flatMap(_timeframe => (_timeframe.to ? create().emit(_timeframe.to).freeze() : serverTime$))
   .distinct();
 
 export const from$ = timeframe$.flatMap(_timeframe => to$.map(to => to - _timeframe.windowSize)).distinct();

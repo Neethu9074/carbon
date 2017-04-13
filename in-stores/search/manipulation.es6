@@ -4,7 +4,7 @@ import { assign } from 'lodash';
 export function removeField(query, fieldName, value = undefined) {
   const fieldMatcher = buildFieldMatcher(fieldName, value);
 
-  const newAst = manipulate(parse(query), node => fieldMatcher(node) ? null : node);
+  const newAst = manipulate(parse(query), node => (fieldMatcher(node) ? null : node));
 
   if (newAst == null) {
     return '';

@@ -18,14 +18,11 @@ export default function ExtractedServiceNamePresenter({ ruleForm, matches }) {
       </div>
     );
   } else {
-    const formatter = ruleKeys.reduce(
-      (parentFormatter, key) => {
-        const keyMatches = matches[key];
-        const keyFormatter = createFormatter(`${key}-`);
-        return formatString => keyFormatter(parentFormatter(formatString), keyMatches);
-      },
-      s => s
-    );
+    const formatter = ruleKeys.reduce((parentFormatter, key) => {
+      const keyMatches = matches[key];
+      const keyFormatter = createFormatter(`${key}-`);
+      return formatString => keyFormatter(parentFormatter(formatString), keyMatches);
+    }, s => s);
 
     content = (
       <div className={`${block}__content`}>

@@ -146,7 +146,8 @@ export default React.createClass({
 
       const index = state.objectives.findIndex(eachObjective => objectiveId === eachObjective.get('id'));
       const newObjectives = state.objectives.update(index, modifiableObjectives =>
-        modifiableObjectives.set('enabled', enabled));
+        modifiableObjectives.set('enabled', enabled)
+      );
       return {
         status: state.status,
         objectives: newObjectives
@@ -182,7 +183,8 @@ export default React.createClass({
         // roll back the role change
         const index = state.objectives.findIndex(eachObjective => objectiveId === eachObjective.get('id'));
         const newObjectives = state.objectives.update(index, modifiableObjectives =>
-          modifiableObjectives.set('enabled', previousEnabled));
+          modifiableObjectives.set('enabled', previousEnabled)
+        );
         return {
           status: state.status,
           objectives: newObjectives

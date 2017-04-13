@@ -170,15 +170,12 @@ function moveSelectedNode(selectedNode, e, offset) {
   }
 
   const rows = Array.prototype.slice.call(e.target.querySelectorAll(`.${block}__row`));
-  const selectedNodeIndex = rows.reduce(
-    (agg, row, i) => {
-      if (row.dataset.nodeId === selectedNode) {
-        return i;
-      }
-      return agg;
-    },
-    -1
-  );
+  const selectedNodeIndex = rows.reduce((agg, row, i) => {
+    if (row.dataset.nodeId === selectedNode) {
+      return i;
+    }
+    return agg;
+  }, -1);
 
   if (selectedNodeIndex === -1) {
     return;

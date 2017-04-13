@@ -12,18 +12,16 @@ import './SparkChart.less';
 
 const block = 'in-spark-chart';
 
-export default function createSparkChart(
-  {
-    width,
-    height,
-    datasource,
-    container,
-    timeframe,
-    tooltipFormatter,
-    design = 'light',
-    wiggleRoom
-  }
-) {
+export default function createSparkChart({
+  width,
+  height,
+  datasource,
+  container,
+  timeframe,
+  tooltipFormatter,
+  design = 'light',
+  wiggleRoom
+}) {
   let metricLineStrokeColor;
   let metricLineFillColor;
   let metricAxisStrokeColor;

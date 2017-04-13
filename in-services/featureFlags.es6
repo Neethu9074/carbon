@@ -1,6 +1,7 @@
 import { config } from 'in-services/config';
 
-const onlyInternally = config.tenant === 'instana' &&
+const onlyInternally =
+  config.tenant === 'instana' &&
   config.environment !== 'staging' &&
   config.tenantUnit !== 'current' &&
   config.tenantUnit.indexOf('training') === -1;

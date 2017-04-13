@@ -17,7 +17,8 @@ export default connectTo(
       getFixedTimeframeUrl({
         to,
         focusedMoment: to
-      }))
+      })
+    )
   },
   function TimelineLiveButton({ isLive, liveHref, fixedHref }) {
     const className = block + (isLive ? ' ' + block + '__active' : '');

@@ -6,7 +6,7 @@
  * @returns {string} the encoded color value as hex.
  */
 export function rgbToHex(r, g, b) {
-  const hex = r << 16 ^ g << 8 ^ b << 0;
+  const hex = (r << 16) ^ (g << 8) ^ (b << 0);
   return '#' + ('000000' + hex.toString(16)).slice(-6);
 }
 
@@ -23,8 +23,8 @@ export function hexToRGB(style) {
 
   hex = Math.floor(hex);
 
-  const r = hex >> 16 & 255;
-  const g = hex >> 8 & 255;
+  const r = (hex >> 16) & 255;
+  const g = (hex >> 8) & 255;
   const b = hex & 255;
   return { r, g, b };
 }

@@ -14,7 +14,7 @@ export default function createKeyboardController(controls) {
       controls.toggleMetrics();
     } else if (e.keyCode === keyCodes.n) {
       // toggle physical and logical view
-      isLogicalMapView$.once(isLogicalMapView => isLogicalMapView ? goToPhysicalView() : goToLogicalView());
+      isLogicalMapView$.once(isLogicalMapView => (isLogicalMapView ? goToPhysicalView() : goToLogicalView()));
     }
   });
   const keyUpSubscription = on(window, 'keyup').subscribe(e => onKey(e, 0, 0, 0, 0));

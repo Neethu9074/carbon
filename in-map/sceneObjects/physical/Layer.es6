@@ -53,16 +53,19 @@ export default class Layer extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscriptions([this.eventEmitter.on('healthChanged').subscribe(health => {
+    this.addSubscriptions([
+      this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
         const color = severity > 0 ? theme.health[Math.floor(severity)] : '#dfdfdf';
         this.getComponent('color').setHex(color);
-      }), this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
+      }),
+      this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
         this._cachedPlugin = snapshot.get('plugin');
 
         // readd this layer to trigger a relayout
         this.node.addLayer(this.id, this);
-      })]);
+      })
+    ]);
   }
 
   dispose() {

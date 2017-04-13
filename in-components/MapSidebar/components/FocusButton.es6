@@ -21,7 +21,8 @@ export default connectTo(
     const snapshotId = snapshot.get('id');
     const to = snapshot.get('to');
 
-    const entityExistsAtFocusedMoment = (focusedMoment == null && to == null) || // either live
+    const entityExistsAtFocusedMoment =
+      (focusedMoment == null && to == null) || // either live
       // or historic
       (focusedMoment != null && (to == null || to > focusedMoment));
     let classes = block;
@@ -44,7 +45,8 @@ export default connectTo(
     }
 
     classes += ' ' + block + '--disabled';
-    let tooltip = 'Entity does not exists at the focused point in time. The entity appeared ' +
+    let tooltip =
+      'Entity does not exists at the focused point in time. The entity appeared ' +
       'first at ' +
       formatDateTime(snapshot.get('from'));
 

@@ -12,7 +12,8 @@ if ('performance' in window === false) {
   window.performance = {};
 }
 
-Date.now = Date.now ||
+Date.now =
+  Date.now ||
   function f() {
     // thanks IE8
     return new Date().getTime();

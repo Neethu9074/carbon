@@ -37,8 +37,9 @@ export default class RayCasterDecorator extends Decorator {
 
       // each time a connection is created, this one fires. To avoid massive Object->Array mappings
       // debounce this stream
-      connections.stream.debounce(100).subscribe(_connections =>
-        this.currentConnections = Object.keys(_connections).map(key => _connections[key]))
+      connections.stream
+        .debounce(100)
+        .subscribe(_connections => this.currentConnections = Object.keys(_connections).map(key => _connections[key]))
     ]);
   }
 

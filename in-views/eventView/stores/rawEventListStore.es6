@@ -63,12 +63,9 @@ export function enable() {
 
       if (autoUpdate) {
         refreshStream.emit(true);
-        autoUpdateHandle = setInterval(
-          () => {
-            refreshStream.emit(true);
-          },
-          10000
-        );
+        autoUpdateHandle = setInterval(() => {
+          refreshStream.emit(true);
+        }, 10000);
       }
     })
   ];

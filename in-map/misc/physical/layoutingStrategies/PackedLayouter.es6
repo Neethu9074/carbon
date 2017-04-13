@@ -88,12 +88,14 @@ function calculateDimensions(_groups) {
 
 function setGroupPosition(group, dimension, xOffset, yOffset) {
   const transform = group.getComponent('transform');
-  transform.setTransformXYZ(xOffset + dimension.width / 2 + dimension.x,
-                            0,
-                            yOffset - dimension.height / 2 - dimension.y,
-                            dimension.width,
-                            1,
-                            dimension.height);
+  transform.setTransformXYZ(
+    xOffset + dimension.width / 2 + dimension.x,
+    0,
+    yOffset - dimension.height / 2 - dimension.y,
+    dimension.width,
+    1,
+    dimension.height
+  );
 
   const _nodes = Object.keys(group.nodes.objects).map(key => group.nodes.objects[key]);
   setNodesPositions(_nodes, dimension, xOffset, yOffset);

@@ -11,14 +11,11 @@ import connectTo from 'in-hoc/connectTo';
 
 const block = 'in-event-description';
 
-export default connectTo(
-  props => {
-    return {
-      events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id)))
-    };
-  },
-  IncidentContent
-);
+export default connectTo(props => {
+  return {
+    events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id)))
+  };
+}, IncidentContent);
 
 function IncidentContent({ incident, events }) {
   if (!events || events.length === 0) {

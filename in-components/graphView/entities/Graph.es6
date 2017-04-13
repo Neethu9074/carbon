@@ -96,13 +96,10 @@ export default class Graph {
   }
 
   processGraphRetrieval(graph) {
-    const edgesToRemove = Object.keys(this.edges).reduce(
-      (agg, edgeId) => {
-        agg[edgeId] = true;
-        return agg;
-      },
-      {}
-    );
+    const edgesToRemove = Object.keys(this.edges).reduce((agg, edgeId) => {
+      agg[edgeId] = true;
+      return agg;
+    }, {});
 
     graph.forEach(newEdge => {
       const edgeId = newEdge.id;
@@ -144,7 +141,7 @@ export default class Graph {
     }
 
     const springyNode = this.springyGraph.newNode({ label: snapshotId });
-    existingNode = (this.nodes[snapshotId] = new Node(snapshotId, this.springyGraph, springyNode));
+    existingNode = this.nodes[snapshotId] = new Node(snapshotId, this.springyGraph, springyNode);
     return existingNode;
   }
 

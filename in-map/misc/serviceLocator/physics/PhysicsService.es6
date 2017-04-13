@@ -85,12 +85,14 @@ export default function createPhysicsService() {
         continue;
       }
 
-      const octree2Objects = octree.search(
-        ray.origin,
-        ray.far,
-        true, // true -> organized by objects
-        ray.direction
-      ).filter(object => object.object.isEnabled);
+      const octree2Objects = octree
+        .search(
+          ray.origin,
+          ray.far,
+          true, // true -> organized by objects
+          ray.direction
+        )
+        .filter(object => object.object.isEnabled);
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {

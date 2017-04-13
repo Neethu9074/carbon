@@ -11,7 +11,8 @@ export default connectTo(
   props => {
     return {
       slowLogs: getRawPayload(props.snapshotId, 'slow_logs').map(slowLogs =>
-        slowLogs.toArray().sort((a, b) => a.get('timestamp') - b.get('timestamp')))
+        slowLogs.toArray().sort((a, b) => a.get('timestamp') - b.get('timestamp'))
+      )
     };
   },
   function SlowLogsTable({ slowLogs }) {

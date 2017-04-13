@@ -66,12 +66,12 @@ function addSnapshotId(snapshotId) {
     return;
   }
 
-  snapshotData = (data[snapshotId] = {
+  snapshotData = data[snapshotId] = {
     snapshotId,
     mutationCount: 0,
     marked: false,
     columns: []
-  });
+  };
 
   snapshotData.snapshotSubscription = getSnapshot(snapshotId).subscribe(snapshot => {
     snapshotData.id = snapshotId;

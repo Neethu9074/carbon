@@ -16,7 +16,7 @@ export function setDirection(direction) {
 }
 
 export function invertDirection() {
-  directionStore.applyStateMutation(direction => direction === 'asc' ? 'desc' : 'asc');
+  directionStore.applyStateMutation(direction => (direction === 'asc' ? 'desc' : 'asc'));
 }
 
 const columnStore = createStore({

@@ -5,7 +5,7 @@ import { bigBangTimestamp$ } from 'in-stores/timeline';
 import { serverTime$ } from 'in-stores/serverTime';
 
 export function cutMillis(time) {
-  return (time / 1000 | 0) * 1000;
+  return ((time / 1000) | 0) * 1000;
 }
 
 export function setTimestamp(timestamp = 0, setDateString, setTimeString) {
@@ -50,7 +50,8 @@ export function getValidation$(timestamp$) {
     validationObject.time = !validationObject.date ? true : bigBangTimestamp <= timestamp && timestamp <= serverTime;
 
     if (!validationObject.date || !validationObject.time) {
-      validationObject.error = `Please enter a date within the monitored time range in the format (YYYY-MM-DD). \n ` +
+      validationObject.error =
+        `Please enter a date within the monitored time range in the format (YYYY-MM-DD). \n ` +
         `The monitored time range is from ${formatDateTime(bigBangTimestamp)} to ${formatDateTime(serverTime)} `;
     }
 

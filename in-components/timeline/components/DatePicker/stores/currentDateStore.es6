@@ -7,7 +7,7 @@ const currentDateStore = createStore({
 export const currentDateStore$ = currentDateStore.observable;
 
 export function toggleDateStore(store) {
-  currentDateStore.applyStateMutation(oldStore => oldStore === store ? null : store);
+  currentDateStore.applyStateMutation(oldStore => (oldStore === store ? null : store));
 }
 
 export function setDateStore(store) {

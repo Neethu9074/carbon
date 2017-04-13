@@ -35,13 +35,10 @@ export default class LTRTreeLayouter {
     }
 
     // Remove empty ranks (and normalize to base 0)
-    nodesSortedByDepth = nodesSortedByDepth.reduce(
-      (a, n) => {
-        a.push(n);
-        return a;
-      },
-      []
-    );
+    nodesSortedByDepth = nodesSortedByDepth.reduce((a, n) => {
+      a.push(n);
+      return a;
+    }, []);
 
     const maxNodesPerDepth = 30;
     for (let i = 0; i < nodesSortedByDepth.length; i++) {

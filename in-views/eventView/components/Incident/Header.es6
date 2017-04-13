@@ -23,7 +23,8 @@ export default connectTo(
       openEvents: sortedRecentEvents$.flatMap(_events =>
         combineLatest(
           _events.map(_event => fireCallbacksForEventAtFocusedMomentAsStream(_event, () => true, () => false))
-        )),
+        )
+      ),
       color: getColorForEventAtFocusedMomentAsStream(props.event, '#6B8088')
     };
   },

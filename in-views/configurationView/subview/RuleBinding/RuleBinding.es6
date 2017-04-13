@@ -144,7 +144,8 @@ export default React.createClass({
   onChangeInRuleIds(newRuleId) {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['ruleIds'], field =>
-      field.setValue(field.value.setIn([0], newRuleId)).setTouched(true));
+      field.setValue(field.value.setIn([0], newRuleId)).setTouched(true)
+    );
     this.setState({
       form: updatedForm
     });

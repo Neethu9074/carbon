@@ -204,7 +204,8 @@ export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, timeWi
   return timeframe
     ? getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metric, timeWindowAggregation)
     : timeframe$.flatMap(_timeframe =>
-        getTimeWindowMetricAggregationSubscription(_timeframe, snapshotId, metric, timeWindowAggregation));
+        getTimeWindowMetricAggregationSubscription(_timeframe, snapshotId, metric, timeWindowAggregation)
+      );
 }
 
 function getTimeWindowMetricAggregationSubscription(timeframe, snapshotId, metric, timeWindowAggregation) {

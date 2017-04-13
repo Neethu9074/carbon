@@ -273,7 +273,8 @@ export default function ObjectiveForm({ form, onChange, onChangeInThresholds, on
                       : null}
                   </FormGroup>
                 </div>
-              )))}
+              ))
+            )}
           </Section>
         : null}
 

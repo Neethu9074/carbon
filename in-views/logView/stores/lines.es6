@@ -98,37 +98,34 @@ export function loadMoreLines() {
 }
 
 function addNewLines(newLines) {
-  const transformedLines = newLines.reduce(
-    (agg, line) => {
-      const lines = line.message.split('\n');
-      const time = line.time;
-      const timeFormatted = formatDateTime(line.time);
+  const transformedLines = newLines.reduce((agg, line) => {
+    const lines = line.message.split('\n');
+    const time = line.time;
+    const timeFormatted = formatDateTime(line.time);
 
-      agg.push({
-        timeFormatted,
-        time,
-        message: lines[0],
-        hostSnapshotId: line.hostSnapshotId,
-        level: line.level,
-        levelColor: getLevelColor(line.level),
-        logger: line.logger,
-        component: line.component
-      });
+    agg.push({
+      timeFormatted,
+      time,
+      message: lines[0],
+      hostSnapshotId: line.hostSnapshotId,
+      level: line.level,
+      levelColor: getLevelColor(line.level),
+      logger: line.logger,
+      component: line.component
+    });
 
-      for (let i = 1, len = lines.length; i < len; i++) {
-        const message = lines[i];
-        if (message && message.length > 0) {
-          agg.push({
-            message,
-            continuation: true
-          });
-        }
+    for (let i = 1, len = lines.length; i < len; i++) {
+      const message = lines[i];
+      if (message && message.length > 0) {
+        agg.push({
+          message,
+          continuation: true
+        });
       }
+    }
 
-      return agg;
-    },
-    []
-  );
+    return agg;
+  }, []);
 
   linesStore.applyStateMutation(existingLines => {
     return existingLines.concat(transformedLines);

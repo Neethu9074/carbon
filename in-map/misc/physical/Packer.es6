@@ -3,9 +3,9 @@ export default function Packer() {
   function fit(blocks) {
     let n, node, block, len = blocks.length;
     const w = len > 0 ? blocks[0].w : 0;
-    const h = len > 0 ? blocks[0].h: 0;
+    const h = len > 0 ? blocks[0].h : 0;
     root = { x: 0, y: 0, w, h };
-    for (n = 0; n < len ; n++) {
+    for (n = 0; n < len; n++) {
       block = blocks[n];
       node = findNode(root, block.w, block.h);
       if (node) block.fit = splitNode(node, block.w, block.h);

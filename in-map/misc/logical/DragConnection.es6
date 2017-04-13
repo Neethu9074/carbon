@@ -36,7 +36,8 @@ export default class DragConnection {
           newPos.x,
           newPos.y,
           newPos.z
-        ]));
+        ])
+      );
   }
 
   dispose() {

@@ -16,7 +16,7 @@ const block = 'in-timeline-date-picker';
 
 export default connectTo(
   {
-    selectedTime: currentDateStore$.flatMap(store => store ? store.timestamp$ : alwaysNull),
+    selectedTime: currentDateStore$.flatMap(store => (store ? store.timestamp$ : alwaysNull)),
     bigBangTimestamp: bigBangTimestamp$,
     currentDateStore: currentDateStore$,
     serverTime: serverTime$

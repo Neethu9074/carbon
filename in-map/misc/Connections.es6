@@ -1,6 +1,6 @@
-import {Line, BufferGeometry, LineBasicMaterial, Vector3} from 'in-map/3DLibProvider';
-import {updateAttribute} from 'in-map/services/geometryAttributes';
-import {UP} from 'in-map/misc/fixedVectors';
+import { Line, BufferGeometry, LineBasicMaterial, Vector3 } from 'in-map/3DLibProvider';
+import { updateAttribute } from 'in-map/services/geometryAttributes';
+import { UP } from 'in-map/misc/fixedVectors';
 
 const COLLISION_LINE_MATERIAL = new LineBasicMaterial();
 
@@ -127,10 +127,7 @@ export function getCenterPosition(from, to) {
 }
 
 export function updateLogicalCollisionMesh(collisionLine, from, to) {
-  updateAttribute(collisionLine.geometry, 'position', [
-    from.x, from.y, from.z,
-    to.x, to.y, to.z
-  ]);
+  updateAttribute(collisionLine.geometry, 'position', [from.x, from.y, from.z, to.x, to.y, to.z]);
 }
 
 export function logicalCollisionMesh() {

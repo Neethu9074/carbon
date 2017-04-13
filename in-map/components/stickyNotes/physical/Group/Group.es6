@@ -30,7 +30,7 @@ export default createStickyNote(
       const c = getColorPool('groups').getColorRGB(id);
       const backgroundColor = selectedId === id
         ? '#fff'
-        : 'rgb(' + (c.r * 255 | 0) + ',' + (c.g * 255 | 0) + ',' + (c.b * 255 | 0) + ')';
+        : 'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
 
       return (
         <div className="in-sticky-note-group" onClick={() => setSelectedSnapshotId(id)} style={{ backgroundColor }}>

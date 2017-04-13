@@ -165,7 +165,9 @@ export default class ParticleEmitter {
   getMetric(metric, timeWindowAggregation) {
     return showAggregations$.flatMap(showAggregations => {
       if (!showAggregations) {
-        return getMetricForFocusedMoment({ snapshotId: this.id, metric }).map(v => v[1] == null ? 0 : v[1]).distinct();
+        return getMetricForFocusedMoment({ snapshotId: this.id, metric })
+          .map(v => (v[1] == null ? 0 : v[1]))
+          .distinct();
       }
 
       return getTimeWindowBasedMetricAggregation({
@@ -173,7 +175,7 @@ export default class ParticleEmitter {
         metric,
         timeWindowAggregation: timeWindowAggregation
       })
-        .map(v => v == null ? 0 : v)
+        .map(v => (v == null ? 0 : v))
         .distinct();
     });
   }

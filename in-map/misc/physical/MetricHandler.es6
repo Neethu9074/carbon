@@ -42,7 +42,7 @@ export default function createMetricHandler(node, snapshotId) {
             snapshotId,
             metric: metric.get('name')
           })
-            .map(v => v[1] == null ? 0 : v[1] / maxValue)
+            .map(v => (v[1] == null ? 0 : v[1] / maxValue))
             .distinct();
         }
         return getTimeWindowBasedMetricAggregation({
@@ -50,7 +50,7 @@ export default function createMetricHandler(node, snapshotId) {
           metric: metric.get('name'),
           timeWindowAggregation: metric.get('timeWindowAggregation')
         })
-          .map(v => v == null ? 0 : v / maxValue)
+          .map(v => (v == null ? 0 : v / maxValue))
           .distinct();
       })
     )

@@ -61,7 +61,8 @@ export default createStickyNote(
             <Heading
               expanded={isExpanded}
               snapshotId={this.props.id}
-              onClick={() => this.setState({ expanded: !this.state.expanded })}>
+              onClick={() => this.setState({ expanded: !this.state.expanded })}
+            >
               {serviceInstances}
             </Heading>
 

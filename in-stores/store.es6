@@ -26,7 +26,7 @@ export function createStore({ name, initialValue = null }) {
   }
 
   function mutateTo(newValue) {
-    currentState = (allStates[name] = newValue);
+    currentState = allStates[name] = newValue;
     observable.emit(currentState);
   }
 }

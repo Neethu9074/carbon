@@ -21,7 +21,9 @@ export default class ServiceNode extends Node {
 
   update(oldParams, newParams) {
     const serviceInstances = newParams.entity.children;
-    this.sceneObjectInstance.setServiceInstances(serviceInstances.filter(si => newParams.includedIds.serviceInstanceIds[si.id]));
+    this.sceneObjectInstance.setServiceInstances(
+      serviceInstances.filter(si => newParams.includedIds.serviceInstanceIds[si.id])
+    );
   }
 
   dispose() {

@@ -38,7 +38,8 @@ export const selectedSnapshot = createTrackingStore({
     .flatMap(snapshotId => {
       if (snapshotId) {
         return focusedMoment$.flatMap(focusedMoment =>
-          createSnapshotObservable({ snapshotId, time: focusedMoment }).startWith(null));
+          createSnapshotObservable({ snapshotId, time: focusedMoment }).startWith(null)
+        );
       }
       return alwaysNull;
     })
@@ -146,12 +147,14 @@ export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
 
 export function getPhysicalHierarchy(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
-    createPhysicalHierarchyObservable({ snapshotId, time: focusedMoment }));
+    createPhysicalHierarchyObservable({ snapshotId, time: focusedMoment })
+  );
 }
 
 export function getHighlightedMapEntity(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
-    createHighlightedMapEntityObservable({ snapshotId, time: focusedMoment }));
+    createHighlightedMapEntityObservable({ snapshotId, time: focusedMoment })
+  );
 }
 
 export function getFoundations(snapshotId) {
@@ -160,7 +163,8 @@ export function getFoundations(snapshotId) {
 
 export function getRunningComponents(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
-    createRunningComponentsObservable({ snapshotId, time: focusedMoment }));
+    createRunningComponentsObservable({ snapshotId, time: focusedMoment })
+  );
 }
 
 export function getDeployedUnits(snapshotId) {

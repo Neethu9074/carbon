@@ -14,7 +14,7 @@ export default connectTo(
 
     const stickyComponents = [];
     let stickyComponentsIndex = 0;
-    for(let key in stickies) {
+    for (let key in stickies) {
       const stickyDefinition = stickies[key];
       const StickyNote = stickyDefinition.type;
       stickyComponents[stickyComponentsIndex++] = <StickyNote key={key} id={key} {...stickyDefinition.props} />;

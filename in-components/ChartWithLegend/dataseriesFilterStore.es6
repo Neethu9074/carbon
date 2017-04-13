@@ -12,17 +12,14 @@ export const filterStoreShape = rpt.shape({
 export default function createDataSeriesFilterStore() {
   const filterChanges$ = create();
   const activeFilters$ = filterChanges$
-    .scan(
-      (filters, toggeledFilter) => {
-        if (filters[toggeledFilter]) {
-          delete filters[toggeledFilter];
-        } else {
-          filters[toggeledFilter] = true;
-        }
-        return filters;
-      },
-      Object.create(null)
-    )
+    .scan((filters, toggeledFilter) => {
+      if (filters[toggeledFilter]) {
+        delete filters[toggeledFilter];
+      } else {
+        filters[toggeledFilter] = true;
+      }
+      return filters;
+    }, Object.create(null))
     .startWith(Object.create(null));
 
   return {

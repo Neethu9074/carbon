@@ -48,7 +48,7 @@ export default class Node extends Subscriber {
 
     const nodesToDelete = [];
     let indexOfDeletedNodes = 0;
-    for(let nodeId in this.children) {
+    for (let nodeId in this.children) {
       if (!newNodesMap[nodeId]) {
         nodesToDelete[indexOfDeletedNodes++] = nodeId;
       }
@@ -74,7 +74,7 @@ export default class Node extends Subscriber {
   }
 
   disposeChildren() {
-    for(let nodeId in this.children) {
+    for (let nodeId in this.children) {
       this.children[nodeId].dispose();
     }
     this.children = {};

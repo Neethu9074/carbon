@@ -4,19 +4,17 @@ import { close } from 'in-components/DialogPresenter/store';
 import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
 
-export default function ConfirmationDialog(
-  {
-    header,
-    description,
-    onClose = close,
-    aButtonLabel = 'Cancel',
-    onA = close,
-    aButtonKind = 'secondary',
-    bButtonLabel,
-    onB = close,
-    bButtonKind = 'danger'
-  }
-) {
+export default function ConfirmationDialog({
+  header,
+  description,
+  onClose = close,
+  aButtonLabel = 'Cancel',
+  onA = close,
+  aButtonKind = 'secondary',
+  bButtonLabel,
+  onB = close,
+  bButtonKind = 'danger'
+}) {
   return (
     <Dialog header={header} onClose={onClose}>
       <p>

@@ -5,18 +5,16 @@ import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
 import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import HttpResponseError from 'in-services/http/HttpResponseError';
 
-export default function(
-  {
-    method,
-    url,
-    queryParams,
-    data,
-    timeout = 30000,
-    responseType = 'json',
-    ignoreAbortErrors = true,
-    treat400AsError = true
-  }
-) {
+export default function({
+  method,
+  url,
+  queryParams,
+  data,
+  timeout = 30000,
+  responseType = 'json',
+  ignoreAbortErrors = true,
+  treat400AsError = true
+}) {
   url = formatUrl(url, queryParams);
   let xhr;
 

@@ -38,7 +38,8 @@ export default connectTo(
               isOpen: false
             };
           }
-        ))
+        )
+      )
     };
   },
   function EventDurationMarker({ event, config }) {

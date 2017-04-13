@@ -42,13 +42,13 @@ export default connectTo(
         })
         .flatMap(
           validations =>
-            validations.fixedTimestampsAreValid
+            (validations.fixedTimestampsAreValid
               ? getFixedTimeframeUrl({
                   windowSize: Math.max(MAX_ZOOM_LEVEL, validations.to - validations.from),
                   focusedMoment: validations.focusedMoment,
                   to: validations.to
                 })
-              : alwaysNull
+              : alwaysNull)
         )
         .distinct()
     };

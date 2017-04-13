@@ -38,7 +38,8 @@ class WebVRCameraController {
 
     const VRControlsClass = loadVRControlsWrapper();
     this.vrControls = new VRControlsClass(this.camera.getRenderableCamera(), e =>
-      logger.info('Failed to create VR controls', e));
+      logger.info('Failed to create VR controls', e)
+    );
     this.updateCamera();
 
     // controller

@@ -19,9 +19,9 @@ import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 
-const persistenceFormater = d => d < 0 ? 'Not in progress' : d + 's';
+const persistenceFormater = d => (d < 0 ? 'Not in progress' : d + 's');
 const latencyFormatter = (d, threshold) =>
-  d < threshold ? 'Less than ' + msZeroDecimalPlaces(threshold) : msZeroDecimalPlaces(d);
+  (d < threshold ? 'Less than ' + msZeroDecimalPlaces(threshold) : msZeroDecimalPlaces(d));
 
 function getConnectionMetricsForRole(role) {
   return role === 'master'

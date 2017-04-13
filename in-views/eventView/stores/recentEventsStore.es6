@@ -26,5 +26,5 @@ export const recentEvents$ = createTrackingStore({
 }).observable;
 
 export const sortedRecentEvents$ = recentEvents$.map(
-  events => events ? events.slice().sort((a, b) => a.get('start') - b.get('start')) : emptyArray
+  events => (events ? events.slice().sort((a, b) => a.get('start') - b.get('start')) : emptyArray)
 );

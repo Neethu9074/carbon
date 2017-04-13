@@ -32,7 +32,7 @@ export default function ButtonSection({ snapshot }) {
 
       <ImageButton
         iconType={metricsAvailable ? 'zone' : 'chevron_right'}
-        onClick={() => metricsAvailable ? stop(snapshot) : start(snapshot, false)}
+        onClick={() => (metricsAvailable ? stop(snapshot) : start(snapshot, false))}
       >
         {metricsAvailable ? 'Stop' : 'Start'} Self Monitoring
       </ImageButton>

@@ -23,7 +23,7 @@ import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connecti
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
-import {LOGICAL_CONNECTION_REACTION} from 'in-map/misc/TimingConfig';
+import { LOGICAL_CONNECTION_REACTION } from 'in-map/misc/TimingConfig';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -88,20 +88,20 @@ export default class Connection extends SceneObject {
         this.destinationNode.eventEmitter.on('transformationChanged'),
         this.eventEmitter.on('isBidirectionalChanged')
       ])
-      .debounce(LOGICAL_CONNECTION_REACTION)
-      .subscribe(([fromTransform, toTransform]) => {
-        const from = fromTransform.position.clone();
-        const to = toTransform.position.clone();
-        this.addOffsetIfBidirectional(from, to);
+        .debounce(LOGICAL_CONNECTION_REACTION)
+        .subscribe(([fromTransform, toTransform]) => {
+          const from = fromTransform.position.clone();
+          const to = toTransform.position.clone();
+          this.addOffsetIfBidirectional(from, to);
 
-        updateLogicalCollisionMesh(this.collisionLine, from, to);
-        this.getComponent('particles').setFromAndTo(from, to);
+          updateLogicalCollisionMesh(this.collisionLine, from, to);
+          this.getComponent('particles').setFromAndTo(from, to);
 
-        this.eventEmitter.emit('transformationChanged', {
-          position: getCenterPosition(from, to),
-          scale: this.getComponent('transform').getScale()
-        });
-      }),
+          this.eventEmitter.emit('transformationChanged', {
+            position: getCenterPosition(from, to),
+            scale: this.getComponent('transform').getScale()
+          });
+        }),
       combineLatest([
         this.eventEmitter.on('healthChanged'),
         this.eventEmitter.on('isHighlighted'),

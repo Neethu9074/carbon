@@ -37,7 +37,8 @@ export default connectTo(
                 })
                 .startWith(null);
             })
-          ))
+          )
+        )
         .map(metrics => {
           const map = {};
           metrics.forEach(metric => {

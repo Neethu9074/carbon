@@ -41,7 +41,8 @@ export default function RoleForm({ form, onChange, disabled }) {
           </FormGroup>
         ))}
 
-        {roleViewFilterEnabled && form.get('implicitViewFilter').map(field => (
+        {roleViewFilterEnabled &&
+          form.get('implicitViewFilter').map(field => (
             <FormGroup>
               <Label htmlFor="role-implicit-view-filter" hasError={!field.valid}>
                 View Filter

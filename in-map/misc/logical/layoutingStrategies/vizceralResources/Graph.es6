@@ -27,13 +27,10 @@ export default class Graph {
 
     this.validateData(nodes, edges);
 
-    this._entryNodeMap = this.nodes.reduce(
-      (val, node) => {
-        val[node.name] = true;
-        return val;
-      },
-      {}
-    );
+    this._entryNodeMap = this.nodes.reduce((val, node) => {
+      val[node.name] = true;
+      return val;
+    }, {});
     this._incomingNodes = {};
     this._outgoingNodes = {};
 
@@ -59,13 +56,10 @@ export default class Graph {
   }
 
   validateData(nodes, edges) {
-    const nodeMap = nodes.reduce(
-      (val, node) => {
-        val[node.name] = node;
-        return val;
-      },
-      {}
-    );
+    const nodeMap = nodes.reduce((val, node) => {
+      val[node.name] = node;
+      return val;
+    }, {});
 
     // Warn if connection connects to a node that doesnt exist
     let i;

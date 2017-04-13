@@ -316,11 +316,10 @@ export default getElementDimensions(
         // handle auto completion for field values
         const previousToken = tokens[tokens.indexOf(changedToken) - 1];
         const previousPreviousToken = tokens[tokens.indexOf(previousToken) - 1];
-        const startingFieldedValue = changedToken &&
-          changedToken.token === 'fieldSeparator' &&
-          previousToken &&
-          previousToken.token === 'field';
-        const inFieldedValue = changedToken &&
+        const startingFieldedValue =
+          changedToken && changedToken.token === 'fieldSeparator' && previousToken && previousToken.token === 'field';
+        const inFieldedValue =
+          changedToken &&
           (changedToken.token === 'phrase' || changedToken.token === 'term') &&
           previousToken &&
           previousToken.token === 'fieldSeparator' &&

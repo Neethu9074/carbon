@@ -23,7 +23,7 @@ export default class GroundPlane extends BaseGroundPlane {
       requestRendering();
     });
 
-    texture.wrapS = (texture.wrapT = RepeatWrapping);
+    texture.wrapS = texture.wrapT = RepeatWrapping;
     texture.repeat.set(repating, repating);
 
     // set the ground anisotropy to the max because it's a huge ground always

@@ -10,17 +10,14 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(
-  props => {
-    return {
-      connectedEntities: getConnectedEntities(props.snapshotId)
-        // Always start with an empty set to avoid inconsistent view,
-        // displaying running components for a previously selected snapshot.
-        .startWith(emptyMap)
-    };
-  },
-  ConnectedEntitiesList
-);
+export default connectTo(props => {
+  return {
+    connectedEntities: getConnectedEntities(props.snapshotId)
+      // Always start with an empty set to avoid inconsistent view,
+      // displaying running components for a previously selected snapshot.
+      .startWith(emptyMap)
+  };
+}, ConnectedEntitiesList);
 
 function ConnectedEntitiesList({ connectedEntities }) {
   if (!connectedEntities) {

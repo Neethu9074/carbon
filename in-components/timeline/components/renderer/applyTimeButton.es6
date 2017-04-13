@@ -25,7 +25,7 @@ export default function createHighlightedTimeframeRenderer(container, glassPane,
   const isVisibleSubscription = eventEmitter
     .on('isVisible')
     .distinct()
-    .subscribe(isVisible => isVisible ? show() : hide());
+    .subscribe(isVisible => (isVisible ? show() : hide()));
 
   const mouseLeaveSubscription = onLeave(container, () => eventEmitter.emit('isVisible', false));
 

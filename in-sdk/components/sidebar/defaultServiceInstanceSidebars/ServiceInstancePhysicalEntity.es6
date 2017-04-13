@@ -17,7 +17,7 @@ export default connectTo(
     return {
       snapshot: getClusterMembers(props.snapshotId)
         .map(clusterMembers => clusterMembers.first())
-        .flatMap(id => id ? getSnapshot(id) : alwaysNull)
+        .flatMap(id => (id ? getSnapshot(id) : alwaysNull))
     };
   },
   function ServiceInstancePhysicalEntity({ snapshot }) {

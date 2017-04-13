@@ -83,7 +83,8 @@ export default function RuleForm({ form, onChange }) {
 
         <Row>
           <Col cols={4}>
-            {form.get('entityType').value ? form.get('metricName').map(field => (
+            {form.get('entityType').value
+              ? form.get('metricName').map(field => (
                   <FormGroup>
                     <Label htmlFor="rule-metricName" hasError={!field.valid}>
                       Metric
@@ -101,7 +102,8 @@ export default function RuleForm({ form, onChange }) {
                       </ValidationBlock>
                     ))}
                   </FormGroup>
-                )) : null}
+                ))
+              : null}
           </Col>
           <Col cols={2}>
             {form.get('window').map(field => (

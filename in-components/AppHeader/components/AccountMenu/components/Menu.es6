@@ -120,13 +120,10 @@ export default connectTo(
       // Delay listener registration. If we would do this synchronously,
       // we would receive the click event which opened this dialog and
       // the dialog would be immediately closed.
-      setTimeout(
-        () => {
-          window.addEventListener('click', this.onMouseUp, false);
-          this.registered = true;
-        },
-        0
-      );
+      setTimeout(() => {
+        window.addEventListener('click', this.onMouseUp, false);
+        this.registered = true;
+      }, 0);
     },
 
     disposeListener() {

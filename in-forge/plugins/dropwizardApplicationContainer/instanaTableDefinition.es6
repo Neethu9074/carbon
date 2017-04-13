@@ -106,7 +106,8 @@ export default [
     },
     get(snapshot) {
       const coords = getTenantUnitCoordinates(snapshot);
-      const metric = 'com.instana.backend.common.kafka.GenericKafkaConsumerRunnable.' +
+      const metric =
+        'com.instana.backend.common.kafka.GenericKafkaConsumerRunnable.' +
         `retrieved-messages.${coords.environment}_${coords.tenant}_${coords.unit}_raw_messages`;
       return getMeterCellContent(metric, snapshot);
     }
@@ -134,7 +135,8 @@ export default [
     },
     get(snapshot) {
       const coords = getTenantUnitCoordinates(snapshot);
-      const metric = 'metrics.meters.com.instana.filler.topology.downstream.FilledMetricsKafkaDownstream.' +
+      const metric =
+        'metrics.meters.com.instana.filler.topology.downstream.FilledMetricsKafkaDownstream.' +
         `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_combined_metrics`;
       return getMeterCellContent(metric, snapshot);
     }
@@ -149,7 +151,8 @@ export default [
     },
     get(snapshot) {
       const coords = getTenantUnitCoordinates(snapshot);
-      const metric = 'metrics.meters.com.instana.filler.topology.downstream.RollupsKafkaDownstream.' +
+      const metric =
+        'metrics.meters.com.instana.filler.topology.downstream.RollupsKafkaDownstream.' +
         `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_rollups`;
       return getMeterCellContent(metric, snapshot);
     }
@@ -164,7 +167,8 @@ export default [
     },
     get(snapshot) {
       const coords = getTenantUnitCoordinates(snapshot);
-      const metric = 'metrics.meters.com.instana.filler.topology.downstream.SnapshotsKafkaDownstream.' +
+      const metric =
+        'metrics.meters.com.instana.filler.topology.downstream.SnapshotsKafkaDownstream.' +
         `produced-kafka-messages.${coords.environment}_${coords.tenant}_${coords.unit}_snapshots`;
       return getMeterCellContent(metric, snapshot);
     }

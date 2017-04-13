@@ -84,7 +84,8 @@ function registerMetricDefinitions(snapshotDefinition) {
     return;
   }
   snapshotDefinition.metricDefinitions.forEach(metricDefinition =>
-    registerMetricDefinition(snapshotDefinition.plugin, metricDefinition));
+    registerMetricDefinition(snapshotDefinition.plugin, metricDefinition)
+  );
 }
 
 function registerIconPath(snapshotDefinition) {

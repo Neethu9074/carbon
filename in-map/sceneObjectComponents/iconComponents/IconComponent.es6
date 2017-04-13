@@ -25,7 +25,9 @@ export default class IconComponent extends SceneObjectComponent {
 
     this.addSubscription(
       sceneObject.eventEmitter.on('transformationChanged').subscribe(transform => {
-        this.fragment.additionalParams.positionOffset.copy(this.getIconPositionCallback(transform.position, transform.scale));
+        this.fragment.additionalParams.positionOffset.copy(
+          this.getIconPositionCallback(transform.position, transform.scale)
+        );
         this.factory.needsUpdate();
       })
     );

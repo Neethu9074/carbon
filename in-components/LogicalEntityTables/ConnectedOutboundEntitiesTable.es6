@@ -6,14 +6,11 @@ import { getConnectedEntities } from 'in-stores/connectedEntities';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(
-  props => {
-    return {
-      connectedEntities: getConnectedEntities(props.snapshot.get('id'))
-    };
-  },
-  ConnectedEntitiesTable
-);
+export default connectTo(props => {
+  return {
+    connectedEntities: getConnectedEntities(props.snapshot.get('id'))
+  };
+}, ConnectedEntitiesTable);
 
 function ConnectedEntitiesTable({ timeframe, connectedEntities }) {
   if (!connectedEntities) {

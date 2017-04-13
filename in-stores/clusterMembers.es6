@@ -6,5 +6,6 @@ export function getClusterMembers(snapshotId) {
     createClusterMembersObservable({
       snapshotId,
       time: focusedMoment
-    }));
+    })
+  );
 }

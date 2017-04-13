@@ -135,33 +135,30 @@ export const getOpenIssuesAtFocusedMoment = memoize(
 export const getHealthInfoAtFocusedMoment = memoize(
   snapshotId =>
     getOpenIssuesAtFocusedMoment(snapshotId)
-      .scan(
-        (prevHealthInfo, issues) => {
-          const nextHealthInfo = {
-            maxSeverity: 0,
-            issueWithMaxSeverity: null,
-            numberOfOpenIssues: issues.size
-          };
+      .scan((prevHealthInfo, issues) => {
+        const nextHealthInfo = {
+          maxSeverity: 0,
+          issueWithMaxSeverity: null,
+          numberOfOpenIssues: issues.size
+        };
 
-          issues.forEach(issue => {
-            const severity = issue.getIn(['problem', 'severity'], 0);
-            if (severity >= nextHealthInfo.maxSeverity) {
-              nextHealthInfo.maxSeverity = severity;
-              nextHealthInfo.issueWithMaxSeverity = issue;
-            }
-          });
-
-          if (
-            prevHealthInfo.maxSeverity !== nextHealthInfo.maxSeverity ||
-            prevHealthInfo.issueWithMaxSeverity !== nextHealthInfo.issueWithMaxSeverity ||
-            prevHealthInfo.numberOfOpenIssues !== nextHealthInfo.numberOfOpenIssues
-          ) {
-            return nextHealthInfo;
+        issues.forEach(issue => {
+          const severity = issue.getIn(['problem', 'severity'], 0);
+          if (severity >= nextHealthInfo.maxSeverity) {
+            nextHealthInfo.maxSeverity = severity;
+            nextHealthInfo.issueWithMaxSeverity = issue;
           }
-          return prevHealthInfo;
-        },
-        {}
-      )
+        });
+
+        if (
+          prevHealthInfo.maxSeverity !== nextHealthInfo.maxSeverity ||
+          prevHealthInfo.issueWithMaxSeverity !== nextHealthInfo.issueWithMaxSeverity ||
+          prevHealthInfo.numberOfOpenIssues !== nextHealthInfo.numberOfOpenIssues
+        ) {
+          return nextHealthInfo;
+        }
+        return prevHealthInfo;
+      }, {})
       .distinct()
       .map(mutableHealthInfo => Map(mutableHealthInfo)),
   id => id,
@@ -191,7 +188,7 @@ export function getColorForEventAtFocusedMomentAsStream(event, defaultColor) {
       return color;
     },
     // if closed
-    () => defaultColor ? defaultColor : theme.health[0]
+    () => (defaultColor ? defaultColor : theme.health[0])
   );
 }
 
@@ -232,8 +229,10 @@ export function getColorForEventAtFocusedMoment(event, focusedMoment) {
 export function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
   // No focused moment? Then it is according to server time which means
   // we color based on the state property.
-  return (focusedMoment == null && state === 'open') ||
-    ((start <= focusedMoment && (focusedMoment < end || !end)) || state === 'open');
+  return (
+    (focusedMoment == null && state === 'open') ||
+    ((start <= focusedMoment && (focusedMoment < end || !end)) || state === 'open')
+  );
 }
 
 function insertSorted(store, event) {
@@ -368,17 +367,17 @@ export const selectedEventId$ = createTrackingStore({
 
 export const selectedEvent$ = createTrackingStore({
   name: 'events/selectedEvent',
-  observable: selectedEventId$.flatMap(id => id ? getEvent(id) : alwaysNull).distinct()
+  observable: selectedEventId$.flatMap(id => (id ? getEvent(id) : alwaysNull)).distinct()
 }).observable;
 
 export const selectedIncident$ = createTrackingStore({
   name: 'events/selectedIncident',
-  observable: selectedEvent$.map(event => event == null || event.get('type') === 'incident' ? event : null)
+  observable: selectedEvent$.map(event => (event == null || event.get('type') === 'incident' ? event : null))
 }).observable;
 
 export const selectedObjective$ = createTrackingStore({
   name: 'events/selectedObjective',
-  observable: selectedEvent$.map(event => event == null || event.get('type') === 'objective' ? event : null)
+  observable: selectedEvent$.map(event => (event == null || event.get('type') === 'objective' ? event : null))
 }).observable;
 
 export function countEvents(events) {

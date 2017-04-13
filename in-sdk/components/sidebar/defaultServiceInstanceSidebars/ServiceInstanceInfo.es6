@@ -14,10 +14,10 @@ import { getZone } from 'in-stores/zone';
 export default connectTo(
   props => {
     return {
-      serviceEntity: getZone(props.snapshotId).flatMap(id => id ? getSnapshot(id) : alwaysNull),
+      serviceEntity: getZone(props.snapshotId).flatMap(id => (id ? getSnapshot(id) : alwaysNull)),
       physicalEntity: getClusterMembers(props.snapshotId)
         .map(clusterMembers => clusterMembers.first())
-        .flatMap(id => id ? getSnapshot(id) : alwaysNull)
+        .flatMap(id => (id ? getSnapshot(id) : alwaysNull))
     };
   },
   function ServiceInstanceInfo({ serviceEntity, physicalEntity }) {

@@ -17,7 +17,8 @@ export default function createLayouter() {
         config.nodes = Object.keys(_services).map(key => _services[key]);
         config.edges = Object.keys(_connections).map(key => _connections[key]);
         return layoutStrategy;
-      }))
+      })
+    )
     .subscribe(layoutStrategy => layoutStrategy.applyLayout(layoutStrategy.config));
 
   return {

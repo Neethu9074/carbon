@@ -7,7 +7,8 @@ export function getConnectedEntities(snapshotId, time) {
       createConnectedEntitiesObservable({
         snapshotId,
         time: focusedMoment
-      }));
+      })
+    );
   }
 
   return createConnectedEntitiesObservable({ snapshotId, time });

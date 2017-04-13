@@ -230,7 +230,8 @@ export default connectTo(
 
         const index = state.userOverview.get('users').indexOf(user);
         const newUserOverview = state.userOverview.updateIn(['users', index], modifiableUser =>
-          modifiableUser.set('roleId', newRoleId));
+          modifiableUser.set('roleId', newRoleId)
+        );
         return {
           status: state.status,
           userOverview: newUserOverview
@@ -266,7 +267,8 @@ export default connectTo(
           // roll back the role change
           const index = state.userOverview.get('users').findIndex(eachUser => user.get('id') === eachUser.get('id'));
           const newUserOverview = state.userOverview.updateIn(['users', index], modifiableUser =>
-            modifiableUser.set('roleId', previousRoleId));
+            modifiableUser.set('roleId', previousRoleId)
+          );
           return {
             status: state.status,
             userOverview: newUserOverview
@@ -314,7 +316,8 @@ export default connectTo(
             loading: false,
             message: null,
             userOverview: state.userOverview.updateIn(['users'], users =>
-              users.filter(eachUser => user.get('id') !== eachUser.get('id')))
+              users.filter(eachUser => user.get('id') !== eachUser.get('id'))
+            )
           };
         });
       });
@@ -366,7 +369,8 @@ export default connectTo(
             loading: false,
             message: null,
             userOverview: state.userOverview.updateIn(['invitations'], invitations =>
-              invitations.filter(eachInvitation => eachInvitation.get('email') !== invitation.get('email')))
+              invitations.filter(eachInvitation => eachInvitation.get('email') !== invitation.get('email'))
+            )
           };
         });
       });

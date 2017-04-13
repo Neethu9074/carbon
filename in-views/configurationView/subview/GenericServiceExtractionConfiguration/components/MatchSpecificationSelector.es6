@@ -31,15 +31,13 @@ function MatchSpecificationItem({ matchSpecificationOption, matchSpecificationFo
   );
 }
 
-export default function MatchSpecificationSelector(
-  {
-    id,
-    matchSpecificationForm,
-    matchSpecificationOptionsTree,
-    helpTexts,
-    onChangeMatchOption
-  }
-) {
+export default function MatchSpecificationSelector({
+  id,
+  matchSpecificationForm,
+  matchSpecificationOptionsTree,
+  helpTexts,
+  onChangeMatchOption
+}) {
   return (
     <FormGroup>
       <Label htmlFor={`${id}-select-match-rule`}>Add Match Expression</Label>

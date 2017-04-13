@@ -47,11 +47,13 @@ export default React.createClass({
   },
 
   shouldComponentUpdate(nextProps) {
-    return this.props.snapshotId !== nextProps.snapshotId ||
+    return (
+      this.props.snapshotId !== nextProps.snapshotId ||
       !isEqual(this.props.snapshotIds, nextProps.snapshotIds) ||
       this.props.timeframe$ !== nextProps.timeframe$ ||
       !this.isAxisEqual(this.props.y1, nextProps.y1) ||
-      !this.isAxisEqual(this.props.y2, nextProps.y2);
+      !this.isAxisEqual(this.props.y2, nextProps.y2)
+    );
   },
 
   isAxisEqual(currentAxis, nextAxis) {
@@ -64,12 +66,14 @@ export default React.createClass({
     if (currentAxis == null && nextAxis != null) {
       return false;
     }
-    return currentAxis.min === nextAxis.min &&
+    return (
+      currentAxis.min === nextAxis.min &&
       currentAxis.max === nextAxis.max &&
       currentAxis.formatter === nextAxis.formatter &&
       currentAxis.tooltipFormatter === nextAxis.tooltipFormatter &&
       isEqual(currentAxis.labels, nextAxis.labels) &&
-      isEqual(currentAxis.metrics, nextAxis.metrics);
+      isEqual(currentAxis.metrics, nextAxis.metrics)
+    );
   },
 
   componentDidUpdate() {

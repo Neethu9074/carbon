@@ -6,14 +6,11 @@ import './ServiceInstanceList.less';
 
 const block = 'in-sticky-note-service-instance-list';
 
-export default function ServiceInstanceList({serviceInstances}) {
+export default function ServiceInstanceList({ serviceInstances }) {
   return (
     <div className={block}>
       <ul className={block + '__list'}>
-        {serviceInstances.map(si =>
-          <ServiceInstance key={si.id}
-                           snapshotId={si.id} />
-        )}
+        {serviceInstances.map(si => <ServiceInstance key={si.id} snapshotId={si.id} />)}
       </ul>
     </div>
   );

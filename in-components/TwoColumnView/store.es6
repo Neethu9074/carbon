@@ -14,11 +14,11 @@ export function createExpandedViewStore(name) {
     expandedSide$: store.observable,
 
     toggleLeft() {
-      store.applyStateMutation(side => side === 'left' ? null : 'left');
+      store.applyStateMutation(side => (side === 'left' ? null : 'left'));
     },
 
     toggleRight() {
-      store.applyStateMutation(side => side === 'right' ? null : 'right');
+      store.applyStateMutation(side => (side === 'right' ? null : 'right'));
     }
   };
 }
