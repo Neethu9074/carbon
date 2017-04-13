@@ -7,8 +7,8 @@ import {
   isEjbServiceExtractionConfigurationView$,
   elasticsearchServiceExtractionConfigurationViewLink$,
   isElasticsearchServiceExtractionConfigurationView$,
-  jmsServiceExtractionConfigurationViewLink$,
-  isJmsServiceExtractionConfigurationView$,
+  messageBrokerServiceExtractionConfigurationViewLink$,
+  isMessageBrokerServiceExtractionConfigurationView$,
   userInterfaceConfigViewLink$,
   isUserInterfaceConfigView$,
   eumKeysViewLink$,
@@ -57,9 +57,9 @@ export default function Navigation() {
                      href$={elasticsearchServiceExtractionConfigurationViewLink$}
                      isActive$={isElasticsearchServiceExtractionConfigurationView$}
                      borderless />
-            <NavItem title='JMS Rules'
-                     href$={jmsServiceExtractionConfigurationViewLink$}
-                     isActive$={isJmsServiceExtractionConfigurationView$}
+            <NavItem title='Message Broker Rules'
+                     href$={messageBrokerServiceExtractionConfigurationViewLink$}
+                     isActive$={isMessageBrokerServiceExtractionConfigurationView$}
                      borderless />
           </NavItem>
         : null}

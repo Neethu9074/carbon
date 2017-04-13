@@ -7,12 +7,12 @@ import commonHelpTexts from 'in-views/configurationView/subview/serviceExtractio
 
 const helpTexts = defaultsDeep(
   {
-    viewHelp: 'Configure how Instana uses JMS attributes to extract services. You can define multiple rules ' +
+    viewHelp: 'Configure how Instana uses message broker span attributes to extract services. You can define multiple rules ' +
     'which will be executed in order, i.e. the first rule of which all match expression match, will be used to extract ' +
-    'a service name.',
-    matchesHelp: 'Select here which JMS attributes should be used to match and extract a service. At least one match ' +
-    'expression is required. The JMS destination / queue can be matched ' +
-    'to extract services. When all of the configured match expressions match a JMS span\'s attributes, a ' +
+    'a service name. Message brokers are HornetQ, JMS, Kafka and RabbitMQ.',
+    matchesHelp: 'Select here which message broker attributes should be used to match and extract a service. At least one match ' +
+    'expression is required. The message broker destination / queue / topic can be matched ' +
+    'to extract services. When all of the configured match expressions match a message broker span\'s attributes, a ' +
     'service will be extracted.'
   },
   commonHelpTexts
@@ -20,14 +20,14 @@ const helpTexts = defaultsDeep(
 
 const matchSpecificationOptionsTree = [
   {
-    label: 'Destination / Queue',
+    label: 'Destination / Queue / Topic',
     value: 'destination'
   }
 ];
 
 const matchSpecificationOptions = {
   destination: {
-    titleName: 'Destination / Queue',
+    titleName: 'Destination / Queue / Topic',
     placeholder: '',
     testPlaceholder: '',
     initialValue: '',
@@ -41,10 +41,10 @@ const matchSpecificationOptions = {
   }
 };
 
-export default function JmsServiceExtractionConfiguration() {
+export default function MessageBrokerServiceExtractionConfiguration() {
   return (
     <GenericServiceExtractionConfiguration ruleType='messagebroker'
-                                           title='JMS Service Extraction Rules'
+                                           title='Message Broker Service Extraction Rules'
                                            helpTexts={helpTexts}
                                            matchSpecificationOptionsTree={matchSpecificationOptionsTree}
                                            matchSpecificationOptions={matchSpecificationOptions} />
