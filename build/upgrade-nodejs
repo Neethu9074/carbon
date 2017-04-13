@@ -41,12 +41,11 @@ echo "" > .git/hooks/pre-commit
 npm install -g yarn
 
 # install global tools
-yarn global add ec2c proxrox tldr commitizen diff-so-fancy yarn
+yarn global add ec2c proxrox tldr commitizen diff-so-fancy
 
 # and install all the dependencies
 yarn
 cd in-server
 yarn
-
 
 echo 'Great success, Node.js is now up to date!'

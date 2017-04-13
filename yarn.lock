@@ -1233,8 +1233,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000649"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/caniuse-db/-/caniuse-db-1.0.30000649.tgz#1ee1754a6df235450c8b7cd15e0ebf507221a86a"
+  version "1.0.30000650"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/caniuse-db/-/caniuse-db-1.0.30000650.tgz#615f564d367533d32b82d72ada09661e75386bab"
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -2658,7 +2658,7 @@ faye-websocket@~0.7.3:
   dependencies:
     websocket-driver ">=0.3.6"
 
-fbjs@^0.8.3, fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.3, fbjs@^0.8.4:
   version "0.8.12"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -3790,8 +3790,8 @@ instalog@^1.0.0:
     invariant "^2.0.0"
 
 instana-nodejs-sensor@next:
-  version "1.23.0"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/instana-nodejs-sensor/-/instana-nodejs-sensor-1.23.0.tgz#e25456b5227901fd7a6093d7fc00a7a488b615c5"
+  version "1.23.1"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/instana-nodejs-sensor/-/instana-nodejs-sensor-1.23.1.tgz#0a51e452c0489b72aa26fdbc9495255db873bfdc"
   dependencies:
     bunyan "^1.5.1"
     event-loop-lag "1.2.0"
@@ -3802,7 +3802,7 @@ instana-nodejs-sensor@next:
     async-hook "1.6.0"
     event-loop-stats "1.0.0"
     gcstats.js "1.0.0"
-    v8-profiler "5.6.5"
+    v8-profiler "5.7.0"
 
 instana-ui-theme@^1.8.0:
   version "1.11.0"
@@ -5021,7 +5021,7 @@ mv@~2:
     ncp "~2.0.0"
     rimraf "~2.4.0"
 
-nan@^2.0.5, nan@^2.1.0, nan@^2.3.0, nan@^2.3.2, nan@^2.3.3:
+nan@^2.0.5, nan@^2.1.0, nan@^2.3.0, nan@^2.3.3, nan@^2.5.1:
   version "2.6.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/nan/-/nan-2.6.1.tgz#8c84f7b14c96b89f57fbc838012180ec8ca39a01"
 
@@ -5147,7 +5147,7 @@ node-libs-browser@^0.7.0:
     util "^0.10.3"
     vm-browserify "0.0.4"
 
-node-pre-gyp@^0.6.29, node-pre-gyp@^0.6.5:
+node-pre-gyp@^0.6.29, node-pre-gyp@^0.6.34:
   version "0.6.34"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/node-pre-gyp/-/node-pre-gyp-0.6.34.tgz#94ad1c798a11d7fc67381b50d47f8cc18d9799f7"
   dependencies:
@@ -6212,12 +6212,6 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@~15.5.0:
-  version "15.5.6"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/prop-types/-/prop-types-15.5.6.tgz#797a915b1714b645ebb7c5d6cc690346205bd2aa"
-  dependencies:
-    fbjs "^0.8.9"
-
 proto-list@~1.2.1:
   version "1.2.4"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
@@ -6389,14 +6383,13 @@ react-dev-utils@^0.5.2:
     sockjs-client "1.0.1"
     strip-ansi "3.0.1"
 
-react-dom@^15.0.0, react-dom@^15.3.1:
-  version "15.5.3"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-dom/-/react-dom-15.5.3.tgz#2ee127ce942df55da53111ae303316e68072b5c5"
+"react-dom@>=15.4.0 <15.5.0", react-dom@^15.0.0:
+  version "15.4.2"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/react-dom/-/react-dom-15.4.2.tgz#015363f05b0a1fd52ae9efdd3a0060d90695208f"
   dependencies:
-    fbjs "^0.8.9"
+    fbjs "^0.8.1"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "~15.5.0"
 
 react-immutable-proptypes@^2.1.0:
   version "2.1.0"
@@ -7993,12 +7986,12 @@ uuid@^3.0.0:
   version "3.0.1"
   resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
-v8-profiler@5.6.5:
-  version "5.6.5"
-  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/v8-profiler/-/v8-profiler-5.6.5.tgz#8b22e6ff3b76a1c75b1d53fd18d58e3f0a46f5be"
+v8-profiler@5.7.0:
+  version "5.7.0"
+  resolved "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/v8-profiler/-/v8-profiler-5.7.0.tgz#e8381cbebb5b5fd0ca8d2b09f6a0181a158db34d"
   dependencies:
-    nan "^2.3.2"
-    node-pre-gyp "^0.6.5"
+    nan "^2.5.1"
+    node-pre-gyp "^0.6.34"
 
 v8flags@^2.0.10, v8flags@^2.0.2:
   version "2.0.12"
