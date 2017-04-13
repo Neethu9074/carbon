@@ -70,6 +70,7 @@ gulp.task('askForDevOptions', cb => {
             groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
             tenant: 'instana',
             tenantUnit: 'test',
+            environment: 'internal',
             butlerDomain: 'internal-groundskeeper-instana.instana.io'
           }
         },
@@ -83,6 +84,7 @@ gulp.task('askForDevOptions', cb => {
             local: true,
             tenant: 'instana',
             tenantUnit: 'test',
+            environment: 'local',
             butlerDomain: 'internal-groundskeeper-instana.instana.io'
           }
         },
@@ -158,16 +160,6 @@ gulp.task('askForDevOptions', cb => {
     },
     {
       type: 'list',
-      name: 'uiMode',
-      message: 'Mode of the UI?',
-      choices: [
-        'saas',
-        'demo'
-      ],
-      default: 'saas'
-    },
-    {
-      type: 'list',
       name: 'activeTheme',
       message: 'Enabled theme',
       choices: [
@@ -178,7 +170,7 @@ gulp.task('askForDevOptions', cb => {
     }
   ];
 
-  inquirer.prompt(questions, (selectedOptions) => {
+  inquirer.prompt(questions, selectedOptions => {
     // no premade target selected, we need to build it up!
     if (selectedOptions.target.groundskeeperUrl == null) {
       selectedOptions.target = {
@@ -186,6 +178,7 @@ gulp.task('askForDevOptions', cb => {
         groundskeeperUrl: selectedOptions.environment.groundskeeperUrl,
         tenant: selectedOptions.tenant,
         tenantUnit: selectedOptions.tenantUnit,
+        environment: selectedOptions.environment,
         butlerDomain: selectedOptions.environment.butlerDomain
       };
     }
@@ -196,10 +189,7 @@ gulp.task('askForDevOptions', cb => {
 
 
 gulp.task('writeDevConfigFile', () => {
-  buildUtil.writeDevModeConfig(
-    devModeOptions.uiMode === 'saas' ? 'production' : 'demo',
-    devModeOptions.target
-  );
+  buildUtil.writeDevModeConfig(devModeOptions.target);
 });
 
 

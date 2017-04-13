@@ -60,12 +60,12 @@ exports.startProxrox = function startProxrox(config) {
 
 exports.openBrowser = opn;
 
-exports.writeDevModeConfig = function writeDevModeConfig(environment, envConfig) {
+exports.writeDevModeConfig = function writeDevModeConfig(envConfig) {
   var devConfig = {
     tenant: envConfig.tenant,
     tenantUnit: envConfig.tenantUnit,
     tenantUnitDomainSuffix: 'instana.io',
-    environment: 'internal',
+    environment: envConfig.environment,
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
     operationMode: 'saas'
