@@ -1,6 +1,6 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import {requestRendering} from 'in-map/stores/renderingStore';
-import {Vector3} from 'in-map/3DLibProvider';
+import { requestRendering } from 'in-map/stores/renderingStore';
+import { Vector3 } from 'in-map/3DLibProvider';
 
 export default class TransformationComponent extends SceneObjectComponent {
   constructor(sceneObject) {
@@ -27,14 +27,13 @@ export default class TransformationComponent extends SceneObjectComponent {
 
   setPositionXYZ(x, y, z) {
     const position = this.transform.position;
-    if (position.x === x &&
-        position.y === y &&
-        position.z === z) {
+    if (position.x === x && position.y === y && position.z === z) {
       return;
     }
 
     position.set(x, y, z);
     this.emitToClient('transformationChanged', this.transform);
+    this.emitToClient('positionChanged', position);
     requestRendering();
   }
 
@@ -44,11 +43,9 @@ export default class TransformationComponent extends SceneObjectComponent {
 
   setScaleXYZ(x, y, z) {
     const scale = this.transform.scale;
-    if (scale.x === x &&
-        scale.y === y &&
-        scale.z === z) {
-        return;
-      }
+    if (scale.x === x && scale.y === y && scale.z === z) {
+      return;
+    }
 
     scale.set(x, y, z);
     this.emitToClient('transformationChanged', this.transform);
@@ -62,17 +59,15 @@ export default class TransformationComponent extends SceneObjectComponent {
   setTransformXYZ(px, py, pz, sx, sy, sz) {
     const position = this.transform.position;
     const scale = this.transform.scale;
-    if (position.x === px &&
-        position.y === py &&
-        position.z === pz &&
-        scale.x === sx &&
-        scale.y === sy &&
-        scale.z === sz) {
+    if (
+      position.x === px && position.y === py && position.z === pz && scale.x === sx && scale.y === sy && scale.z === sz
+    ) {
       return;
     }
     position.set(px, py, pz);
     scale.set(sx, sy, sz);
     this.emitToClient('transformationChanged', this.transform);
+    this.emitToClient('positionChanged', position);
     requestRendering();
   }
 

@@ -7,8 +7,8 @@ import {
   isEjbServiceExtractionConfigurationView$,
   elasticsearchServiceExtractionConfigurationViewLink$,
   isElasticsearchServiceExtractionConfigurationView$,
-  jmsServiceExtractionConfigurationViewLink$,
-  isJmsServiceExtractionConfigurationView$,
+  messageBrokerServiceExtractionConfigurationViewLink$,
+  isMessageBrokerServiceExtractionConfigurationView$,
   userInterfaceConfigViewLink$,
   isUserInterfaceConfigView$,
   eumKeysViewLink$,
@@ -50,20 +50,26 @@ export default function Navigation() {
                 isActive$={isHttpServiceExtractionConfigurationView$}
                 borderless
               />
-            <NavItem title="EJB Rules"
-                     href$={ejbServiceExtractionConfigurationViewLink$}
-                     isActive$={isEjbServiceExtractionConfigurationView$}
-                     borderless />
-            <NavItem title="Elasticsearch Rules"
-                     href$={elasticsearchServiceExtractionConfigurationViewLink$}
-                     isActive$={isElasticsearchServiceExtractionConfigurationView$}
-                     borderless />
-            <NavItem title="JMS Rules"
-                     href$={jmsServiceExtractionConfigurationViewLink$}
-                     isActive$={isJmsServiceExtractionConfigurationView$}
-                     borderless />
-          </NavItem>
-        : null}
+              <NavItem
+                title="EJB Rules"
+                href$={ejbServiceExtractionConfigurationViewLink$}
+                isActive$={isEjbServiceExtractionConfigurationView$}
+                borderless
+              />
+              <NavItem
+                title="Elasticsearch Rules"
+                href$={elasticsearchServiceExtractionConfigurationViewLink$}
+                isActive$={isElasticsearchServiceExtractionConfigurationView$}
+                borderless
+              />
+              <NavItem
+                title="Message Broker Rules"
+                href$={messageBrokerServiceExtractionConfigurationViewLink$}
+                isActive$={isMessageBrokerServiceExtractionConfigurationView$}
+                borderless
+              />
+            </NavItem>
+          : null}
 
         {role.canConfigureEumApplications
           ? <NavItem title="End-User Monitoring" href$={eumKeysViewLink$} isActive$={isEumKeysView$} />
