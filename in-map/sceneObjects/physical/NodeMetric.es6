@@ -86,12 +86,13 @@ export default class NodeMetric extends SceneObject {
     super.initEvents();
 
     this.addSubscriptions([
-      this.parentNode.eventEmitter.on('positionChanged').subscribe(position => {
+      this.parentNode.eventEmitter.on('transformationChanged').subscribe(transform => {
+        const position = transform.position;
+        const scale = transform.scale;
+
         this.getComponent('transform').setPosition(position);
         this.sceneObject.position.copy(position);
-      }),
 
-      this.parentNode.eventEmitter.on('scaleChanged').subscribe(scale => {
         this.getComponent('transform').setScaleXYZ(scale.x * METRIC_MARGIN,
                                                    scale.y,
                                                    scale.z * METRIC_MARGIN);

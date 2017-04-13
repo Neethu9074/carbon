@@ -62,11 +62,14 @@ export default class Connection extends SceneObject {
 
     this.addSubscriptions([
       combineLatest([
-        this.sourceNode.eventEmitter.on('positionChanged'),
-        this.destinationNode.eventEmitter.on('positionChanged')
-      ]).subscribe(([from, to]) => {
-        updatePhysicalCollisionMesh(this.collisionLine, from, to);
-        this.eventEmitter.emit('positionChanged', this.getPosition());
+        this.sourceNode.eventEmitter.on('transformationChanged'),
+        this.destinationNode.eventEmitter.on('transformationChanged')
+      ]).subscribe(([fromTransform, toTransform]) => {
+        updatePhysicalCollisionMesh(this.collisionLine, fromTransform.position, toTransform.position);
+        this.eventEmitter.emit('transformationChanged', {
+          position: this.getPosition(),
+          scale: this.getComponent('transform').getScale()
+        });
         requestRendering();
       })
     ]);

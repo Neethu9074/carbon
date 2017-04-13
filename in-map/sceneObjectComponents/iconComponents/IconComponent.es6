@@ -1,5 +1,3 @@
-import {combineLatest} from 'reactive-observables';
-
 import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
 
@@ -31,11 +29,8 @@ export default class IconComponent extends SceneObjectComponent {
     const sceneObject = this.sceneObject;
 
     this.addSubscription(
-      combineLatest([
-        sceneObject.eventEmitter.on('positionChanged'),
-        sceneObject.eventEmitter.on('scaleChanged')
-      ]).subscribe(([pos, scale]) => {
-        this.fragment.additionalParams.positionOffset.copy(this.getIconPositionCallback(pos, scale));
+      sceneObject.eventEmitter.on('transformationChanged').subscribe(transform => {
+        this.fragment.additionalParams.positionOffset.copy(this.getIconPositionCallback(transform.position, transform.scale));
         this.factory.needsUpdate();
       })
     );

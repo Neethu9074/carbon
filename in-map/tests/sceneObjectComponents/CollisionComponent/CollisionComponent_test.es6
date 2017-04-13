@@ -47,8 +47,7 @@ describe('in-map', () => {
     it('should add the collision geometry to physics when position and scale are available', () => {
       expect(addCollisionObject).to.have.callCount(0);
 
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
+      sceneObject.eventEmitter.emit('transformationChanged', { position: {x: 1, y: 0, z: 2}, scale: {x: 1, y: 2, z: 1}});
 
       expect(addCollisionObject).to.have.callCount(1);
       const mesh = addCollisionObject.getCall(0).args[0];
@@ -66,16 +65,11 @@ describe('in-map', () => {
     it('should refresh the collision mesh each time position or scale changes', () => {
       expect(addCollisionObject).to.have.callCount(0);
 
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
-
+      sceneObject.eventEmitter.emit('transformationChanged', { position: {x: 1, y: 0, z: 2}, scale: {x: 1, y: 2, z: 1}});
       expect(addCollisionObject).to.have.callCount(1);
 
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
+      sceneObject.eventEmitter.emit('transformationChanged', { position: {x: 1, y: 0, z: 2}, scale: {x: 1, y: 2, z: 1}});
       expect(addCollisionObject).to.have.callCount(2);
-
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
-      expect(addCollisionObject).to.have.callCount(3);
     });
   });
 });

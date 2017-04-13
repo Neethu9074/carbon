@@ -84,19 +84,23 @@ export default class Connection extends SceneObject {
 
     this.addSubscriptions([
       combineLatest([
-        this.sourceNode.eventEmitter.on('positionChanged'),
-        this.destinationNode.eventEmitter.on('positionChanged'),
+        this.sourceNode.eventEmitter.on('transformationChanged'),
+        this.destinationNode.eventEmitter.on('transformationChanged'),
         this.eventEmitter.on('isBidirectionalChanged')
       ])
       .debounce(LOGICAL_CONNECTION_REACTION)
-      .subscribe(([from, to]) => {
-        from = from.clone();
-        to = to.clone();
+      .subscribe(([fromTransform, toTransform]) => {
+        const from = fromTransform.position.clone();
+        const to = toTransform.position.clone();
         this.addOffsetIfBidirectional(from, to);
 
         updateLogicalCollisionMesh(this.collisionLine, from, to);
         this.getComponent('particles').setFromAndTo(from, to);
-        this.eventEmitter.emit('positionChanged', getCenterPosition(from, to));
+
+        this.eventEmitter.emit('transformationChanged', {
+          position: getCenterPosition(from, to),
+          scale: this.getComponent('transform').getScale()
+        });
       }),
 
       combineLatest([

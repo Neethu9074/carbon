@@ -94,8 +94,7 @@ describe('in-map', () => {
       const nodePosition = {x: 1, y: 2, z: 3};
       const nodeScale = {x: 1, y: 4, z: 1};
 
-      eventEmitter.emit('positionChanged', nodePosition);
-      eventEmitter.emit('scaleChanged', nodeScale);
+      eventEmitter.emit('transformationChanged', { position: nodePosition, scale: nodeScale});
 
       layer.add('id1',  createLayer('plugin_1'));
 
@@ -109,8 +108,7 @@ describe('in-map', () => {
       const nodePosition = {x: 1, y: 2, z: 3};
       const nodeScale = {x: 1, y: 4, z: 1};
 
-      eventEmitter.emit('positionChanged', nodePosition);
-      eventEmitter.emit('scaleChanged', nodeScale);
+      eventEmitter.emit('transformationChanged', { position: nodePosition, scale: nodeScale});
 
       layer.add('id1',  createLayer('plugin_1'));
       layer.add('id2',  createLayer('plugin_2'));
@@ -128,8 +126,7 @@ describe('in-map', () => {
       layer.add('id1',  createLayer('plugin_1'));
       layer.add('id2',  createLayer('plugin_2'));
 
-      eventEmitter.emit('positionChanged', nodePosition);
-      eventEmitter.emit('scaleChanged', nodeScale);
+      eventEmitter.emit('transformationChanged', { position: nodePosition, scale: nodeScale});
 
       expect(factory.add.getCall(0).args).to.have.length(1);
       expect(factory.add.getCall(1).args).to.have.length(1);
@@ -146,8 +143,7 @@ describe('in-map', () => {
       layer.add('id5',  createLayer('plugin_3'));
       layer.add('id6',  createLayer('plugin_4'));
 
-      eventEmitter.emit('positionChanged', nodePosition);
-      eventEmitter.emit('scaleChanged', nodeScale);
+      eventEmitter.emit('transformationChanged', { position: nodePosition, scale: nodeScale});
 
       expect(factory.add.getCall(0).args).to.have.length(1);
       expect(factory.add.getCall(1).args).to.have.length(1);

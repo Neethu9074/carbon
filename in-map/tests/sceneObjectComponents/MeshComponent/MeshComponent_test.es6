@@ -42,14 +42,11 @@ describe('in-map', () => {
     });
 
     it('should update fragment when node changes', () => {
-      sceneObject.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
+      sceneObject.eventEmitter.emit('transformationChanged', { position: {x: 1, y: 0, z: 2}, scale: {x: 1, y: 2, z: 1}});
       expect(factory.needsUpdate).to.have.callCount(1);
 
-      sceneObject.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
-      expect(factory.needsUpdate).to.have.callCount(2);
-
       sceneObject.eventEmitter.emit('colorChanged', {r: 1, g: 2, b: 1});
-      expect(factory.needsUpdate).to.have.callCount(3);
+      expect(factory.needsUpdate).to.have.callCount(2);
     });
   });
 });

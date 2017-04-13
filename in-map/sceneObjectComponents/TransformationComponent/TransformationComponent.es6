@@ -1,6 +1,5 @@
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import {requestRendering} from 'in-map/stores/renderingStore';
-import {ZERO} from 'in-map/misc/fixedVectors';
 import {Vector3} from 'in-map/3DLibProvider';
 
 
@@ -9,11 +8,12 @@ export default class TransformationComponent extends SceneObjectComponent {
   constructor(sceneObject) {
     super(sceneObject, '_transformation');
 
-    this.position = ZERO.clone();
-    this.position.setY(10000);
-    this.scale = new Vector3(1, 1, 1);
+    this.transform = {
+      position: new Vector3(0, 10000, 0),
+      scale: new Vector3(1, 1, 1)
+    };
 
-    this.emitToClient('scaleChanged', this.scale);
+    this.emitToClient('transformationChanged', this.transform);
   }
 
   initEvents() {
@@ -26,14 +26,15 @@ export default class TransformationComponent extends SceneObjectComponent {
   }
 
   setPositionXYZ(x, y, z) {
-    if (this.position.x === x &&
-        this.position.y === y &&
-        this.position.z === z) {
+    const position = this.transform.position;
+    if (position.x === x &&
+        position.y === y &&
+        position.z === z) {
       return;
     }
 
-    this.position.set(x, y, z);
-    this.emitToClient('positionChanged', this.position);
+    position.set(x, y, z);
+    this.emitToClient('transformationChanged', this.transform);
     requestRendering();
   }
 
@@ -42,14 +43,15 @@ export default class TransformationComponent extends SceneObjectComponent {
   }
 
   setScaleXYZ(x, y, z) {
-    if (this.scale.x === x &&
-        this.scale.y === y &&
-        this.scale.z === z) {
+    const scale = this.transform.scale;
+    if (scale.x === x &&
+        scale.y === y &&
+        scale.z === z) {
         return;
       }
 
-    this.scale.set(x, y, z);
-    this.emitToClient('scaleChanged', this.scale);
+    scale.set(x, y, z);
+    this.emitToClient('transformationChanged', this.transform);
     requestRendering();
   }
 
@@ -58,17 +60,16 @@ export default class TransformationComponent extends SceneObjectComponent {
   }
 
   getPosition() {
-    return this.position;
+    return this.transform.position;
   }
 
   getScale() {
-    return this.scale;
+    return this.transform.scale;
   }
 
   dispose() {
     super.dispose();
 
-    this.position = null;
-    this.scale = null;
+    this.transform = null;
   }
 }

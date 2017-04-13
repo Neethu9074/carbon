@@ -59,11 +59,8 @@ describe('in-map', () => {
       expect(factory.needsUpdate).to.have.callCount(2);
       expect(factory.add.getCall(0).args[0].sceneObject.id).to.equal('id2');
 
-      sceneObject2.eventEmitter.emit('positionChanged', {x: 1, y: 0, z: 2});
+      sceneObject2.eventEmitter.emit('transformationChanged', { position: {x: 1, y: 0, z: 2}, scale: {x: 1, y: 2, z: 1}});
       expect(factory.needsUpdate).to.have.callCount(3);
-
-      sceneObject2.eventEmitter.emit('scaleChanged', {x: 1, y: 2, z: 1});
-      expect(factory.needsUpdate).to.have.callCount(4);
     });
   });
 });
