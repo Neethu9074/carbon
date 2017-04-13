@@ -50,15 +50,15 @@ export default function Navigation() {
                 isActive$={isHttpServiceExtractionConfigurationView$}
                 borderless
               />
-            <NavItem title='EJB Rules'
+            <NavItem title="EJB Rules"
                      href$={ejbServiceExtractionConfigurationViewLink$}
                      isActive$={isEjbServiceExtractionConfigurationView$}
                      borderless />
-            <NavItem title='Elasticsearch Rules'
+            <NavItem title="Elasticsearch Rules"
                      href$={elasticsearchServiceExtractionConfigurationViewLink$}
                      isActive$={isElasticsearchServiceExtractionConfigurationView$}
                      borderless />
-            <NavItem title='JMS Rules'
+            <NavItem title="JMS Rules"
                      href$={jmsServiceExtractionConfigurationViewLink$}
                      isActive$={isJmsServiceExtractionConfigurationView$}
                      borderless />

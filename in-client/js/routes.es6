@@ -69,67 +69,67 @@ export default (
     <Route component={createAsyncFullscreenOverlayViewComponent(LogView)} path="logs" windowTitle="Logs">
       <Route component={Dashboard} path="dashboard" windowTitle="Dashboard" />
     </Route>
-    <Route path='config'
+    <Route path="config"
            component={createAsyncFullscreenOverlayViewComponent(ConfigurationView)}
-           windowTitle='Settings'>
+           windowTitle="Settings">
       <Route component={createAsyncFullscreenOverlayViewComponent(HttpServiceExtractionConfiguration)}
-             path='httpServiceExtraction'
-             windowTitle='HTTP Service Extraction' />
+             path="httpServiceExtraction"
+             windowTitle="HTTP Service Extraction" />
       <Route component={createAsyncFullscreenOverlayViewComponent(EjbServiceExtractionConfiguration)}
-             path='ejbServiceExtraction'
-             windowTitle='EJB Service Extraction' />
+             path="ejbServiceExtraction"
+             windowTitle="EJB Service Extraction" />
       <Route component={createAsyncFullscreenOverlayViewComponent(ElasticServiceExtractionConfiguration)}
-             path='elasticsearchServiceExtraction'
-             windowTitle='Elasticsearch Service Extraction' />
+             path="elasticsearchServiceExtraction"
+             windowTitle="Elasticsearch Service Extraction" />
       <Route component={createAsyncFullscreenOverlayViewComponent(JmsServiceExtractionConfiguration)}
-             path='jmsServiceExtraction'
-             windowTitle='JMS Service Extraction' />
+             path="jmsServiceExtraction"
+             windowTitle="JMS Service Extraction" />
       <Route component={createAsyncFullscreenOverlayViewComponent(UiConfig)}
-             path='userInterface'
-             windowTitle='User Interface Settings' />
+             path="userInterface"
+             windowTitle="User Interface Settings" />
       <Route component={createAsyncFullscreenOverlayViewComponent(EumKeys)}
-             path='eumKeys'
-             windowTitle='EUM Keys' />
+             path="eumKeys"
+             windowTitle="EUM Keys" />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(RolesConfig)}
-             path='rolesConfig'
-             windowTitle='Role Config' />
+             path="rolesConfig"
+             windowTitle="Role Config" />
       <Route component={createAsyncFullscreenOverlayViewComponent(RoleConfig)}
-             path='rolesConfig/:roleId'
-             windowTitle='Role Config' />
+             path="rolesConfig/:roleId"
+             windowTitle="Role Config" />
       <Route component={createAsyncFullscreenOverlayViewComponent(UserManagement)}
-             path='users'
-             windowTitle='User Management' />
+             path="users"
+             windowTitle="User Management" />
       <Route component={createAsyncFullscreenOverlayViewComponent(ApiTokens)}
-             path='apiTokens'
-             windowTitle='API Tokens' />
+             path="apiTokens"
+             windowTitle="API Tokens" />
       <Route component={createAsyncFullscreenOverlayViewComponent(ApiToken)}
-             path='apiTokens/:apiTokenId'
-             windowTitle='API Tokens' />
+             path="apiTokens/:apiTokenId"
+             windowTitle="API Tokens" />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(Rules)}
-             path='rule'
-             windowTitle='Custom Rules' />
+             path="rule"
+             windowTitle="Custom Rules" />
       <Route component={createAsyncFullscreenOverlayViewComponent(Rule)}
-             path='rule/:ruleId'
-             windowTitle='Custom Rule' />
+             path="rule/:ruleId"
+             windowTitle="Custom Rule" />
       <Route component={createAsyncFullscreenOverlayViewComponent(RuleBindings)}
-             path='binding'
-             windowTitle='Custom Issues' />
+             path="binding"
+             windowTitle="Custom Issues" />
       <Route component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
-             path='binding/:ruleBindingId'
-             windowTitle='Custom Issue' />
+             path="binding/:ruleBindingId"
+             windowTitle="Custom Issue" />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(ObjectivesConfig)}
-             path='objectives'
-             windowTitle='Objectives' />
+             path="objectives"
+             windowTitle="Objectives" />
       <Route component={createAsyncFullscreenOverlayViewComponent(ObjectiveConfig)}
-             path='objectives/:objectiveId'
-             windowTitle='Objectives' />
+             path="objectives/:objectiveId"
+             windowTitle="Objectives" />
 
       <Route component={createAsyncFullscreenOverlayViewComponent(AuditLogView)}
-             path='auditlog'
-             windowTitle='Audit Log' />
+             path="auditlog"
+             windowTitle="Audit Log" />
     </Route>
 
     <Route component={GraphView} path="graph" windowTitle="Graph" />
