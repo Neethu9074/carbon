@@ -19,7 +19,7 @@ export function dfsFas(graph) {
   const visited = {};
 
   function dfs(node) {
-    if (visited[node.name]) {
+    if (!node || visited[node.name]) {
       return;
     }
 
