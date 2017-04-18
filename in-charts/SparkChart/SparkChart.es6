@@ -1,8 +1,8 @@
 import { on } from 'reactive-observables';
 import { sortedIndexBy } from 'lodash';
 
-import createDataHolder from 'in-charts/data/dataHolder';
 import { updateCanvasDimensions } from 'in-charts/canvas';
+import createDataHolder from 'in-charts/data/dataHolder';
 import { serverTime$ } from 'in-stores/serverTime';
 import createScale from 'in-charts/scale';
 

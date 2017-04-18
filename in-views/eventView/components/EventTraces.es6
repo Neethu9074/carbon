@@ -7,6 +7,7 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
 import addSection from 'in-views/eventView/hocs/addSection';
 import MetricValue from 'in-components/MetricValue';
+import { serverTime$ } from 'in-stores/serverTime';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -29,11 +30,13 @@ export default addSection(
       };
 
       return {
-        href: getTraceViewFilteredBySnapshotIdAndTimeframe({
-          snapshotId: serviceId,
-          from,
-          to
-        }).nextFrame(),
+        href: serverTime$.map(serverTime => Math.min(serverTime, to)).distinct().flatMap(timeframeTo =>
+          getTraceViewFilteredBySnapshotIdAndTimeframe({
+            snapshotId: serviceId,
+            from,
+            to: timeframeTo
+          }).nextFrame()
+        ),
 
         numberOfTraces: getNumberOfTracesTouchingServiceOrServiceInstance(serviceId, timeframe)
       };
