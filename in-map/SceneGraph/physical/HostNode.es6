@@ -6,6 +6,7 @@ import HostMetricNode from 'in-map/SceneGraph/physical/HostMetricNode';
 import NodeSceneObject from 'in-map/sceneObjects/physical/Node';
 import LayerNode from 'in-map/SceneGraph/physical/LayerNode';
 import { nodes } from 'in-map/stores/physical/nodesStore';
+import { emptyArray } from 'in-services/fixedObjects';
 import { activeMetric$ } from 'in-stores/metric';
 import Node from 'in-map/SceneGraph/Node';
 
@@ -32,7 +33,7 @@ export default class HostNode extends Node {
       activeMetric$.subscribe(activeMetric => {
         if (activeMetric) {
           // clear current layer
-          this.updateEntities([]);
+          this.updateEntities(emptyArray);
 
           if (!this.metricNode) {
             this.metricNode = new HostMetricNode({
@@ -75,7 +76,12 @@ export default class HostNode extends Node {
   update(oldParams, newParams) {
     this.includedIds = newParams.includedIds;
     this.entity = newParams.entity;
-    this.addLayer();
+
+    // don't create layer if there are metrics shown. Layer are auto added after disabling maps metrics,
+    // so there is no need to handle this case here
+    if (!this.metricNode) {
+      this.addLayer();
+    }
   }
 
   disposeMetricNode() {

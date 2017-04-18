@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { getTenantsWithUnits } from 'in-services/api/account';
-import classnames from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
+import classnames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import config from 'in-services/config';
