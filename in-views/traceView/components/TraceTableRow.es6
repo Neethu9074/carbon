@@ -2,6 +2,7 @@ import React from 'react';
 
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
 import { getServiceSideForOverview } from 'in-sdk/tracing';
+import SvgIcon from 'in-components/SvgIcon';
 
 import './TraceTableRow.less';
 
@@ -20,6 +21,11 @@ export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
 
   return (
     <div className={classes} onClick={() => onClick(trace.id)}>
+      <div className={cellClassName}>
+        {trace.raw.get('errorCount') > 0
+          ? <SvgIcon className={`${block}__error-icon`} type="error" height={12} color="#40535b" />
+          : null}
+      </div>
       <span className={cellClassName}>
         {trace.start}
       </span>

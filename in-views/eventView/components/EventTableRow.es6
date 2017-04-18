@@ -7,9 +7,9 @@ import PluginIcon from 'in-components/PluginIcon';
 import { selectedEventId$ } from 'in-stores/events';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
 import { getLabel } from 'in-sdk/snapshot';
 import { theme } from 'in-services/theme';
+import connectTo from 'in-hoc/connectTo';
 
 import './EventTableRow.less';
 
@@ -34,7 +34,6 @@ export default connectTo(
 
     return (
       <div className={className} onClick={() => toggleEvent(event, selectedEventId)}>
-
         <Cell content={<Icon event={event} />} />
         <Cell content={formatDateTime(event.get('triggeringTime', event.get('start')))} />
         <Cell content={event.get('state') === 'open' ? 'active' : formatDateTime(event.get('end'))} />

@@ -3,7 +3,6 @@
 
   height: 1.625rem;
   line-height: 1.625rem;
-  margin-left: 0.5rem;
 
   font-size: .688rem;
   color: #2D4048;
@@ -12,6 +11,11 @@
   &:hover, &--selected.in-trace-table-row {
     background: #2d4048;
     color: white;
+  }
+
+  &__error-icon {
+    padding: 8px 10px 5px 11px;
+    background: #ff4229;
   }
 
   &__cell {
@@ -25,23 +29,28 @@
     border-right: 1px solid #D5DFE4;
 
     &:nth-child(1) {
-      width: 18%;
+      width: 5%;
+      padding-left: 0;
     }
 
     &:nth-child(2) {
-      width: 30%;
+      width: 17%;
     }
 
     &:nth-child(3) {
-      width: 13%;
+      width: 29%;
     }
 
     &:nth-child(4) {
       width: 12%;
     }
 
+    &:nth-child(5) {
+      width: 11%;
+    }
+
     &:last-child {
-      width: 27%;
+      width: 26%;
       border-right: 0;
     }
   }
