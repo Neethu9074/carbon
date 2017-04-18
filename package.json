@@ -60,7 +60,6 @@
     "prop-types": "^15.5.8",
     "react": "^15.5.0",
     "react-addons-perf": "^15.4.2",
-    "react-addons-pure-render-mixin": "^15.5.0",
     "react-addons-shallow-compare": "^15.5.0",
     "react-codemirror": "0.2.6",
     "react-day-picker": "^2.4.1",
