@@ -9,7 +9,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'Golang App',
-    plural: 'Golang Apps'
+    singular: 'Go App',
+    plural: 'Go Apps'
   }
 });
