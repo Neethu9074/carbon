@@ -2,6 +2,7 @@
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ReactDOM from 'react-dom';
+import rpt from 'prop-types';
 import React from 'react';
 
 // WARNING!
@@ -26,7 +27,6 @@ import 'prismjs/plugins/autolinker/prism-autolinker.css';
 
 import './Code.less';
 
-const rpt = React.PropTypes;
 const block = 'in-code';
 
 export default React.createClass({

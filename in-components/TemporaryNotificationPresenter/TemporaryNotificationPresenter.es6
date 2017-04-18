@@ -1,5 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { TransitionMotion, spring } from 'react-motion';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { temporaryNotification$, clearTemporaryNotification } from 'in-stores/temporaryNotification';
@@ -19,7 +20,7 @@ export default connectTo(
     mixins: [PureRenderMixin],
 
     propTypes: {
-      notification: React.PropTypes.any
+      notification: rpt.any
     },
 
     willEnter() {

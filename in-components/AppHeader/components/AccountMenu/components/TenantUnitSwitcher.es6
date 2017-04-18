@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getTenantsWithUnits } from 'in-services/api/account';
@@ -32,7 +33,7 @@ export default connectTo(
     displayName: 'TenantSwitcher',
 
     propTypes: {
-      tenantUnitStructure: React.PropTypes.array.isRequired
+      tenantUnitStructure: rpt.array.isRequired
     },
 
     getInitialState() {

@@ -1,4 +1,5 @@
 import irpt from 'react-immutable-proptypes';
+import rpt from 'prop-types';
 import React from 'react';
 
 import {
@@ -19,7 +20,6 @@ import EventContent from './EventContent';
 import './EventDescription.less';
 
 const block = 'in-event-description';
-const rpt = React.PropTypes;
 
 export default connectTo(
   props => {

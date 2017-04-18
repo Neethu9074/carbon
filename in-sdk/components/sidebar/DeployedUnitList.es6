@@ -1,5 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
+import rpt from 'prop-types';
 import React from 'react';
 
 import RelatedSnapshotList from 'in-sdk/components/sidebar/RelatedSnapshotList';
@@ -22,7 +23,7 @@ export default connectTo(
     mixins: [PureRenderMixin],
 
     propTypes: {
-      snapshotIds: irpt.setOf(React.PropTypes.string)
+      snapshotIds: irpt.setOf(rpt.string)
     },
 
     render() {

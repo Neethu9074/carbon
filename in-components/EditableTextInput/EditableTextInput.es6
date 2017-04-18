@@ -1,9 +1,9 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import './EditableTextInput.less';
 
 const block = 'in-editable-text-input';
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'EditableTextInput',

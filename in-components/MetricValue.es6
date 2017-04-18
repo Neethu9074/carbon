@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unused-prop-types */
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import { timeframeShape } from 'in-stores/timeline';
 
-const rpt = React.PropTypes;
 export default React.createClass({
   displayName: 'MetricValue',
 
@@ -18,7 +18,7 @@ export default React.createClass({
     snapshotId: rpt.string.isRequired,
     timeWindowAggregation: rpt.string,
     timeframe: timeframeShape,
-    optionalTimeWindowAggregation: React.PropTypes.string,
+    optionalTimeWindowAggregation: rpt.string,
     initialValue: rpt.string,
     time: rpt.number,
     className: rpt.string,

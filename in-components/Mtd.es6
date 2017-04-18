@@ -1,9 +1,9 @@
 import irpt from 'react-immutable-proptypes';
+import rpt from 'prop-types';
 import React from 'react';
 
 import MetricValue from './MetricValue';
 
-const rpt = React.PropTypes;
 const Mtd = React.createClass({
   propTypes: {
     snapshot: irpt.map.isRequired,

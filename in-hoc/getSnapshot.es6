@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getSnapshot as loadSnapshot } from 'in-stores/snapshot';
@@ -7,7 +8,7 @@ export default function getSnapshot(ComposedComponent) {
     displayName: 'getSnapshot hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
-      snapshotId: React.PropTypes.string.isRequired
+      snapshotId: rpt.string.isRequired
     },
 
     getInitialState() {

@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
@@ -5,7 +6,6 @@ import { onMove } from 'in-services/reactiveMouseEvents';
 import { applyTransform } from 'in-services/util/dom';
 import { theme } from 'in-services/theme';
 
-const rpt = React.PropTypes;
 const OFFSET = 15;
 const DEFAULT_STYLE = {
   position: 'absolute',

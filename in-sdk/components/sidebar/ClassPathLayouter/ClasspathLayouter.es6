@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import Button from 'in-components/Button';
@@ -10,7 +11,7 @@ export default React.createClass({
   displayName: 'ClasspathLayouter',
 
   propTypes: {
-    classpath: React.PropTypes.any
+    classpath: rpt.any
   },
 
   getInitialState() {

@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getClassName } from 'in-services/react';
@@ -5,7 +6,6 @@ import { getClassName } from 'in-services/react';
 import './Slider.less';
 
 const block = 'in-slider';
-const rpt = React.PropTypes;
 
 const Slider = React.createClass({
   propTypes: {

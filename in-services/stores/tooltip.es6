@@ -1,7 +1,6 @@
 import { create } from 'reactive-observables';
-import React from 'react';
+import rpt from 'prop-types';
 
-const rpt = React.PropTypes;
 const reemitSpec = { emitLatestOnSubscribe: true };
 
 export const TooltipShape = rpt.shape({

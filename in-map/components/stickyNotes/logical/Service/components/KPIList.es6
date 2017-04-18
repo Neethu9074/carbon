@@ -1,4 +1,5 @@
 import irpt from 'react-immutable-proptypes';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { zeroDecimalPlacesPerSecond, zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,6 @@ import { getKpis } from 'in-sdk/kpi';
 
 import 'in-map/components/stickyNotes/logical/Service/components/KPIList.less';
 
-const rpt = React.PropTypes;
 const block = 'in-sticky-note-process-kpi-list';
 
 export default connectTo(

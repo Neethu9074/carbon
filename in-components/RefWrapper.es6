@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 /**
@@ -11,7 +12,7 @@ export default React.createClass({
   displayName: 'RefWrapper',
 
   propTypes: {
-    children: React.PropTypes.any
+    children: rpt.any
   },
 
   render() {

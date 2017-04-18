@@ -1,11 +1,11 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import ReactDOM from 'react-dom';
+import rpt from 'prop-types';
 import React from 'react';
 
 import createSparkChart from 'in-charts/SparkChart/SparkChart';
 
 const block = 'in-spark-chart';
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'SparkChart',

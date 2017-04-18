@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import ExtractedServiceNamePresenter
@@ -18,9 +19,9 @@ export default React.createClass({
   displayName: 'RuleTester',
 
   propTypes: {
-    toggleRuleTesting: React.PropTypes.any,
-    ruleForm: React.PropTypes.any.isRequired,
-    matchSpecificationOptions: React.PropTypes.object.isRequired
+    toggleRuleTesting: rpt.any,
+    ruleForm: rpt.any.isRequired,
+    matchSpecificationOptions: rpt.object.isRequired
   },
 
   getInitialState() {

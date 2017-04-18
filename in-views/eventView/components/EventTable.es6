@@ -1,4 +1,5 @@
 import Infinite from 'react-infinite';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
@@ -44,7 +45,6 @@ function EventTable({ events, height, isInfiniteLoading }) {
   );
 }
 
-const rpt = React.PropTypes;
 EventTable.propTypes = {
   isInfiniteLoading: rpt.bool.isRequired,
   events: rpt.array.isRequired,

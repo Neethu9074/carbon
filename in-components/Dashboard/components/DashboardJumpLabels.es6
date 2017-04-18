@@ -1,6 +1,7 @@
 /* eslint-disable react/no-did-mount-set-state */
 import { on } from 'reactive-observables';
 import { isEqual } from 'lodash';
+import rpt from 'prop-types';
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
@@ -17,7 +18,7 @@ export default React.createClass({
   displayName: 'DashboardJumpLabels',
 
   propTypes: {
-    snapshotId: React.PropTypes.string.isRequired
+    snapshotId: rpt.string.isRequired
   },
 
   getInitialState() {

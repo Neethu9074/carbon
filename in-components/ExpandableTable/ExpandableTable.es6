@@ -1,10 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import { Iterable } from 'immutable';
+import rpt from 'prop-types';
 import React from 'react';
 
 import './ExpandableTable.less';
-
-const rpt = React.PropTypes;
 
 const block = 'in-expandable-table';
 

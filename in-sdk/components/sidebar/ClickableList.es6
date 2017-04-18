@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import {
@@ -65,9 +66,9 @@ export const ClickableKeyValuePopupListItem = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    title: React.PropTypes.string.isRequired,
-    data: React.PropTypes.object,
-    children: React.PropTypes.any
+    title: rpt.string.isRequired,
+    data: rpt.object,
+    children: rpt.any
   },
 
   componentWillUnmount() {

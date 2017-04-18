@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { setTagFilter, removeTagFilter, filteredTags$ } from 'in-stores/search/keywords/tags';
@@ -7,7 +8,6 @@ import connectTo from 'in-hoc/connectTo';
 
 import './Tag.less';
 
-const rpt = React.PropTypes;
 const block = 'in-tag';
 
 export default connectTo(

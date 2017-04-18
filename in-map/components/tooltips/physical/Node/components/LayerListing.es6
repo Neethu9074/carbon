@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getSingular, getPlural } from 'in-sdk/pluginName';
@@ -7,7 +8,6 @@ import getSnapshots from 'in-hoc/getSnapshots';
 import './LayerListing.less';
 
 const block = 'in-tooltip-layer-listing';
-const rpt = React.PropTypes;
 
 export default getSnapshots(
   React.createClass({

@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -9,7 +10,7 @@ export default function getFoundationHoc(ComposedComponent) {
     displayName: 'getFoundation hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
-      snapshotId: React.PropTypes.string.isRequired
+      snapshotId: rpt.string.isRequired
     },
 
     getInitialState() {

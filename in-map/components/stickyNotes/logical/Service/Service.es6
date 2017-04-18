@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import ServiceInstanceList from 'in-map/components/stickyNotes/logical/Service/components/ServiceInstanceList';
@@ -12,7 +13,6 @@ import connectTo from 'in-hoc/connectTo';
 
 import 'in-map/components/stickyNotes/logical/Service/Service.less';
 
-const rpt = React.PropTypes;
 const block = 'in-sticky-note-service';
 
 export default createStickyNote(

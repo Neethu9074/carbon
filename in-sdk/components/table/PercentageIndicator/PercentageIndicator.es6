@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
@@ -14,14 +15,14 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    snapshotId: React.PropTypes.string,
+    snapshotId: rpt.string,
     /* eslint-disable react/no-unused-prop-types */
-    createMetricValueStream: React.PropTypes.func,
-    metric: React.PropTypes.string,
-    timeWindowAggregation: React.PropTypes.string,
-    optionalTimeWindowAggregation: React.PropTypes.string,
+    createMetricValueStream: rpt.func,
+    metric: rpt.string,
+    timeWindowAggregation: rpt.string,
+    optionalTimeWindowAggregation: rpt.string,
     /* eslint-enable react/no-unused-prop-types */
-    formatter: React.PropTypes.func
+    formatter: rpt.func
   },
 
   componentDidMount() {

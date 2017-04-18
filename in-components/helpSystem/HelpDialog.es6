@@ -1,6 +1,7 @@
 /* global require:false */
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import NotificationDialog from 'in-components/NotificationDialog';
@@ -10,8 +11,6 @@ import { closeHelp } from 'in-stores/navigation';
 import './HelpDialog.less';
 
 const block = 'in-help-dialog';
-
-const rpt = React.PropTypes;
 
 const HelpDialog = React.createClass({
   mixins: [PureRenderMixin],

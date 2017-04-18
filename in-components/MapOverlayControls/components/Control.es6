@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import {
@@ -12,7 +13,6 @@ import connectTo from 'in-hoc/connectTo';
 import 'in-components/MapOverlayControls/components/Control.less';
 
 const block = 'in-control';
-const rpt = React.PropTypes;
 
 export default connectTo(
   {

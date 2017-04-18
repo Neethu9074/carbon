@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import SvgIcon from 'in-components/SvgIcon';
@@ -5,7 +6,6 @@ import SvgIcon from 'in-components/SvgIcon';
 import './DownloadButton.less';
 
 const block = 'in-download-button';
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'DownloadLink',

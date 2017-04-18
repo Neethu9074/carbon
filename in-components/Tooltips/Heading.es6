@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getClassName } from 'in-services/react';
@@ -9,9 +10,9 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    children: React.PropTypes.any.isRequired,
-    className: React.PropTypes.string,
-    style: React.PropTypes.object
+    children: rpt.any.isRequired,
+    className: rpt.string,
+    style: rpt.object
   },
 
   render() {

@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import {
@@ -42,12 +43,12 @@ export default connectTo(
     mixins: [PureRenderMixin],
 
     propTypes: {
-      span: React.PropTypes.object.isRequired,
-      trace: React.PropTypes.object.isRequired,
-      isHighlighted: React.PropTypes.bool.isRequired,
-      parentSpanForPercentageCalculation: React.PropTypes.object.isRequired,
-      depth: React.PropTypes.number.isRequired,
-      totalTimeIndentationDepth: React.PropTypes.number.isRequired
+      span: rpt.object.isRequired,
+      trace: rpt.object.isRequired,
+      isHighlighted: rpt.bool.isRequired,
+      parentSpanForPercentageCalculation: rpt.object.isRequired,
+      depth: rpt.number.isRequired,
+      totalTimeIndentationDepth: rpt.number.isRequired
     },
 
     getInitialState() {

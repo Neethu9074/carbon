@@ -1,4 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import rpt from 'prop-types';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -23,8 +24,8 @@ export default connectTo(
     displayName: 'UserInvitatonDialog',
 
     propTypes: {
-      onSubmit: React.PropTypes.func.isRequired,
-      roles: React.PropTypes.any
+      onSubmit: rpt.func.isRequired,
+      roles: rpt.any
     },
 
     getInitialState() {

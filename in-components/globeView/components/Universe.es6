@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import createUniverseRenderer from 'in-components/globeView/components/universeRenderer';
@@ -8,7 +9,6 @@ import { getClassName } from 'in-services/react';
 import './Universe.less';
 
 const block = 'in-globe-view-universe';
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'GlobeUniverse',

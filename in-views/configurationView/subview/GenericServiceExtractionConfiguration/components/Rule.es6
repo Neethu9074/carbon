@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import {
@@ -30,11 +31,11 @@ export default React.createClass({
   displayName: 'Rule',
 
   propTypes: {
-    ruleForm: React.PropTypes.any.isRequired,
-    path: React.PropTypes.any,
-    helpTexts: React.PropTypes.object.isRequired,
-    matchSpecificationOptionsTree: React.PropTypes.array.isRequired,
-    matchSpecificationOptions: React.PropTypes.object.isRequired
+    ruleForm: rpt.any.isRequired,
+    path: rpt.any,
+    helpTexts: rpt.object.isRequired,
+    matchSpecificationOptionsTree: rpt.array.isRequired,
+    matchSpecificationOptions: rpt.object.isRequired
   },
 
   getInitialState() {

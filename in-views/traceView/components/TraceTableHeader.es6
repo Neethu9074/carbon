@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { setSortDirection, sortDirection$ } from 'in-views/traceView/stores/sortDirection';
@@ -10,7 +11,6 @@ import './TraceTableHeader.less';
 const block = 'in-trace-table-header';
 const cellClassName = block + '__cell';
 const selectedClassName = cellClassName + '--selected';
-const rpt = React.PropTypes;
 
 export default connectTo(
   {

@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
@@ -6,7 +7,6 @@ import MetricValue from 'in-components/MetricValue';
 
 import './HistoricMetricSparkChartWithLabel.less';
 
-const rpt = React.PropTypes;
 const block = 'in-spark-chart-with-label';
 
 export default React.createClass({

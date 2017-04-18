@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import {
@@ -13,7 +14,6 @@ import connectTo from 'in-hoc/connectTo';
 import './KeyValuePopup.less';
 
 const block = 'in-key-value-popup';
-const rpt = React.PropTypes;
 
 export default connectTo(
   {

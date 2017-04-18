@@ -1,4 +1,5 @@
 import irpt from 'react-immutable-proptypes';
+import rpt from 'prop-types';
 import React from 'react';
 
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
@@ -20,7 +21,6 @@ import connectTo from 'in-hoc/connectTo';
 
 import 'in-views/eventView/components/Incident/EventListItem.less';
 
-const rpt = React.PropTypes;
 const block = 'in-event-view-incident-event-list-item';
 
 export default connectTo(

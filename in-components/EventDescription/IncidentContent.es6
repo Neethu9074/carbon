@@ -1,5 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -67,7 +68,6 @@ const Header = connectTo(
   }
 );
 
-const rpt = React.PropTypes;
 IncidentContent.propTypes = {
   incident: irpt.map.isRequired,
   color: rpt.string,

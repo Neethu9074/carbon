@@ -1,5 +1,6 @@
 import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getClassName } from 'in-services/react';
@@ -9,7 +10,6 @@ import ContextWrapper from './ContextWrapper';
 import './Jail.less';
 
 const logger = createLogger('in-component.Jail');
-const rpt = React.PropTypes;
 const block = 'in-jail';
 
 const Jail = React.createClass({

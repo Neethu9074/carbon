@@ -1,4 +1,5 @@
 import Infinite from 'react-infinite';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { traces$, isLoading$, loadMoreTraces } from 'in-views/traceView/stores/traceList';
@@ -11,7 +12,6 @@ import connectTo from 'in-hoc/connectTo';
 import './TraceTable.less';
 
 const block = 'in-trace-table';
-const rpt = React.PropTypes;
 
 export default getElementDimensions(
   connectTo(

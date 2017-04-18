@@ -1,6 +1,5 @@
+import rpt from 'prop-types';
 import React from 'react';
-
-const rpt = React.PropTypes;
 
 const ContextWrapper = React.createClass({
   propTypes: {

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/prop-types */
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import invariant from 'invariant';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getClassName } from 'in-services/react';
@@ -8,7 +9,6 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import './Collapsible.less';
 
-const rpt = React.PropTypes;
 const block = 'in-collapsible';
 
 const Collapsible = React.createClass({

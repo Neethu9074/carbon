@@ -1,8 +1,8 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import './Button.less';
 
-const rpt = React.PropTypes;
 const block = 'in-button';
 
 export default function Button({

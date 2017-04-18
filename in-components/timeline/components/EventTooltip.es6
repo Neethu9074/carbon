@@ -1,5 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { highlightedEventScreenPosition$ } from 'in-components/timeline/timelineStore';
@@ -11,7 +12,6 @@ import connectTo from 'in-hoc/connectTo';
 import './EventTooltip.less';
 
 const block = 'in-timeline-event-tooltip';
-const rpt = React.PropTypes;
 const xOffset = -10;
 const yOffset = 220;
 

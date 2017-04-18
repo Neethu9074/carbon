@@ -1,12 +1,13 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import './Toast.less';
 
 const Toast = React.createClass({
   propTypes: {
-    onClick: React.PropTypes.func,
-    action: React.PropTypes.string,
-    children: React.PropTypes.any
+    onClick: rpt.func,
+    action: rpt.string,
+    children: rpt.any
   },
 
   getInitialState() {

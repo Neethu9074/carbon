@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getOpenIssuesAtFocusedMoment } from 'in-stores/events';
@@ -7,7 +8,7 @@ export default function getEvents(ComposedComponent) {
     displayName: 'getEvents hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
-      snapshotId: React.PropTypes.string.isRequired
+      snapshotId: rpt.string.isRequired
     },
 
     getInitialState() {

@@ -1,4 +1,5 @@
 import { combineLatest } from 'reactive-observables';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { applyTransform } from 'in-services/util/dom';
@@ -7,7 +8,6 @@ import 'in-map/components/stickyNotes/StickyNote.less';
 
 const block = 'in-sticky-node';
 const invisibleClass = `${block}__invisible`;
-const rpt = React.PropTypes;
 
 export default function StickyNote(ComposedComponent) {
   return React.createClass({

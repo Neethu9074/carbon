@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { hexToRGB } from 'in-services/formatters/color';
@@ -9,7 +10,6 @@ import { theme } from 'in-services/theme';
 
 import './ChartLegend.less';
 
-const rpt = React.PropTypes;
 const block = 'in-chart-legend';
 
 const axisConfigShape = rpt.shape({

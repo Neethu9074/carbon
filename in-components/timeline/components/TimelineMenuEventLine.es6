@@ -1,10 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import './TimelineMenuEventLine.less';
 
 const block = 'in-timeline-menu-event-line';
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'TimelineMenuEventLine',

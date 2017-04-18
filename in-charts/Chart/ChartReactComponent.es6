@@ -1,10 +1,9 @@
 import ReactDOM from 'react-dom';
 import { isEqual } from 'lodash';
+import rpt from 'prop-types';
 import React from 'react';
 
 import createChart from 'in-charts/Chart/Chart';
-
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'ChartReactComponent',

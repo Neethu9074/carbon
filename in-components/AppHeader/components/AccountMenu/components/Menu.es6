@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import TenantUnitSwitcher from 'in-components/AppHeader/components/AccountMenu/components/TenantUnitSwitcher';
@@ -27,8 +28,8 @@ export default connectTo(
     displayName: 'Menu',
 
     propTypes: {
-      configurationViewLink: React.PropTypes.string,
-      isOpen: React.PropTypes.bool
+      configurationViewLink: rpt.string,
+      isOpen: rpt.bool
     },
 
     componentDidMount() {

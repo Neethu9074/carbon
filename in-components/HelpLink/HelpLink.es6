@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { showHelp } from 'in-stores/navigation';
@@ -5,7 +6,6 @@ import { showHelp } from 'in-stores/navigation';
 import './HelpLink.less';
 
 const block = 'in-help-link';
-const rpt = React.PropTypes;
 
 export default function HelpLink({ helpId, children, className }) {
   let classes = block;

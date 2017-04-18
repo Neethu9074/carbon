@@ -1,6 +1,6 @@
 import { create } from 'reactive-observables';
 import { createLogger } from 'instalog';
-import React from 'react';
+import rpt from 'prop-types';
 
 import getBigBangTimestamp from 'in-services/subscription/bigBangTimestamp';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
@@ -137,9 +137,9 @@ export const from$ = timeframe$
   })
   .distinct();
 
-export const timeframeShape = React.PropTypes.shape({
-  windowSize: React.PropTypes.number.isRequired,
-  to: React.PropTypes.number
+export const timeframeShape = rpt.shape({
+  windowSize: rpt.number.isRequired,
+  to: rpt.number
 });
 
 export function setTimeframe(windowSize, to = null) {

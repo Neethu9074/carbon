@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { timeframe$, setTo, timelineScale$, fixFocusedMomentIfNotFixed } from 'in-components/timeline/timelineStore';
@@ -11,7 +12,6 @@ import connectTo from 'in-hoc/connectTo';
 import './TimelineTimeframeMarker.less';
 
 const block = 'in-timeline-timeframe-marker';
-const rpt = React.PropTypes;
 
 export default connectTo(
   {

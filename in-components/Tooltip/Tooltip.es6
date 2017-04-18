@@ -1,12 +1,12 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { setActiveTooltip, clearActiveTooltip } from 'in-services/stores/tooltip';
 
 const logger = createLogger('in-components/Tooltip');
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'Tooltip',

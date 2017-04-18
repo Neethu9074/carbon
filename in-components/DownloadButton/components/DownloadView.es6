@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -6,7 +7,6 @@ import Button from 'in-components/Button';
 import './DownloadView.less';
 
 const block = 'in-metric-chart-download-view';
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'DownloadView',

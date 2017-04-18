@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { helpId$ } from 'in-components/helpSystem/helpSystemStores';
@@ -15,7 +16,7 @@ export default connectTo(
     mixins: [PureRenderMixin],
 
     propTypes: {
-      helpId: React.PropTypes.string
+      helpId: rpt.string
     },
 
     render() {

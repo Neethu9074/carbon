@@ -1,10 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import './Frame.less';
 
 const block = 'in-tooltip__frame';
-const rpt = React.PropTypes;
 
 export default React.createClass({
   mixins: [PureRenderMixin],

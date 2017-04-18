@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getMostImportantEventAtFocusedMoment } from 'in-stores/events';
@@ -7,7 +8,7 @@ export default function getMostImportantEvent(ComposedComponent) {
     displayName: 'getMostImportantEvent hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
-      snapshotId: React.PropTypes.string.isRequired
+      snapshotId: rpt.string.isRequired
     },
 
     getInitialState() {

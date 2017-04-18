@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
@@ -14,7 +15,6 @@ import SceneGraph from 'in-map/SceneGraph';
 import connectTo from 'in-hoc/connectTo';
 import 'in-map/Map.less';
 
-const rpt = React.PropTypes;
 const block = 'in-map';
 
 export default connectTo(

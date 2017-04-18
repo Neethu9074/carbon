@@ -1,12 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import NotificationDialog from 'in-components/NotificationDialog';
 import connectTo from 'in-hoc/connectTo';
 
 import { clearMessage, message$ } from './MessageDialogStores';
-
-const rpt = React.PropTypes;
 
 export default connectTo(
   {

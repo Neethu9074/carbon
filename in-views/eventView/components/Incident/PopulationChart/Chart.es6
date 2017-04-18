@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import ToggleChangesButton from 'in-views/eventView/components/Incident/PopulationChart/ToggleChangesButton';
@@ -14,7 +15,6 @@ import createScale from 'in-charts/scale';
 import 'in-views/eventView/components/Incident/PopulationChart/Chart.less';
 
 const block = 'in-event-view-detail-chart';
-const rpt = React.PropTypes;
 
 export default getElementDimensions(
   React.createClass({

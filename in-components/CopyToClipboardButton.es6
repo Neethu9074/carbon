@@ -1,6 +1,7 @@
 /* global require:false */
 
 import ReactDOM from 'react-dom';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { setTemporaryNotification } from 'in-stores/temporaryNotification';
@@ -13,8 +14,8 @@ export default React.createClass({
   displayName: 'CopyToClipboardButton',
 
   propTypes: {
-    getText: React.PropTypes.func.isRequired,
-    children: React.PropTypes.any
+    getText: rpt.func.isRequired,
+    children: rpt.any
   },
 
   componentDidMount() {

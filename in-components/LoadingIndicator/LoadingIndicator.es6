@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import './LoadingIndicator.less';
@@ -9,9 +10,9 @@ export default React.createClass({
   displayName: 'LoadingIndicator',
 
   propTypes: {
-    type: React.PropTypes.string,
-    inline: React.PropTypes.bool,
-    style: React.PropTypes.object
+    type: rpt.string,
+    inline: rpt.bool,
+    style: rpt.object
   },
 
   getDefaultProps() {

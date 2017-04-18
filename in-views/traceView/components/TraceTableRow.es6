@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
@@ -8,7 +9,6 @@ import './TraceTableRow.less';
 
 const block = 'in-trace-table-row';
 const cellClassName = block + '__cell';
-const rpt = React.PropTypes;
 
 export default function TraceTableRow({ selectedTraceId, trace, onClick }) {
   let classes = block;

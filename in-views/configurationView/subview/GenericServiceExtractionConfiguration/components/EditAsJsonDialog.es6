@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import CenterAlignment from 'in-components/layout/CenterAlignment';
@@ -13,9 +14,9 @@ export default React.createClass({
   displayName: 'EditAsJsonDialog',
 
   propTypes: {
-    initialValue: React.PropTypes.string.isRequired,
-    onSaveAndClose: React.PropTypes.func.isRequired,
-    onClose: React.PropTypes.func.isRequired
+    initialValue: rpt.string.isRequired,
+    onSaveAndClose: rpt.func.isRequired,
+    onClose: rpt.func.isRequired
   },
 
   getInitialState() {

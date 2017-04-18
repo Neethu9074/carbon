@@ -1,9 +1,8 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import KPIList from 'in-map/components/stickyNotes/logical/Service/components/KPIList';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
-
-const rpt = React.PropTypes;
 
 export default createStickyNote(
   React.createClass({

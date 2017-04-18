@@ -1,12 +1,13 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 export default React.createClass({
   displayName: 'TemporaryPresenter',
 
   propTypes: {
-    id: React.PropTypes.string.isRequired,
-    duration: React.PropTypes.number,
-    children: React.PropTypes.any
+    id: rpt.string.isRequired,
+    duration: rpt.number,
+    children: rpt.any
   },
 
   getInitialState() {

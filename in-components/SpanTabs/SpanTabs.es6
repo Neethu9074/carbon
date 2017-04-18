@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
@@ -10,7 +11,7 @@ export const SpanTabs = React.createClass({
   displayName: 'SpanTabs',
 
   propTypes: {
-    children: React.PropTypes.any
+    children: rpt.any
   },
 
   getInitialState() {

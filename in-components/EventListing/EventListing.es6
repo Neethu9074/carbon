@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import rpt from 'prop-types';
 import React from 'react';
 
 import EventDescription from 'in-components/EventDescription';
@@ -7,7 +8,6 @@ import getEvents from 'in-hoc/getEvents';
 import './EventListing.less';
 
 const block = 'in-event-listing';
-const rpt = React.PropTypes;
 
 export default getEvents(
   React.createClass({

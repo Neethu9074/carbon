@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { joinClassNames } from 'in-services/util/classnames';
@@ -13,13 +14,13 @@ export default React.createClass({
   displayName: 'ModificationSaveStatus',
 
   propTypes: {
-    className: React.PropTypes.string,
-    status: React.PropTypes.shape({
-      state: React.PropTypes.oneOf(['success', 'failure', 'loading']).isRequired,
-      time: React.PropTypes.number.isRequired,
-      message: React.PropTypes.string
+    className: rpt.string,
+    status: rpt.shape({
+      state: rpt.oneOf(['success', 'failure', 'loading']).isRequired,
+      time: rpt.number.isRequired,
+      message: rpt.string
     }),
-    reserveSpace: React.PropTypes.bool
+    reserveSpace: rpt.bool
   },
 
   getInitialState() {

@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import { rename, remove } from 'in-views/configurationView/subview/EumKeys/stores/keys';
@@ -12,7 +13,6 @@ import Code from 'in-components/Code';
 import './Key.less';
 
 const block = 'in-eum-keys-config-key';
-const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'Key',

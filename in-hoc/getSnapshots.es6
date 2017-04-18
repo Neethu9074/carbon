@@ -1,4 +1,5 @@
 import { combineLatest } from 'reactive-observables';
+import rpt from 'prop-types';
 import React from 'react';
 
 import { getSnapshot as loadSnapshot } from 'in-stores/snapshot';
@@ -8,7 +9,7 @@ export default function getSnapshots(ComposedComponent) {
     displayName: 'getSnapshots hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
-      snapshotIds: React.PropTypes.array.isRequired
+      snapshotIds: rpt.array.isRequired
     },
 
     getInitialState() {

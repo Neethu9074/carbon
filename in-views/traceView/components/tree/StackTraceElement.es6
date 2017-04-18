@@ -1,3 +1,4 @@
+import rpt from 'prop-types';
 import React from 'react';
 
 import subscribeToPhysicalEndpointImplementation from 'in-services/subscription/physicalEndpointImplementation';
@@ -47,9 +48,9 @@ export default connectTo(
     displayName: 'TreeStackTraceElement',
 
     propTypes: {
-      stackTrace: React.PropTypes.array.isRequired,
-      snapshot: React.PropTypes.object,
-      online: React.PropTypes.bool
+      stackTrace: rpt.array.isRequired,
+      snapshot: rpt.object,
+      online: rpt.bool
     },
 
     getInitialState() {
