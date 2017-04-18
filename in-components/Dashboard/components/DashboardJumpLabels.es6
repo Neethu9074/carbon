@@ -14,20 +14,18 @@ const wiggleRoom = 20;
 const slice = Array.prototype.slice;
 const block = 'in-dashboard-jump-labels';
 
-export default React.createClass({
-  displayName: 'DashboardJumpLabels',
+export default class extends React.Component {
+  static displayName = 'DashboardJumpLabels';
 
-  propTypes: {
+  static propTypes = {
     snapshotId: rpt.string.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      top: 0,
-      height: 0,
-      sections: []
-    };
-  },
+  state = {
+    top: 0,
+    height: 0,
+    sections: []
+  };
 
   componentDidMount() {
     this.scrollElement = document.querySelector('.in-dashboard .in-dashboard-content__wrapper');
@@ -42,16 +40,16 @@ export default React.createClass({
       .subscribe(this.onScroll);
     this.resizeSubscription = on(window, 'resize').throttle(200).subscribe(this.onResize);
     this.checkHandle = setTimeout(this.checkForNewElements, 500);
-  },
+  }
 
   componentWillUpdate(nextProps) {
     if (this.props.snapshotId !== nextProps.snapshotId) {
       clearTimeout(this.checkHandle);
       this.checkHandle = setTimeout(this.checkForNewElements, 500);
     }
-  },
+  }
 
-  checkForNewElements() {
+  checkForNewElements = () => {
     clearTimeout(this.checkHandle);
 
     const sections = slice
@@ -79,27 +77,27 @@ export default React.createClass({
     } else {
       this.checkHandle = setTimeout(this.checkForNewElements, 3000);
     }
-  },
+  };
 
-  onResize() {
+  onResize = () => {
     this.setState({
       top: this.scrollElement.scrollTop,
       height: this.scrollElement.clientHeight
     });
     this.checkForNewElements();
-  },
+  };
 
-  onScroll() {
+  onScroll = () => {
     this.setState({
       top: this.scrollElement.scrollTop
     });
-  },
+  };
 
   componentWillUnmount() {
     clearTimeout(this.checkHandle);
     this.scrollSubscription.dispose();
     this.resizeSubscription.dispose();
-  },
+  }
 
   render() {
     if (this.state.sections.length === 0) {
@@ -132,4 +130,4 @@ export default React.createClass({
       </ol>
     );
   }
-});
+}

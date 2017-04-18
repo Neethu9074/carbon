@@ -24,21 +24,21 @@ export default connectTo(
     isOpen: isOpen$,
     configurationViewLink: configurationViewLink$
   },
-  React.createClass({
-    displayName: 'Menu',
+  class extends React.Component {
+    static displayName = 'Menu';
 
-    propTypes: {
+    static propTypes = {
       configurationViewLink: rpt.string,
       isOpen: rpt.bool
-    },
+    };
 
     componentDidMount() {
       this.onMouseUp = throttleNextFrame(this.onMouseUp);
-    },
+    }
 
     componentWillUnmount() {
       this.disposeListener();
-    },
+    }
 
     render() {
       if (!this.props.isOpen) {
@@ -111,9 +111,9 @@ export default connectTo(
           </form>
         </section>
       );
-    },
+    }
 
-    registerListener() {
+    registerListener = () => {
       if (this.registered) {
         return;
       }
@@ -125,17 +125,17 @@ export default connectTo(
         window.addEventListener('click', this.onMouseUp, false);
         this.registered = true;
       }, 0);
-    },
+    };
 
-    disposeListener() {
+    disposeListener = () => {
       if (!this.registered) {
         return;
       }
       window.removeEventListener('click', this.onMouseUp, false);
       this.registered = false;
-    },
+    };
 
-    onMouseUp(e) {
+    onMouseUp = e => {
       // we are doing this asynchronously and the timepicker may already be gone
       if (!this.menu) {
         return;
@@ -146,8 +146,8 @@ export default connectTo(
         // the click was donw outside this component so close it
         closeMenu();
       }
-    }
-  })
+    };
+  }
 );
 
 function Separator() {

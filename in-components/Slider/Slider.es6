@@ -7,15 +7,15 @@ import './Slider.less';
 
 const block = 'in-slider';
 
-const Slider = React.createClass({
-  propTypes: {
+class Slider extends React.Component {
+  static propTypes = {
     onChange: rpt.func.isRequired,
     value: rpt.any,
     className: rpt.string,
     step: rpt.number,
     min: rpt.number,
     max: rpt.number
-  },
+  };
 
   render() {
     return (
@@ -30,6 +30,6 @@ const Slider = React.createClass({
       />
     );
   }
-});
+}
 
 export default Slider;

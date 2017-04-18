@@ -16,26 +16,24 @@ export default connectTo(
         .startWith(5000)
     };
   },
-  React.createClass({
-    displayName: 'HistoricMetricSparkChart',
+  class extends React.Component {
+    static displayName = 'HistoricMetricSparkChart';
 
-    getInitialState() {
-      return {
-        datasource: null
-      };
-    },
+    state = {
+      datasource: null
+    };
 
     componentWillMount() {
       this.updateDatasource(this.props);
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
       if (!shallowEquals(this.props, nextProps)) {
         this.updateDatasource(nextProps);
       }
-    },
+    }
 
-    updateDatasource(props) {
+    updateDatasource = props => {
       if (props.rollup === undefined) {
         props = Object.create(props);
         props.rollup = getPixelAwareRollupSize(props.timeframe, props.width);
@@ -43,10 +41,10 @@ export default connectTo(
       this.setState({
         datasource: getHistoricMetricsWithLiveUpdates(props)
       });
-    },
+    };
 
     render() {
       return <SparkChart {...this.props} datasource={this.state.datasource} />;
     }
-  })
+  }
 );

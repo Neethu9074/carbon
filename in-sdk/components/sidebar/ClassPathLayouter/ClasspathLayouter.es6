@@ -7,22 +7,20 @@ import './ClasspathLayouter.less';
 
 const block = 'in-classpath-layouter';
 
-export default React.createClass({
-  displayName: 'ClasspathLayouter',
+export default class extends React.Component {
+  static displayName = 'ClasspathLayouter';
 
-  propTypes: {
+  static propTypes = {
     classpath: rpt.any
-  },
+  };
 
-  getInitialState() {
-    return {
-      visible: false
-    };
-  },
+  state = {
+    visible: false
+  };
 
-  toggleVisibility() {
+  toggleVisibility = () => {
     this.setState({ visible: !this.state.visible });
-  },
+  };
 
   render() {
     const classpath = this.props.classpath;
@@ -86,7 +84,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 function getPathTillJar(path) {
   let indexOfLastSlash = path.length;

@@ -6,14 +6,12 @@ import {
 } from 'in-views/configurationView/subview/ObjectivesConfig/components/Table/TableRow';
 import TableHeader from 'in-views/configurationView/subview/ObjectivesConfig/components/Table/TableHeader';
 
-export default React.createClass({
-  displayName: 'Table',
+export default class extends React.Component {
+  static displayName = 'Table';
 
-  getInitialState() {
-    return {
-      selectedObjective: null
-    };
-  },
+  state = {
+    selectedObjective: null
+  };
 
   render() {
     return (
@@ -35,9 +33,9 @@ export default React.createClass({
         </TableRowWrapper>
       </div>
     );
-  },
-
-  toggleObjective(objective) {
-    this.setState({ selectedObjective: this.state.selectedObjective === objective ? null : objective });
   }
-});
+
+  toggleObjective = objective => {
+    this.setState({ selectedObjective: this.state.selectedObjective === objective ? null : objective });
+  };
+}

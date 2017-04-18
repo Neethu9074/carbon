@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -20,20 +19,18 @@ export default connectTo(
     scale: timelineScale$,
     timeframe: timeframe$
   },
-  React.createClass({
-    displayName: 'TimelineTimeframeMarker',
+  class extends React.PureComponent {
+    static displayName = 'TimelineTimeframeMarker';
 
-    mixins: [PureRenderMixin],
-
-    lastXPosition: null,
-    subscription: null,
-
-    propTypes: {
+    static propTypes = {
       bigBangTimestamp: rpt.number,
       timeframe: timeframeShape,
       serverTime: rpt.number,
       scale: rpt.object
-    },
+    };
+
+    lastXPosition = null;
+    subscription = null;
 
     componentWillMount() {
       this.onUpSubscription = onUp(window, () => {
@@ -42,11 +39,11 @@ export default connectTo(
           this.subscription.dispose();
         }
       });
-    },
+    }
 
     componentWillUnmount() {
       this.onUpSubscription.dispose();
-    },
+    }
 
     render() {
       const bigBangTimestamp = this.props.bigBangTimestamp;
@@ -82,9 +79,9 @@ export default connectTo(
           />
         </div>
       );
-    },
+    }
 
-    onMouseDown(event) {
+    onMouseDown = event => {
       this.lastXPosition = event.screenX;
       this.subscription = onMove(window, e => {
         this.mouseMoved(this.lastXPosition - e.screenX);
@@ -92,9 +89,9 @@ export default connectTo(
       });
 
       fixFocusedMomentIfNotFixed();
-    },
+    };
 
-    mouseMoved(deltaX) {
+    mouseMoved = deltaX => {
       const bigBangTimestamp = this.props.bigBangTimestamp;
       const serverTime = this.props.serverTime;
       const timeframe = this.props.timeframe;
@@ -107,6 +104,6 @@ export default connectTo(
       const newToTimestamp = Math.max(bigBangTimestamp + timeframe.windowSize, Math.min(serverTime, to - timeMoved));
 
       setTo(newToTimestamp);
-    }
-  })
+    };
+  }
 );

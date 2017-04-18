@@ -7,30 +7,30 @@ import createSparkChart from 'in-charts/SparkChart/SparkChart';
 
 const block = 'in-spark-chart';
 
-export default React.createClass({
-  displayName: 'SparkChart',
+export default class extends React.Component {
+  static displayName = 'SparkChart';
 
-  propTypes: {
+  static propTypes = {
     wiggleRoom: rpt.number.isRequired,
     className: rpt.string,
     design: rpt.string
-  },
+  };
 
   componentDidMount() {
     this.initCharts(this.props);
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if (!shallowEquals(this.props, nextProps)) {
       this.initCharts(nextProps);
     }
-  },
+  }
 
   componentWillUnmount() {
     this.disposeSparkChart();
-  },
+  }
 
-  initCharts(props) {
+  initCharts = props => {
     this.disposeSparkChart();
 
     this.chart = createSparkChart({
@@ -43,7 +43,7 @@ export default React.createClass({
       design: this.props.design,
       wiggleRoom: this.props.wiggleRoom
     });
-  },
+  };
 
   render() {
     let classes = block;
@@ -51,12 +51,12 @@ export default React.createClass({
       classes += ' ' + this.props.className;
     }
     return <div className={classes} />;
-  },
+  }
 
-  disposeSparkChart() {
+  disposeSparkChart = () => {
     if (this.chart) {
       this.chart.dispose();
       this.chart = null;
     }
-  }
-});
+  };
+}

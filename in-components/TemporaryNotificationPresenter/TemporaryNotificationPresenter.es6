@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { TransitionMotion, spring } from 'react-motion';
 import rpt from 'prop-types';
 import React from 'react';
@@ -14,22 +13,20 @@ export default connectTo(
   {
     notification: temporaryNotification$
   },
-  React.createClass({
-    displayName: 'TemporaryNotificationPresenter',
+  class extends React.PureComponent {
+    static displayName = 'TemporaryNotificationPresenter';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       notification: rpt.any
-    },
+    };
 
-    willEnter() {
+    willEnter = () => {
       return { opacity: 0 };
-    },
+    };
 
-    willLeave() {
+    willLeave = () => {
       return { opacity: spring(0) };
-    },
+    };
 
     render() {
       const items = [];
@@ -66,5 +63,5 @@ export default connectTo(
         </TransitionMotion>
       );
     }
-  })
+  }
 );

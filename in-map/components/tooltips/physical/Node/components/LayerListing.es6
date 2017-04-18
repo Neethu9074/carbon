@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -10,14 +9,12 @@ import './LayerListing.less';
 const block = 'in-tooltip-layer-listing';
 
 export default getSnapshots(
-  React.createClass({
-    displayName: 'layer listing',
+  class extends React.PureComponent {
+    static displayName = 'layer listing';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       snapshots: rpt.array
-    },
+    };
 
     render() {
       const snapshots = this.props.snapshots;
@@ -39,9 +36,9 @@ export default getSnapshots(
           ))}
         </ul>
       );
-    },
+    }
 
-    getAggregatedLayer(snapshots) {
+    getAggregatedLayer = snapshots => {
       const aggregatedLayer = {};
 
       snapshots.forEach(snappi => {
@@ -54,6 +51,6 @@ export default getSnapshots(
       });
 
       return aggregatedLayer;
-    }
-  })
+    };
+  }
 );

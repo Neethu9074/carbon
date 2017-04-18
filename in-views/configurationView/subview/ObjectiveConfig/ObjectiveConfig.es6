@@ -15,32 +15,30 @@ import Button from 'in-components/Button';
 
 const logger = createLogger('ObjectiveConfig');
 
-export default React.createClass({
-  displayName: 'ObjectiveConfig',
+export default class extends React.Component {
+  static displayName = 'ObjectiveConfig';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: 'Loading objective…',
-      form: null,
-      objective: null
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: 'Loading objective…',
+    form: null,
+    objective: null
+  };
 
   componentWillMount() {
     this.loadObjective(this.props.params.objectiveId);
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.params.objectiveId !== nextProps.params.objectiveId) {
       this.loadObjective(nextProps.params.objectiveId);
     }
-  },
+  }
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
   render() {
     const { form, objective } = this.state;
@@ -79,9 +77,9 @@ export default React.createClass({
 
       </SubViewWrapper>
     );
-  },
+  }
 
-  loadObjective(objectiveId) {
+  loadObjective = objectiveId => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -110,9 +108,9 @@ export default React.createClass({
         message: 'Failed to load objective.'
       });
     });
-  },
+  };
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -120,9 +118,9 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
-  onChange(fieldName, value) {
+  onChange = (fieldName, value) => {
     let updatedForm = this.state.form;
     if (Array.isArray(fieldName)) {
       for (let i = 0, length = fieldName.length; i < length; i++) {
@@ -135,9 +133,9 @@ export default React.createClass({
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onAddThreshold() {
+  onAddThreshold = () => {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['thresholds'], field =>
       field
@@ -156,9 +154,9 @@ export default React.createClass({
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onRemoveThreshold(index) {
+  onRemoveThreshold = index => {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['thresholds'], field =>
       field.setValue(field.value.delete(index)).setTouched(true)
@@ -167,9 +165,9 @@ export default React.createClass({
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onChangeInThresholds(index, fieldName, value) {
+  onChangeInThresholds = (index, fieldName, value) => {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['thresholds'], field =>
       field.setValue(field.value.setIn([index, fieldName], value)).setTouched(true)
@@ -178,9 +176,9 @@ export default React.createClass({
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     if (!this.state.form.hierarchyValid) {
@@ -225,8 +223,8 @@ export default React.createClass({
         message
       });
     });
-  }
-});
+  };
+}
 
 function createForm(objective) {
   const match = objective.get('match');

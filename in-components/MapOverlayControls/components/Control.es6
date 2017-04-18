@@ -18,10 +18,10 @@ export default connectTo(
   {
     menuContent: menuContent$
   },
-  React.createClass({
-    displayName: 'Control',
+  class extends React.Component {
+    static displayName = 'Control';
 
-    propTypes: {
+    static propTypes = {
       type: rpt.string.isRequired,
       createMenuContent: rpt.func,
       tooltipText: rpt.string,
@@ -30,7 +30,7 @@ export default connectTo(
       isActive: rpt.bool,
       onClick: rpt.func,
       id: rpt.string
-    },
+    };
 
     componentWillUnmount() {
       const menuContent = this.props.menuContent;
@@ -38,7 +38,7 @@ export default connectTo(
       if (menuContent && menuContent.id === id) {
         closeCurrentMenu();
       }
-    },
+    }
 
     render() {
       const onClick = this.props.onClick;
@@ -76,7 +76,7 @@ export default connectTo(
         </Tooltip>
       );
     }
-  })
+  }
 );
 
 function getMenuContent(type, createMenuContent) {

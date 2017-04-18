@@ -1,10 +1,12 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import createReactClass from 'create-react-class';
+
 import { getMostImportantEventAtFocusedMoment } from 'in-stores/events';
 
 export default function getMostImportantEvent(ComposedComponent) {
-  return React.createClass({
+  return createReactClass({
     displayName: 'getMostImportantEvent hoc for ' + ComposedComponent.displayName,
 
     propTypes: {

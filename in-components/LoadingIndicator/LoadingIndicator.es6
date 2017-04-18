@@ -6,24 +6,22 @@ import './LoadingIndicator.less';
 const block = 'in-loading-indicator';
 const rectClass = block + '__rect';
 
-export default React.createClass({
-  displayName: 'LoadingIndicator',
+export default class extends React.Component {
+  static displayName = 'LoadingIndicator';
 
-  propTypes: {
+  static propTypes = {
     type: rpt.string,
     inline: rpt.bool,
     style: rpt.object
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      type: 'light'
-    };
-  },
+  static defaultProps = {
+    type: 'light'
+  };
 
   shouldComponentUpdate() {
     return false;
-  },
+  }
 
   render() {
     const rects = [];
@@ -44,4 +42,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

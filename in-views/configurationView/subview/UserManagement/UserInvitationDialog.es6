@@ -20,33 +20,31 @@ export default connectTo(
   {
     roles: getRoles()
   },
-  React.createClass({
-    displayName: 'UserInvitatonDialog',
+  class extends React.Component {
+    static displayName = 'UserInvitatonDialog';
 
-    propTypes: {
+    static propTypes = {
       onSubmit: rpt.func.isRequired,
       roles: rpt.any
-    },
+    };
 
-    getInitialState() {
-      return {
-        form: createMapForm()
-          .put(
-            'email',
-            createField({
-              value: '',
-              validator: notBlankValidator
-            })
-          )
-          .put(
-            'roleId',
-            createField({
-              value: ownerRoleId,
-              validator: notBlankValidator
-            })
-          )
-      };
-    },
+    state = {
+      form: createMapForm()
+        .put(
+          'email',
+          createField({
+            value: '',
+            validator: notBlankValidator
+          })
+        )
+        .put(
+          'roleId',
+          createField({
+            value: ownerRoleId,
+            validator: notBlankValidator
+          })
+        )
+    };
 
     render() {
       const { form } = this.state;
@@ -114,17 +112,17 @@ export default connectTo(
           </form>
         </Dialog>
       );
-    },
+    }
 
-    onChange(fieldName, value) {
+    onChange = (fieldName, value) => {
       const updatedForm = this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
 
       this.setState({
         form: updatedForm
       });
-    },
+    };
 
-    onSubmit(e) {
+    onSubmit = e => {
       e.preventDefault();
 
       if (!this.state.form.hierarchyValid) {
@@ -135,6 +133,6 @@ export default connectTo(
       }
 
       this.props.onSubmit(this.state.form.get('email').value, this.state.form.get('roleId').value);
-    }
-  })
+    };
+  }
 );

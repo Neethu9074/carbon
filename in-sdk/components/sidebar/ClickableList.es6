@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -60,20 +59,18 @@ function stopPropagation(e) {
   e.stopPropagation();
 }
 
-export const ClickableKeyValuePopupListItem = React.createClass({
-  displayName: 'ClickableKeyValuePopupListItem',
+export class ClickableKeyValuePopupListItem extends React.PureComponent {
+  static displayName = 'ClickableKeyValuePopupListItem';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     title: rpt.string.isRequired,
     data: rpt.object,
     children: rpt.any
-  },
+  };
 
   componentWillUnmount() {
     clearContent();
-  },
+  }
 
   render() {
     const data = this.props.data;
@@ -87,4 +84,4 @@ export const ClickableKeyValuePopupListItem = React.createClass({
       </ClickableListItem>
     );
   }
-});
+}

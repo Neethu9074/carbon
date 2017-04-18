@@ -16,24 +16,22 @@ import Button from 'in-components/Button';
 
 const logger = createLogger('Rules');
 
-export default React.createClass({
-  displayName: 'Rules',
+export default class extends React.Component {
+  static displayName = 'Rules';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: null,
-      rules: emptyList,
-      status: {}
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: null,
+    rules: emptyList,
+    status: {}
+  };
 
   componentWillMount() {
     this.refreshRules();
-  },
+  }
 
-  refreshRules() {
+  refreshRules = () => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -61,13 +59,13 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -75,9 +73,9 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
-  addNewRule() {
+  addNewRule = () => {
     this.disposeAsyncAction();
 
     const newRule = Map(createRule());
@@ -102,9 +100,9 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
-  onDeleteRule(ruleId) {
+  onDeleteRule = ruleId => {
     this.setState({
       error: false,
       loading: true,
@@ -131,7 +129,7 @@ export default React.createClass({
       });
     });
     close();
-  },
+  };
 
   render() {
     const { rules } = this.state;
@@ -167,4 +165,4 @@ export default React.createClass({
       </SubViewWrapper>
     );
   }
-});
+}

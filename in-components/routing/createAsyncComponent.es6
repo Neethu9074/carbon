@@ -16,14 +16,12 @@ export const createAsyncFullscreenOverlayViewComponent = createAsyncComponent.bi
 export function createAsyncComponent(loadingPlaceholder, load) {
   let ResolvedComponent;
 
-  return React.createClass({
-    displayName: `AsyncView`,
+  return class extends React.Component {
+    static displayName = `AsyncView`;
 
-    getInitialState() {
-      return {
-        Component: ResolvedComponent
-      };
-    },
+    state = {
+      Component: ResolvedComponent
+    };
 
     componentWillMount() {
       if (this.state.Component != null) {
@@ -42,7 +40,7 @@ export function createAsyncComponent(loadingPlaceholder, load) {
           logger.error(`Failed to load async component`, err);
         }
       );
-    },
+    }
 
     render() {
       const Component = this.state.Component;
@@ -52,5 +50,5 @@ export function createAsyncComponent(loadingPlaceholder, load) {
 
       return loadingPlaceholder;
     }
-  });
+  };
 }

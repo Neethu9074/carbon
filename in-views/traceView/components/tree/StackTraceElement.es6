@@ -44,20 +44,18 @@ export default connectTo(
       })
     };
   },
-  React.createClass({
-    displayName: 'TreeStackTraceElement',
+  class extends React.Component {
+    static displayName = 'TreeStackTraceElement';
 
-    propTypes: {
+    static propTypes = {
       stackTrace: rpt.array.isRequired,
       snapshot: rpt.object,
       online: rpt.bool
-    },
+    };
 
-    getInitialState() {
-      return {
-        showAllElements: false
-      };
-    },
+    state = {
+      showAllElements: false
+    };
 
     render() {
       let stackTrace = this.props.stackTrace;
@@ -98,12 +96,12 @@ export default connectTo(
           </ol>
         </div>
       );
-    },
+    }
 
-    toggle() {
+    toggle = () => {
       this.setState({
         showAllElements: !this.state.showAllElements
       });
-    }
-  })
+    };
+  }
 );

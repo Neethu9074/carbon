@@ -14,30 +14,28 @@ import Button from 'in-components/Button';
 
 const logger = createLogger('apiTokenConfig');
 
-export default React.createClass({
-  displayName: 'ApiToken',
+export default class extends React.Component {
+  static displayName = 'ApiToken';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: null,
-      apiToken: null,
-      form: null
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: null,
+    apiToken: null,
+    form: null
+  };
 
   componentWillMount() {
     this.loadApiToken(this.props.params.apiTokenId);
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.params.apiTokenId !== nextProps.params.apiTokenId) {
       this.loadApiToken(nextProps.params.apiTokenId);
     }
-  },
+  }
 
-  loadApiToken(apiTokenId) {
+  loadApiToken = apiTokenId => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -66,13 +64,13 @@ export default React.createClass({
         message: 'Failed to load API token.'
       });
     });
-  },
+  };
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -80,7 +78,7 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
   render() {
     const { apiToken, form } = this.state;
@@ -111,17 +109,17 @@ export default React.createClass({
 
       </SubViewWrapper>
     );
-  },
+  }
 
-  onChange(fieldName, value) {
+  onChange = (fieldName, value) => {
     const updatedForm = this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
 
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     if (!this.state.form.hierarchyValid) {
@@ -150,8 +148,8 @@ export default React.createClass({
         message
       });
     });
-  }
-});
+  };
+}
 
 function createForm(apiToken) {
   return createMapForm()

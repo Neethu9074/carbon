@@ -10,13 +10,13 @@ import Button from 'in-components/Button';
 
 let Clipboard;
 
-export default React.createClass({
-  displayName: 'CopyToClipboardButton',
+export default class extends React.Component {
+  static displayName = 'CopyToClipboardButton';
 
-  propTypes: {
+  static propTypes = {
     getText: rpt.func.isRequired,
     children: rpt.any
-  },
+  };
 
   componentDidMount() {
     if (!Clipboard) {
@@ -34,13 +34,13 @@ export default React.createClass({
     this.clipboard.on('error', () => {
       setTemporaryNotification('Press CTRL+C / CMD+C to copy!');
     });
-  },
+  }
 
   componentWillUnmount() {
     if (this.clipboard) {
       this.clipboard.destroy();
     }
-  },
+  }
 
   render() {
     const text = this.props.children || 'Copy to clipboard';
@@ -52,4 +52,4 @@ export default React.createClass({
       </RefWrapper>
     );
   }
-});
+}

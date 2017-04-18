@@ -15,18 +15,16 @@ import './RuleTester.less';
 
 const block = 'in-config-generic-ex-rule-tester';
 
-export default React.createClass({
-  displayName: 'RuleTester',
+export default class extends React.Component {
+  static displayName = 'RuleTester';
 
-  propTypes: {
+  static propTypes = {
     toggleRuleTesting: rpt.any,
     ruleForm: rpt.any.isRequired,
     matchSpecificationOptions: rpt.object.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {};
-  },
+  state = {};
 
   render() {
     const ruleForm = this.props.ruleForm;
@@ -78,9 +76,9 @@ export default React.createClass({
         <ExtractedServiceNamePresenter ruleForm={ruleForm} matches={matches} />
       </div>
     );
-  },
+  }
 
-  getHeader() {
+  getHeader = () => {
     return (
       <h3>
         Rule Tester
@@ -90,5 +88,5 @@ export default React.createClass({
         </Button>
       </h3>
     );
-  }
-});
+  };
+}

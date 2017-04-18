@@ -23,15 +23,15 @@ export default connectTo(
     isContextLost: isContextLost$,
     canvas: canvas$
   },
-  React.createClass({
-    displayName: 'Map',
+  class extends React.Component {
+    static displayName = 'Map';
 
-    propTypes: {
+    static propTypes = {
       isContextLost: rpt.bool,
       antialias: rpt.string,
       webVRMode: rpt.bool,
       canvas: rpt.object
-    },
+    };
 
     componentDidMount() {
       const canvas = this.mainCanvas;
@@ -41,13 +41,13 @@ export default connectTo(
       }
 
       this.sceneGraph = new SceneGraph(canvas, this.props.antialias, this.webGlContext);
-    },
+    }
 
     componentDidUpdate(prevProps) {
       if (prevProps.canvas !== this.props.canvas) {
         this.checkDialogs();
       }
-    },
+    }
 
     componentWillUnmount() {
       clear();
@@ -56,7 +56,7 @@ export default connectTo(
       if (this.sceneGraph) {
         this.sceneGraph.dispose();
       }
-    },
+    }
 
     render() {
       const webVRMode = this.props.webVRMode;
@@ -82,9 +82,9 @@ export default connectTo(
           <TooltipHoster />
         </div>
       );
-    },
+    }
 
-    checkDialogs() {
+    checkDialogs = () => {
       if (!isWebGLSupported() || this.props.isContextLost) {
         showHelp('webglNotSupported');
       } else if (!this.webGlContext) {
@@ -98,6 +98,6 @@ export default connectTo(
         // diasable this for a while to allow working with this branch without any VR headset connected
         setActiveDialog(createNoWebVRDialog());
       }
-    }
-  })
+    };
+  }
 );

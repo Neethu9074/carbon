@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -11,14 +10,12 @@ import './Universe.less';
 
 const block = 'in-universe';
 
-export default React.createClass({
-  displayName: 'Universe',
+export default class extends React.PureComponent {
+  static displayName = 'Universe';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     className: rpt.string
-  },
+  };
 
   componentDidMount() {
     markAsLoading();
@@ -28,14 +25,14 @@ export default React.createClass({
         canvas: this.refs.canvas
       });
     }
-  },
+  }
 
   componentWillUnmount() {
     markAsFinished();
     if (this.renderer) {
       this.renderer.dispose();
     }
-  },
+  }
 
   render() {
     return (
@@ -44,4 +41,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

@@ -27,8 +27,8 @@ export default connectTo(
     currentTimeSelector: currentTimeSelector$,
     height: interactableTimelineHeight$
   },
-  React.createClass({
-    displayName: 'DateTimePickerPopup',
+  class extends React.Component {
+    static displayName = 'DateTimePickerPopup';
 
     componentWillMount() {
       resetFocusedMomentDatePickerStore();
@@ -36,7 +36,7 @@ export default connectTo(
       resetToDatePickerStore();
       resetWindowSizeStore();
       resetLiveToggle(this.props.openInView);
-    },
+    }
 
     render() {
       return (
@@ -59,5 +59,5 @@ export default connectTo(
         </div>
       );
     }
-  })
+  }
 );

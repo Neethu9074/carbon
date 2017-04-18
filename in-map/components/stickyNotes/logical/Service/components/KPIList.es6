@@ -18,21 +18,19 @@ const block = 'in-sticky-note-process-kpi-list';
 export default connectTo(
   { showAggregations: showAggregations$ },
   getSnapshot(
-    React.createClass({
-      displayName: 'KPIList',
+    class extends React.Component {
+      static displayName = 'KPIList';
 
-      propTypes: {
+      static propTypes = {
         snapshotId: rpt.string.isRequired,
         onExpand: rpt.func.isRequired,
         snapshot: irpt.map,
         showAggregations: rpt.bool
-      },
+      };
 
-      getInitialState() {
-        return {
-          isExpanded: false
-        };
-      },
+      state = {
+        isExpanded: false
+      };
 
       render() {
         const snapshot = this.props.snapshot;
@@ -105,6 +103,6 @@ export default connectTo(
           </div>
         );
       }
-    })
+    }
   )
 );

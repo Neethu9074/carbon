@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -13,25 +12,21 @@ const block = 'in-agent-log-streamer';
 
 const maxDisplayedChars = 20000;
 
-export default React.createClass({
-  displayName: 'LogStreamer',
+export default class extends React.PureComponent {
+  static displayName = 'LogStreamer';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     snapshot: irpt.map.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      error: null,
-      log: ''
-    };
-  },
+  state = {
+    error: null,
+    log: ''
+  };
 
   componentDidMount() {
     this.subscribe();
-  },
+  }
 
   componentDidUpdate() {
     this.subscribe();
@@ -39,9 +34,9 @@ export default React.createClass({
     if (this.refs.code) {
       this.refs.code.scrollTop = Number.MAX_VALUE;
     }
-  },
+  }
 
-  subscribe() {
+  subscribe = () => {
     // nothing to do, snapshot did not change
     if (this.snapshot != null && this.snapshot.get('id') === this.props.snapshot.get('id')) {
       return;
@@ -102,13 +97,13 @@ export default React.createClass({
           log: aggregated.log
         });
       });
-  },
+  };
 
   componentWillUnmount() {
     this.disposeSubscription();
-  },
+  }
 
-  disposeSubscription() {
+  disposeSubscription = () => {
     if (this.snapshot) {
       createAgentResponseObservable({
         action: 'agent.log.stop',
@@ -121,7 +116,7 @@ export default React.createClass({
       this.subscription.dispose();
       this.subscription = null;
     }
-  },
+  };
 
   render() {
     return (
@@ -140,4 +135,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

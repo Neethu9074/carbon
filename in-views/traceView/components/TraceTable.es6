@@ -20,15 +20,15 @@ export default getElementDimensions(
       traces: traces$,
       isInfiniteLoading: isLoading$
     },
-    React.createClass({
-      displayName: 'TraceTable',
+    class extends React.Component {
+      static displayName = 'TraceTable';
 
-      propTypes: {
+      static propTypes = {
         isInfiniteLoading: rpt.bool.isRequired,
         traces: rpt.array.isRequired,
         selectedTraceId: rpt.string,
         height: rpt.number
-      },
+      };
 
       render() {
         return (
@@ -60,15 +60,15 @@ export default getElementDimensions(
               : null}
           </div>
         );
-      },
+      }
 
-      onClick(traceId) {
+      onClick = traceId => {
         if (this.props.selectedTraceId === traceId) {
           clearTraceSelection();
         } else {
           setSelectedTraceId(traceId);
         }
-      }
-    })
+      };
+    }
   )
 );

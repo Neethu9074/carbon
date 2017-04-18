@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -6,16 +5,14 @@ import './TimelineMenuEventLine.less';
 
 const block = 'in-timeline-menu-event-line';
 
-export default React.createClass({
-  displayName: 'TimelineMenuEventLine',
+export default class extends React.PureComponent {
+  static displayName = 'TimelineMenuEventLine';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     title: rpt.string.isRequired,
     additionalContent: rpt.any,
     count: rpt.number
-  },
+  };
 
   render() {
     return (
@@ -29,9 +26,9 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
-
-  getClassName() {
-    return block + (this.props.additionalContent ? ' ' + block + '--with-additional-content' : '');
   }
-});
+
+  getClassName = () => {
+    return block + (this.props.additionalContent ? ' ' + block + '--with-additional-content' : '');
+  };
+}

@@ -8,17 +8,17 @@ import './DownloadView.less';
 
 const block = 'in-metric-chart-download-view';
 
-export default React.createClass({
-  displayName: 'DownloadView',
+export default class extends React.Component {
+  static displayName = 'DownloadView';
 
-  propTypes: {
+  static propTypes = {
     jsonLink: rpt.string,
     getJsonData: rpt.func,
     getCsvData: rpt.func,
     fileName: rpt.string,
     queryParams: rpt.object,
     data: rpt.any
-  },
+  };
 
   render() {
     const data = this.props.data;
@@ -42,17 +42,17 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  downloadFile(transformData, fileType) {
+  downloadFile = (transformData, fileType) => {
     this.downloadLink.setAttribute(
       'href',
       `data:text/${fileType};charset=utf-8,${encodeURIComponent(transformData(this.props.data))}`
     );
     this.downloadLink.setAttribute('download', `${this.props.fileName}.${fileType}`);
     this.downloadLink.click();
-  }
-});
+  };
+}
 
 function formatUrl(url, queryParams = {}) {
   const queryPart = Object.keys(queryParams)

@@ -10,14 +10,12 @@ import './NewAppForm.less';
 
 const block = 'in-eum-keys-config-new-app';
 
-export default React.createClass({
-  displayName: 'NewAppForm',
+export default class extends React.Component {
+  static displayName = 'NewAppForm';
 
-  getInitialState() {
-    return {
-      appName: ''
-    };
-  },
+  state = {
+    appName: ''
+  };
 
   render() {
     return (
@@ -36,13 +34,13 @@ export default React.createClass({
         </Button>
       </form>
     );
-  },
+  }
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
     add(this.state.appName);
     this.setState({
       appName: ''
     });
-  }
-});
+  };
+}

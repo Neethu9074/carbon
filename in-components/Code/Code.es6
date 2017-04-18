@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
 import React from 'react';
@@ -29,35 +28,31 @@ import './Code.less';
 
 const block = 'in-code';
 
-export default React.createClass({
-  displayName: 'Code',
+export default class extends React.PureComponent {
+  static displayName = 'Code';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     code: rpt.string.isRequired,
     lang: rpt.string,
     line: rpt.number,
     className: rpt.string,
     wrapperClassName: rpt.string,
     showLineNumbers: rpt.bool
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      showLineNumbers: true
-    };
-  },
+  static defaultProps = {
+    showLineNumbers: true
+  };
 
   componentDidMount() {
     this.updateCode();
-  },
+  }
 
   componentDidUpdate() {
     this.updateCode();
-  },
+  }
 
-  updateCode() {
+  updateCode = () => {
     const codeElement = ReactDOM.findDOMNode(this.code);
     const preElement = ReactDOM.findDOMNode(this.pre);
     const code = this.props.code;
@@ -88,7 +83,7 @@ export default React.createClass({
     if (scrollElement && lineHighlight) {
       scrollElement.scrollTop = lineHighlight.offsetTop - scrollElement.clientHeight / 2;
     }
-  },
+  };
 
   render() {
     let classes = block;
@@ -113,7 +108,7 @@ export default React.createClass({
       </pre>
     );
   }
-});
+}
 
 function getActualJavaLine(code, givenLine) {
   const lineRegex = new RegExp('/\\*\\s*' + givenLine + '\\*/');

@@ -17,33 +17,31 @@ import Button from 'in-components/Button';
 
 const logger = createLogger('RuleBinding');
 
-export default React.createClass({
-  displayName: 'RuleBinding',
+export default class extends React.Component {
+  static displayName = 'RuleBinding';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: 'Loading custom issue…',
-      form: null,
-      ruleBinding: null,
-      rules: null
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: 'Loading custom issue…',
+    form: null,
+    ruleBinding: null,
+    rules: null
+  };
 
   componentWillMount() {
     this.loadRuleBinding(this.props.params.ruleBindingId);
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.params.ruleBindingId !== nextProps.params.ruleBindingId) {
       this.loadRuleBinding(nextProps.params.ruleBindingId);
     }
-  },
+  }
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
   render() {
     const { form, ruleBinding, rules } = this.state;
@@ -81,9 +79,9 @@ export default React.createClass({
 
       </SubViewWrapper>
     );
-  },
+  }
 
-  loadRuleBinding(ruleBindingId) {
+  loadRuleBinding = ruleBindingId => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -114,9 +112,9 @@ export default React.createClass({
         message: 'Failed to load custom issue.'
       });
     });
-  },
+  };
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -124,9 +122,9 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
-  onChange(fieldName, value) {
+  onChange = (fieldName, value) => {
     let updatedForm = this.state.form;
     if (Array.isArray(fieldName)) {
       for (let i = 0, length = fieldName.length; i < length; i++) {
@@ -139,9 +137,9 @@ export default React.createClass({
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onChangeInRuleIds(newRuleId) {
+  onChangeInRuleIds = newRuleId => {
     let updatedForm = this.state.form;
     updatedForm = updatedForm.updateIn(['ruleIds'], field =>
       field.setValue(field.value.setIn([0], newRuleId)).setTouched(true)
@@ -149,9 +147,9 @@ export default React.createClass({
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     if (!this.state.form.hierarchyValid) {
@@ -197,8 +195,8 @@ export default React.createClass({
         message
       });
     });
-  }
-});
+  };
+}
 
 function createForm(ruleBinding) {
   return createMapForm()

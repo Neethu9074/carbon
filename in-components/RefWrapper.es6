@@ -8,14 +8,14 @@ import React from 'react';
  * This is necessary because of the following React restriction:
  * https://github.com/facebook/react/issues/4936
  */
-export default React.createClass({
-  displayName: 'RefWrapper',
+export default class extends React.Component {
+  static displayName = 'RefWrapper';
 
-  propTypes: {
+  static propTypes = {
     children: rpt.any
-  },
+  };
 
   render() {
     return React.Children.only(this.props.children);
   }
-});
+}

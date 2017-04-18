@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -19,20 +18,18 @@ export default connectTo(
   {
     activeContent: content$
   },
-  React.createClass({
-    displayName: 'KeyValuePopup',
+  class extends React.PureComponent {
+    static displayName = 'KeyValuePopup';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       header: rpt.string.isRequired,
       activeContent: rpt.object,
       data: rpt.object
-    },
+    };
 
     componentWillUnmount() {
       clearContent();
-    },
+    }
 
     render() {
       const data = this.props.data;
@@ -61,5 +58,5 @@ export default connectTo(
         </div>
       );
     }
-  })
+  }
 );

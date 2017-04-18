@@ -1,10 +1,12 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import createReactClass from 'create-react-class';
+
 import { getOpenIssuesAtFocusedMoment } from 'in-stores/events';
 
 export default function getEvents(ComposedComponent) {
-  return React.createClass({
+  return createReactClass({
     displayName: 'getEvents hoc for ' + ComposedComponent.displayName,
 
     propTypes: {

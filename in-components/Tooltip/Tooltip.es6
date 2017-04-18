@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
 import rpt from 'prop-types';
@@ -8,12 +7,10 @@ import { setActiveTooltip, clearActiveTooltip } from 'in-services/stores/tooltip
 
 const logger = createLogger('in-components/Tooltip');
 
-export default React.createClass({
-  displayName: 'Tooltip',
+export default class extends React.PureComponent {
+  static displayName = 'Tooltip';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     content: rpt.oneOfType([rpt.element.isRequired, rpt.string.isRequired]),
     children: rpt.any.isRequired,
     align: rpt.oneOf([
@@ -31,32 +28,30 @@ export default React.createClass({
       'bottomRight',
       'auto'
     ])
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      align: 'auto'
-    };
-  },
+  static defaultProps = {
+    align: 'auto'
+  };
 
   componentDidMount() {
     this.addListeners();
-  },
+  }
 
   componentDidUpdate() {
     this.removeListeners();
     this.addListeners();
-  },
+  }
 
-  removeListeners() {
+  removeListeners = () => {
     if (this.domNode) {
       this.domNode.removeEventListener('mouseleave', this.onMouseOut, false);
       this.domNode.removeEventListener('mouseenter', this.onMouseIn, false);
       this.domNode = null;
     }
-  },
+  };
 
-  addListeners() {
+  addListeners = () => {
     try {
       this.domNode = ReactDOM.findDOMNode(this);
       this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
@@ -68,30 +63,30 @@ export default React.createClass({
         e
       );
     }
-  },
+  };
 
   componentWillUnmount() {
     this.removeListeners();
     if (this.isActive) {
       clearActiveTooltip();
     }
-  },
+  }
 
-  onMouseIn() {
+  onMouseIn = () => {
     setActiveTooltip({
       focusedElement: this.domNode,
       content: this.props.content,
       align: this.props.align || 'auto'
     });
     this.isActive = true;
-  },
+  };
 
-  onMouseOut() {
+  onMouseOut = () => {
     clearActiveTooltip();
     this.isActive = false;
-  },
+  };
 
   render() {
     return this.props.children;
   }
-});
+}

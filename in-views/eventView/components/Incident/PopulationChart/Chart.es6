@@ -1,6 +1,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import createReactClass from 'create-react-class';
+
 import ToggleChangesButton from 'in-views/eventView/components/Incident/PopulationChart/ToggleChangesButton';
 import ExpandChangesButton from 'in-views/eventView/components/Incident/PopulationChart/ExpandChangesButton';
 import { restoreInitialExpandedState } from 'in-views/eventView/stores/populationChartExpandedStore';
@@ -17,7 +19,7 @@ import 'in-views/eventView/components/Incident/PopulationChart/Chart.less';
 const block = 'in-event-view-detail-chart';
 
 export default getElementDimensions(
-  React.createClass({
+  createReactClass({
     displayName: 'IncidentPopulationChart',
 
     scale: createScale(),

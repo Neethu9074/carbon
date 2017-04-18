@@ -3,14 +3,12 @@ import React from 'react';
 import { TableRowWrapper, TableRow } from 'in-views/configurationView/subview/RuleBindings/components/Table/TableRow';
 import TableHeader from 'in-views/configurationView/subview/RuleBindings/components/Table/TableHeader';
 
-export default React.createClass({
-  displayName: 'Table',
+export default class extends React.Component {
+  static displayName = 'Table';
 
-  getInitialState() {
-    return {
-      selectedRuleBinding: null
-    };
-  },
+  state = {
+    selectedRuleBinding: null
+  };
 
   render() {
     return (
@@ -32,9 +30,9 @@ export default React.createClass({
         </TableRowWrapper>
       </div>
     );
-  },
-
-  toggleRuleBinding(ruleBinding) {
-    this.setState({ selectedRuleBinding: this.state.selectedRuleBinding === ruleBinding ? null : ruleBinding });
   }
-});
+
+  toggleRuleBinding = ruleBinding => {
+    this.setState({ selectedRuleBinding: this.state.selectedRuleBinding === ruleBinding ? null : ruleBinding });
+  };
+}

@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
@@ -20,18 +19,16 @@ export default connectTo(
     highlightedEventScreenPosition: highlightedEventScreenPosition$,
     highlightedEvent: highlightedEvent$
   },
-  React.createClass({
-    displayName: 'EventTooltip',
+  class extends React.PureComponent {
+    static displayName = 'EventTooltip';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       highlightedEventScreenPosition: rpt.shape({
         x: rpt.number.isRequired,
         y: rpt.number.isRequired
       }),
       highlightedEvent: irpt.map
-    },
+    };
 
     render() {
       const highlightedEventScreenPosition = this.props.highlightedEventScreenPosition;
@@ -66,5 +63,5 @@ export default connectTo(
         </div>
       );
     }
-  })
+  }
 );

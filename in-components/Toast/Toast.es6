@@ -3,18 +3,16 @@ import React from 'react';
 
 import './Toast.less';
 
-const Toast = React.createClass({
-  propTypes: {
+class Toast extends React.Component {
+  static propTypes = {
     onClick: rpt.func,
     action: rpt.string,
     children: rpt.any
-  },
+  };
 
-  getInitialState() {
-    return {
-      dismissed: false
-    };
-  },
+  state = {
+    dismissed: false
+  };
 
   render() {
     if (!this.props.children) {
@@ -35,6 +33,6 @@ const Toast = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default Toast;

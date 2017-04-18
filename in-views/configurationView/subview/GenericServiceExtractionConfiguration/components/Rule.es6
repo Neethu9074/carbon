@@ -27,29 +27,27 @@ import './Rule.less';
 
 const block = 'in-config-generic-ex-rule';
 
-export default React.createClass({
-  displayName: 'Rule',
+export default class extends React.Component {
+  static displayName = 'Rule';
 
-  propTypes: {
+  static propTypes = {
     ruleForm: rpt.any.isRequired,
     path: rpt.any,
     helpTexts: rpt.object.isRequired,
     matchSpecificationOptionsTree: rpt.array.isRequired,
     matchSpecificationOptions: rpt.object.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      isExpanded: false,
-      isTesting: false
-    };
-  },
+  state = {
+    isExpanded: false,
+    isTesting: false
+  };
 
   componentWillMount() {
     if (!this.props.ruleForm.valid) {
       this.setState({ isExpanded: true });
     }
-  },
+  }
 
   render() {
     const { ruleForm, path, helpTexts, matchSpecificationOptionsTree, matchSpecificationOptions } = this.props;
@@ -216,22 +214,22 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  toggleExpanded() {
+  toggleExpanded = () => {
     this.setState({
       isExpanded: !this.state.isExpanded,
       isTesting: false
     });
-  },
+  };
 
-  toggleTesting() {
+  toggleTesting = () => {
     this.setState({
       isTesting: !this.state.isTesting
     });
-  },
+  };
 
-  onChangeMatchOption(e) {
+  onChangeMatchOption = e => {
     const newRuleName = e.target.value;
     if (!newRuleName) {
       return;
@@ -245,10 +243,10 @@ export default React.createClass({
       newRuleName,
       this.props.matchSpecificationOptions[newRuleName].initialValue || ''
     );
-  },
+  };
 
-  removeMatch(e, key) {
+  removeMatch = (e, key) => {
     e.preventDefault();
     removeMatchSpecification(this.props.path, key);
-  }
-});
+  };
+}

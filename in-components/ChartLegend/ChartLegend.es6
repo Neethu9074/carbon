@@ -25,15 +25,15 @@ export default connectTo(
       time: props.timeframe$ ? props.timeframe$.map(timeframe => timeframe.to) : alwaysNull
     };
   },
-  React.createClass({
-    displayName: 'ChartLegend',
+  class extends React.Component {
+    static displayName = 'ChartLegend';
 
-    propTypes: {
+    static propTypes = {
       snapshotIds: rpt.arrayOf(rpt.string),
       y1: axisConfigShape.isRequired,
       snapshotId: rpt.string,
       y2: axisConfigShape
-    },
+    };
 
     render() {
       return (
@@ -42,9 +42,9 @@ export default connectTo(
           {this.props.y2 ? this.renderList(this.props.y2, 'y2', this.props.y1.metrics.length) : null}
         </div>
       );
-    },
+    }
 
-    renderList(axis, modifier, themeMetricOffset) {
+    renderList = (axis, modifier, themeMetricOffset) => {
       const classname = block + '__metrics';
       const props = this.props;
       const colors = theme.chart.strokeColors;
@@ -90,8 +90,8 @@ export default connectTo(
           })}
         </dl>
       );
-    }
-  })
+    };
+  }
 );
 
 function toBackground(hexColor) {

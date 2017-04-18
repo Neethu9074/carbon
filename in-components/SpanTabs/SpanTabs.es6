@@ -7,18 +7,16 @@ import './SpanTabs.less';
 
 const block = 'in-span-tabs';
 
-export const SpanTabs = React.createClass({
-  displayName: 'SpanTabs',
+export class SpanTabs extends React.Component {
+  static displayName = 'SpanTabs';
 
-  propTypes: {
+  static propTypes = {
     children: rpt.any
-  },
+  };
 
-  getInitialState() {
-    return {
-      selectedTab: 0
-    };
-  },
+  state = {
+    selectedTab: 0
+  };
 
   render() {
     const children = this.props.children.filter(child => child && child.props.children);
@@ -50,7 +48,7 @@ export const SpanTabs = React.createClass({
       </div>
     );
   }
-});
+}
 
 export const SpanTab = function SpanTag() {
   return null;

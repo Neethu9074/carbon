@@ -3,14 +3,12 @@ import React from 'react';
 import { TableRowWrapper, TableRow } from 'in-views/configurationView/subview/Rules/components/Table/TableRow';
 import TableHeader from 'in-views/configurationView/subview/Rules/components/Table/TableHeader';
 
-export default React.createClass({
-  displayName: 'Table',
+export default class extends React.Component {
+  static displayName = 'Table';
 
-  getInitialState() {
-    return {
-      selectedRule: null
-    };
-  },
+  state = {
+    selectedRule: null
+  };
 
   render() {
     return (
@@ -31,9 +29,9 @@ export default React.createClass({
         </TableRowWrapper>
       </div>
     );
-  },
-
-  toggleAlert(rule) {
-    this.setState({ selectedRule: this.state.selectedRule === rule ? null : rule });
   }
-});
+
+  toggleAlert = rule => {
+    this.setState({ selectedRule: this.state.selectedRule === rule ? null : rule });
+  };
+}

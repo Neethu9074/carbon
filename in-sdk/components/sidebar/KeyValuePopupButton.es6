@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -10,20 +9,18 @@ import Button from 'in-components/Button';
 
 import './KeyValuePopup.less';
 
-export default React.createClass({
-  displayName: 'KeyValuePopupButton',
+export default class extends React.PureComponent {
+  static displayName = 'KeyValuePopupButton';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     title: rpt.string.isRequired,
     data: rpt.object,
     children: rpt.any
-  },
+  };
 
   componentWillUnmount() {
     clearContent();
-  },
+  }
 
   render() {
     const data = this.props.data;
@@ -37,4 +34,4 @@ export default React.createClass({
       </Button>
     );
   }
-});
+}

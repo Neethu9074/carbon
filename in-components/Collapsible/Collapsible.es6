@@ -1,5 +1,4 @@
 /* eslint-disable react/no-multi-comp, react/prop-types */
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import invariant from 'invariant';
 import rpt from 'prop-types';
 import React from 'react';
@@ -11,20 +10,16 @@ import './Collapsible.less';
 
 const block = 'in-collapsible';
 
-const Collapsible = React.createClass({
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+class Collapsible extends React.PureComponent {
+  static propTypes = {
     children: rpt.array.isRequired,
     initiallyOpen: rpt.bool,
     className: rpt.string
-  },
+  };
 
-  getInitialState() {
-    return {
-      open: this.props.initiallyOpen
-    };
-  },
+  state = {
+    open: this.props.initiallyOpen
+  };
 
   render() {
     const children = this.props.children;
@@ -44,23 +39,23 @@ const Collapsible = React.createClass({
         </Content>
       </div>
     );
-  },
-
-  toggle() {
-    this.setState({ open: !this.state.open });
   }
-});
+
+  toggle = () => {
+    this.setState({ open: !this.state.open });
+  };
+}
 
 export default Collapsible;
 
-const Header = React.createClass({
-  propTypes: {
+class Header extends React.Component {
+  static propTypes = {
     children: rpt.any.isRequired,
     className: rpt.string,
     style: rpt.object,
     toggle: rpt.func,
     isOpen: rpt.bool
-  },
+  };
 
   render() {
     const isOpen = this.props.isOpen;
@@ -84,15 +79,16 @@ const Header = React.createClass({
       </div>
     );
   }
-});
+}
+
 Collapsible.Header = Header;
 
-const Content = React.createClass({
-  propTypes: {
+class Content extends React.Component {
+  static propTypes = {
     children: rpt.any.isRequired,
     isOpen: rpt.bool,
     className: rpt.string
-  },
+  };
 
   render() {
     if (!this.props.isOpen) {
@@ -111,5 +107,6 @@ const Content = React.createClass({
       </div>
     );
   }
-});
+}
+
 Collapsible.Content = Content;

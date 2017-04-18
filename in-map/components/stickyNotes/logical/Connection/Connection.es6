@@ -5,19 +5,17 @@ import KPIList from 'in-map/components/stickyNotes/logical/Service/components/KP
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
 
 export default createStickyNote(
-  React.createClass({
-    displayName: 'logical connection sticky',
+  class extends React.Component {
+    static displayName = 'logical connection sticky';
 
-    propTypes: {
+    static propTypes = {
       id: rpt.string.isRequired,
       wrapper: rpt.object
-    },
+    };
 
-    getInitialState() {
-      return {
-        kpisAreExpanded: false
-      };
-    },
+    state = {
+      kpisAreExpanded: false
+    };
 
     render() {
       const snapshotId = this.props.id;
@@ -29,5 +27,5 @@ export default createStickyNote(
 
       return <KPIList snapshotId={snapshotId} onExpand={kpisAreExpanded => this.setState({ kpisAreExpanded })} />;
     }
-  })
+  }
 );

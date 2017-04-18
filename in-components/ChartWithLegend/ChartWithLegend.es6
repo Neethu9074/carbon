@@ -25,14 +25,12 @@ export default connectTo(
       defaultRollup: currentRollup$
     };
   },
-  React.createClass({
-    displayName: 'ChartWithLegend',
+  class extends React.Component {
+    static displayName = 'ChartWithLegend';
 
-    getInitialState() {
-      return {
-        filterStore: createDataSeriesFilterStore()
-      };
-    },
+    state = {
+      filterStore: createDataSeriesFilterStore()
+    };
 
     render() {
       const props = this.props;
@@ -73,5 +71,5 @@ export default connectTo(
         </div>
       );
     }
-  })
+  }
 );

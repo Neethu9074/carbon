@@ -31,15 +31,8 @@ export default getElementDimensions(
     {
       query: unvalidatedQuery$
     },
-    React.createClass({
-      displayname: 'SearchBar-Input',
-
-      getInitialState() {
-        return {
-          eventEmitter: new RoEmitter(this.id),
-          suggestionConfig: null
-        };
-      },
+    class extends React.Component {
+      displayname = 'SearchBar-Input';
 
       componentDidMount() {
         const editor = (this.editor = CodeMirror(this.input, {
@@ -211,7 +204,7 @@ export default getElementDimensions(
         });
 
         this.leaveSubscription = onLeave(code, removeAllHighlightedClasses);
-      },
+      }
 
       componentWillUnmount() {
         // editor events are disposed via GC, so just "delete" the reference
@@ -235,14 +228,14 @@ export default getElementDimensions(
         }
 
         this.state.eventEmitter.dispose();
-      },
+      }
 
       componentWillUpdate(nextProps) {
         // update the editor state if the query gets manipulated from outside
         if (this.props.query !== nextProps.query && nextProps.query !== this.editor.getValue()) {
           this.editor.setValue(nextProps.query);
         }
-      },
+      }
 
       render() {
         return (
@@ -256,9 +249,9 @@ export default getElementDimensions(
             />
           </div>
         );
-      },
+      }
 
-      onSelectSuggestion(e) {
+      onSelectSuggestion = e => {
         if (!e) {
           return;
         }
@@ -275,17 +268,17 @@ export default getElementDimensions(
 
         // set cursor to the end of the line
         this.editor.setCursor({ line: 0, ch: cursorAfterInsertion });
-      },
+      };
 
-      updateQuery(newQuery) {
+      updateQuery = newQuery => {
         if (this.editor.getValue() !== newQuery) {
           this.editor.setValue(newQuery);
         }
 
         setInputString(newQuery);
-      },
+      };
 
-      removeBlockFromQuery(blockId) {
+      removeBlockFromQuery = blockId => {
         const tokens = this.editor.doc.mode.currentLexResult;
         let newQuery = '';
         for (let i = 0, length = tokens.length; i < length; i++) {
@@ -296,9 +289,9 @@ export default getElementDimensions(
         }
 
         this.updateQuery(newQuery);
-      },
+      };
 
-      openSuggestionWindowOnEmptyQuery(autocompleteShownForCursorPosition) {
+      openSuggestionWindowOnEmptyQuery = autocompleteShownForCursorPosition => {
         const currentQuery = this.props.query;
         if (currentQuery === '') {
           const { left } = this.editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
@@ -308,9 +301,9 @@ export default getElementDimensions(
             left
           });
         }
-      },
+      };
 
-      getFieldConfig(tokens, cursor) {
+      getFieldConfig = (tokens, cursor) => {
         const changedToken = getTokenForColumn(tokens, cursor);
 
         // handle auto completion for field values
@@ -332,16 +325,21 @@ export default getElementDimensions(
           };
         }
         return {};
-      },
+      };
 
-      hide() {
+      hide = () => {
         this.setState({ suggestionConfig: null });
-      },
+      };
 
-      show(suggestionConfig) {
+      show = suggestionConfig => {
         this.setState({ suggestionConfig });
-      }
-    })
+      };
+
+      state = {
+        eventEmitter: new RoEmitter(this.id),
+        suggestionConfig: null
+      };
+    }
   )
 );
 

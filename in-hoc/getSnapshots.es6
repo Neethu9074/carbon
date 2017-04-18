@@ -2,10 +2,12 @@ import { combineLatest } from 'reactive-observables';
 import rpt from 'prop-types';
 import React from 'react';
 
+import createReactClass from 'create-react-class';
+
 import { getSnapshot as loadSnapshot } from 'in-stores/snapshot';
 
 export default function getSnapshots(ComposedComponent) {
-  return React.createClass({
+  return createReactClass({
     displayName: 'getSnapshots hoc for ' + ComposedComponent.displayName,
 
     propTypes: {

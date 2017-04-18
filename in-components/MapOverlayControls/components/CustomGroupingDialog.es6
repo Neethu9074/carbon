@@ -17,20 +17,18 @@ const block = 'in-search-custom-grouping-dialog';
 
 export default connectTo(
   {},
-  React.createClass({
-    displayName: 'CustomGroupingDialog',
+  class extends React.Component {
+    static displayName = 'CustomGroupingDialog';
 
-    getInitialState() {
-      return {
-        form: createMapForm().put(
-          'path',
-          createField({
-            value: '',
-            validator: notBlankValidator
-          })
-        )
-      };
-    },
+    state = {
+      form: createMapForm().put(
+        'path',
+        createField({
+          value: '',
+          validator: notBlankValidator
+        })
+      )
+    };
 
     render() {
       const form = this.state.form;
@@ -67,21 +65,21 @@ export default connectTo(
           </form>
         </Dialog>
       );
-    },
+    }
 
-    onChange(fieldName, value) {
+    onChange = (fieldName, value) => {
       this.setState({
         form: this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true))
       });
-    },
+    };
 
-    onSubmit(e) {
+    onSubmit = e => {
       e.preventDefault();
 
       if (this.state.form.hierarchyValid) {
         setCurrentViewwWithViewGrouping(`custom-${this.state.form.get('path').value}`);
         close();
       }
-    }
-  })
+    };
+  }
 );

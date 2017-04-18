@@ -13,21 +13,19 @@ import './Mode.less';
 
 const block = 'in-agent-mode-selector';
 
-export default React.createClass({
-  displayName: 'Mode',
+export default class extends React.Component {
+  static displayName = 'Mode';
 
-  getInitialState() {
-    return {
-      mode: null
-    };
-  },
+  state = {
+    mode: null
+  };
 
-  getCurrentlySelectedMode() {
+  getCurrentlySelectedMode = () => {
     if (this.state.mode != null) {
       return this.state.mode;
     }
     return this.props.snapshot.getIn(['data', 'mode']);
-  },
+  };
 
   render() {
     const currentMode = this.props.snapshot.getIn(['data', 'mode']);
@@ -63,10 +61,10 @@ export default React.createClass({
         </div>
       </Dialog>
     );
-  },
+  }
 
-  switchMode() {
+  switchMode = () => {
     setMode(this.props.snapshot, this.getCurrentlySelectedMode());
     close();
-  }
-});
+  };
+}

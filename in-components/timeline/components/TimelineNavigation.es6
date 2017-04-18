@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import { timeframe$, setWindowSize } from 'in-components/timeline/timelineStore';
@@ -27,14 +26,12 @@ export default connectTo(
   {
     timeframe: timeframe$
   },
-  React.createClass({
-    displayName: 'TimelineNavigation',
+  class extends React.PureComponent {
+    static displayName = 'TimelineNavigation';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       timeframe: timeframeShape
-    },
+    };
 
     render() {
       const timeframe = this.props.timeframe;
@@ -61,24 +58,24 @@ export default connectTo(
           </Tooltip>
         </div>
       );
-    },
+    }
 
-    onZoomChanged(e) {
+    onZoomChanged = e => {
       setWindowSize(slices[slices.length - e.target.value - 1]);
-    },
+    };
 
-    zoomOut() {
+    zoomOut = () => {
       const currentIndex = getIndexOfSlice(this.props.timeframe.windowSize);
       if (currentIndex < slices.length - 1) {
         setWindowSize(slices[currentIndex + 1]);
       }
-    },
+    };
 
-    zoomIn() {
+    zoomIn = () => {
       const currentIndex = getIndexOfSlice(this.props.timeframe.windowSize);
       if (currentIndex > 0) {
         setWindowSize(slices[currentIndex - 1]);
       }
-    }
-  })
+    };
+  }
 );

@@ -30,21 +30,19 @@ export default connectTo(
       highlightedEventId: highlightedEventId$
     };
   },
-  React.createClass({
-    displayName: 'EventListItem',
+  class extends React.Component {
+    static displayName = 'EventListItem';
 
-    propTypes: {
+    static propTypes = {
       triggeringProblemId: rpt.string,
       highlightedEventId: rpt.string,
       event: irpt.map.isRequired,
       background: rpt.string
-    },
+    };
 
-    getInitialState() {
-      return {
-        isExpanded: false
-      };
-    },
+    state = {
+      isExpanded: false
+    };
 
     render() {
       const triggeringProblemId = this.props.triggeringProblemId;
@@ -107,7 +105,7 @@ export default connectTo(
         </div>
       );
     }
-  })
+  }
 );
 
 const TimeIndicator = connectTo(

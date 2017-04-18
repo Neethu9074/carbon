@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -9,12 +8,10 @@ import './PercentageIndicator.less';
 
 const block = 'in-table-view-percentage-indicator';
 
-export default React.createClass({
-  displayName: 'PercentageIndicator',
+export default class extends React.PureComponent {
+  static displayName = 'PercentageIndicator';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     snapshotId: rpt.string,
     /* eslint-disable react/no-unused-prop-types */
     createMetricValueStream: rpt.func,
@@ -23,13 +20,13 @@ export default React.createClass({
     optionalTimeWindowAggregation: rpt.string,
     /* eslint-enable react/no-unused-prop-types */
     formatter: rpt.func
-  },
+  };
 
   componentDidMount() {
     this.establishSubscription(this.getStream(this.props));
-  },
+  }
 
-  getStream(props) {
+  getStream = props => {
     if (props.createMetricValueStream) {
       return props.createMetricValueStream(this.props.snapshotId).distinct();
     }
@@ -67,9 +64,9 @@ export default React.createClass({
     })
       .map(v => v[1])
       .distinct();
-  },
+  };
 
-  establishSubscription(stream) {
+  establishSubscription = stream => {
     const valuePresenter = this.value;
     const levelPresenter = this.level;
 
@@ -87,7 +84,7 @@ export default React.createClass({
         levelPresenter.style.width = `${Math.min(1, v) * 100}%`;
       }
     });
-  },
+  };
 
   componentWillUpdate(nextProps) {
     const nextStream = this.getStream(nextProps);
@@ -95,25 +92,25 @@ export default React.createClass({
       this.disposeSubscription();
       this.establishSubscription(nextStream);
     }
-  },
+  }
 
   componentWillUnmount() {
     this.disposeSubscription();
-  },
+  }
 
-  disposeSubscription() {
+  disposeSubscription = () => {
     if (this.subscription) {
       this.subscription.dispose();
       this.subscription = null;
     }
-  },
+  };
 
-  format(v) {
+  format = v => {
     if (v !== undefined && this.props.formatter) {
       return this.props.formatter(v);
     }
     return v;
-  },
+  };
 
   render() {
     return (
@@ -123,4 +120,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

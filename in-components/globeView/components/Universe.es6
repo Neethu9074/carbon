@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -10,14 +9,12 @@ import './Universe.less';
 
 const block = 'in-globe-view-universe';
 
-export default React.createClass({
-  displayName: 'GlobeUniverse',
+export default class extends React.PureComponent {
+  static displayName = 'GlobeUniverse';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     className: rpt.string
-  },
+  };
 
   componentDidMount() {
     if (isWebGLSupported(this.refs.canvas)) {
@@ -26,13 +23,13 @@ export default React.createClass({
         canvas: this.refs.canvas
       });
     }
-  },
+  }
 
   componentWillUnmount() {
     if (this.renderer) {
       this.renderer.dispose();
     }
-  },
+  }
 
   render() {
     return (
@@ -41,4 +38,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

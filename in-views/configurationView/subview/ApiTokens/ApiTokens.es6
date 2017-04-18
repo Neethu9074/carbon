@@ -20,24 +20,22 @@ import './ApiTokens.less';
 const logger = createLogger('ApiTokenManagement');
 const block = 'in-config-api-tokens';
 
-export default React.createClass({
-  displayName: 'ApiTokens',
+export default class extends React.Component {
+  static displayName = 'ApiTokens';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: null,
-      apiTokens: emptyList,
-      selectedToken: null
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: null,
+    apiTokens: emptyList,
+    selectedToken: null
+  };
 
   componentWillMount() {
     this.refreshApiTokens();
-  },
+  }
 
-  refreshApiTokens() {
+  refreshApiTokens = () => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -64,13 +62,13 @@ export default React.createClass({
         message: 'Failed to retrieve API tokens.'
       });
     });
-  },
+  };
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -78,7 +76,7 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
   render() {
     const { apiTokens } = this.state;
@@ -148,9 +146,9 @@ export default React.createClass({
           : null}
       </SubViewWrapper>
     );
-  },
+  }
 
-  addNewApiToken() {
+  addNewApiToken = () => {
     const newApiToken = Map({
       id: generateUniqueShortId(),
       name: 'New API Token'
@@ -176,9 +174,9 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
-  onDelete(apiToken) {
+  onDelete = apiToken => {
     setActiveDialog(
       <ConfirmationDialog
         header="Confirm removal"
@@ -194,9 +192,9 @@ export default React.createClass({
         }}
       />
     );
-  },
+  };
 
-  onDeleteAfterConfirmation(apiToken) {
+  onDeleteAfterConfirmation = apiToken => {
     this.setState({
       error: false,
       loading: true,
@@ -222,5 +220,5 @@ export default React.createClass({
         message
       });
     });
-  }
-});
+  };
+}

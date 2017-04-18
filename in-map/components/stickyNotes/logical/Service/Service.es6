@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -23,24 +22,20 @@ export default createStickyNote(
         showKpi: showKpi$.distinct()
       };
     },
-    React.createClass({
-      displayName: 'process cluster stickynote',
+    class extends React.PureComponent {
+      static displayName = 'process cluster stickynote';
 
-      mixins: [PureRenderMixin],
-
-      propTypes: {
+      static propTypes = {
         serviceInstances: rpt.array,
         id: rpt.string.isRequired,
         wrapper: rpt.object,
         showKpi: rpt.bool
-      },
+      };
 
-      getInitialState() {
-        return {
-          expanded: false,
-          kpisAreExpanded: false
-        };
-      },
+      state = {
+        expanded: false,
+        kpisAreExpanded: false
+      };
 
       render() {
         const isExpanded = this.state.expanded;
@@ -69,11 +64,11 @@ export default createStickyNote(
             {isExpanded && childrenAreAvailable ? <ServiceInstanceList serviceInstances={serviceInstances} /> : null}
           </div>
         );
-      },
-
-      renderKpis(onExpand) {
-        return this.props.showKpi ? <KPIList snapshotId={this.props.id} onExpand={onExpand} /> : null;
       }
-    })
+
+      renderKpis = onExpand => {
+        return this.props.showKpi ? <KPIList snapshotId={this.props.id} onExpand={onExpand} /> : null;
+      };
+    }
   )
 );

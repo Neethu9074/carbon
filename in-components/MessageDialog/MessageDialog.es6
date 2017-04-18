@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -11,14 +10,12 @@ export default connectTo(
   {
     message: message$
   },
-  React.createClass({
-    displayName: 'MessageDialog',
+  class extends React.PureComponent {
+    static displayName = 'MessageDialog';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       message: rpt.object
-    },
+    };
 
     render() {
       const message = this.props.message;
@@ -33,10 +30,10 @@ export default connectTo(
           </p>
         </NotificationDialog>
       );
-    },
-
-    onClose() {
-      clearMessage();
     }
-  })
+
+    onClose = () => {
+      clearMessage();
+    };
+  }
 );

@@ -36,14 +36,12 @@ const MetricPanel = connectTo(
   {
     view: view$
   },
-  React.createClass({
-    displayName: 'MetricPanel',
+  class extends React.Component {
+    static displayName = 'MetricPanel';
 
-    getInitialState() {
-      return {
-        isOpen: true
-      };
-    },
+    state = {
+      isOpen: true
+    };
 
     render() {
       const metricList = getMetricList(this.props.view);
@@ -59,7 +57,7 @@ const MetricPanel = connectTo(
         </div>
       );
     }
-  })
+  }
 );
 
 const DropDown = connectTo(

@@ -10,34 +10,32 @@ const block = 'in-sticky-node';
 const invisibleClass = `${block}__invisible`;
 
 export default function StickyNote(ComposedComponent) {
-  return React.createClass({
-    displayName: 'StickyNote',
+  return class extends React.Component {
+    static displayName = 'StickyNote';
 
-    propTypes: {
+    static propTypes = {
       eventEmitter: rpt.object.isRequired,
       showSticky$: rpt.object.isRequired,
       id: rpt.string.isRequired
-    },
+    };
 
-    getInitialState() {
-      return {
-        isVisible: false
-      };
-    },
+    state = {
+      isVisible: false
+    };
 
     componentDidMount() {
       this.setupSubscriptions();
-    },
+    }
 
     componentDidUpdate(prevProps) {
       if (this.props.id !== prevProps.id || this.props.eventEmitter !== prevProps.eventEmitter) {
         this.setupSubscriptions();
       }
-    },
+    }
 
     componentWillUnmount() {
       this.disposeSubscriptions();
-    },
+    }
 
     render() {
       if (!this.state.isVisible) {
@@ -49,9 +47,9 @@ export default function StickyNote(ComposedComponent) {
           <ComposedComponent {...this.props} wrapper={this.stickyNote} />
         </div>
       );
-    },
+    }
 
-    setupSubscriptions(props = this.props) {
+    setupSubscriptions = (props = this.props) => {
       this.disposeSubscriptions();
 
       this.positionSubscription = combineLatest([
@@ -67,13 +65,13 @@ export default function StickyNote(ComposedComponent) {
           this.setState({ isVisible });
         }
       });
-    },
+    };
 
-    disposeSubscriptions() {
+    disposeSubscriptions = () => {
       if (this.positionSubscription) {
         this.positionSubscription.dispose();
         this.positionSubscription = null;
       }
-    }
-  });
+    };
+  };
 }

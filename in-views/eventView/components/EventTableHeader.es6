@@ -16,14 +16,12 @@ export default connectTo(
   {
     eventFilter: eventFilter$
   },
-  React.createClass({
-    displayName: 'EventTableHeader',
+  class extends React.Component {
+    static displayName = 'EventTableHeader';
 
-    getInitialState() {
-      return {
-        expandedCell: null
-      };
-    },
+    state = {
+      expandedCell: null
+    };
 
     render() {
       const expandedCell = this.state.expandedCell;
@@ -64,7 +62,7 @@ export default connectTo(
         </div>
       );
     }
-  })
+  }
 );
 
 const Cell = connectTo(

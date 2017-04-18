@@ -10,10 +10,10 @@ import './ModificationSaveStatus.less';
 const block = 'in-save-status';
 const showModificationStatusForMillis = 3000;
 
-export default React.createClass({
-  displayName: 'ModificationSaveStatus',
+export default class extends React.Component {
+  static displayName = 'ModificationSaveStatus';
 
-  propTypes: {
+  static propTypes = {
     className: rpt.string,
     status: rpt.shape({
       state: rpt.oneOf(['success', 'failure', 'loading']).isRequired,
@@ -21,20 +21,18 @@ export default React.createClass({
       message: rpt.string
     }),
     reserveSpace: rpt.bool
-  },
+  };
 
-  getInitialState() {
-    return {
-      // just a field to filled to force a rerender
-      time: null
-    };
-  },
+  state = {
+    // just a field to filled to force a rerender
+    time: null
+  };
 
   componentWillMount() {
     this.startTimeoutForStatusRemoval(this.props);
-  },
+  }
 
-  startTimeoutForStatusRemoval({ status }) {
+  startTimeoutForStatusRemoval = ({ status }) => {
     this.disposeCurrentTimeout();
 
     if (!status) {
@@ -42,23 +40,23 @@ export default React.createClass({
     }
 
     this.timeout = setTimeout(this.setDummyValue, showModificationStatusForMillis);
-  },
+  };
 
-  setDummyValue() {
+  setDummyValue = () => {
     this.setState({ time: Date.now() });
-  },
+  };
 
   componentWillReceiveProps(nextProps) {
     this.startTimeoutForStatusRemoval(nextProps);
-  },
+  }
 
   componentWillUnmount() {
     this.disposeCurrentTimeout();
-  },
+  }
 
-  disposeCurrentTimeout() {
+  disposeCurrentTimeout = () => {
     clearTimeout(this.timeout);
-  },
+  };
 
   render() {
     const { status } = this.props;
@@ -94,4 +92,4 @@ export default React.createClass({
       </Tooltip>
     );
   }
-});
+}

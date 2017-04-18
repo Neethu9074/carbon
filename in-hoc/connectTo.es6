@@ -11,12 +11,9 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
   const needsToCreateObservables = typeof createObservables === 'function';
   opts = defaultsDeep(opts || {}, defaultOptions);
 
-  return React.createClass({
-    displayName: 'connectTo hoc for ' + ComposedComponent.displayName,
-
-    getInitialState() {
-      return {};
-    },
+  return class extends React.Component {
+    static displayName = 'connectTo hoc for ' + ComposedComponent.displayName;
+    state = {};
 
     componentWillMount() {
       this.subscriptions = {};
@@ -29,15 +26,15 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
         observables = createObservables;
       }
       this.subscribe(observables);
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
       if (needsToCreateObservables && (!opts.pure || !shallowEquals(this.props, nextProps))) {
         this.subscribe(createObservables(nextProps));
       }
-    },
+    }
 
-    subscribe(observables) {
+    subscribe = observables => {
       const newProperties = Object.keys(observables);
       const oldProperties = Object.keys(this.observables);
 
@@ -80,14 +77,14 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
         clearStateProps[property] = null;
       }
       this.setState(clearStateProps);
-    },
+    };
 
     componentWillUnmount() {
       Object.keys(this.subscriptions).forEach(key => this.subscriptions[key].dispose());
-    },
+    }
 
     render() {
       return <ComposedComponent {...this.props} {...this.state} />;
     }
-  });
+  };
 }

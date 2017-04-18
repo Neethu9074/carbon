@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -8,12 +7,10 @@ import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricA
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import { timeframeShape } from 'in-stores/timeline';
 
-export default React.createClass({
-  displayName: 'MetricValue',
+export default class extends React.PureComponent {
+  static displayName = 'MetricValue';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     createMetricValueStream: rpt.func,
     snapshotId: rpt.string.isRequired,
     timeWindowAggregation: rpt.string,
@@ -24,13 +21,13 @@ export default React.createClass({
     className: rpt.string,
     formatter: rpt.func,
     metric: rpt.string
-  },
+  };
 
   componentDidMount() {
     this.establishSubscription(this.getStream(this.props));
-  },
+  }
 
-  getStream(props) {
+  getStream = props => {
     if (props.createMetricValueStream) {
       return props.createMetricValueStream(this.props.snapshotId).distinct();
     }
@@ -79,9 +76,9 @@ export default React.createClass({
     })
       .map(v => v[1])
       .distinct();
-  },
+  };
 
-  establishSubscription(stream) {
+  establishSubscription = stream => {
     if (this.props.initialValue) {
       this.node.textContent = this.props.initialValue;
     } else {
@@ -92,7 +89,7 @@ export default React.createClass({
     this.subscription = stream.subscribe(v => {
       this.node.textContent = v == null ? this.props.initialValue || '' : this.format(v);
     });
-  },
+  };
 
   componentWillUpdate(nextProps) {
     const nextStream = this.getStream(nextProps);
@@ -100,27 +97,27 @@ export default React.createClass({
       this.disposeSubscription();
       this.establishSubscription(nextStream);
     }
-  },
+  }
 
   componentWillUnmount() {
     this.disposeSubscription();
-  },
+  }
 
-  disposeSubscription() {
+  disposeSubscription = () => {
     if (this.subscription) {
       this.subscription.dispose();
       this.subscription = null;
     }
-  },
+  };
 
-  format(v) {
+  format = v => {
     if (v !== undefined && this.props.formatter) {
       return this.props.formatter(v);
     }
     return v;
-  },
+  };
 
   render() {
     return <span className={this.props.className} ref={node => this.node = node} />;
   }
-});
+}

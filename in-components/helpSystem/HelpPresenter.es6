@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -10,14 +9,12 @@ export default connectTo(
   {
     helpId: helpId$
   },
-  React.createClass({
-    displayName: 'HelpPresenter',
+  class extends React.PureComponent {
+    static displayName = 'HelpPresenter';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       helpId: rpt.string
-    },
+    };
 
     render() {
       if (this.props.helpId) {
@@ -26,5 +23,5 @@ export default connectTo(
 
       return null;
     }
-  })
+  }
 );

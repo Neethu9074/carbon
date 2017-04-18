@@ -24,18 +24,16 @@ export default connectTo(
   {
     query: query$
   },
-  React.createClass({
-    displayName: 'AuditLogs',
+  class extends React.Component {
+    static displayName = 'AuditLogs';
 
-    getInitialState() {
-      return {
-        offset: 0
-      };
-    },
+    state = {
+      offset: 0
+    };
 
     componentWillMount() {
       setQuery('');
-    },
+    }
 
     render() {
       return (
@@ -59,7 +57,7 @@ export default connectTo(
         </SubViewWrapper>
       );
     }
-  })
+  }
 );
 
 const AuditLogEntries = connectTo(

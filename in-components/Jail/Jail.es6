@@ -12,35 +12,33 @@ import './Jail.less';
 const logger = createLogger('in-component.Jail');
 const block = 'in-jail';
 
-const Jail = React.createClass({
-  propTypes: {
+class Jail extends React.Component {
+  static propTypes = {
     component: rpt.any.isRequired,
     className: rpt.string,
     props: rpt.object
-  },
+  };
 
-  contextTypes: {
+  static contextTypes = {
     router: rpt.any
-  },
+  };
 
-  getInitialState() {
-    return {
-      error: null
-    };
-  },
+  state = {
+    error: null
+  };
 
   componentDidMount() {
     this.renderInprisonedComponent();
-  },
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.component !== prevProps.component) {
       ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
     }
     this.renderInprisonedComponent();
-  },
+  }
 
-  renderInprisonedComponent() {
+  renderInprisonedComponent = () => {
     const domNode = ReactDOM.findDOMNode(this);
     const Component = this.props.component;
     const props = this.props.props || {};
@@ -71,15 +69,15 @@ const Jail = React.createClass({
         domNode
       );
     }
-  },
+  };
 
   componentWillUnmount() {
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
-  },
+  }
 
   render() {
     return <div className={getClassName(this, block)} />;
   }
-});
+}
 
 export default Jail;

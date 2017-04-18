@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -10,15 +9,13 @@ import './EventListing.less';
 const block = 'in-event-listing';
 
 export default getEvents(
-  React.createClass({
-    displayName: 'EventListing',
+  class extends React.PureComponent {
+    static displayName = 'EventListing';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       snapshotId: rpt.string.isRequired,
       events: rpt.array
-    },
+    };
 
     render() {
       let events = this.props.events;
@@ -41,5 +38,5 @@ export default getEvents(
         </div>
       );
     }
-  })
+  }
 );

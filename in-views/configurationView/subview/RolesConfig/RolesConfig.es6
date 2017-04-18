@@ -21,23 +21,21 @@ import './RolesConfig.less';
 const logger = createLogger('RolesConfig');
 const block = 'in-config-roles';
 
-export default React.createClass({
-  displayName: 'RolesConfig',
+export default class extends React.Component {
+  static displayName = 'RolesConfig';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: null,
-      roles: emptySet
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: null,
+    roles: emptySet
+  };
 
   componentWillMount() {
     this.refreshRoles();
-  },
+  }
 
-  refreshRoles() {
+  refreshRoles = () => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -65,13 +63,13 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -79,7 +77,7 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
   render() {
     const { roles } = this.state;
@@ -119,9 +117,9 @@ export default React.createClass({
         </Section>
       </SubViewWrapper>
     );
-  },
+  }
 
-  addNewRole() {
+  addNewRole = () => {
     const newRole = Map({
       id: generateUniqueShortId(),
       name: 'New Role',
@@ -156,9 +154,9 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
-  onDelete(role) {
+  onDelete = role => {
     setActiveDialog(
       <ConfirmationDialog
         header="Confirm removal"
@@ -174,9 +172,9 @@ export default React.createClass({
         }}
       />
     );
-  },
+  };
 
-  onDeleteAfterConfirmation(role) {
+  onDeleteAfterConfirmation = role => {
     this.setState({
       error: false,
       loading: true,
@@ -202,5 +200,5 @@ export default React.createClass({
         message
       });
     });
-  }
-});
+  };
+}

@@ -16,24 +16,22 @@ import Button from 'in-components/Button';
 
 const logger = createLogger('ObjectivesConfig');
 
-export default React.createClass({
-  displayName: 'ObjectivesConfig',
+export default class extends React.Component {
+  static displayName = 'ObjectivesConfig';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: null,
-      objectives: emptyList,
-      status: {}
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: null,
+    objectives: emptyList,
+    status: {}
+  };
 
   componentWillMount() {
     this.refresObjectives();
-  },
+  }
 
-  refresObjectives() {
+  refresObjectives = () => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -61,13 +59,13 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -75,9 +73,9 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
-  addNewObjective() {
+  addNewObjective = () => {
     this.disposeAsyncAction();
 
     const newObjective = Map(createObjective());
@@ -102,9 +100,9 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
-  onDeleteObjective(objectiveId) {
+  onDeleteObjective = objectiveId => {
     this.setState({
       error: false,
       loading: true,
@@ -131,9 +129,9 @@ export default React.createClass({
       });
     });
     close();
-  },
+  };
 
-  setEnabled(objective, enabled) {
+  setEnabled = (objective, enabled) => {
     const previousEnabled = objective.get('enabled');
     const objectiveId = objective.get('id');
 
@@ -191,7 +189,7 @@ export default React.createClass({
         };
       });
     });
-  },
+  };
 
   render() {
     const { objectives } = this.state;
@@ -232,4 +230,4 @@ export default React.createClass({
       </SubViewWrapper>
     );
   }
-});
+}

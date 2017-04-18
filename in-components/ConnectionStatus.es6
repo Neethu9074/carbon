@@ -3,36 +3,34 @@ import React from 'react';
 import { on, off } from 'in-services/persistentConnection';
 import Toast from 'in-components/Toast';
 
-export default React.createClass({
-  displayName: 'ConnectionStatus',
+export default class extends React.Component {
+  static displayName = 'ConnectionStatus';
 
-  getInitialState() {
-    return {
-      systemMessage: null
-    };
-  },
+  state = {
+    systemMessage: null
+  };
 
   componentDidMount() {
     on('connect', this.onConnect);
     on('connect_error', this.onConnectError);
-  },
+  }
 
   componentWillUnmount() {
     off('connect', this.onConnect);
     off('connect_error', this.onConnectError);
-  },
+  }
 
-  onConnect() {
+  onConnect = () => {
     this.setState({
       systemMessage: null
     });
-  },
+  };
 
-  onConnectError() {
+  onConnectError = () => {
     this.setState({
       systemMessage: 'Connection lost'
     });
-  },
+  };
 
   render() {
     return (
@@ -41,4 +39,4 @@ export default React.createClass({
       </Toast>
     );
   }
-});
+}

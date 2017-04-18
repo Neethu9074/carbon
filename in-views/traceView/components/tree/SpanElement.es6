@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -37,25 +36,21 @@ export default connectTo(
       isHighlighted: highlightedSpanId$.map(highlightedSpanId => spanId === highlightedSpanId).distinct()
     };
   },
-  React.createClass({
-    displayName: 'TreeSpanElement',
+  class extends React.PureComponent {
+    static displayName = 'TreeSpanElement';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       span: rpt.object.isRequired,
       trace: rpt.object.isRequired,
       isHighlighted: rpt.bool.isRequired,
       parentSpanForPercentageCalculation: rpt.object.isRequired,
       depth: rpt.number.isRequired,
       totalTimeIndentationDepth: rpt.number.isRequired
-    },
+    };
 
-    getInitialState() {
-      return {
-        detailsExpanded: false
-      };
-    },
+    state = {
+      detailsExpanded: false
+    };
 
     render() {
       const span = this.props.span;
@@ -189,15 +184,15 @@ export default connectTo(
           </div>
         </div>
       );
-    },
+    }
 
-    toggleDetails(e) {
+    toggleDetails = e => {
       e.stopPropagation();
       this.setState(prevState => {
         return {
           detailsExpanded: !prevState.detailsExpanded
         };
       });
-    }
-  })
+    };
+  }
 );

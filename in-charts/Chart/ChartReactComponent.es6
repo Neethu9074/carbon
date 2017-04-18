@@ -5,29 +5,27 @@ import React from 'react';
 
 import createChart from 'in-charts/Chart/Chart';
 
-export default React.createClass({
-  displayName: 'ChartReactComponent',
+export default class extends React.Component {
+  static displayName = 'ChartReactComponent';
 
-  propTypes: {
+  static propTypes = {
     timeframe$: rpt.object,
 
     snapshotId: rpt.string,
     snapshotIds: rpt.arrayOf(rpt.string),
     y1: rpt.object.isRequired,
     y2: rpt.object
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      height: 150
-    };
-  },
+  static defaultProps = {
+    height: 150
+  };
 
   componentDidMount() {
     this.renderChart();
-  },
+  }
 
-  renderChart() {
+  renderChart = () => {
     // Copy all props to separate chart config object from React lifecycle and prop immutability.
     const props = this.props;
     const config = {
@@ -43,7 +41,7 @@ export default React.createClass({
     };
     config.container = ReactDOM.findDOMNode(this);
     this.chart = createChart(config);
-  },
+  };
 
   shouldComponentUpdate(nextProps) {
     return (
@@ -53,9 +51,9 @@ export default React.createClass({
       !this.isAxisEqual(this.props.y1, nextProps.y1) ||
       !this.isAxisEqual(this.props.y2, nextProps.y2)
     );
-  },
+  }
 
-  isAxisEqual(currentAxis, nextAxis) {
+  isAxisEqual = (currentAxis, nextAxis) => {
     if (currentAxis == null && nextAxis == null) {
       return true;
     }
@@ -73,25 +71,25 @@ export default React.createClass({
       isEqual(currentAxis.labels, nextAxis.labels) &&
       isEqual(currentAxis.metrics, nextAxis.metrics)
     );
-  },
+  };
 
   componentDidUpdate() {
     this.dispose();
     this.renderChart();
-  },
+  }
 
   componentWillUnmount() {
     this.dispose();
-  },
+  }
 
-  dispose() {
+  dispose = () => {
     if (this.chart) {
       this.chart.dispose();
       this.chart = null;
     }
-  },
+  };
 
   render() {
     return <div />;
   }
-});
+}

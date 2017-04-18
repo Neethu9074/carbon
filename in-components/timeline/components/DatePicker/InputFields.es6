@@ -36,12 +36,12 @@ const LiveInputFields = connectTo(
   }
 );
 
-const FixedTimestampInputFields = React.createClass({
-  displayName: 'FixedTimestampInputFields',
+class FixedTimestampInputFields extends React.Component {
+  static displayName = 'FixedTimestampInputFields';
 
   componentWillUnmount() {
     setDateStore(null);
-  },
+  }
 
   render() {
     return (
@@ -56,4 +56,4 @@ const FixedTimestampInputFields = React.createClass({
       </div>
     );
   }
-});
+}

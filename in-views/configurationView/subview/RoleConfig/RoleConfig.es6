@@ -16,30 +16,28 @@ import Button from 'in-components/Button';
 
 const logger = createLogger('roleConfig');
 
-export default React.createClass({
-  displayName: 'RoleConfig',
+export default class extends React.Component {
+  static displayName = 'RoleConfig';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: 'Loading Role…',
-      form: null,
-      role: null
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: 'Loading Role…',
+    form: null,
+    role: null
+  };
 
   componentWillMount() {
     this.loadRole(this.props.params.roleId);
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.params.roleId !== nextProps.params.roleId) {
       this.loadRole(nextProps.params.roleId);
     }
-  },
+  }
 
-  loadRole(roleId) {
+  loadRole = roleId => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -68,13 +66,13 @@ export default React.createClass({
         message: 'Failed to load role.'
       });
     });
-  },
+  };
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -82,7 +80,7 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
   render() {
     const { form, role } = this.state;
@@ -121,17 +119,17 @@ export default React.createClass({
         </form>
       </SubViewWrapper>
     );
-  },
+  }
 
-  onChange(fieldName, value) {
+  onChange = (fieldName, value) => {
     const updatedForm = this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
 
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     if (!this.state.form.hierarchyValid) {
@@ -160,8 +158,8 @@ export default React.createClass({
         message
       });
     });
-  }
-});
+  };
+}
 
 function createForm(role) {
   return createMapForm()

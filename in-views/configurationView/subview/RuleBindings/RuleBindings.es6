@@ -22,24 +22,22 @@ import Button from 'in-components/Button';
 
 const logger = createLogger('RuleBindings');
 
-export default React.createClass({
-  displayName: 'RuleBindings',
+export default class extends React.Component {
+  static displayName = 'RuleBindings';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: null,
-      ruleBindings: emptyList,
-      status: {}
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: null,
+    ruleBindings: emptyList,
+    status: {}
+  };
 
   componentWillMount() {
     this.refreshRules();
-  },
+  }
 
-  refreshRules() {
+  refreshRules = () => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -67,13 +65,13 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -81,9 +79,9 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
-  addNewRuleBinding() {
+  addNewRuleBinding = () => {
     this.disposeAsyncAction();
 
     const newRuleBinding = Map(createRuleBinding());
@@ -108,9 +106,9 @@ export default React.createClass({
         message
       });
     });
-  },
+  };
 
-  onDeleteRuleBinding(ruleBindingId) {
+  onDeleteRuleBinding = ruleBindingId => {
     this.setState({
       error: false,
       loading: true,
@@ -137,9 +135,9 @@ export default React.createClass({
       });
     });
     close();
-  },
+  };
 
-  setEnabled(ruleBinding, enabled) {
+  setEnabled = (ruleBinding, enabled) => {
     const previousEnabled = ruleBinding.get('enabled');
     const ruleBindingId = ruleBinding.get('id');
 
@@ -197,7 +195,7 @@ export default React.createClass({
         };
       });
     });
-  },
+  };
 
   render() {
     const { ruleBindings } = this.state;
@@ -238,4 +236,4 @@ export default React.createClass({
       </SubViewWrapper>
     );
   }
-});
+}

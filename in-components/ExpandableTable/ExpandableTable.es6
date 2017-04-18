@@ -7,23 +7,21 @@ import './ExpandableTable.less';
 
 const block = 'in-expandable-table';
 
-export default React.createClass({
-  displayName: 'ExpandableTable',
+export default class extends React.Component {
+  static displayName = 'ExpandableTable';
 
-  propTypes: {
+  static propTypes = {
     data: rpt.oneOfType([rpt.array, rpt.object, irpt.iterable]).isRequired,
     getKey: rpt.func.isRequired,
     createHeader: rpt.func.isRequired,
     createRow: rpt.func.isRequired,
     createDetails: rpt.func,
     context: rpt.any
-  },
+  };
 
-  getInitialState() {
-    return {
-      selectedKeys: {}
-    };
-  },
+  state = {
+    selectedKeys: {}
+  };
 
   render() {
     let classes = block;
@@ -40,9 +38,9 @@ export default React.createClass({
         </tbody>
       </table>
     );
-  },
+  }
 
-  flatMapRows(mapperFn) {
+  flatMapRows = mapperFn => {
     let result = [];
     const data = this.props.data;
     const context = this.props.context;
@@ -67,9 +65,9 @@ export default React.createClass({
     }
 
     return result;
-  },
+  };
 
-  createRow(val, index, context) {
+  createRow = (val, index, context) => {
     const key = this.props.getKey(val, index, context);
     const rowContent = this.props.createRow(val, index, context);
     const isSelected = key in this.state.selectedKeys;
@@ -99,9 +97,9 @@ export default React.createClass({
         </td>
       </tr>
     ];
-  },
+  };
 
-  onClick(key) {
+  onClick = key => {
     this.setState(state => {
       if (key in state.selectedKeys) {
         delete state.selectedKeys[key];
@@ -112,5 +110,5 @@ export default React.createClass({
         selectedKeys: state.selectedKeys
       };
     });
-  }
-});
+  };
+}

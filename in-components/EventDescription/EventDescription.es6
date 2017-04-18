@@ -29,17 +29,17 @@ export default connectTo(
       isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
     };
   },
-  React.createClass({
-    displayName: 'EventDescription',
+  class extends React.Component {
+    static displayName = 'EventDescription';
 
-    propTypes: {
+    static propTypes = {
       snapshotId: rpt.string.isRequired,
       showFullTextIfToLong: rpt.bool,
       color: rpt.string.isRequired,
       event: irpt.map.isRequired,
       className: rpt.string,
       isOpen: rpt.bool
-    },
+    };
 
     render() {
       const event = this.props.event;
@@ -76,9 +76,9 @@ export default connectTo(
           </div>
         </div>
       );
-    },
+    }
 
-    getContent(event, eventType, color, showFullTextIfToLong = true) {
+    getContent = (event, eventType, color, showFullTextIfToLong = true) => {
       let content;
       if (eventType === EVENT_TYPES.INCIDENT) {
         content = <IncidentContent incident={event} />;
@@ -96,6 +96,6 @@ export default connectTo(
       }
 
       return content;
-    }
-  })
+    };
+  }
 );

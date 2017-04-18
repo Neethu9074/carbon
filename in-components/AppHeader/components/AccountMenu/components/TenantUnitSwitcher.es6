@@ -29,18 +29,16 @@ export default connectTo(
       })
       .startWith(emptyArray)
   },
-  React.createClass({
-    displayName: 'TenantSwitcher',
+  class extends React.Component {
+    static displayName = 'TenantSwitcher';
 
-    propTypes: {
+    static propTypes = {
       tenantUnitStructure: rpt.array.isRequired
-    },
+    };
 
-    getInitialState() {
-      return {
-        expandedTenant: null
-      };
-    },
+    state = {
+      expandedTenant: null
+    };
 
     render() {
       const tenantUnitStructure = this.props.tenantUnitStructure;
@@ -66,9 +64,9 @@ export default connectTo(
           </ul>
         </div>
       );
-    },
+    }
 
-    toggleTenant(tenant) {
+    toggleTenant = tenant => {
       this.setState(state => {
         if (state.expandedTenant === tenant) {
           return {
@@ -80,8 +78,8 @@ export default connectTo(
           expandedTenant: tenant
         };
       });
-    }
-  })
+    };
+  }
 );
 
 function Tenant({ tenant, expandedTenant, toggleTenant }) {

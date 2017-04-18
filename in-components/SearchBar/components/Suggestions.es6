@@ -19,19 +19,17 @@ import './Suggestions.less';
 
 const block = 'in-search-suggestions';
 
-export default React.createClass({
-  displayName: 'Suggestion',
+export default class extends React.Component {
+  static displayName = 'Suggestion';
 
-  getInitialState() {
-    return {
-      currentHighlightedRowIndex: 0,
-      availableChildren: getChildrenForConfig(this.props.config)
-    };
-  },
+  state = {
+    currentHighlightedRowIndex: 0,
+    availableChildren: getChildrenForConfig(this.props.config)
+  };
 
   componentDidMount() {
     this.setupSubscriptions();
-  },
+  }
 
   componentWillUpdate(nextProps) {
     // jump to first entry if the list changes
@@ -41,11 +39,11 @@ export default React.createClass({
         availableChildren: getChildrenForConfig(nextProps.config)
       });
     }
-  },
+  }
 
-  componentWillunmount() {
+  componentWillunmount = () => {
     this.disposeSubscriptions();
-  },
+  };
 
   render() {
     const { config, searchbarWidth } = this.props;
@@ -96,9 +94,9 @@ export default React.createClass({
         </ul>
       </div>
     );
-  },
+  }
 
-  setupSubscriptions() {
+  setupSubscriptions = () => {
     this.keyDownSubscription = this.props.eventEmitter.on('keyDown').subscribe(keyCode => {
       if (keyCode === keyCodes.arrows.down) {
         this.onArrowDown();
@@ -108,9 +106,9 @@ export default React.createClass({
         this.onReturn();
       }
     });
-  },
+  };
 
-  disposeSubscriptions() {
+  disposeSubscriptions = () => {
     if (this.keyDownSubscription) {
       this.keyDownSubscription.dispose();
       this.keyDownSubscription = null;
@@ -119,24 +117,24 @@ export default React.createClass({
       this.blurSubscription.dispose();
       this.blurSubscription = null;
     }
-  },
+  };
 
-  onArrowDown() {
+  onArrowDown = () => {
     this.setState({
       currentHighlightedRowIndex: Math.min(
         this.state.availableChildren.length - 1,
         this.state.currentHighlightedRowIndex + 1
       )
     });
-  },
+  };
 
-  onArrowUp() {
+  onArrowUp = () => {
     this.setState({
       currentHighlightedRowIndex: Math.max(0, this.state.currentHighlightedRowIndex - 1)
     });
-  },
+  };
 
-  onReturn(child) {
+  onReturn = child => {
     const { config, onSelectSuggestion } = this.props;
     const { availableChildren, currentHighlightedRowIndex } = this.state;
     if (!config || this.state.availableChildren.length === 0) {
@@ -181,8 +179,8 @@ export default React.createClass({
       replaceTo: changedToken.end, // always delete all what comes after the change in this current token
       replaceWith
     });
-  }
-});
+  };
+}
 
 function TermType({ node }) {
   if (!node.termType) {

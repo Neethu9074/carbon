@@ -20,14 +20,12 @@ export default connectTo(
       hierarchy: props.calculateHierarchy ? getPhysicalHierarchy(snapshotId) : alwaysNull
     };
   },
-  React.createClass({
-    displayName: 'HierarchicalLink',
+  class extends React.Component {
+    static displayName = 'HierarchicalLink';
 
-    getInitialState() {
-      return {
-        isExpanded: false
-      };
-    },
+    state = {
+      isExpanded: false
+    };
 
     render() {
       const isExpanded = this.state.isExpanded;
@@ -62,17 +60,17 @@ export default connectTo(
               </a>}
         </div>
       );
-    },
+    }
 
-    onClick(e) {
+    onClick = e => {
       stopPropagation(e);
       this.setState({ isExpanded: !this.state.isExpanded });
 
       if (this.props.onClick) {
         this.props.onClick();
       }
-    }
-  })
+    };
+  }
 );
 
 function stopPropagation(e) {

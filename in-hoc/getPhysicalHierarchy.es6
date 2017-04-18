@@ -4,24 +4,22 @@ import { getPhysicalHierarchy as loadPhysicalHierarchy } from 'in-stores/snapsho
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function getPhysicalHierarchy(ComposedComponent) {
-  return React.createClass({
-    displayName: 'getPhysicalHierarchy hoc for ' + ComposedComponent.displayName,
+  return class extends React.Component {
+    static displayName = 'getPhysicalHierarchy hoc for ' + ComposedComponent.displayName;
 
-    getInitialState() {
-      return {
-        physicalHierarchy: emptyList
-      };
-    },
+    state = {
+      physicalHierarchy: emptyList
+    };
 
     componentWillMount() {
       this.subscribe(this.props);
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
       this.subscribe(nextProps);
-    },
+    }
 
-    subscribe(props) {
+    subscribe = props => {
       if (props.snapshotId == null) {
         this.unsubscribe();
         this.setState({
@@ -37,22 +35,22 @@ export default function getPhysicalHierarchy(ComposedComponent) {
           .startWith(emptyList)
           .subscribe(physicalHierarchy => this.setState({ physicalHierarchy }));
       }
-    },
+    };
 
-    unsubscribe() {
+    unsubscribe = () => {
       if (this.subscription) {
         this.subscription.dispose();
         this.subscription = null;
       }
       this.subscriptionForSnapshotId = null;
-    },
+    };
 
     componentWillUnmount() {
       this.unsubscribe();
-    },
+    }
 
     render() {
       return <ComposedComponent {...this.props} {...this.state} />;
     }
-  });
+  };
 }

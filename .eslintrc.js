@@ -4,6 +4,7 @@ module.exports = {
     es6: true
   },
 
+  parser: 'babel-eslint',
 
   extends: [
     'eslint:recommended',
@@ -200,7 +201,7 @@ module.exports = {
 
     // Require ES6 class declarations over React.createClass
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-es6-class.md
-    'react/prefer-es6-class': ['error', 'never'],
+    'react/prefer-es6-class': ['warn'],
 
     // Require stateless functions when not using lifecycle methods, setState or ref
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md

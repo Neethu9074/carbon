@@ -1,6 +1,5 @@
 /* global require:false */
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -12,24 +11,20 @@ import './HelpDialog.less';
 
 const block = 'in-help-dialog';
 
-const HelpDialog = React.createClass({
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+class HelpDialog extends React.PureComponent {
+  static propTypes = {
     id: rpt.oneOfType([rpt.string.isRequired, rpt.number.isRequired])
-  },
+  };
 
-  getInitialState() {
-    return {
-      article: null
-    };
-  },
+  state = {
+    article: null
+  };
 
   componentWillMount() {
     this.loadArticle();
-  },
+  }
 
-  loadArticle() {
+  loadArticle = () => {
     const id = this.props.id;
 
     // can happen when unmounting
@@ -58,13 +53,13 @@ const HelpDialog = React.createClass({
         error: e
       });
     }
-  },
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
       this.loadArticle();
     }
-  },
+  }
 
   render() {
     let content;
@@ -92,6 +87,6 @@ const HelpDialog = React.createClass({
 
     return content;
   }
-});
+}
 
 export default HelpDialog;

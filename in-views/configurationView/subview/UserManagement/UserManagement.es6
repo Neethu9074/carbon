@@ -1,3 +1,4 @@
+import createReactClass from ' create-react-class';
 import { createLogger } from 'instalog';
 import React from 'react';
 
@@ -28,7 +29,7 @@ export default connectTo(
   {
     roles: getRoles()
   },
-  React.createClass({
+  createReactClass({
     displayName: 'UserManagement',
 
     getInitialState() {

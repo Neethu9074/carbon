@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -6,14 +5,12 @@ import { getClassName } from 'in-services/react';
 
 import './Heading.less';
 
-export default React.createClass({
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+export default class extends React.PureComponent {
+  static propTypes = {
     children: rpt.any.isRequired,
     className: rpt.string,
     style: rpt.object
-  },
+  };
 
   render() {
     return (
@@ -22,4 +19,4 @@ export default React.createClass({
       </h2>
     );
   }
-});
+}

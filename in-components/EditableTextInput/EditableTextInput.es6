@@ -5,26 +5,24 @@ import './EditableTextInput.less';
 
 const block = 'in-editable-text-input';
 
-export default React.createClass({
-  displayName: 'EditableTextInput',
+export default class extends React.Component {
+  static displayName = 'EditableTextInput';
 
-  propTypes: {
+  static propTypes = {
     text: rpt.string.isRequired,
     onSave: rpt.func.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      text: this.props.text,
-      editMode: false
-    };
-  },
+  state = {
+    text: this.props.text,
+    editMode: false
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.text !== nextProps.text) {
       this.setState({ text: nextProps.text });
     }
-  },
+  }
 
   render() {
     const editMode = this.state.editMode;
@@ -61,4 +59,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

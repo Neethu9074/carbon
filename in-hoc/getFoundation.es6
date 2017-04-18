@@ -1,12 +1,14 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import createReactClass from 'create-react-class';
+
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getFoundations } from 'in-stores/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 
 export default function getFoundationHoc(ComposedComponent) {
-  return React.createClass({
+  return createReactClass({
     displayName: 'getFoundation hoc for ' + ComposedComponent.displayName,
 
     propTypes: {

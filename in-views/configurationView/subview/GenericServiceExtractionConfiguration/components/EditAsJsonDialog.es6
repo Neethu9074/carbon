@@ -10,20 +10,18 @@ import './EditAsJsonDialog.less';
 
 const block = 'in-config-generic-ex-json-dia';
 
-export default React.createClass({
-  displayName: 'EditAsJsonDialog',
+export default class extends React.Component {
+  static displayName = 'EditAsJsonDialog';
 
-  propTypes: {
+  static propTypes = {
     initialValue: rpt.string.isRequired,
     onSaveAndClose: rpt.func.isRequired,
     onClose: rpt.func.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      value: undefined
-    };
-  },
+  state = {
+    value: undefined
+  };
 
   render() {
     let parseError;
@@ -74,12 +72,12 @@ export default React.createClass({
         </div>
       </Dialog>
     );
-  },
+  }
 
-  getValue() {
+  getValue = () => {
     if (this.state.value === undefined) {
       return this.props.initialValue;
     }
     return this.state.value;
-  }
-});
+  };
+}

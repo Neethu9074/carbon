@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -16,16 +15,14 @@ export default connectTo(
       active: filteredTags$.map(tags => tags.contains(props.tag.toLowerCase())).startWith(false)
     };
   },
-  React.createClass({
-    displayName: 'Tag',
+  class extends React.PureComponent {
+    static displayName = 'Tag';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       active: rpt.bool.isRequired,
       tag: rpt.string.isRequired,
       isDark: rpt.bool
-    },
+    };
 
     render() {
       let className;
@@ -48,14 +45,14 @@ export default connectTo(
           </span>
         </div>
       );
-    },
+    }
 
-    onClick() {
+    onClick = () => {
       if (this.props.active) {
         removeTagFilter(this.props.tag);
       } else {
         setTagFilter(this.props.tag);
       }
-    }
-  })
+    };
+  }
 );

@@ -1,10 +1,12 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import createReactClass from 'create-react-class';
+
 import { getSnapshot as loadSnapshot } from 'in-stores/snapshot';
 
 export default function getSnapshot(ComposedComponent) {
-  return React.createClass({
+  return createReactClass({
     displayName: 'getSnapshot hoc for ' + ComposedComponent.displayName,
 
     propTypes: {

@@ -7,19 +7,17 @@ import './DownloadButton.less';
 
 const block = 'in-download-button';
 
-export default React.createClass({
-  displayName: 'DownloadLink',
+export default class extends React.Component {
+  static displayName = 'DownloadLink';
 
-  propTypes: {
+  static propTypes = {
     className: rpt.string,
     children: rpt.any
-  },
+  };
 
-  getInitialState() {
-    return {
-      isExpanded: false
-    };
-  },
+  state = {
+    isExpanded: false
+  };
 
   render() {
     const isExpanded = this.state.isExpanded;
@@ -48,4 +46,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

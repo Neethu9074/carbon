@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -9,17 +8,15 @@ import './HistoricMetricSparkChartWithLabel.less';
 
 const block = 'in-spark-chart-with-label';
 
-export default React.createClass({
-  displayName: 'HistoricMetricSparkChartWithLabel',
+export default class extends React.PureComponent {
+  static displayName = 'HistoricMetricSparkChartWithLabel';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     snapshotId: rpt.string.isRequired,
     metric: rpt.string.isRequired,
     formatter: rpt.func,
     design: rpt.string
-  },
+  };
 
   render() {
     return (
@@ -39,4 +36,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

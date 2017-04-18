@@ -1,6 +1,5 @@
 /* global require:false */
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -12,31 +11,27 @@ import './SpanForgeDetails.less';
 
 const block = 'in-span-forge-details';
 
-export default React.createClass({
-  displayName: 'SpanForgeDetails',
+export default class extends React.PureComponent {
+  static displayName = 'SpanForgeDetails';
 
-  mixins: [PureRenderMixin],
-
-  propTypes: {
+  static propTypes = {
     span: irpt.map.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      componentType: null,
-      Component: null
-    };
-  },
+  state = {
+    componentType: null,
+    Component: null
+  };
 
   componentWillMount() {
     this.updateForge(this.props);
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     this.updateForge(nextProps);
-  },
+  }
 
-  updateForge(props) {
+  updateForge = props => {
     const type = getType(props.span);
     const detailViewPath = getSpanDetailView(props.span);
 
@@ -49,7 +44,7 @@ export default React.createClass({
         });
       });
     }
-  },
+  };
 
   render() {
     if (!this.state.Component) {
@@ -60,4 +55,4 @@ export default React.createClass({
 
     return <Jail component={this.state.Component} props={this.props} className={block} />;
   }
-});
+}

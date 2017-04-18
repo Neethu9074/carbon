@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
@@ -17,14 +16,12 @@ export default connectTo(
         .startWith(emptySet)
     };
   },
-  React.createClass({
-    displayName: 'RunningComponentsList',
+  class extends React.PureComponent {
+    static displayName = 'RunningComponentsList';
 
-    mixins: [PureRenderMixin],
-
-    propTypes: {
+    static propTypes = {
       snapshotIds: irpt.setOf(rpt.string)
-    },
+    };
 
     render() {
       if (this.props.snapshotIds == null) {
@@ -33,5 +30,5 @@ export default connectTo(
 
       return <RelatedSnapshotList snapshotIds={this.props.snapshotIds} />;
     }
-  })
+  }
 );

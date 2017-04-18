@@ -1,21 +1,19 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-export default React.createClass({
-  displayName: 'TemporaryPresenter',
+export default class extends React.Component {
+  static displayName = 'TemporaryPresenter';
 
-  propTypes: {
+  static propTypes = {
     id: rpt.string.isRequired,
     duration: rpt.number,
     children: rpt.any
-  },
+  };
 
-  getInitialState() {
-    return {
-      showChildren: false,
-      renderedForId: null
-    };
-  },
+  state = {
+    showChildren: false,
+    renderedForId: null
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.state.renderedForId === nextProps.id) {
@@ -32,21 +30,21 @@ export default React.createClass({
     if (nextProps.duration) {
       this.timeout = setTimeout(this.hideChildren, nextProps.duration);
     }
-  },
+  }
 
-  hideChildren() {
+  hideChildren = () => {
     this.setState({
       showChildren: false
     });
-  },
+  };
 
   componentWillUnmount() {
     this.stopTimeout();
-  },
+  }
 
-  stopTimeout() {
+  stopTimeout = () => {
     clearTimeout(this.timeout);
-  },
+  };
 
   render() {
     if (this.state.showChildren && this.props.children) {
@@ -54,4 +52,4 @@ export default React.createClass({
     }
     return null;
   }
-});
+}

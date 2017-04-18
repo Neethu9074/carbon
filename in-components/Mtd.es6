@@ -4,13 +4,13 @@ import React from 'react';
 
 import MetricValue from './MetricValue';
 
-const Mtd = React.createClass({
-  propTypes: {
+class Mtd extends React.Component {
+  static propTypes = {
     snapshot: irpt.map.isRequired,
     metric: rpt.string.isRequired,
     formatter: rpt.func,
     createMetricValueStream: rpt.func
-  },
+  };
 
   render() {
     return (
@@ -19,6 +19,6 @@ const Mtd = React.createClass({
       </td>
     );
   }
-});
+}
 
 export default Mtd;

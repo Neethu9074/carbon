@@ -14,19 +14,17 @@ import './Key.less';
 
 const block = 'in-eum-keys-config-key';
 
-export default React.createClass({
-  displayName: 'Key',
+export default class extends React.Component {
+  static displayName = 'Key';
 
-  propTypes: {
+  static propTypes = {
     apiKey: rpt.string.isRequired,
     name: rpt.string.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      appName: this.props.name
-    };
-  },
+  state = {
+    appName: this.props.name
+  };
 
   render() {
     const apiKey = this.props.apiKey;
@@ -58,16 +56,16 @@ export default React.createClass({
         </RightAlignment>
       </div>
     );
-  },
+  }
 
-  saveName(appName) {
+  saveName = appName => {
     const apiKey = this.props.apiKey;
 
     if (apiKey && appName && appName.length > 0) {
       rename(apiKey, appName, () => this.setState({ appName }));
     }
-  }
-});
+  };
+}
 
 function getEumSnippet(apiKey) {
   if (isOnPremise()) {

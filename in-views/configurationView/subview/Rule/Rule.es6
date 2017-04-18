@@ -14,32 +14,30 @@ import Button from 'in-components/Button';
 
 const logger = createLogger('Rule');
 
-export default React.createClass({
-  displayName: 'Rule',
+export default class extends React.Component {
+  static displayName = 'Rule';
 
-  getInitialState() {
-    return {
-      loading: true,
-      error: false,
-      message: 'Loading rule…',
-      form: null,
-      rule: null
-    };
-  },
+  state = {
+    loading: true,
+    error: false,
+    message: 'Loading rule…',
+    form: null,
+    rule: null
+  };
 
   componentWillMount() {
     this.loadRule(this.props.params.ruleId);
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.params.ruleId !== nextProps.params.ruleId) {
       this.loadRule(nextProps.params.ruleId);
     }
-  },
+  }
 
   componentWillUnmount() {
     this.disposeAsyncAction();
-  },
+  }
 
   render() {
     const { form, rule } = this.state;
@@ -70,9 +68,9 @@ export default React.createClass({
 
       </SubViewWrapper>
     );
-  },
+  }
 
-  loadRule(ruleId) {
+  loadRule = ruleId => {
     this.disposeAsyncAction();
 
     this.setState({
@@ -100,9 +98,9 @@ export default React.createClass({
         message: 'Failed to load rule.'
       });
     });
-  },
+  };
 
-  disposeAsyncAction() {
+  disposeAsyncAction = () => {
     if (this.responseSubscription) {
       this.responseSubscription.dispose();
     }
@@ -110,9 +108,9 @@ export default React.createClass({
     if (this.errorSubscription) {
       this.errorSubscription.dispose();
     }
-  },
+  };
 
-  onChange(fieldName, value) {
+  onChange = (fieldName, value) => {
     let updatedForm = this.state.form;
     if (Array.isArray(fieldName)) {
       for (let i = 0, length = fieldName.length; i < length; i++) {
@@ -125,9 +123,9 @@ export default React.createClass({
     this.setState({
       form: updatedForm
     });
-  },
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     if (!this.state.form.hierarchyValid) {
@@ -173,8 +171,8 @@ export default React.createClass({
         message
       });
     });
-  }
-});
+  };
+}
 
 function createForm(rule) {
   return createMapForm()

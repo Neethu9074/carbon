@@ -21,14 +21,12 @@ export default connectTo(
     currentDateStore: currentDateStore$,
     serverTime: serverTime$
   },
-  React.createClass({
-    displayName: 'DatePicker',
+  class extends React.Component {
+    static displayName = 'DatePicker';
 
-    getInitialState() {
-      return {
-        initialMonth: new Date()
-      };
-    },
+    state = {
+      initialMonth: new Date()
+    };
 
     render() {
       const bigBangTimestamp = this.props.bigBangTimestamp;
@@ -64,5 +62,5 @@ export default connectTo(
         </div>
       );
     }
-  })
+  }
 );

@@ -14,12 +14,12 @@ export default connectTo(
   {
     _activeTooltip: activeTooltip.nextFrame()
   },
-  React.createClass({
-    displayName: 'TooltipPresenter',
+  class extends React.Component {
+    static displayName = 'TooltipPresenter';
 
-    propTypes: {
+    static propTypes = {
       _activeTooltip: TooltipShape
-    },
+    };
 
     componentDidUpdate() {
       const _activeTooltip = this.props._activeTooltip;
@@ -44,9 +44,9 @@ export default connectTo(
       } else {
         throw new Error('Not possible to show tooltip without any focused element.');
       }
-    },
+    }
 
-    positionFocusedElement(align, tooltipElement, focusedElement) {
+    positionFocusedElement = (align, tooltipElement, focusedElement) => {
       const focusedElementBox = focusedElement.getBoundingClientRect();
       const tooltipElementBox = tooltipElement.getBoundingClientRect();
       const bounds = {
@@ -74,15 +74,15 @@ export default connectTo(
       this.set(tooltipElement, 'right', result.right !== null ? window.innerWidth - result.right : null);
       this.set(tooltipElement, 'bottom', result.bottom !== null ? window.innerHeight - result.bottom : null);
       tooltipElement.classList.add(`${block}__${tooltip.align}`);
-    },
+    };
 
-    set(ele, prop, value) {
+    set = (ele, prop, value) => {
       if (value == null) {
         ele.style[prop] = null;
       } else {
         ele.style[prop] = toPx(value);
       }
-    },
+    };
 
     render() {
       const tooltip = this.props._activeTooltip;
@@ -96,5 +96,5 @@ export default connectTo(
         </div>
       );
     }
-  })
+  }
 );
