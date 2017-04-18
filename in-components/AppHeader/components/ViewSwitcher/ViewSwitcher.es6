@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   eventsLinkOnlyIncidents$,
-  traceViewLinkWithoutEumTraces$,
+  traceViewLink$,
   tableViewLink$,
   tableViewFilteredForServicesLink$,
   logView$,
@@ -63,11 +63,7 @@ export default connectTo(
             isActive={pathname.indexOf('/logical') === 0 || pathname.indexOf('/traces') === 0 || isLogicalTable}
           >
             <SubMenuItem label="Map" href$={logicalViewLink$} isActive={pathname.indexOf('/logical') === 0} />
-            <SubMenuItem
-              label="Trace"
-              href$={traceViewLinkWithoutEumTraces$}
-              isActive={pathname.indexOf('/traces') === 0}
-            />
+            <SubMenuItem label="Trace" href$={traceViewLink$} isActive={pathname.indexOf('/traces') === 0} />
             <SubMenuItem label="Comparison Table" href$={tableViewFilteredForServicesLink$} isActive={isLogicalTable} />
           </View>
 
