@@ -7,7 +7,7 @@ import { getOpenIssuesAtFocusedMoment } from 'in-stores/events';
 
 export default function getEvents(ComposedComponent) {
   return createReactClass({
-    displayName: 'getEvents hoc for ' + ComposedComponent.displayName,
+    displayName: 'getEvents hoc for ' + (ComposedComponent.displayName || ComposedComponent.name),
 
     propTypes: {
       snapshotId: rpt.string.isRequired

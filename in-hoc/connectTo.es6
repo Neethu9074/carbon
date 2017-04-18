@@ -12,7 +12,7 @@ export default function connectTo(createObservables, ComposedComponent, opts) {
   opts = defaultsDeep(opts || {}, defaultOptions);
 
   return class extends React.Component {
-    static displayName = 'connectTo hoc for ' + ComposedComponent.displayName;
+    static displayName = 'connectTo hoc for ' + (ComposedComponent.displayName || ComposedComponent.name);
     state = {};
 
     componentWillMount() {

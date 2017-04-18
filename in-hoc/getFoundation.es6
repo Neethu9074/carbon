@@ -9,7 +9,7 @@ import { getSnapshot } from 'in-stores/snapshot';
 
 export default function getFoundationHoc(ComposedComponent) {
   return createReactClass({
-    displayName: 'getFoundation hoc for ' + ComposedComponent.displayName,
+    displayName: 'getFoundation hoc for ' + (ComposedComponent.displayName || ComposedComponent.name),
 
     propTypes: {
       snapshotId: rpt.string.isRequired

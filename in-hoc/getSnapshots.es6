@@ -8,7 +8,7 @@ import { getSnapshot as loadSnapshot } from 'in-stores/snapshot';
 
 export default function getSnapshots(ComposedComponent) {
   return createReactClass({
-    displayName: 'getSnapshots hoc for ' + ComposedComponent.displayName,
+    displayName: 'getSnapshots hoc for ' + (ComposedComponent.displayName || ComposedComponent.name),
 
     propTypes: {
       snapshotIds: rpt.array.isRequired

@@ -7,7 +7,7 @@ import { getMostImportantEventAtFocusedMoment } from 'in-stores/events';
 
 export default function getMostImportantEvent(ComposedComponent) {
   return createReactClass({
-    displayName: 'getMostImportantEvent hoc for ' + ComposedComponent.displayName,
+    displayName: 'getMostImportantEvent hoc for ' + (ComposedComponent.displayName || ComposedComponent.name),
 
     propTypes: {
       snapshotId: rpt.string.isRequired

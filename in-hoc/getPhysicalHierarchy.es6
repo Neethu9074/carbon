@@ -5,7 +5,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 
 export default function getPhysicalHierarchy(ComposedComponent) {
   return class extends React.Component {
-    static displayName = 'getPhysicalHierarchy hoc for ' + ComposedComponent.displayName;
+    static displayName = 'getPhysicalHierarchy hoc for ' + (ComposedComponent.displayName || ComposedComponent.name);
 
     state = {
       physicalHierarchy: emptyList

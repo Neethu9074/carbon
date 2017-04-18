@@ -11,7 +11,7 @@ const invisibleClass = `${block}__invisible`;
 
 export default function StickyNote(ComposedComponent) {
   return class extends React.Component {
-    static displayName = 'StickyNote';
+    static displayName = `StickyNote for ${ComposedComponent.displayName || ComposedComponent.name}`;
 
     static propTypes = {
       eventEmitter: rpt.object.isRequired,
