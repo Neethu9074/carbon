@@ -1,4 +1,4 @@
-import createReactClass from ' create-react-class';
+import createReactClass from 'create-react-class';
 import { createLogger } from 'instalog';
 import React from 'react';
 
