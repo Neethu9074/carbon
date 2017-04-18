@@ -79,7 +79,9 @@ export function forceSecondaryRankPromotions(graph, entryNodeName) {
     const outgoingNodes = graph.outgoingNodes(entryNodes[i]);
     for (let j = 0; j < outgoingNodes.length; j++) {
       const node = graph.getNode(outgoingNodes[j]);
-      node.rank = 1;
+      if (node) {
+        node.rank = 1;
+      }
     }
   }
 }
