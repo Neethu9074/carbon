@@ -55,10 +55,7 @@ export function getTraceViewLinkShowingTrace(traceId) {
 
 export const isTraceView$ = navigationParameters$.map(params => params.pathname.indexOf('/traces') === 0).distinct();
 
-export const eventsLinkOnlyIncidents$ = getModifiedUrlStream(params => {
-  params.pathname = '/events';
-  params.query.q = trySetField(decodeURIComponent(params.query.q || ''), 'event.type', 'incident');
-});
+export const eventViewLink$ = getModifiedUrlStream(params => params.pathname = '/events');
 
 export const isEventView$ = navigationParameters$.map(params => params.pathname.indexOf('/events') === 0).distinct();
 

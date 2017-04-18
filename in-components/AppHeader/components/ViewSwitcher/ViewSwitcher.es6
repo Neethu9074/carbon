@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  eventsLinkOnlyIncidents$,
+  eventViewLink$,
   traceViewLink$,
   tableViewLink$,
   tableViewFilteredForServicesLink$,
@@ -93,6 +93,6 @@ const IncidentsMenuPoint = connectTo(
       color = maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
     }
 
-    return <View label={title} icon="danger_sign" href$={eventsLinkOnlyIncidents$} color={color} isActive={isActive} />;
+    return <View label={title} icon="danger_sign" href$={eventViewLink$} color={color} isActive={isActive} />;
   }
 );
