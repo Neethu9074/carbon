@@ -182,26 +182,26 @@ function applyUnknown(nodesLUT, unknownNodes, edgesLUT) {
   }
 }
 
-export function centerNodes(nodes) {
+export function centerNodesX(nodes) {
   let maxX = 0;
-  let maxY = 0;
   let minX = Number.MAX_VALUE;
-  let minY = Number.MAX_VALUE;
 
   for (let i = 0, length = nodes.length; i < length; i++) {
     const item = nodes[i];
     maxX = Math.max(maxX, item.x);
-    maxY = Math.max(maxY, item.y);
     minX = Math.min(minX, item.x);
-    minY = Math.min(minY, item.y);
   }
   const width = maxX - minX;
-  const height = maxY - minY;
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
-    node.x = node.x - minX - (width / 2);
-    node.y = node.y - minY - (height / 2);
+    node.x = node.x - minX - width / 2;
+  }
+}
+
+export function translateNodesY(nodes, offset) {
+  for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
+    nodes[iN].y += offset;
   }
 }
 

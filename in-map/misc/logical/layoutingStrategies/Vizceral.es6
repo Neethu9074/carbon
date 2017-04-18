@@ -1,9 +1,10 @@
 import LTRTreeLayouter from 'in-map/misc/logical/layoutingStrategies/vizceralResources/FlowLayouter';
 import {
+  translateNodesY,
   transformNodes,
   transformEdges,
   applyPosition,
-  centerNodes,
+  centerNodesX,
   applyRanks,
   calcRanks
 } from 'in-map/misc/logical/layoutingStrategies/nodeHelper';
@@ -29,7 +30,8 @@ export default function applyLayout({nodes, edges}) {
 
   calcRanks(N, positions);
   applyRanks(N, nodes.LUT, E, edges.LUT);
-  centerNodes(N);
+  centerNodesX(N);
+  translateNodesY(N, -35);
   applyPosition(N);
 }
 
