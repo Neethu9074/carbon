@@ -195,7 +195,7 @@ export function centerNodesX(nodes) {
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
-    node.y = node.y - minY - height / 2;
+    node.x = node.x - minX - width / 2;
   }
 }
 
