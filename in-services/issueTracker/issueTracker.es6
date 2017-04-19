@@ -1,8 +1,6 @@
 import createEventObservable from 'in-services/subscription/event';
-import { mapSeverityToHealth, health } from 'in-services/health';
 import { focusEvent } from 'in-stores/navigation/view';
 import { clearSelectedEvent } from 'in-stores/events';
-import { theme } from 'in-services/theme';
 
 export const EVENT_TYPES = {
   CHANGE: 0,
@@ -12,27 +10,6 @@ export const EVENT_TYPES = {
   INCIDENT: 4,
   OBJECTIVE: 5
 };
-
-/**
- * Gets the color for an event. If an event is closed it should be some kind
- * grey, if it's open and critical it has a danger color and so on.
- *
- */
-export function getColorForEvent(event, defaultColor) {
-  defaultColor = defaultColor ? defaultColor : theme.health[0];
-
-  if (event.get('state') === 'open') {
-    const severity = event.getIn(['problem', 'severity'], 0);
-    const color = theme.health[severity];
-
-    if (!color) {
-      return defaultColor;
-    }
-    return color;
-  }
-
-  return defaultColor;
-}
 
 /**
  * Gets the icontype, needed for Icon components for an events type.
@@ -75,11 +52,11 @@ export function getEventType(event) {
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue': {
-      const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity'], 0));
-      if (eventHealth === health.warning) {
-        return EVENT_TYPES.ISSUE_WARNING;
-      } else if (eventHealth === health.danger) {
+      const severity = event.getIn(['problem', 'severity'], 0);
+      if (severity > 8) {
         return EVENT_TYPES.ISSUE_CRITICAL;
+      } else if (severity > 4) {
+        return EVENT_TYPES.ISSUE_WARNING;
       }
       return EVENT_TYPES.ISSUE_OK;
     }

@@ -1,10 +1,10 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import TooltipFrame from 'in-components/Tooltips/Frame';
 import { onMove } from 'in-services/reactiveMouseEvents';
+import TooltipFrame from 'in-components/Tooltips/Frame';
 import { applyTransform } from 'in-services/util/dom';
-import { theme } from 'in-services/theme';
+import theme from 'in-services/theme';
 
 const OFFSET = 15;
 const DEFAULT_STYLE = {

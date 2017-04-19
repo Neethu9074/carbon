@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
-import { theme } from 'in-services/theme';
+import { getColorBySeverity } from 'in-stores/events';
 
 import './HealthBar.less';
 
@@ -23,7 +23,7 @@ export default connectTo(
 
     const style = {
       width: maxSeverity * 10 + '%',
-      backgroundColor: theme.health[Math.floor(maxSeverity)]
+      backgroundColor: getColorBySeverity(maxSeverity)
     };
 
     let classes = block;

@@ -12,7 +12,7 @@ import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceL
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { isWebVRActive } from 'in-map/stores/webVRStore';
-import { theme } from 'in-services/theme';
+import { getColorBySeverity } from 'in-stores/events';
 
 export default class Layer extends SceneObject {
   constructor(params) {
@@ -56,7 +56,7 @@ export default class Layer extends SceneObject {
     this.addSubscriptions([
       this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
-        const color = severity > 0 ? theme.health[Math.floor(severity)] : '#dfdfdf';
+        const color = severity > 0 ? getColorBySeverity(severity) : '#dfdfdf';
         this.getComponent('color').setHex(color);
       }),
       this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {

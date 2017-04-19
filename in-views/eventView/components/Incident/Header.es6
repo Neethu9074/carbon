@@ -25,10 +25,10 @@ export default connectTo(
           _events.map(_event => fireCallbacksForEventAtFocusedMomentAsStream(_event, () => true, () => false))
         )
       ),
-      color: getColorForEventAtFocusedMomentAsStream(props.event, '#6B8088')
+      background: getColorForEventAtFocusedMomentAsStream(props.event)
     };
   },
-  function IncidentHeader({ event, recentEvents, openEvents, color }) {
+  function IncidentHeader({ event, recentEvents, openEvents, background }) {
     if (!recentEvents) {
       return null;
     }
@@ -47,8 +47,8 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <div className={`${block}__icon-wrapper`} style={{ background: color }}>
-          <EventIcon event={event} color="#fff" />
+        <div className={`${block}__icon-wrapper`} style={{ background }}>
+          <EventIcon event={event} />
         </div>
 
         <div className={`${block}__right`}>

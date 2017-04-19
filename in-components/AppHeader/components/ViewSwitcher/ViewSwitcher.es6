@@ -16,7 +16,7 @@ import { containsKeyword } from 'in-stores/search/keywords';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
-import { theme } from 'in-services/theme';
+import { getColorBySeverity } from 'in-stores/events';
 
 import './ViewSwitcher.less';
 
@@ -90,7 +90,7 @@ const IncidentsMenuPoint = connectTo(
 
     if (numIncidents > 0) {
       title = numIncidents === 1 ? `1 Incident` : `${numIncidents} Incidents`;
-      color = maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
+      color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#6B8088';
     }
 
     return <View label={title} icon="danger_sign" href$={eventViewLink$} color={color} isActive={isActive} />;

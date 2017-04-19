@@ -2,11 +2,11 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { hexToRGB } from 'in-services/formatters/color';
+import { alwaysNull } from 'in-services/fixedStreams';
 import classnames from 'in-services/util/classnames';
 import MetricValue from 'in-components/MetricValue';
-import { alwaysNull } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
-import { theme } from 'in-services/theme';
+import theme from 'in-services/theme';
 
 import './ChartLegend.less';
 

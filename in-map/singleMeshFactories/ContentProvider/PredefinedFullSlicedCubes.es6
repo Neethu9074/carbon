@@ -1,7 +1,7 @@
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import { hexToRGBNormalized } from 'in-services/formatters/color';
 import { BufferGeometry } from 'in-map/3DLibProvider';
-import { theme } from 'in-services/theme';
+import theme from 'in-services/theme';
 
 export const NUM_POINTS_PER_SLICE = 90;
 const FRONT = theme.map.colors.cubeColorFalloffValues.right;

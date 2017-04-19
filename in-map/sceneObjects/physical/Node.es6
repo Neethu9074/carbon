@@ -21,7 +21,7 @@ import { showSticky$ } from 'in-map/stores/physical/nodesStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { nodes } from 'in-map/stores/physical/nodesStore';
 import { isWebVRActive } from 'in-map/stores/webVRStore';
-import { theme } from 'in-services/theme';
+import { getColorBySeverity } from 'in-stores/events';
 
 export default class Node extends SceneObject {
   constructor(params) {
@@ -120,7 +120,7 @@ export default class Node extends SceneObject {
         .subscribe(isVisible => this.eventEmitter.emit('isVisibleForMetrics', isVisible)),
       this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
-        const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
+        const color = severity > 0 ? getColorBySeverity(severity) : '#ffffff';
         this.getComponent('color').setHex(color);
       })
     ]);

@@ -23,7 +23,7 @@ import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { isWebVRActive } from 'in-map/stores/webVRStore';
 import DragGhost from 'in-map/misc/logical/DragGhost';
 import { eventBus } from 'in-map/services/eventBus';
-import { theme } from 'in-services/theme';
+import { getColorBySeverity } from 'in-stores/events';
 
 export default class Service extends SceneObject {
   constructor(params) {
@@ -162,7 +162,7 @@ export default class Service extends SceneObject {
       }),
       this.eventEmitter.on('healthChanged').subscribe(health => {
         const severity = health.get('maxSeverity', 0);
-        const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
+        const color = severity > 0 ? getColorBySeverity(severity) : '#ffffff';
         this.getComponent('color').setHex(color);
       }),
       this.eventEmitter

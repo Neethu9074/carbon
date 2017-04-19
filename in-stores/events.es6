@@ -14,7 +14,6 @@ import { createStore, createTrackingStore } from 'in-stores/store';
 import getOpenEvents from 'in-services/subscription/openEvents';
 import getEvents from 'in-services/subscription/events';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { theme } from 'in-services/theme';
 
 const maxDataRetrieval = 1000 * 60 * 60 * 24 * 31; // one month
 
@@ -176,22 +175,6 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
   return getHealthInfoAtFocusedMoment(snapshotId).map(healthInfo => healthInfo.get('issueWithMaxSeverity')).distinct();
 }
 
-export function getColorForEventAtFocusedMomentAsStream(event, defaultColor) {
-  return fireCallbacksForEventAtFocusedMomentAsStream(
-    event,
-    // if open
-    ({ severity }) => {
-      let color = theme.health[severity];
-      if (severity === 0 && defaultColor) {
-        color = defaultColor;
-      }
-      return color;
-    },
-    // if closed
-    () => (defaultColor ? defaultColor : theme.health[0])
-  );
-}
-
 export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifClosed) {
   const start = event.get('start');
   const end = event.get('end');
@@ -201,29 +184,11 @@ export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifCl
   return focusedMoment$
     .map(focusedMoment => {
       if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
-        return ifOpen({ severity, focusedMoment });
+        return ifOpen({ event, severity, focusedMoment });
       }
-      return ifClosed({ severity, focusedMoment });
+      return ifClosed({ event, severity, focusedMoment });
     })
     .distinct();
-}
-
-export function getColorForEventAtFocusedMoment(event, focusedMoment) {
-  const severity = event.getIn(['problem', 'severity'], 0);
-  const start = event.get('start');
-  const end = event.get('end');
-  const state = event.get('state');
-  const color = theme.health[severity];
-
-  // No focused moment? Then it is according to server time which means
-  // we color based on the state property.
-  const open = isEventOpenAtFocusedMoment(start, end, state, focusedMoment);
-
-  if (open) {
-    return color;
-  }
-
-  return theme.health[0];
 }
 
 export function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
@@ -413,18 +378,57 @@ export function countEvents(events) {
   return counter;
 }
 
-export function getMaxSeverity(events) {
+export function getColorByEvent(event, focusedMoment) {
+  const severity = event.getIn(['problem', 'severity'], 0);
+  const start = event.get('start');
+  const end = event.get('end');
+  const state = event.get('state');
+  const color = getColorBySeverity(severity);
+
+  // No focused moment? Then it is according to server time which means
+  // we color based on the state property.
+  if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
+    return color;
+  }
+  return getColorBySeverity(0);
+}
+
+export function getColorForEventAtFocusedMomentAsStream(event) {
+  return focusedMoment$.map(focusedMoment => getColorByEvent(event, focusedMoment));
+}
+
+export function getColorForMostSevereEvents(events) {
+  let eventWithMaxSeverity = null;
   let maxSeverity = 0;
   events.forEach(event => {
     const severity = event.getIn(['problem', 'severity'], 0);
     if (severity > maxSeverity) {
       maxSeverity = severity;
+      eventWithMaxSeverity = event;
     }
   });
-  return maxSeverity;
+  return getColorByEvent(eventWithMaxSeverity);
 }
 
-export function getColorForMostSevereEvents(events) {
-  const maxSeverity = getMaxSeverity(events);
-  return maxSeverity > 0 ? theme.health[maxSeverity] : '#6B8088';
+const health = [
+  '#ffffff',
+  '#e3e2b8',
+  '#eae18a',
+  '#f1e05c',
+  '#f8df2e',
+  '#ffde00',
+  '#ffbf08',
+  '#ffa010',
+  '#ff8019',
+  '#ff6121',
+  '#ff4229'
+];
+
+export function getColorBySeverity(severity) {
+  if (severity > 0 && severity <= 1) {
+    // 0.51 -> 5.1
+    severity = severity * 10;
+  }
+  // 5.1 -> 5
+  return health[severity | 0];
 }

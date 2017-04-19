@@ -1,5 +1,5 @@
 import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
-import { getColorForEvent } from 'in-services/issueTracker';
+import { getColorByEvent } from 'in-stores/events';
 
 export default class ChangeEventRenderer extends BasicEventRenderer {
   constructor(backBuffer, scale, iconSize, yOffset = 111) {
@@ -12,7 +12,7 @@ export default class ChangeEventRenderer extends BasicEventRenderer {
       return;
     }
 
-    this.backBuffer.fillStyle = getColorForEvent(event);
+    this.backBuffer.fillStyle = getColorByEvent(event);
     this.backBuffer.fillRect(positions.x, this.y + 10, 2, 18);
   }
 }

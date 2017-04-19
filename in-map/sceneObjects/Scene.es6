@@ -15,7 +15,7 @@ import { loadVREffectWrapper } from 'in-map/services/webVR';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { isWebVRActive } from 'in-map/stores/webVRStore';
 import { setDimensions } from 'in-map/stores/indexStore';
-import { theme } from 'in-services/theme';
+import theme from 'in-services/theme';
 
 export default class MainScene extends SceneObject {
   constructor(params) {

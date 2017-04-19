@@ -1,7 +1,7 @@
 import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
 import { hexToRGBNormalized } from 'in-services/formatters/color';
 import BaseGroundPlane from 'in-map/misc/common/GroundPlane';
-import { theme } from 'in-services/theme';
+import theme from 'in-services/theme';
 
 export default class GroundPlane extends BaseGroundPlane {
   constructor() {

@@ -1,7 +1,8 @@
 import Favico from 'favico.js';
 
 import { openEventsAtServerTime$ } from 'in-stores/events';
-import { theme } from 'in-services/theme';
+import { getColorBySeverity } from 'in-stores/events';
+import theme from 'in-services/theme';
 
 const noIncidents = {
   count: 0,
@@ -21,7 +22,7 @@ export function init() {
         const maxSeverity = events.get('maxIncidentSeverity');
         return {
           count: numberOfIncidents,
-          color: maxSeverity > 0 ? theme.health[maxSeverity] : theme.health[theme.health.length - 1],
+          color: maxSeverity > 0 ? getColorBySeverity(maxSeverity) : getColorBySeverity(theme.health.length - 1),
           textColor: maxSeverity > 6 ? '#ffffff' : '#000000'
         };
       }
