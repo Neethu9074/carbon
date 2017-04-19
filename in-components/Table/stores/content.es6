@@ -58,6 +58,8 @@ export function createStore({
     setSort,
     sortedPagedData$,
     dispose,
+    onPrevPage,
+    onNextPage,
     onRowChange
   };
 
@@ -67,6 +69,14 @@ export function createStore({
 
   function setSort(column, direction) {
     sort$.emit({ column, direction });
+  }
+
+  function onPrevPage() {
+    page$.once(page => page$.emit(Math.max(0, page - 1)));
+  }
+
+  function onNextPage() {
+    page$.once(page => page$.emit(Math.max(0, page + 1)));
   }
 
   function onRowChange(rows) {

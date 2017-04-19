@@ -1,0 +1,37 @@
+.in-pagination {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 4px;
+
+  &__element {
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-left: 0;
+    color: #2D4048;
+
+    &:first-child {
+      border-left: 1px solid #ddd;
+    }
+  }
+
+  &__page-indicator {
+    padding: 6px 12px;
+    display: block;
+  }
+
+  &__switch {
+    text-decoration: none;
+    padding: 6px 12px;
+    display: block;
+    color: #337ab7;
+
+    &--disabled {
+      color: #777;
+      cursor: not-allowed;
+      background-color: #fff;
+      border-color: #ddd;
+    }
+  }
+}
