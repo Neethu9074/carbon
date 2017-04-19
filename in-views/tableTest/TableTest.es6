@@ -21,7 +21,6 @@ const cols = [
       getValue(row) {
         return getPlural(row.plugin);
       },
-
       getContent(pluginLabel) {
         return pluginLabel;
       }

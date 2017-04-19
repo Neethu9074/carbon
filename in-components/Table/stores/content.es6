@@ -45,12 +45,12 @@ export function createStore({
   const data = {};
 
   const data$ = create().emit(data);
-  const page$ = create().emit(0);
   const sort$ = create().emit({
+    page: 0,
     column: initialSortColumn,
     direction: initialSortDirection
   });
-  const sortedPagedData$ = combineLatest([sort$, page$, data$.throttle(5000)]).map(toSortedPagedData);
+  const sortedPagedData$ = combineLatest([sort$, data$.throttle(5000)]).map(toSortedPagedData);
 
   return {
     data$,
@@ -68,15 +68,31 @@ export function createStore({
   }
 
   function setSort(column, direction) {
-    sort$.emit({ column, direction });
+    sort$.emit({
+      page: 0,
+      column,
+      direction
+    });
   }
 
   function onPrevPage() {
-    page$.once(page => page$.emit(Math.max(0, page - 1)));
+    sort$.once(sort => {
+      sort$.emit({
+        page: Math.max(sort.page - 1),
+        column: sort.column,
+        direction: sort.direction
+      });
+    });
   }
 
   function onNextPage() {
-    page$.once(page => page$.emit(Math.max(0, page + 1)));
+    sort$.once(sort => {
+      sort$.emit({
+        page: Math.max(sort.page + 1),
+        column: sort.column,
+        direction: sort.direction
+      });
+    });
   }
 
   function onRowChange(rows) {
@@ -191,7 +207,7 @@ export function createStore({
     data$.emit(data);
   }
 
-  function toSortedPagedData([{ column: sortColumnIndex, direction: sortDirection }, page]) {
+  function toSortedPagedData([{ column: sortColumnIndex, direction: sortDirection, page }]) {
     const rows = [];
     for (let key in data) {
       rows.push(data[key]);
@@ -225,7 +241,9 @@ export function createStore({
       totalRowCount: rows.length,
       rows: rows.slice(start, end),
       page: shownPage,
-      pageCount
+      pageCount,
+      sortColumnIndex,
+      sortDirection
     };
   }
 }
