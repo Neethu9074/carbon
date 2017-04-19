@@ -4,8 +4,8 @@ import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import EventListing from 'in-components/EventListing';
 import HealthBar from 'in-components/HealthBar';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 import { theme } from 'in-services/theme';
+import connectTo from 'in-hoc/connectTo';
 
 import './AnnotatedHealthBar.less';
 
