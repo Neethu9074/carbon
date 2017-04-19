@@ -3,7 +3,7 @@ import React from 'react';
 import HealthIconListing from 'in-components/HealthIconListing';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
-import { theme } from 'in-services/theme';
+import { getHealthColorBySeverity } from 'in-services/health';
 
 import './SidebarHealthInfo.less';
 
@@ -17,7 +17,7 @@ export default connectTo(
   },
   function SidebarHealthInfo({ healthInfo, snapshotId }) {
     const maxSeverity = healthInfo ? healthInfo.get('maxSeverity') : 0;
-    const color = maxSeverity > 0 ? theme.health[Math.floor(maxSeverity)] : '#92A5AE';
+    const color = maxSeverity > 0 ? getHealthColorBySeverity(maxSeverity) : '#92A5AE';
 
     return (
       <div className={block}>

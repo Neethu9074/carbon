@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
+import { getHealthColorBySeverity } from 'in-services/health';
 import EventListing from 'in-components/EventListing';
 import HealthBar from 'in-components/HealthBar';
 import Tooltip from 'in-components/Tooltip';
-import { theme } from 'in-services/theme';
 import connectTo from 'in-hoc/connectTo';
 
 import './AnnotatedHealthBar.less';
@@ -23,7 +23,7 @@ export default connectTo(
     }
 
     const maxSeverity = healthInfo.get('maxSeverity');
-    const color = theme.health[Math.floor(maxSeverity)];
+    const color = getHealthColorBySeverity(maxSeverity);
     const numberOfOpenIssues = healthInfo.get('numberOfOpenIssues');
 
     let classes = block;

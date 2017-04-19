@@ -26,7 +26,7 @@ const block = 'in-event-view-incident-event-list-item';
 export default connectTo(
   props => {
     return {
-      background: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae'),
+      background: getColorForEventAtFocusedMomentAsStream(props.event),
       highlightedEventId: highlightedEventId$
     };
   },
@@ -141,10 +141,10 @@ function DetailsHeader({ event, onClick, iconType, background }) {
 
       <div className={`${block}__left`}>
         <div className={`${block}__icon-wrapper`} style={{ background }}>
-          <EventIcon event={event} color="#ffffff" size={14} />
+          <EventIcon event={event} size={12} />
         </div>
 
-        <div>
+        <div className={`${block}__entity`}>
           <div>
             <span className={`${block}__problem-text`}>
               {event.getIn(['problem', 'problemText'])}

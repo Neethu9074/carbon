@@ -4,7 +4,7 @@ import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { theme } from 'in-services/theme';
+import { getHealthColorBySeverity } from 'in-services/health';
 
 export default connectTo(
   props => {
@@ -19,7 +19,7 @@ export default connectTo(
   },
   function HealthyEntityIcon({ snapshot, health, className, fallbackColor = '#fff' }) {
     const severity = health.get('maxSeverity');
-    const color = health && severity > 0 ? theme.health[severity] : fallbackColor;
+    const color = health && severity > 0 ? getHealthColorBySeverity(severity) : fallbackColor;
 
     return <PluginIcon className={className} dimension={16} color={color} snapshot={snapshot} />;
   }

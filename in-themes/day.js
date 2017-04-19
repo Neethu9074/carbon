@@ -14,19 +14,6 @@ var grey4 = '#3b4d55';
 var grey5 = '#2d4048';
 var grey6 = '#203036';
 var cyan = '#9fffff';
-var health = [
-  white,
-  '#e3e2b8',
-  '#eae18a',
-  '#f1e05c',
-  '#f8df2e',
-  '#ffde00',
-  '#ffbf08',
-  '#ffa010',
-  '#ff8019',
-  '#ff6121',
-  '#ff4229'
-];
 
 module.exports = defaultsDeep({
   common: {
@@ -256,7 +243,6 @@ module.exports = defaultsDeep({
     background: white,
     text: grey1
   },
-  health,
   footer: {
     height: 39
   },
@@ -269,8 +255,6 @@ module.exports = defaultsDeep({
       cubeBasicColor: '#e9edef',
       layerBasicColor: '#e9edef',
       clearColor: '#445b63',
-      warning: health[5],
-      critical: health[10],
       groundDots: '#809199'
     },
     stickyNotes: {
@@ -281,9 +265,7 @@ module.exports = defaultsDeep({
     },
     tooltips: {
       font: white,
-      background: grey6,
-      critical: health[5],
-      danger: health[10]
+      background: grey6
     }
   }
 }, common);

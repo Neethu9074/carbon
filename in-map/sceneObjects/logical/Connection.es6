@@ -27,7 +27,7 @@ import { LOGICAL_CONNECTION_REACTION } from 'in-map/misc/TimingConfig';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
-import { theme } from 'in-services/theme';
+import { getHealthColorBySeverity } from 'in-services/health';
 
 export default class Connection extends SceneObject {
   constructor({ id, destinationNode, sourceNode, bidirectional }) {
@@ -113,9 +113,9 @@ export default class Connection extends SceneObject {
         const severity = health.get('maxSeverity', 0);
         if (severity > 0) {
           if (isHighlighted) {
-            newColor = theme.health[Math.floor(severity)];
+            newColor = getHealthColorBySeverity(severity);
           } else {
-            newColor = hexToRGB(theme.health[Math.floor(severity)]);
+            newColor = hexToRGB(getHealthColorBySeverity(severity));
             newColor = rgbToHex(newColor.r * 0.65, newColor.g * 0.65, newColor.b * 0.65);
           }
         } else if (isHighlighted) {

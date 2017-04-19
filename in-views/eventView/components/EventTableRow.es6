@@ -1,14 +1,12 @@
 import React from 'react';
 
 import { getEvent, selectEvent, clearEvent, getIconTypeForEventType, getEventType } from 'in-services/issueTracker';
-import { fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import { getColorForEventAtFocusedMomentAsStream, selectedEventId$ } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
-import { selectedEventId$ } from 'in-stores/events';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
-import { theme } from 'in-services/theme';
 import connectTo from 'in-hoc/connectTo';
 
 import './EventTableRow.less';
@@ -60,17 +58,10 @@ const Icon = connectTo(
   props => {
     return {
       selectedEventId: selectedEventId$,
-      isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
+      color: getColorForEventAtFocusedMomentAsStream(props.event)
     };
   },
-  function Icon({ event, isOpen }) {
-    const severity = event.getIn(['problem', 'severity']);
-    const defaultColor = '#92a5ae';
-    let color = defaultColor;
-    if (isOpen) {
-      color = severity > 0 ? theme.health[severity] : defaultColor;
-    }
-
+  function Icon({ event, color }) {
     const iconType = getIconTypeForEventType(getEventType(event), true);
     return (
       <div
@@ -98,9 +89,7 @@ const Entity = connectTo(
     return (
       <div className={`${block}__entity-wrapper`}>
         <PluginIcon className={`${block}__entity-icon`} dimension={14} color="#000" snapshot={snapshot} />
-        <span>
-          {getLabel(snapshot)}
-        </span>
+        {getLabel(snapshot)}
       </div>
     );
   }

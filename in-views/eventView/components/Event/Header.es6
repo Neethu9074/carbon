@@ -16,14 +16,14 @@ const block = 'in-event-view-event-header';
 export default connectTo(
   props => {
     return {
-      color: getColorForEventAtFocusedMomentAsStream(props.event, '#6B8088')
+      color: getColorForEventAtFocusedMomentAsStream(props.event)
     };
   },
   function EventHeader({ event, color }) {
     return (
       <div className={block}>
         <div className={`${block}__icon-wrapper`} style={{ background: color }}>
-          <EventIcon event={event} color="#fff" />
+          <EventIcon event={event} />
         </div>
         <div className={`${block}__right`}>
           <h1 className={`${block}__title`}>

@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  getColorForEventAtFocusedMomentAsStream,
-  fireCallbacksForEventAtFocusedMomentAsStream
-} from 'in-stores/events';
+import { fireCallbacksForEventAtFocusedMomentAsStream, getColor } from 'in-stores/events';
 import { highlightEventId } from 'in-views/eventView/stores/highlightedEvent';
 import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
 import EventIcon from 'in-components/EventIcon';
@@ -16,7 +13,11 @@ const block = 'in-event-view-detail-chart-event';
 export default connectTo(
   props => {
     return {
-      color: getColorForEventAtFocusedMomentAsStream(props.event, '#92a5ae'),
+      color: fireCallbacksForEventAtFocusedMomentAsStream(
+        props.event,
+        e => getColor(e.event, e.focusedMoment),
+        () => '#40535b'
+      ),
       isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
     };
   },
@@ -68,7 +69,7 @@ export default connectTo(
       >
 
         <div className={`${block}__icon`}>
-          <EventIcon event={event} color={color} useAlternativeChangeIcon={false} size={iconSize} />
+          <EventIcon event={event} useAlternativeChangeIcon={false} size={iconSize} />
         </div>
 
         <div

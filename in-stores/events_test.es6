@@ -7,7 +7,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { resetStoreRegistry } from 'in-stores/store';
-import { theme } from 'in-services/theme';
+import { getHealthColorBySeverity } from 'in-services/health';
 
 describe('in-stores/events', () => {
   let mod;
@@ -833,7 +833,7 @@ describe('in-stores/events', () => {
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
-      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
+      expect(subscriber.getCall(0).args[0]).to.equal(getHealthColorBySeverity(0));
     });
 
     it('should color issues according to server time when no focused moment is defined', () => {
@@ -851,7 +851,7 @@ describe('in-stores/events', () => {
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
-      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
+      expect(subscriber.getCall(0).args[0]).to.equal(getHealthColorBySeverity(9));
     });
 
     it('should color issues according to focused moment when one is selected', () => {
@@ -869,7 +869,7 @@ describe('in-stores/events', () => {
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
-      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
+      expect(subscriber.getCall(0).args[0]).to.equal(getHealthColorBySeverity(0));
     });
 
     it('should color issues according to focused moment when one is selected', () => {
@@ -887,7 +887,7 @@ describe('in-stores/events', () => {
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
-      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
+      expect(subscriber.getCall(0).args[0]).to.equal(getHealthColorBySeverity(9));
     });
 
     it('should color changes using the default color', () => {
@@ -902,7 +902,7 @@ describe('in-stores/events', () => {
 
       mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
-      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
+      expect(subscriber.getCall(0).args[0]).to.equal(getHealthColorBySeverity(0));
     });
 
     it(
@@ -922,7 +922,7 @@ describe('in-stores/events', () => {
 
         mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
 
-        expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
+        expect(subscriber.getCall(0).args[0]).to.equal(getHealthColorBySeverity(9));
       }
     );
   });
