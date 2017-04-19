@@ -75,9 +75,9 @@ describe('in-components/Table/stores/content', () => {
         type: 'metric',
         typeArgs: {
           getSnapshotId,
-          metricName: 'cpu.load',
+          getMetricName: () => 'cpu.load',
           timeWindowAggregation: 'mean',
-          formatter: number
+          getContent: number.compact
         }
       };
 
@@ -122,9 +122,9 @@ describe('in-components/Table/stores/content', () => {
         type: 'metric',
         typeArgs: {
           getSnapshotId,
-          metricName: 'cpu.load',
+          getMetricName: () => 'cpu.load',
           timeWindowAggregation: 'mean',
-          formatter: number
+          getContent: number.compact
         }
       };
 

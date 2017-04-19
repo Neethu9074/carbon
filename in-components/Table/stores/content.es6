@@ -1,12 +1,27 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
-import { create } from 'reactive-observables';
+import { create, combineLatest } from 'reactive-observables';
 import invariant from 'invariant';
 
+import { compareIgnoreCase as compareString } from 'in-services/util/string';
+import { compare as compareNumber } from 'in-services/util/number';
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 
-export function createStore({ columnDefinitions }) {
+export function createStore({
+  columnDefinitions,
+  initialSortColumn = 0,
+  maxItemsPerPage = 10,
+  initialSortDirection = 'asc'
+}) {
   if (__DEV__) {
+    invariant(typeof initialSortColumn === 'number', 'initialSortColumn must be a number');
+    invariant(typeof maxItemsPerPage === 'number', 'maxItemsPerPage must be a number');
+    invariant(maxItemsPerPage > 0, 'maxItemsPerPage must be a positive number');
     invariant(columnDefinitions instanceof Array, 'cols must be an array');
+    invariant(columnDefinitions.length > 0, 'There must be at least one column');
+    invariant(
+      initialSortColumn < columnDefinitions.length,
+      'initialSortColumn must be smaller than the number of columns'
+    );
     columnDefinitions.forEach(validateCol);
   }
 
@@ -19,22 +34,40 @@ export function createStore({ columnDefinitions }) {
   //   columns: [
   //     {
   //       columnDefinition: as passed by the user
+  //       columnIndex
   //       value: number|string used for sorting the columns
+  //       content: string|react element
   //       subscription: ro subscription used to retrieve the value
+  //       comparator: function(valueA, valueB)
   //     }
   //   ]
   // }
   const data = {};
 
   const data$ = create().emit(data);
+  const page$ = create().emit(0);
+  const sort$ = create().emit({
+    column: initialSortColumn,
+    direction: initialSortDirection
+  });
+  const sortedPagedData$ = combineLatest([sort$, page$, data$.throttle(5000)]).map(toSortedPagedData);
 
   return {
     data$,
+    sort$,
+    setSort,
+    sortedPagedData$,
     dispose,
     onRowChange
   };
 
-  function dispose() {}
+  function dispose() {
+    Object.keys(data).forEach(remove);
+  }
+
+  function setSort(column, direction) {
+    sort$.emit({ column, direction });
+  }
 
   function onRowChange(rows) {
     if (__DEV__) {
@@ -42,8 +75,9 @@ export function createStore({ columnDefinitions }) {
       rows.forEach(validateRow);
     }
 
+    const length = rows.length;
     mark();
-    for (let i = 0, length = rows.length; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       upsertRow(rows[i]);
     }
     sweep();
@@ -79,30 +113,40 @@ export function createStore({ columnDefinitions }) {
     data[row.key] = row;
 
     for (let i = 0, length = columnDefinitions.length; i < length; i++) {
-      row.columns[i] = initializeColumn(row, columnDefinitions[i]);
+      row.columns[i] = initializeColumn(row, columnDefinitions[i], i);
     }
   }
 
-  function initializeColumn(row, columnDefinition) {
+  function initializeColumn(row, columnDefinition, columnIndex) {
     if (columnDefinition.type === 'string') {
       const value = columnDefinition.typeArgs.getValue(row.rowConfig);
+      const content = columnDefinition.typeArgs.getContent(value, row.rowConfig);
       return {
         columnDefinition,
+        columnIndex,
         value,
-        subscription: null
+        content,
+        subscription: null,
+        comparator: compareString
       };
     } else if (columnDefinition.type === 'metric') {
       const column = {
         columnDefinition,
+        columnIndex,
         value: null,
-        subscription: null
+        content: null,
+        subscription: null,
+        comparator: compareNumber
       };
+
+      const getContent = columnDefinition.typeArgs.getContent;
 
       column.subscription = getMetricForFocusedMoment({
         snapshotId: columnDefinition.typeArgs.getSnapshotId(row.rowConfig),
-        metric: columnDefinition.typeArgs.metricName
+        metric: columnDefinition.typeArgs.getMetricName(row.rowConfig)
       }).subscribe(v => {
         column.value = v[1];
+        column.content = getContent(v[1], row.rowConfig);
         row.mutationCount++;
         emitRawDataChange();
       });
@@ -136,6 +180,44 @@ export function createStore({ columnDefinitions }) {
   function emitRawDataChange() {
     data$.emit(data);
   }
+
+  function toSortedPagedData([{ column: sortColumnIndex, direction: sortDirection }, page]) {
+    const rows = [];
+    for (let key in data) {
+      rows.push(data[key]);
+    }
+
+    if (rows.length === 0) {
+      return rows;
+    }
+
+    let comparator = buildRowComparatorForIndex(rows[0].columns[sortColumnIndex].comparator, sortColumnIndex);
+    rows.sort(comparator);
+    if (sortDirection === 'desc') {
+      rows.reverse();
+    }
+
+    let start;
+    let end;
+    let pageCount = Math.ceil(rows.length / maxItemsPerPage);
+    let shownPage;
+    if (page * maxItemsPerPage > rows.length) {
+      start = Math.max(0, rows.length - maxItemsPerPage);
+      end = start + maxItemsPerPage;
+      shownPage = Math.max(1, pageCount - 1);
+    } else {
+      start = page * maxItemsPerPage;
+      end = (page + 1) * maxItemsPerPage;
+      shownPage = page;
+    }
+
+    return {
+      totalRowCount: rows.length,
+      rows: rows.slice(start, end),
+      page: shownPage,
+      pageCount
+    };
+  }
 }
 
 function validateCol(col) {
@@ -149,7 +231,7 @@ function validateCol(col) {
     );
     invariant(
       typeof col.typeArgs.getContent === 'function',
-      'Columns with type=string must have a getContent(row, value) function.'
+      'Columns with type=string must have a getContent(value, row) function.'
     );
   } else if (col.type === 'metric') {
     invariant(
@@ -157,20 +239,22 @@ function validateCol(col) {
       'Columns with type=metric must have a getSnapshotId(row) function.'
     );
     invariant(
-      typeof col.typeArgs.metricName === 'function',
+      typeof col.typeArgs.getMetricName === 'function',
       'Columns with type=metric must have a getMetricName(row) function.'
     );
     invariant(
-      typeof col.typeArgs.formatter === 'function' &&
-        typeof col.typeArgs.formatter.compact === 'function' &&
-        typeof col.typeArgs.formatter.detailed === 'function',
-      'Columns with type=metric must have a formatter in the form of {compact, detailed}'
+      typeof col.typeArgs.getContent === 'function',
+      'Columns with type=metric must have a getContent(value, row) function'
     );
     invariant(
       ['mean', 'count', 'adjustedCount', 'max'].indexOf(col.typeArgs.timeWindowAggregation) !== -1,
       'Columns with type=metric must have a supported timeWindowAggregation, i.e. mean|count|adjustedCount|max'
     );
   }
+}
+
+function buildRowComparatorForIndex(comparator, index) {
+  return (rowA, rowB) => comparator(rowA.columns[index].value, rowB.columns[index].value);
 }
 
 function validateRow(row) {

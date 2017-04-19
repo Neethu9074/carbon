@@ -5,12 +5,18 @@ import { createStore } from 'in-components/Table/stores/content';
 export default class Table extends React.Component {
   constructor(props) {
     super(props);
-    this.store = this.newStore(props);
+    this.state = {
+      data: null
+    };
+  }
+
+  componentDidMount() {
+    this.newStore(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.cols !== nextProps.cols || this.props.maxItemsPerPage !== nextProps.maxItemsPerPage) {
-      this.disposeStore();
+      this.dispose();
       this.newStore(nextProps);
     } else if (this.props.rows !== nextProps.rows) {
       this.store.onRowChange(nextProps.rows);
@@ -20,12 +26,17 @@ export default class Table extends React.Component {
   newStore(props) {
     this.store = createStore({
       columnDefinitions: props.cols,
-      maxItemsPerPage: props.maxItemsPerPage || 10
+      maxItemsPerPage: props.maxItemsPerPage || 10,
+      initialSortColumn: props.initialSortColumn || 0
     });
     this.store.onRowChange(props.rows);
+    this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
   }
 
-  disposeStore() {
+  dispose() {
+    if (this.dataSubscription) {
+      this.dataSubscription.dispose();
+    }
     if (this.store) {
       this.store.dispose();
       this.store = null;
@@ -33,23 +44,37 @@ export default class Table extends React.Component {
   }
 
   componentWillUnmount() {
-    this.disposeStore();
+    this.dispose();
   }
 
   render() {
+    const data = this.state.data;
+    const cols = this.props.cols;
     return (
       <table>
         <thead>
           <tr>
-            <th>Key</th>
-            <th>Value</th>
+            {cols.map((col, i) => <th key={i}>{col.title}</th>)}
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Foo</td>
-            <td>2</td>
-          </tr>
+          {!data || data.rows.length === 0
+            ? <tr>
+                <td colSpan={cols.length}>No data, sorry bro!</td>
+              </tr>
+            : null}
+
+          {data && data.rows.length > 0
+            ? data.rows.map(row => (
+                <tr key={row.key}>
+                  {row.columns.map((column, i) => (
+                    <td key={i}>
+                      {column.content}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            : null}
         </tbody>
       </table>
     );

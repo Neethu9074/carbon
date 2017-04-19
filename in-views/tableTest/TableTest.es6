@@ -2,7 +2,7 @@ import React from 'react';
 
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import FullscreenOverlayView from 'in-components/FullscreenOverlayView';
-import { percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import { getPlural } from 'in-sdk/pluginName';
 import Table from 'in-components/Table';
 
@@ -22,7 +22,7 @@ const cols = [
         return getPlural(row.plugin);
       },
 
-      getContent(row, pluginLabel) {
+      getContent(pluginLabel) {
         return pluginLabel;
       }
     }
@@ -37,7 +37,7 @@ const cols = [
       getMetricName(row) {
         return `plugin.${row.plugin}`;
       },
-      formatter: percentage,
+      getContent: number.compact,
       timeWindowAggregation: 'mean'
     }
   }
