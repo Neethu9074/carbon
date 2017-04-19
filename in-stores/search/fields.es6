@@ -167,6 +167,6 @@ export function getValueSuggestions(keyword, currentValue) {
   return values
     .filter(value => value !== currentValue && value.indexOf(currentValue) !== -1)
     .filter(
-      value => blackListedSearchFieldValues[keyword] && blackListedSearchFieldValues[keyword].indexOf(value) === -1
+      value => !blackListedSearchFieldValues[keyword] || blackListedSearchFieldValues[keyword].indexOf(value) === -1
     );
 }
