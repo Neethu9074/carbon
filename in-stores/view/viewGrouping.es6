@@ -11,6 +11,7 @@ const viewGroupings = Object.freeze({
   nomad: 'NOMAD_TASK_NAME',
 
   infraZone: 'INFRASTRUCTURE_ZONE',
+  ec2Type: 'FOUNDATION_EC2_TYPE',
 
   cpuCount: 'CPU_COUNT',
   cpuModel: 'CPU_MODEL',
@@ -30,6 +31,7 @@ export const humanReadableDescriptions = Object.freeze({
   nomad: 'Nomad task name',
 
   infraZone: 'Zone',
+  ec2Type: 'EC2-Type',
 
   cpuCount: 'CPU count',
   cpuModel: 'CPU model',
@@ -38,7 +40,7 @@ export const humanReadableDescriptions = Object.freeze({
 });
 
 export const availableGroupings = Object.freeze({
-  PHYSICAL: Object.freeze(['infraZone', 'cpuCount', 'cpuModel', 'osArc', 'osName']),
+  PHYSICAL: Object.freeze(['infraZone', 'cpuCount', 'cpuModel', 'osArc', 'osName', 'ec2Type']),
   CONTAINER: Object.freeze(['docker', 'marathon', 'ecs', 'nomad', 'kube', 'infraZone', 'compose', 'host']),
   LOGICAL: Object.freeze([])
 });
