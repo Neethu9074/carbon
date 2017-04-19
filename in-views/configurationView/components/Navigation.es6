@@ -23,8 +23,8 @@ import {
   isAuditLogView$,
   objectiveViewLink$,
   isObjectivesView$,
-  ruleViewLink$,
-  isRuleViewLink$,
+  rulesViewLink$,
+  isRulesViewLink$,
   ruleBindingViewLink$,
   isRuleBindingViewLink$
 } from 'in-stores/navigation/configuration';
@@ -95,7 +95,7 @@ export default function Navigation() {
 
         {role.canConfigureCustomAlerts
           ? <NavItem title="Knowledge Management">
-              <NavItem title="Custom Rules" href$={ruleViewLink$} isActive$={isRuleViewLink$} />
+              <NavItem title="Custom Rules" href$={rulesViewLink$} isActive$={isRulesViewLink$} />
               <NavItem title="Custom Issues" href$={ruleBindingViewLink$} isActive$={isRuleBindingViewLink$} />
             </NavItem>
           : null}

@@ -116,11 +116,12 @@ export const isObjectivesView$ = buildPathStartsWithStream(objectiveViewPath);
 // custom alerting rules ------------------------------------
 // rule
 const ruleViewPath = '/config/rule';
-export const ruleViewLink$ = buildUrlStream({ path: ruleViewPath });
-export const isRuleViewLink$ = buildPathStartsWithStream(ruleViewPath);
+const rulesViewPath = '/config/rules';
+export const rulesViewLink$ = buildUrlStream({ path: rulesViewPath });
+export const isRulesViewLink$ = buildPathStartsWithStream(rulesViewPath);
 
 function getRulePath(id) {
-  return `${ruleViewPath}/${encodeURIComponent(id)}`;
+  return id ? `${ruleViewPath}/${encodeURIComponent(id)}` : ruleViewPath;
 }
 
 export function getRuleLink(id) {
@@ -132,7 +133,7 @@ export function openRule(id) {
 }
 
 function getRulesPath() {
-  return ruleViewPath;
+  return rulesViewPath;
 }
 
 export function openRules() {

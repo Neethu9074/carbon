@@ -1,16 +1,15 @@
 import { createLogger } from 'instalog';
-import { Map } from 'immutable';
 import React from 'react';
 
-import { createRule, getRules, saveRule, deleteRule } from 'in-services/api/rules';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Table from 'in-views/configurationView/subview/Rules/components/Table';
 import Section from 'in-views/configurationView/components/Section';
 import { openRule } from 'in-stores/navigation/configuration';
-import Notification from 'in-components/form/Notification';
+import { getRules, deleteRule } from 'in-services/api/rules';
 import { close } from 'in-components/DialogPresenter/store';
+import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Button from 'in-components/Button';
 
@@ -78,28 +77,8 @@ export default class extends React.Component {
   addNewRule = () => {
     this.disposeAsyncAction();
 
-    const newRule = Map(createRule());
-
-    this.setState({
-      error: false,
-      loading: true,
-      message: 'Adding new rule…'
-    });
-
-    const result$ = saveRule(newRule);
-    this.responseSubscription = result$.once(() => {
-      openRule(newRule.get('id'));
-    });
-
-    this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save new rule: ${error.message}`;
-      logger.error(message, error);
-      this.setState({
-        error: true,
-        loading: false,
-        message
-      });
-    });
+    // just open the rule dialog without an id will create a new one in the dialog
+    openRule();
   };
 
   onDeleteRule = ruleId => {

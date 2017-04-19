@@ -133,12 +133,13 @@ export default (
         windowTitle="API Tokens"
       />
 
-      <Route component={createAsyncFullscreenOverlayViewComponent(Rules)} path="rule" windowTitle="Custom Rules" />
+      <Route component={createAsyncFullscreenOverlayViewComponent(Rules)} path="rules" windowTitle="Custom Rules" />
       <Route
         component={createAsyncFullscreenOverlayViewComponent(Rule)}
         path="rule/:ruleId"
         windowTitle="Custom Rule"
       />
+      <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="rule" windowTitle="Custom Rule" />
       <Route
         component={createAsyncFullscreenOverlayViewComponent(RuleBindings)}
         path="binding"

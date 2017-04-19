@@ -5,8 +5,8 @@ import React from 'react';
 
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { getRule, saveRule, createRule } from 'in-services/api/rules';
 import RuleForm from 'in-views/configurationView/subview/Rule/RuleForm';
+import { getRule, saveRule, createRule } from 'in-services/api/rules';
 import Section from 'in-views/configurationView/components/Section';
 import { openRules } from 'in-stores/navigation/configuration';
 import Notification from 'in-components/form/Notification';
@@ -72,6 +72,18 @@ export default class extends React.Component {
 
   loadRule = ruleId => {
     this.disposeAsyncAction();
+
+    if (!ruleId) {
+      const rule = fromJS(createRule());
+      this.setState({
+        loading: false,
+        error: false,
+        message: null,
+        rule,
+        form: createForm(rule)
+      });
+      return;
+    }
 
     this.setState({
       loading: true,
