@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fireCallbacksForEventAtFocusedMomentAsStream, getColor } from 'in-stores/events';
+import { fireCallbacksForEventAtFocusedMomentAsStream, getColorByEvent } from 'in-stores/events';
 import { highlightEventId } from 'in-views/eventView/stores/highlightedEvent';
 import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
 import EventIcon from 'in-components/EventIcon';
@@ -15,7 +15,7 @@ export default connectTo(
     return {
       color: fireCallbacksForEventAtFocusedMomentAsStream(
         props.event,
-        e => getColor(e.event, e.focusedMoment),
+        e => getColorByEvent(e.event, e.focusedMoment),
         () => '#40535b'
       ),
       isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)

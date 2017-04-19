@@ -1,7 +1,7 @@
 import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
+import { getColorByEvent, selectedEvent$, selectedEventId$ } from 'in-stores/events';
 import { getEventType, EVENT_TYPES } from 'in-services/issueTracker/issueTracker';
 import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
-import { getColor, selectedEvent$, selectedEventId$ } from 'in-stores/events';
 import { focusedMoment$ } from 'in-components/timeline/timelineStore';
 import { isEventOpenAtFocusedMoment } from 'in-stores/events';
 import { selectedSnapshotId } from 'in-stores/snapshot';
@@ -111,7 +111,7 @@ export default class EventRenderer extends BasicRenderer {
       }
     }
 
-    this.backBuffer.fillStyle = isHighlighted ? highlightedColor : getColor(event);
+    this.backBuffer.fillStyle = isHighlighted ? highlightedColor : getColorByEvent(event);
 
     const prevValue = this.backBuffer.globalAlpha;
     this.backBuffer.globalAlpha = 0.2;

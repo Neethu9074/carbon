@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { getHealthColorBySeverity } from 'in-services/health';
+import { getColorBySeverity } from 'in-stores/events';
 
 export default function ClusterStatusLabel({ status }) {
   return (
     <span
       style={{
-        color: getDependingOnStatus(status, '#00aa00', getHealthColorBySeverity(5), getHealthColorBySeverity(10), null)
+        color: getDependingOnStatus(status, '#00aa00', getColorBySeverity(5), getColorBySeverity(10), null)
       }}
     >
       {getDependingOnStatus(status, 'green', 'yellow', 'red', 'unknown')}
