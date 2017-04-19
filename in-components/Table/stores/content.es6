@@ -1,9 +1,15 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { create } from 'reactive-observables';
+import invariant from 'invariant';
 
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 
 export function createStore({ columnDefinitions }) {
+  if (__DEV__) {
+    invariant(columnDefinitions instanceof Array, 'cols must be an array');
+    columnDefinitions.forEach(validateCol);
+  }
+
   // row key => {
   //   mutationCount (used for change detection in react)
   //   marked (used for mark/sweep)
@@ -14,15 +20,16 @@ export function createStore({ columnDefinitions }) {
   //     {
   //       columnDefinition: as passed by the user
   //       value: number|string used for sorting the columns
-  //       subscription: ro subscription used to retrieve
+  //       subscription: ro subscription used to retrieve the value
   //     }
   //   ]
   // }
   const data = {};
 
-  const changeSignals = create();
+  const data$ = create().emit(data);
 
   return {
+    data$,
     dispose,
     onRowChange
   };
@@ -30,12 +37,17 @@ export function createStore({ columnDefinitions }) {
   function dispose() {}
 
   function onRowChange(rows) {
+    if (__DEV__) {
+      invariant(rows instanceof Array, 'rows must be an array');
+      rows.forEach(validateRow);
+    }
+
     mark();
     for (let i = 0, length = rows.length; i < length; i++) {
       upsertRow(rows[i]);
     }
     sweep();
-    changeSignals.emit(true);
+    emitRawDataChange();
   }
 
   function mark() {
@@ -88,10 +100,11 @@ export function createStore({ columnDefinitions }) {
 
       column.subscription = getMetricForFocusedMoment({
         snapshotId: columnDefinition.typeArgs.getSnapshotId(row.rowConfig),
-        metric: columnDefinition.typeArgs.getMetricName(row.rowConfig)
+        metric: columnDefinition.typeArgs.metricName
       }).subscribe(v => {
         column.value = v[1];
-        changeSignals.emit(true);
+        row.mutationCount++;
+        emitRawDataChange();
       });
 
       return column;
@@ -115,8 +128,51 @@ export function createStore({ columnDefinitions }) {
     for (let i = 0, length = row.columns.length; i < length; i++) {
       const column = row.columns[i];
       if (column.subscription) {
-        column.subscription.dipose();
+        column.subscription.dispose();
       }
     }
   }
+
+  function emitRawDataChange() {
+    data$.emit(data);
+  }
+}
+
+function validateCol(col) {
+  invariant(typeof col.title === 'string', 'col.title must be a string');
+  invariant(['string', 'metric'].indexOf(col.type) !== -1, 'col.type must be string|metric');
+
+  if (col.type === 'string') {
+    invariant(
+      typeof col.typeArgs.getValue === 'function',
+      'Columns with type=string must have a getValue(row) function.'
+    );
+    invariant(
+      typeof col.typeArgs.getContent === 'function',
+      'Columns with type=string must have a getContent(row, value) function.'
+    );
+  } else if (col.type === 'metric') {
+    invariant(
+      typeof col.typeArgs.getSnapshotId === 'function',
+      'Columns with type=metric must have a getSnapshotId(row) function.'
+    );
+    invariant(
+      typeof col.typeArgs.metricName === 'function',
+      'Columns with type=metric must have a getMetricName(row) function.'
+    );
+    invariant(
+      typeof col.typeArgs.formatter === 'function' &&
+        typeof col.typeArgs.formatter.compact === 'function' &&
+        typeof col.typeArgs.formatter.detailed === 'function',
+      'Columns with type=metric must have a formatter in the form of {compact, detailed}'
+    );
+    invariant(
+      ['mean', 'count', 'adjustedCount', 'max'].indexOf(col.typeArgs.timeWindowAggregation) !== -1,
+      'Columns with type=metric must have a supported timeWindowAggregation, i.e. mean|count|adjustedCount|max'
+    );
+  }
+}
+
+function validateRow(row) {
+  invariant(typeof row.key === 'string', 'row.key must be a string');
 }
