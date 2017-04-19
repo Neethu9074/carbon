@@ -12,6 +12,7 @@ import connectTo from 'in-hoc/connectTo';
 import './StackTraceElement.less';
 
 const block = 'in-trace-view-stack-trace';
+const STRIP_QUOTES_REGEX = /`|'/g;
 
 export default connectTo(
   props => {
@@ -83,7 +84,7 @@ export default connectTo(
           <ol className={`${block}__list`}>
             {stackTrace.map((st, i) => (
               <li key={i} className={`${block}__item`}>
-                <span className={`${block}__method`}> {st.get('m')} </span>
+                <span className={`${block}__method`}> {stripQuotes(st.get('m'))} </span>
                 <span className={`${block}__in`}>in</span>
                 <span className={`${block}__file`}>
                   {' '}{st.get('c', st.get('f'))}{st.get('n') ? `:${st.get('n')}` : ''}
@@ -105,3 +106,10 @@ export default connectTo(
     };
   }
 );
+
+// Some trace agents will record quotes in method names. We don't want to present these
+// as it looks ugly.
+// Ruby example: `<main>'
+function stripQuotes(s) {
+  return s.replace(STRIP_QUOTES_REGEX, '');
+}
