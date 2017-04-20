@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -72,7 +72,7 @@ function createDetails(pool, poolName, context) {
       }}
       y1={{
         max: getMaxValue('pools.' + poolName, context.snapshot),
-        formatter: bytesZeroDecimalPlaces,
+        formatter: bytesTwoDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
         metrics: ['pools.' + poolName],
         labels: [poolName + ' Usage'],
