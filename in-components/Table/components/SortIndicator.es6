@@ -6,6 +6,7 @@ import './SortIndicator.less';
 const block = 'in-table-sort-indicator';
 const activeBlock = `${block} ${block}--active`;
 const iconElement = `${block}__icon`;
+const invisibleIconElement = `${iconElement} ${iconElement}--hidden`;
 
 export default function SortIndicator({ title, index, sortIndex, sortDirection, onChangeSort }) {
   const active = index === sortIndex;
@@ -18,14 +19,12 @@ export default function SortIndicator({ title, index, sortIndex, sortDirection, 
     <a href="" onClick={onClick} className={active ? activeBlock : block}>
       {title}
 
-      {active
-        ? <SvgIcon
-            className={iconElement}
-            type={sortDirection === 'asc' ? 'triangle_up' : 'triangle_down'}
-            width={5}
-            height={5}
-          />
-        : null}
+      <SvgIcon
+        className={active ? iconElement : invisibleIconElement}
+        type={sortDirection === 'asc' ? 'triangle_up' : 'triangle_down'}
+        width={5}
+        height={5}
+      />
     </a>
   );
 }

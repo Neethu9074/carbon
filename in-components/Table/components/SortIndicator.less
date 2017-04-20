@@ -27,6 +27,12 @@
     border-radius: .188rem;
     padding: .23rem;
     background: #92a5ae;
+
+    &--hidden {
+      // do not use display: none as we want it to continue to occupy the
+      // space so that the columns do not change their widths when resorting.
+      visibility: hidden;
+    }
   }
 
   &:hover &__icon {
