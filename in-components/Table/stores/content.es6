@@ -41,7 +41,6 @@ export function createStore({
   //       columnDefinition: as passed by the user
   //       columnIndex
   //       value: number|string used for sorting the columns
-  //       content: string|react element
   //       subscription: ro subscription used to retrieve the value
   //       comparator: function(valueA, valueB)
   //     }
@@ -180,7 +179,7 @@ export function createStore({
       };
     } else if (columnDefinition.type === 'number') {
       const value = columnDefinition.typeArgs.getValue(row.rowConfig);
-      const content = columnDefinition.typeArgs.getContent(value, row.rowConfig);
+      const content = columnDefinition.typeArgs.getContent(value);
       return {
         columnDefinition,
         columnIndex,
@@ -194,12 +193,9 @@ export function createStore({
         columnDefinition,
         columnIndex,
         value: null,
-        content: columnDefinition.typeArgs.fallbackContent,
         subscription: null,
         comparator: compareNumber
       };
-
-      const getContent = columnDefinition.typeArgs.getContent;
 
       column.subscription = getMetric({
         snapshotId: columnDefinition.typeArgs.getSnapshotId(row.rowConfig),
@@ -207,7 +203,6 @@ export function createStore({
         timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
       }).subscribe(v => {
         column.value = v;
-        column.content = getContent(v, row.rowConfig);
         row.mutationCount++;
         emitRawDataChange();
       });

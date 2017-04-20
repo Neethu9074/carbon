@@ -29,10 +29,25 @@ export default class Row extends React.Component {
 
         {this.props.row.columns.map((column, i) => (
           <td key={i} className={this.props.cellClassName}>
-            {column.content}
+            {getContent(this.props.row, column)}
           </td>
         ))}
       </tr>
     );
   }
+}
+
+function getContent(row, column) {
+  if (column.columnDefinition.type === 'string') {
+    return column.content;
+  } else if (column.columnDefinition.type === 'number') {
+    return column.content;
+  } else if (column.columnDefinition.type === 'metric') {
+    if (column.value == null) {
+      return column.columnDefinition.typeArgs.fallbackContent;
+    }
+    return column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);
+  }
+
+  throw new Error('Unsupported column type: ' + column.columnDefinition.type);
 }
