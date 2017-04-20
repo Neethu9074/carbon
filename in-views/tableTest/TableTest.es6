@@ -45,7 +45,7 @@ const cols = [
 export default function TableTest() {
   return (
     <FullscreenOverlayView overlayTimeline>
-      <Table maxItemsPerPage={10} cols={cols} rows={rows} />
+      <Table cols={cols} rows={rows} />
     </FullscreenOverlayView>
   );
 }

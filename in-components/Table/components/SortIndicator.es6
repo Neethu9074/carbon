@@ -1,5 +1,9 @@
 import React from 'react';
 
+import './SortIndicator.less';
+
+const block = 'in-table-sort-indicator';
+
 export default function SortIndicator({ title, index, sortIndex, sortDirection, onChangeSort }) {
   const onClick = e => {
     e.preventDefault();
@@ -7,7 +11,7 @@ export default function SortIndicator({ title, index, sortIndex, sortDirection, 
   };
 
   return (
-    <a href="" onClick={onClick}>
+    <a href="" onClick={onClick} className={block}>
       {title}
 
       {index === sortIndex ? sortDirection : null}

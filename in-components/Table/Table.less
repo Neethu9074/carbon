@@ -1,0 +1,40 @@
+.in-table {
+  &__header {
+    height: 2.25rem;
+    padding: 0 .75rem;
+    background: #40535b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  &__header-cell {
+    padding: 0 0.5rem;
+    background: #6b8088;
+    border-right: 1px solid #40535b;
+    line-height: 1.6rem;
+  }
+
+  &__row:first-child .in-table__cell {
+    border-top: 0;
+  }
+
+  &__row:last-child .in-table__cell {
+    border-bottom: 1px solid #D5DFE4;
+  }
+
+  &__cell {
+    border-top: 1px solid #D5DFE4;
+    border-left: 1px solid #D5DFE4;
+
+    &:first-child {
+      border-left: 0;
+    }
+  }
+}
