@@ -75,7 +75,10 @@ export default connectTo(
             }
             isWarning
           >
-            <Heading text="Table refresh rate" htmlFor="table-refresh-rate" />
+            <Heading
+              text={`Table refresh rate (${settings.getIn(['tables', 'refreshRate']) / 1000}s)`}
+              htmlFor="table-refresh-rate"
+            />
             <input
               type="range"
               id="table-refresh-rate"
