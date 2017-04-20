@@ -17,10 +17,10 @@ export default connectTo(
     }
     return observables;
   },
-  function HealthyEntityIcon({ snapshot, health, className, fallbackColor = '#fff' }) {
+  function HealthyEntityIcon({ snapshot, health, className, fallbackColor = '#fff', dimension = 16 }) {
     const severity = health.get('maxSeverity');
     const color = health && severity > 0 ? getColorBySeverity(severity) : fallbackColor;
 
-    return <PluginIcon className={className} dimension={16} color={color} snapshot={snapshot} />;
+    return <PluginIcon className={className} dimension={dimension} color={color} snapshot={snapshot} />;
   }
 );

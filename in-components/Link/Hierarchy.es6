@@ -33,6 +33,7 @@ export default connectTo(
                 className={imgClasses}
                 snapshot={snapshot}
                 fallbackColor={kind === 'dark' ? '#000' : '#fff'}
+                dimension={12}
               />
               <HierarchicalLink snapshotId={snapshot.get('id')} kind={kind} useSnapshotLink={useSnapshotLink}>
                 {getLabel(snapshot)}
