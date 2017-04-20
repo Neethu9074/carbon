@@ -136,12 +136,14 @@ export function createStore({
   function upsertRow(rowConfig) {
     let row = data[rowConfig.key];
     let mutationCount = 0;
+    let expanded = false;
     if (row) {
       if (shallowEquals(row.rowConfig, rowConfig)) {
         row.marked = false;
         return;
       }
       mutationCount = row.mutationCount + 1;
+      expanded = row.expanded;
       remove(row.key);
       row = null;
     }
@@ -149,7 +151,7 @@ export function createStore({
     row = {
       mutationCount,
       marked: false,
-      expanded: false,
+      expanded,
       key: rowConfig.key,
       rowConfig,
       columns: []
