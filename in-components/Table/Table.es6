@@ -4,6 +4,7 @@ import SortIndicator from 'in-components/Table/components/SortIndicator';
 import { createStore } from 'in-components/Table/stores/content';
 import { joinClassNames } from 'in-services/util/classnames';
 import Row from 'in-components/Table/components/Row';
+import shallowEquals from 'fbjs/lib/shallowEqual';
 import Pagination from 'in-components/Pagination';
 
 import './Table.less';
@@ -33,7 +34,7 @@ export default class Table extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.cols !== nextProps.cols || this.props.maxItemsPerPage !== nextProps.maxItemsPerPage) {
+    if (!shallowEquals(this.props.cols, nextProps.cols) || this.props.maxItemsPerPage !== nextProps.maxItemsPerPage) {
       this.dispose();
       this.newStore(nextProps);
     } else if (this.props.rows !== nextProps.rows) {

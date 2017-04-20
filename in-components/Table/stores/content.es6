@@ -164,7 +164,10 @@ export function createStore({
   function initializeColumn(row, columnDefinition, columnIndex) {
     if (columnDefinition.type === 'string') {
       const value = columnDefinition.typeArgs.getValue(row.rowConfig);
-      const content = columnDefinition.typeArgs.getContent(value, row.rowConfig);
+      let content = value;
+      if (columnDefinition.typeArgs.getContent) {
+        content = columnDefinition.typeArgs.getContent(value, row.rowConfig);
+      }
       return {
         columnDefinition,
         columnIndex,
@@ -283,8 +286,8 @@ function validateCol(col) {
       'Columns with type=string must have a getValue(row) function.'
     );
     invariant(
-      typeof col.typeArgs.getContent === 'function',
-      'Columns with type=string must have a getContent(value, row) function.'
+      col.typeArgs.getContent == null || typeof col.typeArgs.getContent === 'function',
+      'Columns with type=string must have a getContent(row) function or no getContent property.'
     );
   } else if (col.type === 'number') {
     invariant(

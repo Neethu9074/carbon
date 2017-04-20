@@ -2,10 +2,9 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
-import { emptyList } from 'in-services/fixedImmutables';
-import HelpLink from 'in-components/HelpLink';
+import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
 import {
   bytesZeroDecimalPlaces,
@@ -15,121 +14,173 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   withSiMultiplyPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+
+const deviceColumn = {
+  title: 'Device',
+  type: 'string',
+  typeArgs: {
+    getValue(row) {
+      return row.key;
+    }
+  }
+};
+const mountColumn = {
+  title: 'Mount',
+  type: 'string',
+  typeArgs: {
+    getValue(row) {
+      return row.filesystem.get('mount');
+    }
+  }
+};
+const optionsColumn = {
+  title: 'Options',
+  type: 'string',
+  typeArgs: {
+    getValue(row) {
+      return row.filesystem.get('options');
+    }
+  }
+};
+const typeColumn = {
+  title: 'Type',
+  type: 'string',
+  typeArgs: {
+    getValue(row) {
+      return row.filesystem.get('systype');
+    }
+  }
+};
+const capacityColumn = {
+  title: 'Capacity',
+  type: 'number',
+  typeArgs: {
+    getValue(row) {
+      return row.filesystem.get('capacity');
+    },
+    getContent: kiloBytesTwoDecimalPlaces
+  }
+};
+const freeColumn = {
+  title: 'Free',
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `fs.${row.key}.free`;
+    },
+    getContent: kiloBytesTwoDecimalPlaces,
+    timeWindowAggregation: 'mean'
+  }
+};
+const leakedColumn = {
+  title: 'Leaked',
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `fs.${row.key}.leaked`;
+    },
+    getContent: kiloBytesTwoDecimalPlaces,
+    timeWindowAggregation: 'mean'
+  }
+};
+const iFreeColumn = {
+  title: 'iFree',
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `fs.${row.key}.ifree`;
+    },
+    getContent: withSiMultiplyPrefixZeroDecimalPlaces,
+    timeWindowAggregation: 'mean'
+  }
+};
 
 export default function FilesystemsTable({ snapshot, timeframe }) {
-  const filesystems = snapshot.getIn(['data', 'filesystems'], emptyList);
+  const snapshotId = snapshot.get('id');
+  const windows = isWindows(snapshot);
+  const rows = snapshot
+    .getIn(['data', 'filesystems'], emptyMap)
+    .map((filesystem, name) => {
+      return {
+        key: name,
+        filesystem,
+        timeframe,
+        snapshotId,
+        snapshot,
+        windows
+      };
+    })
+    .valueSeq()
+    .toArray();
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  const cols = [deviceColumn, optionsColumn, typeColumn, capacityColumn, freeColumn, leakedColumn];
+
+  if (!windows) {
+    cols.splice(1, 0, mountColumn);
+    cols.push(iFreeColumn);
+  }
 
   return (
     <DashboardSection title="Filesystems">
-      <ExpandableTable
-        data={filesystems}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(filesystem, name) {
-  return name;
-}
-
-function createHeader(context) {
-  return (
-    <thead>
-      <tr>
-        <th>Device</th>
-        {!isWindows(context.snapshot) ? <th>Mount</th> : null}
-        <th>Options</th>
-        <th>Type</th>
-        <th>Capacity</th>
-        <th>Free</th>
-        <th>
-          <HelpLink helpId="leakedDiskSpace">
-            Leaked
-          </HelpLink>
-        </th>
-        {!isWindows(context.snapshot) ? <th>iFree</th> : null}
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(filesystem, name, context) {
-  const isWindowsSnapshot = isWindows(context.snapshot);
-  const mount = !isWindowsSnapshot ? <td>{filesystem.get('mount')}</td> : null;
-
-  let ifree = null;
-  if (!isWindowsSnapshot) {
-    ifree = filesystem.get('icapacity')
-      ? <Mtd
-          metric={'fs.' + name + '.ifree'}
-          snapshot={context.snapshot}
-          formatter={withSiMultiplyPrefixZeroDecimalPlaces}
-        />
-      : <td>N/A</td>;
-  }
-
-  return [
-    <td>{name}</td>,
-    mount,
-    <td>{filesystem.get('options')}</td>,
-    <td>{filesystem.get('systype')}</td>,
-    <td>{kiloBytesTwoDecimalPlaces(filesystem.get('capacity'))}</td>,
-    <Mtd metric={'fs.' + name + '.free'} snapshot={context.snapshot} formatter={kiloBytesTwoDecimalPlaces} />,
-    <Mtd metric={'fs.' + name + '.leaked'} snapshot={context.snapshot} formatter={kiloBytesTwoDecimalPlaces} />,
-    ifree
-  ];
-}
-
-function createDetails(filesystem, name, context) {
+function getDetails(row) {
   return (
     <div>
-      {isWindows(context.snapshot) || !filesystem.get('icapacity')
+      {row.windows || !row.filesystem.get('icapacity')
         ? <ChartWithLegend
-            snapshotId={context.snapshot.get('id')}
-            timeframe={context.timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80,
               right: 80
             }}
             y1={{
               min: 0,
-              max: getMaxValue('fs.' + name + '.free', context.snapshot),
+              max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
               formatter: kiloBytesZeroDecimalPlaces,
               tooltipFormatter: kiloBytesTwoDecimalPlaces,
-              metrics: ['fs.' + name + '.free', 'fs.' + name + '.leaked'],
+              metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
               labels: ['Free', 'Leaked'],
               type: 'line'
             }}
           />
         : <ChartWithLegend
-            snapshotId={context.snapshot.get('id')}
-            timeframe={context.timeframe}
+            snapshotId={row.snapshotId}
+            timeframe={row.timeframe}
             margins={{
               left: 80,
               right: 80
             }}
             y1={{
               min: 0,
-              max: getMaxValue('fs.' + name + '.free', context.snapshot),
+              max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
               formatter: kiloBytesZeroDecimalPlaces,
               tooltipFormatter: kiloBytesTwoDecimalPlaces,
-              metrics: ['fs.' + name + '.free', 'fs.' + name + '.leaked'],
+              metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
               labels: ['Free', 'Leaked'],
               type: 'line'
             }}
             y2={{
               min: 0,
-              max: getMaxValue('fs.' + name + '.ifree', context.snapshot),
-              metrics: ['fs.' + name + '.ifree'],
+              max: getMaxValue('fs.' + row.key + '.ifree', row.snapshot),
+              metrics: ['fs.' + row.key + '.ifree'],
               labels: ['iFree'],
               type: 'line',
               formatter: withSiMultiplyPrefixZeroDecimalPlaces,
@@ -138,8 +189,8 @@ function createDetails(filesystem, name, context) {
           />}
 
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80,
           right: 80
@@ -148,7 +199,7 @@ function createDetails(filesystem, name, context) {
           min: 0,
           formatter: withSiMultiplyPrefixZeroDecimalPlaces,
           tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
-          metrics: ['fs.' + name + '.reads', 'fs.' + name + '.writes'],
+          metrics: ['fs.' + row.key + '.reads', 'fs.' + row.key + '.writes'],
           labels: ['Reads/s', 'Writes/s'],
           type: 'line'
         }}
@@ -156,7 +207,7 @@ function createDetails(filesystem, name, context) {
           min: 0,
           formatter: bytesZeroDecimalPlaces,
           tooltipFormatter: bytesTwoDecimalPlaces,
-          metrics: ['fs.' + name + '.readBytes', 'fs.' + name + '.writeBytes'],
+          metrics: ['fs.' + row.key + '.readBytes', 'fs.' + row.key + '.writeBytes'],
           labels: ['Bytes Read/s', 'Bytes Write/s'],
           type: 'line'
         }}

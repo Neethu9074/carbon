@@ -93,6 +93,10 @@ const cols = [
 
 export default function CpuTable({ snapshot, timeframe }) {
   const cpuCount = snapshot.getIn(['data', 'cpu.count'], 1);
+  if (cpuCount < 2) {
+    return null;
+  }
+
   const rows = Range(1, cpuCount + 1).toArray().map(cpuNumber => {
     return {
       key: String(cpuNumber),
@@ -101,10 +105,6 @@ export default function CpuTable({ snapshot, timeframe }) {
       snapshotId: snapshot.get('id')
     };
   });
-
-  if (cpuCount < 2) {
-    return null;
-  }
 
   return (
     <DashboardSection title="Individual CPU Usage">
