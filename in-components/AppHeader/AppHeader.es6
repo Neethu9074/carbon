@@ -23,35 +23,33 @@ export default connectTo(
   },
   function AppHeader({ homeLink, expanded, filtered }) {
     return (
-      <div>
+      <div
+        className={evaluateClassNames({
+          [block]: true,
+          [`${block}--without-shadow`]: expanded
+        })}
+      >
+        <a href={homeLink} className={`${block}__lettering`}>
+          <Lettering />
+        </a>
+
         <ViewSwitcher />
 
-        <div
-          className={evaluateClassNames({
-            [block]: true,
-            [`${block}--without-shadow`]: expanded
-          })}
-        >
-          <a href={homeLink} className={`${block}__lettering`}>
-            <Lettering />
-          </a>
+        <div className={`${block}__right`}>
+          <Button
+            className={evaluateClassNames({
+              [`${block}__toggle-search`]: true,
+              [`${block}__toggle-search--active`]: expanded,
+              [`${block}__toggle-search--filtered`]: filtered
+            })}
+            kind="secondary"
+            size="sm"
+            onClick={toggle}
+          >
+            <SvgIcon type="search" height={13} className={`${block}__toggle-search-icon`} />
+          </Button>
 
-          <div className={`${block}__right`}>
-            <Button
-              className={evaluateClassNames({
-                [`${block}__toggle-search`]: true,
-                [`${block}__toggle-search--active`]: expanded,
-                [`${block}__toggle-search--filtered`]: filtered
-              })}
-              kind="secondary"
-              size="sm"
-              onClick={toggle}
-            >
-              <SvgIcon type="search" height={13} className={`${block}__toggle-search-icon`} />
-            </Button>
-
-            <AccountMenu />
-          </div>
+          <AccountMenu />
         </div>
       </div>
     );
