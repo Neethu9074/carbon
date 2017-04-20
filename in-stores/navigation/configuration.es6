@@ -118,7 +118,7 @@ export const isObjectivesView$ = buildPathStartsWithStream(objectiveViewPath);
 const ruleViewPath = '/config/rule';
 const rulesViewPath = '/config/rules';
 export const rulesViewLink$ = buildUrlStream({ path: rulesViewPath });
-export const isRulesViewLink$ = buildPathStartsWithStream(rulesViewPath);
+export const isRulesViewLink$ = buildPathStartsWithStream(ruleViewPath);
 
 function getRulePath(id) {
   return id ? `${ruleViewPath}/${encodeURIComponent(id)}` : ruleViewPath;
@@ -144,7 +144,7 @@ export function openRules() {
 const ruleBindingViewPath = '/config/binding';
 const ruleBindingsViewPath = '/config/bindings';
 export const ruleBindingsViewLink$ = buildUrlStream({ path: ruleBindingsViewPath });
-export const isRuleBindingsViewLink$ = buildPathStartsWithStream(ruleBindingsViewPath);
+export const isRuleBindingsViewLink$ = buildPathStartsWithStream(ruleBindingViewPath);
 
 function getRuleBindingPath(id) {
   return id ? `${ruleBindingViewPath}/${encodeURIComponent(id)}` : ruleBindingViewPath;
