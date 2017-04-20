@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { shouldPresentValueAsPercentage } from 'in-components/Table/stores/content';
-import PercentageCell from 'in-components/Table/components/PercentageCell';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './Row.less';
@@ -30,30 +28,10 @@ export default class Row extends React.Component {
 
         {this.props.row.columns.map((column, i) => (
           <td key={i} className={this.props.cellClassName}>
-            {getContent(this.props.row, column)}
+            {column.content}
           </td>
         ))}
       </tr>
     );
   }
-}
-
-function getContent(row, column) {
-  if (column.columnDefinition.type === 'string') {
-    return column.content;
-  } else if (column.columnDefinition.type === 'number') {
-    return column.content;
-  } else if (column.columnDefinition.type === 'metric') {
-    if (column.value == null) {
-      return column.columnDefinition.typeArgs.fallbackContent;
-    }
-
-    const content = column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);
-    if (shouldPresentValueAsPercentage(column.columnDefinition.typeArgs.getContent)) {
-      return <PercentageCell value={column.value} content={content} />;
-    }
-    return content;
-  }
-
-  throw new Error('Unsupported column type: ' + column.columnDefinition.type);
 }

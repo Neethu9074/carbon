@@ -246,7 +246,9 @@ export function createStore({
   function toSortedPagedData([{ column: sortColumnIndex, direction: sortDirection, page }]) {
     const rows = [];
     for (let key in data) {
-      rows.push(data[key]);
+      const row = data[key];
+      updateContentForAllColumns(row);
+      rows.push(row);
     }
 
     let comparator = buildRowComparatorForIndex(rows[0].columns[sortColumnIndex].comparator, sortColumnIndex);
@@ -278,6 +280,33 @@ export function createStore({
       sortDirection
     };
   }
+}
+
+function updateContentForAllColumns(row) {
+  for (let i = 0, length = row.columns.length; i < length; i++) {
+    const column = row.columns[i];
+    column.content = getContent(row, column);
+  }
+}
+
+function getContent(row, column) {
+  if (column.columnDefinition.type === 'string') {
+    return column.content;
+  } else if (column.columnDefinition.type === 'number') {
+    return column.content;
+  } else if (column.columnDefinition.type === 'metric') {
+    if (column.value == null) {
+      return column.columnDefinition.typeArgs.fallbackContent;
+    }
+
+    const content = column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);
+    if (shouldPresentValueAsPercentage(column.columnDefinition.typeArgs.getContent)) {
+      return <PercentageCell value={column.value} content={content} />;
+    }
+    return content;
+  }
+
+  throw new Error('Unsupported column type: ' + column.columnDefinition.type);
 }
 
 function validateCol(col) {
@@ -334,6 +363,6 @@ function validateRow(row) {
   invariant(typeof row.key === 'string', 'row.key must be a string');
 }
 
-export function shouldPresentValueAsPercentage(getContentFn) {
+function shouldPresentValueAsPercentage(getContentFn) {
   return getContentFn === percentage.compact || getContentFn === percentage.detailed;
 }
