@@ -18,6 +18,7 @@ const tableElement = `${block}__table`;
 const cellElement = `${block}__cell`;
 const expandedCellElement = `${cellElement} ${cellElement}--expanded`;
 const rowElement = `${block}__row`;
+const expandedRowElement = `${rowElement} ${rowElement}--expanded`;
 const headerCellElement = `${block}__header-cell`;
 const headerToggleCellElement = `${block}__header-toggle-cell`;
 
@@ -100,7 +101,7 @@ export default class Table extends React.Component {
 
         if (rowData.expanded) {
           rows.push(
-            <tr className={rowElement} key={`${rowData.key}--expanded`}>
+            <tr className={expandedRowElement} key={`${rowData.key}--expanded`}>
               <td className={expandedCellElement} colSpan={colCount}>
                 {this.props.getRowDetails(rowData.rowConfig)}
               </td>

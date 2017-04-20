@@ -30,7 +30,9 @@ const cols = [
         return `cpus.${row.cpuNumber}.user`;
       },
       getContent: percentage.compact,
-      timeWindowAggregation: 'mean'
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
@@ -44,7 +46,9 @@ const cols = [
         return `cpus.${row.cpuNumber}.sys`;
       },
       getContent: percentage.compact,
-      timeWindowAggregation: 'mean'
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
@@ -58,7 +62,9 @@ const cols = [
         return `cpus.${row.cpuNumber}.wait`;
       },
       getContent: percentage.compact,
-      timeWindowAggregation: 'mean'
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
@@ -72,7 +78,9 @@ const cols = [
         return `cpus.${row.cpuNumber}.nice`;
       },
       getContent: percentage.compact,
-      timeWindowAggregation: 'mean'
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
@@ -86,7 +94,9 @@ const cols = [
         return `cpus.${row.cpuNumber}.steal`;
       },
       getContent: percentage.compact,
-      timeWindowAggregation: 'mean'
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];

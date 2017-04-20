@@ -4,7 +4,7 @@ import invariant from 'invariant';
 
 import { compareIgnoreCase as compareString } from 'in-services/util/string';
 import { compare as compareNumber } from 'in-services/util/number';
-import { getMetricForFocusedMoment } from 'in-stores/metric';
+import { getMetric } from 'in-stores/metric';
 import { getIn } from 'in-services/settings';
 
 let updateFrequencyMillis = 3000;
@@ -194,19 +194,20 @@ export function createStore({
         columnDefinition,
         columnIndex,
         value: null,
-        content: null,
+        content: columnDefinition.typeArgs.fallbackContent,
         subscription: null,
         comparator: compareNumber
       };
 
       const getContent = columnDefinition.typeArgs.getContent;
 
-      column.subscription = getMetricForFocusedMoment({
+      column.subscription = getMetric({
         snapshotId: columnDefinition.typeArgs.getSnapshotId(row.rowConfig),
-        metric: columnDefinition.typeArgs.getMetricName(row.rowConfig)
+        metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
+        timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
       }).subscribe(v => {
-        column.value = v[1];
-        column.content = getContent(v[1], row.rowConfig);
+        column.value = v;
+        column.content = getContent(v, row.rowConfig);
         row.mutationCount++;
         emitRawDataChange();
       });
@@ -314,8 +315,12 @@ function validateCol(col) {
       'Columns with type=metric must have a getContent(value, row) function'
     );
     invariant(
-      ['mean', 'count', 'adjustedCount', 'max'].indexOf(col.typeArgs.timeWindowAggregation) !== -1,
-      'Columns with type=metric must have a supported timeWindowAggregation, i.e. mean|count|adjustedCount|max'
+      typeof col.typeArgs.getTimeWindowAggregation === 'function',
+      'Columns with type=metric must have a getTimeWindowAggregation(row) => mean|count|adjustedCount|max function'
+    );
+    invariant(
+      col.typeArgs.fallbackContent == null || typeof col.typeArgs.fallbackContent === 'string',
+      'Columns with type=metric of type string or not define the property at all'
     );
   }
 }

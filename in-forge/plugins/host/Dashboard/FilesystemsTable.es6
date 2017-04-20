@@ -72,7 +72,9 @@ const freeColumn = {
       return `fs.${row.key}.free`;
     },
     getContent: kiloBytesTwoDecimalPlaces,
-    timeWindowAggregation: 'mean'
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
   }
 };
 const leakedColumn = {
@@ -86,7 +88,9 @@ const leakedColumn = {
       return `fs.${row.key}.leaked`;
     },
     getContent: kiloBytesTwoDecimalPlaces,
-    timeWindowAggregation: 'mean'
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
   }
 };
 const iFreeColumn = {
@@ -100,7 +104,10 @@ const iFreeColumn = {
       return `fs.${row.key}.ifree`;
     },
     getContent: withSiMultiplyPrefixZeroDecimalPlaces,
-    timeWindowAggregation: 'mean'
+    getTimeWindowAggregation() {
+      return 'mean';
+    },
+    fallbackContent: 'N/A'
   }
 };
 

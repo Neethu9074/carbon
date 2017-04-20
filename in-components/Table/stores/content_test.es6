@@ -9,15 +9,15 @@ import { number } from 'in-services/formatters/number';
 
 describe('in-components/Table/stores/content', () => {
   let createStore;
-  let getMetricForFocusedMoment;
+  let getMetric;
   let store;
   let dataSubscriber;
 
   beforeEach(() => {
-    getMetricForFocusedMoment = sinon.stub();
+    getMetric = sinon.stub();
     createStore = proxyquire('in-components/Table/stores/content', {
       'in-stores/metric': {
-        getMetricForFocusedMoment
+        getMetric
       }
     }).createStore;
     store = null;
@@ -68,7 +68,7 @@ describe('in-components/Table/stores/content', () => {
       const getSnapshotId = sinon.stub();
       getSnapshotId.withArgs(rowConfig).returns(snapshotId);
       const metric$ = create();
-      getMetricForFocusedMoment.onCall(0).returns(metric$);
+      getMetric.onCall(0).returns(metric$);
 
       const columnDefinition = {
         title: 'CPU load',
@@ -76,7 +76,9 @@ describe('in-components/Table/stores/content', () => {
         typeArgs: {
           getSnapshotId,
           getMetricName: () => 'cpu.load',
-          timeWindowAggregation: 'mean',
+          getTimeWindowAggregation() {
+            return 'mean';
+          },
           getContent: number.compact
         }
       };
@@ -91,7 +93,7 @@ describe('in-components/Table/stores/content', () => {
 
       // next data emit - with metric value
       const metricValue = 47;
-      metric$.emit([Date.now(), metricValue]);
+      metric$.emit(metricValue);
 
       expect(dataSubscriber).to.have.callCount(2);
       const row = dataSubscriber.getCall(1).args[0][key];
@@ -115,7 +117,7 @@ describe('in-components/Table/stores/content', () => {
           subscriptionActive = false;
         }
       });
-      getMetricForFocusedMoment.onCall(0).returns(metric$);
+      getMetric.onCall(0).returns(metric$);
 
       const columnDefinition = {
         title: 'CPU load',
@@ -123,7 +125,9 @@ describe('in-components/Table/stores/content', () => {
         typeArgs: {
           getSnapshotId,
           getMetricName: () => 'cpu.load',
-          timeWindowAggregation: 'mean',
+          getTimeWindowAggregation() {
+            return 'mean';
+          },
           getContent: number.compact
         }
       };

@@ -2,6 +2,7 @@ import createTimeWindowMetricAggregation from 'in-services/subscription/timeWind
 import createHistoricMetricsObservable from 'in-services/subscription/historicMetrics';
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
+import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeframe$, focusedMoment$ } from 'in-stores/timeline';
 import { getAggregation } from 'in-sdk/metrics';
@@ -73,6 +74,30 @@ function getHistoricMetrics({ snapshotId, metric, timeframe, rollup }) {
     rollup
   });
 }
+
+export const getMetric = memoize(
+  ({ snapshotId, metric, timeWindowAggregation }) => {
+    if (!timeWindowAggregation) {
+      return getMetricForFocusedMoment({ snapshotId, metric });
+    }
+
+    return showAggregations$
+      .flatMap(showAggregations => {
+        if (showAggregations) {
+          return getTimeWindowBasedMetricAggregation({
+            snapshotId: snapshotId,
+            metric: metric,
+            timeWindowAggregation: timeWindowAggregation
+          });
+        }
+
+        return getMetricForFocusedMoment({ snapshotId, metric }).map(v => v[1]);
+      })
+      .distinct();
+  },
+  ({ snapshotId, metric, timeWindowAggregation }) => snapshotId + metric + timeWindowAggregation,
+  500
+);
 
 export const getMetricForFocusedMoment = memoize(
   ({ snapshotId, metric }) => {
