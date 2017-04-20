@@ -64,13 +64,13 @@ describe('in-map', () => {
       expect(getMaxValue.getCall(0).args[1].get('id')).to.equal('hasseNichJesehen');
     });
 
-    it('should set the normalized metric values', () => {
+    it('should set 0 as the initial value', () => {
       expect(setMetricValues).to.have.callCount(0);
 
       eventEmitter.emit('snapshotChanged', fromJS({ id: 'hasseNichJesehen' }));
 
       expect(setMetricValues).to.have.callCount(1);
-      expect(setMetricValues.getCall(0).args[0]).to.deep.equal([1 / 10]);
+      expect(setMetricValues.getCall(0).args[0]).to.deep.equal([0]);
     });
   });
 });

@@ -21,6 +21,7 @@ export default function createMetricHandler(node, snapshotId) {
     disposeMetricSubscription();
 
     if (metric && snapshot) {
+      node.setMetricValues(getInitialValues(metric.get('metrics').size));
       subscribeToCurrentMetric(snapshot, metric.get('metrics'), snapshotId, showAggregations);
     }
   });
@@ -54,13 +55,21 @@ export default function createMetricHandler(node, snapshotId) {
           .distinct();
       })
     )
-      .throttle(METRIC_PILLAR_REFRESH)
+      .throttle(METRIC_PILLAR_REFRESH, { leading: false })
       .subscribe(values => node.setMetricValues(values));
   }
 
   return {
     dispose
   };
+
+  function getInitialValues(num) {
+    const initialValues = [];
+    for (let i = 0, length = num; i < length; i++) {
+      initialValues[i] = 0;
+    }
+    return initialValues;
+  }
 
   function dispose() {
     disposeMetricSubscription();
