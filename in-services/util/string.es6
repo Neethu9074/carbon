@@ -14,6 +14,9 @@ export function compare(a, b) {
   return a.localeCompare(b);
 }
 
+const caseInsensitiveCollatorConfig = {
+  sensitivity: 'base'
+};
 export function compareIgnoreCase(a, b) {
   if (a == null && b == null) {
     return 0;
@@ -23,7 +26,5 @@ export function compareIgnoreCase(a, b) {
     return 1;
   }
 
-  return a.localeCompare(b, 'en-US', {
-    sensitivity: 'base'
-  });
+  return a.localeCompare(b, 'en-US', caseInsensitiveCollatorConfig);
 }
