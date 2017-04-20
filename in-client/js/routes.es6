@@ -140,14 +140,20 @@ export default (
         windowTitle="Custom Rule"
       />
       <Route component={createAsyncFullscreenOverlayViewComponent(Rule)} path="rule" windowTitle="Custom Rule" />
+
       <Route
         component={createAsyncFullscreenOverlayViewComponent(RuleBindings)}
-        path="binding"
+        path="bindings"
         windowTitle="Custom Issues"
       />
       <Route
         component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
         path="binding/:ruleBindingId"
+        windowTitle="Custom Issue"
+      />
+      <Route
+        component={createAsyncFullscreenOverlayViewComponent(RuleBinding)}
+        path="binding"
         windowTitle="Custom Issue"
       />
 

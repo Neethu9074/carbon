@@ -1,14 +1,7 @@
 import { createLogger } from 'instalog';
-import { Map } from 'immutable';
 import React from 'react';
 
-import {
-  createRuleBinding,
-  getRuleBindings,
-  saveRuleBinding,
-  deleteRuleBinding,
-  setEnabled
-} from 'in-services/api/ruleBindings';
+import { getRuleBindings, deleteRuleBinding, setEnabled } from 'in-services/api/ruleBindings';
 import Table from 'in-views/configurationView/subview/RuleBindings/components/Table';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
@@ -84,28 +77,8 @@ export default class extends React.Component {
   addNewRuleBinding = () => {
     this.disposeAsyncAction();
 
-    const newRuleBinding = Map(createRuleBinding());
-
-    this.setState({
-      error: false,
-      loading: true,
-      message: 'Adding new custom issue…'
-    });
-
-    const result$ = saveRuleBinding(newRuleBinding);
-    this.responseSubscription = result$.once(() => {
-      openRuleBinding(newRuleBinding.get('id'));
-    });
-
-    this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save new custom issue: ${error.message}`;
-      logger.error(message, error);
-      this.setState({
-        error: true,
-        loading: false,
-        message
-      });
-    });
+    // just open the rule dialog without an id will create a new one in the dialog
+    openRuleBinding();
   };
 
   onDeleteRuleBinding = ruleBindingId => {

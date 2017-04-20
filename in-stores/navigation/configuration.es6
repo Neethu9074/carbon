@@ -142,11 +142,12 @@ export function openRules() {
 
 // binding
 const ruleBindingViewPath = '/config/binding';
-export const ruleBindingViewLink$ = buildUrlStream({ path: ruleBindingViewPath });
-export const isRuleBindingViewLink$ = buildPathStartsWithStream(ruleBindingViewPath);
+const ruleBindingsViewPath = '/config/bindings';
+export const ruleBindingsViewLink$ = buildUrlStream({ path: ruleBindingsViewPath });
+export const isRuleBindingsViewLink$ = buildPathStartsWithStream(ruleBindingsViewPath);
 
 function getRuleBindingPath(id) {
-  return `${ruleBindingViewPath}/${encodeURIComponent(id)}`;
+  return id ? `${ruleBindingViewPath}/${encodeURIComponent(id)}` : ruleBindingViewPath;
 }
 
 export function getRuleBindingLink(id) {
@@ -158,7 +159,7 @@ export function openRuleBinding(id) {
 }
 
 function getRuleBindingsPath() {
-  return ruleBindingViewPath;
+  return ruleBindingsViewPath;
 }
 
 export function openRuleBindings() {

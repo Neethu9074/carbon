@@ -84,6 +84,21 @@ export default class extends React.Component {
   loadRuleBinding = ruleBindingId => {
     this.disposeAsyncAction();
 
+    if (!ruleBindingId) {
+      const ruleBinding = fromJS(createRuleBinding());
+      this.responseSubscription = getRules().once(rules => {
+        this.setState({
+          loading: false,
+          error: false,
+          message: null,
+          ruleBinding,
+          rules,
+          form: createForm(ruleBinding)
+        });
+      });
+      return;
+    }
+
     this.setState({
       loading: true,
       error: false,

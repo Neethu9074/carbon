@@ -25,8 +25,8 @@ import {
   isObjectivesView$,
   rulesViewLink$,
   isRulesViewLink$,
-  ruleBindingViewLink$,
-  isRuleBindingViewLink$
+  ruleBindingsViewLink$,
+  isRuleBindingsViewLink$
 } from 'in-stores/navigation/configuration';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
@@ -96,7 +96,7 @@ export default function Navigation() {
         {role.canConfigureCustomAlerts
           ? <NavItem title="Knowledge Management">
               <NavItem title="Custom Rules" href$={rulesViewLink$} isActive$={isRulesViewLink$} />
-              <NavItem title="Custom Issues" href$={ruleBindingViewLink$} isActive$={isRuleBindingViewLink$} />
+              <NavItem title="Custom Issues" href$={ruleBindingsViewLink$} isActive$={isRuleBindingsViewLink$} />
             </NavItem>
           : null}
 
