@@ -37,6 +37,7 @@ export default connectTo(
 
     if (overlayTimeline) {
       timelineHeight = 0;
+      classes += ` ${block}__overlay`;
     }
 
     return (
