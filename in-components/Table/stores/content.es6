@@ -1,14 +1,17 @@
-import shallowEquals from 'fbjs/lib/shallowEqual';
 import { create, combineLatest } from 'reactive-observables';
+import shallowEquals from 'fbjs/lib/shallowEqual';
 import invariant from 'invariant';
 import React from 'react';
 
 import { compareIgnoreCase as compareString } from 'in-services/util/string';
 import PercentageCell from 'in-components/Table/components/PercentageCell';
+import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { compare as compareNumber } from 'in-services/util/number';
 import { percentage } from 'in-services/formatters/number';
+import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 import { getIn } from 'in-services/settings';
+import { getLabel } from 'in-sdk/snapshot';
 
 let updateFrequencyMillis = 3000;
 getIn(['tables', 'refreshRate']).subscribe(refreshRate => updateFrequencyMillis = refreshRate);
@@ -214,6 +217,48 @@ export function createStore({
       });
 
       return column;
+    } else if (columnDefinition.type === 'snapshotLink') {
+      const fallbackContent = columnDefinition.typeArgs.getFallbackContent
+        ? columnDefinition.typeArgs.getFallbackContent(row.rowConfig)
+        : null;
+      const column = {
+        columnDefinition,
+        columnIndex,
+        value: null,
+        content: fallbackContent,
+        subscription: null,
+        comparator: compareString
+      };
+
+      const withHierarchy = Boolean(columnDefinition.typeArgs.withHierarchy);
+
+      if (columnDefinition.typeArgs.getSnapshotId) {
+        const snapshotId = columnDefinition.typeArgs.getSnapshotId(row.rowConfig);
+        column.subscription = getSnapshot(snapshotId).subscribe(snapshot => {
+          column.value = getLabel(snapshot);
+          column.content = (
+            <HierarchicalLink snapshotId={snapshotId} calculateHierarchy={withHierarchy} kind="dark">
+              {column.value}
+            </HierarchicalLink>
+          );
+          row.mutationCount++;
+          emitRawDataChange();
+        });
+      } else {
+        const snapshotId$ = columnDefinition.typeArgs.getSnapshotId$(row.rowConfig);
+        column.subscription = snapshotId$.flatMap(snapshotId => getSnapshot(snapshotId)).subscribe(snapshot => {
+          column.value = getLabel(snapshot);
+          column.content = (
+            <HierarchicalLink snapshotId={snapshot.get('id')} calculateHierarchy={withHierarchy} kind="dark">
+              {column.value}
+            </HierarchicalLink>
+          );
+          row.mutationCount++;
+          emitRawDataChange();
+        });
+      }
+
+      return column;
     }
 
     throw new Error('Unsupported column type: ' + columnDefinition.type);
@@ -290,11 +335,7 @@ function updateContentForAllColumns(row) {
 }
 
 function getContent(row, column) {
-  if (column.columnDefinition.type === 'string') {
-    return column.content;
-  } else if (column.columnDefinition.type === 'number') {
-    return column.content;
-  } else if (column.columnDefinition.type === 'metric') {
+  if (column.columnDefinition.type === 'metric') {
     if (column.value == null) {
       return column.columnDefinition.typeArgs.fallbackContent;
     }
@@ -306,12 +347,15 @@ function getContent(row, column) {
     return content;
   }
 
-  throw new Error('Unsupported column type: ' + column.columnDefinition.type);
+  return column.content;
 }
 
 function validateCol(col) {
   invariant(typeof col.title === 'string', 'col.title must be a string');
-  invariant(['string', 'number', 'metric'].indexOf(col.type) !== -1, 'col.type must be string|number|metric');
+  invariant(
+    ['string', 'number', 'metric', 'snapshotLink'].indexOf(col.type) !== -1,
+    'col.type must be string|number|metric|snapshotLink'
+  );
 
   if (col.type === 'string') {
     invariant(
@@ -350,7 +394,16 @@ function validateCol(col) {
     );
     invariant(
       col.typeArgs.fallbackContent == null || typeof col.typeArgs.fallbackContent === 'string',
-      'Columns with type=metric of type string or not define the property at all'
+      'Columns with type=metric may define a fallbackContent property of type string or not define the property at all'
+    );
+  } else if (col.type === 'snapshotLink') {
+    invariant(
+      typeof col.typeArgs.getSnapshotId === 'function' || typeof col.typeArgs.getSnapshotId$ === 'function',
+      'Columns with type=snapshotLink must have a getSnapshotId(row) or a getSnapshotId$(row) function.'
+    );
+    invariant(
+      col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
+      'Columns with type=snapshotLink may define a fallbackContent property of type function or not define the property at all'
     );
   }
 }
