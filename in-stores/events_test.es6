@@ -926,4 +926,19 @@ describe('in-stores/events', () => {
       }
     );
   });
+
+  describe('healthColor', () => {
+    it('should calculate the same colors for normalized and "old" severities', () => {
+      expect(mod.getColorBySeverity(0)).to.equal(getColorBySeverity(0));
+      expect(mod.getColorBySeverity(2)).to.equal(getColorBySeverity(0.2));
+      expect(mod.getColorBySeverity(3)).to.equal(getColorBySeverity(0.3));
+      expect(mod.getColorBySeverity(4)).to.equal(getColorBySeverity(0.4));
+      expect(mod.getColorBySeverity(5)).to.equal(getColorBySeverity(0.5));
+      expect(mod.getColorBySeverity(6)).to.equal(getColorBySeverity(0.6));
+      expect(mod.getColorBySeverity(7)).to.equal(getColorBySeverity(0.7));
+      expect(mod.getColorBySeverity(8)).to.equal(getColorBySeverity(0.8));
+      expect(mod.getColorBySeverity(9)).to.equal(getColorBySeverity(0.9));
+      expect(mod.getColorBySeverity(10)).to.equal(getColorBySeverity(1));
+    });
+  });
 });
