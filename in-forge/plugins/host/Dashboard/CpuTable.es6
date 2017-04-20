@@ -3,13 +3,104 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+import { percentage } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'CPU',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.cpuNumber;
+      },
+      getContent(cpuNumber) {
+        return `CPU ${cpuNumber}`;
+      }
+    }
+  },
+  {
+    title: 'User',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cpus.${row.cpuNumber}.user`;
+      },
+      getContent: percentage.compact,
+      timeWindowAggregation: 'mean'
+    }
+  },
+  {
+    title: 'System',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cpus.${row.cpuNumber}.sys`;
+      },
+      getContent: percentage.compact,
+      timeWindowAggregation: 'mean'
+    }
+  },
+  {
+    title: 'Wait',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cpus.${row.cpuNumber}.wait`;
+      },
+      getContent: percentage.compact,
+      timeWindowAggregation: 'mean'
+    }
+  },
+  {
+    title: 'Nice',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cpus.${row.cpuNumber}.nice`;
+      },
+      getContent: percentage.compact,
+      timeWindowAggregation: 'mean'
+    }
+  },
+  {
+    title: 'Steal',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `cpus.${row.cpuNumber}.steal`;
+      },
+      getContent: percentage.compact,
+      timeWindowAggregation: 'mean'
+    }
+  }
+];
 
 export default function CpuTable({ snapshot, timeframe }) {
   const cpuCount = snapshot.getIn(['data', 'cpu.count'], 1);
-  const cpus = Range(1, cpuCount + 1);
+  const rows = Range(1, cpuCount + 1).toArray().map(cpuNumber => {
+    return {
+      key: String(cpuNumber),
+      cpuNumber,
+      timeframe,
+      snapshotId: snapshot.get('id')
+    };
+  });
 
   if (cpuCount < 2) {
     return null;
@@ -17,69 +108,29 @@ export default function CpuTable({ snapshot, timeframe }) {
 
   return (
     <DashboardSection title="Individual CPU Usage">
-      <ExpandableTable
-        data={cpus}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(cpuNo) {
-  return cpuNo;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>CPU</th>
-        <th>User</th>
-        <th>System</th>
-        <th>Wait</th>
-        <th>Nice</th>
-        <th>Steal</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(cpuNo, index, context) {
-  return [
-    <td>CPU {cpuNo}</td>,
-    <Mtd metric={'cpus.' + cpuNo + '.user'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
-    <Mtd metric={'cpus.' + cpuNo + '.sys'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
-    <Mtd metric={'cpus.' + cpuNo + '.wait'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
-    <Mtd metric={'cpus.' + cpuNo + '.nice'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
-    <Mtd metric={'cpus.' + cpuNo + '.steal'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />
-  ];
-}
-
-function createDetails(cpuNo, index, context) {
+function getDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 60
       }}
       y1={{
         min: 0,
         max: 1,
-        formatter: percentageZeroDecimalPlaces,
+        formatter: percentage.compact,
         metrics: [
-          'cpus.' + cpuNo + '.user',
-          'cpus.' + cpuNo + '.sys',
-          'cpus.' + cpuNo + '.wait',
-          'cpus.' + cpuNo + '.nice',
-          'cpus.' + cpuNo + '.steal'
+          'cpus.' + row.cpuNumber + '.user',
+          'cpus.' + row.cpuNumber + '.sys',
+          'cpus.' + row.cpuNumber + '.wait',
+          'cpus.' + row.cpuNumber + '.nice',
+          'cpus.' + row.cpuNumber + '.steal'
         ],
         labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
         type: 'stackedArea'

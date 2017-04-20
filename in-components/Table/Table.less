@@ -17,6 +17,10 @@
   &__header-cell {
     border-right: 1px solid #40535b;
     padding: 0;
+
+    &:last-child {
+      border-right: 0;
+    }
   }
 
   &__header-toggle-cell {
@@ -29,10 +33,6 @@
     border-top: 0;
   }
 
-  &__row:last-child .in-table__cell {
-    border-bottom: 1px solid #D5DFE4;
-  }
-
   &__cell {
     padding: 0 0.5rem;
     line-height: 1.625rem;
@@ -41,6 +41,11 @@
 
     &:first-child {
       border-left: 0;
+    }
+
+    &--expanded {
+      padding: 0.3rem 0.5rem 0.6rem;
+      line-height: 1;
     }
   }
 }

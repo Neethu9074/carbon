@@ -170,6 +170,17 @@ export function createStore({
         subscription: null,
         comparator: compareString
       };
+    } else if (columnDefinition.type === 'number') {
+      const value = columnDefinition.typeArgs.getValue(row.rowConfig);
+      const content = columnDefinition.typeArgs.getContent(value, row.rowConfig);
+      return {
+        columnDefinition,
+        columnIndex,
+        value,
+        content,
+        subscription: null,
+        comparator: compareNumber
+      };
     } else if (columnDefinition.type === 'metric') {
       const column = {
         columnDefinition,
@@ -261,7 +272,7 @@ export function createStore({
 
 function validateCol(col) {
   invariant(typeof col.title === 'string', 'col.title must be a string');
-  invariant(['string', 'metric'].indexOf(col.type) !== -1, 'col.type must be string|metric');
+  invariant(['string', 'number', 'metric'].indexOf(col.type) !== -1, 'col.type must be string|number|metric');
 
   if (col.type === 'string') {
     invariant(
@@ -271,6 +282,15 @@ function validateCol(col) {
     invariant(
       typeof col.typeArgs.getContent === 'function',
       'Columns with type=string must have a getContent(value, row) function.'
+    );
+  } else if (col.type === 'number') {
+    invariant(
+      typeof col.typeArgs.getValue === 'function',
+      'Columns with type=number must have a getValue(row) function.'
+    );
+    invariant(
+      typeof col.typeArgs.getContent === 'function',
+      'Columns with type=number must have a getContent(value, row) function.'
     );
   } else if (col.type === 'metric') {
     invariant(
