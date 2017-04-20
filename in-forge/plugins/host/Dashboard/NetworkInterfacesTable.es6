@@ -2,8 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { emptyList } from 'in-services/fixedImmutables';
+import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces,
@@ -11,82 +10,129 @@ import {
   bytesTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Interface',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: 'Mac',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.iface.get('mac');
+      }
+    }
+  },
+  {
+    title: 'IPs',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.iface.get('addresses', emptyList).map(address => address.get('ip')).join(', ');
+      }
+    }
+  },
+  {
+    title: 'RX Bytes',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `ifs.${row.name}.rx.bytes`;
+      },
+      getContent: bytesPerSecondZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'RX Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `ifs.${row.name}.rx.errors`;
+      },
+      getContent: percentageZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'TX Bytes',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `ifs.${row.name}.tx.bytes`;
+      },
+      getContent: bytesPerSecondZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'TX Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `ifs.${row.name}.tx.errors`;
+      },
+      getContent: percentageZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function NetworkInterfacesTable({ snapshot, timeframe }) {
-  const interfaces = snapshot.getIn(['data', 'interfaces'], emptyList);
+  const rows = snapshot
+    .getIn(['data', 'interfaces'], emptyMap)
+    .map((iface, name) => {
+      return {
+        key: name,
+        name,
+        iface,
+        snapshotId: snapshot.get('id'),
+        timeframe
+      };
+    })
+    .valueSeq()
+    .toArray();
 
   return (
     <DashboardSection title="Network Interfaces">
-      <ExpandableTable
-        data={interfaces}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(filesystem, name) {
-  return name;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th />
-        <th />
-        <th />
-        <th colSpan="2">Received (RX)</th>
-        <th colSpan="2">Transmitted (TX)</th>
-      </tr>
-      <tr>
-        <th>Interface</th>
-        <th>Mac</th>
-        <th>IPs</th>
-
-        <th style={{ width: '10em' }}>Bytes</th>
-        <th style={{ width: '4em' }}>Errors</th>
-
-        <th style={{ width: '10em' }}>Bytes</th>
-        <th style={{ width: '4em' }}>Errors</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(filesystem, name, context) {
-  return [
-    <td>{name}</td>,
-    <td>{filesystem.get('mac')}</td>,
-    <td>{filesystem.get('addresses').map(address => address.get('ip')).join(', ')}</td>,
-    <Mtd
-      metric={'ifs.' + name + '.rx.bytes'}
-      snapshot={context.snapshot}
-      formatter={bytesPerSecondZeroDecimalPlaces}
-    />,
-    <Mtd metric={'ifs.' + name + '.rx.errors'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />,
-    <Mtd
-      metric={'ifs.' + name + '.tx.bytes'}
-      snapshot={context.snapshot}
-      formatter={bytesPerSecondZeroDecimalPlaces}
-    />,
-    <Mtd metric={'ifs.' + name + '.tx.errors'} snapshot={context.snapshot} formatter={percentageZeroDecimalPlaces} />
-  ];
-}
-
-function createDetails(filesystem, name, context) {
+function getDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 80,
         right: 80
@@ -95,14 +141,14 @@ function createDetails(filesystem, name, context) {
         min: 0,
         formatter: bytesZeroDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
-        metrics: ['ifs.' + name + '.rx.bytes', 'ifs.' + name + '.tx.bytes'],
+        metrics: ['ifs.' + row.name + '.rx.bytes', 'ifs.' + row.name + '.tx.bytes'],
         labels: ['Received/s', 'Transmitted/s'],
         type: 'line'
       }}
       y2={{
         min: 0,
         max: 1,
-        metrics: ['ifs.' + name + '.rx.errors', 'ifs.' + name + '.tx.errors'],
+        metrics: ['ifs.' + row.name + '.rx.errors', 'ifs.' + row.name + '.tx.errors'],
         labels: ['RX Errors', 'TX Errors'],
         formatter: percentageZeroDecimalPlaces,
         tooltipFormatter: percentageTwoDecimalPlaces,
