@@ -61,6 +61,34 @@ export default connectTo(
 
           <Group
             helpText={
+              <span>
+                <span className={`${block}__warning`}>
+                  Requires browser refresh to become active.<br />
+                </span>
+                Define how often tables with live metrics should be refreshed. Ranges from once per second to once{' '}
+                every ten seconds. Current refresh rate is once every
+                {' '}
+                {settings.getIn(['tables', 'refreshRate']) / 1000}
+                {' '}
+                second(s).
+              </span>
+            }
+            isWarning
+          >
+            <Heading text="Table refresh rate" htmlFor="table-refresh-rate" />
+            <input
+              type="range"
+              id="table-refresh-rate"
+              min={1000}
+              max={10000}
+              step={1000}
+              value={settings.getIn(['tables', 'refreshRate'])}
+              onChange={e => setIn(['tables', 'refreshRate'], e.target.value)}
+            />
+          </Group>
+
+          <Group
+            helpText={
               <span className={`${block}__warning`}>
                 Requires browser refresh to become active.
               </span>

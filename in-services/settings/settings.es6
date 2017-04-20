@@ -41,6 +41,7 @@ function loadDefault() {
   setDefaultConfigValue(['showMaintenanceNotes'], true);
   setDefaultConfigValue(['zoomPanelIsActive'], true);
   setDefaultConfigValue(['charts', 'adaptToDevicePixelRatio'], true);
+  setDefaultConfigValue(['tables', 'refreshRate'], 3000); // millis
   setDefaultConfigValue(['formatTimestampsAsUtc'], false);
 
   setIn(['dataSource'], 'defaults');

@@ -5,13 +5,16 @@ import invariant from 'invariant';
 import { compareIgnoreCase as compareString } from 'in-services/util/string';
 import { compare as compareNumber } from 'in-services/util/number';
 import { getMetricForFocusedMoment } from 'in-stores/metric';
+import { getIn } from 'in-services/settings';
+
+let updateFrequencyMillis = 3000;
+getIn(['tables', 'refreshRate']).subscribe(refreshRate => updateFrequencyMillis = refreshRate);
 
 export function createStore({
   columnDefinitions,
   initialSortColumn = 0,
   maxItemsPerPage = 10,
-  initialSortDirection = 'asc',
-  updateFrequencyMillis = 3000
+  initialSortDirection = 'asc'
 }) {
   if (__DEV__) {
     invariant(typeof initialSortColumn === 'number', 'initialSortColumn must be a number');
