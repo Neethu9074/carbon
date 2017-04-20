@@ -79,7 +79,7 @@ export default connectTo(
 
     return (
       <DashboardSection title="Process Top List">
-        <Table cols={cols} rows={rows} />
+        <Table cols={cols} rows={rows} initialSortColumn={2} initialSortDirection={'desc'} />
       </DashboardSection>
     );
   }

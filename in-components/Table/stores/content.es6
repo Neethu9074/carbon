@@ -61,7 +61,11 @@ export function createStore({
     direction: initialSortDirection
   });
   const expandStateChange$ = create().emit(true);
-  const sortedPagedData$ = combineLatest([sort$, data$.throttle(updateFrequencyMillis)]).map(toSortedPagedData);
+  const sortedPagedData$ = combineLatest([sort$, data$.throttle(updateFrequencyMillis)])
+    // Data changes synchronously when the table is created. Force this sorting to happen
+    // after all columns have been created.
+    .nextFrame()
+    .map(toSortedPagedData);
   // expansion state changes should not result in reexecution of sorting and paging logic
   const sortedPagedDataWithRepaintSignals$ = combineLatest([sortedPagedData$, expandStateChange$]).map(
     combined => combined[0]
@@ -296,6 +300,17 @@ export function createStore({
       rows.push(row);
     }
 
+    if (rows.length === 0) {
+      return {
+        totalRowCount: rows.length,
+        rows,
+        page: shownPage,
+        pageCount: 1,
+        sortColumnIndex,
+        sortDirection
+      };
+    }
+
     let comparator = buildRowComparatorForIndex(rows[0].columns[sortColumnIndex].comparator, sortColumnIndex);
     rows.sort(comparator);
     if (sortDirection === 'desc') {
@@ -336,8 +351,10 @@ function updateContentForAllColumns(row) {
 
 function getContent(row, column) {
   if (column.columnDefinition.type === 'metric') {
+    const getFallbackContent = column.columnDefinition.typeArgs.getFallbackContent;
+    const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : null;
     if (column.value == null) {
-      return column.columnDefinition.typeArgs.fallbackContent;
+      return fallback;
     }
 
     const content = column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);
@@ -393,8 +410,8 @@ function validateCol(col) {
       'Columns with type=metric must have a getTimeWindowAggregation(row) => mean|count|adjustedCount|max function'
     );
     invariant(
-      col.typeArgs.fallbackContent == null || typeof col.typeArgs.fallbackContent === 'string',
-      'Columns with type=metric may define a fallbackContent property of type string or not define the property at all'
+      col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
+      'Columns with type=metric may define a getFallbackContent property of type function or not define the property at all'
     );
   } else if (col.type === 'snapshotLink') {
     invariant(
@@ -403,7 +420,7 @@ function validateCol(col) {
     );
     invariant(
       col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
-      'Columns with type=snapshotLink may define a fallbackContent property of type function or not define the property at all'
+      'Columns with type=snapshotLink may define a getFallbackContent property of type function or not define the property at all'
     );
   }
 }

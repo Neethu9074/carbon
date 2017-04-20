@@ -107,7 +107,9 @@ const iFreeColumn = {
     getTimeWindowAggregation() {
       return 'mean';
     },
-    fallbackContent: 'N/A'
+    getFallbackContent() {
+      return 'N/A';
+    }
   }
 };
 

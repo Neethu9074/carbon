@@ -47,7 +47,8 @@ export default class Table extends React.Component {
     this.store = createStore({
       columnDefinitions: props.cols,
       maxItemsPerPage: props.maxItemsPerPage || 10,
-      initialSortColumn: props.initialSortColumn || 0
+      initialSortColumn: props.initialSortColumn || 0,
+      initialSortDirection: props.initialSortDirection || 'asc'
     });
     this.store.onRowChange(props.rows);
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
