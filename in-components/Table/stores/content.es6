@@ -10,7 +10,8 @@ export function createStore({
   columnDefinitions,
   initialSortColumn = 0,
   maxItemsPerPage = 10,
-  initialSortDirection = 'asc'
+  initialSortDirection = 'asc',
+  updateFrequencyMillis = 3000
 }) {
   if (__DEV__) {
     invariant(typeof initialSortColumn === 'number', 'initialSortColumn must be a number');
@@ -50,7 +51,7 @@ export function createStore({
     column: initialSortColumn,
     direction: initialSortDirection
   });
-  const sortedPagedData$ = combineLatest([sort$, data$.throttle(5000)]).map(toSortedPagedData);
+  const sortedPagedData$ = combineLatest([sort$, data$.throttle(updateFrequencyMillis)]).map(toSortedPagedData);
 
   return {
     data$,
