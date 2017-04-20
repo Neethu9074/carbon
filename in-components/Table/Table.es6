@@ -16,6 +16,7 @@ const tableElement = `${block}__table`;
 const cellElement = `${block}__cell`;
 const rowElement = `${block}__row`;
 const headerCellElement = `${block}__header-cell`;
+const headerToggleCellElement = `${block}__header-toggle-cell`;
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -70,6 +71,42 @@ export default class Table extends React.Component {
       return null;
     }
 
+    const supportsRowDetails = this.props.getRowDetails != null;
+    const toggleRowDetails = supportsRowDetails ? this.store.toggleExpanded : null;
+    const colCount = supportsRowDetails ? cols.length + 1 : cols.length;
+
+    const rows = [];
+    if (data.rows.length === 0) {
+      rows.push(
+        <tr className={rowElement} key="no-data">
+          <td colSpan={colCount} className={cellElement}>No data, sorry bro!</td>
+        </tr>
+      );
+    } else {
+      for (let i = 0, length = data.rows.length; i < length; i++) {
+        const rowData = data.rows[i];
+        rows.push(
+          <Row
+            key={rowData.key}
+            row={rowData}
+            rowClassName={rowElement}
+            cellClassName={cellElement}
+            toggleRowDetails={toggleRowDetails}
+          />
+        );
+
+        if (rowData.expanded) {
+          rows.push(
+            <tr className={rowElement} key={`${rowData.key}--expanded`}>
+              <td className={cellElement} colSpan={colCount}>
+                {this.props.getRowDetails(rowData.rowConfig)}
+              </td>
+            </tr>
+          );
+        }
+      }
+    }
+
     return (
       <div className={block}>
         <div className={headerElement}>
@@ -92,6 +129,7 @@ export default class Table extends React.Component {
         <table className={tableElement}>
           <thead>
             <tr>
+              {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
               {cols.map((col, i) => (
                 <th key={i} className={headerCellElement}>
                   <SortIndicator
@@ -106,17 +144,7 @@ export default class Table extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {data.rows.length === 0
-              ? <tr className={rowElement}>
-                  <td colSpan={cols.length} className={cellElement}>No data, sorry bro!</td>
-                </tr>
-              : null}
-
-            {data.rows.length > 0
-              ? data.rows.map(row => (
-                  <Row key={row.key} row={row} rowClassName={rowElement} cellClassName={cellElement} />
-                ))
-              : null}
+            {rows}
           </tbody>
         </table>
       </div>

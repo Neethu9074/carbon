@@ -1,5 +1,15 @@
 import React from 'react';
 
+import SvgIcon from 'in-components/SvgIcon';
+
+import './Row.less';
+
+const block = 'in-table-row';
+
+const expand = <SvgIcon type="timeline_open" width={12} className={`${block}__toggle`} />;
+
+const collapse = <SvgIcon type="timeline_close" width={12} className={`${block}__toggle`} />;
+
 export default class Row extends React.Component {
   shouldComponentUpdate(nextProps) {
     return this.lastRowKey !== nextProps.row.key || this.lastMutationCount !== nextProps.row.mutationCount;
@@ -11,6 +21,12 @@ export default class Row extends React.Component {
 
     return (
       <tr className={this.props.rowClassName}>
+        {this.props.toggleRowDetails
+          ? <td className={this.props.cellClassName} onClick={() => this.props.toggleRowDetails(this.props.row.key)}>
+              {this.props.row.expanded ? collapse : expand}
+            </td>
+          : null}
+
         {this.props.row.columns.map((column, i) => (
           <td key={i} className={this.props.cellClassName}>
             {column.content}

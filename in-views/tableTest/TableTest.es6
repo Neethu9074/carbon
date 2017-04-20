@@ -42,10 +42,14 @@ const cols = [
   }
 ];
 
+function getRowDetails(rowConfig) {
+  return <strong>{rowConfig.plugin}</strong>;
+}
+
 export default function TableTest() {
   return (
     <FullscreenOverlayView overlayTimeline>
-      <Table cols={cols} rows={rows} />
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </FullscreenOverlayView>
   );
 }

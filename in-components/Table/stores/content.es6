@@ -31,6 +31,7 @@ export function createStore({
   //   marked (used for mark/sweep)
   //   key
   //   rowConfig
+  //   expanded: true/false
   //
   //   columns: [
   //     {
@@ -51,14 +52,20 @@ export function createStore({
     column: initialSortColumn,
     direction: initialSortDirection
   });
+  const expandStateChange$ = create().emit(true);
   const sortedPagedData$ = combineLatest([sort$, data$.throttle(updateFrequencyMillis)]).map(toSortedPagedData);
+  // expansion state changes should not result in reexecution of sorting and paging logic
+  const sortedPagedDataWithRepaintSignals$ = combineLatest([sortedPagedData$, expandStateChange$]).map(
+    combined => combined[0]
+  );
 
   return {
     data$,
     sort$,
     setSort,
-    sortedPagedData$,
+    sortedPagedData$: sortedPagedDataWithRepaintSignals$,
     dispose,
+    toggleExpanded,
     onPrevPage,
     onNextPage,
     onRowChange
@@ -84,6 +91,12 @@ export function createStore({
         direction: sort.direction
       });
     });
+  }
+
+  function toggleExpanded(rowKey) {
+    data[rowKey].expanded = !data[rowKey].expanded;
+    data[rowKey].mutationCount++;
+    expandStateChange$.emit(true);
   }
 
   function onNextPage() {
@@ -133,6 +146,7 @@ export function createStore({
     row = {
       mutationCount,
       marked: false,
+      expanded: false,
       key: rowConfig.key,
       rowConfig,
       columns: []
@@ -212,10 +226,6 @@ export function createStore({
     const rows = [];
     for (let key in data) {
       rows.push(data[key]);
-    }
-
-    if (rows.length === 0) {
-      return rows;
     }
 
     let comparator = buildRowComparatorForIndex(rows[0].columns[sortColumnIndex].comparator, sortColumnIndex);
