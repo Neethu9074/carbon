@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { shouldPresentValueAsPercentage } from 'in-components/Table/stores/content';
+import PercentageCell from 'in-components/Table/components/PercentageCell';
 import SvgIcon from 'in-components/SvgIcon';
 
 import './Row.less';
@@ -7,7 +9,6 @@ import './Row.less';
 const block = 'in-table-row';
 
 const expand = <SvgIcon type="timeline_open" width={12} className={`${block}__toggle`} />;
-
 const collapse = <SvgIcon type="timeline_close" width={12} className={`${block}__toggle`} />;
 
 export default class Row extends React.Component {
@@ -46,7 +47,12 @@ function getContent(row, column) {
     if (column.value == null) {
       return column.columnDefinition.typeArgs.fallbackContent;
     }
-    return column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);
+
+    const content = column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);
+    if (shouldPresentValueAsPercentage(column.columnDefinition.typeArgs.getContent)) {
+      return <PercentageCell value={column.value} content={content} />;
+    }
+    return content;
   }
 
   throw new Error('Unsupported column type: ' + column.columnDefinition.type);

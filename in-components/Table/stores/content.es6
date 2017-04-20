@@ -1,9 +1,12 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { create, combineLatest } from 'reactive-observables';
 import invariant from 'invariant';
+import React from 'react';
 
 import { compareIgnoreCase as compareString } from 'in-services/util/string';
+import PercentageCell from 'in-components/Table/components/PercentageCell';
 import { compare as compareNumber } from 'in-services/util/number';
+import { percentage } from 'in-services/formatters/number';
 import { getMetric } from 'in-stores/metric';
 import { getIn } from 'in-services/settings';
 
@@ -179,7 +182,10 @@ export function createStore({
       };
     } else if (columnDefinition.type === 'number') {
       const value = columnDefinition.typeArgs.getValue(row.rowConfig);
-      const content = columnDefinition.typeArgs.getContent(value);
+      let content = columnDefinition.typeArgs.getContent(value);
+      if (shouldPresentValueAsPercentage(columnDefinition.typeArgs.getContent)) {
+        content = <PercentageCell value={value} content={content} />;
+      }
       return {
         columnDefinition,
         columnIndex,
@@ -326,4 +332,8 @@ function buildRowComparatorForIndex(comparator, index) {
 
 function validateRow(row) {
   invariant(typeof row.key === 'string', 'row.key must be a string');
+}
+
+export function shouldPresentValueAsPercentage(getContentFn) {
+  return getContentFn === percentage.compact || getContentFn === percentage.detailed;
 }

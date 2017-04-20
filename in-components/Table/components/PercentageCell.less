@@ -1,0 +1,24 @@
+.in-table-percentage {
+  position: relative;
+  height: 100%;
+  margin: 0 -0.5rem;
+
+  &__level {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #D5DFE4;
+  }
+
+  &__value {
+    // Position above level indicator.
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 0.5rem;
+  }
+}
