@@ -96,9 +96,14 @@ export default function createLayouter(node) {
   }
 
   function calculateHeightForEachGap(heightOfNode, numGaps) {
-    return numGaps === 0
-      ? 0 // avoid devide by zero exception
-      : (heightOfNode / numGaps) * 0.1; // 0.1 = maxPercentUsedByGaps
+    // avoid devide by zero exception
+    if (numGaps === 0) {
+      return 0;
+    }
+    if (numGaps === 1) {
+      return 0.1 * heightOfNode;
+    }
+    return (heightOfNode / numGaps) * 0.1; // 0.1 = maxPercentUsedByGaps
   }
 
   function setupPluginIcons(plugins) {
