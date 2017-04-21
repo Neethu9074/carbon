@@ -11,13 +11,15 @@ import connectTo from 'in-hoc/connectTo';
 const electedMaster = 'elected Master';
 
 const cols = [
-  // {
-  //   title: 'Health',
-  //   type: '',
-  //   typeArgs: {
-  //
-  //   }
-  // },
+  {
+    title: 'Health',
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      }
+    }
+  },
   {
     title: 'Name',
     type: 'snapshotLink',

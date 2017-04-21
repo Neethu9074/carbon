@@ -7,6 +7,7 @@ import { compareIgnoreCase as compareString } from 'in-services/util/string';
 import PercentageCell from 'in-components/Table/components/PercentageCell';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { compare as compareNumber } from 'in-services/util/number';
+import { renderers } from 'in-components/Table/stores/renderers';
 import { percentage } from 'in-services/formatters/number';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
@@ -265,7 +266,7 @@ export function createStore({
       return column;
     }
 
-    throw new Error('Unsupported column type: ' + columnDefinition.type);
+    return renderers[columnDefinition.type].initialize(row, columnDefinition, columnIndex, emitRawDataChange);
   }
 
   function sweep() {
@@ -370,8 +371,8 @@ function getContent(row, column) {
 function validateCol(col) {
   invariant(typeof col.title === 'string', 'col.title must be a string');
   invariant(
-    ['string', 'number', 'metric', 'snapshotLink'].indexOf(col.type) !== -1,
-    'col.type must be string|number|metric|snapshotLink'
+    ['string', 'number', 'metric', 'snapshotLink', 'health'].indexOf(col.type) !== -1,
+    'col.type must be string|number|metric|snapshotLink|health'
   );
 
   if (col.type === 'string') {
@@ -422,6 +423,9 @@ function validateCol(col) {
       col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
       'Columns with type=snapshotLink may define a getFallbackContent property of type function or not define the property at all'
     );
+  } else {
+    invariant(col.type in renderers, `Unknown renderer type ${col.type}.`);
+    renderers[col.type].validate(col);
   }
 }
 
