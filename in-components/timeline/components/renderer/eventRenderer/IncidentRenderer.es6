@@ -8,23 +8,21 @@ export default function createIncidentRenderer(basicEventRenderer) {
   };
 
   function draw(incident, isHighlighted) {
-    const positions = basicEventRenderer.draw(incident, isHighlighted, y);
-    if (!positions) {
-      return;
-    }
+    const drawConfig = basicEventRenderer.draw(incident, isHighlighted, y);
+    if (drawConfig) {
+      const severity = incident.getIn(['problem', 'severity'], 0);
+      let imageToDraw = icons.incidentImage;
 
-    const severity = incident.getIn(['problem', 'severity'], 0);
-    let imageToDraw = icons.incidentImage;
-
-    if (basicEventRenderer.eventIsOpen(incident)) {
-      if (severity > 0) {
-        imageToDraw = icons.incidentWarningImageColored;
+      if (basicEventRenderer.eventIsOpen(incident)) {
+        if (severity > 0) {
+          imageToDraw = icons.incidentWarningImageColored;
+        }
+        if (severity > 5) {
+          imageToDraw = icons.incidentCriticalImageColored;
+        }
       }
-      if (severity > 5) {
-        imageToDraw = icons.incidentCriticalImageColored;
-      }
-    }
 
-    basicEventRenderer.drawImage(imageToDraw, positions.triggeringX, y, 16);
+      basicEventRenderer.drawImage(imageToDraw, drawConfig.triggeringX, y, 16);
+    }
   }
 }

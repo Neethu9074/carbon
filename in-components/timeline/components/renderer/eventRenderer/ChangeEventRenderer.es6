@@ -1,5 +1,3 @@
-import { getColorByEvent } from 'in-stores/events';
-
 const y = 111;
 
 export default function createChangeEventRenderer(basicEventRenderer, ctx) {
@@ -8,12 +6,10 @@ export default function createChangeEventRenderer(basicEventRenderer, ctx) {
   };
 
   function draw(event, isHighlighted) {
-    const positions = basicEventRenderer.draw(event, isHighlighted, y);
-    if (!positions) {
-      return;
+    const drawConfig = basicEventRenderer.draw(event, isHighlighted, y);
+    if (drawConfig) {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(drawConfig.x, y + 10, 2, 18);
     }
-
-    ctx.fillStyle = getColorByEvent(event);
-    ctx.fillRect(positions.x, y + 10, 2, 18);
   }
 }

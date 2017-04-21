@@ -9,11 +9,10 @@ import { emptyArray } from 'in-services/fixedObjects';
 const highlightedColor = '#ffffff';
 
 export default function createEventRenderer(ctx, scale) {
-  let highlightedEvent = null;
-  let width = 0;
-
-  let selectedEvent = null;
   let recentEventIds = emptyArray;
+  let highlightedEvent = null;
+  let selectedEvent = null;
+  let width = 0;
 
   const selectedIncidentSubscription = selectedEvent$.subscribe(_event => {
     if (!_event || getEventType(_event) !== EVENT_TYPES.INCIDENT) {
@@ -33,13 +32,13 @@ export default function createEventRenderer(ctx, scale) {
   const focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => focusedMoment = _focusedMoment);
 
   let highlightedEntityId = null;
-  const highlightedEntityIdSubscription = highlightedEntityId$.subscribe(id => highlightedEntityId = id);
+  const highlightedEntityIdSubscription = highlightedEntityId$.subscribe(_id => highlightedEntityId = _id);
 
   let selectedSnapshotId = null;
-  const selectedSnapshotIdSubscription = selectedSnapshotId$.subscribe(id => selectedSnapshotId = id);
+  const selectedSnapshotIdSubscription = selectedSnapshotId$.subscribe(_id => selectedSnapshotId = _id);
 
   let selectedEventId = null;
-  const selectedEventIdSubscription = selectedEventId$.subscribe(id => selectedEventId = id);
+  const selectedEventIdSubscription = selectedEventId$.subscribe(_id => selectedEventId = _id);
 
   return {
     draw,
@@ -63,28 +62,28 @@ export default function createEventRenderer(ctx, scale) {
   function drawEvents(events, renderer) {
     for (let i = 0, len = events.length; i < len; i++) {
       const event = events[i];
-      if (!isEventActive(event)) {
+      if (isEventActive(event)) {
+        renderer.draw(event, event === highlightedEvent);
+      } else {
         ctx.globalAlpha = 0.2;
         renderer.draw(event, event === highlightedEvent);
         ctx.globalAlpha = 1;
-      } else {
-        renderer.draw(event, event === highlightedEvent);
       }
     }
   }
 
   function isEventActive(event) {
-    const snapshotId = event.getIn(['problem', 'snapshotId']);
     // the event is active (which means that it will be drawn normally) if there is no incident selected
     // and the events range must cross the focused moment so it currentyl active
     // and it has to contain to cetrain selected entityId (if available)
-    if (
-      !selectedEvent &&
-      (!focusedMoment || getEventStart(event) <= focusedMoment) &&
-      (!highlightedEntityId || snapshotId === highlightedEntityId) &&
-      (!selectedSnapshotId || snapshotId === selectedSnapshotId)
-    ) {
-      return true;
+    if (!selectedEvent && (!focusedMoment || getEventStart(event) <= focusedMoment)) {
+      const snapshotId = event.getIn(['problem', 'snapshotId']);
+      if (
+        (!highlightedEntityId || snapshotId === highlightedEntityId) &&
+        (!selectedSnapshotId || snapshotId === selectedSnapshotId)
+      ) {
+        return true;
+      }
     }
 
     // otherwhise we have to look if the event is inside the recent events of the selected incident
@@ -96,15 +95,15 @@ export default function createEventRenderer(ctx, scale) {
   }
 
   function draw(event, isHighlighted, y) {
-    const positions = {
+    const drawConfig = {
       x: scale.getRange(event.get('start')),
       triggeringX: scale.getRange(getEventStart(event))
     };
 
-    drawSelectedEventTimerange(event, positions, y);
+    drawSelectedEventTimerange(event, drawConfig, y);
 
-    if (positions.x <= 0 || positions.x > width) {
-      if (positions.triggeringX <= 0 || positions.triggeringX > width) {
+    if (drawConfig.x <= 0 || drawConfig.x > width) {
+      if (drawConfig.triggeringX <= 0 || drawConfig.triggeringX > width) {
         return null;
       }
     }
@@ -113,10 +112,10 @@ export default function createEventRenderer(ctx, scale) {
 
     const prevValue = ctx.globalAlpha;
     ctx.globalAlpha = 0.2;
-    ctx.fillRect(positions.triggeringX, y, 1, 36);
+    ctx.fillRect(drawConfig.triggeringX, y, 1, 36);
     ctx.globalAlpha = prevValue;
 
-    return positions;
+    return drawConfig;
   }
 
   function drawSelectedEventTimerange(event, positions, y) {
@@ -124,10 +123,10 @@ export default function createEventRenderer(ctx, scale) {
       return;
     }
 
-    const prevValue = ctx.globalAlpha;
     const from = Math.max(0, Math.min(positions.x, positions.triggeringX));
-    const to = event.get('state') === 'open' ? ctx.canvas.width : scale.getRange(event.get('end'));
+    const to = event.get('state') === 'open' ? width : scale.getRange(event.get('end'));
 
+    const prevValue = ctx.globalAlpha;
     ctx.globalAlpha = 0.2;
     ctx.fillStyle = highlightedColor;
     ctx.fillRect(from, y, to - from, 36);
@@ -135,15 +134,13 @@ export default function createEventRenderer(ctx, scale) {
   }
 
   function drawImage(image, x, y, iconSize) {
-    if (image) {
-      ctx.drawImage(
-        image,
-        x - iconSize / 2, // x
-        y + 20 - iconSize / 2 - 1, // y
-        iconSize, // width
-        iconSize
-      ); // height
-    }
+    ctx.drawImage(
+      image,
+      x - iconSize / 2, // x
+      y + 20 - iconSize / 2 - 1, // y
+      iconSize, // width
+      iconSize // height
+    );
   }
 
   function getEventStart(event) {
