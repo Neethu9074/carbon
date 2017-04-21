@@ -22,7 +22,6 @@ export default connectTo(
     state = {
       expandedCell: null
     };
-
     render() {
       const expandedCell = this.state.expandedCell;
       const startCell = this.props.eventFilter === 'incident' ? 'triggered' : 'start';
