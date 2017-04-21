@@ -1,18 +1,9 @@
 import { create, combineLatest } from 'reactive-observables';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import invariant from 'invariant';
-import React from 'react';
 
-import { compareIgnoreCase as compareString } from 'in-services/util/string';
-import PercentageCell from 'in-components/Table/components/PercentageCell';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import { compare as compareNumber } from 'in-services/util/number';
-import { percentage } from 'in-services/formatters/number';
 import { renderers } from 'in-components/Table/renderers';
-import { getSnapshot } from 'in-stores/snapshot';
-import { noop } from 'in-services/fixedObjects';
 import { getIn } from 'in-services/settings';
-import { getLabel } from 'in-sdk/snapshot';
 
 let updateFrequencyMillis = 3000;
 getIn(['tables', 'refreshRate']).subscribe(refreshRate => updateFrequencyMillis = refreshRate);
@@ -174,81 +165,6 @@ export function createStore({
   }
 
   function initializeColumn(row, columnDefinition, columnIndex) {
-    if (columnDefinition.type === 'string') {
-      const value = columnDefinition.typeArgs.getValue(row.rowConfig);
-      let content = value;
-      if (columnDefinition.typeArgs.getContent) {
-        content = columnDefinition.typeArgs.getContent(value, row.rowConfig);
-      }
-      return {
-        columnDefinition,
-        columnIndex,
-        value,
-        content,
-        subscription: null,
-        comparator: compareString,
-        refreshContent: noop
-      };
-    } else if (columnDefinition.type === 'number') {
-      const value = columnDefinition.typeArgs.getValue(row.rowConfig);
-      let content = columnDefinition.typeArgs.getContent(value);
-      if (shouldPresentValueAsPercentage(columnDefinition.typeArgs.getContent)) {
-        content = <PercentageCell value={value} content={content} />;
-      }
-      return {
-        columnDefinition,
-        columnIndex,
-        value,
-        content,
-        subscription: null,
-        comparator: compareNumber,
-        refreshContent: noop
-      };
-    } else if (columnDefinition.type === 'snapshotLink') {
-      const fallbackContent = columnDefinition.typeArgs.getFallbackContent
-        ? columnDefinition.typeArgs.getFallbackContent(row.rowConfig)
-        : null;
-      const column = {
-        columnDefinition,
-        columnIndex,
-        value: null,
-        content: fallbackContent,
-        subscription: null,
-        comparator: compareString,
-        refreshContent: noop
-      };
-
-      const withHierarchy = Boolean(columnDefinition.typeArgs.withHierarchy);
-
-      if (columnDefinition.typeArgs.getSnapshotId) {
-        const snapshotId = columnDefinition.typeArgs.getSnapshotId(row.rowConfig);
-        column.subscription = getSnapshot(snapshotId).subscribe(snapshot => {
-          column.value = getLabel(snapshot);
-          column.content = (
-            <HierarchicalLink snapshotId={snapshotId} calculateHierarchy={withHierarchy} kind="dark">
-              {column.value}
-            </HierarchicalLink>
-          );
-          row.mutationCount++;
-          emitRawDataChange();
-        });
-      } else {
-        const snapshotId$ = columnDefinition.typeArgs.getSnapshotId$(row.rowConfig);
-        column.subscription = snapshotId$.flatMap(snapshotId => getSnapshot(snapshotId)).subscribe(snapshot => {
-          column.value = getLabel(snapshot);
-          column.content = (
-            <HierarchicalLink snapshotId={snapshot.get('id')} calculateHierarchy={withHierarchy} kind="dark">
-              {column.value}
-            </HierarchicalLink>
-          );
-          row.mutationCount++;
-          emitRawDataChange();
-        });
-      }
-
-      return column;
-    }
-
     return renderers[columnDefinition.type].initialize(row, columnDefinition, columnIndex, emitRawDataChange);
   }
 
@@ -334,39 +250,8 @@ function updateContentForAllColumns(row) {
 
 function validateCol(col) {
   invariant(typeof col.title === 'string', 'col.title must be a string');
-  invariant(['string', 'number', 'snapshotLink'].indexOf(col.type) !== -1 || col.type in renderers, 'Unknown col.type');
-
-  if (col.type === 'string') {
-    invariant(
-      typeof col.typeArgs.getValue === 'function',
-      'Columns with type=string must have a getValue(row) function.'
-    );
-    invariant(
-      col.typeArgs.getContent == null || typeof col.typeArgs.getContent === 'function',
-      'Columns with type=string must have a getContent(row) function or no getContent property.'
-    );
-  } else if (col.type === 'number') {
-    invariant(
-      typeof col.typeArgs.getValue === 'function',
-      'Columns with type=number must have a getValue(row) function.'
-    );
-    invariant(
-      typeof col.typeArgs.getContent === 'function',
-      'Columns with type=number must have a getContent(value, row) function.'
-    );
-  } else if (col.type === 'snapshotLink') {
-    invariant(
-      typeof col.typeArgs.getSnapshotId === 'function' || typeof col.typeArgs.getSnapshotId$ === 'function',
-      'Columns with type=snapshotLink must have a getSnapshotId(row) or a getSnapshotId$(row) function.'
-    );
-    invariant(
-      col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
-      'Columns with type=snapshotLink may define a getFallbackContent property of type function or not define the property at all'
-    );
-  } else {
-    invariant(col.type in renderers, `Unknown renderer type ${col.type}.`);
-    renderers[col.type].validate(col);
-  }
+  invariant(col.type in renderers, `Unknown col.type: ${col.type}.`);
+  renderers[col.type].validate(col);
 }
 
 function buildRowComparatorForIndex(comparator, index) {
@@ -375,8 +260,4 @@ function buildRowComparatorForIndex(comparator, index) {
 
 function validateRow(row) {
   invariant(typeof row.key === 'string', 'row.key must be a string');
-}
-
-function shouldPresentValueAsPercentage(getContentFn) {
-  return getContentFn === percentage.compact || getContentFn === percentage.detailed;
 }
