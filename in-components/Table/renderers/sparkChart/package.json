@@ -1,0 +1,6 @@
+{
+  "name": "sparkChart",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./sparkChart.es6"
+}

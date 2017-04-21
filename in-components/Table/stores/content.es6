@@ -7,10 +7,10 @@ import { compareIgnoreCase as compareString } from 'in-services/util/string';
 import PercentageCell from 'in-components/Table/components/PercentageCell';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { compare as compareNumber } from 'in-services/util/number';
-import { renderers } from 'in-components/Table/stores/renderers';
 import { percentage } from 'in-services/formatters/number';
+import { renderers } from 'in-components/Table/renderers';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getMetric } from 'in-stores/metric';
+import { noop } from 'in-services/fixedObjects';
 import { getIn } from 'in-services/settings';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -186,7 +186,8 @@ export function createStore({
         value,
         content,
         subscription: null,
-        comparator: compareString
+        comparator: compareString,
+        refreshContent: noop
       };
     } else if (columnDefinition.type === 'number') {
       const value = columnDefinition.typeArgs.getValue(row.rowConfig);
@@ -200,28 +201,9 @@ export function createStore({
         value,
         content,
         subscription: null,
-        comparator: compareNumber
+        comparator: compareNumber,
+        refreshContent: noop
       };
-    } else if (columnDefinition.type === 'metric') {
-      const column = {
-        columnDefinition,
-        columnIndex,
-        value: null,
-        subscription: null,
-        comparator: compareNumber
-      };
-
-      column.subscription = getMetric({
-        snapshotId: columnDefinition.typeArgs.getSnapshotId(row.rowConfig),
-        metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
-        timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
-      }).subscribe(v => {
-        column.value = v;
-        row.mutationCount++;
-        emitRawDataChange();
-      });
-
-      return column;
     } else if (columnDefinition.type === 'snapshotLink') {
       const fallbackContent = columnDefinition.typeArgs.getFallbackContent
         ? columnDefinition.typeArgs.getFallbackContent(row.rowConfig)
@@ -232,7 +214,8 @@ export function createStore({
         value: null,
         content: fallbackContent,
         subscription: null,
-        comparator: compareString
+        comparator: compareString,
+        refreshContent: noop
       };
 
       const withHierarchy = Boolean(columnDefinition.typeArgs.withHierarchy);
@@ -345,35 +328,13 @@ export function createStore({
 
 function updateContentForAllColumns(row) {
   for (let i = 0, length = row.columns.length; i < length; i++) {
-    const column = row.columns[i];
-    column.content = getContent(row, column);
+    row.columns[i].refreshContent();
   }
-}
-
-function getContent(row, column) {
-  if (column.columnDefinition.type === 'metric') {
-    const getFallbackContent = column.columnDefinition.typeArgs.getFallbackContent;
-    const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : null;
-    if (column.value == null) {
-      return fallback;
-    }
-
-    const content = column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);
-    if (shouldPresentValueAsPercentage(column.columnDefinition.typeArgs.getContent)) {
-      return <PercentageCell value={column.value} content={content} />;
-    }
-    return content;
-  }
-
-  return column.content;
 }
 
 function validateCol(col) {
   invariant(typeof col.title === 'string', 'col.title must be a string');
-  invariant(
-    ['string', 'number', 'metric', 'snapshotLink', 'health'].indexOf(col.type) !== -1,
-    'col.type must be string|number|metric|snapshotLink|health'
-  );
+  invariant(['string', 'number', 'snapshotLink'].indexOf(col.type) !== -1 || col.type in renderers, 'Unknown col.type');
 
   if (col.type === 'string') {
     invariant(
@@ -392,27 +353,6 @@ function validateCol(col) {
     invariant(
       typeof col.typeArgs.getContent === 'function',
       'Columns with type=number must have a getContent(value, row) function.'
-    );
-  } else if (col.type === 'metric') {
-    invariant(
-      typeof col.typeArgs.getSnapshotId === 'function',
-      'Columns with type=metric must have a getSnapshotId(row) function.'
-    );
-    invariant(
-      typeof col.typeArgs.getMetricName === 'function',
-      'Columns with type=metric must have a getMetricName(row) function.'
-    );
-    invariant(
-      typeof col.typeArgs.getContent === 'function',
-      'Columns with type=metric must have a getContent(value, row) function'
-    );
-    invariant(
-      typeof col.typeArgs.getTimeWindowAggregation === 'function',
-      'Columns with type=metric must have a getTimeWindowAggregation(row) => mean|count|adjustedCount|max function'
-    );
-    invariant(
-      col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
-      'Columns with type=metric may define a getFallbackContent property of type function or not define the property at all'
     );
   } else if (col.type === 'snapshotLink') {
     invariant(

@@ -69,7 +69,7 @@ const cols = [
   },
   {
     title: 'Indices',
-    type: 'metric',
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -85,7 +85,7 @@ const cols = [
   },
   {
     title: 'Active Shards',
-    type: 'metric',
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -101,7 +101,7 @@ const cols = [
   },
   {
     title: 'Documents',
-    type: 'metric',
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -160,17 +160,8 @@ export default connectTo(
 
     return (
       <DashboardSection title="Cluster Nodes">
-        <Table cols={cols} rows={rows} />
+        <Table cols={cols} rows={rows} initialSortColumn={2} />
       </DashboardSection>
     );
   }
 );
-
-// <HistoricMetricSparkChartWithLabel
-//   width={200}
-//   height={30}
-//   timeframe={context.timeframe}
-//   snapshotId={id}
-//   metric="indices_count"
-//   formatter={zeroDecimalPlaces}
-// />

@@ -1,11 +1,8 @@
 /* eslint-env mocha */
 
-import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { number } from 'in-services/formatters/number';
 
 describe('in-components/Table/stores/content', () => {
   let createStore;
@@ -57,99 +54,6 @@ describe('in-components/Table/stores/content', () => {
       expect(rowA.columns[0].columnDefinition).to.equal(columnDefinition);
       expect(rowA.columns[0].value).to.equal('42');
       expect(getValue).to.have.callCount(2);
-    });
-  });
-
-  describe('metric columns', () => {
-    it('must support simple metric columns', () => {
-      const snapshotId = 'abcId';
-      const key = 'abcKey';
-      const rowConfig = { key, snapshotId };
-      const getSnapshotId = sinon.stub();
-      getSnapshotId.withArgs(rowConfig).returns(snapshotId);
-      const metric$ = create();
-      getMetric.onCall(0).returns(metric$);
-
-      const columnDefinition = {
-        title: 'CPU load',
-        type: 'metric',
-        typeArgs: {
-          getSnapshotId,
-          getMetricName: () => 'cpu.load',
-          getTimeWindowAggregation() {
-            return 'mean';
-          },
-          getContent: number.compact
-        }
-      };
-
-      store = createStore({
-        columnDefinitions: [columnDefinition]
-      });
-
-      // first data emit – no metric value
-      store.onRowChange([rowConfig]);
-      store.data$.subscribe(dataSubscriber);
-
-      // next data emit - with metric value
-      const metricValue = 47;
-      metric$.emit(metricValue);
-
-      expect(dataSubscriber).to.have.callCount(2);
-      const row = dataSubscriber.getCall(1).args[0][key];
-      expect(row.mutationCount).to.equal(1);
-      expect(row.columns[0].value).to.equal(metricValue);
-    });
-
-    it('must unsubscribe metric subscriptions when rows are removed', () => {
-      const snapshotId = 'abcId';
-      const key = 'abcKey';
-      const rowConfig = { key, snapshotId };
-      const getSnapshotId = sinon.stub();
-      getSnapshotId.withArgs(rowConfig).returns(snapshotId);
-      let subscriptionActive = false;
-      const metric$ = create({
-        start() {
-          subscriptionActive = true;
-        },
-
-        stop() {
-          subscriptionActive = false;
-        }
-      });
-      getMetric.onCall(0).returns(metric$);
-
-      const columnDefinition = {
-        title: 'CPU load',
-        type: 'metric',
-        typeArgs: {
-          getSnapshotId,
-          getMetricName: () => 'cpu.load',
-          getTimeWindowAggregation() {
-            return 'mean';
-          },
-          getContent: number.compact
-        }
-      };
-
-      store = createStore({
-        columnDefinitions: [columnDefinition]
-      });
-
-      store.data$.subscribe(dataSubscriber);
-      expect(dataSubscriber).to.have.callCount(1);
-      expect(Object.keys(dataSubscriber.getCall(0).args[0]).length).to.equal(0);
-      expect(subscriptionActive).to.equal(false);
-
-      store.onRowChange([rowConfig]);
-      expect(dataSubscriber).to.have.callCount(2);
-      expect(Object.keys(dataSubscriber.getCall(1).args[0]).length).to.equal(1);
-      expect(subscriptionActive).to.equal(true);
-
-      store.onRowChange([]);
-      expect(dataSubscriber).to.have.callCount(3);
-      expect(Object.keys(dataSubscriber.getCall(2).args[0]).length).to.equal(0);
-      expect(subscriptionActive).to.equal(false);
     });
   });
 });

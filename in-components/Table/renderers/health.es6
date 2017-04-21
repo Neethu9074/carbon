@@ -4,6 +4,7 @@ import React from 'react';
 import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { compare } from 'in-services/util/number';
+import { noop } from 'in-services/fixedObjects';
 
 export const type = 'health';
 
@@ -21,7 +22,8 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     value: null,
     content: null,
     subscription: null,
-    comparator: compare
+    comparator: compare,
+    refreshContent: noop
   };
 
   if (columnDefinition.typeArgs.getSnapshotId) {
