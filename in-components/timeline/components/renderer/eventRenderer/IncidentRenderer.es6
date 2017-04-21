@@ -1,13 +1,14 @@
-import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
 import icons from 'in-components/timeline/icons/icons';
 
-export default class IncidentRenderer extends BasicEventRenderer {
-  constructor(backBuffer, scale, iconSize, yOffset = 37) {
-    super(backBuffer, scale, yOffset, iconSize);
-  }
+const y = 37;
 
-  draw(incident, isHighlighted) {
-    const positions = super.draw(incident, isHighlighted);
+export default function createIncidentRenderer(basicEventRenderer) {
+  return {
+    draw
+  };
+
+  function draw(incident, isHighlighted) {
+    const positions = basicEventRenderer.draw(incident, isHighlighted, y);
     if (!positions) {
       return;
     }
@@ -15,7 +16,7 @@ export default class IncidentRenderer extends BasicEventRenderer {
     const severity = incident.getIn(['problem', 'severity'], 0);
     let imageToDraw = icons.incidentImage;
 
-    if (this.eventIsOpen(incident)) {
+    if (basicEventRenderer.eventIsOpen(incident)) {
       if (severity > 0) {
         imageToDraw = icons.incidentWarningImageColored;
       }
@@ -24,6 +25,6 @@ export default class IncidentRenderer extends BasicEventRenderer {
       }
     }
 
-    this.drawImage(imageToDraw, positions.triggeringX);
+    basicEventRenderer.drawImage(imageToDraw, positions.triggeringX, y, 16);
   }
 }

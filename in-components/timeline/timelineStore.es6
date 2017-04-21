@@ -164,21 +164,6 @@ export function setTimelineScale(scale) {
   timelineScale.applyStateMutation(() => scale);
 }
 
-export const DRAW_MODES = {
-  DISCRETE_EVENTS: 0,
-  EVENTS_GRAPH: 1
-};
-
-const drawMode = createStore({
-  name: 'drawModeStore',
-  initialValue: DRAW_MODES.DISCRETE_EVENTS
-});
-export const drawMode$ = drawMode.observable.distinct();
-
-export function setDrawMode(mode) {
-  drawMode.applyStateMutation(() => mode);
-}
-
 const focusedMoment = createStore({
   name: 'timelineFocusedMomentStore',
   initialValue: undefined

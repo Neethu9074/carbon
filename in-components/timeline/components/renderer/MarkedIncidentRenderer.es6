@@ -1,20 +1,19 @@
-import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import { selectedIncident$ } from 'in-stores/events';
 
 const white = '#ffffff';
 
-export default class MarkedIncidentRenderer extends BasicRenderer {
-  constructor(backBuffer, scale) {
-    super(backBuffer, scale);
+export default function createMarkedIncidentRenderer(ctx, scale) {
+  let selectedIncidentId = null;
+  const selectedIncidentSubscription = selectedIncident$.subscribe(
+    incident => selectedIncidentId = incident ? incident.get('id') : null
+  );
 
-    this.selectedIncidentId = null;
-    this.selectedIncidentSubscription = selectedIncident$.subscribe(
-      incident => this.selectedIncidentId = incident ? incident.get('id') : null
-    );
-  }
+  return {
+    draw,
+    dispose
+  };
 
-  draw(incidents) {
-    const selectedIncidentId = this.selectedIncidentId;
+  function draw(incidents) {
     if (!selectedIncidentId) {
       return;
     }
@@ -32,23 +31,20 @@ export default class MarkedIncidentRenderer extends BasicRenderer {
       return;
     }
 
-    const x = Math.max(0, this.scale.getRange(match.get('start')));
-    if (x > this.width) {
+    const x = Math.max(0, scale.getRange(match.get('start')));
+    if (x > ctx.canvas.width) {
       return;
     }
 
-    const to = match.get('state') === 'open' ? this.backBuffer.canvas.width : this.scale.getRange(match.get('end'));
+    const to = match.get('state') === 'open' ? ctx.canvas.width : scale.getRange(match.get('end'));
 
-    const buffer = this.backBuffer;
-    buffer.globalAlpha = 0.2;
-    buffer.fillStyle = white;
-    buffer.fillRect(x, 74, to - x, 122);
-    buffer.globalAlpha = 1;
+    ctx.globalAlpha = 0.2;
+    ctx.fillStyle = white;
+    ctx.fillRect(x, 74, to - x, 122);
+    ctx.globalAlpha = 1;
   }
 
-  dispose() {
-    super.dispose();
-
-    this.selectedIncidentSubscription.dispose();
+  function dispose() {
+    selectedIncidentSubscription.dispose();
   }
 }

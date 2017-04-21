@@ -1,18 +1,19 @@
-import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
 import { getColorByEvent } from 'in-stores/events';
 
-export default class ChangeEventRenderer extends BasicEventRenderer {
-  constructor(backBuffer, scale, iconSize, yOffset = 111) {
-    super(backBuffer, scale, yOffset, iconSize);
-  }
+const y = 111;
 
-  draw(event, isHighlighted) {
-    const positions = super.draw(event, isHighlighted);
+export default function createChangeEventRenderer(basicEventRenderer, ctx) {
+  return {
+    draw
+  };
+
+  function draw(event, isHighlighted) {
+    const positions = basicEventRenderer.draw(event, isHighlighted, y);
     if (!positions) {
       return;
     }
 
-    this.backBuffer.fillStyle = getColorByEvent(event);
-    this.backBuffer.fillRect(positions.x, this.y + 10, 2, 18);
+    ctx.fillStyle = getColorByEvent(event);
+    ctx.fillRect(positions.x, y + 10, 2, 18);
   }
 }

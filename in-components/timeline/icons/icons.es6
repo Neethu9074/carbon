@@ -1,10 +1,11 @@
 import issueCriticalIcon from 'in-components/timeline/icons/issue_critical.svg';
 import issueWarningIcon from 'in-components/timeline/icons/issue_warning.svg';
 import incidentIcon from 'in-components/timeline/icons/incident.svg';
-import { getColorBySeverity } from 'in-stores/events';
 import { hexToRGB } from 'in-services/formatters/color';
+import { getColorBySeverity } from 'in-stores/events';
 
 const icons = {};
+export default icons;
 
 icons.incidentImage = loadImage(incidentIcon, loadedImage => {
   icons.incidentWarningImageColored = createColorCanvasFrom(loadedImage, hexToRGB(getColorBySeverity(5)));
@@ -28,7 +29,6 @@ function loadImage(src, callback) {
     }
   };
   image.src = src;
-
   return image;
 }
 
@@ -55,5 +55,3 @@ function createColorCanvasFrom(src, color) {
 
   return canvas;
 }
-
-export default icons;

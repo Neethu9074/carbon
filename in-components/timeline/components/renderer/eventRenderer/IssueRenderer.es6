@@ -1,30 +1,31 @@
-import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
 import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
 import icons from 'in-components/timeline/icons/icons';
 
-export default class IssueRenderer extends BasicEventRenderer {
-  constructor(backBuffer, scale, iconSize, yOffset = 74) {
-    super(backBuffer, scale, yOffset, iconSize);
-  }
+const y = 74;
 
-  draw(issue, isHighlighted) {
-    const positions = super.draw(issue, isHighlighted);
+export default function createIssueRenderer(basicEventRenderer) {
+  return {
+    draw
+  };
+
+  function draw(issue, isHighlighted) {
+    const positions = basicEventRenderer.draw(issue, isHighlighted, y);
     if (!positions) {
       return;
     }
 
     let imageToDraw = icons.issueCriticalImage;
 
-    if (this.eventIsOpen(issue)) {
-      imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImageColored, icons.issueCriticalImageColored);
+    if (basicEventRenderer.eventIsOpen(issue)) {
+      imageToDraw = getImageByIssueType(issue, icons.issueWarningImageColored, icons.issueCriticalImageColored);
     } else {
-      imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
+      imageToDraw = getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
     }
 
-    this.drawImage(imageToDraw, positions.x);
+    basicEventRenderer.drawImage(imageToDraw, positions.x, y, 14);
   }
 
-  getImageByIssueType(issue, ifWarning, ifCritical) {
+  function getImageByIssueType(issue, ifWarning, ifCritical) {
     return getEventType(issue) === EVENT_TYPES.ISSUE_WARNING ? ifWarning : ifCritical;
   }
 }

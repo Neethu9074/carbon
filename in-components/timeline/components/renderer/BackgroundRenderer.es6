@@ -1,30 +1,25 @@
-import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
+export default function createBackgroundRenderer(ctx, scale, height) {
+  let width = 0;
 
-export default class BackgroundRenderer extends BasicRenderer {
-  constructor(backBuffer, scale, height) {
-    super(backBuffer, scale);
+  return {
+    draw,
+    setWidth
+  };
 
-    this.height = height;
-    this.width = 0;
+  function setWidth(_width) {
+    width = _width;
   }
 
-  setWidth(width) {
-    this.width = width;
-  }
-
-  draw() {
-    const buffer = this.backBuffer;
-    const width = this.width;
-
+  function draw() {
     // fill whole canvas with color of lines
-    buffer.fillStyle = '#43565E';
-    buffer.fillRect(0, 0, width, this.height);
+    ctx.fillStyle = '#43565E';
+    ctx.fillRect(0, 0, width, height);
 
     // fill the rest of the canvas with the actual background color
-    buffer.fillStyle = '#2D4048';
-    buffer.fillRect(0, 0, width, 36);
-    buffer.fillRect(0, 37, width, 36);
-    buffer.fillRect(0, 74, width, 36);
-    buffer.fillRect(0, 111, width, 36);
+    ctx.fillStyle = '#2D4048';
+    ctx.fillRect(0, 0, width, 36);
+    ctx.fillRect(0, 37, width, 36);
+    ctx.fillRect(0, 74, width, 36);
+    ctx.fillRect(0, 111, width, 36);
   }
 }

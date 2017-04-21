@@ -1,166 +1,160 @@
-import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import { getColorByEvent, selectedEvent$, selectedEventId$ } from 'in-stores/events';
 import { getEventType, EVENT_TYPES } from 'in-services/issueTracker/issueTracker';
+import { selectedSnapshotId as selectedSnapshotId$ } from 'in-stores/snapshot';
 import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
 import { focusedMoment$ } from 'in-components/timeline/timelineStore';
 import { isEventOpenAtFocusedMoment } from 'in-stores/events';
-import { selectedSnapshotId } from 'in-stores/snapshot';
 import { emptyArray } from 'in-services/fixedObjects';
 
 const highlightedColor = '#ffffff';
 
-export default class EventRenderer extends BasicRenderer {
-  constructor(backBuffer, scale, y, iconSize) {
-    super(backBuffer, scale);
+export default function createEventRenderer(ctx, scale) {
+  let highlightedEvent = null;
+  let width = 0;
 
-    this.highlightedEvent = null;
-    this.iconSize = iconSize;
-    this.width = 0;
-    this.y = y;
+  let selectedEvent = null;
+  let recentEventIds = emptyArray;
 
-    this.selectedEvent = null;
-    this.recentEventIds = emptyArray;
+  const selectedIncidentSubscription = selectedEvent$.subscribe(_event => {
+    if (!_event || getEventType(_event) !== EVENT_TYPES.INCIDENT) {
+      recentEventIds = emptyArray;
+      selectedEvent = null;
+      return;
+    }
 
-    this.selectedIncidentSubscription = selectedEvent$.subscribe(_event => {
-      if (!_event || getEventType(_event) !== EVENT_TYPES.INCIDENT) {
-        this.recentEventIds = emptyArray;
-        this.selectedEvent = null;
-        return;
-      }
+    selectedEvent = _event;
+    recentEventIds = _event.get('recentEvents', emptyArray).toArray();
 
-      this.selectedEvent = _event;
-      this.recentEventIds = _event.get('recentEvents', emptyArray).toArray();
+    // add the incident itself to highlight it, too
+    recentEventIds.push(_event.get('id'));
+  });
 
-      // add the incident itself to highlight it, too
-      this.recentEventIds.push(_event.get('id'));
-    });
+  let focusedMoment = null;
+  const focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => focusedMoment = _focusedMoment);
 
-    this.focusedMoment = null;
-    this.focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => this.focusedMoment = _focusedMoment);
+  let highlightedEntityId = null;
+  const highlightedEntityIdSubscription = highlightedEntityId$.subscribe(id => highlightedEntityId = id);
 
-    this.highlightedEntityId = null;
-    this.highlightedEntityIdSubscription = highlightedEntityId$.subscribe(id => this.highlightedEntityId = id);
+  let selectedSnapshotId = null;
+  const selectedSnapshotIdSubscription = selectedSnapshotId$.subscribe(id => selectedSnapshotId = id);
 
-    this.selectedSnapshotId = null;
-    this.selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(id => this.selectedSnapshotId = id);
+  let selectedEventId = null;
+  const selectedEventIdSubscription = selectedEventId$.subscribe(id => selectedEventId = id);
 
-    this.selectedEventId = null;
-    this.selectedEventIdSubscription = selectedEventId$.subscribe(id => this.selectedEventId = id);
+  return {
+    draw,
+    drawImage,
+    drawEvents,
+    eventIsOpen,
+    isEventActive,
+    setWidth,
+    setHighlightedEvent,
+    dispose
+  };
+
+  function setWidth(_width) {
+    width = _width;
   }
 
-  setWidth(width) {
-    this.width = width;
+  function setHighlightedEvent(event) {
+    highlightedEvent = event;
   }
 
-  setHighlightedEvent(event) {
-    this.highlightedEvent = event;
-  }
-
-  drawEvents(events) {
+  function drawEvents(events, renderer) {
     for (let i = 0, len = events.length; i < len; i++) {
       const event = events[i];
-      if (!this.isEventActive(event)) {
-        this.backBuffer.globalAlpha = 0.2;
-        this.draw(event, event === this.highlightedEvent);
-        this.backBuffer.globalAlpha = 1;
+      if (!isEventActive(event)) {
+        ctx.globalAlpha = 0.2;
+        renderer.draw(event, event === highlightedEvent);
+        ctx.globalAlpha = 1;
       } else {
-        this.draw(event, event === this.highlightedEvent);
+        renderer.draw(event, event === highlightedEvent);
       }
     }
   }
 
-  isEventActive(event) {
+  function isEventActive(event) {
     const snapshotId = event.getIn(['problem', 'snapshotId']);
     // the event is active (which means that it will be drawn normally) if there is no incident selected
     // and the events range must cross the focused moment so it currentyl active
     // and it has to contain to cetrain selected entityId (if available)
     if (
-      !this.selectedEvent &&
-      (!this.focusedMoment || this.getEventStart(event) <= this.focusedMoment) &&
-      (!this.highlightedEntityId || snapshotId === this.highlightedEntityId) &&
-      (!this.selectedSnapshotId || snapshotId === this.selectedSnapshotId)
+      !selectedEvent &&
+      (!focusedMoment || getEventStart(event) <= focusedMoment) &&
+      (!highlightedEntityId || snapshotId === highlightedEntityId) &&
+      (!selectedSnapshotId || snapshotId === selectedSnapshotId)
     ) {
       return true;
     }
 
     // otherwhise we have to look if the event is inside the recent events of the selected incident
-    return this.recentEventIds.indexOf(event.get('id')) < 0 ? false : true;
+    return recentEventIds.indexOf(event.get('id')) < 0 ? false : true;
   }
 
-  eventIsOpen(event) {
-    return isEventOpenAtFocusedMoment(
-      this.getEventStart(event),
-      event.get('end'),
-      event.get('state'),
-      this.focusedMoment
-    );
+  function eventIsOpen(event) {
+    return isEventOpenAtFocusedMoment(getEventStart(event), event.get('end'), event.get('state'), focusedMoment);
   }
 
-  draw(event, isHighlighted) {
-    const scale = this.scale;
+  function draw(event, isHighlighted, y) {
     const positions = {
       x: scale.getRange(event.get('start')),
-      triggeringX: scale.getRange(this.getEventStart(event))
+      triggeringX: scale.getRange(getEventStart(event))
     };
 
-    this.drawSelectedEventTimerange(event, positions);
+    drawSelectedEventTimerange(event, positions, y);
 
-    if (positions.x <= 0 || positions.x > this.width) {
-      if (positions.triggeringX <= 0 || positions.triggeringX > this.width) {
+    if (positions.x <= 0 || positions.x > width) {
+      if (positions.triggeringX <= 0 || positions.triggeringX > width) {
         return null;
       }
     }
 
-    this.backBuffer.fillStyle = isHighlighted ? highlightedColor : getColorByEvent(event);
+    ctx.fillStyle = isHighlighted ? highlightedColor : getColorByEvent(event);
 
-    const prevValue = this.backBuffer.globalAlpha;
-    this.backBuffer.globalAlpha = 0.2;
-    this.backBuffer.fillRect(positions.triggeringX, this.y, 1, 36);
-    this.backBuffer.globalAlpha = prevValue;
+    const prevValue = ctx.globalAlpha;
+    ctx.globalAlpha = 0.2;
+    ctx.fillRect(positions.triggeringX, y, 1, 36);
+    ctx.globalAlpha = prevValue;
 
     return positions;
   }
 
-  drawSelectedEventTimerange(event, positions) {
-    if (event.get('id') !== this.selectedEventId) {
+  function drawSelectedEventTimerange(event, positions, y) {
+    if (event.get('id') !== selectedEventId) {
       return;
     }
 
-    const prevValue = this.backBuffer.globalAlpha;
+    const prevValue = ctx.globalAlpha;
     const from = Math.max(0, Math.min(positions.x, positions.triggeringX));
-    const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : this.scale.getRange(event.get('end'));
+    const to = event.get('state') === 'open' ? ctx.canvas.width : scale.getRange(event.get('end'));
 
-    this.backBuffer.globalAlpha = 0.2;
-    this.backBuffer.fillStyle = highlightedColor;
-    this.backBuffer.fillRect(from, this.y, to - from, 36);
-    this.backBuffer.globalAlpha = prevValue;
+    ctx.globalAlpha = 0.2;
+    ctx.fillStyle = highlightedColor;
+    ctx.fillRect(from, y, to - from, 36);
+    ctx.globalAlpha = prevValue;
   }
 
-  drawImage(image, x) {
+  function drawImage(image, x, y, iconSize) {
     if (image) {
-      const iconSize = this.iconSize;
-
-      this.backBuffer.drawImage(
+      ctx.drawImage(
         image,
         x - iconSize / 2, // x
-        this.y + 20 - iconSize / 2 - 1, // y
+        y + 20 - iconSize / 2 - 1, // y
         iconSize, // width
         iconSize
       ); // height
     }
   }
 
-  getEventStart(event) {
+  function getEventStart(event) {
     return event.get('triggeringTime', event.get('start'));
   }
 
-  dispose() {
-    super.dispose();
-
-    this.highlightedEntityIdSubscription.dispose();
-    this.selectedSnapshotIdSubscription.dispose();
-    this.selectedIncidentSubscription.dispose();
-    this.selectedEventIdSubscription.dispose();
-    this.focusedMomentSubscription.dispose();
+  function dispose() {
+    highlightedEntityIdSubscription.dispose();
+    selectedSnapshotIdSubscription.dispose();
+    selectedIncidentSubscription.dispose();
+    selectedEventIdSubscription.dispose();
+    focusedMomentSubscription.dispose();
   }
 }

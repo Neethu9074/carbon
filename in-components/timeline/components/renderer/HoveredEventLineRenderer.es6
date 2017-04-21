@@ -1,61 +1,57 @@
-import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import { focusedMoment$ } from 'in-components/timeline/timelineStore';
 import { getEventType, EVENT_TYPES } from 'in-services/issueTracker';
 import { getColorByEvent } from 'in-stores/events';
 
-export default class HoveredEventLineRenderer extends BasicRenderer {
-  constructor(backBuffer, scale) {
-    super(backBuffer, scale);
+export default function createHoveredEventLineRenderer(ctx, scale) {
+  let highlightedEvent = null;
+  let y = 0;
 
-    this.highlightedEvent = null;
-    this.y = 0;
+  let focusedMoment = null;
+  const focusedMomentSubscription = focusedMoment$.subscribe(_focusedMoment => focusedMoment = _focusedMoment);
 
-    this.focusedMoment = null;
-    this.focusedMomentSubscription = focusedMoment$.subscribe(focusedMoment => this.focusedMoment = focusedMoment);
-  }
+  return {
+    draw,
+    setHighlightedEvent,
+    dispose
+  };
 
-  setHighlightedEvent(event) {
-    this.highlightedEvent = event;
+  function setHighlightedEvent(event) {
+    highlightedEvent = event;
 
     if (event) {
-      this.y = 74;
+      y = 74;
       const eventType = getEventType(event);
       if (eventType === EVENT_TYPES.INCIDENT) {
-        this.y = 37;
+        y = 37;
       } else if (eventType === EVENT_TYPES.CHANGE) {
-        this.y = 111;
+        y = 111;
       }
     }
   }
 
-  draw() {
-    const event = this.highlightedEvent;
-    if (!event) {
+  function draw() {
+    if (!highlightedEvent) {
       return;
     }
 
     const positions = {
-      x: this.scale.getRange(event.get('start')),
-      triggeringX: this.scale.getRange(this.getEventStart(event))
+      x: scale.getRange(highlightedEvent.get('start')),
+      triggeringX: scale.getRange(highlightedEvent.get('triggeringTime', highlightedEvent.get('start')))
     };
 
     const from = Math.max(0, Math.min(positions.x, positions.triggeringX));
-    const to = event.get('state') === 'open' ? this.backBuffer.canvas.width : this.scale.getRange(event.get('end'));
+    const to = highlightedEvent.get('state') === 'open'
+      ? ctx.canvas.width
+      : scale.getRange(highlightedEvent.get('end'));
 
-    const buffer = this.backBuffer;
+    const buffer = ctx;
     buffer.globalAlpha = 0.2;
-    buffer.fillStyle = getColorByEvent(event, this.focusedMoment);
-    buffer.fillRect(from, this.y, to - from, 36);
+    buffer.fillStyle = getColorByEvent(highlightedEvent, focusedMoment);
+    buffer.fillRect(from, y, to - from, 36);
     buffer.globalAlpha = 1;
   }
 
-  getEventStart(event) {
-    return event.get('triggeringTime', event.get('start'));
-  }
-
-  dispose() {
-    super.dispose();
-
-    this.focusedMomentSubscription.dispose();
+  function dispose() {
+    focusedMomentSubscription.dispose();
   }
 }

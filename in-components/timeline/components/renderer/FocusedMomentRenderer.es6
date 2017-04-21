@@ -1,35 +1,26 @@
-import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 import { focusedMomentXPosition$ } from 'in-components/timeline/timelineStore';
 
 const color = '#9fffff';
 
-export default class FocusedMomentRenderer extends BasicRenderer {
-  constructor(backBuffer, scale) {
-    super(backBuffer, scale);
+export default function createFocusedMomentRenderer(ctx) {
+  let x = null;
+  const focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(_x => x = _x);
 
-    this.x = null;
-    this.focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(x => this.x = x);
-  }
+  return {
+    draw,
+    dispose
+  };
 
-  getCurrentXPosition() {
-    return this.x;
-  }
-
-  draw() {
-    const buffer = this.backBuffer;
-    const x = this.x;
-
+  function draw() {
     // draw line
-    buffer.fillStyle = color;
+    ctx.fillStyle = color;
 
-    buffer.globalAlpha = 0.2;
-    buffer.fillRect(x, 40, 1, 160);
-    buffer.globalAlpha = 1;
+    ctx.globalAlpha = 0.2;
+    ctx.fillRect(x, 40, 1, 160);
+    ctx.globalAlpha = 1;
   }
 
-  dispose() {
-    super.dispose();
-
-    this.focusedMomentXPositionSubscription.dispose();
+  function dispose() {
+    focusedMomentXPositionSubscription.dispose();
   }
 }

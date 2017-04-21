@@ -1,21 +1,22 @@
 import { on, create } from 'reactive-observables';
 
-import CombinedEventsRenderer from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
-import HighlightedTimeframeRenderer from 'in-components/timeline/components/renderer/HighlightedTimeframeRenderer';
-import HighlightedMomentRenderer from 'in-components/timeline/components/renderer/HighlightedMomentRenderer';
-import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
-import MarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';
-import FocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
-import EventsGraphRenderer from 'in-components/timeline/components/renderer/EventsGraphRenderer';
-import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
-import createApplyTimeButton from 'in-components/timeline/components/renderer/applyTimeButton';
+import createCombinedEventsRenderer
+  from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
+import createHighlightedTimeframeRenderer
+  from 'in-components/timeline/components/renderer/HighlightedTimeframeRenderer';
+import createHighlightedMomentRenderer from 'in-components/timeline/components/renderer/HighlightedMomentRenderer';
+import createHoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
+import createMarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';
+import createFocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
+import createBackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
+import createTimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import { timeframe$, to$, from$, setTimelineScale } from 'in-components/timeline/timelineStore';
-import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
-import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
-import { drawMode$, DRAW_MODES, isCollapsed$ } from 'in-components/timeline/timelineStore';
+import createApplyTimeButton from 'in-components/timeline/components/renderer/applyTimeButton';
+import createRealtimeUpateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
 import { eventsInTimeframe$, highlightedEvent$ } from 'in-stores/events';
+import { isCollapsed$ } from 'in-components/timeline/timelineStore';
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
@@ -26,13 +27,11 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
   let width;
   let collapsed;
 
-  const screenBufferCanvas = canvas;
-  const screenBuffer = screenBufferCanvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
 
   const realtimeDrawStream = create();
-  const realtimeUpdateEvents = new RealtimeUpdateEvents(realtimeDrawStream, changeSignal);
-
-  const changes = create();
+  const throttledDrawStream = create();
+  const realtimeUpdateEvents = createRealtimeUpateEvents(realtimeDrawStream, changeSignal);
 
   const scale = createScale();
   setTimelineScale(scale);
@@ -50,34 +49,27 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
 
     // only require realtime draw when opening the timeline
     if (collapsed) {
-      changes.emit(changeSignal);
+      throttledDrawStream.emit(changeSignal);
     } else {
       realtimeDrawStream.emit(changeSignal);
     }
   });
 
-  const timeAxisRenderer = new TimeAxisRenderer(screenBuffer, scale);
-  const focusedMomentRenderer = new FocusedMomentRenderer(screenBuffer, scale);
-  const highlightedMomentRenderer = new HighlightedMomentRenderer(screenBuffer, scale);
-  const markedIncidentRenderer = new MarkedIncidentRenderer(screenBuffer, scale);
-  const combinedEventsRenderer = new CombinedEventsRenderer(screenBuffer, scale);
-  const backgroundRenderer = new BackgroundRenderer(screenBuffer, scale, height);
-  const eventsGraphRenderer = new EventsGraphRenderer(screenBuffer, scale, height);
-  const hoveredEventLineRenderer = new HoveredEventLineRenderer(screenBuffer, scale);
-  const highlightedTimeframeRenderer = new HighlightedTimeframeRenderer(screenBuffer, scale, height);
+  const timeAxisRenderer = createTimeAxisRenderer(ctx, scale);
+  const focusedMomentRenderer = createFocusedMomentRenderer(ctx);
+  const highlightedMomentRenderer = createHighlightedMomentRenderer(ctx, scale);
+  const markedIncidentRenderer = createMarkedIncidentRenderer(ctx, scale);
+  const combinedEventsRenderer = createCombinedEventsRenderer(ctx, scale);
+  const backgroundRenderer = createBackgroundRenderer(ctx, scale, height);
+  const hoveredEventLineRenderer = createHoveredEventLineRenderer(ctx, scale);
+  const highlightedTimeframeRenderer = createHighlightedTimeframeRenderer(ctx, scale, height);
   const applyTimeButtonRenderer = createApplyTimeButton(container, glassPane, canvas, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
     combinedEventsRenderer.setHighlightedEvent(event);
 
-    changes.emit(changeSignal);
-  });
-
-  let drawMode;
-  drawMode$.subscribe(mode => {
-    drawMode = mode;
-    realtimeDrawStream.emit(changeSignal);
+    throttledDrawStream.emit(changeSignal);
   });
 
   const highlightedTimeframeSubscription = highlightedTimeframe$.subscribe(() => realtimeDrawStream.emit(changeSignal));
@@ -86,30 +78,28 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
 
   let axisConfig;
   const timeframeSubscription = timeframe$
-    .map(frame => getAxisConfig(frame.windowSize))
     .distinct()
+    .map(frame => getAxisConfig(frame.windowSize))
     .subscribe(config => {
       axisConfig = config;
-      changes.emit(changeSignal);
+      throttledDrawStream.emit(changeSignal);
     });
 
   let categorizedEvents;
   const eventsSubscription = eventsInTimeframe$.subscribe(events => {
     categorizedEvents = events;
-    changes.emit(changeSignal);
+    throttledDrawStream.emit(changeSignal);
   });
 
   const resizeSubscription = on(window, 'resize').debounce(500).subscribe(resize);
+  resize(); // initial resize
 
-  // initial resize
-  resize();
-
-  const drawSubscription = changes.debounce(300).subscribe(draw);
+  const drawSubscription = throttledDrawStream.debounce(300).subscribe(draw);
 
   const realtimeDrawSubscription = realtimeDrawStream.nextFrame().subscribe(draw);
 
   return {
-    canvas: screenBufferCanvas,
+    canvas,
     dispose
   };
 
@@ -119,13 +109,12 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
     scale.setRangeTo(width - 20);
     setTimelineScale(scale);
 
-    eventsGraphRenderer.setWidth(width);
     combinedEventsRenderer.setWidth(width);
     backgroundRenderer.setWidth(width);
 
-    updateCanvasDimensions(screenBufferCanvas, screenBuffer, width, height);
+    updateCanvasDimensions(canvas, ctx, width, height);
 
-    changes.emit(changeSignal);
+    throttledDrawStream.emit(changeSignal);
   }
 
   function draw() {
@@ -133,13 +122,9 @@ export default function createTimelineRenderer({ container, canvas, glassPane })
     timeAxisRenderer.draw(axisConfig);
 
     if (categorizedEvents) {
-      if (drawMode === DRAW_MODES.DISCRETE_EVENTS) {
-        markedIncidentRenderer.draw(categorizedEvents.incidents);
-        hoveredEventLineRenderer.draw();
-        combinedEventsRenderer.drawEvents(categorizedEvents);
-      } else if (drawMode === DRAW_MODES.EVENTS_GRAPH) {
-        eventsGraphRenderer.draw(categorizedEvents);
-      }
+      markedIncidentRenderer.draw(categorizedEvents.incidents);
+      hoveredEventLineRenderer.draw();
+      combinedEventsRenderer.drawEvents(categorizedEvents);
     }
 
     highlightedTimeframeRenderer.draw();
