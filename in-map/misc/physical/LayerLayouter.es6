@@ -100,6 +100,7 @@ export default function createLayouter(node) {
     if (numGaps === 0) {
       return 0;
     }
+    // for some reason, chrome decided to slow down massively when this is devided by 1. Handle this case to get performance back.
     if (numGaps === 1) {
       return 0.1 * heightOfNode;
     }
