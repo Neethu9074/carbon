@@ -29,6 +29,7 @@ React.createClass({
   render() {
     const expandedCell = this.state.expandedCell;
     const startCell = this.props.eventFilter === 'incident' ? 'triggered' : 'start';
+    const field = this.props.eventFilter === 'incident' ? 'triggeringTime' : 'start';
 
     return (
       <div className={block}>
@@ -39,7 +40,7 @@ React.createClass({
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 
         <Cell name={startCell}
-              field={startCell}
+              field={field}
               expandedCell={expandedCell}
               onExpandClick={cellName => this.setState({expandedCell: cellName})} />
 

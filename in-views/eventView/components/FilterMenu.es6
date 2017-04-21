@@ -106,6 +106,8 @@ export function getQueryFieldNameForField(field) {
       return 'problem.problemText';
     case 'severity':
       return 'problem.severity';
+    case 'triggered':
+      return 'triggeringTime';
     default:
       return field;
   }
