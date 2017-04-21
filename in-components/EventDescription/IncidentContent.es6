@@ -1,12 +1,12 @@
-import {combineLatest} from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {sortedRecentEvents$} from 'in-views/eventView/stores/recentEventsStore';
 import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import {toHtml} from 'in-services/formatters/markdown';
-import {emptyList} from 'in-services/fixedImmutables';
-import {getEvent} from 'in-services/issueTracker';
+import {getSnapshot} from 'in-stores/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 
@@ -14,22 +14,24 @@ const block = 'in-event-description';
 
 export default connectTo(props => {
   return {
-    events: combineLatest(props.incident.get('recentEvents', emptyList).toArray().map(id => getEvent(id)))
+    snapshot: getSnapshot(props.incident.getIn(['problem', 'snapshotId'])),
+    events: sortedRecentEvents$
   };
 }, IncidentContent);
 
-function IncidentContent({incident, events}) {
+function IncidentContent({incident, events, snapshot}) {
   if (!events || events.length === 0) {
     return null;
   }
 
   const firstEvent = events[0];
   const problem = firstEvent.get('problem');
+  const label = snapshot ? getLabel(snapshot) : '';
 
   return (
     <div>
       <div className={block + '__header'}>
-        {`incident (${incident.get('recentEvents').size}) events`}
+        {`incident: ${incident.getIn(['problem', 'problemText'])} - ${label} (${incident.get('recentEvents').size} events)`}
       </div>
 
       <span className={block + '__incident-started'}>
@@ -66,6 +68,7 @@ const Header = connectTo(props => {
 const rpt = React.PropTypes;
 IncidentContent.propTypes = {
   incident: irpt.map.isRequired,
+  snapshot: irpt.map,
   color: rpt.string,
   events: rpt.array
 };
