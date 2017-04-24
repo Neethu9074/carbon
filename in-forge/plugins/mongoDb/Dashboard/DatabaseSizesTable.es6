@@ -1,67 +1,73 @@
 import React from 'react';
 
+import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import Mtd from 'in-components/Mtd';
-import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
-export default function Table({ snapshot, timeframe }) {
-  const dbs = snapshot.getIn(['data', 'databases'], emptyList).sort();
-  if (dbs.size === 0) {
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `dbs.${row.key}`;
+      },
+      getContent: bytesZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
+
+export default function DatabaseTable({ snapshot, timeframe }) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'databases'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      snapshotId,
+      timeframe
+    };
+  });
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Database Sizes">
-      <ExpandableTable
-        data={dbs}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Databases (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(db) {
-  return db;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Database Size</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(db, i, context) {
-  return [<td>{db}</td>, <Mtd metric={'dbs.' + db} formatter={bytesZeroDecimalPlaces} snapshot={context.snapshot} />];
-}
-
-function createDetails(db, i, context) {
+function getDetails(row) {
   return (
     <div>
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
           formatter: bytesZeroDecimalPlaces,
           tooltipFormatter: bytesTwoDecimalPlaces,
-          metrics: ['dbs.' + db],
+          metrics: ['dbs.' + row.key],
           labels: ['Database Size'],
           type: 'line'
         }}
