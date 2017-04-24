@@ -3,72 +3,97 @@ import React from 'react';
 import ServletsInWebAppTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ServletsInWebAppTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
+import { number, minutes } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Context',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.webApp.get('name');
+      }
+    }
+  },
+  {
+    title: 'Session Timeout',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.webApp.get('session-timeout');
+      },
+      getContent: minutes.compact
+    }
+  },
+  {
+    title: 'Number of Sessions',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `sessions.${row.key}`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function WebAppsTable({ snapshot, timeframe }) {
-  const webApps = snapshot.getIn(['data', 'webapps'], emptyMap).sort();
-  if (webApps.size === 0) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot
+    .getIn(['data', 'webapps'], emptyMap)
+    .map((webApp, context) => {
+      return {
+        key: context,
+        webApp,
+        snapshot,
+        snapshotId,
+        timeframe
+      };
+    })
+    .valueSeq()
+    .toArray();
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Web Apps">
-      <ExpandableTable
-        data={webApps}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Web Apps (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(webApp, webAppContext) {
-  return webAppContext;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Context</th>
-        <th>Name</th>
-        <th>Session Timeout</th>
-        <th>Number of Sessions</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(webApp, webAppContext, context) {
-  return [
-    <td>{webAppContext}</td>,
-    <td>{webApp.get('name')}</td>,
-    <td>{webApp.get('session-timeout')}</td>,
-    <Mtd metric={'sessions.' + webAppContext} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(webApp, webAppContext, context) {
+function getRowDetails(row) {
   return (
     <div>
-      <ServletsInWebAppTable webAppContext={webAppContext} snapshot={context.snapshot} timeframe={context.timeframe} />
+      <ServletsInWebAppTable webAppContext={row.key} snapshot={row.snapshot} timeframe={row.timeframe} />
 
       <ChartWithLegend
-        snapshotId={context.snapshot.get('id')}
-        timeframe={context.timeframe}
+        snapshotId={row.snapshotId}
+        timeframe={row.timeframe}
         margins={{
           left: 80
         }}
         y1={{
-          metrics: ['sessions.' + webAppContext],
+          metrics: ['sessions.' + row.key],
           labels: ['Sessions'],
           type: 'line'
         }}

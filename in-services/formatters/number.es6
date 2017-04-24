@@ -33,8 +33,9 @@ export const bytes = {
   detailed: bytesTwoDecimalPlaces
 };
 
-export const timeByMillisTwoDecimalPlaces = t => formatTime(t * 1000);
 export const timeByMicroTwoDecimalPlaces = t => formatTime(t);
+export const timeByMillisTwoDecimalPlaces = t => formatTime(t * 1000);
+export const timeByMinutesTwoDecimalPlaces = t => formatTime(t * 1000 * 1000 * 60);
 export const micros = {
   compact: timeByMicroTwoDecimalPlaces,
   detailed: timeByMicroTwoDecimalPlaces
@@ -42,6 +43,10 @@ export const micros = {
 export const millis = {
   compact: timeByMillisTwoDecimalPlaces,
   detailed: timeByMillisTwoDecimalPlaces
+};
+export const minutes = {
+  compact: timeByMinutesTwoDecimalPlaces,
+  detailed: timeByMinutesTwoDecimalPlaces
 };
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, 0) + '/s';
