@@ -3,8 +3,8 @@ import React from 'react';
 import { timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import Table from 'in-sdk/components/dashboard/Table';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const muSecondsFormatter = muSeconds => muSeconds + ' µs';
 
@@ -127,7 +127,7 @@ export default function KeyspacesTable({ snapshot, timeframe }) {
   });
 
   return (
-    <DashboardSection title="Keyspaces">
+    <DashboardSection title={`Keyspaces (${rows.length})`}>
       <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );

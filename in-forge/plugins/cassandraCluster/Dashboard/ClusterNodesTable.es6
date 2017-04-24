@@ -1,16 +1,74 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { getClusterMembers } from 'in-stores/clusterMembers';
+import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Mtd from 'in-components/Mtd';
+
+const cols = [
+  {
+    title: 'Health',
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Name',
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Version',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.getIn(['data', 'version']);
+      }
+    }
+  },
+  {
+    title: 'Nr. of Keyspaces',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'keyspaceCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Store Size',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'overallDiskSize';
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default connectTo(
   props => {
@@ -27,61 +85,18 @@ export default connectTo(
       return null;
     }
 
+    const rows = clusterNodes.map(node => {
+      return {
+        key: node.get('id'),
+        node,
+        timeframe
+      };
+    });
+
     return (
-      <DashboardSection title="Cluster Nodes">
-        <ExpandableTable
-          data={clusterNodes}
-          getKey={getKey}
-          createHeader={createHeader}
-          createRow={createRow}
-          context={{
-            timeframe
-          }}
-        />
+      <DashboardSection title={`Cluster Nodes (${rows.length})`}>
+        <Table cols={cols} rows={rows} />
       </DashboardSection>
     );
   }
 );
-
-function getKey(node) {
-  return node.get('id');
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Health</th>
-        <th>Name</th>
-        <th>Version</th>
-        <th>Nr. of Keyspaces</th>
-        <th>Size of Store</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(node, i, context) {
-  const id = node.get('id');
-
-  return [
-    <td><AnnotatedHealthBar snapshotId={id} /></td>,
-    <td>
-      <HierarchicalLink snapshotId={id} calculateHierarchy kind="dark">
-        {node.getIn(['data', 'clusterName'])}-{node.getIn(['data', 'hostId'])}
-      </HierarchicalLink>
-    </td>,
-    <td>{node.getIn(['data', 'version'])}</td>,
-    <td>
-      <HistoricMetricSparkChartWithLabel
-        width={200}
-        height={30}
-        timeframe={context.timeframe}
-        snapshotId={id}
-        metric="keyspaceCount"
-        formatter={zeroDecimalPlaces}
-      />
-    </td>,
-    <Mtd metric={'overallDiskSize'} snapshot={node} formatter={bytesTwoDecimalPlaces} />
-  ];
-}
