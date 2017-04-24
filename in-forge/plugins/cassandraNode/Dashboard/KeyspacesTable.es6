@@ -1,75 +1,143 @@
 import React from 'react';
 
+import { timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
+import Table from 'in-sdk/components/dashboard/Table';
 import { emptyList } from 'in-services/fixedImmutables';
-import { timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
 
 const muSecondsFormatter = muSeconds => muSeconds + ' µs';
 
+const cols = [
+  {
+    title: 'Keyspace',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Reads',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `keyspace.${row.key}.reads`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Avg. Read Latency',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `keyspace.${row.key}.readLatency`;
+      },
+      getContent: muSecondsFormatter,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Writes',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `keyspace.${row.key}.writes`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Avg. Write Latency',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `keyspace.${row.key}.writeLatency`;
+      },
+      getContent: muSecondsFormatter,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'SSTables',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `keyspace.${row.key}.ssTables`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Reads',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `keyspace.${row.key}.diskSize`;
+      },
+      getContent: bytesZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
+
 export default function KeyspacesTable({ snapshot, timeframe }) {
-  const keyspaces = snapshot.getIn(['data', 'keyspaces'], emptyList).sort();
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'keyspaces'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      timeframe,
+      snapshotId
+    };
+  });
 
   return (
     <DashboardSection title="Keyspaces">
-      <ExpandableTable
-        data={keyspaces}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(keyspace) {
-  return keyspace;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Keyspace</th>
-        <th>Reads</th>
-        <th>Avg. Read Latency</th>
-        <th>Writes</th>
-        <th>Avg. Write Latency</th>
-        <th>SSTables</th>
-        <th>Disk Space</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(keyspace, index, context) {
-  return [
-    <td>{keyspace}</td>,
-    <Mtd metric={'keyspace.' + keyspace + '.reads'} snapshot={context.snapshot} />,
-    <Mtd metric={'keyspace.' + keyspace + '.readLatency'} snapshot={context.snapshot} formatter={muSecondsFormatter} />,
-    <Mtd metric={'keyspace.' + keyspace + '.writes'} snapshot={context.snapshot} />,
-    <Mtd
-      metric={'keyspace.' + keyspace + '.writeLatency'}
-      snapshot={context.snapshot}
-      formatter={muSecondsFormatter}
-    />,
-    <Mtd metric={'keyspace.' + keyspace + '.ssTables'} snapshot={context.snapshot} />,
-    <Mtd metric={'keyspace.' + keyspace + '.diskSize'} snapshot={context.snapshot} formatter={bytesZeroDecimalPlaces} />
-  ];
-}
-
-function createDetails(keyspace, index, context) {
+function getDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 80,
         right: 80
@@ -77,13 +145,13 @@ function createDetails(keyspace, index, context) {
       y1={{
         min: 0,
         formatter: timeByMicroTwoDecimalPlaces,
-        metrics: ['keyspace.' + keyspace + '.readLatency', 'keyspace.' + keyspace + '.writeLatency'],
+        metrics: ['keyspace.' + row.key + '.readLatency', 'keyspace.' + row.key + '.writeLatency'],
         labels: ['Average Read Latency', 'Average Write Latency'],
         type: 'line'
       }}
       y2={{
         min: 0,
-        metrics: ['keyspace.' + keyspace + '.reads', 'keyspace.' + keyspace + '.writes'],
+        metrics: ['keyspace.' + row.key + '.reads', 'keyspace.' + row.key + '.writes'],
         labels: ['Reads', 'Writes'],
         type: 'line'
       }}
