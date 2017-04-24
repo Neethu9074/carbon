@@ -65,8 +65,9 @@ function refreshContent(row, column) {
   const content = column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);
   if (shouldPresentValueAsPercentage(column.columnDefinition.typeArgs.getContent)) {
     column.content = <PercentageCell value={column.value} content={content} />;
+  } else {
+    column.content = content;
   }
-  column.content = content;
 }
 
 function shouldPresentValueAsPercentage(getContentFn) {
