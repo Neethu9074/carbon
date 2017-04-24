@@ -2,71 +2,104 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+import { number } from 'in-services/formatters/number';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.datasource.get('name');
+      }
+    }
+  },
+  {
+    title: 'Context',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.datasource.get('context');
+      }
+    }
+  },
+  {
+    title: 'URL',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.datasource.get('url');
+      }
+    }
+  },
+  {
+    title: 'Active',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `datasources.${row.key}.active`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Max',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.datasource.get('max');
+      },
+      getContent(value) {
+        return value == null || value === -1 ? 'unlimited' : number.compact(value);
+      }
+    }
+  }
+];
 
 export default function DataSourcesTable({ snapshot, timeframe }) {
-  const datasources = snapshot.getIn(['data', 'datasource-config'], emptyMap);
-  if (datasources.size === 0) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot
+    .getIn(['data', 'datasource-config'], emptyMap)
+    .map((datasource, id) => {
+      return {
+        key: id,
+        datasource,
+        timeframe,
+        snapshotId
+      };
+    })
+    .valueSeq()
+    .toArray();
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Data Sources">
-      <ExpandableTable
-        data={datasources}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Data Sources (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(connector, connectorName) {
-  return connectorName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Context</th>
-        <th>Url</th>
-        <th>Active</th>
-        <th>Max</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(datasource, name, context) {
-  return [
-    <td>{datasource.getIn(['name'])}</td>,
-    <td>{datasource.getIn(['context'])}</td>,
-    <td>{datasource.getIn(['url'])}</td>,
-    <Mtd metric={'datasources.' + name + '.active'} snapshot={context.snapshot} />,
-    <td>{datasource.getIn(['max'], 'unlimited')}</td>
-  ];
-}
-
-function createDetails(connector, name, context) {
+function getRowDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 80
       }}
       y1={{
-        metrics: ['datasources.' + name + '.active'],
+        metrics: ['datasources.' + row.key + '.active'],
         labels: ['Active connections'],
         type: 'line'
       }}
