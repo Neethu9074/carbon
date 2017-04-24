@@ -135,7 +135,7 @@ export default function IndicesTable({ snapshot, timeframe }) {
   }
 
   return (
-    <DashboardSection title="Index Details">
+    <DashboardSection title={`Index Details (${rows.length})`}>
       <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
