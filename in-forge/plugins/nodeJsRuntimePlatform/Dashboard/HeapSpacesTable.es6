@@ -117,10 +117,10 @@ function getDetails(row) {
         formatter: bytesZeroDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
         metrics: [
-          'heapSpaces.' + name + '.available',
-          'heapSpaces.' + name + '.current',
-          'heapSpaces.' + name + '.used',
-          'heapSpaces.' + name + '.physical'
+          'heapSpaces.' + row.name + '.available',
+          'heapSpaces.' + row.name + '.current',
+          'heapSpaces.' + row.name + '.used',
+          'heapSpaces.' + row.name + '.physical'
         ],
         labels: ['Available', 'Current', 'Used', 'Physical'],
         type: 'line'
