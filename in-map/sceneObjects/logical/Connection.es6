@@ -21,9 +21,9 @@ import {
 } from 'in-map/misc/Connections';
 import ConnectionStickyNote from 'in-map/components/stickyNotes/logical/Connection';
 import GhostConncetionSpawner from 'in-map/misc/logical/GhostConnectionSpawner';
+import { LOGICAL_CONNECTION_REACTION } from 'in-map/misc/TimingConfig';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import { showSticky$ } from 'in-map/stores/logical/connectionsStore';
-import { LOGICAL_CONNECTION_REACTION } from 'in-map/misc/TimingConfig';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import connections from 'in-map/stores/connectionsStore';
 import { emptyArray } from 'in-services/fixedObjects';
