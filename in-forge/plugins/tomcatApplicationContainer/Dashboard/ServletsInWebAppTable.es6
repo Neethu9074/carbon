@@ -1,86 +1,114 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { millis, number } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
 
-const milliSecondsFormatter = milliSeconds => milliSeconds + ' ms';
+const cols = [
+  {
+    title: 'Servlet',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Requests',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `servlets.${row.servletKey}.inv`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Avg. Response Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `servlets.${row.servletKey}.time`;
+      },
+      getContent: millis.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `servlets.${row.servletKey}.errors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function ServletsTable({ webAppContext, snapshot, timeframe }) {
-  const servlets = snapshot.getIn(['data', 'servlets', webAppContext], emptyList).sort();
-  if (servlets.size === 0) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'servlets', webAppContext], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      servletKey: `${webAppContext}.${name}`,
+      webAppContext,
+      timeframe,
+      snapshotId
+    };
+  });
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title={'Servlets of ' + webAppContext}>
-      <ExpandableTable
-        data={servlets}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe,
-          webAppContext
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Servlets of ${webAppContext} (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(servlet) {
-  return servlet;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Servlet</th>
-        <th>Requests</th>
-        <th>Avg Response Time</th>
-        <th>Errors</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(servlet, servletIndex, context) {
-  const servletKey = context.webAppContext + '.' + servlet;
-
-  return [
-    <td>{servlet}</td>,
-    <Mtd metric={'servlets.' + servletKey + '.inv'} snapshot={context.snapshot} />,
-    <Mtd metric={'servlets.' + servletKey + '.time'} snapshot={context.snapshot} formatter={milliSecondsFormatter} />,
-    <Mtd metric={'servlets.' + servletKey + '.errors'} snapshot={context.snapshot} />
-  ];
-}
-
-function createDetails(servlet, servletIndex, context) {
-  const servletKey = context.webAppContext + '.' + servlet;
-
+function getRowDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 80,
         right: 40
       }}
       y1={{
-        formatter: milliSecondsFormatter,
-        metrics: ['servlets.' + servletKey + '.time'],
+        formatter: millis.detailed,
+        metrics: ['servlets.' + row.servletKey + '.time'],
         labels: ['Average Response Time'],
         type: 'line'
       }}
       y2={{
-        metrics: ['servlets.' + servletKey + '.inv', 'servlets.' + servletKey + '.errors'],
+        metrics: ['servlets.' + row.servletKey + '.inv', 'servlets.' + row.servletKey + '.errors'],
         labels: ['Request Count', 'Errors'],
-        type: 'line'
+        type: 'line',
+        formatter: number.detailed
       }}
     />
   );
