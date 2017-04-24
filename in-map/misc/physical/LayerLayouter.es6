@@ -36,7 +36,7 @@ export default function createLayouter(node) {
     const numGaps = countDifferentPluginsFromSortedArray(_layer) - 1;
 
     // the space between each group of layer
-    const heightOfGap = calculateHeightForEachGap(nodeFullHeight, numGaps);
+    const heightOfGap = numGaps === 0 ? 0 : nodeFullHeight / (numGaps * 10);
 
     // the remaining height to sliver for the layer
     const heightUsedForLayer = nodeFullHeight - numGaps * heightOfGap;
@@ -93,13 +93,6 @@ export default function createLayouter(node) {
     return Object.keys(plugins).length;
   }
 
-  function calculateHeightForEachGap(heightOfNode, numGaps) {
-    return numGaps === 0
-      ? 0
-      : // avoid devide by zero exception
-        heightOfNode / numGaps * 0.1; // 0.1 = maxPercentUsedByGaps
-  }
-
   function setupPluginIcons(plugins) {
     removeCurrentIcons();
 
@@ -137,7 +130,6 @@ export default function createLayouter(node) {
     dispose,
 
     // export them to make them testable
-    countDifferentPluginsFromSortedArray,
-    calculateHeightForEachGap
+    countDifferentPluginsFromSortedArray
   };
 }

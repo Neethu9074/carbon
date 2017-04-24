@@ -30,20 +30,14 @@ export const retrievedEvents$ = createTrackingStore({
       });
     })
     .merge(getEventUpdates(), getOpenEvents(), focusedMoment$.flatMap(getOpenEvents))
-    .scan(
-      (store, update) => {
-        update.forEach(event => insertSorted(store, event));
-        return store;
-      },
-      {
-        // Sorted array of events[] by start time. Permits quick lookup of events within a
-        // time range. Each events[] has a time property for fast lookups and comparisons
-        issues: [],
-        changes: [],
-        incidents: [],
-        objectives: []
-      }
-    )
+    .scan(insertEventsToStoreSorted, {
+      // Sorted array of events[] by start time. Permits quick lookup of events within a
+      // time range. Each events[] has a time property for fast lookups and comparisons
+      issues: [],
+      changes: [],
+      incidents: [],
+      objectives: []
+    })
 }).observable
   .startWith({
     issues: [],
@@ -52,6 +46,13 @@ export const retrievedEvents$ = createTrackingStore({
     objectives: []
   })
   .throttle(process.env.IS_TEST ? 0 : 1000);
+
+function insertEventsToStoreSorted(store, update) {
+  for (let i = 0, length = update.size; i < length; i++) {
+    insertSorted(store, update.get(i));
+  }
+  return store;
+}
 
 export const eventsInTimeframe$ = combineLatest([
   timeframe$.flatMap(timeframe => {
@@ -62,7 +63,9 @@ export const eventsInTimeframe$ = combineLatest([
   }),
   from$,
   retrievedEvents$
-]).map(([to, from, events]) => {
+]).map(filterEventsByTime);
+
+function filterEventsByTime([to, from, events]) {
   // TODO improve perf by doing a binary search for from
   return {
     issues: filter(events.issues),
@@ -73,24 +76,18 @@ export const eventsInTimeframe$ = combineLatest([
 
   function filter(eventsToFiler) {
     const result = [];
-
     for (let i = 0, len = eventsToFiler.length; i < len; i++) {
       const event = eventsToFiler[i];
       if (event.time < from) {
-        const eventTo = event.state === 'open' ? Number.MAX_VALUE : event.end;
-        if (eventTo < from) {
-          continue;
-        }
+        continue;
       } else if (event.time > to) {
         break;
       }
-
       result.push(event);
     }
-
     return result;
   }
-});
+}
 
 const openEventsAtServerTime = createStore({
   name: 'openEventsAtServerTime',
@@ -106,19 +103,21 @@ export function init() {
 
 export const openEventsAtFocusedMoment$ = createTrackingStore({
   name: 'openEventsAtFocusedMoment',
-  observable: combineLatest([focusedMoment$, retrievedEvents$]).map(([focusedMoment, events]) => {
-    return {
-      issues: events.issues.filter(filter),
-      changes: events.changes.filter(filter),
-      incidents: events.incidents.filter(filter),
-      objectives: events.objectives.filter(filter)
-    };
-
-    function filter(event) {
-      return isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment);
-    }
-  })
+  observable: combineLatest([focusedMoment$, retrievedEvents$]).map(filterOpenEventsAtFocusedMoment)
 }).observable;
+
+function filterOpenEventsAtFocusedMoment([focusedMoment, events]) {
+  return {
+    issues: events.issues.filter(filter),
+    changes: events.changes.filter(filter),
+    incidents: events.incidents.filter(filter),
+    objectives: events.objectives.filter(filter)
+  };
+
+  function filter(event) {
+    return isEventOpenAtFocusedMoment(event.start, event.end, event.state, focusedMoment);
+  }
+}
 
 export const getOpenIssuesAtFocusedMoment = memoize(
   // TODO an index by entity would be great, but probably more expensive to
@@ -134,35 +133,37 @@ export const getOpenIssuesAtFocusedMoment = memoize(
 export const getHealthInfoAtFocusedMoment = memoize(
   snapshotId =>
     getOpenIssuesAtFocusedMoment(snapshotId)
-      .scan((prevHealthInfo, issues) => {
-        const nextHealthInfo = {
-          maxSeverity: 0,
-          issueWithMaxSeverity: null,
-          numberOfOpenIssues: issues.size
-        };
-
-        issues.forEach(issue => {
-          const severity = issue.getIn(['problem', 'severity'], 0);
-          if (severity >= nextHealthInfo.maxSeverity) {
-            nextHealthInfo.maxSeverity = severity;
-            nextHealthInfo.issueWithMaxSeverity = issue;
-          }
-        });
-
-        if (
-          prevHealthInfo.maxSeverity !== nextHealthInfo.maxSeverity ||
-          prevHealthInfo.issueWithMaxSeverity !== nextHealthInfo.issueWithMaxSeverity ||
-          prevHealthInfo.numberOfOpenIssues !== nextHealthInfo.numberOfOpenIssues
-        ) {
-          return nextHealthInfo;
-        }
-        return prevHealthInfo;
-      }, {})
+      .scan(addHealthInfo, {})
       .distinct()
       .map(mutableHealthInfo => Map(mutableHealthInfo)),
   id => id,
   3000
 );
+
+function addHealthInfo(prevHealthInfo, issues) {
+  const nextHealthInfo = {
+    maxSeverity: 0,
+    issueWithMaxSeverity: null,
+    numberOfOpenIssues: issues.size
+  };
+
+  issues.forEach(issue => {
+    const severity = issue.getIn(['problem', 'severity'], 0);
+    if (severity >= nextHealthInfo.maxSeverity) {
+      nextHealthInfo.maxSeverity = severity;
+      nextHealthInfo.issueWithMaxSeverity = issue;
+    }
+  });
+
+  if (
+    prevHealthInfo.maxSeverity !== nextHealthInfo.maxSeverity ||
+    prevHealthInfo.issueWithMaxSeverity !== nextHealthInfo.issueWithMaxSeverity ||
+    prevHealthInfo.numberOfOpenIssues !== nextHealthInfo.numberOfOpenIssues
+  ) {
+    return nextHealthInfo;
+  }
+  return prevHealthInfo;
+}
 
 /**
  * Searches for the issue with the highest severity and returns it or the first

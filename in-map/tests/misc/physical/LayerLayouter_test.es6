@@ -73,20 +73,6 @@ describe('in-map', () => {
       });
     });
 
-    describe('gap height', () => {
-      it('should return 0 if there is only one object, so no gaps', () => {
-        expect(layouter.calculateHeightForEachGap(10, 0)).to.equal(0);
-      });
-
-      it('should return 10% of the full height if there is one gap', () => {
-        expect(layouter.calculateHeightForEachGap(10, 1)).to.equal(1);
-      });
-
-      it('should return 1/n * 10% of the full height if there are multiple gaps', () => {
-        expect(layouter.calculateHeightForEachGap(10, 5)).to.equal(0.2);
-      });
-    });
-
     it('should add a plugins to factory and center it', () => {
       const nodePosition = { x: 1, y: 2, z: 3 };
       const nodeScale = { x: 1, y: 4, z: 1 };

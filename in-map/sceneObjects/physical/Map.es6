@@ -38,20 +38,25 @@ export default class Map extends BaseMap {
   initEvents() {
     super.initEvents();
 
-    this.addSubscriptions([
-      selectedSnapshotIdForHighlightingInMap$.subscribe(selectedId => {
-        if (selectedId) {
-          getFactory('nodes').lockOpacity(0.25);
-          getFactory('layer').material.transparent = true;
-          getFactory('layer').material.depthWrite = false;
-        } else {
-          getFactory('nodes').unlockOpacity();
-          getFactory('layer').material.transparent = false;
-          getFactory('layer').material.depthWrite = true;
-        }
-        requestRendering();
-      })
-    ]);
+    const selectedSnapshotIdForHighlightingInMapChangedCallback = this.selectedSnapshotIdForHighlightingInMapChanged.bind(
+      this
+    );
+    this.addSubscription(
+      selectedSnapshotIdForHighlightingInMap$.subscribe(selectedSnapshotIdForHighlightingInMapChangedCallback)
+    );
+  }
+
+  selectedSnapshotIdForHighlightingInMapChanged(selectedId) {
+    if (selectedId) {
+      getFactory('nodes').lockOpacity(0.25);
+      getFactory('layer').material.transparent = true;
+      getFactory('layer').material.depthWrite = false;
+    } else {
+      getFactory('nodes').unlockOpacity();
+      getFactory('layer').material.transparent = false;
+      getFactory('layer').material.depthWrite = true;
+    }
+    requestRendering();
   }
 
   createController() {

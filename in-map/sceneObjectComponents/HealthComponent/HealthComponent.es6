@@ -9,8 +9,11 @@ export default class HealthComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(
-      getHealthInfoAtFocusedMoment(this.sceneObject.id).subscribe(health => this.emitToClient('healthChanged', health))
-    );
+    const healthChangedCallback = this.healthChanged.bind(this);
+    this.addSubscription(getHealthInfoAtFocusedMoment(this.sceneObject.id).subscribe(healthChangedCallback));
+  }
+
+  healthChanged(health) {
+    this.emitToClient('healthChanged', health);
   }
 }

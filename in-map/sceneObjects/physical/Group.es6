@@ -63,18 +63,19 @@ export default class Group extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscription(
-      this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
-        this._cachedLabel = snapshot ? getLabel(snapshot) : this._cachedLabel;
-        eventBus.emit('layoutNeedsUpdate', true);
-      })
-    );
+    const snapshotChangedCallback = this.snapshotChanged.bind(this);
+    this.addSubscription(this.eventEmitter.on('snapshotChanged').subscribe(snapshotChangedCallback));
   }
 
   initialized() {
     super.initialized();
 
     groups.add(this.id, this);
+  }
+
+  snapshotChanged(snapshot) {
+    this._cachedLabel = snapshot ? getLabel(snapshot) : this._cachedLabel;
+    eventBus.emit('layoutNeedsUpdate', true);
   }
 
   addNode(id, node) {

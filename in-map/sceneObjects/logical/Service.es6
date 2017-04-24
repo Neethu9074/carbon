@@ -138,37 +138,50 @@ export default class Service extends SceneObject {
   initEvents() {
     super.initEvents();
 
-    this.addSubscriptions([
-      eventBus.on('dragObjectStart').subscribe(id => {
-        if (this.id === id) {
-          if (this.isExternal && !this.isEum) {
-            this.dragGhost = new DragGhost(this, externalServiceGeometry);
-          } else if (this.isEum) {
-            this.dragGhost = new DragGhost(this, eumServiceGeometry);
-          } else {
-            this.dragGhost = new DragGhost(this, simpleServiceGeometry);
-          }
-          this.dragGhost.setScale(this.getComponent('transform').getScale());
-        }
-      }),
-      eventBus.on('dragObjectStop').subscribe(() => {
-        if (this.dragGhost) {
-          const positionToSet = this.dragGhost.getCurrentPosition();
-          this.getComponent('transform').setPosition(positionToSet);
+    const dragObjectStartCallback = this.dragObjectStart.bind(this);
+    const dragObjectStopCallback = this.dragObjectStop.bind(this);
+    const healthChangedCallback = this.healthChanged.bind(this);
+    const positionChangedCallback = this.positionChanged.bind(this);
 
-          this.dragGhost.dispose();
-          this.dragGhost = null;
-        }
-      }),
-      this.eventEmitter.on('healthChanged').subscribe(health => {
-        const severity = health.get('maxSeverity', 0);
-        const color = severity > 0 ? getColorBySeverity(severity) : '#ffffff';
-        this.getComponent('color').setHex(color);
-      }),
-      this.eventEmitter
-        .on('positionChanged')
-        .subscribe(position => changePosition(this.id, position.x, position.y, position.z))
+    this.addSubscriptions([
+      eventBus.on('dragObjectStart').subscribe(dragObjectStartCallback),
+      eventBus.on('dragObjectStop').subscribe(dragObjectStopCallback),
+      this.eventEmitter.on('healthChanged').subscribe(healthChangedCallback),
+      this.eventEmitter.on('positionChanged').subscribe(positionChangedCallback)
     ]);
+  }
+
+  dragObjectStart(id) {
+    if (this.id === id) {
+      if (this.isExternal && !this.isEum) {
+        this.dragGhost = new DragGhost(this, externalServiceGeometry);
+      } else if (this.isEum) {
+        this.dragGhost = new DragGhost(this, eumServiceGeometry);
+      } else {
+        this.dragGhost = new DragGhost(this, simpleServiceGeometry);
+      }
+      this.dragGhost.setScale(this.getComponent('transform').getScale());
+    }
+  }
+
+  dragObjectStop() {
+    if (this.dragGhost) {
+      const positionToSet = this.dragGhost.getCurrentPosition();
+      this.getComponent('transform').setPosition(positionToSet);
+
+      this.dragGhost.dispose();
+      this.dragGhost = null;
+    }
+  }
+
+  healthChanged(health) {
+    const severity = health.get('maxSeverity', 0);
+    const color = severity > 0 ? getColorBySeverity(severity) : '#ffffff';
+    this.getComponent('color').setHex(color);
+  }
+
+  positionChanged(position) {
+    changePosition(this.id, position.x, position.y, position.z);
   }
 
   initialized() {

@@ -23,31 +23,37 @@ export default class HostNode extends Node {
 
     this.metricNode = null;
 
+    const highlightingChangedCallback = this.highlightingChanged.bind(this);
+    const activeMetricChangedCallback = this.activeMetricChanged.bind(this);
+
     this.addSubscriptions([
       combineLatest([this.sceneObjectInstance.eventEmitter.on('isHighlighted').distinct(), nodes.stream]).subscribe(
-        ([isHighlighted, _nodes]) =>
-          (isHighlighted
-            ? this.connectionNode.createConnections(this.entity, _nodes)
-            : this.connectionNode.clearConnections())
+        highlightingChangedCallback
       ),
-      activeMetric$.subscribe(activeMetric => {
-        if (activeMetric) {
-          // clear current layer
-          this.updateEntities(emptyArray);
-
-          if (!this.metricNode) {
-            this.metricNode = new HostMetricNode({
-              id: `${params.id}_metric`,
-              dashboardId: params.id,
-              node: this.sceneObjectInstance
-            });
-          }
-        } else {
-          this.disposeMetricNode();
-          this.addLayer();
-        }
-      })
+      activeMetric$.subscribe(activeMetricChangedCallback)
     ]);
+  }
+
+  highlightingChanged([isHighlighted, _nodes]) {
+    isHighlighted ? this.connectionNode.createConnections(this.entity, _nodes) : this.connectionNode.clearConnections();
+  }
+
+  activeMetricChanged(activeMetric) {
+    if (activeMetric) {
+      // clear current layer
+      this.updateEntities(emptyArray);
+
+      if (!this.metricNode) {
+        this.metricNode = new HostMetricNode({
+          id: `${this.params.id}_metric`,
+          dashboardId: this.params.id,
+          node: this.sceneObjectInstance
+        });
+      }
+    } else {
+      this.disposeMetricNode();
+      this.addLayer();
+    }
   }
 
   addLayer() {

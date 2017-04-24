@@ -52,11 +52,7 @@ export default function StickyNote(ComposedComponent) {
     setupSubscriptions = (props = this.props) => {
       this.disposeSubscriptions();
 
-      this.positionSubscription = combineLatest([
-        props.eventEmitter.on('screenPositionChanged' + props.id),
-        props.eventEmitter.on('isVisibleChanged' + props.id).distinct(),
-        props.showSticky$.distinct()
-      ]).subscribe(([_position, _isVisible, _showSticky]) => {
+      const isVisibleChangedCallback = ([_position, _isVisible, _showSticky]) => {
         const isVisible = _showSticky && _isVisible;
         if (isVisible) {
           applyTransform(this.stickyNote, `translate3d(${_position.x}px,${_position.y}px,0)`);
@@ -64,7 +60,13 @@ export default function StickyNote(ComposedComponent) {
         if (isVisible !== this.state.isVisible) {
           this.setState({ isVisible });
         }
-      });
+      };
+
+      this.positionSubscription = combineLatest([
+        props.eventEmitter.on('screenPositionChanged' + props.id),
+        props.eventEmitter.on('isVisibleChanged' + props.id).distinct(),
+        props.showSticky$.distinct()
+      ]).subscribe(isVisibleChangedCallback);
     };
 
     disposeSubscriptions = () => {

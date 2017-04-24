@@ -82,6 +82,9 @@ export default class Connection extends SceneObject {
 
     this.ghostConncetionSpawner.initEvents();
 
+    const transformChangedCallback = this.transformChanged.bind(this);
+    const healthChangedCallback = this.healthChanged.bind(this);
+
     this.addSubscriptions([
       combineLatest([
         this.sourceNode.eventEmitter.on('transformationChanged'),
@@ -89,40 +92,13 @@ export default class Connection extends SceneObject {
         this.eventEmitter.on('isBidirectionalChanged')
       ])
         .debounce(LOGICAL_CONNECTION_REACTION)
-        .subscribe(([fromTransform, toTransform]) => {
-          const from = fromTransform.position.clone();
-          const to = toTransform.position.clone();
-          this.addOffsetIfBidirectional(from, to);
+        .subscribe(transformChangedCallback),
 
-          updateLogicalCollisionMesh(this.collisionLine, from, to);
-          this.getComponent('particles').setFromAndTo(from, to);
-
-          this.eventEmitter.emit('transformationChanged', {
-            position: getCenterPosition(from, to),
-            scale: this.getComponent('transform').getScale()
-          });
-        }),
       combineLatest([
         this.eventEmitter.on('healthChanged'),
         this.eventEmitter.on('isHighlighted'),
         this.eventEmitter.on('isSecondaryHighlighted')
-      ]).subscribe(([health, isHighlighted, isSecondaryHighlighted]) => {
-        isHighlighted = isHighlighted || isSecondaryHighlighted;
-        let newColor = '#5c6e74';
-
-        const severity = health.get('maxSeverity', 0);
-        if (severity > 0) {
-          if (isHighlighted) {
-            newColor = getColorBySeverity(severity);
-          } else {
-            newColor = hexToRGB(getColorBySeverity(severity));
-            newColor = rgbToHex(newColor.r * 0.65, newColor.g * 0.65, newColor.b * 0.65);
-          }
-        } else if (isHighlighted) {
-          newColor = '#ffffff';
-        }
-        this.getComponent('color').setHex(newColor);
-      })
+      ]).subscribe(healthChangedCallback)
     ]);
   }
 
@@ -130,6 +106,38 @@ export default class Connection extends SceneObject {
     super.initialized();
 
     connections.add(this.id, this);
+  }
+
+  transformChanged([fromTransform, toTransform]) {
+    const from = fromTransform.position.clone();
+    const to = toTransform.position.clone();
+    this.addOffsetIfBidirectional(from, to);
+
+    updateLogicalCollisionMesh(this.collisionLine, from, to);
+    this.getComponent('particles').setFromAndTo(from, to);
+
+    this.eventEmitter.emit('transformationChanged', {
+      position: getCenterPosition(from, to),
+      scale: this.getComponent('transform').getScale()
+    });
+  }
+
+  healthChanged([health, isHighlighted, isSecondaryHighlighted]) {
+    isHighlighted = isHighlighted || isSecondaryHighlighted;
+    let newColor = '#5c6e74';
+
+    const severity = health.get('maxSeverity', 0);
+    if (severity > 0) {
+      if (isHighlighted) {
+        newColor = getColorBySeverity(severity);
+      } else {
+        newColor = hexToRGB(getColorBySeverity(severity));
+        newColor = rgbToHex(newColor.r * 0.65, newColor.g * 0.65, newColor.b * 0.65);
+      }
+    } else if (isHighlighted) {
+      newColor = '#ffffff';
+    }
+    this.getComponent('color').setHex(newColor);
   }
 
   setBidirectional(isBidirectional) {

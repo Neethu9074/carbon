@@ -16,10 +16,15 @@ export default class MeshComponent extends SceneObjectComponent {
 
     const eventEmitter = this.sceneObject.eventEmitter;
 
+    const updateFactoryCallback = this.updateFactory.bind(this);
     this.addSubscriptions([
-      eventEmitter.on('transformationChanged').subscribe(() => this.factory.needsUpdate()),
-      eventEmitter.on('colorChanged').subscribe(() => this.factory.needsUpdate())
+      eventEmitter.on('transformationChanged').subscribe(updateFactoryCallback),
+      eventEmitter.on('colorChanged').subscribe(updateFactoryCallback)
     ]);
+  }
+
+  updateFactory() {
+    this.factory.needsUpdate();
   }
 
   dispose() {

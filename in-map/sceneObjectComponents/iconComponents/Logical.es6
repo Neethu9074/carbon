@@ -18,23 +18,32 @@ export default class LogicalIconComponent extends IconComponent {
 
     eventEmitter.emit('clusterMemberChanged', emptyArray);
 
+    const clusterMemberChangedCallback = this.clusterMemberChanged.bind(this);
+    const iconsChangedCallback = this.iconsChanged.bind(this);
+
     this.addSubscriptions([
       getClusterMembers(this.sceneObject.id)
         .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id))))
-        .subscribe(clusterMember => eventEmitter.emit('clusterMemberChanged', clusterMember)),
-      combineLatest([eventEmitter.on('snapshotChanged'), eventEmitter.on('clusterMemberChanged')]).subscribe(([
-        snapshot,
-        clusterMember
-      ]) => {
-        const plugins = {};
-        clusterMember.forEach(member => plugins[member.get('plugin')] = true);
+        .subscribe(clusterMemberChangedCallback),
 
-        this.fragment.additionalParams.type = Object.keys(plugins).length !== 1
-          ? getIconPath(snapshot)
-          : getIconPath(clusterMember[0]);
-
-        this.factory.needsUpdate();
-      })
+      combineLatest([eventEmitter.on('snapshotChanged'), eventEmitter.on('clusterMemberChanged')]).subscribe(
+        iconsChangedCallback
+      )
     ]);
+  }
+
+  clusterMemberChanged(clusterMember) {
+    this.sceneObject.eventEmitter.emit('clusterMemberChanged', clusterMember);
+  }
+
+  iconsChanged([snapshot, clusterMember]) {
+    const plugins = {};
+    clusterMember.forEach(member => plugins[member.get('plugin')] = true);
+
+    this.fragment.additionalParams.type = Object.keys(plugins).length !== 1
+      ? getIconPath(snapshot)
+      : getIconPath(clusterMember[0]);
+
+    this.factory.needsUpdate();
   }
 }
