@@ -1,87 +1,100 @@
 import React from 'react';
 
+import { withSiPrefixThreeDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import { withSiPrefixThreeDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const rateFormatter = d => withSiPrefixThreeDecimalPlaces(d) + ' / sec';
 
-export default function MetersTable({ snapshot, timeframe }) {
-  const timers = snapshot.getIn(['data', 'metrics.timers'], emptyList);
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: 'Rate',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `metrics.timers.${row.name}.rate`;
+      },
+      getContent: rateFormatter,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Mean',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `metrics.timers.${row.name}.mean`;
+      },
+      getContent: rateFormatter,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
-  if (timers.size === 0) {
+export default function MetersTable({ snapshot, timeframe }) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'metrics.timers'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      name,
+      snapshotId,
+      timeframe
+    };
+  });
+
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Timers">
-      <ExpandableTable
-        data={timers}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Timers (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={20} />
     </DashboardSection>
   );
 }
 
-function getKey(timer) {
-  return timer;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Rate</th>
-        <th>Mean</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(timer, index, context) {
-  return [
-    <td>{timer}</td>,
-    <Mtd metric={'metrics.timers.' + timer + '.rate'} snapshot={context.snapshot} formatter={rateFormatter} />,
-    <Mtd
-      metric={'metrics.timers.' + timer + '.mean'}
-      snapshot={context.snapshot}
-      formatter={timeByMillisTwoDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(timer, index, context) {
+function getDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 90,
         right: 90
       }}
       y1={{
         formatter: rateFormatter,
-        metrics: ['metrics.timers.' + timer + '.rate'],
+        metrics: ['metrics.timers.' + row.name + '.rate'],
         labels: ['rate'],
         type: 'line'
       }}
       y2={{
         formatter: timeByMillisTwoDecimalPlaces,
         metrics: [
-          'metrics.timers.' + timer + '.mean',
-          'metrics.timers.' + timer + '.50th',
-          'metrics.timers.' + timer + '.99th'
+          'metrics.timers.' + row.name + '.mean',
+          'metrics.timers.' + row.name + '.50th',
+          'metrics.timers.' + row.name + '.99th'
         ],
         labels: ['mean', '50th', '99th'],
         type: 'line'

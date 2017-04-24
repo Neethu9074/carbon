@@ -1,70 +1,73 @@
 import React from 'react';
 
+import { withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import { withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: 'Value',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `metrics.gauges.${row.name}`;
+      },
+      getContent: withSiPrefixThreeDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function Gauges({ snapshot, timeframe }) {
-  const gauges = snapshot.getIn(['data', 'metrics.gauges'], emptyList);
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'metrics.gauges'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      name,
+      snapshotId,
+      timeframe
+    };
+  });
 
-  if (gauges.size === 0) {
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Gauges">
-      <ExpandableTable
-        data={gauges}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Gauges (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={20} />
     </DashboardSection>
   );
 }
 
-function getKey(gauge) {
-  return gauge;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(gauge, index, context) {
-  return [
-    <td>{gauge}</td>,
-    <Mtd metric={'metrics.gauges.' + gauge} snapshot={context.snapshot} formatter={withSiPrefixThreeDecimalPlaces} />
-  ];
-}
-
-function createDetails(gauge, index, context) {
+function getDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 90
       }}
       y1={{
         formatter: withSiPrefixThreeDecimalPlaces,
-        metrics: ['metrics.gauges.' + gauge],
-        labels: [gauge],
+        metrics: ['metrics.gauges.' + row.name],
+        labels: [row.name],
         type: 'line'
       }}
     />
