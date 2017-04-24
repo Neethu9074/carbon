@@ -3,57 +3,60 @@ import React from 'react';
 import { withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyList } from 'in-services/fixedImmutables';
-import Mtd from 'in-components/Mtd';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: 'Value',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `jmx.${row.name}`;
+      },
+      getContent: withSiPrefixThreeDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function JmxMetricsTable({ snapshot, timeframe }) {
-  const jmxMetrics = snapshot.getIn(['data', 'jmx'], emptyList);
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'jmx'], emptyList).toArray().map(name => {
+    return {
+      name,
+      key: name,
+      snapshotId,
+      timeframe
+    };
+  });
 
-  if (jmxMetrics.size === 0) {
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Custom JMX Metrics">
-      <ExpandableTable
-        data={jmxMetrics}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Custom JMX Metrics (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
 }
 
-function getKey(pool, poolName) {
-  return poolName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(jmxMetric, i, context) {
-  return [
-    <td>{jmxMetric}</td>,
-    <Mtd metric={'jmx.' + jmxMetric} snapshot={context.snapshot} formatter={withSiPrefixThreeDecimalPlaces} />
-  ];
-}
-
-function createDetails(jmxMetric, i, context) {
+function getDetails(jmxMetric, i, context) {
   return (
     <ChartWithLegend
       snapshotId={context.snapshot.get('id')}

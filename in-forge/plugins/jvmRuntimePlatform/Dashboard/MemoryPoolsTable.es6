@@ -3,79 +3,104 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
-import Mtd from 'in-components/Mtd';
+
+const cols = [
+  {
+    title: 'Pool',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: 'Initial',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.pool.get('initial');
+      },
+      getContent: bytesTwoDecimalPlaces
+    }
+  },
+  {
+    title: 'Maximum',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.pool.get('max');
+      },
+      getContent: formatMax
+    }
+  },
+  {
+    title: 'Value',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `pools.${row.name}`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function MemoryPoolsTable({ snapshot, timeframe }) {
-  const memoryPools = snapshot.getIn(['data', 'jvm.pools'], emptyMap);
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot
+    .getIn(['data', 'jvm.pools'], emptyMap)
+    .map((pool, name) => {
+      return {
+        key: name,
+        name,
+        pool,
+        snapshot,
+        snapshotId,
+        timeframe
+      };
+    })
+    .valueSeq()
+    .toArray();
 
-  if (memoryPools.size === 0) {
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Memory Pools">
-      <ExpandableTable
-        data={memoryPools}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Memory Pools (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );
-}
-
-function getKey(pool, poolName) {
-  return poolName;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Pool</th>
-        <th>Initial</th>
-        <th>Maximum</th>
-        <th>Used</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(pool, poolName, context) {
-  return [
-    <td>{poolName}</td>,
-    <td>{bytesTwoDecimalPlaces(pool.get('initial'))}</td>,
-    <td>{formatMax(pool.get('max'))}</td>,
-    <Mtd metric={'pools.' + poolName} snapshot={context.snapshot} formatter={bytesTwoDecimalPlaces} />
-  ];
 }
 
 function formatMax(bytes) {
   return bytes === -1 ? 'unlimited' : bytesTwoDecimalPlaces(bytes);
 }
 
-function createDetails(pool, poolName, context) {
+function getDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 80
       }}
       y1={{
-        max: getMaxValue('pools.' + poolName, context.snapshot),
+        max: getMaxValue('pools.' + row.name, row.snapshot),
         formatter: bytesTwoDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
-        metrics: ['pools.' + poolName],
-        labels: [poolName + ' Usage'],
+        metrics: ['pools.' + row.name],
+        labels: [row.name + ' Usage'],
         type: 'line'
       }}
     />
