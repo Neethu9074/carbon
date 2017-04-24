@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { minutes } from 'in-services/formatters/number';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -38,7 +39,7 @@ export default function TomcatSidebar({ snapshot }) {
                         {name}
                       </DescriptionItem>,
                       <DescriptionItem title="Session Timeout">
-                        {data.get('session-timeout')}
+                        {minutes.compact(data.get('session-timeout'))}
                       </DescriptionItem>
                     ])
                     .valueSeq()}
