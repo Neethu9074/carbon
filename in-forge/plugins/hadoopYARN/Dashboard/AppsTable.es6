@@ -12,9 +12,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.app.get('id');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -24,9 +21,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.app.get('state');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -36,9 +30,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.app.get('name');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -48,9 +39,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.app.get('finalStatus');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -60,9 +48,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.app.get('user');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -72,9 +57,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.app.get('type');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },

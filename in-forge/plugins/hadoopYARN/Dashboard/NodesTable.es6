@@ -15,9 +15,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.node.get('labels', emptyList).join(', ');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -27,9 +24,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.node.get('state');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -39,9 +33,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.node.get('rack');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -51,9 +42,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.node.get('httpAddress');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -73,9 +61,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.node.get('healthReport');
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
@@ -154,8 +139,6 @@ export default function NodesTable({ snapshot, timeframe }) {
 }
 
 function getDetails(row) {
-  const snapshotId = row.snapshotId;
-  const timeframe = row.timeframe;
   const leftMarginSize = 60;
   const id = row.node.get('id');
   return (
@@ -175,8 +158,8 @@ function getDetails(row) {
       />
       <TwoColumnRow>
         <ChartWithLegend
-          snapshotId={snapshotId}
-          timeframe={timeframe}
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
           margins={{
             left: leftMarginSize
           }}
@@ -189,8 +172,8 @@ function getDetails(row) {
           }}
         />
         <ChartWithLegend
-          snapshotId={snapshotId}
-          timeframe={timeframe}
+          snapshotId={row.snapshotId}
+          timeframe={row.timeframe}
           margins={{
             left: leftMarginSize
           }}
