@@ -23,7 +23,7 @@ export default function Connections({ snapshotId, timeframe }) {
           }
           return alwaysNull;
         })}
-        createDetails={createDetails}
+        getRowDetails={getRowDetails}
       />
       <LogicalConnectionEntityTable
         timeframe={timeframe}
@@ -37,14 +37,14 @@ export default function Connections({ snapshotId, timeframe }) {
           }
           return alwaysNull;
         })}
-        createDetails={createDetails}
+        getRowDetails={getRowDetails}
       />
     </div>
   );
 }
 
-function createDetails(nodeSnapshot, index, context) {
-  return <DefaultConnectionCharts snapshot={nodeSnapshot} timeframe={context.timeframe} />;
+function getRowDetails(row) {
+  return <DefaultConnectionCharts snapshot={row.node} timeframe={row.timeframe} />;
 }
 
 function getDownstreamSnapshotsObservables(entity) {

@@ -27,11 +27,11 @@ function ConnectedEntitiesTable({ timeframe, connectedEntities }) {
       timeframe={timeframe}
       title={'Connection From'}
       dataStream={getSnapshot(id).map(_snapshot => [_snapshot])}
-      createDetails={createDetails}
+      getRowDetails={getRowDetails}
     />
   );
 }
 
-function createDetails(nodeSnapshot, index, context) {
-  return <DefaultCharts snapshot={nodeSnapshot} timeframe={context.timeframe} />;
+function getRowDetails(row) {
+  return <DefaultCharts snapshot={row.node} timeframe={row.timeframe} />;
 }
