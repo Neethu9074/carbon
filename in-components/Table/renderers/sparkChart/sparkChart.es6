@@ -1,4 +1,3 @@
-import { create } from 'reactive-observables';
 import invariant from 'invariant';
 import React from 'react';
 
@@ -28,7 +27,6 @@ export function validate(col) {
 }
 
 export function initialize(row, columnDefinition, columnIndex, emitRawDataChange) {
-  const value$ = create();
   const snapshotId = columnDefinition.typeArgs.getSnapshotId(row.rowConfig);
   const metric = columnDefinition.typeArgs.getMetricName(row.rowConfig);
   const formatter = columnDefinition.typeArgs.getContent;
@@ -43,13 +41,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   };
   column.refreshContent = () => {
     column.content = (
-      <SparkChartWithValue
-        value$={value$}
-        snapshotId={snapshotId}
-        metric={metric}
-        formatter={formatter}
-        value={column.value}
-      />
+      <SparkChartWithValue snapshotId={snapshotId} metric={metric} formatter={formatter} value={column.value} />
     );
   };
 
@@ -59,14 +51,9 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig)
   }).subscribe(v => {
     column.value = v;
-    value$.emit(formatter(v, row.rowConfig));
     row.mutationCount++;
     emitRawDataChange();
   });
 
   return column;
-}
-
-export function refreshContent(row, column) {
-  column.content = column.value;
 }

@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, ms } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -62,7 +62,7 @@ const cols = [
       getMetricName() {
         return 'broker.totalTimeProduce';
       },
-      getContent: msZeroDecimalPlaces,
+      getContent: ms.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }

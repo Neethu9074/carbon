@@ -31,7 +31,7 @@ export default connectTo({ timeframe: timeframe$ }, function SparkChartWithValue
         tooltipFormatter={formatter}
       />
 
-      <span className={valueElement}>{value}</span>
+      <span className={valueElement}>{value != null ? formatter(value) : null}</span>
     </div>
   );
 });
