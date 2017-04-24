@@ -59,6 +59,7 @@ function refreshContent(row, column) {
   const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : null;
   if (column.value == null) {
     column.content = fallback;
+    return;
   }
 
   const content = column.columnDefinition.typeArgs.getContent(column.value, row.rowConfig);

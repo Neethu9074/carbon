@@ -1,81 +1,114 @@
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
+import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ExpandableTable from 'in-components/ExpandableTable';
-import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import Mtd from 'in-components/Mtd';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Heap Space',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: 'Available',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `heapSpaces.${row.name}.available`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Current',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `heapSpaces.${row.name}.current`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Used',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `heapSpaces.${row.name}.used`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Physical',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `heapSpaces.${row.name}.physical`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default function HeapSpacesTable({ snapshot, timeframe }) {
-  const heapSpaces = snapshot.getIn(['data', 'heapSpaces'], emptyList);
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot.getIn(['data', 'heapSpaces'], emptyList).toArray().map(name => {
+    return {
+      key: name,
+      name,
+      snapshotId,
+      timeframe
+    };
+  });
 
-  if (heapSpaces.size === 0) {
+  if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title="Heap Spaces">
-      <ExpandableTable
-        data={heapSpaces}
-        getKey={getKey}
-        createHeader={createHeader}
-        createRow={createRow}
-        context={{
-          snapshot,
-          timeframe
-        }}
-        createDetails={createDetails}
-      />
+    <DashboardSection title={`Heap Spaces (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={20} />
     </DashboardSection>
   );
 }
 
-function getKey(heapSpace) {
-  return heapSpace;
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th>Heap Space</th>
-        <th>Available</th>
-        <th>Current</th>
-        <th>Used</th>
-        <th>Physical</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(heapSpace, i, context) {
-  return [
-    <td>{heapSpace}</td>,
-    <Mtd
-      metric={'heapSpaces.' + heapSpace + '.available'}
-      snapshot={context.snapshot}
-      formatter={bytesTwoDecimalPlaces}
-    />,
-    <Mtd
-      metric={'heapSpaces.' + heapSpace + '.current'}
-      snapshot={context.snapshot}
-      formatter={bytesTwoDecimalPlaces}
-    />,
-    <Mtd metric={'heapSpaces.' + heapSpace + '.used'} snapshot={context.snapshot} formatter={bytesTwoDecimalPlaces} />,
-    <Mtd
-      metric={'heapSpaces.' + heapSpace + '.physical'}
-      snapshot={context.snapshot}
-      formatter={bytesTwoDecimalPlaces}
-    />
-  ];
-}
-
-function createDetails(name, i, context) {
+function getDetails(row) {
   return (
     <ChartWithLegend
-      snapshotId={context.snapshot.get('id')}
-      timeframe={context.timeframe}
+      snapshotId={row.snapshotId}
+      timeframe={row.timeframe}
       margins={{
         left: 90
       }}
