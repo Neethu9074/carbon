@@ -58,9 +58,9 @@ export default class MainScene extends SceneObject {
   initEvents() {
     super.initEvents();
 
+    const shouldRenderSceleCallback = this.shouldRenderScele.bind(this);
     this.addSubscriptions([
-      frame$.subscribe(() => this.shouldRenderScene = true),
-
+      frame$.subscribe(shouldRenderSceleCallback),
       on(window, 'resize').subscribe(this.onWindowResize.bind(this))
     ]);
 
@@ -81,6 +81,10 @@ export default class MainScene extends SceneObject {
 
     // send initial resize
     this.onWindowResize();
+  }
+
+  shouldRenderScele() {
+    this.shouldRenderScene = true;
   }
 
   handleAnimationFrames(highResTimestamp) {

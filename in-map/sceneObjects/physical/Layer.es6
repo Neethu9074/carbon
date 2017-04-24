@@ -56,20 +56,25 @@ export default class Layer extends SceneObject {
   initEvents() {
     super.initEvents();
 
+    const healthChangedCallback = this.healthChanged.bind(this);
+    const snapshotChangedCallback = this.snapshotChanged.bind(this);
     this.addSubscriptions([
-      this.eventEmitter.on('healthChanged').subscribe(health => {
-        const severity = health.get('maxSeverity', 0);
-        const color = severity > 0 ? theme.health[Math.floor(severity)] : '#dfdfdf';
-        this.getComponent('color').setHex(color);
-      }),
-
-      this.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
-        this._cachedPlugin = snapshot.get('plugin');
-
-        // readd this layer to trigger a relayout
-        this.node.addLayer(this.id, this);
-      })
+      this.eventEmitter.on('healthChanged').subscribe(healthChangedCallback),
+      this.eventEmitter.on('snapshotChanged').subscribe(snapshotChangedCallback)
     ]);
+  }
+
+  healthChanged(health) {
+    const severity = health.get('maxSeverity', 0);
+    const color = severity > 0 ? theme.health[Math.floor(severity)] : '#dfdfdf';
+    this.getComponent('color').setHex(color);
+  }
+
+  snapshotChanged(snapshot) {
+    this._cachedPlugin = snapshot.get('plugin');
+
+    // readd this layer to trigger a relayout
+    this.node.addLayer(this.id, this);
   }
 
   dispose() {

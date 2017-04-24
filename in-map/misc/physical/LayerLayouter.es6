@@ -40,7 +40,7 @@ export default function createLayouter(node) {
     const numGaps = countDifferentPluginsFromSortedArray(_layer) - 1;
 
     // the space between each group of layer
-    const heightOfGap = calculateHeightForEachGap(nodeFullHeight, numGaps);
+    const heightOfGap = numGaps === 0 ? 0 : nodeFullHeight / (numGaps * 10);
 
     // the remaining height to sliver for the layer
     const heightUsedForLayer = nodeFullHeight - numGaps * heightOfGap;
@@ -95,18 +95,6 @@ export default function createLayouter(node) {
     return Object.keys(plugins).length;
   }
 
-  function calculateHeightForEachGap(heightOfNode, numGaps) {
-    // avoid devide by zero exception
-    if (numGaps === 0) {
-      return 0;
-    }
-    // for some reason, chrome decided to slow down massively when this is devided by 1. Handle this case to get performance back.
-    if (numGaps === 1) {
-      return 0.1 * heightOfNode;
-    }
-    return (heightOfNode / numGaps) * 0.1; // 0.1 = maxPercentUsedByGaps
-  }
-
   function setupPluginIcons(plugins) {
     removeCurrentIcons();
 
@@ -147,7 +135,6 @@ export default function createLayouter(node) {
     dispose,
 
     // export them to make them testable
-    countDifferentPluginsFromSortedArray,
-    calculateHeightForEachGap
+    countDifferentPluginsFromSortedArray
   };
 }

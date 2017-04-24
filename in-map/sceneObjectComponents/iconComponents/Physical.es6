@@ -11,11 +11,14 @@ export default class PhysicalIconComponent extends IconComponent {
   initEvents() {
     super.initEvents();
 
+    const snapshotChangedCallback = this.snapshotChanged.bind(this);
     this.addSubscription(
-      this.sceneObject.eventEmitter.on('snapshotChanged').subscribe(snapshot => {
-        this.fragment.additionalParams.type = getIconPath(snapshot);
-        this.factory.needsUpdate();
-      })
+      this.sceneObject.eventEmitter.on('snapshotChanged').subscribe(snapshotChangedCallback)
     );
+  }
+
+  snapshotChanged(snapshot) {
+    this.fragment.additionalParams.type = getIconPath(snapshot);
+    this.factory.needsUpdate();
   }
 }

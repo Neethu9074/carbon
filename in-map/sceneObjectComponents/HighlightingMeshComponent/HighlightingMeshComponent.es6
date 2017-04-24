@@ -11,24 +11,31 @@ export default class HighlightingMeshComponent extends SceneObjectComponent {
     this.contentProvider = contentProvider;
     this.eventToListen = eventToListen;
     this.factoryId = factoryId;
+    this.factory = getFactory(factoryId);
   }
 
   initEvents() {
     super.initEvents();
 
-    const factory = this.factory = getFactory(this.factoryId);
     const eventEmitter = this.sceneObject.eventEmitter;
+    const highlightingChangedCallback = this.highlightingChanged.bind(this);
+    const updateFactoryCallback = this.updateFactory.bind(this);
 
     this.addSubscriptions([
-      eventEmitter.on('transformationChanged').subscribe(() => factory.needsUpdate()),
-
-      eventEmitter.on(this.eventToListen).distinct().subscribe(isHighlighted => {
-        isHighlighted
-          ? factory.add(createFragment(this.id, this.sceneObject, this.contentProvider))
-          : factory.remove(this.id);
-        factory.needsUpdate();
-      })
+      eventEmitter.on('transformationChanged').subscribe(updateFactoryCallback),
+      eventEmitter.on(this.eventToListen).distinct().subscribe(highlightingChangedCallback)
     ]);
+  }
+
+  highlightingChanged(isHighlighted) {
+    isHighlighted
+      ? this.factory.add(createFragment(this.id, this.sceneObject, this.contentProvider))
+      : this.factory.remove(this.id);
+    this.factory.needsUpdate();
+  }
+
+  updateFactory() {
+    this.factory.needsUpdate();
   }
 
   dispose() {

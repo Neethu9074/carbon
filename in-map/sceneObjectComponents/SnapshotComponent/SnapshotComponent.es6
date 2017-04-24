@@ -13,8 +13,13 @@ export default class IconComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
+    const snapshotChangedCallback = this.snapshotChanged.bind(this);
     this.addSubscription(getSnapshot(this.alternativeId ? this.alternativeId : this.sceneObject.id)
-                           .subscribe(snapshot => this.emitToClient('snapshotChanged', snapshot)));
+                           .subscribe(snapshotChangedCallback));
+  }
+
+  snapshotChanged(snapshot) {
+    this.emitToClient('snapshotChanged', snapshot);
   }
 
   dispose() {

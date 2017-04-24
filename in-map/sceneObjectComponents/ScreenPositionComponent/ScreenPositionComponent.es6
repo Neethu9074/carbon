@@ -29,16 +29,23 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
     super.initEvents();
 
     const eventEmitter = this.sceneObject.eventEmitter;
+    const transformationChangedCallback = this.transformationChanged.bind(this);
+    const willRenderCallback = this.willRender.bind(this);
 
     this.addSubscriptions([
-      eventBus.on('willRenderObject').subscribe(() => this.updateScreenPosition()),
-
-      eventEmitter.on('transformationChanged').subscribe(transform =>
-        this.set3DPositionToProject(this.get3DPositionToProjectCallback
-                                      ? this.get3DPositionToProjectCallback(transform.position, transform.scale)
-                                      : transform.position)
-      )
+      eventBus.on('willRenderObject').subscribe(willRenderCallback),
+      eventEmitter.on('transformationChanged').subscribe(transformationChangedCallback)
     ]);
+  }
+
+  transformationChanged(transform) {
+    this.set3DPositionToProject(this.get3DPositionToProjectCallback
+                                  ? this.get3DPositionToProjectCallback(transform.position, transform.scale)
+                                  : transform.position);
+  }
+
+  willRender() {
+    this.updateScreenPosition();
   }
 
   set3DPositionToProject(pos) {

@@ -114,16 +114,14 @@ export default class Node extends SceneObject {
   initEvents() {
     super.initEvents();
 
+    const isVisibleChangedCallback = this.isVisibleChanged.bind(this);
+    const healthChangedCallback = this.healthChanged.bind(this);
     this.addSubscriptions([
       this.eventEmitter
         .on('isVisibleChanged' + this.id)
-        .subscribe(isVisible => this.eventEmitter.emit('isVisibleForMetrics', isVisible)),
+        .subscribe(isVisibleChangedCallback),
 
-      this.eventEmitter.on('healthChanged').subscribe(health => {
-        const severity = health.get('maxSeverity', 0);
-        const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
-        this.getComponent('color').setHex(color);
-      })
+      this.eventEmitter.on('healthChanged').subscribe(healthChangedCallback)
     ]);
 
     // enable visibility for metric pillars
@@ -136,6 +134,16 @@ export default class Node extends SceneObject {
     super.initialized();
 
     nodes.add(this.id, this);
+  }
+
+  isVisibleChanged(isVisible) {
+    this.eventEmitter.emit('isVisibleForMetrics', isVisible);
+  }
+
+  healthChanged(health) {
+    const severity = health.get('maxSeverity', 0);
+    const color = severity > 0 ? theme.health[Math.floor(severity)] : '#ffffff';
+    this.getComponent('color').setHex(color);
   }
 
   addLayer(id, node) {

@@ -27,13 +27,16 @@ export default class IconComponent extends SceneObjectComponent {
 
   initEvents() {
     const sceneObject = this.sceneObject;
+    const transformationChangedCallback = this.transformationChanged.bind(this);
 
     this.addSubscription(
-      sceneObject.eventEmitter.on('transformationChanged').subscribe(transform => {
-        this.fragment.additionalParams.positionOffset.copy(this.getIconPositionCallback(transform.position, transform.scale));
-        this.factory.needsUpdate();
-      })
+      sceneObject.eventEmitter.on('transformationChanged').subscribe(transformationChangedCallback)
     );
+  }
+
+  transformationChanged(transform) {
+    this.fragment.additionalParams.positionOffset.copy(this.getIconPositionCallback(transform.position, transform.scale));
+    this.factory.needsUpdate();
   }
 
   dispose() {

@@ -25,19 +25,21 @@ export default class CollisionComponent extends SceneObjectComponent {
   }
 
   initEvents() {
-    const mesh = this.collisionMesh;
-
+    const updateCollisionObjectCallback = this.updateCollisionObject.bind(this);
     this.addSubscription(
-      this.sceneObject.eventEmitter.on('transformationChanged').subscribe(transform => {
-        mesh.position.set(transform.position.x, transform.position.y + transform.scale.y / 2, transform.position.z);
-        mesh.scale.copy(transform.scale);
+      this.sceneObject.eventEmitter.on('transformationChanged').subscribe(updateCollisionObjectCallback));
+  }
 
-        mesh.updateMatrix();
-        mesh.updateMatrixWorld();
+  updateCollisionObject(transform) {
+    const mesh = this.collisionMesh;
+    mesh.position.set(transform.position.x, transform.position.y + transform.scale.y / 2, transform.position.z);
+    mesh.scale.copy(transform.scale);
 
-        PhysicsServiceLocator.removeCollisionObject(mesh, this.layerId);
-        PhysicsServiceLocator.addCollisionObject(mesh, this.layerId);
-      }));
+    mesh.updateMatrix();
+    mesh.updateMatrixWorld();
+
+    PhysicsServiceLocator.removeCollisionObject(mesh, this.layerId);
+    PhysicsServiceLocator.addCollisionObject(mesh, this.layerId);
   }
 
   dispose() {

@@ -16,25 +16,32 @@ export default class HighlightingComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
+    const highlightingChangedCallback = this.highlightingChanged.bind(this);
+    const connectedhighlightingChangedCallback = this.connectedhighlightingChanged.bind(this);
+
     this.addSubscriptions([
       combineLatest([
         selectedSnapshotIdForHighlightingInMap$,
         highlightedEntityId$,
         highlightedEntityIds$
-      ]).subscribe(([selectedId, highlightedEntityId, highlightedEntityIds]) => {
-        const id = this.sceneObject.id;
-        const isHighlighted = (id === selectedId ||
-                               id === highlightedEntityId ||
-                               highlightedEntityIds.indexOf(id) >= 0);
-        this.emitToClient('isHighlighted', isHighlighted);
-      }),
+      ]).subscribe(highlightingChangedCallback),
 
-      connectedHighlightedIds$.subscribe((connectedHighlightedIds) => {
-        const id = this.sceneObject.id;
-        const isHighlighted = (connectedHighlightedIds[id] === true);
-        this.emitToClient('isSecondaryHighlighted', isHighlighted);
-      })
+      connectedHighlightedIds$.subscribe(connectedhighlightingChangedCallback)
     ]);
+  }
+
+  highlightingChanged([selectedId, highlightedEntityId, highlightedEntityIds]) {
+    const id = this.sceneObject.id;
+    const isHighlighted = (id === selectedId ||
+      id === highlightedEntityId ||
+      highlightedEntityIds.indexOf(id) >= 0);
+      this.emitToClient('isHighlighted', isHighlighted);
+  }
+
+  connectedhighlightingChanged(connectedHighlightedIds) {
+    const id = this.sceneObject.id;
+    const isHighlighted = (connectedHighlightedIds[id] === true);
+    this.emitToClient('isSecondaryHighlighted', isHighlighted);
   }
 
   dispose() {
