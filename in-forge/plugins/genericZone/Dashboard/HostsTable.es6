@@ -2,15 +2,10 @@ import React from 'react';
 
 import getHostsInAvailabilityZone from 'in-stores/graph/getHostsInAvailabilityZone';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
-import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Mtd from 'in-components/Mtd';
 
 const cols = [
   {
@@ -29,7 +24,7 @@ const cols = [
       getSnapshotId(row) {
         return row.key;
       }
-    },
+    }
   },
   {
     title: 'CPU Usage',
@@ -64,7 +59,6 @@ const cols = [
     }
   }
 ];
-
 
 export default connectTo(
   props => {
