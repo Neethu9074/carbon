@@ -1,17 +1,97 @@
 import React from 'react';
 
 import { percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
-import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import getHostSnapshotId from 'in-services/subscription/getHostSnapshotId';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import AnnotatedHealthBar from 'in-components/AnnotatedHealthBar';
-import ExpandableTable from 'in-components/ExpandableTable';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import { alwaysNull } from 'in-services/fixedStreams';
+import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+
+const cols = [
+  {
+    title: 'Health',
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.node.get('id');
+      }
+    }
+  },
+  {
+    title: 'Name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return (
+          <HierarchicalLink snapshotId={row.node.get('id')} calculateHierarchy kind="dark">
+            {getLabel(row.node)}
+          </HierarchicalLink>
+        );
+      }
+    }
+  },
+  {
+    title: 'Host',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return <Host nodeSnapshot={row.node} />;
+      }
+    }
+  },
+  {
+    title: 'Calls',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.node.get('id');
+      },
+      getMetricName() {
+        return `count`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Latency',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.node.get('id');
+      },
+      getMetricName() {
+        return `msTwoDecimalPlaces`;
+      },
+      getContent: msTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Error Rate',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.node.get('id');
+      },
+      getMetricName() {
+        return `error_rate`;
+      },
+      getContent: percentageTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default connectTo(
   props => {
@@ -19,91 +99,27 @@ export default connectTo(
       nodes: props.dataStream
     };
   },
-  function LogicalEntityTable({ nodes, title, timeframe, createDetails }) {
+  function LogicalEntityTable({ nodes, title, timeframe, getRowDetails }) {
     if (!nodes || nodes.length === 0) {
       return null;
     }
 
+    const rows = nodes.map(node => {
+      return {
+        key: name,
+        name,
+        timeframe,
+        node
+      };
+    });
+
     return (
-      <DashboardSection title={title}>
-        <ExpandableTable
-          data={nodes}
-          getKey={getKey}
-          createHeader={createHeader}
-          createRow={createRow}
-          context={{
-            timeframe
-          }}
-          createDetails={createDetails}
-        />
+      <DashboardSection title={`${title} (${nodes.length})`}>
+        <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
       </DashboardSection>
     );
   }
 );
-
-function getKey(node) {
-  return node.get('id');
-}
-
-function createHeader() {
-  return (
-    <thead>
-      <tr>
-        <th width="102px">Health</th>
-        <th>Name</th>
-        <th>Host</th>
-        <th width="230px">Calls/s</th>
-        <th width="230px">Latency</th>
-        <th width="230px">Error Rate</th>
-      </tr>
-    </thead>
-  );
-}
-
-function createRow(node, i, { timeframe }) {
-  const id = node.get('id');
-  return [
-    <td>
-      <AnnotatedHealthBar snapshotId={id} />
-    </td>,
-    <td>
-      <HierarchicalLink snapshotId={id} calculateHierarchy kind="dark">
-        {getLabel(node)}
-      </HierarchicalLink>
-    </td>,
-    <Host nodeSnapshot={node} />,
-    <td>
-      <HistoricMetricSparkChartWithLabel
-        width={100}
-        height={30}
-        timeframe={timeframe}
-        snapshotId={id}
-        metric="count"
-        formatter={zeroDecimalPlaces}
-      />
-    </td>,
-    <td>
-      <HistoricMetricSparkChartWithLabel
-        width={100}
-        height={30}
-        timeframe={timeframe}
-        snapshotId={id}
-        metric="duration.mean"
-        formatter={msTwoDecimalPlaces}
-      />
-    </td>,
-    <td>
-      <HistoricMetricSparkChartWithLabel
-        width={100}
-        height={30}
-        timeframe={timeframe}
-        snapshotId={id}
-        metric="error_rate"
-        formatter={percentageTwoDecimalPlaces}
-      />
-    </td>
-  ];
-}
 
 const Host = connectTo(
   props => {
@@ -133,14 +149,14 @@ const Host = connectTo(
     };
   },
   function Host({ hostSnapshot }) {
+    if (hostSnapshot === undefined) {
+      return null;
+    }
+
     return (
-      <td>
-        {hostSnapshot
-          ? <HierarchicalLink snapshotId={hostSnapshot.get('id')} calculateHierarchy kind="dark">
-              {getLabel(hostSnapshot)}
-            </HierarchicalLink>
-          : null}
-      </td>
+      <HierarchicalLink snapshotId={hostSnapshot.get('id')} calculateHierarchy kind="dark">
+        {getLabel(hostSnapshot)}
+      </HierarchicalLink>
     );
   }
 );

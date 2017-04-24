@@ -17,11 +17,11 @@ export default function ClusterNodes({ snapshotId, timeframe }) {
         .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id))))
         // throttle because of massive snapshot updates which would produce a rerender/call
         .throttle(1000)}
-      createDetails={createDetails}
+      getRowDetails={getRowDetails}
     />
   );
 }
 
-function createDetails(nodeSnapshot, index, context) {
-  return <DefaultCharts snapshot={nodeSnapshot} timeframe={context.timeframe} />;
+function getRowDetails(row) {
+  return <DefaultCharts snapshot={row.node} timeframe={row.timeframe} />;
 }
