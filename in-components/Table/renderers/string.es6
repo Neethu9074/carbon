@@ -18,6 +18,12 @@ export function validate(col) {
 
 export function initialize(row, columnDefinition, columnIndex) {
   const value = columnDefinition.typeArgs.getValue(row.rowConfig);
+  if (__DEV__) {
+    invariant(
+      value == null || typeof value === 'string',
+      'Values for columns with type=string must be strings or null!'
+    );
+  }
   let content = value;
   if (columnDefinition.typeArgs.getContent) {
     content = columnDefinition.typeArgs.getContent(value, row.rowConfig);

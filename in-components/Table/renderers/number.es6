@@ -21,6 +21,12 @@ export function validate(col) {
 
 export function initialize(row, columnDefinition, columnIndex) {
   const value = columnDefinition.typeArgs.getValue(row.rowConfig);
+  if (__DEV__) {
+    invariant(
+      value == null || typeof value === 'number',
+      'Values for columns with type=number must be numbers or null!'
+    );
+  }
   let content = columnDefinition.typeArgs.getContent(value);
   if (shouldPresentValueAsPercentage(columnDefinition.typeArgs.getContent)) {
     content = <PercentageCell value={value} content={content} />;
